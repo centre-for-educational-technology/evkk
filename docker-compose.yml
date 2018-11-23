@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:11
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./setup/postgresql/init:/docker-entrypoint-initdb.d # Place init file(s) here.
+      - ./.data/postgresql:/var/lib/postgresql/data # I want to manage volumes manually.
+    ports:
+      - 5432:5432
+  redis:
+    image: redis:5.0.1
+    volumes:
+      - ./.data/redis:/data
+    ports:
+      - 6379:6379
