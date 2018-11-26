@@ -1,0 +1,9 @@
+apply plugin: "checkstyle"
+apply plugin: "findbugs"
+
+dependencies {
+
+    // spring
+    compile("org.springframework.boot:spring-boot-starter")
+    
+}
