@@ -42,7 +42,7 @@ RETURNS TRIGGER AS $$
           'updated_at', now,
           'updated_by', user,
           'created_at', COALESCE(NEW._meta->>'created_at', now),
-          'updated_at', COALESCE(NEW._meta->>'created_by', user)
+          'created_by', COALESCE(NEW._meta->>'created_by', user)
         ]);
         RETURN NEW;
     END;
@@ -65,3 +65,21 @@ RETURNS VOID AS $$
     EXECUTE FORMAT('CREATE TRIGGER %2$s_meta_trigger BEFORE INSERT OR UPDATE ON %1$s.%2$s FOR EACH ROW EXECUTE PROCEDURE update_meta_field()', schema_name, table_name);
   END;
 $$ LANGUAGE plpgsql;
+
+-----------------
+-- CORE SCHEMA --
+-----------------
+
+CREATE TABLE core.user_account (
+  user_account_id UUID   PRIMARY KEY DEFAULT uuid_generate_v4(),
+  email_address   CITEXT NOT NULL,
+  password_hash   TEXT   NOT NULL,
+
+  CONSTRAINT user_account_uq_email_address UNIQUE (email_address)
+);
+
+SELECT attach_meta_trigger('core.user_account');
+
+COMMENT ON TABLE  core.user_account               IS 'EVKK user accounts and passwords';
+COMMENT ON COLUMN core.user_account.email_address IS 'Unique email address';
+COMMENT ON COLUMN core.user_account.password_hash IS 'Password hash';

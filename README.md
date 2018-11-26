@@ -28,8 +28,10 @@ Database migrations are implemented with Flyway migration tool: https://flywaydb
 For running migrations execute gradle task `db:bootRun`.  
 Commands can be passed as comma separated list with flag `-Pargs`.  
 All standard Flyway commands are supported (see https://flywaydb.org/documentation/ for more information).  
-Also extra command `seed` has been implemented in order to provide sample data for development environment.  
-For example: run **clean**, **migrate** and **seed** commands under unix: `$ ./gradlew db:bootRun -Pargs=clean,migrate,seed`
+Also extra command `seed` has been implemented in order to provide sample data for development environment.
+Please note that seeds are **not** applied in production environment and are only used for demo data.    
+For example: run **clean**, **migrate** and **seed** commands under unix: `$ ./gradlew db:bootRun -Pargs=clean,migrate,seed`  
+Migration files are located in `./db/migrations/` and seed files are located in `./db/seeds/`  
 
 ### Java development
 Preferred IDE is IntelliJ IDEA but other widely adopted IDE-s should work just as well  
