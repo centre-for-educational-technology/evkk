@@ -24,6 +24,7 @@ dependencies {
 
     // modules
     compile project(":env")
+    compile project(":ds")
     
     // flyway
     compile("org.flywaydb:flyway-core")

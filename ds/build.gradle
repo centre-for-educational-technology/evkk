@@ -1,0 +1,16 @@
+apply plugin: "checkstyle"
+apply plugin: "findbugs"
+
+dependencies {
+
+    // spring
+    compile("org.springframework.boot:spring-boot-starter")
+    compile("org.springframework:spring-jdbc")
+
+    // postgres
+    compile("org.postgresql:postgresql")
+
+    // hikari
+    compile("com.zaxxer:HikariCP")
+
+}

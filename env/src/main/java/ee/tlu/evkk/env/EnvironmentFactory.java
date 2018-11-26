@@ -44,6 +44,7 @@ public class EnvironmentFactory {
         }
 
         attachPropertySourcesFromPattern(propertySources, "file:./../conf/local_*.env");
+        attachPropertySourcesFromPattern(propertySources, "file:./conf/local_*.env");
         attachPropertySourcesFromPattern(propertySources, "classpath*:*.conf.properties");
     }
 
