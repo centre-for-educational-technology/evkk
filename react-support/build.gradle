@@ -1,0 +1,14 @@
+apply plugin: "checkstyle"
+apply plugin: "findbugs"
+
+dependencies {
+    
+    implementation "javax.servlet:javax.servlet-api:4.0.1"
+    compile "org.jsoup:jsoup:1.11.3"
+    compile "commons-io:commons-io:2.6"
+    implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
+    compile ("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+
+}

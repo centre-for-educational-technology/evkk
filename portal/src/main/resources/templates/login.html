@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="et_EE" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>EVKK</title>
+    <link data-react/>
+</head>
+
+<body>
+
+<th:block th:replace="common::menu"/>
+
+<main>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div th:if="${param.error}">
+                <div class="alert alert-danger">
+                    Vigane kasutaja ja parooli kombinatsioon
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form method="POST" th:action="@{/login}">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Kasutaja</label>
+                        <input type="email" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                               placeholder="EVKK kasutajanimi">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Parool</label>
+                        <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Parool">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Logi sisse</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script data-react></script>
+
+</body>
+
+</html>

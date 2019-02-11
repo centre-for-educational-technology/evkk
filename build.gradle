@@ -24,8 +24,11 @@ subprojects {
 
     dependencies {
 
+        implementation "org.springframework.boot:spring-boot-devtools"
+        implementation "org.springframework.boot:spring-boot-configuration-processor"
+
         // test
-        testCompile project(":test")
+        testImplementation project(":test")
 
     }
 

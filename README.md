@@ -12,6 +12,8 @@
 ### Requirements
 - JDK 8: https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 - Docker 18: https://www.docker.com/get-started
+- NodeJS: https://nodejs.org
+- YARN: https://yarnpkg.com
 
 ### Getting started
 1. Make sure *docker-compose* is installed correctly (should be OK if installed docker using official installer)  
