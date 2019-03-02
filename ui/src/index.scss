@@ -1,18 +1,11 @@
-@import "~bootstrap/dist/css/bootstrap.css";
+$font-size-base: 0.85rem;
+$font-family-sans-serif: 'Roboto', sans-serif;
+$line-height-base: 1;
+
+@import "~bootstrap/scss/bootstrap";
 @import "~@fortawesome/fontawesome-free/css/all.css";
 
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+* {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
 }

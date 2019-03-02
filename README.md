@@ -24,6 +24,7 @@
    You can check via `$ lsof -i :<port>`  
    If you want to remove docker images w/ data and start *from scratch*: `$ docker-compose down` and delete **.data** directory (`$ rm -rf ./.data`).
 3. Run database migrations and insert seed data: execute via gradle `db:bootRun -Pargs=clean,migrate,seed`
+4. Make sure you have enabled annotation processing for IntelliJ IDEA: `Preferences -> Build, Execution, Deployment -> Compiler -> Annotation Processors -> Enable annotation processing`
    
 ### Database migrations
 Database migrations are implemented with Flyway migration tool: https://flywaydb.org/  

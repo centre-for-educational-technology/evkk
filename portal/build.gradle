@@ -7,6 +7,8 @@ dependencies {
     implementation project(":react-support")
     implementation project(":env")
     implementation project(":dal")
+    compile project(":mapstruct")
+    compile "nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect"
     
     implementation ("org.springframework.boot:spring-boot-starter-web") {
         exclude module: "spring-boot-starter-tomcat"

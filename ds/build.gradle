@@ -5,7 +5,7 @@ dependencies {
 
     // spring
     compile("org.springframework.boot:spring-boot-starter")
-    compile("org.springframework:spring-jdbc")
+    compile("org.springframework.boot:spring-boot-starter-jdbc")
 
     // postgres
     compile("org.postgresql:postgresql")

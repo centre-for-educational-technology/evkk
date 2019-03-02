@@ -1,0 +1,106 @@
+<!doctype html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>example</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<div id="main">
+		<div id="predict">
+            <h1>Ennusta keeletase</h1>
+            <hr>
+		    <div id="predictOptions">
+				<h3>Sätted:</h3>
+				<label for="ngram">3grammideks töötlemine</label>
+				<input id="ngram" type="checkbox">
+				<br>
+				<label for="models">Kasutatav mudel</label>
+				<select id="models">
+				    <option value="">Puudu!</option>
+				</select>
+			</div>
+			<hr>
+			<p style="margin-bottom: 5px;">Sisestage algtekst:</p>
+			<textarea id="inputTA"></textarea>
+			<button id="submitPrediction">Ennusta</button>
+			
+			<hr>
+			<p>Tulemused:</p>
+			<p id="output"></p>
+		</div>
+		<div id="build">
+            <h1>Ehita mudel</h1>
+		    <div id="buildOptions">
+				<h3>Sätted:</h3>
+				<hr>
+				<div class="container">
+                    <h4>TF-IDF:</h4>
+				    <label for="b_tf">TF</label>
+                    <input id="b_tf" type="checkbox">
+
+                    <label for="b_idf">IDF</label>
+                    <input id="b_idf" type="checkbox">
+
+                    <label for="b_owc">Väljasta sõnade arv: </label>
+                    <input id="b_owc" type="checkbox">
+				</div>
+				<hr>
+				<div class="container">
+                    <h4>Närvivõrgud:</h4>
+                    <label for="b_lct">Väikesed tähed: </label>
+                    <input id="b_lct" type="checkbox">
+                    <br>
+                    <label for="b_na">Normaliseeri attribuute: </label>
+                    <input id="b_na" type="checkbox">
+                    <br>
+				    <label for="b_momentum">Momentum: </label>
+                    <input id="b_momentum" type="number">
+                    <br>
+                    <label for="b_lr">Õppimismäär</label>
+                    <input id="b_lr" type="number">
+                    <br>
+                    <label for="b_wtk">Words to keep: </label>
+                    <input id="b_wtk" type="number">
+                    <br>    
+                    <label for="b_hl">Peidetud kihte: </label>
+                    <input id="b_hl" type="text">
+                    <br>
+                    <label for="b_tt">Treenimise aeg: </label>
+                    <input id="b_tt" type="number">
+                    <br>                    
+                    <label for="b_ai">Kasutatavad attribuudid: </label>
+                    <input id="b_ai" type="text">
+                    <br>
+                    
+				</div>
+				<hr>
+				<div class="container">
+                    <h4>Muu:</h4>
+				    <label for="b_sd">Algandmed: </label>
+                    <select id="b_sd">
+                        <option value="">Puudu!</option>
+                    </select>
+                    <br>
+                    <label for="b_mn">Mudeli nimi: </label>
+                    <input id="b_mn" type="text" placeholder="Võib olla tühi">
+				</div>
+				<button id="buildModel">Alusta ehitust</button>	
+			</div>
+			<hr>
+			<h3>Ehitatavad mudelid: </h3>
+			<table id="modelBuildQueue" border="1">
+                <tr>
+                    <th>Nimi</th>
+                    <th>Seisund</th>
+                    <th>Valmimisaeg</th>
+                    <th>X</th>
+                </tr>
+			</table>
+		</div>
+			
+		</div>
+		<script src="app.js"></script>
+	</body>
+</html>

@@ -43,7 +43,7 @@ public class ThymeleafReactConfiguration implements WebMvcConfigurer {
     @Bean
     public CommandLineRunner reactAppRunner() {
         return args -> {
-            if (properties.getDevelopmentEnabled()) {
+            if (!properties.getDisableRunner() && properties.getDevelopmentEnabled()) {
                 String developmentPath = properties.getDevelopmentPath();
                 ReactAppRunner runner = new ReactAppRunner(Paths.get(developmentPath), properties.getDevelopmentHost(), port);
                 runner.install();

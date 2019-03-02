@@ -32,6 +32,9 @@ public class ThymeleafReactProperties {
     @Value("${build-index-html:#{null}}")
     private Resource buildIndex;
 
+    @Value("${disable-runner:false}")
+    private Boolean disableRunner;
+
     @PostConstruct
     public void postConstruct() {
         if (developmentEnabled && developmentPath == null) throw new IllegalStateException(
@@ -90,4 +93,11 @@ public class ThymeleafReactProperties {
         this.buildIndex = buildIndex;
     }
 
+    public Boolean getDisableRunner() {
+        return disableRunner;
+    }
+
+    public void setDisableRunner(Boolean disableRunner) {
+        this.disableRunner = disableRunner;
+    }
 }

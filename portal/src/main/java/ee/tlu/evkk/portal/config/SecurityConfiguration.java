@@ -1,11 +1,11 @@
 package ee.tlu.evkk.portal.config;
 
+import ee.tlu.evkk.portal.service.UserAccountService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
-import java.util.Collections;
 
 /**
  * @author Mikk Tarvas
@@ -14,15 +14,21 @@ import java.util.Collections;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private UserAccountService userAccountService;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("user0@localhost").password("{noop}password").authorities(Collections.emptyList());
+        auth.userDetailsService(userAccountService);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .formLogin().loginPage("/login").and()
-                .authorizeRequests().anyRequest().permitAll();
+                .authorizeRequests()
+                .antMatchers("/files/**").authenticated()
+                .anyRequest().permitAll();
     }
+
 }

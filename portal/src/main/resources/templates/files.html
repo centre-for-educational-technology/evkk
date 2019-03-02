@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="et_EE" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+
+<main id="react" layout:fragment="main"></main>
+
+</html>
+
+<!--
+<div class="container">
+    <div class="row">
+        <h1 class="display-4 mt-5">Minu failid</h1>
+    </div>
+    <div class="row">
+        <ul>
+            <li th:each="file : ${files}">
+                <a th:text="${file.name}" target="_blank" th:href="@{|/files/${file.userAccountFileId}|}"/>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <h2>Lisa uus fail</h2>
+    </div>
+    <div class="row">
+        <form th:action="@{/files}" th:method="POST" enctype="multipart/form-data">
+            <input name="file" type="file"/>
+            <button type="submit">LISA</button>
+        </form>
+    </div>
+</div>
+-->

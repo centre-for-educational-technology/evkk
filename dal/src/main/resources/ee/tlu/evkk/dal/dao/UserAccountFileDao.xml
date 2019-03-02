@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ee.tlu.evkk.dal.dao.UserAccountFileDao">
+
+    <select id="insert" flushCache="true" resultType="java.util.UUID">
+        INSERT INTO core.user_account_file (
+          user_account_file_id,
+          user_account_id,
+          file_id
+        ) VALUES (
+          COALESCE(#{userAccountFile.userAccountFileId}, uuid_generate_v4()),
+          #{userAccountFile.userAccountId},
+          #{userAccountFile.fileId}
+        );
+    </select>
+
+    <select id="getViewByUserAccountId" resultType="ee.tlu.evkk.dal.dto.UserAccountFileView">
+        SELECT *
+          FROM core.user_account_file_view
+         WHERE user_account_id = #{userAccountId}
+      ORDER BY created_at DESC
+    </select>
+
+    <select id="getViewByUserAccountFileId" resultType="ee.tlu.evkk.dal.dto.UserAccountFileView">
+        SELECT *
+          FROM core.user_account_file_view
+         WHERE user_account_file_id = #{userAccountFileId}
+    </select>
+
+</mapper>

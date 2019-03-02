@@ -1,0 +1,10 @@
+@relation R_data_frame
+
+@attribute tekst string
+@attribute keeletase {A2,B1,B2,C1}
+
+@data
+'Mina olen tuntud kui Janek. Minu silmis on antud traktor ülehinnatud',C1
+'Minu nimi on Janek. Mulle ei meeldi see traktor.',B2
+'Mina nimi on Janek. Mulle ei meeldima see traktor',B1
+'Mina nimed olema Janek. Mina ei meeldima traktor.',A2

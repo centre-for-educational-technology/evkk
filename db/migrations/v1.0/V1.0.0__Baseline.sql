@@ -70,6 +70,8 @@ $$ LANGUAGE plpgsql;
 -- CORE SCHEMA --
 -----------------
 
+-- core.user_account
+
 CREATE TABLE core.user_account (
   user_account_id UUID   PRIMARY KEY DEFAULT uuid_generate_v4(),
   email_address   CITEXT NOT NULL,
@@ -83,3 +85,53 @@ SELECT attach_meta_trigger('core.user_account');
 COMMENT ON TABLE  core.user_account               IS 'EVKK user accounts and passwords';
 COMMENT ON COLUMN core.user_account.email_address IS 'Unique email address';
 COMMENT ON COLUMN core.user_account.password_hash IS 'Password hash';
+
+-- core.file
+
+CREATE TABLE core.file (
+  file_id      UUID   PRIMARY KEY DEFAULT uuid_generate_v4(),
+  oid          BIGINT NOT NULL,
+  name         TEXT   NOT NULL,
+  content_type TEXT,
+  created_at   TIMESTAMPTZ NOT NULL,
+
+  CONSTRAINT file_uq_oid UNIQUE (oid)
+);
+
+SELECT attach_meta_trigger('core.file');
+
+COMMENT ON TABLE  core.file     IS 'Files stored in EVKK system';
+COMMENT ON COLUMN core.file.oid IS 'Reference to large object OID';
+
+-- core.user_account_file
+
+CREATE TABLE core.user_account_file (
+  user_account_file_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  file_id               UUID NOT NULL,
+  user_account_id       UUID NOT NULL,
+
+  CONSTRAINT user_account_file_uq_file_id_user_account_id UNIQUE (file_id, user_account_id)
+);
+
+SELECT attach_meta_trigger('core.user_account_file');
+
+-----------------
+-- CONSTRAINTS --
+-----------------
+
+ALTER TABLE core.user_account_file ADD CONSTRAINT file_id_fk         FOREIGN KEY (file_id)         REFERENCES core.file (file_id)                 DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE core.user_account_file ADD CONSTRAINT user_account_id_fk FOREIGN KEY (user_account_id) REFERENCES core.user_account (user_account_id) DEFERRABLE INITIALLY DEFERRED;
+
+-----------
+-- VIEWS --
+-----------
+
+CREATE VIEW core.user_account_file_view AS
+SELECT uaf.user_account_file_id,
+       uaf.user_account_id,
+       f.file_id,
+       f.name,
+       f.content_type,
+       f.created_at
+FROM core.user_account_file uaf
+JOIN core.file f ON f.file_id = uaf.file_id;
