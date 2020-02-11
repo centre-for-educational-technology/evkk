@@ -1,6 +1,0 @@
-apply plugin: "checkstyle"
-apply plugin: "findbugs"
-
-dependencies {
-
-}

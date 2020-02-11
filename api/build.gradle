@@ -1,0 +1,19 @@
+apply plugin: "org.springframework.boot"
+
+dependencies {
+
+  implementation project(":common")
+
+  implementation "org.springframework.boot:spring-boot-starter-web"
+  implementation "org.springframework.boot:spring-boot-starter-security"
+  implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.1"
+  implementation "commons-io:commons-io:2.6"
+  implementation "org.postgresql:postgresql"
+  implementation "org.springframework.session:spring-session-data-redis"
+  implementation "io.lettuce:lettuce-core"
+
+  // mapstruct
+  implementation "org.mapstruct:mapstruct:${mapStructVersion}"
+  annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+
+}

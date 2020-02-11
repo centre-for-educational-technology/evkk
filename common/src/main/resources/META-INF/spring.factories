@@ -1,0 +1,1 @@
+org.springframework.context.ApplicationListener=ee.tlu.evkk.common.env.EnvironmentListener

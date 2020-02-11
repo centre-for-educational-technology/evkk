@@ -1,0 +1,18 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ee.tlu.evkk.api.dao.UserDao">
+
+  <select id="findById" resultType="ee.tlu.evkk.api.dao.dto.User">
+        select *
+        from core.user u
+        where u.user_id = #{userId};
+  </select>
+
+  <select id="findByEmailAddress" resultType="ee.tlu.evkk.api.dao.dto.User">
+        select *
+        from core.user u
+        where u.email_address = #{emailAddress}::citext;
+  </select>
+
+</mapper>

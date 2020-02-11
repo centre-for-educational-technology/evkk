@@ -1,9 +1,15 @@
-apply plugin: "checkstyle"
-apply plugin: "findbugs"
+apply plugin: "java-library"
 
 dependencies {
 
-    compile "org.springframework.boot:spring-boot-starter-test"
-    compile project(":env")
+  api "org.junit.jupiter:junit-jupiter-engine"
+  api "com.github.npathai:hamcrest-optional:${hamcrestOptionalVersion}"
+  api "org.mockito:mockito-junit-jupiter"
+
+  // this excludes junit 4 (we are using 5)
+  api("org.springframework.boot:spring-boot-starter-test") { exclude group: "junit", module: "junit" }
+  api("org.springframework.security:spring-security-test") { exclude group: "junit", module: "junit" }
+  api("org.hamcrest:hamcrest-all:${hamcrestVersion}") { exclude group: "junit", module: "junit" }
+  api("com.shazam:shazamcrest:${shazamcrestVersion}") { exclude group: "junit", module: "junit" }
 
 }

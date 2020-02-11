@@ -1,11 +1,6 @@
 rootProject.name = 'evkk'
 
+include 'api'
+include 'common'
 include 'db'
 include 'test'
-include 'env'
-include 'ds'
-include 'react-support'
-include 'portal'
-include 'dal'
-include 'domain'
-include 'mapstruct'

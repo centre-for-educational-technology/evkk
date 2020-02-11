@@ -1,32 +1,13 @@
 apply plugin: "org.springframework.boot"
-apply plugin: "checkstyle"
-apply plugin: "findbugs"
-
-bootJar {
-    def dir = "$rootProject.projectDir/build/$project.name/"
-    archiveName "$project.name-all.jar"
-    destinationDir file(dir)
-
-    doLast {
-        copy { from "migrations/" into "$dir/migrations/" }
-        copy { from "seeds/" into "$dir/seeds/" }
-        copy { from "data/" into "$dir/data/" }
-    }
-}
-
-bootRun {
-    if (project.hasProperty('args')) {
-        args project.args.split(',')
-    }
-}
 
 dependencies {
 
-    // modules
-    compile project(":env")
-    compile project(":ds")
-    
-    // flyway
-    compile("org.flywaydb:flyway-core")
+  implementation project(":common")
+
+  implementation "org.springframework.boot:spring-boot-starter"
+  implementation "org.springframework.boot:spring-boot-starter-jdbc"
+  implementation "org.flywaydb:flyway-core"
+  implementation "commons-io:commons-io:2.6"
+  implementation "org.postgresql:postgresql"
 
 }

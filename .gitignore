@@ -1,5 +1,7 @@
-*.iml
-
 /.idea/
 /.gradle/
-/.data/
+/.docker/
+
+gradle/
+build/
+out/
