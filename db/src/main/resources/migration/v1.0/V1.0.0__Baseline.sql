@@ -72,8 +72,9 @@ $$ language plpgsql;
 create table core.user
 (
     user_id       uuid primary key default uuid_generate_v4(),
-    email_address citext not null,
-    password_hash text   not null,
+    email_address citext      not null,
+    password_hash text        not null,
+    created_at    timestamptz not null,
 
     constraint user_uq_email_address unique (email_address)
 );
@@ -125,6 +126,8 @@ create table core.user_file
     constraint user_file_uq_file_id_user_id UNIQUE (file_id, user_id)
 );
 
+-- todo: missing comments
+
 call attach_meta_trigger('core.user_file');
 
 -- core.token
@@ -150,6 +153,22 @@ comment on column core.token.type is 'Token type';
 comment on column core.token.data is 'Additional data for token';
 
 call core.attach_meta_trigger('core.token');
+
+-- core.session_token
+
+create table core.session_token
+(
+    session_token_id uuid default uuid_generate_v4(),
+    session_id       text        not null,
+    user_id          uuid        not null references core.user (user_id),
+    created_at       timestamptz not null,
+
+    constraint session_token_pkey primary key (session_token_id),
+    constraint session_token_uq_session_id unique (session_id),
+    constraint session_token_uq_session_id_user_id unique (session_id, user_id)
+);
+
+call core.attach_meta_trigger('core.session_token');
 
 -----------
 -- VIEWS --

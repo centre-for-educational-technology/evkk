@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Redirect, Route, Switch} from "react-router-dom";
 import {About, Login} from "./views";
 import {MasinoppeEnnustus, MinitornPikkus} from "./views/tools";
+import CharCounter from "./views/tools/CharCounter";
 
 class Routes extends Component {
 
@@ -22,6 +23,7 @@ class Routes extends Component {
           <Route path="/login" component={Login}/>
           <Route path="/tools/minitorn-pikkus" component={MinitornPikkus}/>
           <Route path="/tools/masinoppe-ennustus" component={MasinoppeEnnustus}/>
+          <Route path="/tools/char-counter" component={CharCounter}/>
           <Route component={() => this.render404()}/>
         </Switch>
       </div>

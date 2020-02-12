@@ -8,6 +8,8 @@ import org.mapstruct.NullValueMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
+import java.util.Map;
+
 /**
  * @author Mikk Tarvas
  * Date: 11.02.2020
@@ -21,7 +23,7 @@ public abstract class ApiMapper {
 
   public static final ApiMapper INSTANCE = Mappers.getMapper(ApiMapper.class);
 
-  public abstract StatusResponseEntity toStatusResponseEntity(String loggedInEmailAddress);
+  public abstract StatusResponseEntity toStatusResponseEntity(String loggedInEmailAddress, Map<String, String> integrationPaths);
 
   public abstract MinitornPikkusResponseEntity toMinitornPikkusResponseEntity(Long length);
 

@@ -1,8 +1,8 @@
 package ee.tlu.evkk.api;
 
-import ee.tlu.evkk.api.ApiProperties.LibpathsProperties;
 import ee.tlu.evkk.api.integration.MasinoppeEnnustusClient;
 import ee.tlu.evkk.api.integration.MinitornPikkusClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +20,9 @@ import java.nio.file.Paths;
 @EnableConfigurationProperties(ApiProperties.class)
 public class ApiConfiguration {
 
+  @Value("${evkk.api.lib.paths.masinoppe-ennustus}")
+  private String masinoppeEnnustusPath;
+
   private final ApiProperties apiProperties;
 
   public ApiConfiguration(ApiProperties apiProperties) {
@@ -28,8 +31,7 @@ public class ApiConfiguration {
 
   @Bean
   public MasinoppeEnnustusClient masinoppeEnnustusClient() {
-    LibpathsProperties libpaths = apiProperties.getLibpaths();
-    return new MasinoppeEnnustusClient(Paths.get(libpaths.getMasinoppeEnnustus()));
+    return new MasinoppeEnnustusClient(Paths.get(masinoppeEnnustusPath));
   }
 
   @Bean
