@@ -117,13 +117,39 @@ call core.attach_meta_trigger('core.file');
 create table core.user_file
 (
     user_file_id uuid primary key default uuid_generate_v4(),
-    file_id      uuid not null references core.file (file_id),
-    user_id      uuid not null references core.user (user_id),
+    file_id      uuid        not null references core.file (file_id),
+    user_id      uuid        not null references core.user (user_id),
+    created_at   timestamptz not null,
+    deleted_at   timestamptz,
 
     constraint user_file_uq_file_id_user_id UNIQUE (file_id, user_id)
 );
 
 call attach_meta_trigger('core.user_file');
+
+-- core.token
+
+create table core.token
+(
+    token_id    uuid default uuid_generate_v4(),
+    created_at  timestamptz not null,
+    consumed_at timestamptz,
+    validity    interval    not null,
+    type        text        not null,
+    data        jsonb       not null,
+
+    constraint token_pk primary key (token_id),
+    constraint token_ck_type check ( type in ('SESSION_TOKEN') )
+);
+
+comment on table core.token is 'Tokens with expiration and consuming support';
+comment on column core.token.created_at is 'When token was created';
+comment on column core.token.consumed_at is 'When was token consumed';
+comment on column core.token.validity is 'Token validity duration';
+comment on column core.token.type is 'Token type';
+comment on column core.token.data is 'Additional data for token';
+
+call core.attach_meta_trigger('core.token');
 
 -----------
 -- VIEWS --
