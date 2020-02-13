@@ -42,10 +42,11 @@ export const postMasinoppeEnnustus = (input) => {
   });
 };
 
-export const postUserFile = (files) => {
+export const postUserFile = (files) => dispatch => {
   const formData = new FormData();
   for (let i = 0; i < files.length; i++) formData.append("file", files[i]);
-  return fetch('/api/user/file', {body: formData, method: 'POST'});
+  const result = fetch('/api/user/file', {body: formData, method: 'POST'});
+  return handleResponsePromise('POST_USER_FILE', result, dispatch);
 };
 
 export const getUserFiles = () => dispatch => {

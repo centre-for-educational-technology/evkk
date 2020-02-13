@@ -11,3 +11,5 @@ export const selectIntegrationPath = integrationName => state => {
 };
 
 export const selectFiles = () => state => state.files || EMPTY_ARRAY;
+
+export const selectFileUploading = () => state => state.fileUploading;

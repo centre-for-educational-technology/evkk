@@ -6,7 +6,8 @@ export default createReducer({
     statusLoaded: false,
     status: EMPTY_OBJECT,
     filesLoading: false,
-    files: []
+    files: [],
+    fileUploading: false
   }),
   GET_STATUS_SUCCESS: (state, action) => {
     return {...state, status: action.data, statusLoaded: true};
@@ -19,5 +20,11 @@ export default createReducer({
   },
   GET_USER_FILES_DONE: (state) => {
     return {...state, filesLoading: false}
+  },
+  POST_USER_FILE_INIT: (state) => {
+    return {...state, fileUploading: true}
+  },
+  POST_USER_FILE_DONE: (state) => {
+    return {...state, fileUploading: false}
   }
 });

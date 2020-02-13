@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {getUserFiles, postUserFile} from './../../Api';
 import Dropzone from 'react-dropzone'
 import {connectedComponent} from './../../util/redux-utils';
-import {selectFiles} from './../../rootSelectors';
+import {selectFiles, selectFileUploading} from './../../rootSelectors';
 import {formatISO9075, parseISO} from 'date-fns'
 
 class Files extends Component {
@@ -18,8 +18,12 @@ class Files extends Component {
 
   handleOnDrop = async (files) => {
     if (files.length === 0) return;
-    const response = await postUserFile(files);
-    debugger;
+    const response = await this.props.postUserFile(files);
+    this.props.getUserFiles();
+  };
+
+  handleClickDownload = (userFileId) => {
+    //window.open('/api/user/file/' + userFileId, '_blank')
   };
 
   renderFileRow = (row) => {
@@ -29,7 +33,7 @@ class Files extends Component {
         <td>{this.formatTimestamp(row.createdAt)}</td>
         <td>{row.mediaType}</td>
         <td style={{whiteSpace: 'nowrap'}}>
-          <button type="button" className="btn btn-success btn-sm">
+          <button type="button" className="btn btn-success btn-sm" onClick={() => this.handleClickDownload(row.userFileId)}>
             <i className="fa fa-download"/>
           </button>
           &nbsp;
@@ -38,6 +42,32 @@ class Files extends Component {
           </button>
         </td>
       </tr>
+    );
+  };
+
+  renderUploadCard = () => {
+    if (this.props.fileUploading) {
+      return (
+        <i className="fas fa-sync fa-spin fa-3x"/>
+      );
+    }
+
+    return (
+      <Dropzone onDrop={this.handleOnDrop}>
+        {({getRootProps, getInputProps}) => (
+          <section>
+            <div {...getRootProps()} style={{cursor: 'pointer'}}>
+              <input {...getInputProps()} />
+              <i className="fas fa-file-upload fa-10x"/>
+              <br/>
+              <br/>
+              <h5>
+                Lohista oma failid siia või vajuta ikoonile
+              </h5>
+            </div>
+          </section>
+        )}
+      </Dropzone>
     );
   };
 
@@ -75,21 +105,7 @@ class Files extends Component {
                 Lisa uus fail
               </div>
               <div className="card-body text-center">
-                <Dropzone onDrop={this.handleOnDrop}>
-                  {({getRootProps, getInputProps}) => (
-                    <section>
-                      <div {...getRootProps()} style={{cursor: 'pointer'}}>
-                        <input {...getInputProps()} />
-                        <i className="fas fa-file-upload fa-10x"/>
-                        <br/>
-                        <br/>
-                        <h5>
-                          Lohista oma failid siia või vajuta ikoonile
-                        </h5>
-                      </div>
-                    </section>
-                  )}
-                </Dropzone>
+                {this.renderUploadCard()}
               </div>
             </div>
           </div>
@@ -103,8 +119,10 @@ class Files extends Component {
 }
 
 const mapStateToProps = state => ({
-  files: selectFiles()(state)
+  files: selectFiles()(state),
+  fileUploading: selectFileUploading()(state)
 });
-const mapDispatchToProps = {getUserFiles};
+
+const mapDispatchToProps = {getUserFiles, postUserFile};
 
 export default connectedComponent(Files, mapStateToProps, mapDispatchToProps);
