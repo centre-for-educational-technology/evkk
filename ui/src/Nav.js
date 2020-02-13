@@ -46,7 +46,7 @@ class Nav extends Component {
           </button>
           <div className="collapse navbar-collapse">
             <ul className="navbar-nav mr-auto">
-              <li className="nav-item active">
+              <li className="nav-item">
                 <Link to="/about" className={'nav-link'}>Mis on EVKK</Link>
               </li>
               <li className="nav-item">
