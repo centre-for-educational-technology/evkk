@@ -3,19 +3,36 @@
 <mapper namespace="ee.tlu.evkk.api.dao.UserFileDao">
 
   <select id="insert" flushCache="true" resultType="java.util.UUID">
-    insert into core.user_file (user_file_id,
-                                user_id,
-                                file_id)
+    insert into core.user_files (user_file_id,
+                                 user_id,
+                                 file_id,
+                                 name,
+                                 created_at)
     values (coalesce(#{userFile.userFileId}, uuid_generate_v4()),
             #{userFile.userId},
-            #{userFile.fileId});
+            #{userFile.fileId},
+            #{userFile.name},
+            transaction_timestamp())
+    returning user_file_id;
   </select>
 
-  <select id="findViewsByUserId" resultType="ee.tlu.evkk.api.dao.dto.UserFile">
-    select *
-    from core.user_files
-    where user_id = #{userId}
-      and deleted_at is null
+  <select id="findViewsByUserId" resultType="ee.tlu.evkk.api.dao.dto.UserFileView">
+    select uf.*,
+           f.media_type
+    from core.user_files uf
+           join core.file f using (file_id)
+    where uf.user_id = #{userId}
+      and uf.deleted_at is null
+    order by created_at desc;
+  </select>
+
+  <select id="findViewById" resultType="ee.tlu.evkk.api.dao.dto.UserFileView">
+    select uf.*,
+           f.media_type
+    from core.user_files uf
+           join core.file f using (file_id)
+    where uf.user_file_id = #{userFileId}
+      and uf.deleted_at is null
     order by created_at desc;
   </select>
 

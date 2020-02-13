@@ -99,7 +99,7 @@ create table core.file
     deleted_at timestamptz,
 
     constraint files_pkey primary key (file_id),
-    constraint files_ck_file_type check (file_type in ('TEMPORARY'))
+    constraint files_ck_file_type check (file_type in ('TEMPORARY', 'USER_UPLOAD'))
 );
 
 comment on table core.file is 'Table for tracking files that are being stored in S3';
@@ -113,13 +113,14 @@ comment on column core.file.deleted_at is 'When was this file deleted';
 
 call core.attach_meta_trigger('core.file');
 
--- core.user_file
+-- core.user_files
 
-create table core.user_file
+create table core.user_files
 (
     user_file_id uuid primary key default uuid_generate_v4(),
     file_id      uuid        not null references core.file (file_id),
     user_id      uuid        not null references core.user (user_id),
+    name         text        not null,
     created_at   timestamptz not null,
     deleted_at   timestamptz,
 
@@ -128,7 +129,7 @@ create table core.user_file
 
 -- todo: missing comments
 
-call attach_meta_trigger('core.user_file');
+call attach_meta_trigger('core.user_files');
 
 -- core.token
 

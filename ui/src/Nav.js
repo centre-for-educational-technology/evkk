@@ -25,6 +25,7 @@ class Nav extends Component {
           </a>
           <div className="dropdown-menu">
             <Link to="/profile" className={'dropdown-item'}>Profiil</Link>
+            <Link to="/files" className={'dropdown-item'}>Minu failid</Link>
             <Link to="/logout" className={'dropdown-item'}>Logi välja</Link>
           </div>
         </li>

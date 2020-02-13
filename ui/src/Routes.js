@@ -3,6 +3,7 @@ import {Redirect, Route, Switch} from "react-router-dom";
 import {About, Login} from "./views";
 import {MasinoppeEnnustus, MinitornPikkus} from "./views/tools";
 import CharCounter from "./views/tools/CharCounter";
+import {Files} from "./views/user";
 
 class Routes extends Component {
 
@@ -21,6 +22,7 @@ class Routes extends Component {
           <Route exact path={'/'} render={() => <Redirect to={'/about'}/>}/>
           <Route path="/about" component={About}/>
           <Route path="/login" component={Login}/>
+          <Route path="/files" component={Files}/>
           <Route path="/tools/minitorn-pikkus" component={MinitornPikkus}/>
           <Route path="/tools/masinoppe-ennustus" component={MasinoppeEnnustus}/>
           <Route path="/tools/char-counter" component={CharCounter}/>

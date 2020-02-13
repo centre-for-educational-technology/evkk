@@ -43,7 +43,7 @@ public class PostgresSupport {
       long oid = lom.createLO(LargeObjectManager.WRITE);
       LargeObject lo = lom.open(oid, LargeObjectManager.WRITE);
       try (OutputStream os = lo.getOutputStream()) {
-        IOUtils.copy(is, os);
+        IOUtils.copy(is, os, 1024 * 1024);
       }
       return oid;
     } finally {

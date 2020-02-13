@@ -1,5 +1,7 @@
 package ee.tlu.evkk.api.dao.dto;
 
+import org.springframework.lang.Nullable;
+
 import java.time.Duration;
 
 /**
@@ -8,11 +10,12 @@ import java.time.Duration;
  */
 public enum FileType {
 
-  TEMPORARY(Duration.ofDays(1));
+  TEMPORARY(Duration.ofDays(1)),
+  USER_UPLOAD(null);
 
   private final Duration expiresIn;
 
-  FileType(Duration expiresIn) {
+  FileType(@Nullable Duration expiresIn) {
     this.expiresIn = expiresIn;
   }
 

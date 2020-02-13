@@ -4,7 +4,6 @@ import ee.tlu.evkk.api.ApiMapper;
 import ee.tlu.evkk.api.controller.dto.StatusResponseEntity;
 import ee.tlu.evkk.api.security.AuthenticatedUser;
 import ee.tlu.evkk.api.service.SessionTokenService;
-import ee.tlu.evkk.api.service.UserService;
 import ee.tlu.evkk.api.util.UriComponentsBuilderFactory;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,12 +25,10 @@ import java.util.UUID;
 public class RootController {
 
   private final UriComponentsBuilderFactory uriComponentsBuilderFactory;
-  private final UserService userService;
   private final SessionTokenService sessionTokenService;
 
-  public RootController(UriComponentsBuilderFactory uriComponentsBuilderFactory, UserService userService, SessionTokenService sessionTokenService) {
+  public RootController(UriComponentsBuilderFactory uriComponentsBuilderFactory, SessionTokenService sessionTokenService) {
     this.uriComponentsBuilderFactory = uriComponentsBuilderFactory;
-    this.userService = userService;
     this.sessionTokenService = sessionTokenService;
   }
 

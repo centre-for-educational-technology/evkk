@@ -1,4 +1,4 @@
-import {EMPTY_OBJECT} from "./util/js-utils";
+import {EMPTY_ARRAY, EMPTY_OBJECT} from './util/js-utils';
 
 export const selectStatus = () => state => state.status || EMPTY_OBJECT;
 
@@ -9,3 +9,5 @@ export const selectIntegrationPath = integrationName => state => {
   const {integrationPaths = EMPTY_OBJECT} = status;
   return integrationPaths[integrationName] || null;
 };
+
+export const selectFiles = () => state => state.files || EMPTY_ARRAY;

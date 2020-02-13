@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import './App.css';
 import Nav from './Nav';
 import Routes from './Routes';
 import {Provider} from 'react-redux'

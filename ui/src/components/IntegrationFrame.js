@@ -7,7 +7,7 @@ class IntegrationFrame extends Component {
   render() {
     return (
       <div className="embed-responsive embed-responsive-21by9">
-        <iframe src={this.props.path}/>
+        <iframe src={this.props.path} title={this.props.integrationName}/>
       </div>
     );
   }
