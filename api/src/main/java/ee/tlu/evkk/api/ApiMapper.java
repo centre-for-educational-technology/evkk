@@ -2,7 +2,7 @@ package ee.tlu.evkk.api;
 
 import ee.tlu.evkk.api.controller.dto.StatusResponseEntity;
 import ee.tlu.evkk.api.controller.dto.UserFileResponseEntity;
-import ee.tlu.evkk.api.controller.integration.dto.FileResponseEntity;
+import ee.evkk.dto.integration.FileResponseEntity;
 import ee.tlu.evkk.api.controller.tools.dto.MasinoppeEnustusResponseEntity;
 import ee.tlu.evkk.api.controller.tools.dto.MinitornPikkusResponseEntity;
 import ee.tlu.evkk.api.dao.dto.UserFileView;

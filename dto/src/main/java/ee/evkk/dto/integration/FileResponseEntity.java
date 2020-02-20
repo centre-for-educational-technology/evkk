@@ -1,6 +1,7 @@
-package ee.tlu.evkk.api.controller.integration.dto;
+package ee.evkk.dto.integration;
 
 import java.time.Instant;
+import java.util.UUID;
 
 /**
  * @author Mikk Tarvas
@@ -8,14 +9,27 @@ import java.time.Instant;
  */
 public class FileResponseEntity {
 
+  private UUID userFileId;
   private String name;
   private String url;
   private String mediaType;
   private Instant createdAt;
   private Boolean isPublic;
 
+  public UUID getUserFileId() {
+    return userFileId;
+  }
+
+  public void setUserFileId(UUID userFileId) {
+    this.userFileId = userFileId;
+  }
+
   public String getName() {
     return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public String getUrl() {

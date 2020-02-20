@@ -8,6 +8,7 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -56,7 +57,7 @@ public class PostgresSupport {
     try {
       LargeObjectManager lom = getLargeObjectManager(connection);
       LargeObject lo = lom.open(oid, LargeObjectManager.READ);
-      return lo.getInputStream();
+      return new BufferedInputStream(lo.getInputStream(), 1024 * 1024);
     } finally {
       DataSourceUtils.releaseConnection(connection, dataSource);
     }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Redirect, Route, Switch} from "react-router-dom";
-import {About, Employees, Login} from "./views";
+import {About, Employees, Login, Resources} from "./views";
 import {MasinoppeEnnustus, MinitornPikkus} from "./views/tools";
 import CharCounter from "./views/tools/CharCounter";
 import {Files} from "./views/user";
@@ -22,6 +22,7 @@ class Routes extends Component {
           <Route exact path={'/'} render={() => <Redirect to={'/about'}/>}/>
           <Route path="/about" component={About}/>
           <Route path="/employees" component={Employees}/>
+          <Route path="/resources" component={Resources}/>
           <Route path="/login" component={Login}/>
           <Route path="/files" component={Files}/>
           <Route path="/tools/minitorn-pikkus" component={MinitornPikkus}/>

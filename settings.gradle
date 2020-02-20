@@ -1,6 +1,8 @@
 rootProject.name = 'evkk'
 
+include 'test'
 include 'api'
 include 'common'
 include 'db'
-include 'test'
+include 'dto'
+include 'char-counter'

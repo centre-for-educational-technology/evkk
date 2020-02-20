@@ -1,0 +1,12 @@
+apply plugin: "org.springframework.boot"
+
+dependencies {
+
+  implementation project(":common")
+  implementation project(":dto")
+
+  implementation "org.springframework.boot:spring-boot-starter-web"
+  implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
+  compile group: 'org.apache.commons', name: 'commons-text', version: '1.8'
+
+}
