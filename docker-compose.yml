@@ -3,7 +3,10 @@ version: "3.7"
 services:
 
   postgres:
-    image: postgres:11
+    image: postgres:12.2
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
     volumes:
       - ./setup/postgres/init:/docker-entrypoint-initdb.d
       - ./.docker/postgres:/var/lib/postgresql/data
