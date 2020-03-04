@@ -4,6 +4,7 @@ pipeline {
 
   parameters {
     string(defaultValue: "dev", description: "Branch to check out", name: "branch")
+    choice(defaultValue: "demo" choices: ['demo', 'prod'], description: 'Environment to build', name: 'env_name')
   }
 
   stages {
@@ -30,9 +31,16 @@ pipeline {
 
     stage("Copy lib") {
       steps {
-        sh "cp -R ./lib/ ./dist/lib"
+        sh "cp -r ./lib/ ./dist/lib"
       }
     }
+
+    stage("Copy conf") {
+      steps {
+        sh "mkdir -p ./dist/conf/ && find ./conf/ -type f -name \"${params.env_name}_*.env\" -exec cp {} ./dist/conf/ \;"
+      }
+    }
+
   }
 
 }
