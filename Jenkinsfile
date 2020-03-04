@@ -44,6 +44,14 @@ pipeline {
       }
     }
 
+    stage("Copy files to server") {
+      steps {
+        sshagent ( ["evkk-demo"] ) {
+          sh 'echo test'
+        }
+      }
+    }
+
   }
 
 }
