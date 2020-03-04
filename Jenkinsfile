@@ -44,10 +44,20 @@ pipeline {
       }
     }
 
+    stage("Stop services") {
+      steps {
+        sshagent (credentials: ['evkk-demo']) {
+          sh "ssh -o StrictHostKeyChecking=no app@127.0.0.1 'rm /opt/evkk/*'"
+        }
+      }
+    }
+
+    stage("Remove current services")
+
     stage("Copy files to server") {
       steps {
         sshagent (credentials: ['evkk-demo']) {
-          sh "scp -o StrictHostKeyChecking=no -r ./dist/ app@127.0.0.1:/opt/evkk"
+          sh "scp -o StrictHostKeyChecking=no -r ./dist/* app@127.0.0.1:/opt/evkk"
         }
       }
     }
