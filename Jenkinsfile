@@ -22,7 +22,7 @@ pipeline {
 
     stage("Foo") {
       steps {
-        echo "branch: ${params.branch}""
+        echo "branch: ${params.branch}"
       }
     }
   }
