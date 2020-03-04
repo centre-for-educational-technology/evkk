@@ -4,7 +4,7 @@ pipeline {
 
   parameters {
     string(defaultValue: "dev", description: "Branch to check out", name: "branch")
-    choice(defaultValue: "demo", choices: ['demo', 'prod'], description: 'Environment to build', name: 'env_name')
+    choice(choices: ['demo', 'prod'], description: 'Environment to build', name: 'env_name')
   }
 
   stages {
