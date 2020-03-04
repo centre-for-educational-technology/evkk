@@ -44,9 +44,6 @@ pipeline {
       }
     }
 
-    stage("Stop services") {
-
-    }
 
     stage("Remove current services") {
       steps {
