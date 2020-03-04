@@ -67,23 +67,52 @@ $$ language plpgsql;
 -- CORE SCHEMA --
 -----------------
 
+-- core.role
+
+create table core.role
+(
+    role_id uuid default uuid_generate_v4(),
+    name    text not null,
+
+    constraint role_pkey primary key (role_id),
+    constraint role_uq_name unique (name)
+);
+
+call attach_meta_trigger('core.role');
+
+-- core.role_permissions
+
+create table core.role_permission
+(
+    role_permission_id uuid default uuid_generate_v4(),
+    role_name          text not null references core.role (name),
+    permission_name    text not null,
+
+    constraint role_permission_pkey primary key (role_permission_id),
+    constraint role_permission_uq_role_name_permission_name unique (role_name, permission_name)
+);
+
+call attach_meta_trigger('core.role_permission');
+
 -- core.user
 
 create table core.user
 (
-    user_id       uuid primary key default uuid_generate_v4(),
+    user_id       uuid default uuid_generate_v4(),
     email_address citext      not null,
     password_hash text        not null,
+    role_name     text        references core.role (name), --todo: not null
     created_at    timestamptz not null,
 
+    constraint user_pkey primary key (user_id),
     constraint user_uq_email_address unique (email_address)
 );
 
 call attach_meta_trigger('core.user');
 
-comment on table core.user IS 'EVKK user accounts and passwords';
-comment on column core.user.email_address IS 'Unique email address';
-comment on column core.user.password_hash IS 'Password hash';
+comment on table core.user is 'EVKK user accounts and passwords';
+comment on column core.user.email_address is 'Unique email address';
+comment on column core.user.password_hash is 'Password hash';
 
 -- core.file
 
@@ -117,14 +146,16 @@ call core.attach_meta_trigger('core.file');
 
 create table core.user_files
 (
-    user_file_id uuid primary key default uuid_generate_v4(),
-    file_id      uuid        not null references core.file (file_id),
-    user_id      uuid        not null references core.user (user_id),
-    name         text        not null,
-    created_at   timestamptz not null,
-    deleted_at   timestamptz,
+    user_files_id uuid default uuid_generate_v4(),
+    file_id       uuid        not null references core.file (file_id),
+    user_id       uuid        not null references core.user (user_id),
+    name          text        not null,
+    private       boolean     not null,
+    created_at    timestamptz not null,
+    deleted_at    timestamptz,
 
-    constraint user_file_uq_file_id_user_id UNIQUE (file_id, user_id)
+    constraint user_files_pkey primary key (user_files_id),
+    constraint user_file_uq_file_id_user_id unique (file_id, user_id)
 );
 
 -- todo: missing comments
@@ -132,6 +163,8 @@ create table core.user_files
 call attach_meta_trigger('core.user_files');
 
 -- core.token
+
+-- todo: missing from schema
 
 create table core.token
 (
@@ -170,6 +203,36 @@ create table core.session_token
 );
 
 call core.attach_meta_trigger('core.session_token');
+
+-- core.group
+
+create table core.group
+(
+    group_id      uuid default uuid_generate_v4(),
+    name          text        not null,
+    owner_user_id uuid        not null references core.user (user_id),
+    created_at    timestamptz not null,
+    deleted_at    timestamptz,
+
+    constraint group_pkey primary key (group_id)
+);
+
+call core.attach_meta_trigger('core.group');
+
+-- core.group_users
+
+create table core.group_users
+(
+    group_users_id uuid default uuid_generate_v4(),
+    group_id       uuid        not null references core.group (group_id),
+    user_id        uuid        not null references core.user (user_id),
+    created_at     timestamptz not null,
+    deleted_at     timestamptz,
+
+    constraint group_users_pkey primary key (group_users_id)
+);
+
+call core.attach_meta_trigger('core.group_users');
 
 -----------
 -- VIEWS --
