@@ -14,7 +14,7 @@ pipeline {
       }
     }
 
-    stage("Remove build") {
+    stage("Cleanup build") {
       steps {
         dir ("./dist") {deleteDir()}
         dir ("./ui/build") {deleteDir()}
@@ -24,7 +24,7 @@ pipeline {
     stage("Build") {
       steps {
         sh "./gradlew bootJar"
-        sh "yarn --cwd=./ui install && yarn --cwd=./ui build"
+        sh "yarn --cwd=./ui install && yarn --cwd=./ui build && mv ./ui/build/ ./dist/ui"
       }
     }
 
