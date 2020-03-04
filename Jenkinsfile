@@ -1,17 +1,22 @@
 pipeline {
 
-    agent any
+  agent any
 
-    parameters {
-        booleanParam(defaultValue: true, description: '', name: 'userFlag')
+  parameters {
+    string(defaultValue: 'dev', description: 'Branch to check out', name: 'branch')
+  }
+
+  stages {
+
+    stage('Clone sources') {
+      git url: 'https://github.com/centre-for-educational-technology/evkk.git', branch: "${params.branch}"
     }
 
-    stages {
-        stage("foo") {
-            steps {
-                echo "flag: ${params.userFlag}"
-            }
-        }
+    stage('Foo') {
+      steps {
+        echo "branch: ${params.branch}"
+      }
     }
+  }
 
 }
