@@ -48,7 +48,7 @@ pipeline {
     stage("Remove current services") {
       steps {
         sshagent (credentials: ['evkk-demo']) {
-          sh "ssh -o StrictHostKeyChecking=no app@127.0.0.1 'rm /opt/evkk/*'"
+          sh "ssh -o StrictHostKeyChecking=no app@127.0.0.1 'rm -rf /opt/evkk/*'"
         }
       }
     }
