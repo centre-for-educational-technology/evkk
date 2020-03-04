@@ -37,7 +37,7 @@ pipeline {
 
     stage("Copy conf") {
       steps {
-        sh "mkdir -p ./dist/conf/ && find ./conf/ -type f -name \"${params.env_name}_*.env\" -exec cp {} ./dist/conf/ \;"
+        sh "mkdir -p ./dist/conf/ && find ./conf/ -type f -name \"${params.env_name}_*.env\" -exec cp {} ./dist/conf/ \\;"
       }
     }
 
