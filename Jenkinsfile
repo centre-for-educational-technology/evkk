@@ -17,6 +17,7 @@ pipeline {
     stage("Build") {
       steps {
         sh "./gradlew bootJar"
+        sh "yarn --cwd=./ui install && yarn --cwd=./ui start"
       }
     }
 
