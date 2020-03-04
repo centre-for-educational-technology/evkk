@@ -46,9 +46,7 @@ pipeline {
 
     stage("Copy files to server") {
       steps {
-        sshagent ( ["evkk-demo"] ) {
-          sh 'echo test'
-        }
+        sh "scp -r ./dist/ app@localhost:/opt/evkk"
       }
     }
 
