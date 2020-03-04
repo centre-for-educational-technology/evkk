@@ -28,9 +28,9 @@ pipeline {
       }
     }
 
-    stage("Foo") {
+    stage("Copy lib") {
       steps {
-        echo "branch: ${params.branch}"
+        sh "cp -R ./lib/ ./dist/lib"
       }
     }
   }
