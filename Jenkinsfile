@@ -39,7 +39,7 @@ pipeline {
       steps {
         sh "mkdir -p ./dist/conf/ && find ./conf/ -type f -name \"${params.env_name}_*.env\" -exec cp {} ./dist/conf/ \\;"
         dir ("./dist/conf") {
-          sh 'for file in ${params.env_name}_*; do mv "$file" "${file#prefix}"; done;'
+          sh "find -name \"${params.env_name}_*\" -exec rename 's/${params.env_name}_/conf_/' {} \\;"
         }
       }
     }
