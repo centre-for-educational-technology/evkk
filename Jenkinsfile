@@ -9,7 +9,9 @@ pipeline {
   stages {
 
     stage('Clone sources') {
-      git url: 'https://github.com/centre-for-educational-technology/evkk.git', branch: "${params.branch}"
+      steps {
+        git url: 'https://github.com/centre-for-educational-technology/evkk.git', branch: "${params.branch}"
+      }
     }
 
     stage('Foo') {
