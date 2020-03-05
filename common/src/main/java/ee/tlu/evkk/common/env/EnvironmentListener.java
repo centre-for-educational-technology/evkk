@@ -11,6 +11,7 @@ import org.springframework.core.env.StandardEnvironment;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePropertySource;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -68,8 +69,19 @@ public class EnvironmentListener implements ApplicationListener<ApplicationEvent
     propertySources.addLast(new MapPropertySource("additionalProperties", additionalProperties));
     for (Resource configurationFile : configurationFiles) propertySources.addLast(new ResourcePropertySource(configurationFile));
 
+    //
+    for (String file : findSystemPropertyEnvFiles()) propertySources.addLast(new ResourcePropertySource(new FileSystemResource(Paths.get(file))));
+
+
     // Return created environment
     return standardEnvironment;
+  }
+
+  private Set<String> findSystemPropertyEnvFiles() {
+    String envFiles = System.getProperty("envFiles");
+    if (envFiles == null || envFiles.isBlank()) return Collections.emptySet();
+    String[] tokenized = StringUtils.tokenizeToStringArray(envFiles, ";,");
+    return new HashSet<>(Arrays.asList(tokenized));
   }
 
   private Optional<Path> resolveConfDirectory() {

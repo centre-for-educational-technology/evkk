@@ -70,7 +70,13 @@ pipeline {
       }
     }
 
-    //TODO: db build
+    stage("Run database migration") {
+      steps {
+        sshagent (credentials: ['deploy']) {
+          sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'java -DenvFiles=/opt/evkk/conf/db.env,/opt/evkk/conf/common.env -jar /opt/evkk/service/db/db.jar clean migrate seed'"
+        }
+      }
+    }
 
     stage("Start services") {
       steps {
