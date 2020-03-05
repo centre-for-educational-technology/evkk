@@ -39,6 +39,7 @@ public class UserFileService {
     userFile.setFileId(fileId);
     userFile.setUserId(userId);
     userFile.setName(fileName);
+    userFile.setPrivate(true);
     return userFileDao.insert(userFile);
   }
 

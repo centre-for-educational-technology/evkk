@@ -12,6 +12,7 @@ public class UserFile {
   private UUID fileId;
   private UUID userId;
   private String name;
+  private Boolean isPrivate;
 
   public UUID getUserFileId() {
     return userFileId;
@@ -43,6 +44,14 @@ public class UserFile {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public Boolean getPrivate() {
+    return isPrivate;
+  }
+
+  public void setPrivate(Boolean aPrivate) {
+    isPrivate = aPrivate;
   }
 
 }
