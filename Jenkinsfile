@@ -46,7 +46,7 @@ pipeline {
 
     stage("Stop services") {
       steps {
-        sshagent (credentials: ['evkk-demo']) {
+        sshagent (credentials: ['deploy']) {
           sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'systemctl stop evkkapi'"
           //sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'systemctl stop evkkcharcounter'"
           //sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'systemctl stop evkkdaemon'"
@@ -56,7 +56,7 @@ pipeline {
 
     stage("Remove current services") {
       steps {
-        sshagent (credentials: ['evkk-demo']) {
+        sshagent (credentials: ['deploy']) {
           sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'rm -rf /opt/evkk/*'"
         }
       }
@@ -64,7 +64,7 @@ pipeline {
 
     stage("Copy files to server") {
       steps {
-        sshagent (credentials: ['evkk-demo']) {
+        sshagent (credentials: ['deploy']) {
           sh "scp -o StrictHostKeyChecking=no -r ./dist/* evkk@127.0.0.1:/opt/evkk"
         }
       }
