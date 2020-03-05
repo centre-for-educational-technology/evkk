@@ -29,13 +29,13 @@
 6. Run API module: `$ ./gradlew :api:bootRun`
 
 ### Database migrations
-Database migrations are implemented with Flyway migration tool: https://flywaydb.org/
-For running migrations execute gradle task `db:bootRun`.
-All standard Flyway commands are supported (see https://flywaydb.org/documentation/ for more information).
-Also extra command `seed` has been implemented in order to provide sample data for development environment.
-Please note that seeds are **not** applied in production environment and are only used for demo data.
-For example: run **clean**, **migrate** and **seed** commands under unix: `$ ./gradlew :db:bootRun --args 'clean migrate seed'`
+Database migrations are implemented with Flyway migration tool: https://flywaydb.org/  
+For running migrations execute gradle task `db:bootRun`.  
+All standard Flyway commands are supported (see https://flywaydb.org/documentation/ for more information).  
+Also extra command `seed` has been implemented in order to provide sample data for development environment.  
+Please note that seeds are **not** applied in production environment and are only used for demo data.  
+For example: run **clean**, **migrate** and **seed** commands under unix: `$ ./gradlew :db:bootRun --args 'clean migrate seed'`  
 
 ### Java development
-Preferred IDE is IntelliJ IDEA but other widely adopted IDE-s should work just as well
-IntelliJ community edition download: https://www.jetbrains.com/idea/download/
+Preferred IDE is IntelliJ IDEA but other widely adopted IDE-s should work just as well  
+IntelliJ community edition download: https://www.jetbrains.com/idea/download/  
