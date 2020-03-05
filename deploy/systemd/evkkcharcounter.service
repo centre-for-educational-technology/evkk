@@ -1,0 +1,19 @@
+[Unit]
+Description=EVKK CHAR-COUNTER
+After=syslog.target network.target postgresql.service redis-server.service
+
+[Service]
+Type=simple
+
+User=evkk
+Group=evkk
+EnvironmentFile=/etc/environment
+EnvironmentFile=/opt/evkk/conf/common.env
+EnvironmentFile=/opt/evkk/conf/char-counter.env
+WorkingDirectory=/opt/evkk/service/char-counter
+ExecStart=/usr/bin/java -jar char-counter.jar
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
