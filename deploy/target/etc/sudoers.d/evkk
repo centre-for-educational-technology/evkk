@@ -1,0 +1,3 @@
+evkk ALL=NOPASSWD: /bin/systemctl * evkkapi.service
+evkk ALL=NOPASSWD: /bin/systemctl * evkkdaemon.service
+evkk ALL=NOPASSWD: /bin/systemctl * evkkcharcounter.service
