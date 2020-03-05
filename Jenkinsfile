@@ -47,9 +47,9 @@ pipeline {
     stage("Stop services") {
       steps {
         sshagent (credentials: ['deploy']) {
-          sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'systemctl stop evkkapi'"
-          //sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'systemctl stop evkkcharcounter'"
-          //sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'systemctl stop evkkdaemon'"
+          sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'sudo systemctl stop evkkapi.service'"
+          sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'sudo systemctl stop evkkdaemon.service'"
+          sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'sudo systemctl stop evkkcharcounter.service'"
         }
       }
     }
