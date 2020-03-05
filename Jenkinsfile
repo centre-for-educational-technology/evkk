@@ -44,11 +44,20 @@ pipeline {
       }
     }
 
+    stage("Stop services") {
+      steps {
+        sshagent (credentials: ['evkk-demo']) {
+          sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'systemctl stop evkkapi'"
+          //sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'systemctl stop evkkcharcounter'"
+          //sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'systemctl stop evkkdaemon'"
+        }
+      }
+    }
 
     stage("Remove current services") {
       steps {
         sshagent (credentials: ['evkk-demo']) {
-          sh "ssh -o StrictHostKeyChecking=no app@127.0.0.1 'rm -rf /opt/evkk/*'"
+          sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'rm -rf /opt/evkk/*'"
         }
       }
     }
@@ -56,7 +65,7 @@ pipeline {
     stage("Copy files to server") {
       steps {
         sshagent (credentials: ['evkk-demo']) {
-          sh "scp -o StrictHostKeyChecking=no -r ./dist/* app@127.0.0.1:/opt/evkk"
+          sh "scp -o StrictHostKeyChecking=no -r ./dist/* evkk@127.0.0.1:/opt/evkk"
         }
       }
     }
