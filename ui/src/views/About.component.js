@@ -5,7 +5,7 @@ class About extends Component {
   render() {
     return (
       <div className={'container'}>
-        <h2>Mis on <abbr title="eesti vahekeele korpus">EVKK</abbr></h2>
+        <h2>Mis on <abbr title="eesti vahekeele korpus">EVKK</abbr>?</h2>
         <p/>
         <p>
           Tallinna Ülikooli eesti vahekeele korpus (EVKK) on eesti keele kui riigikeele (teise keele) ja võõrkeele õppijate kirjalike tekstide kogu.
