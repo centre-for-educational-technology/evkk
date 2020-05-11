@@ -67,6 +67,8 @@ $$ language plpgsql;
 -- CORE SCHEMA --
 -----------------
 
+-- todo: all comments
+
 -- core.role
 
 create table core.role
@@ -233,7 +235,3 @@ create table core.group_users
 );
 
 call core.attach_meta_trigger('core.group_users');
-
------------
--- VIEWS --
------------

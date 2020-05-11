@@ -17,7 +17,7 @@ public class DaemonRunner implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-    Thread.currentThread().join();
+    Thread.currentThread().join(); //TOD: remove this, when actual async tasks get implemented
   }
 
 }

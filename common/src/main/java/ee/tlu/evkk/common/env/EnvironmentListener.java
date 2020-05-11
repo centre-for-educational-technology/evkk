@@ -50,6 +50,7 @@ public class EnvironmentListener implements ApplicationListener<ApplicationEvent
   }
 
   private ConfigurableEnvironment createLocalEnvironment() throws IOException {
+
     // Create environment
     StandardEnvironment standardEnvironment = new StandardEnvironment();
     MutablePropertySources propertySources = standardEnvironment.getPropertySources();
@@ -68,10 +69,7 @@ public class EnvironmentListener implements ApplicationListener<ApplicationEvent
     // Attach properties
     propertySources.addLast(new MapPropertySource("additionalProperties", additionalProperties));
     for (Resource configurationFile : configurationFiles) propertySources.addLast(new ResourcePropertySource(configurationFile));
-
-    //
     for (String file : findSystemPropertyEnvFiles()) propertySources.addLast(new ResourcePropertySource(new FileSystemResource(Paths.get(file))));
-
 
     // Return created environment
     return standardEnvironment;
