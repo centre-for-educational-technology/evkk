@@ -5,10 +5,12 @@ import ee.tlu.evkk.api.dao.dto.FileType;
 import ee.tlu.evkk.api.dao.dto.UserFile;
 import ee.tlu.evkk.api.dao.dto.UserFileView;
 import ee.tlu.evkk.api.exception.FileNotFoundException;
+import ee.tlu.evkk.api.io.IOUtils;
 import ee.tlu.evkk.api.service.dto.GetFileResult;
 import ee.tlu.evkk.api.service.dto.GetUserFileResult;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,10 +33,23 @@ public class UserFileService {
     this.userFileDao = userFileDao;
   }
 
-  public UUID insert(UUID userId, String fileName, InputStreamSource inputStreamSource, String mediaType) {
+  public void insert(UUID userId, MultipartFile[] files) {
+    for (MultipartFile file : files) {
+      InputStreamSource iss;
+      try (InputStream is = file.getInputStream()) {
+        iss = IOUtils.cacheInputStream(is);
+      } catch (IOException ex) {
+        throw new RuntimeException(ex);
+      }
+      insert(userId, file.getOriginalFilename(), iss, file.getContentType());
+    }
+  }
+
+  private UUID insert(UUID userId, String fileName, InputStreamSource iss, String mediaType) {
     Map<String, String> metadata = new HashMap<>();
     metadata.put("userId", userId.toString());
-    UUID fileId = fileService.insert(inputStreamSource, FileType.USER_UPLOAD, mediaType, metadata);
+    UUID fileId = fileService.insert(iss, FileType.USER_UPLOAD, mediaType, metadata);
+
     UserFile userFile = new UserFile();
     userFile.setFileId(fileId);
     userFile.setUserId(userId);
