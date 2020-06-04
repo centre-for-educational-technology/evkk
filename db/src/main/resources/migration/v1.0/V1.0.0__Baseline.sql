@@ -101,10 +101,10 @@ call attach_meta_trigger('core.role_permission');
 create table core.user
 (
     user_id       uuid default uuid_generate_v4(),
-    email_address citext      not null,
-    password_hash text        not null,
-    role_name     text references core.role (name), --todo: not null
-    created_at    timestamptz not null,
+    email_address citext                           not null,
+    password_hash text                             not null,
+    role_name     text references core.role (name) not null,
+    created_at    timestamptz                      not null,
 
     constraint user_pkey primary key (user_id),
     constraint user_uq_email_address unique (email_address)
@@ -235,3 +235,9 @@ create table core.group_users
 );
 
 call core.attach_meta_trigger('core.group_users');
+
+----------
+-- DATA --
+----------
+
+insert into core.role (name) values ('ADMIN');

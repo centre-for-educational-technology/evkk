@@ -15,7 +15,7 @@ grant core_rw to daemon_user;
 grant core_rw to test_user;
 
 create database evkk lc_collate = 'en_US.utf8' lc_ctype = 'en_US.utf8' encoding = 'UTF8' template = template0;
-revoke all on database evkk from public;
+drop schema public cascade;
 alter database evkk set search_path to sys, core;
 
 grant connect on database evkk to db_user;
