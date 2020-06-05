@@ -4,10 +4,16 @@ import ee.tlu.evkk.api.dao.UserFileDao;
 import ee.tlu.evkk.api.dao.dto.FileType;
 import ee.tlu.evkk.api.dao.dto.UserFile;
 import ee.tlu.evkk.api.dao.dto.UserFileView;
+import ee.tlu.evkk.api.exception.FieldAwareBusinessException;
+import ee.tlu.evkk.api.exception.FileContentExtractionException;
 import ee.tlu.evkk.api.exception.FileNotFoundException;
+import ee.tlu.evkk.api.exception.UnsupportedFileFormatException;
 import ee.tlu.evkk.api.io.IOUtils;
 import ee.tlu.evkk.api.service.dto.GetFileResult;
 import ee.tlu.evkk.api.service.dto.GetUserFileResult;
+import ee.tlu.evkk.api.text.extractor.ContentExtractorExecutor;
+import ee.tlu.evkk.api.text.extractor.ex.TextExtractionException;
+import ee.tlu.evkk.api.text.extractor.ex.UnsupportedMimeTypeException;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,34 +33,44 @@ public class UserFileService {
 
   private final FileService fileService;
   private final UserFileDao userFileDao;
+  private final ContentExtractorExecutor contentExtractorExecutor;
 
-  public UserFileService(FileService fileService, UserFileDao userFileDao) {
+  public UserFileService(FileService fileService, UserFileDao userFileDao, ContentExtractorExecutor contentExtractorExecutor) {
     this.fileService = fileService;
     this.userFileDao = userFileDao;
+    this.contentExtractorExecutor = contentExtractorExecutor;
   }
 
-  public void insert(UUID userId, MultipartFile[] files) {
-    for (MultipartFile file : files) {
-      InputStreamSource iss;
-      try (InputStream is = file.getInputStream()) {
-        iss = IOUtils.cacheInputStream(is);
-      } catch (IOException ex) {
-        throw new RuntimeException(ex);
+  public void insert(UUID userId, MultipartFile[] files) throws FieldAwareBusinessException {
+    for (int i = 0; i < files.length; i++) {
+      MultipartFile file = files[i];
+      try {
+        insert(userId, file.getOriginalFilename(), IOUtils.cacheInputStreamSource(file), file.getContentType());
+      } catch (UnsupportedFileFormatException | FileContentExtractionException ex) {
+        throw new FieldAwareBusinessException("file[" + i + "]", ex);
       }
-      insert(userId, file.getOriginalFilename(), iss, file.getContentType());
     }
   }
 
-  private UUID insert(UUID userId, String fileName, InputStreamSource iss, String mediaType) {
+  private UUID insert(UUID userId, String fileName, InputStreamSource iss, String mediaType) throws UnsupportedFileFormatException, FileContentExtractionException {
     Map<String, String> metadata = new HashMap<>();
     metadata.put("userId", userId.toString());
     UUID fileId = fileService.insert(iss, FileType.USER_UPLOAD, mediaType, metadata);
+
+    String content;
+    try {
+      content = contentExtractorExecutor.extract(iss, fileName);
+    } catch (TextExtractionException ex) {
+      throw new FileContentExtractionException(); //TODO: args?
+    } catch (UnsupportedMimeTypeException ex) {
+      throw new UnsupportedFileFormatException(); //TODO: args?
+    }
 
     UserFile userFile = new UserFile();
     userFile.setFileId(fileId);
     userFile.setUserId(userId);
     userFile.setName(fileName);
-    userFile.setPrivate(true);
+    userFile.setContent(content);
     return userFileDao.insert(userFile);
   }
 

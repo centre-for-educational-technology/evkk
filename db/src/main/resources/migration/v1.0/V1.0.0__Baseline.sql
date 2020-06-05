@@ -152,7 +152,7 @@ create table core.user_file
     file_id      uuid        not null references core.file (file_id),
     user_id      uuid        not null references core.user (user_id),
     name         text        not null,
-    is_private   boolean     not null,
+    content      text        not null,
     created_at   timestamptz not null,
     deleted_at   timestamptz,
 
@@ -165,8 +165,6 @@ create table core.user_file
 call attach_meta_trigger('core.user_file');
 
 -- core.token
-
--- todo: missing from schema
 
 create table core.token
 (
@@ -240,4 +238,5 @@ call core.attach_meta_trigger('core.group_users');
 -- DATA --
 ----------
 
-insert into core.role (name) values ('ADMIN');
+insert into core.role (name)
+values ('ADMIN');

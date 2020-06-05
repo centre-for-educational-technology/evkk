@@ -1,13 +1,11 @@
 package ee.tlu.evkk.api.io;
 
-import com.google.common.base.Suppliers;
 import org.springframework.core.io.InputStreamSource;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
-import java.util.function.Supplier;
 
 /**
  * @author Mikk Tarvas
@@ -15,31 +13,40 @@ import java.util.function.Supplier;
  */
 public class IOUtils {
 
-  public static InputStreamSource cacheInputStream(InputStream is) {
-    Objects.requireNonNull(is);
-
-    // TODO: We basically "cache" InputStream here, because in lots of cases, we need to use same stream multiple times.
-    //       For example if we first need to detect content type and after that store same stream in database.
-    //       Currently storing data in byte array is "good enough" but is not memory efficient in the long run.
-    //       We should figure out some type of better solution for this problem.
-    //       Maybe store it in files - this will be slower but more memory friendly.
-
-    Supplier<byte[]> bytes = Suppliers.memoize(() -> inputStreamToByteArrayUnchecked(is));
-    return () -> {
-      try {
-        return new ByteArrayInputStream(bytes.get());
-      } catch (Exception ex) {
-        throw new IOException("Unable to open stream", ex);
-      }
-    };
+  /**
+   * InputStreamSource interface does not ensure that source can be read multiple times. <br/>
+   * This method enables multiple invocations of getInputStream method via caching bytes in memory if needed. <br/>
+   * Use this method only sparsely - caching streams in memory can lead to memory problems.
+   *
+   * @param iss source to cache
+   * @return cached source
+   */
+  public static InputStreamSource cacheInputStreamSource(InputStreamSource iss) {
+    Objects.requireNonNull(iss);
+    return new CachedInputStreamSource(iss);
   }
 
-  private static byte[] inputStreamToByteArrayUnchecked(InputStream is) {
-    try {
-      return org.apache.commons.io.IOUtils.toByteArray(is);
-    } catch (IOException ex) {
-      throw new RuntimeException(ex);
+  private static final class CachedInputStreamSource implements InputStreamSource {
+
+    private final InputStreamSource delegate;
+    private byte[] bytes = null;
+
+    private CachedInputStreamSource(InputStreamSource delegate) {
+      this.delegate = delegate;
     }
+
+    @Override
+    public InputStream getInputStream() throws IOException {
+      //TODO: we can check specific sources here that do not need to be caches (files for example)
+
+      if (bytes == null) {
+        try (InputStream is = delegate.getInputStream()) {
+          bytes = is.readAllBytes();
+        }
+      }
+      return new ByteArrayInputStream(bytes);
+    }
+
   }
 
 }

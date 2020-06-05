@@ -13,4 +13,8 @@ public class CollectionUtils {
     return StreamUtils.toStream(iterable).collect(Collectors.toList());
   }
 
+  public static <T> boolean isNullOrEmpty(T[] arr) {
+    return arr == null || arr.length == 0;
+  }
+
 }

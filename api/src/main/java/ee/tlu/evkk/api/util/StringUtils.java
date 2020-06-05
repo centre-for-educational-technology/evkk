@@ -12,7 +12,7 @@ public class StringUtils {
     return charSequence.toString();
   }
 
-  public static boolean isBlank(CharSequence charSequence) {
+  public static boolean isNullOrBlank(CharSequence charSequence) {
     String string = charSequenceToString(charSequence);
     return string == null || string.isBlank();
   }

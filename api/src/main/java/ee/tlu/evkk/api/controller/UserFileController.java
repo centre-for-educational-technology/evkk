@@ -4,6 +4,7 @@ import ee.tlu.evkk.api.ApiMapper;
 import ee.tlu.evkk.api.controller.dto.UserFileResponseEntity;
 import ee.tlu.evkk.api.dao.UserFileDao;
 import ee.tlu.evkk.api.dao.dto.UserFileView;
+import ee.tlu.evkk.api.exception.AbstractBusinessException;
 import ee.tlu.evkk.api.security.AuthenticatedUser;
 import ee.tlu.evkk.api.service.UserFileService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -42,8 +43,8 @@ public class UserFileController {
   }
 
   @PostMapping
-  @Transactional
-  public Map<?, ?> postFile(@AuthenticationPrincipal AuthenticatedUser authenticatedUser, @RequestParam("file") MultipartFile[] files) {
+  @Transactional(rollbackFor = AbstractBusinessException.class)
+  public Map<?, ?> postFile(@AuthenticationPrincipal AuthenticatedUser authenticatedUser, @RequestParam("file") MultipartFile[] files) throws AbstractBusinessException {
     userFileService.insert(authenticatedUser.getUserId(), files);
     return Collections.emptyMap();
   }

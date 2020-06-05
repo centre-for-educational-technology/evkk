@@ -10,12 +10,15 @@ import org.apache.tika.mime.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MimeType;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Mikk Tarvas
@@ -48,8 +51,10 @@ public class MimeTypeDetector {
     this.tikaDetector = tikaConfig.getDetector();
   }
 
+  @Nonnull
+  public MimeType detect(@Nonnull InputStream is, @Nullable String name) throws IOException {
+    Objects.requireNonNull(is);
 
-  public MimeType detect(InputStream is, String name) throws IOException {
     MimeType fromInputStream = detectFromInputStream(is, name);
     if (isAcceptable(fromInputStream)) return fromInputStream;
 
@@ -62,13 +67,21 @@ public class MimeTypeDetector {
   private MimeType detectFromInputStream(InputStream is, String name) throws IOException {
     if (is == null) return null;
 
-    MimeType fromStream = parseMimeType(URLConnection.guessContentTypeFromStream(is));
+    MimeType fromStream = detectFromUrlConnection(is);
     if (isAcceptable(fromStream)) return fromStream;
 
     MimeType fromTika = detectFromTika(is, name);
     if (isAcceptable(fromTika)) return fromTika;
 
     return null;
+  }
+
+  private MimeType detectFromUrlConnection(InputStream is) {
+    try {
+      return parseMimeType(URLConnection.guessContentTypeFromStream(is));
+    } catch (Exception ex) {
+      return null;
+    }
   }
 
   private MimeType detectFromTika(InputStream is, String name) throws IOException {
