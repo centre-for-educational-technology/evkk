@@ -41,6 +41,7 @@ public class RootController {
   private Map<String, String> buildIntegrationPaths(AuthenticatedUser authenticatedUser) {
     Map<String, UriComponentsBuilder> uris = new HashMap<>();
     uris.put("charCounter", uriComponentsBuilderFactory.charCounter());
+    uris.put("clusterFinder", uriComponentsBuilderFactory.clusterFinder());
 
     // If user is logged in, inject session token to uri
     if (authenticatedUser != null) {
