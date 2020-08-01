@@ -7,7 +7,7 @@
   <!-- Dropdown for clause types -->
   <div class="form-group" style="display: none">
     <label name="clauseType" for="clauseTypeDropdown">Valige Lauseliige</label>
-    <select class="form-control" id="clauseTypeDropdown">
+    <select class="form-control" id="clauseTypeDropdown" name="clauseType">
       <option value="All">Kõik</option>
       <option th:each="clauseType: ${T(ee.tlu.evkk.clusterfinder.constants.ClauseType).values()}"
               th:value="${clauseType.value}" th:text="${clauseType.labelEst}"></option>

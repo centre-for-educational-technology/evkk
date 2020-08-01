@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <div th:fragment="pluralOptions(wordType)" th:assert="${!#strings.isEmpty(wordType)}">
+    <div class="form-check">
+      <input class="form-check-input" th:id="${wordType}pluralTypeSingle" th:name="${wordType}'-pluralType[]'" value="sg" />
+      <label class="form-check-label" th:for="${wordType}pluralTypeSingle">Ainsus</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" th:id="${wordType}pluralTypeMultiple" th:name="${wordType}'-pluralType[]'" value="pl" />
+      <label class="form-check-label" th:for="${wordType}pluralTypeMultiple">Mitmus</label>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <div th:fragment="wordTypeAddtionals">
+    <!-- TODO: Separate more fragments from this (a lot of duplication) -->
+    <!-- Dropdown for word type selection -->
+    <div class="form-group" style="display: none">
+      <label for="wordtypeDropdown">Valige Sõnaliik</label>
+      <select class="form-control" id="wordtypeDropdown" name="wordType">
+        <option value="All">Kõik</option>
+        <option th:each="wordtype: ${T(ee.tlu.evkk.clusterfinder.constants.WordType).values()}"
+                th:value="${wordtype.value}" th:text="${wordtype.labelEst}"></option>
+      </select>
+    </div>
+
+    <div class="" data-group="S">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="nounSubTypeGeneral" name="NOUN-subtype[]" value="com" />
+        <label class="form-check-label" for="nounSubTypeGeneral">Üldnimeline</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="nounSubTypeReal" name="NOUN-subtype[]" value="prop" />
+        <label class="form-check-label" for="nounSubTypeReal">Pärisnimeline</label>
+      </div>
+
+      <div th:replace="options/pluralTypeFragment :: pluralOptions('NOUN')"></div>
+      <div th:replace="options/caseTypeFragment :: caseOptions('NOUN')"></div>
+    </div>
+
+    <div class="additionals-container" data-group="A">
+      <!-- Subtype -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="adjectiveSubTypeA" name="ADJECTIVE-subtype[]" value="A" />
+        <label class="form-check-label" for="adjectiveSubTypeA">Käänduv</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="adjectiveSubTypeG" name="ADJECTIVE-subtype[]" value="G" />
+        <label class="form-check-label" for="adjectiveSubTypeG">Käändumatu</label>
+      </div>
+
+      <!-- Step type -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="adjectiveStepTypePos" name="ADJECTIVE-stepType[]" value="pos" />
+        <label class="form-check-label" for="adjectiveStepTypePos">Algvõrre</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="adjectiveStepTypeComp" name="ADJECTIVE-stepType[]" value="comp" />
+        <label class="form-check-label" for="adjectiveStepTypePos">Keskvõrre</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="adjectiveStepTypeSuper" name="ADJECTIVE-stepType[]" value="super" />
+        <label class="form-check-label" for="adjectiveStepTypeSuper">Ülivõrre</label>
+      </div>
+
+      <!-- Plural type -->
+      <div th:replace="options/pluralTypeFragment :: pluralOptions('ADJECTIVE')"></div>
+
+      <!-- Case type -->
+      <div th:replace="options/caseTypeFragment :: caseOptions('ADJECTIVE')"></div>
+    </div>
+
+    <div class="additionals-container" data-group="P">
+      <!-- Subtype -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="pronounSubTypePers" name="PRONOUN-subtype[]" value="pers" />
+        <label class="form-check-label" for="pronounSubTypePers">Isikuline</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="pronounSubTypeRefl" name="PRONOUN-subtype[]" value="refl" />
+        <label class="form-check-label" for="pronounSubTypeRefl">Isikuline</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="pronounSubTypeRec" name="PRONOUN-subtype[]" value="rec" />
+        <label class="form-check-label" for="pronounSubTypeRec">Isikuline</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="pronounSubTypePos" name="PRONOUN-subtype[]" value="pos" />
+        <label class="form-check-label" for="pronounSubTypePos">Isikuline</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="pronounSubTypeDem" name="PRONOUN-subtype[]" value="dem" />
+        <label class="form-check-label" for="pronounSubTypeDem">Isikuline</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="pronounSubTypeInterRel" name="PRONOUN-subtype[]" value="inter rel" />
+        <label class="form-check-label" for="pronounSubTypeInterRel">Isikuline</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="pronounSubTypeDet" name="PRONOUN-subtype[]" value="det" />
+        <label class="form-check-label" for="pronounSubTypeDet">Isikuline</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="pronounSubTypeIndef" name="PRONOUN-subtype[]" value="indef" />
+        <label class="form-check-label" for="pronounSubTypeIndef">Isikuline</label>
+      </div>
+
+      <!-- Plural type -->
+      <div th:replace="options/pluralTypeFragment :: pluralOptions('PRONOUN')"></div>
+
+      <!-- Case type -->
+      <div th:replace="options/caseTypeFragment :: caseOptions('PRONOUN')"></div>
+
+      <!-- Perspective type -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="pronounPerspectiveTypePs1" name="PRONOUN-persepctivetype[]" value="ps1" />
+        <label class="form-check-label" for="pronounPerspectiveTypePs1">Esimene</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="pronounPerspectiveTypePs2" name="PRONOUN-persepctivetype[]" value="ps2" />
+        <label class="form-check-label" for="pronounPerspectiveTypePs2">Teine</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="pronounPerspectiveTypePs3" name="PRONOUN-persepctivetype[]" value="ps3" />
+        <label class="form-check-label" for="pronounPerspectiveTypePs3">Kolmas</label>
+      </div>
+    </div>
+
+    <div class="additionals-container" data-group="N">
+      <!-- Subtype -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="numeralCaseTypeCard" name="NUMERAL-subtype[]" value="card" />
+        <label class="form-check-label" for="numeralCaseTypeCard">Põhiarvsõna</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="numeralCaseTypeOrd" name="NUMERAL-subtype[]" value="ord" />
+        <label class="form-check-label" for="numeralCaseTypeOrd">Järgarvsõna</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="numeralCaseTypeDigit" name="NUMERAL-subtype[]" value="digit" />
+        <label class="form-check-label" for="numeralCaseTypeDigit">Number</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="numeralCaseTypeRoman" name="NUMERAL-subtype[]" value="roman" />
+        <label class="form-check-label" for="numeralCaseTypeRoman">Rooma number</label>
+      </div>
+
+      <!-- Plural type -->
+      <div th:replace="options/pluralTypeFragment :: pluralOptions('NUMERAL')"></div>
+
+      <!-- Case type -->
+      <div th:replace="options/caseTypeFragment :: caseOptions('NUMERAL')"></div>
+    </div>
+
+    <div class="additionals-container" data-group="K">
+      <!-- Subtype -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="adpositionSubTypeCoord" name="ADPOSITION-subtype[]" value="coord" />
+        <label class="form-check-label" for="adpositionSubTypeCoord">Tagasõna</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="adpositionSubTypeSub" name="ADPOSITION-subtype[]" value="sub" />
+        <label class="form-check-label" for="adpositionSubTypeSub">Kaassõna</label>
+      </div>
+
+      <!-- Case type -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="ADPOSITIONcaseTypeNom" name="ADPOSITION-casetype[]" value="nom" />
+        <label class="form-check-label" for="adpositionCaseTypeNom">Nimetav</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="ADPOSITIONcaseTypeGen" name="ADPOSITION-casetype[]" value="gen" />
+        <label class="form-check-label" for="adpositionCaseTypeGen">Omastav</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="ADPOSITIONcaseTypePart" name="ADPOSITION-casetype[]" value="part" />
+        <label class="form-check-label" for="adpositionCaseTypePart">Osastav</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="ADPOSITIONcaseTypeAll" name="ADPOSITION-casetype[]" value="all" />
+        <label class="form-check-label" for="adpositionCaseTypeAll">Alaleütlev</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="ADPOSITIONcaseTypeTerm" name="ADPOSITION-casetype[]" value="term" />
+        <label class="form-check-label" for="ADPOSITIONcaseTypeTerm">Rajav</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="ADPOSITIONcaseTypeAbes" name="ADPOSITION-casetype[]" value="abes" />
+        <label class="form-check-label" for="ADPOSITIONcaseTypeAbes">Ilmaütlev</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="ADPOSTIIONcaseTypeKom" name="ADPOSITION-casetype[]" value="kom" />
+        <label class="form-check-label" for="ADPOSTIIONcaseTypeKom">Kaasaütlev</label>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

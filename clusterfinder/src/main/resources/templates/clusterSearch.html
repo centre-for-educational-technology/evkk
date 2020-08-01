@@ -16,7 +16,7 @@
 
 <body>
   <form>
-    <div class="form-group">
+    <div w="form-group">
       <label for="userText">Tekst</label>
       <textarea class="form-control" rows="5" id="userText"></textarea>
     </div>
@@ -24,15 +24,15 @@
     <!-- Basic search checkboxes -->
     <h5>Analüüs</h5>
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" name="morfo" id="morfoAnalysis" value="morfo">
+      <input class="form-check-input" type="checkbox" id="morfoAnalysis" name="analysisType[]" value="morfo">
       <label for="morfoAnalysis">Morfoloogiline</label>
     </div>
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="syntacticAnalysis" name="syntactic" value="syntactic">
+      <input class="form-check-input" type="checkbox" id="syntacticAnalysis" name="analysisType[]" value="syntactic">
       <label for="syntacticAnalysis">Süntaktiline</label>
     </div>
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="punctuationAnalysis" name="punctuation" value="punctuation">
+      <input class="form-check-input" type="checkbox" id="punctuationAnalysis" name="analysisType[]" value="punctuation">
       <label for="punctuationAnalysis">Arvestab kirjavahemärke</label>
     </div>
     <div class="form-check">
@@ -65,34 +65,27 @@
       </select>
     </div>
 
-    <div th:insert="formfragments/clauseTypeFragment :: div"></div>
+    <div th:replace="fragments/form/clauseTypeFragment :: div"></div>
 
-    <div th:insert="formfragments/wordTypeFragment :: div"></div>
+    <div th:replace="fragments/form/wordTypeFragment :: wordTypeAddtionals"></div>
 
   </form>
 </body>
 <script>
   const ClusterSearchForm = {
-    MORFO_ANALYSIS: $("#morfoAnalysis"),
-    SYNTACTIC_ANALYSIS: $("#syntacticAnalysis"),
-    WORDTYPE_ANALYSIS: $("#wordtypeAnalysis"),
-    PUNCTUATION_ANALYSIS: $("#punctuationAnalysis"),
-
     init: function () {
       ClusterSearchForm.clauseType.init();
       ClusterSearchForm.wordType.init();
 
-      ClusterSearchForm.WORDTYPE_ANALYSIS.click(function () {
-        ClusterSearchForm.helpers.resetAdditionalOptions();
-        ClusterSearchForm.MORFO_ANALYSIS.prop("checked", false);
-        ClusterSearchForm.SYNTACTIC_ANALYSIS.prop("checked", false);
-        ClusterSearchForm.PUNCTUATION_ANALYSIS.prop("checked", false);
+      $("#morfoAnalysis, #syntacticAnalysis, #punctuationAnalysis").click(function () {
+        $("#wordtypeAnalysis").prop("checked", false);
       });
 
-      $("#morfoAnalysis, #syntacticAnalysis, #punctuationAnalysis").click(function () {
-        // Wordtype cannot be used with other types of analysis
-        $("#wordtypeAnalysis").prop("checked", false);
-      })
+      $("#wordtypeAnalysis").click(function () {
+        $("#morfoAnalysis").prop("checked", false);
+        $("#syntacticAnalysis").prop("checked", false);
+        $("#punctuationAnalysis").prop("checked", false);
+      });
     },
 
     clauseType: {
@@ -101,9 +94,7 @@
       },
 
       toggleAdditionalOptions: function () {
-        // Uncheck other additional checkbox fields and hide the containers at first
         ClusterSearchForm.helpers.resetAdditionalOptions();
-        $(".additionals-container").hide();
 
         const $selectedValue = $("#clauseTypeDropdown").val();
         switch($selectedValue) {
@@ -124,14 +115,12 @@
 
       toggleAdditionalFields: function () {
         // Additional options can only be shown when the word type analysis is not selected
-        if(!ClusterSearchForm.WORDTYPE_ANALYSIS.is(":checked")) {
-          ClusterSearchForm.helpers.resetAdditionalOptions();
-          let selectedValue = $("#wordtypeDropdown").val();
+        ClusterSearchForm.helpers.resetAdditionalOptions();
+        let selectedValue = $("#wordtypeDropdown").val();
 
-          // Hide other additional option checkboxes and show the correct ones
-          $("div:not([data-group='"+ selectedValue +"'])").hide();
-          $("div[data-group='"+ selectedValue +"'").show();
-        }
+        // Hide other additional option checkboxes and show the correct ones
+        $("div:not([data-group='"+ selectedValue +"'])").hide();
+        $("div[data-group='"+ selectedValue +"']").show();
       }
     },
 
