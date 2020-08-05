@@ -1,4 +1,4 @@
-package ee.tlu.evkk.clusterfinder.controller;
+package ee.tlu.evkk.clusterfinder.template;
 
 import ee.tlu.evkk.clusterfinder.client.EvkkClient;
 import ee.tlu.evkk.clusterfinder.constants.TemplateConstants;

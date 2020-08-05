@@ -1,5 +1,9 @@
 package ee.tlu.evkk.clusterfinder.constants;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 public enum PunctuationType {
 
   FULL_STOP( "Z Fst", "Punkt" ),
@@ -17,6 +21,9 @@ public enum PunctuationType {
 
   private final String value;
 
+  private static final Map< String, PunctuationType > VALUE_TO_PUNCTUATION_MAP = Arrays.stream(PunctuationType.values())
+    .collect(Collectors.toMap(PunctuationType::getValue, p -> p));
+
   PunctuationType( String value, String labelEst )
   {
     this.value = value;
@@ -29,5 +36,9 @@ public enum PunctuationType {
 
   public String getValue() {
     return value;
+  }
+
+  public static PunctuationType getByValue( String value ) {
+    return VALUE_TO_PUNCTUATION_MAP.getOrDefault( value, null );
   }
 }

@@ -1,5 +1,9 @@
 package ee.tlu.evkk.clusterfinder.constants;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 public enum ClauseType {
 
   PREDICATE( "F", "Öeldis" ),
@@ -15,6 +19,8 @@ public enum ClauseType {
 
   private final String labelEst;
 
+  private static final Map< String, ClauseType > VALUE_TO_CLAUSE_MAP = Arrays.stream(ClauseType.values())
+    .collect(Collectors.toMap(ClauseType::getValue, c -> c ));
 
   ClauseType(String value, String labelEst) {
     this.value = value;
@@ -27,5 +33,9 @@ public enum ClauseType {
 
   public String getLabelEst() {
     return labelEst;
+  }
+
+  public static ClauseType getByValue( String value ) {
+    return VALUE_TO_CLAUSE_MAP.getOrDefault( value, null );
   }
 }

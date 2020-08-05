@@ -20,6 +20,9 @@ public enum WordType {
 
   private final String value;
 
+  private static final Map< String, WordType > VALUE_TO_WORD_MAP = Arrays.stream(WordType.values())
+    .collect(Collectors.toMap(WordType::getValue, w -> w));
+
   WordType( String value, String labelEst ) {
     this.value = value;
     this.labelEst = labelEst;
@@ -31,5 +34,9 @@ public enum WordType {
 
   public String getValue() {
     return value;
+  }
+
+  public static WordType getByValue( String value ) {
+    return VALUE_TO_WORD_MAP.getOrDefault( value, null );
   }
 }

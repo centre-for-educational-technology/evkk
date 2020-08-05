@@ -16,7 +16,123 @@
       </select>
     </div>
 
-    <div class="" data-group="S">
+    <div class="additionals-container" data-group="V">
+      <!-- Subtype -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="verbSubTypeMain" name="VERB-subtype[]" value="V main" />
+        <label class="form-check-label" for="verbSubTypeMain">Põhiverb</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="verbSubTypeAux" name="VERB-subtype[]" value="V aux" />
+        <label class="form-check-label" for="verbSubTypeAux">Abiverb</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="verbSubTypeMod" name="VERB-subtype[]" value="V mod" />
+        <label class="form-check-label" for="verbSubTypeMod">Modaalverb</label>
+      </div>
+
+      <!-- Finite type -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="verbFiniteTypeP" name="VERB-finitetype[]" value="VP" />
+        <label class="form-check-label" for="verbFiniteTypeP">Pöördeline vorm</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="verbFiniteTypeK" name="VERB-finitetype[]" value="VK" />
+        <label class="form-check-label" for="verbFiniteTypeK">Käändeline vorm</label>
+      </div>
+
+      <!-- Finite type "VP" additional options -->
+      <div data-subgroup="VP">
+        <!-- Speech type -->
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="verbSpeecTypeAffermative" name="VERB-speectype[]" value="indic" />
+          <label class="form-check-label" for="verbSpeecTypeAffermative">Kindel</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="verbSpeechTypeConditional" name="VERB-speechtype[]" value="cond" />
+          <label class="form-check-label" for="verbSpeechTypeConditional">Tingiv</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="verbSpeechTypeImperative" name="VERB-speechtype[]" value="imper" />
+          <label class="form-check-label" for="verbSpeechTypeImperative">Käskiv</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="verbSpeechTypeQuoting" name="VERB-speechtype[]" value="quot" />
+          <label class="form-check-label" for="verbSpeechTypeQuoting">Kaudne</label>
+        </div>
+
+        <!-- Time tense type -->
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="verbTimeTypePresent" name="VERB-timetype[]" value="pres" />
+          <label class="form-check-label" for="verbTimeTypePresent">Olevik</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="verbTimeTypeImpf" name="VERB-timetype[]" value="impf" />
+          <label class="form-check-label" for="verbTimeTypeImpf">Lihtminevik</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="verbTimeTypePast" name="VERB-timetype[]" value="past" />
+          <label class="form-check-label" for="verbTimeTypePast">Üldminevik</label>
+        </div>
+
+        <!-- Voice type -->
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="verbVoiceTypePs" name="VERB-voicetype[]" value="ps" />
+          <label class="form-check-label" for="verbVoiceTypePs">Isikuline</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="verbVoiceTypeImps" name="VERB_voicetype[]" value="imps" />
+          <label class="form-check-label" for="verbVoiceTypeImps">Umbisikuline</label>
+        </div>
+
+        <!-- Perspective type -->
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="verbPerspectiveTypePs1" name="VERB-perspectivetype[]" value="ps1" />
+          <label class="form-check-label" for="verbPerspectiveTypePs1">Esimene</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="verbPerspectiveTypePs2" name="VERB-perspectivetype[]" value="ps2" />
+          <label class="form-check-label" for="verbPerspectiveTypePs2">Teine</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="verbPerspectiveTypePs3" name="VERB-perspectivetype[]" value="ps3" />
+          <label class="form-check-label" for="verbPerspectiveTypePs3">Kolmas</label>
+        </div>
+
+        <!-- Plural type -->
+        <div th:replace="options/pluralTypeFragment :: pluralOptions('VERB')"></div>
+
+        <!-- Speech subtype -->
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="verbSpeecSubTypeAf" name="VERB-speechsubtype[]" value="af" />
+          <label class="form-check-label" for="verbSpeecSubTypeAf">Jaatav</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="verbSpeechSubTypeNeg" name="VERB-speechsubtype[]" value="neg" />
+          <label class="form-check-label" for="verbSpeechSubTypeNeg">Eitav</label>
+        </div>
+      </div>
+
+      <!-- Rection type -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="verbRectionTypeIntr" name="VERB-rectiontype[]" value="#Intr" />
+        <label class="form-check-label" for="verbRectionTypeIntr">Sihitu verb</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="verbRectionTypeNgpp" name="VERB-rectiontype[]" value="#NGP-P" />
+        <label class="form-check-label" for="verbRectionTypeNgpp">Sihiline verb</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="verbRectionTypePart" name="VERB-rectiontype[]" value="#Part" />
+        <label class="form-check-label" for="verbRectionTypePart">Osastavaline sihitis</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="verbRectionTypeInfp" name="VERB-rectiontype[]" value="#InfP" />
+        <label class="form-check-label" for="verbRectionTypeInfp">da-tegevusnimi sihitisena</label>
+      </div>
+    </div>
+
+    <div class="additionals-container" data-group="S">
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="nounSubTypeGeneral" name="NOUN-subtype[]" value="com" />
         <label class="form-check-label" for="nounSubTypeGeneral">Üldnimeline</label>
@@ -26,7 +142,10 @@
         <label class="form-check-label" for="nounSubTypeReal">Pärisnimeline</label>
       </div>
 
+      <!-- Plural type -->
       <div th:replace="options/pluralTypeFragment :: pluralOptions('NOUN')"></div>
+
+      <!-- Case type -->
       <div th:replace="options/caseTypeFragment :: caseOptions('NOUN')"></div>
     </div>
 
@@ -70,31 +189,31 @@
       </div>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="pronounSubTypeRefl" name="PRONOUN-subtype[]" value="refl" />
-        <label class="form-check-label" for="pronounSubTypeRefl">Isikuline</label>
+        <label class="form-check-label" for="pronounSubTypeRefl">Enesekohane</label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="pronounSubTypeRec" name="PRONOUN-subtype[]" value="rec" />
-        <label class="form-check-label" for="pronounSubTypeRec">Isikuline</label>
+        <label class="form-check-label" for="pronounSubTypeRec">Vastastikune</label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="pronounSubTypePos" name="PRONOUN-subtype[]" value="pos" />
-        <label class="form-check-label" for="pronounSubTypePos">Isikuline</label>
+        <label class="form-check-label" for="pronounSubTypePos">Omastav</label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="pronounSubTypeDem" name="PRONOUN-subtype[]" value="dem" />
-        <label class="form-check-label" for="pronounSubTypeDem">Isikuline</label>
+        <label class="form-check-label" for="pronounSubTypeDem">Näitav</label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="pronounSubTypeInterRel" name="PRONOUN-subtype[]" value="inter rel" />
-        <label class="form-check-label" for="pronounSubTypeInterRel">Isikuline</label>
+        <label class="form-check-label" for="pronounSubTypeInterRel">Küsiv-siduv</label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="pronounSubTypeDet" name="PRONOUN-subtype[]" value="det" />
-        <label class="form-check-label" for="pronounSubTypeDet">Isikuline</label>
+        <label class="form-check-label" for="pronounSubTypeDet">Määratlev</label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="pronounSubTypeIndef" name="PRONOUN-subtype[]" value="indef" />
-        <label class="form-check-label" for="pronounSubTypeIndef">Isikuline</label>
+        <label class="form-check-label" for="pronounSubTypeIndef">Umbmäärane</label>
       </div>
 
       <!-- Plural type -->
@@ -158,19 +277,19 @@
       <!-- Case type -->
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="ADPOSITIONcaseTypeNom" name="ADPOSITION-casetype[]" value="nom" />
-        <label class="form-check-label" for="adpositionCaseTypeNom">Nimetav</label>
+        <label class="form-check-label" for="ADPOSITIONCaseTypeNom">Nimetav</label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="ADPOSITIONcaseTypeGen" name="ADPOSITION-casetype[]" value="gen" />
-        <label class="form-check-label" for="adpositionCaseTypeGen">Omastav</label>
+        <label class="form-check-label" for="ADPOSITIONCaseTypeGen">Omastav</label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="ADPOSITIONcaseTypePart" name="ADPOSITION-casetype[]" value="part" />
-        <label class="form-check-label" for="adpositionCaseTypePart">Osastav</label>
+        <label class="form-check-label" for="ADPOSITIONCaseTypePart">Osastav</label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="ADPOSITIONcaseTypeAll" name="ADPOSITION-casetype[]" value="all" />
-        <label class="form-check-label" for="adpositionCaseTypeAll">Alaleütlev</label>
+        <label class="form-check-label" for="ADPOSITIONCaseTypeAll">Alaleütlev</label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="ADPOSITIONcaseTypeTerm" name="ADPOSITION-casetype[]" value="term" />
