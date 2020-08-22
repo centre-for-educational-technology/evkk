@@ -1,6 +1,7 @@
 package ee.tlu.evkk.clusterfinder.ajax;
 
 import ee.tlu.evkk.clusterfinder.ajax.helper.ClusterFinderAjaxControllerHelper;
+import ee.tlu.evkk.clusterfinder.constants.AjaxConsts;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -16,7 +17,7 @@ public class ClusterFinderAjaxController {
     this.clusterFinderAjaxControllerHelper = clusterFinderAjaxControllerHelper;
   }
 
-  @PostMapping( value = "/clusterfinder/search" )
+  @PostMapping( value = AjaxConsts.CLUSTER_SEARCH )
   public void executeClusterSearch(HttpServletRequest request, HttpServletResponse response) {
     clusterFinderAjaxControllerHelper.clusterText(request, response);
   }
