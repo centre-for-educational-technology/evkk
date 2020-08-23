@@ -10,77 +10,95 @@
     html, body {
       background: transparent;
     }
+
+    h5 {
+      margin-bottom: 5px;
+      margin-top: 5px;
+    }
+
+    .btn-primary {
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
-  <form id="cluster-form">
-    <div class="form-group">
-      <label for="analysisLength">Sõnajärjendi pikkus</label>
-      <select class="form-control">
-        [#list 1..5 as length]
-          <option value="${length!}">${length!}</option>
-        [/#list]
-      </select>
+  <div class="container">
+
+    <div class="row">
+      <div class="col-12">
+        <p class="lead">Klastileidja võimaldab tuvastad erinevaid musterid tekstides</p>
+      </div>
     </div>
 
-    <div class="form-group">
-      <label for="userText">Tekst</label>
-      <textarea class="form-control" rows="5" id="userText"></textarea>
-    </div>
+    <form id="cluster-form">
+      <div class="form-group">
+        <label for="analysisLength">Sõnajärjendi pikkus</label>
+        <select class="form-control">
+          [#list 1..5 as length]
+            <option value="${length!}">${length!}</option>
+          [/#list]
+        </select>
+      </div>
 
-    <!-- Basic search checkboxes -->
-    <h5>Analüüs</h5>
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="morfoAnalysis" name="analysisType[]" value="morfo">
-      <label for="morfoAnalysis">Morfoloogiline</label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="syntacticAnalysis" name="analysisType[]" value="syntactic">
-      <label for="syntacticAnalysis">Süntaktiline</label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="punctuationAnalysis" name="analysisType[]" value="punctuation">
-      <label for="punctuationAnalysis">Arvestab kirjavahemärke</label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="wordtypeAnalysis" name="analysisType[]" value="wordtype">
-      <label for="wordtypeAnalysis">Sõnaliik</label>
-    </div>
+      <div class="form-group">
+        <label for="userText">Tekst</label>
+        <textarea class="form-control" rows="5" id="userText"></textarea>
+      </div>
 
-    <!-- Sorting checkboxes -->
-    <h5>Reasta</h5>
-    <div class="form-check">
-      <input class="form-check-input sorting-cbox" type="checkbox" id="sortingByFreq" name="sorting" value="freq">
-      <label for="sortingByFreq">Sageduse järgi</label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input sorting-cbox" type="checkbox" id="sortingByScomp" name="sorting" value="scomp">
-      <label for="sortingByScomp">Alguskomponendi järgi</label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input sorting-cbox" type="checkbox" id="sortingByEcomp" name="sorting" value="ecomp">
-      <label for="sortingByEcomp">Lõpukomponendi järgi</label>
-    </div>
+      <!-- Basic search checkboxes -->
+      <h5>Analüüs</h5>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="morfoAnalysis" name="analysisType[]" value="morfo">
+        <label class="form-check-label" for="morfoAnalysis">Morfoloogiline</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="syntacticAnalysis" name="analysisType[]" value="syntactic">
+        <label class="form-check-label" for="syntacticAnalysis">Süntaktiline</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="punctuationAnalysis" name="analysisType[]" value="punctuation">
+        <label class="form-check-label" for="punctuationAnalysis">Arvestab kirjavahemärke</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="wordtypeAnalysis" name="analysisType[]" value="wordtype">
+        <label class="form-check-label" for="wordtypeAnalysis">Sõnaliik</label>
+      </div>
 
-    <!-- TODO: Loading spinner -->
+      <!-- Sorting checkboxes -->
+      <h5>Reasta</h5>
+      <div class="form-check">
+        <input class="form-check-input sorting-cbox" type="checkbox" id="sortingByFreq" name="sorting" value="freq">
+        <label class="form-check-label" for="sortingByFreq">Sageduse järgi</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input sorting-cbox" type="checkbox" id="sortingByScomp" name="sorting" value="scomp">
+        <label class="form-check-label" for="sortingByScomp">Alguskomponendi järgi</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input sorting-cbox" type="checkbox" id="sortingByEcomp" name="sorting" value="ecomp">
+        <label class="form-check-label" for="sortingByEcomp">Lõpukomponendi järgi</label>
+      </div>
 
-    <!-- Dropdown options for punctuation -->
-    <div id="punctuationSelectContainer" class="form-group" style="display: none">
-      <label for="punctuationDropdown">Valige Kirjavahemärk</label>
-      <select class="form-control" id="punctuationDropdown" name="punctuationType">
-        <option value="All">Kõik</option>
-        [#list punctuationTypes as punctuationValue, puncatuationLabel]
-          <option value="${punctuationValue!}">${puncatuationLabel!}</option>
-        [/#list]
-      </select>
-    </div>
+      <!-- TODO: Loading spinner -->
 
-    [#include "form/clauseTypeFragment.ftl" ]
+      <!-- Dropdown options for punctuation -->
+      <div id="punctuationSelectContainer" class="form-group" style="display: none">
+        <label for="punctuationDropdown">Valige Kirjavahemärk</label>
+        <select class="form-control" id="punctuationDropdown" name="punctuationType">
+          <option value="All">Kõik</option>
+          [#list punctuationTypes as punctuationValue, puncatuationLabel]
+            <option value="${punctuationValue!}">${puncatuationLabel!}</option>
+          [/#list]
+        </select>
+      </div>
 
-    [#include "form/wordTypeFragment.ftl" ]
+      [#include "form/clauseTypeFragment.ftl" ]
 
-    <button id="submitBtn" type="submit" class="btn btn-primary">Otsi</button>
-  </form>
+      [#include "form/wordTypeFragment.ftl" ]
+
+      <button id="submitBtn" type="submit" class="btn btn-primary">Otsi</button>
+    </form>
+  </div>
 </body>
 <script>
   const ClusterSearchForm = {
@@ -105,6 +123,7 @@
         $("#punctuationSelectContainer").toggle($(this).is(":checked"));
       });
 
+
       $("#submitBtn").click(ClusterSearchForm.ajax.clusterText);
     },
 
@@ -114,8 +133,7 @@
         $(".sorting-cbox").not(this).prop("checked", false);
 
         if ($(this).is(":checked")) {
-          let checkedValue = $(this).val();
-          if (ClusterSearchForm.helpers.isComponentSortingSelected(checkedValue)) {
+          if (ClusterSearchForm.helpers.isComponentSortingSelected($(this).val())) {
             ClusterSearchForm.handleComponentSortingSelection();
           } else {
             ClusterSearchForm.helpers.hideAndResetDropdowns();
@@ -127,10 +145,10 @@
     },
 
     handleComponentSortingSelection: function() {
-      let isMorfo = $("#morfoAnalysis").is(":checked");
-      let isSyntactic = $("#syntacticAnalysis").is(":checked");
-      let isWordType = $("#wordtypeAnalysis").is(":checked");
-      let isMorfoSyntatctic = isMorfo && isSyntactic;
+      const isMorfo = $("#morfoAnalysis").is(":checked");
+      const isSyntactic = $("#syntacticAnalysis").is(":checked");
+      const isWordType = $("#wordtypeAnalysis").is(":checked");
+      const isMorfoSyntatctic = isMorfo && isSyntactic;
 
       if (isMorfoSyntatctic) {
         $("#wordTypeSelectContainer").show();
@@ -175,6 +193,7 @@
 
     wordType: {
       init: function() {
+        ClusterSearchForm.wordType.verb.init();
         ClusterSearchForm.wordType.adjective.init();
         ClusterSearchForm.wordType.pronoun.init();
         ClusterSearchForm.wordType.numeral.init();
@@ -185,29 +204,58 @@
       toggleAdditionalFields: function () {
         // Additional options can only be shown when the word type analysis is not selected
         ClusterSearchForm.helpers.resetAdditionalOptions();
-        let selectedValue = $("#wordtypeDropdown").val();
+        const selectedValue = $("#wordtypeDropdown").val();
 
         // Hide other additional option checkboxes and show the correct ones
         $("div.additionals-container:not([data-group='"+ selectedValue +"'])").hide();
         $("div[data-group='"+ selectedValue +"']").show();
       },
 
+      verb: {
+        VERB_FINITE_TYPE_ADDITIONAL_FIELDS: $("div[data-subgroup='VP']"),
+        VERB_NON_FINITE_TYPE_ADDITIONAL_FIELDS: $("div[data-subgroup='VK']"),
+
+        init: function () {
+          ClusterSearchForm.wordType.verb.VERB_NON_FINITE_TYPE_ADDITIONAL_FIELDS.hide();
+          ClusterSearchForm.wordType.verb.VERB_FINITE_TYPE_ADDITIONAL_FIELDS.hide();
+
+          $("#verbFiniteTypeP").change(function () {
+            if($(this).is(":checked")) {
+              ClusterSearchForm.wordType.verb.VERB_FINITE_TYPE_ADDITIONAL_FIELDS.show();
+              ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.verb.VERB_NON_FINITE_TYPE_ADDITIONAL_FIELDS);
+            } else {
+              ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.verb.VERB_FINITE_TYPE_ADDITIONAL_FIELDS);
+            }
+          });
+
+          $("#verbFiniteTypeK").change(function () {
+            if($(this).is(":checked")) {
+              ClusterSearchForm.wordType.verb.VERB_NON_FINITE_TYPE_ADDITIONAL_FIELDS.show();
+              ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.verb.VERB_FINITE_TYPE_ADDITIONAL_FIELDS);
+            } else {
+              ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.verb.VERB_NON_FINITE_TYPE_ADDITIONAL_FIELDS);
+            }
+          });
+        }
+      },
+
       adjective: {
         SUB_TYPE_ADDITIONAL_FIELDS: $("#adjectiveSubTypeAdditionals"),
 
         init: function() {
+          ClusterSearchForm.wordType.adjective.SUB_TYPE_ADDITIONAL_FIELDS.hide();
+
           $("#adjectiveSubTypeA").change(function() {
-            if($(this).is("checked")) {
+            if($(this).is(":checked")) {
               ClusterSearchForm.wordType.adjective.SUB_TYPE_ADDITIONAL_FIELDS.show();
+            } else {
+              ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.adjective.SUB_TYPE_ADDITIONAL_FIELDS);
             }
           });
 
           $("#adjectiveSubTypeG").change(function () {
             if($(this).is(":checked")) {
-              ClusterSearchForm.wordType.adjective.SUB_TYPE_ADDITIONAL_FIELDS
-                .find("input[type='checkbox']")
-                .prop("checked", false)
-                .hide();
+              ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.adjective.SUB_TYPE_ADDITIONAL_FIELDS);
             }
           })
         },
@@ -217,18 +265,21 @@
         SUB_TYPE_ADDITIONAL_FIELDS: $("#pronounSubTypeAdditionals"),
 
         init: function() {
+          ClusterSearchForm.wordType.pronoun.SUB_TYPE_ADDITIONAL_FIELDS.hide();
+
           $("#pronounSubTypePers").change(function() {
             if($(this).is(":checked")) {
               ClusterSearchForm.wordType.pronoun.SUB_TYPE_ADDITIONAL_FIELDS.show();
+            } else {
+              ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.pronoun.SUB_TYPE_ADDITIONAL_FIELDS);
             }
           });
 
           // Other types subtypes must reset the additional options
           $("[data-group='P'] input[type='checkbox']").not("#pronounSubTypePers").change(function () {
-            ClusterSearchForm.wordType.pronoun.SUB_TYPE_ADDITIONAL_FIELDS
-              .find("input[type='checkbox']")
-              .prop("checked", false)
-              .hide();
+            if($(this).is(":checked")) {
+              ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.pronoun.SUB_TYPE_ADDITIONAL_FIELDS);
+            }
           });
         }
       },
@@ -237,17 +288,20 @@
         SUB_TYPE_ADDITIONAL_FIELDS: $("#numeralSubTypeAdditionals"),
 
         init: function () {
+          ClusterSearchForm.wordType.numeral.SUB_TYPE_ADDITIONAL_FIELDS.hide();
+
           $("#numeralSubTypeCard, #numeralSubTypeOrd").change(function () {
             if($(this).is(":checked")) {
               ClusterSearchForm.wordType.numeral.SUB_TYPE_ADDITIONAL_FIELDS.show();
+            } else {
+              ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.numeral.SUB_TYPE_ADDITIONAL_FIELDS);
             }
           });
 
           $("[data-group='P'] input[type='checkbox']").not("#pronounSubTypePers").change(function () {
-            ClusterSearchForm.wordType.numeral.SUB_TYPE_ADDITIONAL_FIELDS
-              .find("input[type='checkbox']")
-              .prop("checked", false)
-              .hide();
+            if($(this).is(":checked")) {
+              ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.numeral.SUB_TYPE_ADDITIONAL_FIELDS);
+            }
           });
         }
       }
@@ -260,7 +314,7 @@
 
         $.ajax({
           method: "POST",
-          url: "http://localhost:9092/${ajaxUrls.clusterText}",
+          url: "${ajaxUrls.clusterText}",
           data: data,
           beforeSend: function() {
             ClusterSearchForm.loader.showLoadingSpinner();
@@ -293,19 +347,11 @@
         $(".additionals-container input[type='checkbox']").prop("checked", false);
       },
 
-      resetDropdownOptions: function ($dropdown) {
-        $dropdown.val("All").change().hide();
-      },
-
       isComponentSortingSelected: function(selectedValue) {
         return selectedValue === "ecomp" || selectedValue === "scomp";
       },
 
       hideAndResetDropdowns: function () {
-        // Punctuation
-        $("#punctuationSelectContainer").hide()
-        $("#punctuationDropdown").val("All").trigger("change");
-
         // Word type
         $("#wordTypeSelectContainer").hide();
         $("#wordtypeDropdown").val("All").trigger("change");
@@ -313,6 +359,11 @@
         // Clause type
         $("#clauseTypeSelectContainer").hide();
         $("#clauseTypeDropdown").val("All").trigger("change");
+      },
+
+      resetAndHideWordTypeAdditionalOptions: function (additionalsSelector) {
+        $(additionalsSelector).find("input[type='checkbox']").prop("checked", false);
+        $(additionalsSelector).hide();
       }
     }
   };

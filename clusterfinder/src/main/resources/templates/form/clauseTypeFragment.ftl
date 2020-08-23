@@ -12,7 +12,8 @@
 
 <!-- Additional options for clause types -->
 <!-- Predicate additional options -->
-<div class="additionals-container" id="predicate" style="display: none">
+<div class="additionals-container" id="predicate">
+  <h5>Liik</h5>
   <div class="form-check">
     <input class="form-check-input" type="checkbox" id="finitePredicate" name="clauseTypeAdditionals[]" value="@+FMV" />
     <label class="form-check-label" for="finitePredicate">Pöördeline</label>
@@ -36,7 +37,8 @@
 </div>
 
 <!-- Modifier additional options -->
-<div class="additionals-container" id="modifier" style="display: none">
+<div class="additionals-container" id="modifier">
+  <h5>Liik</h5>
   <div class="form-check">
     <input class="form-check-input" type="checkbox" id="modifierAdjectiveAppositive" name="clauseTypeAdditionals[]" value="@AN>" />
     <label class="form-check-label" for="modifierAdjectiveAppositive">Omadus- ja järgarvsõna eestäiendina</label>

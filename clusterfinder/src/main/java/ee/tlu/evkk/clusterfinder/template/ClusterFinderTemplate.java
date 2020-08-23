@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class ClusterFinderTemplate {
 
   private static final Map< String, String > AJAX_URLS = Map.ofEntries(
-    Map.entry( "clusterText", AjaxConsts.CLUSTER_SEARCH )
+    Map.entry( "clusterText", AjaxConsts.CLUSTER_TEXT)
   );
 
   private final EvkkClient evkkClient;

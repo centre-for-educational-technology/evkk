@@ -4,6 +4,7 @@
 [#-- TODO: Try to separate into another file (currently caused by including logic) --]
 [#macro createPluralTypeOptions wordType]
   [#if wordType?has_content]
+    <h5>Arv</h5>
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="${wordType!}pluralTypeSingle" name="${wordType!}-pluralType[]" value="sg" />
       <label class="form-check-label" for="${wordType!}pluralTypeSingle">Ainsus</label>
@@ -17,6 +18,7 @@
 
 [#macro createCaseTypeOptions wordType]
   [#if wordType?has_content]
+    <h5>Kääne</h5>
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="${wordType!}caseTypeNom" name="${wordType!}casetype[]" value="nom" />
       <label class="form-check-label" for="${wordType!}caseTypeNom">Nimetav</label>
@@ -96,6 +98,7 @@
 
   <div class="additionals-container" data-group="V">
     <!-- Subtype -->
+    <h5>Liik</h5>
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="verbSubTypeMain" name="VERB-subtype[]" value="V main" />
       <label class="form-check-label" for="verbSubTypeMain">Põhiverb</label>
@@ -110,6 +113,7 @@
     </div>
 
     <!-- Finite type -->
+    <h5>Finiitsus</h5>
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="verbFiniteTypeP" name="VERB-finitetype[]" value="VP" />
       <label class="form-check-label" for="verbFiniteTypeP">Pöördeline vorm</label>
@@ -122,6 +126,7 @@
     <!-- Finite type "VP" additional options -->
     <div data-subgroup="VP">
       <!-- Speech type -->
+      <h5>Kõneviis</h5>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="verbSpeechTypeAffermative" name="VERB-speechtype[]" value="indic" />
         <label class="form-check-label" for="verbSpeechTypeAffermative">Kindel</label>
@@ -140,6 +145,7 @@
       </div>
 
       <!-- Time tense type -->
+      <h5>Aeg</h5>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="verbTimeTypePresent" name="VERB-timetype[]" value="pres" />
         <label class="form-check-label" for="verbTimeTypePresent">Olevik</label>
@@ -154,6 +160,7 @@
       </div>
 
       <!-- Voice type -->
+      <h5>Tegumood</h5>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="verbVoiceTypePs" name="VERB-voicetype[]" value="ps" />
         <label class="form-check-label" for="verbVoiceTypePs">Isikuline</label>
@@ -164,6 +171,7 @@
       </div>
 
       <!-- Perspective type -->
+      <h5>Isik</h5>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="verbPerspectiveTypePs1" name="VERB-perspectivetype[]" value="ps1" />
         <label class="form-check-label" for="verbPerspectiveTypePs1">Esimene</label>
@@ -181,6 +189,7 @@
       [@createPluralTypeOptions wordType="VERB" /]
 
       <!-- Speech subtype -->
+      <h5>Kõneliik</h5>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="verbSpeechSubTypeAf" name="VERB-speechsubtype[]" value="af" />
         <label class="form-check-label" for="verbSpeechSubTypeAf">Jaatav</label>
@@ -253,6 +262,7 @@
     </div>
 
     <!-- Rection type -->
+    <h5>Rektsioon</h5>
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="verbRectionTypeIntr" name="VERB-rectiontype[]" value="#Intr" />
       <label class="form-check-label" for="verbRectionTypeIntr">Sihitu verb</label>
@@ -272,6 +282,7 @@
   </div>
 
   <div class="additionals-container" data-group="S">
+    <h5>Liik</h5>
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="nounSubTypeGeneral" name="NOUN-subtype[]" value="com" />
       <label class="form-check-label" for="nounSubTypeGeneral">Üldnimeline</label>
@@ -290,6 +301,7 @@
 
   <div class="additionals-container" data-group="A">
     <!-- Subtype -->
+    <h5>Liik</h5>
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="adjectiveSubTypeA" name="ADJECTIVE-subtype[]" value="A" />
       <label class="form-check-label" for="adjectiveSubTypeA">Käänduv</label>
@@ -301,6 +313,7 @@
 
     <!-- Step type -->
     <div id="adjectiveSubTypeAdditionals">
+      <h5>Võrdlusaste</h5>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="adjectiveStepTypePos" name="ADJECTIVE-stepType[]" value="pos" />
         <label class="form-check-label" for="adjectiveStepTypePos">Algvõrre</label>
@@ -324,6 +337,7 @@
 
   <div class="additionals-container" data-group="P">
     <!-- Subtype -->
+    <h5>Liik</h5>
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="pronounSubTypePers" name="PRONOUN-subtype[]" value="pers" />
       <label class="form-check-label" for="pronounSubTypePers">Isikuline</label>
@@ -365,6 +379,7 @@
 
     <div id="pronounSubTypeAdditionals">
       <!-- Perspective type -->
+      <h5>Isik</h5>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="pronounPerspectiveTypePs1" name="PRONOUN-persepctivetype[]" value="ps1" />
         <label class="form-check-label" for="pronounPerspectiveTypePs1">Esimene</label>
@@ -382,6 +397,7 @@
 
   <div class="additionals-container" data-group="N">
     <!-- Subtype -->
+    <h5>Liik</h5>
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="numeralSubTypeCard" name="NUMERAL-subtype[]" value="card" />
       <label class="form-check-label" for="numeralSubTypeCard">Põhiarvsõna</label>
@@ -410,6 +426,7 @@
 
   <div class="additionals-container" data-group="K">
     <!-- Subtype -->
+    <h5>Liik</h5>
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="ADPOSITIONSubTypeCoord" name="ADPOSITION-subtype[]" value="coord" />
       <label class="form-check-label" for="ADPOSITIONSubTypeCoord">Tagasõna</label>
@@ -420,6 +437,7 @@
     </div>
 
     <!-- Case type -->
+    <h5>Laiendi kääne</h5>
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="ADPOSITIONcaseTypeNom" name="ADPOSITION-casetype[]" value="nom" />
       <label class="form-check-label" for="ADPOSITIONcaseTypeNom">Nimetav</label>
