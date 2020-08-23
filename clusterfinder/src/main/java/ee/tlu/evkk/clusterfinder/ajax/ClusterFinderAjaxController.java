@@ -17,7 +17,7 @@ public class ClusterFinderAjaxController {
     this.clusterFinderAjaxControllerHelper = clusterFinderAjaxControllerHelper;
   }
 
-  @PostMapping( value = AjaxConsts.CLUSTER_SEARCH )
+  @PostMapping( value = AjaxConsts.CLUSTER_TEXT)
   public void executeClusterSearch(HttpServletRequest request, HttpServletResponse response) {
     clusterFinderAjaxControllerHelper.clusterText(request, response);
   }

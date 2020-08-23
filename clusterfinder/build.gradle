@@ -5,6 +5,9 @@ dependencies {
   implementation project(":common")
   implementation project(":dto")
 
+  compileOnly "org.projectlombok:lombok:1.18.12"
+  annotationProcessor "org.projectlombok:lombok:1.18.12"
+
   implementation "org.springframework.boot:spring-boot-starter-web"
-  implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
+  implementation "org.springframework.boot:spring-boot-starter-freemarker"
 }
