@@ -8,7 +8,7 @@ filename = "parsedText" + sys.argv[1] + ".txt"
 # If file with provided UUID exists return the file's content
 if os.path.exists(filename):
   file = open(filename, "r")
-  print(f.read())
+  print(file.read())
 else:
   parser = VISLCG3Parser()
 
@@ -21,5 +21,8 @@ else:
 
   # Save the results to a file (to reduce the need to remark the provided text)
   output_file = open(filename, "w")
-  output_file.write(simplified_output)
+  output_file.write('\n'.join(simplified_output))
   output_file.close()
+
+  # Print the results
+  print('\n'.join(simplified_output))

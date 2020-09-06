@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Controller
 public class ClusterFinderAjaxController {
@@ -18,7 +19,7 @@ public class ClusterFinderAjaxController {
   }
 
   @PostMapping( value = AjaxConsts.CLUSTER_TEXT)
-  public void executeClusterSearch(HttpServletRequest request, HttpServletResponse response) {
+  public void executeClusterSearch(HttpServletRequest request, HttpServletResponse response) throws IOException {
     clusterFinderAjaxControllerHelper.clusterText(request, response);
   }
 }

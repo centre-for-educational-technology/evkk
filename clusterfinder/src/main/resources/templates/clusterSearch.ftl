@@ -42,25 +42,25 @@
 
       <div class="form-group">
         <label for="userText">Tekst</label>
-        <textarea class="form-control" rows="5" id="userText"></textarea>
+        <textarea class="form-control" rows="5" name="userText" id="userText"></textarea>
       </div>
 
       <!-- Basic search checkboxes -->
       <h5>Analüüs</h5>
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="morfoAnalysis" name="analysisType[]" value="morfo">
+        <input class="form-check-input" type="checkbox" id="morfoAnalysis" name="morfological" value="true">
         <label class="form-check-label" for="morfoAnalysis">Morfoloogiline</label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="syntacticAnalysis" name="analysisType[]" value="syntactic">
+        <input class="form-check-input" type="checkbox" id="syntacticAnalysis" name="syntatic" value="true">
         <label class="form-check-label" for="syntacticAnalysis">Süntaktiline</label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="punctuationAnalysis" name="analysisType[]" value="punctuation">
+        <input class="form-check-input" type="checkbox" id="punctuationAnalysis" name="punctuation" value="true">
         <label class="form-check-label" for="punctuationAnalysis">Arvestab kirjavahemärke</label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="wordtypeAnalysis" name="analysisType[]" value="wordtype">
+        <input class="form-check-input" type="checkbox" id="wordtypeAnalysis" name="wordtype" value="true">
         <label class="form-check-label" for="wordtypeAnalysis">Sõnaliik</label>
       </div>
 

@@ -4,11 +4,21 @@ import ee.tlu.evkk.clusterfinder.constants.ClauseType;
 import ee.tlu.evkk.clusterfinder.constants.PunctuationType;
 import ee.tlu.evkk.clusterfinder.constants.WordType;
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 @Builder
 public class ClusterSearchForm {
 
-  private final String[] analysisType;
+  private final String text;
+
+  private final boolean morfoAnalysis;
+
+  private final boolean syntacticAnalysis;
+
+  private final boolean includePunctuation;
+
+  private final boolean wordtypeAnalysis;
 
   private final String sortingType;
 
@@ -26,7 +36,11 @@ public class ClusterSearchForm {
 
   private final String[] wordPluralType;
 
-  private final String[] wordRectionType;
-
   private final String[] wordStepType;
+
+  private final String[] perspectiveType;
+
+  private final String[] speechType;
+
+  private final String[] wordRectionType;
 }

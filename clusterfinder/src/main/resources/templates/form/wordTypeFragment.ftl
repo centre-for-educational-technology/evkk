@@ -166,7 +166,7 @@
         <label class="form-check-label" for="verbVoiceTypePs">Isikuline</label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="verbVoiceTypeImps" name="VERB_voicetype[]" value="imps" />
+        <input class="form-check-input" type="checkbox" id="verbVoiceTypeImps" name="VERB-voicetype[]" value="imps" />
         <label class="form-check-label" for="verbVoiceTypeImps">Umbisikuline</label>
       </div>
 

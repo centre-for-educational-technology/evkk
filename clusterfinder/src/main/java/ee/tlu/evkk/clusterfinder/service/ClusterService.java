@@ -1,8 +1,10 @@
 package ee.tlu.evkk.clusterfinder.service;
 
+import ee.tlu.evkk.clusterfinder.model.ClusterSearchForm;
+
+import java.io.IOException;
+
 public interface ClusterService {
 
-  // TODO: Create a separate model for this
-  String clusterText();
-
+  String clusterText(ClusterSearchForm searchForm) throws IOException;
 }
