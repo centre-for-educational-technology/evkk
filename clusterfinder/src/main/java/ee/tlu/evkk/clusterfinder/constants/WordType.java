@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 public enum WordType {
 
+  ALL( "ALL", "Kõik" ),
   VERB( "V", "Verb" ),
   SUBJECT( "S", "Nimisõna" ),
   ADJECTIVE( "A", "Omadussõna" ),
@@ -37,6 +38,6 @@ public enum WordType {
   }
 
   public static WordType getByValue( String value ) {
-    return VALUE_TO_WORD_MAP.getOrDefault( value, null );
+    return VALUE_TO_WORD_MAP.getOrDefault( value, ALL );
   }
 }

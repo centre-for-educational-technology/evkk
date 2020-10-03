@@ -1,11 +1,13 @@
 package ee.tlu.evkk.clusterfinder.ajax.helper;
 
+import ee.tlu.evkk.clusterfinder.service.model.ClusterResult;
+import org.springframework.http.ResponseEntity;
+
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public interface ClusterFinderAjaxControllerHelper {
 
-  void clusterText(HttpServletRequest request, HttpServletResponse response ) throws IOException;
+  ResponseEntity<ClusterResult> clusterText(HttpServletRequest request) throws IOException;
 
 }

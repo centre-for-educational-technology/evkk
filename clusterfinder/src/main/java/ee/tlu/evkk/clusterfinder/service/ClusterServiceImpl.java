@@ -1,39 +1,50 @@
 package ee.tlu.evkk.clusterfinder.service;
 
 import ee.tlu.evkk.clusterfinder.model.ClusterSearchForm;
+import ee.tlu.evkk.clusterfinder.service.mapping.ClusterResultMapper;
+import ee.tlu.evkk.clusterfinder.service.model.ClusterResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.UUID;
 
 @Service
 public class ClusterServiceImpl implements ClusterService {
 
   private static final Logger log = LoggerFactory.getLogger(ClusterServiceImpl.class);
 
-  @Override
-  public String clusterText(ClusterSearchForm searchForm) {
+  private final ClusterResultMapper resultMapper;
 
+  public ClusterServiceImpl(ClusterResultMapper resultMapper)
+  {
+    this.resultMapper = resultMapper;
+  }
+
+  @Override
+  public ClusterResult clusterText(ClusterSearchForm searchForm)
+  {
     String clusteringParams = getClusteringParams(searchForm);
 
     try
     {
-      String markedText = markFreeText(searchForm.getText());
-      return clusterMarkedText(markedText, clusteringParams);
+      String markedText = markFreeText(searchForm.getText(), searchForm.getFormId());
+      return resultMapper.mapResults(clusterMarkedText(markedText, clusteringParams), searchForm.getAnalysisLength());
     }
     catch (IOException e)
     {
       log.error("Could not cluster text: {}", e.getMessage());
-      return null;
+      return ClusterResult.EMPTY;
     }
   }
 
-  private String getClusteringParams(ClusterSearchForm searchForm) {
+  private String getClusteringParams(ClusterSearchForm searchForm)
+  {
     StringBuilder sb = new StringBuilder();
+    sb.append("-k").append(" ").append(searchForm.getAnalysisLength()).append(" ");
 
     if (searchForm.isMorfoAnalysis()) {
       sb.append("-m").append(" ");
@@ -51,25 +62,33 @@ public class ClusterServiceImpl implements ClusterService {
       sb.append("-w").append(" ");
     }
 
+    // Always append -e parameter (otherwise clustering won't work)
+    sb.append("-e");
     return sb.toString();
   }
 
-  private String markFreeText(String text) throws IOException{
-    ProcessBuilder markingBuilder = new ProcessBuilder("python", "scripts/free_text_marker.py", UUID.randomUUID().toString(), text);
-    return queryProcess(markingBuilder);
+  private String markFreeText(String text, String formId) throws IOException
+  {
+    ProcessBuilder markingProcess = new ProcessBuilder("python", "scripts/free_text_marker.py", formId, text);
+    markingProcess.directory(new File("clusterfinder/src/main/resources").getAbsoluteFile());
+    return queryProcess(markingProcess);
   }
 
-  private String markFileBasedText(String fileName) {
+  private String markFileBasedText(String fileName, String formId) throws IOException
+  {
     // TODO: Add method body
     return null;
   }
 
-  private String clusterMarkedText(String markedText, String clusteringParams) throws IOException {
-    ProcessBuilder clusterBuilder = new ProcessBuilder("java -jar", "klastrileidja.jar", clusteringParams, markedText);
-    return queryProcess(clusterBuilder);
+  private String clusterMarkedText(String markedTextFile, String clusteringParams) throws IOException
+  {
+    ProcessBuilder clusteringProcess = new ProcessBuilder("java", "-jar", "executables/klastrileidja.jar", "-f" + markedTextFile, clusteringParams);
+    clusteringProcess.directory(new File("clusterfinder/src/main/resources").getAbsoluteFile());
+    return queryProcess(clusteringProcess);
   }
 
-  private String queryProcess(ProcessBuilder processBuilder) throws IOException {
+  private String queryProcess(ProcessBuilder processBuilder) throws IOException
+  {
     Process process = processBuilder.start();
     int exitCode;
 
@@ -87,7 +106,6 @@ public class ClusterServiceImpl implements ClusterService {
       }
 
       log.error("Process returned non-zero exit code: {}", error);
-
     }
 
     String response;

@@ -1,15 +1,15 @@
 package ee.tlu.evkk.clusterfinder.ajax.helper;
 
-import ee.tlu.evkk.clusterfinder.ajax.util.AjaxResponseHelper;
 import ee.tlu.evkk.clusterfinder.constants.ClauseType;
 import ee.tlu.evkk.clusterfinder.constants.PunctuationType;
 import ee.tlu.evkk.clusterfinder.constants.WordType;
 import ee.tlu.evkk.clusterfinder.model.ClusterSearchForm;
 import ee.tlu.evkk.clusterfinder.service.ClusterService;
+import ee.tlu.evkk.clusterfinder.service.model.ClusterResult;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
@@ -18,18 +18,18 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
 
   private final ClusterService clusterService;
 
-  private final AjaxResponseHelper ajaxResponseHelper;
-
-  ClusterFinderAjaxControllerHelperImpl(ClusterService clusterService, AjaxResponseHelper ajaxResponseHelper) {
+  ClusterFinderAjaxControllerHelperImpl(ClusterService clusterService) {
     this.clusterService = clusterService;
-    this.ajaxResponseHelper = ajaxResponseHelper;
   }
 
   @Override
-  public void clusterText(HttpServletRequest request, HttpServletResponse response) throws IOException
+  public ResponseEntity<ClusterResult> clusterText(HttpServletRequest request) throws IOException
   {
+    // TODO: Validate the form after assembly
     ClusterSearchForm assembledForm = assembleClusterSearchForm(request);
-    ajaxResponseHelper.returnSuccessWithContent(response, new String[][] { { "clusterResult", clusterService.clusterText(assembledForm) } } );
+    ClusterResult clusteringResult = clusterService.clusterText(assembledForm);
+
+    return ResponseEntity.ok(clusteringResult);
   }
 
   private ClusterSearchForm assembleClusterSearchForm(HttpServletRequest request)
@@ -45,6 +45,8 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
   {
     formBuilder
       .text(request.getParameter("userText"))
+      .formId(request.getParameter("formId"))
+      .analysisLength(asNumber(request.getParameter("analysisLength")))
       .morfoAnalysis(asBoolean(request.getParameter("morfological")))
       .syntacticAnalysis(asBoolean(request.getParameter("syntactic")))
       .wordtypeAnalysis(asBoolean(request.getParameter("wordtype")))
@@ -55,22 +57,29 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
   {
     Map< String, String[] > paramsMap = request.getParameterMap();
     WordType wordType = WordType.getByValue(request.getParameter("wordType"));
+    PunctuationType punctuationType = PunctuationType.getByValue(request.getParameter("punctuationType"));
+    ClauseType clauseType = ClauseType.getByValue(request.getParameter("clauseType"));
 
     formBuilder
       .sortingType(request.getParameter("sorting"))
       .wordType(wordType)
-      .clauseType(ClauseType.getByValue(request.getParameter("clauseType")))
-      .punctuationType(PunctuationType.getByValue(request.getParameter("punctuationType")))
+      .clauseType(clauseType)
+      .punctuationType(punctuationType)
       .clauseTypeAdditionals(paramsMap.get("clauseTypeAdditionals[]"))
       .wordSubType(paramsMap.get(wordType.name() + "-subType[]"))
       .wordCaseType(paramsMap.get(wordType.name() + "-caseType[]"))
       .wordPluralType(paramsMap.get(wordType.name() + "-pluralType[]"))
       .wordStepType(paramsMap.get(wordType.name() + "-stepType[]"))
       .perspectiveType(paramsMap.get(wordType.name() + "-perspectiveType[]"))
-      .speechType(paramsMap.get(wordType.name() + "-speechType[]"));
+      .speechType(paramsMap.get(wordType.name() + "-speechType[]"))
+      .wordRectionType(paramsMap.get(wordType.name() + "-rectionType[]"));
   }
 
   private boolean asBoolean(String value) {
     return Boolean.parseBoolean(value);
+  }
+
+  private int asNumber(String value) {
+    return Integer.parseInt(value);
   }
 }

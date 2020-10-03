@@ -89,7 +89,6 @@
   <div id="wordTypeSelectContainer" class="form-group" style="display: none">
     <label for="wordtypeDropdown">Valige Sõnaliik</label>
     <select class="form-control" id="wordtypeDropdown" name="wordType">
-      <option value="All">Kõik</option>
       [#list wordTypes as wordTypeValue, wordTypeLabel]
         <option value="${wordTypeValue!}">${wordTypeLabel!}</option>
       [/#list]
@@ -124,7 +123,7 @@
     </div>
 
     <!-- Finite type "VP" additional options -->
-    <div data-subgroup="VP">
+    <div class="hidden" data-subgroup="VP">
       <!-- Speech type -->
       <h5>Kõneviis</h5>
       <div class="form-check">
@@ -203,6 +202,7 @@
     <!-- Finite type "VK" additional options -->
     <div data-subgroup="VK">
       <!-- VK sub type options -->
+      <h5>Alamliik</h5>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="verbSubTypeVKInf" name="VERB-subtypeVK[]" value="neg" />
         <label class="form-check-label" for="verbSubTypeVKInf">da-tegevusnimi</label>
@@ -221,7 +221,7 @@
       </div>
 
       <!-- Partic additional options -->
-      <div id="verbSubTypeVKParticAdditionals">
+      <div class="hidden" id="verbSubTypeVKParticAdditionals">
         <div class="form-check">
           <input class="form-check-input" type="checkbox" id="verbSubTypeVKParticPastPs" name="VERB-subtypeVKPartic[]" value="past ps" />
           <label class="from-check-label" for="verbSubTypeVKParticPastPs">Isikuline mineviku kesksõna</label>
@@ -233,7 +233,7 @@
       </div>
 
       <!-- Sup additional options -->
-      <div id="verbSubTypeVKSupAdditionals">
+      <div class="hidden" id="verbSubTypeVKSupAdditionals">
         <div class="form-check">
           <input class="form-check-input" type="checkbox" id="verbSubTypeVKSupPsIll" name="VERB-subtypeVKSup[]" value="ps ill" />
           <label class="from-check-label" for="verbSubTypeVKSupPsIll">Sisseütlev</label>

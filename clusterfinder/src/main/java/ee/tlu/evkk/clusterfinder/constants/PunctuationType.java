@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 public enum PunctuationType {
 
+  ALL ("ALL", "Kõik" ),
   FULL_STOP( "Z Fst", "Punkt" ),
   COMMA( "Z Com", "Koma" ),
   EXCLAMATION_MARK( "Z Exc", "Hüüumärk" ),
@@ -39,6 +40,6 @@ public enum PunctuationType {
   }
 
   public static PunctuationType getByValue( String value ) {
-    return VALUE_TO_PUNCTUATION_MAP.getOrDefault( value, null );
+    return VALUE_TO_PUNCTUATION_MAP.getOrDefault( value, ALL );
   }
 }

@@ -11,13 +11,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Controller
 public class ClusterFinderTemplate {
 
   private static final Map< String, String > AJAX_URLS = Map.ofEntries(
-    Map.entry( "clusterText", AjaxConsts.CLUSTER_TEXT)
+    Map.entry( "clusterText", AjaxConsts.CLUSTER_TEXT),
+    Map.entry( "clusterDownload", AjaxConsts.CLUSTER_DOWNLOAD )
   );
 
   private final EvkkClient evkkClient;
@@ -28,10 +30,12 @@ public class ClusterFinderTemplate {
 
   @GetMapping( "/" )
   public String render( Model model,
-                              @RequestParam( value = "evkkSessionToken", required = false ) String sessionToken,
-                              @RequestParam( value = "userFileId", required = false ) String userFileId ) {
+                        @RequestParam( value = "evkkSessionToken", required = false ) String sessionToken,
+                        @RequestParam( value = "userFileId", required = false ) String userFileId )
+  {
     model.addAttribute( "userFiles", sessionToken != null ? evkkClient.listFiles( sessionToken ) : List.of() );
     model.addAttribute( "selectedFile", userFileId );
+    model.addAttribute( "formId", UUID.randomUUID().toString() );
     return TemplateConstants.CLUSTER_SEARCH;
   }
 

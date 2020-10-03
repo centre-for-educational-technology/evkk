@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 public enum ClauseType {
 
+  ALL( "ALL", "Kõik" ),
   PREDICATE( "F", "Öeldis" ),
   BASIS( "@SUBJ", "Alus" ),
   OBJECTIVE( "@OBJ", "Sihitis" ),
@@ -36,6 +37,6 @@ public enum ClauseType {
   }
 
   public static ClauseType getByValue( String value ) {
-    return VALUE_TO_CLAUSE_MAP.getOrDefault( value, null );
+    return VALUE_TO_CLAUSE_MAP.getOrDefault( value, ALL );
   }
 }

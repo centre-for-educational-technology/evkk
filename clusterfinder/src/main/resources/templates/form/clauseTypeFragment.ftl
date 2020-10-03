@@ -3,7 +3,6 @@
 <div id="clauseTypeSelectContainer" class="form-group" style="display: none">
   <label id="clauseType" for="clauseTypeDropdown">Valige Lauseliige</label>
   <select class="form-control" id="clauseTypeDropdown" name="clauseType">
-    <option value="All">Kõik</option>
     [#list clauseTypes as clauseTypeValue, clauseTypeLabel]
       <option value="${clauseTypeValue!}">${clauseTypeLabel!}</option>
     [/#list]

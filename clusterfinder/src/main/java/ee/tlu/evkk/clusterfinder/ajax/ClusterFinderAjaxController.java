@@ -2,11 +2,12 @@ package ee.tlu.evkk.clusterfinder.ajax;
 
 import ee.tlu.evkk.clusterfinder.ajax.helper.ClusterFinderAjaxControllerHelper;
 import ee.tlu.evkk.clusterfinder.constants.AjaxConsts;
+import ee.tlu.evkk.clusterfinder.service.model.ClusterResult;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Controller
@@ -19,7 +20,7 @@ public class ClusterFinderAjaxController {
   }
 
   @PostMapping( value = AjaxConsts.CLUSTER_TEXT)
-  public void executeClusterSearch(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    clusterFinderAjaxControllerHelper.clusterText(request, response);
+  public ResponseEntity<ClusterResult> executeClusterSearch(HttpServletRequest request) throws IOException {
+    return clusterFinderAjaxControllerHelper.clusterText(request);
   }
 }
