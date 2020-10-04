@@ -69,8 +69,8 @@ public class ClusterServiceImpl implements ClusterService {
 
   private String markFreeText(String text, String formId) throws IOException
   {
-    ProcessBuilder markingProcess = new ProcessBuilder("python", "scripts/free_text_marker.py", formId, text);
-    markingProcess.directory(new File("clusterfinder/src/main/resources").getAbsoluteFile());
+    ProcessBuilder markingProcess = new ProcessBuilder("python", "free_text_marker.py", formId, text);
+    markingProcess.directory(new File("clusterfinder/src/main/resources/scripts").getAbsoluteFile());
     return queryProcess(markingProcess);
   }
 
@@ -82,8 +82,8 @@ public class ClusterServiceImpl implements ClusterService {
 
   private String clusterMarkedText(String markedTextFile, String clusteringParams) throws IOException
   {
-    ProcessBuilder clusteringProcess = new ProcessBuilder("java", "-jar", "executables/klastrileidja.jar", "-f" + markedTextFile, clusteringParams);
-    clusteringProcess.directory(new File("clusterfinder/src/main/resources").getAbsoluteFile());
+    ProcessBuilder clusteringProcess = new ProcessBuilder("python", "cluster_helper.py", "-f", markedTextFile, clusteringParams);
+    clusteringProcess.directory(new File("clusterfinder/src/main/resources/scripts").getAbsoluteFile());
     return queryProcess(clusteringProcess);
   }
 

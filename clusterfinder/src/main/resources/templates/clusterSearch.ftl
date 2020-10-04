@@ -261,7 +261,8 @@
       },
 
       toggleAdditionalOptions: function () {
-        ClusterSearchForm.helpers.resetAdditionalOptions();
+        // Reset additional option selections on type change
+        $(".clause-additionals-container input[type='checkbox']").prop("checked", false);
 
         const selectedValue = $("#clauseTypeDropdown").val();
         switch(selectedValue) {
@@ -294,11 +295,11 @@
 
       toggleAdditionalFields: function () {
         // Additional options can only be shown when the word type analysis is not selected
-        ClusterSearchForm.helpers.resetAdditionalOptions();
         const selectedValue = $("#wordtypeDropdown").val();
 
         // Hide other additional option checkboxes and show the correct ones
-        $("div.additionals-container:not([data-group='"+ selectedValue +"'])").hide();
+        $("div.additionals-container:not([data-group='"+ selectedValue +"'])").prop("checked", false).hide();
+        $("div.additionals-container:not([data-group'"+ selectedValue + "'])").find("input[type='checkbox']").prop("checked", false);
         $("div[data-group='"+ selectedValue +"']").show();
       },
 
@@ -498,10 +499,6 @@
     },
 
     helpers: {
-      resetAdditionalOptions: function() {
-        $(".additionals-container input[type='checkbox']").prop("checked", false);
-      },
-
       isComponentSortingSelected: function() {
         return ClusterSearchForm.STARTING_COMPONENT_SORT.is(":checked") || ClusterSearchForm.ENDING_COMPONENT_SORT.is(":checked");
       },

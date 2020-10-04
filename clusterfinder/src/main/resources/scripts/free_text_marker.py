@@ -7,7 +7,7 @@ filename = "parsedText-" + sys.argv[1] + ".txt"
 parser = VISLCG3Parser()
 
 # Convert file content to Text object
-inputText=Text(sys.argv[2])
+inputText = Text(sys.argv[2])
 
 # Parse and simplify the text
 initial_output = parser.parse_text(inputText, return_type='vislcg3')

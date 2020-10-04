@@ -1,6 +1,6 @@
 [#ftl output_format="HTML"]
 <!-- Dropdown for clause types -->
-<div id="clauseTypeSelectContainer" class="form-group" style="display: none">
+<div class="hidden" id="clauseTypeSelectContainer" class="form-group">
   <label id="clauseType" for="clauseTypeDropdown">Valige Lauseliige</label>
   <select class="form-control" id="clauseTypeDropdown" name="clauseType">
     [#list clauseTypes as clauseTypeValue, clauseTypeLabel]
@@ -11,7 +11,7 @@
 
 <!-- Additional options for clause types -->
 <!-- Predicate additional options -->
-<div class="additionals-container" id="predicate">
+<div class="clause-additionals-container" id="predicate">
   <h5>Liik</h5>
   <div class="form-check">
     <input class="form-check-input" type="checkbox" id="finitePredicate" name="clauseTypeAdditionals[]" value="@+FMV" />
@@ -36,7 +36,7 @@
 </div>
 
 <!-- Modifier additional options -->
-<div class="additionals-container" id="modifier">
+<div class="clause-additionals-container" id="modifier">
   <h5>Liik</h5>
   <div class="form-check">
     <input class="form-check-input" type="checkbox" id="modifierAdjectiveAppositive" name="clauseTypeAdditionals[]" value="@AN>" />
