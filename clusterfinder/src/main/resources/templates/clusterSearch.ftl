@@ -256,6 +256,7 @@
       PREDICATE_ADDITIONAL_OPTIONS: $("#predicate"),
 
       init: function () {
+        $(".clause-additionals-container").hide();
         $("#clauseTypeDropdown option[value='ALL']").click();
         $("#clauseTypeDropdown").change(ClusterSearchForm.clauseType.toggleAdditionalOptions);
       },
@@ -298,9 +299,14 @@
         const selectedValue = $("#wordtypeDropdown").val();
 
         // Hide other additional option checkboxes and show the correct ones
-        $("div.additionals-container:not([data-group='"+ selectedValue +"'])").prop("checked", false).hide();
-        $("div.additionals-container:not([data-group'"+ selectedValue + "'])").find("input[type='checkbox']").prop("checked", false);
-        $("div[data-group='"+ selectedValue +"']").show();
+        if (selectedValue === "ALL") {
+          $("div.additionals-container").hide();
+          $("div.additionals-container").find("input[type='checkbox']").prop("checked", false);
+        } else {
+          $("div.additionals-container:not([data-group='"+ selectedValue + "'])").hide();
+          $("div.additionals-container:not([data-group='"+ selectedValue + "'])").find("input[type='checkbox']").prop("checked", false);
+          $("div[data-group='"+ selectedValue +"']").show();
+        }
       },
 
       verb: {
