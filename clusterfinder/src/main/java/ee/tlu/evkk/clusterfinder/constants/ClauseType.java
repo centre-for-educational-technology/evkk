@@ -6,34 +6,36 @@ import java.util.stream.Collectors;
 
 public enum ClauseType {
 
-  ALL( "ALL", "Kõik" ),
-  PREDICATE( "F", "Öeldis" ),
-  BASIS( "@SUBJ", "Alus" ),
-  OBJECTIVE( "@OBJ", "Sihitis" ),
-  PEDICATE( "@PRD", "Öledistäide" ),
-  ADVERBIBAL( "@ADVL", "Määrus" ),
-  MODIFIER( "M", "Laiend" ),
-  CONJUNCTIVE_WORD( "@J", "Sidend" ),
-  EXCLAMATION( "@I", "Hüüatus" );
+  ALL( "ALL", "clause.type.all" ),
+  PREDICATE( "F", "clause.type.predicate" ),
+  BASIS( "@SUBJ", "clause.type.basis" ),
+  OBJECTIVE( "@OBJ", "clause.type.objective" ),
+  PEDICATE( "@PRD", "clause.type.pedicate" ),
+  ADVERBIAL( "@ADVL", "clause.type.adverbial" ),
+  ATTRIBUTE( "AT", "clause.type.attribute" ),
+  QUANTIFIER_MODIFIER( "QM", "clause.type.quantifier.modifier"),
+  ADPOSITION_APPURTENANT( "AP", "clause.type.adposition.appurtenant" ),
+  CONJUNCTIVE_WORD( "@J", "clause.type.conjunctive.word" ),
+  EXCLAMATION( "@I", "clause.type.exclamation" );
 
   private final String value;
 
-  private final String labelEst;
+  private final String labelKey;
 
   private static final Map< String, ClauseType > VALUE_TO_CLAUSE_MAP = Arrays.stream(ClauseType.values())
     .collect(Collectors.toMap(ClauseType::getValue, c -> c ));
 
-  ClauseType(String value, String labelEst) {
+  ClauseType(String value, String labelKey) {
     this.value = value;
-    this.labelEst = labelEst;
+    this.labelKey = labelKey;
   }
 
   public String getValue() {
     return value;
   }
 
-  public String getLabelEst() {
-    return labelEst;
+  public String getLabelKey() {
+    return labelKey;
   }
 
   public static ClauseType getByValue( String value ) {

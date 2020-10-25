@@ -50,6 +50,4 @@ public class ClusterSearchForm {
   private final String[] perspectiveType;
 
   private final String[] speechType;
-
-  private final String[] wordRectionType;
 }

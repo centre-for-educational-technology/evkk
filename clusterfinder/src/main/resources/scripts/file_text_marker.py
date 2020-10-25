@@ -9,7 +9,7 @@ inputFile = open(sys.argv[1], "r")
 # Convert file content to Text object
 inputText = Text(inputFile.read())
 
-parser = VISLCG3Parser( vislcg_cmd='C:\\Users\\krist\\Downloads\\cg3ide\\bin\\vislcg3.exe' )
+parser = VISLCG3Parser()
 
 # Parse and simplify the text
 initial_output = parser.parse_text(inputText, return_type='vislcg3')

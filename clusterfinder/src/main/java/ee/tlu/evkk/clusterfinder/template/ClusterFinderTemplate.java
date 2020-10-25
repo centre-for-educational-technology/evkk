@@ -49,21 +49,21 @@ public class ClusterFinderTemplate {
   public Map< String, String > getWordTypes()
   {
     return Arrays.stream(WordType.values())
-                 .collect(Collectors.toMap(WordType::getValue, WordType::getLabelEst));
+                 .collect(Collectors.toMap(WordType::getValue, WordType::getLabelKey));
   }
 
   @ModelAttribute("punctuationTypes")
   public Map< String, String > getPunctuationTypes()
   {
     return Arrays.stream(PunctuationType.values())
-                 .collect(Collectors.toMap(PunctuationType::getValue, PunctuationType::getLabelEst));
+                 .collect(Collectors.toMap(PunctuationType::getValue, PunctuationType::getLabelKey));
   }
 
   @ModelAttribute("clauseTypes")
   public Map< String, String > getClauseTypes()
   {
     return Arrays.stream(ClauseType.values())
-                 .collect(Collectors.toMap(ClauseType::getValue, ClauseType::getLabelEst));
+                 .collect(Collectors.toMap(ClauseType::getValue, ClauseType::getLabelKey));
   }
 
 }

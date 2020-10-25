@@ -6,33 +6,33 @@ import java.util.stream.Collectors;
 
 public enum PunctuationType {
 
-  ALL ("ALL", "Kõik" ),
-  FULL_STOP( "Z Fst", "Punkt" ),
-  COMMA( "Z Com", "Koma" ),
-  EXCLAMATION_MARK( "Z Exc", "Hüüumärk" ),
-  QUESTION_MARK( "Z Int", "Küsimärk" ),
-  DASH( "Z Dsh", "Mõttekriips" ),
-  COLON( "Z Col", "Koolon" ),
-  SEMICOLON( "Z Scl", "Semikoolon" ),
-  OPENING_BRACKET( "Z Opr", "Avav ümarsulg" ),
-  CLOSING_BRACKET( "Z Cpr", "Sulgev ümarsulg" ),
-  QUOTE( "Z Quo", "Jutumärk" );
+  ALL ("ALL", "punctuation.type.all" ),
+  FULL_STOP( "Z Fst", "punctuation.type.full.stop" ),
+  COMMA( "Z Com", "punctuation.type.comma" ),
+  EXCLAMATION_MARK( "Z Exc", "punctuation.type.exclamation.mark" ),
+  QUESTION_MARK( "Z Int", "punctuation.type.question.mark" ),
+  DASH( "Z Dsh", "punctuation.type.dash" ),
+  COLON( "Z Col", "punctuation.type.colon" ),
+  SEMICOLON( "Z Scl", "punctuation.type.semicolon" ),
+  OPENING_BRACKET( "Z Opr", "punctuation.type.opening.bracket" ),
+  CLOSING_BRACKET( "Z Cpr", "punctuation.type.closing.bracket" ),
+  QUOTE( "Z Quo", "punctuation.type.quote" );
 
-  private final String labelEst;
+  private final String labelKey;
 
   private final String value;
 
   private static final Map< String, PunctuationType > VALUE_TO_PUNCTUATION_MAP = Arrays.stream(PunctuationType.values())
     .collect(Collectors.toMap(PunctuationType::getValue, p -> p));
 
-  PunctuationType( String value, String labelEst )
+  PunctuationType( String value, String labelKey)
   {
     this.value = value;
-    this.labelEst = labelEst;
+    this.labelKey = labelKey;
   }
 
-  public String getLabelEst() {
-    return labelEst;
+  public String getLabelKey() {
+    return labelKey;
   }
 
   public String getValue() {

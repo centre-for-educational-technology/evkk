@@ -1,105 +1,197 @@
 [#ftl output_format="HTML"]
+[#import "../common/inputs.ftl" as input]
+
 <!-- Dropdown for clause types -->
-<div class="hidden" id="clauseTypeSelectContainer" class="form-group">
-  <label id="clauseType" for="clauseTypeDropdown">Valige Lauseliige</label>
-  <select class="form-control" id="clauseTypeDropdown" name="clauseType">
-    [#list clauseTypes as clauseTypeValue, clauseTypeLabel]
-      <option value="${clauseTypeValue!}">${clauseTypeLabel!}</option>
-    [/#list]
-  </select>
+<div id="clauseTypeSelectContainer" class="form-group hidden">
+  [@input.createDropdown
+      id="clauseTypeDropdown"
+      name="clauseType"
+      valuesMap=clauseTypes
+      labelKey="clause.type.dropdown.label" /]
 </div>
 
 <!-- Additional options for clause types -->
 <!-- Predicate additional options -->
 <div class="clause-additionals-container" id="predicate">
-  <h5>Liik</h5>
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="finitePredicate" name="clauseTypeAdditionals[]" value="@+FMV" />
-    <label class="form-check-label" for="finitePredicate">Pöördeline</label>
+    [@input.createCheckboxWithTooltip
+        id="finitePredicate"
+        name="clauseTypeAdditionals[]"
+        labelKey="PREDICATE.finite.label"
+        value="@FMV"
+        tooltipKey="PREDICATE.finite.tooltip" /]
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="nonFinitePredicate" name="clauseTypeAdditionals[]" value="@-FMV" />
-    <label class="form-check-label" for="nonFinitePredicate">Käändeline</label>
+    [@input.createCheckboxWithTooltip
+        id="auxiliaryFinitePredicate"
+        name="clauseTypeAdditionals[]"
+        labelKey="PREDICATE.auxiliary.finite.label"
+        value="@FCV"
+        tooltipKey="PREDICATE.auxiliary.finite.tooltip" /]
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="auxiliaryFinitePredicate" name="clauseTypeAdditionals[]" value="@+FCV" />
-    <label class="form-check-label" for="auxiliaryFinitePredicate">Abiverbid liitaegades ja modaalverbid ahelverbides (pöördeline vorm)</label>
+    [@input.createCheckboxWithTooltip
+        id="nonFinitePredicate"
+        name="clauseTypeAdditionals[]"
+        labelKey="PREDICATE.non.finite.label"
+        value="@IMV"
+        tooltipKey="PREDICATE.non.finite.tooltip" /]
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="auxiliaryNonFinitePredicate" name="clauseTypeAdditionals[]" value="@-FCV" />
-    <label class="form-check-label" for="auxiliaryNonFinitePredicate">Abiverbid liitaegades ja modaalverbid ahelverbides (käändeline vorm)</label>
+    [@input.createCheckboxWithTooltip
+        id="auxiliaryNonFinitePredicate"
+        name="clauseTypeAdditionals[]"
+        labelKey="PREDICATE.auxiliary.non.finite.label"
+        value="@ICV"
+        tooltipKey="PREDICATE.auxiliary.non.finite.tooltip" /]
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="negationPredicate" name="clauseTypeAdditionals[]" value="@NEG" />
-    <label class="form-check-label" for="negationPredicate">Verbi eitus</label>
+    [@input.createCheckboxWithTooltip
+        id="negationPredicate"
+        name="clauseTypeAdditionals[]"
+        labelKey="PREDICATE.negation.label"
+        value="@NEG"
+        tooltipKey="PREDICATE.negation.tooltip" /]
   </div>
 </div>
 
-<!-- Modifier additional options -->
-<div class="clause-additionals-container" id="modifier">
-  <h5>Liik</h5>
+
+<!-- Quantifier additional options -->
+<div class="clause-additionals-container" id="quantifier">
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="modifierAdjectiveAppositive" name="clauseTypeAdditionals[]" value="@AN>" />
-    <label class="form-check-label" for="modifierAdjectiveAppositive">Omadus- ja järgarvsõna eestäiendina</label>
+    [@input.createCheckboxWithTooltip
+        id="quantifierAppositive"
+        name="clauseTypeAdditionals[]"
+        labelKey="QUANTIFIER.appositive.label"
+        value="@Q>"
+        tooltipKey="QUANTIFIER.appositive.tooltip" /]
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="modifierAdjectivePostposed" name="clauseTypeAdditionals[]" value="@<AN" />
-    <label class="form-check-label" for="modifierAdjectivePostposed">Omadus- ja järgarvsõna järeltäiendina</label>
+    [@input.createCheckboxWithTooltip
+        id="quantifierPostposed"
+        name="clauseTypeAdditionals[]"
+        labelKey="QUANTIFIER.postposed.label"
+        value="@<Q"
+        tooltipKey="QUANTIFIER.postposed.tooltip" /]
+  </div>
+</div>
+
+<!-- Preposition additional options -->
+<div class="clause-additionals-container" id="preposition">
+  <div class="form-check">
+    [@input.createCheckboxWithTooltip
+        id="prepositionAppositive"
+        name="clauseTypeAdditionals[]"
+        labelKey="PREPOSITION.appositive.label"
+        value="@P>"
+        tooltipKey="PREPOSITION.appositive.tooltip" /]
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="modifierAdverbAppositive" name="clauseTypeAdditionals[]" value="@AD>" />
-    <label class="form-check-label" for="modifierAdverbAppositive">Määrsõna eestäiendina</label>
+    [@input.createCheckboxWithTooltip
+        id="prepositionPostposed"
+        name="clauseTypeAdditionals[]"
+        labelKey="PREPOSITION.postposed.label"
+        value="@<P"
+        tooltipKey="PREPOSITION.postposed.tooltip" /]
+  </div>
+</div>
+
+<!-- Attribute additional options -->
+<div class="clause-additionals-container" id="attribute">
+  <div class="form-check">
+    [@input.createCheckboxWithTooltip
+        id="atributeNounAppositive"
+        name="clauseTypeAdditionals[]"
+        labelKey="ATTRIBUTE.noun.appositive.label"
+        value="@NN>"
+        tooltipKey="ATTRIBUTE.noun.appositive.tooltip" /]
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="modifierAdverbPosposed" name="clauseTypeAdditionals[]" value="@<AD" />
-    <label class="form-check-label" for="modifierAdjectivePostposed">Määrsõna järeltäiendina</label>
+    [@input.createCheckboxWithTooltip
+        id="atributeNounPostposed"
+        name="clauseTypeAdditionals[]"
+        labelKey="ATTRIBUTE.noun.postposed.label"
+        value="@<NN"
+        tooltipKey="ATTRIBUTE.noun.postposed.tooltip" /]
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="modifierAdpositionAppositive" name="clauseTypeAdditionals[]" value="@PN>" />
-    <label class="form-check-label" for="modifierAdpositionAppositive">Kaassõna eestäiendina</label>
+    [@input.createCheckboxWithTooltip
+        id="atributeAdjectiveAppositive"
+        name="clauseTypeAdditionals[]"
+        labelKey="ATTRIBUTE.adjective.appositive.label"
+        value="@AN>"
+        tooltipKey="ATTRIBUTE.adjective.appositive.tooltip" /]
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="modifierAdpositionPostposed" name="clauseTypeAdditionals[]" value="@<PN" />
-    <label class="form-check-label" for="modifierAdpositionPostposed">Kaassõna järeltäiendina</label>
+    [@input.createCheckboxWithTooltip
+        id="atributeAdjectivePostposed"
+        name="clauseTypeAdditionals[]"
+        labelKey="ATTRIBUTE.adjective.postposed.label"
+        value="@<AN"
+        tooltipKey="ATTRIBUTE.adjective.postposed.tooltip" /]
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="modifierNounAppositive" name="clauseTypeAdditionals[]" value="@NN>" />
-    <label class="form-check-label" for="modifierNounAppositive">Nimi-, ase- ja põhiarvsõna eestäiendina</label>
+    [@input.createCheckboxWithTooltip
+        id="atributeAdverbAppositive"
+        name="clauseTypeAdditionals[]"
+        labelKey="ATTRIBUTE.adverb.appositive.label"
+        value="@DN>"
+        tooltipKey="ATTRIBUTE.adverb.appositive.tooltip" /]
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="modifierNounPostposed" name="clauseTypeAdditionals[]" value="@<NN" />
-    <label class="form-check-label" for="modifierNounPostposed">Nimi-, ase- ja põhiarvsõna järeltäiendina</label>
+    [@input.createCheckboxWithTooltip
+        id="atributeAdverbPostposed"
+        name="clauseTypeAdditionals[]"
+        labelKey="ATTRIBUTE.adverb.postposed.label"
+        value="@<DN"
+        tooltipKey="ATTRIBUTE.adverb.postposed.tooltip" /]
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="modifierParticibleAppositive" name="clauseTypeAdditionals[]" value="@VN>" />
-    <label class="form-check-label" for="modifierParticibleAppositive">Kesksõna eestäiendina</label>
+    [@input.createCheckboxWithTooltip
+        id="adpositionalPhraseAppositive"
+        name="clauseTypeAdditionals[]"
+        labelKey="ATTRIBUTE.adpositional.phrase.appositive.label"
+        value="@KN>"
+        tooltipKey="ATTRIBUTE.adpositional.phrase.appositive.tooltip" /]
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="modifierParticiblePostposed" name="clauseTypeAdditionals[]" value="@<VN" />
-    <label class="form-check-label" for="modifierParticiblePostposed">Kesksõna järeltäiendina</label>
+    [@input.createCheckboxWithTooltip
+        id="adpositionalPhrasePostposed"
+        name="clauseTypeAdditionals[]"
+        labelKey="ATTRIBUTE.adpositional.phrase.postposed.label"
+        value="@<KN"
+        tooltipKey="ATTRIBUTE.adpositional.phrase.postposed.tooltip" /]
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="modifierVerbAppositive" name="clauseTypeAdditionals[]" value="@INF_N>" />
-    <label class="form-check-label" for="modifierVerbAppositive">Verbi käändeline vorm eestäiendina</label>
+    [@input.createCheckboxWithTooltip
+        id="particibleAppositive"
+        name="clauseTypeAdditionals[]"
+        labelKey="ATTRIBUTE.particible.appositive.label"
+        value="@VN>"
+        tooltipKey="ATTRIBUTE.particible.appositive.tooltip" /]
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="modifierVerbPostposed" name="clauseTypeAdditionals[]" value="@<INF_N" />
-    <label class="form-check-label" for="modifierVerbPostposed">Verbi käändeline vorm järeltäiendina</label>
+    [@input.createCheckboxWithTooltip
+        id="particiblePostposed"
+        name="clauseTypeAdditionals[]"
+        labelKey="ATTRIBUTE.particible.postposed.label"
+        value="@<VN"
+        tooltipKey="ATTRIBUTE.particible.postposed.tooltip" /]
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="modifierPrepositionAppositive" name="clauseTypeAdditionals[]" value="@PP>" />
-    <label class="form-check-label" for="modifierPrepositionAppositive">Eessõna laiend</label>
+    [@input.createCheckboxWithTooltip
+        id="verbAppositive"
+        name="clauseTypeAdditionals[]"
+        labelKey="ATTRIBUTE.verb.appositive.label"
+        value="@INFN>"
+        tooltipKey="ATTRIBUTE.verb.appositive.tooltip" /]
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="modifierPostpositionPostposed" name="clauseTypeAdditionals[]" value="@<PP" />
-    <label class="form-check-label" for="modifierPostpositionPostposed">Tagasõna laiend</label>
-  </div>
-  <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="modifierQuantifierAppositive" name="clauseTypeAdditionals[]" value="@Q>" />
-    <label class="form-check-label" for="modifierQuantifierAppositive">Hulgasõna eeslaiend</label>
-  </div>
-  <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="modifierQuantifierPostposed" name="clauseTypeAdditionals[]" value="@<Q" />
-    <label class="form-check-label" for="modifierQuantifierPostposed">Hulgasõna järellained</label>
+    [@input.createCheckboxWithTooltip
+        id="verbPostposed"
+        name="clauseTypeAdditionals[]"
+        labelKey="ATTRIBUTE.verb.postposed.label"
+        value="@<INFN"
+        tooltipKey="ATTRIBUTE.verb.postposed.tooltip" /]
   </div>
 </div>

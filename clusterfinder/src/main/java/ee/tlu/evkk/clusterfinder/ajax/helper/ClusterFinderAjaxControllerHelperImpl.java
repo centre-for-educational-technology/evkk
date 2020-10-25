@@ -71,8 +71,7 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
       .wordPluralType(paramsMap.get(wordType.name() + "-pluralType[]"))
       .wordStepType(paramsMap.get(wordType.name() + "-stepType[]"))
       .perspectiveType(paramsMap.get(wordType.name() + "-perspectiveType[]"))
-      .speechType(paramsMap.get(wordType.name() + "-speechType[]"))
-      .wordRectionType(paramsMap.get(wordType.name() + "-rectionType[]"));
+      .speechType(paramsMap.get(wordType.name() + "-speechType[]"));
   }
 
   private boolean asBoolean(String value) {

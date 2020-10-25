@@ -6,31 +6,31 @@ import java.util.stream.Collectors;
 
 public enum WordType {
 
-  ALL( "ALL", "Kõik" ),
-  VERB( "V", "Verb" ),
-  SUBJECT( "S", "Nimisõna" ),
-  ADJECTIVE( "A", "Omadussõna" ),
-  PRONOUN( "P", "Asesõna" ),
-  NUMERAL( "N", "Arvsõna" ),
-  ADVERB( "D", "Määrsõna" ),
-  CONJUNCTION( "J", "Sidesõna" ),
-  ADPOSITION( "K", "Kaassõna" ),
-  ABBREVIATION( "Y", "Lühend" );
+  ALL( "ALL", "word.type.all" ),
+  VERB( "V", "word.type.verb" ),
+  SUBJECT( "S", "word.type.subject" ),
+  ADJECTIVE( "A", "word.type.adjective" ),
+  PRONOUN( "P", "word.type.pronoun" ),
+  NUMERAL( "N", "word.type.numeral" ),
+  ADVERB( "D", "word.type.adverb" ),
+  CONJUNCTION( "J", "word.type.conjunction" ),
+  ADPOSITION( "K", "word.type.adposition" ),
+  ABBREVIATION( "Y", "word.type.abbreviation" );
 
-  private final String labelEst;
+  private final String labelKey;
 
   private final String value;
 
   private static final Map< String, WordType > VALUE_TO_WORD_MAP = Arrays.stream(WordType.values())
     .collect(Collectors.toMap(WordType::getValue, w -> w));
 
-  WordType( String value, String labelEst ) {
+  WordType( String value, String labelKey ) {
     this.value = value;
-    this.labelEst = labelEst;
+    this.labelKey = labelKey;
   }
 
-  public String getLabelEst() {
-    return labelEst;
+  public String getLabelKey() {
+    return labelKey;
   }
 
   public String getValue() {
