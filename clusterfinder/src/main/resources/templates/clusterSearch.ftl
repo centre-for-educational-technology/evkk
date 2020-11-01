@@ -81,8 +81,9 @@
       <form id="cluster-form">
         <input type="hidden" name="formId" id="formId" value="${formId!}">
         <div class="form-group">
-          <label for="analysisLength">Sõnajärjendi pikkus</label>
+          <label for="analysisLength">[@translations.retrieveTranslation "common.analysis.length.label" /]</label>
           <select id="analysisLength" name="analysisLength" class="form-control">
+              <option value="">[@translations.retrieveTranslation "common.select.one.analysis.length" /]</option>
             [#list 1..5 as length]
               <option value="${length!}">${length!}</option>
             [/#list]
@@ -90,7 +91,7 @@
         </div>
 
         <div class="form-group">
-          <label for="userText">[@translations.retrieveTranslation "text.input.label" /]</label>
+          <label for="userText">[@translations.retrieveTranslation "common.text.input.label" /]</label>
           <textarea class="form-control" rows="5" name="userText" id="userText"></textarea>
         </div>
 
@@ -126,18 +127,24 @@
         </div>
 
         <!-- Sorting checkboxes -->
-        <h5>Reasta</h5>
+        <h5>[@translations.retrieveTranslation "common.sorting.header" /]</h5>
         <div class="form-check">
-          <input class="form-check-input sorting-cbox" type="checkbox" id="sortingByFreq" name="sorting" value="freq">
-          <label class="form-check-label" for="sortingByFreq">Sageduse järgi</label>
+          [@input.createCheckbox id="sortByFreq" name="sorting" labelKey="sorting.by.frequency" value="freq" /]
         </div>
-        <div class="form-check">
-          <input class="form-check-input sorting-cbox" type="checkbox" id="sortingByScomp" name="sorting" value="scomp">
-          <label class="form-check-label" for="sortingByScomp">Alguskomponendi järgi</label>
+        <div class="form-check hidden" data-word-sort="1">
+          [@input.createCheckbox id="sortByFirstWord" name="sorting" labelKey="sorting.by.first.word" value="fwrd" /]
         </div>
-        <div class="form-check">
-          <input class="form-check-input sorting-cbox" type="checkbox" id="sortingByEcomp" name="sorting" value="ecomp">
-          <label class="form-check-label" for="sortingByEcomp">Lõpukomponendi järgi</label>
+        <div class="form-check hidden" data-word-sort="2">
+          [@input.createCheckbox id="sortBySecondWord" name="sorting" labelKey="sorting.by.second.word" value="swrd" /]
+        </div>
+        <div class="form-check hidden" data-word-sort="3">
+          [@input.createCheckbox id="sortByThirdWord" name="sorting" labelKey="sorting.by.third.word" value="twrd" /]
+        </div>
+        <div class="form-check hidden" data-word-sort="4">
+          [@input.createCheckbox id="sortByFourthWord" name="sorting" labelKey="sorting.by.fourth.word" value="fowrd" /]
+        </div>
+        <div class="form-check hidden" data-word-sort="5">
+          [@input.createCheckbox id="sortByFifthWord" name="sorting" labelKey="sorting.by.fifth.word" value="fiwrd" /]
         </div>
 
         [#include "form/clauseTypeFragment.ftl" ]
@@ -162,10 +169,10 @@
       <table class="table table-bordered w-top-margin" id="clustersTable">
         <thead>
           <tr>
-            <th class="sort" data-sort="frequency">Sagedus</th>
-            <th class="sort" data-sort="description">Kirjeldus</th>
-            <th class="sort" data-sort="markups">Märgendid</th>
-            <th class="sort" data-sort="usages">Kasutused tekstis</th>
+            <th class="sort" data-sort="frequency">[@translations.retrieveTranslation "common.sorting.header.frequency"/]</th>
+            <th class="sort" data-sort="description">[@translations.retrieveTranslation "common.sorting.header.description" /]</th>
+            <th class="sort" data-sort="markups">[@translations.retrieveTranslation "common.sorting.header.markups" /]</th>
+            <th class="sort" data-sort="usages">[@translations.retrieveTranslation "common.sorting.header.usages" /]</th>
           </tr>
         </thead>
         <tbody class="list">
@@ -179,15 +186,14 @@
     <!-- Loading spinner -->
     <div id="loadingSpinner" class="spinner-overlay hidden text-center">
       <div class="spinner-border centered-spinner text-primary large-spinner" role="status">
-        <span class="sr-only">Klasterdan...</span>
+        <span class="sr-only">[@translations.retrieveTranslation "common.loading.text" /]</span>
       </div>
     </div>
   </body>
   <script>
     const ClusterSearchForm = {
 
-      STARTING_COMPONENT_SORT: $("#sortingByScomp"),
-      ENDING_COMPONENT_SORT: $("#sortingByEcomp"),
+      SORTING_OPTIONS: undefined,
       CLUSTERS_LIST: undefined,
       OPTIONS: {
         valueNames: ["frequency", "description", "markups", "usages"],
@@ -202,13 +208,15 @@
       init: function () {
         ClusterSearchForm.clauseType.init();
         ClusterSearchForm.wordType.init();
+        ClusterSearchForm.prepareSortingOptions();
         ClusterSearchForm.initSortingCheckboxes();
 
-        // Initialize tooltips
-        $(function () {
-          $('[data-toggle="tooltip"]').tooltip()
-        })
+        $("#analysisLength").change(ClusterSearchForm.handleAnalysisLengthChange);
 
+        // Initialize tooltips
+        $('[data-toggle="tooltip"]').tooltip()
+
+        // Initially hide all the additional option containers
         $(".additionals-container").hide();
 
         $("#morfoAnalysis, #syntacticAnalysis, #punctuationAnalysis").change(function () {
@@ -221,14 +229,7 @@
           }
         });
 
-        $("#wordtypeAnalysis").change(function () {
-          $("#morfoAnalysis").prop("checked", false);
-          $("#syntacticAnalysis").prop("checked", false);
-          $("#punctuationAnalysis").prop("checked", false);
-          if (ClusterSearchForm.helpers.isComponentSortingSelected()) {
-            ClusterSearchForm.handleComponentSortingSelection();
-          }
-        });
+        $("#wordtypeAnalysis").change(ClusterSearchForm.handleWordTypeAnalysisChange);
 
         $("#punctuationAnalysis").change(function () {
           $("#punctuationSelectContainer").toggle($(this).is(":checked"));
@@ -237,10 +238,27 @@
         $("#submitBtn").click(ClusterSearchForm.ajax.clusterText);
       },
 
+      prepareSortingOptions: function() {
+         const $sortingByFirst = $("div[data-word-sort='1']");
+         const $sortingBySecond = $("div[data-word-sort='2']");
+         const $sortingByThird = $("div[data-word-sort='3']");
+         const $sortingByFourth = $("div[data-word-sort='4']");
+         const $sortingByFifth = $("div[data-word-sort='5']");
+
+         // Constructing an object containing references to different option selector, for better accessability
+         ClusterSearchForm.SORTING_OPTIONS = {
+           "1": [$sortingByFirst],
+           "2": [$sortingByFirst, $sortingBySecond],
+           "3": [$sortingByFirst, $sortingBySecond, $sortingByThird],
+           "4": [$sortingByFirst, $sortingBySecond, $sortingByThird, $sortingByFourth],
+           "5": [$sortingByFirst, $sortingBySecond, $sortingByThird, $sortingByFourth, $sortingByFifth]
+         };
+      },
+
       initSortingCheckboxes: function() {
-        $(".sorting-cbox").change(function () {
+        $("input[name='sorting']").change(function () {
           // Uncheck other options
-          $(".sorting-cbox").not(this).prop("checked", false);
+          $("input[name='sorting']").not(this).prop("checked", false);
 
           if (ClusterSearchForm.helpers.isComponentSortingSelected()) {
             ClusterSearchForm.handleComponentSortingSelection();
@@ -274,9 +292,27 @@
         }
       },
 
+      handleAnalysisLengthChange: function() {
+        ClusterSearchForm.helpers.hideAndResetWordSortingCheckboxes();
+        if ($(this).val() !== "") {
+          ClusterSearchForm.SORTING_OPTIONS[$(this).val()].forEach(element => element.show())
+        }
+      },
+
+      handleWordTypeAnalysisChange: function() {
+        $("#morfoAnalysis").prop("checked", false);
+        $("#syntacticAnalysis").prop("checked", false);
+        $("#punctuationAnalysis").prop("checked", false);
+        if (ClusterSearchForm.helpers.isComponentSortingSelected()) {
+          ClusterSearchForm.handleComponentSortingSelection();
+        }
+      },
+
       clauseType: {
-        MODIFIER_ADDITIONAL_OPTIONS: $("#modifier"),
+        QUANTIFIER_ADDITIONAL_OPTIONS: $("#quantifier"),
         PREDICATE_ADDITIONAL_OPTIONS: $("#predicate"),
+        PREPOSITION_ADDITIONAL_OPTIONS: $("#preposition"),
+        ATTRIBUTE_ADDITIONAL_OPTIONS: $("#attribute"),
 
         init: function () {
           $(".clause-additionals-container").hide();
@@ -285,23 +321,14 @@
         },
 
         toggleAdditionalOptions: function () {
-          // Reset additional option selections on type change
-          $(".clause-additionals-container input[type='checkbox']").prop("checked", false);
-
           const selectedValue = $("#clauseTypeDropdown").val();
-          switch(selectedValue) {
-            case 'F':
-              ClusterSearchForm.clauseType.MODIFIER_ADDITIONAL_OPTIONS.hide();
-              ClusterSearchForm.clauseType.PREDICATE_ADDITIONAL_OPTIONS.show();
-              break;
-            case 'M':
-              ClusterSearchForm.clauseType.PREDICATE_ADDITIONAL_OPTIONS.hide();
-              ClusterSearchForm.clauseType.MODIFIER_ADDITIONAL_OPTIONS.show();
-              break;
-            default:
-              ClusterSearchForm.clauseType.PREDICATE_ADDITIONAL_OPTIONS.hide();
-              ClusterSearchForm.clauseType.MODIFIER_ADDITIONAL_OPTIONS.hide();
-              break;
+          if (selectedValue === "ALL") {
+            $("div.clause-additionals-container").hide();
+            $("div.clause-additionals-container").find("input[type='checkbox']").prop("checked", false);
+          } else {
+            $("div.clause-additionals-container:not([data-clause-group='"+ selectedValue + "'])").hide();
+            $("div.clause-additionals-container:not([data-clause-group='"+ selectedValue + "'])").find("input[type='checkbox']").prop("checked", false);
+            $("div.clause-additionals-container[data-clause-group='"+ selectedValue +"']").show();
           }
         }
       },
@@ -529,7 +556,16 @@
 
       helpers: {
         isComponentSortingSelected: function() {
-          return ClusterSearchForm.STARTING_COMPONENT_SORT.is(":checked") || ClusterSearchForm.ENDING_COMPONENT_SORT.is(":checked");
+          const selectedValue = $("input[name='sorting']:checked").val();
+          return selectedValue === "fwrd" ||
+                 selectedValue === "swrd" ||
+                 selectedValue === "twrd" ||
+                 selectedValue === "fowrd" ||
+                 selectedValue === "fiwrd";
+        },
+
+        hideAndResetWordSortingCheckboxes: function() {
+          ClusterSearchForm.SORTING_OPTIONS["5"].forEach(element => element.hide().find("input[type='checkbox']").prop("checked", false).change());
         },
 
         hideAndResetDropdowns: function () {

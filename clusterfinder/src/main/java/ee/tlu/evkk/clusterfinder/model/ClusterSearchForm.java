@@ -1,7 +1,6 @@
 package ee.tlu.evkk.clusterfinder.model;
 
 import ee.tlu.evkk.clusterfinder.constants.ClauseType;
-import ee.tlu.evkk.clusterfinder.constants.InputType;
 import ee.tlu.evkk.clusterfinder.constants.PunctuationType;
 import ee.tlu.evkk.clusterfinder.constants.WordType;
 import lombok.Builder;
@@ -12,8 +11,6 @@ import lombok.Getter;
 public class ClusterSearchForm {
 
   private final String formId;
-
-  private final InputType inputType;
 
   private final String fileName;
 

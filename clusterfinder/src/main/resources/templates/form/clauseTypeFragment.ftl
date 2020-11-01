@@ -12,7 +12,7 @@
 
 <!-- Additional options for clause types -->
 <!-- Predicate additional options -->
-<div class="clause-additionals-container" id="predicate">
+<div class="clause-additionals-container" id="predicate" data-clause-group="F">
   <div class="form-check">
     [@input.createCheckboxWithTooltip
         id="finitePredicate"
@@ -57,7 +57,7 @@
 
 
 <!-- Quantifier additional options -->
-<div class="clause-additionals-container" id="quantifier">
+<div class="clause-additionals-container" id="quantifier" data-clause-group="QM">
   <div class="form-check">
     [@input.createCheckboxWithTooltip
         id="quantifierAppositive"
@@ -77,7 +77,7 @@
 </div>
 
 <!-- Preposition additional options -->
-<div class="clause-additionals-container" id="preposition">
+<div class="clause-additionals-container" id="preposition" data-clause-group="AP">
   <div class="form-check">
     [@input.createCheckboxWithTooltip
         id="prepositionAppositive"
@@ -97,7 +97,7 @@
 </div>
 
 <!-- Attribute additional options -->
-<div class="clause-additionals-container" id="attribute">
+<div class="clause-additionals-container" id="attribute" data-clause-group="AT">
   <div class="form-check">
     [@input.createCheckboxWithTooltip
         id="atributeNounAppositive"
