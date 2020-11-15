@@ -1,5 +1,6 @@
 package ee.tlu.evkk.clusterfinder.ajax.helper;
 
+import ee.tlu.evkk.clusterfinder.exception.InvalidInputException;
 import ee.tlu.evkk.clusterfinder.service.model.ClusterResult;
 import org.springframework.http.ResponseEntity;
 
@@ -8,6 +9,6 @@ import java.io.IOException;
 
 public interface ClusterFinderAjaxControllerHelper {
 
-  ResponseEntity<ClusterResult> clusterText(HttpServletRequest request) throws IOException;
+  ResponseEntity<ClusterResult> clusterText(HttpServletRequest request) throws IOException, InvalidInputException;
 
 }

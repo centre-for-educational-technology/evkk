@@ -1,7 +1,6 @@
 package ee.tlu.evkk.clusterfinder.model;
 
 import ee.tlu.evkk.clusterfinder.constants.ClauseType;
-import ee.tlu.evkk.clusterfinder.constants.PunctuationType;
 import ee.tlu.evkk.clusterfinder.constants.WordType;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,8 +12,6 @@ public class ClusterSearchForm {
   private final String formId;
 
   private final String fileName;
-
-  private final String text;
 
   private final int analysisLength;
 
@@ -32,11 +29,11 @@ public class ClusterSearchForm {
 
   private final ClauseType clauseType;
 
-  private final PunctuationType punctuationType;
-
   private final String[] clauseTypeAdditionals;
 
   private final String[] wordSubType;
+
+  private final String[] wordFiniteType;
 
   private final String[] wordCaseType;
 
@@ -44,7 +41,19 @@ public class ClusterSearchForm {
 
   private final String[] wordStepType;
 
-  private final String[] perspectiveType;
+  private final String[] wordPerspectiveType;
 
-  private final String[] speechType;
+  private final String[] wordTimeType;
+
+  private final String[] wordVoiceType;
+
+  private final String[] wordSpeechSubtype;
+
+  private final String[] wordSubTypeVK;
+
+  private final String[] wordSubTypeVKPartic;
+
+  private final String[] wordSubTypeVKSup;
+
+  private final String[] wordSpeechType;
 }

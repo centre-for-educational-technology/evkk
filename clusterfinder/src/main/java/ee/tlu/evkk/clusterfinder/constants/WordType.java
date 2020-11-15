@@ -15,7 +15,8 @@ public enum WordType {
   ADVERB( "D", "word.type.adverb" ),
   CONJUNCTION( "J", "word.type.conjunction" ),
   ADPOSITION( "K", "word.type.adposition" ),
-  ABBREVIATION( "Y", "word.type.abbreviation" );
+  ABBREVIATION( "Y", "word.type.abbreviation" ),
+  PUNCTUATION( "Z", "word.type.punctuation" );
 
   private final String labelKey;
 

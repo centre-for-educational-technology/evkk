@@ -31,8 +31,9 @@ public class ClusterServiceImpl implements ClusterService {
 
     try
     {
-      String markedText = markFreeText(searchForm.getText(), searchForm.getFormId());
-      return resultMapper.mapResults(clusterMarkedText(markedText, clusteringParams), searchForm.getAnalysisLength());
+      String markedText = markText(searchForm.getFileName(), searchForm.getFormId());
+      String clusteredText = clusterMarkedText(markedText, clusteringParams);
+      return resultMapper.mapResults(clusteredText, searchForm);
     }
     catch (IOException e)
     {
@@ -50,7 +51,7 @@ public class ClusterServiceImpl implements ClusterService {
       sb.append("-m").append(" ");
     }
 
-    if (searchForm.isSyntacticAnalysis()) {
+      if (searchForm.isSyntacticAnalysis()) {
       sb.append("-s").append(" ");
     }
 
@@ -67,17 +68,11 @@ public class ClusterServiceImpl implements ClusterService {
     return sb.toString();
   }
 
-  private String markFreeText(String text, String formId) throws IOException
+  private String markText(String fileName, String formId) throws IOException
   {
-    ProcessBuilder markingProcess = new ProcessBuilder("python", "free_text_marker.py", formId, "\""+text+"\"");
+    ProcessBuilder markingProcess = new ProcessBuilder("python", "file_text_marker.py", fileName, formId);
     markingProcess.directory(new File("clusterfinder/src/main/resources/scripts").getAbsoluteFile());
     return queryProcess(markingProcess);
-  }
-
-  private String markFileBasedText(String fileName, String formId) throws IOException
-  {
-    // TODO: Add method body
-    return null;
   }
 
   private String clusterMarkedText(String markedTextFile, String clusteringParams) throws IOException

@@ -2,6 +2,7 @@ package ee.tlu.evkk.clusterfinder.ajax;
 
 import ee.tlu.evkk.clusterfinder.ajax.helper.ClusterFinderAjaxControllerHelper;
 import ee.tlu.evkk.clusterfinder.constants.AjaxConsts;
+import ee.tlu.evkk.clusterfinder.exception.InvalidInputException;
 import ee.tlu.evkk.clusterfinder.service.model.ClusterResult;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,9 @@ public class ClusterFinderAjaxController {
   }
 
   @PostMapping( value = AjaxConsts.CLUSTER_TEXT)
-  public ResponseEntity<ClusterResult> executeClusterSearch(HttpServletRequest request) throws IOException {
+  public ResponseEntity<ClusterResult> executeClusterSearch(HttpServletRequest request)
+      throws IOException, InvalidInputException
+  {
     return clusterFinderAjaxControllerHelper.clusterText(request);
   }
 }

@@ -19,7 +19,8 @@ public class ClusterFinderTemplate {
 
   private static final Map< String, String > AJAX_URLS = Map.ofEntries(
     Map.entry( "clusterText", AjaxConsts.CLUSTER_TEXT),
-    Map.entry( "clusterDownload", AjaxConsts.CLUSTER_DOWNLOAD )
+    Map.entry( "clusterDownload", AjaxConsts.CLUSTER_DOWNLOAD ),
+    Map.entry( "uploadFile", AjaxConsts.FILE_UPLOAD )
   );
 
   private final EvkkClient evkkClient;
@@ -50,13 +51,6 @@ public class ClusterFinderTemplate {
   {
     return Arrays.stream(WordType.values())
                  .collect(Collectors.toMap(WordType::getValue, WordType::getLabelKey));
-  }
-
-  @ModelAttribute("punctuationTypes")
-  public Map< String, String > getPunctuationTypes()
-  {
-    return Arrays.stream(PunctuationType.values())
-                 .collect(Collectors.toMap(PunctuationType::getValue, PunctuationType::getLabelKey));
   }
 
   @ModelAttribute("clauseTypes")
