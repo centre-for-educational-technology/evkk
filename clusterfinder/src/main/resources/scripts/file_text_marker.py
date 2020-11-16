@@ -1,3 +1,4 @@
+import sys
 from estnltk.syntax.parsers import VISLCG3Parser
 from estnltk import Text
 
