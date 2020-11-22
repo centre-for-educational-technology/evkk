@@ -4,6 +4,8 @@ import ee.tlu.evkk.clusterfinder.constants.ClauseType;
 import ee.tlu.evkk.clusterfinder.constants.InputType;
 import ee.tlu.evkk.clusterfinder.constants.WordType;
 import ee.tlu.evkk.clusterfinder.exception.InvalidInputException;
+import ee.tlu.evkk.clusterfinder.filters.ClauseTypeFilterFactory;
+import ee.tlu.evkk.clusterfinder.filters.WordTypeFilterFactory;
 import ee.tlu.evkk.clusterfinder.model.ClusterSearchForm;
 import ee.tlu.evkk.clusterfinder.service.ClusterService;
 import ee.tlu.evkk.clusterfinder.service.model.ClusterResult;
@@ -22,8 +24,16 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
 
   private final ClusterService clusterService;
 
-  ClusterFinderAjaxControllerHelperImpl(ClusterService clusterService) {
+  private final WordTypeFilterFactory wordTypeFilterFactory;
+
+  private final ClauseTypeFilterFactory clauseTypeFilterFactory;
+
+  ClusterFinderAjaxControllerHelperImpl(ClusterService clusterService, WordTypeFilterFactory wordTypeFilterFactory,
+      ClauseTypeFilterFactory clauseTypeFilterFactory)
+  {
     this.clusterService = clusterService;
+    this.wordTypeFilterFactory = wordTypeFilterFactory;
+    this.clauseTypeFilterFactory = clauseTypeFilterFactory;
   }
 
   @Override
@@ -66,13 +76,8 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
       .sortingType(request.getParameter("sorting"))
       .wordType(wordType)
       .clauseType(clauseType)
-      .clauseTypeAdditionals(paramsMap.get("clauseTypeAdditionals[]"))
-      .wordSubType(paramsMap.get(wordType.name() + "-subType[]"))
-      .wordCaseType(paramsMap.get(wordType.name() + "-caseType[]"))
-      .wordPluralType(paramsMap.get(wordType.name() + "-pluralType[]"))
-      .wordStepType(paramsMap.get(wordType.name() + "-stepType[]"))
-      .wordPerspectiveType(paramsMap.get(wordType.name() + "-perspectiveType[]"))
-      .wordSpeechType(paramsMap.get(wordType.name() + "-speechType[]"));
+      .clauseTypeFilters(clauseTypeFilterFactory.getFilter(clauseType).getClauseTypeFilters(paramsMap))
+      .wordTypeFilters(wordTypeFilterFactory.getFilter(wordType).getWordTypeFilters(paramsMap));
   }
 
   private void handleTextInputMethod(ClusterSearchForm.ClusterSearchFormBuilder formBuilder, HttpServletRequest request)

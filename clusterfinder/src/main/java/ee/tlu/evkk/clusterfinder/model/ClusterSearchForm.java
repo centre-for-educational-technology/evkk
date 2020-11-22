@@ -5,6 +5,8 @@ import ee.tlu.evkk.clusterfinder.constants.WordType;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 @Builder
 public class ClusterSearchForm {
@@ -28,6 +30,10 @@ public class ClusterSearchForm {
   private final WordType wordType;
 
   private final ClauseType clauseType;
+
+  private final List < String > wordTypeFilters;
+
+  private final List < String > clauseTypeFilters;
 
   private final String[] clauseTypeAdditionals;
 

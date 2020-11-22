@@ -9,7 +9,7 @@
     * tooltipKey - optional, when present adds a tooltip, which is displayed when hovering over the element
 --]
 [#macro createCheckbox id name labelKey value tooltipKey=""]
-  <input class="form-check-input" type="checkbox" id="${id!}" name="${name!}" value=${value!true}>
+  <input class="form-check-input" type="checkbox" id="${id!}" name="${name!}" value="${value!true?c}">
   <label class="form-check-label"
          for="${id!}"
          [#if tooltipKey?has_content]
@@ -20,7 +20,7 @@
   >[@translations.retrieveTranslation labelKey /]</label>
 [/#macro]
 
-[#macro createCheckboxWithTooltip id name labelKey tooltipKey value=""]
+[#macro createCheckboxWithTooltip id name labelKey tooltipKey value="true"]
   [@createCheckbox id name labelKey value tooltipKey /]
 [/#macro]
 
