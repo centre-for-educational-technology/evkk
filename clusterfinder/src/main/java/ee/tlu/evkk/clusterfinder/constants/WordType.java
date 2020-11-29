@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public enum WordType {
-
+public enum WordType
+{
   ALL( "ALL", "word.type.all" ),
   VERB( "V", "word.type.verb" ),
   SUBJECT( "S", "word.type.subject" ),

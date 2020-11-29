@@ -19,6 +19,10 @@ public class ClusterResultMapper {
 
   private static final int USAGES_START_INDEX_OFFSET = 2;
 
+  private static final String ADJECTIVE_TYPE_A = "_A_";
+
+  private static final String ADJECTIVE_TYPE_G = "_G_";
+
   public ClusterResult mapResults(String clusteredText, ClusterSearchForm searchForm)
   {
     if ( clusteredText == null || clusteredText.isEmpty() )
@@ -99,7 +103,7 @@ public class ClusterResultMapper {
     }
     else if ( isWordTypeAnalysis )
     {
-      return filterEntriesByWordType( entry.getMarkups(), searchForm.getWordType(), searchForm.getWordTypeFilters() );
+      return filterEntriesByWordType( entry.getMarkups(), searchForm.getWordType() );
     }
 
     return true;
@@ -132,7 +136,7 @@ public class ClusterResultMapper {
     return CollectionUtils.containsAny( entryMarkups, wordTypeFilters );
   }
 
-  private boolean filterEntriesByWordType(List<String> markups, WordType wordType, List<String> wordTypeFilters)
+  private boolean filterEntriesByWordType(List<String> markups, WordType wordType)
   {
     if ( wordType == WordType.ALL )
     {
@@ -141,8 +145,7 @@ public class ClusterResultMapper {
 
     if ( wordType == WordType.ADJECTIVE )
     {
-      String firstFilter = wordTypeFilters.get(0);
-      return markups.contains( "_" + firstFilter.substring( 0, firstFilter.indexOf( ' ' ) ) + "_" );
+      return markups.contains( ADJECTIVE_TYPE_A ) || markups.contains( ADJECTIVE_TYPE_G );
     }
 
     return markups.contains( "_" + wordType.getValue() + "_" );

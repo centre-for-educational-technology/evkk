@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public enum ClauseType {
-
+public enum ClauseType
+{
   ALL( "ALL", "clause.type.all" ),
   PREDICATE( "F", "clause.type.predicate" ),
   BASIS( "@SUBJ", "clause.type.basis" ),

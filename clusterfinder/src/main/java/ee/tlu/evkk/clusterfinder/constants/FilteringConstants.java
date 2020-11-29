@@ -2,6 +2,8 @@ package ee.tlu.evkk.clusterfinder.constants;
 
 public class FilteringConstants
 {
+  public static final String CLAUSE_TYPE_SEPARATOR = "//";
+
   public static final String WORD_SUBTYPE_PARAM_SUFFIX = "-subType[]";
 
   public static final String WORD_PERSPECTIVE_TYPE_PARAM_SUFFIX = "-perspectivetype[]";

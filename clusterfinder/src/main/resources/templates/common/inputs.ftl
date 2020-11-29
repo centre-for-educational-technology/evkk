@@ -24,6 +24,17 @@
   [@createCheckbox id name labelKey value tooltipKey /]
 [/#macro]
 
+[#-- Creates a radio input element with the following parameters:
+    * id - id of the input element
+    * name - name of the input element
+    * labelKey - label to show beside the input element (must be a translation key)
+    * value - value of the input element
+--]
+[#macro createRadio id name labelKey value]
+  <input class="form-check-input" type="radio" id="${id!}" name="${name!}" value="${value!true?c}">
+  <label class="form-check-label"for="${id!}">[@translations.retrieveTranslation labelKey /]</label>
+[/#macro]
+
 [#-- Creates a dropdonw input element with the following parameters:
     * id - id of the input element
     * name - name of the input element

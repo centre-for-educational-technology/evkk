@@ -58,6 +58,11 @@
         margin-top: 25px;
       }
 
+      .w-separation {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+
       .label-w-top-margin {
         margin-top: 15px;
       }
@@ -93,13 +98,25 @@
           </select>
         </div>
 
-        <div class="form-group">
-          <label for="userText">[@translations.retrieveTranslation "common.text.input.label" /]</label>
-          <textarea class="form-control" rows="5" name="userText" id="userText"></textarea>
+        <!-- Input type selection -->
+        <h5>[@translations.retrieveTranslation "common.input.type.header" /]</h5>
+        <div class="form-check">
+          [@input.createRadio id="freeTextInput" name="inputType" labelKey="input.type.free.text.label" value="FREE_TEXT" /]
+          <div id="freeText" class="form-group w-separation hidden">
+            <label for="userText">[@translations.retrieveTranslation "common.text.input.label" /]</label>
+            <textarea class="form-control" rows="5" name="userText" id="userText"></textarea>
+          </div>
+        </div>
+        <div class="form-check">
+          [@input.createRadio id="fileBasedInput" name="inputType" labelKey="input.type.file.text.label" value="FILE_BASED_TEXT" /]
+          <div id="fileText" class="custom-file w-separation hidden">
+            <input type="file" class="custom-file-input" id="userFile">
+            <label class="custom-file-label" for="userFile">[@translations.retrieveTranslation "common.choose.file" /]</label>
+          </div>
         </div>
 
         <!-- Basic search checkboxes -->
-        <h5>Analüüs</h5>
+        <h5>[@translations.retrieveTranslation "common.analysis.header" /]</h5>
         <div class="form-check">
           [@input.createCheckboxWithTooltip
               id="morfoAnalysis"
@@ -204,6 +221,7 @@
         ClusterSearchForm.wordType.init();
         ClusterSearchForm.prepareSortingOptions();
         ClusterSearchForm.initSortingCheckboxes();
+        ClusterSearchForm.initInputTypeRadios();
 
         $("#analysisLength").change(ClusterSearchForm.handleAnalysisLengthChange);
 
@@ -213,11 +231,15 @@
         // Initially hide all the additional option containers
         $(".additionals-container").hide();
 
+        // Initially select the free text input type
+        $("#freeTextInput").click();
+
         $("#morfoAnalysis, #syntacticAnalysis, #punctuationAnalysis").change(function () {
           $("#wordtypeAnalysis").prop("checked", false);
         });
 
         $("#morfoAnalysis, #syntacticAnalysis").change(function() {
+          ClusterSearchForm.helpers.hideAndResetDropdowns();
           if (ClusterSearchForm.helpers.isComponentSortingSelected()) {
             ClusterSearchForm.handleComponentSortingSelection();
           }
@@ -258,6 +280,14 @@
         });
       },
 
+      initInputTypeRadios: function() {
+        $("input:radio[name='inputType']").change( function () {
+          const freeTextSelected = $(this).val() === "FREE_TEXT";
+          $("#freeText").toggle(freeTextSelected);
+          $("#fileText").toggle(!freeTextSelected);
+        });
+      },
+
       handleComponentSortingSelection: function() {
         const isMorfo = $("#morfoAnalysis").is(":checked");
         const isSyntactic = $("#syntacticAnalysis").is(":checked");
@@ -293,6 +323,8 @@
         $("#morfoAnalysis").prop("checked", false);
         $("#syntacticAnalysis").prop("checked", false);
         $("#punctuationAnalysis").prop("checked", false);
+
+        ClusterSearchForm.helpers.hideAndResetDropdowns();
         if (ClusterSearchForm.helpers.isComponentSortingSelected()) {
           ClusterSearchForm.handleComponentSortingSelection();
         }
@@ -305,8 +337,8 @@
         ATTRIBUTE_ADDITIONAL_OPTIONS: $("#attribute"),
 
         init: function () {
-          $(".clause-additionals-container").hide();
           $("#clauseTypeDropdown option[value='ALL']").click();
+          $(".clause-additionals-container").hide();
           $("#clauseTypeDropdown").change(ClusterSearchForm.clauseType.toggleAdditionalOptions);
         },
 
@@ -337,9 +369,10 @@
         toggleAdditionalFields: function () {
           // Additional options can only be shown when the word type analysis is not selected
           const selectedValue = $("#wordTypeDropdown").val();
+          const wordTypeAnalysisSelected = $("#wordtypeAnalysis").is(":checked");
 
           // Hide other additional option checkboxes and show the correct ones
-          if (selectedValue === "ALL") {
+          if (selectedValue === "ALL" || wordTypeAnalysisSelected) {
             $("div.additionals-container").hide();
             $("div.additionals-container").find("input[type='checkbox']").prop("checked", false);
           } else {
@@ -532,6 +565,7 @@
             ClusterSearchForm.CLUSTERS_LIST.clear();
           }
         }
+        // TODO: Add file uploading support
       },
 
       loader: {

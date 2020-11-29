@@ -36,6 +36,5 @@ public class ClauseTypeFilterFactory
       default:
         throw new UnsupportedOperationException( "Invalid clause type provided" );
     }
-
   }
 }
