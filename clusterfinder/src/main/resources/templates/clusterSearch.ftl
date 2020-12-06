@@ -85,7 +85,6 @@
 
       <form id="cluster-form">
         <input type="hidden" name="formId" id="formId" value="${formId!}">
-        <input type="hidden" name="inputType" id="inputType" value="FREE_TEXT">
         <input type="hidden" name="fileName" id="fileName" value="">
 
         <div class="form-group">
@@ -233,6 +232,7 @@
 
         // Initially select the free text input type
         $("#freeTextInput").click();
+        $("#userFile").change(ClusterSearchForm.ajax.uploadFile);
 
         $("#morfoAnalysis, #syntacticAnalysis, #punctuationAnalysis").change(function () {
           $("#wordtypeAnalysis").prop("checked", false);
@@ -564,8 +564,32 @@
           if (ClusterSearchForm.CLUSTERS_LIST) {
             ClusterSearchForm.CLUSTERS_LIST.clear();
           }
+        },
+
+        uploadFile: function (event) {
+          const file = event.target.files[0];
+          const formData = new FormData();
+          formData.append("file", file);
+
+          $.ajax({
+            method: "POST",
+            url: "${ajaxUrls.uploadFile}",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+              // Update the form's hidden parameter
+              $("#fileName").val(file.name);
+              $(".custom-file-label").html(file.name);
+            },
+            error: function(data) {
+              // Empty the value
+              // TODO: Add notification displaying support for this
+              $("#fileName").val("");
+              $(".custom-file-label").html("[@translations.retrieveTranslation "common.choose.file" /]");
+            }
+          });
         }
-        // TODO: Add file uploading support
       },
 
       loader: {

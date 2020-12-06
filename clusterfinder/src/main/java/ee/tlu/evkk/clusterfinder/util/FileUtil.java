@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.util.Set;
 
 import static ee.tlu.evkk.clusterfinder.constants.SystemConstants.TEMP_DIR;
@@ -20,11 +21,11 @@ public class FileUtil
 {
   private static final String UTF_8_ENCODING = "UTF-8";
 
-  private static final Set< String > ALLOWED_FILE_EXTENSIONS = Set.of( ".txt" );
+  private static final Set< String > ALLOWED_FILE_EXTENSIONS = Set.of( "txt" );
 
   public static void uploadFile(MultipartFile file) throws FileUploadException
   {
-    String fileExtension = FilenameUtils.getExtension(file.getName());
+    String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
     if (!ALLOWED_FILE_EXTENSIONS.contains(fileExtension) || file.isEmpty())
     {
       throw new FileUploadException("Invalid file provided");
@@ -42,9 +43,10 @@ public class FileUtil
 
   private static void saveToTempDirectory(MultipartFile file) throws FileUploadException
   {
-    try (InputStream inputStream = file.getInputStream())
+    try
     {
-      Files.copy(inputStream, Paths.get(TEMP_DIR), StandardCopyOption.REPLACE_EXISTING);
+      byte[] fileContent = file.getBytes();
+      Files.write( Paths.get(TEMP_DIR_WITH_SEPARATOR + file.getOriginalFilename() ), fileContent );
     }
     catch (IOException e)
     {
