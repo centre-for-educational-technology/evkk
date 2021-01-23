@@ -1,6 +1,7 @@
 package ee.tlu.evkk.clusterfinder.model;
 
 import ee.tlu.evkk.clusterfinder.constants.ClauseType;
+import ee.tlu.evkk.clusterfinder.constants.SortingType;
 import ee.tlu.evkk.clusterfinder.constants.WordType;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,8 +10,8 @@ import java.util.List;
 
 @Getter
 @Builder
-public class ClusterSearchForm {
-
+public class ClusterSearchForm
+{
   private final String formId;
 
   private final String fileName;
@@ -25,7 +26,7 @@ public class ClusterSearchForm {
 
   private final boolean wordtypeAnalysis;
 
-  private final String sortingType;
+  private final SortingType sortingType;
 
   private final WordType wordType;
 
@@ -34,4 +35,9 @@ public class ClusterSearchForm {
   private final List < String > wordTypeFilters;
 
   private final List < String > clauseTypeFilters;
+
+  public boolean isMorfoSyntacticAnalysis()
+  {
+    return isMorfoAnalysis() && isSyntacticAnalysis();
+  }
 }

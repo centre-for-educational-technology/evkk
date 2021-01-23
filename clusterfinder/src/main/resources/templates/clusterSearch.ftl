@@ -99,19 +99,13 @@
 
         <!-- Input type selection -->
         <h5>[@translations.retrieveTranslation "common.input.type.header" /]</h5>
-        <div class="form-check">
-          [@input.createRadio id="freeTextInput" name="inputType" labelKey="input.type.free.text.label" value="FREE_TEXT" /]
-          <div id="freeText" class="form-group w-separation hidden">
+        <div class="form-group">
             <label for="userText">[@translations.retrieveTranslation "common.text.input.label" /]</label>
             <textarea class="form-control" rows="5" name="userText" id="userText"></textarea>
-          </div>
         </div>
-        <div class="form-check">
-          [@input.createRadio id="fileBasedInput" name="inputType" labelKey="input.type.file.text.label" value="FILE_BASED_TEXT" /]
-          <div id="fileText" class="custom-file w-separation hidden">
-            <input type="file" class="custom-file-input" id="userFile">
+        <div class="form-group">
+            <input type="file" class="form-control-file" id="userFile">
             <label class="custom-file-label" for="userFile">[@translations.retrieveTranslation "common.choose.file" /]</label>
-          </div>
         </div>
 
         <!-- Basic search checkboxes -->
@@ -230,8 +224,7 @@
         // Initially hide all the additional option containers
         $(".additionals-container").hide();
 
-        // Initially select the free text input type
-        $("#freeTextInput").click();
+        // File upload initialization
         $("#userFile").change(ClusterSearchForm.ajax.uploadFile);
 
         $("#morfoAnalysis, #syntacticAnalysis, #punctuationAnalysis").change(function () {
@@ -277,14 +270,6 @@
           } else {
             ClusterSearchForm.helpers.hideAndResetDropdowns();
           }
-        });
-      },
-
-      initInputTypeRadios: function() {
-        $("input:radio[name='inputType']").change( function () {
-          const freeTextSelected = $(this).val() === "FREE_TEXT";
-          $("#freeText").toggle(freeTextSelected);
-          $("#fileText").toggle(!freeTextSelected);
         });
       },
 

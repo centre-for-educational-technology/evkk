@@ -16,13 +16,13 @@ public class ClusterFinderAjaxController {
 
   private final ClusterFinderAjaxControllerHelper clusterFinderAjaxControllerHelper;
 
-  public ClusterFinderAjaxController(ClusterFinderAjaxControllerHelper clusterFinderAjaxControllerHelper) {
+  public ClusterFinderAjaxController(ClusterFinderAjaxControllerHelper clusterFinderAjaxControllerHelper)
+  {
     this.clusterFinderAjaxControllerHelper = clusterFinderAjaxControllerHelper;
   }
 
   @PostMapping( value = AjaxConsts.CLUSTER_TEXT)
-  public ResponseEntity<ClusterResult> executeClusterSearch(HttpServletRequest request)
-      throws IOException, InvalidInputException
+  public ResponseEntity<ClusterResult> executeClusterSearch(HttpServletRequest request) throws IOException, InvalidInputException
   {
     return clusterFinderAjaxControllerHelper.clusterText(request);
   }

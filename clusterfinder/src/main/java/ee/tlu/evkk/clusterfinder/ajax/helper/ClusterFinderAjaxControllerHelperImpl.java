@@ -2,14 +2,19 @@ package ee.tlu.evkk.clusterfinder.ajax.helper;
 
 import ee.tlu.evkk.clusterfinder.constants.ClauseType;
 import ee.tlu.evkk.clusterfinder.constants.InputType;
+import ee.tlu.evkk.clusterfinder.constants.SortingType;
 import ee.tlu.evkk.clusterfinder.constants.WordType;
 import ee.tlu.evkk.clusterfinder.exception.InvalidInputException;
 import ee.tlu.evkk.clusterfinder.filters.ClauseTypeFilterFactory;
 import ee.tlu.evkk.clusterfinder.filters.WordTypeFilterFactory;
 import ee.tlu.evkk.clusterfinder.model.ClusterSearchForm;
+import ee.tlu.evkk.clusterfinder.model.ValidationErrors;
 import ee.tlu.evkk.clusterfinder.service.ClusterService;
 import ee.tlu.evkk.clusterfinder.service.model.ClusterResult;
 import ee.tlu.evkk.clusterfinder.util.FileUtil;
+import ee.tlu.evkk.clusterfinder.validation.ClusterSearchFormValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -20,18 +25,23 @@ import java.util.Map;
 import static ee.tlu.evkk.clusterfinder.constants.SystemConstants.TEMP_DIR_WITH_SEPARATOR;
 
 @Component
-class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControllerHelper {
+class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControllerHelper
+{
+  private static final Logger log = LoggerFactory.getLogger( ClusterFinderAjaxControllerHelperImpl.class );
 
   private final ClusterService clusterService;
+
+  private final ClusterSearchFormValidator validator;
 
   private final WordTypeFilterFactory wordTypeFilterFactory;
 
   private final ClauseTypeFilterFactory clauseTypeFilterFactory;
 
-  ClusterFinderAjaxControllerHelperImpl(ClusterService clusterService, WordTypeFilterFactory wordTypeFilterFactory,
-      ClauseTypeFilterFactory clauseTypeFilterFactory)
+  ClusterFinderAjaxControllerHelperImpl(ClusterService clusterService, ClusterSearchFormValidator validator,
+      WordTypeFilterFactory wordTypeFilterFactory, ClauseTypeFilterFactory clauseTypeFilterFactory)
   {
     this.clusterService = clusterService;
+    this.validator = validator;
     this.wordTypeFilterFactory = wordTypeFilterFactory;
     this.clauseTypeFilterFactory = clauseTypeFilterFactory;
   }
@@ -41,8 +51,14 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
   {
     // TODO: Validate the form after assembly
     ClusterSearchForm assembledForm = assembleClusterSearchForm(request);
-    ClusterResult clusteringResult = clusterService.clusterText(assembledForm);
+    ValidationErrors errors = validator.validate( assembledForm );
+    if ( errors.hasErrors() )
+    {
+      log.error( "Search form contains validation errors: {}", errors );
+      return ResponseEntity.badRequest().build();
+    }
 
+    ClusterResult clusteringResult = clusterService.clusterText(assembledForm);
     return ResponseEntity.ok(clusteringResult);
   }
 
@@ -71,9 +87,10 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
     Map< String, String[] > paramsMap = request.getParameterMap();
     WordType wordType = WordType.getByValue(request.getParameter("wordType"));
     ClauseType clauseType = ClauseType.getByValue(request.getParameter("clauseType"));
+    SortingType sortingType = SortingType.getByValue(request.getParameter("sorting"));
 
     formBuilder
-      .sortingType(request.getParameter("sorting"))
+      .sortingType(sortingType)
       .wordType(wordType)
       .clauseType(clauseType)
       .clauseTypeFilters(clauseTypeFilterFactory.getFilter(clauseType).getClauseTypeFilters(paramsMap))
