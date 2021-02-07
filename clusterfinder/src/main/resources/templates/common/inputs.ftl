@@ -1,4 +1,4 @@
-[#ftl output_format="HTML"]
+[#ftl]
 [#import "translations.ftl" as translations]
 
 [#-- Creates a checkbox input element with the following parameters:
@@ -35,7 +35,7 @@
   <label class="form-check-label"for="${id!}">[@translations.retrieveTranslation labelKey /]</label>
 [/#macro]
 
-[#-- Creates a dropdonw input element with the following parameters:
+[#-- Creates a dropdown input element with the following parameters:
     * id - id of the input element
     * name - name of the input element
     * labelKey - label to show above the input element (must be a translation key)

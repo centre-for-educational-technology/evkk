@@ -13,6 +13,7 @@ import ee.tlu.evkk.clusterfinder.service.ClusterService;
 import ee.tlu.evkk.clusterfinder.service.model.ClusterResult;
 import ee.tlu.evkk.clusterfinder.util.FileUtil;
 import ee.tlu.evkk.clusterfinder.validation.ClusterSearchFormValidator;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,8 @@ import static ee.tlu.evkk.clusterfinder.constants.SystemConstants.TEMP_DIR_WITH_
 class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControllerHelper
 {
   private static final Logger log = LoggerFactory.getLogger( ClusterFinderAjaxControllerHelperImpl.class );
+
+  private static final int DEFAULT_CLUSTERING_LENGTH = 3;
 
   private final ClusterService clusterService;
 
@@ -123,7 +126,8 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
     return Boolean.parseBoolean(value);
   }
 
-  private int asNumber(String value) {
-    return Integer.parseInt(value);
+  private int asNumber(String value)
+  {
+    return StringUtils.isNotEmpty( value ) ? Integer.parseInt(value) : DEFAULT_CLUSTERING_LENGTH;
   }
 }

@@ -86,6 +86,7 @@
       <form id="cluster-form">
         <input type="hidden" name="formId" id="formId" value="${formId!}">
         <input type="hidden" name="fileName" id="fileName" value="">
+        <input type="hidden" name="inputType" id="inputType" value="FREE_TEXT">
 
         <div class="form-group">
           <label for="analysisLength">[@translations.retrieveTranslation "common.analysis.length.label" /]</label>
@@ -103,8 +104,8 @@
             <label for="userText">[@translations.retrieveTranslation "common.text.input.label" /]</label>
             <textarea class="form-control" rows="5" name="userText" id="userText"></textarea>
         </div>
-        <div class="form-group">
-            <input type="file" class="form-control-file" id="userFile">
+        <div id="fileText" class="custom-file w-separation">
+            <input type="file" class="custom-file-input" id="userFile">
             <label class="custom-file-label" for="userFile">[@translations.retrieveTranslation "common.choose.file" /]</label>
         </div>
 
@@ -214,7 +215,6 @@
         ClusterSearchForm.wordType.init();
         ClusterSearchForm.prepareSortingOptions();
         ClusterSearchForm.initSortingCheckboxes();
-        ClusterSearchForm.initInputTypeRadios();
 
         $("#analysisLength").change(ClusterSearchForm.handleAnalysisLengthChange);
 
@@ -566,12 +566,14 @@
               // Update the form's hidden parameter
               $("#fileName").val(file.name);
               $(".custom-file-label").html(file.name);
+              $("#inputType").val("FILE_BASED_TEXT");
             },
             error: function(data) {
               // Empty the value
               // TODO: Add notification displaying support for this
               $("#fileName").val("");
               $(".custom-file-label").html("[@translations.retrieveTranslation "common.choose.file" /]");
+              $("#inputType").val("FREE_TEXT");
             }
           });
         }

@@ -1,11 +1,10 @@
 package ee.tlu.evkk.clusterfinder.service.mapping;
 
-import ee.tlu.evkk.clusterfinder.constants.WordType;
 import ee.tlu.evkk.clusterfinder.model.ClusterSearchForm;
+import ee.tlu.evkk.clusterfinder.service.helper.FilteringHelper;
 import ee.tlu.evkk.clusterfinder.service.model.ClusterEntry;
 import ee.tlu.evkk.clusterfinder.service.model.ClusterResult;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,15 +12,11 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
-public class ClusterResultMapper {
-
+public class ClusterResultMapper
+{
   private static final int MARKUP_START_INDEX = 1;
 
   private static final int USAGES_START_INDEX_OFFSET = 2;
-
-  private static final String ADJECTIVE_TYPE_A = "_A_";
-
-  private static final String ADJECTIVE_TYPE_G = "_G_";
 
   public ClusterResult mapResults(String clusteredText, ClusterSearchForm searchForm)
   {
@@ -39,7 +34,7 @@ public class ClusterResultMapper {
                  .map(c -> c.split(";"))
                  .map(clusterRow -> mapToEntry(clusterRow, searchForm.getAnalysisLength()))
                  .filter(Objects::nonNull)
-                 .filter(clusterEntry -> filterEntries(clusterEntry, searchForm))
+                 .filter(entry -> FilteringHelper.filterEntries(entry, searchForm))
                  .collect(Collectors.toList());
   }
 
@@ -80,74 +75,5 @@ public class ClusterResultMapper {
   {
     int firstSpaceIndex = markup.indexOf(' ');
     return markup.substring(firstSpaceIndex != -1 ? firstSpaceIndex : 0).trim();
-  }
-
-  private boolean filterEntries(ClusterEntry entry, ClusterSearchForm searchForm)
-  {
-    boolean isSyntacticAnalysis = searchForm.isSyntacticAnalysis();
-    boolean isMorfologicalAnalysis = searchForm.isMorfoAnalysis();
-    boolean isWordTypeAnalysis = searchForm.isWordtypeAnalysis();
-    boolean isMorfoSyntacticAnalysis = isMorfologicalAnalysis && isSyntacticAnalysis;
-
-    if ( isMorfoSyntacticAnalysis )
-    {
-      return filterEntriesByWordAndClause( entry.getMarkups(), searchForm.getWordTypeFilters(), searchForm.getClauseTypeFilters() );
-    }
-    else if ( isMorfologicalAnalysis )
-    {
-      return filterEntriesByWord( entry.getMarkups(), searchForm.getWordTypeFilters() );
-    }
-    else if ( isSyntacticAnalysis )
-    {
-      return filterEntriesByClause( entry.getMarkups(), searchForm.getClauseTypeFilters() );
-    }
-    else if ( isWordTypeAnalysis )
-    {
-      return filterEntriesByWordType( entry.getMarkups(), searchForm.getWordType() );
-    }
-
-    return true;
-  }
-
-  // TODO: Add support for morfo + syntactical filtering (perhaps create filters according to analysis type???)
-  // Example output of morfo + syntactical analysis: A pos sg nom // @AN>
-  private boolean filterEntriesByWordAndClause(List<String> entryMarkups, List<String> wordTypeFilters, List<String> clauseTypeFilters)
-  {
-    return true;
-  }
-
-  private boolean filterEntriesByClause(List<String> entryMarkups, List<String> clauseTypeFilters)
-  {
-    if ( clauseTypeFilters.isEmpty() )
-    {
-      return true;
-    }
-
-    return CollectionUtils.containsAny( entryMarkups, clauseTypeFilters );
-  }
-
-  private boolean filterEntriesByWord(List<String> entryMarkups, List<String> wordTypeFilters)
-  {
-    if ( wordTypeFilters.isEmpty() )
-    {
-      return true;
-    }
-
-    return CollectionUtils.containsAny( entryMarkups, wordTypeFilters );
-  }
-
-  private boolean filterEntriesByWordType(List<String> markups, WordType wordType)
-  {
-    if ( wordType == WordType.ALL )
-    {
-      return true;
-    }
-
-    if ( wordType == WordType.ADJECTIVE )
-    {
-      return markups.contains( ADJECTIVE_TYPE_A ) || markups.contains( ADJECTIVE_TYPE_G );
-    }
-
-    return markups.contains( "_" + wordType.getValue() + "_" );
   }
 }

@@ -21,6 +21,6 @@ public final class FilteringUtil
 
   private static String formatWordOption(WordType wordType, String wordOption)
   {
-    return StringUtils.prependIfMissingIgnoreCase( wordType.getValue() + StringUtils.SPACE, wordOption );
+    return StringUtils.prependIfMissingIgnoreCase( wordOption, wordType.getValue() + StringUtils.SPACE );
   }
 }
