@@ -272,9 +272,9 @@
           [@input.createCheckboxWithTooltip
               id="verbSubTypeVKSupImps"
               name="VERB-subtypeVKSup[]"
-              labelKey="VERB.subtype.vk.sup.ps.in.label"
+              labelKey="VERB.subtype.vk.sup.imps.label"
               value="imps"
-              tooltipKey="VERB.subtype.vk.sup.ps.in.tooltip" /]
+              tooltipKey="VERB.subtype.vk.sup.imps.tooltip" /]
         </div>
       </div>
     </div>

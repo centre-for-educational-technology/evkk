@@ -1,5 +1,6 @@
 package ee.tlu.evkk.clusterfinder.service;
 
+import ee.tlu.evkk.clusterfinder.exception.ProcessingAbortedException;
 import ee.tlu.evkk.clusterfinder.model.ClusterSearchForm;
 import ee.tlu.evkk.clusterfinder.service.mapping.ClusterResultMapper;
 import ee.tlu.evkk.clusterfinder.service.model.ClusterResult;
@@ -35,7 +36,7 @@ public class ClusterServiceImpl implements ClusterService {
       String clusteredText = clusterMarkedText(markedText, clusteringParams);
       return resultMapper.mapResults(clusteredText, searchForm);
     }
-    catch (IOException e)
+    catch (IOException | ProcessingAbortedException e)
     {
       log.error("Could not cluster text: {}", e.getMessage());
       return ClusterResult.EMPTY;
@@ -68,21 +69,21 @@ public class ClusterServiceImpl implements ClusterService {
     return sb.toString();
   }
 
-  private String markText(String fileName, String formId) throws IOException
+  private String markText(String fileName, String formId) throws IOException, ProcessingAbortedException
   {
     ProcessBuilder markingProcess = new ProcessBuilder("python", "file_text_marker.py", fileName, formId);
     markingProcess.directory(new File("clusterfinder/src/main/resources/scripts").getAbsoluteFile());
     return queryProcess(markingProcess);
   }
 
-  private String clusterMarkedText(String markedTextFile, String clusteringParams) throws IOException
+  private String clusterMarkedText(String markedTextFile, String clusteringParams) throws IOException, ProcessingAbortedException
   {
     ProcessBuilder clusteringProcess = new ProcessBuilder("python", "cluster_helper.py", "-f", markedTextFile, clusteringParams);
     clusteringProcess.directory(new File("clusterfinder/src/main/resources/scripts").getAbsoluteFile());
     return queryProcess(clusteringProcess);
   }
 
-  private String queryProcess(ProcessBuilder processBuilder) throws IOException
+  private String queryProcess(ProcessBuilder processBuilder) throws IOException, ProcessingAbortedException
   {
     Process process = processBuilder.start();
     int exitCode;
@@ -100,7 +101,7 @@ public class ClusterServiceImpl implements ClusterService {
         error = new String(is.readAllBytes(), StandardCharsets.UTF_8);
       }
 
-      log.error("Process returned non-zero exit code: {}", error);
+      throw new ProcessingAbortedException( error );
     }
 
     String response;
