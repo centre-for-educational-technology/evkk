@@ -489,7 +489,7 @@
 
   <div class="additionals-container" data-group="K">
     <!-- Subtype -->
-    <h5>[@translations.retrieveTranslation "common.sub.type.header" /]</h5>
+    <h5>[@translations.retrieveTranslation "ADPOSITION.subtype.header" /]</h5>
     <div class="form-check">
       [@input.createCheckboxWithTooltip
           id="adpositionSubTypePost"

@@ -458,13 +458,6 @@
                 ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.pronoun.SUB_TYPE_ADDITIONAL_FIELDS);
               }
             });
-
-            // Other types subtypes must reset the additional options
-            $("[data-group='P'] input[type='checkbox']").not("#pronounSubTypePers").change(function () {
-              if($(this).is(":checked")) {
-                ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.pronoun.SUB_TYPE_ADDITIONAL_FIELDS);
-              }
-            });
           }
         },
 
@@ -478,12 +471,6 @@
               if($(this).is(":checked")) {
                 ClusterSearchForm.wordType.numeral.SUB_TYPE_ADDITIONAL_FIELDS.show();
               } else {
-                ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.numeral.SUB_TYPE_ADDITIONAL_FIELDS);
-              }
-            });
-
-            $("[data-group='P'] input[type='checkbox']").not("#pronounSubTypePers").change(function () {
-              if($(this).is(":checked")) {
                 ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.numeral.SUB_TYPE_ADDITIONAL_FIELDS);
               }
             });

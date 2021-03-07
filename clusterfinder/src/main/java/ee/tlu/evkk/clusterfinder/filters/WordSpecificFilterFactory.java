@@ -1,13 +1,13 @@
 package ee.tlu.evkk.clusterfinder.filters;
 
 import ee.tlu.evkk.clusterfinder.constants.WordType;
-import ee.tlu.evkk.clusterfinder.filters.wordtype.*;
+import ee.tlu.evkk.clusterfinder.filters.wordspecific.*;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WordTypeFilterFactory
+public class WordSpecificFilterFactory
 {
-  public WordTypeFilter getFilter(WordType wordType)
+  public WordSpecificFilter getFilter(WordType wordType)
   {
     switch (wordType)
     {

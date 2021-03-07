@@ -1,13 +1,13 @@
 package ee.tlu.evkk.clusterfinder.filters;
 
 import ee.tlu.evkk.clusterfinder.constants.ClauseType;
-import ee.tlu.evkk.clusterfinder.filters.clausetype.*;
+import ee.tlu.evkk.clusterfinder.filters.clause.*;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ClauseTypeFilterFactory
+public class ClauseFilterFactory
 {
-  public ClauseTypeFilter getFilter(ClauseType clauseType)
+  public ClauseFilter getFilter(ClauseType clauseType)
   {
     switch (clauseType)
     {

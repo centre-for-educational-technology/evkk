@@ -1,12 +1,9 @@
 package ee.tlu.evkk.clusterfinder.ajax.helper;
 
-import ee.tlu.evkk.clusterfinder.constants.ClauseType;
 import ee.tlu.evkk.clusterfinder.constants.InputType;
 import ee.tlu.evkk.clusterfinder.constants.SortingType;
-import ee.tlu.evkk.clusterfinder.constants.WordType;
 import ee.tlu.evkk.clusterfinder.exception.InvalidInputException;
-import ee.tlu.evkk.clusterfinder.filters.ClauseTypeFilterFactory;
-import ee.tlu.evkk.clusterfinder.filters.WordTypeFilterFactory;
+import ee.tlu.evkk.clusterfinder.filters.FilterMarshaller;
 import ee.tlu.evkk.clusterfinder.model.ClusterSearchForm;
 import ee.tlu.evkk.clusterfinder.model.ValidationErrors;
 import ee.tlu.evkk.clusterfinder.service.ClusterService;
@@ -21,7 +18,6 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Map;
 
 import static ee.tlu.evkk.clusterfinder.constants.SystemConstants.TEMP_DIR_WITH_SEPARATOR;
 
@@ -36,23 +32,18 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
 
   private final ClusterSearchFormValidator validator;
 
-  private final WordTypeFilterFactory wordTypeFilterFactory;
+  private final FilterMarshaller filterMarshaller;
 
-  private final ClauseTypeFilterFactory clauseTypeFilterFactory;
-
-  ClusterFinderAjaxControllerHelperImpl(ClusterService clusterService, ClusterSearchFormValidator validator,
-      WordTypeFilterFactory wordTypeFilterFactory, ClauseTypeFilterFactory clauseTypeFilterFactory)
+  ClusterFinderAjaxControllerHelperImpl(ClusterService clusterService, ClusterSearchFormValidator validator, FilterMarshaller filterMarshaller)
   {
     this.clusterService = clusterService;
     this.validator = validator;
-    this.wordTypeFilterFactory = wordTypeFilterFactory;
-    this.clauseTypeFilterFactory = clauseTypeFilterFactory;
+    this.filterMarshaller = filterMarshaller;
   }
 
   @Override
   public ResponseEntity<ClusterResult> clusterText(HttpServletRequest request) throws IOException, InvalidInputException
   {
-    // TODO: Validate the form after assembly
     ClusterSearchForm assembledForm = assembleClusterSearchForm(request);
     ValidationErrors errors = validator.validate( assembledForm );
     if ( errors.hasErrors() )
@@ -62,7 +53,7 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
     }
 
     ClusterResult clusteringResult = clusterService.clusterText(assembledForm);
-    return ResponseEntity.ok(clusteringResult);
+    return ResponseEntity.ok( clusteringResult );
   }
 
   private ClusterSearchForm assembleClusterSearchForm(HttpServletRequest request) throws IOException, InvalidInputException
@@ -87,17 +78,11 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
 
   private void addSpecificParams(ClusterSearchForm.ClusterSearchFormBuilder formBuilder, HttpServletRequest request)
   {
-    Map< String, String[] > paramsMap = request.getParameterMap();
-    WordType wordType = WordType.getByValue(request.getParameter("wordType"));
-    ClauseType clauseType = ClauseType.getByValue(request.getParameter("clauseType"));
     SortingType sortingType = SortingType.getByValue(request.getParameter("sorting"));
 
     formBuilder
       .sortingType(sortingType)
-      .wordType(wordType)
-      .clauseType(clauseType)
-      .clauseTypeFilters(clauseTypeFilterFactory.getFilter(clauseType).getClauseTypeFilters(paramsMap))
-      .wordTypeFilters(wordTypeFilterFactory.getFilter(wordType).getWordTypeFilters(paramsMap));
+      .filters(filterMarshaller.marshalFilters(request));
   }
 
   private void handleTextInputMethod(ClusterSearchForm.ClusterSearchFormBuilder formBuilder, HttpServletRequest request)
@@ -122,7 +107,8 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
     }
   }
 
-  private boolean asBoolean(String value) {
+  private boolean asBoolean(String value)
+  {
     return Boolean.parseBoolean(value);
   }
 

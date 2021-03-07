@@ -22,8 +22,8 @@ public enum WordType
 
   private final String value;
 
-  private static final Map< String, WordType > VALUE_TO_WORD_MAP = Arrays.stream(WordType.values())
-    .collect(Collectors.toMap(WordType::getValue, w -> w));
+  private static final Map< String, WordType > VALUE_TO_WORD_MAP = Arrays.stream( WordType.values() )
+    .collect( Collectors.toMap( WordType::getValue, w -> w ) );
 
   WordType( String value, String labelKey ) {
     this.value = value;

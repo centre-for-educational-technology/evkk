@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Builder
@@ -32,9 +33,7 @@ public class ClusterSearchForm
 
   private final ClauseType clauseType;
 
-  private final List < String > wordTypeFilters;
-
-  private final List < String > clauseTypeFilters;
+  private final List< String > filters;
 
   public boolean isMorfoSyntacticAnalysis()
   {

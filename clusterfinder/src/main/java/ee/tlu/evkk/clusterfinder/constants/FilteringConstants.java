@@ -1,5 +1,9 @@
 package ee.tlu.evkk.clusterfinder.constants;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor( access = AccessLevel.PRIVATE )
 public class FilteringConstants
 {
   public static final String CLAUSE_TYPE_SEPARATOR = "//";

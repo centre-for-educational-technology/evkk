@@ -1,21 +1,21 @@
 package ee.tlu.evkk.clusterfinder.filters;
 
-import ee.tlu.evkk.clusterfinder.filters.clausetype.ClauseTypeFilter;
-import ee.tlu.evkk.clusterfinder.filters.wordtype.WordTypeFilter;
+import ee.tlu.evkk.clusterfinder.filters.clause.ClauseFilter;
+import ee.tlu.evkk.clusterfinder.filters.wordspecific.WordSpecificFilter;
 
 import java.util.List;
 import java.util.Map;
 
-public class AllFilter implements WordTypeFilter, ClauseTypeFilter
+public class AllFilter implements WordSpecificFilter, ClauseFilter
 {
   @Override
-  public List<String> getClauseTypeFilters(Map<String, String[]> requestParameters)
+  public List<String> getClauseFilters(Map<String, String[]> requestParameters)
   {
     return List.of();
   }
 
   @Override
-  public List<String> getWordTypeFilters(Map<String, String[]> requestParameters)
+  public List<String> getWordSpecificFilters(Map<String, String[]> requestParameters)
   {
     return List.of();
   }
