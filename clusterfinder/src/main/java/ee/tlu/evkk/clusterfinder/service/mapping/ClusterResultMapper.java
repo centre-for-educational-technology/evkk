@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,13 @@ public class ClusterResultMapper
 
   private static final int USAGES_START_INDEX_OFFSET = 2;
 
+  private final Map< String, String  > clusterTextsMap;
+
+  public ClusterResultMapper( Map<String, String> clusterTextsMap )
+  {
+    this.clusterTextsMap = clusterTextsMap;
+  }
+
   public ClusterResult mapResults(String clusteredText, ClusterSearchForm searchForm)
   {
     if ( clusteredText == null || clusteredText.isEmpty() )
@@ -25,7 +33,7 @@ public class ClusterResultMapper
       return ClusterResult.EMPTY;
     }
 
-    return new ClusterResult(getEntries(clusteredText, searchForm));
+    return new ClusterResult(getEntries(clusteredText, searchForm), determineSeparator(searchForm));
   }
 
   private List<ClusterEntry> getEntries(String clusteredText, ClusterSearchForm searchForm)
@@ -38,6 +46,12 @@ public class ClusterResultMapper
                  .collect(Collectors.toList());
   }
 
+
+  private String determineSeparator(ClusterSearchForm searchForm)
+  {
+    return searchForm.isMorfoSyntacticAnalysis() || searchForm.isMorfoAnalysis() ? "," : "+";
+  }
+
   private ClusterEntry mapToEntry(String[] clusterRow, int clusterLength)
   {
     if ( clusterRow.length == 0 )
@@ -47,9 +61,10 @@ public class ClusterResultMapper
 
     int frequency = Integer.parseInt(clusterRow[0].replaceAll("\\s",""));
     List<String> markups = getMarkups(clusterRow, clusterLength);
+    List<String> explanations = getExplanations(markups);
     List<String> usages = getUsages(clusterRow, clusterLength);
 
-    return new ClusterEntry(frequency, markups, usages);
+    return new ClusterEntry(frequency, markups, explanations, usages);
   }
 
   private List<String> getMarkups(String[] clusterRow, int clusterLength)
@@ -60,6 +75,13 @@ public class ClusterResultMapper
                  .map(String::trim)
                  .map(this::replaceNonEssentialMarkup)
                  .collect(Collectors.toList());
+  }
+
+  private List<String> getExplanations(List<String> markups)
+  {
+    return markups.stream()
+                  .map( clusterTextsMap::get )
+                  .collect( Collectors.toList() );
   }
 
   private List<String> getUsages(String[] clusterRow, int clusterLength)

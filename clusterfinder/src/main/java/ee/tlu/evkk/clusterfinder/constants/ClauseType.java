@@ -16,7 +16,7 @@ public enum ClauseType
   QUANTIFIER_MODIFIER( "QM", "clause.type.quantifier.modifier"),
   ADPOSITION_APPURTENANT( "AP", "clause.type.adposition.appurtenant" ),
   CONJUNCTIVE_WORD( "@J", "clause.type.conjunctive.word" ),
-  EXCLAMATION( "@I", "clause.type.exclamation" );
+  EXCLAMATION( "@B", "clause.type.exclamation" );
 
   private final String value;
 

@@ -495,7 +495,8 @@
             },
             success: function (response) {
               if (response.clusters.length > 0) {
-                ClusterSearchForm.ajax.showResults(response.clusters);
+                console.log(response.separator);
+                ClusterSearchForm.ajax.showResults(response.clusters, response.separator);
               } else {
                 ClusterSearchForm.ajax.showNoResults();
               }
@@ -509,14 +510,14 @@
           });
         },
 
-        showResults: function(data) {
+        showResults: function(data, separator) {
           const clusters = [];
           for ( let i = 0; i < data.length; i++)
           {
             const cluster = {
               frequency: data[i].frequency,
-              description: "Placeholder",
-              markups: data[i].markups.map(ClusterSearchForm.util.escapeValue).join(" + "),
+              description: data[i].explanations.join(" " + separator + " "),
+              markups: data[i].markups.map(ClusterSearchForm.util.escapeValueAndReplace).join(" " + separator + " "),
               usages: data[i].usages.join(", ")
             };
 
@@ -607,10 +608,11 @@
       },
 
       util: {
-        escapeValue: function (unsafeValue) {
+        escapeValueAndReplace: function (unsafeValue) {
           return unsafeValue
                   .replace(/</g, "&lt;")
                   .replace(/>/g, "&gt;")
+                  .replace(/_/g, "");
         }
       }
     };

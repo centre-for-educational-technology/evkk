@@ -15,5 +15,7 @@ public class ClusterEntry
 
   private List <String> markups;
 
+  private List <String> explanations;
+
   private List <String> usages;
 }

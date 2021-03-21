@@ -1,0 +1,49 @@
+{
+  "wordTypeAnalysis": {
+    "_V_": "tegusõna",
+    "_S_": "nimisõna",
+    "_A_": "omadussõna",
+    "_P_": "asesõna",
+    "_N_": "arvsõna",
+    "_D_": "määrsõna",
+    "_J_": "sidesõna",
+    "_K_": "kaassõna",
+    "_Y_": "lühend",
+    "_Z_": "kirjavahemärk"
+  },
+  "syntacticAnalysis": {
+    "@FMV": "põhitegusõna (pöördeline)",
+    "@FCV": "abitegusõna (pöördeline)",
+    "@ICV": "abitegusõna (käändeline)",
+    "@IMV": "põhitegusõna (käändeline)",
+    "@NEG": "tegusõna eitus",
+    "@Q>": "hulgasõna eeslaiend",
+    "@<Q": "hulgasõna järellaiend",
+    "@P>": "tagasõna juurde kuuluv nimisõna",
+    "@<P": "eessõna juurde kuuluv nimisõna",
+    "@NN>": "nimi- või asesõna eestäiend",
+    "@<NN": "nimi- või asesõna järeltäiend",
+    "@AN>": "omadussõna eestäiend",
+    "@<AN": "omadussõna järeltäiend",
+    "@DN>": "määrsõna eestäiend",
+    "@<DN": "määrsõna järeltäiend",
+    "@KN>": "kaassõnafraas eestäiend",
+    "@<KN": "kaassõnafraas järeltäiend",
+    "@VN>": "kesksõna eestäiend",
+    "@<VN": "kesksõna järeltäiend",
+    "@INFN>": "da-tegevusnimi eestäiend",
+    "@<INFN": "da-tegevusnimi järletäiend",
+    "@SUBJ": "alus",
+    "@OBJ": "sihitis",
+    "@PRD": "öeldistäide",
+    "@ADVL": "määrus",
+    "@J": "sidend",
+    "@I": "hüüatus"
+  },
+  "morfologicalAnalysis": {
+
+  },
+  "morfosyntacticAnalysis": {
+
+  }
+}
