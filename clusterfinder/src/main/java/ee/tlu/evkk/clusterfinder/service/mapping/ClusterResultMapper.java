@@ -61,7 +61,7 @@ public class ClusterResultMapper
 
     int frequency = Integer.parseInt(clusterRow[0].replaceAll("\\s",""));
     List<String> markups = getMarkups(clusterRow, clusterLength);
-    List<String> explanations = getExplanations(markups);
+    List<String> explanations = getDescriptions(markups);
     List<String> usages = getUsages(clusterRow, clusterLength);
 
     return new ClusterEntry(frequency, markups, explanations, usages);
@@ -77,7 +77,7 @@ public class ClusterResultMapper
                  .collect(Collectors.toList());
   }
 
-  private List<String> getExplanations(List<String> markups)
+  private List<String> getDescriptions(List<String> markups)
   {
     return markups.stream()
                   .map( clusterTextsMap::get )

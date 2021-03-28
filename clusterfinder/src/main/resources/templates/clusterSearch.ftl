@@ -516,7 +516,7 @@
           {
             const cluster = {
               frequency: data[i].frequency,
-              description: data[i].explanations.join(" " + separator + " "),
+              description: data[i].descriptions.join(" " + separator + " "),
               markups: data[i].markups.map(ClusterSearchForm.util.escapeValueAndReplace).join(" " + separator + " "),
               usages: data[i].usages.join(", ")
             };
