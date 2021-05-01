@@ -14,6 +14,11 @@ public class WordFilterFactory
 
   public List< String > getWordFilters(WordType wordType)
   {
+    if ( wordType == WordType.ALL )
+    {
+      return List.of();
+    }
+
     return wordType == WordType.ADJECTIVE ? List.of( ADJECTIVE_TYPE_A, ADJECTIVE_TYPE_G ) : List.of( "_" + wordType.getValue() + "_" );
   }
 }

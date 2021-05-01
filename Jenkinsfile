@@ -50,6 +50,7 @@ pipeline {
           sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'sudo systemctl stop evkkapi.service'"
           sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'sudo systemctl stop evkkdaemon.service'"
           sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'sudo systemctl stop evkkcharcounter.service'"
+          sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'sudo systemctl stop evkkclusterfinder.service'"
         }
       }
     }
@@ -84,6 +85,7 @@ pipeline {
           sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'sudo systemctl start evkkapi.service'"
           sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'sudo systemctl start evkkdaemon.service'"
           sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'sudo systemctl start evkkcharcounter.service'"
+          sh "ssh -o StrictHostKeyChecking=no evkk@127.0.0.1 'sudo systemctl start evkkclusterfinder.service'"
         }
       }
     }
