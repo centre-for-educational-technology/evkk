@@ -104,4 +104,8 @@ public class TextController {
       }
       return tulemus;
     }
+    @GetMapping("/asukoht")
+    public String asukoht(){
+       return new java.io.File(".").getAbsolutePath().toString();
+    }
 }
