@@ -37,7 +37,7 @@ public class TextController {
   }
   @PostMapping("/lemmad")
   public String lemmad(String tekst) throws Exception {
-      ProcessBuilder processBuilder = new ProcessBuilder("/usr/bin/python3", "/home/harli/evkk/evkk-master/ui/public/python/lemmad.py");
+      ProcessBuilder processBuilder = new ProcessBuilder("/opt/miniconda3/bin/python", "../ui/public/python/lemmad.py");
       processBuilder.redirectErrorStream(true);
       String tulemus = "";
     
@@ -60,7 +60,7 @@ public class TextController {
     }
   @PostMapping("/sonad")
   public String sonad(String tekst) throws Exception {
-      ProcessBuilder processBuilder = new ProcessBuilder("/usr/bin/python3", "/home/harli/evkk/evkk-master/ui/public/python/sonad.py");
+      ProcessBuilder processBuilder = new ProcessBuilder("/opt/miniconda3/bin/python", "../ui/public/python/sonad.py");
       processBuilder.redirectErrorStream(true);
       String tulemus = "";
     
@@ -84,7 +84,7 @@ public class TextController {
     }
     @PostMapping("/laused")
   public String laused(String tekst) throws Exception {
-      ProcessBuilder processBuilder = new ProcessBuilder("/usr/bin/python3", "/home/harli/evkk/evkk-master/ui/public/python/laused.py");
+      ProcessBuilder processBuilder = new ProcessBuilder("/opt/miniconda3/bin/python", "../ui/public/python/laused.py");
       processBuilder.redirectErrorStream(true);
       String tulemus = "";
     
