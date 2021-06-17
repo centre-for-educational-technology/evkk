@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang = "et">
+<head>
+	<meta charset = "utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<!-- pdf -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.10.100/pdf.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.10.100/pdf.worker.min.js"></script>
+	<script src="https://npmcdn.com/pdfjs-dist/build/pdf.js"></script>
+	<!-- docx -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.1.9/docxtemplater.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.6.1/jszip.js"></script>
+	<!--odt-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.js" integrity="sha512-djAJLNukP3WdWmwP/Y05w99aCX6u1jInpshdwiUKbXcQ9y/8BpMtsPsVrVyUbmtEx7wbqFpBq4sGOnIFVScFQQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.1.0/jszip-utils.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	<!-- main -->
+	<link rel="stylesheet" type="text/css" href="styles/home.css">
+	<link rel="stylesheet" type="text/css" href="styles/body.css">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+	<script src="javascript/home.js" defer></script>
+</head>
+<body>
+	<main>
+	<div id="grid_container" class="grid_container">
+		<div id="header" class="grid_item header">
+			<a href ="home.html">
+				<img src="img/home.png" alt = "home logo" class="home_logo" width="50" height="50">
+			</a>
+		</div>
+		<div id="item1" class="grid_item item1">
+			<h2>Lae üles üks või mitu faili:</h2>
+			<input type="file" id="file-id" style="display: none;" multiple onchange="checkFileExtension()"/>
+			<input type="button" class="buttonFail" value="Vali fail(id)" onclick="document.getElementById('file-id').click();" />
+				<input type="file" accept=".txt,.pdf,.docx,.doc,.odt" id="file-id" class="button" name="file_name" style="visibility:hidden;" multiple onchange="checkFileExtension()" />
+			<br>
+			<!-- <form>
+				<label for="fileDelete">Vali fail mida eemaldada:</label>
+				<select name="fileDelete" id="fileDelete">
+					<option value="fail">fail</option>
+				</select>
+			</form>
+			<button id="delete" class="button" onclick="deleteText()">delete</button> -->
+			<div id="output"></div>
+			<div id="outputDiv">
+				<p>Lubatud faililaiendid: .pdf, .doc, .docx, .odt, .txt</p>
+				<p>Korraga tohib üles laadida ainult ühte tüüpi faile!</p>
+			</div>
+			<a href="filter.html"> 
+				<button id="letsgo" class="button3" onclick="passToLocalStr() ">Salvesta failid ja jätka</button>
+			</a>
+			<hr>
+		</div>
+		<div id="item2" class="grid_item item2">
+			<h2>Vali tekst(id) Eesti vahekeele korpusest:</h2>
+			<a href="vahekorpus.html"> 
+				<button class="button">Vali tekst</button>
+			</a>
+			<br>
+			<hr>
+		</div>
+		<div id="item3" class="grid_item item3">
+			<h2>Sisesta oma tekst allolevale väljale:</h2>
+			<textarea id="sisesta_tekst" name="sisesta_tekst" class="input" ></textarea>
+			<br>
+			
+			<a href="filter.html"> 
+				<button class="button2" id="salvesta_tekst">Salvesta tekst ja jätka
+				</button>
+				</a>
+		<div id="error"></div>
+	</div>
+</body>
