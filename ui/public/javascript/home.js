@@ -346,8 +346,7 @@ function main() {
 		document.getElementById("output").appendChild(fileName);
 	}
 
-	//console.log(allFormatFile);
-	//console.log(allFormatText);
+
 }
 
 function passToLocalStr() {

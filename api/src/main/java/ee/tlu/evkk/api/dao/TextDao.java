@@ -14,6 +14,7 @@ public interface TextDao {
     List<String> findTextIDsByCorpusID(@Param("corpusId") String korpusekood);
     List<String> findTextIDandTitleByCorpusID(@Param("corpusId") String korpusekood);
 
+
     String findDetailedValueByPropertyName(@Param("pValue") String pValue[], @Param("pName") String pName, @Param("cId") String[] cId); // property value, name, corpus id
 
     String detailedSearch(@Param("pValue") String pValue[], @Param("pName") String pName, @Param("cId") String[] cId, @Param("join") String join, @Param("condition") String condition);
