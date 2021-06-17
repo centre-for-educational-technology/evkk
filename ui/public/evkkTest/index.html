@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<script src="https://kit.fontawesome.com/6377da5ebe.js" crossorigin="anonymous"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css" id="normal">
+    <link rel="stylesheet" type="text/css" href="css/style_accessability.css" id="secondary" disabled>
+	<title>EVKK</title>
+</head>
+<body>
+
+	<header>
+		<!-- Logo -->
+		<div class="logo">
+			<a href="index.html"><img src="img/logo.png" alt="TLU"></a>
+			<a href="index.html"><h1>Eesti Vahekeele Korpus</h1></a>
+			<i id='accsesebilty_button' class="tooltip-green" aria-label ="Siin saab näha lehte vaeg-nägija ja tava nägija režiimi vahel" data-balloon-pos="left"><div class="fas fa-glasses"></div></i>
+			<i id='help-toggle' class="far fa-question-circle"></i>
+		</div>
+
+		<!-- Navigation -->
+		<section class="navContainer">
+			<nav>
+				<a href="home.html">Avaleht</a>
+				<a href="index.html" class="activeNav">Statistika</a>
+				<a href="paring.html">Päring</a>
+				<a href="meist.html">Meist</a>
+				<a href="kontakt.html">Kontakt</a>
+			</nav>
+		</section>
+	</header>
+
+	<!-- Mini stats -->
+	<section class="miniStats">
+		<p id=documents2>Dokumente<br><span id="documents"></span></p>
+		<p id=sentences2>Lauseid<br><span id="sentences"></span></p>
+		<p id=words2>Sõnu<br><span id="words"></span></p>
+	</section>
+
+
+	<!-- Interactive stats section -->
+	<section>
+
+		<!-- Filters (left side) -->
+		<div class="dropdown">
+			<h2>Alamkorpused</h2>
+			<form id="helpCorpus">
+						<button type="button" class="collapsible"><p>Alamkorpused</p><i class="fas fa-chevron-down"></i></button>
+					<div class="content">
+						<!-- Buttons to check or uncheck everything -->
+						<div id="buttons">
+							<button type="button" id="selectAllKorpus">Kõik</button>
+							<button type="button" id="unselectAllKorpus">Eemalda</button>
+						</div>
+						<!-- Korpus selection -->
+						<div id="korpusSelection">
+							<input type="checkbox" name="korpus"
+							value="cFqPphvYi" class="btn-check" id="btn-check0" autocomplete="off" checked/>
+							<label class="checkbox" for="btn-check0"><i class="fas fa-check"></i><span>Eesti keele olümpiaadi tööd</span></label>
+							
+							<input type="checkbox" name="korpus"
+							value="cwUSEqQLt" type="checkbox" class="btn-check" id="btn-check2" autocomplete="off" checked/>
+							<label class="checkbox"  for="btn-check2"><i class="fas fa-check"></i></i><span>Akadeemiline õppijakeel</span></label>
+							
+							<input type="checkbox" name="korpus"
+							value="cwUprXCTL" class="btn-check" id="btn-check3" autocomplete="off" checked/>
+							<label class="checkbox"  for="btn-check3"><i class="fas fa-check"></i><span>Eesti teaduskeel</span></label>
+		
+							<input type="checkbox" name="korpus"
+							value="cFOoRQekA" class="btn-check" id="btn-check4" autocomplete="off" checked/>
+							<label class="checkbox"  for="btn-check4"><i class="fas fa-check"></i><span>EVKK tuumkorpus</span></label>
+		
+							<input type="checkbox" name="korpus"
+							value="clWmOIrLa" class="btn-check" id="btn-check5" autocomplete="off" checked/>
+							<label class="checkbox"  for="btn-check5"><i class="fas fa-check"></i><span>REKKi kogud</span></label>
+		
+							<input type="checkbox" name="korpus"
+							value="cZjHWUPtD" class="btn-check" id="btn-check6" autocomplete="off" checked/>
+							<label class="checkbox"  for="btn-check6"><i class="fas fa-check"></i><span>Vene keel kui võõrkeel</span></label>
+		
+							<input type="checkbox" name="korpus"
+							value="cgSRJPKTr" class="btn-check" id="btn-check7" autocomplete="off" checked/>
+							<label class="checkbox"  for="btn-check7"><i class="fas fa-check"></i><span>Vene keel kui emakeel</span></label>
+		
+							<input type="checkbox" name="korpus"
+							value="cYDRkpymb" class="btn-check" id="btn-check8" autocomplete="off" checked/>
+							<label class="checkbox"  for="btn-check8"><i class="fas fa-check"></i><span>K1 referentskorpus</span></label>
+						</div>
+					</div>
+
+					
+				</form>
+
+				<!-- Filter selection -->
+				<hr>
+				<h2>Kuva</h2>
+				<div class="radio">
+					<table id="radio" style="width:100%">
+						<tr>
+							<td><label for="tulp">Tulpdiagramm</label></td>
+							<td><input style="width:100%" type="radio" id="tulp" name="mode" value="tulp" onchange="fetchDetailed();" checked></td>
+
+						</tr>
+						<tr>
+							<td><label for="sector">Sektordiagramm</label></td>
+							<td><input style="width:100%" type="radio" id="sector" name="mode" value="pie" onchange="fetchDetailed();"></td>
+						</tr>
+					  </table>
+
+				</div>
+
+				<h4>Vali väärtus</h4>
+				<div id="helpSelectedValue">
+					<select id="selectedValue" name="selectedValue" class="list" onchange="updateFilter()">
+						<option data-name="Tekste" value="tekste">Tekste</option>
+						<option data-name="Sõnu" value="sonu">Sõnu</option>
+						<option data-name="Lauseid" value="lauseid">Lauseid</option>
+						<option data-name="Vigu" value="vigu">Vigu</option>
+					</select>
+				</div>
+
+				<h4>Mille järgi kuvada</h4>
+				<div id="helpFilterBy">
+				<select id="filterBy" name="filterBy" class="list">
+					<option value="vanus">Vanus</option>
+					<option value="haridus">Haridus</option>
+					<option value="sugu">Sugu</option>
+					<option value="elukoht">Elukoht</option>
+					<option value="kodukeel">Kodune keel</option>
+					<option value="emakeel">Emakeel</option>
+					<option value="tekstikeel">Tekstikeel</option>
+					<option value="abivahendid">Abivahendid</option>
+					<option value="taust">Sotsiaalne staatus</option>
+					<option value="keeletase">Keele valdamise tase</option>
+					<option value="tekstityyp">Tekstitüüp</option>
+				</select>
+				</div>
+
+				<div id="helpSecondFilterSelection">
+				<button type="button" class="collapsible"><p>Kuvatud väärtused</p><i class="fas fa-chevron-down"></i></button>
+				<div class="content">
+					<div id="filters">
+						<form>
+							<!-- Buttons to check or uncheck everything -->
+							<div id="buttons">
+								<button type="button" id="selectAllChoices">Kõik</button>
+								<button type="button" id="unselectAllChoices">Eemalda</button>
+							</div>
+		
+							<!-- Korpus selection -->
+							<div id="SecondFilterSelection">
+		
+							</div>
+						</form>
+						</div>
+					</div>
+			</div>
+
+
+			<div id="filterlife">
+				<hr>
+				<h2>Kitsendused</h2>
+				<div id="helpKitsendused">
+				<!-- Author filters -->
+				<button type="button" class="collapsible"><p>Isiku andmed</p><i class="fas fa-chevron-down"></i></button>
+				<div class="content">
+					<div id="authorFilter">
+						<input type="checkbox" name="filterDetailed"
+						value="vanus" class="btn-check" id="f-check0" autocomplete="off" checked/>
+						<label class="checkbox" for="f-check0"><i class="fas fa-check"></i><span>Vanus</span></label>
+						
+						<input type="checkbox" name="filterDetailed"
+						value="haridus" type="checkbox" class="btn-check" id="f-check1" autocomplete="off"/>
+						<label class="checkbox"  for="f-check1"><i class="fas fa-check hidden"></i><span>Haridus</span></label>
+						
+						<input type="checkbox" name="filterDetailed"
+						value="sugu" class="btn-check" id="f-check2" autocomplete="off"/>
+						<label class="checkbox"  for="f-check2"><i class="fas fa-check hidden"></i><span>Sugu</span></label>
+	
+						<input type="checkbox" name="filterDetailed"
+						value="elukoht" class="btn-check" id="f-check3" autocomplete="off"/>
+						<label class="checkbox"  for="f-check3"><i class="fas fa-check hidden"></i><span>Elukoht</span></label>
+	
+						<input type="checkbox" name="filterDetailed"
+						value="kodukeel" class="btn-check" id="f-check4" autocomplete="off"/>
+						<label class="checkbox"  for="f-check4"><i class="fas fa-check hidden"></i><span>Kodukeel</span></label>
+	
+						<input type="checkbox" name="filterDetailed"
+						value="emakeel" class="btn-check" id="f-check5" autocomplete="off"/>
+						<label class="checkbox"  for="f-check5"><i class="fas fa-check hidden"></i><span>Emakeel</span></label>
+	
+						<input type="checkbox" name="filterDetailed"
+						value="taust" class="btn-check" id="f-check6" autocomplete="off"/>
+						<label class="checkbox"  for="f-check6"><i class="fas fa-check hidden"></i><span>Sotsiaalne staatus</span></label>
+					</div>
+				</div>
+				
+				<!-- Text filters -->
+				<button type="button" class="collapsible"><p>Teksti andmed</p><i class="fas fa-chevron-down"></i></button>
+				<div class="content">
+					<!-- Tekst -->
+					<div id="textFilter">
+						<input type="checkbox" name="filterDetailed"
+						value="tekstikeel" class="btn-check" id="f-check7" autocomplete="off" checked/>
+						<label class="checkbox" for="f-check7"><i class="fas fa-check hidden"></i><span>Tekstikeel</span></label>
+						
+						<input type="checkbox" name="filterDetailed"
+						value="abivahendid" type="checkbox" class="btn-check" id="f-check8" autocomplete="off"/>
+						<label class="checkbox"  for="f-check8"><i class="fas fa-check hidden"></i><span>Abivahendid</span></label>
+						
+						<input type="checkbox" name="filterDetailed"
+						value="keeletase" class="btn-check" id="f-check9" autocomplete="off"/>
+						<label class="checkbox"  for="f-check9"><i class="fas fa-check hidden"></i><span>Keele valdamise tase</span></label>
+
+						<input type="checkbox" name="filterDetailed"
+						value="tekstityyp" class="btn-check" id="f-check10" autocomplete="off"/>
+						<label class="checkbox"  for="f-check10"><i class="fas fa-check hidden"></i><span>Tekstitüüp</span></label>
+					</div>
+				</div>
+			</div>
+
+			</div>
+				<!-- Value filters -->
+				<hr>
+				<h2>Kitsendatud väärtused</h2>
+				<div id="helpKitsendatudValues">
+				<form>
+				<div id="filtersDetailed">
+
+				</div>
+				</form>
+				</div>
+			</div>
+
+		<!-- Stats (right side) -->
+		<div class="stats">
+			<div id="alamkorpused" class="echarts"></div>
+			<h3>Aktiivsed filtrid</h3>
+			<div id="activeFilters">
+				<!-- <p id="kuvaFilter"></p> -->
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<section>
+		<footer>
+			<p>Tallinna Ülikool 2021</p>
+		</footer>
+	</section>
+
+	<!-- Scripts -->
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	<script src="scripts/echarts.js"></script>
+	<script src="scripts/stats.js"></script>
+
+</body>
+</html>
