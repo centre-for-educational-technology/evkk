@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang = "et">
+<head>
+	<meta charset = "utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<link rel="stylesheet" type="text/css" href="styles/body.css">
+	<link rel="stylesheet" type="text/css" href="styles/korpus.css">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+	<script src="javascript/script1.js" defer></script>
+	<script src="javascript/vahekorpus.js" defer></script>
+</head>
+<body>
+	<main>
+	<div id="grid_container" class="grid_container">
+			<div id="header" class="grid_item header">
+				<a href ="home.html">
+					<img src="img/home.png" alt = "home logo" class="home_logo">
+				</a>
+			</div>
+		<div id="vahekorpus" class="grid_item vahekorpus">
+			<h2>Eesti vahekeele korpus</h2> 
+            <p>Korpus(t)e valik</p> 
+            <input type="checkbox" name="chk" class="korpus" value="cFqPphvYi">Eesti keele olümpiaadi tööd<br>  
+            <input type="checkbox" name="chk" class="korpus" value="cwUSEqQLt">Akadeemiline õppijakeel<br>  
+            <input type="checkbox" name="chk" class="korpus" value="cwUprXCTL">Eesti teaduskeel<br>  
+            <input type="checkbox" name="chk" class="korpus" value="cFOoRQekA">EVKK<br>  
+            <input type="checkbox" name="chk" class="korpus" value="clWmOIrLa">REKKi kogud<br>  
+            <input type="checkbox" name="chk" class="korpus" value="cZjHWUPtD">Vene keel kui võõrkeel<br>  
+            <input type="checkbox" name="chk" class="korpus" value="cgSRJPKTr">Vene keel kui emakeel<br>  
+            <input type="checkbox" name="chk" class="korpus" value="cYDRkpymb">K1 referentskorpus<br>  
+            <br>  
+            <input type="button" class="button1" onclick='selects()' value="Vali kõik korpused"/>
+            <input type="button" class="button1" onclick='deSelect()' value="Tühista valikud"/> 
+
+			<button class="save" id="salvesta">Salvesta ja jätka</button>
+        </div> 
+		</div>
+        
+	</div>
+</main>
+</body>
+</html>
+	
+		
