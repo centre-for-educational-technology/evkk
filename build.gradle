@@ -41,6 +41,7 @@ subprojects {
         annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
         developmentOnly "org.springframework.boot:spring-boot-devtools"
         testImplementation project(":test")
+        implementation 'org.json:json:20180813' // suvepraktika
     }
 
     tasks.withType(BootJar) {
