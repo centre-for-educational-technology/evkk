@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang = "et">
+<head>
+	<meta charset = "utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<link rel="stylesheet" type="text/css" href="styles/body.css">
+	<link rel="stylesheet" type="text/css" href="styles/list.css">
+	<script src="javascript/sonasagedus.js" defer></script>
+	<script src="javascript/download.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="styles/table.css">
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
+</head>
+<body>
+	<main>
+		<div id="grid_container" class="grid_container">
+			<div id="header" class="grid_item header">
+				<a href ="home.html">
+					<img src="img/home.png" alt = "home logo" class="home_logo">
+				</a>
+			</div>
+		<div id="item7" class="grid_item item7">
+			<div id="cover-spin"></div>
+			<div class="tableCol">
+			<table class="table" id="words">
+				<thead>
+					<tr>
+						<th>Jrk ⇅</th>
+						<th>Sõna ⇅</th>
+						<th>Kasutuste arv ⇅</th>
+						<th>Osakaal ⇅</th>
+						<th></th>
+					 </tr>
+				</thead>
+				<tbody id="tabel"></tbody>
+			</table>
+			<button class="button2" onclick="salvestaCSV('sonasagedus.csv', false)">Laadi alla kogu sõnaloend (.csv)</button>
+			<div class="item9">
+				<a href="filter.html"> 
+					<button class="button">Tagasi</button>
+				</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	</main>
+</body>
+</html>
