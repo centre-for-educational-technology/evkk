@@ -66,6 +66,7 @@ class Nav extends Component {
                   <Link to="/tools/minitorn-pikkus" className={'dropdown-item'}>Teksti pikkus</Link>
                   <Link to="/tools/char-counter" className={'dropdown-item'}>Sümbolite lugeja</Link>
                   <Link to="/tools/masinoppe-ennustus" className={'dropdown-item'}>Masinõppe ennustus</Link>
+                  <Link to="/tools/clusterfinder" className={'dropdown-item'}>Klastrileidja</Link>
                 </div>
               </li>
             </ul>

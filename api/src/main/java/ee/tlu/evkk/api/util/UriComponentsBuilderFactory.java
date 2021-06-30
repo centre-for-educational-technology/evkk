@@ -13,11 +13,17 @@ public class UriComponentsBuilderFactory {
 
   @Value("${evkk.api.integration.paths.char-counter}")
   private String charCounterPath;
+  @Value("${evkk.api.integration.paths.clusterfinder}")
+  private String clusterFinderPath;
   @Value("${evkk.api.api-path}")
   private String apiPath;
 
   public UriComponentsBuilder charCounter() {
     return UriComponentsBuilder.fromHttpUrl(charCounterPath);
+  }
+
+  public UriComponentsBuilder clusterFinder() {
+    return UriComponentsBuilder.fromHttpUrl(clusterFinderPath);
   }
 
   public UriComponentsBuilder api() {
