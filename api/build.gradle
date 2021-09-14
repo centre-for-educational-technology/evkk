@@ -13,8 +13,4 @@ dependencies {
   implementation "org.springframework.session:spring-session-data-redis"
   implementation "io.lettuce:lettuce-core"
 
-  // mapstruct
-  implementation "org.mapstruct:mapstruct:${mapStructVersion}"
-  annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
-
 }

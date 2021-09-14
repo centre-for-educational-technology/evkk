@@ -33,7 +33,7 @@ $$ language plpgsql;
 -- CREATE USERS --
 ------------------
 
-call pg_temp.create_user('api_user', '${API_DATASOURCE_PASSWORD}');
+call pg_temp.create_user('api_user', '${EVKK_API_DATASOURCE_PASSWORD}');
 
 ------------------
 -- CREATE ROLES --

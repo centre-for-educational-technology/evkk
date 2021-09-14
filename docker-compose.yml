@@ -4,6 +4,7 @@ services:
 
   postgres:
     image: postgres:13-alpine
+    command: [ "postgres", "-c", "log_statement=all" ]
     environment:
       POSTGRES_USER: db_user
       POSTGRES_PASSWORD: password
