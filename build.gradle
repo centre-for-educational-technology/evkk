@@ -50,7 +50,7 @@ subprojects {
 
   tasks.withType(BootJar) {
     archiveFileName = "${project.name}.jar"
-    destinationDirectory = file("${rootProject.projectDir}/dist/${project.name}/")
+    destinationDirectory = file("${rootProject.projectDir}/dist/")
   }
 
   test {
