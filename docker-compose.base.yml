@@ -25,6 +25,14 @@ services:
     ports:
       - 5000:5000
 
+  caddy:
+    image: caddy:2.4.5-alpine
+    restart: unless-stopped
+    ports:
+      - 9999:9999
+    volumes:
+      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+
   db:
     image: evkk-backend
     entrypoint: [ "/bin/bash", "-c", "java -jar app/db.jar clean migrate seed" ]

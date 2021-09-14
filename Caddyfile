@@ -1,0 +1,11 @@
+{
+	auto_https off
+	admin off
+}
+
+http://localhost:9999 {
+
+  reverse_proxy /* ui:5000
+  reverse_proxy /api/* api:8080
+
+}
