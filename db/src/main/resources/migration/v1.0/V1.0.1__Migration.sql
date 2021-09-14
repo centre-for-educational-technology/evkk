@@ -51,8 +51,8 @@ create table core.text_schema(
 
 create table core.text_schema_property(
     id uuid default uuid_generate_v4(),
-    schema_name varchar references text_schema(schema_name),
-    property_name varchar references text_official_property(property_name),
+    schema_name varchar references core.text_schema(schema_name),
+    property_name varchar references core.text_official_property(property_name),
     constraint text_schema_property_key primary key(id),
     constraint text_schema_property_uq unique(schema_name, property_name)
 );

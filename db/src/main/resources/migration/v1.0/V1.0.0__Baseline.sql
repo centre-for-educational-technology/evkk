@@ -1,11 +1,3 @@
-----------------
--- EXTENSIONS --
-----------------
-
-create extension if not exists "uuid-ossp";
-create extension if not exists "citext";
-create extension if not exists "hstore";
-
 ------------------
 -- SCHEMA SETUP --
 ------------------
@@ -78,7 +70,7 @@ create table core.role
     constraint role_uq_name unique (name)
 );
 
-call attach_meta_trigger('core.role');
+call core.attach_meta_trigger('core.role');
 
 -- core.role_permissions
 
@@ -92,7 +84,7 @@ create table core.role_permission
     constraint role_permission_uq_role_name_permission_name unique (role_name, permission_name)
 );
 
-call attach_meta_trigger('core.role_permission');
+call core.attach_meta_trigger('core.role_permission');
 
 -- core.user
 
@@ -108,7 +100,7 @@ create table core.user
     constraint user_uq_email_address unique (email_address)
 );
 
-call attach_meta_trigger('core.user');
+call core.attach_meta_trigger('core.user');
 
 comment on table core.user is 'EVKK user accounts and passwords';
 comment on column core.user.email_address is 'Unique email address';
@@ -160,7 +152,7 @@ create table core.user_files
 
 -- todo: missing comments
 
-call attach_meta_trigger('core.user_files');
+call core.attach_meta_trigger('core.user_files');
 
 -- core.token
 
