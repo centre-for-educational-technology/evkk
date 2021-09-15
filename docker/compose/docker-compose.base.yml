@@ -8,14 +8,14 @@ services:
       POSTGRES_USER: db_user
       POSTGRES_DB: evkk
     env_file:
-      - conf/local_db.env
+      - $PWD/conf/db.env
     volumes:
-      - ./data/postgres:/var/lib/postgresql/data
+      - $PWD/data/postgres:/var/lib/postgresql/data
 
   redis:
     image: redis:6-alpine
     volumes:
-      - ./data/redis:/data
+      - $PWD/data/redis:/data
 
   ui:
     image: evkk-ui
@@ -26,16 +26,16 @@ services:
     ports:
       - "9999:9999"
     volumes:
-      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+      - $PWD/compose/Caddyfile:/etc/caddy/Caddyfile
 
   db:
     image: evkk-backend
     entrypoint: [ "/bin/bash", "-c", "java -jar app/db.jar" ]
     restart: on-failure
     env_file:
-      - conf/local_common.env
-      - conf/local_db.env
-      - conf/local_api.env
+      - $PWD/conf/common.env
+      - $PWD/conf/db.env
+      - $PWD/conf/api.env
     depends_on:
       - postgres
 
@@ -43,8 +43,8 @@ services:
     image: evkk-backend
     entrypoint: [ "/bin/bash", "-c", "java -jar app/api.jar" ]
     env_file:
-      - conf/local_common.env
-      - conf/local_api.env
+      - $PWD/conf/common.env
+      - $PWD/conf/api.env
     depends_on:
       - db
       - redis
