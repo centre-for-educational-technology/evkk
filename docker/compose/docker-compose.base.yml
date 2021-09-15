@@ -6,30 +6,25 @@ services:
     image: postgres:13-alpine
     environment:
       POSTGRES_USER: db_user
-      POSTGRES_PASSWORD: password
       POSTGRES_DB: evkk
+    env_file:
+      - conf/local_db.env
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
-  #    ports:
-  #      - 5432:5432
 
   redis:
     image: redis:6-alpine
     volumes:
       - ./data/redis:/data
-  #    ports:
-  #      - 6379:6379
 
   ui:
     image: evkk-ui
-  #    ports:
-  #      - 5000:5000
 
   caddy:
     image: caddy:2.4.5-alpine
     restart: unless-stopped
     ports:
-      - 9999:9999
+      - "9999:9999"
     volumes:
       - $PWD/Caddyfile:/etc/caddy/Caddyfile
 
@@ -41,9 +36,6 @@ services:
       - conf/local_common.env
       - conf/local_db.env
       - conf/local_api.env
-    environment:
-      - EVKK_COMMON_DATASOURCE_URL=jdbc:postgresql://postgres:5432/evkk
-      - EVKK_DB_FLYWAY_COMMANDS=migrate #TODO:
     depends_on:
       - postgres
 
@@ -53,11 +45,6 @@ services:
     env_file:
       - conf/local_common.env
       - conf/local_api.env
-    environment:
-      - EVKK_COMMON_DATASOURCE_URL=jdbc:postgresql://postgres:5432/evkk
-      - EVKK_COMMON_REDIS_HOST=redis
     depends_on:
       - db
       - redis
-#    ports:
-#      - 8080:8080
