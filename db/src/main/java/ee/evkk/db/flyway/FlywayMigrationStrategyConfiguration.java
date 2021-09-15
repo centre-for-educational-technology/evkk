@@ -2,7 +2,6 @@ package ee.evkk.db.flyway;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -37,8 +36,8 @@ public class FlywayMigrationStrategyConfiguration {
   }
 
   @Bean
-  public FlywayMigrationStrategy flywayMigrationStrategy(ApplicationArguments applicationArguments, FlywayDatabaseSeeder flywayDatabaseSeeder) {
-    return new SeedingFlywayMigrationStrategy(applicationArguments.getNonOptionArgs(), flywayDatabaseSeeder, properties.getSeedDisabled());
+  public FlywayMigrationStrategy flywayMigrationStrategy(FlywayCommandsProvider commandsProvider, FlywayDatabaseSeeder flywayDatabaseSeeder) {
+    return new SeedingFlywayMigrationStrategy(commandsProvider.getCommands(), flywayDatabaseSeeder, properties.getSeedDisabled());
   }
 
   @Bean

@@ -10,20 +10,20 @@ services:
       POSTGRES_DB: evkk
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
+  #    ports:
+  #      - 5432:5432
 
   redis:
     image: redis:6-alpine
     volumes:
       - ./data/redis:/data
-    ports:
-      - 6379:6379
+  #    ports:
+  #      - 6379:6379
 
   ui:
     image: evkk-ui
-    ports:
-      - 5000:5000
+  #    ports:
+  #      - 5000:5000
 
   caddy:
     image: caddy:2.4.5-alpine
@@ -35,7 +35,7 @@ services:
 
   db:
     image: evkk-backend
-    entrypoint: [ "/bin/bash", "-c", "java -jar app/db.jar clean migrate seed" ]
+    entrypoint: [ "/bin/bash", "-c", "java -jar app/db.jar" ]
     restart: on-failure
     env_file:
       - conf/local_common.env
@@ -43,6 +43,7 @@ services:
       - conf/local_api.env
     environment:
       - EVKK_COMMON_DATASOURCE_URL=jdbc:postgresql://postgres:5432/evkk
+      - EVKK_DB_FLYWAY_COMMANDS=migrate #TODO:
     depends_on:
       - postgres
 
@@ -58,5 +59,5 @@ services:
     depends_on:
       - db
       - redis
-    ports:
-      - 8080:8080
+#    ports:
+#      - 8080:8080
