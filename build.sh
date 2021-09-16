@@ -12,7 +12,7 @@ docker build . -f ./docker/Dockerfile.ui -t evkk-ui --no-cache
 
 # Copy compose files
 mkdir -p ./build/compose/
-cp -r ./docker/compose/ ./build/compose/
+cp -r ./docker/compose/ ./build/compose
 
 # Save docker images
 mkdir -p ./build/images/
