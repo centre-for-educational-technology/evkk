@@ -59,6 +59,8 @@ $$ language plpgsql;
 -- CORE SCHEMA --
 -----------------
 
+-- todo: all comments
+
 -- core.role
 
 create table core.role
@@ -91,10 +93,10 @@ call core.attach_meta_trigger('core.role_permission');
 create table core.user
 (
     user_id       uuid default uuid_generate_v4(),
-    email_address citext      not null,
-    password_hash text        not null,
-    role_name     text        references core.role (name), --todo: not null
-    created_at    timestamptz not null,
+    email_address citext                           not null,
+    password_hash text                             not null,
+    role_name     text references core.role (name) not null,
+    created_at    timestamptz                      not null,
 
     constraint user_pkey primary key (user_id),
     constraint user_uq_email_address unique (email_address)
@@ -134,19 +136,19 @@ comment on column core.file.deleted_at is 'When was this file deleted';
 
 call core.attach_meta_trigger('core.file');
 
--- core.user_files
+-- core.user_file
 
-create table core.user_files
+create table core.user_file
 (
-    user_files_id uuid default uuid_generate_v4(),
-    file_id       uuid        not null references core.file (file_id),
-    user_id       uuid        not null references core.user (user_id),
-    name          text        not null,
-    private       boolean     not null,
-    created_at    timestamptz not null,
-    deleted_at    timestamptz,
+    user_file_id uuid default uuid_generate_v4(),
+    file_id      uuid        not null references core.file (file_id),
+    user_id      uuid        not null references core.user (user_id),
+    name         text        not null,
+    content      text        not null,
+    created_at   timestamptz not null,
+    deleted_at   timestamptz,
 
-    constraint user_files_pkey primary key (user_files_id),
+    constraint user_file_pkey primary key (user_file_id),
     constraint user_file_uq_file_id_user_id unique (file_id, user_id)
 );
 
@@ -155,8 +157,6 @@ create table core.user_files
 call core.attach_meta_trigger('core.user_files');
 
 -- core.token
-
--- todo: missing from schema
 
 create table core.token
 (
@@ -226,6 +226,9 @@ create table core.group_users
 
 call core.attach_meta_trigger('core.group_users');
 
------------
--- VIEWS --
------------
+----------
+-- DATA --
+----------
+
+insert into core.role (name)
+values ('ADMIN');

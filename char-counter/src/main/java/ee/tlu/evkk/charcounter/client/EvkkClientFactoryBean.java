@@ -20,7 +20,7 @@ public class EvkkClientFactoryBean implements FactoryBean<EvkkClient> {
 
   @Override
   public EvkkClient getObject() {
-    RestTemplate restTemplate = restTemplateBuilder.rootUri("http://localhost:8080").build();
+    RestTemplate restTemplate = restTemplateBuilder.rootUri("http://localhost:9090").build();
     return new EvkkClient(restTemplate);
   }
 

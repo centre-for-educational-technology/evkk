@@ -1,7 +1,7 @@
 package ee.tlu.evkk.api.controller.integration;
 
 import ee.tlu.evkk.api.dao.dto.SessionToken;
-import ee.tlu.evkk.api.exception.SessionNotFoundException;
+import ee.tlu.evkk.api.exception.InvalidSessionException;
 import ee.tlu.evkk.api.service.SessionTokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +30,7 @@ public abstract class AbstractIntegrationController {
     SessionToken sessionToken;
     try {
       sessionToken = sessionTokenService.getSessionToken(accessToken);
-    } catch (SessionNotFoundException ex) {
+    } catch (InvalidSessionException ex) {
       throw new AccessDeniedException("Session not found for access token", ex);
     }
     return sessionToken.getUserId();

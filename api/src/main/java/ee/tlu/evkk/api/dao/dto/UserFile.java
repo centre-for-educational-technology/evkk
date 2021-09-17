@@ -12,6 +12,7 @@ public class UserFile {
   private UUID fileId;
   private UUID userId;
   private String name;
+  private String content;
 
   public UUID getUserFileId() {
     return userFileId;
@@ -43,6 +44,14 @@ public class UserFile {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getContent() {
+    return content;
+  }
+
+  public void setContent(String content) {
+    this.content = content;
   }
 
 }
