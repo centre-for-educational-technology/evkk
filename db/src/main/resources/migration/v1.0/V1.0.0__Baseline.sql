@@ -154,7 +154,7 @@ create table core.user_file
 
 -- todo: missing comments
 
-call core.attach_meta_trigger('core.user_files');
+call core.attach_meta_trigger('core.user_file');
 
 -- core.token
 

@@ -34,6 +34,7 @@ $$ language plpgsql;
 ------------------
 
 call pg_temp.create_user('api_user', '${EVKK_API_DATASOURCE_PASSWORD}');
+--todo: call pg_temp.create_user('daemon_user', '{EVKK_DAEMON_DATASOURCE_PASSWORD}');
 
 ------------------
 -- CREATE ROLES --
@@ -50,6 +51,7 @@ call pg_temp.create_role('core_r');
 -----------------
 
 grant core_rw to api_user;
+--todo: grant core_rw to daemon_user;
 
 -----------------------
 -- CONFIGURE SCHEMAS --
