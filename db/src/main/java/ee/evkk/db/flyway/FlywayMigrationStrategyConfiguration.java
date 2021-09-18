@@ -1,7 +1,9 @@
 package ee.evkk.db.flyway;
 
+import ee.tlu.evkk.common.jdbc.ConnectionPoller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +13,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,8 +39,23 @@ public class FlywayMigrationStrategyConfiguration {
   }
 
   @Bean
-  public FlywayMigrationStrategy flywayMigrationStrategy(FlywayCommandsProvider commandsProvider, FlywayDatabaseSeeder flywayDatabaseSeeder) {
-    return new SeedingFlywayMigrationStrategy(commandsProvider.getCommands(), flywayDatabaseSeeder, properties.getSeedDisabled());
+  public ConnectionPoller connectionPoller(DataSource dataSource) {
+    return new ConnectionPoller(dataSource);
+  }
+
+  @Bean
+  public FlywayMigrationStrategy flywayMigrationStrategy(ApplicationArguments applicationArguments, FlywayDatabaseSeeder flywayDatabaseSeeder, ConnectionPoller connectionPoller) {
+    return new SeedingFlywayMigrationStrategy(getCommands(applicationArguments), flywayDatabaseSeeder, properties.getSeedDisabled(), connectionPoller);
+  }
+
+  private List<String> getCommands(ApplicationArguments applicationArguments) {
+    List<String> args = applicationArguments.getNonOptionArgs();
+    if (!isNullOrEmpty(args)) return args;
+    return properties.getCommands();
+  }
+
+  private static boolean isNullOrEmpty(List<?> list) {
+    return list == null || list.isEmpty();
   }
 
   @Bean

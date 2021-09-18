@@ -31,7 +31,6 @@ services:
   db:
     image: evkk-backend
     entrypoint: [ "/bin/bash", "-c", "java -jar app/db.jar" ]
-    restart: on-failure
     env_file:
       - $PWD/conf/common.env
       - $PWD/conf/db.env

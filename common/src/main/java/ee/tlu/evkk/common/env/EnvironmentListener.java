@@ -11,6 +11,7 @@ import org.springframework.core.env.StandardEnvironment;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePropertySource;
+import org.springframework.lang.NonNull;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class EnvironmentListener implements ApplicationListener<ApplicationEvent
   private final Pattern envFilePattern = Pattern.compile("^local_.+\\.env$");
 
   @Override
-  public void onApplicationEvent(ApplicationEvent event) {
+  public void onApplicationEvent(@NonNull ApplicationEvent event) {
     if (event instanceof ApplicationEnvironmentPreparedEvent) {
       ConfigurableEnvironment environment = ((ApplicationEnvironmentPreparedEvent) event).getEnvironment();
       try {
