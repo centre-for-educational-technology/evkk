@@ -10,14 +10,14 @@ rm -rf ./build/
 docker build . -f ./docker/images/Dockerfile.backend -t evkk-backend --no-cache
 docker build . -f ./docker/images/Dockerfile.ui -t evkk-ui --no-cache
 
-# Copy compose files
-mkdir -p ./build/compose/
-cp -r ./docker/compose/ ./build/compose
-
 # Save docker images
 mkdir -p ./build/images/
 docker save -o ./build/images/evkk-backend.tar evkk-backend
 docker save -o ./build/images/evkk-ui.tar evkk-ui
+
+# Copy compose files
+mkdir -p ./build/compose/
+cp -r ./docker/compose ./build/
 
 # Copy env files and remove `${BUILD_TARGET}_` prefix
 mkdir -p ./build/conf/
