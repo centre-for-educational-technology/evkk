@@ -47,3 +47,11 @@ services:
     depends_on:
       - db
       - redis
+
+  clusterfinder:
+    image: evkk-backend
+    entrypoint: [ "/bin/bash", "-c", "java -jar app/clusterfinder.jar" ]
+    env_file:
+      - $PWD/conf/common.env
+      - $PWD/conf/clusterfinder.env
+

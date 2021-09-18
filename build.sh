@@ -7,8 +7,8 @@ BUILD_TARGET=demo #TODO:
 rm -rf ./build/
 
 # Build docker images
-docker build . -f ./docker/Dockerfile.backend -t evkk-backend --no-cache
-docker build . -f ./docker/Dockerfile.ui -t evkk-ui --no-cache
+docker build . -f ./docker/images/Dockerfile.backend -t evkk-backend --no-cache
+docker build . -f ./docker/images/Dockerfile.ui -t evkk-ui --no-cache
 
 # Copy compose files
 mkdir -p ./build/compose/
@@ -21,4 +21,7 @@ docker save -o ./build/images/evkk-ui.tar evkk-ui
 
 # Copy env files and remove `${BUILD_TARGET}_` prefix
 mkdir -p ./build/conf/
-for file in ./conf/${BUILD_TARGET}_*; do cp "$file" "./build/conf/${file#./conf/${BUILD_TARGET}_}";done;
+for file in ./conf/${BUILD_TARGET}_*; do cp "$file" "./build/conf/${file#./conf/${BUILD_TARGET}_}"; done
+
+# Copy run script
+cp ./docker/run.sh ./build/run.sh

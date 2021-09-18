@@ -7,5 +7,6 @@ http://localhost:9999 {
 
   reverse_proxy /* ui:5000
   reverse_proxy /api/* api:9090
+  reverse_proxy /clusterfinder/* clusterfinder:9092
 
 }
