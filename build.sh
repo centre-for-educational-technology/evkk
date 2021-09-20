@@ -2,6 +2,7 @@
 set -e
 
 BUILD_TARGET=demo #TODO:
+echo "Building EVKK ..."
 
 # Remove build dir (if exists)
 rm -rf ./build/
@@ -17,7 +18,9 @@ docker save -o ./build/images/evkk-ui.tar evkk-ui
 
 # Copy compose files
 mkdir -p ./build/compose/
-cp -r ./docker/compose ./build/
+cp ./docker/compose/Caddyfile ./build/compose/Caddyfile
+cp ./docker/compose/docker-compose.base.yml ./build/compose/docker-compose.base.yml
+cp ./docker/compose/docker-compose.${BUILD_TARGET}.yml ./build/compose/docker-compose.yml
 
 # Copy env files and remove `${BUILD_TARGET}_` prefix
 mkdir -p ./build/conf/
