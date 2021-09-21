@@ -3,7 +3,7 @@ package ee.tlu.evkk.common.jdbc;
 import ch.qos.logback.classic.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.retry.RetryOperations;
 import org.springframework.retry.backoff.FixedBackOffPolicy;
@@ -78,7 +78,7 @@ public class ConnectionPoller {
   private RetryOperations createRetry() {
     RetryTemplate retry = new RetryTemplate();
 
-    SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy(10, Map.of(DataAccessException.class, true));
+    SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy(10, Map.of(CannotGetJdbcConnectionException.class, true));
     retry.setRetryPolicy(retryPolicy);
 
     FixedBackOffPolicy backOffPolicy = new FixedBackOffPolicy();
