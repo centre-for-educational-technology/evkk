@@ -4,11 +4,12 @@ services:
 
   postgres:
     image: postgres:13-alpine
+    secrets:
+      - EVKK_DB_DATASOURCE_PASSWORD
     environment:
       POSTGRES_USER: db_user
       POSTGRES_DB: evkk
-    env_file:
-      - $PWD/conf/db.env
+      POSTGRES_PASSWORD_FILE: /run/secrets/EVKK_DB_DATASOURCE_PASSWORD
     volumes:
       - $PWD/data/postgres:/var/lib/postgresql/data
 
@@ -19,10 +20,11 @@ services:
 
   ui:
     image: evkk-ui
+    depends_on:
+      - api
 
   caddy:
     image: caddy:2.4.5-alpine
-    restart: unless-stopped
     ports:
       - "9999:9999"
     volumes:
@@ -31,6 +33,9 @@ services:
   db:
     image: evkk-backend
     entrypoint: [ "/bin/bash", "-c", "java -jar app/db.jar" ]
+    secrets:
+      - EVKK_DB_DATASOURCE_PASSWORD
+      - EVKK_API_DATASOURCE_PASSWORD
     env_file:
       - $PWD/conf/common.env
       - $PWD/conf/db.env
@@ -41,12 +46,14 @@ services:
   api:
     image: evkk-backend
     entrypoint: [ "/bin/bash", "-c", "java -jar app/api.jar" ]
-    env_file:
-      - $PWD/conf/common.env
-      - $PWD/conf/api.env
+    secrets:
+      - EVKK_API_DATASOURCE_PASSWORD
     depends_on:
       - db
       - redis
+    env_file:
+      - $PWD/conf/common.env
+      - $PWD/conf/api.env
 
   clusterfinder:
     image: evkk-backend
@@ -54,4 +61,5 @@ services:
     env_file:
       - $PWD/conf/common.env
       - $PWD/conf/clusterfinder.env
-
+    depends_on:
+      - api
