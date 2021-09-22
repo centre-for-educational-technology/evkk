@@ -18,17 +18,17 @@ services:
     volumes:
       - $PWD/data/redis:/data
 
-  ui:
-    image: evkk-ui
-    depends_on:
-      - api
-
   caddy:
     image: caddy:2.4.5-alpine
     ports:
       - "9999:9999"
     volumes:
       - $PWD/compose/Caddyfile:/etc/caddy/Caddyfile
+
+  ui:
+    image: evkk-ui
+    depends_on:
+      - api
 
   db:
     image: evkk-backend
