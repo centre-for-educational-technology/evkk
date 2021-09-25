@@ -9,7 +9,7 @@ rm -rf ./build/
 
 # Build docker images
 docker build . -f ./docker/images/Dockerfile.backend -t evkk-backend --no-cache
-docker build . -f ./docker/images/Dockerfile.ui -t evkk-ui --no-cache
+#docker build . -f ./docker/images/Dockerfile.ui -t evkk-ui --no-cache
 
 # Save docker images
 mkdir -p ./build/images/

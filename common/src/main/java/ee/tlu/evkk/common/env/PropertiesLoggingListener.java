@@ -1,7 +1,5 @@
 package ee.tlu.evkk.common.env;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationPreparedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -19,8 +17,6 @@ import java.util.stream.Collectors;
  */
 public class PropertiesLoggingListener implements ApplicationListener<ApplicationPreparedEvent> {
 
-  private static final Logger log = LoggerFactory.getLogger(PropertiesLoggingListener.class);
-
   @Override
   public void onApplicationEvent(@NonNull ApplicationPreparedEvent event) {
     ConfigurableEnvironment environment = event.getApplicationContext().getEnvironment();
@@ -28,10 +24,10 @@ public class PropertiesLoggingListener implements ApplicationListener<Applicatio
   }
 
   private void log(ConfigurableEnvironment environment) {
-    log.info("##### PROPERTIES #####");
+    System.out.println("##### PROPERTIES #####");
     for (String propertyName : getPropertyNames(environment)) {
       String propertyValue = environment.getProperty(propertyName); //TODO: may fail
-      log.info("{} = {}", propertyName, propertyValue);
+      System.out.println(propertyName + "=" + propertyValue);
     }
   }
 
