@@ -11,12 +11,12 @@ services:
       POSTGRES_DB: evkk
       POSTGRES_PASSWORD_FILE: /run/secrets/EVKK_DB_DATASOURCE_PASSWORD
     volumes:
-      - $PWD/data/postgres:/var/lib/postgresql/data
+      - /srv/evkk/data/postgres:/var/lib/postgresql/data #TODO: make configurable
 
   redis:
     image: redis:6-alpine
-    volumes:
-      - $PWD/data/redis:/data
+    #volumes: TODO: re-enable
+    #  - $PWD/data/redis:/data
 
   caddy:
     image: caddy:2.4.5-alpine
