@@ -66,10 +66,15 @@ public class LocalEnvironmentPostProcessor implements EnvironmentPostProcessor {
     Map<String, Object> map = new HashMap<>(secrets.size());
     for (Path secret : secrets) {
       String secretName = secret.getFileName().toString();
-      String secretValue = Files.readString(secret);
+      String secretValue = readDockerSecret(secret);
       map.put(secretName, secretValue);
     }
     return new MapPropertySource("Docker secrets loaded from " + DOCKER_SECRETS_DIRECTORY, Collections.unmodifiableMap(map));
+  }
+
+  private String readDockerSecret(Path path) throws IOException {
+    String content = Files.readString(path);
+    return content.strip();
   }
 
   private PropertySource<?> createLocalDevProperties(Path confDir) throws IOException {
