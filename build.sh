@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-BUILD_TARGET=demo #TODO:
+BUILD_TARGET=prod #TODO:
 echo "Building EVKK ..."
 
 # Remove build dir (if exists)

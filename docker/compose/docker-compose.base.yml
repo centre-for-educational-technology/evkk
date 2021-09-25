@@ -55,11 +55,11 @@ services:
       - $PWD/conf/common.env
       - $PWD/conf/api.env
 
-  clusterfinder:
-    image: evkk-backend
-    entrypoint: [ "/bin/bash", "-c", "java -jar app/clusterfinder.jar" ]
-    env_file:
-      - $PWD/conf/common.env
-      - $PWD/conf/clusterfinder.env
-    depends_on:
-      - api
+  #clusterfinder:
+  #  image: evkk-backend
+  #  entrypoint: [ "/bin/bash", "-c", "java -jar app/clusterfinder.jar" ]
+  #  env_file:
+  #    - $PWD/conf/common.env
+  #    - $PWD/conf/clusterfinder.env
+  #  depends_on:
+  #    - api
