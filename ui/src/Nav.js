@@ -50,7 +50,7 @@ class Nav extends Component {
                 <Link to="/about" className={'nav-link'}>Mis on EVKK</Link>
               </li>
               <li className="nav-item">
-                <Link to="/employees" className={'nav-link'}>Töötajad</Link>
+                <Link to="/employees" className={'nav-link'}>Töötajad 22</Link>
               </li>
               <li className="nav-item">
                 <Link to="/resources" className={'nav-link'}>Materjalid</Link>
