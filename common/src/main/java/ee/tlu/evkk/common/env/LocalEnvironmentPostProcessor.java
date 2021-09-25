@@ -62,8 +62,12 @@ public class LocalEnvironmentPostProcessor implements EnvironmentPostProcessor {
   }
 
   private MapPropertySource readDockerSecrets() throws IOException {
+    log.info("ATTEMPT TO LOAD DOCKER SECRETS");
     Path dockerSecretsDirectory = Path.of(DOCKER_SECRETS_DIRECTORY);
-    if (!Files.isDirectory(dockerSecretsDirectory)) return null;
+    if (!Files.isDirectory(dockerSecretsDirectory)) {
+      log.info("{} is not DIR", DOCKER_SECRETS_DIRECTORY);
+      return null;
+    }
 
     List<Path> secrets = Files.list(dockerSecretsDirectory).collect(Collectors.toUnmodifiableList());
     Map<String, Object> map = new HashMap<>(secrets.size());
