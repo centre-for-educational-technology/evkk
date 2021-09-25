@@ -1,6 +1,7 @@
 package ee.tlu.evkk.common.jdbc;
 
 import ch.qos.logback.classic.Level;
+import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
@@ -68,7 +69,9 @@ public class ConnectionPoller {
   }
 
   private Connection getConnection() {
-    return DataSourceUtils.getConnection(dataSource);
+    HikariDataSource hds = (HikariDataSource) this.dataSource;
+    log.info("DB CONF: {} {}/{}", hds.getJdbcUrl(), hds.getUsername(), hds.getPassword());
+    return DataSourceUtils.getConnection(this.dataSource);
   }
 
   private void releaseConnection(Connection connection) {

@@ -72,6 +72,7 @@ public class LocalEnvironmentPostProcessor implements EnvironmentPostProcessor {
       String secretValue = Files.readString(secret);
       map.put(secretName, secretValue);
     }
+    log.info("DOCKER SECRETS: {}", secrets);
     return new MapPropertySource("Docker secrets loaded from " + DOCKER_SECRETS_DIRECTORY, Collections.unmodifiableMap(map));
   }
 
