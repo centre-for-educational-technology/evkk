@@ -1,7 +1,5 @@
 package ee.tlu.evkk.common.env;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -29,7 +27,6 @@ import static java.nio.file.FileVisitOption.FOLLOW_LINKS;
  */
 public class LocalEnvironmentPostProcessor implements EnvironmentPostProcessor {
 
-  private static final Logger log = LoggerFactory.getLogger(LocalEnvironmentPostProcessor.class);
   private static final String DOCKER_SECRETS_DIRECTORY = "/run/secrets/";
 
   private final String[] confDirCandidates = new String[]{"./conf/", "./../conf/", "./../../conf/"};
@@ -62,12 +59,8 @@ public class LocalEnvironmentPostProcessor implements EnvironmentPostProcessor {
   }
 
   private MapPropertySource readDockerSecrets() throws IOException {
-    log.info("ATTEMPT TO LOAD DOCKER SECRETS");
     Path dockerSecretsDirectory = Path.of(DOCKER_SECRETS_DIRECTORY);
-    if (!Files.isDirectory(dockerSecretsDirectory)) {
-      log.info("{} is not DIR", DOCKER_SECRETS_DIRECTORY);
-      return null;
-    }
+    if (!Files.isDirectory(dockerSecretsDirectory)) return null;
 
     List<Path> secrets = Files.list(dockerSecretsDirectory).collect(Collectors.toUnmodifiableList());
     Map<String, Object> map = new HashMap<>(secrets.size());
@@ -76,7 +69,6 @@ public class LocalEnvironmentPostProcessor implements EnvironmentPostProcessor {
       String secretValue = Files.readString(secret);
       map.put(secretName, secretValue);
     }
-    log.info("DOCKER SECRETS: {}", secrets);
     return new MapPropertySource("Docker secrets loaded from " + DOCKER_SECRETS_DIRECTORY, Collections.unmodifiableMap(map));
   }
 
