@@ -73,6 +73,9 @@ class Nav extends Component {
                   */}
                 </div>
               </li>
+              <li className="nav-item">
+                <a href="https://evkk.tlu.ee/vers1/" target="_blank" rel="noopener noreferrer" className={'nav-link'}>Vana versioon <i className="fas fa-external-link-alt"/></a>
+              </li>
             </ul>
             {/*
             <ul className="navbar-nav ml-auto">
