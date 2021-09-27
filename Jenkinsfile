@@ -1,5 +1,6 @@
 def getBuildTarget(branch) {
-  return 'prod';
+  echo "######"
+  echo branch
   if (branch == 'master') {
     return 'prod'
   } else {
