@@ -1,8 +1,12 @@
 #!/bin/bash
 set -e
 
-BUILD_TARGET=prod #TODO:
 echo "Building EVKK ..."
+
+if [[ -z "$BUILD_TARGET" ]]; then
+    echo "\$BUILD_TARGET is missing" 1>&2
+    exit 1
+fi
 
 # Remove build dir (if exists)
 rm -rf ./build/
