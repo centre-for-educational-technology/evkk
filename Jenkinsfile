@@ -1,9 +1,12 @@
 def getBuildTarget(branch) {
+  if (branch == 'deploy-2021-09') {
+    return 'prod'
+  }
   if (branch == 'master') {
     return 'prod'
   } else {
     return 'demo'
- }
+  }
 }
 
 pipeline {
