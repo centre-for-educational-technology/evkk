@@ -1,10 +1,3 @@
-def getCurrentBranch () {
-    return sh (
-        script: 'git rev-parse --abbrev-ref HEAD',
-        returnStdout: true
-    ).trim()
-}
-
 def getBuildTarget(branch) {
   if (branch == 'master' || branch == 'deploy-2021-09') {
     return 'prod'
@@ -25,7 +18,7 @@ pipeline {
 
     stage('Build') {
       steps {
-        echo getCurrentBranch()
+        sh 'printenv'
         sh './build.sh'
       }
     }
