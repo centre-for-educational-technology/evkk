@@ -1,4 +1,10 @@
-def getBuildTarget(branch) {
+def getBranchName() {
+  def name = env.GIT_BRANCH;
+  echo name;
+}
+
+def getBuildTarget() {
+  def branch = getBranchName();
   if (branch == 'master' || branch == 'deploy-2021-09') {
     return 'prod'
   } else {
@@ -11,14 +17,13 @@ pipeline {
   agent any
 
   environment {
-    BUILD_TARGET = getBuildTarget(env.BRANCH_NAME)
+    BUILD_TARGET = getBuildTarget()
   }
 
   stages {
 
     stage('Build') {
       steps {
-        sh 'printenv'
         sh './build.sh'
       }
     }
