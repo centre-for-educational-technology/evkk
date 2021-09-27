@@ -1,7 +1,5 @@
 def getBuildTarget(branch) {
-  echo "######"
-  echo env.BRANCH_NAME
-  if (branch == 'master') {
+  if (branch == 'master' || branch == 'deploy-2021-09') {
     return 'prod'
   } else {
     return 'demo'
