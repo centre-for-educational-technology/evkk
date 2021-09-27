@@ -8,7 +8,7 @@ class About extends Component {
         <h2>Mis on <abbr title="eesti vahekeele korpus">EVKK</abbr>?</h2>
         <p/>
         <p>
-          Tallinna Ülikooli eesti vahekeele korpus (EVKK) on eesti keele kui riigikeele (teise keele) ja võõrkeele õppijate kirjalike tekstide kogu.
+          Tallinna Ülikooli eesti vahekeele korpus (EVKK) on eesti keele kui riigikeele (teise keele) ja võõrkeele õppijate kirjalike tekstide kogu...
         </p>
         <p>
           EVKK-s on rida alamkorpusi, kasutajaliides, mitmetasandiline annoteerimis- ja märgendussüsteem, statistikamoodul, tekstide automaatanalüüsi võimalused
