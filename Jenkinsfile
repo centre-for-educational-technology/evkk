@@ -1,10 +1,11 @@
 def getBranchName() {
   def name = env.GIT_BRANCH;
-  echo name;
+  return name.substring(name.indexOf("/") + 1);
 }
 
 def getBuildTarget() {
   def branch = getBranchName();
+  echo branch
   if (branch == 'master' || branch == 'deploy-2021-09') {
     return 'prod'
   } else {
