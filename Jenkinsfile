@@ -1,16 +1,9 @@
-def getBranchName() {
-  def name = env.GIT_BRANCH;
-  return name.substring(name.indexOf("/") + 1);
-}
-
 def getBuildTarget() {
-  def branch = getBranchName();
-  echo branch
-  if (branch == 'master' || branch == 'deploy-2021-09') {
-    return 'prod'
-  } else {
-    return 'demo'
-  }
+  def branch = env.GIT_BRANCH
+  def name = branch.substring(branch.indexOf("/") + 1)
+  if (name == 'master' || name == 'deploy-2021-090') return 'prod';
+  if (name == 'dev') return 'demo';
+  throw new Exception("Invalid build target: " + branch)
 }
 
 pipeline {
