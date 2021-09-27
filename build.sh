@@ -8,6 +8,8 @@ if [[ -z "$BUILD_TARGET" ]]; then
     exit 1
 fi
 
+echo "\$BUILD_TARGET=$BUILD_TARGET}"
+
 # Remove build dir (if exists)
 rm -rf ./build/
 

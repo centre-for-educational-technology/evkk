@@ -2,6 +2,10 @@ pipeline {
 
   agent any
 
+  environment {
+    BUILD_TARGET = env.BRANCH_NAME == 'master' ? 'prod' : 'demo'
+  }
+
   stages {
 
     stage('Build') {
