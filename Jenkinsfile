@@ -11,15 +11,17 @@ pipeline {
       }
     }
 
-    stage('Test') {
+    stage('Copy files') {
       steps {
-        echo 'Testing...'
+        sshagent (credentials: ['deploy']) {
+          sh "scp -o StrictHostKeyChecking=no -r ./build/* evkk@praktika2.cs.tlu.ee:/opt/evkk2"
+        }
       }
     }
 
     stage('Deploy') {
       steps {
-        echo 'Deploying...'
+        sh "ssh -o StrictHostKeyChecking=no evkk@praktika2.cs.tlu.ee 'cd /opt/evkk2/ && ./run.sh'"
       }
     }
 
