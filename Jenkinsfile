@@ -1,6 +1,6 @@
 def getBuildTarget(branch) {
   echo "######"
-  echo branch
+  echo env.BRANCH_NAME
   if (branch == 'master') {
     return 'prod'
   } else {
