@@ -1,9 +1,17 @@
+def getBuildTarget(branch) {
+  if (branch == 'master') {
+    return 'prod'
+  } else {
+    return 'demo'
+ }
+}
+
 pipeline {
 
   agent any
 
   environment {
-    BUILD_TARGET = env.BRANCH_NAME == 'master' ? 'prod' : 'demo'
+    BUILD_TARGET = getBuildTarget(env.BRANCH_NAME)
   }
 
   stages {
