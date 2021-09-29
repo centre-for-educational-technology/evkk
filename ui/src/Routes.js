@@ -3,6 +3,7 @@ import {Redirect, Route, Switch} from "react-router-dom";
 import {About, Employees, Login, Resources} from "./views";
 import {MasinoppeEnnustus, MinitornPikkus} from "./views/tools";
 import CharCounter from "./views/tools/CharCounter";
+import ClusterFinder from "./views/tools/ClusterFinder";
 import {Files} from "./views/user";
 
 class Routes extends Component {
@@ -28,6 +29,7 @@ class Routes extends Component {
           <Route path="/tools/minitorn-pikkus" component={MinitornPikkus}/>
           <Route path="/tools/masinoppe-ennustus" component={MasinoppeEnnustus}/>
           <Route path="/tools/char-counter" component={CharCounter}/>
+          <Route path="/tools/clusterfinder" component={ClusterFinder}/>
           <Route component={() => this.render404()}/>
         </Switch>
       </div>

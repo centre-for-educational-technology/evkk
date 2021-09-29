@@ -1,102 +1,63 @@
 buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
-    }
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+  }
 }
 
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 subprojects {
 
-    apply plugin: "io.spring.dependency-management"
-    apply plugin: "java"
-    apply plugin: "idea"
+  apply plugin: "io.spring.dependency-management"
+  apply plugin: "java"
+  apply plugin: "idea"
 
-    group = "ee.tlu"
-    version = rootProject.version
-    sourceCompatibility = "1.11"
+  group = "ee.tlu"
+  version = rootProject.version
+  sourceCompatibility = "1.11"
 
-    configurations {
-        developmentOnly
-        runtimeClasspath {
-            extendsFrom developmentOnly
-        }
-        compileOnly {
-            extendsFrom annotationProcessor
-        }
-    }
-
-    repositories {
-        mavenCentral()
-    }
-
-    dependencyManagement {
-        imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
-    }
-
-    dependencies {
-        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-        developmentOnly "org.springframework.boot:spring-boot-devtools"
-        testImplementation project(":test")
-    }
-
-    tasks.withType(BootJar) {
-        archiveFileName = "${project.name}.jar"
-        destinationDirectory = file("${rootProject.projectDir}/dist/${project.name}/")
-    }
-
-    test {
-        outputs.upToDateWhen { false }
-        useJUnitPlatform()
-        testLogging { showStandardStreams = true }
-        reports.html.setDestination(file("${rootProject.projectDir}/reports/tests/${project.name}/"))
-    }
-
-}
-
-
-
-/*
-plugins {
-    id 'org.springframework.boot' version '2.2.4.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-    id 'java'
-}
-
-group = 'ee.tlu'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
-
-configurations {
+  configurations {
     developmentOnly
     runtimeClasspath {
-        extendsFrom developmentOnly
+      extendsFrom developmentOnly
     }
     compileOnly {
-        extendsFrom annotationProcessor
+      extendsFrom annotationProcessor
     }
-}
+  }
 
-repositories {
+  repositories {
     mavenCentral()
-}
+  }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.flywaydb:flyway-core'
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.1'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
-    testImplementation 'org.springframework.security:spring-security-test'
+  dependencyManagement {
+    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
+  }
+
+  dependencies {
+
+    // mapsstruct
+    implementation "org.mapstruct:mapstruct:${mapStructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    developmentOnly "org.springframework.boot:spring-boot-devtools"
+    testImplementation project(":test")
+  }
+
+  tasks.withType(BootJar) {
+    archiveFileName = "${project.name}.jar"
+    destinationDirectory = file("${rootProject.projectDir}/dist/")
+  }
+
+  test {
+    outputs.upToDateWhen { false }
+    useJUnitPlatform()
+    testLogging { showStandardStreams = true }
+    reports.html.setDestination(file("${rootProject.projectDir}/reports/tests/${project.name}/"))
+  }
+
 }
-*/

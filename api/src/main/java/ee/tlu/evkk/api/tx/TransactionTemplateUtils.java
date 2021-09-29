@@ -17,10 +17,10 @@ public class TransactionTemplateUtils {
     return executeInternal(transactionTemplate, callback);
   }
 
-  public static <T extends Throwable, R> R execute(TransactionTemplate transactionTemplate, VoidTransactionCallback<T> callback) throws T {
+  public static <T extends Throwable> void execute(TransactionTemplate transactionTemplate, VoidTransactionCallback<T> callback) throws T {
     Objects.requireNonNull(transactionTemplate);
     Objects.requireNonNull(callback);
-    return executeInternal(transactionTemplate, status -> {
+    executeInternal(transactionTemplate, status -> {
       callback.execute(status);
       return null;
     });

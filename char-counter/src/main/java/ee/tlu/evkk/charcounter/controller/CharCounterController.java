@@ -27,8 +27,10 @@ public class CharCounterController {
   }
 
   @GetMapping("/")
-  public String index(Model model, @RequestParam("evkkSessionToken") String sessionToken, @RequestParam(value = "userFileId", required = false) String userFileId) throws IOException {
-    List<FileResponseEntity> files = evkkClient.listFiles(sessionToken);
+  public String index(Model model,
+                      @RequestParam(value = "evkkSessionToken", required = false) String sessionToken,
+                      @RequestParam(value = "userFileId", required = false) String userFileId) throws IOException {
+    List<FileResponseEntity> files = sessionToken == null ? Collections.emptyList() : evkkClient.listFiles(sessionToken);
     model.addAttribute("files", files);
     if (userFileId != null && !userFileId.isBlank()) model.addAttribute("stats", calculateStats(sessionToken, userFileId));
     else model.addAttribute("stats", null);

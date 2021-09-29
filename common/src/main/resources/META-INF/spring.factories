@@ -1,1 +1,2 @@
-org.springframework.context.ApplicationListener=ee.tlu.evkk.common.env.EnvironmentListener
+org.springframework.boot.env.EnvironmentPostProcessor=ee.tlu.evkk.common.env.LocalEnvironmentPostProcessor
+#org.springframework.context.ApplicationListener=ee.tlu.evkk.common.env.PropertiesLoggingListener

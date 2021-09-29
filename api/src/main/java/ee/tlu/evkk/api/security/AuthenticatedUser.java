@@ -14,11 +14,6 @@ public class AuthenticatedUser extends User {
 
   private final UUID userId;
 
-  public AuthenticatedUser(UUID userId, String username, String password, Collection<? extends GrantedAuthority> authorities) {
-    super(username, password, authorities);
-    this.userId = userId;
-  }
-
   public AuthenticatedUser(UUID userId, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
     super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
     this.userId = userId;

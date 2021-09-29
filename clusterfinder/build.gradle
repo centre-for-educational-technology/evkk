@@ -1,0 +1,16 @@
+apply plugin: "org.springframework.boot"
+
+dependencies {
+
+  implementation project(":common")
+  implementation project(":dto")
+
+  compileOnly "org.projectlombok:lombok:1.18.12"
+  annotationProcessor "org.projectlombok:lombok:1.18.12"
+
+  implementation "commons-io:commons-io:2.6"
+  implementation 'com.google.code.gson:gson:2.8.6'
+  implementation "org.springframework.boot:spring-boot-starter-web"
+  implementation "org.springframework.boot:spring-boot-starter-freemarker"
+  compile group: 'org.apache.commons', name: 'commons-text', version: '1.8'
+}

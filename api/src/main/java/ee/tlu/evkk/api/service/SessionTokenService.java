@@ -2,7 +2,7 @@ package ee.tlu.evkk.api.service;
 
 import ee.tlu.evkk.api.dao.SessionTokenDao;
 import ee.tlu.evkk.api.dao.dto.SessionToken;
-import ee.tlu.evkk.api.exception.SessionNotFoundException;
+import ee.tlu.evkk.api.exception.InvalidSessionException;
 import org.springframework.session.Session;
 import org.springframework.session.SessionRepository;
 import org.springframework.stereotype.Service;
@@ -33,12 +33,12 @@ public class SessionTokenService {
     return sessionTokenDao.findIdByUserIdAndSessionId(userId, sessionId);
   }
 
-  public SessionToken getSessionToken(UUID sessionTokenId) throws SessionNotFoundException {
+  public SessionToken getSessionToken(UUID sessionTokenId) throws InvalidSessionException {
     Objects.requireNonNull(sessionTokenId);
     SessionToken sessionToken = sessionTokenDao.findById(sessionTokenId);
-    if (sessionToken == null) throw new SessionNotFoundException();
+    if (sessionToken == null) throw new InvalidSessionException();
     Session session = sessionRepository.findById(sessionToken.getSessionId());
-    if (session == null || session.isExpired()) throw new SessionNotFoundException();
+    if (session == null || session.isExpired()) throw new InvalidSessionException();
     return sessionToken;
   }
 

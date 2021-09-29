@@ -55,23 +55,33 @@ class Nav extends Component {
               <li className="nav-item">
                 <Link to="/resources" className={'nav-link'}>Materjalid</Link>
               </li>
+              {/*
               <li className="nav-item">
                 <Link to="/links" className={'nav-link'}>Kasulikud lingid</Link>
               </li>
+              */}
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                   Tööriistad
                 </a>
                 <div className="dropdown-menu">
                   <Link to="/tools/minitorn-pikkus" className={'dropdown-item'}>Teksti pikkus</Link>
+                  {/*
                   <Link to="/tools/char-counter" className={'dropdown-item'}>Sümbolite lugeja</Link>
                   <Link to="/tools/masinoppe-ennustus" className={'dropdown-item'}>Masinõppe ennustus</Link>
+                  <Link to="/tools/clusterfinder" className={'dropdown-item'}>Klastrileidja</Link>
+                  */}
                 </div>
               </li>
+              <li className="nav-item">
+                <a href="https://evkk.tlu.ee/vers1/" target="_blank" rel="noopener noreferrer" className={'nav-link'}>Vana versioon <i className="fas fa-external-link-alt"/></a>
+              </li>
             </ul>
+            {/*
             <ul className="navbar-nav ml-auto">
               {this.renderUserMenu()}
             </ul>
+             */}
           </div>
         </nav>
       </div>
