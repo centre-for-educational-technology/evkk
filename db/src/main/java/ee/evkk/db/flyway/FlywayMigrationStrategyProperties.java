@@ -13,6 +13,7 @@ public class FlywayMigrationStrategyProperties {
 
   private Boolean seedDisabled = false;
   private List<String> seedLocations;
+  private List<String> commands;
 
   public Boolean getSeedDisabled() {
     return seedDisabled;
@@ -28,6 +29,14 @@ public class FlywayMigrationStrategyProperties {
 
   public void setSeedLocations(List<String> seedLocations) {
     this.seedLocations = seedLocations;
+  }
+
+  public List<String> getCommands() {
+    return commands;
+  }
+
+  public void setCommands(List<String> commands) {
+    this.commands = commands;
   }
 
 }

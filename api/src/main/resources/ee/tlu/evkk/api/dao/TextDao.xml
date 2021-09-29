@@ -1,0 +1,24 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ee.tlu.evkk.api.dao.TextDao">
+
+  <select id="findTextById" resultType="java.lang.String">
+        select concat(
+          (select property_value FROM core.text_property where property_name='title' and  core.text_property.id= #{textId}),
+          '!!!',
+          (select content from core.text where core.text.id = #{textId}));
+    </select>
+  <select id="findTextIDsByCorpusID" resultType="java.lang.String">
+        select text_id
+        from core.text_property
+        where core.text_property.property_value = #{corpusId} and core.text_property.property_name = 'korpus';
+    </select>
+    <select id="findTextIDandTitleByCorpusID" resultType="java.lang.String">
+        select concat(tp1.text_id, '!!!',
+        (select tp2.property_value FROM core.text_property as tp2 where tp2.property_name='title' and tp2.text_id = tp1.text_id))
+        from core.text_property as tp1
+        where tp1.property_value = #{corpusId} and tp1.property_name = 'korpus';
+    </select>
+
+</mapper>

@@ -1,5 +1,6 @@
 package ee.evkk.db.flyway;
 
+import ee.tlu.evkk.common.jdbc.ConnectionPoller;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,15 +31,18 @@ public class SeedingFlywayMigrationStrategy implements FlywayMigrationStrategy {
   private final List<String> commands;
   private final FlywayDatabaseSeeder flywayDatabaseSeeder;
   private final boolean seedDisabled;
+  private final ConnectionPoller connectionPoller;
 
-  public SeedingFlywayMigrationStrategy(List<String> commands, FlywayDatabaseSeeder flywayDatabaseSeeder, boolean seedDisabled) {
+  public SeedingFlywayMigrationStrategy(List<String> commands, FlywayDatabaseSeeder flywayDatabaseSeeder, boolean seedDisabled, ConnectionPoller connectionPoller) {
     this.commands = commands;
     this.flywayDatabaseSeeder = flywayDatabaseSeeder;
     this.seedDisabled = seedDisabled;
+    this.connectionPoller = connectionPoller;
   }
 
   @Override
   public void migrate(Flyway flyway) {
+    connectionPoller.poll();
     List<String> commands = this.commands;
     boolean hasCommands = !(commands == null || commands.isEmpty());
     if (!hasCommands) throw new IllegalStateException("No commands provided for flyway");

@@ -38,6 +38,11 @@ subprojects {
   }
 
   dependencies {
+
+    // mapsstruct
+    implementation "org.mapstruct:mapstruct:${mapStructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     developmentOnly "org.springframework.boot:spring-boot-devtools"
     testImplementation project(":test")
@@ -45,7 +50,7 @@ subprojects {
 
   tasks.withType(BootJar) {
     archiveFileName = "${project.name}.jar"
-    destinationDirectory = file("${rootProject.projectDir}/dist/service/${project.name}/")
+    destinationDirectory = file("${rootProject.projectDir}/dist/")
   }
 
   test {

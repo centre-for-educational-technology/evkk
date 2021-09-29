@@ -25,8 +25,4 @@ dependencies {
   // https://mvnrepository.com/artifact/com.google.guava/guava
   compile group: 'com.google.guava', name: 'guava', version: '29.0-jre'
 
-  // mapstruct
-  implementation "org.mapstruct:mapstruct:${mapStructVersion}"
-  annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
-
 }
