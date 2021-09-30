@@ -64,6 +64,10 @@ services:
       - $PWD/conf/common.env
       - $PWD/conf/api.env
 
+  stanza:
+    image: evkk-stanza
+    restart: always
+
   #clusterfinder:
   #  image: evkk-backend
   #  restart: always
