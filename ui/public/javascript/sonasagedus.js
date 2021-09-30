@@ -26,11 +26,12 @@ if(vorm == "algvormid") {
     $.ajax({
         type: "POST",
         url: "api/texts/lemmad",
-        data: {tekst : jsonString},
+        contentType:"application/json; charset=utf-8",
+        data: JSON.stringify( {tekst : koguTekst[0]}),
         success: function(data){
             tekstiTootlus(data);
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert(textStatus + "\n" + errorThrown);
         }
     });
@@ -42,14 +43,14 @@ if(vorm == "algvormid") {
         success: function(data){
             tekstiTootlus(data);
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert(textStatus + "\n" + errorThrown);
         }
     });
 }
 
 function tekstiTootlus(data) {
-    data = JSON.parse(data);
+    //data = JSON.parse(data);
     for(let i = 0; i < data.length; i++) {
         if(tahesuurus) {
             data[i] = data[i].replaceAll(reg, "").trim();
@@ -103,7 +104,7 @@ function tekstiTootlus(data) {
             puhver.push("<tr><td>" + (i + 1) + "</td><td>" + Object.keys(sorteeritud)[i] + "</td><td>" + Object.values(sorteeritud)[i] + "</td><td>" + sonadeprotsent[Object.keys(sorteeritud)[i]] + "%</td><td><div class='dropdown'><div " + abi + "\" class='dropbtn'>⋮</div><div id='" + Object.keys(sorteeritud)[i] + "' class='dropdown-content'><a href=\"javascript:kontekst('" + Object.keys(sorteeritud)[i] + "')\">Kasutuskontekst</a><a href='https://sonaveeb.ee/search/unif/dlall/dsall/" + Object.keys(sorteeritud)[i] + "/1' target='_blank'>Sõna tähendus (sonaveeb.ee)</a><div>Sõna tõlge (neurotolge.ee)<select name='language' id='language_" + Object.keys(sorteeritud)[i] + "' onchange='translateFunc(\"" + Object.keys(sorteeritud)[i] + "\")'><option selected disabled>Vali keel</option><option value='eng'>inglise</option><option value='rus'>vene</option><option value='ger'>saksa</option><option value='fin'>soome</option><option value='lit'>leedu</option><option value='lav'>läti</option></select></div><div>Vastus:<div id='result_" + Object.keys(sorteeritud)[i] + "'></div></div></div></div>");
         }
     tabel.innerHTML = puhver.join(' ');
-    
+
     tabelElement = $('#words').DataTable({
         "pagingType": "full_numbers",
         "pageLength": 50,
@@ -164,11 +165,11 @@ function translateFunc(sona) {
 
     response.onload = () => {
         result = response.response.split(":").pop();
-    
+
         if ((language = "rus")) {
             var result = result.replace(/\\u/g, "&#x");
         }
-    
+
         document.getElementById("result_" + sona).innerHTML = result.substring(1, result.length - 3);
     };
 }

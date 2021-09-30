@@ -2,12 +2,11 @@ package ee.tlu.evkk.api.controller;
 
 import ee.tlu.evkk.api.dao.TextDao;
 import ee.tlu.evkk.api.integration.StanzaClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,8 +47,25 @@ public class TextController {
     return "Tere, " + eesnimi;
   }
 
+  public static class LemmadRequestEntity {
+
+    private String tekst;
+
+    public String getTekst() {
+      return tekst;
+    }
+
+    public void setTekst(String tekst) {
+      this.tekst = tekst;
+    }
+  }
+
   @PostMapping("/lemmad")
-  public String lemmad(String tekst) throws Exception {
+  public ResponseEntity<List<String>> lemmad(@RequestBody LemmadRequestEntity request) throws Exception {
+
+    String[] lemmad = stanzaClient.getLemmad(request.getTekst());
+
+    /*
     ProcessBuilder processBuilder = new ProcessBuilder("python", "../ui/public/python/lemmad.py");
     processBuilder.redirectErrorStream(true);
     String tulemus = "";
@@ -70,6 +86,11 @@ public class TextController {
       line = lugeja.readLine();
     }
     return tulemus;
+
+     */
+
+    List<String> body = Arrays.asList(lemmad);
+    return ResponseEntity.ok(body);
   }
 
   @PostMapping("/sonad")
