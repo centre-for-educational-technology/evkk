@@ -1,5 +1,7 @@
 package ee.tlu.evkk.api;
 
+import ee.tlu.evkk.api.integration.StanzaClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,9 +17,12 @@ public class ApiRunner implements CommandLineRunner {
     SpringApplication.run(ApiRunner.class, args);
   }
 
+  @Autowired
+  private StanzaClient stanzaClient;
+
   @Override
   public void run(String... args) {
-
+    //stanzaClient.test();
   }
 
 }

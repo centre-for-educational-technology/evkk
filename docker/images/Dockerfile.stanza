@@ -1,4 +1,4 @@
 FROM python:3.8.5
 COPY ./py-test/ /app/
-RUN pip install stanza
+RUN pip install stanza && pip install Flask
 CMD ["python", "/app/server.py"]
