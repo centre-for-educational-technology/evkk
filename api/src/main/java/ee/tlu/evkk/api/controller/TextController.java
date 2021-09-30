@@ -1,6 +1,7 @@
 package ee.tlu.evkk.api.controller;
 
 import ee.tlu.evkk.api.dao.TextDao;
+import ee.tlu.evkk.api.integration.StanzaClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +16,11 @@ import java.util.UUID;
 public class TextController {
 
   private final TextDao textDao;
+  private final StanzaClient stanzaClient;
 
-  public TextController(TextDao uusTDao) {
+  public TextController(TextDao uusTDao, StanzaClient stanzaClient) {
     textDao = uusTDao;
+    this.stanzaClient = stanzaClient;
   }
 
   @GetMapping("/kysitekst")
