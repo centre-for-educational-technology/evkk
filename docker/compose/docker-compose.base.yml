@@ -34,6 +34,10 @@ services:
     depends_on:
       - api
 
+  sonarakendus:
+    image: evkk-sonarakendus
+    restart: always
+
   db:
     image: evkk-backend
     entrypoint: [ "/bin/bash", "-c", "java -jar app/db.jar" ]

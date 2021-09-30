@@ -1,0 +1,7 @@
+FROM node:16-alpine
+COPY ./sonarakendus/ /app/
+#RUN yarn global add serve@12.0.1 && serve --version
+RUN npm install --global http-server
+
+EXPOSE 5001
+CMD ["http-server", "/app", "-p", "5001"]
