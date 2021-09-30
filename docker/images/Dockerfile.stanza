@@ -1,5 +1,4 @@
 FROM python:3.8.5
-ENV FLASK_RUN_HOST=0.0.0.0
 COPY ./stanza/ /app/
-RUN pip install stanza && pip install -U Flask
+RUN pip install stanza && pip install Flask && python /app/preload.py
 CMD ["python", "/app/app.py"]

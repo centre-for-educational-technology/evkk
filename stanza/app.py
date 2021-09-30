@@ -5,15 +5,11 @@ from flask import Flask
 from flask import request
 from flask import Response
 
-print("start download")
 stanza.download('et')
-print("done download")
 app = Flask(__name__)
 
 @app.route('/lemmad', methods=['POST'])
 def lemmad():
-    print("test!!!")
-    #request.json
     nlp = stanza.Pipeline(lang='et', processors='tokenize,pos,lemma')
     doc = nlp(request.json["tekst"])
     v1 = []
