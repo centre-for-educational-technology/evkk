@@ -16,7 +16,7 @@ rm -rf ./build/
 # Build docker images
 docker build . -f ./docker/images/Dockerfile.backend -t evkk-backend --no-cache
 docker build . -f ./docker/images/Dockerfile.ui -t evkk-ui --no-cache
-docker build . -f ./docker/images/Dockerfile.ui -t evkk-stanza --no-cache
+docker build . -f ./docker/images/Dockerfile.stanza -t evkk-stanza --no-cache
 docker build . -f ./docker/images/Dockerfile.sonarakendus -t evkk-sonarakendus --no-cache
 
 # Save docker images
