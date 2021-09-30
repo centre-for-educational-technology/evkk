@@ -25,7 +25,7 @@ freeze = true;
 if(vorm == "algvormid") {
     $.ajax({
         type: "POST",
-        url: "api/texts/lemmad",
+        url: "https://evkk.tlu.ee/sonarakendus/api/texts/lemmad",
         contentType:"application/json; charset=utf-8",
         data: JSON.stringify( {tekst : koguTekst[0]}),
         success: function(data){
