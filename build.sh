@@ -29,6 +29,8 @@ docker save -o ./build/images/evkk-sonarakendus.tar evkk-sonarakendus
 # Copy compose files
 mkdir -p ./build/compose/
 cp ./docker/compose/Caddyfile ./build/compose/Caddyfile
+cp ./docker/compose/docker-compose.postgres.yml ./build/compose/docker-compose.postgres.yml
+cp ./docker/compose/docker-compose.db.yml ./build/compose/docker-compose.db.yml
 cp ./docker/compose/docker-compose.base.yml ./build/compose/docker-compose.base.yml
 cp ./docker/compose/docker-compose.${BUILD_TARGET}.yml ./build/compose/docker-compose.yml
 
