@@ -40,3 +40,5 @@ for file in ./conf/${BUILD_TARGET}_*; do cp "$file" "./build/conf/${file#./conf/
 
 # Copy run script
 cp ./docker/run.sh ./build/run.sh
+
+echo "Build completed"
