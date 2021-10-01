@@ -38,8 +38,9 @@ if(vorm == "algvormid") {
 } else if(vorm == "sonavormid") {
     $.ajax({
         type: "POST",
-        url: "api/texts/sonad",
-        data: {tekst : jsonString},
+        url: "https://evkk.tlu.ee/api/texts/sonad",
+        contentType:"application/json; charset=utf-8",
+        data: JSON.stringify( {tekst : koguTekst[0]}),
         success: function(data){
             tekstiTootlus(data);
         },

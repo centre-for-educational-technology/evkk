@@ -26,4 +26,18 @@ public class StanzaClient {
     return forEntity.getBody();
   }
 
+  public String[] getLaused(String tekst) {
+    Map<String, String> map = Map.of("tekst", "tere tore juku läks kooli. väga tore");
+    HttpEntity<?> requestEntity = new HttpEntity<>(map);
+    ResponseEntity<String[]> forEntity = rest.postForEntity("/lemmad", requestEntity, String[].class);
+    return forEntity.getBody();
+  }
+
+  public String[] getSonad(String tekst) {
+    Map<String, String> map = Map.of("tekst", "tere tore juku läks kooli. väga tore");
+    HttpEntity<?> requestEntity = new HttpEntity<>(map);
+    ResponseEntity<String[]> forEntity = rest.postForEntity("/sonad", requestEntity, String[].class);
+    return forEntity.getBody();
+  }
+
 }

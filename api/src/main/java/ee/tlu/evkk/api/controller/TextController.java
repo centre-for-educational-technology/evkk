@@ -61,7 +61,7 @@ public class TextController {
   }
 
   @PostMapping("/lemmad")
-  public ResponseEntity<List<String>> lemmad(@RequestBody LemmadRequestEntity request) throws Exception {
+  public ResponseEntity<List<String>> lemmad(@RequestBody LemmadRequestEntity request) {
 
     String[] lemmad = stanzaClient.getLemmad(request.getTekst());
 
@@ -94,6 +94,14 @@ public class TextController {
   }
 
   @PostMapping("/sonad")
+  public ResponseEntity<List<String>> sonad(@RequestBody LemmadRequestEntity request) {
+    String[] sonad = stanzaClient.getSonad(request.getTekst());
+    List<String> body = Arrays.asList(sonad);
+    return ResponseEntity.ok(body);
+  }
+
+  /*
+  @PostMapping("/sonad")
   public String sonad(String tekst) throws Exception {
     ProcessBuilder processBuilder = new ProcessBuilder("python", "../ui/public/python/sonad.py");
     processBuilder.redirectErrorStream(true);
@@ -116,7 +124,7 @@ public class TextController {
     }
     System.out.println(tulemus);
     return tulemus;
-  }
+  }*/
 
   @PostMapping("/laused")
   public String laused(String tekst) throws Exception {
@@ -139,11 +147,6 @@ public class TextController {
       line = lugeja.readLine();
     }
     return tulemus;
-  }
-
-  @GetMapping("/asukoht")
-  public String asukoht() {
-    return new java.io.File(".").getAbsolutePath().toString();
   }
 
 }
