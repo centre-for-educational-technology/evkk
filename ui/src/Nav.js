@@ -52,9 +52,11 @@ class Nav extends Component {
               <li className="nav-item">
                 <Link to="/employees" className={'nav-link'}>Töötajad</Link>
               </li>
+              {/*
               <li className="nav-item">
                 <Link to="/resources" className={'nav-link'}>Materjalid</Link>
               </li>
+              */}
               {/*
               <li className="nav-item">
                 <Link to="/links" className={'nav-link'}>Kasulikud lingid</Link>
