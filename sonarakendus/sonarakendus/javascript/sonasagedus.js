@@ -25,7 +25,7 @@ freeze = true;
 if(vorm == "algvormid") {
     $.ajax({
         type: "POST",
-        url: "https://evkk.tlu.ee/api/texts/lemmad",
+        url: "https://evkk.tlu.ee/api/texts/lemmad",  //TODO: hard-coded URL
         contentType:"application/json; charset=utf-8",
         data: JSON.stringify( {tekst : koguTekst[0]}),
         success: function(data){
@@ -38,7 +38,7 @@ if(vorm == "algvormid") {
 } else if(vorm == "sonavormid") {
     $.ajax({
         type: "POST",
-        url: "https://evkk.tlu.ee/api/texts/sonad",
+        url: "https://evkk.tlu.ee/api/texts/sonad",  //TODO: hard-coded URL
         contentType:"application/json; charset=utf-8",
         data: JSON.stringify( {tekst : koguTekst[0]}),
         success: function(data){
