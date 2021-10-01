@@ -40,11 +40,16 @@ class Nav extends Component {
       <div className={'container'} style={{marginTop: '1em'}}>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <Link to="/" className={'navbar-brand'}>EVKK</Link>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
+          <button className="navbar-toggler"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#navbarCollapse"
+                  aria-controls="navbarCollapse"
+                  aria-expanded="false"
                   aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"/>
           </button>
-          <div className="collapse navbar-collapse">
+          <div className="collapse navbar-collapse" id="navbarCollapse">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
                 <Link to="/about" className={'nav-link'}>Mis on EVKK</Link>
@@ -68,8 +73,10 @@ class Nav extends Component {
                 </a>
                 <div className="dropdown-menu">
                   {/*<Link to="/tools/minitorn-pikkus" className={'dropdown-item'}>Teksti pikkus</Link>*/}
-                  <a className="dropdown-item" href="http://minitorn.tlu.ee/~jaagup/oma/too/20/09/tasemed2.php" rel="noopener noreferrer" target="_blank">Tekstihindaja</a>
-                  <a className="dropdown-item" href="https://evkk.tlu.ee/sonarakendus/home.html" rel="noopener noreferrer" target="_blank">Sõnavara analüüsija</a>
+                  <a className="dropdown-item" href="http://minitorn.tlu.ee/~jaagup/oma/too/20/09/tasemed2.php" rel="noopener noreferrer"
+                     target="_blank">Tekstihindaja</a>
+                  <a className="dropdown-item" href="https://evkk.tlu.ee/sonarakendus/home.html" rel="noopener noreferrer" target="_blank">Sõnavara
+                    analüüsija</a>
                   {/*
                   <Link to="/tools/char-counter" className={'dropdown-item'}>Sümbolite lugeja</Link>
                   <Link to="/tools/masinoppe-ennustus" className={'dropdown-item'}>Masinõppe ennustus</Link>
@@ -78,7 +85,8 @@ class Nav extends Component {
                 </div>
               </li>
               <li className="nav-item">
-                <a href="https://evkk.tlu.ee/vers1/" target="_blank" rel="noopener noreferrer" className={'nav-link'}>Vana versioon <i className="fas fa-external-link-alt"/></a>
+                <a href="https://evkk.tlu.ee/vers1/" target="_blank" rel="noopener noreferrer" className={'nav-link'}>Vana versioon <i
+                  className="fas fa-external-link-alt"/></a>
               </li>
             </ul>
             {/*
