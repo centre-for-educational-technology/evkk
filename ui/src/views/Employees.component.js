@@ -5,7 +5,7 @@ class Employees extends Component {
   render() {
     return (
       <div className={'container'}>
-        <h2>Töötajad</h2>
+        <h2>TLÜ digitehnoloogiate instituudi keeletehnoloogia töörühm</h2>
         <p/>
 
         <ul>
