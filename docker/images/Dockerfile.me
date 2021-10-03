@@ -1,7 +1,7 @@
 FROM openjdk:8-jdk-stretch AS backend-builder
 COPY masinoppe_ennustus/ /app
 RUN apt-get update && apt-get install maven -y
-RUN cd /app && mvn package --no-transfer-progress
+RUN cd /app && mvn package --quiet
 
 FROM openjdk:8-jre-stretch AS backend
 COPY --from=backend-builder /app/target/masinoppe_ennustus-0.0.1-SNAPSHOT-jar-with-dependencies.jar /app/me.jar
