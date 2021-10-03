@@ -1,0 +1,4 @@
+FROM python:3.8.5
+COPY ./stanza/ /app/
+RUN pip install stanza && pip install Flask && python /app/preload.py
+CMD ["python", "/app/app.py"]

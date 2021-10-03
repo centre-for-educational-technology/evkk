@@ -1,6 +1,6 @@
-/.idea/
-/.gradle/
-/.docker/
+.idea
+.gradle
+.docker
 
 gradle/
 build/

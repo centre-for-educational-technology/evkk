@@ -1,6 +1,6 @@
 FROM openjdk:11-jdk-stretch AS backend-builder
 COPY . /app
-RUN cd /app && ./gradlew bootJar
+RUN cd /app && ./gradlew clean bootJar
 
 FROM openjdk:11-jre-stretch AS backend
 COPY --from=backend-builder /app/dist /app

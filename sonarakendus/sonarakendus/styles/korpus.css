@@ -1,0 +1,148 @@
+.vahekorpus {
+    grid-column: 2;
+    grid-row: 2;
+    margin-left: 100px;
+}
+h2{
+  text-align: left;
+}
+.buttonitem {
+    margin-left: 100px;
+    display: inline;
+}
+
+.button2 {
+    top: 65px;
+    position: absolute;
+    left: 60%;
+    background-color: white; 
+    color: black; 
+    border: 1px solid #2196F3;
+    border-radius: 8px;
+    width: 200px;
+    height: 40px;
+    text-decoration: none;
+    font-size: 18px;
+  }
+  
+.button2:hover {
+    background-color: #2196F3;
+    color: white;
+  }
+.button1 {
+    background-color: white; 
+    font-family: 'Open Sans', sans-serif;
+    color: black; 
+    border: 1px solid #2196F3;
+    border-radius: 8px;
+    width: 200px;
+    height: 40px;
+    font-size: 18px;
+  }
+.save {
+    position: absolute;
+    left: 60%;
+    background-color: white; 
+    color: black; 
+    border: 1px solid #2196F3;
+    border-radius: 8px;
+    width: 200px;
+    height: 40px;
+    text-decoration: none;
+    font-size: 18px;
+  }
+  
+.save:hover {
+    background-color: #2196F3;
+    color: white;
+  }
+.save2 {
+  background-color: white; 
+  color: black; 
+  border: 1px solid #2196F3;
+  border-radius: 8px;
+  width: 250px;
+  height: 40px;
+  font-size: 16px;
+  text-decoration: none;
+  position: absolute;
+  right: 5px;
+  margin: 55px 0px 20px 0px;
+  }
+  
+.save2:hover {
+    background-color: #2196F3;
+    color: white;
+  }
+.button1:hover {
+    background-color: #2196F3;
+    color: white;
+  }
+
+
+.item11{
+  grid-column: 2;
+  grid-row: 2;
+  padding-top: 23vh;
+}
+.tableCol{
+position:absolute;
+left:20%;
+right:20%;
+padding-bottom: 5%;
+/* text-align: center; */
+margin-top: -70px;
+}
+.item9{
+margin-top: 20px;
+position: absolute;
+}
+
+
+
+
+
+#cover-spin {
+  position:fixed;
+  width:100%;
+  left:0;right:0;top:0;bottom:0;
+  background-color: rgba(255,255,255,0.8);
+  z-index:9998;
+  display:block;
+}
+
+@-webkit-keyframes spin {
+from {-webkit-transform:rotate(0deg);}
+to {-webkit-transform:rotate(360deg);}
+}
+
+@keyframes spin {
+from {transform:rotate(0deg);}
+to {transform:rotate(360deg);}
+}
+
+#cover-spin::after {
+  content:'';
+  display:block;
+  position:absolute;
+  left:48%;top:40%;
+  width:40px;height:40px;
+  border-style:solid;
+  border-color:black;
+  border-top-color:transparent;
+  border-width: 4px;
+  border-radius:50%;
+  -webkit-animation: spin .8s linear infinite;
+  animation: spin .8s linear infinite;
+}
+
+
+
+
+
+
+a:link { text-decoration: none;
+  color: #333;}
+  a:visited { text-decoration: none; }
+  a:hover { text-decoration: none; }
+  a:active { text-decoration: none; }

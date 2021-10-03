@@ -2,18 +2,6 @@ version: "3.7"
 
 services:
 
-  postgres:
-    image: postgres:13-alpine
-    restart: always
-    secrets:
-      - EVKK_DB_DATASOURCE_PASSWORD
-    environment:
-      POSTGRES_USER: db_user
-      POSTGRES_DB: evkk
-      POSTGRES_PASSWORD_FILE: /run/secrets/EVKK_DB_DATASOURCE_PASSWORD
-    volumes:
-      - /srv/evkk/data/postgres:/var/lib/postgresql/data
-
   redis:
     image: redis:6-alpine
     restart: always
@@ -34,18 +22,9 @@ services:
     depends_on:
       - api
 
-  db:
-    image: evkk-backend
-    entrypoint: [ "/bin/bash", "-c", "java -jar app/db.jar" ]
-    secrets:
-      - EVKK_DB_DATASOURCE_PASSWORD
-      - EVKK_API_DATASOURCE_PASSWORD
-    env_file:
-      - $PWD/conf/common.env
-      - $PWD/conf/db.env
-      - $PWD/conf/api.env
-    depends_on:
-      - postgres
+  sonarakendus:
+    image: evkk-sonarakendus
+    restart: always
 
   api:
     image: evkk-backend
@@ -54,11 +33,15 @@ services:
     secrets:
       - EVKK_API_DATASOURCE_PASSWORD
     depends_on:
-      - db
+      - postgres
       - redis
     env_file:
       - $PWD/conf/common.env
       - $PWD/conf/api.env
+
+  stanza:
+    image: evkk-stanza
+    restart: always
 
   #clusterfinder:
   #  image: evkk-backend

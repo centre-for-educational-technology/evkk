@@ -1,0 +1,130 @@
+.button2 {
+  background-color: white; 
+  color: black; 
+  border: 1px solid #2196F3;
+  border-radius: 8px;
+  width: 300px;
+  height: 40px;
+  font-size: 16px;
+  text-decoration: none;
+  position: absolute;
+  right: 5px;
+  margin: 20px 0px 20px 0px;
+}
+.button2:hover {
+  background-color: #2196F3;
+  color: white;
+}
+
+.item7 {
+grid-column: 2;
+}
+.tableCol{
+position:absolute;
+left:20%;
+right:20%;
+padding-bottom: 5%;
+text-align: center;
+}
+.item7 > h2 {
+text-align: center;
+}
+.item9{
+margin: 20px 10px 20px 0px;
+position: absolute;
+padding-bottom: 10px;
+}
+
+
+
+
+
+/* Dropdown Button */
+.dropbtn {
+  color: #3498DB;
+  padding: 5px;
+  font-size: 40px;
+  border: none;
+  cursor: pointer;
+  border-radius: 30px;
+  width: 160%;
+  transform: rotate(-90deg);
+}
+
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #2980B9;
+  color: white;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  left: 85%;
+  top: 50%;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+
+
+
+
+
+
+
+#cover-spin {
+  position:fixed;
+  width:100%;
+  left:0;right:0;top:0;bottom:0;
+  background-color: rgba(255,255,255,0.8);
+  z-index:9998;
+  display:block;
+}
+
+@-webkit-keyframes spin {
+from {-webkit-transform:rotate(0deg);}
+to {-webkit-transform:rotate(360deg);}
+}
+
+@keyframes spin {
+from {transform:rotate(0deg);}
+to {transform:rotate(360deg);}
+}
+
+#cover-spin::after {
+  content:'';
+  display:block;
+  position:absolute;
+  left:48%;top:40%;
+  width:40px;height:40px;
+  border-style:solid;
+  border-color:black;
+  border-top-color:transparent;
+  border-width: 4px;
+  border-radius:50%;
+  -webkit-animation: spin .8s linear infinite;
+  animation: spin .8s linear infinite;
+}
