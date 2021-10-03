@@ -19,13 +19,13 @@ document.getElementById("level").addEventListener("click", function() {
     }
 });
 
-document.getElementById("characters").addEventListener("change", function() {
-    if(document.getElementById("characters").value != "") {
-        document.getElementById("charactersOn").checked = true;
-    } else {
-        document.getElementById("charactersOn").checked = false;
-    }
-});
+// document.getElementById("characters").addEventListener("change", function() {
+//     if(document.getElementById("characters").value != "") {
+//         document.getElementById("charactersOn").checked = true;
+//     } else {
+//         document.getElementById("charactersOn").checked = false;
+//     }
+// });
 
 document.getElementById("nativelang").addEventListener("click", function() {
     if(document.getElementById("nativelang").value != "teadmata") {
@@ -91,13 +91,13 @@ function submitted() {
         level = "NO";
         values.push("NO");
     }
-    if(document.querySelector("#charactersOn").checked) {
-        characters = document.querySelector("#characters").value;
-        values.push(characters);
-    } else {
-        characters = "NO";
-        values.push("NO");
-    }
+    // if(document.querySelector("#charactersOn").checked) {
+    //     characters = document.querySelector("#characters").value;
+    //     values.push(characters);
+    // } else {
+    //     characters = "NO";
+    //     values.push("NO");
+    // }
     // if(document.querySelector("#exercise").checked) {
     //     exercise = true;
     //     values.push(true);
@@ -136,7 +136,8 @@ function submitted() {
     if(document.querySelector("#countryOn").checked) {
         country = document.querySelector("#country").value;
         if(country == "eesti") {
-            values.push(["idaviru", "tallinn", "tartu"]);
+            //values.push(["idaviru", "tallinn", "tartu"]);
+            values.push("idaviru,tallinn,tartu");
         } else {
             values.push(country);
         }
@@ -169,14 +170,35 @@ function submitted() {
         }
     }
     queryWherePart += ";";
+
     //console.log(queryJoinPart);
     //console.log(queryWherePart);
 
+    // $.ajax({
+    //     type: "POST",
+    //     url: "api/texts/detailneparing",
+    //     data: {queryJoin : queryJoinPart,
+    //     queryWhere : queryWherePart},
+    //     success: function(data) {
+    //         for(let i = 0; i < data.length; i++) {
+    //             tekstideIDd.push(data[i].split("!!!")[0]);
+    //             if(data[i].split("!!!")[1] == "") {
+    //                 tekstidePealkirjad.push("pealkiri puudub");
+    //             } else {
+    //                 tekstidePealkirjad.push(data[i].split("!!!")[1]);
+    //             }
+    //         }
+    //         tekstideKuvamine();
+    //     },
+    //     error: function(XMLHttpRequest, textStatus, errorThrown) {
+    //         alert(XMLHttpRequest + "\n" + textStatus + "\n" + errorThrown);
+    //     }
+    // });
+
     $.ajax({
         type: "POST",
-        url: "api/texts/detailneparing",
-        data: {queryJoin : queryJoinPart,
-        queryWhere : queryWherePart},
+        url: "api/texts/detailneparing2",
+        data: {vaartused : JSON.stringify(values)},
         success: function(data) {
             for(let i = 0; i < data.length; i++) {
                 tekstideIDd.push(data[i].split("!!!")[0]);
@@ -192,8 +214,6 @@ function submitted() {
             alert(XMLHttpRequest + "\n" + textStatus + "\n" + errorThrown);
         }
     });
-
-    tekstideKuvamine();
 }
 
 function tekstideKuvamine() {

@@ -1,6 +1,8 @@
 package ee.tlu.evkk.api.controller;
 import org.json.*;
 import org.springframework.web.bind.annotation.*;
+
+import ee.tlu.evkk.api.controller.dto.TextQueryHelper;
 import ee.tlu.evkk.api.dao.TextDao;
 
 import java.util.UUID;
@@ -123,6 +125,43 @@ public class TextController {
     public List<String> detailneparing(String queryJoin, String queryWhere) {
         return textDao.textTitleQueryByParameters(queryJoin, queryWhere);
     }
+
+    @PostMapping("/detailneparing2")
+    public List<String> detailneparing2(String vaartused) {
+        ArrayList<String> stringArray = new ArrayList<String>();
+        JSONArray jsonArray = new JSONArray(vaartused);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            stringArray.add(jsonArray.getString(i));
+        }
+        //System.out.println(stringArray);
+
+        String[] parameetrid = {"korpus", "tekstityyp", "keeletase", "emakeel", "kodukeel", "sugu", "vanus", "elukoht"}; //characters
+        int vaartusteArv = 0;
+        for(int i = 0; i < stringArray.size(); i++) {
+            if(!(stringArray.get(i).equals("NO"))) {
+                vaartusteArv++;
+            }
+        }
+
+        TextQueryHelper[] helperid = new TextQueryHelper[vaartusteArv];
+        vaartusteArv = 0;
+
+        for(int i = 0; i < stringArray.size(); i++) {
+            if(!(stringArray.get(i).equals("NO"))) {
+                TextQueryHelper h = new TextQueryHelper();
+                h.setTabel("p" + (vaartusteArv + 3));
+                h.setParameeter(parameetrid[i]);
+                //h.setVaartused(new String[] {stringArray.get(i)});
+                h.setVaartused(stringArray.get(i).split(","));
+                helperid[vaartusteArv] = h;
+                vaartusteArv++;
+            }
+        }
+        List<String> vastus = textDao.textTitleQueryByParameters2(helperid);
+
+        return vastus;
+    }
+
     @GetMapping("/getValues")
     public String getValues(String cId) {
         return textDao.findValueByPropertyName(cId);

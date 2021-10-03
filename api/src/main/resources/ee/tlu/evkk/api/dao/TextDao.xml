@@ -26,11 +26,20 @@
         from core.text_property as p2
         ${queryJoinSen}
         where p2.property_name = 'title' ${queryWhereSen}
+        
         <!-- select p1.text_id, p2.property_value
         from core.text_property as p1
         join core.text_property as p2 on p1.text_id = p2.text_id
         join core.text_property as p3 on p1.text_id = p3.text_id
         where p1.property_name = 'sugu' and p1.property_value = 'mees' and p2.property_name = 'title' and p3.property_name = 'vanus' and p3.property_value = 'kuni18'; -->
+    </select>
+
+    <select id="textTitleQueryByParameters2" resultType="java.lang.String">
+        select concat(p2.text_id, '!!!', p2.property_value)
+        from core.text_property as p2
+        <foreach item="helperid" collection="helperid" separator=" ">join core.text_property as ${helperid.tabel} on p2.text_id = ${helperid.tabel}.text_id</foreach>
+        where p2.property_name = 'title'
+        <foreach item="helperid" collection="helperid" separator=" "> and ${helperid.tabel}.property_name = #{helperid.parameeter} and ${helperid.tabel}.property_value in <foreach item="v" collection="helperid.vaartus" separator=", " open="(" close=")">#{v}</foreach></foreach>
     </select>
 
 <select id="findMiniStats" resultType="java.lang.String">

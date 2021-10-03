@@ -4,6 +4,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import ee.tlu.evkk.api.controller.dto.TextQueryHelper;
+
 import java.util.UUID;
 import java.util.List;
 
@@ -15,6 +17,8 @@ public interface TextDao {
     List<String> findTextIDandTitleByCorpusID(@Param("corpusId") String korpusekood);
 
     List<String> textTitleQueryByParameters(@Param("queryJoinSen") String queryJoin, @Param("queryWhereSen") String queryWhere);
+
+    List<String> textTitleQueryByParameters2(@Param("helperid") TextQueryHelper[] helperid);
 
     String findDetailedValueByPropertyName(@Param("pValue") String pValue[], @Param("pName") String pName, @Param("cId") String[] cId); // property value, name, corpus id
 
