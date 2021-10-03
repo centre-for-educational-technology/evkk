@@ -44,15 +44,15 @@ class Resources extends Component {
             ühisseminar "Tallinna Ülikooli keelekorpuste optimaalsus, töötlemine ja kasutamine".
           </li>
           <ul>
-            <li><a href={'http://evkk.tlu.ee/wwwdata/wwwdata/SEMINAR_teemad_2006.doc'} target={'_blank'}>Kava</a></li>
-            <li><a href={'http://evkk.tlu.ee/wwwdata/kogumik2007'} target={'_blank'}>Artiklite kogumik</a></li>
+            <li><a href={'http://evkk.tlu.ee/wwwdata/wwwdata/SEMINAR_teemad_2006.doc'} target={'_blank'} rel="noopener noreferrer">Kava</a></li>
+            <li><a href={'http://evkk.tlu.ee/wwwdata/kogumik2007'} target={'_blank'} rel="noopener noreferrer">Artiklite kogumik</a></li>
           </ul>
         </ul>
 
         <h3>Materjalid</h3>
         <p/>
         <ul>
-          <li><a href={'http://evkk.tlu.ee/eesti_vene_verbid.doc'} target={'_blank'}>Eesti ja vene verbid võrdlevalt</a></li>
+          <li><a href={'http://evkk.tlu.ee/eesti_vene_verbid.doc'} target={'_blank'} rel="noopener noreferrer">Eesti ja vene verbid võrdlevalt</a></li>
         </ul>
 
       </div>
