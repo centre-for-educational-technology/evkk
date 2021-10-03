@@ -11,11 +11,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Component
 public class UriComponentsBuilderFactory {
 
-  @Value("${evkk.api.integration.paths.char-counter}")
+  @Value("${evkk.api.integration.paths.charCounter}")
   private String charCounterPath;
   @Value("${evkk.api.integration.paths.clusterfinder}")
   private String clusterFinderPath;
-  @Value("${evkk.api.api-path}")
+  @Value("${evkk.api.integration.paths.stanza}")
+  private String stanzaPath;
+  @Value("${evkk.api.apiPath}")
   private String apiPath;
 
   public UriComponentsBuilder charCounter() {
@@ -24,6 +26,10 @@ public class UriComponentsBuilderFactory {
 
   public UriComponentsBuilder clusterFinder() {
     return UriComponentsBuilder.fromHttpUrl(clusterFinderPath);
+  }
+
+  public UriComponentsBuilder stanza() {
+    return UriComponentsBuilder.fromHttpUrl(stanzaPath);
   }
 
   public UriComponentsBuilder api() {
