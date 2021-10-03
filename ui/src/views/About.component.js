@@ -20,7 +20,7 @@ class About extends Component {
           Osa kasutusvõimalusi on hetkel kättesaadavad EVKK vanas versioonis.
         </p>
         <p>
-          EVKK-ga seotud keeleõppe- ja keeleuurimiskeskkonna ELLE (Estonian Language Learning, Teaching ja Research Environment) kohta vaata infot
+          EVKK-ga seotud keeleõppe- ja keeleuurimiskeskkonna ELLE (Estonian Language Learning, Teaching ja Research Environment) kohta vaata infot 
             <a href="https://github.com/centre-for-educational-technology/evkk/wiki">siit</a>.
         </p>
       </div>
