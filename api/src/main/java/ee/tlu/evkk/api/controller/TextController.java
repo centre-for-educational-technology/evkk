@@ -51,7 +51,7 @@ public class TextController {
       ProcessBuilder processBuilder = new ProcessBuilder("/opt/miniconda3/bin/python", "../ui/public/python/lemmad.py");
       processBuilder.redirectErrorStream(true);
       String tulemus = "";
-    
+
       Process process = processBuilder.start();
       OutputStream stdin = process.getOutputStream();
       BufferedReader lugeja = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -74,7 +74,7 @@ public class TextController {
       ProcessBuilder processBuilder = new ProcessBuilder("/opt/miniconda3/bin/python", "../ui/public/python/sonad.py");
       processBuilder.redirectErrorStream(true);
       String tulemus = "";
-    
+
       Process process = processBuilder.start();
       OutputStream stdin = process.getOutputStream();
       BufferedReader lugeja = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -98,7 +98,7 @@ public class TextController {
       ProcessBuilder processBuilder = new ProcessBuilder("/opt/miniconda3/bin/python", "../ui/public/python/laused.py");
       processBuilder.redirectErrorStream(true);
       String tulemus = "";
-    
+
       Process process = processBuilder.start();
       OutputStream stdin = process.getOutputStream();
       BufferedReader lugeja = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -187,21 +187,21 @@ public class TextController {
         JSONObject json = new JSONObject(data);
 
         String pName = json.getString("pName"); // pName - main filter (property_name)
-        
+
         ArrayList<String> pValue = new ArrayList<String>(); // pValue - array of selected filters (property_value)
         JSONArray arr = json.getJSONArray("pValue");
-        if (arr != null) { 
-           for (int i=0; i < arr.length(); i++){ 
+        if (arr != null) {
+           for (int i=0; i < arr.length(); i++){
             pValue.add(arr.getString(i));
-           } 
-        } 
+           }
+        }
 
         ArrayList<String> corpus = new ArrayList<String>(); // corpus - array of selected corpuses
         arr = json.getJSONArray("corpus");
-        if (arr != null) { 
-            for (int i=0; i < arr.length(); i++){ 
+        if (arr != null) {
+            for (int i=0; i < arr.length(); i++){
                 corpus.add(arr.getString(i));
-            } 
+            }
         }
 
         ArrayList<String> selectedFilters = new ArrayList<String>(); // selectedFilters - array of selected filters
@@ -210,8 +210,8 @@ public class TextController {
         // [[eesti, vene, inglise],[kuni18,kuni26,41plus]] - filterValues
 
         arr = json.getJSONArray("selectedFilters");
-        if (arr != null) { 
-            for (int i=0; i < arr.length(); i++){ 
+        if (arr != null) {
+            for (int i=0; i < arr.length(); i++){
                 selectedFilters.add(arr.getJSONObject(i).getString("filter"));
                 ArrayList<String> arrValues = new ArrayList<String>();
                 // filterValues.add(arr.getJSONObject(i).getJSONArray("data"));
@@ -225,7 +225,7 @@ public class TextController {
 
                 }
                 filterValues.add(arrValues);
-            } 
+            }
         }
 
         // converting arrayList to String[] array

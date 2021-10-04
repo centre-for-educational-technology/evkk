@@ -1,0 +1,111 @@
+.item1 {
+    grid-column: 2;
+    grid-row: 2;
+    text-align: center;
+    font-size: large;
+}
+.item2 {
+    grid-column: 2;
+    grid-row: 3;
+    text-align: center;
+   
+}
+.item3 {
+    grid-column: 2;
+    grid-row:  4;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.item3 > textarea {
+    width: 500px;
+    height: 200px;
+    border: 1px solid #2196F3;
+    font-family: 'Open Sans', sans-serif;
+}
+.button {
+    background-color: white; 
+    color: black; 
+    border: 1px solid #2196F3;
+    border-radius: 8px;
+    width: 100px;
+    height: 40px;
+  }
+  
+.button:hover {
+    background-color: #2196F3;
+    color: white;
+  }
+.button2 {
+    margin-top: 10px;
+    background-color: white; 
+    color: black; 
+    border: 1px solid #2196F3;
+    border-radius: 8px;
+    width: 200px;
+    height: 40px;
+    text-decoration: none;
+    font-size: 18px;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+  
+.button2:hover {
+    background-color: #2196F3;
+    color: white;
+  }
+    
+hr {
+    display: block; 
+    overflow: hidden; 
+    border: 0.3px solid #2196F3;
+    margin-top: 50px;
+    width: 500px;
+
+}
+#sisesta_tekst:focus { 
+  outline: none;
+}
+
+p {
+  font-size: 14px;
+}
+
+.buttonFail {
+  margin-top: 10px;
+  background-color: white; 
+  color: black; 
+  border: 1px solid #2196F3;
+  border-radius: 8px;
+  width: 150px;
+  height: 40px;
+  text-decoration: none;
+  font-size: 18px;
+  margin-bottom: 25px;
+  margin: 0;
+  position: absolute;
+  left: 44%;
+}
+
+.buttonFail:hover {
+  background-color: #2196F3;
+  color: white;
+}
+
+.button3 {
+  margin-top: 10px;
+  background-color: white; 
+  color: black; 
+  border: 1px solid #2196F3;
+  border-radius: 8px;
+  width: 200px;
+  height: 40px;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.button3:hover {
+  background-color: #2196F3;
+  color: white;
+}

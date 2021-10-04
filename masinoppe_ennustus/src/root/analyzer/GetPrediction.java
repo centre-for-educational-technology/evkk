@@ -15,33 +15,33 @@ import weka.core.SerializationHelper;
 public class GetPrediction {
 	public static String predict(String text, boolean html) {
 		String predictionStr = "";
-		
+
 		try {
 			Classifier cls = (Classifier) SerializationHelper.read(System.getProperty("user.dir") + Config.getActiveModel());
 			Instance testInstance = CreateDataToPredict.createData(text);
 
 			double[] prediction = cls.distributionForInstance(testInstance);
 			double percentage = 0.0;
-			
+
 			for(int i = 0; i < prediction.length; i++) {
 				percentage += prediction[i];
 			}
-			
+
 			if(html) {
 				for(int i = 0; i < prediction.length; i++){
-					predictionStr += testInstance.classAttribute().value(i) + " keeletaseme tıen‰osus on: "+ new DecimalFormat("#.00").format(prediction[i] / percentage * 100) + "%.<br>";
+					predictionStr += testInstance.classAttribute().value(i) + " keeletaseme t√µen√§osus on: "+ new DecimalFormat("#.00").format(prediction[i] / percentage * 100) + "%.<br>";
 				}
 			} else {
 				for(int i = 0; i < prediction.length; i++){
-					System.out.println(testInstance.classAttribute().value(i) + " keeletaseme tıen‰osus on: "+ new DecimalFormat("#.00").format(prediction[i] / percentage * 100) + "%.");
+					System.out.println(testInstance.classAttribute().value(i) + " keeletaseme t√µen√§osus on: "+ new DecimalFormat("#.00").format(prediction[i] / percentage * 100) + "%.");
 				}
 			}
-			
+
 		} catch (Exception e) {
 			System.out.println("Something wrong with the prediction");
 			e.printStackTrace();
 		}
-		
+
 		return predictionStr;
-	}	
+	}
 }

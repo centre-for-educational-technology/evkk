@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang = "et">
+<head>
+	<meta charset = "utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<link rel="stylesheet" type="text/css" href="styles/body.css">
+	<link rel="stylesheet" type="text/css" href="styles/filter.css">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+	<script src="javascript/script1.js" defer></script>
+	<script src="javascript/filter.js" defer></script>
+</head>
+<body>
+	<main>
+	<div id="grid_container" class="grid_container">
+			<div id="header" class="grid_item header">
+				<a href ="home.html">
+					<img src="img/home.png" alt = "home logo" class="home_logo">
+				</a>
+			</div>
+		<div id="item4" class="grid_item item4">
+			<p>Otsi:</p>
+			<div class="vorm">
+			<input type="radio" id="sonavormid" name="vorm1" value="sonavormid">
+			<span>kõik sõnavormid</span>
+			<br>
+			<input type="radio" id="algvormid" name="vorm1" value="algvormid">
+			<span>sõnade algvormid</span>
+		</div>
+		</div>
+		
+		<div id="item5" class="grid_item item5">
+			<p>Välista sõnad, mida ei soovi tulemustes näha:</p>
+			<textarea id="valista_tekst" name="valista_tekst" placeholder="nimetatud, kodu, arvamus"></textarea>
+		</div>
+		<div id="item6" class="grid_item item6">
+			<input type="checkbox" id="tahesuurus" name="tahesuurus">
+			<label for="tahesuurus">Säilita suurtähed sõnaloendis</label>
+			<br><br>
+			<input type="checkbox" id="stoppsonad" name="stoppsonad">
+			<label for="stoppsonad">Välista stoppsõnad</label>
+			<div class = "popup" onclick="myFunction()"> 
+				<span class="popuptext" id="myPopup">Stoppsõnadena kasutatakse 
+					Kristel Uiboaedi loodud
+					listi. See sisaldab sidesõnu, asesõnu, grammatilise tähendusega tegusõnu, sisutühjasid määrsõnu jms. Täielik nimekiri on kättesaadav
+					Tartu Ülikooli
+					andmerepositooriumis klikkides <a href="http://www.tekstikaeve.ee/blog/2018-04-18-eestikeelsete-stoppsonade-loend/">siia</a></span>
+				<img src="img/info.png" alt="infonupp" class="info_nupp">
+			<br>
+			</div>
+				<button class="button2" id="salvesta_tekst">Salvesta ja jätka
+				</button>
+		</div>
+</div>
+</main>
+</body>
+</html>
