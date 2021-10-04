@@ -21,18 +21,12 @@
         where tp1.property_value = #{corpusId} and tp1.property_name = 'korpus';
     </select>
 
-    <select id="textTitleQueryByParameters" resultType="java.lang.String">
+    <!-- <select id="textTitleQueryByParameters" resultType="java.lang.String">
         select concat(p2.text_id, '!!!', p2.property_value)
         from core.text_property as p2
         ${queryJoinSen}
         where p2.property_name = 'title' ${queryWhereSen}
-        
-        <!-- select p1.text_id, p2.property_value
-        from core.text_property as p1
-        join core.text_property as p2 on p1.text_id = p2.text_id
-        join core.text_property as p3 on p1.text_id = p3.text_id
-        where p1.property_name = 'sugu' and p1.property_value = 'mees' and p2.property_name = 'title' and p3.property_name = 'vanus' and p3.property_value = 'kuni18'; -->
-    </select>
+    </select> -->
 
     <select id="textTitleQueryByParameters2" resultType="java.lang.String">
         select concat(p2.text_id, '!!!', p2.property_value)

@@ -146,30 +146,30 @@ function submitted() {
         values.push("NO");
     }
 
-    queryJoinPart = "";
-    queryWherePart = "";
-    startingNumber = 3;
-    for(let i = 0; i < parameters.length; i++) {
-        if(Array.isArray(values[i])) {
-            queryJoinPart += "join core.text_property as p" + startingNumber + " on p2.text_id = p" + startingNumber + ".text_id ";
-            queryWherePart += " and p" + startingNumber + ".property_name = '" + parameters[i] + "' and p" + startingNumber + ".property_value in ("
-            for(let j = 0; j < values[i].length; j++) {
-                queryWherePart += "'" + values[i][j] + "', ";
-            }
-            queryWherePart = queryWherePart.slice(0, -2);
-            queryWherePart += ")";
-            startingNumber++;
-        } else if(parameters[i] == "characters" && values[i] != "NO") {
-            queryJoinPart += "join core.text as p" + startingNumber + " on p2.text_id = p" + startingNumber + ".id ";
-            queryWherePart += " and char_length(p" + startingNumber + ".content) <= " + values[i];
-            startingNumber++;
-        } else if(values[i] != "NO") {
-            queryJoinPart += "join core.text_property as p" + startingNumber + " on p2.text_id = p" + startingNumber + ".text_id ";
-            queryWherePart += " and p" + startingNumber + ".property_name = '" + parameters[i] + "' and p" + startingNumber + ".property_value = '" + values[i] + "'";
-            startingNumber++;
-        }
-    }
-    queryWherePart += ";";
+    // queryJoinPart = "";
+    // queryWherePart = "";
+    // startingNumber = 3;
+    // for(let i = 0; i < parameters.length; i++) {
+    //     if(Array.isArray(values[i])) {
+    //         queryJoinPart += "join core.text_property as p" + startingNumber + " on p2.text_id = p" + startingNumber + ".text_id ";
+    //         queryWherePart += " and p" + startingNumber + ".property_name = '" + parameters[i] + "' and p" + startingNumber + ".property_value in ("
+    //         for(let j = 0; j < values[i].length; j++) {
+    //             queryWherePart += "'" + values[i][j] + "', ";
+    //         }
+    //         queryWherePart = queryWherePart.slice(0, -2);
+    //         queryWherePart += ")";
+    //         startingNumber++;
+    //     } else if(parameters[i] == "characters" && values[i] != "NO") {
+    //         queryJoinPart += "join core.text as p" + startingNumber + " on p2.text_id = p" + startingNumber + ".id ";
+    //         queryWherePart += " and char_length(p" + startingNumber + ".content) <= " + values[i];
+    //         startingNumber++;
+    //     } else if(values[i] != "NO") {
+    //         queryJoinPart += "join core.text_property as p" + startingNumber + " on p2.text_id = p" + startingNumber + ".text_id ";
+    //         queryWherePart += " and p" + startingNumber + ".property_name = '" + parameters[i] + "' and p" + startingNumber + ".property_value = '" + values[i] + "'";
+    //         startingNumber++;
+    //     }
+    // }
+    // queryWherePart += ";";
 
     //console.log(queryJoinPart);
     //console.log(queryWherePart);

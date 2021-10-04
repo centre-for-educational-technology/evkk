@@ -121,10 +121,10 @@ public class TextController {
     }
 
  @CrossOrigin("*")
-    @PostMapping("/detailneparing")
-    public List<String> detailneparing(String queryJoin, String queryWhere) {
-        return textDao.textTitleQueryByParameters(queryJoin, queryWhere);
-    }
+    // @PostMapping("/detailneparing")
+    // public List<String> detailneparing(String queryJoin, String queryWhere) {
+    //     return textDao.textTitleQueryByParameters(queryJoin, queryWhere);
+    // }
 
     @PostMapping("/detailneparing2")
     public List<String> detailneparing2(String vaartused) {

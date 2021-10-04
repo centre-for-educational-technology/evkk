@@ -16,7 +16,7 @@ public interface TextDao {
     List<String> findTextIDsByCorpusID(@Param("corpusId") String korpusekood);
     List<String> findTextIDandTitleByCorpusID(@Param("corpusId") String korpusekood);
 
-    List<String> textTitleQueryByParameters(@Param("queryJoinSen") String queryJoin, @Param("queryWhereSen") String queryWhere);
+    // List<String> textTitleQueryByParameters(@Param("queryJoinSen") String queryJoin, @Param("queryWhereSen") String queryWhere);
 
     List<String> textTitleQueryByParameters2(@Param("helperid") TextQueryHelper[] helperid);
 
