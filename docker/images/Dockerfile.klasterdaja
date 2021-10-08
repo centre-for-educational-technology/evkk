@@ -1,0 +1,18 @@
+#FROM continuumio/anaconda3:anaconda3-5.0.0
+#COPY ./stanza/ /app/
+#RUN conda install -c estnltk -c conda-forge estnltk
+#CMD ["python", "/app/app.py"]
+
+#FROM continuumio/anaconda3:2021.04
+#RUN conda create -n py38 python=3.8
+#RUN conda init bash && conda activate py38
+#RUN conda install -c estnltk -c conda-forge estnltk=1.6.9b
+
+FROM ubuntu:20.04
+SHELL ["/bin/bash", "-c"]
+RUN apt-get update && apt-get install wget openjdk-11-jdk -y
+RUN wget --no-verbose https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh && chmod +x ./Anaconda3-2021.05-Linux-x86_64.sh
+RUN ./Anaconda3-2021.05-Linux-x86_64.sh -b -p ~/anaconda3 && rm ./Anaconda3-2021.05-Linux-x86_64.sh
+#RUN echo "export PATH=~/anaconda3/bin:\$PATH" >> ~/.bashrc && source ~/.bashrc
+RUN export PATH=~/anaconda3/bin:$PATH && conda install -c estnltk -c conda-forge estnltk=1.6.9b
+#RUN export PATH=~/anaconda3/bin:$PATH && conda install -c estnltk -c conda-forge estnltk=1.6.9b
