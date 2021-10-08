@@ -1,7 +1,17 @@
-FROM ubuntu:20.04
-SHELL ["/bin/bash", "-c"]
-RUN apt-get update && apt-get install wget openjdk-11-jdk -y
-RUN wget --no-verbose https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh && chmod +x ./Anaconda3-2021.05-Linux-x86_64.sh
-RUN ./Anaconda3-2021.05-Linux-x86_64.sh -b -p ~/anaconda3 && rm ./Anaconda3-2021.05-Linux-x86_64.sh
-ENV PATH=~/anaconda3/bin:$PATH
-RUN conda install -c estnltk -c conda-forge estnltk=1.6.9b
+#FROM ubuntu:20.04
+#SHELL ["/bin/bash", "-c"]
+#RUN apt-get update && apt-get install wget openjdk-11-jdk -y
+#RUN wget --no-verbose https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh && chmod +x ./Anaconda3-2021.05-Linux-x86_64.sh
+#RUN ./Anaconda3-2021.05-Linux-x86_64.sh -b -p ~/anaconda3 && rm ./Anaconda3-2021.05-Linux-x86_64.sh
+#ENV PATH=~/anaconda3/bin:$PATH
+#RUN conda install -c estnltk -c conda-forge estnltk=1.6.9b
+
+#FROM ubuntu:20.04
+#SHELL ["/bin/bash", "-c"]
+#RUN apt-get update && apt-get install wget libssl-dev openssl swig gcc g++ build-essential -y
+#RUN wget https://www.python.org/ftp/python/3.4.10/Python-3.4.10.tgz && tar xzvf Python-3.4.10.tgz
+#RUN cd Python-3.4.10 && ./configure --enable-optimizations --with-ensurepip=install && make -j 8 && make install
+#RUN rm -rf ./Python-3.4.10.tgz ./Python-3.4.10/
+#RUN python3.4 -m ensurepip
+#RUN python3.4 -m pip install estnltk==1.4.1.1
+
