@@ -48,7 +48,7 @@ public class TextController {
   }
   @PostMapping("/lemmad")
   public String lemmad(String tekst) throws Exception {
-      ProcessBuilder processBuilder = new ProcessBuilder("/opt/miniconda3/bin/python", "../ui/public/python/lemmad.py");
+      ProcessBuilder processBuilder = new ProcessBuilder("/usr/bin/python3.8", "../ui/public/lemmad.py");
       processBuilder.redirectErrorStream(true);
       String tulemus = "";
     
@@ -60,6 +60,7 @@ public class TextController {
       writer.close();
       for(int i = 0; i < 14; i++) {
           String line = lugeja.readLine();
+          System.out.println(line);
       }
       String line = lugeja.readLine();
       while(line != null) {
@@ -71,7 +72,7 @@ public class TextController {
     }
   @PostMapping("/sonad")
   public String sonad(String tekst) throws Exception {
-      ProcessBuilder processBuilder = new ProcessBuilder("/opt/miniconda3/bin/python", "../ui/public/python/sonad.py");
+      ProcessBuilder processBuilder = new ProcessBuilder("/usr/bin/python3.8", "../ui/public/sonad.py");
       processBuilder.redirectErrorStream(true);
       String tulemus = "";
     
@@ -95,7 +96,7 @@ public class TextController {
     }
     @PostMapping("/laused")
   public String laused(String tekst) throws Exception {
-      ProcessBuilder processBuilder = new ProcessBuilder("/opt/miniconda3/bin/python", "../ui/public/python/laused.py");
+      ProcessBuilder processBuilder = new ProcessBuilder("/usr/bin/python3.8", "../ui/public/laused.py");
       processBuilder.redirectErrorStream(true);
       String tulemus = "";
     
@@ -127,18 +128,18 @@ public class TextController {
     // }
 
     @PostMapping("/detailneparing2")
-    public List<String> detailneparing2(String vaartused) {
-        ArrayList<String> stringArray = new ArrayList<String>();
-        JSONArray jsonArray = new JSONArray(vaartused);
-        for (int i = 0; i < jsonArray.length(); i++) {
-            stringArray.add(jsonArray.getString(i));
-        }
+    public String detailneparing2(@RequestBody String[] vaartused) {
+        //ArrayList<String> stringArray = new ArrayList<String>();
+        //JSONArray jsonArray = new JSONArray(vaartused);
+        //for (int i = 0; i < jsonArray.length(); i++) {
+        //    stringArray.add(jsonArray.getString(i));
+        //}
         //System.out.println(stringArray);
 
         String[] parameetrid = {"korpus", "tekstityyp", "keeletase", "emakeel", "kodukeel", "sugu", "vanus", "elukoht"}; //characters
         int vaartusteArv = 0;
-        for(int i = 0; i < stringArray.size(); i++) {
-            if(!(stringArray.get(i).equals("NO"))) {
+        for(int i = 0; i < vaartused.length; i++) {
+            if(!(vaartused[i].equals("NO"))) {
                 vaartusteArv++;
             }
         }
@@ -146,18 +147,18 @@ public class TextController {
         TextQueryHelper[] helperid = new TextQueryHelper[vaartusteArv];
         vaartusteArv = 0;
 
-        for(int i = 0; i < stringArray.size(); i++) {
-            if(!(stringArray.get(i).equals("NO"))) {
+        for(int i = 0; i < vaartused.length; i++) {
+            if(!(vaartused[i].equals("NO"))) {
                 TextQueryHelper h = new TextQueryHelper();
                 h.setTabel("p" + (vaartusteArv + 3));
                 h.setParameeter(parameetrid[i]);
                 //h.setVaartused(new String[] {stringArray.get(i)});
-                h.setVaartused(stringArray.get(i).split(","));
+                h.setVaartused(vaartused[i].split(","));
                 helperid[vaartusteArv] = h;
                 vaartusteArv++;
             }
         }
-        List<String> vastus = textDao.textTitleQueryByParameters2(helperid);
+        String vastus = textDao.textTitleQueryByParameters2(helperid);
 
         return vastus;
     }

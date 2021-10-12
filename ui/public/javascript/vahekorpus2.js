@@ -21,12 +21,13 @@ for(let i = 0; i < korpused.length; i++) {
         url: "api/texts/kysikorpusetekstiIDjapealkiri",
         data: {korpusekood : korpused[i]},
         success: function(data){
+            data = JSON.parse(data);
             for(let i = 0; i < data.length; i++) {
-                tekstideIDd.push(data[i].split("!!!")[0]);
-                if(data[i].split("!!!")[1] == "") {
+                tekstideIDd.push(data[i]["text_id"]);
+                if(data[i]["property_value"] == "") {
                     tekstidePealkirjad.push("pealkiri puudub");
                 } else {
-                    tekstidePealkirjad.push(data[i].split("!!!")[1]);
+                    tekstidePealkirjad.push(data[i]["property_value"]);
                 }
             }
             loendur++;
@@ -71,10 +72,11 @@ function getSelectedCheckboxValues(name) {
                 url: "api/texts/kysitekst",
                 data: {id : result[i]},
                 success: function(data){
-                    uhendatudtekst += data.split("!!!")[1];
+                    uhendatudtekst += data;
                     loendur++;
                     if(loendur == result.length) {
                         localStorage.setItem("sonad", uhendatudtekst);
+                        localStorage.setItem("paritolu", "EVKK");
                         window.location = "filter.html";
                     }
                 },
@@ -93,7 +95,7 @@ function eelvaade(tekstiID) {
         url: "api/texts/kysitekst",
         data: {id : tekstiID},
         success: function(data){
-            tekstisisu = data.split("!!!")[1];
+            tekstisisu = data;
             pealkirjaID = tekstideIDd.indexOf(tekstiID);
             pealkiri = tekstidePealkirjad[pealkirjaID];
             localStorage.setItem("kuvatavtekst", tekstisisu);
@@ -113,7 +115,7 @@ function kaivitaTabel(puhver) {
         "pagingType": "full_numbers",
         "pageLength": 25,
         language: {
-            url: '../json/dataTables.estonian.json'
+            url: 'dataTables.estonian.json'
         }
     });
     freeze = false;

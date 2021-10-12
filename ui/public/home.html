@@ -19,7 +19,7 @@
 	<link rel="stylesheet" type="text/css" href="styles/body.css">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
-	<script src="javascript/home.js" defer></script>
+	<script src="home.js" defer></script>
 </head>
 <body>
 	<main>
@@ -30,9 +30,9 @@
 			</a>
 		</div>
 		<div id="item1" class="grid_item item1">
-			<h2>Lae üles üks või mitu faili:</h2>
+			<!-- <h2>Lae üles üks või mitu faili:</h2> -->
 			<input type="file" id="file-id" style="display: none;" multiple onchange="checkFileExtension()"/>
-			<input type="button" class="buttonFail" value="Vali fail(id)" onclick="document.getElementById('file-id').click();" />
+			<input type="button" class="buttonFail" value="Vali tekst(id)" onclick="document.getElementById('file-id').click();" />
 				<input type="file" accept=".txt,.pdf,.docx,.doc,.odt" id="file-id" class="button" name="file_name" style="visibility:hidden;" multiple onchange="checkFileExtension()" />
 			<br>
 			<!-- <form>
@@ -44,29 +44,30 @@
 			<button id="delete" class="button" onclick="deleteText()">delete</button> -->
 			<div id="output"></div>
 			<div id="outputDiv">
-				<p>Lubatud faililaiendid: .pdf, .doc, .docx, .odt, .txt</p>
-				<p>Korraga tohib üles laadida ainult ühte tüüpi faile!</p>
+				<!-- <p>Lubatud faililaiendid: .pdf, .doc, .docx, .odt, .txt</p> -->
+				<p>Korraga lae üles ühte tüüpi faile: .pdf, .doc, .docx, .odt, .txt</p>
+				<!-- <p>Korraga tohib üles laadida ainult ühte tüüpi faile!</p> -->
 			</div>
 			<a href="filter.html"> 
-				<button id="letsgo" class="button3" onclick="passToLocalStr() ">Salvesta failid ja jätka</button>
+				<button id="letsgo" class="button3" onclick="passToLocalStr() ">Salvesta ja jätka</button>
 			</a>
 			<hr>
 		</div>
 		<div id="item2" class="grid_item item2">
-			<h2>Vali tekst(id) Eesti vahekeele korpusest:</h2>
+			<h2>Vali Eesti vahekeele korpuse tekst(id)</h2>
 			<a href="vahekorpus.html"> 
-				<button class="button">Vali tekst</button>
+				<button class="button">Vali</button>
 			</a>
 			<br>
 			<hr>
 		</div>
 		<div id="item3" class="grid_item item3">
-			<h2>Sisesta oma tekst allolevale väljale:</h2>
+			<h2>Sisesta oma tekst</h2>
 			<textarea id="sisesta_tekst" name="sisesta_tekst" class="input" ></textarea>
 			<br>
 			
 			<a href="filter.html"> 
-				<button class="button2" id="salvesta_tekst">Salvesta tekst ja jätka
+				<button class="button2" id="salvesta_tekst">Salvesta ja jätka
 				</button>
 				</a>
 		<div id="error"></div>

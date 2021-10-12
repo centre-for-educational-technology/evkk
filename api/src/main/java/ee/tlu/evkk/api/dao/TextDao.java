@@ -18,7 +18,7 @@ public interface TextDao {
 
     // List<String> textTitleQueryByParameters(@Param("queryJoinSen") String queryJoin, @Param("queryWhereSen") String queryWhere);
 
-    List<String> textTitleQueryByParameters2(@Param("helperid") TextQueryHelper[] helperid);
+    String textTitleQueryByParameters2(@Param("helperid") TextQueryHelper[] helperid);
 
     String findDetailedValueByPropertyName(@Param("pValue") String pValue[], @Param("pName") String pName, @Param("cId") String[] cId); // property value, name, corpus id
 

@@ -1,4 +1,4 @@
-let koguTekst = localStorage.getItem("sonad").split(",");
+let koguTekst = localStorage.getItem("sonad");//.split(",");
 let stoppsonad = localStorage.getItem("stoppsonad");
 let valistatud = JSON.parse(localStorage.getItem("valistatud"));
 let vorm = localStorage.getItem("vorm");
@@ -6,7 +6,7 @@ let tahesuurus = localStorage.getItem("tahesuurus");
 let tabel = document.querySelector("#tabel");
 let sonadearv = {};
 let sonadeprotsent = {};
-var jsonString = JSON.stringify(koguTekst);
+//var jsonString = JSON.stringify(koguTekst);
 const reg = /[^a-zA-Z õäöüÕÄÖÜ-]/g;
 const response = new XMLHttpRequest();
 
@@ -26,8 +26,9 @@ if(vorm == "algvormid") {
     $.ajax({
         type: "POST",
         url: "api/texts/lemmad",
-        data: {tekst : jsonString},
+        data: {tekst : koguTekst},
         success: function(data){
+            console.log(data);
             tekstiTootlus(data);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) { 
@@ -38,7 +39,7 @@ if(vorm == "algvormid") {
     $.ajax({
         type: "POST",
         url: "api/texts/sonad",
-        data: {tekst : jsonString},
+        data: {tekst : koguTekst},
         success: function(data){
             tekstiTootlus(data);
         },
@@ -49,6 +50,7 @@ if(vorm == "algvormid") {
 }
 
 function tekstiTootlus(data) {
+    console.log(data);
     data = JSON.parse(data);
     for(let i = 0; i < data.length; i++) {
         if(tahesuurus) {
@@ -108,7 +110,7 @@ function tekstiTootlus(data) {
         "pagingType": "full_numbers",
         "pageLength": 50,
         language: {
-            url: '../json/dataTables.estonian.json'
+            url: 'dataTables.estonian.json'
         }
     });
 
@@ -180,7 +182,7 @@ function salvestaCSV(failinimi) {
         "pagingType": "full_numbers",
         "pageLength": 50,
         language: {
-            url: '../json/dataTables.estonian.json'
+            url: 'dataTables.estonian.json'
         }
     });
 }

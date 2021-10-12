@@ -4,10 +4,12 @@
 <mapper namespace="ee.tlu.evkk.api.dao.TextDao">
 
   <select id="findTextById" resultType="java.lang.String">
-        select concat(
+        <!-- select concat(
           (select property_value FROM core.text_property where property_name='title' and  core.text_property.id= #{textId}),
           '!!!',
-          (select content from core.text where core.text.id = #{textId}));
+          (select content from core.text where core.text.id = #{textId})); -->
+
+        select content from core.text where id = #{textId}
     </select>
   <select id="findTextIDsByCorpusID" resultType="java.lang.String">
         select text_id
@@ -15,10 +17,18 @@
         where core.text_property.property_value = #{corpusId} and core.text_property.property_name = 'korpus';
     </select>
     <select id="findTextIDandTitleByCorpusID" resultType="java.lang.String">
-        select concat(tp1.text_id, '!!!',
+        <!-- select concat(tp1.text_id, '!!!',
         (select tp2.property_value FROM core.text_property as tp2 where tp2.property_name='title' and tp2.text_id = tp1.text_id))
         from core.text_property as tp1
-        where tp1.property_value = #{corpusId} and tp1.property_name = 'korpus';
+        where tp1.property_value = #{corpusId} and tp1.property_name = 'korpus'; -->
+
+        select array_to_json(array_agg(row_to_json(t)))
+        from (
+            select tp1.text_id,
+            (select tp2.property_value FROM core.text_property as tp2 where tp2.property_name='title' and tp2.text_id = tp1.text_id)
+        from core.text_property as tp1
+        where tp1.property_value = #{corpusId} and tp1.property_name = 'korpus'
+        ) t
     </select>
 
     <!-- <select id="textTitleQueryByParameters" resultType="java.lang.String">
@@ -29,11 +39,19 @@
     </select> -->
 
     <select id="textTitleQueryByParameters2" resultType="java.lang.String">
-        select concat(p2.text_id, '!!!', p2.property_value)
+        <!-- select concat(p2.text_id, '!!!', p2.property_value)
         from core.text_property as p2
         <foreach item="helperid" collection="helperid" separator=" ">join core.text_property as ${helperid.tabel} on p2.text_id = ${helperid.tabel}.text_id</foreach>
         where p2.property_name = 'title'
-        <foreach item="helperid" collection="helperid" separator=" "> and ${helperid.tabel}.property_name = #{helperid.parameeter} and ${helperid.tabel}.property_value in <foreach item="v" collection="helperid.vaartus" separator=", " open="(" close=")">#{v}</foreach></foreach>
+        <foreach item="helperid" collection="helperid" separator=" "> and ${helperid.tabel}.property_name = #{helperid.parameeter} and ${helperid.tabel}.property_value in <foreach item="v" collection="helperid.vaartus" separator=", " open="(" close=")">#{v}</foreach></foreach> -->
+        select array_to_json(array_agg(row_to_json(t)))
+        from (
+            select p2.text_id, p2.property_value
+            from core.text_property as p2
+            <foreach item="helperid" collection="helperid" separator=" ">join core.text_property as ${helperid.tabel} on p2.text_id = ${helperid.tabel}.text_id</foreach>
+            where p2.property_name = 'title'
+            <foreach item="helperid" collection="helperid" separator=" "> and ${helperid.tabel}.property_name = #{helperid.parameeter} and ${helperid.tabel}.property_value in <foreach item="v" collection="helperid.vaartus" separator=", " open="(" close=")">#{v}</foreach></foreach>
+        ) t
     </select>
 
 <select id="findMiniStats" resultType="java.lang.String">

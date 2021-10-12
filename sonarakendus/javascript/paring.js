@@ -194,19 +194,30 @@ function submitted() {
     //         alert(XMLHttpRequest + "\n" + textStatus + "\n" + errorThrown);
     //     }
     // });
-
+    
     $.ajax({
         type: "POST",
         url: "api/texts/detailneparing2",
-        data: {vaartused : JSON.stringify(values)},
+        data: JSON.stringify(values),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
         success: function(data) {
+            //console.log(data);
+            //console.log(data[0]["text_id"]);
             for(let i = 0; i < data.length; i++) {
-                tekstideIDd.push(data[i].split("!!!")[0]);
-                if(data[i].split("!!!")[1] == "") {
+                tekstideIDd.push(data[i]["text_id"]);
+                if(data[i]["property_value"] == "") {
                     tekstidePealkirjad.push("pealkiri puudub");
                 } else {
-                    tekstidePealkirjad.push(data[i].split("!!!")[1]);
+                    tekstidePealkirjad.push(data[i]["property_value"]);
                 }
+
+                // tekstideIDd.push(data[i].split("!!!")[0]);
+                // if(data[i].split("!!!")[1] == "") {
+                //     tekstidePealkirjad.push("pealkiri puudub");
+                // } else {
+                //     tekstidePealkirjad.push(data[i].split("!!!")[1]);
+                // }
             }
             tekstideKuvamine();
         },
