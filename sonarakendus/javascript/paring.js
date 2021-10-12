@@ -241,7 +241,7 @@ function tekstideKuvamine() {
             url: "api/texts/kysitekst",
             data: {id : tekstiID},
             success: function(data){
-                tekstisisu = data.split("!!!")[1];
+                tekstisisu = data;
                 pealkirjaID = tekstideIDd.indexOf(tekstiID);
                 pealkiri = tekstidePealkirjad[pealkirjaID];
                 localStorage.setItem("kuvatavtekst", tekstisisu);

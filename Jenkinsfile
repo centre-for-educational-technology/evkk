@@ -1,7 +1,7 @@
 def getBuildTarget() {
   def branch = env.GIT_BRANCH
   def name = branch.substring(branch.indexOf('/') + 1)
-  if (name == 'master' || name == 'deploy-2021-09') return 'prod';
+  if (name == 'master' || name == 'text-deploy') return 'prod';
   if (name == 'dev') return 'demo';
   throw new Exception('Invalid build target: ' + branch)
 }
