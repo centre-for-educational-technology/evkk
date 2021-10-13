@@ -109,7 +109,7 @@ function tekstiTootlus(data) {
         "pagingType": "full_numbers",
         "pageLength": 50,
         language: {
-            url: 'dataTables.estonian.json'
+            url: '../json/dataTables.estonian.json'
         }
     });
 
@@ -181,7 +181,7 @@ function salvestaCSV(failinimi) {
         "pagingType": "full_numbers",
         "pageLength": 50,
         language: {
-            url: 'dataTables.estonian.json'
+            url: '../json/dataTables.estonian.json'
         }
     });
 }

@@ -50,7 +50,7 @@ function muuda() {
             "pagingType": "full_numbers",
             "pageLength": 25,
             language: {
-                url: 'dataTables.estonian.json'
+                url: '../json/dataTables.estonian.json'
             }
         });
     } else if(tyyp == "lauset") {
@@ -92,7 +92,7 @@ function muuda() {
             "pagingType": "full_numbers",
             "pageLength": 25,
             language: {
-                url: 'dataTables.estonian.json'
+                url: '../json/dataTables.estonian.json'
             }
         });
     }
@@ -124,7 +124,7 @@ function salvestaCSV(failinimi, onvaja) {
         "pagingType": "full_numbers",
         "pageLength": 50,
         language: {
-            url: 'dataTables.estonian.json'
+            url: '../json/dataTables.estonian.json'
         }
     });
 }

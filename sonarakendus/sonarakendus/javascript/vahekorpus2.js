@@ -126,7 +126,7 @@ function kaivitaTabel(puhver) {
         "pagingType": "full_numbers",
         "pageLength": 25,
         language: {
-            url: 'dataTables.estonian.json'
+            url: '../json/dataTables.estonian.json'
         }
     });
     freeze = false;
