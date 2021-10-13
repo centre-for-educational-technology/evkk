@@ -13,12 +13,12 @@ function muuda() {
         while ( (result = regex.exec(str)) ) {
             sonad.push(result.index);
         }
-        console.log(sonad);
+        //console.log(sonad);
         var regex2 = new RegExp("( )", "g"), result2, tyhikud = [];
         while ( (result2 = regex2.exec(str)) ) {
             tyhikud.push(result2.index);
         }
-        console.log(tyhikud);
+        //console.log(tyhikud);
         tabel.innerHTML = "";
         for(let i = 0; i < sonad.length; i++) {
             rida1 = tyhikud.findIndex(element => element == sonad[i]);
@@ -38,17 +38,24 @@ function muuda() {
                 lisand = 2;
             }
             teinePool = str.substring((sonad[i] + localStorage.getItem("kontekst").length + lisand), tyhikud[indeks2]);
-            tabel.innerHTML += "<tr><td>" + (i + 1) + "</td><td class='leftside'>" + esimenePool + "</td><td class='otsitav'>" + localStorage.getItem("kontekst") + "</td><td class='rightside'>" + teinePool + "</td>";
+            if(localStorage.getItem("paritolu") == "TEXTBOX") {
+                tabel.innerHTML += "<tr id='row" + i + "'><td>" + (i + 1) + "</td><td class='leftside'>" + esimenePool + "</td><td class='otsitav'>" + localStorage.getItem("kontekst") + "</td><td class='rightside'>" + teinePool + "</td><td class='source'><div class='popup' onclick='openPopup(" + i + ")'><span class='popuptext' id='" + i + "'><b>Lause metainfo</b><br><br>Lause pärineb tekstiväljale sisestatud tekstist.</span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
+            } else if(localStorage.getItem("paritolu") == "FILEUPLOAD") {
+                tabel.innerHTML += "<tr id='row" + i + "'><td>" + (i + 1) + "</td><td class='leftside'>" + esimenePool + "</td><td class='otsitav'>" + localStorage.getItem("kontekst") + "</td><td class='rightside'>" + teinePool + "</td><td class='source'><div class='popup' onclick='openPopup(" + i + ")'><span class='popuptext' id='" + i + "'><b>Lause metainfo</b><br><br>Faili nimi: </span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
+            } else {
+                tabel.innerHTML += "<tr id='row" + i + "'><td>" + (i + 1) + "</td><td class='leftside'>" + esimenePool + "</td><td class='otsitav'>" + localStorage.getItem("kontekst") + "</td><td class='rightside'>" + teinePool + "</td><td class='source'><div class='popup' onclick='openPopup(" + i + ")'><span class='popuptext' id='" + i + "'><b>Lause metainfo</b><br><br>Dokumendi ID: <br>Alamkorpus: <br>Teksti žanr: <br>Keeleoskustase: <br>Autori emakeel: </span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
+            }
         }
         tabelElement = $('#context').DataTable({
             "pagingType": "full_numbers",
             "pageLength": 25,
             language: {
-                url: '../json/dataTables.estonian.json'
+                url: 'dataTables.estonian.json'
             }
         });
     } else if(tyyp == "lauset") {
         jrk = 1;
+        //console.log(localStorage.getItem("laused"));
         laused = JSON.parse(localStorage.getItem("laused"));
         var regex = new RegExp("([^a-zA-ZõäöüÕÄÖÜ]|^)" + localStorage.getItem("kontekst") + "($|[^a-zA-ZõäöüÕÄÖÜ])", "gi")
         tabel.innerHTML = "";
@@ -71,7 +78,13 @@ function muuda() {
                     }
                 }
 
-                tabel.innerHTML += "<tr><td>" + jrk + "</td><td class='leftside'>" + esimenePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='otsitav'>" + localStorage.getItem("kontekst") + "</td><td class='rightside'>" + teinePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td>";
+                if(localStorage.getItem("paritolu") == "TEXTBOX") {
+                    tabel.innerHTML += "<tr id='row" + i + "'><td>" + jrk + "</td><td class='leftside'>" + esimenePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='otsitav'>" + localStorage.getItem("kontekst") + "</td><td class='rightside'>" + teinePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='source'><div class='popup' onclick='openPopup(" + i + ")'><span class='popuptext' id='" + i + "'><b>Lause metainfo</b><br><br>Lause pärineb tekstiväljale sisestatud tekstist.</span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
+                } else if(localStorage.getItem("paritolu") == "FILEUPLOAD") {
+                    tabel.innerHTML += "<tr id='row" + i + "'><td>" + jrk + "</td><td class='leftside'>" + esimenePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='otsitav'>" + localStorage.getItem("kontekst") + "</td><td class='rightside'>" + teinePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='source'><div class='popup' onclick='openPopup(" + i + ")'><span class='popuptext' id='" + i + "'><b>Lause metainfo</b><br><br>Lause metainfo</b><br>Faili nimi: </span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
+                } else {
+                    tabel.innerHTML += "<tr id='row" + i + "'><td>" + jrk + "</td><td class='leftside'>" + esimenePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='otsitav'>" + localStorage.getItem("kontekst") + "</td><td class='rightside'>" + teinePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='source'><div class='popup' onclick='openPopup(" + i + ")'><span class='popuptext' id='" + i + "'><b>Lause metainfo</b><br><br>Dokumendi ID: <br>Alamkorpus: <br>Teksti žanr: <br>Keeleoskustase: <br>Autori emakeel: </span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
+                }
                 jrk++;
             }
         }
@@ -79,7 +92,7 @@ function muuda() {
             "pagingType": "full_numbers",
             "pageLength": 25,
             language: {
-                url: '../json/dataTables.estonian.json'
+                url: 'dataTables.estonian.json'
             }
         });
     }
@@ -111,7 +124,7 @@ function salvestaCSV(failinimi, onvaja) {
         "pagingType": "full_numbers",
         "pageLength": 50,
         language: {
-            url: '../json/dataTables.estonian.json'
+            url: 'dataTables.estonian.json'
         }
     });
 }
@@ -119,3 +132,14 @@ function salvestaCSV(failinimi, onvaja) {
 function sulge() {
     window.close();
 }
+
+function openPopup(number) {
+    var popup = document.getElementById(number);
+    var tabelirida = document.getElementById("row" + number);
+    popup.classList.toggle("show");
+    if(popup.classList.contains("show")) {
+        tabelirida.style.backgroundColor = "#E4C0B8";
+    } else {
+        tabelirida.style.backgroundColor = "";
+    }
+  }

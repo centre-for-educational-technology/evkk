@@ -194,7 +194,7 @@ function submitted() {
     //         alert(XMLHttpRequest + "\n" + textStatus + "\n" + errorThrown);
     //     }
     // });
-    
+
     $.ajax({
         type: "POST",
         url: "api/texts/detailneparing2",

@@ -18,7 +18,7 @@ loendur = 0;
 for(let i = 0; i < korpused.length; i++) {
     $.ajax({
         type: "GET",
-        url: "https://evkk.tlu.ee/api/texts/kysikorpusetekstiIDjapealkiri",  //TODO: hard-coded URL
+        url: "api/texts/kysikorpusetekstiIDjapealkiri",
         data: {korpusekood : korpused[i]},
         success: function(data){
             data = JSON.parse(data);
@@ -35,7 +35,7 @@ for(let i = 0; i < korpused.length; i++) {
                 tekstideKuvamine();
             }
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        error: function(XMLHttpRequest, textStatus, errorThrown) { 
             alert(textStatus + "\n" + errorThrown);
         }
     });
@@ -57,7 +57,7 @@ function getSelectedCheckboxValues(name) {
     });
     return values;
   }
-
+  
   const btn = document.querySelector('#salvesta');
   btn.addEventListener('click', (event) => {
     result = getSelectedCheckboxValues('chk');
@@ -69,19 +69,30 @@ function getSelectedCheckboxValues(name) {
         for(let i = 0; i < result.length; i++) {
             $.ajax({
                 type: "GET",
-                url: "https://evkk.tlu.ee/api/texts/kysitekst",  //TODO: hard-coded URL
+                url: "api/texts/kysitekst",
                 data: {id : result[i]},
                 success: function(data){
                     uhendatudtekst += data;
                     loendur++;
                     if(loendur == result.length) {
                         localStorage.setItem("sonad", uhendatudtekst);
-                        localStorage.setItem("paritolu", "EVKK");
-                        window.location = "filter.html";
+                        $.ajax({
+                            type: "POST",
+                            url: "api/texts/laused",
+                            data: {tekst: uhendatudtekst},
+                            success: function(data) {
+                                localStorage.setItem("laused", data);
+                                localStorage.setItem("paritolu", "EVKK");
+                                window.location = "filter.html";
+                            },
+                            error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                                alert(textStatus + "\n" + errorThrown);
+                            }
+                        });
                     }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    console.log("teine");
+                    console.log("teine"); 
                     alert(textStatus + "\n" + errorThrown);
                 }
             });
@@ -92,7 +103,7 @@ function getSelectedCheckboxValues(name) {
 function eelvaade(tekstiID) {
     $.ajax({
         type: "GET",
-        url: "https://evkk.tlu.ee/api/texts/kysitekst", //TODO: hard-coded URL
+        url: "api/texts/kysitekst",
         data: {id : tekstiID},
         success: function(data){
             tekstisisu = data;
@@ -102,7 +113,7 @@ function eelvaade(tekstiID) {
             localStorage.setItem("tekstipealkiri", pealkiri);
             window.open("tekst.html", "_blank");
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        error: function(XMLHttpRequest, textStatus, errorThrown) { 
             alert(textStatus + "\n" + errorThrown);
         }
     });

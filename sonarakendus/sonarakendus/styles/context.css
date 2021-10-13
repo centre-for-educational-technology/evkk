@@ -104,3 +104,46 @@ text-align: center;
 margin-top: 20px;
 position: absolute;
 }
+.sourcebutton {
+  margin-left: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.popup .popuptext {
+  visibility: hidden;
+  width: 250px;
+  font-size:16px;
+  overflow: hidden;
+  background-color: #E7F3FD;
+  color: rgb(54, 54, 54);
+  text-align: left;
+  border-radius: 6px;
+  padding: 9px 9px;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  margin-left: 18px;
+}
+
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+.popup > img {
+  margin-left: 10px;
+  width: 20px;
+  height: 20px;
+}
