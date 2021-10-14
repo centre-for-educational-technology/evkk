@@ -4,12 +4,17 @@
 
 create procedure pg_temp.create_role(name text) as
 $$
+declare
+  current_database_name text;
 begin
+  select current_database from current_database() into current_database_name;
+  begin
     execute format('create role %s with nologin', name);
-    execute format('revoke all privileges on database %s from %s', current_database_name, name);
-exception
+  exception
     when duplicate_object then null;
     when others then raise;
+  end;
+  execute format('revoke all privileges on database %s from %s', current_database_name, name);
 end;
 $$ language plpgsql;
 
@@ -49,41 +54,31 @@ begin
   execute format('alter default privileges in schema %1$s grant select on tables to group %1$s_r', name);
   execute format('alter default privileges in schema %1$s grant select on sequences to group %1$s_r', name);
 
+  execute format('grant %s_r to backup', name);
+
 end;
 $$ language plpgsql;
+
+------------------------
+-- CREATE ROLES/USERS --
+------------------------
+
+call pg_temp.create_role('backup');
+call pg_temp.create_user('api_user', '${EVKK_API_DATASOURCE_PASSWORD}');
 
 -----------------------
 -- CONFIGURE SCHEMAS --
 -----------------------
 
 drop schema if exists public cascade;
-
 call pg_temp.create_schema('sys');
 call pg_temp.create_schema('core');
-
-------------------
--- CREATE USERS --
-------------------
-
-call pg_temp.create_user('api_user', '${EVKK_API_DATASOURCE_PASSWORD}');
---call pg_temp.create_user('backup_user', '${EVKK_BACKUP_DATASOURCE_PASSWORD}');
-
-call pg_temp.create_role('backup');
 
 -----------------
 -- GRANT ROLES --
 -----------------
 
-grant sys_r to backup;
-grant core_r to backup;
-
 grant core_rw to api_user;
-
-----
---
--------
-
-
 
 ----------------
 -- EXTENSIONS --
