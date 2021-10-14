@@ -2,6 +2,7 @@
   grid-column: 1/3;
   grid-row: 2;
   margin-left: 100px;
+  z-index: 0;
 }
 
 h2{
