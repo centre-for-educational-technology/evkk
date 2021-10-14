@@ -34,6 +34,7 @@ $$ language plpgsql;
 ------------------
 
 call pg_temp.create_user('api_user', '${EVKK_API_DATASOURCE_PASSWORD}');
+call pg_temp.create_user('backup_user', '${EVKK_BACKUP_DATASOURCE_PASSWORD}');
 --todo: call pg_temp.create_user('daemon_user', '{EVKK_DAEMON_DATASOURCE_PASSWORD}');
 
 ------------------
@@ -50,8 +51,10 @@ call pg_temp.create_role('core_r');
 -- GRANT ROLES --
 -----------------
 
+grant sys_r to backup_user;
+grant core_r to backup_user;
+
 grant core_rw to api_user;
---todo: grant core_rw to daemon_user;
 
 -----------------------
 -- CONFIGURE SCHEMAS --
@@ -69,13 +72,18 @@ grant usage on schema core to public;
 -- PRIVILEGES --
 ----------------
 
-alter default privileges for role current_user in schema sys grant select, insert, update on tables to group sys_rw;
-alter default privileges for role current_user in schema sys grant usage on sequences to group sys_rw;
-alter default privileges for role current_user in schema sys grant select on tables to group sys_r;
+grant select on all table in schema sys to sys_r;
 
-alter default privileges for role current_user in schema core grant select, insert, update on tables to group core_rw;
-alter default privileges for role current_user in schema core grant usage on sequences to group core_rw;
-alter default privileges for role current_user in schema core grant select on tables to group core_r;
+alter default privileges in schema sys grant select, insert, update on tables to group sys_rw;
+alter default privileges in schema sys grant usage on sequences to group sys_rw;
+
+alter default privileges in schema sys grant select on tables to group sys_r;
+alter default privileges in schema sys grant select on sequences to group sys_r;
+
+alter default privileges in schema core grant select, insert, update on tables to group core_rw;
+alter default privileges in schema core grant usage on sequences to group core_rw;
+alter default privileges in schema core grant select on tables to group core_r;
+alter default privileges in schema core grant select on sequences to group core_r;
 
 ----------------
 -- EXTENSIONS --

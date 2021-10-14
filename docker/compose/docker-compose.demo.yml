@@ -5,3 +5,5 @@ secrets:
     file: /Users/mikk/Projects/tlu/evkk/secrets/EVKK_DB_DATASOURCE_PASSWORD
   EVKK_API_DATASOURCE_PASSWORD:
     file: /Users/mikk/Projects/tlu/evkk/secrets/EVKK_API_DATASOURCE_PASSWORD
+  EVKK_BACKUP_DATASOURCE_PASSWORD:
+    file: /Users/mikk/Projects/tlu/evkk/secrets/EVKK_BACKUP_DATASOURCE_PASSWORD
