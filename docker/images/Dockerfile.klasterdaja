@@ -1,19 +1,19 @@
-#FROM ubuntu:20.04
-#SHELL ["/bin/bash", "-c"]
-#RUN apt-get update && apt-get install wget openjdk-11-jdk -y
-#RUN wget --no-verbose https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh && chmod +x ./Anaconda3-2021.05-Linux-x86_64.sh
-#RUN ./Anaconda3-2021.05-Linux-x86_64.sh -b -p ~/anaconda3 && rm ./Anaconda3-2021.05-Linux-x86_64.sh
-#ENV PATH=~/anaconda3/bin:$PATH
-#RUN conda install -c estnltk -c conda-forge estnltk=1.6.9b
-
 FROM ubuntu:20.04
 SHELL ["/bin/bash", "-c"]
-RUN apt-get update
+RUN apt-get update && apt-get install wget openjdk-11-jdk -y
+RUN wget --no-verbose https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh && chmod +x ./Anaconda3-2021.05-Linux-x86_64.sh
+RUN ./Anaconda3-2021.05-Linux-x86_64.sh -b -p ~/anaconda3 && rm ./Anaconda3-2021.05-Linux-x86_64.sh
+ENV PATH=~/anaconda3/bin:$PATH
+RUN conda install -c estnltk -c conda-forge nltk=3.4.4 estnltk=1.4.1
+
+#FROM ubuntu:20.04
+#SHELL ["/bin/bash", "-c"]
+#RUN apt-get update
 
 # Python & estnltk
-RUN apt-get install python3-dev python3-pip python3-wheel python3-numpy swig -y
-RUN pip3 install estnltk==1.6.9.1b0
-RUN python3 -c "import estnltk; print( estnltk.Text('Tere estnltk').lemmas )"
+#RUN apt-get install python3-dev python3-pip python3-wheel python3-numpy swig -y
+#RUN pip3 install estnltk==1.6.9.1b0
+#RUN python3 -c "import estnltk; print( estnltk.Text('Tere estnltk').lemmas )"
 #RUN python3 -m estnltk.run_tests
 
 #RUN apt-get install wget swig gcc g++ make build-essential libssl1.0 -y
