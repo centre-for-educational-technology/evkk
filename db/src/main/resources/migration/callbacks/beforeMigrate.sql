@@ -66,16 +66,24 @@ call pg_temp.create_schema('core');
 ------------------
 
 call pg_temp.create_user('api_user', '${EVKK_API_DATASOURCE_PASSWORD}');
-call pg_temp.create_user('backup_user', '${EVKK_BACKUP_DATASOURCE_PASSWORD}');
+--call pg_temp.create_user('backup_user', '${EVKK_BACKUP_DATASOURCE_PASSWORD}');
+
+call pg_temp.create_role('backup');
 
 -----------------
 -- GRANT ROLES --
 -----------------
 
-grant sys_r to backup_user;
-grant core_r to backup_user;
+grant sys_r to backup;
+grant core_r to backup;
 
 grant core_rw to api_user;
+
+----
+--
+-------
+
+
 
 ----------------
 -- EXTENSIONS --
