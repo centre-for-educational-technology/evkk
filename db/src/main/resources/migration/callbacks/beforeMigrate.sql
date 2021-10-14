@@ -6,6 +6,7 @@ create procedure pg_temp.create_role(name text) as
 $$
 begin
     execute format('create role %s with nologin', name);
+    execute format('revoke all privileges on database %s from %s', current_database_name, name);
 exception
     when duplicate_object then null;
     when others then raise;
@@ -72,13 +73,17 @@ grant usage on schema core to public;
 -- PRIVILEGES --
 ----------------
 
-grant select on all table in schema sys to sys_r;
+---
+
+grant select on all tables in schema sys to sys_r;
 
 alter default privileges in schema sys grant select, insert, update on tables to group sys_rw;
 alter default privileges in schema sys grant usage on sequences to group sys_rw;
 
 alter default privileges in schema sys grant select on tables to group sys_r;
 alter default privileges in schema sys grant select on sequences to group sys_r;
+
+---
 
 alter default privileges in schema core grant select, insert, update on tables to group core_rw;
 alter default privileges in schema core grant usage on sequences to group core_rw;
