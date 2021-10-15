@@ -57,12 +57,6 @@ begin
 end;
 $$ language plpgsql;
 
-------------------------
--- CREATE ROLES/USERS --
-------------------------
-
-call pg_temp.create_user('api_user', '${EVKK_API_DATASOURCE_PASSWORD}');
-
 -----------------------
 -- CONFIGURE SCHEMAS --
 -----------------------
@@ -70,6 +64,12 @@ call pg_temp.create_user('api_user', '${EVKK_API_DATASOURCE_PASSWORD}');
 drop schema if exists public cascade;
 call pg_temp.create_schema('sys');
 call pg_temp.create_schema('core');
+
+------------------------
+-- CREATE ROLES/USERS --
+------------------------
+
+call pg_temp.create_user('api_user', '${EVKK_API_DATASOURCE_PASSWORD}');
 
 -----------------
 -- GRANT ROLES --
