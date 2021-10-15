@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  postgres:
+    image: postgres:13-alpine
+    container_name: evkk-postgres
+    restart: always
+    secrets:
+      - EVKK_DB_DATASOURCE_PASSWORD
+    environment:
+      POSTGRES_USER: db_user
+      POSTGRES_DB: evkk
+      POSTGRES_PASSWORD_FILE: /run/secrets/EVKK_DB_DATASOURCE_PASSWORD
+    volumes:
+      - /srv/evkk/data/postgres:/var/lib/postgresql/data

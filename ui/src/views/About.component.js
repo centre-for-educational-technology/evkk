@@ -8,13 +8,20 @@ class About extends Component {
         <h2>Mis on <abbr title="eesti vahekeele korpus">EVKK</abbr>?</h2>
         <p/>
         <p>
-          Tallinna Ülikooli eesti vahekeele korpus (EVKK) on eesti keele kui riigikeele (teise keele) ja võõrkeele õppijate kirjalike tekstide kogu.
+          Tallinna Ülikooli eesti vahekeele ehk õppijakeele korpus on eesti keele kui teise keele ja võõrkeele õppijate kirjalike tekstide kogu.
         </p>
         <p>
-          EVKK-s on rida alamkorpusi, kasutajaliides, mitmetasandiline annoteerimis- ja märgendussüsteem, statistikamoodul, tekstide automaatanalüüsi võimalused
-          jm. Kombineerides erinevaid alamkorpusi, tekstilisi tunnuseid, vealiike ja metateavet õppija kohta, võimaldab korpuse kasutajaliides teostada
-          mitmetasandilist otsingut. Korpust saab kasutada empiirilises ja rakenduslikku laadi uurimistöös; tulevaste õpetajate ja lingvistide koolitamisel;
-          tegevõpetajate täiendõppes jm.
+          EVKK-s on rida alamkorpusi, kasutajaliides, märgendussüsteem, veaklassifikatsioon, statistikamoodul, tekstide automaatanalüüsi võimalused
+          jm. Kombineerides erinevaid alamkorpusi, tekstitunnuseid, vealiike ja teavet õppija kohta, võimaldab korpuse kasutajaliides teha
+          mitmekülgset otsingut. Korpust saab kasutada empiirilises ja rakenduslikku laadi uurimistöös, õpetajate koolitamisel ja eesti keele õppes. 
+          Korpus täieneb pidevalt uute tekstidega.
+        </p>
+        <p>
+          Osa kasutusvõimalusi on hetkel kättesaadavad EVKK vanas versioonis.
+        </p>
+        <p>
+          EVKK-ga seotud keeleõppe- ja keeleuurimiskeskkonna ELLE (Estonian Language Learning, Teaching ja Research Environment) kohta vaata infot&nbsp;
+            <a href="https://github.com/centre-for-educational-technology/evkk/wiki">siit</a>.
         </p>
       </div>
     );

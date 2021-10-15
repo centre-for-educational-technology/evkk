@@ -1,0 +1,101 @@
+.item4 {
+    grid-column: 2;
+    grid-row: 2;
+    margin-left: 100px;
+    display: flex;
+    
+}
+.item5 {
+    grid-column: 2;
+    grid-row: 3;
+    margin-left: 100px;
+    display: flex;
+}
+.vorm{
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.item5 > textarea {
+    margin-left: 20px;
+    padding: 8px 8px;
+    width: 200px;
+    height: 100px;
+    background-color: #E7F3FD;
+    border:none;
+    font-family: 'Open Sans', sans-serif;
+}
+.item6 {
+    grid-column: 2;
+    grid-row:  4;
+    margin-left: 100px;
+    display: inline;
+}
+
+.popup > img {
+    margin-left: 10px;
+    width: 20px;
+    height: 20px;
+}
+.button2 {
+    position: absolute;
+    left: 50%;
+    background-color: white; 
+    color: black; 
+    border: 1px solid #2196F3;
+    border-radius: 8px;
+    width: 200px;
+    height: 40px;
+    text-decoration: none;
+    font-size: 18px;
+  }
+  
+.button2:hover {
+    background-color: #2196F3;
+    color: white;
+  }
+
+  .popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  .popup .popuptext {
+    visibility: hidden;
+    width: 400px;
+    font-size:16px;
+    overflow: hidden;
+    background-color: #E7F3FD;
+    color: rgb(54, 54, 54);
+    text-align: left;
+    border-radius: 6px;
+    padding: 9px 9px;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    margin-left: 18px;
+  }
+  #valista_tekst:focus { 
+    outline: none;
+  }
+  
+  .popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+  }
+  
+  @-webkit-keyframes fadeIn {
+    from {opacity: 0;} 
+    to {opacity: 1;}
+  }
+  
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+  }

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang = "et">
+<head>
+	<meta charset = "utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<link rel="stylesheet" type="text/css" href="styles/body.css">
+	<link rel="stylesheet" type="text/css" href="styles/context.css">
+	<link rel="stylesheet" type="text/css" href="styles/table3.css">
+    <script src="javascript/kasutuskontekst.js" defer></script>
+    <script src="javascript/download.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+</head>
+<body>
+	<main>
+		<div id="grid_container" class="grid_container">
+			<div id="header" class="grid_item header">
+				<a href ="home.html">
+					<img src="img/home.png" alt = "home logo" class="home_logo">
+				</a>
+			</div>
+			<div id="item10" class="grid_item item10">
+				<h2>Kasutuskontekst</h2>
+				<br>
+				<div class="valik">
+					<div class="quantity">
+						Kuvatakse <input id="number" type="number" min="0" max="15" step="0" value="5" class="numberbtn">
+					</div>
+					<div class="action">
+						<select name="kasutuskontekst" id="kasutuskontekst" class="optionbtn">
+							<option value="sona">sõna</option>
+							<option value="lauset">lauset</option>
+						</select>
+						<label for="kasutuskontekst">enne ja pärast valitud sõna</label>
+					</div>
+				</div>
+			
+				<p>Valides “0 lauset” kuvatakse ainult see lause, kus antud sõna esineb. Valides “1 lause” näidatakse lisaks sõna sisaldavale lausele ka ühte eelnevat ja ühte järgmist.</p>
+			</div>
+			<div id="item11" class="grid_item item11">
+				<div class="tableCol">
+					<table class="table" id="context">
+						<thead>
+							<tr>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody id="tabel"></tbody>
+					</table>
+					<button class="button2" onclick="salvestaCSV('kasutuskontekst.csv', true)">Laadi alla kontekstinäidised (.csv)</button>
+					<div class="item9">
+						<button class="button" onclick="sulge()">Tagasi</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+</html>
