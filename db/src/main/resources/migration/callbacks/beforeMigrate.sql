@@ -4,11 +4,17 @@
 
 create procedure pg_temp.create_role(name text) as
 $$
+declare
+  current_database_name text;
 begin
+  select current_database from current_database() into current_database_name;
+  begin
     execute format('create role %s with nologin', name);
-exception
+  exception
     when duplicate_object then null;
     when others then raise;
+  end;
+  execute format('revoke all privileges on database %s from %s', current_database_name, name);
 end;
 $$ language plpgsql;
 
@@ -29,53 +35,47 @@ begin
 end;
 $$ language plpgsql;
 
-------------------
--- CREATE USERS --
-------------------
+create procedure pg_temp.create_schema(name text) as
+$$
+begin
 
-call pg_temp.create_user('api_user', '${EVKK_API_DATASOURCE_PASSWORD}');
---todo: call pg_temp.create_user('daemon_user', '{EVKK_DAEMON_DATASOURCE_PASSWORD}');
+  execute format('create schema if not exists %s', name);
+  execute format('grant usage on schema %s to public', name);
 
-------------------
--- CREATE ROLES --
-------------------
+  execute format('call pg_temp.create_role(''%s_rw'')', name);
+  execute format('grant select, insert, update on all tables in schema %1$s to %1$s_rw', name);
+  execute format('grant usage on all sequences in schema %1$s to %1$s_rw', name);
+  execute format('alter default privileges in schema %1$s grant select, insert, update on tables to group %1$s_rw', name);
+  execute format('alter default privileges in schema %1$s grant usage on sequences to group %1$s_rw', name);
 
-call pg_temp.create_role('sys_rw');
-call pg_temp.create_role('sys_r');
+  execute format('call pg_temp.create_role(''%s_r'')', name);
+  execute format('grant select on all tables in schema %1$s to %1$s_r', name);
+  execute format('grant select on all sequences in schema %1$s to %1$s_r', name);
+  execute format('alter default privileges in schema %1$s grant select on tables to group %1$s_r', name);
+  execute format('alter default privileges in schema %1$s grant select on sequences to group %1$s_r', name);
 
-call pg_temp.create_role('core_rw');
-call pg_temp.create_role('core_r');
-
------------------
--- GRANT ROLES --
------------------
-
-grant core_rw to api_user;
---todo: grant core_rw to daemon_user;
+end;
+$$ language plpgsql;
 
 -----------------------
 -- CONFIGURE SCHEMAS --
 -----------------------
 
 drop schema if exists public cascade;
+call pg_temp.create_schema('sys');
+call pg_temp.create_schema('core');
 
-create schema if not exists sys;
-grant usage on schema sys to public;
+------------------------
+-- CREATE ROLES/USERS --
+------------------------
 
-create schema if not exists core;
-grant usage on schema core to public;
+call pg_temp.create_user('api_user', '${EVKK_API_DATASOURCE_PASSWORD}');
 
-----------------
--- PRIVILEGES --
-----------------
+-----------------
+-- GRANT ROLES --
+-----------------
 
-alter default privileges for role current_user in schema sys grant select, insert, update on tables to group sys_rw;
-alter default privileges for role current_user in schema sys grant usage on sequences to group sys_rw;
-alter default privileges for role current_user in schema sys grant select on tables to group sys_r;
-
-alter default privileges for role current_user in schema core grant select, insert, update on tables to group core_rw;
-alter default privileges for role current_user in schema core grant usage on sequences to group core_rw;
-alter default privileges for role current_user in schema core grant select on tables to group core_r;
+grant core_rw to api_user;
 
 ----------------
 -- EXTENSIONS --

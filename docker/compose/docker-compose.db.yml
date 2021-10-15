@@ -3,6 +3,7 @@ version: "3.7"
 services:
   db:
     image: evkk-backend
+    container_name: evkk-db
     entrypoint: [ "/bin/bash", "-c", "java -jar app/db.jar" ]
     secrets:
       - EVKK_DB_DATASOURCE_PASSWORD
