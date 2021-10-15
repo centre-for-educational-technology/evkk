@@ -10,9 +10,6 @@ fi
 
 echo "BUILD_TARGET=$BUILD_TARGET"
 
-# Docker cleanup
-docker system prune -f
-
 # Remove build dir (if exists)
 rm -rf ./build/
 

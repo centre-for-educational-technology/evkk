@@ -16,7 +16,7 @@ pipeline {
 
     stage('Copy files') {
       steps {
-        sh 'cp -r ./build/* /opt/evkk'
+        sh 'rm -rf /opt/evkk/* && cp -r ./build/* /opt/evkk'
       }
     }
 
