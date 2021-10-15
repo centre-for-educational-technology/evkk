@@ -4,12 +4,14 @@ services:
 
   redis:
     image: redis:6-alpine
+    container_name: evkk-redis
     restart: always
     volumes:
       - /srv/evkk/data/redis:/data
 
   caddy:
     image: caddy:2.4.5-alpine
+    container_name: evkk-caddy
     restart: always
     ports:
       - "9999:9999"
@@ -18,16 +20,19 @@ services:
 
   ui:
     image: evkk-ui
+    container_name: evkk-ui
     restart: always
     depends_on:
       - api
 
   sonarakendus:
     image: evkk-sonarakendus
+    container_name: evkk-sonarakendus
     restart: always
 
   api:
     image: evkk-backend
+    container_name: evkk-api
     restart: always
     entrypoint: [ "/bin/bash", "-c", "java -jar app/api.jar" ]
     secrets:
@@ -41,6 +46,7 @@ services:
 
   stanza:
     image: evkk-stanza
+    container_name: evkk-stanza
     restart: always
 
   #clusterfinder:

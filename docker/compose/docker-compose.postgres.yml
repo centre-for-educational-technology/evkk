@@ -3,6 +3,7 @@ version: "3.7"
 services:
   postgres:
     image: postgres:13-alpine
+    container_name: evkk-postgres
     restart: always
     secrets:
       - EVKK_DB_DATASOURCE_PASSWORD
