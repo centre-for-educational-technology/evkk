@@ -54,8 +54,6 @@ begin
   execute format('alter default privileges in schema %1$s grant select on tables to group %1$s_r', name);
   execute format('alter default privileges in schema %1$s grant select on sequences to group %1$s_r', name);
 
-  execute format('grant %s_r to backup', name);
-
 end;
 $$ language plpgsql;
 
@@ -63,7 +61,6 @@ $$ language plpgsql;
 -- CREATE ROLES/USERS --
 ------------------------
 
-call pg_temp.create_role('backup');
 call pg_temp.create_user('api_user', '${EVKK_API_DATASOURCE_PASSWORD}');
 
 -----------------------

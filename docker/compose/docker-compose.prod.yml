@@ -5,5 +5,3 @@ secrets:
     file: /srv/evkk/secrets/EVKK_DB_DATASOURCE_PASSWORD
   EVKK_API_DATASOURCE_PASSWORD:
     file: /srv/evkk/secrets/EVKK_API_DATASOURCE_PASSWORD
-  EVKK_BACKUP_DATASOURCE_PASSWORD:
-    file: /srv/evkk/secrets/EVKK_BACKUP_DATASOURCE_PASSWORD
