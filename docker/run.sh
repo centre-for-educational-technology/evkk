@@ -3,10 +3,6 @@ set -e
 
 echo "Running EVKK ..."
 
-echo "System cleanup"
-docker system prune -f
-echo "System cleanup done"
-
 echo "Load images"
 for file in ./images/*.tar; do docker load -i ${file}; done
 echo "Loading images done"

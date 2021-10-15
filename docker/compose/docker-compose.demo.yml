@@ -2,6 +2,6 @@ version: "3.7"
 
 secrets:
   EVKK_DB_DATASOURCE_PASSWORD:
-    file: /Users/mikk/Projects/tlu/evkk/secrets/EVKK_DB_DATASOURCE_PASSWORD
+    file: /srv/evkk/secrets/EVKK_DB_DATASOURCE_PASSWORD
   EVKK_API_DATASOURCE_PASSWORD:
-    file: /Users/mikk/Projects/tlu/evkk/secrets/EVKK_API_DATASOURCE_PASSWORD
+    file: /srv/evkk/secrets/EVKK_API_DATASOURCE_PASSWORD
