@@ -55,6 +55,9 @@ class Nav extends Component {
                 <Link to="/about" className={'nav-link'}>Mis on EVKK</Link>
               </li>
               <li className="nav-item">
+                <Link to="/resource" className={'nav-link'}>Ressurss</Link>
+              </li>
+              <li className="nav-item">
                 <Link to="/employees" className={'nav-link'}>Töötajad</Link>
               </li>
               {/*

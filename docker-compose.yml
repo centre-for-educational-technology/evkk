@@ -4,6 +4,7 @@ services:
 
   postgres:
     image: postgres:13-alpine
+    container_name: evkk-postgres
     command: [ "postgres", "-c", "log_statement=all" ]
     environment:
       POSTGRES_USER: db_user
@@ -16,10 +17,12 @@ services:
 
   redis:
     image: redis:6-alpine
+    container_name: evkk-redis
     ports:
       - "6379:6379"
 
   stanza:
+    container_name: evkk-stanza
     build:
       context: .
       dockerfile: ./docker/images/Dockerfile.stanza
