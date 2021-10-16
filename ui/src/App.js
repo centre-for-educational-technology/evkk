@@ -24,6 +24,15 @@ class AppWithStatus extends Component {
       <>
         <Nav/>
         <Routes/>
+        <footer className="footer">
+          <div className="container">
+            <span className="text-muted">
+              <center>
+                <small>TLÜ EVKK {new Date().getFullYear()}</small>
+              </center>
+            </span>
+          </div>
+        </footer>
       </>
     )
   }
