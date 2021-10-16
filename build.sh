@@ -40,7 +40,8 @@ cp ./docker/compose/docker-compose.${BUILD_TARGET}.yml ./build/compose/docker-co
 mkdir -p ./build/conf/
 for file in ./conf/${BUILD_TARGET}_*; do cp "$file" "./build/conf/${file#./conf/${BUILD_TARGET}_}"; done
 
-# Copy run script
+# Copy scripts
 cp ./docker/run.sh ./build/run.sh
+cp ./docker/db-backup.sh ./build/db-backup.sh
 
 echo "Build completed"
