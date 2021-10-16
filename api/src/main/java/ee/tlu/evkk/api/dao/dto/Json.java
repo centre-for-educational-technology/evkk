@@ -43,7 +43,7 @@ public class Json {
     return OBJECT_MAPPER.convertValue(jsonNode, clazz);
   }
 
-  public <T> T getAsObject(TypeReference<?> typeReference) {
+  public <T> T getAsObject(TypeReference<T> typeReference) {
     if (typeReference == null) throw new NullPointerException();
     return OBJECT_MAPPER.convertValue(jsonNode, typeReference);
   }
