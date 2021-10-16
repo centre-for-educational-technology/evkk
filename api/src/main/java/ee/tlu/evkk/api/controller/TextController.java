@@ -1,6 +1,5 @@
 package ee.tlu.evkk.api.controller;
 import ee.tlu.evkk.api.controller.dto.LemmadRequestEntity;
-import org.json.*;
 import org.springframework.web.bind.annotation.*;
 
 import ee.tlu.evkk.api.controller.dto.TextQueryHelper;
