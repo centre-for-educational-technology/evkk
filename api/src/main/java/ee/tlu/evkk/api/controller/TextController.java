@@ -135,7 +135,7 @@ public class TextController {
     return textDao.findDetailedValueByPropertyName(pValueArray, pName, corpusArray);
   }
 
-  @GetMapping("/detailedSearch")
+  /* @GetMapping("/detailedSearch")
   public String getDetailedSearch(@RequestParam("data") String data) {
     System.out.println(data);
     try {
@@ -216,7 +216,7 @@ public class TextController {
 
     //    System.out.println(JsonObject.getJSONObject("selectedFilters"));
     // return textDao.detailedSearch(pValueArray, pName, corpusArray, filterNamesArray, filterValuesArray);
-  }
+  } */
 
   @GetMapping("/getAvailableValues")
   public String getAvailableValues(String pName) {
