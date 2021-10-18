@@ -108,6 +108,13 @@ function tekstiTootlus(data) {
     tabelElement = $('#words').DataTable({
         "pagingType": "full_numbers",
         "pageLength": 50,
+        "columns": [
+            { "searchable": false },
+            null,
+            null,
+            null,
+            { "searchable": false }
+        ],
         language: {
             url: '../json/dataTables.estonian.json'
         }
@@ -176,10 +183,18 @@ function translateFunc(sona) {
 
 function salvestaCSV(failinimi) {
     tabelElement.destroy();
-    exportTableToCSV(failinimi);
+    //exportTableToCSV(failinimi);
+    ExportToExcelWords();
     tabelElement = $('#words').DataTable({
         "pagingType": "full_numbers",
         "pageLength": 50,
+        "columns": [
+            { "searchable": false },
+            null,
+            null,
+            null,
+            { "searchable": false }
+        ],
         language: {
             url: '../json/dataTables.estonian.json'
         }

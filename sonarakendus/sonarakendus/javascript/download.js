@@ -36,3 +36,27 @@ function exportTableToCSV(words, onvaja) {
     }
     downloadCSV('\uFEFF' + csv.join("\n"), words);
 }
+
+// function ExportToExcel(type, fn, dl) {
+//     var elt = document.getElementById('tbl_exporttable_to_xls');
+//     var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+//     return dl ?
+//       XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+//       XLSX.writeFile(wb, fn || ('MySheetName.' + (type || 'xlsx')));
+//  }
+
+function ExportToExcelWords(fn, dl) {
+    var elt = document.getElementById('words');
+    var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+    return dl ?
+      XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+      XLSX.writeFile(wb, fn || ('sonasagedus' + '.xlsx'));
+ }
+
+ function ExportToExcelContext(fn, dl) {
+    var elt = document.getElementById('context');
+    var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+    return dl ?
+      XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+      XLSX.writeFile(wb, fn || ('kasutuskontekst' + '.xlsx'));
+ }

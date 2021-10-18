@@ -13,6 +13,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
 </head>
 <body>
 	<main>
@@ -57,7 +58,7 @@
 						</thead>
 						<tbody id="tabel"></tbody>
 					</table>
-					<button class="button2" onclick="salvestaCSV('kasutuskontekst.csv', true)">Laadi alla kontekstid (.csv)</button>
+					<button class="button2" onclick="salvestaCSV('kasutuskontekst.csv', true)">Laadi alla kontekstid (.xlsx)</button>
 					<div class="item9">
 						<button class="button" onclick="sulge()">Tagasi</button>
 					</div>

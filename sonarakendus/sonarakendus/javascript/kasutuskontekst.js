@@ -119,10 +119,11 @@ document.querySelector("#number").addEventListener("click", function() {
 
 function salvestaCSV(failinimi, onvaja) {
     tabelElement.destroy();
-    exportTableToCSV(failinimi, onvaja);
-    tabelElement = $('#words').DataTable({
+    //exportTableToCSV(failinimi, onvaja);
+    ExportToExcelContext();
+    tabelElement = $('#context').DataTable({
         "pagingType": "full_numbers",
-        "pageLength": 50,
+        "pageLength": 25,
         language: {
             url: '../json/dataTables.estonian.json'
         }
