@@ -18,7 +18,7 @@ loendur = 0;
 for(let i = 0; i < korpused.length; i++) {
     $.ajax({
         type: "GET",
-        url: "api/texts/kysikorpusetekstiIDjapealkiri",
+        url: "/api/texts/kysikorpusetekstiIDjapealkiri",
         data: {korpusekood : korpused[i]},
         success: function(data){
             data = JSON.parse(data);
@@ -71,7 +71,7 @@ function getSelectedCheckboxValues(name) {
         for(let i = 0; i < result.length; i++) {
             $.ajax({
                 type: "GET",
-                url: "api/texts/kysitekst",
+                url: "/api/texts/kysitekst",
                 data: {id : result[i]},
                 success: function(data){
                     uhendatudtekst += data;
@@ -80,7 +80,7 @@ function getSelectedCheckboxValues(name) {
                         localStorage.setItem("sonad", uhendatudtekst);
                         $.ajax({
                             type: "POST",
-                            url: "api/texts/laused",
+                            url: "/api/texts/laused",
                             data: {tekst: uhendatudtekst},
                             success: function(data) {
                                 localStorage.setItem("laused", data);
@@ -105,7 +105,7 @@ function getSelectedCheckboxValues(name) {
 function eelvaade(tekstiID) {
     $.ajax({
         type: "GET",
-        url: "api/texts/kysitekst",
+        url: "/api/texts/kysitekst",
         data: {id : tekstiID},
         success: function(data){
             tekstisisu = data;

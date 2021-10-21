@@ -25,7 +25,7 @@ freeze = true;
 if(vorm == "algvormid") {
     $.ajax({
         type: "POST",
-        url: "../api/texts/lemmad",
+        url: "/api/texts/lemmad",
         data: {tekst : koguTekst},
         success: function(data){
             tekstiTootlus(data);
@@ -37,7 +37,7 @@ if(vorm == "algvormid") {
 } else if(vorm == "sonavormid") {
     $.ajax({
         type: "POST",
-        url: "../api/texts/sonad",
+        url: "/api/texts/sonad",
         data: {tekst : koguTekst},
         success: function(data){
             tekstiTootlus(data);

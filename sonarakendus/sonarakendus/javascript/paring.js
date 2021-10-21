@@ -197,7 +197,7 @@ function submitted() {
 
     $.ajax({
         type: "POST",
-        url: "../api/texts/detailneparing2",
+        url: "/api/texts/detailneparing2",
         data: JSON.stringify(values),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
@@ -238,7 +238,7 @@ function tekstideKuvamine() {
     function eelvaade(tekstiID) {
         $.ajax({
             type: "GET",
-            url: "../api/texts/kysitekst",
+            url: "/api/texts/kysitekst",
             data: {id : tekstiID},
             success: function(data){
                 tekstisisu = data;
