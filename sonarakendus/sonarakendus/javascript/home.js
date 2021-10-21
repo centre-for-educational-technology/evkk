@@ -11,7 +11,7 @@ salvesta_tekst.addEventListener("click", function () {
 		koguTekst = sisesta_tekst.value.replaceAll("\n", " ");
 		$.ajax({
 			type: "POST",
-			url: "api/texts/laused",
+			url: "/api/texts/laused",
 			data: {tekst: koguTekst},
 			success: function(data) {
 				localStorage.setItem("laused", data);
