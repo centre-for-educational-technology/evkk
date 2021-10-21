@@ -60,6 +60,8 @@ function getSelectedCheckboxValues(name) {
   
   const btn = document.querySelector('#salvesta');
   btn.addEventListener('click', (event) => {
+    freeze = true;
+    document.querySelector("#cover-spin").style.display = "block";
     result = getSelectedCheckboxValues('chk');
     if(result.length == 0) {
       alert("Vali vähemalt üks tekst!");

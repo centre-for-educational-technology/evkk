@@ -1,6 +1,10 @@
 .container {
     display: flex;
-  }
-  .container > div {
-    flex: 1; /*grow*/
-  }
+}
+.container > div {
+  flex: 1; /*grow*/
+}
+
+body {
+  font-family: 'Mulish', sans-serif;
+}

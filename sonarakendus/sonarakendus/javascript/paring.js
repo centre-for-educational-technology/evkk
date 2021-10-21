@@ -238,7 +238,7 @@ function tekstideKuvamine() {
     function eelvaade(tekstiID) {
         $.ajax({
             type: "GET",
-            url: "api/texts/kysitekst",
+            url: "../api/texts/kysitekst",
             data: {id : tekstiID},
             success: function(data){
                 tekstisisu = data;
