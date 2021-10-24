@@ -200,16 +200,6 @@
 
       SORTING_OPTIONS: undefined,
       CLUSTERS_DATA_TABLE: undefined,
-      CLUSTERS_LIST: undefined,
-      OPTIONS: {
-        valueNames: ["frequency", "description", "markups", "usages"],
-        item: '<tr>' +
-                '<td class="frequency"></td>' +
-                '<td class="description"></td>' +
-                '<td class="markups"></td>' +
-                '<td class="usages"></td>' +
-              '</tr>'
-      },
 
       init: function () {
         ClusterSearchForm.clauseType.init();
