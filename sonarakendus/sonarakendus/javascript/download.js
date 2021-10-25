@@ -28,7 +28,7 @@ function exportTableToCSV(words, onvaja) {
     for (var i = 0; i < rows.length; i++) {
         var row = [], cols = rows[i].querySelectorAll("td, th");
         
-        for (var j = 0; j < cols.length; j++) 
+        for (var j = 0; j < cols.length - 1; j++) // -1 eemaldab viimase kasutu tulba
             row.push('"' + cols[j].innerText + '"');
         
         csv.push(row.join(","));        
@@ -37,26 +37,18 @@ function exportTableToCSV(words, onvaja) {
     downloadCSV('\uFEFF' + csv.join("\n"), words);
 }
 
-// function ExportToExcel(type, fn, dl) {
-//     var elt = document.getElementById('tbl_exporttable_to_xls');
-//     var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
-//     return dl ?
-//       XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
-//       XLSX.writeFile(wb, fn || ('MySheetName.' + (type || 'xlsx')));
-//  }
-
-function ExportToExcelWords(fn, dl) {
+function ExportToExcel_WordFrequency(type, fn, dl) {
     var elt = document.getElementById('words');
     var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
     return dl ?
       XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
-      XLSX.writeFile(wb, fn || ('sonasagedus' + '.xlsx'));
+      XLSX.writeFile(wb, fn || ('sonasagedus.' + (type || 'xlsx')));
  }
 
- function ExportToExcelContext(fn, dl) {
+ function ExportToExcel_Contexts(type, fn, dl) {
     var elt = document.getElementById('context');
     var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
     return dl ?
       XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
-      XLSX.writeFile(wb, fn || ('kasutuskontekst' + '.xlsx'));
+      XLSX.writeFile(wb, fn || ('kontekstid.' + (type || 'xlsx')));
  }

@@ -85,7 +85,7 @@ p {
   margin-bottom: 25px;
   margin: 0;
   position: absolute;
-  left: 43.5%;
+  left: 44%;
 }
 
 .buttonFail:hover {
@@ -108,4 +108,11 @@ p {
 .button3:hover {
   background-color: #2196F3;
   color: white;
+}
+
+#intro {
+  font-size: medium;
+  width: 35vw;
+  margin: auto;
+  width: 50%;
 }

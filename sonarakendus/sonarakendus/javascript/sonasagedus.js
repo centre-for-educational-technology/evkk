@@ -25,7 +25,7 @@ freeze = true;
 if(vorm == "algvormid") {
     $.ajax({
         type: "POST",
-        url: "/api/texts/lemmad",
+        url: "api/texts/lemmad",
         data: {tekst : koguTekst},
         success: function(data){
             tekstiTootlus(data);
@@ -37,7 +37,7 @@ if(vorm == "algvormid") {
 } else if(vorm == "sonavormid") {
     $.ajax({
         type: "POST",
-        url: "/api/texts/sonad",
+        url: "api/texts/sonad",
         data: {tekst : koguTekst},
         success: function(data){
             tekstiTootlus(data);
@@ -181,22 +181,41 @@ function translateFunc(sona) {
     };
 }
 
-function salvestaCSV(failinimi) {
-    tabelElement.destroy();
-    //exportTableToCSV(failinimi);
-    ExportToExcelWords();
-    tabelElement = $('#words').DataTable({
-        "pagingType": "full_numbers",
-        "pageLength": 50,
-        "columns": [
-            { "searchable": false },
-            null,
-            null,
-            null,
-            { "searchable": false }
-        ],
-        language: {
-            url: '../json/dataTables.estonian.json'
-        }
-    });
+function salvestaFailina(failityyp) {
+    if(failityyp == 'default') {
+        alert("Vali failiformaat!");
+    } else if(failityyp == 'csv') {
+        tabelElement.destroy();
+        exportTableToCSV('sonasagedus.csv', false);
+        location.reload();
+    } else if(failityyp == 'xlsx') {
+        tabelElement.destroy();
+        removeTableColumn(' ');
+        ExportToExcel_WordFrequency();
+        location.reload();
+    }
 }
+
+// tabelElement = $('#words').DataTable({
+//     "pagingType": "full_numbers",
+//     "pageLength": 50,
+//     "columns": [
+//         { "searchable": false },
+//         null,
+//         null,
+//         null,
+//         { "searchable": false }
+//     ],
+//     language: {
+//         url: '../json/dataTables.estonian.json'
+//     }
+// });
+
+function removeTableColumn(str) {
+    // Get target th with the name you want to remove.
+    var target = $('table').find('th[data-name="' + str +'"]');
+    // Find its index among other ths 
+    var index = (target).index();
+    // For each tr, remove all th and td that match the index.
+     $('table tr').find('th:eq(' + index + '),td:eq(' + index + ')' ).remove();
+  }

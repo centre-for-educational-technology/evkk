@@ -6,8 +6,8 @@
 	<link rel="stylesheet" type="text/css" href="styles/body.css">
 	<link rel="stylesheet" type="text/css" href="styles/context.css">
 	<link rel="stylesheet" type="text/css" href="styles/table3.css">
-    <script src="javascript/kasutuskontekst.js" defer></script>
-    <script src="javascript/download.js" defer></script>
+    <script src="kasutuskontekst.js" defer></script>
+    <script src="download.js" defer></script>
 	<script src="javascript/script1.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 	<link rel="preconnect" href="https://fonts.gstatic.com">
@@ -58,10 +58,15 @@
 						</thead>
 						<tbody id="tabel"></tbody>
 					</table>
-					<button class="button2" onclick="salvestaCSV('kasutuskontekst.csv', true)">Laadi alla kontekstid (.xlsx)</button>
+					<button class="button2" onclick="salvestaFailina(document.querySelector('#failityyp').value)">Laadi alla kontekstid</button>
 					<div class="item9">
 						<button class="button" onclick="sulge()">Tagasi</button>
 					</div>
+					<select id="failityyp">
+						<option value="default" disabled selected>Vali failiformaat</option>
+						<option value="csv">.csv</option>
+						<option value="xlsx">.xlsx</option>
+					</select>
 				</div>
 			</div>
 		</div>

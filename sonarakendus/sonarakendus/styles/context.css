@@ -148,3 +148,14 @@ position: absolute;
   width: 20px;
   height: 20px;
 }
+
+#failityyp {
+  border: 1px solid #2196F3;
+  border-radius: 8px;
+  padding: 5px;
+  background-color: transparent;
+  padding: 4px;
+  position: absolute;
+  margin-top: 70px;
+  right: 5px;
+}

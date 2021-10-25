@@ -117,18 +117,29 @@ document.querySelector("#number").addEventListener("click", function() {
     muuda();
 });
 
-function salvestaCSV(failinimi, onvaja) {
-    tabelElement.destroy();
-    //exportTableToCSV(failinimi, onvaja);
-    ExportToExcelContext();
-    tabelElement = $('#context').DataTable({
-        "pagingType": "full_numbers",
-        "pageLength": 25,
-        language: {
-            url: '../json/dataTables.estonian.json'
-        }
-    });
+function salvestaFailina(failityyp) {
+    if(failityyp == 'default') {
+        alert("Vali failiformaat!");
+    } else if(failityyp == 'csv') {
+        tabelElement.destroy();
+        exportTableToCSV('kontekstid.csv', false);
+        location.reload();
+    } else if(failityyp == 'xlsx') {
+        tabelElement.destroy();
+        removeTableColumn(' ');
+        ExportToExcel_Contexts();
+        location.reload();
+    }
 }
+
+function removeTableColumn(str) {
+    // Get target th with the name you want to remove.
+    var target = $('table').find('th[data-name="' + str +'"]');
+    // Find its index among other ths 
+    var index = (target).index();
+    // For each tr, remove all th and td that match the index.
+     $('table tr').find('th:eq(' + index + '),td:eq(' + index + ')' ).remove();
+  }
 
 function sulge() {
     window.close();

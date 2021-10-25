@@ -19,7 +19,7 @@
 	<link rel="stylesheet" type="text/css" href="styles/body.css">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
-	<script src="javascript/home.js" defer></script>
+	<script src="home.js" defer></script>
 </head>
 <body>
 	<main>
@@ -30,6 +30,10 @@
 			</a>
 		</div>
 		<div id="item1" class="grid_item item1">
+			<h1>Sõnarakendus</h1>
+			<p id="intro">Selle rakenduse abil on võimalik näha valitud teksti(de) kohta sõnasageduse listi ning iga sõna kohta kasutuskontekste. Lisaks saab sageduslistis sõnu tõlkida ning näha nende tähendust. Vasteid on võimalik erinevates formaatides alla laadida.</p>
+			<hr>
+			<br>
 			<!-- <h2>Lae üles üks või mitu faili:</h2> -->
 			<input type="file" id="file-id" style="display: none;" multiple onchange="checkFileExtension()"/>
 			<input type="button" class="buttonFail" value="Vali tekst(id)" onclick="document.getElementById('file-id').click();" />
