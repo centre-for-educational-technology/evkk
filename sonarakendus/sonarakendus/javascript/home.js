@@ -13,7 +13,7 @@ salvesta_tekst.addEventListener("click", function () {
 			type: "POST",
 			url: "/api/texts/laused",
 			dataType: "json",
-        	contentType: "application/json; charset=utf-8",
+        		contentType: "application/json; charset=utf-8",
 			data: {tekst: koguTekst},
 			success: function(data) {
 				localStorage.setItem("laused", data);
