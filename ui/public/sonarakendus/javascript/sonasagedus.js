@@ -25,8 +25,10 @@ freeze = true;
 if(vorm == "algvormid") {
     $.ajax({
         type: "POST",
-        url: "api/texts/lemmad",
-        data: {tekst : koguTekst},
+        url: "/api/texts/lemmad",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: '{"tekst": "' + koguTekst + '"}',
         success: function(data){
             tekstiTootlus(data);
         },
@@ -37,8 +39,10 @@ if(vorm == "algvormid") {
 } else if(vorm == "sonavormid") {
     $.ajax({
         type: "POST",
-        url: "api/texts/sonad",
-        data: {tekst : koguTekst},
+        url: "/api/texts/sonad",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: '{"tekst": "' + koguTekst + '"}',
         success: function(data){
             tekstiTootlus(data);
         },
@@ -49,8 +53,8 @@ if(vorm == "algvormid") {
 }
 
 function tekstiTootlus(data) {
-    console.log(data);
-    data = JSON.parse(data);
+    //console.log(data);
+    //data = JSON.parse(data);
     for(let i = 0; i < data.length; i++) {
         if(tahesuurus) {
             data[i] = data[i].replaceAll(reg, "").trim();
@@ -116,7 +120,7 @@ function tekstiTootlus(data) {
             { "searchable": false }
         ],
         language: {
-            url: '../json/dataTables.estonian.json'
+            url: 'json/dataTables.estonian.json'
         }
     });
 

@@ -9,12 +9,13 @@ salvesta_tekst.addEventListener("click", function () {
 		document.querySelector("#error").innerHTML = "Tekstiväli ei saa olla tühi!";
 	} else {
 		koguTekst = sisesta_tekst.value.replaceAll("\n", " ");
+		console.log(koguTekst);
 		$.ajax({
 			type: "POST",
 			url: "/api/texts/laused",
 			dataType: "json",
-        		contentType: "application/json; charset=utf-8",
-			data: {tekst: koguTekst},
+        	contentType: "application/json; charset=utf-8",
+			data: '{"tekst": "' + koguTekst + '"}',
 			success: function(data) {
 				localStorage.setItem("laused", data);
 				document.querySelector("#error").innerHTML = "";
@@ -369,7 +370,9 @@ function passToLocalStr() {
 	$.ajax({
 		type: "POST",
 		url: "/api/texts/laused",
-		data: {tekst: allFormatText.join(" ")},
+		dataType: "json",
+        contentType: "application/json; charset=utf-8",
+		data: '{"tekst": "' + allFormatText.join(" ") + '"}',
 		success: function(data) {
 			localStorage.setItem("laused", data);
 		},

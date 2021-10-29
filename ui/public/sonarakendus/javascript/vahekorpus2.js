@@ -81,7 +81,9 @@ function getSelectedCheckboxValues(name) {
                         $.ajax({
                             type: "POST",
                             url: "/api/texts/laused",
-                            data: {tekst: uhendatudtekst},
+                            dataType: "json",
+        	                contentType: "application/json; charset=utf-8",
+                            data: '{"tekst": "' + uhendatudtekst + '"}',
                             success: function(data) {
                                 localStorage.setItem("laused", data);
                                 localStorage.setItem("paritolu", "EVKK");
@@ -128,7 +130,7 @@ function kaivitaTabel(puhver) {
         "pagingType": "full_numbers",
         "pageLength": 25,
         language: {
-            url: '../json/dataTables.estonian.json'
+            url: 'json/dataTables.estonian.json'
         }
     });
     freeze = false;
