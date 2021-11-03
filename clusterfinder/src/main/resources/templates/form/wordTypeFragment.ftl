@@ -533,83 +533,73 @@
     <!-- Sub type (Symbol for punctuation) -->
     <h5>[@translations.retrieveTranslation "common.symbol.header" /]</h5>
     <div class="form-check">
-      [@input.createCheckboxWithTooltip
+      [@input.createCheckbox
           id="punctuationSymbolFullStop"
           name="PUNCTUATION-subtype[]"
           labelKey="PUNCTUATION.subtype.full.stop"
-          value="Fst"
-          tooltipKey="PUNCTUATION.subtype.full.stop.tooltip" /]
+          value="Fst" /]
     </div>
     <div class="form-check">
-      [@input.createCheckboxWithTooltip
+      [@input.createCheckbox
           id="punctuationSymbolComma"
           name="PUNCTUATION-subtype[]"
           labelKey="PUNCTUATION.subtype.comma"
-          value="Com"
-          tooltipKey="PUNCTUATION.subtype.comma.tooltip" /]
+          value="Com" /]
     </div><div class="form-check">
-      [@input.createCheckboxWithTooltip
+      [@input.createCheckbox
           id="punctuationSymbolExclamationMark"
           name="PUNCTUATION-subtype[]"
           labelKey="PUNCTUATION.subtype.exclamation.mark"
-          value="Exc"
-          tooltipKey="PUNCTUATION.subtype.exclamation.mark.tooltip" /]
+          value="Exc" /]
     </div>
     <div class="form-check">
-      [@input.createCheckboxWithTooltip
+      [@input.createCheckbox
           id="punctuationSymbolQuestionMark"
           name="PUNCTUATION-subtype[]"
           labelKey="PUNCTUATION.subtype.question.mark"
-          value="Int"
-          tooltipKey="PUNCTUATION.subtype.question.mark.tooltip" /]
+          value="Int" /]
     </div>
     <div class="form-check">
-      [@input.createCheckboxWithTooltip
+      [@input.createCheckbox
           id="punctuationSymbolDash"
           name="PUNCTUATION-subtype[]"
           labelKey="PUNCTUATION.subtype.dash"
-          value="Dsh"
-          tooltipKey="PUNCTUATION.subtype.dash.tooltip" /]
+          value="Dsh" /]
     </div>
     <div class="form-check">
-      [@input.createCheckboxWithTooltip
+      [@input.createCheckbox
           id="punctuationSymbolColon"
           name="PUNCTUATION-subtype[]"
           labelKey="PUNCTUATION.subtype.colon"
-          value="Col"
-          tooltipKey="PUNCTUATION.subtype.colon.tooltip" /]
+          value="Col" /]
     </div>
     <div class="form-check">
-      [@input.createCheckboxWithTooltip
+      [@input.createCheckbox
           id="punctuationSymbolSemiColon"
           name="PUNCTUATION-subtype[]"
           labelKey="PUNCTUATION.subtype.semicolon"
-          value="Scl"
-          tooltipKey="PUNCTUATION.subtype.semicolon.tooltip" /]
+          value="Scl" /]
     </div>
     <div class="form-check">
-      [@input.createCheckboxWithTooltip
+      [@input.createCheckbox
           id="punctuationSymbolOpeningBracket"
           name="PUNCTUATION-subtype[]"
           labelKey="PUNCTUATION.subtype.opening.bracket"
-          value="Opr"
-          tooltipKey="PUNCTUATION.subtype.opening.bracket.tooltip" /]
+          value="Opr" /]
     </div>
     <div class="form-check">
-      [@input.createCheckboxWithTooltip
+      [@input.createCheckbox
           id="punctuationSymbolClosingBracket"
           name="PUNCTUATION-subtype[]"
           labelKey="PUNCTUATION.subtype.closing.bracket"
-          value="Cpr"
-          tooltipKey="PUNCTUATION.subtype.closing.bracket.tooltip" /]
+          value="Cpr" /]
     </div>
     <div class="form-check">
-      [@input.createCheckboxWithTooltip
+      [@input.createCheckbox
           id="punctuationSymbolQuote"
           name="PUNCTUATION-subtype[]"
           labelKey="PUNCTUATION.subtype.quote"
-          value="Quo"
-          tooltipKey="PUNCTUATION.subtype.quote.tooltip" /]
+          value="Quo" /]
     </div>
   </div>
 </div>

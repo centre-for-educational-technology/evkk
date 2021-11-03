@@ -18,7 +18,7 @@ import java.util.Map;
 @Configuration
 public class ClusterTextsConfiguration
 {
-  private static final String CLUSTER_TEXTS_FILE = "clusterfinder/src/main/resources/files/clusterTexts.json";
+  private static final String CLUSTER_TEXTS_FILE = "clusterfinder/src/main/resources/files/cluster_descriptions.json";
 
   private static final Type MAP_TYPE = new TypeToken<Map<String, String>>(){}.getType();
 
