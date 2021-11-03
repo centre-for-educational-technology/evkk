@@ -49,7 +49,7 @@ public class ClusterResultMapper
 
   private String determineSeparator(ClusterSearchForm searchForm)
   {
-    return searchForm.isMorfoSyntacticAnalysis() || searchForm.isMorfoAnalysis() ? "," : "+";
+    return searchForm.isMorfoSyntacticAnalysis() || searchForm.isMorfoAnalysis() ? ", " : " + ";
   }
 
   private ClusterEntry mapToEntry(String[] clusterRow, int clusterLength)
