@@ -8,5 +8,4 @@ ENV PATH="/root/anaconda3/bin:$PATH"
 RUN conda create -n py35 python=3.5
 SHELL ["conda", "run", "-n", "py35", "/bin/bash", "-c"]
 RUN conda install -c estnltk -c conda-forge nltk=3.4.4 estnltk=1.4.1
-#RUN conda run -n py35 python3 -c "import estnltk; print( estnltk.Text('Tere estnltk').lemmas )"
 RUN conda run -n py35 python3 -m estnltk.run_tests
