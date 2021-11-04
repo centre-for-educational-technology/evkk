@@ -1,6 +1,5 @@
-FROM openjdk:8-jdk-stretch AS backend-builder
+FROM evkk-jdk8-mvn AS backend-builder
 COPY masinoppe_ennustus/ /app
-RUN apt-get update && apt-get install maven -y
 RUN cd /app && mvn package --quiet
 
 FROM openjdk:8-jre-stretch AS backend

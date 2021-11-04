@@ -13,12 +13,17 @@ echo "BUILD_TARGET=$BUILD_TARGET"
 # Remove build dir (if exists)
 rm -rf ./build/
 
+# Build common images
+#docker build . -f ./images/evkk-stanza.Dockerfile -t evkk-stanza --no-cache
+#docker build . -f ./images/evkk-estnltk141.Dockerfile -t evkk-estnltk141 --no-cache
+docker build . -f ./images/evkk-jdk8-mvn.Dockerfile -t evkk-jdk8-mvn --no-cache
+
 # Build docker images
 docker build . -f ./docker/images/Dockerfile.backend -t evkk-backend --no-cache
 docker build . -f ./docker/images/Dockerfile.ui -t evkk-ui --no-cache
 docker build . -f ./docker/images/Dockerfile.stanza -t evkk-stanza --no-cache
 docker build . -f ./docker/images/Dockerfile.sonarakendus -t evkk-sonarakendus --no-cache
-docker build . -f ./docker/images/Dockerfile.me -t evkk-me --no-cache
+#docker build . -f ./docker/images/Dockerfile.me -t evkk-me --no-cache
 
 # Save docker images
 mkdir -p ./build/images/
@@ -26,7 +31,7 @@ docker save -o ./build/images/evkk-backend.tar evkk-backend
 docker save -o ./build/images/evkk-ui.tar evkk-ui
 docker save -o ./build/images/evkk-stanza.tar evkk-stanza
 docker save -o ./build/images/evkk-sonarakendus.tar evkk-sonarakendus
-docker save -o ./build/images/evkk-me.tar evkk-me
+#docker save -o ./build/images/evkk-me.tar evkk-me
 
 # Copy compose files
 mkdir -p ./build/compose/
