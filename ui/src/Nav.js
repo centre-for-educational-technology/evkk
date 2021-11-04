@@ -57,8 +57,8 @@ class Nav extends Component {
               <li className="nav-item">
                 <Link to="/resource" className={'nav-link'}>Ressurss</Link>
               </li>
-              <li className="nav-item">
-                <Link to="/employees" className={'nav-link'}>Töötajad</Link>
+			  <li className="nav-item">
+                <a className="nav-link" href="https://evkk.tlu.ee/sonarakendus/paring.html" rel="noopener noreferrer" target="_blank">Päring</a>
               </li>
               {/*
               <li className="nav-item">
@@ -85,6 +85,9 @@ class Nav extends Component {
                   <Link to="/tools/clusterfinder" className={'dropdown-item'}>Klastrileidja</Link>
                   */}
                 </div>
+              </li>
+			  <li className="nav-item">
+                <Link to="/employees" className={'nav-link'}>Töötajad</Link>
               </li>
               <li className="nav-item">
                 <a href="https://evkk.tlu.ee/vers1/" target="_blank" rel="noopener noreferrer" className={'nav-link'}>Vana versioon <i
