@@ -11,18 +11,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Component
 public class UriComponentsBuilderFactory {
 
-  @Value("${evkk.api.integration.paths.charCounter}")
-  private String charCounterPath;
   @Value("${evkk.api.integration.paths.clusterfinder}")
   private String clusterFinderPath;
   @Value("${evkk.api.integration.paths.stanza}")
   private String stanzaPath;
   @Value("${evkk.api.apiPath}")
   private String apiPath;
-
-  public UriComponentsBuilder charCounter() {
-    return UriComponentsBuilder.fromHttpUrl(charCounterPath);
-  }
 
   public UriComponentsBuilder clusterFinder() {
     return UriComponentsBuilder.fromHttpUrl(clusterFinderPath);

@@ -35,8 +35,8 @@ public class FlywayDatabaseSeeder {
     Configuration configuration = flyway.getConfiguration();
 
     // Transform resources
-    FlywayResourceTransformer resourceTransformer = ResourceTransformerFactory.createResourceTransformer(flyway);
-    Resource[] transformed = this.resources.stream().map(resourceTransformer).toArray(Resource[]::new);
+    ResourceTransformer resourceTransformer = new ResourceTransformer(flyway);
+    Resource[] transformed = this.resources.stream().map(resourceTransformer::transform).toArray(Resource[]::new);
 
     // Create populator
     ResourceDatabasePopulator populator = new ResourceDatabasePopulator();

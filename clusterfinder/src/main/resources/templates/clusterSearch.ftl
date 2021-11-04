@@ -7,12 +7,16 @@
   <head>
     <title>Clusterfinder</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+    <!-- jQuery Datatable -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/datatables.min.js"></script>
+
     <!-- TODO: Separate global styles to a separate CSS file -->
     <!-- TODO: Add support for other devices (tablets) -->
     <style>
@@ -49,11 +53,6 @@
         left: 45%;
       }
 
-      .no-results-row {
-        text-align: center;
-        display: none;
-      }
-
       .w-top-margin {
         margin-top: 25px;
       }
@@ -70,6 +69,10 @@
       .large-spinner {
         width: 3rem;
         height: 3rem;
+      }
+
+      .smallspacer {
+        margin-bottom: 20px;
       }
     </style>
   </head>
@@ -169,22 +172,19 @@
       </form>
     </div>
 
+    <div class="smallspacer"></div>
+
     <!-- Results section -->
     <div id="clusters" class="container hidden">
       <table class="table table-bordered w-top-margin" id="clustersTable">
         <thead>
           <tr>
-            <th class="sort" data-sort="frequency">[@translations.retrieveTranslation "common.sorting.header.frequency"/]</th>
-            <th class="sort" data-sort="description">[@translations.retrieveTranslation "common.sorting.header.description" /]</th>
-            <th class="sort" data-sort="markups">[@translations.retrieveTranslation "common.sorting.header.markups" /]</th>
-            <th class="sort" data-sort="usages">[@translations.retrieveTranslation "common.sorting.header.usages" /]</th>
+            <th>[@translations.retrieveTranslation "common.sorting.header.frequency"/]</th>
+            <th>[@translations.retrieveTranslation "common.sorting.header.description" /]</th>
+            <th>[@translations.retrieveTranslation "common.sorting.header.markups" /]</th>
+            <th>[@translations.retrieveTranslation "common.sorting.header.usages" /]</th>
           </tr>
         </thead>
-        <tbody class="list">
-          <tr class="no-results-row">
-            <td colspan="4">[@translations.retrieveTranslation "common.no.results" /]</td>
-          </tr>
-        </tbody>
       </table>
     </div>
 
@@ -199,16 +199,7 @@
     const ClusterSearchForm = {
 
       SORTING_OPTIONS: undefined,
-      CLUSTERS_LIST: undefined,
-      OPTIONS: {
-        valueNames: ["frequency", "description", "markups", "usages"],
-        item: '<tr>' +
-                '<td class="frequency"></td>' +
-                '<td class="description"></td>' +
-                '<td class="markups"></td>' +
-                '<td class="usages"></td>' +
-              '</tr>'
-      },
+      CLUSTERS_DATA_TABLE: undefined,
 
       init: function () {
         ClusterSearchForm.clauseType.init();
@@ -226,6 +217,38 @@
 
         // File upload initialization
         $("#userFile").change(ClusterSearchForm.ajax.uploadFile);
+
+        // Initialize the results table
+        ClusterSearchForm.CLUSTERS_DATA_TABLE = $("#clustersTable").DataTable({
+          dom: 'Bfrtip',
+          "paging": true,
+          "pageLength": 100,
+          "pagingType": "full_numbers",
+          language: {
+            // Using a CDN link here instead of a local file - local files don't work for this scenario (an AJAX request is made by the DataTables library)
+            url: "//cdn.datatables.net/plug-ins/1.11.3/i18n/et.json"
+          },
+          columns: [
+            { data: 'frequency' },
+            { data: 'description' },
+            { data: 'markups' },
+            { data: 'usages' }
+          ],
+          buttons: [
+            {
+              extend: 'csv',
+              charset: 'utf-8',
+              title: 'clusters',
+              text: "[@translations.retrieveTranslation "common.export.clusters.csv" /]",
+              bom: true,
+            },
+            {
+              extend: 'excel',
+              title: 'clusters',
+              text: "[@translations.retrieveTranslation "common.export.clusters.excel" /]",
+            }
+          ],
+        });
 
         $("#morfoAnalysis, #syntacticAnalysis, #punctuationAnalysis").change(function () {
           $("#wordtypeAnalysis").prop("checked", false);
@@ -250,7 +273,7 @@
          const $sortingByFourth = $("div[data-word-sort='4']");
          const $sortingByFifth = $("div[data-word-sort='5']");
 
-         // Constructing an object containing references to different option selector, for better accessability
+         // Constructing an object containing references to different option selectors for better accessibility
          ClusterSearchForm.SORTING_OPTIONS = {
            "1": [$sortingByFirst],
            "2": [$sortingByFirst, $sortingBySecond],
@@ -488,14 +511,12 @@
             url: "${ajaxUrls.clusterText}",
             data: data,
             beforeSend: function() {
-              ClusterSearchForm.ajax.resetTable();
-              $(".no-results-row").hide();
+              ClusterSearchForm.CLUSTERS_DATA_TABLE.clear();
               $("#clusters").hide();
               ClusterSearchForm.loader.showLoadingSpinner();
             },
             success: function (response) {
               if (response.clusters.length > 0) {
-                console.log(response.separator);
                 ClusterSearchForm.ajax.showResults(response.clusters, response.separator);
               } else {
                 ClusterSearchForm.ajax.showNoResults();
@@ -516,27 +537,23 @@
           {
             const cluster = {
               frequency: data[i].frequency,
-              description: data[i].descriptions.join(" " + separator + " "),
-              markups: data[i].markups.map(ClusterSearchForm.util.escapeValueAndReplace).join(" " + separator + " "),
+              description: data[i].descriptions.join(" + "),
+              markups: data[i].markups.map(ClusterSearchForm.util.escapeValueAndReplace).join(separator),
               usages: data[i].usages.join(", ")
             };
 
             clusters.push(cluster);
           }
 
-          ClusterSearchForm.CLUSTERS_LIST = new List("clustersTable", ClusterSearchForm.OPTIONS, clusters);
+          ClusterSearchForm.CLUSTERS_DATA_TABLE.rows.add(clusters);
+          ClusterSearchForm.CLUSTERS_DATA_TABLE.draw();
           $("#clusters").show();
         },
 
         showNoResults: function () {
+          ClusterSearchForm.CLUSTERS_DATA_TABLE.clear();
+          ClusterSearchForm.CLUSTERS_DATA_TABLE.draw();
           $("#clusters").show();
-          $(".no-results-row").show();
-        },
-
-        resetTable: function () {
-          if (ClusterSearchForm.CLUSTERS_LIST) {
-            ClusterSearchForm.CLUSTERS_LIST.clear();
-          }
         },
 
         uploadFile: function (event) {

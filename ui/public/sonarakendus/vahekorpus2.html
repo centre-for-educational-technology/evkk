@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang = "et">
+<head>
+	<meta charset = "utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<link rel="stylesheet" type="text/css" href="styles/body.css">
+	<link rel="stylesheet" type="text/css" href="styles/korpus.css">
+    <link rel="stylesheet" type="text/css" href="styles/table.css">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+	<script src="javascript/script1.js" defer></script>
+	<script src="javascript/vahekorpus2.js" defer></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+</head>
+<body>
+	<main>
+	<div id="grid_container" class="grid_container">
+			<div id="header" class="grid_item header">
+				<a href ="home.html">
+					<img src="img/home.png" alt = "home logo" class="home_logo">
+				</a>
+			</div>
+		<div id="vahekorpus" class="grid_item vahekorpus">
+			<h2>Eesti vahekeele korpus</h2> 
+            <p>Teksti(de) valik (tekstile klikates näed selle sisu)</p> 
+         </div>
+		 <div id="item11" class="grid_item item11">
+            <div id="cover-spin"></div>
+			<div class="tableCol">
+                <div id="popup"></div>
+				<table class="table" id="texts">
+					<thead>
+						<tr>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody id="tabel"></tbody>
+				</table>    
+            <input type="button" class="button1" onclick='selects()' value="Vali kõik tekstid"/>
+            <input type="button" class="button1" onclick='deSelect()' value="Tühista valikud"/> 
+			
+			<div class="item9">
+				<a href="vahekorpus.html"> 
+					<button class="button">Tagasi</button>
+				</a>
+			</div>
+			<button class="save2" id="salvesta">Salvesta ja jätka</button>
+        
+		</div>
+        
+	</div>
+</main>
+</body>
+</html>
+	
+		
