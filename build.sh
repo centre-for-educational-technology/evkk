@@ -21,7 +21,7 @@ docker build . -f ./docker/images/Dockerfile.backend -t evkk-backend --no-cache
 docker build . -f ./docker/images/Dockerfile.ui -t evkk-ui --no-cache
 docker build . -f ./docker/images/Dockerfile.stanza-server -t evkk-stanza-server --no-cache
 docker build . -f ./docker/images/Dockerfile.sonarakendus -t evkk-sonarakendus --no-cache
-docker build . -f ./docker/images/Dockerfile.sonarakendus -t evkk-klasterdaja --no-cache
+docker build . -f ./docker/images/Dockerfile.klasterdaja -t evkk-klasterdaja --no-cache
 #docker build . -f ./docker/images/Dockerfile.me -t evkk-me --no-cache
 
 # Save service images
