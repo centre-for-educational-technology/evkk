@@ -1,7 +1,7 @@
 # How to use in container: conda run -n py35 python3 -c "import estnltk; print( estnltk.Text('Tere estnltk').lemmas )"
 
 FROM ubuntu:16.04
-RUN apt-get update && apt-get install openjdk-8-jdk wget -y
+RUN apt-get update && apt-get install openjdk-8-jdk wget -y && apt-get clean
 RUN wget --no-verbose https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh && sh Anaconda3-2021.05-Linux-x86_64.sh -b && rm Anaconda3-2021.05-Linux-x86_64.sh
 RUN export PATH="/root/anaconda3/bin:$PATH"
 ENV PATH="/root/anaconda3/bin:$PATH"
