@@ -42,4 +42,3 @@ def sonad():
     return Response(json.dumps(v1), mimetype="application/json")
 
 app.run(host="0.0.0.0")
-
