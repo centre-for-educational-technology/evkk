@@ -1,10 +1,10 @@
-FROM ubuntu:20.04
-SHELL ["/bin/bash", "-c"]
-RUN apt-get update && apt-get install wget openjdk-11-jdk -y
-RUN wget --no-verbose https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh && chmod +x ./Anaconda3-2021.05-Linux-x86_64.sh
-RUN ./Anaconda3-2021.05-Linux-x86_64.sh -b -p ~/anaconda3 && rm ./Anaconda3-2021.05-Linux-x86_64.sh
-ENV PATH=~/anaconda3/bin:$PATH
-RUN conda install -c estnltk -c conda-forge nltk=3.4.4 estnltk=1.4.1
+#FROM ubuntu:20.04
+#SHELL ["/bin/bash", "-c"]
+#RUN apt-get update && apt-get install wget openjdk-11-jdk -y
+#RUN wget --no-verbose https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh && chmod +x ./Anaconda3-2021.05-Linux-x86_64.sh
+#RUN ./Anaconda3-2021.05-Linux-x86_64.sh -b -p ~/anaconda3 && rm ./Anaconda3-2021.05-Linux-x86_64.sh
+#ENV PATH=~/anaconda3/bin:$PATH
+#RUN conda install -c estnltk -c conda-forge nltk=3.4.4 estnltk=1.4.1
 
 #FROM ubuntu:20.04
 #SHELL ["/bin/bash", "-c"]
@@ -22,3 +22,12 @@ RUN conda install -c estnltk -c conda-forge nltk=3.4.4 estnltk=1.4.1
 #RUN rm -rf ./Python-3.4.10.tgz ./Python-3.4.10/
 #RUN python3 -c "help('modules')"
 #RUN python3.4 -m pip3 install estnltk==1.4.1.1
+
+FROM ubuntu:16.04
+RUN apt-get update && apt-get install openjdk-8-jdk wget -y
+RUN wget https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh && sh Anaconda3-2021.05-Linux-x86_64.sh -b && rm Anaconda3-2021.05-Linux-x86_64.sh
+RUN export PATH="/root/anaconda3/bin:$PATH"
+ENV PATH="/root/anaconda3/bin:$PATH"
+RUN conda create -n py35 python=3.5
+SHELL ["conda", "run", "-n", "py35", "/bin/bash", "-c"]
+RUN conda install -c estnltk -c conda-forge nltk=3.4.4 estnltk=1.4.1
