@@ -25,6 +25,6 @@ services:
     container_name: evkk-stanza-server
     build:
       context: .
-      dockerfile: docker/images/Dockerfile.stanza-server
+      dockerfile: docker/images/evkk-stanza-server.Dockerfile
     ports:
       - "5000:5000"

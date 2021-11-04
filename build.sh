@@ -17,21 +17,14 @@ rm -rf ./build/
 ./build-images.sh
 
 # Build service images
-docker build . -f ./docker/images/Dockerfile.backend -t evkk-backend --no-cache
-docker build . -f ./docker/images/Dockerfile.ui -t evkk-ui --no-cache
-docker build . -f ./docker/images/Dockerfile.stanza-server -t evkk-stanza-server --no-cache
-docker build . -f ./docker/images/Dockerfile.sonarakendus -t evkk-sonarakendus --no-cache
-docker build . -f ./docker/images/Dockerfile.klasterdaja -t evkk-klasterdaja --no-cache
-#docker build . -f ./docker/images/Dockerfile.me -t evkk-me --no-cache
-
-# Save service images
 mkdir -p ./build/images/
-docker save -o ./build/images/evkk-backend.tar evkk-backend
-docker save -o ./build/images/evkk-ui.tar evkk-ui
-docker save -o ./build/images/evkk-stanza-server.tar evkk-stanza-server
-docker save -o ./build/images/evkk-sonarakendus.tar evkk-sonarakendus
-docker save -o ./build/images/evkk-klasterdaja.tar evkk-klasterdaja
-#docker save -o ./build/images/evkk-me.tar evkk-me
+declare -a services=("evkk-backend" "evkk-ui" "evkk-stanza-server" "evkk-sonarakendus" "evkk-klasterdaja")
+
+for service in "${services[@]}"
+do
+  docker build . -f ./docker/images/${service}.Dockerfile -t ${service} --no-cache
+  docker save -o ./build/images/${service}.tar ${service}
+done
 
 # Copy compose files
 mkdir -p ./build/compose/
