@@ -21,10 +21,10 @@ services:
     ports:
       - "6379:6379"
 
-  stanza:
-    container_name: evkk-stanza
+  stanza-server:
+    container_name: evkk-stanza-server
     build:
       context: .
-      dockerfile: ./docker/images/Dockerfile.stanza
+      dockerfile: docker/images/Dockerfile.stanza-server
     ports:
       - "5000:5000"
