@@ -8,7 +8,7 @@ salvesta_tekst.addEventListener("click", function () {
 	if (sisesta_tekst.value == "") {
 		document.querySelector("#error").innerHTML = "Tekstiväli ei saa olla tühi!";
 	} else {
-		koguTekst = sisesta_tekst.value.replaceAll("\n", " ");
+		koguTekst = sisesta_tekst.value.replaceAll("\n", " ").replaceAll('"', "'");
 		console.log(koguTekst);
 		$.ajax({
 			type: "POST",
