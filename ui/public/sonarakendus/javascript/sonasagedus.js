@@ -45,15 +45,47 @@ if(vorm == "algvormid") {
         data: '{"tekst": "' + koguTekst + '"}',
         success: function(data){
             tekstiTootlus(data);
+            console.log(data);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) { 
             alert(textStatus + "\n" + errorThrown);
         }
     });
+} else if(vorm == "koikvormid") {
+    let tekstidKokkuMolemastParingust;
+    $.ajax({
+        type: "POST",
+        url: "/api/texts/lemmad",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        data: '{"tekst": "' + koguTekst + '"}',
+        success: function(data){
+            tekstidKokkuMolemastParingust = data;
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+            alert(textStatus + "\n" + errorThrown);
+        }
+    });
+    $.ajax({
+        type: "POST",
+        url: "/api/texts/sonad",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        data: '{"tekst": "' + koguTekst + '"}',
+        success: function(data){
+            tekstidKokkuMolemastParingust.push(data);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+            alert(textStatus + "\n" + errorThrown);
+        }
+    });
+    console.log(tekstidKokkuMolemastParingust);
+    tekstiTootlus(tekstidKokkuMolemastParingust);
 }
 
 function tekstiTootlus(data) {
-    //console.log(data);
     //data = JSON.parse(data);
     for(let i = 0; i < data.length; i++) {
         if(tahesuurus) {

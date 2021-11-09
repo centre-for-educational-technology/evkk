@@ -4,12 +4,29 @@ let BASE64_MARKER = ";base64,";
 let allFormatText = [];
 let allFormatFile = [];
 
+let freeze = false;
+document.querySelector("#cover-spin").style.display = "none";
+
+document.addEventListener(
+	"click",
+	(e) => {
+		if (freeze) {
+			e.stopPropagation();
+			e.preventDefault();
+		}
+	},
+	true
+);
+
 salvesta_tekst.addEventListener("click", function () {
 	if (sisesta_tekst.value == "") {
-		document.querySelector("#error").innerHTML = "Tekstiväli ei saa olla tühi!";
+		//document.querySelector("#error").innerHTML = "Tekstiväli ei saa olla tühi!";
+		alert("Tekstiväli ei saa olla tühi!");
 	} else {
-		koguTekst = sisesta_tekst.value.replaceAll("\n", " ");
-		console.log(koguTekst);
+		document.querySelector("#cover-spin").style.display = "block";
+		freeze = true;
+		koguTekst = sisesta_tekst.value.replaceAll("\n", " ").replaceAll('"', "'");
+		//console.log(koguTekst);
 		$.ajax({
 			type: "POST",
 			url: "/api/texts/laused",
@@ -18,7 +35,7 @@ salvesta_tekst.addEventListener("click", function () {
 			data: '{"tekst": "' + koguTekst + '"}',
 			success: function(data) {
 				localStorage.setItem("laused", data);
-				document.querySelector("#error").innerHTML = "";
+				//document.querySelector("#error").innerHTML = "";
 				localStorage.setItem("sonad", koguTekst);
 				localStorage.setItem("paritolu", "TEXTBOX");
 				window.location = "filter.html";
