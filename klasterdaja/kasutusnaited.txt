@@ -1,0 +1,32 @@
+Käivitamiseks python3.5 keskkond, kuhu installitud flask, estnltk1.4.1, vislcg3, json.
+
+(base) jaagup@praktika1:~/public_html/21/11/f2$ /home/jaagup/.conda/envs/py35/bin/python s1.py
+
+Teksti parsimise näide
+
+(base) jaagup@praktika1:~/public_html/21/11/f2$ curl -d '{"tekst": "Juku\n tuli kooli", "parameetrid": "-k 2"}' -H "Content-type: application/json" -X POST "http://localhost:5000/t2"
+"<s>"
+
+"<Juku>"
+        "Juku" L0 S prop sg nom @SUBJ
+"<tuli>"
+        "tule" Li V main indic impf ps3 sg ps af @FMV
+"<kooli>"
+        "kool" L0 S com sg adit @ADVL
+"</s>"
+
+
+Teksti klastrileidja näide (parsib + leiab klastrid)
+
+(base) jaagup@praktika1:~/public_html/21/11/f2$ curl -d '{"tekst": "Juku tuli kooli", "parameetrid": "-k 2"}' -H "Content-type: application/json" -X POST "http://localhost:5000/t3"
+1 ; L0 S prop sg nom; Li V main indic impf ps3 sg ps af; ; Juku tuli
+1 ; Li V main indic impf ps3 sg ps af; L0 S com sg adit; ; tuli kooli
+
+
+Parsitud tekstist klastrite leidmine (suurte andmestike puhul märgatavalt kiirem)
+
+(base) jaagup@praktika1:~/public_html/21/11/f2$ curl -d '{"tekst": "\"<s>\"\n\n\"<Juku>\"\n        \"Juku\" L0 S prop sg nom @SUBJ\n\"<tuli>\"\n        \"tule\" Li V main indic impf ps3 sg ps af @FMV\n\"<kooli>\"\n        \"kool\" L0 S com sg adit @ADVL\n\"</s>\"", "parameetrid": "-k 2", "parsitud":"jah"}' -H "Content-type: application/json" -X POST "http://localhost:5000/t3"
+1 ; L0 S prop sg nom; Li V main indic impf ps3 sg ps af; ; Juku tuli
+1 ; Li V main indic impf ps3 sg ps af; L0 S com sg adit; ; tuli kooli
+(base) jaagup@praktika1:~/public_html/21/11/f2$
+
