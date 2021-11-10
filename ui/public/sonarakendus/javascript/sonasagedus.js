@@ -101,6 +101,7 @@ function tekstiTootlus(data) {
         }
         if(data[i] == "") {
             data.splice(i, 1);
+            i--;
         }
     }
 
