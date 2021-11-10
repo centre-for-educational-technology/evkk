@@ -75,23 +75,26 @@ if(vorm == "algvormid") {
         async: false,
         data: '{"tekst": "' + koguTekst + '"}',
         success: function(data){
-            tekstidKokkuMolemastParingust.push(data);
+            data.forEach(element => {
+                tekstidKokkuMolemastParingust.push(element);
+            });
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) { 
             alert(textStatus + "\n" + errorThrown);
         }
     });
-    console.log(tekstidKokkuMolemastParingust);
+    //console.log(tekstidKokkuMolemastParingust);
     tekstiTootlus(tekstidKokkuMolemastParingust);
 }
 
 function tekstiTootlus(data) {
+    console.log(data);
     //data = JSON.parse(data);
     for(let i = 0; i < data.length; i++) {
         if(tahesuurus) {
-            data[i] = data[i].replaceAll(reg, "").trim();
+            data[i] = String(data[i]).replaceAll(reg, "").trim();
         } else {
-            data[i] = data[i].replaceAll(reg, "").toLowerCase().trim();
+            data[i] = String(data[i]).replaceAll(reg, "").toLowerCase().trim();
         }
         if(data[i].slice(-1) == "-") {
             data[i] = data[i].slice(0, data[i].length - 1);
