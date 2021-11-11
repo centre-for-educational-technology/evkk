@@ -49,6 +49,11 @@ services:
     container_name: evkk-stanza-server
     restart: always
 
+  klasterdaja:
+    image: evkk-klasterdaja
+    container_name: evkk-klasterdaja
+    restart: always
+
   #clusterfinder:
   #  image: evkk-backend
   #  restart: always

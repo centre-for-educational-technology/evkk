@@ -35,4 +35,4 @@ services:
       context: .
       dockerfile: docker/images/evkk-klasterdaja.Dockerfile
     ports:
-      - "5100:5000"
+      - "5100:5100"

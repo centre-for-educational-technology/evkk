@@ -16,7 +16,7 @@ def parsi(tekst):
    initial_output = parser.parse_text(inputText, return_type='vislcg3')
    simplified_output = [ s if s.find("#") == -1 else s[ 0 : s.find("#") ] for s in initial_output ]
    return "\n".join(simplified_output)
-   
+
 def klasterda(parsitud_tekst, parameetrid):
    fnimi="fail"+str(random.randrange(1, 10000))
    f1=open(fnimi+".txt", "w")
@@ -34,14 +34,14 @@ def klasterda(parsitud_tekst, parameetrid):
 @app.route('/t2', methods=['POST'])
 def t2():
    return Response(parsi(request.json["tekst"]), mimetype="text/plain")
-   
+
 @app.route('/t3', methods=['POST'])
 def t3():
    print(request.json["tekst"], file=open("puhver2.txt", "w"))
    if request.json.get("parsitud", "puudub")=="jah":
      return Response(klasterda(request.json["tekst"], request.json["parameetrid"]), mimetype="text/plain")
-   else: 
+   else:
      return Response(klasterda(parsi(request.json["tekst"]), request.json["parameetrid"]), mimetype="text/plain")
-   
 
-app.run(host="0.0.0.0")
+
+app.run(host="0.0.0.0", port=5100)
