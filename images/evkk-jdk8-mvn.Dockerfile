@@ -1,2 +1,2 @@
 FROM openjdk:8-jdk-stretch
-RUN apt-get update -q && apt-get install maven -y -q && apt-get clean -q
+RUN apt-get update && apt-get install maven -y && apt-get clean
