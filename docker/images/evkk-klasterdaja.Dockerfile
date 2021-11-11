@@ -1,4 +1,6 @@
 FROM evkk-estnltk141
-SHELL ["conda", "run", "-n", "py35", "/bin/bash", "-c"]
+ENV FLASK_ENV=development
 COPY ./klasterdaja/ /app/
-RUN conda install -c anaconda flask
+RUN apt-get update && apt-get install vislcg3 -y && apt-get clean
+RUN conda install -n py35 -c anaconda flask
+CMD ["python3", "/app/server.py"]
