@@ -31,11 +31,11 @@ def klasterda(parsitud_tekst, parameetrid):
    return vastus
 
 
-@app.route('/t2', methods=['POST'])
+@app.route('/parsi', methods=['POST'])
 def t2():
    return Response(parsi(request.json["tekst"]), mimetype="text/plain")
 
-@app.route('/t3', methods=['POST'])
+@app.route('/klasterda', methods=['POST'])
 def t3():
    print(request.json["tekst"], file=open("puhver2.txt", "w"))
    if request.json.get("parsitud", "puudub")=="jah":
