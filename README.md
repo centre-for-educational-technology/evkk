@@ -20,7 +20,7 @@
 1. Make sure *docker-compose* is installed correctly (should be OK if installed docker using official installer)
    Can be checked with `docker-compose --version`
    More info: https://docs.docker.com/compose/install/
-2. Start docker containers `$ ./build-images.sh && docker-compose up`
+2. Start docker containers `$ ./run-local.sh`
    Ports 5432 (Postgres) and 6379 (Redis) should be now listening
    You can check via `$ lsof -i :<port>`
    If you want to remove docker images w/ data and start *from scratch*: `$ docker-compose down` and delete **.docker** directory (`$ rm -rf ./.docker`).
