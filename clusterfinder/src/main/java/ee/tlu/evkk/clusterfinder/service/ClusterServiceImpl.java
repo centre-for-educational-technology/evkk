@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
 
 public class ClusterServiceImpl implements ClusterService {
@@ -41,7 +43,7 @@ public class ClusterServiceImpl implements ClusterService {
     }
     catch (IOException | ProcessingAbortedException e)
     {
-      log.error("Could not cluster text: {}", e.getMessage());
+      log.error("Could not cluster text", e);
       return ClusterResult.EMPTY;
     }
   }
@@ -74,6 +76,11 @@ public class ClusterServiceImpl implements ClusterService {
 
   private String markText(String fileName, String formId) throws IOException, ProcessingAbortedException
   {
+    if (1 == 1) { //TODO:
+      String tekst = Files.readString(Path.of(fileName));
+      return klasterdajaParsi(tekst);
+    }
+
     ProcessBuilder markingProcess = new ProcessBuilder("python", "file_text_marker.py", fileName, formId);
     markingProcess.directory(new File("clusterfinder/src/main/resources/scripts").getAbsoluteFile());
     return queryProcess(markingProcess);
@@ -81,6 +88,9 @@ public class ClusterServiceImpl implements ClusterService {
 
   private String clusterMarkedText(String markedTextFile, String clusteringParams) throws IOException, ProcessingAbortedException
   {
+    if (1 == 1) { //TODO:
+      return klasterdajaKlasterda(markedTextFile, clusteringParams);
+    }
     ProcessBuilder clusteringProcess = new ProcessBuilder("python", "cluster_helper.py", "-f", markedTextFile, clusteringParams);
     clusteringProcess.directory(new File("clusterfinder/src/main/resources/scripts").getAbsoluteFile());
     return queryProcess(clusteringProcess);
