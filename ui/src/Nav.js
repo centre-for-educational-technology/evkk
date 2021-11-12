@@ -76,9 +76,9 @@ class Nav extends Component {
                 </a>
                 <div className="dropdown-menu">
                   {/*<Link to="/tools/minitorn-pikkus" className={'dropdown-item'}>Teksti pikkus</Link>*/}
-                  <a className="dropdown-item" href="http://minitorn.tlu.ee/~jaagup/oma/too/20/09/tasemed2.php" rel="noopener noreferrer"
-                     target="_blank">Tekstihindaja</a>
+                  <a className="dropdown-item" href="http://minitorn.tlu.ee/~jaagup/oma/too/20/09/tasemed2.php" rel="noopener noreferrer" target="_blank">Tekstihindaja</a>
                   <a className="dropdown-item" href="https://evkk.tlu.ee/sonarakendus/home.html" rel="noopener noreferrer" target="_blank">Sõnasagedus & kontekst</a>
+                  <a className="dropdown-item" href="/clusterfinder/" rel="noopener noreferrer" target="_blank">Sõnasagedus & kontekst</a>
                   {/*
                   <Link to="/tools/char-counter" className={'dropdown-item'}>Sümbolite lugeja</Link>
                   <Link to="/tools/masinoppe-ennustus" className={'dropdown-item'}>Masinõppe ennustus</Link>
