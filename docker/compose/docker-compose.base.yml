@@ -54,12 +54,11 @@ services:
     container_name: evkk-klasterdaja
     restart: always
 
-  #clusterfinder:
-  #  image: evkk-backend
-  #  restart: always
-  #  entrypoint: [ "/bin/bash", "-c", "java -jar app/clusterfinder.jar" ]
-  #  env_file:
-  #    - $PWD/conf/common.env
-  #    - $PWD/conf/clusterfinder.env
-  #  depends_on:
-  #    - api
+  clusterfinder:
+    image: evkk-backend
+    container_name: evkk-clusterfinder
+    restart: always
+    entrypoint: [ "/bin/bash", "-c", "java -jar app/clusterfinder.jar" ]
+    env_file:
+      - $PWD/conf/common.env
+      - $PWD/conf/clusterfinder.env

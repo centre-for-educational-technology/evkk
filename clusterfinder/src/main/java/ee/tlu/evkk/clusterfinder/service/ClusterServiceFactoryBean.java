@@ -25,7 +25,8 @@ public class ClusterServiceFactoryBean implements FactoryBean<ClusterService> {
 
   @Override
   public ClusterService getObject() {
-    RestTemplate restTemplate = restTemplateBuilder.rootUri("http://localhost:5100").build();
+    //TODO: configure rootUri
+    RestTemplate restTemplate = restTemplateBuilder.rootUri("http://klasterdaja:5100").build();
     return new ClusterServiceImpl(clusterResultMapper, restTemplate);
   }
 
