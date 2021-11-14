@@ -78,9 +78,6 @@
         ) t
     </select>
 
-
-
-
     <select id="detailedSearch" resultType="java.lang.String">
        select array_to_json(array_agg(row_to_json(t)))
         from (
@@ -90,7 +87,7 @@
         sum(tp3.property_value::integer) as sonu,
         sum(tp4.property_value::integer) as lauseid,
         sum(tp5.property_value::integer) as vigu,
-            
+
         COUNT(tp5.text_id) * 100.0 / (SELECT distinct COUNT(text_id) FROM core.text_property WHERE property_name = 'korpus' AND property_value IN <foreach item="cId" collection="cId" separator="," open="(" close=")">
         #{cId}
     </foreach>) AS protsent
@@ -99,7 +96,7 @@
         JOIN core.text_property as tp3 on tp2.text_id=tp3.text_id
         JOIN core.text_property as tp4 on tp3.text_id=tp4.text_id
         JOIN core.text_property as tp5 on tp4.text_id=tp5.text_id
-        
+
         <!-- multiple tables JOIN -->
 
         <!-- JOIN core.text_property as tp6 on tp5.text_id=tp6.text_id -->
@@ -124,19 +121,6 @@
         ) t
     </select>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     <select id="findDetailedValueByPropertyName" resultType="java.lang.String">
        select array_to_json(array_agg(row_to_json(t)))
         from (
@@ -146,7 +130,7 @@
         sum(tp3.property_value::integer) as sonu,
         sum(tp4.property_value::integer) as lauseid,
         sum(tp5.property_value::integer) as vigu,
-            
+
         COUNT(tp5.text_id) * 100.0 / (SELECT distinct COUNT(text_id) FROM core.text_property WHERE property_name = 'korpus' AND property_value IN <foreach item="cId" collection="cId" separator="," open="(" close=")">
         #{cId}
     </foreach>) AS protsent
@@ -155,7 +139,7 @@
         JOIN core.text_property as tp3 on tp2.text_id=tp3.text_id
         JOIN core.text_property as tp4 on tp3.text_id=tp4.text_id
         JOIN core.text_property as tp5 on tp4.text_id=tp5.text_id
-        
+
         <!-- multiple tables JOIN -->
 
         <!-- JOIN core.text_property as tp6 on tp5.text_id=tp6.text_id -->
@@ -183,10 +167,33 @@
         select property_name, property_value from core.text_property
         WHERE property_value = #{cId}
         ) t
-    
+
     </select>
 
     <select id="findTextsByCorpusId" resultType="java.lang.String"> select content from core.text where core.text.id
      IN (SELECT text_id from core.text_property WHERE core.text_property.property_name='korpus'
       AND core.text_property.property_value= #{corpusId}); </select>
+
+  <!-- todo: content needs cleaning up so we can remove t.content is not null and t.content != '' checks -->
+  <select id="search" resultType="ee.tlu.evkk.api.dao.dto.Text">
+    select *
+    from core.text t
+    where t.id in (
+      select distinct text_id
+      from core.text_property tp
+      <where>
+        <if test="korpus != null"> and (tp.property_name = 'korpus' and tp.property_value in (select unnest(#{korpus})))</if>
+        <if test="tekstityyp != null"> and (tp.property_name = 'tekstityyp' and tp.property_value in (select unnest(#{tekstityyp})))</if>
+        <if test="keeletase != null"> and (tp.property_name = 'keeletase' and tp.property_value in (select unnest(#{keeletase})))</if>
+        <if test="emakeel != null"> and (tp.property_name = 'emakeel' and tp.property_value in (select unnest(#{emakeel})))</if>
+        <if test="kodukeel != null"> and (tp.property_name = 'kodukeel' and tp.property_value in (select unnest(#{kodukeel})))</if>
+        <if test="sugu != null"> and (tp.property_name = 'sugu' and tp.property_value in (select unnest(#{sugu})))</if>
+        <if test="vanus != null"> and (tp.property_name = 'vanus' and tp.property_value in (select unnest(#{vanus})))</if>
+        <if test="elukoht != null"> and (tp.property_name = 'elukoht' and tp.property_value in (select unnest(#{elukoht})))</if>
+      </where>
+    )
+    and t.content is not null
+    and t.content != '';
+  </select>
+
 </mapper>
