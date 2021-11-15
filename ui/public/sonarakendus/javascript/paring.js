@@ -3,6 +3,10 @@ document.querySelector("#texts").style.display = "none";
 tekstideIDd = [];
 tekstidePealkirjad = [];
 
+document.getElementById("backbutton").addEventListener("click", function() {
+    location.reload();
+})
+
 document.getElementById("type").addEventListener("click", function() {
     if(document.getElementById("type").value != "teadmata") {
         document.getElementById("typeOn").checked = true;
@@ -11,11 +15,21 @@ document.getElementById("type").addEventListener("click", function() {
     }
 });
 
+document.getElementById("textlangOn").checked = true;
+
 document.getElementById("level").addEventListener("click", function() {
     if(document.getElementById("level").value != "teadmata") {
         document.getElementById("levelOn").checked = true;
     } else {
         document.getElementById("levelOn").checked = false;
+    }
+});
+
+document.getElementById("usedmaterials").addEventListener("click", function() {
+    if(document.getElementById("usedmaterials").value != "teadmata") {
+        document.getElementById("usedmaterialsOn").checked = true;
+    } else {
+        document.getElementById("usedmaterialsOn").checked = false;
     }
 });
 
@@ -51,6 +65,22 @@ document.getElementById("gender").addEventListener("click", function() {
     }
 });
 
+document.getElementById("education").addEventListener("click", function() {
+    if(document.getElementById("education").value != "teadmata") {
+        document.getElementById("educationOn").checked = true;
+    } else {
+        document.getElementById("educationOn").checked = false;
+    }
+});
+
+document.getElementById("addedyear").addEventListener("change", function() {
+    if(document.getElementById("addedyear").value != "") {
+        document.getElementById("addedyearOn").checked = true;
+    } else {
+        document.getElementById("addedyearOn").checked = false;
+    }
+});
+
 document.getElementById("age").addEventListener("click", function() {
     if(document.getElementById("age").value != "teadmata") {
         document.getElementById("ageOn").checked = true;
@@ -68,7 +98,7 @@ document.getElementById("country").addEventListener("click", function() {
 });
 
 function submitted() {
-    parameters = ["korpus", "tekstityyp", "keeletase", "characters", "emakeel", "kodukeel", "sugu", "vanus", "elukoht"]; //exercise
+    /* parameters = ["korpus", "tekstityyp", "tekstikeel", "keeletase", "abivahendid", "emakeel", "kodukeel", "sugu", "vanus", "elukoht"]; */
     values = [];
     if(document.querySelector("#korpus").value != "koik") {
         corpus = document.querySelector("#korpus").value;
@@ -84,11 +114,20 @@ function submitted() {
         type = "NO";
         values.push("NO");
     }
+    textlang = document.querySelector("#textlang").value;
+    values.push(textlang);
     if(document.querySelector("#levelOn").checked) {
         level = document.querySelector("#level").value;
         values.push(level);
     } else {
         level = "NO";
+        values.push("NO");
+    }
+    if(document.querySelector("#usedmaterialsOn").checked) {
+        usedmaterials = document.querySelector("#usedmaterials").value;
+        values.push(usedmaterials);
+    } else {
+        usedmaterials = "NO";
         values.push("NO");
     }
     // if(document.querySelector("#charactersOn").checked) {
@@ -126,6 +165,20 @@ function submitted() {
         gender = "NO";
         values.push("NO");
     }
+    if(document.querySelector("#educationOn").checked) {
+        education = document.querySelector("#education").value;
+        values.push(education);
+    } else {
+        education = "NO";
+        values.push("NO");
+    }
+    if(document.querySelector("#addedyearOn").checked) {
+        addedyear = document.querySelector("#addedyear").value;
+        values.push(addedyear);
+    } else {
+        addedyear = "NO";
+        values.push("NO");
+    }
     if(document.querySelector("#ageOn").checked) {
         age = document.querySelector("#age").value;
         values.push(age);
@@ -137,7 +190,7 @@ function submitted() {
         country = document.querySelector("#country").value;
         if(country == "eesti") {
             //values.push(["idaviru", "tallinn", "tartu"]);
-            values.push("idaviru,tallinn,tartu");
+            values.push("idaviru,tallinn,tartu,Tallinn,Maardu linn,Kiili vald,Rae vald,Kohtla-Järve linn,Narva linn,Narva-Jõesuu linn,Valga vald,Jõhvi vald,Sillamäe linn,Tartu linn,Viimsi vald,Mustvee vald,Anija vald,Rakvere vald,Pärnu linn,Toila vald,Lääne-Harju vald,Kambja vald,Alutaguse vald,Saue vald,Viru-Nigula vald,Võru vald,Rakvere linn,Tori vald,Elva vald,Jõgeva vald,Harku vald,Hiiumaa vald,Viljandi linn,Tartu vald,Luunja vald");
         } else {
             values.push(country);
         }
@@ -222,7 +275,11 @@ function submitted() {
             tekstideKuvamine();
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
-            alert(XMLHttpRequest + "\n" + textStatus + "\n" + errorThrown);
+            if(textStatus == "parsererror") {
+                alert("Ei leitud ühtegi teksti!");
+            } else {
+                alert(XMLHttpRequest + "\n" + textStatus + "\n" + errorThrown);
+            }
         }
     });
 }

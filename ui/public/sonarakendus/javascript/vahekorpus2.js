@@ -74,7 +74,7 @@ function getSelectedCheckboxValues(name) {
                 url: "/api/texts/kysitekst",
                 data: {id : result[i]},
                 success: function(data){
-                    uhendatudtekst += data.replaceAll('"', "'");
+                    uhendatudtekst += data.replaceAll('\n', " ").replaceAll('"', "'");
                     loendur++;
                     if(loendur == result.length) {
                         localStorage.setItem("sonad", uhendatudtekst);

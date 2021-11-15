@@ -383,13 +383,16 @@ function main() {
 }
 
 function passToLocalStr() {
-	localStorage.setItem("sonad", allFormatText.join(" "));
+	console.log(allFormatText);
+	allFormatText = allFormatText.join(" ").replaceAll('\n', " ").replaceAll('"', "'");
+	console.log(allFormatText);
+	localStorage.setItem("sonad", allFormatText);
 	$.ajax({
 		type: "POST",
 		url: "/api/texts/laused",
 		dataType: "json",
         contentType: "application/json; charset=utf-8",
-		data: '{"tekst": "' + allFormatText.join(" ") + '"}',
+		data: '{"tekst": "' + allFormatText + '"}',
 		success: function(data) {
 			localStorage.setItem("laused", data);
 		},

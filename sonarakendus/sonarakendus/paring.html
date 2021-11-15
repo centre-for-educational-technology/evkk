@@ -33,7 +33,7 @@
                 <b>Teksti andmed</b>
                 <br><br>
                 <input type="checkbox" name="typeOn" id="typeOn" disabled>
-                <label for="type">Teksti tüüp</label>
+                <label for="type">Teksti liik</label>
                 <select name="type" id="type">
                     <option value="teadmata"></option>
                     <option value="isikiri">isiklik kiri</option>
@@ -55,6 +55,15 @@
                     <option value="muu">muu</option>
                 </select>
                 <br>
+                <input type="checkbox" name="textlangOn" id="textlangOn" disabled>
+                <label for="textlang">Teksti keel</label>
+                <select name="textlang" id="textlang">
+                    <option value="eesti">eesti</option>
+                    <option value="inglise">inglise</option>
+                    <option value="soome">soome</option>
+                    <option value="vene">vene</option>
+                </select>
+                <br>
                 <input type="checkbox" name="levelOn" id="levelOn" disabled>
                 <label for="level">Teksti tase</label>
                 <select name="level" id="level">
@@ -70,6 +79,18 @@
                     <option value="C2">C2</option>
                 </select>
                 <br>
+                <input type="checkbox" name="usedmaterialsOn" id="usedmaterialsOn" disabled>
+                <label for="usedmaterials">Kasutatud õppematerjale</label>
+                <select name="usedmaterials" id="usedmaterials">
+                    <option value="teadmata"></option>
+                    <option value="jah">jah</option>
+                    <option value="ei">ei</option>
+                </select>
+                <br>
+                <input type="checkbox" name="addedyearOn" id="addedyearOn" disabled>
+                <label for="addedyear">Teksti lisamise aasta</label>
+                <input type="number" id="addedyear" name="addedyear" min="1900" max="5000">
+                <br>
                 <!-- <input type="checkbox" name="charactersOn" id="charactersOn" disabled>
                 <label for="characters">Tähemärke</label>
                 <input type="number" name="characters" id="characters" placeholder="250" min="1">
@@ -80,6 +101,35 @@
             <div>
                 <b>Teksti autori andmed</b>
                 <br><br>
+                <input type="checkbox" name="ageOn" id="ageOn" disabled>
+                <label for="age">Vanus</label>
+                <select name="age" id="age">
+                    <option value="teadmata"></option>
+                    <option value="kuni18">- 18</option>
+                    <option value="kuni26">18 - 26</option>
+                    <option value="kuni40">27 - 40</option>
+                    <option value="41plus">41 +</option>
+                </select>
+                <br>
+                <input type="checkbox" name="genderOn" id="genderOn" disabled>
+                <label for="gender">Sugu</label>
+                <select name="gender" id="gender">
+                    <option value="teadmata"></option>
+                    <option value="mees">mees</option>
+                    <option value="naine">naine</option>
+                    <!-- <option value="muu">muu</option> -->
+                </select>
+                <br>
+                <input type="checkbox" name="educationOn" id="educationOn" disabled>
+                <label for="education">Haridus</label>
+                <select name="education" id="education">
+                    <option value="teadmata"></option>
+                    <option value="Alg-/põhiharidus">algharidus/põhiharidus</option>
+                    <option value="Keskharidus">keskharidus</option>
+                    <option value="Keskeriharidus/kutseharidus">keskeriharidus/kutseharidus</option>
+                    <option value="Kõrgharidus">kõrgharidus</option>
+                </select>
+                <br>
                 <input type="checkbox" name="nativelangOn" id="nativelangOn" disabled>
                 <label for="nativelang">Emakeel</label>
                 <select name="nativelang" id="nativelang">
@@ -108,7 +158,7 @@
                 </select>
                 <br>
                 <input type="checkbox" name="homelangOn" id="homelangOn" disabled>
-                <label for="homelang">Kodune keel</label>
+                <label for="homelang">Kodukeel</label>
                 <select name="homelang" id="homelang">
                     <option value="teadmata"></option>
                     <option value="eesti">eesti</option>
@@ -134,25 +184,6 @@
                     <option value="tsehhi">tšehhi</option>
                 </select>
                 <br>
-                <input type="checkbox" name="genderOn" id="genderOn" disabled>
-                <label for="gender">Sugu</label>
-                <select name="gender" id="gender">
-                    <option value="teadmata"></option>
-                    <option value="mees">mees</option>
-                    <option value="naine">naine</option>
-                    <option value="muu">muu</option>
-                </select>
-                <br>
-                <input type="checkbox" name="ageOn" id="ageOn" disabled>
-                <label for="age">Vanus</label>
-                <select name="age" id="age">
-                    <option value="teadmata"></option>
-                    <option value="kuni18">< 18</option>
-                    <option value="kuni26">18 - 26</option>
-                    <option value="kuni40">27 - 40</option>
-                    <option value="41plus">41+</option>
-                </select>
-                <br>
                 <input type="checkbox" name="countryOn" id="countryOn" disabled>
                 <label for="country">Elukohariik</label>
                 <select name="country" id="country">
@@ -164,7 +195,7 @@
                     <option value="lati">Läti</option>
                     <option value="leedu">Leedu</option>
                     <option value="saksamaa">Saksamaa</option>
-                    <option value="inglismaa">Suurbritannia</option>
+                    <!-- <option value="inglismaa">Suurbritannia</option> -->
                 </select>
             </div>
         </div>
@@ -172,7 +203,7 @@
         <button id="submit" onclick="submitted();">Saada päring</button>
     </form>
     <div id="texts">
-        <span id="textAmount">Laeb...</span>
+        <span id="textAmount">Laeb...</span>  <button id=backbutton>Tagasi</button>
         <table>
             <thead>
                 <tr>
