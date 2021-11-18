@@ -5,6 +5,7 @@ import ee.tlu.evkk.api.controller.dto.StatusResponseEntity;
 import ee.tlu.evkk.api.controller.dto.UserFileResponseEntity;
 import ee.tlu.evkk.api.controller.tools.dto.MasinoppeEnustusResponseEntity;
 import ee.tlu.evkk.api.controller.tools.dto.MinitornPikkusResponseEntity;
+import ee.tlu.evkk.api.dao.dto.Korpus;
 import ee.tlu.evkk.api.dao.dto.User;
 import ee.tlu.evkk.api.dao.dto.UserFileView;
 import ee.tlu.evkk.api.security.AuthenticatedUser;
@@ -48,5 +49,7 @@ public abstract class ApiMapper {
     List<SimpleGrantedAuthority> authorities = StreamUtils.toStream(permissionNames).map(permissionName -> new SimpleGrantedAuthority("ROLE_" + permissionName)).collect(Collectors.toList());
     return new AuthenticatedUser(user.getUserId(), user.getEmailAddress(), user.getPasswordHash(), true, true, true, true, authorities);
   }
+
+  public abstract Korpus toKorpus(String korpusId, String name);
 
 }

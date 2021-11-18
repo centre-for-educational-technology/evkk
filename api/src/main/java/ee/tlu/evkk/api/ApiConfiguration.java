@@ -3,6 +3,7 @@ package ee.tlu.evkk.api;
 import ee.tlu.evkk.api.integration.MasinoppeEnnustusClient;
 import ee.tlu.evkk.api.integration.MinitornPikkusClient;
 import ee.tlu.evkk.api.integration.StanzaClient;
+import ee.tlu.evkk.api.jdbc.SqlObjectFactory;
 import ee.tlu.evkk.api.util.UriComponentsBuilderFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.client.RestTemplate;
 
+import javax.sql.DataSource;
 import java.nio.file.Paths;
 
 /**
@@ -50,6 +52,11 @@ public class ApiConfiguration {
     String stanzaUri = uriComponentsBuilderFactory.stanza().toUriString();
     RestTemplate rest = restTemplateBuilder.rootUri(stanzaUri).build();
     return new StanzaClient(rest);
+  }
+
+  @Bean
+  public SqlObjectFactory sqlObjectFactory(DataSource dataSource) {
+    return new SqlObjectFactory(dataSource);
   }
 
 }
