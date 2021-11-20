@@ -85,7 +85,7 @@ public class TextController {
         //}
         //System.out.println(stringArray);
 
-        String[] parameetrid = {"korpus", "tekstityyp", "keeletase", "emakeel", "kodukeel", "sugu", "vanus", "elukoht"}; //characters
+        String[] parameetrid = {"korpus", "tekstityyp", "tekstikeel", "keeletase", "abivahendid", "emakeel", "kodukeel", "sugu", "haridus", "aasta", "vanus", "elukoht"};
         int vaartusteArv = 0;
         for(int i = 0; i < vaartused.length; i++) {
             if(!(vaartused[i].equals("NO"))) {

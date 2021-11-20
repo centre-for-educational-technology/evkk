@@ -45,27 +45,63 @@ if(vorm == "algvormid") {
         data: '{"tekst": "' + koguTekst + '"}',
         success: function(data){
             tekstiTootlus(data);
+            console.log(data);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) { 
             alert(textStatus + "\n" + errorThrown);
         }
     });
+} else if(vorm == "koikvormid") {
+    let tekstidKokkuMolemastParingust;
+    $.ajax({
+        type: "POST",
+        url: "/api/texts/lemmad",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        data: '{"tekst": "' + koguTekst + '"}',
+        success: function(data){
+            tekstidKokkuMolemastParingust = data;
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+            alert(textStatus + "\n" + errorThrown);
+        }
+    });
+    $.ajax({
+        type: "POST",
+        url: "/api/texts/sonad",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        data: '{"tekst": "' + koguTekst + '"}',
+        success: function(data){
+            data.forEach(element => {
+                tekstidKokkuMolemastParingust.push(element);
+            });
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+            alert(textStatus + "\n" + errorThrown);
+        }
+    });
+    //console.log(tekstidKokkuMolemastParingust);
+    tekstiTootlus(tekstidKokkuMolemastParingust);
 }
 
 function tekstiTootlus(data) {
-    //console.log(data);
+    console.log(data);
     //data = JSON.parse(data);
     for(let i = 0; i < data.length; i++) {
         if(tahesuurus) {
-            data[i] = data[i].replaceAll(reg, "").trim();
+            data[i] = String(data[i]).replaceAll(reg, "").trim();
         } else {
-            data[i] = data[i].replaceAll(reg, "").toLowerCase().trim();
+            data[i] = String(data[i]).replaceAll(reg, "").toLowerCase().trim();
         }
         if(data[i].slice(-1) == "-") {
             data[i] = data[i].slice(0, data[i].length - 1);
         }
         if(data[i] == "") {
             data.splice(i, 1);
+            i--;
         }
     }
 
