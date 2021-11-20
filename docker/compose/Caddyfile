@@ -9,6 +9,8 @@
   reverse_proxy /sonarakendus/* sonarakendus:5001
 
   reverse_proxy /api/* api:9090
+
+  redir /clusterfinder /clusterfinder/
   reverse_proxy /clusterfinder/* clusterfinder:9092
 
   encode zstd gzip

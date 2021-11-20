@@ -3,7 +3,7 @@ set -e
 
 echo "Running EVKK ..."
 
-echo "Load images"
+echo "Loading images"
 for file in ./images/*.tar; do docker load -i ${file}; done
 echo "Loading images done"
 

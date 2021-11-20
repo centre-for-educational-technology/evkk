@@ -58,7 +58,7 @@ class Nav extends Component {
                 <Link to="/resource" className={'nav-link'}>Ressurss</Link>
               </li>
 			  <li className="nav-item">
-                <a className="nav-link" href="https://evkk.tlu.ee/sonarakendus/paring.html" rel="noopener noreferrer" target="_blank">Päring</a>
+                <a className="nav-link" href="/sonarakendus/paring.html" rel="noopener noreferrer" target="_blank">Päring</a>
               </li>
               {/*
               <li className="nav-item">
@@ -75,15 +75,10 @@ class Nav extends Component {
                   Tööriistad
                 </a>
                 <div className="dropdown-menu">
-                  {/*<Link to="/tools/minitorn-pikkus" className={'dropdown-item'}>Teksti pikkus</Link>*/}
-                  <a className="dropdown-item" href="http://minitorn.tlu.ee/~jaagup/oma/too/20/09/tasemed2.php" rel="noopener noreferrer"
-                     target="_blank">Tekstihindaja</a>
+                  <a className="dropdown-item" href="http://minitorn.tlu.ee/~jaagup/oma/too/20/09/tasemed2.php" rel="noopener noreferrer" target="_blank">Tekstihindaja</a>
                   <a className="dropdown-item" href="https://evkk.tlu.ee/sonarakendus/home.html" rel="noopener noreferrer" target="_blank">Sõnasagedus & kontekst</a>
-                  {/*
-                  <Link to="/tools/char-counter" className={'dropdown-item'}>Sümbolite lugeja</Link>
-                  <Link to="/tools/masinoppe-ennustus" className={'dropdown-item'}>Masinõppe ennustus</Link>
-                  <Link to="/tools/clusterfinder" className={'dropdown-item'}>Klastrileidja</Link>
-                  */}
+                  {/*<a className="dropdown-item" href="/tools/clusterfinder" rel="noopener noreferrer">Keelemustrite leidja</a>*/}
+                  {/*<Link to="/tools/masinoppe-ennustus" className={'dropdown-item'}>Masinõppe ennustus</Link>*/}
                 </div>
               </li>
 			  <li className="nav-item">
