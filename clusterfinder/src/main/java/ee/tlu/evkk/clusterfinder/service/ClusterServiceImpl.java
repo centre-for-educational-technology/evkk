@@ -6,23 +6,28 @@ import ee.tlu.evkk.clusterfinder.service.mapping.ClusterResultMapper;
 import ee.tlu.evkk.clusterfinder.service.model.ClusterResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
+import org.springframework.http.HttpEntity;
+import org.springframework.web.client.RestOperations;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Map;
 
-@Service
 public class ClusterServiceImpl implements ClusterService {
 
   private static final Logger log = LoggerFactory.getLogger(ClusterServiceImpl.class);
 
   private final ClusterResultMapper resultMapper;
+  private final RestOperations restOperations;
 
-  public ClusterServiceImpl(ClusterResultMapper resultMapper)
+  public ClusterServiceImpl(ClusterResultMapper resultMapper, RestOperations restOperations)
   {
     this.resultMapper = resultMapper;
+    this.restOperations = restOperations;
   }
 
   @Override
@@ -38,7 +43,7 @@ public class ClusterServiceImpl implements ClusterService {
     }
     catch (IOException | ProcessingAbortedException e)
     {
-      log.error("Could not cluster text: {}", e.getMessage());
+      log.error("Could not cluster text", e);
       return ClusterResult.EMPTY;
     }
   }
@@ -52,7 +57,7 @@ public class ClusterServiceImpl implements ClusterService {
       sb.append("-m").append(" ");
     }
 
-      if (searchForm.isSyntacticAnalysis()) {
+    if (searchForm.isSyntacticAnalysis()) {
       sb.append("-s").append(" ");
     }
 
@@ -71,16 +76,19 @@ public class ClusterServiceImpl implements ClusterService {
 
   private String markText(String fileName, String formId) throws IOException, ProcessingAbortedException
   {
-    ProcessBuilder markingProcess = new ProcessBuilder("python", "file_text_marker.py", fileName, formId);
-    markingProcess.directory(new File("clusterfinder/src/main/resources/scripts").getAbsoluteFile());
-    return queryProcess(markingProcess);
+    String tekst = Files.readString(Path.of(fileName));
+    return klasterdajaParsi(tekst);
+    // ProcessBuilder markingProcess = new ProcessBuilder("python", "file_text_marker.py", fileName, formId);
+    // markingProcess.directory(new File("clusterfinder/src/main/resources/scripts").getAbsoluteFile());
+    // return queryProcess(markingProcess);
   }
 
   private String clusterMarkedText(String markedTextFile, String clusteringParams) throws IOException, ProcessingAbortedException
   {
-    ProcessBuilder clusteringProcess = new ProcessBuilder("python", "cluster_helper.py", "-f", markedTextFile, clusteringParams);
-    clusteringProcess.directory(new File("clusterfinder/src/main/resources/scripts").getAbsoluteFile());
-    return queryProcess(clusteringProcess);
+    return klasterdajaKlasterda(markedTextFile, clusteringParams);
+    // ProcessBuilder clusteringProcess = new ProcessBuilder("python", "cluster_helper.py", "-f", markedTextFile, clusteringParams);
+    // clusteringProcess.directory(new File("clusterfinder/src/main/resources/scripts").getAbsoluteFile());
+    // return queryProcess(clusteringProcess);
   }
 
   private String queryProcess(ProcessBuilder processBuilder) throws IOException, ProcessingAbortedException
@@ -111,4 +119,19 @@ public class ClusterServiceImpl implements ClusterService {
 
     return response;
   }
+
+  private String klasterdajaParsi(String tekst)
+  {
+    Map<String, String> body = Map.of("tekst", tekst);
+    HttpEntity<?> requestEntity = new HttpEntity<>(body);
+    return restOperations.postForObject("/parsi", requestEntity, String.class);
+  }
+
+  private String klasterdajaKlasterda(String tekst, String parameetrid)
+  {
+    Map<String, String> body = Map.of("tekst", tekst, "parameetrid", parameetrid);
+    HttpEntity<?> requestEntity = new HttpEntity<>(body);
+    return restOperations.postForObject("/klasterda", requestEntity, String.class);
+  }
+
 }
