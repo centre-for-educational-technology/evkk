@@ -76,24 +76,19 @@ public class ClusterServiceImpl implements ClusterService {
 
   private String markText(String fileName, String formId) throws IOException, ProcessingAbortedException
   {
-    if (1 == 1) { //TODO:
-      String tekst = Files.readString(Path.of(fileName));
-      return klasterdajaParsi(tekst);
-    }
-
-    ProcessBuilder markingProcess = new ProcessBuilder("python", "file_text_marker.py", fileName, formId);
-    markingProcess.directory(new File("clusterfinder/src/main/resources/scripts").getAbsoluteFile());
-    return queryProcess(markingProcess);
+    String tekst = Files.readString(Path.of(fileName));
+    return klasterdajaParsi(tekst);
+    // ProcessBuilder markingProcess = new ProcessBuilder("python", "file_text_marker.py", fileName, formId);
+    // markingProcess.directory(new File("clusterfinder/src/main/resources/scripts").getAbsoluteFile());
+    // return queryProcess(markingProcess);
   }
 
   private String clusterMarkedText(String markedTextFile, String clusteringParams) throws IOException, ProcessingAbortedException
   {
-    if (1 == 1) { //TODO:
-      return klasterdajaKlasterda(markedTextFile, clusteringParams);
-    }
-    ProcessBuilder clusteringProcess = new ProcessBuilder("python", "cluster_helper.py", "-f", markedTextFile, clusteringParams);
-    clusteringProcess.directory(new File("clusterfinder/src/main/resources/scripts").getAbsoluteFile());
-    return queryProcess(clusteringProcess);
+    return klasterdajaKlasterda(markedTextFile, clusteringParams);
+    // ProcessBuilder clusteringProcess = new ProcessBuilder("python", "cluster_helper.py", "-f", markedTextFile, clusteringParams);
+    // clusteringProcess.directory(new File("clusterfinder/src/main/resources/scripts").getAbsoluteFile());
+    // return queryProcess(clusteringProcess);
   }
 
   private String queryProcess(ProcessBuilder processBuilder) throws IOException, ProcessingAbortedException
