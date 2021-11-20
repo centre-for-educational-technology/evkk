@@ -20,7 +20,7 @@ public class ClusterServiceFactoryBean implements FactoryBean<ClusterService> {
   private final String klasterdajaUri;
 
   @Autowired
-  public ClusterServiceFactoryBean(ClusterResultMapper clusterResultMapper, RestTemplateBuilder restTemplateBuilder, @Value("clusterfider.klasterdajaUri") String klasterdajaUri) {
+  public ClusterServiceFactoryBean(ClusterResultMapper clusterResultMapper, RestTemplateBuilder restTemplateBuilder, @Value("${clusterfider.klasterdajaUri}") String klasterdajaUri) {
     this.clusterResultMapper = clusterResultMapper;
     this.restTemplateBuilder = restTemplateBuilder;
     this.klasterdajaUri = klasterdajaUri;
