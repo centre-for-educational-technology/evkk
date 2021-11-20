@@ -3,6 +3,7 @@ package ee.tlu.evkk.clusterfinder.service;
 import ee.tlu.evkk.clusterfinder.service.mapping.ClusterResultMapper;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -16,17 +17,18 @@ public class ClusterServiceFactoryBean implements FactoryBean<ClusterService> {
 
   private final ClusterResultMapper clusterResultMapper;
   private final RestTemplateBuilder restTemplateBuilder;
+  private final String klasterdajaUri;
 
   @Autowired
-  public ClusterServiceFactoryBean(ClusterResultMapper clusterResultMapper, RestTemplateBuilder restTemplateBuilder) {
+  public ClusterServiceFactoryBean(ClusterResultMapper clusterResultMapper, RestTemplateBuilder restTemplateBuilder, @Value("clusterfider.klasterdajaUri") String klasterdajaUri) {
     this.clusterResultMapper = clusterResultMapper;
     this.restTemplateBuilder = restTemplateBuilder;
+    this.klasterdajaUri = klasterdajaUri;
   }
 
   @Override
   public ClusterService getObject() {
-    //TODO: configure rootUri
-    RestTemplate restTemplate = restTemplateBuilder.rootUri("http://klasterdaja:5100").build();
+    RestTemplate restTemplate = restTemplateBuilder.rootUri(klasterdajaUri).build();
     return new ClusterServiceImpl(clusterResultMapper, restTemplate);
   }
 
