@@ -13,12 +13,14 @@ import java.util.List;
 @Repository
 public interface TextDao {
     String findTextById(@Param("textId") UUID textId);
+
+    String findTextMetadata(@Param("textId") UUID textId);
+
     List<String> findTextIDsByCorpusID(@Param("corpusId") String korpusekood);
+
     List<String> findTextIDandTitleByCorpusID(@Param("corpusId") String korpusekood);
 
-    // List<String> textTitleQueryByParameters(@Param("queryJoinSen") String queryJoin, @Param("queryWhereSen") String queryWhere);
-
-    String textTitleQueryByParameters2(@Param("helperid") TextQueryHelper[] helperid);
+    String textTitleQueryByParameters(@Param("helperid") TextQueryHelper[] helperid);
 
     String findDetailedValueByPropertyName(@Param("pValue") String pValue[], @Param("pName") String pName, @Param("cId") String[] cId); // property value, name, corpus id
 

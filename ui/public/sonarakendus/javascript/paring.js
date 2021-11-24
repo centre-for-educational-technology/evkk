@@ -49,13 +49,13 @@ document.getElementById("nativelang").addEventListener("click", function() {
     }
 });
 
-document.getElementById("homelang").addEventListener("click", function() {
+/* document.getElementById("homelang").addEventListener("click", function() {
     if(document.getElementById("homelang").value != "teadmata") {
         document.getElementById("homelangOn").checked = true;
     } else {
         document.getElementById("homelangOn").checked = false;
     }
-});
+}); */
 
 document.getElementById("gender").addEventListener("click", function() {
     if(document.getElementById("gender").value != "teadmata") {
@@ -98,7 +98,6 @@ document.getElementById("country").addEventListener("click", function() {
 });
 
 function submitted() {
-    /* parameters = ["korpus", "tekstityyp", "tekstikeel", "keeletase", "abivahendid", "emakeel", "kodukeel", "sugu", "vanus", "elukoht"]; */
     values = [];
     if(document.querySelector("#korpus").value != "koik") {
         corpus = document.querySelector("#korpus").value;
@@ -151,13 +150,13 @@ function submitted() {
         nativelang = "NO";
         values.push("NO");
     }
-    if(document.querySelector("#homelangOn").checked) {
+    /* if(document.querySelector("#homelangOn").checked) {
         homelang = document.querySelector("#homelang").value;
         values.push(homelang);
     } else {
         homelang = "NO";
         values.push("NO");
-    }
+    } */
     if(document.querySelector("#genderOn").checked) {
         gender = document.querySelector("#gender").value;
         values.push(gender);
@@ -199,64 +198,13 @@ function submitted() {
         values.push("NO");
     }
 
-    // queryJoinPart = "";
-    // queryWherePart = "";
-    // startingNumber = 3;
-    // for(let i = 0; i < parameters.length; i++) {
-    //     if(Array.isArray(values[i])) {
-    //         queryJoinPart += "join core.text_property as p" + startingNumber + " on p2.text_id = p" + startingNumber + ".text_id ";
-    //         queryWherePart += " and p" + startingNumber + ".property_name = '" + parameters[i] + "' and p" + startingNumber + ".property_value in ("
-    //         for(let j = 0; j < values[i].length; j++) {
-    //             queryWherePart += "'" + values[i][j] + "', ";
-    //         }
-    //         queryWherePart = queryWherePart.slice(0, -2);
-    //         queryWherePart += ")";
-    //         startingNumber++;
-    //     } else if(parameters[i] == "characters" && values[i] != "NO") {
-    //         queryJoinPart += "join core.text as p" + startingNumber + " on p2.text_id = p" + startingNumber + ".id ";
-    //         queryWherePart += " and char_length(p" + startingNumber + ".content) <= " + values[i];
-    //         startingNumber++;
-    //     } else if(values[i] != "NO") {
-    //         queryJoinPart += "join core.text_property as p" + startingNumber + " on p2.text_id = p" + startingNumber + ".text_id ";
-    //         queryWherePart += " and p" + startingNumber + ".property_name = '" + parameters[i] + "' and p" + startingNumber + ".property_value = '" + values[i] + "'";
-    //         startingNumber++;
-    //     }
-    // }
-    // queryWherePart += ";";
-
-    //console.log(queryJoinPart);
-    //console.log(queryWherePart);
-
-    // $.ajax({
-    //     type: "POST",
-    //     url: "api/texts/detailneparing",
-    //     data: {queryJoin : queryJoinPart,
-    //     queryWhere : queryWherePart},
-    //     success: function(data) {
-    //         for(let i = 0; i < data.length; i++) {
-    //             tekstideIDd.push(data[i].split("!!!")[0]);
-    //             if(data[i].split("!!!")[1] == "") {
-    //                 tekstidePealkirjad.push("pealkiri puudub");
-    //             } else {
-    //                 tekstidePealkirjad.push(data[i].split("!!!")[1]);
-    //             }
-    //         }
-    //         tekstideKuvamine();
-    //     },
-    //     error: function(XMLHttpRequest, textStatus, errorThrown) {
-    //         alert(XMLHttpRequest + "\n" + textStatus + "\n" + errorThrown);
-    //     }
-    // });
-
     $.ajax({
         type: "POST",
-        url: "/api/texts/detailneparing2",
+        url: "/api/texts/detailneparing",
         data: JSON.stringify(values),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function(data) {
-            //console.log(data);
-            //console.log(data[0]["text_id"]);
             for(let i = 0; i < data.length; i++) {
                 tekstideIDd.push(data[i]["text_id"]);
                 if(data[i]["property_value"] == "") {
@@ -264,13 +212,6 @@ function submitted() {
                 } else {
                     tekstidePealkirjad.push(data[i]["property_value"]);
                 }
-
-                // tekstideIDd.push(data[i].split("!!!")[0]);
-                // if(data[i].split("!!!")[1] == "") {
-                //     tekstidePealkirjad.push("pealkiri puudub");
-                // } else {
-                //     tekstidePealkirjad.push(data[i].split("!!!")[1]);
-                // }
             }
             tekstideKuvamine();
         },
@@ -284,7 +225,7 @@ function submitted() {
     });
 }
 
-function tekstideKuvamine() {
+    function tekstideKuvamine() {
         let puhver = [];
         for(let i = 0; i < tekstideIDd.length; i++) {
             puhver.push("<tr value='" + tekstideIDd[i] + "'><a href='javascript:eelvaade(\"" + tekstideIDd[i] + "\")'>" + tekstidePealkirjad[i] + "</a></tr>");
@@ -295,12 +236,24 @@ function tekstideKuvamine() {
     function eelvaade(tekstiID) {
         $.ajax({
             type: "GET",
+            url: "/api/texts/kysitekstimetainfo",
+            data: {id : tekstiID},
+            success: function(data) {
+                //console.log(data);
+                localStorage.setItem('raw-metainfo', data);
+            }
+        })
+        $.ajax({
+            type: "GET",
             url: "/api/texts/kysitekst",
             data: {id : tekstiID},
-            success: function(data){
+            success: function(data) {
                 tekstisisu = data;
                 pealkirjaID = tekstideIDd.indexOf(tekstiID);
                 pealkiri = tekstidePealkirjad[pealkirjaID];
+                if(tekstisisu == '') {
+                    tekstisisu = 'sisu puudub';
+                }
                 localStorage.setItem("kuvatavtekst", tekstisisu);
                 localStorage.setItem("tekstipealkiri", pealkiri);
                 window.open("tekst.html", "_blank");

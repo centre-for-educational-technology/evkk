@@ -107,9 +107,18 @@ function getSelectedCheckboxValues(name) {
 function eelvaade(tekstiID) {
     $.ajax({
         type: "GET",
+        url: "/api/texts/kysitekstimetainfo",
+        data: {id : tekstiID},
+        success: function(data) {
+            console.log(data);
+            localStorage.setItem('raw-metainfo', data);
+        }
+    })
+    $.ajax({
+        type: "GET",
         url: "/api/texts/kysitekst",
         data: {id : tekstiID},
-        success: function(data){
+        success: function(data) {
             tekstisisu = data;
             pealkirjaID = tekstideIDd.indexOf(tekstiID);
             pealkiri = tekstidePealkirjad[pealkirjaID];
