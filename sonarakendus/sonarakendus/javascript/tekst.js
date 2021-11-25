@@ -14,6 +14,8 @@ let emakeel = document.querySelector("#emakeel");
 /* let kodukeel = document.querySelector("#kodukeel"); */
 let elukohariik = document.querySelector("#elukohariik");
 
+let riikOlemas = '';
+
 let korpused = {
     'cFqPphvYi': 'K2 olümpiaadi tööd',
     'clWmOIrLa': 'K2 tasemeeksamite teksid',
@@ -73,12 +75,18 @@ let haridused = {
     'kutse': 'kutseharidus'
 }
 
-let elukohad = "idaviru,tallinn,tartu,Tallinn,Maardu linn,Kiili vald,Rae vald,Kohtla-Järve linn,Narva linn,Narva-Jõesuu linn,Valga vald,Jõhvi vald,Sillamäe linn,Tartu linn,Viimsi vald,Mustvee vald,Anija vald,Rakvere vald,Pärnu linn,Toila vald,Lääne-Harju vald,Kambja vald,Alutaguse vald,Saue vald,Viru-Nigula vald,Võru vald,Rakvere linn,Tori vald,Elva vald,Jõgeva vald,Harku vald,Hiiumaa vald,Viljandi linn,Tartu vald,Luunja vald";
+let elukohad = "idaviru,tallinn,tartu";
 
 pealkiri.innerHTML = localStorage.getItem("tekstipealkiri");
 sisu.innerHTML = localStorage.getItem("kuvatavtekst");
 
 let raw_metainfo = JSON.parse(localStorage.getItem("raw-metainfo"));
+
+raw_metainfo.forEach(element => {
+    if(element.property_name == 'riik') {
+        riikOlemas = element.property_value;
+    }
+});
 
 raw_metainfo.forEach(element => {
     parameeter = element.property_name;
@@ -120,10 +128,18 @@ raw_metainfo.forEach(element => {
     } else if(parameeter == 'emakeel') {
         emakeel.innerHTML = vaartus;
     } else if(parameeter == 'elukoht') {
-        if(elukohad.includes(vaartus)) {
-            elukohariik.innerHTML = 'eesti';
+        if(riikOlemas != '') {
+            suurtaht = riikOlemas.charAt(0).toUpperCase();
+            loplikriik = suurtaht + riikOlemas.slice(1);
+            elukohariik.innerHTML = loplikriik;
         } else {
-            elukohariik.innerHTML = vaartus;
+            if(elukohad.includes(vaartus)) {
+                elukohariik.innerHTML = 'Eesti';
+            } else {
+                suurtaht = vaartus.charAt(0).toUpperCase();
+                loplikriik = suurtaht + vaartus.slice(1);
+                elukohariik.innerHTML = loplikriik;
+            }
         }
     }
 });
