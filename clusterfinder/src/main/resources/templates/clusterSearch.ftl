@@ -225,8 +225,19 @@
           "pageLength": 100,
           "pagingType": "full_numbers",
           language: {
-            // Using a CDN link here instead of a local file - local files don't work for this scenario (an AJAX request is made by the DataTables library)
-            url: "//cdn.datatables.net/plug-ins/1.11.3/i18n/et.json"
+            "processing": "[@translations.retrieveTranslation "cluster.result.table.processing" /]",
+            "lengthMenu": "[@translations.retrieveTranslation "cluster.result.table.length.menu" /]",
+            "zeroRecords": "[@translations.retrieveTranslation "cluster.result.table.no.records" /]",
+            "info": "[@translations.retrieveTranslation "cluster.result.table.info" /]",
+            "infoEmpty": "", // Needs to be an empty string in order to hide it from the UI (defaults to "Showing 0 of 0 entries" if the key is not provided)
+            "infoFiltered": "[@translations.retrieveTranslation "cluster.result.table.filtered.info" /]",
+            "search": "[@translations.retrieveTranslation "cluster.result.table.search" /]",
+            "paginate": {
+              "first": "[@translations.retrieveTranslation "cluster.result.table.pagination.first" /]",
+              "previous": "[@translations.retrieveTranslation "cluster.result.table.pagination.previous" /]",
+              "next": "[@translations.retrieveTranslation "cluster.result.table.pagination.next" /]",
+              "last": "[@translations.retrieveTranslation "cluster.result.table.pagination.last" /]"
+            }
           },
           columns: [
             { data: 'frequency' },
@@ -294,6 +305,9 @@
             ClusterSearchForm.helpers.hideAndResetDropdowns();
           }
         });
+
+        // Sorting by frequency should be checked by default
+        $("#sortByFreq").prop("checked", true).change();
       },
 
       handleComponentSortingSelection: function() {
@@ -606,6 +620,9 @@
 
         hideAndResetWordSortingCheckboxes: function() {
           ClusterSearchForm.SORTING_OPTIONS["5"].forEach(element => element.hide().find("input[type='checkbox']").prop("checked", false).change());
+
+          // Need to re-check the frequency checkbox here to ensure that at least one sorting option is selected by default
+          $("#sortByFreq").prop("checked", true).change();
         },
 
         hideAndResetDropdowns: function () {

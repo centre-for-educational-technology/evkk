@@ -37,7 +37,7 @@ public class ClusterServiceImpl implements ClusterService {
 
     try
     {
-      String markedText = markText(searchForm.getFileName(), searchForm.getFormId());
+      String markedText = markText(searchForm.getFileName());
       String clusteredText = clusterMarkedText(markedText, clusteringParams);
       return resultMapper.mapResults(clusteredText, searchForm);
     }
@@ -69,12 +69,10 @@ public class ClusterServiceImpl implements ClusterService {
       sb.append("-w").append(" ");
     }
 
-    // Always append -e parameter (otherwise clustering won't work)
-    sb.append("-e");
     return sb.toString();
   }
 
-  private String markText(String fileName, String formId) throws IOException, ProcessingAbortedException
+  private String markText(String fileName) throws IOException, ProcessingAbortedException
   {
     String tekst = Files.readString(Path.of(fileName));
     return klasterdajaParsi(tekst);
@@ -129,7 +127,7 @@ public class ClusterServiceImpl implements ClusterService {
 
   private String klasterdajaKlasterda(String tekst, String parameetrid)
   {
-    Map<String, String> body = Map.of("tekst", tekst, "parameetrid", parameetrid);
+    Map<String, String> body = Map.of("tekst", tekst, "parameetrid", parameetrid, "parsitud", "jah");
     HttpEntity<?> requestEntity = new HttpEntity<>(body);
     return restOperations.postForObject("/klasterda", requestEntity, String.class);
   }
