@@ -1,5 +1,19 @@
 document.querySelector("#texts").style.display = "none";
 
+let freeze = false;
+document.querySelector("#cover-spin").style.display = "none";
+
+document.addEventListener(
+	"click",
+	(e) => {
+		if (freeze) {
+			e.stopPropagation();
+			e.preventDefault();
+		}
+	},
+	true
+);
+
 tekstideIDd = [];
 tekstidePealkirjad = [];
 
@@ -98,6 +112,8 @@ document.getElementById("country").addEventListener("click", function() {
 });
 
 function submitted() {
+    document.querySelector("#cover-spin").style.display = "block";
+	freeze = true;
     values = [];
     if(document.querySelector("#korpus").value != "koik") {
         corpus = document.querySelector("#korpus").value;
@@ -234,6 +250,8 @@ function submitted() {
     }
 
     function eelvaade(tekstiID) {
+        document.querySelector("#cover-spin").style.display = "block";
+		freeze = true;
         $.ajax({
             type: "GET",
             url: "/api/texts/kysitekstimetainfo",
@@ -256,6 +274,8 @@ function submitted() {
                 }
                 localStorage.setItem("kuvatavtekst", tekstisisu);
                 localStorage.setItem("tekstipealkiri", pealkiri);
+                document.querySelector("#cover-spin").style.display = "none";
+		        freeze = false;
                 window.open("tekst.html", "_blank");
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) { 
@@ -269,4 +289,6 @@ function submitted() {
         document.querySelector("#vorm").style.display = "none";
         document.querySelector("#texts").style.display = "block";
         document.querySelector("#textAmount").innerHTML = "Leiti " + puhver.length + " teksti.";
+        document.querySelector("#cover-spin").style.display = "none";
+		freeze = false;
     }
