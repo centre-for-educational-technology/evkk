@@ -180,7 +180,31 @@ function submitted() {
     }
     if(document.querySelector("#ageOn").checked) {
         age = document.querySelector("#age").value;
-        values.push(age);
+        if(age == "kuni18") {
+            vahevaartus = "kuni18";
+            for(let i = 0; i < 19; i++) {
+                vahevaartus += "," + i;
+            }
+            values.push(vahevaartus);
+        } else if(age == "kuni26") {
+            vahevaartus = "kuni26";
+            for(let i = 18; i < 27; i++) {
+                vahevaartus += "," + i;
+            }
+            values.push(vahevaartus);
+        } else if(age == "kuni40") {
+            vahevaartus = "kuni40";
+            for(let i = 27; i < 41; i++) {
+                vahevaartus += "," + i;
+            }
+            values.push(vahevaartus);
+        } else {
+            vahevaartus = "41plus";
+            for(let i = 41; i < 200; i++) {
+                vahevaartus += "," + i;
+            }
+            values.push(vahevaartus);
+        }
     } else {
         age = "NO";
         values.push("NO");
