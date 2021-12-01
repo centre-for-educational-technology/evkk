@@ -78,7 +78,7 @@ let haridused = {
 let elukohad = "idaviru,tallinn,tartu";
 
 pealkiri.innerHTML = localStorage.getItem("tekstipealkiri");
-sisu.innerHTML = localStorage.getItem("kuvatavtekst");
+sisu.innerHTML = localStorage.getItem("kuvatavtekst").replace(/\\n/g, '<br>');
 
 let raw_metainfo = JSON.parse(localStorage.getItem("raw-metainfo"));
 
