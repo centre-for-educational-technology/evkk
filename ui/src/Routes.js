@@ -5,6 +5,7 @@ import {MasinoppeEnnustus, MinitornPikkus} from "./views/tools";
 import ClusterFinder from "./views/tools/ClusterFinder";
 import {Files} from "./views/user";
 import Resource from "./views/Resource.component";
+import Mikk from "./views/Mikk.component";
 
 class Routes extends Component {
 
@@ -27,6 +28,7 @@ class Routes extends Component {
           <Route path="/resource" component={Resource}/>
           <Route path="/login" component={Login}/>
           <Route path="/files" component={Files}/>
+          <Route path="/mikk" component={Mikk}/>
           <Route path="/tools/minitorn-pikkus" component={MinitornPikkus}/>
           <Route path="/tools/masinoppe-ennustus" component={MasinoppeEnnustus}/>
           <Route path="/tools/clusterfinder" component={ClusterFinder}/>
