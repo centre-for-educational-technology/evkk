@@ -1,9 +1,12 @@
 /.idea/
 /.gradle/
 /.docker/
+/.settings/
+/.project
 
 gradle/
 build/
 out/
 generated/
 dist/
+bin/
