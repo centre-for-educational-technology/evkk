@@ -3,25 +3,24 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ee.tlu.evkk.api.dao.TextDao">
 
-  <select id="findTextById" resultType="java.lang.String">
-        <!-- select concat(
-          (select property_value FROM core.text_property where property_name='title' and  core.text_property.id= #{textId}),
-          '!!!',
-          (select content from core.text where core.text.id = #{textId})); -->
-
+    <select id="findTextById" resultType="java.lang.String">
         select content from core.text where id = #{textId}
     </select>
-  <select id="findTextIDsByCorpusID" resultType="java.lang.String">
+
+    <select id="findTextMetadata" resultType="java.lang.String">
+        select array_to_json(array_agg(row_to_json(t)))
+        from (
+            select property_name, property_value from core.text_property where text_id = #{textId}
+        ) t
+    </select>
+
+    <select id="findTextIDsByCorpusID" resultType="java.lang.String">
         select text_id
         from core.text_property
         where core.text_property.property_value = #{corpusId} and core.text_property.property_name = 'korpus';
     </select>
-    <select id="findTextIDandTitleByCorpusID" resultType="java.lang.String">
-        <!-- select concat(tp1.text_id, '!!!',
-        (select tp2.property_value FROM core.text_property as tp2 where tp2.property_name='title' and tp2.text_id = tp1.text_id))
-        from core.text_property as tp1
-        where tp1.property_value = #{corpusId} and tp1.property_name = 'korpus'; -->
 
+    <select id="findTextIDandTitleByCorpusID" resultType="java.lang.String">
         select array_to_json(array_agg(row_to_json(t)))
         from (
             select tp1.text_id,
@@ -31,19 +30,7 @@
         ) t
     </select>
 
-    <!-- <select id="textTitleQueryByParameters" resultType="java.lang.String">
-        select concat(p2.text_id, '!!!', p2.property_value)
-        from core.text_property as p2
-        ${queryJoinSen}
-        where p2.property_name = 'title' ${queryWhereSen}
-    </select> -->
-
-    <select id="textTitleQueryByParameters2" resultType="java.lang.String">
-        <!-- select concat(p2.text_id, '!!!', p2.property_value)
-        from core.text_property as p2
-        <foreach item="helperid" collection="helperid" separator=" ">join core.text_property as ${helperid.tabel} on p2.text_id = ${helperid.tabel}.text_id</foreach>
-        where p2.property_name = 'title'
-        <foreach item="helperid" collection="helperid" separator=" "> and ${helperid.tabel}.property_name = #{helperid.parameeter} and ${helperid.tabel}.property_value in <foreach item="v" collection="helperid.vaartus" separator=", " open="(" close=")">#{v}</foreach></foreach> -->
+    <select id="textTitleQueryByParameters" resultType="java.lang.String">
         select array_to_json(array_agg(row_to_json(t)))
         from (
             select p2.text_id, p2.property_value
@@ -54,8 +41,8 @@
         ) t
     </select>
 
-<select id="findMiniStats" resultType="java.lang.String">
-       select array_to_json(array_agg(row_to_json(t)))
+    <select id="findMiniStats" resultType="java.lang.String">
+        select array_to_json(array_agg(row_to_json(t)))
         from (
         select distinct count(tp1.text_id) as sum,
         sum(tp2.property_value::integer) as sonu,
@@ -69,7 +56,7 @@
         ) t
     </select>
 
-      <select id="findAvailableValues" resultType="java.lang.String">
+    <select id="findAvailableValues" resultType="java.lang.String">
        select array_to_json(array_agg(row_to_json(t)))
         from (
         select distinct tp1.property_value as value
@@ -77,6 +64,7 @@
         WHERE tp1.property_name = #{pName}
         ) t
     </select>
+
 
     <select id="detailedSearch" resultType="java.lang.String">
        select array_to_json(array_agg(row_to_json(t)))
@@ -172,25 +160,26 @@
 
     <select id="findTextsByCorpusId" resultType="java.lang.String"> select content from core.text where core.text.id
      IN (SELECT text_id from core.text_property WHERE core.text_property.property_name='korpus'
-      AND core.text_property.property_value= #{corpusId}); </select>
+      AND core.text_property.property_value= #{corpusId});
+    </select>
 
   <!-- todo: content needs cleaning up so we can remove t.content is not null and t.content != '' checks -->
   <select id="search" resultType="ee.tlu.evkk.api.dao.dto.Text">
     select *
     from core.text t
     where t.id in (
-      select distinct text_id
-      from core.text_property tp
-      <where>
-        <if test="korpus != null"> and (tp.property_name = 'korpus' and tp.property_value in (select unnest(#{korpus})))</if>
-        <if test="tekstityyp != null"> and (tp.property_name = 'tekstityyp' and tp.property_value in (select unnest(#{tekstityyp})))</if>
-        <if test="keeletase != null"> and (tp.property_name = 'keeletase' and tp.property_value in (select unnest(#{keeletase})))</if>
-        <if test="emakeel != null"> and (tp.property_name = 'emakeel' and tp.property_value in (select unnest(#{emakeel})))</if>
-        <if test="kodukeel != null"> and (tp.property_name = 'kodukeel' and tp.property_value in (select unnest(#{kodukeel})))</if>
-        <if test="sugu != null"> and (tp.property_name = 'sugu' and tp.property_value in (select unnest(#{sugu})))</if>
-        <if test="vanus != null"> and (tp.property_name = 'vanus' and tp.property_value in (select unnest(#{vanus})))</if>
-        <if test="elukoht != null"> and (tp.property_name = 'elukoht' and tp.property_value in (select unnest(#{elukoht})))</if>
-      </where>
+    select distinct text_id
+    from core.text_property tp
+    <where>
+      <if test="korpus != null"> and (tp.property_name = 'korpus' and tp.property_value in (select unnest(#{korpus})))</if>
+      <if test="tekstityyp != null"> and (tp.property_name = 'tekstityyp' and tp.property_value in (select unnest(#{tekstityyp})))</if>
+      <if test="keeletase != null"> and (tp.property_name = 'keeletase' and tp.property_value in (select unnest(#{keeletase})))</if>
+      <if test="emakeel != null"> and (tp.property_name = 'emakeel' and tp.property_value in (select unnest(#{emakeel})))</if>
+      <if test="kodukeel != null"> and (tp.property_name = 'kodukeel' and tp.property_value in (select unnest(#{kodukeel})))</if>
+      <if test="sugu != null"> and (tp.property_name = 'sugu' and tp.property_value in (select unnest(#{sugu})))</if>
+      <if test="vanus != null"> and (tp.property_name = 'vanus' and tp.property_value in (select unnest(#{vanus})))</if>
+      <if test="elukoht != null"> and (tp.property_name = 'elukoht' and tp.property_value in (select unnest(#{elukoht})))</if>
+    </where>
     )
     and t.content is not null
     and t.content != '';
