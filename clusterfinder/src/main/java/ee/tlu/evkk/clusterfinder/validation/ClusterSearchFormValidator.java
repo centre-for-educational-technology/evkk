@@ -24,6 +24,7 @@ public class ClusterSearchFormValidator
   private static ValidationErrors validate( SearchFormValidationContext ctx )
   {
     ctx.validateAnalysisLength();
+    ctx.validateAnalysisType();
     return ctx.errors;
   }
 
@@ -39,6 +40,9 @@ public class ClusterSearchFormValidator
       this.errors = new ValidationErrors();
     }
 
+    /**
+     * Validates the analysis length of the provided form.
+     */
     public void validateAnalysisLength()
     {
       int analysisLength = form.getAnalysisLength();
@@ -47,6 +51,45 @@ public class ClusterSearchFormValidator
         errors.addError( "Invalid length provided", "analysisLength" );
       }
     }
-  }
 
+    /**
+     *  Validates the analysis type selection of the provided form.
+     *
+     *  Allowed combinations:
+     *  <ul>
+     *    <li>morfological</li>
+     *    <li>morfological + punctuation</li>
+     *    <li>syntactic</li>
+     *    <li>syntactic + punctuation</li>
+     *    <li>syntactic + morfological</li>
+     *    <li>syntactic + morfological + punctuation</li>
+     *    <li>wordtype</li>
+     *    <li>wordtype + punctuation</li>
+     *  </ul>
+     *
+     */
+    public void validateAnalysisType()
+    {
+      boolean morfological = form.isMorfoAnalysis();
+      boolean syntactical = form.isSyntacticAnalysis();
+      boolean wordtype = form.isWordtypeAnalysis();
+      boolean punctuation = form.isIncludePunctuation();
+      boolean morfosyntactic = form.isMorfoSyntacticAnalysis();
+
+      if ( !morfological && !syntactical && !wordtype )
+      {
+        errors.addError( "Analysis type not selected", "analysisType" );
+      }
+
+      if ( (morfological || syntactical || morfosyntactic) && wordtype )
+      {
+        errors.addError( "Invalid analysis combination selected", "analysisType" );
+      }
+
+      if ( punctuation && !syntactical && !morfological && !morfosyntactic && !wordtype )
+      {
+        errors.addError( "Invalid analysis combination selected", "analysisType" );
+      }
+    }
+  }
 }

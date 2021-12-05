@@ -16,6 +16,8 @@
     <!-- jQuery Datatable -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/datatables.min.js"></script>
+    <!-- jQuery validation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- TODO: Separate global styles to a separate CSS file -->
     <!-- TODO: Add support for other devices (tablets) -->
@@ -69,6 +71,10 @@
       .large-spinner {
         width: 3rem;
         height: 3rem;
+      }
+
+      label.error {
+        color: red;
       }
 
       .smallspacer {
@@ -200,12 +206,14 @@
 
       SORTING_OPTIONS: undefined,
       CLUSTERS_DATA_TABLE: undefined,
+      CLUSTER_SEARCH_FORM: $("#cluster-form"),
 
       init: function () {
         ClusterSearchForm.clauseType.init();
         ClusterSearchForm.wordType.init();
         ClusterSearchForm.prepareSortingOptions();
         ClusterSearchForm.initSortingCheckboxes();
+        ClusterSearchForm.validation.setupValidation();
 
         $("#analysisLength").change(ClusterSearchForm.handleAnalysisLengthChange);
 
@@ -261,12 +269,9 @@
           ],
         });
 
-        $("#morfoAnalysis, #syntacticAnalysis, #punctuationAnalysis").change(function () {
-          $("#wordtypeAnalysis").prop("checked", false);
-        });
-
         $("#morfoAnalysis, #syntacticAnalysis").change(function() {
           ClusterSearchForm.helpers.hideAndResetDropdowns();
+          ClusterSearchForm.helpers.resetWordTypeAnalysis();
           if (ClusterSearchForm.helpers.isComponentSortingSelected()) {
             ClusterSearchForm.handleComponentSortingSelection();
           }
@@ -275,6 +280,7 @@
         $("#wordtypeAnalysis").change(ClusterSearchForm.handleWordTypeAnalysisChange);
 
         $("#submitBtn").click(ClusterSearchForm.ajax.clusterText);
+
       },
 
       prepareSortingOptions: function() {
@@ -344,7 +350,6 @@
       handleWordTypeAnalysisChange: function() {
         $("#morfoAnalysis").prop("checked", false);
         $("#syntacticAnalysis").prop("checked", false);
-        $("#punctuationAnalysis").prop("checked", false);
 
         ClusterSearchForm.helpers.hideAndResetDropdowns();
         if (ClusterSearchForm.helpers.isComponentSortingSelected()) {
@@ -518,31 +523,36 @@
       ajax: {
         clusterText: function (e) {
           e.preventDefault();
-          const data = $("#cluster-form").serializeArray();
 
-          $.ajax({
-            method: "POST",
-            url: "${ajaxUrls.clusterText}",
-            data: data,
-            beforeSend: function() {
-              ClusterSearchForm.CLUSTERS_DATA_TABLE.clear();
-              $("#clusters").hide();
-              ClusterSearchForm.loader.showLoadingSpinner();
-            },
-            success: function (response) {
-              if (response.clusters.length > 0) {
-                ClusterSearchForm.ajax.showResults(response.clusters, response.separator);
-              } else {
+          // Only execute the search when the form is valid
+          if (ClusterSearchForm.CLUSTER_SEARCH_FORM.valid()) {
+            const data = $("#cluster-form").serializeArray();
+
+            $.ajax({
+              method: "POST",
+              url: "${ajaxUrls.clusterText}",
+              data: data,
+              beforeSend: function() {
+                ClusterSearchForm.CLUSTERS_DATA_TABLE.clear();
+                $("#clusters").hide();
+                ClusterSearchForm.loader.showLoadingSpinner();
+              },
+              success: function (response) {
+                if (response.clusters.length > 0) {
+                  ClusterSearchForm.ajax.showResults(response.clusters, response.separator);
+                } else {
+                  ClusterSearchForm.ajax.showNoResults();
+                }
+              },
+              error: function (error) {
                 ClusterSearchForm.ajax.showNoResults();
+              },
+              complete: function () {
+                ClusterSearchForm.loader.hideLoadingSpinner();
               }
-            },
-            error: function (error) {
-              ClusterSearchForm.ajax.showNoResults();
-            },
-            complete: function () {
-              ClusterSearchForm.loader.hideLoadingSpinner();
-            }
-          });
+            });
+          }
+
         },
 
         showResults: function(data, separator) {
@@ -608,6 +618,25 @@
         }
       },
 
+      validation: {
+        setupValidation: function() {
+          ClusterSearchForm.CLUSTER_SEARCH_FORM.validate({
+            rules: {
+              analysisLength: "required",
+              userText: {
+                required: function() {
+                  return $("#inputType").val() === "FREE_TEXT";
+                }
+              },
+            },
+            messages: {
+              analysisLength: "[@translations.retrieveTranslation "validation.analysis.length.error" /]",
+              userText: "[@translations.retrieveTranslation "validation.user.text.error" /]",
+            }
+          });
+        }
+      },
+
       helpers: {
         isComponentSortingSelected: function() {
           const selectedValue = $("input[name='sorting']:checked").val();
@@ -638,6 +667,10 @@
         resetAndHideWordTypeAdditionalOptions: function (additionalsSelector) {
           $(additionalsSelector).find("input[type='checkbox']").prop("checked", false);
           $(additionalsSelector).hide();
+        },
+
+        resetWordTypeAnalysis: function () {
+          $("#wordtypeAnalysis").prop("checked", false);
         }
       },
 

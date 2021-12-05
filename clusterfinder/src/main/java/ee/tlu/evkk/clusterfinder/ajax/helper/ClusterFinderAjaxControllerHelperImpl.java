@@ -26,7 +26,7 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
 {
   private static final Logger log = LoggerFactory.getLogger( ClusterFinderAjaxControllerHelperImpl.class );
 
-  private static final int DEFAULT_CLUSTERING_LENGTH = 3;
+  private static final int DEFAULT_CLUSTERING_LENGTH = 0;
 
   private final ClusterService clusterService;
 
@@ -114,6 +114,7 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
 
   private int asNumber(String value)
   {
+    // Default clustering length is 0 in order to ensure validation functionality
     return StringUtils.isNotEmpty( value ) ? Integer.parseInt(value) : DEFAULT_CLUSTERING_LENGTH;
   }
 }
