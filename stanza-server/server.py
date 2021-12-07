@@ -41,4 +41,8 @@ def sonad():
                 v1.append(word.text)
     return Response(json.dumps(v1), mimetype="application/json")
 
+@app.route('/keeletase', methods=['POST'])
+def keeletase():
+    return Response(json.dumps(["a1"]), mimetype="application/json")
+
 app.run(host="0.0.0.0")
