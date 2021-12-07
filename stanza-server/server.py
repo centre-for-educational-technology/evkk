@@ -4,6 +4,7 @@ import json
 from flask import Flask
 from flask import request
 from flask import Response
+from tasemehindaja import arvuta
 
 stanza.download('et')
 app = Flask(__name__)
@@ -43,6 +44,6 @@ def sonad():
 
 @app.route('/keeletase', methods=['POST'])
 def keeletase():
-    return Response(json.dumps(["a1"]), mimetype="application/json")
+    return Response(json.dumps(arvuta(request.json["tekst"])), mimetype="application/json")
 
 app.run(host="0.0.0.0")

@@ -102,19 +102,20 @@ def class_probabilities(classScoreA2, classScoreB1, classScoreB2, classScoreC1):
 
 
 
-def arvuta():
+def arvuta(inputText):
     # Teksti sisestamine ja märgendamine
     #input = input("Kopeeri või kirjuta siia analüüsitav tekst: ")
     #input = open("/home/kais/public_html/Tasemehindaja/input.txt", "r")
     #inputText = input.read().rstrip()
-    if len(sys.argv)<2: 
-      print("Palun sisesta tekst.")
-      exit()
-    inputText=sys.argv[1]
+    #if len(sys.argv)<2: 
+    #  print("Palun sisesta tekst.")
+    #  exit()
+    #inputText=sys.argv[1]
     inputText = re.sub('[^0-9a-zA-ZõäöüšžÕÄÖÜŠŽ\\.\\?\\! \\n]+', '', inputText)
     #input.close()
     if len(inputText) < 15:
-        print("Tekst on liiga lühike.")
+        #print("Tekst on liiga lühike.")
+        return ["Tekst on liiga lühike"]
         exit()
     doc = nlp(inputText)
     analysis = "\n".join(
@@ -241,7 +242,7 @@ def arvuta():
     abSum = 0
     abCount = 0
     for word in abstractnessData["wordAnalysis"]:
-    lemma = word["lemmas"][0]
+       lemma = word["lemmas"][0]
     if lemma["abstractness"]: # kontroll, kas abstraktsushinnang on olemas
         abSum += lemma["abstractness"] # abstraktsushinnangute summa
         abCount += 1 # abstraktsushinnanguga nimisõnade arv
@@ -300,7 +301,7 @@ def arvuta():
 
     sortedSumProbs = class_probabilities(
         sumClassScoreA2, sumClassScoreB1, sumClassScoreB2, sumClassScoreC1)
-
+    return sortedSumProbs
     # Põhitulemus
     print("<h2>Tekst vastab tasemele:</h2><br>")
     print('<p id="tase">'+str(sortedSumProbs[0][1])+'</p><br>')
@@ -327,7 +328,7 @@ def arvuta():
         print('\n<p class="lisainfotekst"><b>Sõnavara: <br />', sortedLexProbs[0][1], '</b> (tõenäosus ', round(sortedLexProbs[0][0]*100), 
         '%)<br />Arvesse on võetud sõnavaliku mitmekesisus ja ulatus (unikaalsete sõnade hulk, harvem esineva sõnavara osakaal), sõnavara tihedus (sisusõnade osakaal) ja nimisõnade abstraktsus.</p>', sep='')
     except:
-    pass
+       pass
 
     print('\n<p class="lisainfotekst"><b>Koondhinnang (', sortedSumProbs[0][1], ')</b> põhineb nii sõnavara-, morfoloogilistel kui ka üldise keerukuse tunnustel.</p>', sep='')
                 
@@ -336,4 +337,4 @@ def arvuta():
             </div>""")
 
 if __name__=="__main__":
-    arvuta() 
+    print(arvuta("Juku tuli kooli ja oli üllatavalt rõõmsas tujus"))
