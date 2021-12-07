@@ -57,6 +57,9 @@ class Nav extends Component {
               <li className="nav-item">
                 <Link to="/resource" className={'nav-link'}>Ressurss</Link>
               </li>
+              <li className="nav-item">
+                <Link to="/jaagup_2021_11" className={'nav-link'}>Jaagup_2021</Link>
+              </li>
 			  <li className="nav-item">
                 <a className="nav-link" href="/sonarakendus/paring.html" rel="noopener noreferrer" target="_blank">Päring</a>
               </li>
@@ -81,7 +84,7 @@ class Nav extends Component {
                   {/*<Link to="/tools/masinoppe-ennustus" className={'dropdown-item'}>Masinõppe ennustus</Link>*/}
                 </div>
               </li>
-			  <li className="nav-item">
+              <li className="nav-item">
                 <Link to="/employees" className={'nav-link'}>Töötajad</Link>
               </li>
               <li className="nav-item">
