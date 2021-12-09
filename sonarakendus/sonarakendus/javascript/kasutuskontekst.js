@@ -19,7 +19,7 @@ function muuda() {
             tyhikud.push(result2.index);
         }
         //console.log(tyhikud);
-        tabel.innerHTML = "";
+        tabel.textContent = "";
         for(let i = 0; i < sonad.length; i++) {
             rida1 = tyhikud.findIndex(element => element == sonad[i]);
             if(rida1 == -1) {
@@ -58,7 +58,7 @@ function muuda() {
         //console.log(localStorage.getItem("laused"));
         laused = JSON.parse(localStorage.getItem("laused"));
         var regex = new RegExp("([^a-zA-ZõäöüÕÄÖÜ]|^)" + localStorage.getItem("kontekst") + "($|[^a-zA-ZõäöüÕÄÖÜ])", "gi")
-        tabel.innerHTML = "";
+        tabel.textContent = "";
         for(let i = 0; i < laused.length; i++) {
             result = regex.exec(laused[i]);
             if(result != null) {
