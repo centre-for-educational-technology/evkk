@@ -368,12 +368,12 @@ function deleteText() {
 }
 
 function main() {
-	document.getElementById("output").innerHTML = "Valitud failid: ";
+	document.getElementById("output").textContent = "Valitud failid: ";
 
 	for (i in allFormatFile) {
 		var fileName = document.createElement("div");
 		fileName.id = allFormatFile[i];
-		fileName.innerHTML = allFormatFile[i];
+		fileName.textContent = allFormatFile[i];
 		fileName.className = "files";
 		document.getElementById("output").appendChild(fileName);
 	}

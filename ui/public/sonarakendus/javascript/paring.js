@@ -371,7 +371,7 @@ function submitted() {
         document.querySelector("#tabel").innerHTML = puhver.join(' ');
         document.querySelector("#vorm").style.display = "none";
         document.querySelector("#texts").style.display = "block";
-        document.querySelector("#textAmount").innerHTML = "Leiti " + puhver.length + " teksti.";
+        document.querySelector("#textAmount").textContent = "Leiti " + puhver.length + " teksti.";
         document.querySelector("#cover-spin").style.display = "none";
 		freeze = false;
     }
