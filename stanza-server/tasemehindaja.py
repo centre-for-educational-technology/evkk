@@ -9,7 +9,8 @@ import numpy as np
 import stanza
 #nlp = stanza.Pipeline("et", processors="tokenize,pos,lemma", dir="/home/kais/stanza_resources")
 #stanza.download(lang="et", processors="tokenize,pos,lemma", dir="/home/kais/stanza_resources")
-nlp = stanza.Pipeline("et", processors="tokenize,pos,lemma", dir="/home/kais/stanza_resources")
+#nlp = stanza.Pipeline("et", processors="tokenize,pos,lemma", dir="/home/kais/stanza_resources")
+nlp = stanza.Pipeline("et", processors="tokenize,pos,lemma")
 
 
 def pos_ratio(data, pos, textLength):
@@ -43,7 +44,9 @@ def lexical_density(data, textLength):
 	textNoNumerals = data.drop(data[data.Xpos == "N"].index) # tekst arvsõnadeta
 	lemmasNoNumerals = textNoNumerals["Lemma"].tolist() # lemmade loend stoppsõnadega võrdlemiseks
 	# stoppsõnade loend lemmatiseeritud tekstile (Uiboaed 2018, https://datadoi.ee/handle/33/78)
-	stopLemmas = pd.read_csv("/home/kais/public_html/Tasemehindaja/estonian-stopwords-lemmas.txt")
+#	stopLemmas = pd.read_csv("/home/kais/public_html/Tasemehindaja/estonian-stopwords-lemmas.txt")
+#	stopLemmas = pd.read_csv(os.getcwd()+"/estonian-stopwords-lemmas.txt")
+	stopLemmas = pd.read_csv("/app/estonian-stopwords-lemmas.txt")
 	stopLemmas = set(stopLemmas["Stoplemma"].tolist())
 	# stoppsõnade hulgas sisalduvate lemmade loendamine
 	functionWords = 0
@@ -299,9 +302,14 @@ def arvuta(inputText):
     sumClassScoreB2 = class_score(sumFeatValues, sumCoefficientsB2, -816.061)
     sumClassScoreC1 = class_score(sumFeatValues, sumCoefficientsC1, -900.694)
 
+
     sortedSumProbs = class_probabilities(
         sumClassScoreA2, sumClassScoreB1, sumClassScoreB2, sumClassScoreC1)
-    return sortedSumProbs
+    for nr in range(4):
+        if math.isnan(sortedLexProbs[nr][0]):
+            sortedLexProbs[nr][0]=-1
+
+    return sortedSumProbs+sortedSurfProbs+sortedMorphProbs+sortedLexProbs
     # Põhitulemus
     print("<h2>Tekst vastab tasemele:</h2><br>")
     print('<p id="tase">'+str(sortedSumProbs[0][1])+'</p><br>')

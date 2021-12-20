@@ -39,4 +39,12 @@ public class StanzaClient {
     return forEntity.getBody();
   }
 
+  public String[][] getKeeletase(String tekst) {
+    Map<String, String> map = Map.of("tekst", tekst);
+    HttpEntity<?> requestEntity = new HttpEntity<>(map);
+    ResponseEntity<String[][]> forEntity = rest.postForEntity("/keeletase", requestEntity, String[][].class);
+    return forEntity.getBody();
+  }
+
+
 }
