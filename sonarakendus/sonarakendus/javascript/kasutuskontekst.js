@@ -7,43 +7,49 @@ function muuda() {
     let tyyp = kasutuskontekst.value;
     let arv = number.value;
     if(tyyp == "sona") {
+        jrk = 1;
+        tabel.innerHTML = "";
         //copytud: https://stackoverflow.com/questions/3410464/how-to-find-indices-of-all-occurrences-of-one-string-in-another-in-javascript
         var str = localStorage.getItem("sonad");
-        var regex = new RegExp("([^a-zA-ZõäöüÕÄÖÜ]|^)" + localStorage.getItem("kontekst") + "($|[^a-zA-ZõäöüÕÄÖÜ])", "gi"), result, sonad = [];
-        while ( (result = regex.exec(str)) ) {
-            sonad.push(result.index);
-        }
-        //console.log(sonad);
-        var regex2 = new RegExp("( )", "g"), result2, tyhikud = [];
-        while ( (result2 = regex2.exec(str)) ) {
-            tyhikud.push(result2.index);
-        }
-        //console.log(tyhikud);
-        tabel.innerHTML = "";
-        for(let i = 0; i < sonad.length; i++) {
-            rida1 = tyhikud.findIndex(element => element == sonad[i]);
-            if(rida1 == -1) {
-                abi = 0;
-                while(tyhikud[abi] < sonad[i]) {
-                    abi++;
+        var kontekstid = localStorage.getItem("kontekst").split(',');
+        for(let j = 0; j < kontekstid.length; j++) {
+            var regex = new RegExp("([^a-zA-ZõäöüÕÄÖÜ]|^)" + kontekstid[j] + "($|[^a-zA-ZõäöüÕÄÖÜ])", "gi"), result, sonad = [];
+            while ( (result = regex.exec(str)) ) {
+                sonad.push(result.index);
+            }
+
+            var regex2 = new RegExp("( )", "g"), result2, tyhikud = [];
+            while ( (result2 = regex2.exec(str)) ) {
+                tyhikud.push(result2.index);
+            }
+
+            for(let i = 0; i < sonad.length; i++) {
+                rida1 = tyhikud.findIndex(element => element == sonad[i]);
+                if(rida1 == -1) {
+                    abi = 0;
+                    while(tyhikud[abi] < sonad[i]) {
+                        abi++;
+                    }
+                    rida1 = abi;
                 }
-                rida1 = abi;
-            }
-            indeks1 = rida1 - arv;
-            esimenePool = str.substring(tyhikud[indeks1] + 1, sonad[i]);
-            indeks2 = indeks1 + (2 * arv) + 1;
-            if(i == 0) {
-                lisand = 1;
-            } else {
-                lisand = 2;
-            }
-            teinePool = str.substring((sonad[i] + localStorage.getItem("kontekst").length + lisand), tyhikud[indeks2]);
-            if(localStorage.getItem("paritolu") == "TEXTBOX") {
-                tabel.innerHTML += "<tr id='row" + i + "'><td>" + (i + 1) + "</td><td class='leftside'>" + esimenePool + "</td><td class='otsitav'>" + localStorage.getItem("kontekst") + "</td><td class='rightside'>" + teinePool + "</td><td class='source'><div class='popup' onclick='openPopup(" + i + ")'><span class='popuptext' id='" + i + "'><b>Lause metainfo</b><br><br>Lause pärineb tekstiväljale sisestatud tekstist.</span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
-            } else if(localStorage.getItem("paritolu") == "FILEUPLOAD") {
-                tabel.innerHTML += "<tr id='row" + i + "'><td>" + (i + 1) + "</td><td class='leftside'>" + esimenePool + "</td><td class='otsitav'>" + localStorage.getItem("kontekst") + "</td><td class='rightside'>" + teinePool + "</td><td class='source'><div class='popup' onclick='openPopup(" + i + ")'><span class='popuptext' id='" + i + "'><b>Lause metainfo</b><br><br>Faili nimi: </span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
-            } else {
-                tabel.innerHTML += "<tr id='row" + i + "'><td>" + (i + 1) + "</td><td class='leftside'>" + esimenePool + "</td><td class='otsitav'>" + localStorage.getItem("kontekst") + "</td><td class='rightside'>" + teinePool + "</td><td class='source'><div class='popup' onclick='openPopup(" + i + ")'><span class='popuptext' id='" + i + "'><b>Lause metainfo</b><br><br>Dokumendi ID: <br>Alamkorpus: <br>Teksti žanr: <br>Keeleoskustase: <br>Autori emakeel: </span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
+                indeks1 = rida1 - arv;
+                esimenePool = str.substring(tyhikud[indeks1] + 1, sonad[i]);
+                indeks2 = indeks1 + (2 * arv) + 1;
+                if(i == 0) {
+                    lisand = 1;
+                } else {
+                    lisand = 2;
+                }
+                teinePool = str.substring((sonad[i] + kontekstid[j].length + lisand), tyhikud[indeks2]);
+
+                if(localStorage.getItem("paritolu") == "TEXTBOX") {
+                    tabel.innerHTML += "<tr id='row" + jrk + "'><td>" + jrk + "</td><td class='leftside'>" + esimenePool + "</td><td class='otsitav'>" + kontekstid[j] + "</td><td class='rightside'>" + teinePool + "</td><td class='source'><div class='popup' onclick='openPopup(" + jrk + ")'><span class='popuptext' id='" + jrk + "'><b>Lause metainfo</b><br><br>Lause pärineb tekstiväljale sisestatud tekstist.</span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
+                } else if(localStorage.getItem("paritolu") == "FILEUPLOAD") {
+                    tabel.innerHTML += "<tr id='row" + jrk + "'><td>" + jrk + "</td><td class='leftside'>" + esimenePool + "</td><td class='otsitav'>" + kontekstid[j] + "</td><td class='rightside'>" + teinePool + "</td><td class='source'><div class='popup' onclick='openPopup(" + jrk + ")'><span class='popuptext' id='" + jrk + "'><b>Lause metainfo</b><br><br>Faili nimi: </span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
+                } else if(localStorage.getItem("paritolu") == "EVKK") {
+                    tabel.innerHTML += "<tr id='row" + jrk + "'><td>" + jrk + "</td><td class='leftside'>" + esimenePool + "</td><td class='otsitav'>" + kontekstid[j] + "</td><td class='rightside'>" + teinePool + "</td><td class='source'><div class='popup' onclick='openPopup(" + jrk + ")'><span class='popuptext' id='" + jrk + "'><b>Lause metainfo</b><br><br>Dokumendi ID: <br>Alamkorpus: <br>Teksti žanr: <br>Keeleoskustase: <br>Autori emakeel: </span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
+                }
+                jrk++;
             }
         }
         tabelElement = $('#context').DataTable({
@@ -55,37 +61,39 @@ function muuda() {
         });
     } else if(tyyp == "lauset") {
         jrk = 1;
-        //console.log(localStorage.getItem("laused"));
-        laused = JSON.parse(localStorage.getItem("laused"));
-        var regex = new RegExp("([^a-zA-ZõäöüÕÄÖÜ]|^)" + localStorage.getItem("kontekst") + "($|[^a-zA-ZõäöüÕÄÖÜ])", "gi")
         tabel.innerHTML = "";
-        for(let i = 0; i < laused.length; i++) {
-            result = regex.exec(laused[i]);
-            if(result != null) {
-                esimenePool = "";
-                teinePool = "";
-                for(let j = (i - arv); j < i; j++) {
-                    if(j > -1) {
-                        esimenePool += laused[j] + " ";
+        laused = JSON.parse(localStorage.getItem("laused"));
+        var kontekstid = localStorage.getItem("kontekst").split(',');
+        for(let x = 0; x < kontekstid.length; x++) {
+            var regex = new RegExp("([^a-zA-ZõäöüÕÄÖÜ]|^)" + kontekstid[x] + "($|[^a-zA-ZõäöüÕÄÖÜ])", "gi")
+            for(let i = 0; i < laused.length; i++) {
+                result = regex.exec(laused[i]);
+                if(result != null) {
+                    esimenePool = "";
+                    teinePool = "";
+                    for(let j = (i - arv); j < i; j++) {
+                        if(j > -1) {
+                            esimenePool += laused[j] + " ";
+                        }
                     }
-                }
-                esimenePool += " " + laused[i][0].substring(0, result.index);
+                    esimenePool += " " + laused[i].substring(0, result.index);
 
-                teinePool += laused[i][0].substring(result.index + 2 + localStorage.getItem("kontekst").length) + " ";
-                for(let j = (i + 1); j < (parseInt(i) + parseInt(arv) + 1); j++) {
-                    if(j < laused.length) {
-                        teinePool += laused[j] + " ";
+                    teinePool += laused[i].substring(result.index + 2 + kontekstid[x].length) + " ";
+                    for(let j = (i + 1); j < (parseInt(i) + parseInt(arv) + 1); j++) {
+                        if(j < laused.length) {
+                            teinePool += laused[j] + " ";
+                        }
                     }
-                }
 
-                if(localStorage.getItem("paritolu") == "TEXTBOX") {
-                    tabel.innerHTML += "<tr id='row" + i + "'><td>" + jrk + "</td><td class='leftside'>" + esimenePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='otsitav'>" + localStorage.getItem("kontekst") + "</td><td class='rightside'>" + teinePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='source'><div class='popup' onclick='openPopup(" + i + ")'><span class='popuptext' id='" + i + "'><b>Lause metainfo</b><br><br>Lause pärineb tekstiväljale sisestatud tekstist.</span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
-                } else if(localStorage.getItem("paritolu") == "FILEUPLOAD") {
-                    tabel.innerHTML += "<tr id='row" + i + "'><td>" + jrk + "</td><td class='leftside'>" + esimenePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='otsitav'>" + localStorage.getItem("kontekst") + "</td><td class='rightside'>" + teinePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='source'><div class='popup' onclick='openPopup(" + i + ")'><span class='popuptext' id='" + i + "'><b>Lause metainfo</b><br><br>Lause metainfo</b><br>Faili nimi: </span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
-                } else {
-                    tabel.innerHTML += "<tr id='row" + i + "'><td>" + jrk + "</td><td class='leftside'>" + esimenePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='otsitav'>" + localStorage.getItem("kontekst") + "</td><td class='rightside'>" + teinePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='source'><div class='popup' onclick='openPopup(" + i + ")'><span class='popuptext' id='" + i + "'><b>Lause metainfo</b><br><br>Dokumendi ID: <br>Alamkorpus: <br>Teksti žanr: <br>Keeleoskustase: <br>Autori emakeel: </span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
+                    if(localStorage.getItem("paritolu") == "TEXTBOX") {
+                        tabel.innerHTML += "<tr id='row" + jrk + "'><td>" + jrk + "</td><td class='leftside'>" + esimenePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='otsitav'>" + kontekstid[x] + "</td><td class='rightside'>" + teinePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='source'><div class='popup' onclick='openPopup(" + jrk + ")'><span class='popuptext' id='" + jrk + "'><b>Lause metainfo</b><br><br>Lause pärineb tekstiväljale sisestatud tekstist.</span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
+                    } else if(localStorage.getItem("paritolu") == "FILEUPLOAD") {
+                        tabel.innerHTML += "<tr id='row" + jrk + "'><td>" + jrk + "</td><td class='leftside'>" + esimenePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='otsitav'>" + kontekstid[x] + "</td><td class='rightside'>" + teinePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='source'><div class='popup' onclick='openPopup(" + jrk + ")'><span class='popuptext' id='" + jrk + "'><b>Lause metainfo</b><br><br>Lause metainfo</b><br>Faili nimi: </span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
+                    } else if(localStorage.getItem("paritolu") == "EVKK") {
+                        tabel.innerHTML += "<tr id='row" + jrk + "'><td>" + jrk + "</td><td class='leftside'>" + esimenePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='otsitav'>" + kontekstid[x] + "</td><td class='rightside'>" + teinePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='source'><div class='popup' onclick='openPopup(" + jrk + ")'><span class='popuptext' id='" + jrk + "'><b>Lause metainfo</b><br><br>Dokumendi ID: <br>Alamkorpus: <br>Teksti žanr: <br>Keeleoskustase: <br>Autori emakeel: </span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
+                    }
+                    jrk++;
                 }
-                jrk++;
             }
         }
         tabelElement = $('#context').DataTable({

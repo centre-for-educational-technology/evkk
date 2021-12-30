@@ -28,7 +28,7 @@ public class StanzaClient {
   public String[] getLaused(String tekst) {
     Map<String, String> map = Map.of("tekst", tekst);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
-    ResponseEntity<String[]> forEntity = rest.postForEntity("/lemmad", requestEntity, String[].class);
+    ResponseEntity<String[]> forEntity = rest.postForEntity("/laused", requestEntity, String[].class);
     return forEntity.getBody();
   }
 

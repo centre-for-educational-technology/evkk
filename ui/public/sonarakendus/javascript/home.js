@@ -34,7 +34,7 @@ salvesta_tekst.addEventListener("click", function () {
         	contentType: "application/json; charset=utf-8",
 			data: '{"tekst": "' + koguTekst + '"}',
 			success: function(data) {
-				localStorage.setItem("laused", data);
+				localStorage.setItem("laused", JSON.stringify(data));
 				//document.querySelector("#error").innerHTML = "";
 				localStorage.setItem("sonad", koguTekst);
 				localStorage.setItem("paritolu", "TEXTBOX");

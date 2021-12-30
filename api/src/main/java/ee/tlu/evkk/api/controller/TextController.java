@@ -61,7 +61,7 @@ public class TextController {
   }
 
   @PostMapping("/laused")
-  public ResponseEntity<List<String>> laused(@RequestBody LemmadRequestEntity request) throws Exception {
+  public ResponseEntity<List<String>> laused(@RequestBody LemmadRequestEntity request) {
     String[] laused = stanzaClient.getLaused(request.getTekst());
     List<String> body = Arrays.asList(laused);
     return ResponseEntity.ok(body);
