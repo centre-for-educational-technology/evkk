@@ -104,7 +104,7 @@ raw_metainfo.forEach(element => {
     } else if(parameeter == 'keeletase') {
         tekstitase.textContent = vaartus;
     } else if(parameeter == 'abivahendid') {
-        oppematerjalid.innetextContentrHTML = vaartus;
+        oppematerjalid.textContent = vaartus;
     } else if(parameeter == 'aasta') {
         lisamiseaasta.textContent = vaartus;
     } else if(parameeter == 'vanus') {
@@ -126,7 +126,7 @@ raw_metainfo.forEach(element => {
     } else if(parameeter == 'haridus') {
         haridus.textContent = haridused[vaartus];
     } else if(parameeter == 'emakeel') {
-        emakeel.innerHtextContentTML = vaartus;
+        emakeel.textContent = vaartus;
     } else if(parameeter == 'elukoht') {
         if(riikOlemas != '') {
             suurtaht = riikOlemas.charAt(0).toUpperCase();
