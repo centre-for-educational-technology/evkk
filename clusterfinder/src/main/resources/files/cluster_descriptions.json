@@ -19659,5 +19659,25 @@
     "V mod sup ps tr // @Q>": "modaaltegusõna, ma-tegevusnime maks-vorm, maks // hulgasõna eeslaiend",
     "V mod sup ps tr // @SUBJ": "modaaltegusõna, ma-tegevusnime maks-vorm, maks // alus",
     "V mod sup ps tr // @VN>": "modaaltegusõna, ma-tegevusnime maks-vorm, maks // kesksõna eestäiend"
+  },
+  "punctuation": {
+    "Z Exc": "hüüumärk",
+    "Z Int": "küsimärk",
+    "Z Fst": "punkt",
+    "Z Ell": "kolmpunkt",
+    "Z Els": "kakspunkt",
+    "Z Com": "koma",
+    "Z Scl": "semikoolon",
+    "Z Col": "koolon",
+    "Z Dsh": "mõttekriips",
+    "Z Dsd": "topeltkriips",
+    "Z Opr": "avav ümarsulg",
+    "Z Cpr": "sulgev ümarsulg",
+    "Z Quo": "jutumärk",
+    "Z Oqu": "avav jutumärk",
+    "Z Cqu": "sulgev jutumärk",
+    "Z Osq": "avav kandiline sulg",
+    "Z Csq": "sulgev kandiline sulg",
+    "Z Sla": "kaldkriips"
   }
 }
