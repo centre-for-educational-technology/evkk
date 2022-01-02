@@ -10,3 +10,5 @@ out/
 generated/
 dist/
 bin/
+
+stanza-server/*.bin

@@ -67,6 +67,14 @@ public class TextController {
     return ResponseEntity.ok(body);
   }
 
+  @PostMapping("/korrektuur")
+  public ResponseEntity<List<String>> korrektuur(@RequestBody LemmadRequestEntity request) throws Exception {
+    String[] vastus = stanzaClient.getKorrektuur(request.getTekst());
+    List<String> body = Arrays.asList(vastus);
+    return ResponseEntity.ok(body);
+  }
+
+
   @PostMapping("/detailneparing")
     public String detailneparing(@RequestBody String[] vaartused) {
         String[] parameetrid = {"korpus", "tekstityyp", "tekstikeel", "keeletase", "abivahendid", "emakeel", "sugu", "haridus", "aasta", "vanus", "elukoht"};

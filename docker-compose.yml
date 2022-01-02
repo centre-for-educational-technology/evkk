@@ -29,10 +29,10 @@ services:
     ports:
       - "5000:5000"
 
-  klasterdaja:
-    container_name: evkk-klasterdaja
-    build:
-      context: .
-      dockerfile: docker/images/evkk-klasterdaja.Dockerfile
-    ports:
-      - "5100:5100"
+  #klasterdaja:
+  #  container_name: evkk-klasterdaja
+  #  build:
+  #    context: .
+  #    dockerfile: docker/images/evkk-klasterdaja.Dockerfile
+  #  ports:
+  #    - "5100:5100"
