@@ -37,8 +37,7 @@ public class ClusterServiceImpl implements ClusterService {
 
     try
     {
-      String markedText = markText(searchForm.getFileName());
-      String clusteredText = clusterMarkedText(markedText, clusteringParams);
+      String clusteredText = clusterText(searchForm.getFileName(), clusteringParams);
       return resultMapper.mapResults(clusteredText, searchForm);
     }
     catch (IOException | ProcessingAbortedException e)
@@ -72,62 +71,15 @@ public class ClusterServiceImpl implements ClusterService {
     return sb.toString();
   }
 
-  private String markText(String fileName) throws IOException, ProcessingAbortedException
+  private String clusterText(String fileName, String clusteringParams) throws IOException, ProcessingAbortedException
   {
-    String tekst = Files.readString(Path.of(fileName));
-    return klasterdajaParsi(tekst);
-    // ProcessBuilder markingProcess = new ProcessBuilder("python", "file_text_marker.py", fileName, formId);
-    // markingProcess.directory(new File("clusterfinder/src/main/resources/scripts").getAbsoluteFile());
-    // return queryProcess(markingProcess);
-  }
-
-  private String clusterMarkedText(String markedTextFile, String clusteringParams) throws IOException, ProcessingAbortedException
-  {
-    return klasterdajaKlasterda(markedTextFile, clusteringParams);
-    // ProcessBuilder clusteringProcess = new ProcessBuilder("python", "cluster_helper.py", "-f", markedTextFile, clusteringParams);
-    // clusteringProcess.directory(new File("clusterfinder/src/main/resources/scripts").getAbsoluteFile());
-    // return queryProcess(clusteringProcess);
-  }
-
-  private String queryProcess(ProcessBuilder processBuilder) throws IOException, ProcessingAbortedException
-  {
-    Process process = processBuilder.start();
-    int exitCode;
-
-    try {
-      exitCode = process.waitFor();
-    } catch (InterruptedException e) {
-      exitCode = 1;
-      e.printStackTrace();
-    }
-
-    if (exitCode != 0) {
-      String error;
-      try (InputStream is = process.getErrorStream()) {
-        error = new String(is.readAllBytes(), StandardCharsets.UTF_8);
-      }
-
-      throw new ProcessingAbortedException( error );
-    }
-
-    String response;
-    try (InputStream is = process.getInputStream()) {
-      response = new String(is.readAllBytes(), StandardCharsets.UTF_8);
-    }
-
-    return response;
-  }
-
-  private String klasterdajaParsi(String tekst)
-  {
-    Map<String, String> body = Map.of("tekst", tekst);
-    HttpEntity<?> requestEntity = new HttpEntity<>(body);
-    return restOperations.postForObject("/parsi", requestEntity, String.class);
+    String text = Files.readString(Path.of(fileName));
+    return klasterdajaKlasterda(text, clusteringParams);
   }
 
   private String klasterdajaKlasterda(String tekst, String parameetrid)
   {
-    Map<String, String> body = Map.of("tekst", tekst, "parameetrid", parameetrid, "parsitud", "jah");
+    Map<String, String> body = Map.of("tekst", tekst, "parameetrid", parameetrid);
     HttpEntity<?> requestEntity = new HttpEntity<>(body);
     return restOperations.postForObject("/klasterda", requestEntity, String.class);
   }

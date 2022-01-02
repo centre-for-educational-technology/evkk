@@ -18,6 +18,8 @@ public class ClusterTextsJsonAdapter implements JsonDeserializer<Map< String, St
 
   private static final String PUNCTUATION = "punctuation";
 
+  private static final String MISC = "misc";
+
   @Override
   public Map<String, String> deserialize( JsonElement json, Type typeOfT, JsonDeserializationContext context ) throws JsonParseException
   {
@@ -27,6 +29,7 @@ public class ClusterTextsJsonAdapter implements JsonDeserializer<Map< String, St
     deserializeTexts( json, markupsToText, MORFOLOGICAL_ANALYSIS );
     deserializeTexts( json, markupsToText, MORFOSYNTACTIC_ANALYSIS );
     deserializeTexts( json, markupsToText, PUNCTUATION );
+    deserializeTexts( json, markupsToText, MISC );
     return markupsToText;
   }
 
