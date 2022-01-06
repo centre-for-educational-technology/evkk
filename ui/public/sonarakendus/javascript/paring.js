@@ -17,8 +17,39 @@ document.addEventListener(
 tekstideIDd = [];
 tekstidePealkirjad = [];
 
+let k2olymp = document.getElementById("cFqPphvYi");
+let k2taseme = document.getElementById("clWmOIrLa");
+let k2tuum = document.getElementById("cFOoRQekA");
+let k1eesti = document.getElementById("cYDRkpymb");
+let k1vene = document.getElementById("cgSRJPKTr");
+let k3vene = document.getElementById("cZjHWUPtD");
+let akadoppija = document.getElementById("cwUSEqQLt");
+//let eestitead = document.getElementById("cwUprXCTL");
+
 document.getElementById("backbutton").addEventListener("click", function() {
     location.reload();
+})
+
+document.getElementById("koikkorpused").addEventListener("click", function() {
+    if(document.getElementById("koikkorpused").checked) {
+        k2olymp.checked = true;
+        k2taseme.checked = true;
+        k2tuum.checked = true;
+        k1eesti.checked = true;
+        k1vene.checked = true;
+        k3vene.checked = true;
+        akadoppija.checked = true;
+        //eestitead.checked = true;
+    } else {
+        k2olymp.checked = false;
+        k2taseme.checked = false;
+        k2tuum.checked = false;
+        k1eesti.checked = false;
+        k1vene.checked = false;
+        k3vene.checked = false;
+        akadoppija.checked = false;
+        //eestitead.checked = false;
+    }
 })
 
 document.getElementById("type").addEventListener("click", function() {
@@ -112,16 +143,35 @@ document.getElementById("country").addEventListener("click", function() {
 });
 
 function submitted() {
-    document.querySelector("#cover-spin").style.display = "block";
-	freeze = true;
     values = [];
-    if(document.querySelector("#korpus").value != "koik") {
-        corpus = document.querySelector("#korpus").value;
-        values.push(corpus);
-    } else {
-        corpus = "NO";
-        values.push("NO");
+    korpusValues = '';
+
+    if(k2olymp.checked) {
+        korpusValues += 'cFqPphvYi,'
     }
+    if(k2taseme.checked) {
+        korpusValues += 'clWmOIrLa,'
+    }
+    if(k2tuum.checked) {
+        korpusValues += 'cFOoRQekA,'
+    }
+    if(k1eesti.checked) {
+        korpusValues += 'cYDRkpymb,'
+    }
+    if(k1vene.checked) {
+        korpusValues += 'cgSRJPKTr,'
+    }
+    if(k3vene.checked) {
+        korpusValues += 'cZjHWUPtD,'
+    }
+    if(akadoppija.checked) {
+        korpusValues += 'cwUSEqQLt,'
+    }
+    /* if(eestitead.checked) {
+        korpusValues += 'cwUprXCTL,'
+    } */
+    values.push(korpusValues);
+
     if(document.querySelector("#typeOn").checked) {
         type = document.querySelector("#type").value;
         values.push(type);
@@ -238,31 +288,40 @@ function submitted() {
         values.push("NO");
     }
 
-    $.ajax({
-        type: "POST",
-        url: "/api/texts/detailneparing",
-        data: JSON.stringify(values),
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        success: function(data) {
-            for(let i = 0; i < data.length; i++) {
-                tekstideIDd.push(data[i]["text_id"]);
-                if(data[i]["property_value"] == "") {
-                    tekstidePealkirjad.push("pealkiri puudub");
+    if(!k2olymp.checked && !k2taseme.checked && !k2tuum.checked && !k1eesti.checked && !k1vene.checked && !k3vene.checked && !akadoppija.checked) {
+        alert('Vali vähemalt üks korpus!');
+    } else {
+        document.querySelector("#cover-spin").style.display = "block";
+	    freeze = true;
+
+        $.ajax({
+            type: "POST",
+            url: "/api/texts/detailneparing",
+            data: JSON.stringify(values),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function(data) {
+                for(let i = 0; i < data.length; i++) {
+                    tekstideIDd.push(data[i]["text_id"]);
+                    if(data[i]["property_value"] == "") {
+                        tekstidePealkirjad.push("pealkiri puudub");
+                    } else {
+                        tekstidePealkirjad.push(data[i]["property_value"]);
+                    }
+                }
+                tekstideKuvamine();
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                if(textStatus == "parsererror") {
+                    alert("Ei leitud ühtegi teksti!");
+                    document.querySelector("#cover-spin").style.display = "none";
+		            freeze = false;
                 } else {
-                    tekstidePealkirjad.push(data[i]["property_value"]);
+                    alert(XMLHttpRequest + "\n" + textStatus + "\n" + errorThrown);
                 }
             }
-            tekstideKuvamine();
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(textStatus == "parsererror") {
-                alert("Ei leitud ühtegi teksti!");
-            } else {
-                alert(XMLHttpRequest + "\n" + textStatus + "\n" + errorThrown);
-            }
-        }
-    });
+        });
+    }
 }
 
     function tekstideKuvamine() {
@@ -312,7 +371,7 @@ function submitted() {
         document.querySelector("#tabel").innerHTML = puhver.join(' ');
         document.querySelector("#vorm").style.display = "none";
         document.querySelector("#texts").style.display = "block";
-        document.querySelector("#textAmount").innerHTML = "Leiti " + puhver.length + " teksti.";
+        document.querySelector("#textAmount").textContent = "Leiti " + puhver.length + " teksti.";
         document.querySelector("#cover-spin").style.display = "none";
 		freeze = false;
     }
