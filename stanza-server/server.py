@@ -1,12 +1,14 @@
 import stanza
 import sys
 import json
+import os
 from flask import Flask
 from flask import request
 from flask import Response
 import jamspell
 import gdown
 
+from tasemehindaja import arvuta
 
 stanza.download('et')
 app = Flask(__name__)
@@ -49,6 +51,8 @@ def laused():
 
 @app.route('/sonad', methods=['POST'])
 def sonad():
+    return Response(json.dumps(["proov"]), mimetype="application/json")
+#    return Response(json.dumps(arvuta(request.json["tekst"])), mimetype="application/json")
     nlp = stanza.Pipeline(lang='et', processors='tokenize,pos')
     doc = nlp(request.json["tekst"])
     v1 = []
@@ -64,5 +68,14 @@ def korrektuur():
     print(correction)
     response=Response(json.dumps([correction, request.json["tekst"]]), mimetype="application/json")
     return response
+    
+@app.route('/keeletase', methods=['POST'])
+def keeletase():
+    #return Response(json.dumps(arvuta("Juku tuli kooli ja oli üllatavalt rõõmsas tujus")), mimetype="application/json")
+    return Response(json.dumps(arvuta(request.json["tekst"])), mimetype="application/json")
+
+@app.route('/tervitus', methods=['GET'])
+def tervitus():
+     return "abc "+__file__+" "+os.getcwd()
 
 app.run(host="0.0.0.0")

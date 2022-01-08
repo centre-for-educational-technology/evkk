@@ -55,8 +55,10 @@ public class TextController {
 
   @PostMapping("/sonad")
   public ResponseEntity<List<String>> sonad(@RequestBody LemmadRequestEntity request) {
-    String[] sonad = stanzaClient.getSonad(request.getTekst());
-    List<String> body = Arrays.asList(sonad);
+   // return ResponseEntity.ok(new ArrayList(Arrays.asList(new String[]{"aa", "ab"})));
+//   String[] sonad = stanzaClient.getSonad(request.getTekst());
+   String[] sonad = stanzaClient.getSonad(request.getTekst());
+   List<String> body = Arrays.asList(sonad);
     return ResponseEntity.ok(body);
   }
 
@@ -67,6 +69,7 @@ public class TextController {
     return ResponseEntity.ok(body);
   }
 
+<<<<<<< HEAD
   @PostMapping("/korrektuur")
   public ResponseEntity<List<String>> korrektuur(@RequestBody LemmadRequestEntity request) throws Exception {
     String[] vastus = stanzaClient.getKorrektuur(request.getTekst());
@@ -75,6 +78,20 @@ public class TextController {
   }
 
 
+=======
+  @PostMapping("/keeletase")
+  public ResponseEntity<List<String[]>> keeletase(@RequestBody LemmadRequestEntity request) throws Exception {
+   // String[] sonad = stanzaClient.getLemmad(request.getTekst());
+    String[][] tasemed = stanzaClient.getKeeletase(request.getTekst());
+List<String[]> body = Arrays.asList(tasemed);
+//List<String> body = Arrays.asList(sonad);
+return ResponseEntity.ok(body);
+  }
+
+
+
+
+>>>>>>> jaagup20211202
   @PostMapping("/detailneparing")
     public String detailneparing(@RequestBody String[] vaartused) {
         String[] parameetrid = {"korpus", "tekstityyp", "tekstikeel", "keeletase", "abivahendid", "emakeel", "sugu", "haridus", "aasta", "vanus", "elukoht"};
