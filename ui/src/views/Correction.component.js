@@ -3,7 +3,8 @@ import React, {Component} from 'react';
 class Correction extends Component {
   constructor(props){
     super(props);
-    this.state={alasisu:"Juku tuli kohlist koju", tasemevastus:["", ""], vastuskood:""};
+    this.state={alasisu:"Juku tuli kohlist koju", tasemevastus:["", ""], 
+      vastuskood:"", vastusnahtav: false, muutuskood:""};
     this.alaMuutus=this.alaMuutus.bind(this);
     this.ala1=React.createRef();
     this.kysi3=this.kysi3.bind(this);
@@ -49,17 +50,22 @@ class Correction extends Component {
      let vm=t[0].split(" ");
      let vastustekst=[];
      let sisutekst="";
+     let muutused=[];
      for(let i=0; i<vm.length; i++){
          if(sm[i]===vm[i]){
              vastustekst[i]=<span key={"s"+i}>{vm[i]+" "}</span>;
          } else {
              const algus=sisutekst.length;
-             const sisu=sm[i];             
+             const sisu=sm[i];     
+             muutused[i]=<span key={"sm"+i}>
+                <span onClick={() =>this.margi(algus, sisu)} style={{'backgroundColor': 'lightpink'}}>{sm[i]}</span> - <span>{vm[i]}</span><br />
+             </span>        
              vastustekst[i]=<span  key={"s"+i}><span title={sm[i]}
              onClick={() =>this.margi(algus, sisu)} style={{'backgroundColor': 'lightgray'}}>{vm[i]}</span><span> </span></span>;
          }
          sisutekst+=sm[i]+" ";
      }
+     this.setState({"muutuskood": <div>{muutused}</div>})
      this.setState({"vastuskood": <div>{vastustekst}</div>})
 
    })
@@ -71,7 +77,8 @@ class Correction extends Component {
         <h2  onClick={this.kysi3}>Korrektuur</h2>
         <p/>
         <div style={{'float':'left', 'margin':'10px'}}><textarea ref={(e) => this.ala1=e} onChange={(event) =>this.alaMuutus(event)} rows="15" cols="60" value={this.state.alasisu} /></div>
-           <div style={{'float':'left', 'margin':'10px', 'width': '40%'}}>{this.state.tasemevastus?this.state.vastuskood:"algus"}</div>
+           <div style={{'float':'left', 'margin':'10px', 'width': '40%'}}>{this.state.muutuskood}<br />
+             <button  onClick={() =>this.setState((state, props) => {return {vastusnahtav: !state.vastusnahtav}})}> {this.state.vastusnahtav?"Peida tekst":"Näita tekst"} </button>{ this.state.vastusnahtav && <span>{this.state.tasemevastus?this.state.vastuskood:"algus"}</span>}</div>
  
          
       </div>
