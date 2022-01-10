@@ -7,6 +7,7 @@ from flask import request
 from flask import Response
 import jamspell
 import gdown
+import re
 
 from tasemehindaja import arvuta
 
@@ -24,6 +25,7 @@ if not exists(path):
 print(os.getcwd())
 print(os.listdir("app"))
 print(corrector.LoadLangModel(path))
+asendused=[rida.strip().split(",") for rida in open("/app/word_mapping.csv").readlines()]
 print("laetud")
 
 
@@ -64,7 +66,9 @@ def sonad():
 
 @app.route('/korrektuur', methods=['POST'])
 def korrektuur():
-    correction = corrector.FixFragment(request.json["tekst"])
+    t=request.json["tekst"]
+
+    correction = corrector.FixFragment(t)
     print(correction)
     response=Response(json.dumps([correction, request.json["tekst"]]), mimetype="application/json")
     return response
@@ -78,4 +82,10 @@ def keeletase():
 def tervitus():
      return "abc "+__file__+" "+os.getcwd()
 
+def asenda(t):
+    #re.sub("([,-?!\"' \\(\\)])(kollane)([,-?!\"' \\(\\)])", "\\1sinine\\3", "suur kollane. kala")
+    for a in asendused:
+        t=re.sub("([,-?!\"' ()])("+a[0]+")([,-?!\"' ()])", "\\1"+a[1]+"\\3", t)
+        t=re.sub("([,-?!\"' ()])("+a[0]+")([,-?!\"' ()])", "\\1"+a[1]+"\\3", t)
+    return t
 app.run(host="0.0.0.0")

@@ -29,7 +29,6 @@ class Routes extends Component {
           <Route path="/correction" component={Correction}/>
           <Route path="/login" component={Login}/>
           <Route path="/files" component={Files}/>
-          <Route path="/jaagup_2021_11" component={Jaagup_2021}/>
           <Route path="/tools/minitorn-pikkus" component={MinitornPikkus}/>
           <Route path="/tools/masinoppe-ennustus" component={MasinoppeEnnustus}/>
           <Route path="/tools/clusterfinder" component={ClusterFinder}/>

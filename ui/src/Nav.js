@@ -20,7 +20,7 @@ class Nav extends Component {
     } else {
       return (
         <li className="nav-item dropdown">
-          <a className="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+          <a className="nav-link dropdown-toggle" href="?" role="button" data-toggle="dropdown">
             {this.props.status.loggedInEmailAddress}
           </a>
           <div className="dropdown-menu">
@@ -57,9 +57,6 @@ class Nav extends Component {
               <li className="nav-item">
                 <Link to="/resource" className={'nav-link'}>Ressurss</Link>
               </li>
-              <li className="nav-item">
-                <Link to="/jaagup_2021_11" className={'nav-link'}>Jaagup_2021</Link>
-              </li>
 			  <li className="nav-item">
                 <a className="nav-link" href="/sonarakendus/paring.html" rel="noopener noreferrer" target="_blank">Päring</a>
               </li>
@@ -74,11 +71,11 @@ class Nav extends Component {
               </li>
               */}
               <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                <a className="nav-link dropdown-toggle" href="?" role="button" data-toggle="dropdown">
                   Tööriistad
                 </a>
                 <div className="dropdown-menu">
-                  <a className="dropdown-item" href="http://minitorn.tlu.ee/~jaagup/oma/too/20/09/tasemed2.php" rel="noopener noreferrer" target="_blank">Tekstihindaja</a>
+                  <a className="dropdown-item" href="/correction" rel="noopener noreferrer" target="_blank">Tekstihindaja</a>
                   <a className="dropdown-item" href="/sonarakendus/home.html" rel="noopener noreferrer" target="_blank">Sõnasagedus & kontekst</a>
                   {/*<a className="dropdown-item" href="/tools/clusterfinder" rel="noopener noreferrer">Keelemustrite leidja</a>*/}
                   {/*<Link to="/tools/masinoppe-ennustus" className={'dropdown-item'}>Masinõppe ennustus</Link>*/}

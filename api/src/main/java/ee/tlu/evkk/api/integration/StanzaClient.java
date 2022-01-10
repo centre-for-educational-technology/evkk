@@ -39,15 +39,13 @@ public class StanzaClient {
     return forEntity.getBody();
   }
 
-<<<<<<< HEAD
   public String[] getKorrektuur(String tekst) {
     Map<String, String> map = Map.of("tekst", tekst);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
     ResponseEntity<String[]> forEntity = rest.postForEntity("/korrektuur", requestEntity, String[].class);
     return forEntity.getBody();
   }
-
-=======
+ 
   public String[][] getKeeletase(String tekst) {
     Map<String, String> map = Map.of("tekst", tekst);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
@@ -56,5 +54,4 @@ public class StanzaClient {
   }
 
 
->>>>>>> jaagup20211202
 }

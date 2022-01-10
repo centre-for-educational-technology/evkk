@@ -118,7 +118,7 @@ def arvuta(inputText):
     #input.close()
     if len(inputText) < 15:
         #print("Tekst on liiga lühike.")
-        return ["Tekst on liiga lühike"]
+        return []
         exit()
     doc = nlp(inputText)
     analysis = "\n".join(
