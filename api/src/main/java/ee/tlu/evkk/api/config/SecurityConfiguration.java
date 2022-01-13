@@ -50,6 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .mvcMatchers(HttpMethod.POST, "/tools/minitorn-pikkus").permitAll()
       .mvcMatchers(HttpMethod.POST, "/tools/masinoppe-ennustus").permitAll()
       .mvcMatchers("/texts/**").permitAll()
+      .mvcMatchers("/textfromfile/**").permitAll()
       .mvcMatchers("/integration/**").permitAll()
       .anyRequest().authenticated().and()
       .formLogin().successHandler(successHandler()).and()

@@ -24,4 +24,13 @@ dependencies {
   implementation "org.apache.tika:tika-core:1.24.1"
   implementation "com.google.guava:guava:29.0-jre"
 
+  // Text extraction libraries and their dependencies
+  implementation "org.apache.pdfbox:pdfbox:2.0.1"
+
+  implementation "org.apache.poi:poi-scratchpad:5.1.0"
+  implementation "org.apache.poi:poi-ooxml:5.1.0"
+  implementation "org.apache.poi:poi:5.1.0"
+
+  implementation "org.apache.tika:tika-parsers:1.11"
+
 }

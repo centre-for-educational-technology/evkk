@@ -36,26 +36,14 @@
 			<hr>
 			<br>
 			<!-- <h2>Lae üles üks või mitu faili:</h2> -->
-			<input type="file" id="file-id" style="display: none;" multiple onchange="checkFileExtension()"/>
-			<input type="button" class="buttonFail" value="Vali tekst(id)" onclick="document.getElementById('file-id').click();" />
-				<input type="file" accept=".txt,.pdf,.docx,.doc,.odt" id="file-id" class="button" name="file_name" style="visibility:hidden;" multiple onchange="checkFileExtension()" />
-			<br>
-			<!-- <form>
-				<label for="fileDelete">Vali fail mida eemaldada:</label>
-				<select name="fileDelete" id="fileDelete">
-					<option value="fail">fail</option>
-				</select>
+			<form enctype="multipart/form-data" method="post" name="fileinfo">
+				<input type="file" name="file" id="file-id" style="display: none;" class="button" multiple required />
+				<!-- accept=".txt,.pdf,.docx,.doc,.odt" -->
+				<input type="button" value="Vali tekst(id)" class="buttonFail" onclick="document.getElementById('file-id').click();" />
+				<p>Lubatud faililaiendid: .pdf, .doc, .docx, .odt, .txt</p>
+				<input type="submit" id="letsgo" value="Salvesta ja jätka" class="button3" />
 			</form>
-			<button id="delete" class="button" onclick="deleteText()">delete</button> -->
 			<div id="output"></div>
-			<div id="outputDiv">
-				<!-- <p>Lubatud faililaiendid: .pdf, .doc, .docx, .odt, .txt</p> -->
-				<p>Korraga lae üles ühte tüüpi faile: .pdf, .doc, .docx, .odt, .txt</p>
-				<!-- <p>Korraga tohib üles laadida ainult ühte tüüpi faile!</p> -->
-			</div>
-			<a href="filter.html"> 
-				<button id="letsgo" class="button3" onclick="passToLocalStr() ">Salvesta ja jätka</button>
-			</a>
 			<hr>
 		</div>
 		<div id="item2" class="grid_item item2">
