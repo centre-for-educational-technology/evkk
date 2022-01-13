@@ -85,8 +85,10 @@ public class MimeTypeDetector {
   }
 
   private MimeType detectFromTika(InputStream is, String name) throws IOException {
+    if (1 == 1) return null;
+
     Metadata metadata = new Metadata();
-    metadata.set(Metadata.RESOURCE_NAME_KEY, name);
+    // metadata.set(Metadata.RESOURCE_NAME_KEY, name); //TODO:
 
     MediaType detect;
     try (TikaInputStream tis = TikaInputStream.get(is)) {
