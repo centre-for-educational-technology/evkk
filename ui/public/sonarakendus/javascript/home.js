@@ -21,7 +21,8 @@ salvesta_tekst.addEventListener("click", function () {
 	} else {
 		document.querySelector("#cover-spin").style.display = "block";
 		freeze = true;
-		koguTekst = sisesta_tekst.value.replaceAll("\n", " ").replaceAll('"', "'");
+		var regex = new RegExp("[^a-zA-ZõäöüÕÄÖÜ ;:,.!?/-/'/%&()=]", "gi");
+		koguTekst = sisesta_tekst.value.replaceAll(regex, " ").replaceAll('\n', " ").replaceAll('"', "'");
 		$.ajax({
 			type: "POST",
 			url: "/api/texts/laused",
@@ -42,9 +43,22 @@ salvesta_tekst.addEventListener("click", function () {
 });
 
 var form = document.forms.namedItem("fileinfo");
+
+function readFileNames() {
+	var fileNameData = document.querySelector("#output");
+	var fData = new FormData(form);
+	
+	fileNameData.innerHTML = "<b>Valitud failid:</b>" + '<br>';
+	for ([key, value] of fData.entries()) {
+		fileNameData.innerHTML += value.name + '<br>';
+	}
+}
+
 form.addEventListener('submit', function(ev) {
 
 	ev.preventDefault();
+	document.querySelector("#cover-spin").style.display = "block";
+	freeze = true;
 	var oData = new FormData(form);
 	//console.log(...oData);
 
@@ -57,7 +71,24 @@ form.addEventListener('submit', function(ev) {
 		contentType: false,
 		cache: false,
 		success: function (data) {
-			console.log("SUCCESS: ", data);
+			var regex = new RegExp("[^a-zA-ZõäöüÕÄÖÜ ;:,.!?/-/'/%&()=]", "gi");
+			allFormatText = data.replaceAll(regex, " ").replaceAll('\n', " ").replaceAll('"', "'");
+			localStorage.setItem("sonad", allFormatText);
+			localStorage.setItem("paritolu", "FILEUPLOAD");
+			$.ajax({
+				type: "POST",
+				url: "/api/texts/laused",
+				dataType: "json",
+				contentType: "application/json; charset=utf-8",
+				data: '{"tekst": "' + allFormatText + '"}',
+				success: function(data) {
+					localStorage.setItem("laused", data);
+					window.location = "filter.html";
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					alert(textStatus + "\n" + errorThrown);
+				}
+			});
 		},
 		error: function (e) {
 			console.log("ERROR: ", e);
@@ -65,24 +96,3 @@ form.addEventListener('submit', function(ev) {
 		}
 	});
 }, false);
-
-function passToLocalStr() {
-	console.log($('#fileupload'));
-	allFormatText = allFormatText.join(" ").replaceAll('\n', " ").replaceAll('"', "'");
-	console.log(allFormatText);
-	localStorage.setItem("sonad", allFormatText);
-	$.ajax({
-		type: "POST",
-		url: "/api/texts/laused",
-		dataType: "json",
-        contentType: "application/json; charset=utf-8",
-		data: '{"tekst": "' + allFormatText + '"}',
-		success: function(data) {
-			localStorage.setItem("laused", data);
-		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) { 
-			alert(textStatus + "\n" + errorThrown);
-		}
-	});
-	localStorage.setItem("paritolu", "FILEUPLOAD");
-}

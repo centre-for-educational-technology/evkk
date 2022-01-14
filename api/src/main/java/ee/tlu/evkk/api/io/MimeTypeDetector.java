@@ -41,6 +41,7 @@ public class MimeTypeDetector {
     extensionTypeMap.put("html", MimeType.valueOf("text/html"));
     extensionTypeMap.put("pdf", MimeType.valueOf("application/pdf"));
     extensionTypeMap.put("rtf", MimeType.valueOf("application/rtf"));
+    extensionTypeMap.put("odt", MimeType.valueOf("application/vnd.oasis.opendocument.text"));
     EXTENSION_TYPE_MAP = Collections.unmodifiableMap(extensionTypeMap);
   }
 
