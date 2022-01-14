@@ -77,7 +77,7 @@ let haridused = {
 
 let elukohad = "idaviru,tallinn,tartu";
 
-pealkiri.innerHTML = localStorage.getItem("tekstipealkiri");
+pealkiri.textContent = localStorage.getItem("tekstipealkiri");
 sisu.innerHTML = localStorage.getItem("kuvatavtekst").replace(/\\n/g, '<br>');
 
 let raw_metainfo = JSON.parse(localStorage.getItem("raw-metainfo"));
@@ -92,84 +92,84 @@ raw_metainfo.forEach(element => {
     parameeter = element.property_name;
     vaartus = element.property_value;
     if(parameeter == 'korpus') {
-        korpus.innerHTML = korpused[vaartus];
+        korpus.textContent = korpused[vaartus];
     } else if(parameeter == 'tekstityyp') {
         if(liigid[vaartus] == undefined) {
-            tekstiliik.innerHTML = 'tundmatu teksti liik';
+            tekstiliik.textContent = 'tundmatu teksti liik';
         } else {
-            tekstiliik.innerHTML = liigid[vaartus];
+            tekstiliik.textContent = liigid[vaartus];
         }
     } else if(parameeter == 'tekstikeel') {
-        tekstikeel.innerHTML = vaartus;
+        tekstikeel.textContent = vaartus;
     } else if(parameeter == 'keeletase') {
-        tekstitase.innerHTML = vaartus;
+        tekstitase.textContent = vaartus;
     } else if(parameeter == 'abivahendid') {
-        oppematerjalid.innerHTML = vaartus;
+        oppematerjalid.textContent = vaartus;
     } else if(parameeter == 'aasta') {
-        lisamiseaasta.innerHTML = vaartus;
+        lisamiseaasta.textContent = vaartus;
     } else if(parameeter == 'vanus') {
         if(vanused[vaartus] == undefined) {
             if(vaartus <= 18) {
-                vanus.innerHTML = vanused['kuni18'];
+                vanus.textContent = vanused['kuni18'];
             } else if(vaartus > 18 && vaartus < 27) {
-                vanus.innerHTML = vanused['kuni26'];
+                vanus.textContent = vanused['kuni26'];
             } else if(vaartus > 26 && vaartus < 41) {
-                vanus.innerHTML = vanused['kuni40'];
+                vanus.textContent = vanused['kuni40'];
             } else if(vaartus > 40) {
-                vanus.innerHTML = vanused['41plus'];
+                vanus.textContent = vanused['41plus'];
             }
         } else {
-            vanus.innerHTML = vanused[vaartus];
+            vanus.textContent = vanused[vaartus];
         } 
     } else if(parameeter == 'sugu') {
-        sugu.innerHTML = sood[vaartus];
+        sugu.textContent = sood[vaartus];
     } else if(parameeter == 'haridus') {
-        haridus.innerHTML = haridused[vaartus];
+        haridus.textContent = haridused[vaartus];
     } else if(parameeter == 'emakeel') {
-        emakeel.innerHTML = vaartus;
+        emakeel.textContent = vaartus;
     } else if(parameeter == 'elukoht') {
         if(riikOlemas != '') {
             suurtaht = riikOlemas.charAt(0).toUpperCase();
             loplikriik = suurtaht + riikOlemas.slice(1);
-            elukohariik.innerHTML = loplikriik;
+            elukohariik.textContent = loplikriik;
         } else {
             if(elukohad.includes(vaartus)) {
-                elukohariik.innerHTML = 'Eesti';
+                elukohariik.textContent = 'Eesti';
             } else {
                 suurtaht = vaartus.charAt(0).toUpperCase();
                 loplikriik = suurtaht + vaartus.slice(1);
-                elukohariik.innerHTML = loplikriik;
+                elukohariik.textContent = loplikriik;
             }
         }
     }
 });
 
-if(tekstiliik.innerHTML == '') {
-    tekstiliik.innerHTML = '-';
+if(tekstiliik.textContent == '') {
+    tekstiliik.textContent = '-';
 }
-if(lisamiseaasta.innerHTML == '') {
-    lisamiseaasta.innerHTML = "-";
+if(lisamiseaasta.textContent == '') {
+    lisamiseaasta.textContent = "-";
 }
-if(emakeel.innerHTML == '') {
-    emakeel.innerHTML = '-';
+if(emakeel.textContent == '') {
+    emakeel.textContent = '-';
 }
-if(tekstitase.innerHTML == '') {
-    tekstitase.innerHTML = '-';
+if(tekstitase.textContent == '') {
+    tekstitase.textContent = '-';
 }
-if(oppematerjalid.innerHTML == '') {
-    oppematerjalid.innerHTML = '-';
+if(oppematerjalid.textContent == '') {
+    oppematerjalid.textContent = '-';
 }
-if(vanus.innerHTML == '') {
-    vanus.innerHTML = '-';
+if(vanus.textContent == '') {
+    vanus.textContent = '-';
 }
-if(sugu.innerHTML == '') {
-    sugu.innerHTML = '-';
+if(sugu.textContent == '') {
+    sugu.textContent = '-';
 }
-if(haridus.innerHTML == '') {
-    haridus.innerHTML = '-';
+if(haridus.textContent == '') {
+    haridus.textContent = '-';
 }
-if(elukohariik.innerHTML == '') {
-    elukohariik.innerHTML = '-';
+if(elukohariik.textContent == '') {
+    elukohariik.textContent = '-';
 }
 
 function sulge() {

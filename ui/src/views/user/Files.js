@@ -18,7 +18,7 @@ class Files extends Component {
 
   handleOnDrop = async (files) => {
     if (files.length === 0) return;
-    const response = await this.props.postUserFile(files);
+    //const response = await this.props.postUserFile(files);
     this.props.getUserFiles();
   };
 
