@@ -60,7 +60,6 @@ public class ClusterSearchFormValidator
      *    <li>morfological</li>
      *    <li>morfological + punctuation</li>
      *    <li>syntactic</li>
-     *    <li>syntactic + punctuation</li>
      *    <li>syntactic + morfological</li>
      *    <li>syntactic + morfological + punctuation</li>
      *    <li>wordtype</li>
@@ -86,7 +85,12 @@ public class ClusterSearchFormValidator
         errors.addError( "Invalid analysis combination selected", "analysisType" );
       }
 
-      if ( punctuation && !syntactical && !morfological && !morfosyntactic && !wordtype )
+      if ( syntactical && punctuation )
+      {
+        errors.addError( "Invalid analysis combination selected", "analysisType" );
+      }
+
+      if ( punctuation && !morfological && !morfosyntactic && !wordtype )
       {
         errors.addError( "Invalid analysis combination selected", "analysisType" );
       }

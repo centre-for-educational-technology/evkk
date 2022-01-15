@@ -277,6 +277,12 @@
           }
         });
 
+        $("#syntacticAnalysis").change(function() {
+          if (!$("#morfoAnalysis").is(":checked")) {
+            $("#punctuationAnalysis").prop("checked", false);
+          }
+        });
+
         $("#wordtypeAnalysis").change(ClusterSearchForm.handleWordTypeAnalysisChange);
 
         $("#submitBtn").click(ClusterSearchForm.ajax.clusterText);
@@ -552,7 +558,6 @@
               }
             });
           }
-
         },
 
         showResults: function(data, separator) {
