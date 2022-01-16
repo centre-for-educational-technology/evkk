@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="et">
   <head>
-    <title>Clusterfinder</title>
+    <title>Klastrileidja</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -62,10 +62,6 @@
       .w-separation {
         margin-top: 10px;
         margin-bottom: 10px;
-      }
-
-      .label-w-top-margin {
-        margin-top: 15px;
       }
 
       .large-spinner {
@@ -280,6 +276,12 @@
         $("#syntacticAnalysis").change(function() {
           if (!$("#morfoAnalysis").is(":checked")) {
             $("#punctuationAnalysis").prop("checked", false);
+          }
+        });
+
+        $("#punctuationAnalysis").change(function() {
+          if ($("#syntacticAnalysis").is(":checked") && !$("#morfoAnalysis").is(":checked")) {
+            $("#syntacticAnalysis").prop("checked", false);
           }
         });
 
@@ -533,6 +535,7 @@
           // Only execute the search when the form is valid
           if (ClusterSearchForm.CLUSTER_SEARCH_FORM.valid()) {
             const data = $("#cluster-form").serializeArray();
+            data.push({ name: "partialFilters", value: ClusterSearchForm.helpers.hasPartialFilters() })
 
             $.ajax({
               method: "POST",
@@ -562,13 +565,12 @@
 
         showResults: function(data, separator) {
           const clusters = [];
-          for ( let i = 0; i < data.length; i++)
-          {
+          for (let i = 0; i < data.length; i++) {
             const cluster = {
               frequency: data[i].frequency,
               description: data[i].descriptions.join(" + "),
-              markups: data[i].markups.map(ClusterSearchForm.util.escapeValueAndReplace).join(separator),
-              usages: data[i].usages.join(", ")
+              markups: data[i].markups.map(ClusterSearchForm.util.escapeValueAndReplace).join(separator + "<br>"),
+              usages: data[i].usages.join("," + "<br>")
             };
 
             clusters.push(cluster);
@@ -659,7 +661,7 @@
           $("#sortByFreq").prop("checked", true).change();
         },
 
-        hideAndResetDropdowns: function () {
+        hideAndResetDropdowns: function() {
           // Word type
           $("#wordTypeSelectContainer").hide();
           $("#wordTypeDropdown").val("ALL").trigger("change");
@@ -669,13 +671,35 @@
           $("#clauseTypeDropdown").val("ALL").trigger("change");
         },
 
-        resetAndHideWordTypeAdditionalOptions: function (additionalsSelector) {
+        resetAndHideWordTypeAdditionalOptions: function(additionalsSelector) {
           $(additionalsSelector).find("input[type='checkbox']").prop("checked", false);
           $(additionalsSelector).hide();
         },
 
-        resetWordTypeAnalysis: function () {
+        resetWordTypeAnalysis: function() {
           $("#wordtypeAnalysis").prop("checked", false);
+        },
+
+        hasPartialFilters: function() {
+          const isMorfo = $("#morfoAnalysis").is(":checked");
+          const isSyntactic = $("#syntacticAnalysis").is(":checked");
+          const isMorfoSyntatctic = isMorfo && isSyntactic;
+
+          if (isMorfoSyntatctic || isMorfo) {
+            const selectedWordType = $("#wordTypeDropdown").val();
+            return ClusterSearchForm.helpers.hasPartialWordTypeFilters(selectedWordType);
+          }
+
+          return false;
+        },
+
+        hasPartialWordTypeFilters: function(wordType) {
+          if (wordType === "ALL") {
+            return false;
+          }
+
+          const wordTypeCheckboxes = $("div.additionals-container[data-group='"+ wordType + "']").find("input[type='checkbox']:visible:not(:disabled)");
+          return ClusterSearchForm.util.hasPartialFilters(wordTypeCheckboxes);
         }
       },
 
@@ -685,6 +709,27 @@
                   .replace(/</g, "&lt;")
                   .replace(/>/g, "&gt;")
                   .replace(/_/g, "");
+        },
+
+        hasPartialFilters: function(checkboxes) {
+          let hasPartialFilters = false;
+          const groupNames = [];
+
+          checkboxes.each(function() {
+            let groupName = $(this).attr("name");
+            if ($.inArray(groupName, groupNames) === -1) {
+              groupNames.push(groupName);
+            }
+          });
+
+          $.each(groupNames, function(index, name) {
+            if (checkboxes.filter("[name='" + name + "']:checked").length === 0) {
+              hasPartialFilters = true;
+              return false;
+            }
+          });
+
+          return hasPartialFilters;
         }
       }
     };

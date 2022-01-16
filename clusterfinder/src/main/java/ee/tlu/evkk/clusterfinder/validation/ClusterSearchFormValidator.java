@@ -85,7 +85,7 @@ public class ClusterSearchFormValidator
         errors.addError( "Invalid analysis combination selected", "analysisType" );
       }
 
-      if ( syntactical && punctuation )
+      if ( syntactical && punctuation && !morfological )
       {
         errors.addError( "Invalid analysis combination selected", "analysisType" );
       }

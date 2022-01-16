@@ -1,6 +1,5 @@
 package ee.tlu.evkk.clusterfinder.filters.wordspecific;
 
-import ee.tlu.evkk.clusterfinder.constants.FilteringConstants;
 import ee.tlu.evkk.clusterfinder.constants.WordType;
 import ee.tlu.evkk.clusterfinder.filters.util.FilteringUtil;
 import org.apache.commons.lang3.StringUtils;
