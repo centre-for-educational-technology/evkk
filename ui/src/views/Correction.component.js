@@ -3,15 +3,20 @@ import React, {Component} from 'react';
 class Correction extends Component {
   constructor(props){
     super(props);
-    this.state={alasisu:"Juku tuli kohlist koju", tasemevastus:["", ""], 
+    this.state={alasisu:"", tasemevastus:[], 
       tasemetekst:"",
       korrektorivastus:["", ""],
       vastuskood:"", vastusnahtav: false, muutuskood:"", 
-      taselisa:false, avatudkaart:"korrektuur"};
+      taselisa:false, avatudkaart:"korrektuur", kordab: false};
     this.alaMuutus=this.alaMuutus.bind(this);
     this.ala1=React.createRef();
     this.kysi3=this.kysi3.bind(this);
     this.korda=this.korda.bind(this);
+  }
+
+  kordama(){
+    this.setState({kordab: true});
+    this.korda();
     setInterval(this.korda, 3000);
   }
 
@@ -64,12 +69,12 @@ kysi4= () => {
 
   korrektuuriVajutus= () =>{
     this.setState({avatudkaart:"korrektuur"})
-     this.kysi3();
+      if(this.state.kordab){this.kysi3();}
   }
 
   hindajaVajutus=()=>{
     this.setState({avatudkaart:"hindamine"})
-    this.kysi4();
+    if(this.state.kordab){this.kysi4();}
   }
 
   kysi3= () => {
@@ -106,7 +111,7 @@ kysi4= () => {
          }
          sisutekst+=sm[i]+" ";
      }
-     this.setState({"muutuskood": <div>{muutused.length>0 ? muutused : "parandused puuduvad"}</div>})
+     this.setState({"muutuskood": <div>{muutused.length>0 ? muutused : "parandused puuduvad!"}</div>})
      this.setState({"vastuskood": <div>{vastustekst}</div>})
 
    })
@@ -132,7 +137,7 @@ kysi4= () => {
   }
 
   renderTase(){
-    return <span>{this.state.tasemevastus.length>0 ? <div style={{float: 'left', width:'40%'}}>
+    return <span>{this.state.kordab ? <span>{this.state.alasisu.length>0 ? (this.state.tasemevastus.length>0 ? <div style={{float: 'left', width:'40%'}}>
     <h1>{this.state.tasemevastus[0][1]}  {(this.state.tasemevastus[0][0]*100).toFixed(0)}%</h1>
     Muude tasemete tõenäosus: <br />
     <ul>
@@ -142,7 +147,7 @@ kysi4= () => {
   </ul>
 
     {this.renderTasemed()}
-  </div>: <div>Tekst liiga lühike</div>}</span>
+  </div>: <div>Tekst liiga lühike</div>) : "tekst puudub"}</span> : "" }</span>
   }
 
   render() {
@@ -150,18 +155,28 @@ kysi4= () => {
       <div className={'container'}>
         
         <p/>
-        <div style={{'float':'left', 'margin':'10px'}}><textarea ref={(e) => this.ala1=e} onChange={(event) =>this.alaMuutus(event)} rows="15" cols="60" value={this.state.alasisu} /></div>
+        <div style={{'float':'left', 'margin':'10px'}}><textarea ref={(e) => this.ala1=e} onChange={(event) =>this.alaMuutus(event)} rows="15" cols="60" value={this.state.alasisu} 
+          placeholder={"Kopeeri või kirjuta siia analüüsitav tekst"}/><br />
+          <div style={{width:"300px"}}>Rakenduse abil saad parandada oma teksti õigekirja ja vaadata, 
+          mis keeleoskustasemele see vastab (A2–C1). 
+          Loe lähemalt  <a href={"http://minitorn.tlu.ee/~jaagup/oma/too/20/09/tasemed2.php"}>siit</a>.</div>
+          </div>
            <div style={{'float':'left', 'margin':'10px', 'width': '40%'}}>
            <span  onClick={() => this.korrektuuriVajutus()}
-           style={this.state.avatudkaart==="korrektuur" ? {fontWeight: "bold"}: {}}>Korrektuur</span>
+           style={this.state.avatudkaart==="korrektuur" ? {fontWeight: "bold"}: {}}>Eksimused</span>
            {this.state.alasisu!==this.state.korrektorivastus[1] && <span>...</span>}
         &nbsp; <span  onClick={() => this.hindajaVajutus()} 
-           style={this.state.avatudkaart==="hindamine" ? {fontWeight: "bold"}: {}}>Hindaja</span>
+           style={this.state.avatudkaart==="hindamine" ? {fontWeight: "bold"}: {}}>Tasemehinnang</span>
            {this.state.alasisu!==this.state.tasemetekst && <span>...</span>}
-<br />             
+<br />
+  {!this.state.kordab && <button onClick={() => this.kordama()}>Analüüsi</button>}             
+<br />
          {this.state.avatudkaart==="korrektuur" && <span>
              {this.state.muutuskood}<br />
-             <button  onClick={() =>this.setState((state, props) => {return {vastusnahtav: !state.vastusnahtav}})}> {this.state.vastusnahtav?"Peida tekst":"Näita teksti"} </button>{ this.state.vastusnahtav && <span>{this.state.tasemevastus?this.state.vastuskood:"algus"}</span>}
+              { (this.state.alasisu.length>0  )? <span>{ (this.state.kordab) && 
+                <button  onClick={() =>this.setState((state, props) => {return {vastusnahtav: !state.vastusnahtav}})}> {this.state.vastusnahtav?"Peida tekst":"Näita teksti"} </button>
+                }</span> : "tekst puudub"}
+            { this.state.vastusnahtav && <span>{this.state.tasemevastus?this.state.vastuskood:"algus"}</span>}
              </span>}
          {this.state.avatudkaart==="hindamine" && <span>{this.renderTase()}</span>}
 

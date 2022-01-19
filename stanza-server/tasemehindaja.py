@@ -116,7 +116,7 @@ def arvuta(inputText):
     #inputText=sys.argv[1]
     inputText = re.sub('[^0-9a-zA-ZõäöüšžÕÄÖÜŠŽ\\.\\?\\! \\n]+', '', inputText)
     #input.close()
-    if len(inputText) < 15:
+    if len(inputText.split()) < 15:
         #print("Tekst on liiga lühike.")
         return []
         exit()
