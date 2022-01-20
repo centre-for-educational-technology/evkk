@@ -56,16 +56,15 @@ public class TextController {
   @PostMapping("/sonad")
   public ResponseEntity<List<String>> sonad(@RequestBody LemmadRequestEntity request) {
    // return ResponseEntity.ok(new ArrayList(Arrays.asList(new String[]{"aa", "ab"})));
-//   String[] sonad = stanzaClient.getSonad(request.getTekst());
    String[] sonad = stanzaClient.getSonad(request.getTekst());
    List<String> body = Arrays.asList(sonad);
     return ResponseEntity.ok(body);
   }
 
   @PostMapping("/laused")
-  public ResponseEntity<List<String>> laused(@RequestBody LemmadRequestEntity request) throws Exception {
-    String[] laused = stanzaClient.getLaused(request.getTekst());
-    List<String> body = Arrays.asList(laused);
+  public ResponseEntity<List<String[]>> laused(@RequestBody LemmadRequestEntity request) throws Exception {
+    String[][] laused = stanzaClient.getLaused(request.getTekst());
+    List<String[]> body = Arrays.asList(laused);
     return ResponseEntity.ok(body);
   }
 

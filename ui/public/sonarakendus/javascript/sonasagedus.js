@@ -45,7 +45,6 @@ if(vorm == "algvormid") {
         data: '{"tekst": "' + koguTekst + '"}',
         success: function(data){
             tekstiTootlus(data);
-            console.log(data);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) { 
             alert(textStatus + "\n" + errorThrown);
@@ -88,7 +87,6 @@ if(vorm == "algvormid") {
 }
 
 function tekstiTootlus(data) {
-    console.log(data);
     //data = JSON.parse(data);
     for(let i = 0; i < data.length; i++) {
         if(tahesuurus) {

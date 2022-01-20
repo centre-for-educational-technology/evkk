@@ -14,7 +14,7 @@ from tasemehindaja import arvuta
 stanza.download('et')
 app = Flask(__name__)
 
-corrector=jamspell.TSpellCorrector()
+""" corrector=jamspell.TSpellCorrector()
 print("laeb mudelit")
 import os
 from os.path import exists
@@ -26,7 +26,7 @@ print(os.getcwd())
 print(os.listdir("app"))
 print(corrector.LoadLangModel(path))
 asendused=[rida.strip().split(",") for rida in open("/app/word_mapping.csv").readlines()]
-print("laetud")
+print("laetud") """
 
 
 @app.route('/lemmad', methods=['POST'])
@@ -53,8 +53,7 @@ def laused():
 
 @app.route('/sonad', methods=['POST'])
 def sonad():
-    return Response(json.dumps(["proov"]), mimetype="application/json")
-#    return Response(json.dumps(arvuta(request.json["tekst"])), mimetype="application/json")
+    #return Response(json.dumps(arvuta(request.json["tekst"])), mimetype="application/json")
     nlp = stanza.Pipeline(lang='et', processors='tokenize,pos')
     doc = nlp(request.json["tekst"])
     v1 = []

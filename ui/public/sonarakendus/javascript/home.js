@@ -22,7 +22,7 @@ salvesta_tekst.addEventListener("click", function () {
 		document.querySelector("#cover-spin").style.display = "block";
 		freeze = true;
 		var regex = new RegExp("[^a-zA-ZõäöüÕÄÖÜ ;:,.!?/-/'/%&()=]", "gi");
-		koguTekst = sisesta_tekst.value.replaceAll(regex, " ").replaceAll('\n', " ").replaceAll('"', "'");
+		koguTekst = sisesta_tekst.value.replace(/\\n/g, ' ').replaceAll('"', "'").replaceAll(regex, " ");
 		$.ajax({
 			type: "POST",
 			url: "/api/texts/laused",
@@ -30,7 +30,7 @@ salvesta_tekst.addEventListener("click", function () {
         	contentType: "application/json; charset=utf-8",
 			data: '{"tekst": "' + koguTekst + '"}',
 			success: function(data) {
-				localStorage.setItem("laused", data);
+				localStorage.setItem("laused", JSON.stringify(data));
 				localStorage.setItem("sonad", koguTekst);
 				localStorage.setItem("paritolu", "TEXTBOX");
 				window.location = "filter.html";
@@ -72,7 +72,7 @@ form.addEventListener('submit', function(ev) {
 		cache: false,
 		success: function (data) {
 			var regex = new RegExp("[^a-zA-ZõäöüÕÄÖÜ ;:,.!?/-/'/%&()=]", "gi");
-			allFormatText = data.replaceAll(regex, " ").replaceAll('\n', " ").replaceAll('"', "'");
+			allFormatText = data.replace(/\\n/g, ' ').replaceAll('"', "'").replaceAll(regex, " ");
 			localStorage.setItem("sonad", allFormatText);
 			localStorage.setItem("paritolu", "FILEUPLOAD");
 			$.ajax({
@@ -82,7 +82,7 @@ form.addEventListener('submit', function(ev) {
 				contentType: "application/json; charset=utf-8",
 				data: '{"tekst": "' + allFormatText + '"}',
 				success: function(data) {
-					localStorage.setItem("laused", data);
+					localStorage.setItem("laused", JSON.stringify(data));
 					window.location = "filter.html";
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
