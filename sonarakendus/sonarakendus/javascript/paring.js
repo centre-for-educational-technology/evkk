@@ -26,6 +26,8 @@ let k3vene = document.getElementById("cZjHWUPtD");
 let akadoppija = document.getElementById("cwUSEqQLt");
 //let eestitead = document.getElementById("cwUprXCTL");
 
+document.querySelector("#addedyear").max = new Date().getFullYear();
+
 document.getElementById("backbutton").addEventListener("click", function() {
     location.reload();
 })
