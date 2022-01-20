@@ -14,7 +14,7 @@ from tasemehindaja import arvuta
 stanza.download('et')
 app = Flask(__name__)
 
-""" corrector=jamspell.TSpellCorrector()
+corrector=jamspell.TSpellCorrector()
 print("laeb mudelit")
 import os
 from os.path import exists
@@ -26,8 +26,7 @@ print(os.getcwd())
 print(os.listdir("app"))
 print(corrector.LoadLangModel(path))
 asendused=[rida.strip().split(",") for rida in open("/app/word_mapping.csv").readlines()]
-print("laetud") """
-
+print("laetud")
 
 @app.route('/lemmad', methods=['POST'])
 def lemmad():
