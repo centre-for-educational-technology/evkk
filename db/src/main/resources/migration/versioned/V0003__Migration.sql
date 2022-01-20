@@ -1,7 +1,7 @@
 create function core.text_hash(content text) returns text as
 $$
 begin
-  return encode(sha512(convert_to(content::text, 'UTF-8')), 'hex');
+  return encode(sha512(convert_to(content::text, 'utf-8')), 'hex');
 end;
 $$ language plpgsql immutable;
 
