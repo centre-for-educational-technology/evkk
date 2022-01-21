@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class ServiceLocator {
 
-  Map<ServiceName, URI> serviceUris;
+  private final Map<ServiceName, URI> serviceUris;
 
   private ServiceLocator(Map<ServiceName, URI> serviceUris) {
     this.serviceUris = serviceUris;
