@@ -1,7 +1,7 @@
 package ee.tlu.evkk.dal.dao;
 
-import ee.tlu.evkk.dal.dao.dto.Token;
-import ee.tlu.evkk.dal.dao.dto.TokenView;
+import ee.tlu.evkk.dal.dto.Token;
+import ee.tlu.evkk.dal.dto.TokenView;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

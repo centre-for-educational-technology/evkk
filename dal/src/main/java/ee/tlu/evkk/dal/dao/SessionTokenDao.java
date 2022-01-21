@@ -1,6 +1,6 @@
 package ee.tlu.evkk.dal.dao;
 
-import ee.tlu.evkk.dal.dao.dto.SessionToken;
+import ee.tlu.evkk.dal.dto.SessionToken;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

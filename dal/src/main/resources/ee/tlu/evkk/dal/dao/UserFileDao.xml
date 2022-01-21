@@ -18,7 +18,7 @@
     returning user_file_id;
   </select>
 
-  <select id="findViewsByUserId" resultType="ee.tlu.evkk.dal.dao.dto.UserFileView">
+  <select id="findViewsByUserId" resultType="ee.tlu.evkk.dal.dto.UserFileView">
     select uf.*,
            f.media_type
     from core.user_file uf
@@ -28,7 +28,7 @@
     order by created_at desc;
   </select>
 
-  <select id="findViewById" resultType="ee.tlu.evkk.dal.dao.dto.UserFileView">
+  <select id="findViewById" resultType="ee.tlu.evkk.dal.dto.UserFileView">
     select uf.*,
            f.media_type
     from core.user_file uf

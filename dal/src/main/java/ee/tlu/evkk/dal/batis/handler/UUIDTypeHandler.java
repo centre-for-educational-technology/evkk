@@ -1,4 +1,4 @@
-package ee.tlu.evkk.api.batis.handler;
+package ee.tlu.evkk.dal.batis.handler;
 
 import java.util.UUID;
 

@@ -2,7 +2,11 @@ apply plugin: "java-library"
 
 dependencies {
 
+  // Spring
   api "org.springframework.boot:spring-boot-starter"
   api "org.mybatis.spring.boot:mybatis-spring-boot-starter:$mybatisSpringBootStarterVersion"
+
+  // Postgres
+  api "org.postgresql:postgresql"
 
 }

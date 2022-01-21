@@ -1,7 +1,7 @@
 package ee.tlu.evkk.api.service;
 
 import ee.tlu.evkk.dal.dao.SessionTokenDao;
-import ee.tlu.evkk.dal.dao.dto.SessionToken;
+import ee.tlu.evkk.dal.dto.SessionToken;
 import ee.tlu.evkk.api.exception.InvalidSessionException;
 import org.springframework.session.Session;
 import org.springframework.session.SessionRepository;

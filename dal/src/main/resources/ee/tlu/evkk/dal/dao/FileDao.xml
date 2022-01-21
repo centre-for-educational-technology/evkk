@@ -21,7 +21,7 @@
         returning file_id;
     </select>
 
-  <select id="findById" resultType="ee.tlu.evkk.dal.dao.dto.File">
+  <select id="findById" resultType="ee.tlu.evkk.dal.dto.File">
         select *
         from core.file f
         where f.file_id = #{fileId}

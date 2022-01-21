@@ -19,13 +19,13 @@
     returning token_id;
   </select>
 
-  <select id="findById" resultType="ee.tlu.evkk.dal.dao.dto.Token">
+  <select id="findById" resultType="ee.tlu.evkk.dal.dto.Token">
     select *
     from core.token t
     where t.token_id = #{tokenId};
   </select>
 
-  <select id="findViewById" resultType="ee.tlu.evkk.dal.dao.dto.TokenView">
+  <select id="findViewById" resultType="ee.tlu.evkk.dal.dto.TokenView">
     select token_id,
            validity,
            type,

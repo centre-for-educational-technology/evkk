@@ -4,7 +4,7 @@ import ee.evkk.dto.integration.FileResponseEntity;
 import ee.tlu.evkk.api.ApiMapper;
 import ee.tlu.evkk.api.controller.support.ResponseEntityFactory;
 import ee.tlu.evkk.dal.dao.UserFileDao;
-import ee.tlu.evkk.dal.dao.dto.UserFileView;
+import ee.tlu.evkk.dal.dto.UserFileView;
 import ee.tlu.evkk.api.exception.FileNotFoundException;
 import ee.tlu.evkk.api.service.SessionTokenService;
 import ee.tlu.evkk.api.service.UserFileService;

@@ -1,4 +1,4 @@
-package ee.tlu.evkk.dal.dao.dto;
+package ee.tlu.evkk.dal.dto;
 
 import org.springframework.lang.Nullable;
 

@@ -22,7 +22,7 @@
       and session_id = #{sessionId};
   </select>
 
-  <select id="findById" resultType="ee.tlu.evkk.dal.dao.dto.SessionToken">
+  <select id="findById" resultType="ee.tlu.evkk.dal.dto.SessionToken">
     select *
     from core.session_token
     where session_token_id = #{sessionTokenId};

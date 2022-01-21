@@ -3,7 +3,7 @@ package ee.tlu.evkk.api.security;
 import ee.tlu.evkk.api.ApiMapper;
 import ee.tlu.evkk.dal.dao.RolePermissionDao;
 import ee.tlu.evkk.dal.dao.UserDao;
-import ee.tlu.evkk.dal.dao.dto.User;
+import ee.tlu.evkk.dal.dto.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
