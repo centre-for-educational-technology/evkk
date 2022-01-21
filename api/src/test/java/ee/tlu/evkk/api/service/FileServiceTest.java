@@ -1,6 +1,6 @@
 package ee.tlu.evkk.api.service;
 
-import ee.tlu.evkk.api.dao.dto.FileType;
+import ee.tlu.evkk.dal.dto.FileType;
 import ee.tlu.evkk.api.exception.FileNotFoundException;
 import ee.tlu.evkk.api.service.dto.GetFileResult;
 import ee.tlu.evkk.api.test.AbstractApiTest;

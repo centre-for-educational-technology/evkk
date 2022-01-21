@@ -2,8 +2,8 @@ package ee.tlu.evkk.api.controller;
 
 import ee.tlu.evkk.api.ApiMapper;
 import ee.tlu.evkk.api.controller.dto.UserFileResponseEntity;
-import ee.tlu.evkk.api.dao.UserFileDao;
-import ee.tlu.evkk.api.dao.dto.UserFileView;
+import ee.tlu.evkk.dal.dao.UserFileDao;
+import ee.tlu.evkk.dal.dto.UserFileView;
 import ee.tlu.evkk.api.exception.AbstractBusinessException;
 import ee.tlu.evkk.api.security.AuthenticatedUser;
 import ee.tlu.evkk.api.service.UserFileService;

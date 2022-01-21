@@ -2,10 +2,8 @@ apply plugin: "java-library"
 
 dependencies {
 
-  api "org.springframework.boot:spring-boot-starter"
-  api "org.springframework.boot:spring-boot-starter-data-jdbc"
+  api project(":dal")
 
-  // Postgres
-  api "org.postgresql:postgresql"
+  api "org.springframework.boot:spring-boot-starter"
 
 }

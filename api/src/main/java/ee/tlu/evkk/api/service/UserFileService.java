@@ -1,9 +1,9 @@
 package ee.tlu.evkk.api.service;
 
-import ee.tlu.evkk.api.dao.UserFileDao;
-import ee.tlu.evkk.api.dao.dto.FileType;
-import ee.tlu.evkk.api.dao.dto.UserFile;
-import ee.tlu.evkk.api.dao.dto.UserFileView;
+import ee.tlu.evkk.dal.dao.UserFileDao;
+import ee.tlu.evkk.dal.dto.FileType;
+import ee.tlu.evkk.dal.dto.UserFile;
+import ee.tlu.evkk.dal.dto.UserFileView;
 import ee.tlu.evkk.api.exception.FieldAwareBusinessException;
 import ee.tlu.evkk.api.exception.FileContentExtractionException;
 import ee.tlu.evkk.api.exception.FileNotFoundException;
