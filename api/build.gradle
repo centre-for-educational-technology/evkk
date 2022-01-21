@@ -3,15 +3,15 @@ apply plugin: "org.springframework.boot"
 dependencies {
 
   // Modules
-  implementation project(":common")
   implementation project(":dto")
+  implementation project(":common")
+  implementation project(":core")
 
   // Spring
   implementation "org.springframework.boot:spring-boot-starter-web"
   implementation "org.springframework.boot:spring-boot-starter-security"
   implementation "org.springframework.boot:spring-boot-starter-validation"
   implementation "org.springframework.session:spring-session-data-redis"
-  implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:$mybatisSpringBootStarterVersion"
 
   // Postgres
   implementation "org.postgresql:postgresql"

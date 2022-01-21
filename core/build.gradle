@@ -1,0 +1,9 @@
+apply plugin: "java-library"
+
+dependencies {
+
+  api project(":dal")
+
+  api "org.springframework.boot:spring-boot-starter"
+
+}
