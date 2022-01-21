@@ -1,4 +1,4 @@
-package ee.tlu.evkk.taskscheduler.processor;
+package ee.tlu.evkk.core.text.processor;
 
 import org.springframework.lang.NonNull;
 
@@ -8,8 +8,7 @@ import org.springframework.lang.NonNull;
  */
 public interface TextProcessor {
 
-  @NonNull
-  Long getVersion();
+  long getVersion();
 
   @NonNull
   Type getType();
