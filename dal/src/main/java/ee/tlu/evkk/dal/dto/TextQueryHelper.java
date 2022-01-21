@@ -1,4 +1,4 @@
-package ee.tlu.evkk.api.controller.dto;
+package ee.tlu.evkk.dal.dto;
 
 public class TextQueryHelper {
     private String tabel;

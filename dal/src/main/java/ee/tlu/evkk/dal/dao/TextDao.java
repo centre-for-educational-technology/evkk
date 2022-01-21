@@ -1,6 +1,6 @@
 package ee.tlu.evkk.dal.dao;
 
-import ee.tlu.evkk.api.controller.dto.TextQueryHelper;
+import ee.tlu.evkk.dal.dto.TextQueryHelper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

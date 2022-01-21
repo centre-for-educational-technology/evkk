@@ -2,7 +2,7 @@ package ee.tlu.evkk.api.controller;
 import ee.tlu.evkk.api.controller.dto.LemmadRequestEntity;
 import org.springframework.web.bind.annotation.*;
 
-import ee.tlu.evkk.api.controller.dto.TextQueryHelper;
+import ee.tlu.evkk.dal.dto.TextQueryHelper;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.api.integration.StanzaClient;
 import org.springframework.http.ResponseEntity;
