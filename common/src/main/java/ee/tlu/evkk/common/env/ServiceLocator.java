@@ -32,7 +32,7 @@ public class ServiceLocator {
   @NonNull
   public URI locate(ServiceName serviceName) {
     URI serviceUri = serviceUris.get(serviceName);
-    if (serviceUri == null) throw new IllegalStateException("Unable to locate service uri: " + serviceName);
+    if (serviceUri == null) throw new IllegalStateException("Unable to locate service: " + serviceName);
     return serviceUri;
   }
 
