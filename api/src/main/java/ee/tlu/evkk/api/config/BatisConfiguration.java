@@ -3,7 +3,7 @@ package ee.tlu.evkk.api.config;
 import ee.tlu.evkk.api.batis.handler.DurationTypeHandler;
 import ee.tlu.evkk.api.batis.handler.JsonTypeHandler;
 import ee.tlu.evkk.api.batis.handler.UUIDTypeHandler;
-import ee.tlu.evkk.api.dao.dto.Json;
+import ee.tlu.evkk.dal.dao.dto.Json;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
 import org.springframework.context.annotation.Bean;

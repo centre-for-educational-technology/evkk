@@ -1,7 +1,7 @@
 package ee.tlu.evkk.api.batis.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import ee.tlu.evkk.api.dao.dto.Json;
+import ee.tlu.evkk.dal.dao.dto.Json;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 import org.postgresql.util.PGobject;

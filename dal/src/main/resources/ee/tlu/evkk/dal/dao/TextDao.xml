@@ -1,0 +1,172 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ee.tlu.evkk.dal.dao.TextDao">
+
+    <select id="findTextById" resultType="java.lang.String">
+        select content from core.text where id = #{textId}
+    </select>
+
+    <select id="findTextMetadata" resultType="java.lang.String">
+        select array_to_json(array_agg(row_to_json(t)))
+        from (
+            select property_name, property_value from core.text_property where text_id = #{textId}
+        ) t
+    </select>
+
+
+    <select id="findTextIDsByCorpusID" resultType="java.lang.String">
+        select text_id
+        from core.text_property
+        where core.text_property.property_value = #{corpusId} and core.text_property.property_name = 'korpus';
+    </select>
+
+
+    <select id="findTextIDandTitleByCorpusID" resultType="java.lang.String">
+        select array_to_json(array_agg(row_to_json(t)))
+        from (
+            select tp1.text_id,
+            (select tp2.property_value FROM core.text_property as tp2 where tp2.property_name='title' and tp2.text_id = tp1.text_id)
+        from core.text_property as tp1
+        where tp1.property_value = #{corpusId} and tp1.property_name = 'korpus'
+        ) t
+    </select>
+
+    <select id="textTitleQueryByParameters" resultType="java.lang.String">
+        select array_to_json(array_agg(row_to_json(t)))
+        from (
+            select p2.text_id, p2.property_value
+            from core.text_property as p2
+            <foreach item="helperid" collection="helperid" separator=" ">join core.text_property as ${helperid.tabel} on p2.text_id = ${helperid.tabel}.text_id</foreach>
+            where p2.property_name = 'title'
+            <foreach item="helperid" collection="helperid" separator=" "> and ${helperid.tabel}.property_name = #{helperid.parameeter} and ${helperid.tabel}.property_value in <foreach item="v" collection="helperid.vaartus" separator=", " open="(" close=")">#{v}</foreach></foreach>
+        ) t
+    </select>
+
+
+    <select id="findMiniStats" resultType="java.lang.String">
+        select array_to_json(array_agg(row_to_json(t)))
+        from (
+        select distinct count(tp1.text_id) as sum,
+        sum(tp2.property_value::integer) as sonu,
+        sum(tp3.property_value::integer) as lauseid
+        from core.text_property as tp1
+        JOIN core.text_property as tp2 on tp1.text_id=tp2.text_id
+        JOIN core.text_property as tp3 on tp2.text_id=tp3.text_id
+        WHERE tp1.property_name = 'korpus' AND tp1.property_value IN <foreach item="cId" collection="cId" separator="," open="(" close=")">
+        #{cId}
+    </foreach> AND tp2.property_name = 'sonu' AND tp3.property_name = 'lauseid'
+        ) t
+    </select>
+
+
+    <select id="findAvailableValues" resultType="java.lang.String">
+       select array_to_json(array_agg(row_to_json(t)))
+        from (
+        select distinct tp1.property_value as value
+        from core.text_property as tp1
+        WHERE tp1.property_name = #{pName}
+        ) t
+    </select>
+
+
+    <select id="detailedSearch" resultType="java.lang.String">
+       select array_to_json(array_agg(row_to_json(t)))
+        from (
+        select distinct tp2.property_name as type,
+        tp2.property_value as value,
+        count(tp2.text_id) as tekste,
+        sum(tp3.property_value::integer) as sonu,
+        sum(tp4.property_value::integer) as lauseid,
+        sum(tp5.property_value::integer) as vigu,
+
+        COUNT(tp5.text_id) * 100.0 / (SELECT distinct COUNT(text_id) FROM core.text_property WHERE property_name = 'korpus' AND property_value IN <foreach item="cId" collection="cId" separator="," open="(" close=")">
+        #{cId}
+    </foreach>) AS protsent
+        from core.text_property as tp1
+        JOIN core.text_property as tp2 on tp1.text_id=tp2.text_id
+        JOIN core.text_property as tp3 on tp2.text_id=tp3.text_id
+        JOIN core.text_property as tp4 on tp3.text_id=tp4.text_id
+        JOIN core.text_property as tp5 on tp4.text_id=tp5.text_id
+
+        <!-- multiple tables JOIN -->
+
+        <!-- JOIN core.text_property as tp6 on tp5.text_id=tp6.text_id -->
+        ${join}
+        <!-- <include refid="join"/> -->
+
+        WHERE tp1.property_name = 'korpus' AND tp1.property_value IN <foreach item="cId" collection="cId" separator="," open="(" close=")">
+        #{cId}
+    </foreach> AND
+         tp2.property_name = #{pName} AND tp2.property_value IN <foreach item="pValue" collection="pValue" separator="," open="(" close=")">
+        #{pValue}
+    </foreach> AND tp3.property_name = 'sonu' AND tp4.property_name = 'lauseid'
+        AND tp5.property_name = 'vigu'
+
+        <!-- multiple tables WHERE -->
+
+        <!-- AND tp6.property_name = 'tekstityyp' AND tp6.property_value = 'essee' -->
+        ${condition}
+        <!-- <include refid="condition"/> -->
+
+        GROUP BY tp2.property_name, tp2.property_value
+        ) t
+    </select>
+
+
+    <select id="findDetailedValueByPropertyName" resultType="java.lang.String">
+       select array_to_json(array_agg(row_to_json(t)))
+        from (
+        select distinct tp2.property_name as type,
+        tp2.property_value as value,
+        count(tp2.text_id) as tekste,
+        sum(tp3.property_value::integer) as sonu,
+        sum(tp4.property_value::integer) as lauseid,
+        sum(tp5.property_value::integer) as vigu,
+
+        COUNT(tp5.text_id) * 100.0 / (SELECT distinct COUNT(text_id) FROM core.text_property WHERE property_name = 'korpus' AND property_value IN <foreach item="cId" collection="cId" separator="," open="(" close=")">
+        #{cId}
+    </foreach>) AS protsent
+        from core.text_property as tp1
+        JOIN core.text_property as tp2 on tp1.text_id=tp2.text_id
+        JOIN core.text_property as tp3 on tp2.text_id=tp3.text_id
+        JOIN core.text_property as tp4 on tp3.text_id=tp4.text_id
+        JOIN core.text_property as tp5 on tp4.text_id=tp5.text_id
+
+        <!-- multiple tables JOIN -->
+
+        <!-- JOIN core.text_property as tp6 on tp5.text_id=tp6.text_id -->
+
+        WHERE tp1.property_name = 'korpus' AND tp1.property_value IN <foreach item="cId" collection="cId" separator="," open="(" close=")">
+        #{cId}
+    </foreach> AND
+         tp2.property_name = #{pName} AND tp2.property_value IN <foreach item="pValue" collection="pValue" separator="," open="(" close=")">
+        #{pValue}
+    </foreach> AND tp3.property_name = 'sonu' AND tp4.property_name = 'lauseid'
+        AND tp5.property_name = 'vigu'
+
+        <!-- multiple tables WHERE -->
+
+        <!-- AND tp6.property_name = 'tekstityyp' AND tp6.property_value = 'essee' -->
+
+        GROUP BY tp2.property_name, tp2.property_value
+        ) t
+    </select>
+
+
+    <select id="findValueByPropertyName" resultType="java.lang.String">
+
+        select array_to_json(array_agg(row_to_json(t)))
+        from (
+        select property_name, property_value from core.text_property
+        WHERE property_value = #{cId}
+        ) t
+
+    </select>
+
+    <select id="findTextsByCorpusId" resultType="java.lang.String"> select content from core.text where core.text.id
+     IN (SELECT text_id from core.text_property WHERE core.text_property.property_name='korpus'
+      AND core.text_property.property_value= #{corpusId});
+    </select>
+
+</mapper>
