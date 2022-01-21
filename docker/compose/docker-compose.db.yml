@@ -12,5 +12,6 @@ services:
       - $PWD/conf/common.env
       - $PWD/conf/db.env
       - $PWD/conf/api.env
+      - $PWD/conf/task-scheduler.env
     depends_on:
       - postgres

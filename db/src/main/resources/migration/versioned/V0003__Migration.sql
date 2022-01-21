@@ -15,7 +15,6 @@ alter table core.text
   alter column hash set not null;
 
 comment on column core.text.hash is 'Computed hash for text content';
-
 create index text_idx_hash on core.text (hash);
 
 create table core.text_processor_result
