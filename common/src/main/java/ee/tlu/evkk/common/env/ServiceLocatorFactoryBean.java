@@ -1,0 +1,64 @@
+package ee.tlu.evkk.common.env;
+
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.FactoryBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.env.Environment;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.EncodedResource;
+import org.springframework.lang.NonNull;
+import org.springframework.util.DefaultPropertiesPersister;
+import org.springframework.util.PropertiesPersister;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.Properties;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+/**
+ * @author Mikk Tarvas
+ * Date: 21.01.2022
+ */
+public class ServiceLocatorFactoryBean implements FactoryBean<ServiceLocator>, ApplicationContextAware {
+
+  private final String serviceProfile;
+  private ApplicationContext applicationContext;
+
+  public ServiceLocatorFactoryBean(String serviceProfile) {
+    this.serviceProfile = serviceProfile;
+  }
+
+  @Override
+  public ServiceLocator getObject() throws Exception {
+    Map<String, String> servicePaths = loadServicePaths();
+    return ServiceLocator.create(servicePaths);
+  }
+
+  @Override
+  public Class<?> getObjectType() {
+    return ServiceLocator.class;
+  }
+
+  private Map<String, String> loadServicePaths() throws IOException {
+    Environment environment = applicationContext.getEnvironment();
+    Resource resource = applicationContext.getResource("classpath:/services/" + serviceProfile + ".properties");
+    EncodedResource encodedResource = new EncodedResource(resource, StandardCharsets.UTF_8);
+    PropertiesPersister propertiesPersister = new DefaultPropertiesPersister();
+    Properties properties = new Properties();
+    try (Reader reader = encodedResource.getReader()) {
+      propertiesPersister.load(properties, reader);
+    }
+    return properties.stringPropertyNames().stream()
+      .collect(Collectors.toUnmodifiableMap(Function.identity(), name -> environment.resolveRequiredPlaceholders(properties.getProperty(name))));
+  }
+
+  @Override
+  public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
+    this.applicationContext = applicationContext;
+  }
+
+}
