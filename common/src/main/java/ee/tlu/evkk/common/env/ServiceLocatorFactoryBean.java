@@ -7,12 +7,10 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.EncodedResource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.lang.NonNull;
-import org.springframework.util.DefaultPropertiesPersister;
-import org.springframework.util.PropertiesPersister;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Properties;
@@ -44,14 +42,10 @@ public class ServiceLocatorFactoryBean implements FactoryBean<ServiceLocator>, A
   }
 
   private Map<String, String> loadServicePaths() throws IOException {
-    Environment environment = applicationContext.getEnvironment();
     Resource resource = applicationContext.getResource("classpath:/services/" + serviceProfile + ".properties");
     EncodedResource encodedResource = new EncodedResource(resource, StandardCharsets.UTF_8);
-    PropertiesPersister propertiesPersister = new DefaultPropertiesPersister();
-    Properties properties = new Properties();
-    try (Reader reader = encodedResource.getReader()) {
-      propertiesPersister.load(properties, reader);
-    }
+    Properties properties = PropertiesLoaderUtils.loadProperties(encodedResource);
+    Environment environment = applicationContext.getEnvironment();
     return properties.stringPropertyNames().stream()
       .collect(Collectors.toUnmodifiableMap(Function.identity(), name -> environment.resolveRequiredPlaceholders(properties.getProperty(name))));
   }
