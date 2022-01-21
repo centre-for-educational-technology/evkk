@@ -1,20 +1,15 @@
-package ee.tlu.evkk.core;
+package ee.tlu.evkk.clusterfinder;
 
 import ee.tlu.evkk.common.env.ServiceLocatorFactoryBean;
-import ee.tlu.evkk.dal.DalConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 /**
  * @author Mikk Tarvas
  * Date: 21.01.2022
  */
 @Configuration
-@ComponentScan
-@Import(DalConfiguration.class)
-public class CoreConfiguration {
+public class ClusterFinderConfiguration {
 
   @Bean
   public ServiceLocatorFactoryBean serviceDiscoveryFactoryBean() {

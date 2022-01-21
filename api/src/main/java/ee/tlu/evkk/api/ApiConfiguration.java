@@ -3,7 +3,7 @@ package ee.tlu.evkk.api;
 import ee.tlu.evkk.api.integration.MasinoppeEnnustusClient;
 import ee.tlu.evkk.api.integration.MinitornPikkusClient;
 import ee.tlu.evkk.api.integration.StanzaClient;
-import ee.tlu.evkk.api.util.UriComponentsBuilderFactory;
+import ee.tlu.evkk.common.env.ServiceLocator;
 import ee.tlu.evkk.core.CoreConfiguration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -15,6 +15,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.file.Paths;
+
+import static ee.tlu.evkk.common.env.ServiceLocator.ServiceName.STANZA_SERVER;
 
 /**
  * @author Mikk Tarvas
@@ -28,14 +30,10 @@ public class ApiConfiguration {
 
   @Value("${evkk.api.lib.paths.masinoppe-ennustus}")
   private String masinoppeEnnustusPath;
+  private final ServiceLocator serviceLocator;
 
-  private final ApiProperties apiProperties;
-
-  private final UriComponentsBuilderFactory uriComponentsBuilderFactory;
-
-  public ApiConfiguration(ApiProperties apiProperties, UriComponentsBuilderFactory uriComponentsBuilderFactory) {
-    this.apiProperties = apiProperties;
-    this.uriComponentsBuilderFactory = uriComponentsBuilderFactory;
+  public ApiConfiguration(ServiceLocator serviceLocator) {
+    this.serviceLocator = serviceLocator;
   }
 
   @Bean
@@ -50,7 +48,7 @@ public class ApiConfiguration {
 
   @Bean
   public StanzaClient stanzaClient(RestTemplateBuilder restTemplateBuilder) {
-    String stanzaUri = uriComponentsBuilderFactory.stanza().toUriString();
+    String stanzaUri = serviceLocator.locate(STANZA_SERVER).toString();
     RestTemplate rest = restTemplateBuilder.rootUri(stanzaUri).build();
     return new StanzaClient(rest);
   }
