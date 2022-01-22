@@ -2,10 +2,8 @@ package ee.tlu.evkk.core;
 
 import ee.tlu.evkk.common.env.ServiceLocatorFactoryBean;
 import ee.tlu.evkk.dal.DalConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.*;
 
 /**
  * @author Mikk Tarvas
@@ -14,11 +12,13 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @ComponentScan
 @Import(DalConfiguration.class)
+@EnableConfigurationProperties(CoreProperties.class)
+@PropertySource("classpath:core.properties")
 public class CoreConfiguration {
 
   @Bean
-  public ServiceLocatorFactoryBean serviceDiscoveryFactoryBean() {
-    return new ServiceLocatorFactoryBean("local"); //TODO: detect profile
+  public ServiceLocatorFactoryBean serviceDiscoveryFactoryBean(CoreProperties coreProperties) {
+    return new ServiceLocatorFactoryBean(coreProperties.getServiceProfile());
   }
 
 }

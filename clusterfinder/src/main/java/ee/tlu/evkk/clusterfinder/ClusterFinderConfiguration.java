@@ -1,6 +1,7 @@
 package ee.tlu.evkk.clusterfinder;
 
 import ee.tlu.evkk.common.env.ServiceLocatorFactoryBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,8 +13,8 @@ import org.springframework.context.annotation.Configuration;
 public class ClusterFinderConfiguration {
 
   @Bean
-  public ServiceLocatorFactoryBean serviceDiscoveryFactoryBean() {
-    return new ServiceLocatorFactoryBean("local"); //TODO: detect profile
+  public ServiceLocatorFactoryBean serviceDiscoveryFactoryBean(@Value("${EVKK_SERVICE_PROFILE}") String serviceProfile) {
+    return new ServiceLocatorFactoryBean(serviceProfile);
   }
 
 }

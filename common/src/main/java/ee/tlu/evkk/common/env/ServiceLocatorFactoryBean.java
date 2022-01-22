@@ -1,6 +1,5 @@
 package ee.tlu.evkk.common.env;
 
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -51,7 +50,7 @@ public class ServiceLocatorFactoryBean implements FactoryBean<ServiceLocator>, A
   }
 
   @Override
-  public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
+  public void setApplicationContext(@NonNull ApplicationContext applicationContext) {
     this.applicationContext = applicationContext;
   }
 
