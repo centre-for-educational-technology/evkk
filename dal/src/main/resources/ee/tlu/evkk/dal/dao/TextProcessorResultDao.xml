@@ -27,7 +27,7 @@
       and tpr.version = #{version};
   </select>
 
-  <select id="">
+  <select id="findMissingMissingTextProcessorResults" resultType="ee.tlu.evkk.dal.dto.MissingTextProcessorResult">
     with processors as (select * from (values
                                               ('LEMMATIZER', 1), ('LANGUAGE_LEVEL', 1)
 

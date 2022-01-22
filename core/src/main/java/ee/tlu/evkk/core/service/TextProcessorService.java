@@ -5,12 +5,17 @@ import ee.tlu.evkk.core.text.processor.TextProcessorExecutor;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dao.TextProcessorResultDao;
 import ee.tlu.evkk.dal.dto.Json;
+import ee.tlu.evkk.dal.dto.MissingTextProcessorResult;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.dto.TextProcessorResult;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * @author Mikk Tarvas
@@ -52,6 +57,18 @@ public class TextProcessorService {
     textProcessorResultDao.upsert(textProcessorResult);
 
     return result;
+  }
+
+  public Stream<MissingTextProcessorResult> findMissingTextProcessorResults() {
+    var cursor = textProcessorResultDao.findMissingMissingTextProcessorResults();
+    var result = StreamSupport.stream(cursor.spliterator(), false);
+    return result.onClose(() -> {
+      try {
+        cursor.close();
+      } catch (IOException ex) {
+        throw new UncheckedIOException(ex);
+      }
+    });
   }
 
 }
