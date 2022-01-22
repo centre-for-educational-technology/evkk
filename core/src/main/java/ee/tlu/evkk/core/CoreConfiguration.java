@@ -17,7 +17,7 @@ import org.springframework.context.annotation.*;
 public class CoreConfiguration {
 
   @Bean
-  public ServiceLocatorFactoryBean serviceDiscoveryFactoryBean(CoreProperties coreProperties) {
+  public ServiceLocatorFactoryBean serviceLocatorFactoryBean(CoreProperties coreProperties) {
     return new ServiceLocatorFactoryBean(coreProperties.getServiceProfile());
   }
 

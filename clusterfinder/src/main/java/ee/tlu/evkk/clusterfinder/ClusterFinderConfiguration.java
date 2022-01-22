@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class ClusterFinderConfiguration {
 
   @Bean
-  public ServiceLocatorFactoryBean serviceDiscoveryFactoryBean(@Value("${EVKK_SERVICE_PROFILE}") String serviceProfile) {
+  public ServiceLocatorFactoryBean serviceLocatorFactoryBean(@Value("${EVKK_SERVICE_PROFILE}") String serviceProfile) {
     return new ServiceLocatorFactoryBean(serviceProfile);
   }
 
