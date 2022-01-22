@@ -4,7 +4,7 @@ import ee.tlu.evkk.api.ApiMapper;
 import ee.tlu.evkk.api.controller.dto.StatusResponseEntity;
 import ee.tlu.evkk.api.security.AuthenticatedUser;
 import ee.tlu.evkk.api.service.SessionTokenService;
-import ee.tlu.evkk.api.util.UriComponentsBuilderFactory;
+import ee.tlu.evkk.common.env.ServiceLocator;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,11 +24,11 @@ import java.util.UUID;
 @RequestMapping("/")
 public class RootController {
 
-  private final UriComponentsBuilderFactory uriComponentsBuilderFactory;
+  private final ServiceLocator serviceLocator;
   private final SessionTokenService sessionTokenService;
 
-  public RootController(UriComponentsBuilderFactory uriComponentsBuilderFactory, SessionTokenService sessionTokenService) {
-    this.uriComponentsBuilderFactory = uriComponentsBuilderFactory;
+  public RootController(ServiceLocator serviceLocator, SessionTokenService sessionTokenService) {
+    this.serviceLocator = serviceLocator;
     this.sessionTokenService = sessionTokenService;
   }
 
@@ -40,7 +40,8 @@ public class RootController {
 
   private Map<String, String> buildIntegrationPaths(AuthenticatedUser authenticatedUser) {
     Map<String, UriComponentsBuilder> uris = new HashMap<>();
-    uris.put("clusterFinder", uriComponentsBuilderFactory.clusterFinder());
+    UriComponentsBuilder clusterFinderUri = UriComponentsBuilder.fromUri(serviceLocator.locate(ServiceLocator.ServiceName.CLUSTER_FINDER));
+    uris.put("clusterFinder", clusterFinderUri);
 
     // If user is logged in, inject session token to uri
     if (authenticatedUser != null) {
