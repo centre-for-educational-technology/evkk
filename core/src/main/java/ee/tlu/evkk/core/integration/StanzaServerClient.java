@@ -1,4 +1,4 @@
-package ee.tlu.evkk.api.integration;
+package ee.tlu.evkk.core.integration;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
@@ -10,11 +10,11 @@ import java.util.Map;
  * @author Mikk Tarvas
  * Date: 30.09.2021
  */
-public class StanzaClient {
+public class StanzaServerClient {
 
   private final RestOperations rest;
 
-  public StanzaClient(RestOperations restOperations) {
+  public StanzaServerClient(RestOperations restOperations) {
     this.rest = restOperations;
   }
 
@@ -45,13 +45,12 @@ public class StanzaClient {
     ResponseEntity<String[]> forEntity = rest.postForEntity("/korrektuur", requestEntity, String[].class);
     return forEntity.getBody();
   }
- 
+
   public String[][] getKeeletase(String tekst) {
     Map<String, String> map = Map.of("tekst", tekst);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
     ResponseEntity<String[][]> forEntity = rest.postForEntity("/keeletase", requestEntity, String[][].class);
     return forEntity.getBody();
   }
-
 
 }
