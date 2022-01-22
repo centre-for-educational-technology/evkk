@@ -19,7 +19,7 @@ def parsi(tekst):
 
 def klasterda(parsitud_tekst, parameetrid):
    fnimi="fail"+str(random.randrange(1, 10000))
-   f1=open(fnimi+".txt", "w")
+   f1=open(fnimi+".txt", "w", encoding="utf-8")
    f1.write(parsitud_tekst)
    f1.close()
    process = subprocess.Popen(
@@ -37,7 +37,6 @@ def t2():
 
 @app.route('/klasterda', methods=['POST'])
 def t3():
-   print(request.json["tekst"], file=open("puhver2.txt", "w"))
    if request.json.get("parsitud", "puudub")=="jah":
      return Response(klasterda(request.json["tekst"], request.json["parameetrid"]), mimetype="text/plain")
    else:
