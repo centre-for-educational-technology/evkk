@@ -28,7 +28,6 @@ print(corrector.LoadLangModel(path))
 asendused=[rida.strip().split(",") for rida in open("/app/word_mapping.csv").readlines()]
 print("laetud")
 
-
 @app.route('/lemmad', methods=['POST'])
 def lemmad():
     nlp = stanza.Pipeline(lang='et', processors='tokenize,pos,lemma')
@@ -53,8 +52,7 @@ def laused():
 
 @app.route('/sonad', methods=['POST'])
 def sonad():
-    return Response(json.dumps(["proov"]), mimetype="application/json")
-#    return Response(json.dumps(arvuta(request.json["tekst"])), mimetype="application/json")
+    #return Response(json.dumps(arvuta(request.json["tekst"])), mimetype="application/json")
     nlp = stanza.Pipeline(lang='et', processors='tokenize,pos')
     doc = nlp(request.json["tekst"])
     v1 = []
