@@ -27,4 +27,24 @@
       and tpr.version = #{version};
   </select>
 
+  <select id="">
+    with processors as (select * from (values
+                                              ('LEMMATIZER', 1), ('LANGUAGE_LEVEL', 1)
+
+                                              ) as processors (type, version)),
+         missing_results as (select hash as text_hash,
+                                    processors.type,
+                                    processors.version
+                             from core.text
+                                    left join processors on true
+                             except
+                             select text_hash,
+                                    type,
+                                    version
+                             from core.text_processor_result)
+    select mr.type, t.id as text_id
+    from missing_results mr
+           join core.text t on t.hash = mr.text_hash;
+  </select>
+
 </mapper>
