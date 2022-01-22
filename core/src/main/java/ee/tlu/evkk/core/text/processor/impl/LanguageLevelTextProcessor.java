@@ -3,11 +3,13 @@ package ee.tlu.evkk.core.text.processor.impl;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.text.processor.TextProcessor;
 import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Mikk Tarvas
  * Date: 22.01.2022
  */
+@Component
 public class LanguageLevelTextProcessor extends AbstractTextProcessor {
 
   private final StanzaServerClient stanzaServerClient;
@@ -24,7 +26,7 @@ public class LanguageLevelTextProcessor extends AbstractTextProcessor {
   @NonNull
   @Override
   public TextProcessor.Type getType() {
-    return TextProcessor.Type.LEMMATIZER;
+    return Type.LANGUAGE_LEVEL;
   }
 
   @NonNull

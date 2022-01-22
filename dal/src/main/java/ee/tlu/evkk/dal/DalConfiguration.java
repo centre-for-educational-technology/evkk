@@ -27,6 +27,8 @@ public class DalConfiguration {
   public ConfigurationCustomizer configurationCustomizer() {
     return configuration -> {
 
+      configuration.setMapUnderscoreToCamelCase(true);
+
       // register custom type handlers
       TypeHandlerRegistry typeHandlerRegistry = configuration.getTypeHandlerRegistry();
       typeHandlerRegistry.register(UUID.class, UUIDTypeHandler.class);
