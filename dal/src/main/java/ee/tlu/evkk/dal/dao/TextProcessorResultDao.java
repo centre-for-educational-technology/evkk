@@ -19,6 +19,6 @@ public interface TextProcessorResultDao {
 
   Optional<TextProcessorResult> findResultForTypeAndVersion(@Param("textHash") String textHash, @Param("type") String type, @Param("version") Long version);
 
-  Cursor<MissingTextProcessorResult> findMissingMissingTextProcessorResults(@Param("processors") Map<String, Long> processors);
+  Cursor<MissingTextProcessorResult> findMissingTextProcessorResults(@Param("processors") Map<String, Long> processors);
 
 }

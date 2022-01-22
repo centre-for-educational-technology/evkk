@@ -27,7 +27,7 @@
       and tpr.version = #{version};
   </select>
 
-  <select id="findMissingMissingTextProcessorResults" resultType="ee.tlu.evkk.dal.dto.MissingTextProcessorResult">
+  <select id="findMissingTextProcessorResults" resultType="ee.tlu.evkk.dal.dto.MissingTextProcessorResult">
     with processors as (select *
                         from (values
                           <foreach collection="processors" index="key" item="value" open="" separator=", " close="">

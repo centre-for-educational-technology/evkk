@@ -67,7 +67,7 @@ public class TextProcessorService {
 
   public Stream<MissingTextProcessorResult> findMissingTextProcessorResults() {
     var processors = textProcessorExecutor.getTypes().stream().collect(Collectors.toUnmodifiableMap(Enum::toString, textProcessorExecutor::getVersion));
-    var cursor = textProcessorResultDao.findMissingMissingTextProcessorResults(processors);
+    var cursor = textProcessorResultDao.findMissingTextProcessorResults(processors);
     var result = StreamSupport.stream(cursor.spliterator(), false);
     return result.onClose(() -> {
       try {
