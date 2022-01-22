@@ -1,9 +1,12 @@
 package ee.tlu.evkk.core.service;
 
 import ee.tlu.evkk.core.text.processor.TextProcessor.Type;
-import ee.tlu.evkk.core.text.processor.TextProcessorRunner;
+import ee.tlu.evkk.core.text.processor.TextProcessorExecutor;
 import ee.tlu.evkk.dal.dao.TextDao;
+import ee.tlu.evkk.dal.dao.TextProcessorResultDao;
+import ee.tlu.evkk.dal.dto.Json;
 import ee.tlu.evkk.dal.dto.Text;
+import ee.tlu.evkk.dal.dto.TextProcessorResult;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,21 +20,38 @@ import java.util.UUID;
 public class TextProcessorService {
 
   private final TextDao textDao;
-  private final TextProcessorRunner textProcessorRunner;
+  private final TextProcessorResultDao textProcessorResultDao;
+  private final TextProcessorExecutor textProcessorExecutor;
 
-  public TextProcessorService(TextDao textDao, TextProcessorRunner textProcessorRunner) {
+  public TextProcessorService(TextDao textDao, TextProcessorResultDao textProcessorResultDao, TextProcessorExecutor textProcessorExecutor) {
     this.textDao = textDao;
-    this.textProcessorRunner = textProcessorRunner;
+    this.textProcessorResultDao = textProcessorResultDao;
+    this.textProcessorExecutor = textProcessorExecutor;
   }
 
-  public void processText(Type type, UUID textId) {
+  public Json processText(Type type, UUID textId) {
     Optional<Text> text = textDao.findById(textId);
-    if (text.isEmpty()) throw new RuntimeException("Text not found"); //TODO: use business exception
+    if (text.isEmpty()) throw new RuntimeException("Text not found: " + textId); //TODO: use business exception
 
     String hash = text.get().getHash();
-    long version = textProcessorRunner.getVersion(type);
+    long version = textProcessorExecutor.getVersion(type);
 
-    String content = text.get().getContent();
+    Optional<TextProcessorResult> found = textProcessorResultDao.findResultForTypeAndVersion(hash, type.toString(), version);
+    if (found.isPresent()) {
+      return found.get().getResult();
+    }
+
+    Json result = Json.createFromObject(textProcessorExecutor.execute(type, text.get().getContent()));
+
+    TextProcessorResult textProcessorResult = new TextProcessorResult();
+    textProcessorResult.setTextHash(hash);
+    textProcessorResult.setResult(result);
+    textProcessorResult.setType(type.toString());
+    textProcessorResult.setVersion(version);
+
+    textProcessorResultDao.upsert(textProcessorResult);
+
+    return result;
   }
 
 }

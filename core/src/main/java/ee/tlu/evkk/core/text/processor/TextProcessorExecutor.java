@@ -12,17 +12,17 @@ import java.util.stream.Collectors;
  * @author Mikk Tarvas
  * Date: 22.01.2022
  */
-public class TextProcessorRunner {
+public class TextProcessorExecutor {
 
   private final Map<Type, TextProcessor> processorsByType;
 
-  private TextProcessorRunner(Map<Type, TextProcessor> processorsByType) {
+  private TextProcessorExecutor(Map<Type, TextProcessor> processorsByType) {
     this.processorsByType = processorsByType;
   }
 
-  static TextProcessorRunner create(Collection<TextProcessor> processors) {
+  static TextProcessorExecutor create(Collection<TextProcessor> processors) {
     Map<Type, TextProcessor> processorsByType = processors.stream().collect(Collectors.toUnmodifiableMap(TextProcessor::getType, Function.identity()));
-    return new TextProcessorRunner(processorsByType);
+    return new TextProcessorExecutor(processorsByType);
   }
 
   private TextProcessor getProcessor(Type type) {
@@ -35,32 +35,10 @@ public class TextProcessorRunner {
     return getProcessor(type).getVersion();
   }
 
-  public Result run(Type type, String text) {
-    TextProcessor processor = processorsByType.get(type);
-    long version = processor.getVersion();
-    Object result = processor.process(text);
+  public Object execute(Type type, String text) {
+    Object result = getProcessor(type).process(text);
     Assert.notNull(result, "Contract violation: processor must not return NULL");
-    return new Result(version, result);
-  }
-
-  public static final class Result {
-
-    private final long version;
-    private final Object result;
-
-    private Result(long version, Object result) {
-      this.version = version;
-      this.result = result;
-    }
-
-    public long getVersion() {
-      return version;
-    }
-
-    public Object getResult() {
-      return result;
-    }
-
+    return result;
   }
 
 }

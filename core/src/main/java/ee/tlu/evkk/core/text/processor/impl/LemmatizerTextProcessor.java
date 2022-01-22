@@ -1,11 +1,13 @@
 package ee.tlu.evkk.core.text.processor.impl;
 
 import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Mikk Tarvas
  * Date: 21.01.2022
  */
+@Component
 public class LemmatizerTextProcessor extends AbstractTextProcessor {
 
   @Override
@@ -22,7 +24,7 @@ public class LemmatizerTextProcessor extends AbstractTextProcessor {
   @NonNull
   @Override
   protected Object doProcess(@NonNull String input) {
-    return null; //TODO: impl
+    return "asdasdasd"; //TODO: impl
   }
 
 }

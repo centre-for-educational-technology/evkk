@@ -12,22 +12,22 @@ import java.util.stream.Collectors;
  * Date: 22.01.2022
  */
 @Component
-public class TextProcessorRunnerFactoryBean implements FactoryBean<TextProcessorRunner> {
+public class TextProcessorExecutorFactoryBean implements FactoryBean<TextProcessorExecutor> {
 
   private final Collection<TextProcessor> processors;
 
-  public TextProcessorRunnerFactoryBean(ObjectProvider<TextProcessor> processors) {
+  public TextProcessorExecutorFactoryBean(ObjectProvider<TextProcessor> processors) {
     this.processors = processors.stream().collect(Collectors.toList());
   }
 
   @Override
-  public TextProcessorRunner getObject() {
-    return TextProcessorRunner.create(processors);
+  public TextProcessorExecutor getObject() {
+    return TextProcessorExecutor.create(processors);
   }
 
   @Override
   public Class<?> getObjectType() {
-    return TextProcessorRunner.class;
+    return TextProcessorExecutor.class;
   }
 
 }
