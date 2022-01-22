@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Mikk Tarvas
@@ -25,7 +24,7 @@ public class TaskSchedulerConfiguration {
 
   @Scheduled(fixedDelay = 5000L)
   public void processTexts() {
-    textProcessingTask.execute();
+    textProcessingTask.execute().join();
   }
 
 }

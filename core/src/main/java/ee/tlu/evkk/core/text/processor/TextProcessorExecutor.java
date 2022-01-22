@@ -5,6 +5,7 @@ import org.springframework.util.Assert;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -33,6 +34,10 @@ public class TextProcessorExecutor {
 
   public long getVersion(Type type) {
     return getProcessor(type).getVersion();
+  }
+
+  public Set<Type> getTypes() {
+    return processorsByType.keySet();
   }
 
   public Object execute(Type type, String text) {

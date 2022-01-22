@@ -34,12 +34,11 @@ public class TextProcessingTask {
   }
 
   @Transactional
-  public void execute() {
+  public CompletableFuture<Void> execute() {
     try (Stream<MissingTextProcessorResult> missingTextProcessorResults = textProcessorService.findMissingTextProcessorResults()) {
-      missingTextProcessorResults
+      return missingTextProcessorResults
         .map(missingTextProcessorResult -> processText(missingTextProcessorResult.getProcessorType(), missingTextProcessorResult.getTextId()))
-        .collect(CompletableFutures.joinList())
-        .join();
+        .collect(CompletableFutures.joinList()).thenApply(ignore -> null);
     }
   }
 

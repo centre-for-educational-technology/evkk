@@ -29,8 +29,10 @@
 
   <select id="findMissingMissingTextProcessorResults" resultType="ee.tlu.evkk.dal.dto.MissingTextProcessorResult">
     with processors as (select *
-                        from (values ('LEMMATIZER', 1),
-                                     ('LANGUAGE_LEVEL', 1)
+                        from (values
+                          <foreach collection="processors" index="key" item="value" open="" separator=", " close="">
+                            (#{key}, #{value})
+                          </foreach>
                              ) as processors (type, version)),
          missing_results as (select hash as text_hash,
                                     processors.type,

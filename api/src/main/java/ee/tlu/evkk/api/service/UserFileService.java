@@ -8,7 +8,7 @@ import ee.tlu.evkk.api.exception.FieldAwareBusinessException;
 import ee.tlu.evkk.api.exception.FileContentExtractionException;
 import ee.tlu.evkk.api.exception.FileNotFoundException;
 import ee.tlu.evkk.api.exception.UnsupportedFileFormatException;
-import ee.tlu.evkk.api.io.IOUtils;
+import ee.tlu.evkk.core.util.IOUtils;
 import ee.tlu.evkk.api.service.dto.GetFileResult;
 import ee.tlu.evkk.api.service.dto.GetUserFileResult;
 import ee.tlu.evkk.api.text.extractor.ContentExtractorExecutor;

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -65,7 +66,8 @@ public class TextProcessorService {
   }
 
   public Stream<MissingTextProcessorResult> findMissingTextProcessorResults() {
-    var cursor = textProcessorResultDao.findMissingMissingTextProcessorResults();
+    var processors = textProcessorExecutor.getTypes().stream().collect(Collectors.toUnmodifiableMap(Enum::toString, textProcessorExecutor::getVersion));
+    var cursor = textProcessorResultDao.findMissingMissingTextProcessorResults(processors);
     var result = StreamSupport.stream(cursor.spliterator(), false);
     return result.onClose(() -> {
       try {
