@@ -28,6 +28,8 @@ public class TaskSchedulerRunner implements CommandLineRunner {
   @Override
   public void run(String... args) {
 
+    if (1 == 1) return;
+
     ThreadPoolTaskExecutor executor = taskExecutorBuilder
       .allowCoreThreadTimeOut(true)
       .queueCapacity(100)

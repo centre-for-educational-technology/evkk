@@ -22,7 +22,7 @@ public class LemmatizerTextProcessor extends AbstractTextProcessor {
   @NonNull
   @Override
   protected Object doProcess(@NonNull String input) {
-    return null;
+    return null; //TODO: impl
   }
 
 }
