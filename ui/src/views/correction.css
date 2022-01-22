@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+.punataust{
+  background-color: red;
+}
+
+.wrapper {
+    width: 80%;
+    height: 500px;
+    margin: 1em auto;
+    text-align: center;
+    position: relative;
+  }
+  
+  #highlights, #textarea {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    border-radius: 0;
+    border: none;
+    padding: 0;
+    text-align: left;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    white-space: pre-wrap;
+  }
+  
+  textarea {
+    color: #444;
+    background-color: transparent;
+    z-index: 10;
+  }
+  
+  input:focus,
+  textarea:active,
+  textarea:focus,
+  textarea:hover {
+    outline: 0px !important;
+    -webkit-appearance: none !important;
+    box-shadow: none !important;
+  }
+  
+  #highlights {
+    word-wrap: break-word;
+    color: transparent;
+    overflow-y: auto;
+  }
+  
+  .borderbox {
+    width: 104%;
+    height: 104%;
+    position: absolute;
+    top: -2%;
+    left: -2%;
+    margin: 0;
+    border-radius: 2px;
+    border: 1px solid rgb(112, 112, 110);
+    padding: 0;
+  }
+
+  .margitud {
+    background-color: rgb(245, 208, 87);
+  }

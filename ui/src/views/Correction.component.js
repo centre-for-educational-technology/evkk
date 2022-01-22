@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import "./correction.css";
 
 class Correction extends Component {
   constructor(props){
@@ -6,10 +7,11 @@ class Correction extends Component {
     this.state={alasisu:"", tasemevastus:["algusväärtus"], 
       tasemetekst:"",
       korrektorivastus:["", ""],
-      vastuskood:"", vastusnahtav: false, muutuskood:"", 
-      taselisa:false, avatudkaart:"korrektuur", kordab: false};
+      vastuskood:"", vastusnahtav: false, muutuskood:"", yksikmuutus: false,  taustatekst:<span></span>,
+      taselisa:false, avatudkaart:"korrektuur", kordab: false, sisukohad:[], sisusonad:[], vastussonad:[] };
     this.alaMuutus=this.alaMuutus.bind(this);
     this.ala1=React.createRef();
+    this.taust1=React.createRef();
     this.kysi3=this.kysi3.bind(this);
     this.korda=this.korda.bind(this);
   }
@@ -39,7 +41,7 @@ class Correction extends Component {
     this.setState({alasisu: uus});
   }
 
-  margi(algus, sisu){
+  margi(algus, sisu, puhastab=false){
     //console.log(algus, sisu);
      this.ala1.focus();
      //this.ala1.setSelectionRange(algus, pikkus);
@@ -55,6 +57,7 @@ class Correction extends Component {
      let selectionRow = (this.ala1.selectionStart - (this.ala1.selectionStart % charsPerRow)) / charsPerRow;
      let lineHeight = this.ala1.clientHeight / this.ala1.rows;
      this.ala1.scrollTop = lineHeight * selectionRow-30;
+     if(puhastab){this.setState({yksikmuutus: false});}
 // scroll !!
 }
 
@@ -109,25 +112,35 @@ kysi4= () => {
      let sm=t[1].split(" ");
      let vm=t[0].split(" ");
      let vastustekst=[];
+     let taustatekst=[];
      let sisutekst="";
      let muutused=[];
+     let sisukohad=[];
      for(let i=0; i<vm.length; i++){
          if(sm[i]===vm[i]){
-             vastustekst[i]=<span key={"s"+i}>{vm[i]+" "}</span>;
-         } else {
+          vastustekst[i]=<span key={"s"+i}>{vm[i]+" "}</span>;
+          taustatekst[i]=<span key={"t"+i}>{sm[i]+" "}</span>;
+        } else {
              const algus=sisutekst.length;
              const sisu=sm[i];     
              muutused[i]=<span key={"sm"+i}>
-                <span onClick={() =>this.margi(algus, sisu)} style={{'backgroundColor': 'lightpink'}}>{sm[i]}</span> - <span>{vm[i]}</span> <button onClick={() =>this.asenda(algus, sisu, vm[i])}>asenda</button><br />
-             </span>        
-             vastustekst[i]=<span  key={"s"+i}><span title={vm[i]}
+                <span onClick={() =>this.margi(algus, sisu, true)} style={{'backgroundColor': 'lightpink'}}>{sm[i]}</span> - <span>{vm[i]}</span> <button onClick={() =>this.asenda(algus, sisu, vm[i])}>asenda</button><br />
+             </span> 
+             console.log("muutus", algus, sisu, vm[i]);       
+          taustatekst[i]=<span key={"t"+i}><span className="margitud" onClick={(e) => {console.log(e);}}  title={vm[i]}>{sm[i]}</span><span> </span></span>;
+          vastustekst[i]=<span  key={"s"+i}><span title={vm[i]}
              onClick={() =>this.margi(algus, sisu)} style={{'backgroundColor': 'lightgray'}}>{sm[i]}</span><span> </span></span>;
          }
          sisutekst+=sm[i]+" ";
+         sisukohad[i]=sisutekst.length;
      }
      this.setState({"muutuskood": <div>{muutused.length>0 ? muutused : "Parandused puuduvad!"}</div>})
      this.setState({"vastuskood": <div>{vastustekst}<br /><br /><br /><br /><br /><br /></div>})
-
+     this.setState({"taustakood": <div>{taustatekst}</div>}, () => {this.kerimine()});
+     this.setState({"sisukohad": sisukohad});
+     this.setState({"sisusonad":sm});
+     this.setState({"vastussonad": vm});
+     this.setState({yksikmuutus: false});
    })
   }
 
@@ -176,22 +189,59 @@ kysi4= () => {
   </div>): <div>Tekst liiga lühike</div>) : ""}</span> : "Tekst on liiga lühike" }</span>
   }
 
+  kerimine(){
+     this.taust1.scrollTop=this.ala1.scrollTop;
+  }
 
+  tekstialaHiir(e){
+    let koht=this.ala1.selectionStart;
+    let algus=koht;
+    let ots=koht;
+    while(algus>0 && this.state.alasisu[algus]!==' '){algus--;}
+    while(ots<this.state.alasisu.length && this.state.alasisu[ots]!==' '){ots++;}
+    let sona=this.state.alasisu.substring(algus+1, ots);
+    console.log(this.ala1.selectionStart, sona);
+    this.vali(sona, this.ala1.selectionStart);
+  }
+
+  vali(sona, koht){
+     let k=0, v=-1; 
+     while(this.state.sisukohad[k]<koht){k++;}
+     if(this.state.sisusonad[k]===sona){v=k;}
+     for(let i=0; i<3; i++){
+      if(this.state.sisusonad[k+i]===sona){v=k+i;}
+      if(this.state.sisusonad[k-i]===sona){v=k-i;}
+    }
+    console.log(v, this.state.sisusonad[v], this.state.vastussonad[v]);
+    if(this.state.sisusonad[v]!==this.state.vastussonad[v]){
+      //this.setState({yksikmuutus: this.state.muutuskood[v]});
+      console.log("vahetatud "+v);
+      let vahetus=<span key={"sm"+v}>
+                <span onClick={() =>this.margi(this.state.sisukohad[v]-this.state.sisusonad[v].length, this.state.sisusonad[v])} style={{'backgroundColor': 'lightpink'}}>{this.state.sisusonad[v]}</span> - <span>{this.state.vastussonad[v]}</span> <button onClick={() =>this.asenda(this.state.sisukohad[v]-this.state.sisusonad[v].length, this.state.sisusonad[v], this.state.vastussonad[v])}>asenda</button><br />
+             </span>
+      this.setState({yksikmuutus: vahetus});
+      console.log(vahetus, this.state.sisukohad[v], this.state.sisusonad[v], this.state.vastussonad[v]);
+    } else {
+      this.setState({yksikmuutus: false});
+      console.log("tagasi");
+    }
+  }
 
   render() {
-    let sisestusk={
-      position: "relative",
-      top: 0,
-      left: 0
-    }
+
     return (
       <div className={'container'}>
         
         <p/>
         <div style={{'float':'left', 'margin':'10px', 'width': '45%'}}>
-          <div style={sisestusk}>proovikiht</div>
-          <textarea style={sisestusk} ref={(e) => this.ala1=e} onChange={(event) =>this.alaMuutus(event)} rows="15" cols="60" value={this.state.alasisu}  spellCheck={false}
-          placeholder={"Kopeeri või kirjuta siia analüüsitav tekst"}/><br />
+        <div className="wrapper">
+        <div id="highlights" ref={(e) =>this.taust1=e}>{this.state.taustakood}</div>
+          <textarea id="textarea" onScroll={(e) => this.kerimine()}  ref={(e) => this.ala1=e} onChange={(event) =>this.alaMuutus(event)} rows="15" cols="60" 
+           value={this.state.alasisu}  spellCheck={false} onMouseUp={(event) => this.tekstialaHiir(event)}
+          placeholder={"Kopeeri või kirjuta siia analüüsitav tekst"}/>
+          <div className={"borderbox"}></div>
+        </div>
+          <br />
     
           <br />
           <div style={{width:"300px"}}>Rakenduse abil saad parandada oma teksti õigekirja ja vaadata, 
@@ -229,7 +279,7 @@ kysi4= () => {
 <br />
          {this.state.avatudkaart==="korrektuur" && <span>
              {this.state.kordab && this.state.alasisu!==this.state.korrektorivastus[1] && this.ketas()}<br />
-             {this.state.muutuskood}<br />
+             {(this.state.yksikmuutus) ? this.state.yksikmuutus : this.state.muutuskood}<br />
               { (this.state.alasisu.length>0  )? <span>{ (this.state.kordab) && 
                 <button  onClick={() =>this.setState((state, props) => {return {vastusnahtav: !state.vastusnahtav}})}> {this.state.vastusnahtav?"Peida tekst":"Näita teksti"} </button>
                 }</span> : ""}
