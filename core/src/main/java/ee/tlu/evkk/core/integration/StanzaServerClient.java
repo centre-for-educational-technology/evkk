@@ -10,7 +10,7 @@ import java.util.Map;
  * @author Mikk Tarvas
  * Date: 30.09.2021
  */
-public class StanzaServerClient {
+public class StanzaServerClient extends AbstractRestOperationsClient {
 
   private final RestOperations rest;
 
@@ -21,35 +21,35 @@ public class StanzaServerClient {
   public String[] getLemmad(String tekst) {
     Map<String, String> map = Map.of("tekst", tekst);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
-    ResponseEntity<String[]> forEntity = rest.postForEntity("/lemmad", requestEntity, String[].class);
+    ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/lemmad", requestEntity, String[].class));
     return forEntity.getBody();
   }
 
   public String[][] getLaused(String tekst) {
     Map<String, String> map = Map.of("tekst", tekst);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
-    ResponseEntity<String[][]> forEntity = rest.postForEntity("/laused", requestEntity, String[][].class);
+    ResponseEntity<String[][]> forEntity = retry().execute(context -> rest.postForEntity("/laused", requestEntity, String[][].class));
     return forEntity.getBody();
   }
 
   public String[] getSonad(String tekst) {
     Map<String, String> map = Map.of("tekst", tekst);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
-    ResponseEntity<String[]> forEntity = rest.postForEntity("/sonad", requestEntity, String[].class);
+    ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/sonad", requestEntity, String[].class));
     return forEntity.getBody();
   }
 
   public String[] getKorrektuur(String tekst) {
     Map<String, String> map = Map.of("tekst", tekst);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
-    ResponseEntity<String[]> forEntity = rest.postForEntity("/korrektuur", requestEntity, String[].class);
+    ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/korrektuur", requestEntity, String[].class));
     return forEntity.getBody();
   }
 
   public String[][] getKeeletase(String tekst) {
     Map<String, String> map = Map.of("tekst", tekst);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
-    ResponseEntity<String[][]> forEntity = rest.postForEntity("/keeletase", requestEntity, String[][].class);
+    ResponseEntity<String[][]> forEntity = retry().execute(context -> rest.postForEntity("/keeletase", requestEntity, String[][].class));
     return forEntity.getBody();
   }
 

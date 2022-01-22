@@ -5,6 +5,9 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.boot.task.TaskExecutorBuilder;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.support.TransactionTemplate;
 
 /**
  * @author Mikk Tarvas
@@ -15,17 +18,25 @@ public class TextProcessingTaskFactoryBean implements FactoryBean<TextProcessing
 
   private final TaskExecutorBuilder taskExecutorBuilder;
   private final TextProcessorService textProcessorService;
+  private final PlatformTransactionManager platformTransactionManager;
 
-  public TextProcessingTaskFactoryBean(TaskExecutorBuilder taskExecutorBuilder, TextProcessorService textProcessorService) {
+  public TextProcessingTaskFactoryBean(TaskExecutorBuilder taskExecutorBuilder, TextProcessorService textProcessorService, PlatformTransactionManager platformTransactionManager) {
     this.taskExecutorBuilder = taskExecutorBuilder;
     this.textProcessorService = textProcessorService;
+    this.platformTransactionManager = platformTransactionManager;
   }
 
   @Override
   public TextProcessingTask getObject() {
     ThreadPoolTaskExecutor executor = taskExecutorBuilder.build();
     executor.initialize();
-    return new TextProcessingTask(executor, textProcessorService);
+
+    TransactionTemplate transactionTemplate = new TransactionTemplate(platformTransactionManager);
+    transactionTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+    transactionTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_DEFAULT);
+    transactionTemplate.setReadOnly(false);
+
+    return new TextProcessingTask(executor, transactionTemplate, textProcessorService);
   }
 
   @Override

@@ -46,7 +46,12 @@ public class TextProcessorService {
       return found.get().getResult();
     }
 
-    Json result = Json.createFromObject(textProcessorExecutor.execute(type, text.get().getContent()));
+    Json result;
+    try {
+      result = Json.createFromObject(textProcessorExecutor.execute(type, text.get().getContent()));
+    } catch (Exception ex) {
+      throw new RuntimeException("Unable to process textId " + textId + " using " + type + " processor", ex);
+    }
 
     TextProcessorResult textProcessorResult = new TextProcessorResult();
     textProcessorResult.setTextHash(hash);

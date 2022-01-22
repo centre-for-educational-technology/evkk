@@ -45,7 +45,8 @@
     select mr.type as processor_type,
            t.id    as text_id
     from missing_results mr
-           join core.text t on t.hash = mr.text_hash;
+           join core.text t on t.hash = mr.text_hash
+    limit 1000;
   </select>
 
 </mapper>

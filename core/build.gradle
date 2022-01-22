@@ -6,5 +6,6 @@ dependencies {
   api project(":dal")
 
   api "org.springframework.boot:spring-boot-starter"
+  api "org.springframework.retry:spring-retry"
 
 }
