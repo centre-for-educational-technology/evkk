@@ -30,6 +30,7 @@ begin
     when duplicate_object then null;
     when others then raise;
   end;
+  execute format('alter user %s with password ''%s''', name, password);
   execute format('revoke all privileges on database %s from %s', current_database_name, name);
   execute format('grant connect on database %s to %s', current_database_name, name);
 end;

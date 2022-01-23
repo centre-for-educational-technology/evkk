@@ -31,7 +31,7 @@ public class PropertiesLoggingListener implements ApplicationListener<Applicatio
   private static final String LINE_SEPARATOR = System.lineSeparator();
   private static final TablePrinter TABLE_PRINTER = new TablePrinter(
     TablePrinter.column("PROPERTY NAME", TablePrinter.Alignment.LEFT),
-    TablePrinter.column("PROPERTY VALUE", TablePrinter.Alignment.LEFT, 100)
+    TablePrinter.column("PROPERTY VALUE", TablePrinter.Alignment.LEFT, 80)
   );
 
   @Override
