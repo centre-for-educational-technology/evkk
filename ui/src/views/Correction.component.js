@@ -16,6 +16,20 @@ class Correction extends Component {
     this.korda=this.korda.bind(this);
   }
 
+
+  puhasta(sona){
+    return sona.replace(/^[^0-9a-zA-ZõäöüÕÄÖÜ]+/, '').replace(/[^0-9a-zA-ZõäöüÕÄÖÜ]+$/, '')
+  }
+
+  puhasta2(sona){
+    let re=/(^[^0-9a-zA-ZõäöüÕÄÖÜ]*)(.*[0-9a-zA-ZõäöüÕÄÖÜ]+)([^0-9a-zA-ZõäöüÕÄÖÜ]*)/;
+    return re.exec(sona);
+  }
+
+  kasTaht(t){
+
+  }
+
   kordama(){
     this.setState({kordab: true});
     this.korda();
@@ -23,8 +37,10 @@ class Correction extends Component {
   }
 
   korda(){
-    if(this.state.avatudkaart==="korrektuur"){this.kysi3();}
-    if(this.state.avatudkaart==="hindamine"){this.kysi4();}
+//    if(this.state.avatudkaart==="korrektuur"){this.kysi3();}
+//    if(this.state.avatudkaart==="hindamine"){this.kysi4();}
+   this.kysi3();
+   this.kysi4();
   }
 
   alaMuutus(event){
@@ -56,7 +72,7 @@ class Correction extends Component {
      let charsPerRow = this.ala1.cols;
      let selectionRow = (this.ala1.selectionStart - (this.ala1.selectionStart % charsPerRow)) / charsPerRow;
      let lineHeight = this.ala1.clientHeight / this.ala1.rows;
-     this.ala1.scrollTop = lineHeight * selectionRow-30;
+     //this.ala1.scrollTop = lineHeight * selectionRow-30;
      if(puhastab){this.setState({yksikmuutus: false});}
 // scroll !!
 }
@@ -127,8 +143,10 @@ kysi4= () => {
                 <span onClick={() =>this.margi(algus, sisu, true)} style={{'backgroundColor': 'lightpink'}}>{sm[i]}</span> - <span>{vm[i]}</span> <button onClick={() =>this.asenda(algus, sisu, vm[i])}>asenda</button><br />
              </span> 
              console.log("muutus", algus, sisu, vm[i]);       
-          taustatekst[i]=<span key={"t"+i}><span className="margitud" onClick={(e) => {console.log(e);}}  title={vm[i]}>{sm[i]}</span><span> </span></span>;
-          vastustekst[i]=<span  key={"s"+i}><span title={vm[i]}
+//             taustatekst[i]=<span key={"t"+i}><span className="margitud" onClick={(e) => {console.log(e);}}  title={vm[i]}>{sm[i]}</span><span> </span></span>;
+             let kpl=this.puhasta2(sm[i]);
+             taustatekst[i]=<span key={"t"+i}><span>{kpl[1]}</span><span className="margitud" onClick={(e) => {console.log(e);}}  title={vm[i]}>{kpl[2]}</span><span>{kpl[3]}</span><span> </span></span>;
+             vastustekst[i]=<span  key={"s"+i}><span title={vm[i]}
              onClick={() =>this.margi(algus, sisu)} style={{'backgroundColor': 'lightgray'}}>{sm[i]}</span><span> </span></span>;
          }
          sisutekst+=sm[i]+" ";
@@ -216,10 +234,13 @@ kysi4= () => {
     if(this.state.sisusonad[v]!==this.state.vastussonad[v]){
       //this.setState({yksikmuutus: this.state.muutuskood[v]});
       console.log("vahetatud "+v);
+/*      let vahetus=<span key={"sm"+v}>
+                <span onClick={() =>this.margi(this.state.sisukohad[v]-this.state.sisusonad[v].length, this.state.sisusonad[v])} style={{'backgroundColor': 'lightpink'}}>{this.puhasta(this.state.sisusonad[v])}</span> - <span>{this.puhasta(this.state.vastussonad[v])}</span> <button onClick={() =>this.asenda(this.state.sisukohad[v]-this.state.sisusonad[v].length, this.state.sisusonad[v], this.state.vastussonad[v])}>asenda</button><br />
+             </span> */
       let vahetus=<span key={"sm"+v}>
-                <span onClick={() =>this.margi(this.state.sisukohad[v]-this.state.sisusonad[v].length, this.state.sisusonad[v])} style={{'backgroundColor': 'lightpink'}}>{this.state.sisusonad[v]}</span> - <span>{this.state.vastussonad[v]}</span> <button onClick={() =>this.asenda(this.state.sisukohad[v]-this.state.sisusonad[v].length, this.state.sisusonad[v], this.state.vastussonad[v])}>asenda</button><br />
-             </span>
-      this.setState({yksikmuutus: vahetus});
+      <span  style={{'backgroundColor': 'lightpink'}}>{this.puhasta(this.state.sisusonad[v])}</span> - <span>{this.puhasta(this.state.vastussonad[v])}</span> <button onClick={() =>this.asenda(this.state.sisukohad[v]-this.state.sisusonad[v].length, this.state.sisusonad[v], this.state.vastussonad[v])}>asenda</button><br />
+   </span>
+this.setState({yksikmuutus: vahetus});
       console.log(vahetus, this.state.sisukohad[v], this.state.sisusonad[v], this.state.vastussonad[v]);
     } else {
       this.setState({yksikmuutus: false});
@@ -247,6 +268,9 @@ kysi4= () => {
           <div style={{width:"300px"}}>Rakenduse abil saad parandada oma teksti õigekirja ja vaadata, 
           mis keeleoskustasemele see vastab (A2–C1). 
           Loe lähemalt  <a href={"https://github.com/centre-for-educational-technology/evkk/wiki/Demos"}>siit</a>.</div>
+          <br />
+          <br />
+          <br />
           </div>
            <div style={{'float':'left', 'margin':'10px', 'width': '50%'}}>
            <style>{`
@@ -279,12 +303,15 @@ kysi4= () => {
 <br />
          {this.state.avatudkaart==="korrektuur" && <span>
              {this.state.kordab && this.state.alasisu!==this.state.korrektorivastus[1] && this.ketas()}<br />
-             {(this.state.yksikmuutus) ? this.state.yksikmuutus : this.state.muutuskood}<br />
-              { (this.state.alasisu.length>0  )? <span>{ (this.state.kordab) && 
+             {(this.state.yksikmuutus) ? this.state.yksikmuutus : "" //this.state.muutuskood
+             }<br />
+         
+              { /*(this.state.alasisu.length>0  )? <span>{ (this.state.kordab) && 
                 <button  onClick={() =>this.setState((state, props) => {return {vastusnahtav: !state.vastusnahtav}})}> {this.state.vastusnahtav?"Peida tekst":"Näita teksti"} </button>
-                }</span> : ""}
-            { this.state.vastusnahtav && <span>{this.state.tasemevastus?this.state.vastuskood:"algus"}</span>}
-             </span>}
+                }</span> : ""
+              */ }
+            {  this.state.vastusnahtav && <span>{this.state.tasemevastus?this.state.vastuskood:"algus"}</span>}
+             </span>} 
 
 
          {this.state.avatudkaart==="hindamine" && this.state.kordab && <div>

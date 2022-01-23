@@ -69,7 +69,7 @@ def korrektuur():
     t=request.json["tekst"]
 
     correction = corrector.FixFragment(t)
-    print(correction)
+    #print(correction)
     response=Response(json.dumps([correction, request.json["tekst"]]), mimetype="application/json")
     return response
     
