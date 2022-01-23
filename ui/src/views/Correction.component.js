@@ -26,9 +26,6 @@ class Correction extends Component {
     return re.exec(sona);
   }
 
-  kasTaht(t){
-
-  }
 
   kordama(){
     this.setState({kordab: true});
@@ -140,7 +137,7 @@ kysi4= () => {
              const algus=sisutekst.length;
              const sisu=sm[i];     
              muutused[i]=<span key={"sm"+i}>
-                <span onClick={() =>this.margi(algus, sisu, true)} style={{'backgroundColor': 'lightpink'}}>{sm[i]}</span> - <span>{vm[i]}</span> <button onClick={() =>this.asenda(algus, sisu, vm[i])}>asenda</button><br />
+                <span onClick={() =>this.margi(algus, sisu, true)} style={{'backgroundColor': 'lightpink'}}>{sm[i]}</span> - <span>{vm[i]}</span> <button onClick={() =>this.asenda(algus, sisu, vm[i])}>Asenda</button><br />
              </span> 
              console.log("muutus", algus, sisu, vm[i]);       
 //             taustatekst[i]=<span key={"t"+i}><span className="margitud" onClick={(e) => {console.log(e);}}  title={vm[i]}>{sm[i]}</span><span> </span></span>;
