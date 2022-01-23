@@ -1,5 +1,4 @@
 FROM evkk-stanza
-COPY ./stanza-server/ /app/
 RUN apt-get update && apt-get install -y swig3.0
 RUN pip install numpy
 RUN pip install pandas
@@ -22,4 +21,5 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 #CMD ["web_server/web_server",  "/app/JamSpell/build/model_sherlock.bin", "localhost", "5000"]
 
+COPY ./stanza-server/ /app/
 CMD ["python", "/app/server.py"]
