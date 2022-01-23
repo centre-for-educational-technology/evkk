@@ -44,6 +44,19 @@ services:
       - $PWD/conf/common.env
       - $PWD/conf/api.env
 
+  task_scheduler:
+    image: evkk-backend
+    container_name: evkk-task-scheduer
+    restart: always
+    entrypoint: [ "/bin/bash", "-c", "java -jar app/task-scheduler.jar" ]
+    secrets:
+      - EVKK_TASK_SCHEDULER_DATASOURCE_PASSWORD
+    depends_on:
+      - postgres
+    env_file:
+      - $PWD/conf/common.env
+      - $PWD/conf/task-scheduler.env
+
   stanza-server:
     image: evkk-stanza-server
     container_name: evkk-stanza-server

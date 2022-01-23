@@ -61,10 +61,11 @@ public class Json {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Json json = (Json) o;
+  public boolean equals(Object other) {
+    if (this == other) return true;
+    if (other == null) return false;
+    if (getClass() != other.getClass()) return false;
+    Json json = (Json) other;
     return jsonNode.equals(json.jsonNode);
   }
 

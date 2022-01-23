@@ -5,6 +5,7 @@ services:
   postgres:
     image: postgres:13-alpine
     container_name: evkk-postgres
+    restart: always
     command: [ "postgres", "-c", "log_statement=all" ]
     environment:
       POSTGRES_USER: db_user
@@ -18,11 +19,13 @@ services:
   redis:
     image: redis:6-alpine
     container_name: evkk-redis
+    restart: always
     ports:
       - "6379:6379"
 
   stanza-server:
     container_name: evkk-stanza-server
+    restart: always
     build:
       context: .
       dockerfile: docker/images/evkk-stanza-server.Dockerfile
@@ -31,6 +34,7 @@ services:
 
   klasterdaja:
     container_name: evkk-klasterdaja
+    restart: always
     build:
       context: .
       dockerfile: docker/images/evkk-klasterdaja.Dockerfile

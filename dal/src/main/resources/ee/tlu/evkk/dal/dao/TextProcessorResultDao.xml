@@ -1,0 +1,54 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ee.tlu.evkk.dal.dao.TextProcessorResultDao">
+
+  <select id="upsert" resultType="java.util.UUID" useCache="false" flushCache="true">
+    insert into core.text_processor_result (text_processor_result_id,
+                                            text_hash,
+                                            type,
+                                            version,
+                                            result)
+    values (coalesce(#{textProcessorResult.textProcessorResultId}, uuid_generate_v4()),
+            #{textProcessorResult.textHash},
+            #{textProcessorResult.type},
+            #{textProcessorResult.version},
+            #{textProcessorResult.result})
+    on conflict on constraint text_processor_result_uq_text_hash_type_version
+      do update set result = excluded.result
+    returning text_processor_result_id;
+  </select>
+
+  <select id="findResultForTypeAndVersion" resultType="ee.tlu.evkk.dal.dto.TextProcessorResult">
+    select *
+    from core.text_processor_result tpr
+    where tpr.text_hash = #{textHash}
+      and tpr.type = #{type}
+      and tpr.version = #{version};
+  </select>
+
+  <select id="findMissingTextProcessorResults" resultType="ee.tlu.evkk.dal.dto.MissingTextProcessorResult">
+    with processors as (select *
+                        from (values
+                          <foreach collection="processors" index="key" item="value" open="" separator=", " close="">
+                            (#{key}, #{value})
+                          </foreach>
+                             ) as processors (type, version)),
+         missing_results as (select hash as text_hash,
+                                    processors.type,
+                                    processors.version
+                             from core.text
+                                    left join processors on true
+                             except
+                             select text_hash,
+                                    type,
+                                    version
+                             from core.text_processor_result)
+    select mr.type as processor_type,
+           t.id    as text_id
+    from missing_results mr
+           join core.text t on t.hash = mr.text_hash
+    limit 1000;
+  </select>
+
+</mapper>

@@ -1,4 +1,4 @@
-package ee.tlu.evkk.api.io;
+package ee.tlu.evkk.core.util;
 
 import org.springframework.core.io.InputStreamSource;
 

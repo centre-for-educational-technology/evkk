@@ -169,4 +169,10 @@
       AND core.text_property.property_value= #{corpusId});
     </select>
 
+  <select id="findById" resultType="ee.tlu.evkk.dal.dto.Text">
+    select *
+    from core.text t
+    where t.id = #{id};
+  </select>
+
 </mapper>
