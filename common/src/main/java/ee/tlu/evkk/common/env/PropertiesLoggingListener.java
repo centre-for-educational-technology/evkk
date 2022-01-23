@@ -36,8 +36,8 @@ public class PropertiesLoggingListener implements ApplicationListener<Applicatio
 
   @Override
   public void onApplicationEvent(@NonNull ApplicationPreparedEvent event) {
-    if (!log.isDebugEnabled()) return;
-    log.debug(LINE_SEPARATOR
+    if (!log.isInfoEnabled()) return;
+    log.info(LINE_SEPARATOR
       + LINE_SEPARATOR
       + "~~~ NOTICE: ~~~" + LINE_SEPARATOR
       + "\t1) This table only contains properties from enumerable property sources. Properties from non-enumerable sources will not show up (for example JndiPropertySource)." + LINE_SEPARATOR
