@@ -11,7 +11,6 @@ import re
 
 from tasemehindaja import arvuta
 
-stanza.download('et')
 app = Flask(__name__)
 
 corrector=jamspell.TSpellCorrector()
@@ -70,7 +69,7 @@ def korrektuur():
     print(correction)
     response=Response(json.dumps([correction, request.json["tekst"]]), mimetype="application/json")
     return response
-    
+
 @app.route('/keeletase', methods=['POST'])
 def keeletase():
     #return Response(json.dumps(arvuta("Juku tuli kooli ja oli üllatavalt rõõmsas tujus")), mimetype="application/json")
