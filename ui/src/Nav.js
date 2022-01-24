@@ -57,15 +57,13 @@ class Nav extends Component {
               <li className="nav-item">
                 <Link to="/resource" className={'nav-link'}>Ressurss</Link>
               </li>
-			  <li className="nav-item">
+              <li className="nav-item">
                 <a className="nav-link" href="/sonarakendus/paring.html" rel="noopener noreferrer" target="_blank">Päring</a>
               </li>
               {/*
               <li className="nav-item">
                 <Link to="/resources" className={'nav-link'}>Materjalid</Link>
               </li>
-              */}
-              {/*
               <li className="nav-item">
                 <Link to="/links" className={'nav-link'}>Kasulikud lingid</Link>
               </li>
@@ -75,7 +73,7 @@ class Nav extends Component {
                   Tööriistad
                 </a>
                 <div className="dropdown-menu">
-                  <a className="dropdown-item" href="/correction" rel="noopener noreferrer" target="_blank">Tekstihindaja</a>
+                  <a className="dropdown-item" href="/correction" rel="noopener noreferrer">Tekstihindaja</a>
                   <a className="dropdown-item" href="/sonarakendus/home.html" rel="noopener noreferrer" target="_blank">Sõnasagedus & kontekst</a>
                   {/*<a className="dropdown-item" href="/tools/clusterfinder" rel="noopener noreferrer">Keelemustrite leidja</a>*/}
                   {/*<Link to="/tools/masinoppe-ennustus" className={'dropdown-item'}>Masinõppe ennustus</Link>*/}
@@ -85,8 +83,7 @@ class Nav extends Component {
                 <Link to="/employees" className={'nav-link'}>Töötajad</Link>
               </li>
               <li className="nav-item">
-                <a href="https://evkk.tlu.ee/vers1/" target="_blank" rel="noopener noreferrer" className={'nav-link'}>Vana versioon <i
-                  className="fas fa-external-link-alt"/></a>
+                <a href="https://evkk.tlu.ee/vers1/" target="_blank" rel="noopener noreferrer" className={'nav-link'}>Vana versioon <i className="fas fa-external-link-alt"/></a>
               </li>
             </ul>
             {/*
