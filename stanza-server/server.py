@@ -8,10 +8,13 @@ import jamspell
 import re
 from tasemehindaja import arvuta
 from nlp import nlp_tpl, nlp_t, nlp_tp
+import subprocess
+import base64
+from stanza_caller import call_stanza_runner
 
 print("Start loading model...")
-#corrector=jamspell.TSpellCorrector()
-#corrector.LoadLangModel("/app/jamspell_estonian_2021_05_13.bin")
+corrector=jamspell.TSpellCorrector()
+corrector.LoadLangModel("/app/jamspell_estonian_2021_05_13.bin")
 print("Done loading model")
 
 asendused=[rida.strip().split(",") for rida in open("/app/word_mapping.csv").readlines()]
@@ -20,14 +23,8 @@ app = Flask(__name__)
 
 @app.route('/lemmad', methods=['POST'])
 def lemmad():
-    nlp = nlp_tpl
-    doc = nlp(request.json["tekst"])
-    v1 = []
-    for sentence in doc.sentences:
-        for word in sentence.words:
-            if word._upos!="PUNCT":
-                v1.append(word.lemma)
-    return Response(json.dumps(v1), mimetype="application/json")
+  result = call_stanza_runner("lemmatize", request.json["tekst"])
+  return Response(json.dumps(result), mimetype="application/json")
 
 @app.route('/laused', methods=['POST'])
 def laused():
