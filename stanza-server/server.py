@@ -6,27 +6,17 @@ from flask import Flask
 from flask import request
 from flask import Response
 import jamspell
-import gdown
 import re
-
 from tasemehindaja import arvuta
 
-stanza.download('et')
-app = Flask(__name__)
-
+print("Start loading model...")
 corrector=jamspell.TSpellCorrector()
-print("laeb mudelit")
-import os
-from os.path import exists
-path="/app/jamspell_estonian_2021_05_13.bin"
-if not exists(path):
-  print("tombab")
-  gdown.download("https://drive.google.com/uc?id=1AVO7H1v6SaQ9Eom50ZmFZoW6Q17SUzm2", output=path)
-print(os.getcwd())
-print(os.listdir("app"))
-print(corrector.LoadLangModel(path))
+corrector.LoadLangModel("/app/jamspell_estonian_2021_05_13.bin")
+print("Done loading model")
+
 asendused=[rida.strip().split(",") for rida in open("/app/word_mapping.csv").readlines()]
-print("laetud")
+
+app = Flask(__name__)
 
 @app.route('/lemmad', methods=['POST'])
 def lemmad():
@@ -70,7 +60,7 @@ def korrektuur():
     print(correction)
     response=Response(json.dumps([correction, request.json["tekst"]]), mimetype="application/json")
     return response
-    
+
 @app.route('/keeletase', methods=['POST'])
 def keeletase():
     #return Response(json.dumps(arvuta("Juku tuli kooli ja oli üllatavalt rõõmsas tujus")), mimetype="application/json")
@@ -86,4 +76,5 @@ def asenda(t):
         t=re.sub("([,-?!\"' ()])("+a[0]+")([,-?!\"' ()])", "\\1"+a[1]+"\\3", t)
         t=re.sub("([,-?!\"' ()])("+a[0]+")([,-?!\"' ()])", "\\1"+a[1]+"\\3", t)
     return t
-app.run(host="0.0.0.0")
+
+app.run(host="0.0.0.0", threaded=True)

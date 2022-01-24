@@ -32,7 +32,10 @@ public class CoreConfiguration {
   @Bean
   public StanzaServerClient stanzaClient(ServiceLocator serviceLocator, RestTemplateBuilder restTemplateBuilder) {
     URI stanzaServerUri = serviceLocator.locate(STANZA_SERVER);
-    RestTemplate rest = restTemplateBuilder.rootUri(stanzaServerUri.toString()).build();
+    //TODO: figure out good timeout values for REST
+    RestTemplate rest = restTemplateBuilder
+      .rootUri(stanzaServerUri.toString())
+      .build();
     return new StanzaServerClient(rest);
   }
 

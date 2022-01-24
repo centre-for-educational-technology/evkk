@@ -4,7 +4,7 @@ set -e
 echo "Building EVKK ..."
 
 if [[ -z "$BUILD_TARGET" ]]; then
-    echo "\$BUILD_TARGET is missing" 1>&2
+    echo "\$BUILD_TARGET is not set" 1>&2
     exit 1
 fi
 
