@@ -77,4 +77,4 @@ def asenda(t):
         t=re.sub("([,-?!\"' ()])("+a[0]+")([,-?!\"' ()])", "\\1"+a[1]+"\\3", t)
     return t
 
-app.run(host="0.0.0.0")
+app.run(host="0.0.0.0", threaded=True)
