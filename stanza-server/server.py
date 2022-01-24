@@ -1,4 +1,3 @@
-import stanza
 import sys
 import json
 import os
@@ -8,10 +7,11 @@ from flask import Response
 import jamspell
 import re
 from tasemehindaja import arvuta
+from nlp import nlp_tpl, nlp_t, nlp_tp
 
 print("Start loading model...")
-corrector=jamspell.TSpellCorrector()
-corrector.LoadLangModel("/app/jamspell_estonian_2021_05_13.bin")
+#corrector=jamspell.TSpellCorrector()
+#corrector.LoadLangModel("/app/jamspell_estonian_2021_05_13.bin")
 print("Done loading model")
 
 asendused=[rida.strip().split(",") for rida in open("/app/word_mapping.csv").readlines()]
@@ -20,7 +20,7 @@ app = Flask(__name__)
 
 @app.route('/lemmad', methods=['POST'])
 def lemmad():
-    nlp = stanza.Pipeline(lang='et', processors='tokenize,pos,lemma')
+    nlp = nlp_tpl
     doc = nlp(request.json["tekst"])
     v1 = []
     for sentence in doc.sentences:
@@ -31,7 +31,7 @@ def lemmad():
 
 @app.route('/laused', methods=['POST'])
 def laused():
-    nlp = stanza.Pipeline(lang='et', processors='tokenize')
+    nlp = nlp_t
     doc = nlp(request.json["tekst"])
     v1 = []
     for sentence in doc.sentences:
@@ -43,7 +43,7 @@ def laused():
 @app.route('/sonad', methods=['POST'])
 def sonad():
     #return Response(json.dumps(arvuta(request.json["tekst"])), mimetype="application/json")
-    nlp = stanza.Pipeline(lang='et', processors='tokenize,pos')
+    nlp = nlp_tp
     doc = nlp(request.json["tekst"])
     v1 = []
     for sentence in doc.sentences:
