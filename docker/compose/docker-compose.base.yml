@@ -61,6 +61,10 @@ services:
     image: evkk-stanza-server
     container_name: evkk-stanza-server
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 6G
 
   klasterdaja:
     image: evkk-klasterdaja
