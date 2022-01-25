@@ -1,5 +1,7 @@
 package ee.tlu.evkk.api.controller;
+
 import ee.tlu.evkk.api.controller.dto.LemmadRequestEntity;
+import ee.tlu.evkk.core.integration.CorrectorServerClient;
 import org.springframework.web.bind.annotation.*;
 
 import ee.tlu.evkk.dal.dto.TextQueryHelper;
@@ -17,10 +19,12 @@ public class TextController {
 
   private final TextDao textDao;
   private final StanzaServerClient stanzaServerClient;
+  private final CorrectorServerClient correctorServerClient;
 
-  public TextController(TextDao uusTDao, StanzaServerClient stanzaServerClient) {
+  public TextController(TextDao uusTDao, StanzaServerClient stanzaServerClient, CorrectorServerClient correctorServerClient) {
     textDao = uusTDao;
     this.stanzaServerClient = stanzaServerClient;
+    this.correctorServerClient = correctorServerClient;
   }
 
   @GetMapping("/kysitekst")
@@ -69,7 +73,7 @@ public class TextController {
 
   @PostMapping("/korrektuur")
   public ResponseEntity<List<String>> korrektuur(@RequestBody LemmadRequestEntity request) throws Exception {
-    String[] vastus = stanzaServerClient.getKorrektuur(request.getTekst());
+    String[] vastus = correctorServerClient.getKorrektuur(request.getTekst());
     List<String> body = Arrays.asList(vastus);
     return ResponseEntity.ok(body);
   }

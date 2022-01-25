@@ -40,3 +40,12 @@ services:
       dockerfile: docker/images/evkk-klasterdaja.Dockerfile
     ports:
       - "5100:5100"
+
+  corrector-server:
+    container_name: evkk-corrector-server
+    restart: always
+    build:
+      context: .
+      dockerfile: docker/images/evkk-corrector-server.Dockerfile
+    ports:
+      - "5200:5200"

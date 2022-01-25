@@ -4,19 +4,12 @@ import os
 from flask import Flask
 from flask import request
 from flask import Response
-import jamspell
 import re
 from tasemehindaja import arvuta
 from nlp import nlp_t, nlp_tp
 from stanza_caller import lemmatize
 
-print("Start loading model...")
-corrector=jamspell.TSpellCorrector()
-corrector.LoadLangModel("/app/jamspell_estonian_2021_05_13.bin")
-print("Done loading model")
-
 asendused=[rida.strip().split(",") for rida in open("/app/word_mapping.csv").readlines()]
-
 app = Flask(__name__)
 
 @app.route('/lemmad', methods=['POST'])
@@ -72,4 +65,4 @@ def asenda(t):
         t=re.sub("([,-?!\"' ()])("+a[0]+")([,-?!\"' ()])", "\\1"+a[1]+"\\3", t)
     return t
 
-app.run(host="0.0.0.0", threaded=True)
+app.run(host="0.0.0.0", threaded=True, port=5000)

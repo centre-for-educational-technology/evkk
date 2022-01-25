@@ -18,11 +18,11 @@ rm -rf ./build/
 
 # Build service images
 mkdir -p ./build/images/
-declare -a services=("evkk-backend" "evkk-ui" "evkk-stanza-server" "evkk-sonarakendus" "evkk-klasterdaja")
+declare -a services=("evkk-backend" "evkk-ui" "evkk-stanza-server" "evkk-corrector-server" "evkk-sonarakendus" "evkk-klasterdaja")
 
 for service in "${services[@]}"
 do
-  docker build . -f ./docker/images/${service}.Dockerfile -t ${service} --no-cache
+  docker build . -f ./docker/images/${service}.Dockerfile -t ${service}
   docker save -o ./build/images/${service}.tar ${service}
 done
 
