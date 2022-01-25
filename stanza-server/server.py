@@ -7,10 +7,8 @@ from flask import Response
 import jamspell
 import re
 from tasemehindaja import arvuta
-from nlp import nlp_tpl, nlp_t, nlp_tp
-import subprocess
-import base64
-from stanza_caller import call_stanza_runner
+from nlp import nlp_t, nlp_tp
+from stanza_caller import lemmatize
 
 print("Start loading model...")
 corrector=jamspell.TSpellCorrector()
@@ -23,7 +21,7 @@ app = Flask(__name__)
 
 @app.route('/lemmad', methods=['POST'])
 def lemmad():
-  result = call_stanza_runner("lemmatize", request.json["tekst"])
+  result = lemmatize(request.json["tekst"])
   return Response(json.dumps(result), mimetype="application/json")
 
 @app.route('/laused', methods=['POST'])
