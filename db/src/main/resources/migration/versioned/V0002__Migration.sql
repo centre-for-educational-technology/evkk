@@ -56,3 +56,16 @@ create table core.text_schema_property(
     constraint text_schema_property_key primary key(id),
     constraint text_schema_property_uq unique(schema_name, property_name)
 );
+
+create table core.text_parsing_type(
+    type_name varchar,
+    constraint text_parsing_type_pkey primary key(type_name)
+);
+
+create table core.text_parsing(
+    id uuid default uuid_generate_v4(),
+    text_id uuid references core.text (id),
+    parsing_type varchar references core.text_parsing_type(type_name),
+    parsed_content text
+);
+call core.attach_meta_trigger('core.text_parsing');
