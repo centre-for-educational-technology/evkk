@@ -2,12 +2,11 @@ package ee.tlu.evkk.api.controller;
 import ee.tlu.evkk.api.controller.dto.LemmadRequestEntity;
 import org.springframework.web.bind.annotation.*;
 
-import ee.tlu.evkk.api.controller.dto.TextQueryHelper;
-import ee.tlu.evkk.api.dao.TextDao;
-import ee.tlu.evkk.api.integration.StanzaClient;
+import ee.tlu.evkk.dal.dto.TextQueryHelper;
+import ee.tlu.evkk.dal.dao.TextDao;
+import ee.tlu.evkk.core.integration.StanzaServerClient;
 import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -17,11 +16,11 @@ import java.util.UUID;
 public class TextController {
 
   private final TextDao textDao;
-  private final StanzaClient stanzaClient;
+  private final StanzaServerClient stanzaServerClient;
 
-  public TextController(TextDao uusTDao, StanzaClient stanzaClient) {
+  public TextController(TextDao uusTDao, StanzaServerClient stanzaServerClient) {
     textDao = uusTDao;
-    this.stanzaClient = stanzaClient;
+    this.stanzaServerClient = stanzaServerClient;
   }
 
   @GetMapping("/kysitekst")
@@ -48,24 +47,45 @@ public class TextController {
 
   @PostMapping("/lemmad")
   public ResponseEntity<List<String>> lemmad(@RequestBody LemmadRequestEntity request) {
-    String[] lemmad = stanzaClient.getLemmad(request.getTekst());
+    String[] lemmad = stanzaServerClient.getLemmad(request.getTekst());
     List<String> body = Arrays.asList(lemmad);
     return ResponseEntity.ok(body);
   }
 
   @PostMapping("/sonad")
   public ResponseEntity<List<String>> sonad(@RequestBody LemmadRequestEntity request) {
-    String[] sonad = stanzaClient.getSonad(request.getTekst());
-    List<String> body = Arrays.asList(sonad);
+   // return ResponseEntity.ok(new ArrayList(Arrays.asList(new String[]{"aa", "ab"})));
+   String[] sonad = stanzaServerClient.getSonad(request.getTekst());
+   List<String> body = Arrays.asList(sonad);
     return ResponseEntity.ok(body);
   }
 
   @PostMapping("/laused")
-  public ResponseEntity<List<String>> laused(@RequestBody LemmadRequestEntity request) {
-    String[] laused = stanzaClient.getLaused(request.getTekst());
-    List<String> body = Arrays.asList(laused);
+  public ResponseEntity<List<String[]>> laused(@RequestBody LemmadRequestEntity request) throws Exception {
+    String[][] laused = stanzaServerClient.getLaused(request.getTekst());
+    List<String[]> body = Arrays.asList(laused);
     return ResponseEntity.ok(body);
   }
+
+  @PostMapping("/korrektuur")
+  public ResponseEntity<List<String>> korrektuur(@RequestBody LemmadRequestEntity request) throws Exception {
+    String[] vastus = stanzaServerClient.getKorrektuur(request.getTekst());
+    List<String> body = Arrays.asList(vastus);
+    return ResponseEntity.ok(body);
+  }
+
+
+  @PostMapping("/keeletase")
+  public ResponseEntity<List<String[]>> keeletase(@RequestBody LemmadRequestEntity request) throws Exception {
+   // String[] sonad = stanzaClient.getLemmad(request.getTekst());
+    String[][] tasemed = stanzaServerClient.getKeeletase(request.getTekst());
+List<String[]> body = Arrays.asList(tasemed);
+//List<String> body = Arrays.asList(sonad);
+return ResponseEntity.ok(body);
+  }
+
+
+
 
   @PostMapping("/detailneparing")
     public String detailneparing(@RequestBody String[] vaartused) {

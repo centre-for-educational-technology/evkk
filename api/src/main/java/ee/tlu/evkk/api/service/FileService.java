@@ -1,9 +1,9 @@
 package ee.tlu.evkk.api.service;
 
-import ee.tlu.evkk.api.dao.FileDao;
-import ee.tlu.evkk.api.dao.dto.File;
-import ee.tlu.evkk.api.dao.dto.FileType;
-import ee.tlu.evkk.api.dao.dto.Json;
+import ee.tlu.evkk.dal.dao.FileDao;
+import ee.tlu.evkk.dal.dto.File;
+import ee.tlu.evkk.dal.dto.FileType;
+import ee.tlu.evkk.dal.dto.Json;
 import ee.tlu.evkk.api.exception.FileNotFoundException;
 import ee.tlu.evkk.api.pg.PostgresSupport;
 import ee.tlu.evkk.api.service.dto.GetFileResult;

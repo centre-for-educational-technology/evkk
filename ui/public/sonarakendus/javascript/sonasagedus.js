@@ -121,7 +121,6 @@ if(vorm == "algvormid") {
 }
 
 function tekstiTootlus(data) {
-    //console.log(data);
     //data = JSON.parse(data);
     for(let i = 0; i < data.length; i++) {
         if(tahesuurus) {

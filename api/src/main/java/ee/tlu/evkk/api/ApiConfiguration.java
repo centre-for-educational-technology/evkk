@@ -2,15 +2,14 @@ package ee.tlu.evkk.api;
 
 import ee.tlu.evkk.api.integration.MasinoppeEnnustusClient;
 import ee.tlu.evkk.api.integration.MinitornPikkusClient;
-import ee.tlu.evkk.api.integration.StanzaClient;
-import ee.tlu.evkk.api.util.UriComponentsBuilderFactory;
+import ee.tlu.evkk.core.CoreConfiguration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.web.client.RestTemplate;
 
 import java.nio.file.Paths;
 
@@ -19,21 +18,13 @@ import java.nio.file.Paths;
  * Date: 09.02.2020
  */
 @Configuration
+@Import(CoreConfiguration.class)
 @PropertySource("classpath:/api.properties")
 @EnableConfigurationProperties(ApiProperties.class)
 public class ApiConfiguration {
 
   @Value("${evkk.api.lib.paths.masinoppe-ennustus}")
   private String masinoppeEnnustusPath;
-
-  private final ApiProperties apiProperties;
-
-  private final UriComponentsBuilderFactory uriComponentsBuilderFactory;
-
-  public ApiConfiguration(ApiProperties apiProperties, UriComponentsBuilderFactory uriComponentsBuilderFactory) {
-    this.apiProperties = apiProperties;
-    this.uriComponentsBuilderFactory = uriComponentsBuilderFactory;
-  }
 
   @Bean
   public MasinoppeEnnustusClient masinoppeEnnustusClient() {
@@ -43,13 +34,6 @@ public class ApiConfiguration {
   @Bean
   public MinitornPikkusClient minitornPikkusClient(RestTemplateBuilder restTemplateBuilder) {
     return new MinitornPikkusClient(restTemplateBuilder.build());
-  }
-
-  @Bean
-  public StanzaClient stanzaClient(RestTemplateBuilder restTemplateBuilder) {
-    String stanzaUri = uriComponentsBuilderFactory.stanza().toUriString();
-    RestTemplate rest = restTemplateBuilder.rootUri(stanzaUri).build();
-    return new StanzaClient(rest);
   }
 
 }

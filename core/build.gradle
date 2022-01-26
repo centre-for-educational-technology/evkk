@@ -1,0 +1,11 @@
+apply plugin: "java-library"
+
+dependencies {
+
+  api project(":common")
+  api project(":dal")
+
+  api "org.springframework.boot:spring-boot-starter"
+  api "org.springframework.retry:spring-retry"
+
+}
