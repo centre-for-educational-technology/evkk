@@ -35,7 +35,9 @@ def laused():
     doc = nlp(request.json["tekst"])
     v1 = []
     for sentence in doc.sentences:
-        v1.append(sentence.text)
+        v2 = []
+        v2.append(sentence.text)
+        v1.append(v2)
     return Response(json.dumps(v1), mimetype="application/json")
 
 @app.route('/sonad', methods=['POST'])
