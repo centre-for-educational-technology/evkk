@@ -57,14 +57,18 @@ if(vorm == "algvormid") {
         }
     });
     for(let i = 0; i < algvormidData.length; i++) {
-        if(finalData[algvormidData[i]] == undefined) {
-            finalData[algvormidData[i].replaceAll('_', '').replaceAll('=', '').replaceAll('+', '')] = sonavormidData[i];
+        replacedAlgvormidData = algvormidData[i].replaceAll('_', '').replaceAll('=', '').replaceAll('+', '').replaceAll("'", '');
+        if(finalData[replacedAlgvormidData] == undefined) {
+            finalData[replacedAlgvormidData] = sonavormidData[i].toLowerCase() + ",";
         } else {
-            if(finalData[algvormidData[i]].search(sonavormidData[i].toLowerCase()) == -1) {
-                finalData[algvormidData[i]] += ',' + sonavormidData[i];
+            if((finalData[replacedAlgvormidData].startsWith(sonavormidData[i].toLowerCase() + ",") == false) && (finalData[replacedAlgvormidData].search("," + sonavormidData[i].toLowerCase() + ",") == -1) && (finalData[replacedAlgvormidData].endsWith("," + sonavormidData[i].toLowerCase()) == false)) {
+                finalData[replacedAlgvormidData] += sonavormidData[i].toLowerCase() + ",";
             }
         }
     }
+    Object.keys(finalData).forEach(key => {
+        finalData[key] = finalData[key].slice(0, -1);
+    });
     tekstiTootlus_sonavormidega(algvormidData, finalData);
 } else if(vorm == "sonavormid") {
     $.ajax({
