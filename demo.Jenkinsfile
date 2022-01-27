@@ -38,16 +38,16 @@ pipeline {
 
   }
 
-  post {
+  //post {
 
-    success {
+  //  success {
 
-    }
+  //  }
 
-    failure {
+  //  failure {
 
-    }
+  //  }
 
-  }
+  //}
 
 }
