@@ -14,7 +14,7 @@ pipeline {
 
     stage('Notify') {
       steps {
-        slackSend (message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)", color: "good")
+        slackSend (message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Jenkins>)", color: "good")
       }
     }
 
@@ -45,7 +45,7 @@ pipeline {
     }
 
     failure {
-      slackSend (message: "Build Failure - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)", color: "danger")
+      slackSend (message: "Build Failure - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Jenkins>)", color: "danger")
     }
 
   }
