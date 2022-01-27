@@ -24,7 +24,7 @@ public class TaskSchedulerConfiguration {
 
   @Scheduled(fixedDelay = 5000L)
   public void processTexts() {
-    // textProcessingTask.execute().join();
+    textProcessingTask.execute().join();
   }
 
 }
