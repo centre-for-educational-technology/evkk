@@ -6,7 +6,7 @@ from flask import request
 from flask import Response
 import re
 from tasemehindaja import arvuta
-from nlp import nlp_t, nlp_tp
+from nlp import nlp_t, nlp_tp, nlp_tpl
 from stanza_caller import lemmatize
 
 asendused=[rida.strip().split(",") for rida in open("/app/word_mapping.csv").readlines()]
@@ -14,8 +14,14 @@ app = Flask(__name__)
 
 @app.route('/lemmad', methods=['POST'])
 def lemmad():
-  result = lemmatize(request.json["tekst"])
-  return Response(json.dumps(result), mimetype="application/json")
+    nlp = nlp_tpl
+    doc = nlp(request.json["tekst"])
+    v1 = []
+    for sentence in doc.sentences:
+        for word in sentence.words:
+            if word._upos!="PUNCT":
+                v1.append(word.lemma)
+    return Response(json.dumps(v1), mimetype="application/json")
 
 @app.route('/laused', methods=['POST'])
 def laused():
