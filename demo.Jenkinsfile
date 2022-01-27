@@ -12,6 +12,12 @@ pipeline {
 
   stages {
 
+    stage('Notify') {
+      steps {
+        slackSend "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+      }
+    }
+
     stage('Build') {
       steps {
         sh './build.sh'
@@ -28,6 +34,18 @@ pipeline {
       steps {
         sh 'cd /opt/evkk && ./run.sh'
       }
+    }
+
+  }
+
+  post {
+
+    success {
+
+    }
+
+    failure {
+
     }
 
   }
