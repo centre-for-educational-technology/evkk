@@ -41,7 +41,7 @@ pipeline {
   post {
 
     success {
-      slackSend (message: "Build Success - ${env.JOB_NAME} ${env.BUILD_NUMBER}: ${BRANCH} (<http://pratkika1.cs.tlu.ee:9999|pratkika1.cs.tlu.ee>)", color: "good")
+      slackSend (message: "Build Success - ${env.JOB_NAME} ${env.BUILD_NUMBER}: ${BRANCH} (<http://praktika1.cs.tlu.ee:9999|praktika1.cs.tlu.ee>)", color: "good")
     }
 
     failure {
