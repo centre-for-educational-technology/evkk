@@ -14,7 +14,7 @@ pipeline {
 
     stage('Notify') {
       steps {
-        slackSend (message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER}: ${env.BRANCH_NAME} (<${env.BUILD_URL}|Jenkins>)", color: "good")
+        slackSend (message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER}: ${BRANCH} (<${env.BUILD_URL}|Jenkins>)", color: "good")
       }
     }
 
@@ -41,11 +41,11 @@ pipeline {
   post {
 
     success {
-      slackSend (message: "Build Success - ${env.JOB_NAME} ${env.BUILD_NUMBER}: ${env.BRANCH_NAME} (<http://pratkika1.cs.tlu.ee:9999|pratkika1.cs.tlu.ee>)", color: "good")
+      slackSend (message: "Build Success - ${env.JOB_NAME} ${env.BUILD_NUMBER}: ${BRANCH} (<http://pratkika1.cs.tlu.ee:9999|pratkika1.cs.tlu.ee>)", color: "good")
     }
 
     failure {
-      slackSend (message: "Build Failure - ${env.JOB_NAME} ${env.BUILD_NUMBER}: ${env.BRANCH_NAME} (<${env.BUILD_URL}|Jenkins>)", color: "danger")
+      slackSend (message: "Build Failure - ${env.JOB_NAME} ${env.BUILD_NUMBER}: ${BRANCH} (<${env.BUILD_URL}|Jenkins>)", color: "danger")
     }
 
   }
