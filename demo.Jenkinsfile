@@ -38,16 +38,16 @@ pipeline {
 
   }
 
-  //post {
+  post {
 
-  //  success {
+    success {
+      slackSend (message: "Build Success - ${env.JOB_NAME} ${env.BUILD_NUMBER}: ${env.BRANCH_NAME} (<http://pratkika1.cs.tlu.ee:9999|Open>)", color: "good")
+    }
 
-  //  }
+    failure {
+      slackSend (message: "Build Failure - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)", color: "danger")
+    }
 
-  //  failure {
-
-  //  }
-
-  //}
+  }
 
 }
