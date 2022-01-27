@@ -37,5 +37,5 @@ Please note that seeds are **not** applied in production environment and are onl
 For example: run **clean**, **migrate** and **seed** commands: `$ ./gradlew :db:bootRun --args 'clean migrate seed'`  
 
 ### Java development
-Preferred IDE is IntelliJ IDEA but other widely adopted IDE-s should work just as well.  
+Preferred IDE is IntelliJ IDEA but other widely adopted IDE-s should work as well.  
 IntelliJ community edition download: https://www.jetbrains.com/idea/download/  
