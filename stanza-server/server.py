@@ -7,7 +7,7 @@ from flask import Response
 import re
 from tasemehindaja import arvuta
 from nlp import nlp_t, nlp_tp, nlp_tpl
-from stanza_caller import lemmatize
+#from stanza_caller import lemmatize
 
 asendused=[rida.strip().split(",") for rida in open("/app/word_mapping.csv").readlines()]
 app = Flask(__name__)
