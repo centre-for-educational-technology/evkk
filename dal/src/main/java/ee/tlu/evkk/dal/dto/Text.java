@@ -1,15 +1,16 @@
-package ee.tlu.evkk.api.dao.dto;
+package ee.tlu.evkk.dal.dto;
 
 import java.util.UUID;
 
 /**
  * @author Mikk Tarvas
- * Date: 14.11.2021
+ * Date: 22.01.2022
  */
 public class Text {
 
   private UUID id;
   private String content;
+  private String hash;
 
   public UUID getId() {
     return id;
@@ -27,4 +28,13 @@ public class Text {
     this.content = content;
   }
 
+  public String getHash() {
+    return hash;
+  }
+
+  public void setHash(String hash) {
+    this.hash = hash;
+  }
+
 }
+

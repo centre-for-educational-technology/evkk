@@ -1,4 +1,4 @@
-package ee.tlu.evkk.api.jdbc;
+package ee.tlu.evkk.core.jdbc;
 
 import org.springframework.dao.CleanupFailureDataAccessException;
 

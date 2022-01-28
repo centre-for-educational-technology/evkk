@@ -1,7 +1,7 @@
 package ee.tlu.evkk.api.repository;
 
-import ee.tlu.evkk.api.jdbc.ArrayHolder;
-import ee.tlu.evkk.api.jdbc.SqlObjectFactory;
+import ee.tlu.evkk.core.jdbc.ArrayHolder;
+import ee.tlu.evkk.core.jdbc.SqlObjectFactory;
 import ee.tlu.evkk.api.lang.StreamUtils;
 import org.apache.ibatis.cursor.Cursor;
 import org.slf4j.Logger;
