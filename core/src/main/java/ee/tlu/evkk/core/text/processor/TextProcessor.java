@@ -19,6 +19,7 @@ public interface TextProcessor {
   enum Type {
 
     LEMMATIZER,
+    CORRECTOR,
     LANGUAGE_LEVEL
 
   }

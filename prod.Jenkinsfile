@@ -35,7 +35,7 @@ pipeline {
     stage('Deploy') {
       steps {
         sshagent (credentials: ['deploy']) {
-          sh "ssh -o StrictHostKeyChecking=no evkk@praktika2.cs.tlu.ee 'docker system prune -f && cd /opt/evkk/ && ./run.sh'"
+          sh "ssh -o StrictHostKeyChecking=no evkk@praktika2.cs.tlu.ee 'docker system prune --force --volumes && cd /opt/evkk/ && ./run.sh'"
         }
       }
     }
