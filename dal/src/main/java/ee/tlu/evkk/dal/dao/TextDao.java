@@ -1,11 +1,13 @@
 package ee.tlu.evkk.dal.dao;
 
-import ee.tlu.evkk.dal.dto.Text;
+import ee.tlu.evkk.api.dao.dto.Text;
 import ee.tlu.evkk.dal.dto.TextQueryHelper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.cursor.Cursor;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Array;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,5 +39,14 @@ public interface TextDao {
   List<String> findTextsByCorpusId(@Param("corpusId") String corpusId);
 
   Optional<Text> findById(@Param("id") UUID id);
+
+  Cursor<Text> search(@Param("korpus") Array korpus,
+                      @Param("tekstityyp") Array tekstityyp,
+                      @Param("keeletase") Array keeletase,
+                      @Param("emakeel") Array emakeel,
+                      @Param("kodukeel") Array kodukeel,
+                      @Param("sugu") Array sugu,
+                      @Param("vanus") Array vanus,
+                      @Param("elukoht") Array elukoht);
 
 }
