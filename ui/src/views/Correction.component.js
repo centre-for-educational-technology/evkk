@@ -4,7 +4,7 @@ import "./correction.css";
 class Correction extends Component {
   constructor(props){
     super(props);
-    this.state={alasisu:"", tasemevastus:["algusväärtus"], 
+    this.state={alasisu:"", tasemevastus:["algusväärtus"],
       tasemetekst:"",
       korrektorivastus:["", ""],
       vastuskood:"", vastusnahtav: false, muutuskood:"", yksikmuutus: false,  taustatekst:<span></span>,
@@ -85,7 +85,7 @@ kysi4= () => {
   const asisu=this.state.alasisu;
 //  this.setState({tasemetekst: this.state.alasisu});
   fetch("/api/texts/keeletase", {method:"POST",
-  headers: { 
+  headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   },
@@ -135,11 +135,11 @@ kysi4= () => {
           taustatekst[i]=<span key={"t"+i}>{sm[i]+" "}</span>;
         } else {
              const algus=sisutekst.length;
-             const sisu=sm[i];     
+             const sisu=sm[i];
              muutused[i]=<span key={"sm"+i}>
                 <span onClick={() =>this.margi(algus, sisu, true)} style={{'backgroundColor': 'lightpink'}}>{sm[i]}</span> - <span>{vm[i]}</span> <button onClick={() =>this.asenda(algus, sisu, vm[i])}>Asenda</button><br />
-             </span> 
-             console.log("muutus", algus, sisu, vm[i]);       
+             </span>
+             console.log("muutus", algus, sisu, vm[i]);
 //             taustatekst[i]=<span key={"t"+i}><span className="margitud" onClick={(e) => {console.log(e);}}  title={vm[i]}>{sm[i]}</span><span> </span></span>;
              let kpl=this.puhasta2(sm[i]);
              taustatekst[i]=<span key={"t"+i}><span>{kpl[1]}</span><span className="margitud" onClick={(e) => {console.log(e);}}  title={vm[i]}>{kpl[2]}</span><span>{kpl[3]}</span><span> </span></span>;
@@ -163,34 +163,34 @@ kysi4= () => {
     if(this.state.taselisa){
       return <div onClick={() => this.setState({taselisa: false})} style={{width: "100%"}}>
         Loe täpsemalt ↑
-        <p style={{width: "100%"}}><b>Teksti üldine keerukus: <br /> {this.state.tasemevastus[4][1]} </b> 
+        <p style={{width: "100%"}}><b>Teksti üldine keerukus: <br /> {this.state.tasemevastus[4][1]} </b>
         (tõenäosus {(this.state.tasemevastus[4][0]*100).toFixed(0)}
       %)<br />Arvesse on võetud teksti, sõnade ja lausete pikkus.</p>
-      <p style={{width: "100%"}}><b>Morfoloogia ehk vormikasutus: <br />{this.state.tasemevastus[8][1]} </b> 
+      <p style={{width: "100%"}}><b>Morfoloogia ehk vormikasutus: <br />{this.state.tasemevastus[8][1]} </b>
       (tõenäosus {(this.state.tasemevastus[8][0]*100).toFixed(0)}%)<br />Arvesse on võetud sõnaliikide ja muutevormide osakaalud ning sõnade vormirohkus.)</p>
 
-      <p style={{width: "100%"}}><b>Sõnavara: <br />{this.state.tasemevastus[12][1]} </b> 
+      <p style={{width: "100%"}}><b>Sõnavara: <br />{this.state.tasemevastus[12][1]} </b>
       {this.state.tasemevastus[12][0]>0 && <span>(tõenäosus {(this.state.tasemevastus[12][0]*100).toFixed(0)} %)<br /></span>}
-     
+
       Arvesse on võetud sõnavaliku mitmekesisus ja ulatus (unikaalsete sõnade hulk, harvem esineva sõnavara osakaal), sõnavara tihedus (sisusõnade osakaal) ja nimisõnade abstraktsus.</p>
-      <br />    
-      <br />    
-      <br />    
+      <br />
+      <br />
+      <br />
       </div>
     }
     return <div onClick={() => this.setState({taselisa: true})}>Loe täpsemalt ...</div>
   }
 
   ketas(){
-    return <div 
-    style={{borderStyle:"solid", borderRadius:"50%", width: "10px", height: "10px", 
+    return <div
+    style={{borderStyle:"solid", borderRadius:"50%", width: "10px", height: "10px",
       borderTopColor:"transparent", animation: "spin .8s linear infinite",
         float:"left", content:"  "}}></div>
   }
 
   renderTase(){
-    return <span>{this.state.kordab ? <span>{this.state.alasisu.length>0 ? 
-     (this.state.tasemevastus.length>0 ? 
+    return <span>{this.state.kordab ? <span>{this.state.alasisu.length>0 ?
+     (this.state.tasemevastus.length>0 ?
       (this.state.tasemevastus.length===1 ? "" :<div style={{float: 'left', width:'95%'}}>
     <h1>{this.state.tasemevastus[0][1]}  {(this.state.tasemevastus[0][0]*100).toFixed(0)}%</h1>
     Muude tasemete tõenäosus: <br />
@@ -220,7 +220,7 @@ kysi4= () => {
   }
 
   vali(sona, koht){
-     let k=0, v=-1; 
+     let k=0, v=-1;
      while(this.state.sisukohad[k]<koht){k++;}
      if(this.state.sisusonad[k]===sona){v=k;}
      for(let i=0; i<3; i++){
@@ -249,21 +249,21 @@ this.setState({yksikmuutus: vahetus});
 
     return (
       <div className={'container'}>
-        
+
         <p/>
         <div style={{'float':'left', 'margin':'10px', 'width': '45%'}}>
         <div className="wrapper">
         <div id="highlights" ref={(e) =>this.taust1=e}>{this.state.taustakood}</div>
-          <textarea id="textarea" onScroll={(e) => this.kerimine()}  ref={(e) => this.ala1=e} onChange={(event) =>this.alaMuutus(event)} rows="15" cols="60" 
+          <textarea id="textarea" onScroll={(e) => this.kerimine()}  ref={(e) => this.ala1=e} onChange={(event) =>this.alaMuutus(event)} rows="15" cols="60"
            value={this.state.alasisu}  spellCheck={false} onMouseUp={(event) => this.tekstialaHiir(event)}
           placeholder={"Kopeeri või kirjuta siia analüüsitav tekst"}/>
           <div className={"borderbox"}></div>
         </div>
           <br />
-    
+
           <br />
-          <div style={{width:"300px"}}>Rakenduse abil saad parandada oma teksti õigekirja ja vaadata, 
-          mis keeleoskustasemele see vastab (A2–C1). 
+          <div style={{width:"300px"}}>Rakenduse abil saad parandada oma teksti õigekirja ja vaadata,
+          mis keeleoskustasemele see vastab (A2–C1).
           Loe lähemalt  <a href={"https://github.com/centre-for-educational-technology/evkk/wiki/Demos"}>siit</a>.</div>
           <br />
           <br />
@@ -279,22 +279,22 @@ this.setState({yksikmuutus: vahetus});
            </style>
            <nav className="navbar navbar-expand-sm bg-light" >
 <ul className={"nav nav-tabs nav-justified"} style={{width: "100%"}}>
-<li className={"nav-item nav-link"}  
+<li className={"nav-item nav-link"}
       onClick={() => this.korrektuuriVajutus()}
       style={this.state.avatudkaart==="korrektuur" ? {fontWeight: "bold"}: {}}
       >Eksimused</li>
-  <li className={"nav-item nav-link"}  
+  <li className={"nav-item nav-link"}
       onClick={() => this.hindajaVajutus()}
       style={this.state.avatudkaart==="hindamine" ? {fontWeight: "bold"}: {}}
       >Tasemehinnang</li>
 </ul>
 </nav>
 
-{!this.state.kordab && 
+{!this.state.kordab &&
  <div><br /> <br /><br /> <br />
  <div style={{width: "100%",  textAlign: "center"}}><button onClick={() => this.kordama()}>Analüüsi</button></div>
  </div>
-}             
+}
 
 <br />
 <br />
@@ -302,13 +302,13 @@ this.setState({yksikmuutus: vahetus});
              {this.state.kordab && this.state.alasisu!==this.state.korrektorivastus[1] && this.ketas()}<br />
              {(this.state.yksikmuutus) ? this.state.yksikmuutus : "" //this.state.muutuskood
              }<br />
-         
-              { /*(this.state.alasisu.length>0  )? <span>{ (this.state.kordab) && 
+
+              { /*(this.state.alasisu.length>0  )? <span>{ (this.state.kordab) &&
                 <button  onClick={() =>this.setState((state, props) => {return {vastusnahtav: !state.vastusnahtav}})}> {this.state.vastusnahtav?"Peida tekst":"Näita teksti"} </button>
                 }</span> : ""
               */ }
             {  this.state.vastusnahtav && <span>{this.state.tasemevastus?this.state.vastuskood:"algus"}</span>}
-             </span>} 
+             </span>}
 
 
          {this.state.avatudkaart==="hindamine" && this.state.kordab && <div>
@@ -316,7 +316,7 @@ this.setState({yksikmuutus: vahetus});
            <span>{this.renderTase()}</span></div>}
 
              </div>
- 
+
 
       </div>
     );
