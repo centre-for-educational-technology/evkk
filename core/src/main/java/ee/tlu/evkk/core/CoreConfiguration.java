@@ -10,8 +10,6 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
-
 import static ee.tlu.evkk.common.env.ServiceLocator.ServiceName.CORRECTOR_SERVER;
 import static ee.tlu.evkk.common.env.ServiceLocator.ServiceName.STANZA_SERVER;
 
@@ -32,7 +30,7 @@ public class CoreConfiguration {
   }
 
   @Bean
-  public StanzaServerClient stanzaClient(ServiceLocator serviceLocator, RestTemplateBuilder restTemplateBuilder) {
+  public StanzaServerClient stanzaServerClient(ServiceLocator serviceLocator, RestTemplateBuilder restTemplateBuilder) {
     //TODO: figure out good timeout values for REST
     RestTemplate rest = restTemplateBuilder
       .rootUri(serviceLocator.locate(STANZA_SERVER).toString())
