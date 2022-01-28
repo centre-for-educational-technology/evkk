@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
 ./build-images.sh
-docker-compose down --remove-orphans && docker-compose up --build
+COMPOSE_PROFILES=all docker-compose down --remove-orphans && COMPOSE_PROFILES="${COMPOSE_PROFILES:=all}" docker-compose up --build

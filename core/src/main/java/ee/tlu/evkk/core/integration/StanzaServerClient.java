@@ -39,13 +39,6 @@ public class StanzaServerClient extends AbstractRestOperationsClient {
     return forEntity.getBody();
   }
 
-  public String[] getKorrektuur(String tekst) {
-    Map<String, String> map = Map.of("tekst", tekst);
-    HttpEntity<?> requestEntity = new HttpEntity<>(map);
-    ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/korrektuur", requestEntity, String[].class));
-    return forEntity.getBody();
-  }
-
   public String[][] getKeeletase(String tekst) {
     Map<String, String> map = Map.of("tekst", tekst);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
