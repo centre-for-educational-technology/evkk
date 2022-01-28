@@ -57,7 +57,7 @@ class Nav extends Component {
               <li className="nav-item">
                 <Link to="/resource" className={'nav-link'}>Ressurss</Link>
               </li>
-			  <li className="nav-item">
+              <li className="nav-item">
                 <a className="nav-link" href="/sonarakendus/paring.html" rel="noopener noreferrer" target="_blank">Päring</a>
               </li>
               {/*
