@@ -105,7 +105,7 @@ def arvuta(inputText):
     #input = input("Kopeeri või kirjuta siia analüüsitav tekst: ")
     #input = open("/home/kais/public_html/Tasemehindaja/input.txt", "r")
     #inputText = input.read().rstrip()
-    #if len(sys.argv)<2:
+    #if len(sys.argv)<2: 
     #  print("Palun sisesta tekst.")
     #  exit()
     #inputText=sys.argv[1]
@@ -117,7 +117,7 @@ def arvuta(inputText):
         exit()
     doc = nlp_tpl(inputText)
     analysis = "\n".join(
-        [f"{word.id}\t{word.text}\t{word.lemma}\t{word.upos}\t{word.xpos}\t{word.feats}"
+        [f"{word.id}\t{word.text}\t{word.lemma}\t{word.upos}\t{word.xpos}\t{word.feats}" 
         for sent in doc.sentences for word in sent.words])
 
     # Märgendatud väljundi salvestamine faili
@@ -163,7 +163,7 @@ def arvuta(inputText):
     interjections = pos_ratio(text,"I", words) # hüüdsõnade osakaal
     conjunctions = pos_ratio(text, "J", words) # sidesõnade osakaal
     # käändsõnade eraldamine
-    nominals = text[(text.Xpos == "S") | (text.Xpos == "A") |
+    nominals = text[(text.Xpos == "S") | (text.Xpos == "A") | 
         (text.Xpos == "P") | (text.Xpos == "N")].groupby("Feats").Feats.count().to_frame()
     nominals.rename(columns={"Feats":"Freq"}, inplace=True)
     nominals["Feats"] = nominals.index
@@ -200,16 +200,16 @@ def arvuta(inputText):
         person2Verbs, elativeNouns, person1Verbs, conjunctions, pluralPronouns, adessiveNouns,
         partitiveNouns, adverbs, person3Verbs])
     morphCoefficientsA2 = np.array(
-        [4.017, 2.811, 42.473, 627.833, 343.908, 218.858, 4.911, 399.83, 397.677, 656.975,
+        [4.017, 2.811, 42.473, 627.833, 343.908, 218.858, 4.911, 399.83, 397.677, 656.975, 
         161.721, 629.697, 587.699, 400.153, 158.173, 464.249, 571.522, 542.774])
     morphCoefficientsB1 = np.array(
-        [4.725, 3.885, 81.286, 437.931, 321.291, 228.846, 6.455, 410.965, 443.544, 565.501,
+        [4.725, 3.885, 81.286, 437.931, 321.291, 228.846, 6.455, 410.965, 443.544, 565.501, 
         224.734, 599.388, 636.55, 399.23, 129.601, 509.093, 605.956, 560.104])
     morphCoefficientsB2 = np.array(
-        [5.033, 4.858, 47.132, 430.691, 308.756, 265.918, 6.886, 450.94, 428.351, 611.095,
+        [5.033, 4.858, 47.132, 430.691, 308.756, 265.918, 6.886, 450.94, 428.351, 611.095, 
         136.872, 581.731, 643.13, 423.478, 107.74, 510.123, 596.331, 532.076])
     morphCoefficientsC1 = np.array(
-        [7.017, 6.585, 32.113, 363.812, 274.255, 287.39, 7.646, 389.827, 447.771, 574.211,
+        [7.017, 6.585, 32.113, 363.812, 274.255, 287.39, 7.646, 389.827, 447.771, 574.211, 
         183.091, 565.608, 616.355, 386.92, 150.304, 515.166, 594.331, 553.256])
 
     morphClassScoreA2 = class_score(morphFeatValues, morphCoefficientsA2, -265.649)
@@ -245,7 +245,7 @@ def arvuta(inputText):
         abSum += lemma["abstractness"] # abstraktsushinnangute summa
         abCount += 1 # abstraktsushinnanguga nimisõnade arv
     nounAbstractness = 0
-    if abCount > 0:
+    if abCount > 0: 
         nounAbstractness = abSum/abCount
 
     frequencyData = curl_request(text) # sõnasageduste arvutamisel võetakse arvesse kõik sõnaliigid
@@ -254,7 +254,7 @@ def arvuta(inputText):
     # sõnade osakaal, mille algvorm ei kuulu eesti keele 2000 sagedama lemma hulka
     rarerThan2000MostFreq = rare_counter(frequencyData, 747, words)
 
-    lexFeatValues = np.array([lemmas, TTR, MaasIndex, nounAbstractness, lexicalDensity,
+    lexFeatValues = np.array([lemmas, TTR, MaasIndex, nounAbstractness, lexicalDensity, 
         rarerThan5000MostFreq, rarerThan2000MostFreq, pronounTTR, verbTTR], dtype=object)
     lexCoefficientsA2 = np.array(
         [2.027, 1641.296, 23979.833, 24.073, -53.572, -81.862, -25.007, 38.124, 29.029])
@@ -308,7 +308,7 @@ def arvuta(inputText):
     # Põhitulemus
     print("<h2>Tekst vastab tasemele:</h2><br>")
     print('<p id="tase">'+str(sortedSumProbs[0][1])+'</p><br>')
-    print('<p>Tõenäosus: <span id="tasemeprotsent">'+str(round(sortedSumProbs[0][0]*100))+'%</span></p>')
+    print('<p>Tõenäosus: <span id="tasemeprotsent">'+str(round(sortedSumProbs[0][0]*100))+'%</span></p>') 
     print('<h3>Teiste tasemete tõenäosus:</h3>')
     print('                <ul>')
     print('<li><b>'+str(sortedSumProbs[1][1])+'</b>: '+str(round(sortedSumProbs[1][0]*100))+'%</li>')
@@ -317,24 +317,24 @@ def arvuta(inputText):
     print('                </ul>')
 
     # Tulemused, mis avanevad valiku "Loe täpsemalt" korral
-    print("""
+    print("""            
         <button id="tapsemalt" onclick="document.getElementById('lisainfo').style.display='block'">Loe täpsemalt <i id="toggleArrow" class="fa fa-chevron-down" aria-hidden="true"></i></button>
                 <div id="lisainfo" class="lisainfo">
     """)
-    print('\n<p class="lisainfotekst"><b>Teksti üldine keerukus: <br />', sortedSurfProbs[0][1], '</b> (tõenäosus ', round(sortedSurfProbs[0][0]*100),
+    print('\n<p class="lisainfotekst"><b>Teksti üldine keerukus: <br />', sortedSurfProbs[0][1], '</b> (tõenäosus ', round(sortedSurfProbs[0][0]*100), 
         '%)<br />Arvesse on võetud teksti, sõnade ja lausete pikkus.</p>', sep='')
 
-    print('\n<p class="lisainfotekst"><b>Morfoloogia ehk vormikasutus: <br />', sortedMorphProbs[0][1], '</b> (tõenäosus ', round(sortedMorphProbs[0][0]*100),
+    print('\n<p class="lisainfotekst"><b>Morfoloogia ehk vormikasutus: <br />', sortedMorphProbs[0][1], '</b> (tõenäosus ', round(sortedMorphProbs[0][0]*100), 
     '%)<br />Arvesse on võetud sõnaliikide ja muutevormide osakaalud ning sõnade vormirohkus.</p>', sep='')
 
     try:
-        print('\n<p class="lisainfotekst"><b>Sõnavara: <br />', sortedLexProbs[0][1], '</b> (tõenäosus ', round(sortedLexProbs[0][0]*100),
+        print('\n<p class="lisainfotekst"><b>Sõnavara: <br />', sortedLexProbs[0][1], '</b> (tõenäosus ', round(sortedLexProbs[0][0]*100), 
         '%)<br />Arvesse on võetud sõnavaliku mitmekesisus ja ulatus (unikaalsete sõnade hulk, harvem esineva sõnavara osakaal), sõnavara tihedus (sisusõnade osakaal) ja nimisõnade abstraktsus.</p>', sep='')
     except:
        pass
 
     print('\n<p class="lisainfotekst"><b>Koondhinnang (', sortedSumProbs[0][1], ')</b> põhineb nii sõnavara-, morfoloogilistel kui ka üldise keerukuse tunnustel.</p>', sep='')
-
+                
     print("""            </div>
                 <hr>
             </div>""")
