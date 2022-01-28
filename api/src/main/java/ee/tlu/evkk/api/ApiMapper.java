@@ -8,6 +8,8 @@ import ee.tlu.evkk.api.controller.tools.dto.MinitornPikkusResponseEntity;
 import ee.tlu.evkk.api.dao.dto.Korpus;
 import ee.tlu.evkk.api.dao.dto.User;
 import ee.tlu.evkk.api.dao.dto.UserFileView;
+import ee.tlu.evkk.dal.dto.User;
+import ee.tlu.evkk.dal.dto.UserFileView;
 import ee.tlu.evkk.api.security.AuthenticatedUser;
 import ee.tlu.evkk.api.util.StreamUtils;
 import org.mapstruct.Mapper;
