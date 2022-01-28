@@ -30,7 +30,7 @@ public class TextProcessingTaskFactoryBean implements FactoryBean<TextProcessing
   public TextProcessingTask getObject() {
     ThreadPoolTaskExecutor executor = taskExecutorBuilder
       .threadNamePrefix("TextProcessingTask-")
-      .corePoolSize(30)
+      .corePoolSize(10)
       .build();
     executor.initialize();
 
