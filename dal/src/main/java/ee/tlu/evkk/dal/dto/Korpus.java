@@ -1,4 +1,4 @@
-package ee.tlu.evkk.api.dao.dto;
+package ee.tlu.evkk.dal.dto;
 
 /**
  * @author Mikk Tarvas

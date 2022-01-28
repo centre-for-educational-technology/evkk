@@ -1,7 +1,7 @@
 package ee.tlu.evkk.api.service;
 
 import ee.tlu.evkk.api.ApiMapper;
-import ee.tlu.evkk.api.dao.dto.Korpus;
+import ee.tlu.evkk.dal.dto.Korpus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
