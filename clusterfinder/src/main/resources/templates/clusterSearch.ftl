@@ -247,7 +247,7 @@
             { data: 'frequency' },
             { data: 'description' },
             { data: 'markups' },
-            { data: 'usages' }
+            { data: 'usages', render: function(data, type, row, meta) { console.log(type); return type === 'display' ? ClusterSearchForm.util.renderUsagesColumn(data) : data; } }
           ],
           buttons: [
             {
@@ -256,11 +256,13 @@
               title: 'clusters',
               text: "[@translations.retrieveTranslation "common.export.clusters.csv" /]",
               bom: true,
+              exportOptions: { orthogonal: 'export' }
             },
             {
               extend: 'excel',
               title: 'clusters',
               text: "[@translations.retrieveTranslation "common.export.clusters.excel" /]",
+              exportOptions: { orthogonal: 'export' }
             }
           ],
         });
@@ -569,7 +571,7 @@
             const cluster = {
               frequency: data[i].frequency,
               description: data[i].descriptions.join(" + "),
-              markups: data[i].markups.map(ClusterSearchForm.util.escapeValueAndReplace).join(separator + "<br>"),
+              markups: data[i].markups.map(ClusterSearchForm.util.escapeValueAndReplace).join(separator),
               usages: data[i].usages.join("," + "<br>")
             };
 
@@ -730,6 +732,15 @@
           });
 
           return hasPartialFilters;
+        },
+
+        renderUsagesColumn: function(data) {
+          const usages = data.split(",");
+          if (usages.length > 20) {
+            return "<span data-toggle='tooltip' data-placement='right' title='[@translations.retrieveTranslation "common.truncated.results" /]'>" + usages.slice(0, 20).map(u => u) + "..." + "</span>";
+          }
+
+          return data;
         }
       }
     };
