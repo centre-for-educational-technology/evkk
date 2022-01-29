@@ -31,7 +31,7 @@ salvesta_tekst.addEventListener("click", function () {
 			data: '{"tekst": "' + koguTekst + '"}',
 			success: function(data) {
 				localStorage.setItem("laused", JSON.stringify(data));
-				localStorage.setItem("sonad", koguTekst);
+				localStorage.setItem("sonad", koguTekst.replaceAll("'", "").replace(/ +/g, " "));
 				localStorage.setItem("paritolu", "TEXTBOX");
 				window.location = "filter.html";
 			},
@@ -73,7 +73,7 @@ form.addEventListener('submit', function(ev) {
 		success: function (data) {
 			var regex = new RegExp("[^a-zA-ZõäöüÕÄÖÜ ;:,.!?/-/'/%&()=]", "gi");
 			allFormatText = data.replace(/\\n/g, ' ').replaceAll('"', "'").replaceAll(regex, " ");
-			localStorage.setItem("sonad", allFormatText);
+			localStorage.setItem("sonad", allFormatText.replaceAll("'", "").replace(/ +/g, " "));
 			localStorage.setItem("paritolu", "FILEUPLOAD");
 			$.ajax({
 				type: "POST",
