@@ -1,9 +1,9 @@
 package ee.tlu.evkk.api.repository;
 
-import ee.tlu.evkk.core.jdbc.ArrayHolder;
-import ee.tlu.evkk.core.jdbc.SqlObjectFactory;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.Text;
+import ee.tlu.evkk.dal.jdbc.ArrayHolder;
+import ee.tlu.evkk.dal.jdbc.SqlObjectFactory;
 import org.apache.ibatis.cursor.Cursor;
 import org.springframework.stereotype.Component;
 

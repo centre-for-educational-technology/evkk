@@ -4,14 +4,11 @@ import ee.tlu.evkk.common.env.ServiceLocator;
 import ee.tlu.evkk.common.env.ServiceLocatorFactoryBean;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
-import ee.tlu.evkk.core.jdbc.SqlObjectFactory;
 import ee.tlu.evkk.dal.DalConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.*;
 import org.springframework.web.client.RestTemplate;
-
-import javax.sql.DataSource;
 
 import static ee.tlu.evkk.common.env.ServiceLocator.ServiceName.CORRECTOR_SERVER;
 import static ee.tlu.evkk.common.env.ServiceLocator.ServiceName.STANZA_SERVER;
@@ -48,11 +45,6 @@ public class CoreConfiguration {
       .rootUri(serviceLocator.locate(CORRECTOR_SERVER).toString())
       .build();
     return new CorrectorServerClient(rest);
-  }
-
-  @Bean
-  public SqlObjectFactory sqlObjectFactory(DataSource dataSource) {
-    return new SqlObjectFactory(dataSource);
   }
 
 }
