@@ -17,17 +17,16 @@
 - YARN: https://yarnpkg.com
 
 ### Getting started
-1. Make sure *docker-compose* is installed correctly (should be OK if installed docker using official installer)
-   Can be checked with `docker-compose --version`
-   More info: https://docs.docker.com/compose/install/
-2. Start docker containers `$ ./run-local.sh`
-   Ports 5432 (Postgres) and 6379 (Redis) should be now listening
-   You can check via `$ lsof -i :<port>`
-   If you want to remove docker images w/ data and start *from scratch*: `$ docker-compose down` and delete **.docker** directory (`$ rm -rf ./.docker`).
-3. Run database migrations and insert seed data: execute via gradle `$ ./gradlew :db:bootRun --args 'clean migrate seed'`
+1. Make sure *docker-compose* is installed correctly: `docker-compose --version`
+2. Start docker containers `$ ./run-local.sh` (this can take several minutes first time around).  
+   By default, this command will start **all** containers.  
+   If you only want to start specific containers, you can do so using docker profiles.  
+   For example: `COMPOSE_PROFILES=backend,stanza ./run-local.sh`  
+   See all available profiles in `docker-compose.yml` file.
+3. Run database migrations and insert seed data: `$ ./gradlew :db:bootRun --args 'clean migrate seed'`
 4. Make sure you have enabled annotation processing for IntelliJ IDEA: `Preferences -> Build, Execution, Deployment -> Compiler -> Annotation Processors -> Enable annotation processing`
 5. Run UI module: `$ yarn --cwd=./ui install && yarn --cwd=./ui start`
-6. Run API module: `$ ./gradlew :api:bootRun`
+6. Run API module: `$ ./gradlew :api:bootRun` (other modules like `task-scheduler` work in similar fashion)
 
 ### Database migrations
 Database migrations are implemented with Flyway migration tool: https://flywaydb.org/  
@@ -38,5 +37,5 @@ Please note that seeds are **not** applied in production environment and are onl
 For example: run **clean**, **migrate** and **seed** commands: `$ ./gradlew :db:bootRun --args 'clean migrate seed'`  
 
 ### Java development
-Preferred IDE is IntelliJ IDEA but other widely adopted IDE-s should work just as well.  
+Preferred IDE is IntelliJ IDEA but other widely adopted IDE-s should work as well.  
 IntelliJ community edition download: https://www.jetbrains.com/idea/download/  
