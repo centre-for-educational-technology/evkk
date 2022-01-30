@@ -12,7 +12,7 @@ public class TextProcessorResult {
   private String textHash;
   private String type;
   private Long version;
-  private Json result;
+  private Json2 result;
 
   public UUID getTextProcessorResultId() {
     return textProcessorResultId;
@@ -46,11 +46,11 @@ public class TextProcessorResult {
     this.version = version;
   }
 
-  public Json getResult() {
+  public Json2 getResult() {
     return result;
   }
 
-  public void setResult(Json result) {
+  public void setResult(Json2 result) {
     this.result = result;
   }
 

@@ -3,7 +3,7 @@ package ee.tlu.evkk.dal;
 import ee.tlu.evkk.dal.batis.handler.DurationTypeHandler;
 import ee.tlu.evkk.dal.batis.handler.JsonTypeHandler;
 import ee.tlu.evkk.dal.batis.handler.UUIDTypeHandler;
-import ee.tlu.evkk.dal.dto.Json;
+import ee.tlu.evkk.dal.dto.Json2;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
@@ -32,7 +32,7 @@ public class DalConfiguration {
       // register custom type handlers
       TypeHandlerRegistry typeHandlerRegistry = configuration.getTypeHandlerRegistry();
       typeHandlerRegistry.register(UUID.class, UUIDTypeHandler.class);
-      typeHandlerRegistry.register(Json.class, JsonTypeHandler.class);
+      typeHandlerRegistry.register(Json2.class, JsonTypeHandler.class);
       typeHandlerRegistry.register(Duration.class, DurationTypeHandler.class);
     };
   }

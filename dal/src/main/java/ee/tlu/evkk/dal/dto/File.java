@@ -12,7 +12,7 @@ public class File {
   private Long oid;
   private FileType fileType;
   private String mediaType;
-  private Json metadata;
+  private Json2 metadata;
 
   public UUID getFileId() {
     return fileId;
@@ -46,11 +46,11 @@ public class File {
     this.mediaType = mediaType;
   }
 
-  public Json getMetadata() {
+  public Json2 getMetadata() {
     return metadata;
   }
 
-  public void setMetadata(Json metadata) {
+  public void setMetadata(Json2 metadata) {
     this.metadata = metadata;
   }
 

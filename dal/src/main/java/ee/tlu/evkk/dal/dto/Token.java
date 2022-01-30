@@ -10,7 +10,7 @@ public class Token {
 
   private UUID tokenId;
   private TokenType type;
-  private Json data;
+  private Json2 data;
 
   public UUID getTokenId() {
     return tokenId;
@@ -28,11 +28,11 @@ public class Token {
     this.type = type;
   }
 
-  public Json getData() {
+  public Json2 getData() {
     return data;
   }
 
-  public void setData(Json data) {
+  public void setData(Json2 data) {
     this.data = data;
   }
 

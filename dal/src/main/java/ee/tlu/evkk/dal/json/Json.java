@@ -1,4 +1,4 @@
-package ee.tlu.evkk.dal.dto;
+package ee.tlu.evkk.dal.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

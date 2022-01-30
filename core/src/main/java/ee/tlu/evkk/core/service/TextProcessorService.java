@@ -4,7 +4,7 @@ import ee.tlu.evkk.core.text.processor.TextProcessor.Type;
 import ee.tlu.evkk.core.text.processor.TextProcessorExecutor;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dao.TextProcessorResultDao;
-import ee.tlu.evkk.dal.dto.Json;
+import ee.tlu.evkk.dal.dto.Json2;
 import ee.tlu.evkk.dal.dto.MissingTextProcessorResult;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.dto.TextProcessorResult;
@@ -35,7 +35,7 @@ public class TextProcessorService {
     this.textProcessorExecutor = textProcessorExecutor;
   }
 
-  public Json processText(Type type, UUID textId) {
+  public Json2 processText(Type type, UUID textId) {
     Optional<Text> text = textDao.findById(textId);
     if (text.isEmpty()) throw new RuntimeException("Text not found: " + textId); //TODO: use business exception
 
@@ -47,9 +47,9 @@ public class TextProcessorService {
       return found.get().getResult();
     }
 
-    Json result;
+    Json2 result;
     try {
-      result = Json.createFromObject(textProcessorExecutor.execute(type, text.get().getContent()));
+      result = Json2.createFromObject(textProcessorExecutor.execute(type, text.get().getContent()));
     } catch (Exception ex) {
       throw new RuntimeException("Unable to process textId " + textId + " using " + type + " processor", ex);
     }

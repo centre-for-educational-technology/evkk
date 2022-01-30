@@ -1,7 +1,7 @@
 package ee.tlu.evkk.api.service;
 
 import ee.tlu.evkk.dal.dao.TokenDao;
-import ee.tlu.evkk.dal.dto.Json;
+import ee.tlu.evkk.dal.dto.Json2;
 import ee.tlu.evkk.dal.dto.Token;
 import ee.tlu.evkk.dal.dto.TokenType;
 import ee.tlu.evkk.dal.dto.TokenView;
@@ -21,7 +21,7 @@ import java.util.UUID;
 @Service
 public class TokenService {
 
-  private static final Json EMPTY_JSON_MAP = Json.createFromObject(new HashMap<>());
+  private static final Json2 EMPTY_JSON_MAP = Json2.createFromObject(new HashMap<>());
 
   private final TokenDao tokenDao;
 
@@ -29,7 +29,7 @@ public class TokenService {
     this.tokenDao = tokenDao;
   }
 
-  public UUID generate(TokenType tokenType, Json data) {
+  public UUID generate(TokenType tokenType, Json2 data) {
     if (tokenType == null) throw new NullPointerException();
 
     Token token = new Token();
@@ -38,7 +38,7 @@ public class TokenService {
     return tokenDao.insert(token);
   }
 
-  public Json consumeAndReturnData(TokenType tokenType, UUID tokenId) throws TokenNotFoundException, TokenExpiredException, TokenConsumedException {
+  public Json2 consumeAndReturnData(TokenType tokenType, UUID tokenId) throws TokenNotFoundException, TokenExpiredException, TokenConsumedException {
     if (tokenType == null) throw new NullPointerException();
 
     TokenView tokenView = tokenDao.findViewById(tokenId);

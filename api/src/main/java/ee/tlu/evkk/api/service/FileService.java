@@ -3,7 +3,7 @@ package ee.tlu.evkk.api.service;
 import ee.tlu.evkk.dal.dao.FileDao;
 import ee.tlu.evkk.dal.dto.File;
 import ee.tlu.evkk.dal.dto.FileType;
-import ee.tlu.evkk.dal.dto.Json;
+import ee.tlu.evkk.dal.dto.Json2;
 import ee.tlu.evkk.api.exception.FileNotFoundException;
 import ee.tlu.evkk.api.pg.PostgresSupport;
 import ee.tlu.evkk.api.service.dto.GetFileResult;
@@ -51,7 +51,7 @@ public class FileService {
     file.setOid(oid);
     file.setFileType(fileType);
     file.setMediaType(mediaType);
-    file.setMetadata(Json.createFromObject(metadata));
+    file.setMetadata(Json2.createFromObject(metadata));
     return fileDao.insert(file);
   }
 
