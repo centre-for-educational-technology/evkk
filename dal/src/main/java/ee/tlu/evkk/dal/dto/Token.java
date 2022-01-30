@@ -1,5 +1,7 @@
 package ee.tlu.evkk.dal.dto;
 
+import ee.tlu.evkk.dal.json.Json;
+
 import java.util.UUID;
 
 /**
