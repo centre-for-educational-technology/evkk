@@ -4,6 +4,7 @@ import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.jdbc.ArrayHolder;
 import org.apache.ibatis.cursor.Cursor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Stream;
@@ -17,6 +18,7 @@ public class TextRepository extends AbstractRepository {
 
   private final TextDao textDao;
 
+  @Autowired
   public TextRepository(TextDao textDao) {
     this.textDao = textDao;
   }

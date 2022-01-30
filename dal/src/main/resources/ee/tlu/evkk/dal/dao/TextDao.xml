@@ -14,13 +14,11 @@
         ) t
     </select>
 
-
     <select id="findTextIDsByCorpusID" resultType="java.lang.String">
         select text_id
         from core.text_property
         where core.text_property.property_value = #{corpusId} and core.text_property.property_name = 'korpus';
     </select>
-
 
     <select id="findTextIDandTitleByCorpusID" resultType="java.lang.String">
         select array_to_json(array_agg(row_to_json(t)))
@@ -43,7 +41,6 @@
         ) t
     </select>
 
-
     <select id="findMiniStats" resultType="java.lang.String">
         select array_to_json(array_agg(row_to_json(t)))
         from (
@@ -59,7 +56,6 @@
         ) t
     </select>
 
-
     <select id="findAvailableValues" resultType="java.lang.String">
        select array_to_json(array_agg(row_to_json(t)))
         from (
@@ -68,7 +64,6 @@
         WHERE tp1.property_name = #{pName}
         ) t
     </select>
-
 
     <select id="detailedSearch" resultType="java.lang.String">
        select array_to_json(array_agg(row_to_json(t)))
@@ -113,7 +108,6 @@
         ) t
     </select>
 
-
     <select id="findDetailedValueByPropertyName" resultType="java.lang.String">
        select array_to_json(array_agg(row_to_json(t)))
         from (
@@ -153,7 +147,6 @@
         ) t
     </select>
 
-
     <select id="findValueByPropertyName" resultType="java.lang.String">
 
         select array_to_json(array_agg(row_to_json(t)))
@@ -168,6 +161,12 @@
      IN (SELECT text_id from core.text_property WHERE core.text_property.property_name='korpus'
       AND core.text_property.property_value= #{corpusId});
     </select>
+
+  <select id="findById" resultType="ee.tlu.evkk.dal.dto.Text">
+    select *
+    from core.text t
+    where t.id = #{id};
+  </select>
 
   <select id="search" resultType="ee.tlu.evkk.api.dao.dto.Text">
     select *
@@ -187,13 +186,6 @@
       </where>
     )
     and t.content is not null and t.content != ''; -- todo: content needs cleaning up so we can remove t.content is not null and t.content != '' checks
-  </select>
-
-
-  <select id="findById" resultType="ee.tlu.evkk.dal.dto.Text">
-    select *
-    from core.text t
-    where t.id = #{id};
   </select>
 
 </mapper>
