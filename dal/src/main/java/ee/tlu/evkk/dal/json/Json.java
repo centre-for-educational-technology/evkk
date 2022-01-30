@@ -18,7 +18,6 @@ public class Json {
 
   Json(ObjectMapper objectMapper, JsonNode jsonNode) {
     this.objectMapper = objectMapper;
-    if (jsonNode == null) throw new NullPointerException();
     this.jsonNode = jsonNode;
   }
 
