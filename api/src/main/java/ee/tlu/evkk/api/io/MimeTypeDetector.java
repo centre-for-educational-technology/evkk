@@ -41,6 +41,7 @@ public class MimeTypeDetector {
     extensionTypeMap.put("html", MimeType.valueOf("text/html"));
     extensionTypeMap.put("pdf", MimeType.valueOf("application/pdf"));
     extensionTypeMap.put("rtf", MimeType.valueOf("application/rtf"));
+    extensionTypeMap.put("odt", MimeType.valueOf("application/vnd.oasis.opendocument.text"));
     EXTENSION_TYPE_MAP = Collections.unmodifiableMap(extensionTypeMap);
   }
 
@@ -85,8 +86,10 @@ public class MimeTypeDetector {
   }
 
   private MimeType detectFromTika(InputStream is, String name) throws IOException {
+    if (1 == 1) return null;
+
     Metadata metadata = new Metadata();
-    metadata.set(Metadata.RESOURCE_NAME_KEY, name);
+    // metadata.set(Metadata.RESOURCE_NAME_KEY, name); //TODO:
 
     MediaType detect;
     try (TikaInputStream tis = TikaInputStream.get(is)) {

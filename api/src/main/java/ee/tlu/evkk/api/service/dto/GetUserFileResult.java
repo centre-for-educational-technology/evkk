@@ -1,6 +1,6 @@
 package ee.tlu.evkk.api.service.dto;
 
-import ee.tlu.evkk.api.dao.dto.UserFileView;
+import ee.tlu.evkk.dal.dto.UserFileView;
 
 import java.io.IOException;
 import java.io.InputStream;

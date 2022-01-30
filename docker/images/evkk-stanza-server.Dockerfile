@@ -1,4 +1,8 @@
 FROM evkk-stanza
-COPY ./stanza-server/ /app/
+
+RUN pip install numpy
+RUN pip install pandas
 RUN pip install Flask
+
+COPY ./stanza-server/ /app/
 CMD ["python", "/app/server.py"]

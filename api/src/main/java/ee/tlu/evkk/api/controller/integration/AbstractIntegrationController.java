@@ -1,6 +1,6 @@
 package ee.tlu.evkk.api.controller.integration;
 
-import ee.tlu.evkk.api.dao.dto.SessionToken;
+import ee.tlu.evkk.dal.dto.SessionToken;
 import ee.tlu.evkk.api.exception.InvalidSessionException;
 import ee.tlu.evkk.api.service.SessionTokenService;
 import org.slf4j.Logger;

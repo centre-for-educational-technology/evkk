@@ -1,10 +1,10 @@
 package ee.tlu.evkk.api.service;
 
-import ee.tlu.evkk.api.dao.TokenDao;
-import ee.tlu.evkk.api.dao.dto.Json;
-import ee.tlu.evkk.api.dao.dto.Token;
-import ee.tlu.evkk.api.dao.dto.TokenType;
-import ee.tlu.evkk.api.dao.dto.TokenView;
+import ee.tlu.evkk.dal.dao.TokenDao;
+import ee.tlu.evkk.dal.dto.Json;
+import ee.tlu.evkk.dal.dto.Token;
+import ee.tlu.evkk.dal.dto.TokenType;
+import ee.tlu.evkk.dal.dto.TokenView;
 import ee.tlu.evkk.api.exception.TokenConsumedException;
 import ee.tlu.evkk.api.exception.TokenExpiredException;
 import ee.tlu.evkk.api.exception.TokenNotFoundException;

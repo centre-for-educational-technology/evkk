@@ -1,10 +1,57 @@
 document.querySelector("#texts").style.display = "none";
 
+let freeze = false;
+document.querySelector("#cover-spin").style.display = "none";
+
+document.addEventListener(
+	"click",
+	(e) => {
+		if (freeze) {
+			e.stopPropagation();
+			e.preventDefault();
+		}
+	},
+	true
+);
+
 tekstideIDd = [];
 tekstidePealkirjad = [];
 
+let k2olymp = document.getElementById("cFqPphvYi");
+let k2taseme = document.getElementById("clWmOIrLa");
+let k2tuum = document.getElementById("cFOoRQekA");
+let k1eesti = document.getElementById("cYDRkpymb");
+let k1vene = document.getElementById("cgSRJPKTr");
+let k3vene = document.getElementById("cZjHWUPtD");
+let akadoppija = document.getElementById("cwUSEqQLt");
+//let eestitead = document.getElementById("cwUprXCTL");
+
+document.querySelector("#addedyear").max = new Date().getFullYear();
+
 document.getElementById("backbutton").addEventListener("click", function() {
     location.reload();
+})
+
+document.getElementById("koikkorpused").addEventListener("click", function() {
+    if(document.getElementById("koikkorpused").checked) {
+        k2olymp.checked = true;
+        k2taseme.checked = true;
+        k2tuum.checked = true;
+        k1eesti.checked = true;
+        k1vene.checked = true;
+        k3vene.checked = true;
+        akadoppija.checked = true;
+        //eestitead.checked = true;
+    } else {
+        k2olymp.checked = false;
+        k2taseme.checked = false;
+        k2tuum.checked = false;
+        k1eesti.checked = false;
+        k1vene.checked = false;
+        k3vene.checked = false;
+        akadoppija.checked = false;
+        //eestitead.checked = false;
+    }
 })
 
 document.getElementById("type").addEventListener("click", function() {
@@ -49,13 +96,13 @@ document.getElementById("nativelang").addEventListener("click", function() {
     }
 });
 
-document.getElementById("homelang").addEventListener("click", function() {
+/* document.getElementById("homelang").addEventListener("click", function() {
     if(document.getElementById("homelang").value != "teadmata") {
         document.getElementById("homelangOn").checked = true;
     } else {
         document.getElementById("homelangOn").checked = false;
     }
-});
+}); */
 
 document.getElementById("gender").addEventListener("click", function() {
     if(document.getElementById("gender").value != "teadmata") {
@@ -98,15 +145,35 @@ document.getElementById("country").addEventListener("click", function() {
 });
 
 function submitted() {
-    /* parameters = ["korpus", "tekstityyp", "tekstikeel", "keeletase", "abivahendid", "emakeel", "kodukeel", "sugu", "vanus", "elukoht"]; */
     values = [];
-    if(document.querySelector("#korpus").value != "koik") {
-        corpus = document.querySelector("#korpus").value;
-        values.push(corpus);
-    } else {
-        corpus = "NO";
-        values.push("NO");
+    korpusValues = '';
+
+    if(k2olymp.checked) {
+        korpusValues += 'cFqPphvYi,'
     }
+    if(k2taseme.checked) {
+        korpusValues += 'clWmOIrLa,'
+    }
+    if(k2tuum.checked) {
+        korpusValues += 'cFOoRQekA,'
+    }
+    if(k1eesti.checked) {
+        korpusValues += 'cYDRkpymb,'
+    }
+    if(k1vene.checked) {
+        korpusValues += 'cgSRJPKTr,'
+    }
+    if(k3vene.checked) {
+        korpusValues += 'cZjHWUPtD,'
+    }
+    if(akadoppija.checked) {
+        korpusValues += 'cwUSEqQLt,'
+    }
+    /* if(eestitead.checked) {
+        korpusValues += 'cwUprXCTL,'
+    } */
+    values.push(korpusValues);
+
     if(document.querySelector("#typeOn").checked) {
         type = document.querySelector("#type").value;
         values.push(type);
@@ -151,13 +218,13 @@ function submitted() {
         nativelang = "NO";
         values.push("NO");
     }
-    if(document.querySelector("#homelangOn").checked) {
+    /* if(document.querySelector("#homelangOn").checked) {
         homelang = document.querySelector("#homelang").value;
         values.push(homelang);
     } else {
         homelang = "NO";
         values.push("NO");
-    }
+    } */
     if(document.querySelector("#genderOn").checked) {
         gender = document.querySelector("#gender").value;
         values.push(gender);
@@ -181,7 +248,31 @@ function submitted() {
     }
     if(document.querySelector("#ageOn").checked) {
         age = document.querySelector("#age").value;
-        values.push(age);
+        if(age == "kuni18") {
+            vahevaartus = "kuni18";
+            for(let i = 0; i < 19; i++) {
+                vahevaartus += "," + i;
+            }
+            values.push(vahevaartus);
+        } else if(age == "kuni26") {
+            vahevaartus = "kuni26";
+            for(let i = 18; i < 27; i++) {
+                vahevaartus += "," + i;
+            }
+            values.push(vahevaartus);
+        } else if(age == "kuni40") {
+            vahevaartus = "kuni40";
+            for(let i = 27; i < 41; i++) {
+                vahevaartus += "," + i;
+            }
+            values.push(vahevaartus);
+        } else {
+            vahevaartus = "41plus";
+            for(let i = 41; i < 200; i++) {
+                vahevaartus += "," + i;
+            }
+            values.push(vahevaartus);
+        }
     } else {
         age = "NO";
         values.push("NO");
@@ -199,92 +290,43 @@ function submitted() {
         values.push("NO");
     }
 
-    // queryJoinPart = "";
-    // queryWherePart = "";
-    // startingNumber = 3;
-    // for(let i = 0; i < parameters.length; i++) {
-    //     if(Array.isArray(values[i])) {
-    //         queryJoinPart += "join core.text_property as p" + startingNumber + " on p2.text_id = p" + startingNumber + ".text_id ";
-    //         queryWherePart += " and p" + startingNumber + ".property_name = '" + parameters[i] + "' and p" + startingNumber + ".property_value in ("
-    //         for(let j = 0; j < values[i].length; j++) {
-    //             queryWherePart += "'" + values[i][j] + "', ";
-    //         }
-    //         queryWherePart = queryWherePart.slice(0, -2);
-    //         queryWherePart += ")";
-    //         startingNumber++;
-    //     } else if(parameters[i] == "characters" && values[i] != "NO") {
-    //         queryJoinPart += "join core.text as p" + startingNumber + " on p2.text_id = p" + startingNumber + ".id ";
-    //         queryWherePart += " and char_length(p" + startingNumber + ".content) <= " + values[i];
-    //         startingNumber++;
-    //     } else if(values[i] != "NO") {
-    //         queryJoinPart += "join core.text_property as p" + startingNumber + " on p2.text_id = p" + startingNumber + ".text_id ";
-    //         queryWherePart += " and p" + startingNumber + ".property_name = '" + parameters[i] + "' and p" + startingNumber + ".property_value = '" + values[i] + "'";
-    //         startingNumber++;
-    //     }
-    // }
-    // queryWherePart += ";";
+    if(!k2olymp.checked && !k2taseme.checked && !k2tuum.checked && !k1eesti.checked && !k1vene.checked && !k3vene.checked && !akadoppija.checked) {
+        alert('Vali vähemalt üks korpus!');
+    } else {
+        document.querySelector("#cover-spin").style.display = "block";
+	    freeze = true;
 
-    //console.log(queryJoinPart);
-    //console.log(queryWherePart);
-
-    // $.ajax({
-    //     type: "POST",
-    //     url: "api/texts/detailneparing",
-    //     data: {queryJoin : queryJoinPart,
-    //     queryWhere : queryWherePart},
-    //     success: function(data) {
-    //         for(let i = 0; i < data.length; i++) {
-    //             tekstideIDd.push(data[i].split("!!!")[0]);
-    //             if(data[i].split("!!!")[1] == "") {
-    //                 tekstidePealkirjad.push("pealkiri puudub");
-    //             } else {
-    //                 tekstidePealkirjad.push(data[i].split("!!!")[1]);
-    //             }
-    //         }
-    //         tekstideKuvamine();
-    //     },
-    //     error: function(XMLHttpRequest, textStatus, errorThrown) {
-    //         alert(XMLHttpRequest + "\n" + textStatus + "\n" + errorThrown);
-    //     }
-    // });
-
-    $.ajax({
-        type: "POST",
-        url: "/api/texts/detailneparing2",
-        data: JSON.stringify(values),
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        success: function(data) {
-            //console.log(data);
-            //console.log(data[0]["text_id"]);
-            for(let i = 0; i < data.length; i++) {
-                tekstideIDd.push(data[i]["text_id"]);
-                if(data[i]["property_value"] == "") {
-                    tekstidePealkirjad.push("pealkiri puudub");
-                } else {
-                    tekstidePealkirjad.push(data[i]["property_value"]);
+        $.ajax({
+            type: "POST",
+            url: "/api/texts/detailneparing",
+            data: JSON.stringify(values),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function(data) {
+                for(let i = 0; i < data.length; i++) {
+                    tekstideIDd.push(data[i]["text_id"]);
+                    if(data[i]["property_value"] == "") {
+                        tekstidePealkirjad.push("pealkiri puudub");
+                    } else {
+                        tekstidePealkirjad.push(data[i]["property_value"]);
+                    }
                 }
-
-                // tekstideIDd.push(data[i].split("!!!")[0]);
-                // if(data[i].split("!!!")[1] == "") {
-                //     tekstidePealkirjad.push("pealkiri puudub");
-                // } else {
-                //     tekstidePealkirjad.push(data[i].split("!!!")[1]);
-                // }
+                tekstideKuvamine();
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                if(textStatus == "parsererror") {
+                    alert("Ei leitud ühtegi teksti!");
+                    document.querySelector("#cover-spin").style.display = "none";
+		            freeze = false;
+                } else {
+                    alert(XMLHttpRequest + "\n" + textStatus + "\n" + errorThrown);
+                }
             }
-            tekstideKuvamine();
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(textStatus == "parsererror") {
-                alert("Ei leitud ühtegi teksti!");
-            } else {
-                alert(XMLHttpRequest + "\n" + textStatus + "\n" + errorThrown);
-            }
-        }
-    });
+        });
+    }
 }
 
-function tekstideKuvamine() {
+    function tekstideKuvamine() {
         let puhver = [];
         for(let i = 0; i < tekstideIDd.length; i++) {
             puhver.push("<tr value='" + tekstideIDd[i] + "'><a href='javascript:eelvaade(\"" + tekstideIDd[i] + "\")'>" + tekstidePealkirjad[i] + "</a></tr>");
@@ -293,16 +335,32 @@ function tekstideKuvamine() {
     }
 
     function eelvaade(tekstiID) {
+        document.querySelector("#cover-spin").style.display = "block";
+		freeze = true;
+        $.ajax({
+            type: "GET",
+            url: "/api/texts/kysitekstimetainfo",
+            data: {id : tekstiID},
+            success: function(data) {
+                //console.log(data);
+                localStorage.setItem('raw-metainfo', data);
+            }
+        })
         $.ajax({
             type: "GET",
             url: "/api/texts/kysitekst",
             data: {id : tekstiID},
-            success: function(data){
+            success: function(data) {
                 tekstisisu = data;
                 pealkirjaID = tekstideIDd.indexOf(tekstiID);
                 pealkiri = tekstidePealkirjad[pealkirjaID];
+                if(tekstisisu == '') {
+                    tekstisisu = 'sisu puudub';
+                }
                 localStorage.setItem("kuvatavtekst", tekstisisu);
                 localStorage.setItem("tekstipealkiri", pealkiri);
+                document.querySelector("#cover-spin").style.display = "none";
+		        freeze = false;
                 window.open("tekst.html", "_blank");
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) { 
@@ -315,5 +373,7 @@ function tekstideKuvamine() {
         document.querySelector("#tabel").innerHTML = puhver.join(' ');
         document.querySelector("#vorm").style.display = "none";
         document.querySelector("#texts").style.display = "block";
-        document.querySelector("#textAmount").innerHTML = "Leiti " + puhver.length + " teksti.";
+        document.querySelector("#textAmount").textContent = "Leiti " + puhver.length + " teksti.";
+        document.querySelector("#cover-spin").style.display = "none";
+		freeze = false;
     }

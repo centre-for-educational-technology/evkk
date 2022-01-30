@@ -74,7 +74,8 @@ function getSelectedCheckboxValues(name) {
                 url: "/api/texts/kysitekst",
                 data: {id : result[i]},
                 success: function(data){
-                    uhendatudtekst += data.replaceAll('\n', " ").replaceAll('"', "'");
+                    var regex = new RegExp("[^a-zA-ZõäöüÕÄÖÜ ;:,.!?/-/'/%&()=]", "gi");
+                    uhendatudtekst += data.replace(/\\n/g, ' ').replaceAll('"', "'").replaceAll(regex, " ");
                     loendur++;
                     if(loendur == result.length) {
                         localStorage.setItem("sonad", uhendatudtekst);
@@ -85,7 +86,7 @@ function getSelectedCheckboxValues(name) {
         	                contentType: "application/json; charset=utf-8",
                             data: '{"tekst": "' + uhendatudtekst + '"}',
                             success: function(data) {
-                                localStorage.setItem("laused", data);
+                                localStorage.setItem("laused", JSON.stringify(data));
                                 localStorage.setItem("paritolu", "EVKK");
                                 window.location = "filter.html";
                             },
@@ -96,7 +97,6 @@ function getSelectedCheckboxValues(name) {
                     }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    console.log("teine"); 
                     alert(textStatus + "\n" + errorThrown);
                 }
             });
@@ -107,9 +107,17 @@ function getSelectedCheckboxValues(name) {
 function eelvaade(tekstiID) {
     $.ajax({
         type: "GET",
+        url: "/api/texts/kysitekstimetainfo",
+        data: {id : tekstiID},
+        success: function(data) {
+            localStorage.setItem('raw-metainfo', data);
+        }
+    })
+    $.ajax({
+        type: "GET",
         url: "/api/texts/kysitekst",
         data: {id : tekstiID},
-        success: function(data){
+        success: function(data) {
             tekstisisu = data;
             pealkirjaID = tekstideIDd.indexOf(tekstiID);
             pealkiri = tekstidePealkirjad[pealkirjaID];
