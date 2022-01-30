@@ -1,15 +1,18 @@
 package ee.tlu.evkk.dal;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ee.tlu.evkk.dal.batis.handler.DurationTypeHandler;
 import ee.tlu.evkk.dal.batis.handler.JsonTypeHandler;
 import ee.tlu.evkk.dal.batis.handler.UUIDTypeHandler;
-import ee.tlu.evkk.dal.dto.Json;
+import ee.tlu.evkk.dal.json.Json;
+import ee.tlu.evkk.dal.json.JsonFactory;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import java.time.Duration;
 import java.util.UUID;
@@ -24,17 +27,23 @@ import java.util.UUID;
 public class DalConfiguration {
 
   @Bean
-  public ConfigurationCustomizer configurationCustomizer() {
+  public ConfigurationCustomizer configurationCustomizer(JsonFactory jsonFactory) {
     return configuration -> {
 
       configuration.setMapUnderscoreToCamelCase(true);
 
       // register custom type handlers
       TypeHandlerRegistry typeHandlerRegistry = configuration.getTypeHandlerRegistry();
+      typeHandlerRegistry.register(Json.class, new JsonTypeHandler(jsonFactory));
       typeHandlerRegistry.register(UUID.class, UUIDTypeHandler.class);
-      typeHandlerRegistry.register(Json.class, JsonTypeHandler.class);
       typeHandlerRegistry.register(Duration.class, DurationTypeHandler.class);
     };
+  }
+
+  @Bean
+  public JsonFactory jsonFactory(Jackson2ObjectMapperBuilder objectMapperBuilder) {
+    ObjectMapper objectMapper = objectMapperBuilder.createXmlMapper(false).build();
+    return new JsonFactory(objectMapper);
   }
 
 }
