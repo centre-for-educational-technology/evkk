@@ -1,9 +1,8 @@
-package ee.tlu.evkk.api.repository;
+package ee.tlu.evkk.dal.repository;
 
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.jdbc.ArrayHolder;
-import ee.tlu.evkk.dal.jdbc.SqlObjectFactory;
 import org.apache.ibatis.cursor.Cursor;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +17,7 @@ public class TextRepository extends AbstractRepository {
 
   private final TextDao textDao;
 
-  public TextRepository(SqlObjectFactory sqlObjectFactory, TextDao textDao) {
-    super(sqlObjectFactory);
+  public TextRepository(TextDao textDao) {
     this.textDao = textDao;
   }
 
