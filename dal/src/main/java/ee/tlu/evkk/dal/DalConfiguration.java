@@ -4,6 +4,7 @@ import ee.tlu.evkk.dal.batis.handler.DurationTypeHandler;
 import ee.tlu.evkk.dal.batis.handler.JsonTypeHandler;
 import ee.tlu.evkk.dal.batis.handler.UUIDTypeHandler;
 import ee.tlu.evkk.dal.dto.Json;
+import ee.tlu.evkk.dal.jdbc.SqlObjectFactory;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import javax.sql.DataSource;
 import java.time.Duration;
 import java.util.UUID;
 
@@ -22,6 +24,11 @@ import java.util.UUID;
 @ComponentScan
 @MapperScan(basePackages = "ee.tlu.evkk.dal.dao")
 public class DalConfiguration {
+
+  @Bean
+  public SqlObjectFactory sqlObjectFactory(DataSource dataSource) {
+    return new SqlObjectFactory(dataSource);
+  }
 
   @Bean
   public ConfigurationCustomizer configurationCustomizer() {
