@@ -247,7 +247,7 @@
             { data: 'frequency' },
             { data: 'description' },
             { data: 'markups' },
-            { data: 'usages', render: function(data, type, row, meta) { console.log(type); return type === 'display' ? ClusterSearchForm.util.renderUsagesColumn(data) : data; } }
+            { data: 'usages', render: function(data, type, row, meta) { return type === 'display' ? ClusterSearchForm.util.renderUsagesColumn(data) : data; } }
           ],
           buttons: [
             {

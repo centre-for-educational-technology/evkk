@@ -19,6 +19,7 @@ public class ClusterServiceImpl implements ClusterService {
   private static final Logger log = LoggerFactory.getLogger(ClusterServiceImpl.class);
 
   private final ClusterResultMapper resultMapper;
+
   private final RestOperations restOperations;
 
   public ClusterServiceImpl(ClusterResultMapper resultMapper, RestOperations restOperations)
