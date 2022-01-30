@@ -6,7 +6,6 @@ import ee.tlu.evkk.api.controller.dto.UserFileResponseEntity;
 import ee.tlu.evkk.api.controller.tools.dto.MasinoppeEnustusResponseEntity;
 import ee.tlu.evkk.api.controller.tools.dto.MinitornPikkusResponseEntity;
 import ee.tlu.evkk.api.security.AuthenticatedUser;
-import ee.tlu.evkk.api.util.StreamUtils;
 import ee.tlu.evkk.dal.dto.Korpus;
 import ee.tlu.evkk.dal.dto.User;
 import ee.tlu.evkk.dal.dto.UserFileView;
@@ -20,6 +19,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * @author Mikk Tarvas
@@ -46,7 +46,7 @@ public abstract class ApiMapper {
   public abstract UserFileResponseEntity toUserFileResponseEntity(UserFileView userFileView);
 
   public AuthenticatedUser toAuthenticatedUser(User user, Iterable<String> permissionNames) {
-    List<SimpleGrantedAuthority> authorities = StreamUtils.toStream(permissionNames).map(permissionName -> new SimpleGrantedAuthority("ROLE_" + permissionName)).collect(Collectors.toList());
+    List<SimpleGrantedAuthority> authorities = StreamSupport.stream(permissionNames.spliterator(), false).map(permissionName -> new SimpleGrantedAuthority("ROLE_" + permissionName)).collect(Collectors.toList());
     return new AuthenticatedUser(user.getUserId(), user.getEmailAddress(), user.getPasswordHash(), true, true, true, true, authorities);
   }
 
