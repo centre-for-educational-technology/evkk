@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ee.tlu.evkk.dal.batis.handler.DurationTypeHandler;
 import ee.tlu.evkk.dal.batis.handler.JsonTypeHandler;
 import ee.tlu.evkk.dal.batis.handler.UUIDTypeHandler;
+import ee.tlu.evkk.dal.jdbc.SqlObjectFactory;
 import ee.tlu.evkk.dal.json.Json;
 import ee.tlu.evkk.dal.json.JsonFactory;
 import org.apache.ibatis.type.TypeHandlerRegistry;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
+import javax.sql.DataSource;
 import java.time.Duration;
 import java.util.UUID;
 
@@ -25,6 +27,11 @@ import java.util.UUID;
 @ComponentScan
 @MapperScan(basePackages = "ee.tlu.evkk.dal.dao")
 public class DalConfiguration {
+
+  @Bean
+  public SqlObjectFactory sqlObjectFactory(DataSource dataSource) {
+    return new SqlObjectFactory(dataSource);
+  }
 
   @Bean
   public ConfigurationCustomizer configurationCustomizer(JsonFactory jsonFactory) {
