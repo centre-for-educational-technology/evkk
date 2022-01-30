@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Array;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -40,13 +41,6 @@ public interface TextDao {
 
   Optional<Text> findById(@Param("id") UUID id);
 
-  Cursor<Text> search(@Param("korpus") Array korpus,
-                      @Param("tekstityyp") Array tekstityyp,
-                      @Param("keeletase") Array keeletase,
-                      @Param("emakeel") Array emakeel,
-                      @Param("kodukeel") Array kodukeel,
-                      @Param("sugu") Array sugu,
-                      @Param("vanus") Array vanus,
-                      @Param("elukoht") Array elukoht);
+  Cursor<Text> search(@Param("filters") Map<String, Array> filters);
 
 }

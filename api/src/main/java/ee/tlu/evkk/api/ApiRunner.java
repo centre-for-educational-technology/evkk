@@ -1,8 +1,16 @@
 package ee.tlu.evkk.api;
 
+import ee.tlu.evkk.dal.dto.Text;
+import ee.tlu.evkk.dal.repository.TextRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Mikk Tarvas
@@ -15,9 +23,13 @@ public class ApiRunner implements CommandLineRunner {
     SpringApplication.run(ApiRunner.class, args);
   }
 
-  @Override
-  public void run(String... args) {
+  @Autowired
+  private TextRepository textRepository;
 
+  @Override
+  @Transactional
+  public void run(String... args) {
+    // List<Text> texts = textRepository.search(Map.of("sugu", List.of("mees"), "emakeel", List.of("eesti"))).collect(Collectors.toUnmodifiableList());
   }
 
 }

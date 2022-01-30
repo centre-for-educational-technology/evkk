@@ -168,21 +168,16 @@
     where t.id = #{id};
   </select>
 
-  <select id="search" resultType="ee.tlu.evkk.api.dao.dto.Text">
+  <select id="search" resultType="ee.tlu.evkk.dal.dto.Text">
     select *
     from core.text t
     where t.id in (
       select distinct text_id
       from core.text_property tp
       <where>
-        <if test="korpus != null"> and (tp.property_name = 'korpus' and tp.property_value in (select unnest(#{korpus})))</if>
-        <if test="tekstityyp != null"> and (tp.property_name = 'tekstityyp' and tp.property_value in (select unnest(#{tekstityyp})))</if>
-        <if test="keeletase != null"> and (tp.property_name = 'keeletase' and tp.property_value in (select unnest(#{keeletase})))</if>
-        <if test="emakeel != null"> and (tp.property_name = 'emakeel' and tp.property_value in (select unnest(#{emakeel})))</if>
-        <if test="kodukeel != null"> and (tp.property_name = 'kodukeel' and tp.property_value in (select unnest(#{kodukeel})))</if>
-        <if test="sugu != null"> and (tp.property_name = 'sugu' and tp.property_value in (select unnest(#{sugu})))</if>
-        <if test="vanus != null"> and (tp.property_name = 'vanus' and tp.property_value in (select unnest(#{vanus})))</if>
-        <if test="elukoht != null"> and (tp.property_name = 'elukoht' and tp.property_value in (select unnest(#{elukoht})))</if>
+        <foreach collection="filters" index="key" item="value" open="" separator=" " close="">
+          and (tp.property_name = #{key} and tp.property_value in (select unnest(#{value,typeHandler=org.apache.ibatis.type.ArrayTypeHandler})))
+        </foreach>
       </where>
     )
     and t.content is not null and t.content != ''; -- todo: content needs cleaning up so we can remove t.content is not null and t.content != '' checks
