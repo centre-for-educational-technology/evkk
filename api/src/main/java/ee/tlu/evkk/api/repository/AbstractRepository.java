@@ -1,6 +1,5 @@
 package ee.tlu.evkk.api.repository;
 
-import ee.tlu.evkk.api.lang.StreamUtils;
 import ee.tlu.evkk.dal.jdbc.ArrayHolder;
 import ee.tlu.evkk.dal.jdbc.SqlObjectFactory;
 import org.apache.ibatis.cursor.Cursor;
@@ -8,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Objects;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -48,7 +49,17 @@ public abstract class AbstractRepository {
 
   @NonNull
   protected static <T> Stream<T> cursorToStream(@NonNull Cursor<T> cursor) {
-    return StreamUtils.streamAndHandleClose(cursor, false);
+    return StreamSupport.stream(cursor.spliterator(), false).onClose(() -> closeUnchecked(cursor));
+  }
+
+  private static void closeUnchecked(AutoCloseable closeable) {
+    try {
+      closeable.close();
+    } catch (IOException ex) {
+      throw new UncheckedIOException(ex);
+    } catch (Exception ex) {
+      throw new RuntimeException(ex);
+    }
   }
 
 }
