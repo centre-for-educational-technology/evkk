@@ -5,8 +5,6 @@ import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.jdbc.ArrayHolder;
 import org.apache.ibatis.cursor.Cursor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,8 +20,6 @@ import java.util.stream.Stream;
  */
 @Component
 public class TextRepository extends AbstractRepository {
-
-  private static final Logger log = LoggerFactory.getLogger(TextRepository.class);
 
   private final TextDao textDao;
 
