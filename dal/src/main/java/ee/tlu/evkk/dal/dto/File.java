@@ -1,5 +1,7 @@
 package ee.tlu.evkk.dal.dto;
 
+import ee.tlu.evkk.dal.json.Json;
+
 import java.util.UUID;
 
 /**
@@ -12,7 +14,7 @@ public class File {
   private Long oid;
   private FileType fileType;
   private String mediaType;
-  private Json2 metadata;
+  private Json metadata;
 
   public UUID getFileId() {
     return fileId;
@@ -46,11 +48,11 @@ public class File {
     this.mediaType = mediaType;
   }
 
-  public Json2 getMetadata() {
+  public Json getMetadata() {
     return metadata;
   }
 
-  public void setMetadata(Json2 metadata) {
+  public void setMetadata(Json metadata) {
     this.metadata = metadata;
   }
 

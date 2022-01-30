@@ -4,10 +4,11 @@ import ee.tlu.evkk.core.text.processor.TextProcessor.Type;
 import ee.tlu.evkk.core.text.processor.TextProcessorExecutor;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dao.TextProcessorResultDao;
-import ee.tlu.evkk.dal.dto.Json2;
 import ee.tlu.evkk.dal.dto.MissingTextProcessorResult;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.dto.TextProcessorResult;
+import ee.tlu.evkk.dal.json.Json;
+import ee.tlu.evkk.dal.json.JsonFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -25,17 +26,19 @@ import java.util.stream.StreamSupport;
 @Service
 public class TextProcessorService {
 
+  private final JsonFactory jsonFactory;
   private final TextDao textDao;
   private final TextProcessorResultDao textProcessorResultDao;
   private final TextProcessorExecutor textProcessorExecutor;
 
-  public TextProcessorService(TextDao textDao, TextProcessorResultDao textProcessorResultDao, TextProcessorExecutor textProcessorExecutor) {
+  public TextProcessorService(JsonFactory jsonFactory, TextDao textDao, TextProcessorResultDao textProcessorResultDao, TextProcessorExecutor textProcessorExecutor) {
+    this.jsonFactory = jsonFactory;
     this.textDao = textDao;
     this.textProcessorResultDao = textProcessorResultDao;
     this.textProcessorExecutor = textProcessorExecutor;
   }
 
-  public Json2 processText(Type type, UUID textId) {
+  public Json processText(Type type, UUID textId) {
     Optional<Text> text = textDao.findById(textId);
     if (text.isEmpty()) throw new RuntimeException("Text not found: " + textId); //TODO: use business exception
 
@@ -47,9 +50,9 @@ public class TextProcessorService {
       return found.get().getResult();
     }
 
-    Json2 result;
+    Json result;
     try {
-      result = Json2.createFromObject(textProcessorExecutor.execute(type, text.get().getContent()));
+      result = jsonFactory.createFromObject(textProcessorExecutor.execute(type, text.get().getContent()));
     } catch (Exception ex) {
       throw new RuntimeException("Unable to process textId " + textId + " using " + type + " processor", ex);
     }

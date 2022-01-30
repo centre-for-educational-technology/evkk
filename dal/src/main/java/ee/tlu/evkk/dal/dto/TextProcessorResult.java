@@ -1,5 +1,7 @@
 package ee.tlu.evkk.dal.dto;
 
+import ee.tlu.evkk.dal.json.Json;
+
 import java.util.UUID;
 
 /**
@@ -12,7 +14,7 @@ public class TextProcessorResult {
   private String textHash;
   private String type;
   private Long version;
-  private Json2 result;
+  private Json result;
 
   public UUID getTextProcessorResultId() {
     return textProcessorResultId;
@@ -46,11 +48,11 @@ public class TextProcessorResult {
     this.version = version;
   }
 
-  public Json2 getResult() {
+  public Json getResult() {
     return result;
   }
 
-  public void setResult(Json2 result) {
+  public void setResult(Json result) {
     this.result = result;
   }
 

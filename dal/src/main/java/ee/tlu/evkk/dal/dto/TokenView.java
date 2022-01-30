@@ -1,5 +1,7 @@
 package ee.tlu.evkk.dal.dto;
 
+import ee.tlu.evkk.dal.json.Json;
+
 import java.util.UUID;
 
 /**
@@ -10,7 +12,7 @@ public class TokenView {
 
   private UUID tokenId;
   private TokenType type;
-  private Json2 data;
+  private Json data;
   private Boolean isConsumed;
   private Boolean isExpired;
 
@@ -30,11 +32,11 @@ public class TokenView {
     this.type = type;
   }
 
-  public Json2 getData() {
+  public Json getData() {
     return data;
   }
 
-  public void setData(Json2 data) {
+  public void setData(Json data) {
     this.data = data;
   }
 
