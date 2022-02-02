@@ -61,6 +61,19 @@ services:
     image: evkk-stanza-server
     container_name: evkk-stanza-server
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+
+  corrector-server:
+    image: evkk-corrector-server
+    container_name: evkk-corrector-server
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 4G
 
   klasterdaja:
     image: evkk-klasterdaja

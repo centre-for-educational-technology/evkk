@@ -6,12 +6,7 @@ import sys
 from io import StringIO
 import pandas as pd
 import numpy as np
-import stanza
-#nlp = stanza.Pipeline("et", processors="tokenize,pos,lemma", dir="/home/kais/stanza_resources")
-#stanza.download(lang="et", processors="tokenize,pos,lemma", dir="/home/kais/stanza_resources")
-#nlp = stanza.Pipeline("et", processors="tokenize,pos,lemma", dir="/home/kais/stanza_resources")
-nlp = stanza.Pipeline("et", processors="tokenize,pos,lemma")
-
+from nlp import nlp_tpl
 
 def pos_ratio(data, pos, textLength):
 	"Funktsioon arvutab sõnaliigi osakaalu tekstis."
@@ -120,7 +115,7 @@ def arvuta(inputText):
         #print("Tekst on liiga lühike.")
         return []
         exit()
-    doc = nlp(inputText)
+    doc = nlp_tpl(inputText)
     analysis = "\n".join(
         [f"{word.id}\t{word.text}\t{word.lemma}\t{word.upos}\t{word.xpos}\t{word.feats}" 
         for sent in doc.sentences for word in sent.words])

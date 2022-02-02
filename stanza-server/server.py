@@ -1,36 +1,20 @@
-import stanza
 import sys
 import json
 import os
 from flask import Flask
 from flask import request
 from flask import Response
-import jamspell
-import gdown
 import re
-
 from tasemehindaja import arvuta
+from nlp import nlp_t, nlp_tp, nlp_tpl
+#from stanza_caller import lemmatize
 
-stanza.download('et')
-app = Flask(__name__)
-
-corrector=jamspell.TSpellCorrector()
-print("laeb mudelit")
-import os
-from os.path import exists
-path="/app/jamspell_estonian_2021_05_13.bin"
-if not exists(path):
-  print("tombab")
-  gdown.download("https://drive.google.com/uc?id=1AVO7H1v6SaQ9Eom50ZmFZoW6Q17SUzm2", output=path)
-print(os.getcwd())
-print(os.listdir("app"))
-print(corrector.LoadLangModel(path))
 asendused=[rida.strip().split(",") for rida in open("/app/word_mapping.csv").readlines()]
-print("laetud")
+app = Flask(__name__)
 
 @app.route('/lemmad', methods=['POST'])
 def lemmad():
-    nlp = stanza.Pipeline(lang='et', processors='tokenize,pos,lemma')
+    nlp = nlp_tpl
     doc = nlp(request.json["tekst"])
     v1 = []
     for sentence in doc.sentences:
@@ -41,7 +25,7 @@ def lemmad():
 
 @app.route('/laused', methods=['POST'])
 def laused():
-    nlp = stanza.Pipeline(lang='et', processors='tokenize')
+    nlp = nlp_t
     doc = nlp(request.json["tekst"])
     v1 = []
     for sentence in doc.sentences:
@@ -53,7 +37,7 @@ def laused():
 @app.route('/sonad', methods=['POST'])
 def sonad():
     #return Response(json.dumps(arvuta(request.json["tekst"])), mimetype="application/json")
-    nlp = stanza.Pipeline(lang='et', processors='tokenize,pos')
+    nlp = nlp_tp
     doc = nlp(request.json["tekst"])
     v1 = []
     for sentence in doc.sentences:
@@ -70,7 +54,7 @@ def korrektuur():
     print(correction)
     response=Response(json.dumps([correction, request.json["tekst"]]), mimetype="application/json")
     return response
-    
+
 @app.route('/keeletase', methods=['POST'])
 def keeletase():
     #return Response(json.dumps(arvuta("Juku tuli kooli ja oli üllatavalt rõõmsas tujus")), mimetype="application/json")
@@ -86,4 +70,5 @@ def asenda(t):
         t=re.sub("([,-?!\"' ()])("+a[0]+")([,-?!\"' ()])", "\\1"+a[1]+"\\3", t)
         t=re.sub("([,-?!\"' ()])("+a[0]+")([,-?!\"' ()])", "\\1"+a[1]+"\\3", t)
     return t
-app.run(host="0.0.0.0")
+
+app.run(host="0.0.0.0", threaded=True, port=5000)

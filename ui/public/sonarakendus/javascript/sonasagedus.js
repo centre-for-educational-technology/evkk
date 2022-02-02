@@ -5,7 +5,9 @@ let vorm = localStorage.getItem("vorm");
 let tahesuurus = localStorage.getItem("tahesuurus");
 let tabel = document.querySelector("#tabel");
 let sonadearv = {};
+let sonavormidearv = {};
 let sonadeprotsent = {};
+let sonavormideprotsent = {};
 //var jsonString = JSON.stringify(koguTekst);
 const reg = /[^a-zA-Z õäöüÕÄÖÜ-]/g;
 const response = new XMLHttpRequest();
@@ -23,19 +25,51 @@ document.addEventListener(
 freeze = true;
 
 if(vorm == "algvormid") {
+    let sonavormidData;
+    let algvormidData;
+    let finalData = {};
     $.ajax({
         type: "POST",
         url: "/api/texts/lemmad",
         dataType: "json",
         contentType: "application/json; charset=utf-8",
+        async: false,
         data: '{"tekst": "' + koguTekst + '"}',
         success: function(data){
-            tekstiTootlus(data);
+            algvormidData = data;
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) { 
             alert(textStatus + "\n" + errorThrown);
         }
     });
+    $.ajax({
+        type: "POST",
+        url: "/api/texts/sonad",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        data: '{"tekst": "' + koguTekst + '"}',
+        success: function(data){
+            sonavormidData = data;
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+            alert(textStatus + "\n" + errorThrown);
+        }
+    });
+    for(let i = 0; i < algvormidData.length; i++) {
+        replacedAlgvormidData = algvormidData[i].replaceAll('_', '').replaceAll('=', '').replaceAll('+', '').replaceAll("'", '');
+        if(finalData[replacedAlgvormidData] == undefined) {
+            finalData[replacedAlgvormidData] = sonavormidData[i].toLowerCase() + ",";
+        } else {
+            if((finalData[replacedAlgvormidData].startsWith(sonavormidData[i].toLowerCase() + ",") == false) && (finalData[replacedAlgvormidData].search("," + sonavormidData[i].toLowerCase() + ",") == -1) && (finalData[replacedAlgvormidData].endsWith("," + sonavormidData[i].toLowerCase()) == false)) {
+                finalData[replacedAlgvormidData] += sonavormidData[i].toLowerCase() + ",";
+            }
+        }
+    }
+    Object.keys(finalData).forEach(key => {
+        finalData[key] = finalData[key].slice(0, -1);
+    });
+    tekstiTootlus_sonavormidega(algvormidData, finalData);
 } else if(vorm == "sonavormid") {
     $.ajax({
         type: "POST",
@@ -141,6 +175,115 @@ function tekstiTootlus(data) {
             abi += Object.keys(sorteeritud)[i] + "')";
             puhver.push("<tr><td>" + (i + 1) + "</td><td>" + Object.keys(sorteeritud)[i] + "</td><td>" + Object.values(sorteeritud)[i] + "</td><td>" + sonadeprotsent[Object.keys(sorteeritud)[i]] + "%</td><td><div class='dropdown'><div " + abi + "\" class='dropbtn'>⋮</div><div id='" + Object.keys(sorteeritud)[i] + "' class='dropdown-content'><a href=\"javascript:kontekst('" + Object.keys(sorteeritud)[i] + "')\">Kasutuskontekst</a><a href='https://sonaveeb.ee/search/unif/dlall/dsall/" + Object.keys(sorteeritud)[i] + "/1' target='_blank'>Sõna tähendus (sonaveeb.ee)</a><div>Sõna tõlge (neurotolge.ee)<select name='language' id='language_" + Object.keys(sorteeritud)[i] + "' onchange='translateFunc(\"" + Object.keys(sorteeritud)[i] + "\")'><option selected disabled>Vali keel</option><option value='eng'>inglise</option><option value='rus'>vene</option><option value='ger'>saksa</option><option value='fin'>soome</option><option value='lit'>leedu</option><option value='lav'>läti</option></select></div><div>Vastus:<div id='result_" + Object.keys(sorteeritud)[i] + "'></div></div></div></div>");
         }
+    tabel.innerHTML = puhver.join(' ');
+    
+    tabelElement = $('#words').DataTable({
+        "pagingType": "full_numbers",
+        "pageLength": 50,
+        "columns": [
+            { "searchable": false },
+            null,
+            null,
+            null,
+            { "searchable": false }
+        ],
+        language: {
+            url: 'json/dataTables.estonian.json'
+        }
+    });
+
+    freeze = false;
+    document.querySelector("#cover-spin").style.display = "none";
+}
+
+function tekstiTootlus_sonavormidega(data, sonavormidData) {
+    //data = JSON.parse(data);
+    for(let i = 0; i < data.length; i++) {
+        if(tahesuurus) {
+            data[i] = String(data[i]).replaceAll(reg, "").trim();
+            sonavormidData[data[i]] = String(sonavormidData[data[i]]).trim();
+        } else {
+            data[i] = String(data[i]).replaceAll(reg, "").toLowerCase().trim();
+            sonavormidData[data[i]] = String(sonavormidData[data[i]]).toLowerCase().trim();
+        }
+        if(data[i].slice(-1) == "-") {
+            data[i] = data[i].slice(0, data[i].length - 1);
+            sonavormidData[data[i]] = sonavormidData[data[i]].slice(0, sonavormidData[data[i]].length - 1);
+        }
+        if(data[i] == "") {
+            data.splice(i, 1);
+            //sonavormidData.splice(i, 1);
+            i--;
+        }
+    }
+
+    if(stoppsonad != null) {
+        for(let i = 0; i < data.length; i++) {
+            if(stoppsonad.includes(data[i])) {
+                data.splice(i, 1);
+                //sonavormidData.splice(i, 1);
+                i--;
+            }
+        }
+    }
+
+    if(valistatud != null) {
+        for(let i = 0; i < data.length; i++) {
+            if(valistatud.includes(data[i])) {
+                data.splice(i, 1);
+                //sonavormidData.splice(i, 1);
+                i--;
+            }
+        }
+    }
+
+    data.forEach(function(element) {
+        if(element in sonadearv) {
+            sonadearv[element] += 1;
+        } else {
+            sonadearv[element] = 1;
+        }
+    });
+
+    /* sonavormidData.forEach(function(element) {
+        if(element in sonavormidearv) {
+            sonavormidearv[element] += 1;
+        } else {
+            sonavormidearv[element] = 1;
+        }
+    }); */
+
+    data.forEach(function(element) {
+        num = (sonadearv[element] * 100) / data.length;
+        sonadeprotsent[element] = Math.round((num + Number.EPSILON) * 100) / 100;
+    });
+
+    /* sonavormidData.forEach(function(element) {
+        num2 = (sonavormidearv[element] * 100) / sonavormidData.length;
+        sonavormideprotsent[element] = Math.round((num2 + Number.EPSILON) * 100) / 100;
+    }); */
+
+    sorteeritud = sort_object(sonadearv);
+
+    //https://stackoverflow.com/questions/25421233/javascript-removing-undefined-fields-from-an-object
+    Object.keys(sonavormidData).forEach(key => {
+        if (sonavormidData[key] == 'undefined') {
+            delete sonavormidData[key];
+        }
+    });
+    //sonavormid_sorteeritud = sort_object(sonavormidearv);
+    let puhver = [];
+    for(let i = 0; i < Object.keys(sorteeritud).length; i++) {
+        let otsing;
+        if(sonavormidData[Object.keys(sorteeritud)[i]] == undefined) {
+            otsing = Object.keys(sorteeritud)[i].charAt(0).toUpperCase() + Object.keys(sorteeritud)[i].slice(1);
+        } else {
+            otsing = sonavormidData[Object.keys(sorteeritud)[i]];
+        }
+        abi = "onclick=\"openPopup(\'";
+        abi += Object.keys(sorteeritud)[i] + "')";
+        puhver.push("<tr><td>" + (i + 1) + "</td><td>" + Object.keys(sorteeritud)[i] + "</td><td>" + Object.values(sorteeritud)[i] + "</td><td>" + sonadeprotsent[Object.keys(sorteeritud)[i]] + "%</td><td><div class='dropdown'><div " + abi + "\" class='dropbtn'>⋮</div><div id='" + Object.keys(sorteeritud)[i] + "' class='dropdown-content'><a href=\"javascript:kontekst('" + otsing + "')\">Kasutuskontekst</a><a href='https://sonaveeb.ee/search/unif/dlall/dsall/" + Object.keys(sorteeritud)[i] + "/1' target='_blank'>Sõna tähendus (sonaveeb.ee)</a><div>Sõna tõlge (neurotolge.ee)<select name='language' id='language_" + Object.keys(sorteeritud)[i] + "' onchange='translateFunc(\"" + Object.keys(sorteeritud)[i] + "\")'><option selected disabled>Vali keel</option><option value='eng'>inglise</option><option value='rus'>vene</option><option value='ger'>saksa</option><option value='fin'>soome</option><option value='lit'>leedu</option><option value='lav'>läti</option></select></div><div>Vastus:<div id='result_" + Object.keys(sorteeritud)[i] + "'></div></div></div></div>");
+    }
     tabel.innerHTML = puhver.join(' ');
     
     tabelElement = $('#words').DataTable({

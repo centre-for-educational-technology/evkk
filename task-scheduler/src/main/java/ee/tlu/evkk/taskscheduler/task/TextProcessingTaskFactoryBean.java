@@ -28,7 +28,10 @@ public class TextProcessingTaskFactoryBean implements FactoryBean<TextProcessing
 
   @Override
   public TextProcessingTask getObject() {
-    ThreadPoolTaskExecutor executor = taskExecutorBuilder.build();
+    ThreadPoolTaskExecutor executor = taskExecutorBuilder
+      .threadNamePrefix("TextProcessingTask-")
+      .corePoolSize(10)
+      .build();
     executor.initialize();
 
     TransactionTemplate transactionTemplate = new TransactionTemplate(platformTransactionManager);

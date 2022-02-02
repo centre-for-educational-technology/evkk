@@ -12,6 +12,12 @@ pipeline {
 
   stages {
 
+    stage('Notify') {
+      steps {
+        slackSend (message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER}: ${BRANCH} (<${env.BUILD_URL}|Jenkins>)", color: "good")
+      }
+    }
+
     stage('Build') {
       steps {
         sh './build.sh'
@@ -28,6 +34,18 @@ pipeline {
       steps {
         sh 'cd /opt/evkk && ./run.sh'
       }
+    }
+
+  }
+
+  post {
+
+    success {
+      slackSend (message: "Build Success - ${env.JOB_NAME} ${env.BUILD_NUMBER}: ${BRANCH} (<http://praktika1.cs.tlu.ee:9999|praktika1.cs.tlu.ee>)", color: "good")
+    }
+
+    failure {
+      slackSend (message: "Build Failure - ${env.JOB_NAME} ${env.BUILD_NUMBER}: ${BRANCH} (<${env.BUILD_URL}|Jenkins>)", color: "danger")
     }
 
   }

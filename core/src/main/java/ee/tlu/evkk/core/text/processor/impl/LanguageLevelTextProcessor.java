@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @author Mikk Tarvas
  * Date: 22.01.2022
  */
-@Component
+//@Component
 public class LanguageLevelTextProcessor extends AbstractTextProcessor {
 
   private final StanzaServerClient stanzaServerClient;

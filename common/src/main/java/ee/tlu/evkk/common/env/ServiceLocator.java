@@ -41,7 +41,8 @@ public class ServiceLocator {
     EVKK_PUBLIC_API,
     STANZA_SERVER,
     CLUSTER_FINDER,
-    KLASTERDAJA
+    KLASTERDAJA,
+    CORRECTOR_SERVER
 
   }
 
