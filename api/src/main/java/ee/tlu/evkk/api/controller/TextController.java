@@ -1,6 +1,7 @@
 package ee.tlu.evkk.api.controller;
 
 import ee.tlu.evkk.api.controller.dto.LemmadRequestEntity;
+import ee.tlu.evkk.api.controller.dto.ConlluRequestEntity;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -86,6 +87,13 @@ public class TextController {
 List<String[]> body = Arrays.asList(tasemed);
 //List<String> body = Arrays.asList(sonad);
 return ResponseEntity.ok(body);
+  }
+
+
+  @RequestMapping("/stanzaconllu")
+  public ResponseEntity<String> stanzaconllu(@RequestBody ConlluRequestEntity request) throws Exception {
+    String body = stanzaServerClient.getStanzaConllu(request.getTekst(), request.getFailinimi());
+    return ResponseEntity.ok(body);
   }
 
 
