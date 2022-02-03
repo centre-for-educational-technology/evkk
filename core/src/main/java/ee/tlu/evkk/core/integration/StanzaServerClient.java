@@ -47,11 +47,18 @@ public class StanzaServerClient extends AbstractRestOperationsClient {
   }
 
   public String getStanzaConllu(String tekst, String failinimi) {
-    Map<String, String> map = Map.of("tekst", tekst);
-    map.put("failinimi", failinimi);
+    Map<String, String> map = Map.of("tekst", tekst, "failinimi", failinimi);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
-    ResponseEntity<String> forEntity = retry().execute(context -> rest.postForEntity("/stanzaconllu", requestEntity, String.class));
+    //return "c";
+    //ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/sonad", requestEntity, String[].class));
+    //return forEntity.getBody()[0];
+   ResponseEntity<String> forEntity = retry().execute(context -> rest.postForEntity("/stanzaconllu", requestEntity, String.class));
     return forEntity.getBody();
+  }
+
+  public String getTervitus(){
+    //return "aabbcc";
+    return retry().execute(context -> rest.getForEntity("/tervitus", String.class)).getBody();
   }
 
 }

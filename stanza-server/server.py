@@ -49,14 +49,14 @@ def sonad():
                 v1.append(word.text)
     return Response(json.dumps(v1), mimetype="application/json")
 
-@app.route('/korrektuur', methods=['POST'])
-def korrektuur():
-    t=request.json["tekst"]
-
-    correction = corrector.FixFragment(t)
-    print(correction)
-    response=Response(json.dumps([correction, request.json["tekst"]]), mimetype="application/json")
-    return response
+#@app.route('/korrektuur', methods=['POST'])
+#def korrektuur():
+#    t=request.json["tekst"]
+#
+#    correction = corrector.FixFragment(t)
+#    print(correction)
+#    response=Response(json.dumps([correction, request.json["tekst"]]), mimetype="application/json")
+#    return response
 
 @app.route('/keeletase', methods=['POST'])
 def keeletase():
@@ -118,5 +118,5 @@ def asenda(t):
         t=re.sub("([,-?!\"' ()])("+a[0]+")([,-?!\"' ()])", "\\1"+a[1]+"\\3", t)
     return t
 
-if __name__=="main":
-  app.run(host="0.0.0.0", threaded=True, port=5000)
+#if __name__=="main":
+app.run(host="0.0.0.0", threaded=True, port=5000)

@@ -90,10 +90,10 @@ return ResponseEntity.ok(body);
   }
 
 
-  @RequestMapping("/stanzaconllu")
-  public ResponseEntity<String> stanzaconllu(@RequestBody ConlluRequestEntity request) throws Exception {
+  @PostMapping("/stanzaconllu")
+  public String stanzaconllu(@RequestBody ConlluRequestEntity request) throws Exception {
     String body = stanzaServerClient.getStanzaConllu(request.getTekst(), request.getFailinimi());
-    return ResponseEntity.ok(body);
+    return body;
   }
 
 
@@ -161,4 +161,15 @@ return ResponseEntity.ok(body);
     return textDao.findTextsByCorpusId(id);
   }
 
+
+  @GetMapping("/kysimargendamata")
+  public List<String> kysiMargendamata(String tyyp){
+    return textDao.findNotParsedIds(tyyp);
+  }
+
+  @GetMapping("/lisamargendus")
+  public String lisaMargendus(String sisu){
+     textDao.insertParsing("stanza_conllu", UUID.fromString("32c21cfc-b14f-45e5-8d67-e59d7cfa2e54"), "proovisisu 2 "+sisu, null);
+     return "lisatud "+sisu;
+  }
 }

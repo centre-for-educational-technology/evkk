@@ -245,8 +245,21 @@ this.setState({yksikmuutus: vahetus});
     }
   }
 
-  render() {
+uuri(){
+  let obj={}; //new Object();
+  obj["tekst"]="Tere, Juku";
+  fetch("/api/texts/korrektuur", {method:"POST",
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(obj)}).then(v => v.json()).then(t=>{
+    console.log(t); 
+});
+}
 
+  render() {
+    this.uuri();
     return (
       <div className={'container'}>
 

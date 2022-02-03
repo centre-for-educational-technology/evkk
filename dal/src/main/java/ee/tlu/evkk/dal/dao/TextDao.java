@@ -38,4 +38,9 @@ public interface TextDao {
 
   Optional<Text> findById(@Param("id") UUID id);
 
+  List<String> findNotParsedIds(@Param("ptype") String ptype);
+
+  UUID insertParsing(@Param("ptype") String parsing_type, @Param("tid") UUID text_id, 
+    @Param("pcontent") String parsing_content, @Param("id") UUID random_id);
+ 
 }

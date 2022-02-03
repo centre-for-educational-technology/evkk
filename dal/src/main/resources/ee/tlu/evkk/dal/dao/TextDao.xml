@@ -175,4 +175,23 @@
     where t.id = #{id};
   </select>
 
+  <select id="findNotParsedIds" resultType="java.lang.String">
+     SELECT id from core.text WHERE core.text.id NOT IN 
+       (SELECT text_id FROM core.text_parsing WHERE parsing_type = #{ptype} )
+  </select>
+
+
+<select id="insertParsing" flushCache="true" resultType="java.util.UUID">
+    insert into core.text_parsing (id,
+                                parsing_type,
+                                text_id,
+                                parsed_content)
+    values (coalesce(#{id}, uuid_generate_v4()),
+            #{ptype},
+            #{tid},
+            #{pcontent}
+      )
+    returning id;
+  </select>
+
 </mapper>
