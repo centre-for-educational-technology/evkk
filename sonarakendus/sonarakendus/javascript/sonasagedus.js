@@ -1,4 +1,5 @@
 let koguTekst = localStorage.getItem("sonad"); //.split(",");
+console.log(koguTekst);
 let stoppsonad = localStorage.getItem("stoppsonad");
 let valistatud = JSON.parse(localStorage.getItem("valistatud"));
 let vorm = localStorage.getItem("vorm");
@@ -68,7 +69,7 @@ if (vorm == "algvormid") {
                 finalData[algvormidData[i].charAt(0).toUpperCase() + algvormidData[i].slice(1)] += sonavormidData[i] + ",";
             }
         } else {
-            if ((finalData[algvormidData[i]].startsWith(sonavormidData[i] + ",") == false) && (finalData[algvormidData[i]].search("," + sonavormidData[i] + ",") == -1) && (finalData[algvormidData[i]].endsWith(sonavormidData[i] + ",") == false)) {
+            if ((finalData[algvormidData[i]].startsWith(sonavormidData[i] + ",") == false) && (finalData[algvormidData[i]].search("," + sonavormidData[i] + ",") == -1) && (finalData[algvormidData[i]].endsWith("," + sonavormidData[i] + ",") == false)) {
                 finalData[algvormidData[i]] += sonavormidData[i] + ",";
             }
         }
@@ -259,8 +260,11 @@ function tekstiTootlus_sonavormidega(data, sonavormidData) {
         }
     });
 
+    console.log(sonadearv2);
+    console.log(data);
     data.forEach(function (element) {
         if (element in sonadearv2) {
+            //console.log(element);
             sonadearv2[element] += 1;
         } else {
             sonadearv2[element] = 1;

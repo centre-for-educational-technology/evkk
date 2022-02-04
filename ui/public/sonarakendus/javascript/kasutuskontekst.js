@@ -12,11 +12,14 @@ function muuda() {
         //copytud: https://stackoverflow.com/questions/3410464/how-to-find-indices-of-all-occurrences-of-one-string-in-another-in-javascript
         var str = localStorage.getItem("sonad");
         var kontekstid = localStorage.getItem("kontekst").split(',');
+        //console.log(str);
         for(let j = 0; j < kontekstid.length; j++) {
-            var regex = new RegExp("([^a-zA-ZõäöüÕÄÖÜ]|^)" + kontekstid[j] + "($|[^a-zA-ZõäöüÕÄÖÜ])", "g"), result, sonad = [];
+            var regex = new RegExp("([^a-zA-ZõäöüÕÄÖÜ,.!?;:]|^)" + kontekstid[j] + "($|[^a-zA-ZõäöüÕÄÖÜ])", "g"), result, sonad = [];
+            //console.log(regex);
             while ( (result = regex.exec(str)) ) {
                 sonad.push(result.index);
             }
+            //console.log(sonad);
 
             var regex2 = new RegExp("( )", "g"), result2, tyhikud = [];
             while ( (result2 = regex2.exec(str)) ) {
@@ -25,6 +28,7 @@ function muuda() {
 
             for(let i = 0; i < sonad.length; i++) {
                 rida1 = tyhikud.findIndex(element => element == sonad[i]);
+                console.log(rida1);
                 if(rida1 == -1) {
                     abi = 0;
                     while(tyhikud[abi] < sonad[i]) {
