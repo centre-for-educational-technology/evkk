@@ -1,5 +1,4 @@
 let koguTekst = localStorage.getItem("sonad"); //.split(",");
-console.log(koguTekst);
 let stoppsonad = localStorage.getItem("stoppsonad");
 let valistatud = JSON.parse(localStorage.getItem("valistatud"));
 let vorm = localStorage.getItem("vorm");
@@ -260,11 +259,8 @@ function tekstiTootlus_sonavormidega(data, sonavormidData) {
         }
     });
 
-    console.log(sonadearv2);
-    console.log(data);
     data.forEach(function (element) {
         if (element in sonadearv2) {
-            //console.log(element);
             sonadearv2[element] += 1;
         } else {
             sonadearv2[element] = 1;
