@@ -1,14 +1,15 @@
 package ee.tlu.evkk.api.service;
 
-import ee.tlu.evkk.dal.dao.TokenDao;
-import ee.tlu.evkk.dal.dto.Json;
-import ee.tlu.evkk.dal.dto.Token;
-import ee.tlu.evkk.dal.dto.TokenType;
-import ee.tlu.evkk.dal.dto.TokenView;
 import ee.tlu.evkk.api.exception.TokenConsumedException;
 import ee.tlu.evkk.api.exception.TokenExpiredException;
 import ee.tlu.evkk.api.exception.TokenNotFoundException;
 import ee.tlu.evkk.api.util.DaoUtils;
+import ee.tlu.evkk.dal.dao.TokenDao;
+import ee.tlu.evkk.dal.dto.Token;
+import ee.tlu.evkk.dal.dto.TokenType;
+import ee.tlu.evkk.dal.dto.TokenView;
+import ee.tlu.evkk.dal.json.Json;
+import ee.tlu.evkk.dal.json.JsonFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -21,12 +22,14 @@ import java.util.UUID;
 @Service
 public class TokenService {
 
-  private static final Json EMPTY_JSON_MAP = Json.createFromObject(new HashMap<>());
-
+  private final JsonFactory jsonFactory;
   private final TokenDao tokenDao;
+  private final Json emptyJsonMap;
 
-  public TokenService(TokenDao tokenDao) {
+  public TokenService(JsonFactory jsonFactory, TokenDao tokenDao) {
+    this.jsonFactory = jsonFactory;
     this.tokenDao = tokenDao;
+    this.emptyJsonMap = jsonFactory.createFromObject(new HashMap<>());
   }
 
   public UUID generate(TokenType tokenType, Json data) {
@@ -34,7 +37,7 @@ public class TokenService {
 
     Token token = new Token();
     token.setType(tokenType);
-    token.setData(data == null ? EMPTY_JSON_MAP : data);
+    token.setData(data == null ? emptyJsonMap : data);
     return tokenDao.insert(token);
   }
 

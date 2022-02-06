@@ -1,13 +1,13 @@
 package ee.tlu.evkk.api.service;
 
-import ee.tlu.evkk.dal.dao.FileDao;
-import ee.tlu.evkk.dal.dto.File;
-import ee.tlu.evkk.dal.dto.FileType;
-import ee.tlu.evkk.dal.dto.Json;
 import ee.tlu.evkk.api.exception.FileNotFoundException;
 import ee.tlu.evkk.api.pg.PostgresSupport;
 import ee.tlu.evkk.api.service.dto.GetFileResult;
 import ee.tlu.evkk.api.util.DaoUtils;
+import ee.tlu.evkk.dal.dao.FileDao;
+import ee.tlu.evkk.dal.dto.File;
+import ee.tlu.evkk.dal.dto.FileType;
+import ee.tlu.evkk.dal.json.JsonFactory;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.stereotype.Service;
 
@@ -26,10 +26,12 @@ import java.util.UUID;
 @Service
 public class FileService {
 
+  private final JsonFactory jsonFactory;
   private final FileDao fileDao;
   private final PostgresSupport postgresSupport;
 
-  public FileService(FileDao fileDao, PostgresSupport postgresSupport) {
+  public FileService(JsonFactory jsonFactory, FileDao fileDao, PostgresSupport postgresSupport) {
+    this.jsonFactory = jsonFactory;
     this.fileDao = fileDao;
     this.postgresSupport = postgresSupport;
   }
@@ -51,7 +53,7 @@ public class FileService {
     file.setOid(oid);
     file.setFileType(fileType);
     file.setMediaType(mediaType);
-    file.setMetadata(Json.createFromObject(metadata));
+    file.setMetadata(jsonFactory.createFromObject(metadata));
     return fileDao.insert(file);
   }
 
