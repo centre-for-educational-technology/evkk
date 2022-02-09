@@ -175,11 +175,27 @@
     where t.id = #{id};
   </select>
 
+  <select id="findParsingById" resultType="java.lang.String">
+    select parsed_content
+    from core.text_parsing t
+    where t.text_id = #{tid} AND t.parsing_type=#{ptype};
+  </select>
+
   <select id="findNotParsedIds" resultType="java.lang.String">
-     SELECT id from core.text WHERE core.text.id NOT IN 
+     SELECT concat(core.text.id, ',',core.text_property.property_value) from core.text
+       JOIN core.text_property on core.text_property.text_id=core.text.id
+        WHERE 
+        core.text_property.property_name='tekstikeel' AND
+        core.text.id NOT IN 
        (SELECT text_id FROM core.text_parsing WHERE parsing_type = #{ptype} )
   </select>
 
+ <select id="findNotCountedIds" resultType="java.lang.String">
+   SELECT concat(core.text.id,',',core.text_property.property_value) FROM core.text join core.text_property on core.text_property.text_id=core.text.id
+    WHERE core.text_property.property_name='tekstikeel' AND core.text.id NOT IN(
+    SELECT tp1.text_id FROM core.text_property as tp1 WHERE
+         tp1.property_name='tahti') LIMIT 30
+ </select>
 
 <select id="insertParsing" flushCache="true" resultType="java.util.UUID">
     insert into core.text_parsing (id,
@@ -192,6 +208,25 @@
             #{pcontent}
       )
     returning id;
+  </select>
+
+  <select id="insertCounting">
+     INSERT INTO core.text_property(text_id, property_name, property_value) values(
+         #{text_id}, 'tahti', #{tahti}
+     );
+     INSERT INTO core.text_property(text_id, property_name, property_value) values(
+         #{text_id}, 'sonu', #{sonu}
+     );
+     INSERT INTO core.text_property(text_id, property_name, property_value) values(
+         #{text_id}, 'lauseid', #{lauseid}
+     );
+  </select>
+
+
+  <select id="textfileid" resultType="java.lang.String">
+    SELECT property_value FROM core.text_property WHERE
+      (property_name='kood' OR property_name='failinimi') AND
+      text_id = #{textid}  
   </select>
 
 </mapper>

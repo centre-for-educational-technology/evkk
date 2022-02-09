@@ -38,9 +38,16 @@ public interface TextDao {
 
   Optional<Text> findById(@Param("id") UUID id);
 
+  Optional<String> findParsingById(@Param("tid") UUID text_id, @Param("ptype") String parsing_type);
+
   List<String> findNotParsedIds(@Param("ptype") String ptype);
+  List<String> findNotCountedIds();
 
   UUID insertParsing(@Param("ptype") String parsing_type, @Param("tid") UUID text_id, 
     @Param("pcontent") String parsing_content, @Param("id") UUID random_id);
+
+  void insertCounting( @Param("text_id") UUID text_id, @Param("tahti") int tahti, 
+    @Param("sonu") int sonu, @Param("lauseid") int lauseid);
  
+  List<String> textfileid(@Param("textid") UUID textid);
 }

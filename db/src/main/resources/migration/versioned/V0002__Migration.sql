@@ -66,6 +66,7 @@ create table core.text_parsing(
     id uuid default uuid_generate_v4(),
     text_id uuid references core.text (id),
     parsing_type varchar references core.text_parsing_type(type_name),
-    parsed_content text
+    parsed_content text,
+    UNIQUE(text_id, parsing_type)
 );
 call core.attach_meta_trigger('core.text_parsing');

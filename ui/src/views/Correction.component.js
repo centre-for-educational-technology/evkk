@@ -8,12 +8,21 @@ class Correction extends Component {
       tasemetekst:"",
       korrektorivastus:["", ""],
       vastuskood:"", vastusnahtav: false, muutuskood:"", yksikmuutus: false,  taustatekst:<span></span>,
-      taselisa:false, avatudkaart:"korrektuur", kordab: false, sisukohad:[], sisusonad:[], vastussonad:[] };
+      taselisa:false, avatudkaart:"korrektuur", kordab: false, sisukohad:[], sisusonad:[], vastussonad:[],
+      parsinguproov:"pproov"};
     this.alaMuutus=this.alaMuutus.bind(this);
     this.ala1=React.createRef();
     this.taust1=React.createRef();
     this.kysi3=this.kysi3.bind(this);
     this.korda=this.korda.bind(this);
+    fetch("/api/texts/parsitudtekst?tyyp=estnltk14&textid=908058ef-ceab-4aa7-8423-59832505dfd4", {method:"GET",
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  }}).then(v => v.text()).then(t=>{
+    console.log(t); 
+    this.setState({"pproov": JSON.parse(t)});
+  });
   }
 
 
@@ -264,6 +273,7 @@ uuri(){
       <div className={'container'}>
 
         <p/>
+        <span>{this.state.pproov}</span>
         <div style={{'float':'left', 'margin':'10px', 'width': '45%'}}>
         <div className="wrapper">
         <div id="highlights" ref={(e) =>this.taust1=e}>{this.state.taustakood}</div>

@@ -7,6 +7,8 @@ from flask import Response
 import re
 from tasemehindaja import arvuta
 from nlp import nlp_t, nlp_tp, nlp_tpl
+
+from nlp import nlp_ru_t, nlp_ru_tp
 #from stanza_caller import lemmatize
 
 if os.path.isfile("/app/word_mapping.csv"):
@@ -67,19 +69,25 @@ def keeletase():
 @app.route('/stanzaconllu', methods=['POST'])
 def stanzaconllu():
     if request.json["failinimi"]:
-        vastus=margenda_stanza(request.json["tekst"], comments=True, filename=request.json["failinimi"])
+        keel='et'
+        if request.json["keel"]:
+            if request.json["keel"]=="vene":
+                keel='ru'
+        vastus=margenda_stanza(request.json["tekst"], comments=True, filename=request.json["failinimi"], language=keel)
     else:
         vastus=margenda_stanza(request.json["tekst"], comments=False)
-    return Response(json.dumps(vastus), mimetype="application/json")
+    return Response(json.dumps([vastus]), mimetype="application/json")
     
 
 @app.route('/tervitus', methods=['GET'])
 def tervitus():
      return "abc "+__file__+" "+os.getcwd()
 
-def margenda_stanza(tekst, comments=True, filename="document"):
+def margenda_stanza(tekst, comments=True, filename="document", language='et'):
     v=[]
     nlp=nlp_tp
+    if language=='ru':
+        nlp=nlp_ru_tp
     doc=nlp(tekst)
     index=0
     if comments:
@@ -110,6 +118,20 @@ def margenda_stanza(tekst, comments=True, filename="document"):
             v.append('\n')
     v.append('\n')
     return "".join(v)
+
+@app.route('/tahedsonadlaused', methods=['POST'])
+def tahedsonadlaused():
+    tekst=request.json["tekst"]
+    keel='et'
+    if request.json["keel"]:
+        keel=request.json["keel"]
+    nlp=nlp_tp
+    if keel=="ru":
+        nlp=nlp_ru_tp
+    doc=nlp(tekst)
+    v=[len(tekst),  len([sona for lause in doc.sentences for sona in lause.words if sona.xpos!="Z"])
+, len(doc.sentences)]
+    return Response(json.dumps(v), mimetype="application/json")
 
 def asenda(t):
     #re.sub("([,-?!\"' \\(\\)])(kollane)([,-?!\"' \\(\\)])", "\\1sinine\\3", "suur kollane. kala")
