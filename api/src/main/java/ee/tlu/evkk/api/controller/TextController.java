@@ -238,6 +238,9 @@ return ResponseEntity.ok(body);
   }
 
 /*
+
+Taustal arvutamise näited
+
 function kysi(){
   fetch("/api/texts/kontrollimargendus?tyyp=stanza_conllu", {method:"GET",
   headers: {
@@ -248,6 +251,33 @@ function kysi(){
     if(!t.startsWith("otsas")){kysi();}
   });
 }
+
+
+function kysi(){
+  fetch("/api/texts/kontrollimargendus?tyyp=estnltk14", {method:"GET",
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  }}).then(v => v.text()).then(t=>{
+    console.log(t); 
+    if(!t.startsWith("otsas")){kysi();}
+  });
+}
+
+
+tähti-sõnu-lauseid:
+
+function kysi(){
+  fetch("/api/texts/kontrolliloendamine", {method:"GET",
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  }}).then(v => v.text()).then(t=>{
+    console.log(t); 
+    if(!t.startsWith("otsas")){kysi();}
+  });
+}
+
 */
   @PostMapping("/parsiestnltk14")
   public String parsiEstnltk14(@RequestBody LemmadRequestEntity request){
