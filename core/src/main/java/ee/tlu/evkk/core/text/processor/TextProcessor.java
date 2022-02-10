@@ -20,7 +20,8 @@ public interface TextProcessor {
 
     LEMMATIZER,
     CORRECTOR,
-    LANGUAGE_LEVEL
+    LANGUAGE_LEVEL,
+    ANNOTATE_ESTNLTK
 
   }
 

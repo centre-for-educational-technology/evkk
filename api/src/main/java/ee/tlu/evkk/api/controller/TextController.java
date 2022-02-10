@@ -3,6 +3,7 @@ package ee.tlu.evkk.api.controller;
 import ee.tlu.evkk.api.controller.dto.LemmadRequestEntity;
 import ee.tlu.evkk.api.controller.dto.ConlluRequestEntity;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
+import ee.tlu.evkk.core.service.TextService;
 import org.springframework.web.bind.annotation.*;
 
 import ee.tlu.evkk.dal.dto.TextQueryHelper;
@@ -30,14 +31,18 @@ public class TextController {
   private final CorrectorServerClient correctorServerClient;
   private final KlasterdajaServerClient klasterdajaServerClient;
   //private final ClusterServiceImpl clusterServiceClient;
+  private final TextService textService;
 
-  public TextController(TextDao uusTDao, StanzaServerClient stanzaServerClient, 
-     CorrectorServerClient correctorServerClient,
-     KlasterdajaServerClient klasterdajaServerClient) {
+  public TextController(TextDao uusTDao, StanzaServerClient stanzaServerClient,
+                        CorrectorServerClient correctorServerClient,
+                        KlasterdajaServerClient klasterdajaServerClient, TextService textService) {
     textDao = uusTDao;
     this.stanzaServerClient = stanzaServerClient;
     this.correctorServerClient = correctorServerClient;
     this.klasterdajaServerClient=klasterdajaServerClient;
+    this.textService = textService;
+
+    // String annotated = textService.annotateWithEstnltk(textId);
   }
 
   @GetMapping("/kysitekst")
