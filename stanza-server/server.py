@@ -77,7 +77,7 @@ def stanzaconllu():
     else:
         vastus=margenda_stanza(request.json["tekst"], comments=False)
     return Response(json.dumps([vastus]), mimetype="application/json")
-    
+
 
 @app.route('/tervitus', methods=['GET'])
 def tervitus():
@@ -140,5 +140,4 @@ def asenda(t):
         t=re.sub("([,-?!\"' ()])("+a[0]+")([,-?!\"' ()])", "\\1"+a[1]+"\\3", t)
     return t
 
-#if __name__=="main":
-app.run(host="0.0.0.0", threaded=True, port=5000)
+app.run(host="0.0.0.0", threaded=True, port=5300)

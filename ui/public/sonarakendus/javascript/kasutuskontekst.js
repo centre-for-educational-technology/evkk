@@ -13,7 +13,7 @@ function muuda() {
         var str = localStorage.getItem("sonad");
         var kontekstid = localStorage.getItem("kontekst").split(',');
         for(let j = 0; j < kontekstid.length; j++) {
-            var regex = new RegExp("([^a-zA-ZõäöüÕÄÖÜ]|^)" + kontekstid[j] + "($|[^a-zA-ZõäöüÕÄÖÜ])", "gi"), result, sonad = [];
+            var regex = new RegExp("([^a-zA-ZõäöüÕÄÖÜ,.!?;:]|^)" + kontekstid[j] + "($|[^a-zA-ZõäöüÕÄÖÜ])", "g"), result, sonad = [];
             while ( (result = regex.exec(str)) ) {
                 sonad.push(result.index);
             }
@@ -65,7 +65,7 @@ function muuda() {
         laused = JSON.parse(localStorage.getItem("laused"));
         var kontekstid = localStorage.getItem("kontekst").split(',');
         for(let x = 0; x < kontekstid.length; x++) {
-            var regex = new RegExp("([^a-zA-ZõäöüÕÄÖÜ]|^)" + kontekstid[x] + "($|[^a-zA-ZõäöüÕÄÖÜ])", "gi")
+            var regex = new RegExp("([^a-zA-ZõäöüÕÄÖÜ]|^)" + kontekstid[x] + "($|[^a-zA-ZõäöüÕÄÖÜ])", "g")
             for(let i = 0; i < laused.length; i++) {
                 result = regex.exec(laused[i]);
                 if(result != null) {
@@ -76,9 +76,9 @@ function muuda() {
                             esimenePool += laused[j] + " ";
                         }
                     }
-                    esimenePool += " " + laused[i].substring(0, result.index);
+                    esimenePool += " " + laused[i][0].substring(0, result.index);
 
-                    teinePool += laused[i].substring(result.index + 2 + kontekstid[x].length) + " ";
+                    teinePool += laused[i][0].substring(result.index + 2 + kontekstid[x].length) + " ";
                     for(let j = (i + 1); j < (parseInt(i) + parseInt(arv) + 1); j++) {
                         if(j < laused.length) {
                             teinePool += laused[j] + " ";

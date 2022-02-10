@@ -26,6 +26,50 @@ let k3vene = document.getElementById("cZjHWUPtD");
 let akadoppija = document.getElementById("cwUSEqQLt");
 //let eestitead = document.getElementById("cwUprXCTL");
 
+let koikkorpused = document.getElementById("koikkorpused");
+
+k2olymp.addEventListener("click", function() {
+    if(k2olymp.checked == false) {
+        koikkorpused.checked = false;
+    }
+})
+
+k2taseme.addEventListener("click", function() {
+    if(k2taseme.checked == false) {
+        koikkorpused.checked = false;
+    }
+})
+
+k2tuum.addEventListener("click", function() {
+    if(k2tuum.checked == false) {
+        koikkorpused.checked = false;
+    }
+})
+
+k1eesti.addEventListener("click", function() {
+    if(k1eesti.checked == false) {
+        koikkorpused.checked = false;
+    }
+})
+
+k1vene.addEventListener("click", function() {
+    if(k1vene.checked == false) {
+        koikkorpused.checked = false;
+    }
+})
+
+k3vene.addEventListener("click", function() {
+    if(k3vene.checked == false) {
+        koikkorpused.checked = false;
+    }
+})
+
+akadoppija.addEventListener("click", function() {
+    if(akadoppija.checked == false) {
+        koikkorpused.checked = false;
+    }
+})
+
 document.querySelector("#addedyear").max = new Date().getFullYear();
 
 document.getElementById("backbutton").addEventListener("click", function() {
