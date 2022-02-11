@@ -2,6 +2,8 @@ package ee.tlu.evkk.core.text.processor;
 
 import org.springframework.lang.NonNull;
 
+import java.util.Optional;
+
 /**
  * @author Mikk Tarvas
  * Date: 21.01.2022
@@ -53,12 +55,12 @@ public interface TextProcessor {
       return copy(languageCode, originalFileName);
     }
 
-    public String getLanguageCode() {
-      return languageCode;
+    public Optional<String> getLanguageCode() {
+      return Optional.ofNullable(languageCode);
     }
 
-    public String getOriginalFileName() {
-      return originalFileName;
+    public Optional<String> getOriginalFileName() {
+      return Optional.ofNullable(originalFileName);
     }
 
   }

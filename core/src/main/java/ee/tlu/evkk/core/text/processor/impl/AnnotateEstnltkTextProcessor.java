@@ -31,7 +31,7 @@ public class AnnotateEstnltkTextProcessor extends AbstractTextProcessor {
 
   @Nonnull
   @Override
-  protected Object doProcess(@Nonnull String input) {
+  protected Object doProcess(@Nonnull String input, @Nonnull Context context) {
     return klasterdajaServerClient.klasterdajaParsi(input);
   }
 
