@@ -1,0 +1,12 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ee.tlu.evkk.dal.dao.TextPropertyDao">
+
+  <select id="findByTextId" resultType="ee.tlu.evkk.dal.dto.TextProperty">
+    select *
+    from core.text_property tp
+    where tp.text_id = #{textId};
+  </select>
+
+</mapper>
