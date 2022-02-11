@@ -1,7 +1,6 @@
 package ee.tlu.evkk.core.text.processor;
 
-import org.springframework.lang.NonNull;
-
+import javax.annotation.Nonnull;
 import java.util.Optional;
 
 /**
@@ -12,35 +11,38 @@ public interface TextProcessor {
 
   long getVersion();
 
-  @NonNull
+  @Nonnull
   Type getType();
 
-  @NonNull
-  Object process(@NonNull String input, @NonNull Context context);
+  @Nonnull
+  Object process(@Nonnull String input, @Nonnull Context context);
 
   enum Type {
 
     LEMMATIZER,
     CORRECTOR,
     LANGUAGE_LEVEL,
-    ANNOTATE_ESTNLTK
+    ANNOTATE_ESTNLTK,
+    ANNOTATE_STANZA_CONLLU
 
   }
 
   class Context {
 
-    private static final Context INSTANCE = new Context(null, null);
+    private static final Context INSTANCE = new Context(null, null, null);
 
     private final String languageCode;
     private final String originalFileName;
+    private final String fallbackFileName;
 
-    private Context(String languageCode, String originalFileName) {
+    private Context(String languageCode, String originalFileName, String fallbackFileName) {
       this.languageCode = languageCode;
       this.originalFileName = originalFileName;
+      this.fallbackFileName = fallbackFileName;
     }
 
-    private Context copy(String languageCode, String originalFileName) {
-      return new Context(languageCode, originalFileName);
+    private Context copy(String languageCode, String originalFileName, String fallbackFileName) {
+      return new Context(languageCode, originalFileName, fallbackFileName);
     }
 
     public static Context newInstance() {
@@ -48,11 +50,15 @@ public interface TextProcessor {
     }
 
     public Context withLanguageCode(String languageCode) {
-      return copy(languageCode, originalFileName);
+      return copy(languageCode, originalFileName, fallbackFileName);
     }
 
     public Context withOriginalFileName(String originalFileName) {
-      return copy(languageCode, originalFileName);
+      return copy(languageCode, originalFileName, fallbackFileName);
+    }
+
+    public Context withFallbackFileName(String fallbackFileName) {
+      return copy(languageCode, originalFileName, fallbackFileName);
     }
 
     public Optional<String> getLanguageCode() {
@@ -61,6 +67,10 @@ public interface TextProcessor {
 
     public Optional<String> getOriginalFileName() {
       return Optional.ofNullable(originalFileName);
+    }
+
+    public Optional<String> getFallbackFileName() {
+      return Optional.ofNullable(fallbackFileName);
     }
 
   }
