@@ -30,7 +30,7 @@ public class CorrectorTextProcessor extends AbstractTextProcessor {
 
   @NonNull
   @Override
-  protected Object doProcess(@NonNull String input) {
+  protected Object doProcess(@NonNull String input, @NonNull Context context) {
     return correctorServerClient.getKorrektuur(input);
   }
 

@@ -1,5 +1,6 @@
 package ee.tlu.evkk.core.service;
 
+import ee.tlu.evkk.core.text.processor.TextProcessor.Context;
 import ee.tlu.evkk.core.text.processor.TextProcessor.Type;
 import ee.tlu.evkk.core.text.processor.TextProcessorExecutor;
 import ee.tlu.evkk.dal.dao.TextDao;
@@ -10,6 +11,7 @@ import ee.tlu.evkk.dal.dto.TextProcessorResult;
 import ee.tlu.evkk.dal.json.Json;
 import ee.tlu.evkk.dal.json.JsonFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -29,12 +31,14 @@ public class TextProcessorService {
   private final JsonFactory jsonFactory;
   private final TextDao textDao;
   private final TextProcessorResultDao textProcessorResultDao;
+  private final TextPropertyService textPropertyService;
   private final TextProcessorExecutor textProcessorExecutor;
 
-  public TextProcessorService(JsonFactory jsonFactory, TextDao textDao, TextProcessorResultDao textProcessorResultDao, TextProcessorExecutor textProcessorExecutor) {
+  public TextProcessorService(JsonFactory jsonFactory, TextDao textDao, TextProcessorResultDao textProcessorResultDao, TextPropertyService textPropertyService, TextProcessorExecutor textProcessorExecutor) {
     this.jsonFactory = jsonFactory;
     this.textDao = textDao;
     this.textProcessorResultDao = textProcessorResultDao;
+    this.textPropertyService = textPropertyService;
     this.textProcessorExecutor = textProcessorExecutor;
   }
 
@@ -52,7 +56,7 @@ public class TextProcessorService {
 
     Json result;
     try {
-      result = jsonFactory.createFromObject(textProcessorExecutor.execute(type, text.get().getContent()));
+      result = jsonFactory.createFromObject(textProcessorExecutor.execute(type, buildProcessorContext(textId), text.get().getContent()));
     } catch (Exception ex) {
       throw new RuntimeException("Unable to process textId " + textId + " using " + type + " processor", ex);
     }
@@ -66,6 +70,14 @@ public class TextProcessorService {
     textProcessorResultDao.upsert(textProcessorResult);
 
     return result;
+  }
+
+  private Context buildProcessorContext(UUID textId) {
+    MultiValueMap<String, String> textProperties = textPropertyService.getTextProperties(textId);
+    Context context = Context.newInstance();
+    if (textProperties.containsKey("failinimi")) context = context.withOriginalFileName(textProperties.getFirst("failinimi"));
+    if (textProperties.containsKey("tekstikeel")) context = context.withLanguageCode(textProperties.getFirst("tekstikeel"));
+    return context;
   }
 
   public Stream<MissingTextProcessorResult> findMissingTextProcessorResults() {
