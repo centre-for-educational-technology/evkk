@@ -1,5 +1,6 @@
 package ee.tlu.evkk.core.service;
 
+import ee.tlu.evkk.core.text.processor.TextProcessor.Context;
 import ee.tlu.evkk.core.text.processor.TextProcessor.Type;
 import ee.tlu.evkk.core.text.processor.TextProcessorExecutor;
 import ee.tlu.evkk.dal.dao.TextDao;
@@ -50,9 +51,11 @@ public class TextProcessorService {
       return found.get().getResult();
     }
 
+    Context context = Context.newInstance(); //TODO: build context
+
     Json result;
     try {
-      result = jsonFactory.createFromObject(textProcessorExecutor.execute(type, text.get().getContent()));
+      result = jsonFactory.createFromObject(textProcessorExecutor.execute(type, context, text.get().getContent()));
     } catch (Exception ex) {
       throw new RuntimeException("Unable to process textId " + textId + " using " + type + " processor", ex);
     }

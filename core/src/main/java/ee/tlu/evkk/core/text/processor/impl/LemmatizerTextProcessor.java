@@ -2,7 +2,6 @@ package ee.tlu.evkk.core.text.processor.impl;
 
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Component;
 
 /**
  * @author Mikk Tarvas
@@ -30,7 +29,7 @@ public class LemmatizerTextProcessor extends AbstractTextProcessor {
 
   @NonNull
   @Override
-  protected Object doProcess(@NonNull String input) {
+  protected Object doProcess(@NonNull String input, @NonNull Context context) {
     return stanzaServerClient.getLemmad(input);
   }
 
