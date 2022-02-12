@@ -16,6 +16,8 @@ services:
       - ./.docker/postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   redis:
     image: redis:6-alpine
