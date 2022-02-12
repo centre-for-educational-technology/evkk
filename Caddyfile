@@ -1,0 +1,22 @@
+{
+	auto_https off
+	admin off
+}
+
+:9999 {
+
+  #reverse_proxy /* ui:5000
+  #reverse_proxy /sonarakendus/* sonarakendus:5001
+
+  reverse_proxy /api/* host.docker.internal:9090
+
+  #redir /clusterfinder /clusterfinder/
+  #reverse_proxy /clusterfinder/* clusterfinder:9092
+
+  encode zstd gzip
+
+  handle_errors {
+    respond "{http.error.status_code} {http.error.status_text}"
+  }
+
+}

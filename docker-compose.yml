@@ -2,6 +2,17 @@ version: "3.7"
 
 services:
 
+  caddy:
+    image: caddy:2.4.5-alpine
+    container_name: evkk-caddy
+    restart: always
+    ports:
+      - "9999:9999"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+
   postgres:
     image: postgres:13-alpine
     container_name: evkk-postgres
@@ -16,8 +27,6 @@ services:
       - ./.docker/postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
 
   redis:
     image: redis:6-alpine
