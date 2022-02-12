@@ -243,6 +243,7 @@
               "last": "[@translations.retrieveTranslation "cluster.result.table.pagination.last" /]"
             }
           },
+          order: [[ 0, 'desc']],
           columns: [
             { data: 'frequency' },
             { data: 'description' },
@@ -571,7 +572,7 @@
             const cluster = {
               frequency: data[i].frequency,
               description: data[i].descriptions.join(" + "),
-              markups: data[i].markups.map(ClusterSearchForm.util.escapeValueAndReplace).join(separator),
+              markups: data[i].markups.map(ClusterSearchForm.util.escapeValueAndReplace).join(" + "),
               usages: data[i].usages.join("," + "<br>")
             };
 
@@ -736,8 +737,8 @@
 
         renderUsagesColumn: function(data) {
           const usages = data.split(",");
-          if (usages.length > 20) {
-            return "<span data-toggle='tooltip' data-placement='right' title='[@translations.retrieveTranslation "common.truncated.results" /]'>" + usages.slice(0, 20).map(u => u) + "..." + "</span>";
+          if (usages.length > 10) {
+            return "<span data-toggle='tooltip' data-placement='right' title='[@translations.retrieveTranslation "common.truncated.results" /]'>" + usages.slice(0, 10).map(u => u) + "..." + "</span>";
           }
 
           return data;
