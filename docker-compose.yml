@@ -5,11 +5,12 @@ services:
   caddy:
     image: caddy:2.4.5-alpine
     container_name: evkk-caddy
+    profiles: [ "all", "ui222" ]
     restart: always
     ports:
       - "9999:9999"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    #extra_hosts:
+    #  - "host.docker.internal:host-gateway"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
 

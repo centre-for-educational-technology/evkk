@@ -5,7 +5,7 @@
 
 :9999 {
 
-  #reverse_proxy /* ui:5000
+  reverse_proxy /* evkk-local-ui-builder:3000
   #reverse_proxy /sonarakendus/* sonarakendus:5001
 
   reverse_proxy /api/* host.docker.internal:9090
