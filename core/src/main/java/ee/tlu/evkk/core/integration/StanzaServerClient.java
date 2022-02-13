@@ -49,9 +49,6 @@ public class StanzaServerClient extends AbstractRestOperationsClient {
   public String getStanzaConllu(String tekst, String failinimi, String keel) {
     Map<String, String> map = Map.of("tekst", tekst, "failinimi", failinimi, "keel", keel);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
-    //return "c";
-    //ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/sonad", requestEntity, String[].class));
-    //return forEntity.getBody()[0];
    ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/stanzaconllu", requestEntity, String[].class));
     return forEntity.getBody()[0];
   }
@@ -59,17 +56,11 @@ public class StanzaServerClient extends AbstractRestOperationsClient {
   public String[] getTahedSonadLaused(String tekst, String keel) {
     Map<String, String> map = Map.of("tekst", tekst, "keel", keel);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
-    //return "c";
-    //ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/sonad", requestEntity, String[].class));
-    //return forEntity.getBody()[0];
    ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/tahedsonadlaused", requestEntity, String[].class));
     return forEntity.getBody();
   }
 
-
-
   public String getTervitus(){
-    //return "aabbcc";
     return retry().execute(context -> rest.getForEntity("/tervitus", String.class)).getBody();
   }
 
