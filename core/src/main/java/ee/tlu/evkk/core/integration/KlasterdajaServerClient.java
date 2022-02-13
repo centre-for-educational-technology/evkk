@@ -6,7 +6,7 @@ import org.springframework.web.client.RestOperations;
 
 import java.util.Map;
 public class KlasterdajaServerClient extends AbstractRestOperationsClient {
-    
+
   private final RestOperations restOperations;
 
   public KlasterdajaServerClient(RestOperations restOperations) {
