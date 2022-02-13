@@ -17,6 +17,6 @@ public class KlasterdajaServerClient extends AbstractRestOperationsClient {
   {
     Map<String, String> body = Map.of("tekst", tekst);
     HttpEntity<?> requestEntity = new HttpEntity<>(body);
-    return restOperations.postForObject("/parsi", requestEntity, String.class);
+    return retry().execute(context -> restOperations.postForObject("/parsi", requestEntity, String.class));
   }
 }
