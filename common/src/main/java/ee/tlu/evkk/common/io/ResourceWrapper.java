@@ -1,9 +1,9 @@
 package ee.tlu.evkk.common.io;
 
 import org.springframework.core.io.Resource;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +20,7 @@ public class ResourceWrapper implements Resource {
 
   private final Resource delegate;
 
-  public ResourceWrapper(@NonNull Resource delegate) {
+  public ResourceWrapper(@Nonnull Resource delegate) {
     Objects.requireNonNull(delegate, "delegate must not be null");
     this.delegate = delegate;
   }
@@ -30,7 +30,7 @@ public class ResourceWrapper implements Resource {
    *
    * @return original wrapped resource
    */
-  @NonNull
+  @Nonnull
   public Resource getDelegate() {
     return delegate;
   }
@@ -70,7 +70,7 @@ public class ResourceWrapper implements Resource {
   /**
    * {@inheritDoc}
    */
-  @NonNull
+  @Nonnull
   @Override
   public URL getURL() throws IOException {
     return getDelegate().getURL();
@@ -79,7 +79,7 @@ public class ResourceWrapper implements Resource {
   /**
    * {@inheritDoc}
    */
-  @NonNull
+  @Nonnull
   @Override
   public URI getURI() throws IOException {
     return getDelegate().getURI();
@@ -88,7 +88,7 @@ public class ResourceWrapper implements Resource {
   /**
    * {@inheritDoc}
    */
-  @NonNull
+  @Nonnull
   @Override
   public File getFile() throws IOException {
     return getDelegate().getFile();
@@ -97,7 +97,7 @@ public class ResourceWrapper implements Resource {
   /**
    * {@inheritDoc}
    */
-  @NonNull
+  @Nonnull
   @Override
   public ReadableByteChannel readableChannel() throws IOException {
     return getDelegate().readableChannel();
@@ -122,9 +122,9 @@ public class ResourceWrapper implements Resource {
   /**
    * {@inheritDoc}
    */
-  @NonNull
+  @Nonnull
   @Override
-  public Resource createRelative(@NonNull String relativePath) throws IOException {
+  public Resource createRelative(@Nonnull String relativePath) throws IOException {
     return getDelegate().createRelative(relativePath);
   }
 
@@ -140,19 +140,37 @@ public class ResourceWrapper implements Resource {
   /**
    * {@inheritDoc}
    */
-  @NonNull
+  @Nonnull
   @Override
   public String getDescription() {
-    return getDelegate().getDescription();
+    return "Wrapped resource [" + getClass().getName() + "]: " + getDelegate().getDescription();
   }
 
   /**
    * {@inheritDoc}
    */
-  @NonNull
+  @Nonnull
   @Override
   public InputStream getInputStream() throws IOException {
     return getDelegate().getInputStream();
+  }
+
+  @Override
+  public String toString() {
+    return getDescription();
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (this == other) return true;
+    if (other == null || getClass() != other.getClass()) return false;
+    ResourceWrapper that = (ResourceWrapper) other;
+    return Objects.equals(delegate, that.delegate);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(delegate);
   }
 
 }

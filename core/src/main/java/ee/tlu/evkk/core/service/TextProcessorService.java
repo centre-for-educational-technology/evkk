@@ -77,6 +77,7 @@ public class TextProcessorService {
     Context context = Context.newInstance();
     if (textProperties.containsKey("failinimi")) context = context.withOriginalFileName(textProperties.getFirst("failinimi"));
     if (textProperties.containsKey("tekstikeel")) context = context.withLanguageCode(textProperties.getFirst("tekstikeel"));
+    context = context.withFallbackFileName(textId + ".txt");
     return context;
   }
 
