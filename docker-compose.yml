@@ -43,7 +43,7 @@ services:
       context: .
       dockerfile: docker/images/evkk-stanza-server.Dockerfile
     ports:
-      - "5000:5000"
+      - "5300:5300"
 
   klasterdaja:
     container_name: evkk-klasterdaja

@@ -78,7 +78,7 @@ function getSelectedCheckboxValues(name) {
                     uhendatudtekst += data.replace(/\\n/g, ' ').replaceAll('"', "'").replaceAll(regex, " ");
                     loendur++;
                     if(loendur == result.length) {
-                        localStorage.setItem("sonad", uhendatudtekst);
+                        localStorage.setItem("sonad", uhendatudtekst.replaceAll("'", "").replace(/ +/g, " "));
                         $.ajax({
                             type: "POST",
                             url: "/api/texts/laused",
