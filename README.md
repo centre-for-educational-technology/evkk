@@ -26,7 +26,7 @@ Making sure, that everything is installed:
    For example: `$ COMPOSE_PROFILES=backend,ui ./run-local.sh` will only start backend and ui containers.  
    See all available profiles in `docker-compose.yml` file.
 2. Run database migrations and insert seed data: `$ ./gradlew :db:bootRun --args 'clean migrate seed'`
-3. Run API module: `$ ./gradlew :api:bootRun` (other modules like `task-scheduler` work in similar fashion)
+3. Run API module: `$ ./gradlew :api:bootRun` (other modules like `task-scheduler` work in a similar fashion).
 
 ### Database migrations
 Database migrations are implemented with Flyway migration tool: https://flywaydb.org/  
