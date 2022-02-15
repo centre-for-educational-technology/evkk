@@ -1,11 +1,7 @@
-# EVKK portal
+# EVKK
 
 ## General recommendations
 - All commands should be executed from project's root directory if not stated otherwise.
-
-### Running gradle tasks:
-- Unix: `$ ./gradlew <tasks>`
-- Windows: `$ gradlew.bat <tasks>`
 
 ## Local development
 
@@ -27,6 +23,7 @@ Making sure, that everything is installed:
    See all available profiles in `docker-compose.yml` file.
 2. Run database migrations and insert seed data: `$ ./gradlew :db:bootRun --args 'clean migrate seed'`
 3. Run API module: `$ ./gradlew :api:bootRun` (other modules like `task-scheduler` work in a similar fashion).
+4. Open browser at http://localhost:9999
 
 ### Database migrations
 Database migrations are implemented with Flyway migration tool: https://flywaydb.org/  

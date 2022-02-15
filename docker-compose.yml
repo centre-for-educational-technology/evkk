@@ -5,7 +5,7 @@ services:
   caddy:
     image: caddy:2.4.5-alpine
     container_name: evkk-caddy
-    profiles: [ "all", "ui222" ]
+    profiles: [ "all", "backend" ]
     restart: always
     ports:
       - "9999:9999"
