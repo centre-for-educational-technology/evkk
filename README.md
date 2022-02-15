@@ -11,22 +11,23 @@
 
 ### Requirements
 - JDK 11: https://openjdk.java.net/projects/jdk/11/
-- Docker 20+: https://docs.docker.com/get-docker/
+- Docker engine 20.10+: https://docs.docker.com/get-docker/
 - Docker Compose 1.28+: https://docs.docker.com/compose/install/
-- NodeJS: https://nodejs.org
-- YARN: https://yarnpkg.com
+
+Making sure, that everything is installed:
+- `$ java --version`
+- `$ docker --version`
+- `$ docker-compose --version`
 
 ### Getting started
-1. Make sure *docker-compose* is installed correctly: `docker-compose --version`
-2. Start docker containers `$ ./run-local.sh` (this can take several minutes first time around).  
+1. Start docker containers `$ ./run-local.sh` (this can take several minutes first time around).  
    By default, this command will start **all** containers.  
    If you only want to start specific containers, you can do so using docker profiles.  
-   For example: `COMPOSE_PROFILES=backend,stanza ./run-local.sh`  
+   For example: `$ COMPOSE_PROFILES=backend,ui ./run-local.sh` will only start backend and ui containers  
    See all available profiles in `docker-compose.yml` file.
-3. Run database migrations and insert seed data: `$ ./gradlew :db:bootRun --args 'clean migrate seed'`
-4. Make sure you have enabled annotation processing for IntelliJ IDEA: `Preferences -> Build, Execution, Deployment -> Compiler -> Annotation Processors -> Enable annotation processing`
-5. Run UI module: `$ yarn --cwd=./ui install && yarn --cwd=./ui start`
-6. Run API module: `$ ./gradlew :api:bootRun` (other modules like `task-scheduler` work in similar fashion)
+2. Run database migrations and insert seed data: `$ ./gradlew :db:bootRun --args 'clean migrate seed'`
+3. Make sure you have enabled annotation processing for IntelliJ IDEA: `Preferences -> Build, Execution, Deployment -> Compiler -> Annotation Processors -> Enable annotation processing`
+4. Run API module: `$ ./gradlew :api:bootRun` (other modules like `task-scheduler` work in similar fashion)
 
 ### Database migrations
 Database migrations are implemented with Flyway migration tool: https://flywaydb.org/  
