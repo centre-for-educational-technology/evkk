@@ -21,8 +21,12 @@ services:
     build:
       context: .
       dockerfile: docker/local/evkk-local-ui-builder.Dockerfile
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
     volumes:
       - ./ui:/app
+    ports:
+      - "3000:3000"
 
   postgres:
     image: postgres:13-alpine

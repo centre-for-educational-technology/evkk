@@ -3,6 +3,7 @@ package ee.tlu.evkk.core;
 import ee.tlu.evkk.common.env.ServiceLocator;
 import ee.tlu.evkk.common.env.ServiceLocatorFactoryBean;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
+import ee.tlu.evkk.core.integration.KlasterdajaServerClient;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.dal.DalConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -10,8 +11,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import static ee.tlu.evkk.common.env.ServiceLocator.ServiceName.CORRECTOR_SERVER;
-import static ee.tlu.evkk.common.env.ServiceLocator.ServiceName.STANZA_SERVER;
+import static ee.tlu.evkk.common.env.ServiceLocator.ServiceName.*;
 
 /**
  * @author Mikk Tarvas
@@ -31,19 +31,19 @@ public class CoreConfiguration {
 
   @Bean
   public StanzaServerClient stanzaServerClient(ServiceLocator serviceLocator, RestTemplateBuilder restTemplateBuilder) {
-    //TODO: figure out good timeout values for REST
-    RestTemplate rest = restTemplateBuilder
-      .rootUri(serviceLocator.locate(STANZA_SERVER).toString())
-      .build();
+    RestTemplate rest = restTemplateBuilder.rootUri(serviceLocator.locate(STANZA_SERVER).toString()).build();
     return new StanzaServerClient(rest);
   }
 
   @Bean
+  public KlasterdajaServerClient klasterdajaServerClient(ServiceLocator serviceLocator, RestTemplateBuilder restTemplateBuilder) {
+    RestTemplate rest = restTemplateBuilder.rootUri(serviceLocator.locate(KLASTERDAJA).toString()).build();
+    return new KlasterdajaServerClient(rest);
+  }
+
+  @Bean
   public CorrectorServerClient correctorServerClient(ServiceLocator serviceLocator, RestTemplateBuilder restTemplateBuilder) {
-    //TODO: figure out good timeout values for REST
-    RestTemplate rest = restTemplateBuilder
-      .rootUri(serviceLocator.locate(CORRECTOR_SERVER).toString())
-      .build();
+    RestTemplate rest = restTemplateBuilder.rootUri(serviceLocator.locate(CORRECTOR_SERVER).toString()).build();
     return new CorrectorServerClient(rest);
   }
 
