@@ -9,6 +9,8 @@ services:
     build:
       context: .
       dockerfile: docker/local/evkk-local-ui-builder.Dockerfile
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
     volumes:
       - ./ui:/app
     ports:
