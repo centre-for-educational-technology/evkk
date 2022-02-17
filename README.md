@@ -7,7 +7,7 @@
 
 ### Requirements
 - JDK 11: https://openjdk.java.net/projects/jdk/11/
-- Docker engine 20.10+: https://docs.docker.com/get-docker/
+- Docker Engine 20.10+: https://docs.docker.com/get-docker/
 - Docker Compose 1.28+: https://docs.docker.com/compose/install/
 
 Making sure, that everything is installed:
