@@ -1,17 +1,13 @@
-# EVKK portal
+# EVKK
 
 ## General recommendations
 - All commands should be executed from project's root directory if not stated otherwise.
-
-### Running gradle tasks:
-- Unix: `$ ./gradlew <tasks>`
-- Windows: `$ gradlew.bat <tasks>`
 
 ## Local development
 
 ### Requirements
 - JDK 11: https://openjdk.java.net/projects/jdk/11/
-- Docker 20+: https://docs.docker.com/get-docker/
+- Docker Engine 20.10+: https://docs.docker.com/get-docker/
 - Docker Compose 1.28+: https://docs.docker.com/compose/install/
 - NodeJS: https://nodejs.org
 - YARN: https://yarnpkg.com
