@@ -9,7 +9,7 @@ let sonadearv2 = {};
 let sonavormidearv = {};
 let sonadeprotsent = {};
 let sonavormideprotsent = {};
-const reg = /[^a-zA-Z õäöüÕÄÖÜ-]/g;
+const reg = /[^a-zA-ZõäöüÕÄÖÜ.&–/@-]/g;
 const response = new XMLHttpRequest();
 
 document.addEventListener(
@@ -86,7 +86,8 @@ if (vorm == "algvormid") {
         url: "/api/texts/sonad",
         dataType: "json",
         contentType: "application/json; charset=utf-8",
-        data: '{"tekst": "' + koguTekst + '"}',
+        async: false,
+        data: JSON.stringify({tekst: koguTekst}),
         success: function (data) {
             tekstiTootlus(data);
         },
