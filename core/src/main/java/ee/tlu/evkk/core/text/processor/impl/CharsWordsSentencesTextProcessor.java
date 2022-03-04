@@ -2,6 +2,7 @@ package ee.tlu.evkk.core.text.processor.impl;
 import javax.annotation.Nonnull;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import org.springframework.stereotype.Component;
+import java.util.*;
 
 @Component
 public class CharsWordsSentencesTextProcessor  extends AbstractTextProcessor {
@@ -28,7 +29,12 @@ public class CharsWordsSentencesTextProcessor  extends AbstractTextProcessor {
   protected Object doProcess(@Nonnull String input, @Nonnull Context context) {
     String languageCode = context.getLanguageCode().orElseThrow(() -> new RuntimeException("No language code provided"));
     String languageIsoCode = languageCodeToIso(languageCode);
-    return stanzaServerClient.getTahedSonadLaused(input, languageIsoCode);
+    String[] triple= stanzaServerClient.getTahedSonadLaused(input, languageIsoCode);
+    Map<String, Integer> answer=new HashMap<String, Integer>();
+    answer.put("charCount", Integer.parseInt(triple[0]));
+    answer.put("wordCount", Integer.parseInt(triple[1]));
+    answer.put("sentenceCount", Integer.parseInt(triple[2]));
+    return answer;
   }
 
 
