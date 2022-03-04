@@ -1,12 +1,14 @@
 package ee.tlu.evkk.core.text.processor.impl;
 import javax.annotation.Nonnull;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
+import org.springframework.stereotype.Component;
 
-public class CharsWordsSentencesProcessor  extends AbstractTextProcessor {
+@Component
+public class CharsWordsSentencesTextProcessor  extends AbstractTextProcessor {
     
   private final StanzaServerClient stanzaServerClient;
 
-  public CharsWordsSentencesProcessor(StanzaServerClient stanzaServerClient) {
+  public CharsWordsSentencesTextProcessor(StanzaServerClient stanzaServerClient) {
     this.stanzaServerClient = stanzaServerClient;
   }
 
