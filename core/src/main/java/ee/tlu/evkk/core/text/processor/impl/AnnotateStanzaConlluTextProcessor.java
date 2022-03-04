@@ -10,7 +10,7 @@ import java.util.Optional;
  * @author Mikk Tarvas
  * Date: 11.02.2022
  */
-//@Component
+@Component
 public class AnnotateStanzaConlluTextProcessor extends AbstractTextProcessor {
 
   private final StanzaServerClient stanzaServerClient;

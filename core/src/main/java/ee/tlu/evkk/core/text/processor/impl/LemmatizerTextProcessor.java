@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * @author Mikk Tarvas
  * Date: 21.01.2022
  */
-@Component
+//@Component
 public class LemmatizerTextProcessor extends AbstractTextProcessor {
 
   private final StanzaServerClient stanzaServerClient;
