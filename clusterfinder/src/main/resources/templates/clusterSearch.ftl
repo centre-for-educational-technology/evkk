@@ -268,6 +268,19 @@
           ],
         });
 
+        $("a.show-more").click(function() {
+          const hasTruncatedResults = $(this).innerText === ">";
+          const parentSpan = $(this).parent().get(0);
+
+          if (hasTruncatedResults) {
+            parentSpan.innerText = parentSpan.data("full-info");
+            $(this).innerText = "<";
+          } else {
+            parentSpan.innerText = parentSpan.data("partial-info");
+            $(this).innerText = ">";
+          }
+        });
+
         $("#morfoAnalysis, #syntacticAnalysis").change(function() {
           ClusterSearchForm.helpers.hideAndResetDropdowns();
           ClusterSearchForm.helpers.resetWordTypeAnalysis();
@@ -738,7 +751,9 @@
         renderUsagesColumn: function(data) {
           const usages = data.split(",");
           if (usages.length > 10) {
-            return "<span data-toggle='tooltip' data-placement='right' title='[@translations.retrieveTranslation "common.truncated.results" /]'>" + usages.slice(0, 10).map(u => u) + "..." + "</span>";
+            return "<span data-full-info="+ usages.map(u => u) +" data-partial-info="+ usages.slice(0, 10).map(u => u) +" data-toggle='tooltip' data-placement='right' title='[@translations.retrieveTranslation "common.truncated.results" /]'>"
+                      + usages.slice(0, 10).map(u => u) + "<a class='show-more'>></a>" +
+                    "</span>";
           }
 
           return data;
