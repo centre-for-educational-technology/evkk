@@ -21,7 +21,7 @@ salvesta_tekst.addEventListener("click", function () {
 	} else {
 		document.querySelector("#cover-spin").style.display = "block";
 		freeze = true;
-		var regex = new RegExp("[^a-zA-ZõäöüÕÄÖÜ;:,.!?'/&()=@-]", "gi");
+		var regex = new RegExp("[^a-zA-ZõäöüÕÄÖÜ;:,.!?'/&()=@–-]", "gi");
 		koguTekst = sisesta_tekst.value.replace(/\\n/g, ' ').replaceAll('"', "'").replaceAll(regex, " ");
 		$.ajax({
 			type: "POST",
@@ -71,7 +71,7 @@ form.addEventListener('submit', function(ev) {
 		contentType: false,
 		cache: false,
 		success: function (data) {
-			var regex = new RegExp("[^a-zA-ZõäöüÕÄÖÜ;:,.!?'/&()=@-]", "gi");
+			var regex = new RegExp("[^a-zA-ZõäöüÕÄÖÜ;:,.!?'/&()=@–-]", "gi");
 			allFormatText = data.replace(/\\n/g, ' ').replaceAll('"', "'").replaceAll(regex, " ");
 			localStorage.setItem("sonad", allFormatText.replaceAll("'", "").replace(/ +/g, " "));
 			localStorage.setItem("paritolu", "FILEUPLOAD");
