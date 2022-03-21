@@ -48,9 +48,19 @@ function readFileNames() {
 	var fileNameData = document.querySelector("#output");
 	var fData = new FormData(form);
 	
-	fileNameData.innerHTML = "<b>Valitud failid:</b>" + '<br>';
+	fileNameData.textContent = "";
+	let br = document.createElement("br");
+	let bold = document.createElement("b");
+	let fileNameDataContent = document.createTextNode("Valitud failid:");
+	bold.appendChild(fileNameDataContent);
+	fileNameData.appendChild(bold);
+	fileNameData.appendChild(br);
+
 	for ([key, value] of fData.entries()) {
-		fileNameData.innerHTML += value.name + '<br>';
+		let eachFileContent = document.createTextNode(value.name);
+		let eachBr = document.createElement("br");
+		fileNameData.appendChild(eachFileContent);
+		fileNameData.appendChild(eachBr);
 	}
 }
 

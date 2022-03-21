@@ -78,7 +78,15 @@ let haridused = {
 let elukohad = "idaviru,tallinn,tartu";
 
 pealkiri.textContent = localStorage.getItem("tekstipealkiri");
-sisu.innerHTML = localStorage.getItem("kuvatavtekst").replace(/\\n/g, '<br>');
+sisu.textContent = "";
+let rawSisu = localStorage.getItem("kuvatavtekst");
+let sisuArray = rawSisu.split(/\\n/g);
+sisuArray.forEach(element => {
+    let br = document.createElement("br");
+    let lause = document.createTextNode(element);
+    sisu.appendChild(lause);
+    sisu.appendChild(br);
+});
 
 let raw_metainfo = JSON.parse(localStorage.getItem("raw-metainfo"));
 
