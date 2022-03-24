@@ -13,7 +13,7 @@ function muuda() {
         var str = localStorage.getItem("sonad");
         var kontekstid = localStorage.getItem("kontekst").split(',');
         for(let j = 0; j < kontekstid.length; j++) {
-            var regex = new RegExp("([^a-zA-ZõäöüÕÄÖÜ,.!?;:]|^)" + kontekstid[j] + "($|[^a-zA-ZõäöüÕÄÖÜ])", "g"), result, sonad = [];
+            var regex = new RegExp("([^a-zA-ZõäöüÕÄÖÜ;:,.!?'/&()=@–-]|^)" + kontekstid[j] + "($|[^a-zA-ZõäöüÕÄÖÜ;:,.!?'/&()=@–-])", "g"), result, sonad = [];
             while ( (result = regex.exec(str)) ) {
                 sonad.push(result.index);
             }
@@ -65,7 +65,7 @@ function muuda() {
         laused = JSON.parse(localStorage.getItem("laused"));
         var kontekstid = localStorage.getItem("kontekst").split(',');
         for(let x = 0; x < kontekstid.length; x++) {
-            var regex = new RegExp("([^a-zA-ZõäöüÕÄÖÜ]|^)" + kontekstid[x] + "($|[^a-zA-ZõäöüÕÄÖÜ])", "g")
+            var regex = new RegExp("([^a-zA-ZõäöüÕÄÖÜ;:,.!?'/&()=@–-]|^)" + kontekstid[x] + "($|[^a-zA-ZõäöüÕÄÖÜ;:,.!?'/&()=@–-])", "g")
             for(let i = 0; i < laused.length; i++) {
                 result = regex.exec(laused[i]);
                 if(result != null) {
