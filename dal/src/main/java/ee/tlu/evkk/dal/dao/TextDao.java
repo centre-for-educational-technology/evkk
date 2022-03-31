@@ -2,6 +2,7 @@ package ee.tlu.evkk.dal.dao;
 
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.dto.TextQueryHelper;
+import ee.tlu.evkk.dal.dto.TextQueryCountsHelper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -22,7 +23,7 @@ public interface TextDao {
 
   List<String> findTextIDandTitleByCorpusID(@Param("corpusId") String korpusekood);
 
-  String textTitleQueryByParameters(@Param("helperid") TextQueryHelper[] helperid);
+  String textTitleQueryByParameters(@Param("helperid") TextQueryHelper[] helperid, @Param("loendurHelperid") TextQueryCountsHelper[] loendurHelperid);
 
   String findDetailedValueByPropertyName(@Param("pValue") String pValue[], @Param("pName") String pName, @Param("cId") String[] cId); // property value, name, corpus id
 

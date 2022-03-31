@@ -124,13 +124,29 @@ document.getElementById("usedmaterials").addEventListener("click", function() {
     }
 });
 
-// document.getElementById("characters").addEventListener("change", function() {
-//     if(document.getElementById("characters").value != "") {
-//         document.getElementById("charactersOn").checked = true;
-//     } else {
-//         document.getElementById("charactersOn").checked = false;
-//     }
-// });
+document.getElementById("characters").addEventListener("change", function() {
+    if(document.getElementById("characters").value != "") {
+        document.getElementById("charactersOn").checked = true;
+    } else {
+        document.getElementById("charactersOn").checked = false;
+    }
+});
+
+document.getElementById("words").addEventListener("change", function() {
+    if(document.getElementById("words").value != "") {
+        document.getElementById("wordsOn").checked = true;
+    } else {
+        document.getElementById("wordsOn").checked = false;
+    }
+});
+
+document.getElementById("sentences").addEventListener("change", function() {
+    if(document.getElementById("sentences").value != "") {
+        document.getElementById("sentencesOn").checked = true;
+    } else {
+        document.getElementById("sentencesOn").checked = false;
+    }
+});
 
 document.getElementById("nativelang").addEventListener("click", function() {
     if(document.getElementById("nativelang").value != "teadmata") {
@@ -190,6 +206,7 @@ document.getElementById("country").addEventListener("click", function() {
 
 function submitted() {
     values = [];
+    countValues = [];
     korpusValues = '';
 
     if(k2olymp.checked) {
@@ -241,13 +258,27 @@ function submitted() {
         usedmaterials = "NO";
         values.push("NO");
     }
-    // if(document.querySelector("#charactersOn").checked) {
-    //     characters = document.querySelector("#characters").value;
-    //     values.push(characters);
-    // } else {
-    //     characters = "NO";
-    //     values.push("NO");
-    // }
+    if(document.querySelector("#charactersOn").checked) {
+        characters = document.querySelector("#characters").value;
+        countValues.push(characters);
+    } else {
+        characters = "NO";
+        countValues.push("NO");
+    }
+    if(document.querySelector("#wordsOn").checked) {
+        words = document.querySelector("#words").value;
+        countValues.push(words);
+    } else {
+        words = "NO";
+        countValues.push("NO");
+    }
+    if(document.querySelector("#sentencesOn").checked) {
+        sentences = document.querySelector("#sentences").value;
+        countValues.push(sentences);
+    } else {
+        sentences = "NO";
+        countValues.push("NO");
+    }
     // if(document.querySelector("#exercise").checked) {
     //     exercise = true;
     //     values.push(true);
@@ -343,7 +374,7 @@ function submitted() {
         $.ajax({
             type: "POST",
             url: "/api/texts/detailneparing",
-            data: JSON.stringify(values),
+            data: JSON.stringify([values, countValues]),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function(data) {
@@ -386,7 +417,6 @@ function submitted() {
             url: "/api/texts/kysitekstimetainfo",
             data: {id : tekstiID},
             success: function(data) {
-                //console.log(data);
                 localStorage.setItem('raw-metainfo', data);
             }
         })

@@ -37,9 +37,19 @@
         from (
             select p2.text_id, p2.property_value
             from core.text_property as p2
+            <if test="loendurHelperid.length != 0">
+                join core.text as p3 on p2.text_id = p3.id
+                join core.text_processor_result as p4 on p3.hash = p4.text_hash
+            </if>
             <foreach item="helperid" collection="helperid" separator=" ">join core.text_property as ${helperid.tabel} on p2.text_id = ${helperid.tabel}.text_id</foreach>
             where p2.property_name = 'title'
             <foreach item="helperid" collection="helperid" separator=" "> and ${helperid.tabel}.property_name = #{helperid.parameeter} and ${helperid.tabel}.property_value in <foreach item="v" collection="helperid.vaartus" separator=", " open="(" close=")">#{v}</foreach></foreach>
+            <if test="loendurHelperid.length != 0">
+             and p4.type = 'CHARS_WORDS_SENTENCES'
+                <foreach item="loendurHelperid" collection="loendurHelperid" separator=" ">
+                     and cast(p4.result::json->'${loendurHelperid.parameeter}' as TEXT) = '${loendurHelperid.vaartus}'
+                </foreach>
+            </if>
         ) t
     </select>
 
