@@ -47,7 +47,7 @@
             <if test="loendurHelperid.length != 0">
              and p4.type = 'CHARS_WORDS_SENTENCES'
                 <foreach item="loendurHelperid" collection="loendurHelperid" separator=" ">
-                     and cast(p4.result::json->'${loendurHelperid.parameeter}' as TEXT) = '${loendurHelperid.vaartus}'
+                     and cast(p4.result::json->#{loendurHelperid.parameeter} as TEXT) = #{loendurHelperid.vaartus}
                 </foreach>
             </if>
         ) t
