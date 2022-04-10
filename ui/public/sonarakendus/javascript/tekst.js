@@ -18,7 +18,7 @@ let riikOlemas = '';
 
 let korpused = {
     'cFqPphvYi': 'K2 olümpiaadi tööd',
-    'clWmOIrLa': 'K2 tasemeeksamite teksid',
+    'clWmOIrLa': 'K2 tasemeeksamite tekstid',
     'cFOoRQekA': 'K2 tuumkorpus',
     'cYDRkpymb': 'K1 eesti keel',
     'cgSRJPKTr': 'K1 vene keel',

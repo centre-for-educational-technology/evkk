@@ -30,7 +30,7 @@ public class LemmatizerTextProcessor extends AbstractTextProcessor {
 
   @NonNull
   @Override
-  protected Object doProcess(@NonNull String input) {
+  protected Object doProcess(@NonNull String input, @NonNull Context context) {
     return stanzaServerClient.getLemmad(input);
   }
 

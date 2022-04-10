@@ -1,7 +1,8 @@
 package ee.tlu.evkk.dal.batis.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import ee.tlu.evkk.dal.dto.Json;
+import ee.tlu.evkk.dal.json.Json;
+import ee.tlu.evkk.dal.json.JsonFactory;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 import org.postgresql.util.PGobject;
@@ -14,6 +15,12 @@ import java.sql.*;
  * Date: 29/10/2019
  */
 public class JsonTypeHandler implements TypeHandler<Json> {
+
+  private final JsonFactory jsonFactory;
+
+  public JsonTypeHandler(JsonFactory jsonFactory) {
+    this.jsonFactory = jsonFactory;
+  }
 
   @Override
   public void setParameter(PreparedStatement ps, int i, Json parameter, JdbcType jdbcType) throws SQLException {
@@ -61,7 +68,7 @@ public class JsonTypeHandler implements TypeHandler<Json> {
     String value = pgObject.getValue();
     if (value == null || value.isBlank()) return null;
     try {
-      return Json.createFromString(value);
+      return jsonFactory.createFromString(value);
     } catch (IOException ex) {
       throw new SQLException("Unable to read JSONB", ex);
     }
