@@ -35,7 +35,8 @@ def klasterda(parsitud_tekst, parameetrid):
   "java -jar klastrileidja.jar -e -f "+fnimi+".txt "+parameetrid, shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
    stdout, stderr = process.communicate()
    vastus=open(fnimi+".csv").read()
-   app.logger.info("File name: %s", fnimi)
+   os.remove(fnimi+".txt")
+   os.remove(fnimi+".csv")
    return vastus
 
 
