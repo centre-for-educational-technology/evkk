@@ -1,6 +1,7 @@
 package ee.tlu.evkk.clusterfinder.service.mapping;
 
 import ee.tlu.evkk.clusterfinder.model.ClusterSearchForm;
+import ee.tlu.evkk.clusterfinder.service.helper.ClusterExplanationHelper;
 import ee.tlu.evkk.clusterfinder.service.helper.FilteringHelper;
 import ee.tlu.evkk.clusterfinder.service.model.ClusterEntry;
 import ee.tlu.evkk.clusterfinder.service.model.ClusterResult;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -19,11 +19,11 @@ public class ClusterResultMapper
 
   private static final int USAGES_START_INDEX_OFFSET = 2;
 
-  private final Map< String, String > clusterTextsMap;
+  private final ClusterExplanationHelper clusterExplanationHelper;
 
-  public ClusterResultMapper(Map<String, String> clusterTextsMap)
+  public ClusterResultMapper(ClusterExplanationHelper clusterExplanationHelper)
   {
-    this.clusterTextsMap = clusterTextsMap;
+    this.clusterExplanationHelper = clusterExplanationHelper;
   }
 
   public ClusterResult mapResults(String clusteredText, ClusterSearchForm searchForm)
@@ -40,7 +40,7 @@ public class ClusterResultMapper
   {
     return Arrays.stream(clusteredText.split("\n"))
                  .map(c -> c.split(";"))
-                 .map(clusterRow -> mapToEntry(clusterRow, searchForm.getAnalysisLength()))
+                 .map(clusterRow -> mapToEntry(clusterRow, searchForm.getAnalysisLength(), searchForm.isSyntacticAnalysis(), searchForm.isMorfoSyntacticAnalysis()))
                  .filter(Objects::nonNull)
                  .filter(entry -> FilteringHelper.filterEntries(entry, searchForm))
                  .collect(Collectors.toList());
@@ -52,7 +52,7 @@ public class ClusterResultMapper
     return searchForm.isMorfoSyntacticAnalysis() || searchForm.isMorfoAnalysis() ? ", " : " + ";
   }
 
-  private ClusterEntry mapToEntry(String[] clusterRow, int clusterLength)
+  private ClusterEntry mapToEntry(String[] clusterRow, int clusterLength, boolean isSyntactic, boolean isMorfoSyntactic)
   {
     if ( clusterRow.length == 0 )
     {
@@ -61,7 +61,7 @@ public class ClusterResultMapper
 
     int frequency = Integer.parseInt(clusterRow[0].replaceAll("\\s",""));
     List<String> markups = getMarkups(clusterRow, clusterLength);
-    List<String> explanations = getDescriptions(markups);
+    List<String> explanations = getDescriptions(markups, isSyntactic, isMorfoSyntactic);
     List<String> usages = getUsages(clusterRow, clusterLength);
 
     return new ClusterEntry(frequency, markups, explanations, usages);
@@ -77,11 +77,9 @@ public class ClusterResultMapper
                  .collect(Collectors.toList());
   }
 
-  private List<String> getDescriptions(List<String> markups)
+  private List<String> getDescriptions(List<String> markups, boolean isSyntactic, boolean isMorfoSyntactic)
   {
-    return markups.stream()
-                  .map( clusterTextsMap::get )
-                  .collect( Collectors.toList() );
+    return clusterExplanationHelper.getExplanation(markups, isSyntactic, isMorfoSyntactic);
   }
 
   private List<String> getUsages(String[] clusterRow, int clusterLength)
@@ -95,7 +93,6 @@ public class ClusterResultMapper
 
   private String replaceNonEssentialMarkup(String markup)
   {
-    int firstSpaceIndex = markup.indexOf(' ');
-    return markup.substring(firstSpaceIndex != -1 ? firstSpaceIndex : 0).trim();
+    return markup.replaceAll("<redacted>", "").trim();
   }
 }

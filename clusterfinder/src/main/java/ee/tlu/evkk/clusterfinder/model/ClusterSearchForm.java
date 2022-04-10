@@ -45,4 +45,10 @@ public class ClusterSearchForm
   {
     return isMorfoAnalysis() || isMorfoSyntacticAnalysis();
   }
+
+  public boolean shouldReplaceOptionalMarkups()
+  {
+    boolean isVerbOrAdposition = wordType == WordType.VERB || wordType == WordType.ADPOSITION;
+    return isVerbOrAdposition && isMorfoOrMorfoSyntacticAnalysis();
+  }
 }

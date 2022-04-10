@@ -35,7 +35,7 @@ public class ClusterServiceImpl implements ClusterService {
 
     try
     {
-      String clusteredText = clusterText(searchForm.getFileName(), clusteringParams);
+      String clusteredText = clusterText(searchForm.getFileName(), searchForm.shouldReplaceOptionalMarkups(), clusteringParams);
       return resultMapper.mapResults(clusteredText, searchForm);
     }
     catch (IOException | ProcessingAbortedException e)
@@ -69,15 +69,15 @@ public class ClusterServiceImpl implements ClusterService {
     return sb.toString();
   }
 
-  private String clusterText(String fileName, String clusteringParams) throws IOException, ProcessingAbortedException
+  private String clusterText(String fileName, boolean shouldReplaceOptionalMarkups, String clusteringParams) throws IOException, ProcessingAbortedException
   {
     String text = Files.readString(Path.of(fileName));
-    return klasterdajaKlasterda(text, clusteringParams);
+    return klasterdajaKlasterda(text, shouldReplaceOptionalMarkups, clusteringParams);
   }
 
-  private String klasterdajaKlasterda(String tekst, String parameetrid)
+  private String klasterdajaKlasterda(String tekst, boolean shouldReplaceOptionalMarkups, String parameetrid)
   {
-    Map<String, String> body = Map.of("tekst", tekst, "parameetrid", parameetrid);
+    Map<String, String> body = Map.of("tekst", tekst, "eemaldaValikulised", shouldReplaceOptionalMarkups ? "jah" : "ei", "parameetrid", parameetrid);
     HttpEntity<?> requestEntity = new HttpEntity<>(body);
     return restOperations.postForObject("/klasterda", requestEntity, String.class);
   }

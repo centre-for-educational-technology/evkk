@@ -73,6 +73,19 @@
         color: red;
       }
 
+      .show-more, .show-less {
+        cursor: pointer;
+        color: blue !important;
+      }
+
+      .show-more:after {
+        content: ' > ';
+      }
+
+      .show-less:after {
+        content: ' < ';
+      }
+
       .smallspacer {
         margin-bottom: 20px;
       }
@@ -268,17 +281,17 @@
           ],
         });
 
-        $("a.show-more").click(function() {
-          const hasTruncatedResults = $(this).innerText === ">";
-          const parentSpan = $(this).parent().get(0);
+        // Need to bind these events on the whole document, since these elements do not exist yet during initial load
+        $(document).on('click', 'a.show-more', function() {
+          const parentDiv = $(this).closest("div.truncated-results");
+          parentDiv.find("span.all-results").removeClass("hidden");
+          parentDiv.find("span.partial-results").addClass("hidden");
+        });
 
-          if (hasTruncatedResults) {
-            parentSpan.innerText = parentSpan.data("full-info");
-            $(this).innerText = "<";
-          } else {
-            parentSpan.innerText = parentSpan.data("partial-info");
-            $(this).innerText = ">";
-          }
+        $(document).on('click', 'a.show-less', function() {
+          const parentDiv = $(this).closest("div.truncated-results");
+          parentDiv.find("span.all-results").addClass("hidden");
+          parentDiv.find("span.partial-results").removeClass("hidden");
         });
 
         $("#morfoAnalysis, #syntacticAnalysis").change(function() {
@@ -751,9 +764,10 @@
         renderUsagesColumn: function(data) {
           const usages = data.split(",");
           if (usages.length > 10) {
-            return "<span data-full-info="+ usages.map(u => u) +" data-partial-info="+ usages.slice(0, 10).map(u => u) +" data-toggle='tooltip' data-placement='right' title='[@translations.retrieveTranslation "common.truncated.results" /]'>"
-                      + usages.slice(0, 10).map(u => u) + "<a class='show-more'>></a>" +
-                    "</span>";
+          return "<div class='truncated-results'>" +
+                  "<span class='partial-results' data-toggle='tooltip' data-placement='right' title='[@translations.retrieveTranslation "common.truncated.results" /]'>" + usages.slice(0, 10).map(u => u) + "<a class='show-more'></a>" + "</span>" +
+                  "<span class='all-results hidden' data-placement='right' title='[@translations.retrieveTranslation "common.truncated.results" /]'>" + usages.map(u => u) + "<a class='show-less'></a>" + "</span>" +
+                  "</div>";
           }
 
           return data;
