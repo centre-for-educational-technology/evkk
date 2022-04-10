@@ -42,6 +42,10 @@ function muuda() {
                 }
                 teinePool = str.substring((sonad[i] + kontekstid[j].length + lisand), tyhikud[indeks2]);
 
+                //punktiiride asendamine
+                esimenePool = esimenePool.replace(/\.{4,}/g, "<punktiir>");
+                teinePool = teinePool.replace(/\.{4,}/g, "<punktiir>");
+
                 let tr = document.createElement("tr");
                 let td1 = document.createElement("td");
                 let td1_content = document.createTextNode(jrk);
@@ -155,6 +159,10 @@ function muuda() {
                             teinePool += laused[j] + " ";
                         }
                     }
+
+                    //punktiiride asendamine
+                    esimenePool = esimenePool.replace(/\.{4,}/g, "<punktiir>");
+                    teinePool = teinePool.replace(/\.{4,}/g, "<punktiir>");
 
                     let tr = document.createElement("tr");
                     let td1 = document.createElement("td");
