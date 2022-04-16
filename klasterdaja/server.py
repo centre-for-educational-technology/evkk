@@ -17,7 +17,7 @@ VERB_AND_ADPOSITION_MARKUP_REGEXP = re.compile('(<cap>|<nom>|<gen>|<part>|<el>|<
 
 def removeUnnecessaryMarkup(value, removeOptionalMarkup):
   valueWithoutUnnecessaryMarkup = re.sub(UNNECESSARY_MARKUP_REGEXP, r'\1<redacted>', value)
-  return valueWithoutUnnecessaryMarkup if removeOptionalMarkup == "ei" else re.sub(VERB_AND_ADPOSITION_MARKUP_REGEXP, '<redacted>\2', valueWithoutUnnecessaryMarkup)
+  return valueWithoutUnnecessaryMarkup if removeOptionalMarkup == "ei" else re.sub(VERB_AND_ADPOSITION_MARKUP_REGEXP, '', valueWithoutUnnecessaryMarkup)
 
 def parsi(tekst, eemaldaValikulised):
    inputText = Text(tekst)

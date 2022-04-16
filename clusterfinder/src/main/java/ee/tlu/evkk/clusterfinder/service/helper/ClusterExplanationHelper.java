@@ -14,6 +14,8 @@ import static ee.tlu.evkk.clusterfinder.constants.FilteringConstants.CLAUSE_TYPE
 @Component
 public class ClusterExplanationHelper
 {
+  private final String PUNCTUATION_MARKUP_KEY = "Z";
+
   private final Map< String, String > clusterTextsMap;
 
   public ClusterExplanationHelper(Map< String, String> clusterTextsMap)
@@ -26,18 +28,25 @@ public class ClusterExplanationHelper
    *
    * @param markups
    * @param isSyntactic
-   * @param isMorfoSyntactic
+   * @param isMorfological
+   * @param includePunctuation
    * @return A list of explanations that correspond to the given list of markups.
    */
-  public List< String > getExplanation(List<String> markups, boolean isSyntactic, boolean isMorfoSyntactic)
+  public List< String > getExplanation(List<String> markups, boolean isSyntactic, boolean isMorfological, boolean includePunctuation)
   {
-    if (isSyntactic && !isMorfoSyntactic)
+    boolean isMorfoSyntactic = isMorfological && isSyntactic;
+
+    if (isMorfoSyntactic)
+    {
+      return getMorfoSyntacticExplanation(markups);
+    }
+    else if (isSyntactic)
     {
       return getSyntacticExplanation(markups);
     }
-    else if (isMorfoSyntactic)
+    else if (isMorfological && includePunctuation)
     {
-      return getMorfoSyntacticExplanation(markups);
+      return getMorfologicalExplanation(markups);
     }
     else
     {
@@ -112,6 +121,33 @@ public class ClusterExplanationHelper
       if (splitMarkup.length > 1 && hasMultipleSyntacticMarkups(splitMarkup[1]))
       {
         markupExplanations.add(joinMarkups(splitMarkup, "//", true));
+      }
+      else
+      {
+        markupExplanations.add(clusterTextsMap.get(markup));
+      }
+    }
+
+    return markupExplanations;
+  }
+
+  /**
+   * Retrieves a list of morfological explanations for the given list of markups.
+   *
+   * NOTE! This method is used currently as a workaround for punctuation issues.
+   *
+   * @param markups
+   * @return A list of morfological markup explanations.
+   */
+  private List<String> getMorfologicalExplanation(List<String> markups)
+  {
+    List< String > markupExplanations = new ArrayList<>();
+
+    for (String markup: markups)
+    {
+      if (StringUtils.isBlank(markup))
+      {
+        markupExplanations.add(clusterTextsMap.get(PUNCTUATION_MARKUP_KEY));
       }
       else
       {

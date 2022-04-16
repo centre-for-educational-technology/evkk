@@ -40,7 +40,7 @@ public class ClusterResultMapper
   {
     return Arrays.stream(clusteredText.split("\n"))
                  .map(c -> c.split(";"))
-                 .map(clusterRow -> mapToEntry(clusterRow, searchForm.getAnalysisLength(), searchForm.isSyntacticAnalysis(), searchForm.isMorfoSyntacticAnalysis()))
+                 .map(clusterRow -> mapToEntry(clusterRow, searchForm.getAnalysisLength(), searchForm.isSyntacticAnalysis(), searchForm.isMorfoAnalysis(), searchForm.isIncludePunctuation()))
                  .filter(Objects::nonNull)
                  .filter(entry -> FilteringHelper.filterEntries(entry, searchForm))
                  .collect(Collectors.toList());
@@ -52,7 +52,7 @@ public class ClusterResultMapper
     return searchForm.isMorfoSyntacticAnalysis() || searchForm.isMorfoAnalysis() ? ", " : " + ";
   }
 
-  private ClusterEntry mapToEntry(String[] clusterRow, int clusterLength, boolean isSyntactic, boolean isMorfoSyntactic)
+  private ClusterEntry mapToEntry(String[] clusterRow, int clusterLength, boolean isSyntactic, boolean isMorfological, boolean includePunctuation)
   {
     if ( clusterRow.length == 0 )
     {
@@ -61,7 +61,7 @@ public class ClusterResultMapper
 
     int frequency = Integer.parseInt(clusterRow[0].replaceAll("\\s",""));
     List<String> markups = getMarkups(clusterRow, clusterLength);
-    List<String> explanations = getDescriptions(markups, isSyntactic, isMorfoSyntactic);
+    List<String> explanations = getDescriptions(markups, isSyntactic, isMorfological, includePunctuation);
     List<String> usages = getUsages(clusterRow, clusterLength);
 
     return new ClusterEntry(frequency, markups, explanations, usages);
@@ -77,9 +77,9 @@ public class ClusterResultMapper
                  .collect(Collectors.toList());
   }
 
-  private List<String> getDescriptions(List<String> markups, boolean isSyntactic, boolean isMorfoSyntactic)
+  private List<String> getDescriptions(List<String> markups, boolean isSyntactic, boolean isMorfological, boolean includePunctuation)
   {
-    return clusterExplanationHelper.getExplanation(markups, isSyntactic, isMorfoSyntactic);
+    return clusterExplanationHelper.getExplanation(markups, isSyntactic, isMorfological, includePunctuation);
   }
 
   private List<String> getUsages(String[] clusterRow, int clusterLength)

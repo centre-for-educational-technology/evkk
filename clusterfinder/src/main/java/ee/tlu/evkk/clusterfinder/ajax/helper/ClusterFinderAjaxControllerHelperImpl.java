@@ -83,7 +83,7 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
     formBuilder
       .sortingType(sortingType)
       .filters(filterMarshaller.marshalFilters(request))
-      .partialFilters(asBoolean(request.getParameter("partialFilters")));;
+      .partialFilters(asBoolean(request.getParameter("partialFilters")));
   }
 
   private void handleTextInputMethod(ClusterSearchForm.ClusterSearchFormBuilder formBuilder, HttpServletRequest request)
