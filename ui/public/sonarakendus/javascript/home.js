@@ -21,7 +21,7 @@ salvesta_tekst.addEventListener("click", function () {
 	} else {
 		document.querySelector("#cover-spin").style.display = "block";
 		freeze = true;
-		var regex = new RegExp("[^a-zA-ZõäöüÕÄÖÜ ;:,.!?/-/'/%&()=]", "gi");
+		var regex = new RegExp("[^a-zA-ZõäöüÕÄÖÜ;:,.!?'/&()=@–-]", "gi");
 		koguTekst = sisesta_tekst.value.replace(/\\n/g, ' ').replaceAll('"', "'").replaceAll(regex, " ");
 		$.ajax({
 			type: "POST",
@@ -31,7 +31,7 @@ salvesta_tekst.addEventListener("click", function () {
 			data: '{"tekst": "' + koguTekst + '"}',
 			success: function(data) {
 				localStorage.setItem("laused", JSON.stringify(data));
-				localStorage.setItem("sonad", koguTekst);
+				localStorage.setItem("sonad", koguTekst.replaceAll("'", "").replace(/ +/g, " "));
 				localStorage.setItem("paritolu", "TEXTBOX");
 				window.location = "filter.html";
 			},
@@ -48,9 +48,19 @@ function readFileNames() {
 	var fileNameData = document.querySelector("#output");
 	var fData = new FormData(form);
 	
-	fileNameData.innerHTML = "<b>Valitud failid:</b>" + '<br>';
+	fileNameData.textContent = "";
+	let br = document.createElement("br");
+	let bold = document.createElement("b");
+	let fileNameDataContent = document.createTextNode("Valitud failid:");
+	bold.appendChild(fileNameDataContent);
+	fileNameData.appendChild(bold);
+	fileNameData.appendChild(br);
+
 	for ([key, value] of fData.entries()) {
-		fileNameData.innerHTML += value.name + '<br>';
+		let eachFileContent = document.createTextNode(value.name);
+		let eachBr = document.createElement("br");
+		fileNameData.appendChild(eachFileContent);
+		fileNameData.appendChild(eachBr);
 	}
 }
 
@@ -71,9 +81,9 @@ form.addEventListener('submit', function(ev) {
 		contentType: false,
 		cache: false,
 		success: function (data) {
-			var regex = new RegExp("[^a-zA-ZõäöüÕÄÖÜ ;:,.!?/-/'/%&()=]", "gi");
+			var regex = new RegExp("[^a-zA-ZõäöüÕÄÖÜ;:,.!?'/&()=@–-]", "gi");
 			allFormatText = data.replace(/\\n/g, ' ').replaceAll('"', "'").replaceAll(regex, " ");
-			localStorage.setItem("sonad", allFormatText);
+			localStorage.setItem("sonad", allFormatText.replaceAll("'", "").replace(/ +/g, " "));
 			localStorage.setItem("paritolu", "FILEUPLOAD");
 			$.ajax({
 				type: "POST",

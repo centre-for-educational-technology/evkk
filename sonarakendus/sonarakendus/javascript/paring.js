@@ -26,6 +26,50 @@ let k3vene = document.getElementById("cZjHWUPtD");
 let akadoppija = document.getElementById("cwUSEqQLt");
 //let eestitead = document.getElementById("cwUprXCTL");
 
+let koikkorpused = document.getElementById("koikkorpused");
+
+k2olymp.addEventListener("click", function() {
+    if(k2olymp.checked == false) {
+        koikkorpused.checked = false;
+    }
+})
+
+k2taseme.addEventListener("click", function() {
+    if(k2taseme.checked == false) {
+        koikkorpused.checked = false;
+    }
+})
+
+k2tuum.addEventListener("click", function() {
+    if(k2tuum.checked == false) {
+        koikkorpused.checked = false;
+    }
+})
+
+k1eesti.addEventListener("click", function() {
+    if(k1eesti.checked == false) {
+        koikkorpused.checked = false;
+    }
+})
+
+k1vene.addEventListener("click", function() {
+    if(k1vene.checked == false) {
+        koikkorpused.checked = false;
+    }
+})
+
+k3vene.addEventListener("click", function() {
+    if(k3vene.checked == false) {
+        koikkorpused.checked = false;
+    }
+})
+
+akadoppija.addEventListener("click", function() {
+    if(akadoppija.checked == false) {
+        koikkorpused.checked = false;
+    }
+})
+
 document.querySelector("#addedyear").max = new Date().getFullYear();
 
 document.getElementById("backbutton").addEventListener("click", function() {
@@ -327,11 +371,23 @@ function submitted() {
 }
 
     function tekstideKuvamine() {
-        let puhver = [];
+        let tekstideLoendur = 0;
         for(let i = 0; i < tekstideIDd.length; i++) {
-            puhver.push("<tr value='" + tekstideIDd[i] + "'><a href='javascript:eelvaade(\"" + tekstideIDd[i] + "\")'>" + tekstidePealkirjad[i] + "</a></tr>");
+            let tabel = document.querySelector("#tabel");
+            let tr = document.createElement("tr");
+            let a = document.createElement("a");
+            let textContent = document.createTextNode(tekstidePealkirjad[i]);
+
+            tr.setAttribute("value", tekstideIDd[i]);
+            a.setAttribute("href", "javascript:eelvaade('" + tekstideIDd[i] + "')");
+
+            a.appendChild(textContent);
+            tr.appendChild(a);
+            tabel.appendChild(tr);
+
+            tekstideLoendur++;
         }
-        kaivitaTabel(puhver);
+        kaivitaTabel(tekstideLoendur);
     }
 
     function eelvaade(tekstiID) {
@@ -342,7 +398,6 @@ function submitted() {
             url: "/api/texts/kysitekstimetainfo",
             data: {id : tekstiID},
             success: function(data) {
-                //console.log(data);
                 localStorage.setItem('raw-metainfo', data);
             }
         })
@@ -369,11 +424,10 @@ function submitted() {
         });
     }
 
-    function kaivitaTabel(puhver) {
-        document.querySelector("#tabel").innerHTML = puhver.join(' ');
+    function kaivitaTabel(tekstideLoendur) {
         document.querySelector("#vorm").style.display = "none";
         document.querySelector("#texts").style.display = "block";
-        document.querySelector("#textAmount").textContent = "Leiti " + puhver.length + " teksti.";
+        document.querySelector("#textAmount").textContent = "Leiti " + tekstideLoendur + " teksti.";
         document.querySelector("#cover-spin").style.display = "none";
 		freeze = false;
     }

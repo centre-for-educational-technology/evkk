@@ -42,11 +42,30 @@ for(let i = 0; i < korpused.length; i++) {
 }
 
 function tekstideKuvamine() {
-    let puhver = [];
     for(let i = 0; i < tekstideIDd.length; i++) {
-        puhver.push("<tr><td class='checkbox'><input type='checkbox' name='chk' class='korpus' value='" + tekstideIDd[i] + "'></input></td><td class='text'><a href='javascript:eelvaade(\"" + tekstideIDd[i] + "\")'>" + tekstidePealkirjad[i] + "</a></td></tr>");
+        let tr = document.createElement("tr");
+        let td1 = document.createElement("td");
+        let td2 = document.createElement("td");
+        let input = document.createElement("input");
+        let a = document.createElement("a");
+        let textContent = document.createTextNode(tekstidePealkirjad[i]);
+
+        td1.setAttribute("class", "checkbox");
+        input.setAttribute("type", "checkbox");
+        input.setAttribute("name", "chk");
+        input.setAttribute("class", "korpus");
+        input.setAttribute("value", tekstideIDd[i]);
+        td2.setAttribute("class", "text");
+        a.setAttribute("href", "javascript:eelvaade('" + tekstideIDd[i] + "')");
+
+        a.appendChild(textContent);
+        td1.appendChild(input);
+        td2.appendChild(a);
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tabel.appendChild(tr);
     }
-    kaivitaTabel(puhver);
+    kaivitaTabel();
 }
 
 function getSelectedCheckboxValues(name) {
@@ -78,7 +97,7 @@ function getSelectedCheckboxValues(name) {
                     uhendatudtekst += data.replace(/\\n/g, ' ').replaceAll('"', "'").replaceAll(regex, " ");
                     loendur++;
                     if(loendur == result.length) {
-                        localStorage.setItem("sonad", uhendatudtekst);
+                        localStorage.setItem("sonad", uhendatudtekst.replaceAll("'", "").replace(/ +/g, " "));
                         $.ajax({
                             type: "POST",
                             url: "/api/texts/laused",
@@ -131,9 +150,7 @@ function eelvaade(tekstiID) {
     });
 }
 
-function kaivitaTabel(puhver) {
-    puhver.shift();
-    tabel.innerHTML = puhver.join(' ');
+function kaivitaTabel() {
     tabelElement = $('#texts').DataTable({
         "pagingType": "full_numbers",
         "pageLength": 25,

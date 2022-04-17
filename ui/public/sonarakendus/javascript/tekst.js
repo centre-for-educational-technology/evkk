@@ -18,7 +18,7 @@ let riikOlemas = '';
 
 let korpused = {
     'cFqPphvYi': 'K2 olümpiaadi tööd',
-    'clWmOIrLa': 'K2 tasemeeksamite teksid',
+    'clWmOIrLa': 'K2 tasemeeksamite tekstid',
     'cFOoRQekA': 'K2 tuumkorpus',
     'cYDRkpymb': 'K1 eesti keel',
     'cgSRJPKTr': 'K1 vene keel',
@@ -78,7 +78,15 @@ let haridused = {
 let elukohad = "idaviru,tallinn,tartu";
 
 pealkiri.textContent = localStorage.getItem("tekstipealkiri");
-sisu.innerHTML = localStorage.getItem("kuvatavtekst").replace(/\\n/g, '<br>');
+sisu.textContent = "";
+let rawSisu = localStorage.getItem("kuvatavtekst");
+let sisuArray = rawSisu.split(/\\n/g);
+sisuArray.forEach(element => {
+    let br = document.createElement("br");
+    let lause = document.createTextNode(element);
+    sisu.appendChild(lause);
+    sisu.appendChild(br);
+});
 
 let raw_metainfo = JSON.parse(localStorage.getItem("raw-metainfo"));
 
