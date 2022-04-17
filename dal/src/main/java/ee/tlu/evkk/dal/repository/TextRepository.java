@@ -30,7 +30,6 @@ public class TextRepository extends AbstractRepository {
   }
 
   public List<Text> search(Map<String, ? extends Collection<String>> filters, Pageable pageable) {
-    //TODO: whitelist filter keys
     Map<String, SqlArray<String>> filterHolders = filters.entrySet().stream().collect(toUnmodifiableMap(Entry::getKey, entry -> createSqlArray("text", entry.getValue(), true)));
     try {
       return textDao.search(filterHolders, pageable.getPageSize(), pageable.getOffset());

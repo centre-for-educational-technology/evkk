@@ -2,6 +2,7 @@ package ee.tlu.evkk.api.controller;
 
 import ee.tlu.evkk.api.ApiMapper;
 import ee.tlu.evkk.api.controller.dto.LemmadRequestEntity;
+import ee.tlu.evkk.api.controller.dto.TextSearchRequest;
 import ee.tlu.evkk.api.controller.dto.TextSearchResponse;
 import ee.tlu.evkk.common.env.ServiceLocator;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
@@ -18,7 +19,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -169,8 +169,11 @@ return ResponseEntity.ok(body);
 
   @PostMapping("/search")
   @Transactional(readOnly = true)
-  public List<TextSearchResponse> search(@RequestParam(name = "pageNumber") Integer pageNumber) {
-    List<TextWithProperties> texts = textService.search(Collections.emptyMap(), new Pageable(30, pageNumber));
+  public List<TextSearchResponse> search(@RequestBody TextSearchRequest request,
+                                         @RequestParam(name = "pageNumber") Integer pageNumber) {
+    Pageable pageable = new Pageable(30, pageNumber);
+    List<TextWithProperties> texts = textService.search(pageable, request.getKorpus(), request.getTekstityyp(), request.getTekstikeel(),
+      request.getKeeletase(), request.getAbivahendid(), request.getSugu());
     URI publicApiUri = serviceLocator.locate(ServiceLocator.ServiceName.EVKK_PUBLIC_API);
     return texts.stream().map(textWithProperties -> toTextSearchResponse(textWithProperties, publicApiUri)).collect(Collectors.toUnmodifiableList());
   }
