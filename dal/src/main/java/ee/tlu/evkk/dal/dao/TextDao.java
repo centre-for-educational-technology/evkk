@@ -2,6 +2,7 @@ package ee.tlu.evkk.dal.dao;
 
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.dto.TextQueryHelper;
+import ee.tlu.evkk.dal.jdbc.SqlArray;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.cursor.Cursor;
@@ -41,6 +42,6 @@ public interface TextDao {
 
   Optional<Text> findById(@Param("id") UUID id);
 
-  Cursor<Text> search(@Param("filters") Map<String, Array> filters);
+  Cursor<Text> search(@Param("filters") Map<String, SqlArray<String>> filters);
 
 }

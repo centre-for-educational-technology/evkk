@@ -1,6 +1,6 @@
 package ee.tlu.evkk.dal.repository;
 
-import ee.tlu.evkk.dal.jdbc.ArrayHolder;
+import ee.tlu.evkk.dal.jdbc.SqlArray;
 import ee.tlu.evkk.dal.jdbc.SqlObjectFactory;
 import org.apache.ibatis.cursor.Cursor;
 import org.slf4j.Logger;
@@ -8,8 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -33,13 +36,13 @@ public abstract class AbstractRepository {
     return logger;
   }
 
-  @NonNull
-  @SuppressWarnings("SameParameterValue")
-  protected ArrayHolder createSqlArray(@NonNull String typeName, @NonNull Iterable<?> elements, boolean distinct) {
-    Stream<?> stream = StreamSupport.stream(elements.spliterator(), false);
+  @Nonnull
+  protected <T> SqlArray<T> createSqlArray(@Nonnull String typeName, @Nonnull Iterable<T> elements, boolean distinct) {
+    Objects.requireNonNull(typeName, "typeName must not be null");
+    Objects.requireNonNull(elements, "elements must not be null");
+    Stream<T> stream = StreamSupport.stream(elements.spliterator(), false);
     if (distinct) stream = stream.distinct();
-    Object[] elementArray = stream.toArray(Object[]::new);
-    return sqlObjectFactory.createArray(typeName, elementArray);
+    return sqlObjectFactory.createSqlArray(typeName, stream.collect(Collectors.toUnmodifiableList()));
   }
 
   @NonNull
