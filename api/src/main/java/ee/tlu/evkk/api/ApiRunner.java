@@ -1,5 +1,7 @@
 package ee.tlu.evkk.api;
 
+import ee.tlu.evkk.core.service.TextService;
+import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.dal.dto.Pageable;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.repository.TextRepository;
@@ -25,14 +27,14 @@ public class ApiRunner implements CommandLineRunner {
   }
 
   @Autowired
-  private TextRepository textRepository;
+  private TextService textService;
 
   @Override
   @Transactional
   public void run(String... args) {
     Map<String, List<String>> filters = Map.of("sugu", List.of("mees"), "emakeel", List.of("eesti"));
     Pageable pageable = new Pageable(40, 1);
-    List<Text> texts = textRepository.search(filters, pageable).collect(Collectors.toUnmodifiableList());
+    List<TextWithProperties> texts = textService.search(filters, pageable);
   }
 
 }
