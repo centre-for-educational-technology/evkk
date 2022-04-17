@@ -30,11 +30,16 @@ public class TextRepository extends AbstractRepository {
   }
 
   public List<Text> search(Map<String, ? extends Collection<String>> filterMap, Pageable pageable) {
+    int pageSize = pageable.getPageSize();
+    int offset = pageable.getOffset();
+
+    if (filterMap.isEmpty()) return textDao.list(pageSize, offset);
     Map<String, SqlArray<String>> filters = filterMap.entrySet().stream()
       .filter(entry -> !entry.getValue().isEmpty())
       .collect(toUnmodifiableMap(Entry::getKey, entry -> createSqlArray("text", entry.getValue(), true)));
+
     try {
-      return textDao.search(filters, pageable.getPageSize(), pageable.getOffset());
+      return textDao.search(filters, pageSize, offset);
     } finally {
       filters.values().forEach(IOUtils::closeQuietly);
     }

@@ -187,4 +187,14 @@
     limit #{limit} offset #{offset};
   </select>
 
+  <select id="list" resultType="ee.tlu.evkk.dal.dto.Text">
+    select *
+    from core.text t
+         -- todo: content needs cleaning up so we can remove t.content is not null and t.content != '' checks
+    where t.content is not null
+      and t.content != ''
+    order by t.id asc
+    limit #{limit} offset #{offset};
+  </select>
+
 </mapper>

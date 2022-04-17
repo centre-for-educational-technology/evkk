@@ -5,7 +5,6 @@ import ee.tlu.evkk.dal.dto.TextQueryHelper;
 import ee.tlu.evkk.dal.jdbc.SqlArray;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.cursor.Cursor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -42,5 +41,7 @@ public interface TextDao {
   Optional<Text> findById(@Param("id") UUID id);
 
   List<Text> search(@Param("filters") Map<String, SqlArray<String>> filters, @Param("limit") Integer limit, @Param("offset") Integer offset);
+
+  List<Text> list(@Param("limit") Integer limit, @Param("offset") Integer offset);
 
 }
