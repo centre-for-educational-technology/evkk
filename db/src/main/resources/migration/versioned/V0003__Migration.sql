@@ -1,5 +1,3 @@
-create index text_property_idx_property_name_property_value on core.text_property (property_name, property_value);
-
 create function core.text_hash(content text) returns text as
 $$
 begin
