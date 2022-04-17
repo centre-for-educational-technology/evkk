@@ -402,11 +402,23 @@ function submitted() {
 }
 
     function tekstideKuvamine() {
-        let puhver = [];
+        let tekstideLoendur = 0;
         for(let i = 0; i < tekstideIDd.length; i++) {
-            puhver.push("<tr value='" + tekstideIDd[i] + "'><a href='javascript:eelvaade(\"" + tekstideIDd[i] + "\")'>" + tekstidePealkirjad[i] + "</a></tr>");
+            let tabel = document.querySelector("#tabel");
+            let tr = document.createElement("tr");
+            let a = document.createElement("a");
+            let textContent = document.createTextNode(tekstidePealkirjad[i]);
+
+            tr.setAttribute("value", tekstideIDd[i]);
+            a.setAttribute("href", "javascript:eelvaade('" + tekstideIDd[i] + "')");
+
+            a.appendChild(textContent);
+            tr.appendChild(a);
+            tabel.appendChild(tr);
+
+            tekstideLoendur++;
         }
-        kaivitaTabel(puhver);
+        kaivitaTabel(tekstideLoendur);
     }
 
     function eelvaade(tekstiID) {
@@ -443,11 +455,10 @@ function submitted() {
         });
     }
 
-    function kaivitaTabel(puhver) {
-        document.querySelector("#tabel").innerHTML = puhver.join(' ');
+    function kaivitaTabel(tekstideLoendur) {
         document.querySelector("#vorm").style.display = "none";
         document.querySelector("#texts").style.display = "block";
-        document.querySelector("#textAmount").textContent = "Leiti " + puhver.length + " teksti.";
+        document.querySelector("#textAmount").textContent = "Leiti " + tekstideLoendur + " teksti.";
         document.querySelector("#cover-spin").style.display = "none";
 		freeze = false;
     }
