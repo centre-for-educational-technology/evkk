@@ -92,7 +92,6 @@ public class TextController {
     return ResponseEntity.ok(body);
   }
 
-
   @PostMapping("/keeletase")
   public ResponseEntity<List<String[]>> keeletase(@RequestBody LemmadRequestEntity request) throws Exception {
    // String[] sonad = stanzaClient.getLemmad(request.getTekst());
@@ -101,9 +100,6 @@ List<String[]> body = Arrays.asList(tasemed);
 //List<String> body = Arrays.asList(sonad);
 return ResponseEntity.ok(body);
   }
-
-
-
 
   @PostMapping("/detailneparing")
     public String detailneparing(@RequestBody String[] vaartused) {
