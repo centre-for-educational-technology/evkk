@@ -1,17 +1,27 @@
 package ee.tlu.evkk.api.controller;
 
+import ee.tlu.evkk.api.ApiMapper;
 import ee.tlu.evkk.api.controller.dto.LemmadRequestEntity;
+import ee.tlu.evkk.api.controller.dto.TextSearchRequest;
+import ee.tlu.evkk.api.controller.dto.TextSearchResponse;
+import ee.tlu.evkk.common.env.ServiceLocator;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
-import org.springframework.web.bind.annotation.*;
-
-import ee.tlu.evkk.dal.dto.TextQueryHelper;
-import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
+import ee.tlu.evkk.core.service.TextService;
+import ee.tlu.evkk.core.service.dto.TextWithProperties;
+import ee.tlu.evkk.dal.dao.TextDao;
+import ee.tlu.evkk.dal.dto.Pageable;
+import ee.tlu.evkk.dal.dto.TextQueryHelper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/texts")
@@ -20,11 +30,15 @@ public class TextController {
   private final TextDao textDao;
   private final StanzaServerClient stanzaServerClient;
   private final CorrectorServerClient correctorServerClient;
+  private final TextService textService;
+  private final ServiceLocator serviceLocator;
 
-  public TextController(TextDao uusTDao, StanzaServerClient stanzaServerClient, CorrectorServerClient correctorServerClient) {
+  public TextController(TextDao uusTDao, StanzaServerClient stanzaServerClient, CorrectorServerClient correctorServerClient, TextService textService, ServiceLocator serviceLocator) {
     textDao = uusTDao;
     this.stanzaServerClient = stanzaServerClient;
     this.correctorServerClient = correctorServerClient;
+    this.textService = textService;
+    this.serviceLocator = serviceLocator;
   }
 
   @GetMapping("/kysitekst")
@@ -151,6 +165,23 @@ return ResponseEntity.ok(body);
   @GetMapping("/kysikorpusetekstid")
   public List<String> kysiKorpuseTekstid(String id) {
     return textDao.findTextsByCorpusId(id);
+  }
+
+  @PostMapping("/search")
+  @Transactional(readOnly = true)
+  public List<TextSearchResponse> search(@RequestBody TextSearchRequest request,
+                                         @RequestParam(name = "pageNumber") Integer pageNumber) {
+    Pageable pageable = new Pageable(30, pageNumber);
+    List<TextWithProperties> texts = textService.search(pageable, request.getKorpus(), request.getTekstityyp(), request.getTekstikeel(),
+      request.getKeeletase(), request.getAbivahendid(), request.getAasta(), request.getSugu());
+    URI publicApiUri = serviceLocator.locate(ServiceLocator.ServiceName.EVKK_PUBLIC_API);
+    return texts.stream().map(textWithProperties -> toTextSearchResponse(textWithProperties, publicApiUri)).collect(Collectors.toUnmodifiableList());
+  }
+
+  private TextSearchResponse toTextSearchResponse(TextWithProperties textWithProperties, URI publicApiUri) {
+    UUID textId = textWithProperties.getText().getId();
+    String downloadUrl = UriComponentsBuilder.fromUri(publicApiUri).pathSegment("texts", "download", "{textId}").encode().build(textId.toString()).toString();
+    return ApiMapper.INSTANCE.toTextSearchResponse(textWithProperties, downloadUrl);
   }
 
 }

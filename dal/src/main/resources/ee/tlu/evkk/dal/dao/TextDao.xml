@@ -14,13 +14,11 @@
         ) t
     </select>
 
-
     <select id="findTextIDsByCorpusID" resultType="java.lang.String">
         select text_id
         from core.text_property
         where core.text_property.property_value = #{corpusId} and core.text_property.property_name = 'korpus';
     </select>
-
 
     <select id="findTextIDandTitleByCorpusID" resultType="java.lang.String">
         select array_to_json(array_agg(row_to_json(t)))
@@ -43,7 +41,6 @@
         ) t
     </select>
 
-
     <select id="findMiniStats" resultType="java.lang.String">
         select array_to_json(array_agg(row_to_json(t)))
         from (
@@ -59,7 +56,6 @@
         ) t
     </select>
 
-
     <select id="findAvailableValues" resultType="java.lang.String">
        select array_to_json(array_agg(row_to_json(t)))
         from (
@@ -68,7 +64,6 @@
         WHERE tp1.property_name = #{pName}
         ) t
     </select>
-
 
     <select id="detailedSearch" resultType="java.lang.String">
        select array_to_json(array_agg(row_to_json(t)))
@@ -113,7 +108,6 @@
         ) t
     </select>
 
-
     <select id="findDetailedValueByPropertyName" resultType="java.lang.String">
        select array_to_json(array_agg(row_to_json(t)))
         from (
@@ -153,7 +147,6 @@
         ) t
     </select>
 
-
     <select id="findValueByPropertyName" resultType="java.lang.String">
 
         select array_to_json(array_agg(row_to_json(t)))
@@ -173,6 +166,35 @@
     select *
     from core.text t
     where t.id = #{id};
+  </select>
+
+  <select id="search" resultType="ee.tlu.evkk.dal.dto.Text">
+    select *
+      from core.text t
+     where t.id in (
+      select distinct text_id
+      from core.text_property tp
+      <where>
+        <foreach collection="filters" index="key" item="value" open="" separator=" " close="">
+          or (tp.property_name = #{key} and tp.property_value in (select unnest(#{value,typeHandler=org.apache.ibatis.type.ArrayTypeHandler})))
+        </foreach>
+      </where>
+      group by text_id
+      having count(text_id) = ${filters.size()}
+    )
+    and t.content is not null and t.content != '' -- todo: content needs cleaning up so we can remove t.content is not null and t.content != '' checks
+    order by t.id asc
+    limit #{limit} offset #{offset};
+  </select>
+
+  <select id="list" resultType="ee.tlu.evkk.dal.dto.Text">
+    select *
+    from core.text t
+         -- todo: content needs cleaning up so we can remove t.content is not null and t.content != '' checks
+    where t.content is not null
+      and t.content != ''
+    order by t.id asc
+    limit #{limit} offset #{offset};
   </select>
 
 </mapper>
