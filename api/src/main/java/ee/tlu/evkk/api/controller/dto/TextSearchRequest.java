@@ -11,7 +11,16 @@ public class TextSearchRequest {
   private String tekstikeel;
   private String keeletase;
   private Boolean abivahendid;
+  private Integer aasta;
   private String sugu;
+
+  public Integer getAasta() {
+    return aasta;
+  }
+
+  public void setAasta(Integer aasta) {
+    this.aasta = aasta;
+  }
 
   public String[] getKorpus() {
     return korpus;

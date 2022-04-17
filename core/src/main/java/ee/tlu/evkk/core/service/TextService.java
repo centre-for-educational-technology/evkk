@@ -35,24 +35,27 @@ public class TextService {
     return json.getAsObject(String.class);
   }
 
-  public List<TextWithProperties> search(Pageable pageable, String[] korpus, String tekstityyp, String tekstikeel, String keeletase, Boolean abivahendid, String sugu) {
-    Map<String, Collection<String>> filters = buildFilters(korpus, tekstityyp, tekstikeel, keeletase, abivahendid, sugu);
+  public List<TextWithProperties> search(Pageable pageable, String[] korpus, String tekstityyp, String tekstikeel, String keeletase, Boolean abivahendid,
+                                         Integer aasta, String sugu) {
+
+    Map<String, Collection<String>> filters = buildFilters(korpus, tekstityyp, tekstikeel, keeletase, abivahendid, aasta, sugu);
     List<Text> texts = textRepository.search(filters, pageable);
     Set<UUID> textIds = texts.stream().map(Text::getId).collect(Collectors.toUnmodifiableSet());
     Map<UUID, List<TextProperty>> textPropertiesByTextId = textPropertyRepository.findByTextIds(textIds).stream().collect(Collectors.groupingBy(TextProperty::getTextId));
     return texts.stream().map(text -> toTextWithProperties(text, textPropertiesByTextId)).collect(Collectors.toUnmodifiableList());
   }
 
-  private Map<String, Collection<String>> buildFilters(String[] korpus, String tekstityyp, String tekstikeel, String keeletase, Boolean abivahendid, String sugu) {
-    Map<String, Collection<String>> result = new HashMap<>();
+  private Map<String, Collection<String>> buildFilters(String[] korpus, String tekstityyp, String tekstikeel, String keeletase, Boolean abivahendid,
+                                                       Integer aasta, String sugu) {
 
+    Map<String, Collection<String>> result = new HashMap<>();
     if (korpus != null && korpus.length > 0) result.put("korpus", Set.of(korpus));
     if (hasText(tekstityyp)) result.put("tekstityyp", Set.of(tekstityyp));
     if (hasText(tekstikeel)) result.put("tekstikeel", Set.of(tekstikeel));
     if (hasText(keeletase)) result.put("keeletase", Set.of(keeletase));
     if (abivahendid != null) result.put("abivahendid", Set.of(booleanToJahEi(abivahendid)));
+    if (aasta != null) result.put("aasta", Set.of(aasta.toString()));
     if (hasText(sugu)) result.put("sugu", Set.of(sugu));
-
     return Collections.unmodifiableMap(result);
   }
 

@@ -72,9 +72,9 @@ public class TextController {
 
   @PostMapping("/sonad")
   public ResponseEntity<List<String>> sonad(@RequestBody LemmadRequestEntity request) {
-   // return ResponseEntity.ok(new ArrayList(Arrays.asList(new String[]{"aa", "ab"})));
-   String[] sonad = stanzaServerClient.getSonad(request.getTekst());
-   List<String> body = Arrays.asList(sonad);
+    // return ResponseEntity.ok(new ArrayList(Arrays.asList(new String[]{"aa", "ab"})));
+    String[] sonad = stanzaServerClient.getSonad(request.getTekst());
+    List<String> body = Arrays.asList(sonad);
     return ResponseEntity.ok(body);
   }
 
@@ -95,49 +95,47 @@ public class TextController {
 
   @PostMapping("/keeletase")
   public ResponseEntity<List<String[]>> keeletase(@RequestBody LemmadRequestEntity request) throws Exception {
-   // String[] sonad = stanzaClient.getLemmad(request.getTekst());
+    // String[] sonad = stanzaClient.getLemmad(request.getTekst());
     String[][] tasemed = stanzaServerClient.getKeeletase(request.getTekst());
-List<String[]> body = Arrays.asList(tasemed);
+    List<String[]> body = Arrays.asList(tasemed);
 //List<String> body = Arrays.asList(sonad);
-return ResponseEntity.ok(body);
+    return ResponseEntity.ok(body);
   }
 
 
-
-
   @PostMapping("/detailneparing")
-    public String detailneparing(@RequestBody String[] vaartused) {
-        String[] parameetrid = {"korpus", "tekstityyp", "tekstikeel", "keeletase", "abivahendid", "emakeel", "sugu", "haridus", "aasta", "vanus", "elukoht"};
-        // "kodukeel" parameetritest välja võetud
-        int vaartusteArv = 0;
-        for(int i = 0; i < vaartused.length; i++) {
-            if(!(vaartused[i].equals("NO"))) {
-                vaartusteArv++;
-            }
-        }
-
-        TextQueryHelper[] helperid = new TextQueryHelper[vaartusteArv];
-        vaartusteArv = 0;
-
-        for(int i = 0; i < vaartused.length; i++) {
-            if(!(vaartused[i].equals("NO"))) {
-                TextQueryHelper h = new TextQueryHelper();
-                h.setTabel("p" + (vaartusteArv + 3));
-                h.setParameeter(parameetrid[i]);
-                h.setVaartused(vaartused[i].split(","));
-                helperid[vaartusteArv] = h;
-                vaartusteArv++;
-            }
-        }
-        String vastus = textDao.textTitleQueryByParameters(helperid);
-
-        return vastus;
+  public String detailneparing(@RequestBody String[] vaartused) {
+    String[] parameetrid = {"korpus", "tekstityyp", "tekstikeel", "keeletase", "abivahendid", "emakeel", "sugu", "haridus", "aasta", "vanus", "elukoht"};
+    // "kodukeel" parameetritest välja võetud
+    int vaartusteArv = 0;
+    for (int i = 0; i < vaartused.length; i++) {
+      if (!(vaartused[i].equals("NO"))) {
+        vaartusteArv++;
+      }
     }
 
-    @GetMapping("/asukoht")
-    public String asukoht(){
-       return new java.io.File(".").getAbsolutePath().toString();
+    TextQueryHelper[] helperid = new TextQueryHelper[vaartusteArv];
+    vaartusteArv = 0;
+
+    for (int i = 0; i < vaartused.length; i++) {
+      if (!(vaartused[i].equals("NO"))) {
+        TextQueryHelper h = new TextQueryHelper();
+        h.setTabel("p" + (vaartusteArv + 3));
+        h.setParameeter(parameetrid[i]);
+        h.setVaartused(vaartused[i].split(","));
+        helperid[vaartusteArv] = h;
+        vaartusteArv++;
+      }
     }
+    String vastus = textDao.textTitleQueryByParameters(helperid);
+
+    return vastus;
+  }
+
+  @GetMapping("/asukoht")
+  public String asukoht() {
+    return new java.io.File(".").getAbsolutePath().toString();
+  }
 
   @GetMapping("/getValues")
   public String getValues(String cId) {
@@ -173,7 +171,7 @@ return ResponseEntity.ok(body);
                                          @RequestParam(name = "pageNumber") Integer pageNumber) {
     Pageable pageable = new Pageable(30, pageNumber);
     List<TextWithProperties> texts = textService.search(pageable, request.getKorpus(), request.getTekstityyp(), request.getTekstikeel(),
-      request.getKeeletase(), request.getAbivahendid(), request.getSugu());
+      request.getKeeletase(), request.getAbivahendid(), request.getAasta(), request.getSugu());
     URI publicApiUri = serviceLocator.locate(ServiceLocator.ServiceName.EVKK_PUBLIC_API);
     return texts.stream().map(textWithProperties -> toTextSearchResponse(textWithProperties, publicApiUri)).collect(Collectors.toUnmodifiableList());
   }
