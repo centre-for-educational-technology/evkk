@@ -1,5 +1,6 @@
 package ee.tlu.evkk.api;
 
+import ee.tlu.evkk.dal.dto.Pageable;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.repository.TextRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,9 @@ public class ApiRunner implements CommandLineRunner {
   @Override
   @Transactional
   public void run(String... args) {
-    // List<Text> texts = textRepository.search(Map.of("sugu", List.of("mees"), "emakeel", List.of("eesti"))).collect(Collectors.toUnmodifiableList());
+    Map<String, List<String>> filters = Map.of("sugu", List.of("mees"), "emakeel", List.of("eesti"));
+    Pageable pageable = new Pageable(40, 1);
+    List<Text> texts = textRepository.search(filters, pageable).collect(Collectors.toUnmodifiableList());
   }
 
 }

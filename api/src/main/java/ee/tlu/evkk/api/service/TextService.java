@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
  * @author Mikk Tarvas
  * Date: 14.11.2021
  */
-@Service
+// @Service
 public class TextService {
 
   private static final Option[] KORPUS_OPTIONS = new Option[]{

@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.cursor.Cursor;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Array;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -42,6 +41,6 @@ public interface TextDao {
 
   Optional<Text> findById(@Param("id") UUID id);
 
-  Cursor<Text> search(@Param("filters") Map<String, SqlArray<String>> filters);
+  Cursor<Text> search(@Param("filters") Map<String, SqlArray<String>> filters, @Param("limit") Integer limit, @Param("offset") Integer offset);
 
 }

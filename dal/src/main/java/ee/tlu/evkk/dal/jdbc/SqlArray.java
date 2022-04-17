@@ -66,8 +66,7 @@ public final class SqlArray<T> extends AbstractCollection<T> implements Array, A
 
   @Override
   public String toString() {
-    if (elements == null) return "Closed SqlArray";
-    return "SqlArray containing " + elements.length + " element(s)";
+    return array.toString();
   }
 
   @Override
