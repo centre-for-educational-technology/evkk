@@ -48,8 +48,6 @@ public abstract class ApiMapper {
     return new AuthenticatedUser(user.getUserId(), user.getEmailAddress(), user.getPasswordHash(), true, true, true, true, authorities);
   }
 
-  public abstract Korpus toKorpus(String korpusId, String name);
-
   @Mapping(target = "textId", source = "text.id")
   protected abstract TextSearchResponse toTextSearchResponse(Text text, Map<String, String> properties, String downloadUrl);
 
