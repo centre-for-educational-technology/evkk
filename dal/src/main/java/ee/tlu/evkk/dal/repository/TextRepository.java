@@ -5,14 +5,13 @@ import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.Pageable;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.jdbc.SqlArray;
-import org.apache.ibatis.cursor.Cursor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toUnmodifiableMap;
 
@@ -30,12 +29,11 @@ public class TextRepository extends AbstractRepository {
     this.textDao = textDao;
   }
 
-  public Stream<Text> search(Map<String, ? extends Collection<String>> filters, Pageable pageable) {
+  public List<Text> search(Map<String, ? extends Collection<String>> filters, Pageable pageable) {
     //TODO: whitelist filter keys
     Map<String, SqlArray<String>> filterHolders = filters.entrySet().stream().collect(toUnmodifiableMap(Entry::getKey, entry -> createSqlArray("text", entry.getValue(), true)));
     try {
-      Cursor<Text> cursor = textDao.search(filterHolders, pageable.getPageSize(), pageable.getOffset());
-      return cursorToStream(cursor);
+      return textDao.search(filterHolders, pageable.getPageSize(), pageable.getOffset());
     } finally {
       filterHolders.values().forEach(IOUtils::closeQuietly);
     }

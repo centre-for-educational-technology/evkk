@@ -41,6 +41,6 @@ public interface TextDao {
 
   Optional<Text> findById(@Param("id") UUID id);
 
-  Cursor<Text> search(@Param("filters") Map<String, SqlArray<String>> filters, @Param("limit") Integer limit, @Param("offset") Integer offset);
+  List<Text> search(@Param("filters") Map<String, SqlArray<String>> filters, @Param("limit") Integer limit, @Param("offset") Integer offset);
 
 }

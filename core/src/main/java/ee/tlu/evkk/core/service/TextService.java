@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author Mikk Tarvas
@@ -37,10 +36,7 @@ public class TextService {
   }
 
   public List<TextWithProperties> search(Map<String, ? extends Collection<String>> filters, Pageable pageable) {
-    List<Text> texts;
-    try (Stream<Text> search = textRepository.search(filters, pageable)) {
-      texts = search.collect(Collectors.toUnmodifiableList());
-    }
+    List<Text> texts = textRepository.search(filters, pageable);
     Set<UUID> textIds = texts.stream().map(Text::getId).collect(Collectors.toUnmodifiableSet());
     Map<UUID, List<TextProperty>> textPropertiesByTextId = textPropertyRepository.findByTextIds(textIds).stream().collect(Collectors.groupingBy(TextProperty::getTextId));
     return texts.stream().map(text -> toTextWithProperties(text, textPropertiesByTextId)).collect(Collectors.toUnmodifiableList());
