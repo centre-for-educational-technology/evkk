@@ -181,6 +181,8 @@
           </if>
         </foreach>
       </where>
+      group by text_id
+      having count(text_id) = ${filters.size()}
     )
     and t.content is not null and t.content != '' -- todo: content needs cleaning up so we can remove t.content is not null and t.content != '' checks
     order by t.id asc
