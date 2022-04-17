@@ -28,8 +28,6 @@ public interface TextDao {
 
   String findDetailedValueByPropertyName(@Param("pValue") String pValue[], @Param("pName") String pName, @Param("cId") String[] cId); // property value, name, corpus id
 
-  String detailedSearch(@Param("pValue") String pValue[], @Param("pName") String pName, @Param("cId") String[] cId, @Param("join") String join, @Param("condition") String condition);
-
   String findValueByPropertyName(@Param("cId") String cId); // corpus id
 
   String findMiniStats(@Param("cId") String cId[]); // corpus id
