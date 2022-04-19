@@ -1,4 +1,4 @@
-let koguTekst = localStorage.getItem("sonad"); //.split(",");
+let koguTekst = localStorage.getItem("sonad");
 let stoppsonad = localStorage.getItem("stoppsonad");
 let valistatud = JSON.parse(localStorage.getItem("valistatud"));
 let vorm = localStorage.getItem("vorm");
@@ -9,6 +9,8 @@ let sonadearv2 = {};
 let sonavormidearv = {};
 let sonadeprotsent = {};
 let sonavormideprotsent = {};
+let tabelipais = document.querySelector("#analysis_type");
+let paisetekst;
 const reg = /[^a-zA-ZõäöüÕÄÖÜ.&–/@-]/g;
 const response = new XMLHttpRequest();
 
@@ -25,6 +27,9 @@ document.addEventListener(
 freeze = true;
 
 if (vorm == "algvormid") {
+    paisetekst = document.createTextNode("Algvorm");
+    tabelipais.appendChild(paisetekst);
+
     let sonavormidData;
     let algvormidData;
     let finalData = {};
@@ -81,6 +86,9 @@ if (vorm == "algvormid") {
     tekstiTootlus_sonavormidega(algvormidData, finalData);
 
 } else if (vorm == "sonavormid") {
+    paisetekst = document.createTextNode("Sõnavorm");
+    tabelipais.appendChild(paisetekst);
+
     $.ajax({
         type: "POST",
         url: "/api/texts/sonad",
