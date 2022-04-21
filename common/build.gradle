@@ -5,6 +5,9 @@ dependencies {
   // JSR
   api "com.google.code.findbugs:jsr305:3.0.2"
 
+  // Apache commons
+  api "commons-io:commons-io:2.11.0"
+
   // Spring
   api "org.springframework.boot:spring-boot-starter"
   api "org.springframework.boot:spring-boot-starter-data-jdbc"

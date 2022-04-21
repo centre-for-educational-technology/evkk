@@ -2,11 +2,13 @@ package ee.tlu.evkk.dal.dao;
 
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.dto.TextQueryHelper;
+import ee.tlu.evkk.dal.jdbc.SqlArray;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,8 +28,6 @@ public interface TextDao {
 
   String findDetailedValueByPropertyName(@Param("pValue") String pValue[], @Param("pName") String pName, @Param("cId") String[] cId); // property value, name, corpus id
 
-  String detailedSearch(@Param("pValue") String pValue[], @Param("pName") String pName, @Param("cId") String[] cId, @Param("join") String join, @Param("condition") String condition);
-
   String findValueByPropertyName(@Param("cId") String cId); // corpus id
 
   String findMiniStats(@Param("cId") String cId[]); // corpus id
@@ -37,5 +37,9 @@ public interface TextDao {
   List<String> findTextsByCorpusId(@Param("corpusId") String corpusId);
 
   Optional<Text> findById(@Param("id") UUID id);
+
+  List<Text> search(@Param("filters") Map<String, SqlArray<String>> filters, @Param("limit") Integer limit, @Param("offset") Integer offset);
+
+  List<Text> list(@Param("limit") Integer limit, @Param("offset") Integer offset);
 
 }
