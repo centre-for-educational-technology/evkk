@@ -1,4 +1,4 @@
-package ee.tlu.evkk.core.util;
+package ee.tlu.evkk.common.util;
 
 import org.springframework.core.io.InputStreamSource;
 
@@ -47,6 +47,14 @@ public class IOUtils {
       return new ByteArrayInputStream(bytes);
     }
 
+  }
+
+  public static void closeQuietly(AutoCloseable autoCloseable) {
+    try {
+      autoCloseable.close();
+    } catch (Exception ignored) {
+
+    }
   }
 
 }

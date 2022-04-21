@@ -9,6 +9,7 @@ import java.sql.Array;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Objects;
+import java.util.stream.StreamSupport;
 
 /**
  * @author Mikk Tarvas
@@ -29,29 +30,32 @@ public final class SqlObjectFactory extends ConnectionHandleAdapter {
   }
 
   /**
-   * Create holder object for SQL {@link Array}.
+   * Create new SQL Array.
    *
-   * @param typeName sql type name
+   * @param typeName SQL type name
    * @param elements elements to use
-   * @return new {@link ArrayHolder}
+   * @param <T>      element type
+   * @return new {@link SqlArray}
    * @see Connection#createArrayOf(String, Object[])
-   * @see ArrayHolder
+   * @see SqlArray
+   * @see Array
    */
   @Nonnull
-  public ArrayHolder createArray(@Nonnull String typeName, @Nonnull Object[] elements) {
+  public <T> SqlArray<T> createSqlArray(@Nonnull String typeName, @Nonnull Iterable<T> elements) {
     Objects.requireNonNull(typeName, "typeName must not be null");
     Objects.requireNonNull(elements, "elements must not be null");
 
-    Array sqlArray;
+    @SuppressWarnings("unchecked") T[] elementArray = (T[]) StreamSupport.stream(elements.spliterator(), false).toArray(Object[]::new);
     Connection connection = getConnection();
+    Array sqlArray;
     try {
-      sqlArray = connection.createArrayOf(typeName, elements);
+      sqlArray = connection.createArrayOf(typeName, elementArray);
     } catch (SQLException ex) {
       throw new UncategorizedSQLException("Unable to create SQL array", null, ex);
     } finally {
       releaseConnection(connection);
     }
-    return new ArrayHolder(sqlArray, elements);
+    return new SqlArray<>(sqlArray, elementArray);
   }
 
 }
