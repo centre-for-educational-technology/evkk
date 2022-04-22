@@ -39,6 +39,8 @@ if (vorm == "algvormid") {
             for (let i = 0; i < data.length; i++) {
                 data[i] = data[i].replaceAll('_', '').replaceAll('=', '').replaceAll('+', '').replaceAll("'", '');
             }
+            // remove all dotted lines from wordlist
+            data = data.filter(item => item.match(/\.{2,}/g) === null);
             algvormidData = data;
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -53,6 +55,8 @@ if (vorm == "algvormid") {
         async: false,
         data: '{"tekst": "' + koguTekst + '"}',
         success: function (data) {
+            // remove all dotted lines from wordlist
+            data = data.filter(item => item.match(/\.{2,}/g) === null);
             sonavormidData = data;
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -89,6 +93,8 @@ if (vorm == "algvormid") {
         async: false,
         data: JSON.stringify({tekst: koguTekst}),
         success: function (data) {
+            // remove all dotted lines from wordlist
+            data = data.filter(item => item.match(/\.{2,}/g) === null);
             tekstiTootlus(data);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
