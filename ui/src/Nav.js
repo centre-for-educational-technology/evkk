@@ -74,6 +74,7 @@ class Nav extends Component {
                 </a>
                 <div className="dropdown-menu">
                   <Link to="/correction" className={'dropdown-item'}>Tekstihindaja</Link>
+                  <Link to="/adding" className={'dropdown-item'}>Akadeemiliste tekstide sisestus</Link>
                   <a className="dropdown-item" href="/sonarakendus/home.html" rel="noopener noreferrer" target="_blank">Sõnasagedus & kontekst</a>
                   {/*<a className="dropdown-item" href="/tools/clusterfinder" rel="noopener noreferrer">Keelemustrite leidja</a>*/}
                   {/*<Link to="/tools/masinoppe-ennustus" className={'dropdown-item'}>Masinõppe ennustus</Link>*/}

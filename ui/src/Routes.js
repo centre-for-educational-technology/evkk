@@ -6,6 +6,7 @@ import ClusterFinder from "./views/tools/ClusterFinder";
 import {Files} from "./views/user";
 import Resource from "./views/Resource.component";
 import Correction from "./views/Correction.component";
+import Adding from "./views/Adding.component";
 
 class Routes extends Component {
 
@@ -27,6 +28,7 @@ class Routes extends Component {
           <Route path="/resources" component={Resources}/>
           <Route path="/resource" component={Resource}/>
           <Route path="/correction" component={Correction}/>
+          <Route path="/adding" component={Adding}/>
           <Route path="/login" component={Login}/>
           <Route path="/files" component={Files}/>
           <Route path="/tools/minitorn-pikkus" component={MinitornPikkus}/>
