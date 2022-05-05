@@ -13,6 +13,10 @@ function Query() {
     });
 
     function submitted() {
+        return null;
+    }
+
+    function alterCheckbox() {
         if(checkboxStatus.cFqPphvYi === true) {
             setCheckboxStatus(
                 checkboxStatus,
@@ -40,7 +44,7 @@ function Query() {
                         <input type="checkbox" name="koikkorpused" id="koikkorpused" className="checkboxBack"/>
                         <label htmlFor="koikkorpused">kõik</label>
                         <br/>
-                        <input type="checkbox" name="cFqPphvYi" id="cFqPphvYi" className="checkboxBack" checked={checkboxStatus.cFqPphvYi}/>
+                        <input type="checkbox" name="cFqPphvYi" id="cFqPphvYi" className="checkboxBack" checked={checkboxStatus.cFqPphvYi} onClick={() => alterCheckbox()} readOnly/>
                         <label htmlFor="cFqPphvYi" className="corpustitle" data-hover="Sisaldab eri emakeelega õpilaste eesti keele olümpiaadi esseid">
                         K2 olümpiaadi tööd
                         </label>
@@ -107,7 +111,7 @@ function Query() {
                             <option value="muu">muu</option>
                         </select>
                         <br/>
-                        <input type="checkbox" name="textlangOn" id="textlangOn" className="checkboxBack" checked disabled/>
+                        <input type="checkbox" name="textlangOn" id="textlangOn" className="checkboxBack" disabled checked/>
                         <label htmlFor="textlang" className="selectionFront">Teksti keel</label>
                         <select name="textlang" id="textlang">
                             <option value="eesti">eesti</option>
