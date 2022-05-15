@@ -73,6 +73,10 @@
         color: red;
       }
 
+      .partial-results, .all-results {
+        white-space: pre;
+      }
+
       .show-more, .show-less {
         cursor: pointer;
         color: blue !important;
@@ -261,7 +265,7 @@
             { data: 'frequency' },
             { data: 'description' },
             { data: 'markups' },
-            { data: 'usages', render: function(data, type, row, meta) { return type === 'display' ? ClusterSearchForm.util.renderUsagesColumn(data) : data; } }
+            { data: 'usages', render: function(data, type, row, meta) { return type === 'display' ? ClusterSearchForm.util.renderUsagesColumn(data) : data.split("<br>").map(u => u).join(","); } }
           ],
           buttons: [
             {
@@ -599,7 +603,7 @@
               frequency: data[i].frequency,
               description: data[i].descriptions.join(" + "),
               markups: data[i].markups.map(ClusterSearchForm.util.escapeValueAndReplace).join(" + "),
-              usages: data[i].usages.join("," + "<br>")
+              usages: data[i].usages.join("<br>")
             };
 
             clusters.push(cluster);
@@ -762,15 +766,57 @@
         },
 
         renderUsagesColumn: function(data) {
-          const usages = data.split(",");
+          const usages = data.split("<br>");
           if (usages.length > 10) {
-          return "<div class='truncated-results'>" +
-                  "<span class='partial-results' data-toggle='tooltip' data-placement='right' title='[@translations.retrieveTranslation "common.truncated.results" /]'>" + usages.slice(0, 10).map(u => u) + "<a class='show-more'></a>" + "</span>" +
-                  "<span class='all-results hidden' data-placement='right' title='[@translations.retrieveTranslation "common.truncated.results" /]'>" + usages.map(u => u) + "<a class='show-less'></a>" + "</span>" +
-                  "</div>";
+            return ClusterSearchForm.util.createUsagesColumn(usages);
           }
 
           return data;
+        },
+
+        createUsagesColumn: function(data) {
+          // Container for usages displaying
+          const truncatedResultsContainer = $("<div>", { class: "truncated-results" });
+
+          // Partial results span and it's link
+          const partialResultsSpan = $("<span>", {
+            class: "partial-results",
+            title: "[@translations.retrieveTranslation "common.truncated.results" /]",
+            "data-toggle": "tooltip",
+            "data-placement": "right",
+          });
+
+          // jQuery cannot create text nodes the same way as other elements, so using regular JS here
+          const partialResultsContent = document.createTextNode(data.slice(0, 10).map(u => u).join("\n"));
+          const partialResultsLink = $("<a>", { class: "show-more" });
+
+          partialResultsSpan.append(partialResultsContent);
+          partialResultsSpan.append(partialResultsLink);
+
+          // All results span
+          const allResultsSpan = $("<span>", {
+            class: "all-results hidden",
+            title: "[@translations.retrieveTranslation "common.truncated.results" /]",
+            "data-toggle": "tooltip",
+            "data-placement": "right",
+          });
+          const allResultsContent = document.createTextNode(data.map(u => u).join("\n"));
+          const allResultsLink = $("<a>", { class: "show-less" });
+
+          // jQuery cannot create text nodes the same way as other elements, so using regular JS here
+          allResultsSpan.append(allResultsContent);
+          allResultsSpan.append(allResultsLink);
+
+          // Appending all the children of the corresponding container
+          truncatedResultsContainer.append(partialResultsSpan);
+          truncatedResultsContainer.append(allResultsSpan);
+
+          // Datatables expects a string as a returnable so need to convert it to an HTML string here
+          // NB! Extra warpping is done due to jQuery behaviour (.html() returns children nodes only)
+          return truncatedResultsContainer
+                  .wrap("<div></div>")
+                  .parent()
+                  .html();
         }
       }
     };
