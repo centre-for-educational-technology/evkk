@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Checkbox } from '@mui/material';
 import "../../styles/Query.css";
 
 function Query() {
@@ -16,19 +17,11 @@ function Query() {
         return null;
     }
 
-    function alterCheckbox() {
-        if(checkboxStatus.cFqPphvYi === true) {
-            setCheckboxStatus(
-                checkboxStatus,
-                checkboxStatus.cFqPphvYi = false
-            )
-        } else {
-            setCheckboxStatus(
-                checkboxStatus,
-                checkboxStatus.cFqPphvYi = true
-            )
-        }
-        console.log(checkboxStatus.cFqPphvYi);
+    const alterCheckbox = (event) => {
+        setCheckboxStatus({
+            checkboxStatus,
+            cFqPphvYi: event.target.checked
+        });
     }
 
     return (
@@ -39,9 +32,13 @@ function Query() {
                         {/*<div id="cover-spin"></div>*/}
                         <b>Korpus</b>
                         <br/><br/>
-                        <span style={{fontSize: "smaller"}}>Hiirega korpuse nimele liikudes näeb selle selgitust</span>
+                        <span style={{ fontSize: "smaller" }}>Hiirega korpuse nimele liikudes näeb selle selgitust</span>
                         <br/><br/>
-                        <input type="checkbox" name="koikkorpused" id="koikkorpused" className="checkboxBack"/>
+                        {/* <input type="checkbox" name="koikkorpused" id="koikkorpused" className="checkboxBack"/> */}
+                        <Checkbox
+                            checked={checkboxStatus.cFqPphvYi}
+                            onChange={alterCheckbox}
+                        />
                         <label htmlFor="koikkorpused">kõik</label>
                         <br/>
                         <input type="checkbox" name="cFqPphvYi" id="cFqPphvYi" className="checkboxBack" checked={checkboxStatus.cFqPphvYi} onClick={() => alterCheckbox()} readOnly/>

@@ -1,5 +1,5 @@
 .queryContainer {
-    display: flex;
+  display: flex;
 }
 .queryContainer > div {
   flex: 1; /*grow*/
@@ -37,14 +37,6 @@
   border-radius:50%;
   -webkit-animation: spin .8s linear infinite;
   animation: spin .8s linear infinite;
-}
-
-.checkboxBack {
-  margin-right: 5px;
-}
-
-.selectionFront {
-  margin-right: 5px;
 }
 
 /* https://sebhastian.com/html-hover-text/ */
