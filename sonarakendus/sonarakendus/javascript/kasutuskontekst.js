@@ -8,12 +8,12 @@ function muuda() {
     let arv = number.value;
     if(tyyp == "sona") {
         jrk = 1;
-        tabel.innerHTML = "";
+        tabel.textContent = "";
         //copytud: https://stackoverflow.com/questions/3410464/how-to-find-indices-of-all-occurrences-of-one-string-in-another-in-javascript
         var str = localStorage.getItem("sonad");
         var kontekstid = localStorage.getItem("kontekst").split(',');
         for(let j = 0; j < kontekstid.length; j++) {
-            var regex = new RegExp("([^a-zA-ZõäöüÕÄÖÜ,.!?;:]|^)" + kontekstid[j] + "($|[^a-zA-ZõäöüÕÄÖÜ])", "g"), result, sonad = [];
+            var regex = new RegExp("([^a-zA-ZõäöüÕÄÖÜ;:,.!?'/&()=@–-]|^)" + kontekstid[j] + "($|[^a-zA-ZõäöüÕÄÖÜ;:,.!?'/&()=@–-])", "g"), result, sonad = [];
             while ( (result = regex.exec(str)) ) {
                 sonad.push(result.index);
             }
@@ -42,13 +42,88 @@ function muuda() {
                 }
                 teinePool = str.substring((sonad[i] + kontekstid[j].length + lisand), tyhikud[indeks2]);
 
+                //punktiiride asendamine
+                esimenePool = esimenePool.replace(/\.{4,}/g, "<punktiir>");
+                teinePool = teinePool.replace(/\.{4,}/g, "<punktiir>");
+
+                let tr = document.createElement("tr");
+                let td1 = document.createElement("td");
+                let td1_content = document.createTextNode(jrk);
+                let td2 = document.createElement("td");
+                let td2_content = document.createTextNode(esimenePool);
+                let td3 = document.createElement("td");
+                let td3_content = document.createTextNode(kontekstid[j]);
+                let td4 = document.createElement("td");
+                let td4_content = document.createTextNode(teinePool);
+                let td5 = document.createElement("td");
+                let div = document.createElement("div");
+                let span = document.createElement("span");
+                let b = document.createElement("b");
+                let b_content = document.createTextNode("Lause metainfo");
+                let br1 = document.createElement("br");
+                let br2 = document.createElement("br");
+                let img = document.createElement("img");
+
+                tr.setAttribute("id", "row" + jrk);
+                td2.setAttribute("class", "leftside");
+                td3.setAttribute("class", "otsitav");
+                td4.setAttribute("class", "rightside");
+                td5.setAttribute("class", "source");
+                div.setAttribute("class", "popup");
+                div.setAttribute("onclick", "openPopup(" + jrk + ")");
+                span.setAttribute("class", "popuptext");
+                span.setAttribute("id", jrk);
+                img.setAttribute("src", "img/info.png");
+                img.setAttribute("alt", "sourcebutton");
+                img.setAttribute("class", "sourcebutton");
+
+                td1.appendChild(td1_content);
+                td2.appendChild(td2_content);
+                td3.appendChild(td3_content);
+                td4.appendChild(td4_content);
+                b.appendChild(b_content);
+                span.appendChild(b);
+                span.appendChild(br1);
+                span.appendChild(br2);
+
                 if(localStorage.getItem("paritolu") == "TEXTBOX") {
-                    tabel.innerHTML += "<tr id='row" + jrk + "'><td>" + jrk + "</td><td class='leftside'>" + esimenePool + "</td><td class='otsitav'>" + kontekstid[j] + "</td><td class='rightside'>" + teinePool + "</td><td class='source'><div class='popup' onclick='openPopup(" + jrk + ")'><span class='popuptext' id='" + jrk + "'><b>Lause metainfo</b><br><br>Lause pärineb tekstiväljale sisestatud tekstist.</span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
+                    let span_content = document.createTextNode("Lause pärineb tekstiväljale sisestatud tekstist.");
+                    span.appendChild(span_content);
                 } else if(localStorage.getItem("paritolu") == "FILEUPLOAD") {
-                    tabel.innerHTML += "<tr id='row" + jrk + "'><td>" + jrk + "</td><td class='leftside'>" + esimenePool + "</td><td class='otsitav'>" + kontekstid[j] + "</td><td class='rightside'>" + teinePool + "</td><td class='source'><div class='popup' onclick='openPopup(" + jrk + ")'><span class='popuptext' id='" + jrk + "'><b>Lause metainfo</b><br><br>Faili nimi: </span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
+                    let span_content = document.createTextNode("Faili nimi: ");
+                    span.appendChild(span_content);
                 } else if(localStorage.getItem("paritolu") == "EVKK") {
-                    tabel.innerHTML += "<tr id='row" + jrk + "'><td>" + jrk + "</td><td class='leftside'>" + esimenePool + "</td><td class='otsitav'>" + kontekstid[j] + "</td><td class='rightside'>" + teinePool + "</td><td class='source'><div class='popup' onclick='openPopup(" + jrk + ")'><span class='popuptext' id='" + jrk + "'><b>Lause metainfo</b><br><br>Dokumendi ID: <br>Alamkorpus: <br>Teksti žanr: <br>Keeleoskustase: <br>Autori emakeel: </span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
+                    let br3 = document.createElement("br");
+                    let br4 = document.createElement("br");
+                    let br5 = document.createElement("br");
+                    let br6 = document.createElement("br");
+                    let span_content1 = document.createTextNode("Dokumendi ID: ");
+                    let span_content2 = document.createTextNode("Alamkorpus: ");
+                    let span_content3 = document.createTextNode("Teksti žanr: ");
+                    let span_content4 = document.createTextNode("Keeleoskustase: ");
+                    let span_content5 = document.createTextNode("Autori emakeel: ");
+
+                    span.appendChild(span_content1);
+                    span.appendChild(br3);
+                    span.appendChild(span_content2);
+                    span.appendChild(br4);
+                    span.appendChild(span_content3);
+                    span.appendChild(br5);
+                    span.appendChild(span_content4);
+                    span.appendChild(br6);
+                    span.appendChild(span_content5);
                 }
+
+                div.appendChild(span);
+                div.appendChild(img);
+                td5.appendChild(div);
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
+                tr.appendChild(td5);
+                tabel.appendChild(tr);
+
                 jrk++;
             }
         }
@@ -61,11 +136,11 @@ function muuda() {
         });
     } else if(tyyp == "lauset") {
         jrk = 1;
-        tabel.innerHTML = "";
+        tabel.textContent = "";
         laused = JSON.parse(localStorage.getItem("laused"));
         var kontekstid = localStorage.getItem("kontekst").split(',');
         for(let x = 0; x < kontekstid.length; x++) {
-            var regex = new RegExp("([^a-zA-ZõäöüÕÄÖÜ]|^)" + kontekstid[x] + "($|[^a-zA-ZõäöüÕÄÖÜ])", "g")
+            var regex = new RegExp("([^a-zA-ZõäöüÕÄÖÜ;:,.!?'/&()=@–-]|^)" + kontekstid[x] + "($|[^a-zA-ZõäöüÕÄÖÜ;:,.!?'/&()=@–-])", "g")
             for(let i = 0; i < laused.length; i++) {
                 result = regex.exec(laused[i]);
                 if(result != null) {
@@ -85,13 +160,88 @@ function muuda() {
                         }
                     }
 
+                    //punktiiride asendamine
+                    esimenePool = esimenePool.replace(/\.{4,}/g, "<punktiir>");
+                    teinePool = teinePool.replace(/\.{4,}/g, "<punktiir>");
+
+                    let tr = document.createElement("tr");
+                    let td1 = document.createElement("td");
+                    let td1_content = document.createTextNode(jrk);
+                    let td2 = document.createElement("td");
+                    let td2_content = document.createTextNode(esimenePool.replace(/(['"])/g, "").replace("[", "").replace("]", ""));
+                    let td3 = document.createElement("td");
+                    let td3_content = document.createTextNode(kontekstid[x]);
+                    let td4 = document.createElement("td");
+                    let td4_content = document.createTextNode(teinePool.replace(/(['"])/g, "").replace("[", "").replace("]", ""));
+                    let td5 = document.createElement("td");
+                    let div = document.createElement("div");
+                    let span = document.createElement("span");
+                    let b = document.createElement("b");
+                    let b_content = document.createTextNode("Lause metainfo");
+                    let br1 = document.createElement("br");
+                    let br2 = document.createElement("br");
+                    let img = document.createElement("img");
+
+                    tr.setAttribute("id", "row" + jrk);
+                    td2.setAttribute("class", "leftside");
+                    td3.setAttribute("class", "otsitav");
+                    td4.setAttribute("class", "rightside");
+                    td5.setAttribute("class", "source");
+                    div.setAttribute("class", "popup");
+                    div.setAttribute("onclick", "openPopup(" + jrk + ")");
+                    span.setAttribute("class", "popuptext");
+                    span.setAttribute("id", jrk);
+                    img.setAttribute("src", "img/info.png");
+                    img.setAttribute("alt", "sourcebutton");
+                    img.setAttribute("class", "sourcebutton");
+
+                    td1.appendChild(td1_content);
+                    td2.appendChild(td2_content);
+                    td3.appendChild(td3_content);
+                    td4.appendChild(td4_content);
+                    b.appendChild(b_content);
+                    span.appendChild(b);
+                    span.appendChild(br1);
+                    span.appendChild(br2);
+
                     if(localStorage.getItem("paritolu") == "TEXTBOX") {
-                        tabel.innerHTML += "<tr id='row" + jrk + "'><td>" + jrk + "</td><td class='leftside'>" + esimenePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='otsitav'>" + kontekstid[x] + "</td><td class='rightside'>" + teinePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='source'><div class='popup' onclick='openPopup(" + jrk + ")'><span class='popuptext' id='" + jrk + "'><b>Lause metainfo</b><br><br>Lause pärineb tekstiväljale sisestatud tekstist.</span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
+                        let span_content = document.createTextNode("Lause pärineb tekstiväljale sisestatud tekstist.");
+                        span.appendChild(span_content);
                     } else if(localStorage.getItem("paritolu") == "FILEUPLOAD") {
-                        tabel.innerHTML += "<tr id='row" + jrk + "'><td>" + jrk + "</td><td class='leftside'>" + esimenePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='otsitav'>" + kontekstid[x] + "</td><td class='rightside'>" + teinePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='source'><div class='popup' onclick='openPopup(" + jrk + ")'><span class='popuptext' id='" + jrk + "'><b>Lause metainfo</b><br><br>Lause metainfo</b><br>Faili nimi: </span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
+                        let span_content = document.createTextNode("Faili nimi: ");
+                        span.appendChild(span_content);
                     } else if(localStorage.getItem("paritolu") == "EVKK") {
-                        tabel.innerHTML += "<tr id='row" + jrk + "'><td>" + jrk + "</td><td class='leftside'>" + esimenePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='otsitav'>" + kontekstid[x] + "</td><td class='rightside'>" + teinePool.replace(/(['"])/g, "").replace("[", "").replace("]", "") + "</td><td class='source'><div class='popup' onclick='openPopup(" + jrk + ")'><span class='popuptext' id='" + jrk + "'><b>Lause metainfo</b><br><br>Dokumendi ID: <br>Alamkorpus: <br>Teksti žanr: <br>Keeleoskustase: <br>Autori emakeel: </span><img src='img/info.png' alt='sourcebutton' class='sourcebutton'></div></td></tr>";
+                        let br3 = document.createElement("br");
+                        let br4 = document.createElement("br");
+                        let br5 = document.createElement("br");
+                        let br6 = document.createElement("br");
+                        let span_content1 = document.createTextNode("Dokumendi ID: ");
+                        let span_content2 = document.createTextNode("Alamkorpus: ");
+                        let span_content3 = document.createTextNode("Teksti žanr: ");
+                        let span_content4 = document.createTextNode("Keeleoskustase: ");
+                        let span_content5 = document.createTextNode("Autori emakeel: ");
+
+                        span.appendChild(span_content1);
+                        span.appendChild(br3);
+                        span.appendChild(span_content2);
+                        span.appendChild(br4);
+                        span.appendChild(span_content3);
+                        span.appendChild(br5);
+                        span.appendChild(span_content4);
+                        span.appendChild(br6);
+                        span.appendChild(span_content5);
                     }
+
+                    div.appendChild(span);
+                    div.appendChild(img);
+                    td5.appendChild(div);
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                    tr.appendChild(td3);
+                    tr.appendChild(td4);
+                    tr.appendChild(td5);
+                    tabel.appendChild(tr);
+
                     jrk++;
                 }
             }

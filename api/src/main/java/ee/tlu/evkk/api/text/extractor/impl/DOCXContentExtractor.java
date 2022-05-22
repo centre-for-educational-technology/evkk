@@ -28,7 +28,7 @@ public class DOCXContentExtractor extends AbstractContentExtractor {
       XWPFDocument document = new XWPFDocument(is);
       List<XWPFParagraph> paragraphs = document.getParagraphs();
       for (XWPFParagraph para : paragraphs) {
-        text += para.getText();
+        text += para.getText() + "\n";
       }
       document.close();
     } catch (IOException ex) {

@@ -2,7 +2,7 @@ package ee.tlu.evkk.api.controller.error;
 
 import ee.tlu.evkk.api.exception.AbstractBusinessException;
 import ee.tlu.evkk.api.exception.FieldAwareBusinessException;
-import ee.tlu.evkk.api.util.CollectionUtils;
+import ee.tlu.evkk.common.util.CollectionUtils;
 import ee.tlu.evkk.api.util.StringUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
