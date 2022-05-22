@@ -3,6 +3,8 @@
 /.docker/
 /.settings/
 /.project
+/.vscode
+/.devcontainer
 
 gradle/
 build/
