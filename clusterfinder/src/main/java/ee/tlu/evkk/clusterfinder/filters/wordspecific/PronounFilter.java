@@ -29,6 +29,8 @@ public class PronounFilter implements WordSpecificFilter
     if ( pronounSubTypeOptions != null )
     {
       List< String > filters = FilteringUtil.assembleWordTypeFilters( WORD_TYPE, pronounSubTypeOptions );
+
+      // All filter entries are separated by spaces (since the building of filters creates all variants, then need to remove the excess filters at the end according to space count)
       int additionalSpaces = 0;
 
       if ( pronounPerspectiveTypeOptions != null )
