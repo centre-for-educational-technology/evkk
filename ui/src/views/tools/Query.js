@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Checkbox } from '@mui/material';
+import { Checkbox, InputLabel, MenuItem, Select } from '@mui/material';
 import "../../styles/Query.css";
 
 function Query() {
-    const [checkboxStatus, setCheckboxStatus] = useState({
+    const [corpusCheckboxStatus, setCorpusCheckboxStatus] = useState({
         cFqPphvYi: false,
         clWmOIrLa: false,
         cFOoRQekA: false,
@@ -13,15 +13,46 @@ function Query() {
         cwUSEqQLt: false
     });
 
+    const [textData, setTextData] = useState({
+        type: '',
+        language: '',
+        level: '',
+        usedMaterials: '',
+        addedYear: '',
+        characters: '',
+        words: '',
+        sentences: ''
+    });
+
     function submitted() {
-        return null;
+        console.log(corpusCheckboxStatus);
+        console.log(textData);
     }
 
-    const alterCheckbox = (event) => {
-        setCheckboxStatus({
-            checkboxStatus,
-            cFqPphvYi: event.target.checked
-        });
+    const alterCorpusCheckbox = (event) => {
+        let newCorpusCheckboxStatus = {...corpusCheckboxStatus};
+        newCorpusCheckboxStatus[event.target.id] = event.target.checked;
+        setCorpusCheckboxStatus(newCorpusCheckboxStatus);
+    }
+
+    const alterAllCorpusCheckboxes = (event) => {
+        let newCorpusCheckboxStatus = {...corpusCheckboxStatus};
+        for (let checkbox in newCorpusCheckboxStatus) {
+            newCorpusCheckboxStatus[checkbox] = event.target.checked;
+        }
+        setCorpusCheckboxStatus(newCorpusCheckboxStatus);
+    }
+
+    const alterTextData = (event) => {
+        let newTextData = {...textData};
+        newTextData[event.target.name] = event.target.value;
+        setTextData(newTextData);
+    }
+
+    const removeTextData = (event) => {
+        let newTextData = {...textData};
+        newTextData[event.target.id] = '';
+        setTextData(newTextData);
     }
 
     return (
@@ -34,58 +65,104 @@ function Query() {
                         <br/><br/>
                         <span style={{ fontSize: "smaller" }}>Hiirega korpuse nimele liikudes näeb selle selgitust</span>
                         <br/><br/>
-                        {/* <input type="checkbox" name="koikkorpused" id="koikkorpused" className="checkboxBack"/> */}
                         <Checkbox
-                            checked={checkboxStatus.cFqPphvYi}
-                            onChange={alterCheckbox}
+                            checked={corpusCheckboxStatus.cFqPphvYi}
+                            onChange={alterAllCorpusCheckboxes}
                         />
-                        <label htmlFor="koikkorpused">kõik</label>
+                        <label>kõik</label>
                         <br/>
-                        <input type="checkbox" name="cFqPphvYi" id="cFqPphvYi" className="checkboxBack" checked={checkboxStatus.cFqPphvYi} onClick={() => alterCheckbox()} readOnly/>
-                        <label htmlFor="cFqPphvYi" className="corpustitle" data-hover="Sisaldab eri emakeelega õpilaste eesti keele olümpiaadi esseid">
+                        <Checkbox
+                            id="cFqPphvYi"
+                            checked={corpusCheckboxStatus.cFqPphvYi}
+                            onChange={alterCorpusCheckbox}
+                        />
+                        <label className="corpustitle" data-hover="Sisaldab eri emakeelega õpilaste eesti keele olümpiaadi esseid">
                         K2 olümpiaadi tööd
                         </label>
                         <br/>
-                        <input type="checkbox" name="clWmOIrLa" id="clWmOIrLa" className="checkboxBack"/>
-                        <label htmlFor="clWmOIrLa" className="corpustitle" data-hover="Sisaldab riiklikke eksami- ja tasemetöid">
+                        <Checkbox
+                            id="clWmOIrLa"
+                            checked={corpusCheckboxStatus.clWmOIrLa}
+                            onChange={alterCorpusCheckbox}
+                        />
+                        <label className="corpustitle" data-hover="Sisaldab riiklikke eksami- ja tasemetöid">
                             K2 tasemeeksamite tekstid
                         </label>
                         <br/>
-                        <input type="checkbox" name="cFOoRQekA" id="cFOoRQekA" className="checkboxBack"/>
-                        <label htmlFor="cFOoRQekA" className="corpustitle" data-hover="Sisaldab eksamiväliselt kirjutatud A2-, B1-, B2- ja C1-taseme tekste, mille tase on määratud kolme tunnustatud hindamise spetsialisti ühise arvamuse põhjal">
+                        <Checkbox
+                            id="cFOoRQekA"
+                            checked={corpusCheckboxStatus.cFOoRQekA}
+                            onChange={alterCorpusCheckbox}
+                        />
+                        <label className="corpustitle" data-hover="Sisaldab eksamiväliselt kirjutatud A2-, B1-, B2- ja C1-taseme tekste, mille tase on määratud kolme tunnustatud hindamise spetsialisti ühise arvamuse põhjal">
                             K2 tuumkorpus
                         </label>
                         <br/>
-                        <input type="checkbox" name="cYDRkpymb" id="cYDRkpymb" className="checkboxBack"/>
-                        <label htmlFor="cYDRkpymb" className="corpustitle" data-hover="Võrdluskorpus, sisaldab emakeelekõnelejate arvamuslugusid ajalehtedest">
+                        <Checkbox
+                            id="cYDRkpymb"
+                            checked={corpusCheckboxStatus.cYDRkpymb}
+                            onChange={alterCorpusCheckbox}
+                        />
+                        <label className="corpustitle" data-hover="Võrdluskorpus, sisaldab emakeelekõnelejate arvamuslugusid ajalehtedest">
                             K1 eesti keel
                         </label>
                         <br/>
-                        <input type="checkbox" name="cgSRJPKTr" id="cgSRJPKTr" className="checkboxBack"/>
-                        <label htmlFor="cgSRJPKTr" className="corpustitle" data-hover="Sisaldab põhikooli ja gümnaasiumi vene emakeelega õpilaste loomingulist laadi tekste">
+                        <Checkbox
+                            id="cgSRJPKTr"
+                            checked={corpusCheckboxStatus.cgSRJPKTr}
+                            onChange={alterCorpusCheckbox}
+                        />
+                        <label className="corpustitle" data-hover="Sisaldab põhikooli ja gümnaasiumi vene emakeelega õpilaste loomingulist laadi tekste">
                             K1 vene keel
                         </label>
                         <br/>
-                        <input type="checkbox" name="cZjHWUPtD" id="cZjHWUPtD" className="checkboxBack"/>
-                        <label htmlFor="cZjHWUPtD" className="corpustitle" data-hover="Sisaldab tekste eesti emakeelega õpilastelt, kes õpivad koolis vene keelt kolmanda keelena">
+                        <Checkbox
+                            id="cZjHWUPtD"
+                            checked={corpusCheckboxStatus.cZjHWUPtD}
+                            onChange={alterCorpusCheckbox}
+                        />
+                        <label className="corpustitle" data-hover="Sisaldab tekste eesti emakeelega õpilastelt, kes õpivad koolis vene keelt kolmanda keelena">
                             K3 vene keel
                         </label>
                         <br/>
-                        <input type="checkbox" name="cwUSEqQLt" id="cwUSEqQLt" className="checkboxBack"/>
-                        <label htmlFor="cwUSEqQLt" className="corpustitle" data-hover="Sisaldab emakeelekõneleja ja eesti keelt teise keelena kasutava üliõpilase akadeemilise keelekasutuse näiteid (referaadid, seminaritööd, lõputööd jm)">
+                        <Checkbox
+                            id="cwUSEqQLt"
+                            checked={corpusCheckboxStatus.cwUSEqQLt}
+                            onChange={alterCorpusCheckbox}
+                        />
+                        <label className="corpustitle" data-hover="Sisaldab emakeelekõneleja ja eesti keelt teise keelena kasutava üliõpilase akadeemilise keelekasutuse näiteid (referaadid, seminaritööd, lõputööd jm)">
                             Akadeemiline õppijakeel
                         </label>
                         <br/>
-                        {/*<input type="checkbox" name="cwUprXCTL" id="cwUprXCTL" className="checkboxBack"/>
-                        <label htmlFor="cwUprXCTL" className="selectionFront">Eesti teaduskeel</label>
-                        <br/>*/}
+                        {/* <Checkbox
+                            id="cwUprXCTL"
+                            checked={corpusCheckboxStatus.cwUprXCTL}
+                            onChange={alterCorpusCheckbox}
+                        />
+                        <label className="corpustitle">Eesti teaduskeel</label>
+                        <br/> */}
                     </div>
                     <div>
                         <b>Teksti andmed</b>
                         <br/><br/>
-                        <input type="checkbox" name="typeOn" id="typeOn" className="checkboxBack" disabled/>
-                        <label htmlFor="type" className="selectionFront">Teksti liik</label>
-                        <select name="type" id="type">
+                        <Checkbox
+                            id="type"
+                            checked={textData.type !== ''}
+                            disabled={textData.type === ''}
+                            onChange={removeTextData}
+                        />
+                        <InputLabel id="type-label">Teksti liik</InputLabel>
+                        <Select
+                            sx={{ minWidth: 120 }}
+                            labelId="type-label"
+                            name="type"
+                            value={textData.type}
+                            label="Teksti liik"
+                            onChange={alterTextData}
+                        >
+                            <MenuItem value="isikiri">isiklik kiri</MenuItem>
+                        </Select>
+                        {/* <select name="type" id="type">
                             <option value="teadmata"></option>
                             <option value="isikiri">isiklik kiri</option>
                             <option value="amtkiri">ametlik kiri</option>
@@ -106,7 +183,7 @@ function Query() {
                             <option value="teade">teade</option>
                             <option value="kirjeldus/jutustus">kirjeldus/jutustus</option>
                             <option value="muu">muu</option>
-                        </select>
+                        </select> */}
                         <br/>
                         <input type="checkbox" name="textlangOn" id="textlangOn" className="checkboxBack" disabled checked/>
                         <label htmlFor="textlang" className="selectionFront">Teksti keel</label>
