@@ -1,7 +1,6 @@
 import React, {Component, useEffect, useState} from 'react';
-import './adding.css';
 import { withStyles } from "@material-ui/core/styles";
-import {Checkbox, Button, TextField, RadioGroup, FormControlLabel, Radio, Typography, Grid, Box, InputLabel, FormControl} from "@material-ui/core";
+import {Checkbox, Button, TextField, RadioGroup, FormControlLabel, Radio, Typography, Grid, Box, FormControl, Select, MenuItem} from '@mui/material'
 
 const styles = theme => ({
 	root: {
@@ -24,7 +23,9 @@ const styles = theme => ({
             color: "#3898ec",
         },
 		color: "#3898ec",
-		height: 0
+		height: 20,
+		width: 20,
+		paddingLeft: 3
 	},
 	textArea: {
 		"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
@@ -41,36 +42,18 @@ const styles = theme => ({
 		"& .MuiInputLabel-outlined.Mui-focused": {
 			color: "#3898ec"
 		},
-		height: 26,
+		height: 40,
 		width: 160
 	},
 	checkBox: {
 		color: "#3898ec",
 		height: 0,
+		width: 0
 	},
 	holder: {
 		paddingTop: 5
 	}
 });
-
-const tekstiLiik = [
-	{value: 'akadeemiline', label: 'akadeemiline'}, {value: 'mitteakadeemiline', label: 'mitteakadeemiline'}
-]
-const oppeaste = [
-	{value: 'õppeaste', label: 'õppeaste'}, {value: 'teaduskraad', label: 'teaduskraad'},
-]
-const eriala = [
-	{value: 'Bio- ja keskkonnateadused', label: 'Bio- ja keskkonnateadused'}, {value: 'Ühiskonnateadused ja kultuur', label: 'Ühiskonnateadused ja kultuur'}, {value: "Terviseuuringud", label: "Terviseuuringud"}, {value: "Loodusteadused ja tehnika", label: "Loodusteadused ja tehnika"}
-]
-const emakeel = [
-	{value: "eesti", label: "eesti"}, {value: "heebrea", label: "heebrea"}, {value: "hollandi", label: "hollandi"}, {value: "inglise", label: "inglise"}, {value: "itaalia", label: "itaalia"}, {value: "jaapani", label: "jaapani"}, {value: "jidiš", label: "jidiš"}, {value: "katalaani", label: "katalaani"}, {value: "leedu", label: "leedu"}, {value: "läti", label: "läti"}, {value: "poola", label: "poola"}, {value: "prantsuse", label: "prantsuse"}, {value: "rootsi", label: "rootsi"}, {value: "saksa", label: "saksa"}, {value: "sloveenia", label: "sloveenia"}, {value: "soome", label: "soome"}, {value: "tšehhi", label: "tšehhi"}, {value: "ukraina", label: "ukraina"}, {value: "ungari", label: "ungari"}, {value: "valgevene", label: "valgevene"}, {value: "vene", label: "vene"}
-]
-const teineKeel = [
-	{value: "eesti", label: "eesti"}, {value: "heebrea", label: "heebrea"}, {value: "hollandi", label: "hollandi"}, {value: "inglise", label: "inglise"}, {value: "itaalia", label: "itaalia"}, {value: "jaapani", label: "jaapani"}, {value: "jidiš", label: "jidiš"}, {value: "katalaani", label: "katalaani"}, {value: "leedu", label: "leedu"}, {value: "läti", label: "läti"}, {value: "poola", label: "poola"}, {value: "prantsuse", label: "prantsuse"}, {value: "rootsi", label: "rootsi"}, {value: "saksa", label: "saksa"}, {value: "sloveenia", label: "sloveenia"}, {value: "soome", label: "soome"}, {value: "tšehhi", label: "tšehhi"}, {value: "ukraina", label: "ukraina"}, {value: "ungari", label: "ungari"}, {value: "valgevene", label: "valgevene"}, {value: "vene", label: "vene"}
-]
-const elukohariik = [
-	{value: "eesti", label: "Eesti"}, {value: "leedu", label: "Leedu"}, {value: "läti", label: "Läti"}, {value: "rootsi", label: "Rootsi"}, {value: "saksa", label: "Saksa"}, {value: "soome", label: "Soome"}, {value: "venemaa", label: "Venemaa"}
-]
 
 class Adding extends Component {
 
@@ -112,7 +95,7 @@ class Adding extends Component {
 		const { classes } = this.props;
 
         return (
-			<Box sx={{ flexGrow: 1, overflow: 'hidden', px: 3 }}>
+			<Box sx={{ flexGrow: 1, overflow: 'hidden', px: 6 }}>
 				<div style={{ textAlign:"center"}}>
 					<Typography variant="h5"><strong>Lisa uus tekst</strong></Typography>
 				</div>
@@ -127,15 +110,15 @@ class Adding extends Component {
 						<Grid item>
 							<Typography><strong>Pealkiri*</strong></Typography>
 							<div>
-								<TextField required className={classes.textArea} id="outlined" multiline label="Kirjuta siia teksti pealkiri" variant="outlined" name="pealkiri" value={this.state.pealkiri} onChange={this.handleChange} style={{width: 500}}></TextField>
+								<TextField required className={classes.textArea} multiline label="Kirjuta siia teksti pealkiri" variant="outlined" name="pealkiri" value={this.state.pealkiri} onChange={this.handleChange} style={{width: 500}}></TextField>
 							</div>
 							<div>
 								<Typography style={{paddingTop: 10}}><strong>Ülesande kirjeldus</strong></Typography>
-								<TextField className={classes.textArea} id="outlined" multiline rows={4} label="Kirjuta siia ülesande kirjeldus" variant="outlined" name="kirjeldus" value={this.state.kirjeldus} onChange={this.handleChange} style={{width: 500}}></TextField>
+								<TextField className={classes.textArea} multiline rows={4} label="Kirjuta siia ülesande kirjeldus" variant="outlined" name="kirjeldus" value={this.state.kirjeldus} onChange={this.handleChange} style={{width: 500}}></TextField>
 							</div>
 							<div>
 								<Typography style={{paddingTop: 10}}><strong>Tekst*</strong></Typography>
-								<TextField required className={classes.textArea} id="outlined" multiline rows={20} label="Laadi tekst üles või kirjuta see siia tekstikasti" variant="outlined" name="sisu" value={this.state.sisu} onChange={this.handleChange} style={{width: 500}}></TextField>
+								<TextField required className={classes.textArea} multiline rows={20} label="Laadi tekst üles või kirjuta see siia tekstikasti" variant="outlined" name="sisu" value={this.state.sisu} onChange={this.handleChange} style={{width: 500}}></TextField>
 							</div>
 						</Grid>
 						<Grid item>
@@ -146,11 +129,12 @@ class Adding extends Component {
 										<Typography>Teksti liik:*</Typography>
 									</Grid>
 									<Grid item>
-										<TextField value={this.state.liik} onChange={this.handleChange} className={classes.textArea} InputProps={{className: classes.input}} select name="liik" variant="outlined">
-											{tekstiLiik.map((option) => (
-												<option value={option.value}>{option.label}</option>
-											))}
-										</TextField>
+										<FormControl sx={{ m: 0, width: 140}}>
+											<Select value={this.state.liik} onChange={this.handleChange} select name="liik" displayEmpty style={{height: 30}}>
+												<MenuItem value={"Akadeemiline"}>Akadeemiline</MenuItem>
+												<MenuItem value={"Mitte akadeemiline"}>Mitteakadeemiline</MenuItem>
+											</Select>
+										</FormControl>
 									</Grid>
 								</Grid>
 							</label>
@@ -158,13 +142,13 @@ class Adding extends Component {
 							<label>
 								<Grid container spacing={1} className={classes.holder}>
 									<Grid item>
-										<Typography>Kasutatud õppematerjale:*</Typography>
+										<Typography style={{paddingRight: 10}}>Kasutatud õppematerjale:*</Typography>
 									</Grid>
 									<Grid item>
 										<FormControl component="fieldset" className={classes.formControl}>
 											<RadioGroup name="oppematerjal" row value={this.state.oppematerjal} onChange={this.handleChange}>
-												<FormControlLabel value="jah" control={<Radio className={classes.radio} color="default"/>} label="jah"/>
-												<FormControlLabel value="ei" control={<Radio className={classes.radio} color="default"/>} label="ei"/>
+												<FormControlLabel value="jah" control={<Radio className={classes.radio}/>} label="jah"/>
+												<FormControlLabel value="ei" control={<Radio className={classes.radio}/>} label="ei"/>
 											</RadioGroup>
 										</FormControl>
 									</Grid>
@@ -204,7 +188,7 @@ class Adding extends Component {
 										<Typography>Vanus:*</Typography>
 									</Grid>
 									<Grid item>
-										<TextField placeholder="Lisa vanus" size="small" className={classes.textArea} InputProps={{className: classes.input}} type="number" variant="outlined" value={this.state.autoriVanus} onChange={this.handleChange} name="autoriVanus"></TextField>
+										<TextField placeholder="Lisa vanus" size="small" type="number" variant="outlined" value={this.state.autoriVanus} onChange={this.handleChange} name="autoriVanus" style={{height: 30, width: 140}}></TextField>
 									</Grid>
 								</Grid>
 							</label>
@@ -212,13 +196,13 @@ class Adding extends Component {
 							<label>
 								<Grid container spacing={1} className={classes.holder}>
 									<Grid item>
-										<Typography>Sugu:*</Typography>
+										<Typography style={{paddingRight: 10}}>Sugu:*</Typography>
 									</Grid>
 									<Grid item>
 										<FormControl component="fieldset" control={<Radio required={true} />} >
 											<RadioGroup required name="autoriSugu" row value={this.state.autoriSugu} onChange={this.handleChange}>
-												<FormControlLabel value="mees" control={<Radio className={classes.radio} color="default"/>} label="mees"/>
-												<FormControlLabel value="naine" control={<Radio className={classes.radio} color="default"/>} label="naine"/>
+												<FormControlLabel value="mees" control={<Radio className={classes.radio}/>} label="mees"/>
+												<FormControlLabel value="naine" control={<Radio className={classes.radio}/>} label="naine"/>
 											</RadioGroup>
 										</FormControl>
 									</Grid>
@@ -231,11 +215,12 @@ class Adding extends Component {
 										<Typography>Õppeaste/teaduskraad:*</Typography>
 									</Grid>
 									<Grid item>
-										<TextField value={this.state.autoriOppeaste} onChange={this.handleChange} name="autoriOppeaste" className={classes.textArea} InputProps={{className: classes.input}} select variant="outlined">
-											{oppeaste.map((option) => (
-												<option value={option.value}>{option.label}</option>
-											))}
-										</TextField>
+									<FormControl sx={{ m: 0, width: 140}}>
+										<Select value={this.state.autoriOppeaste} onChange={this.handleChange} select name="autoriOppeaste" displayEmpty style={{height: 30}}>
+											<MenuItem value={"oppeaste"}>oppeaste</MenuItem>
+											<MenuItem value={"teaduskraad"}>teaduskraad</MenuItem>
+										</Select>
+									</FormControl>
 									</Grid>
 								</Grid>
 							</label>
@@ -243,14 +228,17 @@ class Adding extends Component {
 							<label>
 								<Grid container spacing={1} className={classes.holder}>
 									<Grid item>
-										<Typography >Eriala:*</Typography>
+										<Typography>Eriala:*</Typography>
 									</Grid>
 									<Grid item>
-										<TextField value={this.state.autoriEriala} onChange={this.handleChange} name="autoriEriala" className={classes.textArea} InputProps={{className: classes.input}} select variant="outlined">
-											{eriala.map((option) => (
-												<option value={option.value}>{option.label}</option>
-											))}
-										</TextField>
+										<FormControl sx={{ m: 0, width: 140}}>
+											<Select value={this.state.autoriEriala} onChange={this.handleChange} name="autoriEriala" displayEmpty style={{height: 30}}>
+												<MenuItem value={'Bio- ja keskkonnateadused'}>Bio- ja keskkonnateadused</MenuItem>
+												<MenuItem value={'Ühiskonnateadused ja kultuur'}>Ühiskonnateadused ja kultuur</MenuItem>
+												<MenuItem value={"Terviseuuringud"}>Terviseuuringud</MenuItem>
+												<MenuItem value={"Loodusteadused ja tehnika"}>Loodusteadused ja tehnika</MenuItem>
+											</Select>
+										</FormControl>
 									</Grid>
 								</Grid>
 							</label>
@@ -261,14 +249,34 @@ class Adding extends Component {
 										<Typography>Emakeel:*</Typography> 
 									</Grid>
 									<Grid item>
-										<TextField value={this.state.autoriEmakeel} onChange={this.handleChange} name="autoriEmakeel" className={classes.textArea} InputProps={{className: classes.input}} select variant="outlined">
-											{emakeel.map((option) => (
-												<option value={option.value}>{option.label}</option>
-											))}
-										</TextField>
+										<FormControl >
+											<Select value={this.state.autoriEmakeel} onChange={this.handleChange} name="autoriEmakeel" displayEmpty style={{height: 30}}>
+												<MenuItem value={"eesti"}>eesti</MenuItem>
+												<MenuItem value={"heebrea"}>heebrea</MenuItem>
+												<MenuItem value={"hollandi"}>hollandi</MenuItem>
+												<MenuItem value={"inglise"}>inglise</MenuItem>
+												<MenuItem value={"itaalia"}>itaalia</MenuItem>
+												<MenuItem value={"jaapani"}>jaapani</MenuItem>
+												<MenuItem value={"jidiš"}>jidiš</MenuItem>
+												<MenuItem value={"katalaani"}>katalaani</MenuItem>
+												<MenuItem value={"leedu"}>leedu</MenuItem>
+												<MenuItem value={"läti"}>läti</MenuItem>
+												<MenuItem value={"poola"}>poola</MenuItem>
+												<MenuItem value={"prantsuse"}>prantsuse</MenuItem>
+												<MenuItem value={"rootsi"}>rootsi</MenuItem>
+												<MenuItem value={"saksa"}>saksa</MenuItem>
+												<MenuItem value={"sloveenia"}>sloveenia</MenuItem>
+												<MenuItem value={"soome"}>soome</MenuItem>
+												<MenuItem value={"tšehhi"}>tšehhi</MenuItem>
+												<MenuItem value={"ukraina"}>ukraina</MenuItem>
+												<MenuItem value={"ungari"}>ungari</MenuItem>
+												<MenuItem value={"valgevene"}>valgevene</MenuItem>
+												<MenuItem value={"vene"}>vene</MenuItem>
+											</Select>
+										</FormControl>
 									</Grid>
 									<Grid item>
-										<FormControlLabel control={<Checkbox className={classes.checkBox} />} label="Olen kakskeelne" />
+										<FormControlLabel control={<Checkbox className={classes.checkBox} />} label="Olen kakskeelne" style={{paddingLeft: 10}}/>
 									</Grid>
 								</Grid>
 							</label>
@@ -279,11 +287,31 @@ class Adding extends Component {
 										<Typography>Muud õppe- või töökeeled:</Typography>
 									</Grid>
 									<Grid item>
-										<TextField value={this.state.autoriMuudKeeled} onChange={this.handleChange} name="autoriMuudKeeled" className={classes.textArea} InputProps={{className: classes.input}} select variant="outlined">
-											{teineKeel.map((option) => (
-												<option value={option.value}>{option.label}</option>
-											))}
-										</TextField>
+										<FormControl sx={{ m: 0, width: 140}}>
+											<Select value={this.state.autoriMuudKeeled} onChange={this.handleChange} name="autoriMuudKeeled" displayEmpty style={{height: 30}}>
+												<MenuItem value={"eesti"}>eesti</MenuItem>
+												<MenuItem value={"heebrea"}>heebrea</MenuItem>
+												<MenuItem value={"hollandi"}>hollandi</MenuItem>
+												<MenuItem value={"inglise"}>inglise</MenuItem>
+												<MenuItem value={"itaalia"}>itaalia</MenuItem>
+												<MenuItem value={"jaapani"}>jaapani</MenuItem>
+												<MenuItem value={"jidiš"}>jidiš</MenuItem>
+												<MenuItem value={"katalaani"}>katalaani</MenuItem>
+												<MenuItem value={"leedu"}>leedu</MenuItem>
+												<MenuItem value={"läti"}>läti</MenuItem>
+												<MenuItem value={"poola"}>poola</MenuItem>
+												<MenuItem value={"prantsuse"}>prantsuse</MenuItem>
+												<MenuItem value={"rootsi"}>rootsi</MenuItem>
+												<MenuItem value={"saksa"}>saksa</MenuItem>
+												<MenuItem value={"sloveenia"}>sloveenia</MenuItem>
+												<MenuItem value={"soome"}>soome</MenuItem>
+												<MenuItem value={"tšehhi"}>tšehhi</MenuItem>
+												<MenuItem value={"ukraina"}>ukraina</MenuItem>
+												<MenuItem value={"ungari"}>ungari</MenuItem>
+												<MenuItem value={"valgevene"}>valgevene</MenuItem>
+												<MenuItem value={"vene"}>vene</MenuItem>
+											</Select>
+										</FormControl>
 									</Grid>
 									<Grid item>
 										<Button style={{height: 5}}>
@@ -300,11 +328,17 @@ class Adding extends Component {
 										<Typography>Elukohariik:</Typography>
 									</Grid>
 									<Grid item>
-										<TextField value={this.state.autoriElukohariik} onChange={this.handleChange} name="autoriElukohariik" className={classes.textArea} InputProps={{className: classes.input}} select variant="outlined">
-											{elukohariik.map((option) => (
-												<option value={option.value}>{option.label}</option>
-											))}
-										</TextField>
+										<FormControl sx={{ m: 0, width: 140}}>
+											<Select value={this.state.autoriElukohariik} onChange={this.handleChange} name="autoriElukohariik" displayEmpty style={{height: 30}}>
+												<MenuItem value={"eesti"}>Eesti</MenuItem>
+												<MenuItem value={"leedu"}>Leedu</MenuItem>
+												<MenuItem value={"läti"}>Läti</MenuItem>
+												<MenuItem value={"rootsi"}>Rootsi</MenuItem>
+												<MenuItem value={"saksa"}>Saksa</MenuItem>
+												<MenuItem value={"soome"}>Soome</MenuItem>
+												<MenuItem value={"venemaa"}>Venemaa</MenuItem>
+											</Select>
+										</FormControl>
 									</Grid>
 								</Grid>
 							</label>
@@ -320,7 +354,7 @@ class Adding extends Component {
 								</Grid>
 								<br />
 								<div style={{textAlign: "center"}}>
-									<Button type="submit" variant="text" className={classes.button}>Laadi üles</Button>
+									<Button type="submit" variant="text" className={classes.button} style={{background: "#3898ec", border: 0, borderRadius: 4, height: 48, width: 160, color: "white", fontSize: 16}}>Laadi üles</Button>
 								</div>
 							</div>
 						</Grid>
