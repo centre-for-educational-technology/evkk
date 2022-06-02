@@ -1,4 +1,4 @@
-let koguTekst = localStorage.getItem("sonad"); //.split(",");
+let koguTekst = localStorage.getItem("sonad");
 let stoppsonad = localStorage.getItem("stoppsonad");
 let valistatud = JSON.parse(localStorage.getItem("valistatud"));
 let vorm = localStorage.getItem("vorm");
@@ -9,7 +9,9 @@ let sonadearv2 = {};
 let sonavormidearv = {};
 let sonadeprotsent = {};
 let sonavormideprotsent = {};
-const reg = /[^a-zA-Z õäöüÕÄÖÜ-]/g;
+let tabelipais = document.querySelector("#analysis_type");
+let paisetekst;
+const reg = /[^a-zA-ZõäöüÕÄÖÜ.&–/@-]/g;
 const response = new XMLHttpRequest();
 
 document.addEventListener(
@@ -25,6 +27,9 @@ document.addEventListener(
 freeze = true;
 
 if (vorm == "algvormid") {
+    paisetekst = document.createTextNode("Algvorm");
+    tabelipais.appendChild(paisetekst);
+
     let sonavormidData;
     let algvormidData;
     let finalData = {};
@@ -39,6 +44,8 @@ if (vorm == "algvormid") {
             for (let i = 0; i < data.length; i++) {
                 data[i] = data[i].replaceAll('_', '').replaceAll('=', '').replaceAll('+', '').replaceAll("'", '');
             }
+            // remove all dotted lines from wordlist
+            data = data.filter(item => item.match(/\.{2,}/g) === null);
             algvormidData = data;
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -53,6 +60,8 @@ if (vorm == "algvormid") {
         async: false,
         data: '{"tekst": "' + koguTekst + '"}',
         success: function (data) {
+            // remove all dotted lines from wordlist
+            data = data.filter(item => item.match(/\.{2,}/g) === null);
             sonavormidData = data;
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -81,13 +90,19 @@ if (vorm == "algvormid") {
     tekstiTootlus_sonavormidega(algvormidData, finalData);
 
 } else if (vorm == "sonavormid") {
+    paisetekst = document.createTextNode("Sõnavorm");
+    tabelipais.appendChild(paisetekst);
+
     $.ajax({
         type: "POST",
         url: "/api/texts/sonad",
         dataType: "json",
         contentType: "application/json; charset=utf-8",
-        data: '{"tekst": "' + koguTekst + '"}',
+        async: false,
+        data: JSON.stringify({tekst: koguTekst}),
         success: function (data) {
+            // remove all dotted lines from wordlist
+            data = data.filter(item => item.match(/\.{2,}/g) === null);
             tekstiTootlus(data);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -178,18 +193,127 @@ function tekstiTootlus(data) {
     });
 
     sorteeritud = sort_object(sonadearv);
-    let puhver = [];
     for (let i = 0; i < Object.keys(sorteeritud).length; i++) {
-        abi = "onclick=\"openPopup(\'";
-        abi += Object.keys(sorteeritud)[i] + "')";
         if(!tahesuurus) {
             kontekstiotsing = Object.keys(sorteeritud)[i] + "," + Object.keys(sorteeritud)[i].charAt(0).toUpperCase() + Object.keys(sorteeritud)[i].slice(1) + "," + Object.keys(sorteeritud)[i].toUpperCase();
         } else {
             kontekstiotsing = Object.keys(sorteeritud)[i];
         }
-        puhver.push("<tr><td>" + (i + 1) + "</td><td>" + Object.keys(sorteeritud)[i] + "</td><td>" + Object.values(sorteeritud)[i] + "</td><td>" + sonadeprotsent[Object.keys(sorteeritud)[i]] + "%</td><td><div class='dropdown'><div " + abi + "\" class='dropbtn'>⋮</div><div id='" + Object.keys(sorteeritud)[i] + "' class='dropdown-content'><a href=\"javascript:kontekst('" + kontekstiotsing + "')\">Kasutuskontekst</a><a href='https://sonaveeb.ee/search/unif/dlall/dsall/" + Object.keys(sorteeritud)[i] + "/1' target='_blank'>Sõna tähendus (sonaveeb.ee)</a><div>Sõna tõlge (neurotolge.ee)<select name='language' id='language_" + Object.keys(sorteeritud)[i] + "' onchange='translateFunc(\"" + Object.keys(sorteeritud)[i] + "\")'><option selected disabled>Vali keel</option><option value='eng'>inglise</option><option value='rus'>vene</option><option value='ger'>saksa</option><option value='fin'>soome</option><option value='lit'>leedu</option><option value='lav'>läti</option></select></div><div>Vastus:<div id='result_" + Object.keys(sorteeritud)[i] + "'></div></div></div></div>");
+
+        let tr = document.createElement("tr");
+
+        let td1 = document.createElement("td");
+        let td1_content = document.createTextNode(i + 1);
+        td1.appendChild(td1_content);
+
+        let td2 = document.createElement("td");
+        let td2_content = document.createTextNode(Object.keys(sorteeritud)[i]);
+        td2.appendChild(td2_content);
+
+        let td3 = document.createElement("td");
+        let td3_content = document.createTextNode(Object.values(sorteeritud)[i]);
+        td3.appendChild(td3_content);
+
+        let td4 = document.createElement("td");
+        let td4_content = document.createTextNode(sonadeprotsent[Object.keys(sorteeritud)[i]] + "%");
+        td4.appendChild(td4_content);
+
+        let td5 = document.createElement("td");
+        let div1 = document.createElement("div");
+        div1.className = "dropdown";
+        let div2 = document.createElement("div");
+        div2.setAttribute("onclick", "openPopup(\'" + Object.keys(sorteeritud)[i] + "')");
+        div2.className = "dropbtn";
+        let div2_content = document.createTextNode("⋮");
+        div2.appendChild(div2_content);
+        let div3 = document.createElement("div");
+        div3.setAttribute("id", Object.keys(sorteeritud)[i]);
+        div3.className = "dropdown-content";
+        let a1 = document.createElement("a");
+        a1.setAttribute("href", "javascript:kontekst('" + kontekstiotsing + "')");
+        let a1_content = document.createTextNode("Kasutuskontekst");
+        a1.appendChild(a1_content);
+        let a2 = document.createElement("a");
+        a2.setAttribute("href", "https://sonaveeb.ee/search/unif/dlall/dsall/" + Object.keys(sorteeritud)[i] + "/1");
+        a2.setAttribute("target", "_blank");
+        let a2_content = document.createTextNode("Sõna tähendus (sonaveeb.ee)");
+        a2.appendChild(a2_content);
+        let div4 = document.createElement("div");
+        let div4_content = document.createTextNode("Sõna tõlge (neurotolge.ee)");
+        div4.appendChild(div4_content);
+        let select = document.createElement("select");
+        select.setAttribute("name", "language");
+        select.setAttribute("id", "language_" + Object.keys(sorteeritud)[i]);
+        select.setAttribute("onchange", "translateFunc('" + Object.keys(sorteeritud)[i] + "')");
+        let option1 = document.createElement("option");
+        option1.setAttribute("selected", "");
+        option1.setAttribute("disabled", "");
+        let option1_content = document.createTextNode("Vali keel");
+        option1.appendChild(option1_content);
+
+        let option2 = document.createElement("option");
+        option2.setAttribute("value", "eng");
+        let option2_content = document.createTextNode("inglise");
+        option2.appendChild(option2_content);
+
+        let option3 = document.createElement("option");
+        option3.setAttribute("value", "rus");
+        let option3_content = document.createTextNode("vene");
+        option3.appendChild(option3_content);
+
+        let option4 = document.createElement("option");
+        option4.setAttribute("value", "ger");
+        let option4_content = document.createTextNode("saksa");
+        option4.appendChild(option4_content);
+
+        let option5 = document.createElement("option");
+        option5.setAttribute("value", "fin");
+        let option5_content = document.createTextNode("soome");
+        option5.appendChild(option5_content);
+
+        let option6 = document.createElement("option");
+        option6.setAttribute("value", "lit");
+        let option6_content = document.createTextNode("leedu");
+        option6.appendChild(option6_content);
+
+        let option7 = document.createElement("option");
+        option7.setAttribute("value", "lav");
+        let option7_content = document.createTextNode("läti");
+        option7.appendChild(option7_content);
+
+        let div5 = document.createElement("div");
+        let div5_content = document.createTextNode("Vastus: ");
+        div5.appendChild(div5_content);
+        let div6 = document.createElement("div");
+        div6.setAttribute("id", "result_" + Object.keys(sorteeritud)[i]);
+        div5.appendChild(div6);
+
+        select.appendChild(option1);
+        select.appendChild(option2);
+        select.appendChild(option3);
+        select.appendChild(option4);
+        select.appendChild(option5);
+        select.appendChild(option6);
+        select.appendChild(option7);
+
+        div4.appendChild(select);
+
+        div3.appendChild(a1);
+        div3.appendChild(a2);
+        div3.appendChild(div4);
+        div3.appendChild(div5);
+
+        div1.appendChild(div2);
+        div1.appendChild(div3);
+        td5.appendChild(div1);
+        
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        tr.appendChild(td5);
+        tabel.appendChild(tr);
     }
-    tabel.innerHTML = puhver.join(' ');
 
     tabelElement = $('#words').DataTable({
         "pagingType": "full_numbers",
@@ -211,7 +335,6 @@ function tekstiTootlus(data) {
 }
 
 function tekstiTootlus_sonavormidega(data, sonavormidData) {
-    //data = JSON.parse(data);
     let dataForContext = [];
     Object.assign(dataForContext, data);
     for (let i = 0; i < data.length; i++) {
@@ -282,8 +405,6 @@ function tekstiTootlus_sonavormidega(data, sonavormidData) {
         }
     });
 
-    let puhver = [];
-
     if(tahesuurus) {
         sorteerimisalus = sorteeritud2;
     } else {
@@ -298,11 +419,120 @@ function tekstiTootlus_sonavormidega(data, sonavormidData) {
             otsing = sonavormidData[Object.keys(sorteerimisalus)[i]];
         }
 
-        abi = "onclick=\"openPopup(\'";
-        abi += Object.keys(sorteeritud2)[i] + "')";
-        puhver.push("<tr><td>" + (i + 1) + "</td><td>" + Object.keys(sorteeritud2)[i] + "</td><td>" + Object.values(sorteeritud2)[i] + "</td><td>" + sonadeprotsent[Object.keys(sorteeritud2)[i]] + "%</td><td><div class='dropdown'><div " + abi + "\" class='dropbtn'>⋮</div><div id='" + Object.keys(sorteeritud2)[i] + "' class='dropdown-content'><a href=\"javascript:kontekst('" + otsing + "')\">Kasutuskontekst</a><a href='https://sonaveeb.ee/search/unif/dlall/dsall/" + Object.keys(sorteeritud2)[i] + "/1' target='_blank'>Sõna tähendus (sonaveeb.ee)</a><div>Sõna tõlge (neurotolge.ee)<select name='language' id='language_" + Object.keys(sorteeritud2)[i] + "' onchange='translateFunc(\"" + Object.keys(sorteeritud2)[i] + "\")'><option selected disabled>Vali keel</option><option value='eng'>inglise</option><option value='rus'>vene</option><option value='ger'>saksa</option><option value='fin'>soome</option><option value='lit'>leedu</option><option value='lav'>läti</option></select></div><div>Vastus:<div id='result_" + Object.keys(sorteeritud2)[i] + "'></div></div></div></div>");
+        let tr = document.createElement("tr");
+
+        let td1 = document.createElement("td");
+        let td1_content = document.createTextNode(i + 1);
+        td1.appendChild(td1_content);
+
+        let td2 = document.createElement("td");
+        let td2_content = document.createTextNode(Object.keys(sorteeritud2)[i]);
+        td2.appendChild(td2_content);
+
+        let td3 = document.createElement("td");
+        let td3_content = document.createTextNode(Object.values(sorteeritud2)[i]);
+        td3.appendChild(td3_content);
+
+        let td4 = document.createElement("td");
+        let td4_content = document.createTextNode(sonadeprotsent[Object.keys(sorteeritud2)[i]] + "%");
+        td4.appendChild(td4_content);
+
+        let td5 = document.createElement("td");
+        let div1 = document.createElement("div");
+        div1.className = "dropdown";
+        let div2 = document.createElement("div");
+        div2.setAttribute("onclick", "openPopup(\'" + Object.keys(sorteeritud2)[i] + "')");
+        div2.className = "dropbtn";
+        let div2_content = document.createTextNode("⋮");
+        div2.appendChild(div2_content);
+        let div3 = document.createElement("div");
+        div3.setAttribute("id", Object.keys(sorteeritud2)[i]);
+        div3.className = "dropdown-content";
+        let a1 = document.createElement("a");
+        a1.setAttribute("href", "javascript:kontekst('" + otsing + "')");
+        let a1_content = document.createTextNode("Kasutuskontekst");
+        a1.appendChild(a1_content);
+        let a2 = document.createElement("a");
+        a2.setAttribute("href", "https://sonaveeb.ee/search/unif/dlall/dsall/" + Object.keys(sorteeritud2)[i] + "/1");
+        a2.setAttribute("target", "_blank");
+        let a2_content = document.createTextNode("Sõna tähendus (sonaveeb.ee)");
+        a2.appendChild(a2_content);
+        let div4 = document.createElement("div");
+        let div4_content = document.createTextNode("Sõna tõlge (neurotolge.ee)");
+        div4.appendChild(div4_content);
+        let select = document.createElement("select");
+        select.setAttribute("name", "language");
+        select.setAttribute("id", "language_" + Object.keys(sorteeritud2)[i]);
+        select.setAttribute("onchange", "translateFunc('" + Object.keys(sorteeritud2)[i] + "')");
+        let option1 = document.createElement("option");
+        option1.setAttribute("selected", "");
+        option1.setAttribute("disabled", "");
+        let option1_content = document.createTextNode("Vali keel");
+        option1.appendChild(option1_content);
+
+        let option2 = document.createElement("option");
+        option2.setAttribute("value", "eng");
+        let option2_content = document.createTextNode("inglise");
+        option2.appendChild(option2_content);
+
+        let option3 = document.createElement("option");
+        option3.setAttribute("value", "rus");
+        let option3_content = document.createTextNode("vene");
+        option3.appendChild(option3_content);
+
+        let option4 = document.createElement("option");
+        option4.setAttribute("value", "ger");
+        let option4_content = document.createTextNode("saksa");
+        option4.appendChild(option4_content);
+
+        let option5 = document.createElement("option");
+        option5.setAttribute("value", "fin");
+        let option5_content = document.createTextNode("soome");
+        option5.appendChild(option5_content);
+
+        let option6 = document.createElement("option");
+        option6.setAttribute("value", "lit");
+        let option6_content = document.createTextNode("leedu");
+        option6.appendChild(option6_content);
+
+        let option7 = document.createElement("option");
+        option7.setAttribute("value", "lav");
+        let option7_content = document.createTextNode("läti");
+        option7.appendChild(option7_content);
+
+        let div5 = document.createElement("div");
+        let div5_content = document.createTextNode("Vastus: ");
+        div5.appendChild(div5_content);
+        let div6 = document.createElement("div");
+        div6.setAttribute("id", "result_" + Object.keys(sorteeritud2)[i]);
+        div5.appendChild(div6);
+
+        select.appendChild(option1);
+        select.appendChild(option2);
+        select.appendChild(option3);
+        select.appendChild(option4);
+        select.appendChild(option5);
+        select.appendChild(option6);
+        select.appendChild(option7);
+
+        div4.appendChild(select);
+
+        div3.appendChild(a1);
+        div3.appendChild(a2);
+        div3.appendChild(div4);
+        div3.appendChild(div5);
+
+        div1.appendChild(div2);
+        div1.appendChild(div3);
+        td5.appendChild(div1);
+        
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        tr.appendChild(td5);
+        tabel.appendChild(tr);
     }
-    tabel.innerHTML = puhver.join(' ');
 
     tabelElement = $('#words').DataTable({
         "pagingType": "full_numbers",
@@ -359,6 +589,7 @@ function kontekst(sona) {
 
 function translateFunc(sona) {
     let language = document.getElementById("language_" + sona).value;
+    let element = document.getElementById("result_" + sona);
     const json = JSON.stringify({
         text: sona,
         src: "est",
@@ -370,13 +601,15 @@ function translateFunc(sona) {
     response.send(json);
 
     response.onload = () => {
-        result = response.response.split(":").pop();
+        result = JSON.parse(response.response).result;
 
         if ((language = "rus")) {
             var result = result.replace(/\\u/g, "&#x");
         }
 
-        document.getElementById("result_" + sona).innerHTML = result.substring(1, result.length - 3);
+        resultElement = document.createTextNode(result);
+        element.textContent = "";
+        element.appendChild(resultElement);
     };
 }
 
@@ -394,21 +627,6 @@ function salvestaFailina(failityyp) {
         location.reload();
     }
 }
-
-// tabelElement = $('#words').DataTable({
-//     "pagingType": "full_numbers",
-//     "pageLength": 50,
-//     "columns": [
-//         { "searchable": false },
-//         null,
-//         null,
-//         null,
-//         { "searchable": false }
-//     ],
-//     language: {
-//         url: '../json/dataTables.estonian.json'
-//     }
-// });
 
 function removeTableColumn(str) {
     // Get target th with the name you want to remove.

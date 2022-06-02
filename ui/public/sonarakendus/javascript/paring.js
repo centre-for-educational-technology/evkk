@@ -98,46 +98,137 @@ document.getElementById("koikkorpused").addEventListener("click", function() {
     }
 })
 
-document.getElementById("type").addEventListener("click", function() {
-    if(document.getElementById("type").value != "teadmata") {
-        document.getElementById("typeOn").checked = true;
+let element_type = document.getElementById("type");
+let element_level = document.getElementById("level");
+let element_usedmaterials = document.getElementById("usedmaterials");
+let element_addedyear = document.getElementById("addedyear");
+let element_characters = document.getElementById("characters");
+let element_words = document.getElementById("words");
+let element_sentences = document.getElementById("sentences");
+let element_age = document.getElementById("age");
+let element_gender = document.getElementById("gender");
+let element_education = document.getElementById("education");
+let element_nativelang = document.getElementById("nativelang");
+let element_country = document.getElementById("country");
+
+let element_typeOn = document.getElementById("typeOn");
+let element_levelOn = document.getElementById("levelOn");
+let element_usedmaterialsOn = document.getElementById("usedmaterialsOn");
+let element_addedyearOn = document.getElementById("addedyearOn");
+let element_charactersOn = document.getElementById("charactersOn");
+let element_wordsOn = document.getElementById("wordsOn");
+let element_sentencesOn = document.getElementById("sentencesOn");
+let element_ageOn = document.getElementById("ageOn");
+let element_genderOn = document.getElementById("genderOn");
+let element_educationOn = document.getElementById("educationOn");
+let element_nativelangOn = document.getElementById("nativelangOn");
+let element_countryOn = document.getElementById("countryOn");
+
+element_type.addEventListener("click", function() {
+    if(element_type.value != "teadmata") {
+        element_typeOn.checked = true;
+        element_typeOn.disabled = false;
     } else {
-        document.getElementById("typeOn").checked = false;
+        element_typeOn.checked = false;
+        element_typeOn.disabled = true;
     }
+});
+
+element_typeOn.addEventListener("click", function() {
+    element_typeOn.disabled = true;
+    element_type.value = "teadmata";
 });
 
 document.getElementById("textlangOn").checked = true;
 
-document.getElementById("level").addEventListener("click", function() {
-    if(document.getElementById("level").value != "teadmata") {
-        document.getElementById("levelOn").checked = true;
+element_level.addEventListener("click", function() {
+    if(element_level.value != "teadmata") {
+        element_levelOn.checked = true;
+        element_levelOn.disabled = false;
     } else {
-        document.getElementById("levelOn").checked = false;
+        element_levelOn.checked = false;
+        element_levelOn.disabled = true;
     }
 });
 
-document.getElementById("usedmaterials").addEventListener("click", function() {
-    if(document.getElementById("usedmaterials").value != "teadmata") {
-        document.getElementById("usedmaterialsOn").checked = true;
+element_levelOn.addEventListener("click", function() {
+    element_levelOn.disabled = true;
+    element_level.value = "teadmata";
+});
+
+element_usedmaterials.addEventListener("click", function() {
+    if(element_usedmaterials.value != "teadmata") {
+        element_usedmaterialsOn.checked = true;
+        element_usedmaterialsOn.disabled = false;
     } else {
-        document.getElementById("usedmaterialsOn").checked = false;
+        element_usedmaterialsOn.checked = false;
+        element_usedmaterialsOn.disabled = true;
     }
 });
 
-// document.getElementById("characters").addEventListener("change", function() {
-//     if(document.getElementById("characters").value != "") {
-//         document.getElementById("charactersOn").checked = true;
-//     } else {
-//         document.getElementById("charactersOn").checked = false;
-//     }
-// });
+element_usedmaterialsOn.addEventListener("click", function() {
+    element_usedmaterialsOn.disabled = true;
+    element_usedmaterials.value = "teadmata";
+});
 
-document.getElementById("nativelang").addEventListener("click", function() {
-    if(document.getElementById("nativelang").value != "teadmata") {
-        document.getElementById("nativelangOn").checked = true;
+element_addedyear.addEventListener("change", function() {
+    if(element_addedyear.value != "") {
+        element_addedyearOn.checked = true;
+        element_addedyearOn.disabled = false;
     } else {
-        document.getElementById("nativelangOn").checked = false;
+        element_addedyearOn.checked = false;
+        element_addedyearOn.disabled = true;
     }
+});
+
+element_addedyearOn.addEventListener("click", function() {
+    element_addedyearOn.disabled = true;
+    element_addedyear.value = "";
+});
+
+element_characters.addEventListener("change", function() {
+    if(element_characters.value != "") {
+        element_charactersOn.checked = true;
+        element_charactersOn.disabled = false;
+    } else {
+        element_charactersOn.checked = false;
+        element_charactersOn.disabled = true;
+    }
+});
+
+element_charactersOn.addEventListener("click", function() {
+    element_charactersOn.disabled = true;
+    element_characters.value = "";
+});
+
+element_words.addEventListener("change", function() {
+    if(element_words.value != "") {
+        element_wordsOn.checked = true;
+        element_wordsOn.disabled = false;
+    } else {
+        element_wordsOn.checked = false;
+        element_wordsOn.disabled = true;
+    }
+});
+
+element_wordsOn.addEventListener("click", function() {
+    element_wordsOn.disabled = true;
+    element_words.value = "";
+});
+
+element_sentences.addEventListener("change", function() {
+    if(element_sentences.value != "") {
+        element_sentencesOn.checked = true;
+        element_sentencesOn.disabled = false;
+    } else {
+        element_sentencesOn.checked = false;
+        element_sentencesOn.disabled = true;
+    }
+});
+
+element_sentencesOn.addEventListener("click", function() {
+    element_sentencesOn.disabled = true;
+    element_sentences.value = "";
 });
 
 /* document.getElementById("homelang").addEventListener("click", function() {
@@ -148,48 +239,84 @@ document.getElementById("nativelang").addEventListener("click", function() {
     }
 }); */
 
-document.getElementById("gender").addEventListener("click", function() {
-    if(document.getElementById("gender").value != "teadmata") {
-        document.getElementById("genderOn").checked = true;
+element_age.addEventListener("click", function() {
+    if(element_age.value != "teadmata") {
+        element_ageOn.checked = true;
+        element_ageOn.disabled = false;
     } else {
-        document.getElementById("genderOn").checked = false;
+        element_ageOn.checked = false;
+        element_ageOn.disabled = true;
     }
 });
 
-document.getElementById("education").addEventListener("click", function() {
-    if(document.getElementById("education").value != "teadmata") {
-        document.getElementById("educationOn").checked = true;
+element_ageOn.addEventListener("click", function() {
+    element_ageOn.disabled = true;
+    element_age.value = "teadmata";
+});
+
+element_gender.addEventListener("click", function() {
+    if(element_gender.value != "teadmata") {
+        element_genderOn.checked = true;
+        element_genderOn.disabled = false;
     } else {
-        document.getElementById("educationOn").checked = false;
+        element_genderOn.checked = false;
+        element_genderOn.disabled = true;
     }
 });
 
-document.getElementById("addedyear").addEventListener("change", function() {
-    if(document.getElementById("addedyear").value != "") {
-        document.getElementById("addedyearOn").checked = true;
+element_genderOn.addEventListener("click", function() {
+    element_genderOn.disabled = true;
+    element_gender.value = "teadmata";
+});
+
+element_education.addEventListener("click", function() {
+    if(element_education.value != "teadmata") {
+        element_educationOn.checked = true;
+        element_educationOn.disabled = false;
     } else {
-        document.getElementById("addedyearOn").checked = false;
+        element_educationOn.checked = false;
+        element_educationOn.disabled = true;
     }
 });
 
-document.getElementById("age").addEventListener("click", function() {
-    if(document.getElementById("age").value != "teadmata") {
-        document.getElementById("ageOn").checked = true;
+element_educationOn.addEventListener("click", function() {
+    element_educationOn.disabled = true;
+    element_education.value = "teadmata";
+});
+
+element_nativelang.addEventListener("click", function() {
+    if(element_nativelang.value != "teadmata") {
+        element_nativelangOn.checked = true;
+        element_nativelangOn.disabled = false;
     } else {
-        document.getElementById("ageOn").checked = false;
+        element_nativelangOn.checked = false;
+        element_nativelangOn.disabled = true;
     }
 });
 
-document.getElementById("country").addEventListener("click", function() {
-    if(document.getElementById("country").value != "teadmata") {
-        document.getElementById("countryOn").checked = true;
+element_nativelangOn.addEventListener("click", function() {
+    element_nativelangOn.disabled = true;
+    element_nativelang.value = "teadmata";
+});
+
+element_country.addEventListener("click", function() {
+    if(element_country.value != "teadmata") {
+        element_countryOn.checked = true;
+        element_countryOn.disabled = false;
     } else {
-        document.getElementById("countryOn").checked = false;
+        element_countryOn.checked = false;
+        element_countryOn.disabled = true;
     }
+});
+
+element_countryOn.addEventListener("click", function() {
+    element_countryOn.disabled = true;
+    element_country.value = "teadmata";
 });
 
 function submitted() {
     values = [];
+    countValues = [];
     korpusValues = '';
 
     if(k2olymp.checked) {
@@ -218,36 +345,37 @@ function submitted() {
     } */
     values.push(korpusValues);
 
-    if(document.querySelector("#typeOn").checked) {
-        type = document.querySelector("#type").value;
-        values.push(type);
+    if(element_typeOn.checked) {
+        values.push(element_type.value);
     } else {
-        type = "NO";
         values.push("NO");
     }
-    textlang = document.querySelector("#textlang").value;
-    values.push(textlang);
-    if(document.querySelector("#levelOn").checked) {
-        level = document.querySelector("#level").value;
-        values.push(level);
+    values.push(document.querySelector("#textlang").value);
+    if(element_levelOn.checked) {
+        values.push(element_level.value);
     } else {
-        level = "NO";
         values.push("NO");
     }
-    if(document.querySelector("#usedmaterialsOn").checked) {
-        usedmaterials = document.querySelector("#usedmaterials").value;
-        values.push(usedmaterials);
+    if(element_usedmaterialsOn.checked) {
+        values.push(element_usedmaterials.value);
     } else {
-        usedmaterials = "NO";
         values.push("NO");
     }
-    // if(document.querySelector("#charactersOn").checked) {
-    //     characters = document.querySelector("#characters").value;
-    //     values.push(characters);
-    // } else {
-    //     characters = "NO";
-    //     values.push("NO");
-    // }
+    if(element_charactersOn.checked) {
+        countValues.push(element_characters.value);
+    } else {
+        countValues.push("NO");
+    }
+    if(element_wordsOn.checked) {
+        countValues.push(element_words.value);
+    } else {
+        countValues.push("NO");
+    }
+    if(element_sentencesOn.checked) {
+        countValues.push(element_sentences.value);
+    } else {
+        countValues.push("NO");
+    }
     // if(document.querySelector("#exercise").checked) {
     //     exercise = true;
     //     values.push(true);
@@ -255,11 +383,9 @@ function submitted() {
     //     exercise = "NO";
     //     values.push("NO");
     // }
-    if(document.querySelector("#nativelangOn").checked) {
-        nativelang = document.querySelector("#nativelang").value;
-        values.push(nativelang);
+    if(element_nativelangOn.checked) {
+        values.push(element_nativelang.value);
     } else {
-        nativelang = "NO";
         values.push("NO");
     }
     /* if(document.querySelector("#homelangOn").checked) {
@@ -269,29 +395,23 @@ function submitted() {
         homelang = "NO";
         values.push("NO");
     } */
-    if(document.querySelector("#genderOn").checked) {
-        gender = document.querySelector("#gender").value;
-        values.push(gender);
+    if(element_genderOn.checked) {
+        values.push(element_gender.value);
     } else {
-        gender = "NO";
         values.push("NO");
     }
-    if(document.querySelector("#educationOn").checked) {
-        education = document.querySelector("#education").value;
-        values.push(education);
+    if(element_educationOn.checked) {
+        values.push(element_education.value);
     } else {
-        education = "NO";
         values.push("NO");
     }
-    if(document.querySelector("#addedyearOn").checked) {
-        addedyear = document.querySelector("#addedyear").value;
-        values.push(addedyear);
+    if(element_addedyearOn.checked) {
+        values.push(element_addedyear.value);
     } else {
-        addedyear = "NO";
         values.push("NO");
     }
-    if(document.querySelector("#ageOn").checked) {
-        age = document.querySelector("#age").value;
+    if(element_ageOn.checked) {
+        age = element_age.value;
         if(age == "kuni18") {
             vahevaartus = "kuni18";
             for(let i = 0; i < 19; i++) {
@@ -318,11 +438,10 @@ function submitted() {
             values.push(vahevaartus);
         }
     } else {
-        age = "NO";
         values.push("NO");
     }
-    if(document.querySelector("#countryOn").checked) {
-        country = document.querySelector("#country").value;
+    if(element_countryOn.checked) {
+        country = element_country.value;
         if(country == "eesti") {
             //values.push(["idaviru", "tallinn", "tartu"]);
             values.push("idaviru,tallinn,tartu,Tallinn,Maardu linn,Kiili vald,Rae vald,Kohtla-Järve linn,Narva linn,Narva-Jõesuu linn,Valga vald,Jõhvi vald,Sillamäe linn,Tartu linn,Viimsi vald,Mustvee vald,Anija vald,Rakvere vald,Pärnu linn,Toila vald,Lääne-Harju vald,Kambja vald,Alutaguse vald,Saue vald,Viru-Nigula vald,Võru vald,Rakvere linn,Tori vald,Elva vald,Jõgeva vald,Harku vald,Hiiumaa vald,Viljandi linn,Tartu vald,Luunja vald");
@@ -330,7 +449,6 @@ function submitted() {
             values.push(country);
         }
     } else {
-        country = "NO";
         values.push("NO");
     }
 
@@ -343,7 +461,7 @@ function submitted() {
         $.ajax({
             type: "POST",
             url: "/api/texts/detailneparing",
-            data: JSON.stringify(values),
+            data: JSON.stringify([values, countValues]),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function(data) {
@@ -371,11 +489,23 @@ function submitted() {
 }
 
     function tekstideKuvamine() {
-        let puhver = [];
+        let tekstideLoendur = 0;
         for(let i = 0; i < tekstideIDd.length; i++) {
-            puhver.push("<tr value='" + tekstideIDd[i] + "'><a href='javascript:eelvaade(\"" + tekstideIDd[i] + "\")'>" + tekstidePealkirjad[i] + "</a></tr>");
+            let tabel = document.querySelector("#tabel");
+            let tr = document.createElement("tr");
+            let a = document.createElement("a");
+            let textContent = document.createTextNode(tekstidePealkirjad[i]);
+
+            tr.setAttribute("value", tekstideIDd[i]);
+            a.setAttribute("href", "javascript:eelvaade('" + tekstideIDd[i] + "')");
+
+            a.appendChild(textContent);
+            tr.appendChild(a);
+            tabel.appendChild(tr);
+
+            tekstideLoendur++;
         }
-        kaivitaTabel(puhver);
+        kaivitaTabel(tekstideLoendur);
     }
 
     function eelvaade(tekstiID) {
@@ -386,7 +516,6 @@ function submitted() {
             url: "/api/texts/kysitekstimetainfo",
             data: {id : tekstiID},
             success: function(data) {
-                //console.log(data);
                 localStorage.setItem('raw-metainfo', data);
             }
         })
@@ -413,11 +542,10 @@ function submitted() {
         });
     }
 
-    function kaivitaTabel(puhver) {
-        document.querySelector("#tabel").innerHTML = puhver.join(' ');
+    function kaivitaTabel(tekstideLoendur) {
         document.querySelector("#vorm").style.display = "none";
         document.querySelector("#texts").style.display = "block";
-        document.querySelector("#textAmount").textContent = "Leiti " + puhver.length + " teksti.";
+        document.querySelector("#textAmount").textContent = "Leiti " + tekstideLoendur + " teksti.";
         document.querySelector("#cover-spin").style.display = "none";
 		freeze = false;
     }

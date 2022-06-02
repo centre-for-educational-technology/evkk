@@ -17,7 +17,6 @@ dependencies {
   implementation "io.lettuce:lettuce-core"
 
   // Other
-  implementation "commons-io:commons-io:$commonsIOVersion"
   implementation 'org.apache.tika:tika-core:2.2.1'
   implementation 'org.apache.tika:tika-parser-miscoffice-module:2.2.1'
 
