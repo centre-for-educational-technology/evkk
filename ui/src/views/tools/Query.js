@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import { Checkbox, InputLabel, MenuItem, Select } from '@mui/material';
+import { Button, Checkbox, FormControl, InputLabel, MenuItem, Select, Slider } from '@mui/material';
 import "../../styles/Query.css";
 
 function Query() {
+
+    const selectWidth = 180;
+
     const [corpusCheckboxStatus, setCorpusCheckboxStatus] = useState({
         cFqPphvYi: false,
         clWmOIrLa: false,
@@ -14,19 +17,32 @@ function Query() {
     });
 
     const [textData, setTextData] = useState({
-        type: '',
-        language: '',
-        level: '',
-        usedMaterials: '',
+        type: 'teadmata',
+        language: 'eesti',
+        level: 'teadmata',
+        usedMaterials: 'teadmata',
         addedYear: '',
         characters: '',
         words: '',
         sentences: ''
     });
 
+    const [sliderData, setSliderData] = useState({
+        addedYear: [2015, 2020]
+    })
+
+    const [authorData, setAuthorData] = useState({
+        age: 'teadmata',
+        gender: 'teadmata',
+        education: 'teadmata',
+        nativeLang: 'teadmata',
+        country: 'teadmata'
+    });
+
     function submitted() {
         console.log(corpusCheckboxStatus);
         console.log(textData);
+        console.log(authorData);
     }
 
     const alterCorpusCheckbox = (event) => {
@@ -49,11 +65,23 @@ function Query() {
         setTextData(newTextData);
     }
 
-    const removeTextData = (event) => {
+    const alterSliderData = (event) => {
+        let newSliderData = {...sliderData};
+        newSliderData[event.target.name] = event.target.value;
+        setSliderData(newSliderData);
+    }
+
+    const alterAuthorData = (event) => {
+        let newAuthorData = {...authorData};
+        newAuthorData[event.target.name] = event.target.value;
+        setAuthorData(newAuthorData);
+    }
+
+    /* const removeTextData = (event) => {
         let newTextData = {...textData};
         newTextData[event.target.id] = '';
         setTextData(newTextData);
-    }
+    } */
 
     return (
         <div className={"container"}>
@@ -145,81 +173,108 @@ function Query() {
                     <div>
                         <b>Teksti andmed</b>
                         <br/><br/>
-                        <Checkbox
-                            id="type"
-                            checked={textData.type !== ''}
-                            disabled={textData.type === ''}
-                            onChange={removeTextData}
+                        <FormControl size="small">
+                            <InputLabel id="type-label">Teksti liik</InputLabel>
+                            <Select
+                                sx={{ minWidth: selectWidth }}
+                                labelId="type-label"
+                                name="type"
+                                value={textData.type}
+                                label="Teksti liik"
+                                onChange={alterTextData}
+                            >
+                                <MenuItem value="teadmata" className="empty-select"></MenuItem>
+                                <MenuItem value="isikiri">isiklik kiri</MenuItem>
+                                <MenuItem value="amtkiri">ametlik kiri</MenuItem>
+                                <MenuItem value="essee">essee</MenuItem>
+                                <MenuItem value="referaat">referaat</MenuItem>
+                                <MenuItem value="trilumunud">trükis ilmunud</MenuItem>
+                                <MenuItem value="analyys">analüüs</MenuItem>
+                                <MenuItem value="vastkys">vastus küsimusele</MenuItem>
+                                <MenuItem value="ymberjutustus">ümberjutustus</MenuItem>
+                                <MenuItem value="tolge">tõlge</MenuItem>
+                                <MenuItem value="harjutus">harjutus</MenuItem>
+                                <MenuItem value="teadus">teadusartikkel</MenuItem>
+                                <MenuItem value="monograafia">monograafia</MenuItem>
+                                <MenuItem value="vaitekiri">väitekiri</MenuItem>
+                                <MenuItem value="ma">MA-töö</MenuItem>
+                                <MenuItem value="batoo">BA-töö</MenuItem>
+                                <MenuItem value="arvamuslugu">arvamuslugu</MenuItem>
+                                <MenuItem value="teade">teade</MenuItem>
+                                <MenuItem value="kirjeldus/jutustus">kirjeldus/jutustus</MenuItem>
+                                <MenuItem value="muu">muu</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <br/><br/>
+                        <FormControl size="small">
+                            <InputLabel id="language-label">Teksti keel</InputLabel>
+                            <Select
+                                sx={{ minWidth: selectWidth }}
+                                labelId="language-label"
+                                name="language"
+                                value={textData.language}
+                                label="Teksti keel"
+                                onChange={alterTextData}
+                            >
+                                <MenuItem value="eesti">eesti</MenuItem>
+                                <MenuItem value="inglise">inglise</MenuItem>
+                                <MenuItem value="soome">soome</MenuItem>
+                                <MenuItem value="vene">vene</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <br/><br/>
+                        <FormControl size="small">
+                            <InputLabel id="level-label">Teksti tase</InputLabel>
+                            <Select
+                                sx={{ minWidth: selectWidth }}
+                                labelId="level-label"
+                                name="level"
+                                value={textData.level}
+                                label="Teksti tase"
+                                onChange={alterTextData}
+                            >
+                                <MenuItem value="teadmata" className="empty-select"></MenuItem>
+                                <MenuItem value="A">A</MenuItem>
+                                <MenuItem value="B">B</MenuItem>
+                                <MenuItem value="A">C</MenuItem>
+                                <MenuItem value="A1">A1</MenuItem>
+                                <MenuItem value="A2">A2</MenuItem>
+                                <MenuItem value="B1">B1</MenuItem>
+                                <MenuItem value="B2">B2</MenuItem>
+                                <MenuItem value="C1">C1</MenuItem>
+                                <MenuItem value="C2">C2</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <br/><br/>
+                        <FormControl size="small">
+                            <InputLabel id="usedMaterials-label">Kasutatud õppematerjale</InputLabel>
+                            <Select
+                                sx={{ minWidth: selectWidth }}
+                                labelId="usedMaterials-label"
+                                name="usedMaterials"
+                                value={textData.usedMaterials}
+                                label="Kasutatud õppematerjale"
+                                onChange={alterTextData}
+                            >
+                                <MenuItem value="teadmata" className="empty-select"></MenuItem>
+                                <MenuItem value="jah">jah</MenuItem>
+                                <MenuItem value="ei">ei</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <br/><br/>
+                        <InputLabel id="addedYear-label">Teksti lisamise aasta</InputLabel>
+                        <Slider
+                            getAriaLabel={() => 'Teksti lisamise aasta'}
+                            value={sliderData.addedYear}
+                            onChange={alterSliderData}
+                            valueLabelDisplay="auto"
+                            labelId="usedMaterials-label"
+                            label="Teksti lisamise aasta"
+                            name="addedYear"
+                            min={2004}
+                            max={new Date().getFullYear()}
+                            sx={{ width: 300 }}
                         />
-                        <InputLabel id="type-label">Teksti liik</InputLabel>
-                        <Select
-                            sx={{ minWidth: 120 }}
-                            labelId="type-label"
-                            name="type"
-                            value={textData.type}
-                            label="Teksti liik"
-                            onChange={alterTextData}
-                        >
-                            <MenuItem value="isikiri">isiklik kiri</MenuItem>
-                        </Select>
-                        {/* <select name="type" id="type">
-                            <option value="teadmata"></option>
-                            <option value="isikiri">isiklik kiri</option>
-                            <option value="amtkiri">ametlik kiri</option>
-                            <option value="essee">essee</option>
-                            <option value="referaat">referaat</option>
-                            <option value="trilumunud">trükis ilmunud</option>
-                            <option value="analyys">analüüs</option>
-                            <option value="vastkys">vastus küsimusele</option>
-                            <option value="ymberjutustus">ümberjutustus</option>
-                            <option value="tolge">tõlge</option>
-                            <option value="harjutus">harjutus</option>
-                            <option value="teadus">teadusartikkel</option>
-                            <option value="monograafia">monograafia</option>
-                            <option value="vaitekiri">väitekiri</option>
-                            <option value="ma">MA-töö</option>
-                            <option value="batoo">BA-töö</option>
-                            <option value="arvamuslugu">arvamuslugu</option>
-                            <option value="teade">teade</option>
-                            <option value="kirjeldus/jutustus">kirjeldus/jutustus</option>
-                            <option value="muu">muu</option>
-                        </select> */}
-                        <br/>
-                        <input type="checkbox" name="textlangOn" id="textlangOn" className="checkboxBack" disabled checked/>
-                        <label htmlFor="textlang" className="selectionFront">Teksti keel</label>
-                        <select name="textlang" id="textlang">
-                            <option value="eesti">eesti</option>
-                            <option value="inglise">inglise</option>
-                            <option value="soome">soome</option>
-                            <option value="vene">vene</option>
-                        </select>
-                        <br/>
-                        <input type="checkbox" name="levelOn" id="levelOn" className="checkboxBack" disabled/>
-                        <label htmlFor="level" className="selectionFront">Teksti tase</label>
-                        <select name="level" id="level">
-                            <option value="teadmata"></option>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="A">C</option>
-                            <option value="A1">A1</option>
-                            <option value="A2">A2</option>
-                            <option value="B1">B1</option>
-                            <option value="B2">B2</option>
-                            <option value="C1">C1</option>
-                            <option value="C2">C2</option>
-                        </select>
-                        <br/>
-                        <input type="checkbox" name="usedmaterialsOn" id="usedmaterialsOn" className="checkboxBack" disabled/>
-                        <label htmlFor="usedmaterials" className="selectionFront">Kasutatud õppematerjale</label>
-                        <select name="usedmaterials" id="usedmaterials">
-                            <option value="teadmata"></option>
-                            <option value="jah">jah</option>
-                            <option value="ei">ei</option>
-                        </select>
-                        <br/>
-                        <input type="checkbox" name="addedyearOn" id="addedyearOn" className="checkboxBack" disabled/>
-                        <label htmlFor="addedyear" className="selectionFront">Teksti lisamise aasta</label>
-                        <input type="number" id="addedyear" name="addedyear" placeholder="2019" min="2004"/>
                         <br/>
                         <input type="checkbox" name="charactersOn" id="charactersOn" className="checkboxBack" disabled/>
                         <label htmlFor="characters" className="selectionFront">Tähemärke</label>
@@ -240,106 +295,154 @@ function Query() {
                     <div>
                         <b>Teksti autori andmed</b>
                         <br/><br/>
-                        <input type="checkbox" name="ageOn" id="ageOn" className="checkboxBack" disabled/>
-                        <label htmlFor="age" className="selectionFront">Vanus</label>
-                        <select name="age" id="age">
-                            <option value="teadmata"></option>
-                            <option value="kuni18">- 18</option>
-                            <option value="kuni26">18 - 26</option>
-                            <option value="kuni40">27 - 40</option>
-                            <option value="41plus">41 +</option>
-                        </select>
-                        <br/>
-                        <input type="checkbox" name="genderOn" id="genderOn" className="checkboxBack" disabled/>
-                        <label htmlFor="gender" className="selectionFront">Sugu</label>
-                        <select name="gender" id="gender">
-                            <option value="teadmata"></option>
-                            <option value="mees">mees</option>
-                            <option value="naine">naine</option>
-                            {/*<option value="muu">muu</option>*/}
-                        </select>
-                        <br/>
-                        <input type="checkbox" name="educationOn" id="educationOn" className="checkboxBack" disabled/>
-                        <label htmlFor="education" className="selectionFront">Haridus</label>
-                        <select name="education" id="education">
-                            <option value="teadmata"></option>
-                            <option value="Alg-/põhiharidus,alg,pohi">algharidus/põhiharidus</option>
-                            <option value="Keskharidus,kesk">keskharidus</option>
-                            <option value="Keskeriharidus/kutseharidus,keskeri,kutse">keskeriharidus/kutseharidus</option>
-                            <option value="Kõrgharidus,korg">kõrgharidus</option>
-                        </select>
-                        <br/>
-                        <input type="checkbox" name="nativelangOn" id="nativelangOn" className="checkboxBack" disabled/>
-                        <label htmlFor="nativelang" className="selectionFront">Emakeel</label>
-                        <select name="nativelang" id="nativelang">
-                            <option value="teadmata"></option>
-                            <option value="eesti">eesti</option>
-                            <option value="vene">vene</option>
-                            <option value="soome">soome</option>
-                            <option value="saksa">saksa</option>
-                            <option value="ukraina">ukraina</option>
-                            <option value="valgevene">valgevene</option>
-                            <option value="lati">läti</option>
-                            <option value="leedu">leedu</option>
-                            <option value="rootsi">rootsi</option>
-                            <option value="inglise">inglise</option>
-                            <option value="jidis">jidiš</option>
-                            <option value="itaalia">itaalia</option>
-                            <option value="jaapani">jaapani</option>
-                            <option value="poola">poola</option>
-                            <option value="hollandi">hollandi</option>
-                            <option value="sloveenia">sloveenia</option>
-                            <option value="heebrea">heebrea</option>
-                            <option value="prantsuse">prantsuse</option>
-                            <option value="katalaani">katalaani</option>
-                            <option value="ungari">ungari</option>
-                            <option value="tsehhi">tšehhi</option>
-                        </select>
-                        <br/>
-                        {/*<input type="checkbox" name="homelangOn" id="homelangOn" className="checkboxBack" disabled/>
-                        <label htmlFor="homelang" className="selectionFront">Kodukeel</label>
-                        <select name="homelang" id="homelang">
-                            <option value="teadmata"></option>
-                            <option value="eesti">eesti</option>
-                            <option value="vene">vene</option>
-                            <option value="soome">soome</option>
-                            <option value="saksa">saksa</option>
-                            <option value="ukraina">ukraina</option>
-                            <option value="valgevene">valgevene</option>
-                            <option value="lati">läti</option>
-                            <option value="leedu">leedu</option>
-                            <option value="rootsi">rootsi</option>
-                            <option value="inglise">inglise</option>
-                            <option value="jidis">jidiš</option>
-                            <option value="itaalia">itaalia</option>
-                            <option value="jaapani">jaapani</option>
-                            <option value="poola">poola</option>
-                            <option value="hollandi">hollandi</option>
-                            <option value="sloveenia">sloveenia</option>
-                            <option value="heebrea">heebrea</option>
-                            <option value="prantsuse">prantsuse</option>
-                            <option value="katalaani">katalaani</option>
-                            <option value="ungari">ungari</option>
-                            <option value="tsehhi">tšehhi</option>
-                        </select>
-                        <br/>*/}
-                        <input type="checkbox" name="countryOn" id="countryOn" className="checkboxBack" disabled/>
-                        <label htmlFor="country" className="selectionFront">Elukohariik</label>
-                        <select name="country" id="country">
-                            <option value="teadmata"></option>
-                            <option value="eesti">Eesti</option>
-                            <option value="soome">Soome</option>
-                            <option value="rootsi">Rootsi</option>
-                            <option value="venemaa">Venemaa</option>
-                            <option value="lati">Läti</option>
-                            <option value="leedu">Leedu</option>
-                            <option value="saksamaa">Saksamaa</option>
-                            {/*<option value="inglismaa">Suurbritannia</option>*/}
-                        </select>
+                        <FormControl size="small">
+                            <InputLabel id="age-label">Vanus</InputLabel>
+                            <Select
+                                sx={{ minWidth: selectWidth }}
+                                labelId="age-label"
+                                name="age"
+                                value={authorData.age}
+                                label="Vanus"
+                                onChange={alterAuthorData}
+                            >
+                                <MenuItem value="teadmata" className="empty-select"></MenuItem>
+                                <MenuItem value="kuni18">- 18</MenuItem>
+                                <MenuItem value="kuni26">18 - 26</MenuItem>
+                                <MenuItem value="kuni40">27 - 40</MenuItem>
+                                <MenuItem value="41plus">41 +</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <br/><br/>
+                        <FormControl size="small">
+                            <InputLabel id="gender-label">Sugu</InputLabel>
+                            <Select
+                                sx={{ minWidth: selectWidth }}
+                                labelId="gender-label"
+                                name="gender"
+                                value={authorData.gender}
+                                label="Sugu"
+                                onChange={alterAuthorData}
+                            >
+                                <MenuItem value="teadmata" className="empty-select"></MenuItem>
+                                <MenuItem value="mees">mees</MenuItem>
+                                <MenuItem value="naine">naine</MenuItem>
+                                {/*<MenuItem value="muu">muu</MenuItem>*/}
+                            </Select>
+                        </FormControl>
+                        <br/><br/>
+                        <FormControl size="small">
+                            <InputLabel id="education-label">Haridus</InputLabel>
+                            <Select
+                                sx={{ minWidth: selectWidth }}
+                                labelId="education-label"
+                                name="education"
+                                value={authorData.education}
+                                label="Haridus"
+                                onChange={alterAuthorData}
+                            >
+                                <MenuItem value="teadmata" className="empty-select"></MenuItem>
+                                <MenuItem value="Alg-/põhiharidus,alg,pohi">algharidus/põhiharidus</MenuItem>
+                                <MenuItem value="Keskharidus,kesk">keskharidus</MenuItem>
+                                <MenuItem value="Keskeriharidus/kutseharidus,keskeri,kutse">keskeriharidus/kutseharidus</MenuItem>
+                                <MenuItem value="Kõrgharidus,korg">kõrgharidus</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <br/><br/>
+                        <FormControl size="small">
+                            <InputLabel id="nativeLang-label">Emakeel</InputLabel>
+                            <Select
+                                sx={{ minWidth: selectWidth }}
+                                labelId="nativeLang-label"
+                                name="nativeLang"
+                                value={authorData.nativeLang}
+                                label="Emakeel"
+                                onChange={alterAuthorData}
+                            >
+                                <MenuItem value="teadmata" className="empty-select"></MenuItem>
+                                <MenuItem value="eesti">eesti</MenuItem>
+                                <MenuItem value="vene">vene</MenuItem>
+                                <MenuItem value="soome">soome</MenuItem>
+                                <MenuItem value="saksa">saksa</MenuItem>
+                                <MenuItem value="ukraina">ukraina</MenuItem>
+                                <MenuItem value="valgevene">valgevene</MenuItem>
+                                <MenuItem value="lati">läti</MenuItem>
+                                <MenuItem value="leedu">leedu</MenuItem>
+                                <MenuItem value="rootsi">rootsi</MenuItem>
+                                <MenuItem value="inglise">inglise</MenuItem>
+                                <MenuItem value="jidis">jidiš</MenuItem>
+                                <MenuItem value="itaalia">itaalia</MenuItem>
+                                <MenuItem value="jaapani">jaapani</MenuItem>
+                                <MenuItem value="poola">poola</MenuItem>
+                                <MenuItem value="hollandi">hollandi</MenuItem>
+                                <MenuItem value="sloveenia">sloveenia</MenuItem>
+                                <MenuItem value="heebrea">heebrea</MenuItem>
+                                <MenuItem value="prantsuse">prantsuse</MenuItem>
+                                <MenuItem value="katalaani">katalaani</MenuItem>
+                                <MenuItem value="ungari">ungari</MenuItem>
+                                <MenuItem value="tsehhi">tšehhi</MenuItem>
+                            </Select>
+                        </FormControl>
+                        {/* <br/><br/>
+                        <FormControl size="small">
+                            <InputLabel id="homeLang-label">Kodukeel</InputLabel>
+                            <Select
+                                sx={{ minWidth: selectWidth }}
+                                labelId="homeLang-label"
+                                name="homeLang"
+                                value={authorData.homeLang}
+                                label="Kodukeel"
+                                onChange={alterAuthorData}
+                            >
+                                <MenuItem value="teadmata" className="empty-select"></MenuItem>
+                                <MenuItem value="eesti">eesti</MenuItem>
+                                <MenuItem value="vene">vene</MenuItem>
+                                <MenuItem value="soome">soome</MenuItem>
+                                <MenuItem value="saksa">saksa</MenuItem>
+                                <MenuItem value="ukraina">ukraina</MenuItem>
+                                <MenuItem value="valgevene">valgevene</MenuItem>
+                                <MenuItem value="lati">läti</MenuItem>
+                                <MenuItem value="leedu">leedu</MenuItem>
+                                <MenuItem value="rootsi">rootsi</MenuItem>
+                                <MenuItem value="inglise">inglise</MenuItem>
+                                <MenuItem value="jidis">jidiš</MenuItem>
+                                <MenuItem value="itaalia">itaalia</MenuItem>
+                                <MenuItem value="jaapani">jaapani</MenuItem>
+                                <MenuItem value="poola">poola</MenuItem>
+                                <MenuItem value="hollandi">hollandi</MenuItem>
+                                <MenuItem value="sloveenia">sloveenia</MenuItem>
+                                <MenuItem value="heebrea">heebrea</MenuItem>
+                                <MenuItem value="prantsuse">prantsuse</MenuItem>
+                                <MenuItem value="katalaani">katalaani</MenuItem>
+                                <MenuItem value="ungari">ungari</MenuItem>
+                                <MenuItem value="tsehhi">tšehhi</MenuItem>
+                            </Select>
+                        </FormControl> */}
+                        <br/><br/>
+                        <FormControl size="small">
+                            <InputLabel id="country-label">Elukohariik</InputLabel>
+                            <Select
+                                sx={{ minWidth: selectWidth }}
+                                labelId="country-label"
+                                name="country"
+                                value={authorData.country}
+                                label="Elukohariik"
+                                onChange={alterAuthorData}
+                            >
+                                <MenuItem value="teadmata" className="empty-select"></MenuItem>
+                                <MenuItem value="eesti">Eesti</MenuItem>
+                                <MenuItem value="soome">Soome</MenuItem>
+                                <MenuItem value="rootsi">Rootsi</MenuItem>
+                                <MenuItem value="venemaa">Venemaa</MenuItem>
+                                <MenuItem value="lati">Läti</MenuItem>
+                                <MenuItem value="leedu">Leedu</MenuItem>
+                                <MenuItem value="saksamaa">Saksamaa</MenuItem>
+                                {/*<MenuItem value="inglismaa">Suurbritannia</MenuItem>*/}
+                            </Select>
+                        </FormControl>
                     </div>
                 </div>
                 <br/><br/>
-                <button id="submit" onClick={() => {submitted()}}>Saada päring</button>
+                <Button variant="contained" onClick={() => {submitted()}}>Saada päring</Button>
             </form>
         </div>
     )

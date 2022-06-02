@@ -68,3 +68,7 @@
   opacity: 1;
   visibility: visible;
 }
+
+.empty-select {
+  height: 40px !important;
+}
