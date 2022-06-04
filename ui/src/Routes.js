@@ -6,7 +6,7 @@ import ClusterFinder from "./views/tools/ClusterFinder";
 import {Files} from "./views/user";
 import Resource from "./views/Resource.component";
 import Correction from "./views/Correction.component";
-import Query from './views/tools/Query';
+import Query from './views/Query';
 
 class Routes extends Component {
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Checkbox, FormControl, InputLabel, MenuItem, Select, Slider } from '@mui/material';
-import "../../styles/Query.css";
+import "../styles/Query.css";
 
 function Query() {
 
