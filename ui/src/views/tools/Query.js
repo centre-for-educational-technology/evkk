@@ -5,6 +5,8 @@ import "../../styles/Query.css";
 function Query() {
 
     const selectWidth = 180;
+    const yearNow = new Date().getFullYear();
+    const defaultAddedYear = [(yearNow - 7), (yearNow - 2)];
 
     const [corpusCheckboxStatus, setCorpusCheckboxStatus] = useState({
         cFqPphvYi: false,
@@ -21,15 +23,11 @@ function Query() {
         language: 'eesti',
         level: 'teadmata',
         usedMaterials: 'teadmata',
-        addedYear: '',
+        addedYear: [],
         characters: '',
         words: '',
         sentences: ''
     });
-
-    const [sliderData, setSliderData] = useState({
-        addedYear: [2015, 2020]
-    })
 
     const [authorData, setAuthorData] = useState({
         age: 'teadmata',
@@ -65,23 +63,26 @@ function Query() {
         setTextData(newTextData);
     }
 
-    const alterSliderData = (event) => {
-        let newSliderData = {...sliderData};
-        newSliderData[event.target.name] = event.target.value;
-        setSliderData(newSliderData);
-    }
-
     const alterAuthorData = (event) => {
         let newAuthorData = {...authorData};
         newAuthorData[event.target.name] = event.target.value;
         setAuthorData(newAuthorData);
     }
 
-    /* const removeTextData = (event) => {
+    const alterSliderCheckbox = (event) => {
         let newTextData = {...textData};
-        newTextData[event.target.id] = '';
+        if (event.target.checked) {
+            if (event.target.id === 'addedYear') {
+                newTextData[event.target.id] = defaultAddedYear;
+            }
+        } else {
+            if (event.target.id === 'addedYear') {
+                newTextData[event.target.id] = [];
+            }
+        }
+        console.log(newTextData);
         setTextData(newTextData);
-    } */
+    }
 
     return (
         <div className={"container"}>
@@ -262,18 +263,26 @@ function Query() {
                             </Select>
                         </FormControl>
                         <br/><br/>
-                        <InputLabel id="addedYear-label">Teksti lisamise aasta</InputLabel>
+                        <Checkbox
+                            id="addedYear"
+                            checked={textData.addedYear.length > 0}
+                            onChange={alterSliderCheckbox}
+                        />
+                        <label id="addedYear-label">
+                            Teksti lisamise aasta
+                        </label>
                         <Slider
                             getAriaLabel={() => 'Teksti lisamise aasta'}
-                            value={sliderData.addedYear}
-                            onChange={alterSliderData}
+                            value={textData.addedYear}
+                            onChange={alterTextData}
                             valueLabelDisplay="auto"
-                            labelId="usedMaterials-label"
                             label="Teksti lisamise aasta"
                             name="addedYear"
                             min={2004}
                             max={new Date().getFullYear()}
                             sx={{ width: 300 }}
+                            disabled={textData.addedYear.length === 0}
+                            marks={[{value: 2004, label: 2004}, {value: yearNow, label: yearNow}]}
                         />
                         <br/>
                         <input type="checkbox" name="charactersOn" id="charactersOn" className="checkboxBack" disabled/>
