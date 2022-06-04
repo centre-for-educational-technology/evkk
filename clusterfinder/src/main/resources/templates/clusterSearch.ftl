@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="et">
   <head>
-    <title>Clusterfinder</title>
+    <title>Klastrileidja</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -16,6 +16,8 @@
     <!-- jQuery Datatable -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/datatables.min.js"></script>
+    <!-- jQuery validation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- TODO: Separate global styles to a separate CSS file -->
     <!-- TODO: Add support for other devices (tablets) -->
@@ -62,13 +64,30 @@
         margin-bottom: 10px;
       }
 
-      .label-w-top-margin {
-        margin-top: 15px;
-      }
-
       .large-spinner {
         width: 3rem;
         height: 3rem;
+      }
+
+      label.error {
+        color: red;
+      }
+
+      .partial-results, .all-results {
+        white-space: pre;
+      }
+
+      .show-more, .show-less {
+        cursor: pointer;
+        color: blue !important;
+      }
+
+      .show-more:after {
+        content: ' > ';
+      }
+
+      .show-less:after {
+        content: ' < ';
       }
 
       .smallspacer {
@@ -200,12 +219,14 @@
 
       SORTING_OPTIONS: undefined,
       CLUSTERS_DATA_TABLE: undefined,
+      CLUSTER_SEARCH_FORM: $("#cluster-form"),
 
       init: function () {
         ClusterSearchForm.clauseType.init();
         ClusterSearchForm.wordType.init();
         ClusterSearchForm.prepareSortingOptions();
         ClusterSearchForm.initSortingCheckboxes();
+        ClusterSearchForm.validation.setupValidation();
 
         $("#analysisLength").change(ClusterSearchForm.handleAnalysisLengthChange);
 
@@ -225,14 +246,26 @@
           "pageLength": 100,
           "pagingType": "full_numbers",
           language: {
-            // Using a CDN link here instead of a local file - local files don't work for this scenario (an AJAX request is made by the DataTables library)
-            url: "//cdn.datatables.net/plug-ins/1.11.3/i18n/et.json"
+            "processing": "[@translations.retrieveTranslation "cluster.result.table.processing" /]",
+            "lengthMenu": "[@translations.retrieveTranslation "cluster.result.table.length.menu" /]",
+            "zeroRecords": "[@translations.retrieveTranslation "cluster.result.table.no.records" /]",
+            "info": "[@translations.retrieveTranslation "cluster.result.table.info" /]",
+            "infoEmpty": "", // Needs to be an empty string in order to hide it from the UI (defaults to "Showing 0 of 0 entries" if the key is not provided)
+            "infoFiltered": "[@translations.retrieveTranslation "cluster.result.table.filtered.info" /]",
+            "search": "[@translations.retrieveTranslation "cluster.result.table.search" /]",
+            "paginate": {
+              "first": "[@translations.retrieveTranslation "cluster.result.table.pagination.first" /]",
+              "previous": "[@translations.retrieveTranslation "cluster.result.table.pagination.previous" /]",
+              "next": "[@translations.retrieveTranslation "cluster.result.table.pagination.next" /]",
+              "last": "[@translations.retrieveTranslation "cluster.result.table.pagination.last" /]"
+            }
           },
+          order: [[ 0, 'desc']],
           columns: [
             { data: 'frequency' },
             { data: 'description' },
             { data: 'markups' },
-            { data: 'usages' }
+            { data: 'usages', render: function(data, type, row, meta) { return type === 'display' ? ClusterSearchForm.util.renderUsagesColumn(data) : data.split("<br>").map(u => u).join(","); } }
           ],
           buttons: [
             {
@@ -241,29 +274,54 @@
               title: 'clusters',
               text: "[@translations.retrieveTranslation "common.export.clusters.csv" /]",
               bom: true,
+              exportOptions: { orthogonal: 'export' }
             },
             {
               extend: 'excel',
               title: 'clusters',
               text: "[@translations.retrieveTranslation "common.export.clusters.excel" /]",
+              exportOptions: { orthogonal: 'export' }
             }
           ],
         });
 
-        $("#morfoAnalysis, #syntacticAnalysis, #punctuationAnalysis").change(function () {
-          $("#wordtypeAnalysis").prop("checked", false);
+        // Need to bind these events on the whole document, since these elements do not exist yet during initial load
+        $(document).on('click', 'a.show-more', function() {
+          const parentDiv = $(this).closest("div.truncated-results");
+          parentDiv.find("span.all-results").removeClass("hidden");
+          parentDiv.find("span.partial-results").addClass("hidden");
+        });
+
+        $(document).on('click', 'a.show-less', function() {
+          const parentDiv = $(this).closest("div.truncated-results");
+          parentDiv.find("span.all-results").addClass("hidden");
+          parentDiv.find("span.partial-results").removeClass("hidden");
         });
 
         $("#morfoAnalysis, #syntacticAnalysis").change(function() {
           ClusterSearchForm.helpers.hideAndResetDropdowns();
+          ClusterSearchForm.helpers.resetWordTypeAnalysis();
           if (ClusterSearchForm.helpers.isComponentSortingSelected()) {
             ClusterSearchForm.handleComponentSortingSelection();
+          }
+        });
+
+        $("#syntacticAnalysis").change(function() {
+          if (!$("#morfoAnalysis").is(":checked")) {
+            $("#punctuationAnalysis").prop("checked", false);
+          }
+        });
+
+        $("#punctuationAnalysis").change(function() {
+          if ($("#syntacticAnalysis").is(":checked") && !$("#morfoAnalysis").is(":checked")) {
+            $("#syntacticAnalysis").prop("checked", false);
           }
         });
 
         $("#wordtypeAnalysis").change(ClusterSearchForm.handleWordTypeAnalysisChange);
 
         $("#submitBtn").click(ClusterSearchForm.ajax.clusterText);
+
       },
 
       prepareSortingOptions: function() {
@@ -294,6 +352,9 @@
             ClusterSearchForm.helpers.hideAndResetDropdowns();
           }
         });
+
+        // Sorting by frequency should be checked by default
+        $("#sortByFreq").prop("checked", true).change();
       },
 
       handleComponentSortingSelection: function() {
@@ -330,7 +391,6 @@
       handleWordTypeAnalysisChange: function() {
         $("#morfoAnalysis").prop("checked", false);
         $("#syntacticAnalysis").prop("checked", false);
-        $("#punctuationAnalysis").prop("checked", false);
 
         ClusterSearchForm.helpers.hideAndResetDropdowns();
         if (ClusterSearchForm.helpers.isComponentSortingSelected()) {
@@ -504,42 +564,46 @@
       ajax: {
         clusterText: function (e) {
           e.preventDefault();
-          const data = $("#cluster-form").serializeArray();
 
-          $.ajax({
-            method: "POST",
-            url: "${ajaxUrls.clusterText}",
-            data: data,
-            beforeSend: function() {
-              ClusterSearchForm.CLUSTERS_DATA_TABLE.clear();
-              $("#clusters").hide();
-              ClusterSearchForm.loader.showLoadingSpinner();
-            },
-            success: function (response) {
-              if (response.clusters.length > 0) {
-                ClusterSearchForm.ajax.showResults(response.clusters, response.separator);
-              } else {
+          // Only execute the search when the form is valid
+          if (ClusterSearchForm.CLUSTER_SEARCH_FORM.valid()) {
+            const data = $("#cluster-form").serializeArray();
+            data.push({ name: "partialFilters", value: ClusterSearchForm.helpers.hasPartialFilters() })
+
+            $.ajax({
+              method: "POST",
+              url: "${ajaxUrls.clusterText}",
+              data: data,
+              beforeSend: function() {
+                ClusterSearchForm.CLUSTERS_DATA_TABLE.clear();
+                $("#clusters").hide();
+                ClusterSearchForm.loader.showLoadingSpinner();
+              },
+              success: function (response) {
+                if (response.clusters.length > 0) {
+                  ClusterSearchForm.ajax.showResults(response.clusters, response.separator);
+                } else {
+                  ClusterSearchForm.ajax.showNoResults();
+                }
+              },
+              error: function (error) {
                 ClusterSearchForm.ajax.showNoResults();
+              },
+              complete: function () {
+                ClusterSearchForm.loader.hideLoadingSpinner();
               }
-            },
-            error: function (error) {
-              ClusterSearchForm.ajax.showNoResults();
-            },
-            complete: function () {
-              ClusterSearchForm.loader.hideLoadingSpinner();
-            }
-          });
+            });
+          }
         },
 
         showResults: function(data, separator) {
           const clusters = [];
-          for ( let i = 0; i < data.length; i++)
-          {
+          for (let i = 0; i < data.length; i++) {
             const cluster = {
               frequency: data[i].frequency,
               description: data[i].descriptions.join(" + "),
-              markups: data[i].markups.map(ClusterSearchForm.util.escapeValueAndReplace).join(separator),
-              usages: data[i].usages.join(", ")
+              markups: data[i].markups.map(ClusterSearchForm.util.escapeValueAndReplace).join(" + "),
+              usages: data[i].usages.join("<br>")
             };
 
             clusters.push(cluster);
@@ -594,6 +658,25 @@
         }
       },
 
+      validation: {
+        setupValidation: function() {
+          ClusterSearchForm.CLUSTER_SEARCH_FORM.validate({
+            rules: {
+              analysisLength: "required",
+              userText: {
+                required: function() {
+                  return $("#inputType").val() === "FREE_TEXT";
+                }
+              },
+            },
+            messages: {
+              analysisLength: "[@translations.retrieveTranslation "validation.analysis.length.error" /]",
+              userText: "[@translations.retrieveTranslation "validation.user.text.error" /]",
+            }
+          });
+        }
+      },
+
       helpers: {
         isComponentSortingSelected: function() {
           const selectedValue = $("input[name='sorting']:checked").val();
@@ -606,9 +689,12 @@
 
         hideAndResetWordSortingCheckboxes: function() {
           ClusterSearchForm.SORTING_OPTIONS["5"].forEach(element => element.hide().find("input[type='checkbox']").prop("checked", false).change());
+
+          // Need to re-check the frequency checkbox here to ensure that at least one sorting option is selected by default
+          $("#sortByFreq").prop("checked", true).change();
         },
 
-        hideAndResetDropdowns: function () {
+        hideAndResetDropdowns: function() {
           // Word type
           $("#wordTypeSelectContainer").hide();
           $("#wordTypeDropdown").val("ALL").trigger("change");
@@ -618,9 +704,35 @@
           $("#clauseTypeDropdown").val("ALL").trigger("change");
         },
 
-        resetAndHideWordTypeAdditionalOptions: function (additionalsSelector) {
+        resetAndHideWordTypeAdditionalOptions: function(additionalsSelector) {
           $(additionalsSelector).find("input[type='checkbox']").prop("checked", false);
           $(additionalsSelector).hide();
+        },
+
+        resetWordTypeAnalysis: function() {
+          $("#wordtypeAnalysis").prop("checked", false);
+        },
+
+        hasPartialFilters: function() {
+          const isMorfo = $("#morfoAnalysis").is(":checked");
+          const isSyntactic = $("#syntacticAnalysis").is(":checked");
+          const isMorfoSyntatctic = isMorfo && isSyntactic;
+
+          if (isMorfoSyntatctic || isMorfo) {
+            const selectedWordType = $("#wordTypeDropdown").val();
+            return ClusterSearchForm.helpers.hasPartialWordTypeFilters(selectedWordType);
+          }
+
+          return false;
+        },
+
+        hasPartialWordTypeFilters: function(wordType) {
+          if (wordType === "ALL") {
+            return false;
+          }
+
+          const wordTypeCheckboxes = $("div.additionals-container[data-group='"+ wordType + "']").find("input[type='checkbox']:visible:not(:disabled)");
+          return ClusterSearchForm.util.hasPartialFilters(wordTypeCheckboxes);
         }
       },
 
@@ -630,6 +742,81 @@
                   .replace(/</g, "&lt;")
                   .replace(/>/g, "&gt;")
                   .replace(/_/g, "");
+        },
+
+        hasPartialFilters: function(checkboxes) {
+          let hasPartialFilters = false;
+          const groupNames = [];
+
+          checkboxes.each(function() {
+            let groupName = $(this).attr("name");
+            if ($.inArray(groupName, groupNames) === -1) {
+              groupNames.push(groupName);
+            }
+          });
+
+          $.each(groupNames, function(index, name) {
+            if (checkboxes.filter("[name='" + name + "']:checked").length === 0) {
+              hasPartialFilters = true;
+              return false;
+            }
+          });
+
+          return hasPartialFilters;
+        },
+
+        renderUsagesColumn: function(data) {
+          const usages = data.split("<br>");
+          if (usages.length > 10) {
+            return ClusterSearchForm.util.createUsagesColumn(usages);
+          }
+
+          return data;
+        },
+
+        createUsagesColumn: function(data) {
+          // Container for usages displaying
+          const truncatedResultsContainer = $("<div>", { class: "truncated-results" });
+
+          // Partial results span and it's link
+          const partialResultsSpan = $("<span>", {
+            class: "partial-results",
+            title: "[@translations.retrieveTranslation "common.truncated.results" /]",
+            "data-toggle": "tooltip",
+            "data-placement": "right",
+          });
+
+          // jQuery cannot create text nodes the same way as other elements, so using regular JS here
+          const partialResultsContent = document.createTextNode(data.slice(0, 10).map(u => u).join("\n"));
+          const partialResultsLink = $("<a>", { class: "show-more" });
+
+          partialResultsSpan.append(partialResultsContent);
+          partialResultsSpan.append(partialResultsLink);
+
+          // All results span
+          const allResultsSpan = $("<span>", {
+            class: "all-results hidden",
+            title: "[@translations.retrieveTranslation "common.truncated.results" /]",
+            "data-toggle": "tooltip",
+            "data-placement": "right",
+          });
+          const allResultsContent = document.createTextNode(data.map(u => u).join("\n"));
+          const allResultsLink = $("<a>", { class: "show-less" });
+
+          // jQuery cannot create text nodes the same way as other elements, so using regular JS here
+          allResultsSpan.append(allResultsContent);
+          allResultsSpan.append(allResultsLink);
+
+          // Appending all the children of the corresponding container
+          truncatedResultsContainer.append(partialResultsSpan);
+          truncatedResultsContainer.append(allResultsSpan);
+
+          // Datatables expects a string as a returnable so need to convert it to an HTML string here
+          // NB! Extra warpping is done due to jQuery behaviour (.html() returns children nodes only)
+          return truncatedResultsContainer
+                  .wrap("<div></div>")
+                  .parent()
+                  .html();
         }
       }
     };
