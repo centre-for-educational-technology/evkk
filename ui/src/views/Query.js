@@ -9,6 +9,7 @@ function Query() {
     const defaultAddedYear = [(yearNow - 7), (yearNow - 2)];
 
     const [corpusCheckboxStatus, setCorpusCheckboxStatus] = useState({
+        all: false,
         cFqPphvYi: false,
         clWmOIrLa: false,
         cFOoRQekA: false,
@@ -45,7 +46,19 @@ function Query() {
 
     const alterCorpusCheckbox = (event) => {
         let newCorpusCheckboxStatus = {...corpusCheckboxStatus};
+        let trueCount = 0;
         newCorpusCheckboxStatus[event.target.id] = event.target.checked;
+        for (let checkbox in newCorpusCheckboxStatus) {
+            console.log(checkbox.value);
+            if (checkbox.value && checkbox !== "all") {
+                trueCount++;
+            }
+        }
+        if (trueCount === 7) {
+            newCorpusCheckboxStatus.all = true;
+        } else {
+            newCorpusCheckboxStatus.all = false;
+        }
         setCorpusCheckboxStatus(newCorpusCheckboxStatus);
     }
 
@@ -95,7 +108,7 @@ function Query() {
                         <span style={{ fontSize: "smaller" }}>Hiirega korpuse nimele liikudes näeb selle selgitust</span>
                         <br/><br/>
                         <Checkbox
-                            checked={corpusCheckboxStatus.cFqPphvYi}
+                            checked={corpusCheckboxStatus.all}
                             onChange={alterAllCorpusCheckboxes}
                         />
                         <label>kõik</label>
