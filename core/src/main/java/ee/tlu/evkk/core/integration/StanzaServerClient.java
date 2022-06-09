@@ -25,6 +25,13 @@ public class StanzaServerClient extends AbstractRestOperationsClient {
     return forEntity.getBody();
   }
 
+  public String[] getSilbid(String tekst) {
+    Map<String, String> map = Map.of("tekst", tekst);
+    HttpEntity<?> requestEntity = new HttpEntity<>(map);
+    ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/silbid", requestEntity, String[].class));
+    return forEntity.getBody();
+  }
+
   public String[] getLemmad(String tekst) {
     Map<String, String> map = Map.of("tekst", tekst);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);

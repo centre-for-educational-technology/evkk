@@ -77,6 +77,13 @@ public class TextController {
     return ResponseEntity.ok(body);
   }
 
+  @PostMapping("/silbid")
+  public ResponseEntity<List<String>> silbid(@RequestBody LemmadRequestEntity request) {
+    String[] silbid = stanzaServerClient.getSilbid(request.getTekst());
+    List<String> body = Arrays.asList(silbid);
+    return ResponseEntity.ok(body);
+  }
+
   @PostMapping("/lemmad")
   public ResponseEntity<List<String>> lemmad(@RequestBody LemmadRequestEntity request) {
     String[] lemmad = stanzaServerClient.getLemmad(request.getTekst());
