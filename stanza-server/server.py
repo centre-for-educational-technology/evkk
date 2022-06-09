@@ -17,6 +17,21 @@ else:
   asendused=[]
 app = Flask(__name__)
 
+@app.route('/silbid', methods=['POST'])
+def silbita():
+    tekst = request.json["tekst"]
+    sonad = tekst.split()
+    response = []
+    for sona in sonad:
+        response.append(silbita_sisemine(sona).rstrip())
+    return Response(json.dumps(response), mimetype="application/json")
+
+def silbita_sisemine(tekst):
+    import subprocess
+    a = subprocess.Popen("/app/silbitaja.bin", cwd="/app", shell=True, stderr=subprocess.PIPE, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    stdo, stde = a.communicate(tekst.encode("iso-8859-13"))
+    return stdo.decode("iso-8859-13")
+
 @app.route('/lemmad', methods=['POST'])
 def lemmad():
     nlp = nlp_tpl
