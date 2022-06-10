@@ -33,7 +33,7 @@ function CorpusSelect() {
 
     const [words, setWords] = useState([]);
 
-    const [sentences, useSentences] = useState([]);
+    const [sentences, setSentences] = useState([]);
 
     const [authorData, setAuthorData] = useState({
         age: 'teadmata',
@@ -103,24 +103,6 @@ function CorpusSelect() {
         let newAuthorData = {...authorData};
         newAuthorData[event.target.name] = event.target.value;
         setAuthorData(newAuthorData);
-    }
-
-    const addedYearChange = (event) => {
-        console.log(event.target.name);
-        const value = event.target.value;
-        setAddedYear(value);
-    };
-
-    const charactersChange = (event) => {
-
-    }
-
-    const wordsChange = (event) => {
-        
-    }
-
-    const sentencesChange = (event) => {
-        
     }
 
     return (
@@ -311,7 +293,7 @@ function CorpusSelect() {
                                 multiple
                                 value={addedYear}
                                 name="addedYear"
-                                onChange={addedYearChange}
+                                onChange={(e) => {setAddedYear(e.target.value)}}
                                 renderValue={(addedYear) => addedYear.join(", ")}
                                 MenuProps={MenuProps}
                             >
@@ -325,22 +307,75 @@ function CorpusSelect() {
                                 ))}
                             </Select>
                         </FormControl>
-                        <br/>
-                        <input type="checkbox" name="charactersOn" id="charactersOn" className="checkboxBack" disabled/>
-                        <label htmlFor="characters" className="selectionFront">Tähemärke</label>
-                        <input type="number" name="characters" id="characters" placeholder="250" min="1"/>
-                        <br/>
-                        <input type="checkbox" name="wordsOn" id="wordsOn" className="checkboxBack" disabled/>
-                        <label htmlFor="words" className="selectionFront">Sõnu</label>
-                        <input type="number" name="words" id="words" placeholder="170" min="1" className="checkboxBack"/>
-                        <br/>
-                        <input type="checkbox" name="sentencesOn" id="sentencesOn" className="checkboxBack" disabled/>
-                        <label htmlFor="sentences" className="selectionFront">Lauseid</label>
-                        <input type="number" name="sentences" id="sentences" placeholder="20" min="1" className="checkboxBack"/>
-                        <br/>
-                        {/*input type="checkbox" name="exercise" id="exercise" className="checkboxBack" disabled/>
-                        <label htmlFor="exercise" className="selectionFront">Osa harjutusest</label>
-                        <br/>*/}
+                        <br/><br/>
+                        <FormControl className={classes.formControl} size="small">
+                            <InputLabel id="characters-label">Tähemärke</InputLabel>
+                            <Select
+                                labelId="characters-label"
+                                label="Tähemärke"
+                                multiple
+                                value={characters}
+                                name="characters"
+                                onChange={(e) => {setCharacters(e.target.value)}}
+                                renderValue={(characters) => characters.join(", ")}
+                                MenuProps={MenuProps}
+                            >
+                                {charactersOptions.map((item) => (
+                                    <MenuItem key={item} value={item}>
+                                        <ListItemIcon>
+                                            <Checkbox checked={characters.indexOf(item) > -1} />
+                                        </ListItemIcon>
+                                        <ListItemText primary={item} />
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <br/><br/>
+                        <FormControl className={classes.formControl} size="small">
+                            <InputLabel id="words-label">Sõnu</InputLabel>
+                            <Select
+                                labelId="words-label"
+                                label="Sõnu"
+                                multiple
+                                value={words}
+                                name="words"
+                                onChange={(e) => {setWords(e.target.value)}}
+                                renderValue={(words) => words.join(", ")}
+                                MenuProps={MenuProps}
+                            >
+                                {wordsOptions.map((item) => (
+                                    <MenuItem key={item} value={item}>
+                                        <ListItemIcon>
+                                            <Checkbox checked={words.indexOf(item) > -1} />
+                                        </ListItemIcon>
+                                        <ListItemText primary={item} />
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <br/><br/>
+                        <FormControl className={classes.formControl} size="small">
+                            <InputLabel id="sentences-label">Lauseid</InputLabel>
+                            <Select
+                                labelId="sentences-label"
+                                label="Lauseid"
+                                multiple
+                                value={sentences}
+                                name="sentences"
+                                onChange={(e) => {setSentences(e.target.value)}}
+                                renderValue={(sentences) => sentences.join(", ")}
+                                MenuProps={MenuProps}
+                            >
+                                {sentencesOptions.map((item) => (
+                                    <MenuItem key={item} value={item}>
+                                        <ListItemIcon>
+                                            <Checkbox checked={sentences.indexOf(item) > -1} />
+                                        </ListItemIcon>
+                                        <ListItemText primary={item} />
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
                     </div>
                     <div>
                         <b>Teksti autori andmed</b>
