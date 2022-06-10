@@ -7,6 +7,7 @@ function CorpusSelect() {
 
     const selectWidth = 250;
     const classes = useStyles();
+    const currentYear = new Date().getFullYear();
 
     const [corpusCheckboxStatus, setCorpusCheckboxStatus] = useState({
         all: false,
@@ -23,8 +24,7 @@ function CorpusSelect() {
         type: 'teadmata',
         language: 'eesti',
         level: 'teadmata',
-        usedMaterials: 'teadmata',
-        addedYear: []
+        usedMaterials: 'teadmata'
     });
 
     const [addedYear, setAddedYear] = useState([]);
@@ -56,15 +56,67 @@ function CorpusSelect() {
         if (selectedCorpuses.length === 0) {
             setAlert(true);
         } else {
-            // todo
-            console.log(corpusCheckboxStatus);
-            console.log(textData);
-            console.log(addedYear);
-            console.log(characters);
-            console.log(words);
-            console.log(sentences);
-            console.log(authorData);
+            let params = {};
+
+            let corpuses = [];
+            Object.entries(corpusCheckboxStatus).forEach((entry) => {
+                const [key, value] = entry;
+                if (value) {
+                    corpuses.push(key);
+                }
+            });
+            params.corpuses = corpuses;
+
+            Object.entries(textData).forEach((entry) => {
+                const [key, value] = entry;
+                if (value !== "teadmata") {
+                    params[key] = value;
+                }
+            });
+
+            Object.entries(authorData).forEach((entry) => {
+                const [key, value] = entry;
+                if (value !== "teadmata") {
+                    params[key] = value;
+                }
+            });
+
+            if (addedYear.length > 0) {
+                params.addedYear = simplifyDropdowns(addedYear);
+            }
+
+            if (characters.length > 0) {
+                params.characters = simplifyDropdowns(characters);
+            }
+
+            if (words.length > 0) {
+                params.words = simplifyDropdowns(words);
+            }
+
+            if (sentences.length > 0) {
+                params.sentences = simplifyDropdowns(sentences);
+            }
+
+            console.log(params);
         }
+    }
+
+    function simplifyDropdowns(data) {
+        let simplified = [];
+        data.forEach((entry) => {
+            let local = [];
+            if (entry.includes("...")) {
+                local = [parseInt(entry.split("...")[0]), currentYear];
+            } else if (entry.includes("kuni")) {
+                local = [1, parseInt(entry.split("kuni ")[1])];
+            } else if (entry.includes("üle")) {
+                local = [parseInt(entry.split("üle ")[1]), 999999999];
+            } else {
+                local = [parseInt(entry.split("—")[0]), parseInt(entry.split("—")[1])];
+            }
+            simplified.push(local);
+        })
+        return simplified;
     }
 
     const alterCorpusCheckbox = (event) => {
