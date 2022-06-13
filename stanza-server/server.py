@@ -17,6 +17,17 @@ else:
   asendused=[]
 app = Flask(__name__)
 
+@app.route('/sonaliik', methods=['POST'])
+def silbid():
+    nlp = nlp_tp
+    doc = nlp(request.json["tekst"])
+    v1 = []
+    for sentence in doc.sentences:
+        for word in sentence.words:
+            if word._upos!="PUNCT":
+                v1.append(word.pos)
+    return Response(json.dumps(v1), mimetype="application/json")
+
 @app.route('/lemmad', methods=['POST'])
 def lemmad():
     nlp = nlp_tpl

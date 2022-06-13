@@ -25,6 +25,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -67,6 +69,13 @@ public class TextController {
   }
 
   @CrossOrigin("*")
+
+  @PostMapping("/sonaliik")
+  public ResponseEntity<List<String>> sonaliik(@RequestBody LemmadRequestEntity request) {
+    String[] sonaliik = stanzaServerClient.getSonaliik(request.getTekst());
+    List<String> body = Arrays.asList(translateWordType(sonaliik));
+    return ResponseEntity.ok(body);
+  }
 
   @PostMapping("/lemmad")
   public ResponseEntity<List<String>> lemmad(@RequestBody LemmadRequestEntity request) {
@@ -205,6 +214,29 @@ return ResponseEntity.ok(body);
     UUID textId = textWithProperties.getText().getId();
     String downloadUrl = UriComponentsBuilder.fromUri(publicApiUri).pathSegment("texts", "download", "{textId}").encode().build(textId.toString()).toString();
     return ApiMapper.INSTANCE.toTextSearchResponse(textWithProperties, downloadUrl);
+  }
+
+  private String[] translateWordType(String[] tekst) {
+    Map<String, String> translations = new HashMap<>();
+    translations.put("ADJ", "omadussõna");
+    translations.put("ADP", "kaassõna");
+    translations.put("ADV", "määrsõna");
+    translations.put("AUX", "tegusõna");
+    translations.put("CCONJ", "sidesõna");
+    translations.put("DET", "määrsõna");
+    translations.put("INTJ", "hüüdsõna");
+    translations.put("NOUN", "nimisõna");
+    translations.put("NUM", "arvsõna");
+    translations.put("PART", "pragmaatiline abisõna");
+    translations.put("PRON", "asesõna");
+    translations.put("PROPN", "nimisõna");
+    translations.put("SCONJ", "sidesõna");
+    translations.put("VERB", "tegusõna");
+    translations.put("X", "tundmatu");
+    for (int i = 0; i < tekst.length; i++) {
+      tekst[i] = translations.get(tekst[i]);
+    }
+    return tekst;
   }
 
 }
