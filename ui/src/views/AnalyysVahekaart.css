@@ -1,0 +1,38 @@
+
+.filterDiv{
+    position: fixed;
+    width: 180px;
+    left: 22%;
+    top: 150px;
+    background-color: white;
+    
+}
+
+th:hover{
+    cursor: pointer;
+}
+
+.buttongroup{
+    width: 400px;
+}
+
+.pagination{
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 50px;
+        align-items: baseline;
+}
+
+.fontStyle{
+    font-size: large;
+}
+
+tr:nth-child(even){
+    background-color: #EBECF0;
+}
+
+th:nth-child(1):hover{
+    cursor: auto;
+}
+

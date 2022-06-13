@@ -6,7 +6,6 @@ import ClusterFinder from "./views/tools/ClusterFinder";
 import {Files} from "./views/user";
 import Resource from "./views/Resource.component";
 import Correction from "./views/Correction.component";
-import Sonaanalyys from './views/Sonaanalyys.component';
 import AnalyysVahekaart from './views/AnalyysVahekaart.component';
 
 class Routes extends Component {
@@ -34,7 +33,6 @@ class Routes extends Component {
           <Route path="/tools/minitorn-pikkus" component={MinitornPikkus}/>
           <Route path="/tools/masinoppe-ennustus" component={MasinoppeEnnustus}/>
           <Route path="/tools/clusterfinder" component={ClusterFinder}/>
-          <Route path="/sonaanalyys" component={Sonaanalyys}/>
           <Route path="/analyysvahekaart" component={AnalyysVahekaart}/>
           <Route component={() => this.render404()}/>
         </Switch>
