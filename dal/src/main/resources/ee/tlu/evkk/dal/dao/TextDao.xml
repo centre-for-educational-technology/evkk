@@ -51,6 +51,40 @@
         ) t
     </select>
 
+    <select id="textTitleQueryByParameters2" resultType="java.lang.String">
+      select array_to_json(array_agg(row_to_json(t)))
+      from (
+        select p2.text_id, p2.property_value
+        from core.text_property as p2
+        join core.text_property as ${corpusHelper.tabel} on p2.text_id = ${corpusHelper.tabel}.text_id
+        <foreach item="paramHelper" collection="paramHelper" separator=" ">join core.text_property as ${paramHelper.tabel} on p2.text_id = ${paramHelper.tabel}.text_id</foreach>
+        <foreach item="amongParamHelper" collection="amongParamHelper" separator=" ">
+          <if test="amongParamHelper.castable == true">
+            join core.text as ${amongParamHelper.tabel} on p2.text_id = ${amongParamHelper.tabel}.id
+            join core.text_processor_result as ${amongParamHelper.tabel + 1} on ${amongParamHelper.tabel}.hash = ${amongParamHelper.tabel + 1}.text_hash
+          </if>
+          <if test="amongParamHelper.castable == false">
+            join core.text_property as ${amongParamHelper.tabel} on p2.text_id = ${amongParamHelper.tabel}.text_id
+          </if>
+        </foreach>
+        where p2.property_name = 'title'
+        and ${corpusHelper.tabel}.property_name = #{corpusHelper.parameeter}
+        and ${corpusHelper.tabel}.property_value in <foreach item="corpus" collection="corpusHelper.vaartused" separator=", " open="(" close=")">#{corpus}</foreach>
+        <foreach item="paramHelper" collection="paramHelper" separator=" ">and ${paramHelper.tabel}.property_name = #{paramHelper.parameeter}
+        and ${paramHelper.tabel}.property_value = #{paramHelper.vaartus}</foreach>
+        <foreach item="amongParamHelper" collection="amongParamHelper" separator=" ">
+          <if test="amongParamHelper.castable == true">
+            and ${amongParamHelper.tabel + 1}.type = 'CHARS_WORDS_SENTENCES'
+            and cast(${amongParamHelper.tabel + 1}.result::json->#{amongParamHelper.parameeter} as TEXT) between #{amongParamHelper.algVaartus} and #{amongParamHelper.loppVaartus}
+          </if>
+          <if test="amongParamHelper.castable == false">
+            and ${amongParamHelper.tabel}.property_name = #{amongParamHelper.parameeter}
+            and ${amongParamHelper.tabel}.property_value::integer between #{amongParamHelper.algVaartus} and #{amongParamHelper.loppVaartus}
+          </if>
+        </foreach>
+      ) t
+    </select>
+
     <select id="findMiniStats" resultType="java.lang.String">
         select array_to_json(array_agg(row_to_json(t)))
         from (

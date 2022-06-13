@@ -11,4 +11,7 @@ dependencies {
   // Postgres
   api "org.postgresql:postgresql"
 
+  compileOnly 'org.projectlombok:lombok:1.18.24'
+	annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
 }

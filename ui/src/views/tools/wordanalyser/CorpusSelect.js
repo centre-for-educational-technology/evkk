@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { Checkbox, Button, Alert, FormControl, InputLabel, MenuItem, Select, ListItemIcon, ListItemText } from "@mui/material";
 import "./styles/CorpusSelect.css";
 import { MenuProps, useStyles, addedYearOptions, charactersOptions, wordsOptions, sentencesOptions } from "./utils";
+import CorpusTexts from "./CorpusTexts";
 
 function CorpusSelect() {
 
     const selectWidth = 250;
     const classes = useStyles();
     const currentYear = new Date().getFullYear();
+
+    const [results, setResults] = useState([]);
 
     const [corpusCheckboxStatus, setCorpusCheckboxStatus] = useState({
         all: false,
@@ -98,6 +101,17 @@ function CorpusSelect() {
             }
 
             console.log(params);
+            fetch("/api/texts/detailneparing2", {
+                method: "POST",
+                body: JSON.stringify(params),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(res => res.json())
+            .then((result) => {
+                console.log(result);
+                setResults(result);
+            })
         }
     }
 
@@ -581,6 +595,7 @@ function CorpusSelect() {
                 <br/><br/>
                 <Button variant="contained" onClick={() => {submitted()}}>Saada päring</Button>
             </form>
+            <CorpusTexts data={results} />
         </div>
     );
 }

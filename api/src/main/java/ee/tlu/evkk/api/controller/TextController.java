@@ -2,6 +2,7 @@ package ee.tlu.evkk.api.controller;
 
 import ee.tlu.evkk.api.ApiMapper;
 import ee.tlu.evkk.api.controller.dto.LemmadRequestEntity;
+import ee.tlu.evkk.api.controller.dto.CorpusRequestEntity;
 import ee.tlu.evkk.api.controller.dto.TextSearchRequest;
 import ee.tlu.evkk.api.controller.dto.TextSearchResponse;
 import ee.tlu.evkk.common.env.ServiceLocator;
@@ -10,13 +11,15 @@ import org.springframework.web.bind.annotation.*;
 
 import ee.tlu.evkk.dal.dto.TextQueryHelper;
 import ee.tlu.evkk.dal.dto.TextQueryCountsHelper;
+import ee.tlu.evkk.dal.dto.TextQueryParamHelper;
+import ee.tlu.evkk.dal.dto.TextQueryCorpusHelper;
+import ee.tlu.evkk.dal.dto.TextQueryAmongParamHelper;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.service.TextService;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.Pageable;
-import ee.tlu.evkk.dal.dto.TextQueryHelper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +27,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @RestController
 @RequestMapping("/texts")
@@ -104,6 +110,112 @@ public class TextController {
 List<String[]> body = Arrays.asList(tasemed);
 //List<String> body = Arrays.asList(sonad);
 return ResponseEntity.ok(body);
+  }
+
+  @PostMapping("/detailneparing2")
+  public String detailneparing2(@RequestBody CorpusRequestEntity vaartused) {
+    int loendur = 2;
+    List<TextQueryParamHelper> paramHelper = new ArrayList<TextQueryParamHelper>();
+    TextQueryCorpusHelper corpusHelper = new TextQueryCorpusHelper();
+    List<TextQueryAmongParamHelper> amongParamHelper = new ArrayList<TextQueryAmongParamHelper>();
+
+    loendur++;
+    corpusHelper.setTabel("p" + loendur);
+    corpusHelper.setParameeter("korpus");
+    List<String> corpuses = new ArrayList<>();
+    for (String korpus : vaartused.getCorpuses()) {
+      corpuses.add(korpus);
+    }
+    corpusHelper.setVaartused(corpuses);
+
+    if (vaartused.getAddedYear() != null) {
+      loendur++;
+      TextQueryAmongParamHelper h10 = new TextQueryAmongParamHelper();
+      h10.setTabel("p" + loendur);
+      h10.setParameeter("aasta");
+      for (Integer[] vaartus : vaartused.getAddedYear()) {
+        h10.setAlgVaartus((int) vaartus[0]);
+        h10.setLoppVaartus((int) vaartus[1]);
+      }
+      h10.setCastable(false);
+      amongParamHelper.add(h10);
+    }
+
+    if (isNotBlank(vaartused.getType())) {
+      loendur++;
+      TextQueryParamHelper h1 = new TextQueryParamHelper();
+      h1.setTabel("p" + loendur);
+      h1.setParameeter("tekstityyp");
+      h1.setVaartus(vaartused.getType());
+      paramHelper.add(h1);
+    }
+    if (isNotBlank(vaartused.getLanguage())) {
+      loendur++;
+      TextQueryParamHelper h2 = new TextQueryParamHelper();
+      h2.setTabel("p" + loendur);
+      h2.setParameeter("tekstikeel");
+      h2.setVaartus(vaartused.getLanguage());
+      paramHelper.add(h2);
+    }
+    if (isNotBlank(vaartused.getLevel())) {
+      loendur++;
+      TextQueryParamHelper h3 = new TextQueryParamHelper();
+      h3.setTabel("p" + loendur);
+      h3.setParameeter("keeletase");
+      h3.setVaartus(vaartused.getLevel());
+      paramHelper.add(h3);
+    }
+    if (isNotBlank(vaartused.getUsedMaterials())) {
+      loendur++;
+      TextQueryParamHelper h4 = new TextQueryParamHelper();
+      h4.setTabel("p" + loendur);
+      h4.setParameeter("abivahendid");
+      h4.setVaartus(vaartused.getUsedMaterials());
+      paramHelper.add(h4);
+    }
+    if (isNotBlank(vaartused.getAge())) {
+      loendur++;
+      TextQueryParamHelper h5 = new TextQueryParamHelper();
+      h5.setTabel("p" + loendur);
+      h5.setParameeter("vanus");
+      h5.setVaartus(vaartused.getAge());
+      paramHelper.add(h5);
+    }
+    if (isNotBlank(vaartused.getGender())) {
+      loendur++;
+      TextQueryParamHelper h6 = new TextQueryParamHelper();
+      h6.setTabel("p" + loendur);
+      h6.setParameeter("sugu");
+      h6.setVaartus(vaartused.getGender());
+      paramHelper.add(h6);
+    }
+    if (isNotBlank(vaartused.getEducation())) {
+      loendur++;
+      TextQueryParamHelper h7 = new TextQueryParamHelper();
+      h7.setTabel("p" + loendur);
+      h7.setParameeter("haridus");
+      h7.setVaartus(vaartused.getEducation());
+      paramHelper.add(h7);
+    }
+    if (isNotBlank(vaartused.getNativeLang())) {
+      loendur++;
+      TextQueryParamHelper h8 = new TextQueryParamHelper();
+      h8.setTabel("p" + loendur);
+      h8.setParameeter("emakeel");
+      h8.setVaartus(vaartused.getNativeLang());
+      paramHelper.add(h8);
+    }
+    if (isNotBlank(vaartused.getCountry())) {
+      loendur++;
+      TextQueryParamHelper h9 = new TextQueryParamHelper();
+      h9.setTabel("p" + loendur);
+      h9.setParameeter("elukoht");
+      h9.setVaartus(vaartused.getCountry());
+      paramHelper.add(h9);
+    }
+
+    String vastus = textDao.textTitleQueryByParameters2(corpusHelper, paramHelper, amongParamHelper);
+    return vastus;
   }
 
   @PostMapping("/detailneparing")
