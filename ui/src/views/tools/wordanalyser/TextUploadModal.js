@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import "./upload.css";
+import "./styles/TextUpload.css";
 
-function Modal(props) {
+function TextUploadModal(props) {
     var load_popup = true;
     return (props.trigger) ? (
     <div className="popup">
@@ -11,4 +11,4 @@ function Modal(props) {
         </div>
     </div>) : ""
 }
-export default Modal
+export default TextUploadModal
