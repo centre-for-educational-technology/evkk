@@ -215,7 +215,11 @@ return ResponseEntity.ok(body);
     }
 
     String vastus = textDao.textTitleQueryByParameters2(corpusHelper, paramHelper, amongParamHelper);
-    return vastus;
+    if (isNotBlank(vastus)) {
+      return vastus;
+    } else {
+      return new ArrayList<>().toString();
+    }
   }
 
   @PostMapping("/detailneparing")
