@@ -20,13 +20,12 @@
     border-radius: 1em;
     background-color: #FFF;
 }
-.close-btn {
+.close-btn{
     position: absolute;
     top: 0;
     right: 0; 
     border-radius: 0.5em;
-    width: 15px;
-    cursor: pointer;
+
 
     background-color: #FFF;
     border-color: #FFF;
@@ -40,8 +39,6 @@
     left: 35%;
     width: 20%;
     height: 10%;
-    cursor: pointer;
-
 
     background-color: rgb(19, 220, 255);
     border-color: rgb(19, 220, 255);
@@ -55,7 +52,6 @@
     border-color: rgb(19, 220, 255);
     background-color: rgb(19, 220, 255);
     cursor: pointer;
-    text-align: center;
 
     width: 20%;
     height: 10%;
@@ -63,8 +59,10 @@
     left: 35%;
 }
 #pop_title{
-    position: absolute;
-    left: 15%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #file_name{
     position: absolute;

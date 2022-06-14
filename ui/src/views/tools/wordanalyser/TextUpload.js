@@ -1,6 +1,7 @@
 import React, {Component, useEffect, useState} from 'react';
 import TextUploadModal from "./TextUploadModal";
 import "./styles/TextUpload.css";
+import {Button} from "@mui/material";
 function TextUpload() {
     const [buttonPopup, setButtonPopup] = useState(false);
 
@@ -23,12 +24,22 @@ function TextUpload() {
     }
 
     function filechange(){
+        let fileName = document.getElementById("file_name");
+        let br = document.createElement("br");
+        let fileNameDataContent = document.createTextNode("Valitud failid:");
+
+        fileName.textContent = "";
         console.log(document.getElementById("text_1").files[0].name);
-        document.getElementById("file_name").innerHTML = "";
+
+
         let file_length = document.getElementById("text_1").files.length;
         for(let i = 0; i<file_length; i++){
-            document.getElementById("file_name").innerHTML += document.getElementById("text_1").files[i].name
-            document.getElementById("file_name").innerHTML += "<br>"
+            let temp_name = document.createElement(document.getElementById("text_1").files[i].name);
+             fileNameDataContent.appendChild(temp_name);
+
+             fileNameDataContent.appendChild(br);
+            // document.getElementById("file_name").innerHTML += document.getElementById("text_1").files[i].name
+            // document.getElementById("file_name").innerHTML += "<br>"
         }
     }
     
@@ -39,11 +50,11 @@ function TextUpload() {
                     <form encType="multipart/form-data" method="post" id='form_data'>
                         <div id='popup_1'>
                             <h1 id="pop_title">Vali tekst üleslaadimiseks</h1>
-                            <span className="close-btn" onClick={() => {setButtonPopup(false)}}> X</span>
-                            <label htmlFor='text_1' id="pickfile"> vali fail</label>
+                            <Button className="close" class="close-btn" onClick={() => {setButtonPopup(false)}}> X</Button>
+                            <Button component="label" htmlFor='text_1' id="pickfile"> vali fail</Button>
                             <label id="file_name" ></label>
-                            <input style={{visibility:"hidden"}} type="file" name="file" id="text_1"onChange={filechange} title="your text" multiple={true} class="button" accept=".txt,.pdf,.docx,.doc,.odt"/>
-                            <span type='button' id="upload" onClick={() => {setButtonPopup(false)}} onMouseDown={fileUpload} >Lae fail ules</span>
+                            <input style={{visibility:"hidden"}} type="file" name="file" id="text_1"onChange={filechange} title="your text" multiple={true} accept=".txt,.pdf,.docx,.doc,.odt"></input>
+                            <Button type='button' id="upload" onClick={() => {setButtonPopup(false)}} onMouseDown={fileUpload} >Lae fail ules</Button>
                         </div>
                     </form>
                 </TextUploadModal>
