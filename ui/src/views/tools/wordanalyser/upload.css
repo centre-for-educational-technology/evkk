@@ -1,0 +1,73 @@
+.popup {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.2);
+
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.popup-inner {
+    position: relative;
+    padding: 32px;
+    width: 100%;
+    max-width: 640px;
+    height: 50%;
+
+    border-radius: 1em;
+    background-color: #FFF;
+}
+.close-btn {
+    position: absolute;
+    top: 0;
+    right: 0; 
+    border-radius: 0.5em;
+    width: 15px;
+    cursor: pointer;
+
+    background-color: #FFF;
+    border-color: #FFF;
+    box-shadow: none;
+    
+
+}
+#pickfile {
+    position: absolute;
+    top: 30%;
+    left: 35%;
+    width: 20%;
+    height: 10%;
+    cursor: pointer;
+
+
+    background-color: rgb(19, 220, 255);
+    border-color: rgb(19, 220, 255);
+    border-radius: 0.5em;
+    text-align: center;
+    
+}
+#upload {
+    position: absolute;
+    border-radius: 0.5em;
+    border-color: rgb(19, 220, 255);
+    background-color: rgb(19, 220, 255);
+    cursor: pointer;
+    text-align: center;
+
+    width: 20%;
+    height: 10%;
+    bottom: 10%;
+    left: 35%;
+}
+#pop_title{
+    position: absolute;
+    left: 15%;
+}
+#file_name{
+    position: absolute;
+    left: 35%;
+    top: 40%;
+}
