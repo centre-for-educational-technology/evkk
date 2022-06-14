@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "react-csv": "^2.2.2",
+    "react-table": "^7.8.0",
+    "react-table-plugins": "^1.3.2",
+    "uuidv4": "^6.2.13"
+  }
+}

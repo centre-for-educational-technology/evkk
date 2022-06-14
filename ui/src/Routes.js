@@ -3,6 +3,7 @@ import {Redirect, Route, Switch} from "react-router-dom";
 import {About, Employees, Login, Resources} from "./views";
 import {MasinoppeEnnustus, MinitornPikkus} from "./views/tools";
 import ClusterFinder from "./views/tools/ClusterFinder";
+import WordAnalyser from "./views/tools/wordanalyser/WordAnalyser";
 import {Files} from "./views/user";
 import Resource from "./views/Resource.component";
 import Correction from "./views/Correction.component";
@@ -32,6 +33,7 @@ class Routes extends Component {
           <Route path="/tools/minitorn-pikkus" component={MinitornPikkus}/>
           <Route path="/tools/masinoppe-ennustus" component={MasinoppeEnnustus}/>
           <Route path="/tools/clusterfinder" component={ClusterFinder}/>
+          <Route path="/tools/wordanalyser" component={WordAnalyser}/>
           <Route component={() => this.render404()}/>
         </Switch>
       </div>
