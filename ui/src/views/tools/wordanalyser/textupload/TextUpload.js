@@ -1,6 +1,6 @@
 import React, {Component, useEffect, useState} from 'react';
 import TextUploadModal from "./TextUploadModal";
-import "./styles/TextUpload.css";
+import "../styles/TextUpload.css";
 function TextUpload() {
     const [buttonPopup, setButtonPopup] = useState(false);
 
@@ -47,9 +47,6 @@ function TextUpload() {
                         </div>
                     </form>
                 </TextUploadModal>
-                <div>
-                    <label id='vastus' style={{width: 300, height: 400}}></label>
-                </div>
             </div>
         )
 }

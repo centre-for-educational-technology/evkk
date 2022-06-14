@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import "./styles/TextUpload.css";
+import "../styles/TextUpload.css";
 
 function TextUploadModal(props) {
     var load_popup = true;
