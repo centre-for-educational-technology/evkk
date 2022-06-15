@@ -26,16 +26,16 @@ export const InputText = ({ onAnalyse, onMarkWords, onWordSelect, onWordInfo }) 
         let sequence = text.slice(0, index)
         content.push(sequence)
         if(isMarked){
-          content.push(<span id={ ids[i] }  className="marked" style={{backgroundColor: 'yellow'}} key={ uuidv4() } onClick={(e) => handleWord(e)}>{analysedWords[i]}</span>)
+          content.push(<span id={ ids[i] } className="word marked" key={ uuidv4() } onClick={(e) => handleWord(e)}>{analysedWords[i]}</span>)
         } else {
-          content.push(<span id={ ids[i] }  key={ uuidv4() } onClick={(e) => handleWord(e)}>{analysedWords[i]}</span>)
+          content.push(<span id={ ids[i] } className="word" key={ uuidv4() } onClick={(e) => handleWord(e)}>{analysedWords[i]}</span>)
         }
         text = text.substring(index+analysedWords[i].length, text.length)
       } else {
         if(isMarked){
-          content.push(<span id={ ids[i] }  className="marked" style={{backgroundColor: 'yellow'}} key={ uuidv4() } onClick={(e) => handleWord(e)}>{analysedWords[i]}</span>)
+          content.push(<span id={ ids[i] } className="word marked" key={ uuidv4() } onClick={(e) => handleWord(e)}>{analysedWords[i]}</span>)
         } else {
-          content.push(<span id={ ids[i] }  key={ uuidv4() } onClick={(e) => handleWord(e)}>{analysedWords[i]}</span>)
+          content.push(<span id={ ids[i] } className="word" key={ uuidv4() } onClick={(e) => handleWord(e)}>{analysedWords[i]}</span>)
         }
         text = text.substring(index+analysedWords[i].length, text.length)
       }

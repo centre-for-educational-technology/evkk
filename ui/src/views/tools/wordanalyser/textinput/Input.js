@@ -1,15 +1,20 @@
 import { InputText } from './InputText'
 import { useState, useCallback } from 'react'
+import Grid from '@mui/material/Grid'
 
 export const Input = ({ onInsert, onAnalyse, onMarkWords, onWordSelect, onWordInfo }) => {
 
     const [input, setInput] = useState('')
     const [selectedWords, setSelectedWords] = useState(onMarkWords)
-    const [btnHidden, hideBtn] = useState(false)
+    const [showAnalyseBtn, setShowAnalyseBtn] = useState(true)
+    const [showRefreshBtn, setShowRefreshBtn] = useState(false)
     const onSubmit = (e) =>{
         e.preventDefault()
-        hideBtn(true)
-        onInsert(input)
+        if(input.length>0){
+          setShowAnalyseBtn(false)
+          setShowRefreshBtn(true)
+          onInsert(input)
+        }
     }
 
     useCallback(() => {
@@ -18,20 +23,23 @@ export const Input = ({ onInsert, onAnalyse, onMarkWords, onWordSelect, onWordIn
       }
     }, [onMarkWords, selectedWords]);
 
-
-
   return (
     <>
-      {btnHidden === true ? <InputText onMarkWords={onMarkWords} onWordSelect={onWordSelect} onAnalyse={onAnalyse} onWordInfo={onWordInfo}/> : 
-      <form onSubmit={onSubmit}>
-          <label>
-            <textarea className='textInput' name='textInput' value={input} onChange={(e)=>setInput(e.target.value)}/>
-          </label>
-          <br />       
-          <input className='analyseBtn' type="submit" value="Analüüsi" hidden={btnHidden}/>
-      </form>
-    }
-  </>
-    
+        {showAnalyseBtn ? 
+          <Grid item>
+            <form>
+                <label className="textInputContainer">
+                  <textarea className='textInput' name='textInput' value={input} onChange={(e)=>setInput(e.target.value)}/>
+                </label>
+                <button className="mainBtn" type="button" onClick={onSubmit}>Analüüsi</button>
+            </form>
+          </Grid> 
+          : 
+          <Grid item>
+            <InputText onMarkWords={onMarkWords} onWordSelect={onWordSelect} onAnalyse={onAnalyse} onWordInfo={onWordInfo}/>
+            {showRefreshBtn && <button className="mainBtn" type="button" onClick={() => window.location.reload(false)}>Uus päring</button>}
+          </Grid >
+        }
+    </>
   )
 }
