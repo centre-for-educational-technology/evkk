@@ -5,6 +5,7 @@ import { Stats } from './lemmastats/Stats'
 import { v4 as uuidv4 } from 'uuid'
 import './styles/WordAnalyser.css'
 import TextUpload from './textupload/TextUpload'
+import GrammaticalAnalysis from './GrammaticalAnalysis'
 
 
 function App() {
@@ -168,6 +169,9 @@ function App() {
       <Input textFromFile={textFromFile} onInsert={analyseInput} onAnalyse={analysedInput} onMarkWords={selectedWords} onWordSelect={showThisWord} onWordInfo={showInfo}/>
       {showStats && <WordInfo onShowWordInfo={showWordInfo} onWordInfo={wordInfo}/>}
       {showStats && <Stats onAnalyse={analysedInput} onLemmaSelect={showLemma} onWordSelect={showWord}/>}
+      <br/><br/>
+      <h3>Grammatiline analüüs</h3>
+      <GrammaticalAnalysis />
     </div>
   );
 }

@@ -1,0 +1,138 @@
+
+.filterDiv{
+    position: fixed;
+    width: 180px;
+    left: 20%;
+    top: 100px;
+    z-index: 1;
+    background-color: white;
+    
+}
+
+
+
+th:hover{
+    cursor: pointer;
+}
+
+.buttongroup{
+    width: 400px;
+}
+
+.pagination{
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 50px;
+        align-items: baseline;
+}
+
+.fontStyle{
+    font-size: large;
+}
+
+tr:nth-child(even){
+    background-color: #EBECF0;
+}
+
+th{
+    padding-left: 10px ;
+}
+
+
+
+th:nth-child(1):hover{
+    cursor: auto;
+}
+
+th:nth-child(3):hover{
+    cursor: auto;
+}
+
+th:nth-child(1)>.sortIcon{
+    display: none;
+}
+
+th:nth-child(2)>.sortIcon{
+    display: none;
+}
+
+th:nth-child(3)>.sortIcon{
+    display: none;
+}
+
+td:nth-child(2){
+    border-right: solid 1px;
+}
+
+td:nth-child(3){
+    border-right: solid 1px;
+}
+
+td:nth-child(4){
+    border-right: solid 1px;
+}
+
+.downloadDiv{
+    position: relative;
+    left: 85%;
+    width: 50px;
+    color: black;
+}
+
+.csvLink{
+    color: white;
+}
+
+.fileDownload{
+    padding: 30px;
+    position: fixed;
+    width: 300px;
+    right: 10%;
+    top: 100px;
+    z-index: 1;
+    background-color: white;
+    
+}
+
+.downloadPopUp{
+    position: relative;
+
+    width: 40px;
+    left: 85%;
+
+}
+
+.downloadPopUp:hover{
+    cursor: pointer;
+}
+
+.laadiBtn{
+    margin-top: 30px;
+    position: relative;
+    text-align: center;
+    
+    
+}
+
+.peidusDiv{
+    background-color: aqua;
+    width: 100%;
+    height: 100%;
+}
+
+.closeIcon:hover{
+    cursor: pointer;
+}
+
+.closeIcon{
+    position: relative;
+    text-align: right;
+    top: -15px;
+    right: -15px;
+}
+
+.csvLink:hover{
+    color: white;
+    text-decoration: none
+}
