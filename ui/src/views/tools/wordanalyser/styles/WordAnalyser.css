@@ -1,22 +1,14 @@
-/* * {
-	font-family: "Times New Roman";
-	font-size: 16px;
-	font-weight: 400;
-	margin: 0;
-	padding: 0;
-} */
-
 h1 {
   font-size: 24px;
   line-height: 2;
 }
 
-header{
-  margin-bottom: 20px;
+.textInputContainer{
+	display: block;
 }
 
 .textInput {
-	width: 500px;
+	width: 100%;
 	height: 200px;
 	padding: 10px;
 	border: solid 1px black;
@@ -25,11 +17,12 @@ header{
 }
 
 .textInputDiv {
-	width: 500px;
+	width: 100%;
 	height: 200px;
 	overflow-y: auto;
 	border: solid 1px black;
 	padding: 10px;
+	cursor: default;
 }
 
 .analyseBtn {
@@ -57,4 +50,8 @@ header{
 
 .marked{
 	background-color: #FFFF00;
+}
+
+.word {
+	cursor: pointer
 }

@@ -70,7 +70,7 @@ export const Stats = ({ onAnalyse, onLemmaSelect, onWordSelect }) => {
                 accessor: 'name',
                 Cell: (props: {value: string}) => {
                     const word= props.value
-                    return <span onClick={(e) =>  onLemmaSelect(e.target.textContent)}>{word}</span>
+                    return <span  className="word" onClick={(e) =>  onLemmaSelect(e.target.textContent)}>{word}</span>
                 },
             },
             {

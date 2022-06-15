@@ -6,11 +6,12 @@ import { v4 as uuidv4 } from 'uuid'
 import './styles/WordAnalyser.css'
 import TextUpload from './textupload/TextUpload'
 import GrammaticalAnalysis from './GrammaticalAnalysis'
+import Grid from '@mui/material/Grid'
 
 
 function App() {
   const [showStats, setShowStats] = useState(false)
-  const [analysedInput, setAnalysedInput] = useState({ids: [''], text: '', sentences: [''], words: [''], lemmas: [''], })
+  const [analysedInput, setAnalysedInput] = useState({ids: [''], text: '', sentences: [''], words: [''], lemmas: [''], syllables: [''], wordtypes: [''] })
   const [selectedWords, setSelectedWords] = useState([''])
   const [wordInfo, setWordInfo] = useState('')
   const [showWordInfo, setShowWordInfo] = useState(false)
@@ -56,6 +57,32 @@ function App() {
     return data
   }
 
+  //get word type
+  const getWordTypes = async (input) => {
+    const response = await fetch("http://localhost:3000/api/texts/sonaliik", {
+      method: "POST",
+      headers: {
+        "Content-Type" : "application/json"
+      },
+      body: JSON.stringify({tekst: input}),
+    })
+    const data = await response.json()
+    return data
+  }
+
+  //get syllables
+  const getSyllables = async (input) => {
+    const response = await fetch("http://localhost:3000/api/texts/silbid", {
+      method: "POST",
+      headers: {
+        "Content-Type" : "application/json"
+      },
+      body: JSON.stringify({tekst: input}),
+    })
+    const data = await response.json()
+    return data
+  }
+
   //create ids
   const createIds = (words) => {
     let data = []
@@ -72,6 +99,8 @@ function App() {
     const analysedSentences = await getSentences(input)
     const analysedWords = await getWords(input)
     const analysedLemmas = await getLemmas(input)
+    const analysedSyllables = await getSyllables(input)
+    const analysedWordTypes = await getWordTypes(input)
     const createdIds = createIds(analysedWords)
 
     const inputObj = {
@@ -80,12 +109,11 @@ function App() {
       sentences: analysedSentences,
       words: analysedWords,
       lemmas: analysedLemmas,
+      syllables: analysedSyllables,
+      wordtypes: analysedWordTypes,
     }
     setShowStats(!showStats)
-    setAnalysedInput(inputObj)
-    //showInfo([inputObj.ids[0]])
-    //setSelectedWords([inputObj.ids[0]])
-    
+    setAnalysedInput(inputObj)  
   }
 
   //select first word and show wordInfo after loading
@@ -95,6 +123,8 @@ function App() {
     let wordInfoObj = {
       word: analysedInput.words[0].toLowerCase(),
       lemma: analysedInput.lemmas[0],
+      syllables: analysedInput.syllables[0],
+      type: analysedInput.wordtypes[0],
     }
     setWordInfo(wordInfoObj)
     setShowWordInfo(true)
@@ -144,17 +174,13 @@ function App() {
       }
     }
 
-    let wordInfoObj = {
-      word: '',
-      lemma: '',
+  const wordInfoObj = {
+      word: analysedInput.words[index].toLowerCase(),
+      lemma: analysedInput.lemmas[index],
+      syllables: analysedInput.syllables[index],
+      type: analysedInput.wordtypes[index],
     }
 
-    if(Number.isInteger(index)){
-      wordInfoObj = {
-        word: analysedInput.words[index].toLowerCase(),
-        lemma: analysedInput.lemmas[index],
-      }
-    } 
     setWordInfo(wordInfoObj)
     setShowWordInfo(true)
   }
@@ -164,16 +190,26 @@ function App() {
   }
 
   return (
-    <div className="container">
-      <TextUpload sendTextFromFile={sendTextFromFile} />
-      <Input textFromFile={textFromFile} onInsert={analyseInput} onAnalyse={analysedInput} onMarkWords={selectedWords} onWordSelect={showThisWord} onWordInfo={showInfo}/>
-      {showStats && <WordInfo onShowWordInfo={showWordInfo} onWordInfo={wordInfo}/>}
-      {showStats && <Stats onAnalyse={analysedInput} onLemmaSelect={showLemma} onWordSelect={showWord}/>}
-      <br/><br/>
-      <h3>Grammatiline analüüs</h3>
-      <GrammaticalAnalysis />
+    <div>
+      <Grid container className="container">
+        <Grid item xs={12} md={9}>
+          <TextUpload />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Input onInsert={analyseInput} onAnalyse={analysedInput} onMarkWords={selectedWords} onWordSelect={showThisWord} onWordInfo={showInfo}/>
+        </Grid>
+        <Grid item xs={12} md={3}>
+          {showStats && <WordInfo onShowWordInfo={showWordInfo} onWordInfo={wordInfo}/>}
+        </Grid>
+        <Grid item xs={9}>
+          {showStats && <Stats onAnalyse={analysedInput} onLemmaSelect={showLemma} onWordSelect={showWord}/>}
+        </Grid>
+        <br/><br/>
+        <h3>Grammatiline analüüs</h3>
+        <GrammaticalAnalysis />
+      </Grid>
     </div>
-  );
+  )
 }
 
 export default App;
