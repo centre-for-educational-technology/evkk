@@ -68,6 +68,15 @@ public class TextController {
 
   @CrossOrigin("*")
 
+  //@PostMapping("/upload")
+  //public ResponseEntity<Void> uploadText(@RequestBody TextUploadEntity textUploadEntity) {
+    //if (textService.uploadText) {
+      //return ResponseEntity.ok().build();
+    //} else {
+      //return ResponseEntity.badRequest().build();
+    //}
+  //}
+
   @PostMapping("/lemmad")
   public ResponseEntity<List<String>> lemmad(@RequestBody LemmadRequestEntity request) {
     String[] lemmad = stanzaServerClient.getLemmad(request.getTekst());

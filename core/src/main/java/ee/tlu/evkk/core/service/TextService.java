@@ -30,6 +30,9 @@ public class TextService {
     this.textProcessorService = textProcessorService;
   }
 
+  //public boolean uploadText(textUpload) {
+  //}
+
   public String annotateWithEstnltk(UUID textId) {
     Json json = textProcessorService.processText(TextProcessor.Type.ANNOTATE_ESTNLTK, textId);
     return json.getAsObject(String.class);
