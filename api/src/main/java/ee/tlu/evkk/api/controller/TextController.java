@@ -84,6 +84,13 @@ public class TextController {
     return ResponseEntity.ok(body);
   }
 
+  @PostMapping("/vormimargendid")
+  public ResponseEntity<List<String[]>> vormimargendid(@RequestBody LemmadRequestEntity request) {
+    String[][] vormimargendid = stanzaServerClient.getVormimargendid(request.getTekst());
+    List<String[]> body = Arrays.asList(vormimargendid);
+    return ResponseEntity.ok(body);
+  }
+
   @PostMapping("/lemmad")
   public ResponseEntity<List<String>> lemmad(@RequestBody LemmadRequestEntity request) {
     String[] lemmad = stanzaServerClient.getLemmad(request.getTekst());

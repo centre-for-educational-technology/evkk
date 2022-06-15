@@ -37,9 +37,9 @@ def vormimargendid():
         for word in sentence.words:
             if word._upos != "PUNCT":
                 if word._upos not in ["ADP", "ADV", "CCONJ", "SCONJ", "INTJ", "X"]:
-                    v1.append([word.text, word.feats])
+                    v1.append([word.pos, word.feats])
                 else:
-                    v1.append([word.text, None])
+                    v1.append([word.pos, "–"])
     return Response(json.dumps(v1), mimetype="application/json")
 
 @app.route('/silbid', methods=['POST'])
