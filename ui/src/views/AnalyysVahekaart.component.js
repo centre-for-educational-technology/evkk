@@ -1,22 +1,155 @@
 import React, { Fragment, useMemo, useState } from 'react';
-import { useSortBy, useFilters, useTable, usePagination } from 'react-table';
-import { Button, Checkbox, ButtonGroup, Select, MenuItem, TextField } from "@mui/material";
+import { useSortBy, useFilters, useTable, usePagination	} from 'react-table';
+import { Button, Checkbox, ButtonGroup, Select, MenuItem, TextField, FormControl, InputLabel, Tooltip } from "@mui/material";
 import './AnalyysVahekaart.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import { CSVLink } from "react-csv";
+import DownloadIcon from '@mui/icons-material/Download';
+import ReactExport from "react-export-excel";
+import CloseIcon from '@mui/icons-material/Close';
+
 
 
 
 
 function Analyysvahekaart() {
 
+  const ExcelFile = ReactExport.ExcelFile;
+  const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+  const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+
+  
+  const[fileType, setFileType] = useState(true);
+
+ 
+
   const text = "Tallinna suurimas linnaosas Lasnamäel on alles vaid kaks eesti õppekeelega gümnaasiumi Laagna ja Kuristiku kus mõlemas peaaegu tuhat õpilast Parajasti on vahetund aga kui vähemaks jääb on Laagna gümnaasiumi juhtkond direktori asetäitjad õppe ja kasvatustöö alal ning direktor lahkelt nõus jagama rõõme ja muresid mis eri rahvuste koos õppimisega kaasas käivad"
   const sonad = text.split(" ")
+  const sonaliik = [
+    "nimisõna",
+    "omadussõna",
+    "nimisõna",
+    "nimisõna",
+    "tegusõna",
+    "määrsõna",
+    "määrsõna",
+    "arvsõna",
+    "omadussõna",
+    "nimisõna",
+    "nimisõna",
+    "nimisõna",
+    "sidesõna",
+    "nimisõna",
+    "määrsõna",
+    "määrsõna",
+    "määrsõna",
+    "arvsõna",
+    "nimisõna",
+    "määrsõna",
+    "tegusõna",
+    "nimisõna",
+    "määrsõna",
+    "sidesõna",
+    "omadussõna",
+    "tegusõna",
+    "tegusõna",
+    "nimisõna",
+    "nimisõna",
+    "nimisõna",
+    "nimisõna",
+    "nimisõna",
+    "nimisõna",
+    "sidesõna",
+    "nimisõna",
+    "nimisõna",
+    "sidesõna",
+    "nimisõna",
+    "määrsõna",
+    "määrsõna",
+    "tegusõna",
+    "nimisõna",
+    "sidesõna",
+    "nimisõna",
+    "asesõna",
+    "omadussõna",
+    "nimisõna",
+    "kaassõna",
+    "nimisõna",
+    "määrsõna",
+    "tegusõna"
+]
+  let sonaList = new Map();
+  let numbrid = new Map();
 
-  console.log(sonad)
+
+
+  const sonuSonaliigis = () => {
+
+    for (let i = 0; i < sonaliik.length; i++) {
+
+      if(!sonaList.has(sonaliik[i])){
+        sonaList.set(sonaliik[i],[]);
+        sonaList.get(sonaliik[i]).push(sonad[i]);
+        numbrid.set(sonad[i], 1);
+      }else if(sonaList.has(sonaliik[i])){
+
+          if(sonaList.get(sonaliik[i]).includes(sonad[i])){
+            
+            numbrid.set(sonad[i],(numbrid.get(sonad[i]) + 1)) ;
+          }else{
+            sonaList.get(sonaliik[i]).push(sonad[i]);
+            numbrid.set(sonad[i], 1);
+          }
+        }
+      }
+    }
+    
+   
+
+
+  sonuSonaliigis();
+  
+
+
+  function fillData(){
+    let tableVal = []
+    // console.log(Array.from(sonaList.keys())[0])
+    for (let i = 0; i < sonaList.size; i++) {
+      let info = {
+        col1: "",
+        col2: "",
+        col3: 0,
+        col4: 0
+      }
+      
+      info.col1 = Array.from(sonaList.keys())[i];
+      for (let j = 0; j < sonaList.get(Array.from(sonaList.keys())[i]).length; j++) {
+        info.col2 = info.col2 + sonaList.get(Array.from(sonaList.keys())[i])[j] + String.fromCharCode(160) + "(" + numbrid.get(sonaList.get(sonaliik[i])[j]) + "), ";
+        info.col3 = parseInt(info.col3) + parseInt(numbrid.get(sonaList.get(sonaliik[i])[j]))
+      }
+
+     
+      info.col4 = (sonaList.get(Array.from(sonaList.keys())[i]).length * 100 / sonad.length).toFixed(1);
+      tableVal.push(info);
+
+    }
+    
+    console.log(tableVal)
+    return tableVal;
+  }
+
+  fillData();
+
+
+/* 
+  console.log(sonaList)
+  console.log(numbrid)
+
+  console.log(sonad) */
 
   const [showFilter, setShowFilter] = useState(false);
 
@@ -33,14 +166,29 @@ function Analyysvahekaart() {
   };
 
   function ShowPopup(){
-    if(document.getElementById('filterDiv').style.display  == "none"){
+    if(document.getElementById('filterDiv').style.display  === "none"){
       document.getElementById('filterDiv').style.display = "block"
-    }else if(document.getElementById('filterDiv').style.display == "block"){
+    }else if(document.getElementById('filterDiv').style.display === "block"){
       document.getElementById('filterDiv').style.display = "none"
     }
     outsideClick();
       
   }
+
+  function ShowDownload(){
+    if(document.getElementById('fileDownload').style.display  === "none"){
+      document.getElementById('fileDownload').style.display = "block"
+    }else if(document.getElementById('fileDownload').style.display === "block"){
+      document.getElementById('fileDownload').style.display = "none"
+    }
+    
+      
+  }
+
+  function outsideClick(){
+    document.addEventListener('mouseup', outsideClickFunc);
+  }
+
 
   function outsideClickFunc(e){
     console.log(e.target);
@@ -62,7 +210,6 @@ function Analyysvahekaart() {
   )
   }
 
-
   function setFilteredParams(filterArr, val) {
     setShowFilter(true);
     // if (val === undefined) return undefined;
@@ -75,6 +222,8 @@ function Analyysvahekaart() {
     if (filterArr.length === 0) filterArr = undefined;
     return filterArr;
   }
+
+
 
   function SelectColumnFilter({
     column: { filterValue = [], setFilter, preFilteredRows, id }
@@ -119,85 +268,50 @@ function Analyysvahekaart() {
       );
   }
 
+  
 
 
-  const data = React.useMemo(
-    () => [
-      {
-        col1: 'Hello',
-        col2: 'World',
-        col3: 'a',
-        col4: 1
-      },
-      {
-        col1: 'Teine',
-        col2: 'World',
-        col3: 'b',
-        col4: 2
-      },
-      {
-        col1: 'Kolmas',
-        col2: 'World',
-        col3: 'c',
-        col4: 4
-      },
-      {
-        col1: 'Hello',
-        col2: 'World',
-        col3: 'd',
-        col4: 3
-      },
-      {
-        col1: 'Hello',
-        col2: 'World',
-        col3: 'e',
-        col4: 5
-      },
-      {
-        col1: 'Hello',
-        col2: 'World',
-        col3: 'f',
-        col4: 6
-      },
-      {
-        col1: 'Hello',
-        col2: 'World',
-        col3: 'a',
-        col4: 1
-      },
-      {
-        col1: 'Teine',
-        col2: 'World',
-        col3: 'b',
-        col4: 2
-      },
-      {
-        col1: 'Kolmas',
-        col2: 'World',
-        col3: 'c',
-        col4: 4
-      },
-      {
-        col1: 'Hello',
-        col2: 'World',
-        col3: 'd',
-        col4: 3
-      },
-      {
-        col1: 'Hello',
-        col2: 'World',
-        col3: 'e',
-        col4: 5
-      },
-      {
-        col1: 'Hello',
-        col2: 'World',
-        col3: 'f',
-        col4: 6
-      },
-    ],
+
+  const data = React.useMemo(()=>
+   fillData()
+    ,
     []
   )
+
+  const [buttonType, setButtonType] = useState(<ExcelFile element={<Button variant='contained'>Laadi alla</Button>}>
+    <ExcelSheet data={data} name="Sõnatabel">
+        <ExcelColumn label="Sõnaliik ja vorm" value="col1"/>
+        <ExcelColumn label="Sõnad tekstis" value="col2"/>
+        <ExcelColumn label="Sagedus" value="col3"/>
+        <ExcelColumn label="Osakaal (%)" value="col4"/>
+    </ExcelSheet>
+</ExcelFile>);
+
+  function ShowButton(){
+    if(fileType){
+      setButtonType(<Button className='CSVBtn' variant='contained' color='primary' >
+   
+        <CSVLink className='csvLink' headers={tableHeaders} data={data}>Laadi alla</CSVLink>
+        
+    
+      </Button>)
+    setFileType(false)
+    console.log(fileType);
+      }else if(!fileType){
+        
+      setButtonType(<ExcelFile element={<Button variant='contained'>Laadi alla</Button>}>
+        <ExcelSheet data={data} name="Sõnatabel">
+            <ExcelColumn label="Sõnaliik ja vorm" value="col1"/>
+            <ExcelColumn label="Sõnad tekstis" value="col2"/>
+            <ExcelColumn label="Sagedus" value="col3"/>
+            <ExcelColumn label="Osakaal (%)" value="col4"/>
+        </ExcelSheet>
+    </ExcelFile>)
+      setFileType(true)
+      console.log(fileType);
+        
+      }
+    }
 
   const columns = React.useMemo(
     () => [
@@ -205,8 +319,11 @@ function Analyysvahekaart() {
         Header: "Sõnaliik ja vorm",
         accessor: 'col1', // accessor is the "key" in the data
         className: 'user',
-        width: 400,
+        width: 300,
         disableSortBy: true,
+        sortable: false,
+    
+        
         Filter: SelectColumnFilter,
         filter: MultipleFilter
 
@@ -223,24 +340,50 @@ function Analyysvahekaart() {
       {
         Header: 'Sõnad tekstis',
         accessor: 'col2',
-        width: 600,
+        width: 1100,
         disableFilters: true,
+        disableSortBy: true,
+        sortable: false,
       },
       {
         Header: 'Sagedus',
         accessor: 'col3', // accessor is the "key" in the data
-        width: 600,
+        width: 400,
         disableFilters: true,
       },
       {
         Header: 'Osakaal (%)',
         accessor: 'col4',
-        width: 600,
+        width: 400,
         disableFilters: true,
       }
     ],
     []
   );
+
+  const tableHeaders = [
+    {label: "Sõnaliik ja vorm", key: "col1"},
+    {label: 'Sõnad tekstis', key: "col2"},
+    {label: 'Sagedus', key: "col3"},
+    {label: 'Osakaal (%)', key: "col4"},
+  ]
+
+  function toggleDownload(){
+    fileType = document.getElementById("simple-select");
+    console.log(fileType)
+  }
+
+  function closeDownload(){
+      if(document.getElementById('fileDownload').style.display === "block"){
+      document.getElementById('fileDownload').style.display = "none"
+    }
+  }
+
+  const [valueSelect, setValue] = useState("Excel");
+  
+
+  const handleClick = e => ShowButton();
+
 
   const {
     getTableProps,
@@ -261,6 +404,38 @@ function Analyysvahekaart() {
 
   return (
     <Fragment>
+       <Tooltip title="Laadi alla" placement="top">
+          <div className='downloadPopUp' onClick={ShowDownload}>
+            <DownloadIcon fontSize="large"/>
+          </div>
+          </Tooltip>
+      
+
+      <div id='peidusDiv' className='peidusDiv'>
+    <div id='fileDownload' className='fileDownload' style={{display: "none"}}>
+      <div id='closeIcon' className='closeIcon' onClick={closeDownload}><CloseIcon/></div>
+    
+    <FormControl id="formId" fullWidth>
+        
+        <InputLabel id="demo-simple-select-label">Laadi alla</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="simple-select"
+          label="Laadimine"
+          onChange={handleClick}
+          size="medium"
+          className='selectElement'
+        >
+          <MenuItem value="Excel">Excel</MenuItem>
+          <MenuItem value="CSV">CSV</MenuItem>
+        </Select>
+        
+      </FormControl>
+
+    <div className='laadiBtn'>{buttonType}</div>
+    </div>
+    </div>
+
       <table {...getTableProps()} className="text-sm">
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -280,7 +455,7 @@ function Analyysvahekaart() {
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
                 <th
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}
                   style={{
                     borderBottom: 'solid 1px',
                     color: 'black',
@@ -288,12 +463,12 @@ function Analyysvahekaart() {
                   }}
                 >
                   {column.render('Header')}
-                  <span>
+                  <span className='sortIcon'>
                     {column.isSorted
                       ? column.isSortedDesc
                         ? ' ▼'
-                        : '  ▲'
-                      : ' '}
+                        : ' ▲'
+                      : ' ▼▲'}
 
                   </span>
                 </th>
@@ -370,12 +545,13 @@ function Analyysvahekaart() {
             setPageSize(Number(e.target.value))
           }}
         >
-          {[10, 20, 30, 40, 50].map(pageSize => (
+          {[5, 10, 20, 30, 40, 50, 100].map(pageSize => (
             <MenuItem key={pageSize} value={pageSize}>{pageSize}</MenuItem>
 
           ))}
         </Select>
       </div>
+      
     </Fragment>
   )
 }
