@@ -24,6 +24,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -77,6 +78,28 @@ public class TextController {
     return ResponseEntity.ok(body);
   }
 
+  private String[] translateWordType(String[] tekst) {
+    Map<String, String> translations = new HashMap<>();
+    translations.put("ADJ", "omadussõna");
+    translations.put("ADP", "kaassõna");
+    translations.put("ADV", "määrsõna");
+    translations.put("AUX", "tegusõna (abitegusõna)");
+    translations.put("CCONJ", "sidesõna (rinnastav)");
+    translations.put("DET", "asesõna");
+    translations.put("INTJ", "hüüdsõna");
+    translations.put("NOUN", "nimisõna");
+    translations.put("NUM", "arvsõna");
+    translations.put("PRON", "asesõna");
+    translations.put("PROPN", "nimisõna (pärisnimi)");
+    translations.put("SCONJ", "sidesõna (alistav)");
+    translations.put("VERB", "tegusõna");
+    translations.put("X", "tundmatu");
+    for (int i = 0; i < tekst.length; i++) {
+      tekst[i] = translations.get(tekst[i]);
+    }
+    return tekst;
+  }
+
   @PostMapping("/silbid")
   public ResponseEntity<List<String>> silbid(@RequestBody LemmadRequestEntity request) {
     String[] silbid = stanzaServerClient.getSilbid(request.getTekst());
@@ -84,11 +107,146 @@ public class TextController {
     return ResponseEntity.ok(body);
   }
 
-  @PostMapping("/vormimargendid")
-  public ResponseEntity<List<String[]>> vormimargendid(@RequestBody LemmadRequestEntity request) {
+  @PostMapping("/vormimargendid2")
+  public ResponseEntity<List<String[]>> vormimargendid2(@RequestBody LemmadRequestEntity request) {
     String[][] vormimargendid = stanzaServerClient.getVormimargendid(request.getTekst());
     List<String[]> body = Arrays.asList(vormimargendid);
     return ResponseEntity.ok(body);
+  }
+
+  @PostMapping("/vormimargendid")
+  public ResponseEntity<List<String>> vormimargendid(@RequestBody LemmadRequestEntity request) {
+    String[][] vormimargendid = stanzaServerClient.getVormimargendid(request.getTekst());
+    return ResponseEntity.ok(translateFeats(vormimargendid));
+  }
+
+  private List<String> translateFeats(String[][] tekst) {
+    List<String> result = new ArrayList<>();
+
+    String[] firstType = new String[]{"NOUN", "PROPN", "ADJ", "DET", "PRON", "NUM"};
+    String[] secondType = new String[]{"AUX", "VERB"};
+
+    Map<String, String> numberTranslations = new HashMap<>();
+    numberTranslations.put("Sing", "ainsuse");
+    numberTranslations.put("Plur", "mitmuse");
+
+    Map<String, String> caseTranslations = new HashMap<>();
+    caseTranslations.put("Nom", "nimetav kääne");
+    caseTranslations.put("Gen", "omastav kääne");
+    caseTranslations.put("Par", "osastav kääne");
+    caseTranslations.put("Add", "lühike sisseütlev kääne");
+    caseTranslations.put("Ill", "sisseütlev kääne");
+    caseTranslations.put("Ine", "seesütlev kääne");
+    caseTranslations.put("Ela", "seestütlev kääne");
+    caseTranslations.put("All", "alaleütlev kääne");
+    caseTranslations.put("Ade", "alalütlev kääne");
+    caseTranslations.put("Abl", "alaltütlev kääne");
+    caseTranslations.put("Tra", "saav kääne");
+    caseTranslations.put("Ter", "rajav kääne");
+    caseTranslations.put("Ess", "olev kääne");
+    caseTranslations.put("Abe", "ilmaütlev kääne");
+    caseTranslations.put("Com", "kaasaütlev kääne");
+
+    Map<String, String> degreeTranslations = new HashMap<>();
+    degreeTranslations.put("Pos", "algvõrre");
+    degreeTranslations.put("Cmp", "keskvõrre");
+    degreeTranslations.put("Sup", "ülivõrre");
+
+    Map<String, String> moodTranslations = new HashMap<>();
+    moodTranslations.put("Ind", "kindla kõneviisi");
+    moodTranslations.put("Cnd", "tingiva kõneviisi");
+    moodTranslations.put("Imp", "käskiv kõneviis");
+    moodTranslations.put("Qot", "kaudse kõneviisi");
+
+    Map<String, String> personTranslations = new HashMap<>();
+    personTranslations.put("1", "1. pööre");
+    personTranslations.put("2", "2. pööre");
+    personTranslations.put("3", "3. pööre");
+
+    Map<String, String> verbFormTranslations = new HashMap<>();
+    verbFormTranslations.put("Inf", "da-tegevusnimi");
+    verbFormTranslations.put("Sup", "ma-tegevusnimi");
+    verbFormTranslations.put("Conv", "des-vorm");
+
+    for (String[] word: tekst) {
+      // muutumatud sõnad
+      if (word[1] == "–" || word[1] == null) {
+        result.add("–");
+      }
+
+      // käändsõnad
+      else if (Arrays.asList(firstType).contains(word[0])) {
+        String[] feats = word[1].split("\\|");
+        String numberLabel = "";
+        String caseLabel = "";
+        String degreeLabel = "";
+        for (String feat: feats) {
+          if (feat.contains("Number")) {
+            numberLabel = numberTranslations.get(feat.split("=")[1]);
+          }
+          if (feat.contains("Case")) {
+            caseLabel = caseTranslations.get(feat.split("=")[1]);
+          }
+          if (feat.contains("Degree")) {
+            degreeLabel = degreeTranslations.get(feat.split("=")[1]);
+          }
+        }
+        String subResult = numberLabel + " " + caseLabel;
+        if (!degreeLabel.isEmpty()) {
+          subResult += ", " + degreeLabel;
+        }
+        result.add(subResult);
+      }
+
+      // tegusõnad
+      else if (Arrays.asList(secondType).contains(word[0])) {
+        String[] feats = word[1].split("\\|");
+        String moodLabel = "";
+        String tenseLabel = "";
+        String numberLabel = "";
+        String personVoiceLabel = "";
+        String negativityLabel = "";
+        String verbFormLabel = "";
+        for (String feat: feats) {
+          if (feat.contains("Mood")) {
+            moodLabel = moodTranslations.get(feat.split("=")[1]);
+          }
+          if (feat.contains("Number")) {
+            numberLabel = numberTranslations.get(feat.split("=")[1]);
+          }
+          if (feat.contains("Voice")) {
+            if (feat.split("=")[1] == "Pass") {
+              personVoiceLabel = "umbisikuline tegumood";
+            }
+          }
+          if (feat.contains("Polarity") || feat.contains("Connegative")) {
+            if (feat.split("=")[1] == "Neg" || feat.split("=")[1] == "Yes") {
+              negativityLabel = "eitus";
+            }
+          }
+          // käändelised vormid
+          if (!feats.contains("VerbForm=Fin")) {
+            // pooleli
+            verbFormLabel = verbFormTranslations.get()
+          }
+        }
+      }
+      for (String feat: feats) {
+        if (feat.contains("Tense")) {
+          if (moodLabel == "kindla kõneviisi") {
+            tenseLabel = "lihtminevik";
+          } else if (moodLabel == "tingiva kõneviisi" || moodLabel == "kaudse kõneviisi") {
+            tenseLabel = "minevik";
+          }
+        }
+        if (feat.contains("Person")) {
+          if (personVoiceLabel != "umbisikuline tegumood") {
+            personVoiceLabel = personTranslations.get(feat.split("=")[1]);
+          }
+        }
+      }
+    }
+    return result;
   }
 
   @PostMapping("/lemmad")
@@ -228,28 +386,6 @@ return ResponseEntity.ok(body);
     UUID textId = textWithProperties.getText().getId();
     String downloadUrl = UriComponentsBuilder.fromUri(publicApiUri).pathSegment("texts", "download", "{textId}").encode().build(textId.toString()).toString();
     return ApiMapper.INSTANCE.toTextSearchResponse(textWithProperties, downloadUrl);
-  }
-
-  private String[] translateWordType(String[] tekst) {
-    Map<String, String> translations = new HashMap<>();
-    translations.put("ADJ", "omadussõna");
-    translations.put("ADP", "kaassõna");
-    translations.put("ADV", "määrsõna");
-    translations.put("AUX", "tegusõna (abitegusõna)");
-    translations.put("CCONJ", "sidesõna (rinnastav)");
-    translations.put("DET", "asesõna");
-    translations.put("INTJ", "hüüdsõna");
-    translations.put("NOUN", "nimisõna");
-    translations.put("NUM", "arvsõna");
-    translations.put("PRON", "asesõna");
-    translations.put("PROPN", "nimisõna (pärisnimi)");
-    translations.put("SCONJ", "sidesõna (alistav)");
-    translations.put("VERB", "tegusõna");
-    translations.put("X", "tundmatu");
-    for (int i = 0; i < tekst.length; i++) {
-      tekst[i] = translations.get(tekst[i]);
-    }
-    return tekst;
   }
 
 }
