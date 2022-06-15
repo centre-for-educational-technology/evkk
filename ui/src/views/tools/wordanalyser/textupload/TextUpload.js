@@ -3,6 +3,7 @@ import TextUploadModal from "./TextUploadModal";
 import "../styles/TextUpload.css";
 import {Button} from "@mui/material";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+
 function TextUpload(props) {
     const [buttonPopup, setButtonPopup] = useState(false);
 
@@ -42,16 +43,17 @@ function TextUpload(props) {
     
         return(
             <div className='container'>
-                <input type="image" id="upload_button" value="Vali tekst(id)" class="buttonFail" onClick={() => {setButtonPopup(true)}} style={{height: 30, width: 30}} ata-testid="FileUploadIcon"/>
+                <FileUploadIcon id="upload_button" value="Vali tekst(id)" class="buttonFail" onClick={() => {setButtonPopup(true)}} style={{height: 30, width: 30, cursor: "pointer"}} />
                 <TextUploadModal trigger={buttonPopup}>
                     <form encType="multipart/form-data" method="post" id='form_data'>
                         <div id='popup_1'>
                             <h1 id="pop_title">Vali tekst üleslaadimiseks</h1>
-                            <Button className="close" class="close-btn" onClick={() => {setButtonPopup(false)}}> X</Button>
+                            <Button className="close-btn" id="close" onClick={() => {setButtonPopup(false)}} > X</Button>
                             <Button component="label" htmlFor='text_1' id="pickfile"> vali fail</Button>
                             <label id="file_name" ></label>
+
                             <input style={{visibility:"hidden"}} type="file" name="file" id="text_1"onChange={filechange} title="your text" multiple={true} accept=".txt,.pdf,.docx,.doc,.odt"></input>
-                            <Button type='button' id="upload" onClick={() => {setButtonPopup(false)}} onMouseDown={fileUpload} >Lae fail ules</Button>
+                            <Button type='button' id="upload" onClick={() => {setButtonPopup(false)}} onMouseDown={fileUpload} >Lae fail üles</Button>
                         </div>
                     </form>
                 </TextUploadModal>
