@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import TextUploadModal from "./TextUploadModal";
 import "../styles/TextUpload.css";
 import {Button} from "@mui/material";
@@ -43,7 +43,7 @@ function TextUpload(props) {
     
         return(
             <div className='container'>
-                <FileUploadIcon id="upload_button" value="Vali tekst(id)" class="buttonFail" onClick={() => {setButtonPopup(true)}} style={{height: 30, width: 30, cursor: "pointer"}} />
+                <FileUploadIcon id="upload_button" value="Vali tekst(id)" className="buttonFail" onClick={() => {setButtonPopup(true)}} style={{height: 30, width: 30, cursor: "pointer"}} />
                 <TextUploadModal trigger={buttonPopup}>
                     <form encType="multipart/form-data" method="post" id='form_data'>
                         <div id='popup_1'>

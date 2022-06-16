@@ -6,8 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 import './styles/WordAnalyser.css'
 import TextUpload from './textupload/TextUpload'
 import GrammaticalAnalysis from './GrammaticalAnalysis'
-import Grid from '@mui/material/Grid'
-
+import { Box, Grid, Tab, Tabs, Typography } from '@mui/material'
 
 function App() {
   const [showStats, setShowStats] = useState(false)
@@ -19,7 +18,7 @@ function App() {
 
   //get words
   const getWords = async (input) => {
-    const response = await fetch("http://localhost:3000/api/texts/sonad", {
+    const response = await fetch("/api/texts/sonad", {
       method: "POST",
       headers: {
         "Content-Type" : "application/json"
@@ -27,12 +26,20 @@ function App() {
       body: JSON.stringify({tekst: input}),
     })
     const data = await response.json()
-    return data
+
+    let newData = []
+    for(let i=0; i<data.length; i++){
+      if(data[i]){
+        let item = data[i].replace(/['*]+/g, '')
+        newData.push(item)
+      }
+    }
+    return newData
   }
 
   //get lemmas
   const getLemmas = async (input) => {
-    const response = await fetch("http://localhost:3000/api/texts/lemmad", {
+    const response = await fetch("/api/texts/lemmad", {
       method: "POST",
       headers: {
         "Content-Type" : "application/json"
@@ -41,12 +48,19 @@ function App() {
     })
 
     const data = await response.json()
-    return data
+    let newData = []
+    for(let i=0; i<data.length; i++){
+      if(data[i]){
+        let item = data[i].replace(/['*_=]+/g, '')
+        newData.push(item)
+      }
+    }
+    return newData
   }
 
   //get sentences
   const getSentences = async (input) => {
-    const response = await fetch("http://localhost:3000/api/texts/laused", {
+    const response = await fetch("/api/texts/laused", {
       method: "POST",
       headers: {
         "Content-Type" : "application/json"
@@ -59,7 +73,7 @@ function App() {
 
   //get word type
   const getWordTypes = async (input) => {
-    const response = await fetch("http://localhost:3000/api/texts/sonaliik", {
+    const response = await fetch("/api/texts/sonaliik", {
       method: "POST",
       headers: {
         "Content-Type" : "application/json"
@@ -72,7 +86,7 @@ function App() {
 
   //get syllables
   const getSyllables = async (input) => {
-    const response = await fetch("http://localhost:3000/api/texts/silbid", {
+    const response = await fetch("/api/texts/silbid", {
       method: "POST",
       headers: {
         "Content-Type" : "application/json"
@@ -80,7 +94,17 @@ function App() {
       body: JSON.stringify({tekst: input}),
     })
     const data = await response.json()
-    return data
+
+    let newData = []
+    for(let i=0; i<data.length; i++){
+      if(data[i]){
+        let item = data[i].replace(/['",]+/g, '')
+        if(item){
+          newData.push(item)
+        }
+      }
+    }
+    return newData
   }
 
   //create ids
@@ -94,7 +118,6 @@ function App() {
   }
 
   //analyse text
-  //kas sisu peaks enne Stanzasse saatmist ära puhastama? html-märgenditest jmt
   const analyseInput = async (input)=> {
     const analysedSentences = await getSentences(input)
     const analysedWords = await getWords(input)
@@ -113,7 +136,8 @@ function App() {
       wordtypes: analysedWordTypes,
     }
     setShowStats(!showStats)
-    setAnalysedInput(inputObj)  
+    setAnalysedInput(inputObj)
+    console.log(inputObj)
   }
 
   //select first word and show wordInfo after loading
@@ -121,7 +145,7 @@ function App() {
     setSelectedWords([analysedInput.ids[0]])
     
     let wordInfoObj = {
-      word: analysedInput.words[0].toLowerCase(),
+      word: analysedInput.words[0],
       lemma: analysedInput.lemmas[0],
       syllables: analysedInput.syllables[0],
       type: analysedInput.wordtypes[0],
@@ -140,7 +164,7 @@ function App() {
   const showWord = (word) => {
     let content = []
     for(let i=0; i<analysedInput.words.length; i++){
-      let analysedWord = analysedInput.words[i].toLowerCase()
+      let analysedWord = analysedInput.words[i]
       let id = analysedInput.ids[i]
       if(analysedWord===word){
         content.push(id)
@@ -174,8 +198,8 @@ function App() {
       }
     }
 
-  const wordInfoObj = {
-      word: analysedInput.words[index].toLowerCase(),
+    const wordInfoObj = {
+      word: analysedInput.words[index],
       lemma: analysedInput.lemmas[index],
       syllables: analysedInput.syllables[index],
       type: analysedInput.wordtypes[index],
@@ -189,26 +213,89 @@ function App() {
     setTextFromFile(data);
   }
 
+  //resetting
+  const resetAnalyser = () => {
+    let newInputObj = {ids: [''], text: '', sentences: [''], words: [''], lemmas: [''], syllables: [''], wordtypes: [''] }
+    setAnalysedInput(newInputObj)
+    setShowStats(false)
+  }
+
+  //tabs
+  function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+  
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box sx={{ p: 3 }}>
+            <Typography component={`span`}>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
+  }
+  
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  }
+  
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   return (
-    <div>
-      <Grid container className="container">
-        <Grid item xs={12} md={9}>
-          <TextUpload />
+    <Box component='section' className="container">
+      <Grid container columnSpacing={{ xs: 0, md: 4 }}>
+        <Grid item xs={12} md={12}>
+          <TextUpload sendTextFromFile={sendTextFromFile} />
         </Grid>
         <Grid item xs={12} md={6}>
-          <Input onInsert={analyseInput} onAnalyse={analysedInput} onMarkWords={selectedWords} onWordSelect={showThisWord} onWordInfo={showInfo}/>
+          <Input textFromFile={textFromFile} onInsert={analyseInput} onAnalyse={analysedInput} onMarkWords={selectedWords} onWordSelect={showThisWord} onWordInfo={showInfo} onReset={resetAnalyser}/>
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={6}>
           {showStats && <WordInfo onShowWordInfo={showWordInfo} onWordInfo={wordInfo}/>}
         </Grid>
-        <Grid item xs={9}>
-          {showStats && <Stats onAnalyse={analysedInput} onLemmaSelect={showLemma} onWordSelect={showWord}/>}
+
+        {showStats &&
+        <Grid item xs={12}  md={12}>
+          <h2>Tekstianalüüs</h2>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+              <Tab label="Silbid" {...a11yProps(0)} />
+              <Tab label="Algvormid" {...a11yProps(1)} />
+              <Tab label="Grammatiline analüüs" {...a11yProps(2)} />
+            </Tabs>
+          </Box>
+          <TabPanel value={value} index={0}>
+            <div>
+              <Stats onAnalyse={analysedInput} onLemmaSelect={showLemma} onWordSelect={showWord}/>
+            </div>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <div>
+              <Stats onAnalyse={analysedInput} onLemmaSelect={showLemma} onWordSelect={showWord}/>
+            </div>
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <div>
+              <GrammaticalAnalysis />
+            </div>
+          </TabPanel>
         </Grid>
-        <br/><br/>
-        <h3>Grammatiline analüüs</h3>
-        <GrammaticalAnalysis />
+        }
       </Grid>
-    </div>
+    </Box>
   )
 }
 

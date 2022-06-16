@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import "../styles/TextUpload.css";
 
 function TextUploadModal(props) {
@@ -6,7 +6,6 @@ function TextUploadModal(props) {
     <div className="popup">
         <div className="popup-inner">
             {props.children }
-            
         </div>
     </div>) : ""
 }
