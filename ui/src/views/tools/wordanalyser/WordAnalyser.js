@@ -140,7 +140,20 @@ function App() {
   const showWord = (word) => {
     let content = []
     for(let i=0; i<analysedInput.words.length; i++){
-      let analysedWord = analysedInput.words[i].toLowerCase()
+      let analysedWord = analysedInput.words[i]
+      let id = analysedInput.ids[i]
+      if(analysedWord===word){
+        content.push(id)
+      }
+    }
+    setSelectedWords(content)
+    setShowWordInfo(false)
+  }
+
+  const showType = (word) => {
+    let content = []
+    for(let i=0; i<analysedInput.words.length; i++){
+      let analysedWord = analysedInput.wordtypes[i]
       let id = analysedInput.ids[i]
       if(analysedWord===word){
         content.push(id)
@@ -189,6 +202,7 @@ function App() {
     setTextFromFile(data);
   }
 
+
   return (
     <div>
       <Grid container className="container">
@@ -204,10 +218,17 @@ function App() {
         <Grid item xs={9}>
           {showStats && <Stats onAnalyse={analysedInput} onLemmaSelect={showLemma} onWordSelect={showWord}/>}
         </Grid>
-        <br/><br/>
-        <h3>Grammatiline analüüs</h3>
-        <GrammaticalAnalysis />
+        <Grid item xs={12}>
+          
+          
+          
+          {showStats && <GrammaticalAnalysis onTypeSelect={showType} onWordSelect={showWord} onAnalyse={analysedInput}/>}
+
+        </Grid>
+        
       </Grid>
+      
+
     </div>
   )
 }
