@@ -24,6 +24,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -82,6 +83,19 @@ public class TextController {
     String[] silbid = stanzaServerClient.getSilbid(request.getTekst());
     List<String> body = Arrays.asList(silbid);
     return ResponseEntity.ok(body);
+  }
+
+  @PostMapping("/raw/vormimargendid")
+  public ResponseEntity<List<String[]>> rawVormimargendid(@RequestBody LemmadRequestEntity request) {
+    String[][] vormimargendid = stanzaServerClient.getVormimargendid(request.getTekst());
+    List<String[]> body = Arrays.asList(vormimargendid);
+    return ResponseEntity.ok(body);
+  }
+
+  @PostMapping("/vormimargendid")
+  public ResponseEntity<List<String>> vormimargendid(@RequestBody LemmadRequestEntity request) {
+    String[][] vormimargendid = stanzaServerClient.getVormimargendid(request.getTekst());
+    return ResponseEntity.ok(translateFeats(vormimargendid));
   }
 
   @PostMapping("/lemmad")
@@ -243,6 +257,205 @@ return ResponseEntity.ok(body);
       tekst[i] = translations.get(tekst[i]);
     }
     return tekst;
+  }
+
+  private List<String> translateFeats(String[][] tekst) {
+    List<String> result = new ArrayList<>();
+
+    String[] firstType = new String[]{"NOUN", "PROPN", "ADJ", "DET", "PRON", "NUM"};
+    String[] secondType = new String[]{"AUX", "VERB"};
+
+    Map<String, String> numberTranslations = new HashMap<>();
+    numberTranslations.put("Sing", "ainsuse");
+    numberTranslations.put("Plur", "mitmuse");
+
+    Map<String, String> caseTranslations = new HashMap<>();
+    caseTranslations.put("Nom", "nimetav kääne");
+    caseTranslations.put("Gen", "omastav kääne");
+    caseTranslations.put("Par", "osastav kääne");
+    caseTranslations.put("Add", "lühike sisseütlev kääne");
+    caseTranslations.put("Ill", "sisseütlev kääne");
+    caseTranslations.put("Ine", "seesütlev kääne");
+    caseTranslations.put("Ela", "seestütlev kääne");
+    caseTranslations.put("All", "alaleütlev kääne");
+    caseTranslations.put("Ade", "alalütlev kääne");
+    caseTranslations.put("Abl", "alaltütlev kääne");
+    caseTranslations.put("Tra", "saav kääne");
+    caseTranslations.put("Ter", "rajav kääne");
+    caseTranslations.put("Ess", "olev kääne");
+    caseTranslations.put("Abe", "ilmaütlev kääne");
+    caseTranslations.put("Com", "kaasaütlev kääne");
+
+    Map<String, String> degreeTranslations = new HashMap<>();
+    degreeTranslations.put("Pos", "algvõrre");
+    degreeTranslations.put("Cmp", "keskvõrre");
+    degreeTranslations.put("Sup", "ülivõrre");
+
+    Map<String, String> moodTranslations = new HashMap<>();
+    moodTranslations.put("Ind", "kindla kõneviisi");
+    moodTranslations.put("Cnd", "tingiva kõneviisi");
+    moodTranslations.put("Imp", "käskiv kõneviis,");
+    moodTranslations.put("Qot", "kaudse kõneviisi");
+
+    Map<String, String> personTranslations = new HashMap<>();
+    personTranslations.put("1", "1. pööre");
+    personTranslations.put("2", "2. pööre");
+    personTranslations.put("3", "3. pööre");
+
+    Map<String, String> verbFormTranslations = new HashMap<>();
+    verbFormTranslations.put("Inf", "da-tegevusnimi");
+    verbFormTranslations.put("Sup", "ma-tegevusnimi");
+    verbFormTranslations.put("Conv", "des-vorm");
+
+    for (String[] word: tekst) {
+      // muutumatud sõnad
+      if (word[1] == null || word[1].equals("–")) {
+        result.add("–");
+      }
+
+      // käändsõnad
+      else if (Arrays.asList(firstType).contains(word[0])) {
+        String[] feats = word[1].split("\\|");
+        String numberLabel = "";
+        String caseLabel = "";
+        String degreeLabel = "";
+        String tenseLabel = "";
+
+        for (String feat: feats) {
+          if (feat.contains("Number")) {
+            numberLabel = numberTranslations.get(feat.split("=")[1]);
+          }
+          if (feat.contains("Case")) {
+            caseLabel = caseTranslations.get(feat.split("=")[1]);
+          }
+          if (feat.contains("Degree")) {
+            degreeLabel = degreeTranslations.get(feat.split("=")[1]);
+          }
+          if (feat.contains("Tense")) {
+            if (feat.split("=")[1].equals("Pres")) {
+              tenseLabel = "oleviku kesksõna";
+            } else {
+              tenseLabel = "mineviku kesksõna";
+            }
+          }
+          if (feat.contains("Voice")) {
+            if (feat.split("=")[1].equals("Act")) {
+              tenseLabel += " nud-vorm";
+            } else {
+              tenseLabel += " tud-vorm";
+            }
+          }
+        }
+
+        String subResult = "";
+        if (!numberLabel.isEmpty()) {
+          subResult += numberLabel + " ";
+        }
+        if (!caseLabel.isEmpty()) {
+          subResult += caseLabel;
+        }
+        if (!degreeLabel.isEmpty()) {
+          if (!subResult.isEmpty()) {
+            subResult += ", ";
+          }
+          subResult += degreeLabel;
+        }
+        if (!tenseLabel.isEmpty()) {
+          if (!subResult.isEmpty()) {
+            subResult += ", ";
+          }
+          subResult += tenseLabel;
+        }
+        result.add(subResult);
+      }
+
+      // tegusõnad
+      else if (Arrays.asList(secondType).contains(word[0])) {
+        String[] feats = word[1].split("\\|");
+        String moodLabel = "";
+        String tenseLabel = "";
+        String numberLabel = "";
+        String personVoiceLabel = "";
+        String negativityLabel = "";
+        String verbFormLabel = "";
+
+        // Polarity=Neg only
+        if (word[1].equals("Polarity=Neg")) {
+          result.add("eitussõna");
+        }
+
+        // pöördelised vormid
+        else if (Arrays.asList(feats).contains("VerbForm=Fin")) {
+          for (String feat: feats) {
+            if (feat.contains("Mood")) {
+              moodLabel = moodTranslations.get(feat.split("=")[1]);
+            }
+            if (feat.contains("Number")) {
+              numberLabel = numberTranslations.get(feat.split("=")[1]);
+            }
+            if (feat.contains("Voice")) {
+              if (feat.split("=")[1].equals("Pass")) {
+                personVoiceLabel = "umbisikuline tegumood";
+              }
+            }
+            if (feat.contains("Polarity") || feat.contains("Connegative")) {
+              if (feat.split("=")[1].equals("Neg") || feat.split("=")[1].equals("Yes")) {
+                negativityLabel = "eitus";
+              }
+            }
+            for (String feat2: feats) {
+              if (feat2.contains("Tense")) {
+                if (moodLabel.equals("kindla kõneviisi")) {
+                  tenseLabel = "lihtminevik";
+                } else if (moodLabel.equals("tingiva kõneviisi") || moodLabel.equals("kaudse kõneviisi")) {
+                  tenseLabel = "minevik";
+                }
+              }
+              if (feat2.contains("Person")) {
+                if (personVoiceLabel != "umbisikuline tegumood") {
+                  personVoiceLabel = personTranslations.get(feat2.split("=")[1]);
+                }
+              }
+            }
+          }
+
+          String subResult = moodLabel;
+          if (moodLabel != "käskiv kõneviis,") {
+            subResult += " " + tenseLabel + ",";
+          }
+          if (negativityLabel != "eitus" && personVoiceLabel != "umbisikuline tegumood" && !numberLabel.isEmpty()) {
+            subResult += " " + numberLabel;
+          }
+          if (negativityLabel != "eitus" && !personVoiceLabel.isEmpty()) {
+            subResult += " " + personVoiceLabel;
+          }
+          if (!negativityLabel.isEmpty()) {
+            subResult += " " + negativityLabel;
+          }
+          result.add(subResult);
+        }
+
+        // käändelised vormid
+        else {
+          if (Arrays.asList(feats).contains("VerbForm=Part") && Arrays.asList(feats).contains("Tense=Past")) {
+            if (Arrays.asList(feats).contains("Voice=Act")) {
+              verbFormLabel = "mineviku kesksõna nud-vorm";
+            } else if (Arrays.asList(feats).contains("Voice=Pass")) {
+              verbFormLabel = "mineviku kesksõna tud-vorm";
+            }
+          } else {
+            for (String feat: feats) {
+              if (feat.split("=")[0].equals("VerbForm")) {
+                verbFormLabel = verbFormTranslations.get(feat.split("=")[1]);
+              }
+            }
+          }
+          result.add(verbFormLabel);
+        }
+      }
+    }
+
+    return result;
   }
 
 }

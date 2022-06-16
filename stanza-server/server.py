@@ -24,8 +24,22 @@ def silbid():
     v1 = []
     for sentence in doc.sentences:
         for word in sentence.words:
-            if word._upos!="PUNCT":
+            if word._upos != "PUNCT":
                 v1.append(word.pos)
+    return Response(json.dumps(v1), mimetype="application/json")
+
+@app.route('/vormimargendid', methods=['POST'])
+def vormimargendid():
+    nlp = nlp_tp
+    doc = nlp(request.json["tekst"])
+    v1 = []
+    for sentence in doc.sentences:
+        for word in sentence.words:
+            if word._upos != "PUNCT":
+                if word._upos not in ["ADP", "ADV", "CCONJ", "SCONJ", "INTJ", "X"]:
+                    v1.append([word.pos, word.feats, word.text])
+                else:
+                    v1.append([word.pos, "–", word.text])
     return Response(json.dumps(v1), mimetype="application/json")
 
 @app.route('/silbid', methods=['POST'])
@@ -50,7 +64,7 @@ def lemmad():
     v1 = []
     for sentence in doc.sentences:
         for word in sentence.words:
-            if word._upos!="PUNCT":
+            if word._upos != "PUNCT":
                 v1.append(word.lemma)
     return Response(json.dumps(v1), mimetype="application/json")
 
@@ -73,7 +87,7 @@ def sonad():
     v1 = []
     for sentence in doc.sentences:
         for word in sentence.words:
-            if word._upos!="PUNCT":
+            if word._upos != "PUNCT":
                 v1.append(word.text)
     return Response(json.dumps(v1), mimetype="application/json")
 
