@@ -191,6 +191,7 @@ public class TextController {
             degreeLabel = degreeTranslations.get(feat.split("=")[1]);
           }
         }
+
         String subResult = numberLabel + " " + caseLabel;
         if (!degreeLabel.isEmpty()) {
           subResult += ", " + degreeLabel;
@@ -207,45 +208,75 @@ public class TextController {
         String personVoiceLabel = "";
         String negativityLabel = "";
         String verbFormLabel = "";
+        
         for (String feat: feats) {
-          if (feat.contains("Mood")) {
-            moodLabel = moodTranslations.get(feat.split("=")[1]);
-          }
-          if (feat.contains("Number")) {
-            numberLabel = numberTranslations.get(feat.split("=")[1]);
-          }
-          if (feat.contains("Voice")) {
-            if (feat.split("=")[1] == "Pass") {
-              personVoiceLabel = "umbisikuline tegumood";
+          // pöördelised vormid
+          if (Arrays.asList(feats).contains("VerbForm=Fin")) {
+            if (feat.contains("Mood")) {
+              moodLabel = moodTranslations.get(feat.split("=")[1]);
             }
-          }
-          if (feat.contains("Polarity") || feat.contains("Connegative")) {
-            if (feat.split("=")[1] == "Neg" || feat.split("=")[1] == "Yes") {
-              negativityLabel = "eitus";
+            if (feat.contains("Number")) {
+              numberLabel = numberTranslations.get(feat.split("=")[1]);
             }
+            if (feat.contains("Voice")) {
+              if (feat.split("=")[1] == "Pass") {
+                personVoiceLabel = "umbisikuline tegumood";
+              }
+            }
+            if (feat.contains("Polarity") || feat.contains("Connegative")) {
+              if (feat.split("=")[1] == "Neg" || feat.split("=")[1] == "Yes") {
+                negativityLabel = "eitus";
+              }
+            }
+            for (String feat2: feats) {
+              if (feat2.contains("Tense")) {
+                if (moodLabel == "kindla kõneviisi") {
+                  tenseLabel = "lihtminevik";
+                } else if (moodLabel == "tingiva kõneviisi" || moodLabel == "kaudse kõneviisi") {
+                  tenseLabel = "minevik";
+                }
+              }
+              if (feat2.contains("Person")) {
+                if (personVoiceLabel != "umbisikuline tegumood") {
+                  personVoiceLabel = personTranslations.get(feat2.split("=")[1]);
+                }
+              }
+            }
+
+            String subResult = moodLabel;
+            if (moodLabel != "käskiv kõneviis") {
+              subResult += " " + tenseLabel + ",";
+            }
+            if (negativityLabel != "eitus" && personVoiceLabel != "umbisikuline tegumood" && !numberLabel.isEmpty()) {
+              subResult += " " + numberLabel;
+            }
+            if (negativityLabel != "eitus" && !personVoiceLabel.isEmpty()) {
+              subResult += " " + personVoiceLabel;
+            }
+            if (!negativityLabel.isEmpty()) {
+              subResult += ", " + negativityLabel;
+            }
+            result.add(subResult);
+            System.out.println(word[2] + ": " + subResult);
           }
           // käändelised vormid
-          if (!feats.contains("VerbForm=Fin")) {
-            // pooleli
-            verbFormLabel = verbFormTranslations.get()
-          }
-        }
-      }
-      for (String feat: feats) {
-        if (feat.contains("Tense")) {
-          if (moodLabel == "kindla kõneviisi") {
-            tenseLabel = "lihtminevik";
-          } else if (moodLabel == "tingiva kõneviisi" || moodLabel == "kaudse kõneviisi") {
-            tenseLabel = "minevik";
-          }
-        }
-        if (feat.contains("Person")) {
-          if (personVoiceLabel != "umbisikuline tegumood") {
-            personVoiceLabel = personTranslations.get(feat.split("=")[1]);
+          else {
+            if (feat == "VerbForm=Part" && Arrays.asList(feats).contains("Tense=Past")) {
+              if (Arrays.asList(feats).contains("Voice=Act")) {
+                verbFormLabel = "mineviku kesksõna nud-vorm";
+              } else if (Arrays.asList(feats).contains("Voice=Pass")) {
+                verbFormLabel = "mineviku kesksõna tud-vorm";
+              }
+            } else {
+              verbFormLabel = verbFormTranslations.get(feat.split("=")[1]);
+            }
+            result.add(verbFormLabel);
           }
         }
       }
     }
+    System.out.println("----------");
+
     return result;
   }
 
