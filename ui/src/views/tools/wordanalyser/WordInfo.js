@@ -1,12 +1,12 @@
 export const WordInfo = ({ onShowWordInfo, onWordInfo }) => {
-  
+
   return (
-    <div>
+    <div className="containerItem wordInfo">
       <h2>Sõnaanalüüs</h2> 
       <p>Sõna: {onShowWordInfo && onWordInfo.word}</p>
-      <p>Lemma: {onShowWordInfo && onWordInfo.lemma}</p>
+      <p>Algvorm: {onShowWordInfo && onWordInfo.lemma}</p>
       <p>Silbid: {onShowWordInfo && onWordInfo.syllables}</p>
-      <p>Sõnatüüp: {onShowWordInfo && onWordInfo.type}</p>
+      <p>Sõnaliik: {onShowWordInfo && onWordInfo.type}</p>
     </div>
   )
 }

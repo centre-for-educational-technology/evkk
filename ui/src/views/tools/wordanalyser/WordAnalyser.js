@@ -1,12 +1,11 @@
-import { useState, useEffect } from 'react'
+import { SyntheticEvent, ReactNode, useState, useEffect } from 'react'
 import { Input } from './textinput/Input'
 import { WordInfo } from './WordInfo'
 import { Stats } from './lemmastats/Stats'
 import { v4 as uuidv4 } from 'uuid'
 import './styles/WordAnalyser.css'
 import TextUpload from './textupload/TextUpload'
-import Grid from '@mui/material/Grid'
-
+import { Box, Grid, Tab, Tabs, Typography } from '@mui/material'
 
 function App() {
   const [showStats, setShowStats] = useState(false)
@@ -25,7 +24,15 @@ function App() {
       body: JSON.stringify({tekst: input}),
     })
     const data = await response.json()
-    return data
+
+    let newData = []
+    for(let i=0; i<data.length; i++){
+      if(data[i]){
+        let item = data[i].replace(/['*]+/g, '')
+        newData.push(item)
+      }
+    }
+    return newData
   }
 
   //get lemmas
@@ -39,7 +46,14 @@ function App() {
     })
 
     const data = await response.json()
-    return data
+    let newData = []
+    for(let i=0; i<data.length; i++){
+      if(data[i]){
+        let item = data[i].replace(/['*_=]+/g, '')
+        newData.push(item)
+      }
+    }
+    return newData
   }
 
   //get sentences
@@ -78,7 +92,17 @@ function App() {
       body: JSON.stringify({tekst: input}),
     })
     const data = await response.json()
-    return data
+
+    let newData = []
+    for(let i=0; i<data.length; i++){
+      if(data[i]){
+        let item = data[i].replace(/['",]+/g, '')
+        if(item){
+          newData.push(item)
+        }
+      }
+    }
+    return newData
   }
 
   //create ids
@@ -92,7 +116,6 @@ function App() {
   }
 
   //analyse text
-  //kas sisu peaks enne Stanzasse saatmist ära puhastama? html-märgenditest jmt
   const analyseInput = async (input)=> {
     const analysedSentences = await getSentences(input)
     const analysedWords = await getWords(input)
@@ -111,7 +134,8 @@ function App() {
       wordtypes: analysedWordTypes,
     }
     setShowStats(!showStats)
-    setAnalysedInput(inputObj)  
+    setAnalysedInput(inputObj)
+    console.log(inputObj)
   }
 
   //select first word and show wordInfo after loading
@@ -119,7 +143,7 @@ function App() {
     setSelectedWords([analysedInput.ids[0]])
     
     let wordInfoObj = {
-      word: analysedInput.words[0].toLowerCase(),
+      word: analysedInput.words[0],
       lemma: analysedInput.lemmas[0],
       syllables: analysedInput.syllables[0],
       type: analysedInput.wordtypes[0],
@@ -138,7 +162,7 @@ function App() {
   const showWord = (word) => {
     let content = []
     for(let i=0; i<analysedInput.words.length; i++){
-      let analysedWord = analysedInput.words[i].toLowerCase()
+      let analysedWord = analysedInput.words[i]
       let id = analysedInput.ids[i]
       if(analysedWord===word){
         content.push(id)
@@ -172,8 +196,8 @@ function App() {
       }
     }
 
-  const wordInfoObj = {
-      word: analysedInput.words[index].toLowerCase(),
+    const wordInfoObj = {
+      word: analysedInput.words[index],
       lemma: analysedInput.lemmas[index],
       syllables: analysedInput.syllables[index],
       type: analysedInput.wordtypes[index],
@@ -183,23 +207,96 @@ function App() {
     setShowWordInfo(true)
   }
 
+  //resetting
+  const resetAnalyser = () => {
+    let newInputObj = {ids: [''], text: '', sentences: [''], words: [''], lemmas: [''], syllables: [''], wordtypes: [''] }
+    setAnalysedInput(newInputObj)
+    setShowStats(false)
+  }
+
+  //tabs
+  interface TabPanelProps {
+    children?: ReactNode;
+    index: number;
+    value: number;
+  }
+  
+  function TabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props;
+  
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box sx={{ p: 3 }}>
+            <Typography component={`span`}>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
+  }
+  
+  function a11yProps(index: number) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  }
+  
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event: SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+
   return (
-    <div>
-      <Grid container className="container">
-        <Grid item xs={12} md={9}>
+    <Box component='section' className="container">
+      <Grid container columnSpacing={{ xs: 0, md: 4 }}>
+        <Grid item xs={12} md={12}>
           <TextUpload />
         </Grid>
         <Grid item xs={12} md={6}>
-          <Input onInsert={analyseInput} onAnalyse={analysedInput} onMarkWords={selectedWords} onWordSelect={showThisWord} onWordInfo={showInfo}/>
+          <Input onInsert={analyseInput} onAnalyse={analysedInput} onMarkWords={selectedWords} onWordSelect={showThisWord} onWordInfo={showInfo} onReset={resetAnalyser}/>
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={6}>
           {showStats && <WordInfo onShowWordInfo={showWordInfo} onWordInfo={wordInfo}/>}
         </Grid>
-        <Grid item xs={9}>
-          {showStats && <Stats onAnalyse={analysedInput} onLemmaSelect={showLemma} onWordSelect={showWord}/>}
+
+        {showStats &&
+        <Grid item xs={12}  md={12}>
+          <h2>Tekstianalüüs</h2>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+              <Tab label="Silbid" {...a11yProps(0)} />
+              <Tab label="Algvormid" {...a11yProps(1)} />
+              <Tab label="Sõnavormid" {...a11yProps(2)} />
+            </Tabs>
+          </Box>
+          <TabPanel value={value} index={0}>
+            <div>
+              <Stats onAnalyse={analysedInput} onLemmaSelect={showLemma} onWordSelect={showWord}/>
+            </div>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <div>
+              <Stats onAnalyse={analysedInput} onLemmaSelect={showLemma} onWordSelect={showWord}/>
+            </div>
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <div>
+              <Stats onAnalyse={analysedInput} onLemmaSelect={showLemma} onWordSelect={showWord}/>
+            </div>
+          </TabPanel>
+          
         </Grid>
-    </Grid>
-  </div>
+        }
+      </Grid>
+    </Box>
   )
 }
 

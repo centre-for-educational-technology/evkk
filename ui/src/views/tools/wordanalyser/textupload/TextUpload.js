@@ -33,7 +33,7 @@ function TextUpload() {
     }
     
         return(
-            <div className='container'>
+            <div className='uploadContainer'>
                 <input type="image" id="upload_button" value="Vali tekst(id)" className="buttonFail" onClick={() => {setButtonPopup(true)}} style={{height: 30, width: 30}} src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAQlBMVEX///8AAADc3NyUlJSGhoZTU1Pw8PAYGBjl5eX09PQ9PT329vb7+/s5OTlCQkI7Ozs1NTVKSkorKyuOjo5eXl5wcHD3NdmMAAACmklEQVR4nO3dgVbiMBCFYbO6q6VVUNb3f9VdrEUDKYQ2ydzE/3sATu7JTGcq5+DdHQAAAAAAAAAAwM80/B2sj5BXv3W7zvoQOfUvzrlNwxGHrTt4brZQh40bPffWR8mjmwI6t22yUD96cLJp8BY/e3DSXi/2G+drrRe7F3eqraFxdoMfj5uGbnEIBWypF/ttMOD/iI0Uan/eg2314jB3gwe7Bgo1+JD5VqjVP266ywHrX+Au9OCxF6u+xZkxcVKoFffi7JhopRcDq9pMoVbai1ElWvMt3hCwzl68MgfPIlZXqBFjwlfb0Li4qoXVtcDdWKKjmh430WPCV8/QuLkHjxErucWbxoSvjqERuaqF1fC1zeISHen34ooSHakX6uqA6kPj6ht9DOW3/pU9ONEdGgtWtTDVXly0qs1ElLzFhatamOLQSHiDB3pf2yQYEz61Xly1qoVpLXCJxoRPqReTjQmfzlt/4ofMF5WhkWRVC9NY4LL04ERhgUs+Jnz2QyPDmDiJaHyLSVe1MNuhkblER5YLXJGAlr2YbQ6eRTQq1KxjwmfTi5lWtTCLBa5YiY7KD40CY8JXulAL9uAxYtFbLDQmfCWHRvZVLWxX7BYNSnRUqhdNSnRUplANA5YZGhnf6KMiZi9U44AFIr6//r7ubeHp3yI++/U9c8IoDwsTPlgfPBoJSaiPhCTUR0IS6iMhCfWRkIT6SEhCfSQkoT4SklAfCUmoj4Qk1EdCEuojIQn1kZCE+khIQn0kJKE+EpJQHwlJqI+EJNS3d49LuL31waP1f5YR+BEMAAAAAAB+iOGXvby/4PK08G9MKT2RkIQkNEdCEpLQHglJSEJ7JCQhCe2RcJ1uf29tL/F/SwAAAAAAAAAAAAAAAEL+AckuO4NI0tv7AAAAAElFTkSuQmCC"/>
                 <TextUploadModal trigger={buttonPopup}>
                     <form encType="multipart/form-data" method="post" id='form_data'>

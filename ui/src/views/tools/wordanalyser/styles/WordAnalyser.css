@@ -5,6 +5,7 @@ h1 {
 
 .textInputContainer{
 	display: block;
+	margin-bottom: 10px;
 }
 
 .textInput {
@@ -22,6 +23,7 @@ h1 {
 	overflow-y: auto;
 	border: solid 1px black;
 	padding: 10px;
+	margin-bottom: 10px;
 	cursor: default;
 }
 
@@ -40,18 +42,28 @@ h1 {
 	padding: 5px 15px;
 }
 
-.lemmaTable td:nth-of-type(3){
+.lemmaTable td:nth-of-type(3) {
 	text-align: center;
 }
 
-.lemmaTable td:nth-of-type(4){
+.lemmaTable td:nth-of-type(4) {
 	text-align: center;
 }
 
-.marked{
+.marked {
 	background-color: #FFFF00;
 }
 
 .word {
 	cursor: pointer
 }
+
+.wordInfo {
+	line-height: 1em;
+}
+
+.containerItem {
+	margin-bottom: 50px;
+
+}
+

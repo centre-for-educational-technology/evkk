@@ -1,8 +1,6 @@
 import { useTable, useSortBy, usePagination } from 'react-table'
 import { useState, useEffect } from 'react'
 import { WordCell } from './WordCell'
-//import { CSVLink, CSVDownload } from "react-csv"
-
 
 export const Stats = ({ onAnalyse, onLemmaSelect, onWordSelect }) => {
     const [lemmas, setLemmas] = useState('')
@@ -173,10 +171,6 @@ export const Stats = ({ onAnalyse, onLemmaSelect, onWordSelect }) => {
 
     return (
     <>
-        <h2>Tekstianalüüs</h2> 
-        {/* <CSVLink data={data} columns={columns}>Download me</CSVLink> */}
-        {/*<CSVDownload data={csvData} target="_blank" />*/}
-        
         <button type="button" onClick={() => makeCsv(getTableDataForExport(data, columns), `${"ExportedLemmas"}.csv`)}>
             CSV
         </button>
