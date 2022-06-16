@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo, useState } from 'react';
+import React, { Fragment, useMemo, useState, useEffect } from 'react';
 import { useSortBy, useFilters, useTable, usePagination	} from 'react-table';
 import { Button, Checkbox, ButtonGroup, Select, MenuItem, TextField, FormControl, InputLabel, Tooltip } from "@mui/material";
 import './styles/GrammaticalAnalysis.css';
@@ -16,7 +16,8 @@ import CloseIcon from '@mui/icons-material/Close';
 
 
 
-function GrammaticalAnalysis() {
+ function GrammaticalAnalysis({onTypeSelect, onWordSelect, onAnalyse}) {
+  
 
   const ExcelFile = ReactExport.ExcelFile;
   const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -24,66 +25,27 @@ function GrammaticalAnalysis() {
 
   
   const[fileType, setFileType] = useState(true);
+  const [sonaliik, setSonaliik] = useState('')
+  const [sonad, setSonad] = useState('')
+
+  console.log(sonaliik)
+  console.log(sonad)
+
+  useEffect(() => {
+    setSonaliik(onAnalyse.wordtypes)
+    setSonad(onAnalyse.words)
+  }, [onAnalyse]);
 
  
 
   const text = "Tallinna suurimas linnaosas Lasnamäel on alles vaid kaks eesti õppekeelega gümnaasiumi Laagna ja Kuristiku kus mõlemas peaaegu tuhat õpilast Parajasti on vahetund aga kui vähemaks jääb on Laagna gümnaasiumi juhtkond direktori asetäitjad õppe ja kasvatustöö alal ning direktor lahkelt nõus jagama rõõme ja muresid mis eri rahvuste koos õppimisega kaasas käivad"
-  const sonad = text.split(" ")
-  const sonaliik = [
-    "nimisõna",
-    "omadussõna",
-    "nimisõna",
-    "nimisõna",
-    "tegusõna",
-    "määrsõna",
-    "määrsõna",
-    "arvsõna",
-    "omadussõna",
-    "nimisõna",
-    "nimisõna",
-    "nimisõna",
-    "sidesõna",
-    "nimisõna",
-    "määrsõna",
-    "määrsõna",
-    "määrsõna",
-    "arvsõna",
-    "nimisõna",
-    "määrsõna",
-    "tegusõna",
-    "nimisõna",
-    "määrsõna",
-    "sidesõna",
-    "omadussõna",
-    "tegusõna",
-    "tegusõna",
-    "nimisõna",
-    "nimisõna",
-    "nimisõna",
-    "nimisõna",
-    "nimisõna",
-    "nimisõna",
-    "sidesõna",
-    "nimisõna",
-    "nimisõna",
-    "sidesõna",
-    "nimisõna",
-    "määrsõna",
-    "määrsõna",
-    "tegusõna",
-    "nimisõna",
-    "sidesõna",
-    "nimisõna",
-    "asesõna",
-    "omadussõna",
-    "nimisõna",
-    "kaassõna",
-    "nimisõna",
-    "määrsõna",
-    "tegusõna"
-]
+
   let sonaList = new Map();
   let numbrid = new Map();
+  let result = true;
+  let tableVal = [];
+
+
 
 
 
@@ -112,37 +74,79 @@ function GrammaticalAnalysis() {
 
 
   sonuSonaliigis();
+
+  const mapSort3 = new Map([...numbrid.entries()].sort());
+
+
+  const mapSort2 = new Map([...mapSort3.entries()].sort((a, b) => b[1] - a[1]));
+
+
+  const iterator1 = mapSort2.keys();
+
+  console.log(mapSort2.size)
+
+
+
+
+
   
 
 
   function fillData(){
-    let tableVal = []
-    // console.log(Array.from(sonaList.keys())[0])
-    for (let i = 0; i < sonaList.size; i++) {
-      let info = {
-        col1: "",
-        col2: "",
-        col3: 0,
-        col4: 0
+
+
+
+      // console.log(Array.from(sonaList.keys())[0])
+      for (let i = 0; i < sonaList.size; i++) {
+        const iterator1 = mapSort2.keys();
+
+        let info = {
+          col1: "",
+          colvorm: 1,
+          col2: [[],[]],
+          col3: 0,
+          col4: 0
+        }
+  
+        
+        
+        info.col1 = Array.from(sonaList.keys())[i];
+
+
+        const ajutineList = sonaList.get(Array.from(sonaList.keys())[i]);
+
+        console.log(ajutineList)
+
+  
+        for (let j = 0; j < mapSort2.size; j++) {
+          
+          let valueAjutine = iterator1.next().value;
+          console.log(valueAjutine)
+          if(ajutineList.includes(valueAjutine))
+          {
+            info.col2[0].push(String(valueAjutine))
+            info.col2[1].push("(" + numbrid.get(valueAjutine) + "), ")
+            // info.col2 = String(info.col2 + String(valueAjutine) + String.fromCharCode(160) + "(" + numbrid.get(valueAjutine) + "), ");
+            
+            info.col3 = parseInt(info.col3) + parseInt(numbrid.get(String(valueAjutine)))
+          }
+  
+    
+  
+        }
+        // info.col2 = info.col2.slice(0,-2)
+        info.col2[1][info.col2[1].length - 1] = info.col2[1][info.col2[1].length - 1].slice(0, -2)
+        info.col4 = (sonaList.get(Array.from(sonaList.keys())[i]).length * 100 / sonad.length).toFixed(1);
+        console.log(info)
+        tableVal.push(info);
+  
       }
       
-      info.col1 = Array.from(sonaList.keys())[i];
-      for (let j = 0; j < sonaList.get(Array.from(sonaList.keys())[i]).length; j++) {
-        info.col2 = info.col2 + sonaList.get(Array.from(sonaList.keys())[i])[j] + String.fromCharCode(160) + "(" + numbrid.get(sonaList.get(sonaliik[i])[j]) + "), ";
-        info.col3 = parseInt(info.col3) + parseInt(numbrid.get(sonaList.get(sonaliik[i])[j]))
-      }
+      console.log(tableVal)
+      return tableVal;
 
-     
-      info.col4 = (sonaList.get(Array.from(sonaList.keys())[i]).length * 100 / sonad.length).toFixed(1);
-      tableVal.push(info);
-
-    }
-    
-    console.log(tableVal)
-    return tableVal;
   }
 
-  fillData();
 
 
 /* 
@@ -165,6 +169,18 @@ function GrammaticalAnalysis() {
     return arr;
   };
 
+  const MultipleFilter2 = (rows, filler, filterValue) => {
+    const arr = [];
+    rows.forEach((val) => {
+      console.log(val);
+      if (filterValue.includes(val.original.colvorm)) arr.push(val);
+      console.log(filterValue);
+      console.log(val.original.culvorm);
+    });
+    //console.log(arr);
+    return arr;
+  };
+
   function ShowPopup(){
     if(document.getElementById('filterDiv').style.display  === "none"){
       document.getElementById('filterDiv').style.display = "block"
@@ -172,6 +188,16 @@ function GrammaticalAnalysis() {
       document.getElementById('filterDiv').style.display = "none"
     }
     outsideClick();
+      
+  }
+
+  function ShowPopup2(){
+    if(document.getElementById('filterDiv2').style.display  === "none"){
+      document.getElementById('filterDiv2').style.display = "block"
+    }else if(document.getElementById('filterDiv2').style.display === "block"){
+      document.getElementById('filterDiv2').style.display = "none"
+    }
+    outsideClick2();
       
   }
 
@@ -189,6 +215,10 @@ function GrammaticalAnalysis() {
     document.addEventListener('mouseup', outsideClickFunc);
   }
 
+  function outsideClick2(){
+    document.addEventListener('mouseup', outsideClickFunc2);
+  }
+
 
   function outsideClickFunc(e){
     console.log(e.target);
@@ -196,6 +226,15 @@ function GrammaticalAnalysis() {
       if (!container.contains(e.target)) {
           container.style.display = 'none';
           document.removeEventListener('mouseup', outsideClickFunc)
+      }
+  }
+
+  function outsideClickFunc2(e){
+    console.log(e.target);
+    var container = document.getElementById('filterDiv2');
+      if (!container.contains(e.target)) {
+          container.style.display = 'none';
+          document.removeEventListener('mouseup', outsideClickFunc2)
       }
   }
 
@@ -207,6 +246,12 @@ function GrammaticalAnalysis() {
   function ShowFilter(){
     return (
       <div id='popUpClick' onClick={ShowPopup}><FilterAltIcon/></div>
+  )
+  }
+
+  function ShowFilter2(){
+    return (
+      <div id='popUpClick' onClick={ShowPopup2}><FilterAltIcon/></div>
   )
   }
 
@@ -234,13 +279,56 @@ function GrammaticalAnalysis() {
         options.add(row.values[id]);
       });
       return [...options.values()];
-    }, [id, preFilteredRows]);
+    }, [id, preFilteredRows, sonad, sonaliik]);
 
       return (
         
         <Fragment>
 
           <div id='filterDiv' className='filterDiv' style={{display: "none"}}>
+            {options.map((option, i) => {
+              return (
+                <Fragment key={i}>
+                  <div className="flex items-center">
+                    <Checkbox
+                      id={option}
+                      value={option}
+                      onChange={(e) => {
+                        setFilter(setFilteredParams(filterValue, e.target.value));
+                      }}
+                    />
+                    <label
+                      htmlFor={option}
+                      className="ml-1.5 font-medium text-gray-700"
+                    >
+                      {option}
+                    </label>
+                  </div>
+                </Fragment>
+              );
+            })}
+          </div>
+
+        </Fragment>
+      );
+  }
+
+  function SelectColumnFilter2({
+    column: { filterValue = [], setFilter, preFilteredRows, id }
+  }) {
+    const options = useMemo(() => {
+      const options = new Set();
+      preFilteredRows.forEach((row) => {
+        options.add(row.values[id]);
+      });
+      return [...options.values()];
+    }, [id, preFilteredRows, sonad, sonaliik]);
+
+      return (
+        
+        <Fragment>
+
+          <div id='filterDiv2' className='filterDiv' style={{display: "none"}}>
             {options.map((option, i) => {
               return (
                 <Fragment key={i}>
@@ -275,12 +363,17 @@ function GrammaticalAnalysis() {
   const data = React.useMemo(()=>
    fillData()
     ,
-    []
+    [sonad, sonaliik]
   )
+
+
+
+
 
   const [buttonType, setButtonType] = useState(<ExcelFile element={<Button variant='contained'>Laadi alla</Button>}>
     <ExcelSheet data={data} name="Sõnatabel">
         <ExcelColumn label="Sõnaliik ja vorm" value="col1"/>
+        <ExcelColumn label="Vormimärgendid" value="colvorm"/>
         <ExcelColumn label="Sõnad tekstis" value="col2"/>
         <ExcelColumn label="Sagedus" value="col3"/>
         <ExcelColumn label="Osakaal (%)" value="col4"/>
@@ -302,6 +395,7 @@ function GrammaticalAnalysis() {
       setButtonType(<ExcelFile element={<Button variant='contained'>Laadi alla</Button>}>
         <ExcelSheet data={data} name="Sõnatabel">
             <ExcelColumn label="Sõnaliik ja vorm" value="col1"/>
+            <ExcelColumn label="Vormimärgendid" value="colvorm"/>
             <ExcelColumn label="Sõnad tekstis" value="col2"/>
             <ExcelColumn label="Sagedus" value="col3"/>
             <ExcelColumn label="Osakaal (%)" value="col4"/>
@@ -316,10 +410,18 @@ function GrammaticalAnalysis() {
   const columns = React.useMemo(
     () => [
       {
-        Header: "Sõnaliik ja vorm",
+        Header: ()=>{return(<><span style={{
+          display: 'flex',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+      }}>Sõnaliik ja vorm <ShowFilter/></span></>)},
         accessor: 'col1', // accessor is the "key" in the data
+        Cell: (props) => {
+          const word= props.value
+          return <span  className="word" onClick={(e) => onTypeSelect(e.target.textContent)}>{word}</span>
+        },
         className: 'user',
-        width: 300,
+        width: 400,
         disableSortBy: true,
         sortable: false,
     
@@ -328,19 +430,46 @@ function GrammaticalAnalysis() {
         filter: MultipleFilter
 
       },
+    
+
       {
-        className: "filter-tab",
-        Header: <ShowFilter />,
-        accessor: 'filterTab',
-        width: 200,
-        disableFilters: true,
+        Header: ()=>{return(<><div style={{
+          display: 'flex',
+          alignItems: 'end',
+          flexWrap: 'wrap',
+      }}>Vormimärgendid <ShowFilter2/></div></>)},
+        accessor: 'colvorm',
+        width: 400,
+        className: 'colvorm',
+        
         disableSortBy: true,
+        sortable: false,
+
+        Filter: SelectColumnFilter2,
+        filter: MultipleFilter2 
       },
 
       {
         Header: 'Sõnad tekstis',
         accessor: 'col2',
-        width: 1100,
+        Cell: (props) => {
+          const items = props.value
+
+          let cellContent = []
+          for(let i=0; i<items[0].length; i++){
+              let word = items[0][i]
+              let count = items[1][i]
+              let content = (
+                <>
+                <span  className="word" onClick={(e) => onWordSelect(e.target.textContent)}>{word}</span>{String.fromCharCode(160)}{count}
+                </>
+
+              )
+              cellContent.push(content)
+          }
+          return cellContent
+      },
+        width: 700,
         disableFilters: true,
         disableSortBy: true,
         sortable: false,
@@ -348,21 +477,22 @@ function GrammaticalAnalysis() {
       {
         Header: 'Sagedus',
         accessor: 'col3', // accessor is the "key" in the data
-        width: 400,
+        width: 300,
         disableFilters: true,
       },
       {
         Header: 'Osakaal (%)',
         accessor: 'col4',
-        width: 400,
+        width: 300,
         disableFilters: true,
       }
     ],
-    []
+    [sonad, sonaliik, onWordSelect]
   );
 
   const tableHeaders = [
     {label: "Sõnaliik ja vorm", key: "col1"},
+    {label: 'Vormimärgendid', key: "colvorm"},
     {label: 'Sõnad tekstis', key: "col2"},
     {label: 'Sagedus', key: "col3"},
     {label: 'Osakaal (%)', key: "col4"},
@@ -449,7 +579,7 @@ function GrammaticalAnalysis() {
           ))}
         </thead>
       </table>
-      <table {...getTableProps()} style={{ marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '80%' }}>
+      <table {...getTableProps()} style={{ marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%' }}>
         <thead>
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
@@ -553,7 +683,7 @@ function GrammaticalAnalysis() {
       </div>
       
     </Fragment>
-  )
+  );
 }
 
 export default GrammaticalAnalysis;

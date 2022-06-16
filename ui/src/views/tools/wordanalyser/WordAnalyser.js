@@ -174,6 +174,19 @@ function App() {
     setShowWordInfo(false)
   }
 
+  const showType = (word) => {
+    let content = []
+    for(let i=0; i<analysedInput.words.length; i++){
+      let analysedWord = analysedInput.wordtypes[i]
+      let id = analysedInput.ids[i]
+      if(analysedWord===word){
+        content.push(id)
+      }
+    }
+    setSelectedWords(content)
+    setShowWordInfo(false)
+  }
+
   //highlight selected lemma
   const showLemma = (lemma) => {
     let content = []
@@ -289,7 +302,7 @@ function App() {
           </TabPanel>
           <TabPanel value={value} index={2}>
             <div>
-              <GrammaticalAnalysis />
+              <GrammaticalAnalysis onTypeSelect={showType} onWordSelect={showWord} onAnalyse={analysedInput} />
             </div>
           </TabPanel>
         </Grid>
