@@ -7,6 +7,7 @@ import './styles/WordAnalyser.css'
 import TextUpload from './textupload/TextUpload'
 import GrammaticalAnalysis from './GrammaticalAnalysis'
 import { Box, Grid, Tab, Tabs, Typography } from '@mui/material'
+import LemmaView from './LemmaView'
 
 function App() {
   const [showStats, setShowStats] = useState(false)
@@ -137,7 +138,6 @@ function App() {
     }
     setShowStats(!showStats)
     setAnalysedInput(inputObj)
-    console.log(inputObj)
   }
 
   //select first word and show wordInfo after loading
@@ -297,7 +297,7 @@ function App() {
           </TabPanel>
           <TabPanel value={value} index={1}>
             <div>
-              <Stats onAnalyse={analysedInput} onLemmaSelect={showLemma} onWordSelect={showWord}/>
+              <LemmaView onAnalyse={analysedInput} onLemmaSelect={showLemma} onWordSelect={showWord} />
             </div>
           </TabPanel>
           <TabPanel value={value} index={2}>
