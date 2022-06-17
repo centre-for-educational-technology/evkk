@@ -15,7 +15,6 @@ function App() {
   const [analysedInput, setAnalysedInput] = useState({ids: [''], text: '', sentences: [''], words: [''], wordsOrig: [''], lemmas: [''], syllables: [''], wordtypes: [''],  wordforms: [''] })
   const [selectedWords, setSelectedWords] = useState([''])
   const [wordInfo, setWordInfo] = useState('')
-  const [showWordInfo, setShowWordInfo] = useState(false)
   const [textFromFile, setTextFromFile] = useState('');
 
   //get words
@@ -100,7 +99,7 @@ function App() {
     let newData = []
     for(let i=0; i<data.length; i++){
       if(data[i]){
-        let item = data[i].replace(/['",]+/g, '')
+        let item = data[i].replace(/['",.]+/g, '')
         if(item){
           newData.push(item)
         }
@@ -185,7 +184,6 @@ function App() {
       form: analysedInput.wordforms[0],
     }
     setWordInfo(wordInfoObj)
-    setShowWordInfo(true)
   }, [analysedInput])
 
   //highlight the word selected in input
@@ -206,7 +204,6 @@ function App() {
       }
     }
     setSelectedWords(content)
-    setShowWordInfo(true)
     
     let firstSelectedId
     for(let i=0; i<analysedInput.words.length; i++){
@@ -239,7 +236,6 @@ function App() {
     setWordInfo(wordInfoObj)
 
     setSelectedWords(content)
-    setShowWordInfo(true)
   }
 
   //highlight selected lemma
@@ -253,7 +249,23 @@ function App() {
       }
     }
     setSelectedWords(content)
-    setShowWordInfo(false)
+    
+    let index = ""
+    for(let i=0; i<analysedInput.words.length; i++){
+      if(analysedInput.lemmas[i]===lemma){
+        index = parseInt(i)
+        break
+      }
+    }
+    const wordInfoObj = {
+      word: "–",
+      lemma: analysedInput.lemmas[index],
+      syllables:  "–",
+      type: analysedInput.wordtypes[index],
+      form:  "–",
+    }
+
+    setWordInfo(wordInfoObj)
   }
 
   //forward selected word from input to wordInfo
@@ -275,7 +287,6 @@ function App() {
     }
 
     setWordInfo(wordInfoObj)
-    setShowWordInfo(true)
   }
 
   const sendTextFromFile = (data) => {
@@ -333,7 +344,7 @@ function App() {
           <Input textFromFile={textFromFile} onInsert={analyseInput} onAnalyse={analysedInput} onMarkWords={selectedWords} onWordSelect={showThisWord} onWordInfo={showInfo} onReset={resetAnalyser}/>
         </Grid>
         <Grid item xs={12} md={6}>
-          {showStats && <WordInfo onShowWordInfo={showWordInfo} onWordInfo={wordInfo}/>}
+          {showStats && <WordInfo onWordInfo={wordInfo}/>}
         </Grid>
 
         {showStats &&
