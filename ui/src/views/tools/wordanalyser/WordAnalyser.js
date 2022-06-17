@@ -11,7 +11,7 @@ import LemmaView from './LemmaView'
 
 function App() {
   const [showStats, setShowStats] = useState(false)
-  const [analysedInput, setAnalysedInput] = useState({ids: [''], text: '', sentences: [''], words: [''], lemmas: [''], syllables: [''], wordtypes: [''] })
+  const [analysedInput, setAnalysedInput] = useState({ids: [''], text: '', sentences: [''], words: [''], wordsOrig: [''], lemmas: [''], syllables: [''], wordtypes: [''],  wordforms: [''] })
   const [selectedWords, setSelectedWords] = useState([''])
   const [wordInfo, setWordInfo] = useState('')
   const [showWordInfo, setShowWordInfo] = useState(false)
@@ -108,6 +108,19 @@ function App() {
     return newData
   }
 
+  //get word form
+  const getWordForm = async (input) => {
+    const response = await fetch("/api/texts/vormimargendid", {
+      method: "POST",
+      headers: {
+        "Content-Type" : "application/json"
+      },
+      body: JSON.stringify({tekst: input}),
+    })
+    const data = await response.json()
+    return data
+  }
+
   //create ids
   const createIds = (words) => {
     let data = []
@@ -121,20 +134,40 @@ function App() {
   //analyse text
   const analyseInput = async (input)=> {
     const analysedSentences = await getSentences(input)
-    const analysedWords = await getWords(input)
+    const analysedWordsOrig = await getWords(input)
+    console.log(analysedWordsOrig)
     const analysedLemmas = await getLemmas(input)
     const analysedSyllables = await getSyllables(input)
     const analysedWordTypes = await getWordTypes(input)
-    const createdIds = createIds(analysedWords)
+    const analysedWordForms = await getWordForm(input)
+    const createdIds = createIds(analysedWordsOrig)
+    
+    let analysedWordsLowerCase = [...analysedWordsOrig]
+    for(let i=0; i<analysedWordsLowerCase.length; i++){
+      if( analysedWordTypes[i]!=="nimisõna (pärisnimi)"){
+        let currentWord =analysedWordsLowerCase[i].toLowerCase()
+        analysedWordsLowerCase[i]= currentWord
+      }
+    }
+
+    let analysedSyllablesLowerCase = [...analysedSyllables]
+    for(let i=0; i<analysedSyllablesLowerCase.length; i++){
+      if( analysedWordTypes[i]!=="nimisõna (pärisnimi)"){
+        let currentItem =analysedSyllablesLowerCase[i].toLowerCase()
+        analysedSyllablesLowerCase[i]=  currentItem
+      }
+    }
 
     const inputObj = {
       ids: createdIds,
       text: input,
       sentences: analysedSentences,
-      words: analysedWords,
+      wordsOrig: analysedWordsOrig,
+      words: analysedWordsLowerCase,
       lemmas: analysedLemmas,
-      syllables: analysedSyllables,
+      syllables: analysedSyllablesLowerCase,
       wordtypes: analysedWordTypes,
+      wordforms: analysedWordForms
     }
     setShowStats(!showStats)
     setAnalysedInput(inputObj)
@@ -149,6 +182,7 @@ function App() {
       lemma: analysedInput.lemmas[0],
       syllables: analysedInput.syllables[0],
       type: analysedInput.wordtypes[0],
+      form: analysedInput.wordforms[0],
     }
     setWordInfo(wordInfoObj)
     setShowWordInfo(true)
@@ -163,6 +197,7 @@ function App() {
   //highlight selected word in lemma table
   const showWord = (word) => {
     let content = []
+    
     for(let i=0; i<analysedInput.words.length; i++){
       let analysedWord = analysedInput.words[i]
       let id = analysedInput.ids[i]
@@ -171,20 +206,40 @@ function App() {
       }
     }
     setSelectedWords(content)
-    setShowWordInfo(false)
+    setShowWordInfo(true)
+    
+    let firstSelectedId
+    for(let i=0; i<analysedInput.words.length; i++){
+      if(word===analysedInput.words[i]){
+        firstSelectedId = analysedInput.ids[i]
+        break
+      }
+    }
+    showInfo(firstSelectedId)
   }
 
-  const showType = (word) => {
+  const showType = (type) => {
     let content = []
     for(let i=0; i<analysedInput.words.length; i++){
       let analysedWord = analysedInput.wordtypes[i]
       let id = analysedInput.ids[i]
-      if(analysedWord===word){
+      if(analysedWord===type){
         content.push(id)
       }
     }
+
+    const wordInfoObj = {
+      word: "–",
+      lemma: "–",
+      syllables: "–",
+      type: type,
+      form: "–",
+    }
+
+    setWordInfo(wordInfoObj)
+
     setSelectedWords(content)
-    setShowWordInfo(false)
+    setShowWordInfo(true)
   }
 
   //highlight selected lemma
@@ -216,6 +271,7 @@ function App() {
       lemma: analysedInput.lemmas[index],
       syllables: analysedInput.syllables[index],
       type: analysedInput.wordtypes[index],
+      form: analysedInput.wordforms[index],
     }
 
     setWordInfo(wordInfoObj)
@@ -228,7 +284,7 @@ function App() {
 
   //resetting
   const resetAnalyser = () => {
-    let newInputObj = {ids: [''], text: '', sentences: [''], words: [''], lemmas: [''], syllables: [''], wordtypes: [''] }
+    let newInputObj = {ids: [''], text: '', sentences: [''], words: [''], lemmas: [''], syllables: [''], wordtypes: [''],  wordforms: [''] }
     setAnalysedInput(newInputObj)
     setShowStats(false)
   }
