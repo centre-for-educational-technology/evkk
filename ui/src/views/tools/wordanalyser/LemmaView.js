@@ -114,12 +114,10 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
         sonaList.set(lemmad[i],[]);
         sonaList.get(lemmad[i]).push(sonad[i]);
         numbrid.set(sonad[i], 1);
-      }else if(sonaList.has(lemmad[i])){
-
+      } else if(sonaList.has(lemmad[i])){
         if(sonaList.get(lemmad[i]).includes(sonad[i])){
-          
           numbrid.set(sonad[i],(numbrid.get(sonad[i]) + 1)) ;
-        }else{
+        } else {
           sonaList.get(lemmad[i]).push(sonad[i]);
           numbrid.set(sonad[i], 1);
         }

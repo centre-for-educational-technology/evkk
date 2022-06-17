@@ -8,6 +8,7 @@ import TextUpload from './textupload/TextUpload'
 import GrammaticalAnalysis from './GrammaticalAnalysis'
 import { Box, Grid, Tab, Tabs, Typography } from '@mui/material'
 import LemmaView from './LemmaView'
+import Syllables from './Syllables'
 
 function App() {
   const [showStats, setShowStats] = useState(false)
@@ -135,7 +136,6 @@ function App() {
   const analyseInput = async (input)=> {
     const analysedSentences = await getSentences(input)
     const analysedWordsOrig = await getWords(input)
-    console.log(analysedWordsOrig)
     const analysedLemmas = await getLemmas(input)
     const analysedSyllables = await getSyllables(input)
     const analysedWordTypes = await getWordTypes(input)
@@ -348,7 +348,7 @@ function App() {
           </Box>
           <TabPanel value={value} index={0}>
             <div>
-              <Stats onAnalyse={analysedInput} onLemmaSelect={showLemma} onWordSelect={showWord}/>
+              {analysedInput.syllables.length > 1 && <Syllables onAnalyse={analysedInput} />}
             </div>
           </TabPanel>
           <TabPanel value={value} index={1}>
@@ -358,7 +358,7 @@ function App() {
           </TabPanel>
           <TabPanel value={value} index={2}>
             <div>
-              <GrammaticalAnalysis onTypeSelect={showType} onWordSelect={showWord} onAnalyse={analysedInput} />
+              <GrammaticalAnalysis onAnalyse={analysedInput} onTypeSelect={showType} onWordSelect={showWord} />
             </div>
           </TabPanel>
         </Grid>
