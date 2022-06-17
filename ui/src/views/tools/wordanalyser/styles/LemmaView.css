@@ -1,40 +1,49 @@
-table {
-    font-family: Arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-    text-align: left;
-}
-
-table td, table th {
+td {
     border-bottom: 1px solid #ddd;
     padding: 8px;
 }
 
-table tr:nth-child(even) {background-color: #f2f2f2;}
-
-table tr:hover {background-color: #ddd;}
-
-.filterTxt {
-    padding-right: 5px;
+th {
+    border-bottom: 1px solid #ddd;
+    padding-left: 10px;
 }
 
-.filterInner {
-    position: fixed;
-    top: 6em;
-    left: 7rem;
-    background-color: white;
-    border: 1px solid black;
+tr:nth-child(even) {background-color: #f2f2f2;}
+
+tr:hover {background-color: #ddd;}
+
+.fontStyle{
+    font-size: large;
+}
+
+th.hover:nth-child(1):hover{
+    cursor: auto;
+}
+
+th.hover:nth-child(2):hover{
+    cursor: auto;
+}
+
+th.hover:nth-child(3):hover{
+    cursor: pointer !important;
+}
+
+th:nth-child(1)>.sort{
+    display: none;
+}
+
+th:nth-child(2)>.sort{
+    display: none;
+}
+
+.pagination{
+    margin-top: 20px;
     display: flex;
     justify-content: center;
-    flex-direction: column;
+    gap: 50px;
+    align-items: center;
 }
 
-.closeBtn {
-    position: absolute;
-    top: -1px;
-    right: -1px;
-}
-
-.checkbox {
-    margin-right: 15px;
+.buttongroup{
+    width: 40%;
 }

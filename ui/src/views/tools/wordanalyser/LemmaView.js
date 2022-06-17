@@ -1,6 +1,11 @@
 import React, { Fragment } from "react";
 import "./styles/LemmaView.css";
 import { useTable, useSortBy, usePagination } from "react-table";
+import { MenuItem, Select, Button, ButtonGroup, TextField } from "@mui/material";
+import LastPageIcon from '@mui/icons-material/LastPage';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import { v4 as uuidv4 } from 'uuid';
 
 function Table({ columns, data }) {
@@ -29,19 +34,35 @@ function Table({ columns, data }) {
   return (
     <>
     <Fragment>
-    <table {...getTableProps()} >
+    <table 
+      {...getTableProps()}
+      style={{
+        marginRight: 'auto',
+        marginLeft: 'auto',
+        borderBottom: 'solid 1px',
+        width: '100%'
+      }}
+    >
       <thead>
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
-              <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+              <th 
+                {...column.getHeaderProps(column.getSortByToggleProps())}
+                style={{
+                  borderBottom: 'solid 1px',
+                  color: 'black',
+                  fontWeight: 'bold'
+                }}
+                className="hover"
+              >
               {column.render('Header')}
-              <span>
+              <span className="sort">
                 {column.isSorted
                   ? column.isSortedDesc
-                    ? ' ↓'
-                    : ' ↑'
-                  : ''}
+                    ? ' ▼'
+                    : ' ▲'
+                  : '▼▲'}
               </span>
               </th>
             ))}
@@ -54,7 +75,18 @@ function Table({ columns, data }) {
           return (
             <tr {...row.getRowProps()} key={row.id}>
               {row.cells.map((cell) => {
-                return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
+                return (
+                  <td 
+                    {...cell.getCellProps()} 
+                    style={{
+                      padding: '10px', 
+                      width: cell.column.width
+                    }}
+                    className="border"
+                  >
+                    {cell.render("Cell")}
+                  </td>
+                )
               })}
             </tr>
           );
@@ -63,36 +95,54 @@ function Table({ columns, data }) {
     </table>
     </Fragment>
     <div className="pagination">
-      <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-        {'<<'}
-      </button>{' '}
-      <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-        {'<'}
-      </button>{' '}
-      <button onClick={() => nextPage()} disabled={!canNextPage}>
-        {'>'}
-      </button>{' '}
-      <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-        {'>>'}
-      </button>{' '}
-      <span>
+      <div className="buttongroup">
+      <ButtonGroup size='medium' fullWidth variant="contained" aria-label="outlined primary button group">
+      <Button variant='contained' onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+        {<FirstPageIcon/>}
+      </Button>{' '}
+      <Button variant='contained' onClick={() => previousPage()} disabled={!canPreviousPage}>
+        {<NavigateBeforeIcon/>}
+      </Button>{' '}
+      <Button variant='contained' onClick={() => nextPage()} disabled={!canNextPage}>
+        {<NavigateNextIcon/>}
+      </Button>{' '}
+      <Button variant='contained' onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+        {<LastPageIcon/>}
+      </Button>{' '}
+      </ButtonGroup>
+      </div>
+      <span className="fontStyle">
         Leht{' '}
         <strong>
           {state.pageIndex + 1} / {pageOptions.length}
         </strong>{' '}
       </span>
-      <select
+      <TextField
+          size='small'
+          id="outlined-number"
+          label="Mine lehele nr:"
+          type="number"
+          defaultValue={state.pageIndex + 1}
+          onChange={e => {
+            const page = e.target.value ? Number(e.target.value) - 1 : 0
+            gotoPage(page)
+          }}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+      <Select
+        size="small"
         value={state.pageSize}
+        variant="outlined"
         onChange={e => {
             setPageSize(Number(e.target.value))
         }}
       >
-        {[5, 10, 20, 100].map(pageSize => (
-            <option key={pageSize} value={pageSize}>
-            Näita {pageSize}
-          </option>
+        {[5, 10, 20, 30, 40, 50, 100].map(pageSize => (
+            <MenuItem key={pageSize} value={pageSize}>{pageSize}</MenuItem>
         ))}
-      </select>
+      </Select>
     </div>
     </>
   );
@@ -170,16 +220,30 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
 
     const columns = React.useMemo(() => [
         {
-            Header: 'Algvorm',
+            Header: ()=> {
+              return(
+                <>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                  }}>Algvorm
+                </div>
+                </>
+              )
+            },
             accessor: 'col1',
             disableSortBy: true, 
             sortable: false,
+            width: 400,
         },
         {
             Header: 'Sõnavormid',
             accessor: 'col2',
             disableSortBy: true,
             sortable: false,
+            width: 700,
             Cell: (props) => {
               const items = props.value
     
@@ -199,12 +263,14 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
             }
         },
         {
-            Header: 'Sagedus ↕',
+            Header: 'Sagedus',
             accessor: 'col3',
+            width: 300,
         },
         {
-            Header: 'Osakaal (%) ↕',
+            Header: 'Osakaal (%)',
             accessor: 'col4',
+            width: 300,
         },
     ],
     [onWordSelect]
