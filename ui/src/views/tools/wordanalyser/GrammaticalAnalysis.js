@@ -694,6 +694,8 @@ import CloseIcon from '@mui/icons-material/Close';
 
                         width: cell.column.width,
                       }}
+                      // lisasin borderi
+                      className="border"
                     >
                       {cell.render('Cell')}
                     </td>

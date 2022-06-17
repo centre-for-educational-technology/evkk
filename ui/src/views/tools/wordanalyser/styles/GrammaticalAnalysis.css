@@ -57,7 +57,7 @@ th:nth-child(3)>.sortIcon{
     display: none;
 }
 
-td:nth-child(1){
+/* td:nth-child(1){
     border-right: solid 1px;
 }
 
@@ -71,7 +71,7 @@ td:nth-child(3){
 
 td:nth-child(4){
     border-right: solid 1px;
-}
+} */
 
 .downloadDiv{
     position: relative;
