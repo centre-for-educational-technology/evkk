@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Input } from './textinput/Input'
 import { WordInfo } from './WordInfo'
-import { Stats } from './lemmastats/Stats'
 import { v4 as uuidv4 } from 'uuid'
 import './styles/WordAnalyser.css'
 import TextUpload from './textupload/TextUpload'
@@ -359,7 +358,7 @@ function App() {
           </Box>
           <TabPanel value={value} index={0}>
             <div>
-              {analysedInput.syllables.length > 1 && <Syllables onAnalyse={analysedInput} />}
+              {(analysedInput.syllables.length > 1 || analysedInput.syllables[0] !== "") && <Syllables onAnalyse={analysedInput} />}
             </div>
           </TabPanel>
           <TabPanel value={value} index={1}>
