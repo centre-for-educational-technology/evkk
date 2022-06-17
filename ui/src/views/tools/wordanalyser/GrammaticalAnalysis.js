@@ -1,13 +1,12 @@
 import React, { Fragment, useMemo, useState, useEffect } from 'react';
 import { useSortBy, useFilters, useTable, usePagination	} from 'react-table';
-import { Button, Checkbox, ButtonGroup, Select, MenuItem, TextField, FormControl, InputLabel, Tooltip, IconButton, ListItemIcon, ListItemText, ClickAwayListener } from "@mui/material";
+import { Button, Checkbox, ButtonGroup, Select, MenuItem, TextField, FormControl, InputLabel, Tooltip, IconButton, ListItemIcon, ListItemText } from "@mui/material";
 import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import Close from '@mui/icons-material/Close';
 import { CSVLink } from "react-csv";
 import DownloadIcon from '@mui/icons-material/Download';
 import ReactExport from "react-export-excel";
@@ -17,7 +16,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 
 
- function GrammaticalAnalysis({onTypeSelect, onWordSelect, onAnalyse}) {
+ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalyse}) {
   
 
   const ExcelFile = ReactExport.ExcelFile;
@@ -28,24 +27,25 @@ import CloseIcon from '@mui/icons-material/Close';
   const[fileType, setFileType] = useState(true);
   const [sonaliik, setSonaliik] = useState('')
   const [sonad, setSonad] = useState('')
+  const[vormiliik, setVormiliik] = useState('')
 
 
-  console.log(sonaliik)
-  console.log(sonad)
 
   useEffect(() => {
     setSonaliik(onAnalyse.wordtypes)
     setSonad(onAnalyse.words)
+    setVormiliik(onAnalyse.wordforms)
   }, [onAnalyse]);
 
-  const text = "Tallinna suurimas linnaosas Lasnamäel on alles vaid kaks eesti õppekeelega gümnaasiumi Laagna ja Kuristiku kus mõlemas peaaegu tuhat õpilast Parajasti on vahetund aga kui vähemaks jääb on Laagna gümnaasiumi juhtkond direktori asetäitjad õppe ja kasvatustöö alal ning direktor lahkelt nõus jagama rõõme ja muresid mis eri rahvuste koos õppimisega kaasas käivad"
 
   let sonaList = new Map();
+  let sonaList2 = new Map();
   let numbrid = new Map();
-  let result = true;
+  let numbrid2 = new Map();
+  let vormiList = new Map();
   let tableVal = [];
   
-
+  
 
 
   const sonuSonaliigis = () => {
@@ -68,11 +68,54 @@ import CloseIcon from '@mui/icons-material/Close';
         }
       }
     }
+
+
+    const sonuSonavormis = () => {
+      for (let i = 0; i < sonad.length; i++) {
+
+        if(!sonaList2.has(vormiliik[i])){
+          sonaList2.set(vormiliik[i],[]);
+          sonaList2.get(vormiliik[i]).push(sonad[i]);
+          numbrid2.set(sonad[i], 1);
+        }else if(sonaList2.has(vormiliik[i])){
+  
+            if(sonaList2.get(vormiliik[i]).includes(sonad[i])){
+              
+              numbrid2.set(sonad[i],(numbrid.get(sonad[i]) + 1)) ;
+            }else{
+              sonaList2.get(vormiliik[i]).push(sonad[i]);
+              numbrid2.set(sonad[i], 1);
+            }
+          }
+        }
+      }
+
+      const sonaVormeSonaliigis = () => {
+        for (let i = 0; i < vormiliik.length; i++) {
+
+          if(!vormiList.has(sonaliik[i])){
+            vormiList.set(sonaliik[i],[]);
+            vormiList.get(sonaliik[i]).push(vormiliik[i]);
+          }else if(vormiList.has(sonaliik[i])){
     
-   
+              if(vormiList.get(sonaliik[i]).includes(vormiliik[i])){
+                
+              }else{
+                vormiList.get(sonaliik[i]).push(vormiliik[i]);
+              }
+            }
+          }
+      }
+    
 
-
+    
+    
+  
   sonuSonaliigis();
+  sonuSonavormis();
+  sonaVormeSonaliigis();
+
+
 
   const mapSort3 = new Map([...numbrid.entries()].sort());
 
@@ -80,9 +123,6 @@ import CloseIcon from '@mui/icons-material/Close';
   const mapSort2 = new Map([...mapSort3.entries()].sort((a, b) => b[1] - a[1]));
 
 
-  const iterator1 = mapSort2.keys();
-
-  console.log(mapSort2.size)
 
 
 
@@ -95,53 +135,90 @@ import CloseIcon from '@mui/icons-material/Close';
 
 
 
-      // console.log(Array.from(sonaList.keys())[0])
-      for (let i = 0; i < sonaList.size; i++) {
-        const iterator1 = mapSort2.keys();
+      for (let i = 0; i < vormiList.size; i++) {
+        
+        const ajutineList2 = sonaList.get(Array.from(sonaList.keys())[i])
 
-        let info = {
-          col1: "",
-          colvorm: 1,
-          col2: [[],[]],
-          col3: 0,
-          col4: 0
-        }
-  
+        const ajutineList3 = vormiList.get(Array.from(vormiList.keys())[i])
+        let valueAjutine;
+
+
+
         
         
-        info.col1 = Array.from(sonaList.keys())[i];
+        
+        
 
 
-        const ajutineList = sonaList.get(Array.from(sonaList.keys())[i]);
 
-        console.log(ajutineList)
 
-  
-        for (let j = 0; j < mapSort2.size; j++) {
+
+        for (let k = 0; k < sonaList2.size; k++) {
           
-          let valueAjutine = iterator1.next().value;
-          console.log(valueAjutine)
-          if(ajutineList.includes(valueAjutine))
-          {
-            info.col2[0].push(String(valueAjutine))
-            info.col2[1].push("(" + numbrid.get(valueAjutine) + "), ")
-            // info.col2 = String(info.col2 + String(valueAjutine) + String.fromCharCode(160) + "(" + numbrid.get(valueAjutine) + "), ");
+          const ajutineColvorm = Array.from(sonaList2.keys())[k]
+
+
+          if(ajutineList3.includes(ajutineColvorm)){
+            let info = {
+              col1: "",
+              colvorm: "",
+              col2: [[],[]],
+              col3: 0,
+              col4: 0
+            }
             
-            info.col3 = parseInt(info.col3) + parseInt(numbrid.get(String(valueAjutine)))
-          }
-  
+            info.col1 = Array.from(vormiList.keys())[i];
+            const iterator1 = mapSort2.keys();
+            info.colvorm = Array.from(sonaList2.keys())[k]
+
+            
+            const ajutineList = sonaList2.get(Array.from(sonaList2.keys())[k]);
+
+
+            for (let j = 0; j < mapSort2.size; j++) {
+              
+            
+              valueAjutine = iterator1.next().value;
+
+
+
+              if(ajutineList.includes(valueAjutine) && ajutineList2.includes(valueAjutine))
+              {
+                info.col2[0].push(String(valueAjutine))
+                info.col2[1].push("(" + numbrid.get(valueAjutine) + "), ")
+                // info.col2 = String(info.col2 + String(valueAjutine) + String.fromCharCode(160) + "(" + numbrid.get(valueAjutine) + "), ");
+                info.col3 = parseInt(info.col3) + parseInt(numbrid.get(String(valueAjutine)))
+                
+
+              }
+
+
+      
+        
+      
+            }
+            
+
+            // info.col2[1][info.col2[1].length - 1] = info.col2[1][info.col2[1].length - 1].slice(0, -2)
+            info.col4 = (info.col3 * 100 / sonad.length).toFixed(1);
     
-  
+            tableVal.push(info);
+
+
+          }
+
+         
+
         }
+
+
+
         // info.col2 = info.col2.slice(0,-2)
-        info.col2[1][info.col2[1].length - 1] = info.col2[1][info.col2[1].length - 1].slice(0, -2)
-        info.col4 = (sonaList.get(Array.from(sonaList.keys())[i]).length * 100 / sonad.length).toFixed(1);
-        console.log(info)
-        tableVal.push(info);
+
   
       }
       
-      console.log(tableVal)
+
       return tableVal;
 
   }
@@ -154,15 +231,13 @@ import CloseIcon from '@mui/icons-material/Close';
 
   console.log(sonad) */
 
-  const [showFilter, setShowFilter] = useState(false);
 
   const MultipleFilter = (rows, filler, filterValue) => {
     const arr = [];
     rows.forEach((val) => {
-      console.log(val);
+
       if (filterValue.includes(val.original.col1)) arr.push(val);
-      console.log(filterValue);
-      console.log(val.original.col1);
+
     });
     //console.log(arr);
     return arr;
@@ -171,34 +246,16 @@ import CloseIcon from '@mui/icons-material/Close';
   const MultipleFilter2 = (rows, filler, filterValue) => {
     const arr = [];
     rows.forEach((val) => {
-      console.log(val);
+
       if (filterValue.includes(val.original.colvorm)) arr.push(val);
-      console.log(filterValue);
-      console.log(val.original.culvorm);
+
     });
     //console.log(arr);
     return arr;
   };
 
-  function ShowPopup(){
-    if(document.getElementById('filterDiv').style.display  === "none"){
-      document.getElementById('filterDiv').style.display = "block"
-    }else if(document.getElementById('filterDiv').style.display === "block"){
-      document.getElementById('filterDiv').style.display = "none"
-    }
-    outsideClick();
-      
-  }
 
-  function ShowPopup2(){
-    if(document.getElementById('filterDiv2').style.display  === "none"){
-      document.getElementById('filterDiv2').style.display = "block"
-    }else if(document.getElementById('filterDiv2').style.display === "block"){
-      document.getElementById('filterDiv2').style.display = "none"
-    }
-    outsideClick2();
-      
-  }
+
 
   function ShowDownload(){
     if(document.getElementById('fileDownload').style.display  === "none"){
@@ -210,47 +267,7 @@ import CloseIcon from '@mui/icons-material/Close';
       
   }
 
-  function outsideClick(){
-    document.addEventListener('mouseup', outsideClickFunc);
-  }
-
-  function outsideClick2(){
-    document.addEventListener('mouseup', outsideClickFunc2);
-  }
-
-
-  function outsideClickFunc(e){
-    console.log(e.target);
-    var container = document.getElementById('filterDiv');
-      if (!container.contains(e.target)) {
-          container.style.display = 'none';
-          document.removeEventListener('mouseup', outsideClickFunc)
-      }
-  }
-
-  function outsideClickFunc2(e){
-    console.log(e.target);
-    var container = document.getElementById('filterDiv2');
-      if (!container.contains(e.target)) {
-          container.style.display = 'none';
-          document.removeEventListener('mouseup', outsideClickFunc2)
-      }
-  }
-
-  function outsideClick(){
-    document.addEventListener('mouseup', outsideClickFunc);
-  }
-
-
-
-  function ShowFilter2(){
-    return (
-      <div id='popUpClick' onClick={ShowPopup2}><FilterAltIcon/></div>
-  )
-  }
-
   function setFilteredParams(filterArr, val) {
-    setShowFilter(true);
     // if (val === undefined) return undefined;
     if (filterArr.includes(val)) {
       filterArr = filterArr.filter((n) => {
@@ -261,100 +278,6 @@ import CloseIcon from '@mui/icons-material/Close';
     if (filterArr.length === 0) filterArr = undefined;
     return filterArr;
   }
-
-
-
-  function SelectColumnFilter({
-    column: { filterValue = [], setFilter, preFilteredRows, id }
-  }) {
-    const options = useMemo(() => {
-      const options = new Set();
-      preFilteredRows.forEach((row) => {
-        options.add(row.values[id]);
-      });
-      return [...options.values()];
-    }, [id, preFilteredRows, sonad, sonaliik]);
-
-      return (
-        
-        <Fragment>
-
-          <div id='filterDiv' className='filterDiv' style={{display: "none"}}>
-            {options.map((option, i) => {
-              return (
-                <Fragment key={i}>
-                  <div className="flex items-center">
-                    <Checkbox
-                      id={option}
-                      value={option}
-                      onChange={(e) => {
-                        setFilter(setFilteredParams(filterValue, e.target.value));
-                      }}
-                    />
-                    <label
-                      htmlFor={option}
-                      className="ml-1.5 font-medium text-gray-700"
-                    >
-                      {option}
-                    </label>
-                  </div>
-                </Fragment>
-              );
-            })}
-          </div>
-
-        </Fragment>
-      );
-      console.log(SelectColumnFilter())
-  }
-
-  
-
-  function SelectColumnFilter2({
-    column: { filterValue = [], setFilter, preFilteredRows, id }
-  }) {
-    const options = useMemo(() => {
-      const options = new Set();
-      preFilteredRows.forEach((row) => {
-        options.add(row.values[id]);
-      });
-      return [...options.values()];
-    }, [id, preFilteredRows, sonad, sonaliik]);
-
-      return (
-        
-        <Fragment>
-
-          <div id='filterDiv2' className='filterDiv' style={{display: "none"}}>
-            {options.map((option, i) => {
-              return (
-                <Fragment key={i}>
-                  <div className="flex items-center">
-                    <Checkbox
-                      id={option}
-                      value={option}
-                      onChange={(e) => {
-                        setFilter(setFilteredParams(filterValue, e.target.value));
-                      }}
-                    />
-                    <label
-                      htmlFor={option}
-                      className="ml-1.5 font-medium text-gray-700"
-                    >
-                      {option}
-                    </label>
-                  </div>
-                </Fragment>
-              );
-            })}
-          </div>
-
-        </Fragment>
-      );
-  }
-
-  
-
 
 
   const data = React.useMemo(()=>
@@ -386,14 +309,12 @@ import CloseIcon from '@mui/icons-material/Close';
       });
       return [...options.values()];
       
-    }, [id, preFilteredRows, sonad, sonaliik]);
+    }, [id, preFilteredRows,]);
   
-    console.log(preFilteredRows)
-    console.log(filterValue);
+
     return (
       <Fragment>
-      <div>
-        
+
         <IconButton
           aria-label="more"
           id="long-button"
@@ -435,7 +356,7 @@ import CloseIcon from '@mui/icons-material/Close';
         </FormControl>
        
         
-      </div>
+
       </Fragment>
       
     );
@@ -463,7 +384,7 @@ import CloseIcon from '@mui/icons-material/Close';
     
       </Button>)
     setFileType(false)
-    console.log(fileType);
+
       }else if(!fileType){
         
       setButtonType(<ExcelFile element={<Button variant='contained'>Laadi alla</Button>}>
@@ -476,7 +397,7 @@ import CloseIcon from '@mui/icons-material/Close';
         </ExcelSheet>
     </ExcelFile>)
       setFileType(true)
-      console.log(fileType);
+
         
       }
     }
@@ -488,11 +409,11 @@ import CloseIcon from '@mui/icons-material/Close';
           display: 'flex',
           alignItems: 'center',
           flexWrap: 'wrap',
-      }}>Sõnaliik ja vorm</span></>)},
+      }}>Sõnaliik ja vorm </span></>)},
         accessor: 'col1', // accessor is the "key" in the data
         Cell: (props) => {
           const word= props.value
-          return <span  className="word" onClick={(e) => onTypeSelect(e.target.textContent)}>{word}</span>
+          return <span key={props.id}  className="word" onClick={(e) => onTypeSelect(e.target.textContent)}>{word}</span>
         },
         className: 'user',
         width: 400,
@@ -511,15 +432,19 @@ import CloseIcon from '@mui/icons-material/Close';
           display: 'flex',
           alignItems: 'end',
           flexWrap: 'wrap',
-      }}>Vormimärgendid <ShowFilter2/></div></>)},
+      }}>Vormimärgendid</div></>)},
         accessor: 'colvorm',
+        Cell: (props) => {
+          const word= props.value
+          return <span  className="word" onClick={(e) => onFormSelect(e.target.textContent)}>{word}</span>
+        },
         width: 400,
         className: 'colvorm',
         
         disableSortBy: true,
         sortable: false,
 
-        Filter: SelectColumnFilter2,
+        Filter: LongMenu,
         filter: MultipleFilter2 
       },
 
@@ -535,7 +460,7 @@ import CloseIcon from '@mui/icons-material/Close';
               let count = items[1][i]
               let content = (
                 <>
-                <span  className="word" onClick={(e) => onWordSelect(e.target.textContent)}>{word}</span>{String.fromCharCode(160)}{count}
+                <span key={props.id}  className="word" onClick={(e) => onWordSelect(e.target.textContent)}>{word}</span>{String.fromCharCode(160)}{count}
                 </>
 
               )
@@ -572,10 +497,6 @@ import CloseIcon from '@mui/icons-material/Close';
     {label: 'Osakaal (%)', key: "col4"},
   ]
 
-  function toggleDownload(){
-    fileType = document.getElementById("simple-select");
-    console.log(fileType)
-  }
 
   function closeDownload(){
       if(document.getElementById('fileDownload').style.display === "block"){
@@ -583,7 +504,6 @@ import CloseIcon from '@mui/icons-material/Close';
     }
   }
 
-  const [valueSelect, setValue] = useState("Excel");
   
 
   const handleClickDownload = e => ShowButton();

@@ -227,6 +227,7 @@ function App() {
         content.push(id)
       }
     }
+    
 
     const wordInfoObj = {
       word: "–",
@@ -234,6 +235,31 @@ function App() {
       syllables: "–",
       type: type,
       form: "–",
+    }
+
+    setWordInfo(wordInfoObj)
+
+    setSelectedWords(content)
+    setShowWordInfo(true)
+  }
+
+  const showForm = (form) => {
+    let content = []
+    for(let i=0; i<analysedInput.words.length; i++){
+      let analysedWord = analysedInput.wordforms[i]
+      let id = analysedInput.ids[i]
+      if(analysedWord===form){
+        content.push(id)
+      }
+    }
+    
+
+    const wordInfoObj = {
+      word: "–",
+      lemma: "–",
+      syllables: "–",
+      type: "-",
+      form: form,
     }
 
     setWordInfo(wordInfoObj)
@@ -358,7 +384,7 @@ function App() {
           </TabPanel>
           <TabPanel value={value} index={2}>
             <div>
-              <GrammaticalAnalysis onTypeSelect={showType} onWordSelect={showWord} onAnalyse={analysedInput} />
+              <GrammaticalAnalysis onTypeSelect={showType} onFormSelect={showForm} onWordSelect={showWord} onAnalyse={analysedInput} />
             </div>
           </TabPanel>
         </Grid>
