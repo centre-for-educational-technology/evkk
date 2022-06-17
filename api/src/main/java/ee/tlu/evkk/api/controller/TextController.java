@@ -339,10 +339,12 @@ return ResponseEntity.ok(body);
             }
           }
           if (feat.contains("Voice")) {
-            if (feat.split("=")[1].equals("Act")) {
-              tenseLabel += " nud-vorm";
-            } else {
-              tenseLabel += " tud-vorm";
+            if (tenseLabel.equals("mineviku kesksõna")) {
+              if (feat.split("=")[1].equals("Act")) {
+                tenseLabel += " nud-vorm";
+              } else {
+                tenseLabel += " tud-vorm";
+              }
             }
           }
         }
@@ -403,33 +405,46 @@ return ResponseEntity.ok(body);
                 negativityLabel = "eitus";
               }
             }
-            for (String feat2: feats) {
-              if (feat2.contains("Tense")) {
+          }
+          for (String feat: feats) {
+            if (feat.contains("Tense")) {
+              if (feat.split("=")[1].equals("Pres")) {
+                tenseLabel = "olevik";
+              } else {
                 if (moodLabel.equals("kindla kõneviisi")) {
                   tenseLabel = "lihtminevik";
                 } else if (moodLabel.equals("tingiva kõneviisi") || moodLabel.equals("kaudse kõneviisi")) {
                   tenseLabel = "minevik";
                 }
               }
-              if (feat2.contains("Person")) {
-                if (personVoiceLabel != "umbisikuline tegumood") {
-                  personVoiceLabel = personTranslations.get(feat2.split("=")[1]);
-                }
+            }
+            if (feat.contains("Person")) {
+              if (personVoiceLabel != "umbisikuline tegumood") {
+                personVoiceLabel = personTranslations.get(feat.split("=")[1]);
               }
             }
           }
 
           String subResult = moodLabel;
           if (moodLabel != "käskiv kõneviis,") {
-            subResult += " " + tenseLabel + ",";
+            subResult += " " + tenseLabel;
           }
           if (negativityLabel != "eitus" && personVoiceLabel != "umbisikuline tegumood" && !numberLabel.isEmpty()) {
+            if (!tenseLabel.isEmpty()) {
+              subResult += ",";
+            }
             subResult += " " + numberLabel;
           }
           if (negativityLabel != "eitus" && !personVoiceLabel.isEmpty()) {
+            if (numberLabel.isEmpty()) {
+              subResult += ",";
+            }
             subResult += " " + personVoiceLabel;
           }
           if (!negativityLabel.isEmpty()) {
+            if (personVoiceLabel.isEmpty() && numberLabel.isEmpty()) {
+              subResult += ",";
+            }
             subResult += " " + negativityLabel;
           }
           result.add(subResult);
