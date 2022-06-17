@@ -1,24 +1,34 @@
-import { useTable, useSortBy, usePagination } from 'react-table'
-import { useState, useEffect } from 'react'
+import { useTable, useSortBy, usePagination, useCallback } from 'react-table'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { WordCell } from './WordCell'
 
 export const Stats = ({ onAnalyse, onLemmaSelect, onWordSelect }) => {
     const [lemmas, setLemmas] = useState('')
     const [words, setWords] = useState('')
-    const [lemmaArray, setLemmaArray] = useState([{name: '', items: [['']], count: ''}])
+    //const [lemmaArray, setLemmaArray] = useState([{name: '', items: [['']], count: ''}])
     const [data, setData] = useState([{name: '', items: [['']], count: ''}])
     const [columns, setColumns] = useState([{Header: 'Algvormid', accessor: 'name', Cell: ''},{Header: 'Sõnavormid', accessor: 'items', Cell: [['']]},{Header: 'Sagedus', accessor: 'count'},{Header: 'Osakaal', accessor: 'ratio', Cell: ''}])
 
+    const [currentOnAnalyseValue, setCurrentOnAnalyseValue] = useState('')
+   
+    setCurrentOnAnalyseValue(onAnalyse.ids[0])
+
     useEffect(() => {
-        setLemmas(onAnalyse.lemmas)
-        setWords(onAnalyse.words)
+        console.log("sisend muutus:", currentOnAnalyseValue)
+        if(onAnalyse.ids[0]!==currentOnAnalyseValue){
+            setLemmas(onAnalyse.lemmas)
+            setWords(onAnalyse.words)
+            console.log("sisend muutus:", onAnalyse.ids[0])
+            console.log("sisend muutus:", currentOnAnalyseValue)
+            setCurrentOnAnalyseValue(onAnalyse.ids[0])
+        }
       }, [onAnalyse]);
 
-      useEffect(() => {
-        const newLemmaArray = []
+    const lemmaArray = useMemo(() => {
+        const newLemmaArray = [{name: '', items: [['']], count: '', ratio: ''}]
         for(let i=0; i<words.length; i++){
             
-            const currentWord = words[i].toLowerCase()
+            const currentWord = words[i]
             if(newLemmaArray.find(obj => obj.name ===lemmas[i])){
                 const newObj = newLemmaArray.find((obj) => obj.name ===lemmas[i])
                 if(newObj.items.find(item => item[0] === currentWord)){
@@ -43,8 +53,10 @@ export const Stats = ({ onAnalyse, onLemmaSelect, onWordSelect }) => {
                 newLemmaArray.push(newObj)
             }
         }
-        setLemmaArray(newLemmaArray)
-
+        console.log("uus renderdus")
+        return newLemmaArray
+        //setLemmaArray(newLemmaArray)
+        //console.log("sisendi massiiv")
     }, [lemmas, words])
     
     useEffect(() => {
@@ -59,6 +71,7 @@ export const Stats = ({ onAnalyse, onLemmaSelect, onWordSelect }) => {
             }
         })
         setData(newLemmaArray)
+        //console.log("andmed valmis")
     }, [lemmaArray])
 
     useEffect(() => {
@@ -66,15 +79,15 @@ export const Stats = ({ onAnalyse, onLemmaSelect, onWordSelect }) => {
             {
                 Header: 'Algvormid',
                 accessor: 'name',
-                Cell: (props: {value: string}) => {
+                Cell: (props) => {
                     const word= props.value
-                    return <span  className="word" onClick={(e) =>  onLemmaSelect(e.target.textContent)}>{word}</span>
+                    return <span  className="word" onClick={(e) => onLemmaSelect(e.target.textContent)}>{word}</span>
                 },
             },
             {
                 Header: 'Sõnavormid',
                 accessor: 'items',
-                Cell: (props: { value: Array }) => {
+                Cell: (props) => {
                     const items = props.value
                     const sortedItems = items.sort((a, b) => {
                         if (String(a[0]).localeCompare(b[0])===0) {
@@ -129,7 +142,7 @@ export const Stats = ({ onAnalyse, onLemmaSelect, onWordSelect }) => {
         prepareRow,
     } = tableInstance
 
-    const { pageIndex, pageSize } = state
+    const { setFetchInfo, sortBy, pageIndex, pageSize } = state
 
     const getTableDataForExport = (data: any[], columns: any[]) => data?.map((record: any) => columns
         .reduce((recordToDownload, column) => (
@@ -168,6 +181,9 @@ export const Stats = ({ onAnalyse, onLemmaSelect, onWordSelect }) => {
             }
         }
     };
+
+    //lehekülje hoidmine
+    //autoResetPage: false
 
     return (
     <>
@@ -236,6 +252,8 @@ export const Stats = ({ onAnalyse, onLemmaSelect, onWordSelect }) => {
             <button onClick={()=> previousPage()} disabled={!canPreviousPage}>Eelmine</button>
             <button onClick={()=> nextPage()} disabled={!canNextPage}>Järgmine</button>
             <button onClick={()=> gotoPage(pageCount-1)} disabled={!canNextPage}>{'>>'}</button>
+
+            
         </div>
     </>
   )
