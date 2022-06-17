@@ -7,6 +7,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import Close from '@mui/icons-material/Close';
 import { CSVLink } from "react-csv";
 import DownloadIcon from '@mui/icons-material/Download';
 import ReactExport from "react-export-excel";

@@ -10,7 +10,7 @@ export const InputText = ({ onAnalyse, onMarkWords, onWordSelect, onWordInfo }) 
 
   //kas siin on turvaaugud?
   const updatedText = useMemo(() => {
-    let analysedWords = onAnalyse.words
+    let analysedWords = onAnalyse.wordsOrig
     let text = onAnalyse.text
     let ids =  onAnalyse.ids
     let content = []

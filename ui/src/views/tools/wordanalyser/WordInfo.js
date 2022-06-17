@@ -7,6 +7,7 @@ export const WordInfo = ({ onShowWordInfo, onWordInfo }) => {
       <p>Algvorm: {onShowWordInfo && onWordInfo.lemma}</p>
       <p>Silbid: {onShowWordInfo && onWordInfo.syllables}</p>
       <p>Sõnaliik: {onShowWordInfo && onWordInfo.type}</p>
+      <p>Vorm: {onShowWordInfo && onWordInfo.form}</p>
     </div>
   )
 }
