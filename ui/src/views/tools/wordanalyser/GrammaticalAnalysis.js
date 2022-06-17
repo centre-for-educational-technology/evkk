@@ -1,6 +1,6 @@
 import React, { Fragment, useMemo, useState, useEffect } from 'react';
 import { useSortBy, useFilters, useTable, usePagination	} from 'react-table';
-import { Button, Checkbox, ButtonGroup, Select, MenuItem, TextField, FormControl, InputLabel, Tooltip } from "@mui/material";
+import { Button, Checkbox, ButtonGroup, Select, MenuItem, TextField, FormControl, InputLabel, Tooltip, IconButton, ListItemIcon, ListItemText, ClickAwayListener } from "@mui/material";
 import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import LastPageIcon from '@mui/icons-material/LastPage';
@@ -28,6 +28,7 @@ import CloseIcon from '@mui/icons-material/Close';
   const [sonaliik, setSonaliik] = useState('')
   const [sonad, setSonad] = useState('')
 
+
   console.log(sonaliik)
   console.log(sonad)
 
@@ -36,16 +37,13 @@ import CloseIcon from '@mui/icons-material/Close';
     setSonad(onAnalyse.words)
   }, [onAnalyse]);
 
- 
-
   const text = "Tallinna suurimas linnaosas Lasnamäel on alles vaid kaks eesti õppekeelega gümnaasiumi Laagna ja Kuristiku kus mõlemas peaaegu tuhat õpilast Parajasti on vahetund aga kui vähemaks jääb on Laagna gümnaasiumi juhtkond direktori asetäitjad õppe ja kasvatustöö alal ning direktor lahkelt nõus jagama rõõme ja muresid mis eri rahvuste koos õppimisega kaasas käivad"
 
   let sonaList = new Map();
   let numbrid = new Map();
   let result = true;
   let tableVal = [];
-
-
+  
 
 
 
@@ -243,11 +241,6 @@ import CloseIcon from '@mui/icons-material/Close';
   }
 
 
-  function ShowFilter(){
-    return (
-      <div id='popUpClick' onClick={ShowPopup}><FilterAltIcon/></div>
-  )
-  }
 
   function ShowFilter2(){
     return (
@@ -311,7 +304,10 @@ import CloseIcon from '@mui/icons-material/Close';
 
         </Fragment>
       );
+      console.log(SelectColumnFilter())
   }
+
+  
 
   function SelectColumnFilter2({
     column: { filterValue = [], setFilter, preFilteredRows, id }
@@ -366,6 +362,83 @@ import CloseIcon from '@mui/icons-material/Close';
     [sonad, sonaliik]
   )
 
+  
+
+  function LongMenu({column: { filterValue = [], setFilter, preFilteredRows, id }}) {
+    
+  const [anchorEl, setAnchorEl] = useState(false);
+  const open = Boolean(anchorEl)
+  // let open = Boolean(anchorEl);
+
+  const  handleClick =(event) =>{
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () =>{
+    setAnchorEl(null);
+  }
+    
+
+    const options = useMemo(() => {
+      const options = new Set();
+      preFilteredRows.forEach((row) => {
+        options.add(row.values[id]);
+      });
+      return [...options.values()];
+      
+    }, [id, preFilteredRows, sonad, sonaliik]);
+  
+    console.log(preFilteredRows)
+    console.log(filterValue);
+    return (
+      <Fragment>
+      <div>
+        
+        <IconButton
+          aria-label="more"
+          id="long-button"
+          aria-controls={open ? "long-menu" : undefined}
+          aria-expanded={open ? "true" : undefined}
+          aria-haspopup="true"
+          onClick={handleClick}
+        >
+          <FilterAltIcon />
+          
+        </IconButton>
+        
+        <FormControl>
+        <Select
+          multiple
+          value={filterValue}
+          open={open}
+          style={{ display: "none" }}
+          onClose={handleClose}
+        >
+          {options.map((option, i) => (
+            <MenuItem 
+            key={option}
+            onChange={(e) => {
+              setFilter(setFilteredParams(filterValue, e.target.value));
+            }}
+            >
+              <ListItemIcon>
+                <Checkbox
+                id={option}
+                value={option}
+                checked={filterValue.includes(option)}
+                />
+              </ListItemIcon>
+              <ListItemText primary={option} id={option} value={option} />
+            </MenuItem>
+          ))}
+        </Select>
+        </FormControl>
+       
+        
+      </div>
+      </Fragment>
+      
+    );
+  }
 
 
 
@@ -414,7 +487,7 @@ import CloseIcon from '@mui/icons-material/Close';
           display: 'flex',
           alignItems: 'center',
           flexWrap: 'wrap',
-      }}>Sõnaliik ja vorm <ShowFilter/></span></>)},
+      }}>Sõnaliik ja vorm</span></>)},
         accessor: 'col1', // accessor is the "key" in the data
         Cell: (props) => {
           const word= props.value
@@ -426,7 +499,7 @@ import CloseIcon from '@mui/icons-material/Close';
         sortable: false,
     
         
-        Filter: SelectColumnFilter,
+        Filter: LongMenu,
         filter: MultipleFilter
 
       },
@@ -512,7 +585,7 @@ import CloseIcon from '@mui/icons-material/Close';
   const [valueSelect, setValue] = useState("Excel");
   
 
-  const handleClick = e => ShowButton();
+  const handleClickDownload = e => ShowButton();
 
 
   const {
@@ -552,7 +625,7 @@ import CloseIcon from '@mui/icons-material/Close';
           labelId="demo-simple-select-label"
           id="simple-select"
           label="Laadimine"
-          onChange={handleClick}
+          onChange={handleClickDownload}
           size="medium"
           className='selectElement'
         >
