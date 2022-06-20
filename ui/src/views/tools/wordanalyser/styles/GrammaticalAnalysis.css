@@ -30,6 +30,10 @@ th:hover{
     font-size: large;
 }
 
+tr{
+    background-color: white;
+}
+
 tr:nth-child(even){
     background-color: #EBECF0;
 }
@@ -39,9 +43,15 @@ th{
 }
 
 
-
-
 th:nth-child(3):hover{
+    cursor: auto;
+}
+
+th:nth-child(1):hover{
+    cursor: auto;
+}
+
+th:nth-child(2):hover{
     cursor: auto;
 }
 
@@ -128,8 +138,4 @@ td:nth-child(4){
 .csvLink:hover{
     color: white;
     text-decoration: none
-}
-
-.inlineSpan{
-    display: inline;
 }

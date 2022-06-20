@@ -199,7 +199,7 @@ import CloseIcon from '@mui/icons-material/Close';
             }
             
 
-            // info.col2[1][info.col2[1].length - 1] = info.col2[1][info.col2[1].length - 1].slice(0, -2)
+            info.col2[1][info.col2[1].length - 1] = info.col2[1][info.col2[1].length - 1].slice(0, -2)
             info.col4 = (info.col3 * 100 / sonad.length).toFixed(1);
     
             tableVal.push(info);
@@ -330,17 +330,32 @@ import CloseIcon from '@mui/icons-material/Close';
         <FormControl>
         <Select
           multiple
-          value={filterValue}
+          value={[]}
           open={open}
-          style={{ display: "none" }}
+          style={{"z-index": "-30", "position": "absolute", "transform": "translate(-6rem, -.5rem)"}}
           onClose={handleClose}
+          MenuProps={{
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "left"
+            },
+            transformOrigin: {
+              vertical: "top",
+              horizontal: "right"
+            },
+            getContentAnchorEl: null
+          }}
         >
           {options.map((option, i) => (
             <MenuItem 
             key={option}
-            onChange={(e) => {
-              setFilter(setFilteredParams(filterValue, e.target.value));
+            value={option}
+            onClick={(e) => {
+              setFilter(setFilteredParams(filterValue, e.currentTarget.dataset.value));
+              console.log(e.currentTarget.dataset)
             }}
+            
+            
             >
               <ListItemIcon>
                 <Checkbox
@@ -405,11 +420,7 @@ import CloseIcon from '@mui/icons-material/Close';
   const columns = React.useMemo(
     () => [
       {
-        Header: ()=>{return(<><span style={{
-          display: 'flex',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-      }}>Sõnaliik ja vorm </span></>)},
+        Header: ()=>{return(<span>Sõnaliik ja vorm </span>)},
         accessor: 'col1', // accessor is the "key" in the data
         Cell: (props) => {
           const word= props.value
@@ -428,11 +439,7 @@ import CloseIcon from '@mui/icons-material/Close';
     
 
       {
-        Header: ()=>{return(<><div style={{
-          display: 'flex',
-          alignItems: 'end',
-          flexWrap: 'wrap',
-      }}>Vormimärgendid</div></>)},
+        Header: ()=>{return(<span>Vormimärgendid</span>)},
         accessor: 'colvorm',
         Cell: (props) => {
           const word= props.value
@@ -560,19 +567,7 @@ import CloseIcon from '@mui/icons-material/Close';
     </div>
     </div>
 
-      <table {...getTableProps()} className="text-sm">
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>
-                  <div>{column.canFilter ? column.render("Filter") : null}</div>
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-      </table>
+    
       <table {...getTableProps()} style={{ marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%' }}>
         <thead>
           {headerGroups.map(headerGroup => (
@@ -586,15 +581,18 @@ import CloseIcon from '@mui/icons-material/Close';
                     fontWeight: 'bold',
                   }}
                 >
-                  {column.render('Header')}
+                  
+                  {<span>{column.render('Header')} {column.canFilter ? column.render("Filter") : null}</span>}
+                  
                   <span className='sortIcon'>
                     {column.isSorted
                       ? column.isSortedDesc
                         ? ' ▼'
                         : ' ▲'
                       : ' ▼▲'}
-
+                      
                   </span>
+                  
                 </th>
               ))}
             </tr>
