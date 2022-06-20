@@ -11,6 +11,7 @@ import { CSVLink } from "react-csv";
 import DownloadIcon from '@mui/icons-material/Download';
 import ReactExport from "react-export-excel";
 import CloseIcon from '@mui/icons-material/Close';
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -23,8 +24,10 @@ import CloseIcon from '@mui/icons-material/Close';
   const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
   const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
+  const [csvData, setcsvData] = useState([])
+
   
-  const[fileType, setFileType] = useState(true);
+  const[fileType, setFileType] = useState(false);
   const [sonaliik, setSonaliik] = useState('')
   const [sonad, setSonad] = useState('')
   const[vormiliik, setVormiliik] = useState('')
@@ -44,6 +47,7 @@ import CloseIcon from '@mui/icons-material/Close';
   let numbrid2 = new Map();
   let vormiList = new Map();
   let tableVal = [];
+
   
   
 
@@ -166,6 +170,7 @@ import CloseIcon from '@mui/icons-material/Close';
               col3: 0,
               col4: 0
             }
+
             
             info.col1 = Array.from(vormiList.keys())[i];
             const iterator1 = mapSort2.keys();
@@ -185,7 +190,7 @@ import CloseIcon from '@mui/icons-material/Close';
               if(ajutineList.includes(valueAjutine) && ajutineList2.includes(valueAjutine))
               {
                 info.col2[0].push(String(valueAjutine))
-                info.col2[1].push("(" + numbrid.get(valueAjutine) + "), ")
+                info.col2[1].push("(" + String(numbrid.get(valueAjutine)) + "), ")
                 // info.col2 = String(info.col2 + String(valueAjutine) + String.fromCharCode(160) + "(" + numbrid.get(valueAjutine) + "), ");
                 info.col3 = parseInt(info.col3) + parseInt(numbrid.get(String(valueAjutine)))
                 
@@ -217,11 +222,18 @@ import CloseIcon from '@mui/icons-material/Close';
 
   
       }
+
+      
+
+      setcsvData(tableVal)
+      
       
 
       return tableVal;
 
   }
+
+
 
 
 
@@ -280,13 +292,14 @@ import CloseIcon from '@mui/icons-material/Close';
   }
 
 
-  const data = React.useMemo(()=>
+  let data = React.useMemo(()=>
    fillData()
     ,
     [sonad, sonaliik]
   )
 
   
+
 
   function LongMenu({column: { filterValue = [], setFilter, preFilteredRows, id }}) {
     
@@ -332,7 +345,7 @@ import CloseIcon from '@mui/icons-material/Close';
           multiple
           value={[]}
           open={open}
-          style={{"z-index": "-30", "position": "absolute", "transform": "translate(-6rem, -.5rem)"}}
+          style={{zIndex: "-30", "position": "absolute", "transform": "translate(-6rem, -.5rem)"}}
           onClose={handleClose}
           MenuProps={{
             anchorOrigin: {
@@ -380,21 +393,29 @@ import CloseIcon from '@mui/icons-material/Close';
 
 
 
-  const [buttonType, setButtonType] = useState(<ExcelFile element={<Button variant='contained'>Laadi alla</Button>}>
-    <ExcelSheet data={data} name="Sõnatabel">
-        <ExcelColumn label="Sõnaliik ja vorm" value="col1"/>
-        <ExcelColumn label="Vormimärgendid" value="colvorm"/>
-        <ExcelColumn label="Sõnad tekstis" value="col2"/>
-        <ExcelColumn label="Sagedus" value="col3"/>
-        <ExcelColumn label="Osakaal (%)" value="col4"/>
-    </ExcelSheet>
-</ExcelFile>);
+  const [buttonType, setButtonType] = useState(<Button variant='contained' disabled>Laadi alla</Button>);
 
   function ShowButton(){
+    
+    for(let i = 0; i < data.length; i++) {
+      let a = "";
+      for(let j = 0; j < data[i].col2[0].length; j++) {
+        a += data[i].col2[0][j] + " ";
+        a += data[i].col2[1][j];
+      }
+      data[i].col2[2] = a;
+    }
+
+    let csvData = JSON.parse(JSON.stringify(data));
+    for(let i = 0; i < data.length; i++) {
+      csvData[i].col2.splice(0, 2);
+    }
+    console.log(csvData);
+
     if(fileType){
       setButtonType(<Button className='CSVBtn' variant='contained' color='primary' >
    
-        <CSVLink className='csvLink' headers={tableHeaders} data={data}>Laadi alla</CSVLink>
+        <CSVLink filename='gram_analyys' className='csvLink' headers={tableHeaders} data={csvData}>Laadi alla</CSVLink>
         
     
       </Button>)
@@ -402,11 +423,13 @@ import CloseIcon from '@mui/icons-material/Close';
 
       }else if(!fileType){
         
-      setButtonType(<ExcelFile element={<Button variant='contained'>Laadi alla</Button>}>
+      setButtonType(<ExcelFile filename="gram_analyys" element={<Button variant='contained'>Laadi alla</Button>}>
         <ExcelSheet data={data} name="Sõnatabel">
             <ExcelColumn label="Sõnaliik ja vorm" value="col1"/>
+            
             <ExcelColumn label="Vormimärgendid" value="colvorm"/>
-            <ExcelColumn label="Sõnad tekstis" value="col2"/>
+            {/* <ExcelColumn label="Sõnad tekstis" value={(col) => col.col2[0] + " " + col.col2[1]}/> */}
+            <ExcelColumn label="Sõnad tekstis" value={(col) => col.col2[2]}/>
             <ExcelColumn label="Sagedus" value="col3"/>
             <ExcelColumn label="Osakaal (%)" value="col4"/>
         </ExcelSheet>
@@ -466,9 +489,9 @@ import CloseIcon from '@mui/icons-material/Close';
               let word = items[0][i]
               let count = items[1][i]
               let content = (
-                <>
+                <span key={uuidv4()}>
                 <span key={props.id}  className="word" onClick={(e) => onWordSelect(e.target.textContent)}>{word}</span>{String.fromCharCode(160)}{count}
-                </>
+                </span>
 
               )
               cellContent.push(content)

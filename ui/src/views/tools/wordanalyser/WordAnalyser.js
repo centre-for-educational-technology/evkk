@@ -5,16 +5,17 @@ import { v4 as uuidv4 } from 'uuid'
 import './styles/WordAnalyser.css'
 import TextUpload from './textupload/TextUpload'
 import GrammaticalAnalysis from './GrammaticalAnalysis'
-import { Box, Grid, Tab, Tabs, Typography } from '@mui/material'
+import { Alert, Box, Grid, Tab, Tabs, Typography } from '@mui/material'
 import LemmaView from './LemmaView'
 import Syllables from './Syllables'
 
 function App() {
-  const [showStats, setShowStats] = useState(false)
+  const [showResults, setShowResults] = useState(false)
+  const [textTooLong, setTextTooLong] = useState(false)
   const [analysedInput, setAnalysedInput] = useState({ids: [''], text: '', sentences: [''], words: [''], wordsOrig: [''], lemmas: [''], syllables: [''], wordtypes: [''],  wordforms: [''] })
   const [selectedWords, setSelectedWords] = useState([''])
   const [wordInfo, setWordInfo] = useState('')
-  const [textFromFile, setTextFromFile] = useState('');
+  const [textFromFile, setTextFromFile] = useState('')
 
   //get words
   const getWords = async (input) => {
@@ -98,7 +99,7 @@ function App() {
     let newData = []
     for(let i=0; i<data.length; i++){
       if(data[i]){
-        let item = data[i].replace(/['",.]+/g, '')
+        let item = data[i].replace(/[()'",.]+/g, '')
         if(item){
           newData.push(item)
         }
@@ -167,7 +168,11 @@ function App() {
       wordtypes: analysedWordTypes,
       wordforms: analysedWordForms
     }
-    setShowStats(!showStats)
+    
+    setShowResults(true)
+    if(inputObj.ids.length>100){
+      setTextTooLong(true)
+    }
     setAnalysedInput(inputObj)
   }
 
@@ -336,7 +341,8 @@ function App() {
   const resetAnalyser = () => {
     let newInputObj = {ids: [''], text: '', sentences: [''], words: [''], lemmas: [''], syllables: [''], wordtypes: [''],  wordforms: [''] }
     setAnalysedInput(newInputObj)
-    setShowStats(false)
+    setShowResults(false)
+    setTextTooLong(false)
   }
 
   //tabs
@@ -383,10 +389,16 @@ function App() {
           <Input textFromFile={textFromFile} onInsert={analyseInput} onAnalyse={analysedInput} onMarkWords={selectedWords} onWordSelect={showThisWord} onWordInfo={showInfo} onReset={resetAnalyser}/>
         </Grid>
         <Grid item xs={12} md={6}>
-          {showStats && <WordInfo onWordInfo={wordInfo}/>}
+          {showResults && <WordInfo onWordInfo={wordInfo}/>}
         </Grid>
 
-        {showStats &&
+        {showResults && textTooLong &&
+          <Grid item xs={12} md={12}>
+            <Alert severity="warning">Tekst on analüüsi kuvamiseks liiga pikk!</Alert>
+          </Grid>
+        }
+
+        {showResults && !textTooLong &&
         <Grid item xs={12}  md={12}>
           <h2>Tekstianalüüs</h2>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

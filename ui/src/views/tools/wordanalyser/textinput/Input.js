@@ -1,6 +1,7 @@
 import { InputText } from './InputText'
 import { useState, useEffect } from 'react'
-import { Alert, Button, CircularProgress } from '@mui/material'
+import { Alert, Button } from '@mui/material'
+import LoadingButton from '@mui/lab/LoadingButton'
 
 export const Input = ({ onInsert, onAnalyse, onMarkWords, onWordSelect, onWordInfo, onReset, textFromFile }) => {
   const [input, setInput] = useState('')
@@ -46,6 +47,8 @@ export const Input = ({ onInsert, onAnalyse, onMarkWords, onWordSelect, onWordIn
     setInput(textFromFile);
   }, [textFromFile]);
 
+  //Tekst on analüüsi kuvamiseks liiga pikk kui on üle 100 sõna
+
   return (
     <div className="containerItem">
         {showAnalyseBtn ? 
@@ -54,12 +57,12 @@ export const Input = ({ onInsert, onAnalyse, onMarkWords, onWordSelect, onWordIn
                   <textarea className='textInput' name='textInput' value={input} onChange={(e)=>setInput(e.target.value)}/>
                 </label>
                 <Button variant="contained" onClick={onSubmit}>Analüüsi</Button>
-                {showAlert && <Alert severity="warning">Analüüsimiseks sisesta esmalt tekst!</Alert>}
+                {showAlert && <span><br /><br /><Alert severity="warning">Analüüsimiseks sisesta esmalt tekst!</Alert></span>}
             </form>
           : 
             <InputText onMarkWords={onMarkWords} onWordSelect={onWordSelect} onAnalyse={onAnalyse} onWordInfo={onWordInfo}/>
         }
-        {showLoading && <CircularProgress />}
+        {showLoading && <LoadingButton loading variant="outlined">Analüüsi</LoadingButton>}
         {showResetBtn && <Button variant="contained" className="mainBtn" onClick={resetAnalyser}>Lähtesta</Button>}
     </div>
   )
