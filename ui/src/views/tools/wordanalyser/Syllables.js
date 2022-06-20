@@ -2,6 +2,11 @@ import React, { useEffect, useMemo } from "react";
 import { useTable, useSortBy, usePagination } from 'react-table';
 import './styles/Syllables.css';
 import { useState } from 'react';
+import { Button, ButtonGroup, Select, MenuItem, TextField } from "@mui/material";
+import LastPageIcon from '@mui/icons-material/LastPage';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 
 function Syllables({onAnalyse}) {
     const data = onAnalyse.syllables;
@@ -53,32 +58,29 @@ function Syllables({onAnalyse}) {
 
             } else if (syllables[i][1] === 'lõpp') {
                 listCounter[2] = listCounter[2] + 1
-
             }
+            
             tempList.push(syllables[i][0])
+            if (syllables[i][0] === syllables?.[i + 1]?.[0]) {
+                while(syllables[i][0] === syllables?.[i + 1]?.[0]) {
+                    if (syllables[i + 1][1] === 'algus') {
+                        listCounter[0] = listCounter[0] + 1
 
-            if (syllables[i][0] === syllables[i + 1][0]) {
-                for (let y = 0; syllables[i][0] === syllables[i + 1][0]; y++) {
-                    if (i + 1 <= syllables.length - 1) {
-                        if (syllables[i + 1][1] === 'algus') {
-                            listCounter[0] = listCounter[0] + 1
+                    } else if (syllables[i + 1][1] === 'keskmine') {
+                        listCounter[1] = listCounter[1] + 1
 
-                        } else if (syllables[i + 1][1] === 'keskmine') {
-                            listCounter[1] = listCounter[1] + 1
-
-                        } else if (syllables[i + 1][1] === 'lõpp') {
-                            listCounter[2] = listCounter[2] + 1
-                        }
-                        i++
+                    } else if (syllables[i + 1][1] === 'lõpp') {
+                        listCounter[2] = listCounter[2] + 1
                     }
+                    i++
                 }
-            } else {
-                i++
             }
             tempList.push(listCounter[0], listCounter[1], listCounter[2])
             formatedSyllables.push(tempList)
         }
     }
+
+
 
     const [formatedList, setFormatedList] = useState([]);
     function formating() {
@@ -115,20 +117,21 @@ function Syllables({onAnalyse}) {
             accessor: el => {
                 let display = "";
                 if (el.algus) {
-                    display += "algus " + el.algus + " ";
+                    display += "algus (" + el.algus + "), ";
                 }
                 if (el.keskel) {
-                    display += "keskel " + el.keskel + " ";
+                    display += "keskel (" + el.keskel + "), ";
                 }
                 if (el.lõpp) {
-                    display += "lõpp " + el.lõpp;
+                    display += "lõpp (" + el.lõpp + "), ";
                 }
+                display = display.slice(0, -2);
                 return display;
             },
             disableSortBy: true,
         },
         {
-            Header: 'Sagedus ↕',
+            Header: 'Sagedus',
             accessor: 'sagedus',
         }
     ]
@@ -140,7 +143,7 @@ function Syllables({onAnalyse}) {
         data: tableData
     }, useSortBy, usePagination)
 
-    const { getTableProps, getTableBodyProps, headerGroups, page, nextPage, previousPage, prepareRow } = tableInstance
+    const { getTableProps, getTableBodyProps, headerGroups, page, state, nextPage, previousPage, canNextPage, canPreviousPage, pageOptions, pageCount, gotoPage, setPageSize, prepareRow } = tableInstance
 
     return (
         <>
@@ -162,9 +165,14 @@ function Syllables({onAnalyse}) {
                     {headerGroups.map((headerGroup) => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map((column) => (
-                                <th {...column.getHeaderProps(column.getSortByToggleProps())}>{column.render('Header')}
-                                    <span>
-                                        {column.isSorted ? (column.isSortedDesc ? ' ↓' : ' ↑') : ''}
+                                <th {...column.getHeaderProps(column.getSortByToggleProps())}
+                                style={{
+                                    borderBottom: "1px solid",
+                                    color: "black",
+                                    fontWeight: "bold"
+                                }} className="headerbox">{column.render('Header')}
+                                    <span className="sort">
+                                        {column.isSorted ? (column.isSortedDesc ? ' ▼' : ' ▲') : ' ▼▲'}
                                     </span>
                                 </th>
                             ))}
@@ -188,10 +196,57 @@ function Syllables({onAnalyse}) {
                     }
                 </tbody>
             </table>
-            <div>
-                <button onClick={() => previousPage()}>Eelmine</button>
-                <button onClick={() => nextPage()}>Järgmine</button>
-            </div>
+            <div className="pagination">
+        <div className='buttongroup'>
+        <ButtonGroup size='medium' fullWidth variant="contained" aria-label="outlined primary button group">
+        <Button variant='contained' onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+          {<FirstPageIcon/>}
+        </Button>{' '}
+        <Button variant='contained' onClick={() => previousPage()} disabled={!canPreviousPage}>
+          {<NavigateBeforeIcon/>}
+        </Button>{' '}
+        <Button variant='contained' onClick={() => nextPage()} disabled={!canNextPage}>
+          {<NavigateNextIcon/>}
+        </Button>{' '}
+        <Button variant='contained' onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+          {<LastPageIcon/>}
+        </Button>{' '}
+        </ButtonGroup>
+        </div>
+        <span className='fontStyle'>
+          Leht{' '}
+          <strong>
+            {state.pageIndex + 1} / {pageOptions.length}
+          </strong>{' '}
+        </span>
+        <TextField
+          size='small'
+          id="outlined-number"
+          label="Mine lehele nr:"
+          type="number"
+          defaultValue={state.pageIndex + 1}
+          onChange={e => {
+            const page = e.target.value ? Number(e.target.value) - 1 : 0
+            gotoPage(page)
+          }}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <Select
+          size='small'
+          value={state.pageSize}
+          variant='outlined'
+          onChange={e => {
+            setPageSize(Number(e.target.value))
+          }}
+        >
+          {[5, 10, 20, 30, 40, 50, 100].map(pageSize => (
+            <MenuItem key={pageSize} value={pageSize}>{pageSize}</MenuItem>
+
+          ))}
+        </Select>
+      </div>
         </>
     )
 }
