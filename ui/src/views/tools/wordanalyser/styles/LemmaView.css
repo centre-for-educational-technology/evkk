@@ -1,13 +1,3 @@
-td {
-    border-bottom: 1px solid #ddd;
-    padding: 8px;
-}
-
-th {
-    border-bottom: 1px solid #ddd;
-    padding-left: 10px;
-}
-
 tr:nth-child(even) {background-color: #f2f2f2;}
 
 tr:hover {background-color: #ddd;}
