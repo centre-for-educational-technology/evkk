@@ -220,19 +220,7 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
 
     const columns = React.useMemo(() => [
         {
-            Header: ()=> {
-              return(
-                <>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    flexWrap: 'wrap',
-                  }}>Algvorm
-                </div>
-                </>
-              )
-            },
+            Header: 'Algvormid',
             accessor: 'col1',
             disableSortBy: true, 
             sortable: false,
