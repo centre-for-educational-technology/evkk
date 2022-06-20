@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import TextUploadModal from "./TextUploadModal";
 import "../styles/TextUpload.css";
-import {Button} from "@mui/material";
+import {Button, Grid} from "@mui/material";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 function TextUpload(props) {
@@ -43,17 +43,27 @@ function TextUpload(props) {
     
         return(
             <div className='container'>
-                <FileUploadIcon id="upload_button" value="Vali tekst(id)" className="buttonFail" onClick={() => {setButtonPopup(true)}} style={{height: 30, width: 30, cursor: "pointer"}} />
+                <FileUploadIcon id="upload_button" value="Vali tekst(id)" className="buttonFail" onClick={() => {setButtonPopup(true)}} style={{height: 30, width: 30, cursor: "pointer", margin: "0 0 1rem -.25rem" }} />
                 <TextUploadModal trigger={buttonPopup}>
                     <form encType="multipart/form-data" method="post" id='form_data'>
                         <div id='popup_1'>
-                            <h1 id="pop_title">Vali tekst üleslaadimiseks</h1>
-                            <Button className="close-btn" id="close" onClick={() => {setButtonPopup(false)}} > X</Button>
-                            <Button component="label" htmlFor='text_1' id="pickfile"> vali fail</Button>
-                            <label id="file_name" ></label>
+                            <Grid container spacing={2} alignItems="center" justifyContent="space-between" direction="column">
+                                <Grid item xs={12}>
 
-                            <input style={{visibility:"hidden"}} type="file" name="file" id="text_1"onChange={filechange} title="your text" multiple={true} accept=".txt,.pdf,.docx,.doc,.odt"></input>
-                            <Button type='button' id="upload" onClick={() => {setButtonPopup(false)}} onMouseDown={fileUpload} >Lae fail üles</Button>
+                                    <h1 id="pop_title">Vali tekst</h1>
+                                </Grid>
+                                <Button className="close-btn" id="close" onClick={() => {setButtonPopup(false)}} > X</Button>
+                                <Grid item xs={12}>
+                                    <Button component="label" htmlFor='text_1'  id="pickfile">Vali failid</Button>
+                                </Grid>
+                                <Grid item xs={12} >
+                                    <textbox id="file_name" style={{ position: "absolute", height: "133px", left: "40%", width: "140px"}}></textbox>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Button type='button' id="upload" style={{ position: "absolute", top: "85%", left: "40%"}} onClick={() => {setButtonPopup(false)}} onMouseDown={fileUpload} >Lae failid üles</Button>
+                                </Grid>
+                                <input style={{visibility:"hidden"}} type="file" name="file" id="text_1"onChange={filechange} title="your text" multiple={true} accept=".txt,.pdf,.docx,.doc,.odt"></input>
+                                </Grid>
                         </div>
                     </form>
                 </TextUploadModal>
