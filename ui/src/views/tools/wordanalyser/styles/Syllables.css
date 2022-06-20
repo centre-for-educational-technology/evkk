@@ -49,3 +49,23 @@ table th {
     background-color: #ddd;
     border-color: #ddd;
 }
+
+th:nth-child(1)>.sort{
+    display: none;
+}
+
+th:nth-child(2)>.sort{
+    display: none;
+}
+
+th.headerbox:nth-child(3):hover{
+    cursor: pointer !important;
+}
+
+th.headerbox:nth-child(2):hover{
+    cursor: auto !important;
+}
+
+th.headerbox:nth-child(1):hover{
+    cursor: auto !important;
+}
