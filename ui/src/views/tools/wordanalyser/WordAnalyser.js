@@ -194,7 +194,6 @@ function App() {
   //highlight selected word in lemma table
   const showWord = (word) => {
     let content = []
-    
     for(let i=0; i<analysedInput.words.length; i++){
       let analysedWord = analysedInput.words[i]
       let id = analysedInput.ids[i]
@@ -214,6 +213,29 @@ function App() {
     showInfo(firstSelectedId)
   }
 
+  //praegu otsib ainult kas sõna sisaldaba seda täheühendit, aga peaks looma eraldi massiivi, kui sõna ja tema sibid massiivis
+  const showSyllable = (syllable) =>{
+    let content = []
+    for(let i=0; i<analysedInput.words.length; i++){
+      let analysedWord = analysedInput.words[i]
+      let id = analysedInput.ids[i]
+      console.log(analysedWord.indexOf(syllable))
+      if(analysedWord.indexOf(syllable)>=0){
+        content.push(id)
+      }
+    }
+    setSelectedWords(content)
+
+    const wordInfoObj = {
+      word: "–",
+      lemma: "–",
+      syllables: syllable,
+      type:"–",
+      form: "–",
+    }
+    setWordInfo(wordInfoObj)
+  }
+
   const showType = (type) => {
     let content = []
     for(let i=0; i<analysedInput.words.length; i++){
@@ -223,7 +245,7 @@ function App() {
         content.push(id)
       }
     }
-    
+    setSelectedWords(content)
 
     const wordInfoObj = {
       word: "–",
@@ -232,10 +254,7 @@ function App() {
       type: type,
       form: "–",
     }
-
     setWordInfo(wordInfoObj)
-
-    setSelectedWords(content)
   }
 
   const showForm = (form) => {
@@ -247,8 +266,8 @@ function App() {
         content.push(id)
       }
     }
+    setSelectedWords(content)
     
-
     const wordInfoObj = {
       word: "–",
       lemma: "–",
@@ -256,10 +275,7 @@ function App() {
       type: "-",
       form: form,
     }
-
     setWordInfo(wordInfoObj)
-
-    setSelectedWords(content)
   }
 
   //highlight selected lemma
@@ -288,7 +304,6 @@ function App() {
       type: analysedInput.wordtypes[index],
       form:  "–",
     }
-
     setWordInfo(wordInfoObj)
   }
 
@@ -383,7 +398,7 @@ function App() {
           </Box>
           <TabPanel value={value} index={0}>
             <div>
-              {(analysedInput.syllables.length > 1 || analysedInput.syllables[0] !== "") && <Syllables onAnalyse={analysedInput} />}
+              {(analysedInput.syllables.length > 1 || analysedInput.syllables[0] !== "") && <Syllables onAnalyse={analysedInput}  onSyllableSelect={showSyllable} />}
             </div>
           </TabPanel>
           <TabPanel value={value} index={1}>

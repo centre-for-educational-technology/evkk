@@ -3,7 +3,7 @@ import { useTable, useSortBy, usePagination } from 'react-table';
 import './styles/Syllables.css';
 import { useState } from 'react';
 
-function Syllables({onAnalyse}) {
+function Syllables({onAnalyse,  onSyllableSelect}) {
     const data = onAnalyse.syllables;
     const len = data.length;
     let baseSyllables = []
@@ -84,7 +84,7 @@ function Syllables({onAnalyse}) {
     function formating() {
         let output = (formatedSyllables.map((row) => {
             return {
-                "silp": row[0],
+                "silp": <span className="word" onClick={(e) => onSyllableSelect(e.target.textContent)}>{row[0]}</span>,
                 "algus": row[1], "keskel": row[2], "lõpp": row[3], "sagedus": row[1] + row[2] + row[3]
             }
         }))
