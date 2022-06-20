@@ -11,26 +11,19 @@
     align-items: center;
 }
 .popup-inner {
-    position: relative;
+    position: absolute;
     padding: 32px;
     width: 100%;
     max-width: 640px;
-    height: 50%;
+    height: 400px;
 
     border-radius: 1em;
     background-color: #FFF;
 }
     
 #pickfile {
-    position: absolute;
-    top: 23%;
-    left: 35%;
-    width: 25%;
-    height: 10%;
-
     background-color: rgb(49, 138, 255);
     border-radius: 0.5em;
-    text-align: center;
     color: white;
     font-weight: bold;
 }
@@ -41,32 +34,16 @@
 
 }
 #upload {
-    position: absolute;
     border-radius: 0.5em;
     background-color: rgb(49, 138, 255);
     cursor: pointer;
     color: white;
-
-    width: 25%;
-    height: 10%;
-    bottom: 7%;
-    left: 35%;
     font-weight: bold;
 }
 #pop_title{
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
     font-weight: bold;
 }
 #file_name{
-    position: absolute;
-    width: 28%;
-    height: 37%;
-    left: 32%;
-    top: 31%;
-    margin: 3%;
     overflow-y: auto;
-
 }
