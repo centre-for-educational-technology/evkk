@@ -54,7 +54,7 @@ export const Input = ({ onInsert, onAnalyse, onMarkWords, onWordSelect, onWordIn
                   <textarea className='textInput' name='textInput' value={input} onChange={(e)=>setInput(e.target.value)}/>
                 </label>
                 <Button variant="contained" onClick={onSubmit}>Analüüsi</Button>
-                {showAlert && <Alert severity="warning">Analüüsimiseks sisesta esmalt tekst!</Alert>}
+                {showAlert && <span><br /><br /><Alert severity="warning">Analüüsimiseks sisesta esmalt tekst!</Alert></span>}
             </form>
           : 
             <InputText onMarkWords={onMarkWords} onWordSelect={onWordSelect} onAnalyse={onAnalyse} onWordInfo={onWordInfo}/>
