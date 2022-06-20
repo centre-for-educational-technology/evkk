@@ -10,6 +10,7 @@
     justify-content: center;
     align-items: center;
 }
+
 .popup-inner {
     position: absolute;
     padding: 32px;
@@ -20,30 +21,19 @@
     border-radius: 1em;
     background-color: #FFF;
 }
-    
-#pickfile {
-    background-color: rgb(49, 138, 255);
-    border-radius: 0.5em;
-    color: white;
-    font-weight: bold;
-}
+
 #close{
     position: absolute !important;
     top: 0% !important;
     right: 0% !important;
 
 }
-#upload {
-    border-radius: 0.5em;
-    background-color: rgb(49, 138, 255);
-    cursor: pointer;
-    color: white;
-    font-weight: bold;
-}
+
 #pop_title{
 
     font-weight: bold;
 }
+
 #file_name{
     overflow-y: auto;
 }

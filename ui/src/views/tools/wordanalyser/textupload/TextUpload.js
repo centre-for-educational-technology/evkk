@@ -27,9 +27,13 @@ function TextUpload(props) {
     function filechange(){
         var fileNameData = document.getElementById("file_name");
         fileNameData.textContent = "";
+        let br = document.createElement("br");
+        let b = document.createElement("b");
         let div = document.createElement("div");
         let fileNameDataContent = document.createTextNode("Valitud failid:");
-        fileNameData.appendChild(fileNameDataContent);
+        b.appendChild(fileNameDataContent);
+        div.appendChild(b);
+        div.appendChild(br);
 
         let file_length = document.getElementById("text_1").files.length;
         for(let i = 0; i<file_length; i++){
@@ -49,20 +53,19 @@ function TextUpload(props) {
                         <div id='popup_1'>
                             <Grid container spacing={2} alignItems="center" justifyContent="space-between" direction="column">
                                 <Grid item xs={12}>
-
                                     <h1 id="pop_title">Vali tekst</h1>
                                 </Grid>
-                                <Button className="close-btn" id="close" onClick={() => {setButtonPopup(false)}} > X</Button>
+                                <Button className="close-btn" id="close" onClick={() => {setButtonPopup(false)}} style={{paddingTop: ".85rem"}}>X</Button>
                                 <Grid item xs={12}>
-                                    <Button component="label" htmlFor='text_1'  id="pickfile">Vali failid</Button>
+                                    <Button component="label" htmlFor='text_1' variant="contained">Vali failid</Button>
                                 </Grid>
                                 <Grid item xs={12} >
-                                    <textbox id="file_name" style={{ position: "absolute", height: "133px", left: "40%", width: "140px"}}></textbox>
+                                    <div id="file_name" style={{ height: "150px", width: "500px", textAlign: "center"}}></div>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Button type='button' id="upload" style={{ position: "absolute", top: "85%", left: "40%"}} onClick={() => {setButtonPopup(false)}} onMouseDown={fileUpload} >Lae failid üles</Button>
+                                    <Button type='button' variant="contained" style={{ position: "absolute", top: "85%", left: "38%"}} onClick={() => {setButtonPopup(false)}} onMouseDown={fileUpload}>Laadi failid üles</Button>
                                 </Grid>
-                                <input style={{visibility:"hidden"}} type="file" name="file" id="text_1"onChange={filechange} title="your text" multiple={true} accept=".txt,.pdf,.docx,.doc,.odt"></input>
+                                <input style={{visibility:"hidden"}} type="file" name="file" id="text_1" onChange={filechange} title="your text" multiple={true} accept=".txt,.pdf,.docx,.doc,.odt"></input>
                                 </Grid>
                         </div>
                     </form>
