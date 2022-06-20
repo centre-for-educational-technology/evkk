@@ -1,6 +1,7 @@
 import { InputText } from './InputText'
 import { useState, useEffect } from 'react'
-import { Alert, Button, CircularProgress } from '@mui/material'
+import { Alert, Button } from '@mui/material'
+import LoadingButton from '@mui/lab/LoadingButton'
 
 export const Input = ({ onInsert, onAnalyse, onMarkWords, onWordSelect, onWordInfo, onReset, textFromFile }) => {
   const [input, setInput] = useState('')
@@ -46,6 +47,8 @@ export const Input = ({ onInsert, onAnalyse, onMarkWords, onWordSelect, onWordIn
     setInput(textFromFile);
   }, [textFromFile]);
 
+  //Tekst on analüüsi kuvamiseks liiga pikk kui 101
+
   return (
     <div className="containerItem">
         {showAnalyseBtn ? 
@@ -59,7 +62,7 @@ export const Input = ({ onInsert, onAnalyse, onMarkWords, onWordSelect, onWordIn
           : 
             <InputText onMarkWords={onMarkWords} onWordSelect={onWordSelect} onAnalyse={onAnalyse} onWordInfo={onWordInfo}/>
         }
-        {showLoading && <CircularProgress />}
+        {showLoading && <LoadingButton loading variant="outlined">Analüüsi</LoadingButton>}
         {showResetBtn && <Button variant="contained" className="mainBtn" onClick={resetAnalyser}>Lähtesta</Button>}
     </div>
   )
