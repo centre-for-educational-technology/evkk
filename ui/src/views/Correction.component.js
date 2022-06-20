@@ -66,7 +66,7 @@ class Correction extends Component {
      }
      this.ala1.selectionStart=koht;
      this.ala1.selectionEnd=koht+sisu.length;
-     let charsPerRow = this.ala1.cols;
+     //let charsPerRow = this.ala1.cols;
      //let selectionRow = (this.ala1.selectionStart - (this.ala1.selectionStart % charsPerRow)) / charsPerRow;
      //let lineHeight = this.ala1.clientHeight / this.ala1.rows;
      //this.ala1.scrollTop = lineHeight * selectionRow-30;

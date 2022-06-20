@@ -159,14 +159,13 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
   const sonuKasutuses = () => {
 
     for (let i = 0; i < sonad.length; i++) {
-
-      if(!sonaList.has(lemmad[i])){
+      if (!sonaList.has(lemmad[i])) {
         sonaList.set(lemmad[i],[]);
         sonaList.get(lemmad[i]).push(sonad[i]);
         numbrid.set(sonad[i], 1);
-      } else if(sonaList.has(lemmad[i])){
-        if(sonaList.get(lemmad[i]).includes(sonad[i])){
-          numbrid.set(sonad[i],(numbrid.get(sonad[i]) + 1)) ;
+      } else if (sonaList.has(lemmad[i])) {
+        if (sonaList.get(lemmad[i]).includes(sonad[i])) {
+          numbrid.set(sonad[i],(numbrid.get(sonad[i]) + 1));
         } else {
           sonaList.get(lemmad[i]).push(sonad[i]);
           numbrid.set(sonad[i], 1);
@@ -178,11 +177,9 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
   sonuKasutuses();
 
   const mapSort3 = new Map([...numbrid.entries()].sort());
-
   const mapSort2 = new Map([...mapSort3.entries()].sort((a, b) => b[1] - a[1]));
 
   function fillData(){
-
     let tableVal = [];
 
     for (let i = 0; i < sonaList.size; i++) {
@@ -200,12 +197,11 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
 
       for (let j = 0; j < mapSort2.size; j++) {
         let valueAjutine = iterator1.next().value;
-        if(ajutineList.includes(valueAjutine)){
+        if (ajutineList.includes(valueAjutine)) {
           info.col2[0].push(String(valueAjutine))
           info.col2[1].push("(" + numbrid.get(valueAjutine) + "), ")
           info.col3 = parseInt(info.col3) + parseInt(numbrid.get(String(valueAjutine)))
         }
-        
       }
 
       info.col2[1][info.col2[1].length - 1] = info.col2[1][info.col2[1].length - 1].slice(0, -2)
@@ -217,7 +213,6 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
   }
 
   fillData();
-
     const columns = React.useMemo(() => [
         {
             Header: 'Algvormid',
@@ -234,16 +229,14 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
             width: 700,
             Cell: (props) => {
               const items = props.value
-    
               let cellContent = []
-              for(let i=0; i<items[0].length; i++){
+              for (let i = 0; i < items[0].length; i++) {
                   let word = items[0][i]
                   let count = items[1][i]
                   let content = (
                     <span key={uuidv4()}>
                     <span className="word" onClick={(e) => onWordSelect(e.target.textContent)}>{word}</span>{String.fromCharCode(160)}{count}
                     </span>
-    
                   )
                   cellContent.push(content)
               }

@@ -11,9 +11,9 @@ export const Input = ({ onInsert, onAnalyse, onMarkWords, onWordSelect, onWordIn
   const [showAlert, setShowAlert] = useState(false)
   const [showLoading, setShowLoading] = useState(false)
   
-  const onSubmit = (e) =>{
+  const onSubmit = (e) => {
     e.preventDefault()
-    if(input.length>0){
+    if (input.length > 0) {
       setShowAnalyseBtn(false)
       onInsert(input)
       setShowAlert(false)
@@ -31,7 +31,7 @@ export const Input = ({ onInsert, onAnalyse, onMarkWords, onWordSelect, onWordIn
 
   useEffect(() => {
     setShowLoading(false)
-    if(onAnalyse.ids[0].length>0){
+    if (onAnalyse.ids[0].length > 0) {
       setShowResetBtn(true)
     }
   }, [onAnalyse]);
@@ -54,10 +54,10 @@ export const Input = ({ onInsert, onAnalyse, onMarkWords, onWordSelect, onWordIn
         {showAnalyseBtn ? 
             <form>
                 <label className="textInputContainer">
-                  <textarea className='textInput' name='textInput' value={input} onChange={(e)=>setInput(e.target.value)}/>
+                  <textarea className='textInput' name='textInput' value={input} onChange={(e) => setInput(e.target.value)}/>
                 </label>
                 <Button variant="contained" onClick={onSubmit}>Analüüsi</Button>
-                {showAlert && <span><br /><br /><Alert severity="warning">Analüüsimiseks sisesta esmalt tekst!</Alert></span>}
+                {showAlert && <span><br/><br/><Alert severity="warning">Analüüsimiseks sisesta esmalt tekst!</Alert></span>}
             </form>
           : 
             <InputText onMarkWords={onMarkWords} onWordSelect={onWordSelect} onAnalyse={onAnalyse} onWordInfo={onWordInfo}/>

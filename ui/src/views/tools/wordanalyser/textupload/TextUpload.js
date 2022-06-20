@@ -7,7 +7,7 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 function TextUpload(props) {
     const [buttonPopup, setButtonPopup] = useState(false);
 
-    function fileUpload(){
+    function fileUpload() {
         let data_input = document.getElementById("form_data");
         let oData = new FormData(data_input);
         const request_test = {
@@ -21,10 +21,9 @@ function TextUpload(props) {
             props.sendTextFromFile(data);
         });
         document.getElementById("file_name").innerHTML = "";
-
     }
 
-    function filechange(){
+    function filechange() {
         var fileNameData = document.getElementById("file_name");
         fileNameData.textContent = "";
         let br = document.createElement("br");
@@ -36,7 +35,7 @@ function TextUpload(props) {
         div.appendChild(br);
 
         let file_length = document.getElementById("text_1").files.length;
-        for(let i = 0; i<file_length; i++){
+        for(let i = 0; i < file_length; i++){
             let eachBr = document.createElement("br");
             let temp_name = document.createTextNode(document.getElementById("text_1").files[i].name);
             div.appendChild(temp_name);
@@ -45,7 +44,7 @@ function TextUpload(props) {
         fileNameData.appendChild(div);
     }
     
-        return(
+        return (
             <div className='container'>
                 <FileUploadIcon id="upload_button" value="Vali tekst(id)" className="buttonFail" onClick={() => {setButtonPopup(true)}} style={{height: 30, width: 30, cursor: "pointer", margin: "0 0 1rem -.25rem" }} />
                 <TextUploadModal trigger={buttonPopup}>

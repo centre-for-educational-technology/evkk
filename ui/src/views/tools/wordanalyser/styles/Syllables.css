@@ -9,9 +9,13 @@ table td, table th {
     padding: 8px;
 }
   
-table tr:nth-child(even){background-color: #f2f2f2;}
+table tr:nth-child(even){
+    background-color: #f2f2f2;
+}
   
-table tr:hover {background-color: #ddd;}
+table tr:hover {
+    background-color: #ddd;
+}
   
 table th {
     padding-top: 12px;
@@ -21,7 +25,6 @@ table th {
     color: rgb(0, 0, 0);
 }
 
-
 .filter {
     position: fixed;
     top: 90px;
@@ -29,11 +32,9 @@ table th {
     width: 260px;
     height: 10px;
     background-color: rgb(255, 255, 255);
-
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 
 .inner-div {

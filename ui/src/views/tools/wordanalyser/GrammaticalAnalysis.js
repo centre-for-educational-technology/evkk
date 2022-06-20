@@ -1,5 +1,5 @@
 import React, { Fragment, useMemo, useState, useEffect } from 'react';
-import { useSortBy, useFilters, useTable, usePagination	} from 'react-table';
+import { useSortBy, useFilters, useTable, usePagination } from 'react-table';
 import { Button, Checkbox, ButtonGroup, Select, MenuItem, TextField, FormControl, InputLabel, Tooltip, IconButton, ListItemIcon, ListItemText } from "@mui/material";
 import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
@@ -13,33 +13,20 @@ import ReactExport from "react-export-excel";
 import CloseIcon from '@mui/icons-material/Close';
 import { v4 as uuidv4 } from 'uuid';
 
-
-
-
-
- function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalyse}) {
-  
-
+function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnalyse }) {
   const ExcelFile = ReactExport.ExcelFile;
   const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
   const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
-
-  const [csvData, setcsvData] = useState([])
-
-  
-  const[fileType, setFileType] = useState(false);
+  const [fileType, setFileType] = useState(false);
   const [sonaliik, setSonaliik] = useState('')
   const [sonad, setSonad] = useState('')
-  const[vormiliik, setVormiliik] = useState('')
-
-
+  const [vormiliik, setVormiliik] = useState('')
 
   useEffect(() => {
     setSonaliik(onAnalyse.wordtypes)
     setSonad(onAnalyse.words)
     setVormiliik(onAnalyse.wordforms)
   }, [onAnalyse]);
-
 
   let sonaList = new Map();
   let sonaList2 = new Map();
@@ -48,286 +35,157 @@ import { v4 as uuidv4 } from 'uuid';
   let vormiList = new Map();
   let tableVal = [];
 
-  
-  
-
-
   const sonuSonaliigis = () => {
-
     for (let i = 0; i < sonaliik.length; i++) {
-
-      if(!sonaList.has(sonaliik[i])){
-        sonaList.set(sonaliik[i],[]);
+      if (!sonaList.has(sonaliik[i])) {
+        sonaList.set(sonaliik[i], []);
         sonaList.get(sonaliik[i]).push(sonad[i]);
         numbrid.set(sonad[i], 1);
-      }else if(sonaList.has(sonaliik[i])){
-
-          if(sonaList.get(sonaliik[i]).includes(sonad[i])){
-            
-            numbrid.set(sonad[i],(numbrid.get(sonad[i]) + 1)) ;
-          }else{
-            sonaList.get(sonaliik[i]).push(sonad[i]);
-            numbrid.set(sonad[i], 1);
-          }
+      } else if (sonaList.has(sonaliik[i])) {
+        if (sonaList.get(sonaliik[i]).includes(sonad[i])) {
+          numbrid.set(sonad[i], (numbrid.get(sonad[i]) + 1));
+        } else {
+          sonaList.get(sonaliik[i]).push(sonad[i]);
+          numbrid.set(sonad[i], 1);
         }
       }
     }
+  }
 
-
-    const sonuSonavormis = () => {
-      for (let i = 0; i < sonad.length; i++) {
-
-        if(!sonaList2.has(vormiliik[i])){
-          sonaList2.set(vormiliik[i],[]);
+  const sonuSonavormis = () => {
+    for (let i = 0; i < sonad.length; i++) {
+      if (!sonaList2.has(vormiliik[i])) {
+        sonaList2.set(vormiliik[i], []);
+        sonaList2.get(vormiliik[i]).push(sonad[i]);
+        numbrid2.set(sonad[i], 1);
+      } else if (sonaList2.has(vormiliik[i])) {
+        if (sonaList2.get(vormiliik[i]).includes(sonad[i])) {
+          numbrid2.set(sonad[i], (numbrid.get(sonad[i]) + 1));
+        } else {
           sonaList2.get(vormiliik[i]).push(sonad[i]);
           numbrid2.set(sonad[i], 1);
-        }else if(sonaList2.has(vormiliik[i])){
-  
-            if(sonaList2.get(vormiliik[i]).includes(sonad[i])){
-              
-              numbrid2.set(sonad[i],(numbrid.get(sonad[i]) + 1)) ;
-            }else{
-              sonaList2.get(vormiliik[i]).push(sonad[i]);
-              numbrid2.set(sonad[i], 1);
-            }
-          }
         }
       }
+    }
+  }
 
-      const sonaVormeSonaliigis = () => {
-        for (let i = 0; i < vormiliik.length; i++) {
-
-          if(!vormiList.has(sonaliik[i])){
-            vormiList.set(sonaliik[i],[]);
-            vormiList.get(sonaliik[i]).push(vormiliik[i]);
-          }else if(vormiList.has(sonaliik[i])){
-    
-              if(vormiList.get(sonaliik[i]).includes(vormiliik[i])){
-                
-              }else{
-                vormiList.get(sonaliik[i]).push(vormiliik[i]);
-              }
-            }
-          }
+  const sonaVormeSonaliigis = () => {
+    for (let i = 0; i < vormiliik.length; i++) {
+      if (!vormiList.has(sonaliik[i])) {
+        vormiList.set(sonaliik[i], []);
+        vormiList.get(sonaliik[i]).push(vormiliik[i]);
+      } else if (vormiList.has(sonaliik[i])) {
+        if (vormiList.get(sonaliik[i]).includes(vormiliik[i])) {
+        } else {
+          vormiList.get(sonaliik[i]).push(vormiliik[i]);
+        }
       }
-    
+    }
+  }
 
-    
-    
-  
   sonuSonaliigis();
   sonuSonavormis();
   sonaVormeSonaliigis();
 
-
-
   const mapSort3 = new Map([...numbrid.entries()].sort());
-
-
   const mapSort2 = new Map([...mapSort3.entries()].sort((a, b) => b[1] - a[1]));
 
-
-
-
-
-
-
-  
-
-
-  function fillData(){
-
-
-
-      for (let i = 0; i < vormiList.size; i++) {
-        
-        const ajutineList2 = sonaList.get(Array.from(sonaList.keys())[i])
-
-        const ajutineList3 = vormiList.get(Array.from(vormiList.keys())[i])
-        let valueAjutine;
-
-
-
-        
-        
-        
-        
-
-
-
-
-
-        for (let k = 0; k < sonaList2.size; k++) {
-          
-          const ajutineColvorm = Array.from(sonaList2.keys())[k]
-
-
-          if(ajutineList3.includes(ajutineColvorm)){
-            let info = {
-              col1: "",
-              colvorm: "",
-              col2: [[],[]],
-              col3: 0,
-              col4: 0
-            }
-
-            
-            info.col1 = Array.from(vormiList.keys())[i];
-            const iterator1 = mapSort2.keys();
-            info.colvorm = Array.from(sonaList2.keys())[k]
-
-            
-            const ajutineList = sonaList2.get(Array.from(sonaList2.keys())[k]);
-
-
-            for (let j = 0; j < mapSort2.size; j++) {
-              
-            
-              valueAjutine = iterator1.next().value;
-
-
-
-              if(ajutineList.includes(valueAjutine) && ajutineList2.includes(valueAjutine))
-              {
-                info.col2[0].push(String(valueAjutine))
-                info.col2[1].push("(" + String(numbrid.get(valueAjutine)) + "), ")
-                // info.col2 = String(info.col2 + String(valueAjutine) + String.fromCharCode(160) + "(" + numbrid.get(valueAjutine) + "), ");
-                info.col3 = parseInt(info.col3) + parseInt(numbrid.get(String(valueAjutine)))
-                
-
-              }
-
-
-      
-        
-      
-            }
-            
-
-            info.col2[1][info.col2[1].length - 1] = info.col2[1][info.col2[1].length - 1].slice(0, -2)
-            info.col4 = (info.col3 * 100 / sonad.length).toFixed(1);
-    
-            tableVal.push(info);
-
-
+  function fillData() {
+    for (let i = 0; i < vormiList.size; i++) {
+      const ajutineList2 = sonaList.get(Array.from(sonaList.keys())[i])
+      const ajutineList3 = vormiList.get(Array.from(vormiList.keys())[i])
+      let valueAjutine;
+      for (let k = 0; k < sonaList2.size; k++) {
+        const ajutineColvorm = Array.from(sonaList2.keys())[k]
+        if (ajutineList3.includes(ajutineColvorm)) {
+          let info = {
+            col1: "",
+            colvorm: "",
+            col2: [[], []],
+            col3: 0,
+            col4: 0
           }
-
-         
-
+          info.col1 = Array.from(vormiList.keys())[i];
+          const iterator1 = mapSort2.keys();
+          info.colvorm = Array.from(sonaList2.keys())[k]
+          const ajutineList = sonaList2.get(Array.from(sonaList2.keys())[k]);
+          for (let j = 0; j < mapSort2.size; j++) {
+            valueAjutine = iterator1.next().value;
+            if (ajutineList.includes(valueAjutine) && ajutineList2.includes(valueAjutine)) {
+              info.col2[0].push(String(valueAjutine))
+              info.col2[1].push("(" + String(numbrid.get(valueAjutine)) + "), ")
+              info.col3 = parseInt(info.col3) + parseInt(numbrid.get(String(valueAjutine)))
+            }
+          }
+          info.col2[1][info.col2[1].length - 1] = info.col2[1][info.col2[1].length - 1].slice(0, -2)
+          info.col4 = (info.col3 * 100 / sonad.length).toFixed(1);
+          tableVal.push(info);
         }
-
-
-
-        // info.col2 = info.col2.slice(0,-2)
-
-  
       }
-
-      
-
-      setcsvData(tableVal)
-      
-      
-
-      return tableVal;
-
+    }
+    return tableVal;
   }
-
-
-
-
-
-/* 
-  console.log(sonaList)
-  console.log(numbrid)
-
-  console.log(sonad) */
-
 
   const MultipleFilter = (rows, filler, filterValue) => {
     const arr = [];
     rows.forEach((val) => {
-
       if (filterValue.includes(val.original.col1)) arr.push(val);
-
     });
-    //console.log(arr);
     return arr;
   };
 
   const MultipleFilter2 = (rows, filler, filterValue) => {
     const arr = [];
     rows.forEach((val) => {
-
       if (filterValue.includes(val.original.colvorm)) arr.push(val);
-
     });
-    //console.log(arr);
     return arr;
   };
 
-
-
-
-  function ShowDownload(){
-    if(document.getElementById('fileDownload').style.display  === "none"){
+  function ShowDownload() {
+    if (document.getElementById('fileDownload').style.display === "none") {
       document.getElementById('fileDownload').style.display = "block"
-    }else if(document.getElementById('fileDownload').style.display === "block"){
+    } else if (document.getElementById('fileDownload').style.display === "block") {
       document.getElementById('fileDownload').style.display = "none"
     }
-    
-      
   }
 
   function setFilteredParams(filterArr, val) {
-    // if (val === undefined) return undefined;
     if (filterArr.includes(val)) {
       filterArr = filterArr.filter((n) => {
         return n !== val;
       });
     } else filterArr.push(val);
-
     if (filterArr.length === 0) filterArr = undefined;
     return filterArr;
   }
 
-
-  let data = React.useMemo(()=>
-   fillData()
-    ,
+  let data = useMemo(() =>
+    fillData(),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [sonad, sonaliik]
   )
 
-  
-
-
-  function LongMenu({column: { filterValue = [], setFilter, preFilteredRows, id }}) {
-    
-  const [anchorEl, setAnchorEl] = useState(false);
-  const open = Boolean(anchorEl)
-  // let open = Boolean(anchorEl);
-
-  const  handleClick =(event) =>{
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () =>{
-    setAnchorEl(null);
-  }
-    
-
+  function LongMenu({ column: { filterValue = [], setFilter, preFilteredRows, id } }) {
+    const [anchorEl, setAnchorEl] = useState(false);
+    const open = Boolean(anchorEl)
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+      setAnchorEl(null);
+    }
     const options = useMemo(() => {
       const options = new Set();
       preFilteredRows.forEach((row) => {
         options.add(row.values[id]);
       });
       return [...options.values()];
-      
+
     }, [id, preFilteredRows,]);
-  
 
     return (
       <Fragment>
-
         <IconButton
           aria-label="more"
           id="long-button"
@@ -337,69 +195,55 @@ import { v4 as uuidv4 } from 'uuid';
           onClick={handleClick}
         >
           <FilterAltIcon />
-          
         </IconButton>
-        
         <FormControl>
-        <Select
-          multiple
-          value={[]}
-          open={open}
-          style={{zIndex: "-30", "position": "absolute", "transform": "translate(-6rem, -.5rem)"}}
-          onClose={handleClose}
-          MenuProps={{
-            anchorOrigin: {
-              vertical: "bottom",
-              horizontal: "left"
-            },
-            transformOrigin: {
-              vertical: "top",
-              horizontal: "right"
-            },
-            getContentAnchorEl: null
-          }}
-        >
-          {options.map((option, i) => (
-            <MenuItem 
-            key={option}
-            value={option}
-            onClick={(e) => {
-              setFilter(setFilteredParams(filterValue, e.currentTarget.dataset.value));
-              console.log(e.currentTarget.dataset)
+          <Select
+            multiple
+            value={[]}
+            open={open}
+            style={{ zIndex: "-30", position: "absolute", transform: "translate(-6rem, -.5rem)" }}
+            onClose={handleClose}
+            MenuProps={{
+              anchorOrigin: {
+                vertical: "bottom",
+                horizontal: "left"
+              },
+              transformOrigin: {
+                vertical: "top",
+                horizontal: "right"
+              }
             }}
-            
-            
-            >
-              <ListItemIcon>
-                <Checkbox
-                id={option}
+          >
+            {options.map((option, i) => (
+              <MenuItem
+                key={option}
                 value={option}
-                checked={filterValue.includes(option)}
-                />
-              </ListItemIcon>
-              <ListItemText primary={option} id={option} value={option} />
-            </MenuItem>
-          ))}
-        </Select>
+                onClick={(e) => {
+                  setFilter(setFilteredParams(filterValue, e.currentTarget.dataset.value));
+                }}
+              >
+                <ListItemIcon>
+                  <Checkbox
+                    id={option}
+                    value={option}
+                    checked={filterValue.includes(option)}
+                  />
+                </ListItemIcon>
+                <ListItemText primary={option} id={option} value={option} />
+              </MenuItem>
+            ))}
+          </Select>
         </FormControl>
-       
-        
-
       </Fragment>
-      
     );
   }
 
-
-
-
   const [buttonType, setButtonType] = useState(<Button variant='contained' disabled>Laadi alla</Button>);
 
-  function ShowButton(){
-    
-    for(let i = 0; i < data.length; i++) {
+  function ShowButton() {
+    for (let i = 0; i < data.length; i++) {
       let a = "";
-      for(let j = 0; j < data[i].col2[0].length; j++) {
+      for (let j = 0; j < data[i].col2[0].length; j++) {
         a += data[i].col2[0][j] + " ";
         a += data[i].col2[1][j];
       }
@@ -407,97 +251,77 @@ import { v4 as uuidv4 } from 'uuid';
     }
 
     let csvData = JSON.parse(JSON.stringify(data));
-    for(let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       csvData[i].col2.splice(0, 2);
     }
-    console.log(csvData);
 
-    if(fileType){
-      setButtonType(<Button className='CSVBtn' variant='contained' color='primary' >
-   
+    if (fileType) {
+      setButtonType(<Button className='CSVBtn' variant='contained' color='primary'>
         <CSVLink filename='gram_analyys' className='csvLink' headers={tableHeaders} data={csvData}>Laadi alla</CSVLink>
-        
-    
       </Button>)
-    setFileType(false)
-
-      }else if(!fileType){
-        
+      setFileType(false)
+    } else if (!fileType) {
       setButtonType(<ExcelFile filename="gram_analyys" element={<Button variant='contained'>Laadi alla</Button>}>
         <ExcelSheet data={data} name="Sõnatabel">
-            <ExcelColumn label="Sõnaliik ja vorm" value="col1"/>
-            
-            <ExcelColumn label="Vormimärgendid" value="colvorm"/>
-            {/* <ExcelColumn label="Sõnad tekstis" value={(col) => col.col2[0] + " " + col.col2[1]}/> */}
-            <ExcelColumn label="Sõnad tekstis" value={(col) => col.col2[2]}/>
-            <ExcelColumn label="Sagedus" value="col3"/>
-            <ExcelColumn label="Osakaal (%)" value="col4"/>
+          <ExcelColumn label="Sõnaliik ja vorm" value="col1" />
+          <ExcelColumn label="Vormimärgendid" value="colvorm" />
+          <ExcelColumn label="Sõnad tekstis" value={(col) => col.col2[2]} />
+          <ExcelColumn label="Sagedus" value="col3" />
+          <ExcelColumn label="Osakaal (%)" value="col4" />
         </ExcelSheet>
-    </ExcelFile>)
+      </ExcelFile>)
       setFileType(true)
-
-        
-      }
     }
+  }
 
-  const columns = React.useMemo(
+  const columns = useMemo(
     () => [
       {
-        Header: ()=>{return(<span>Sõnaliik ja vorm </span>)},
+        Header: () => { return (<span>Sõnaliik ja vorm </span>) },
         accessor: 'col1', // accessor is the "key" in the data
         Cell: (props) => {
-          const word= props.value
-          return <span key={props.id}  className="word" onClick={(e) => onTypeSelect(e.target.textContent)}>{word}</span>
+          const word = props.value
+          return <span key={props.id} className="word" onClick={(e) => onTypeSelect(e.target.textContent)}>{word}</span>
         },
         className: 'user',
         width: 400,
         disableSortBy: true,
         sortable: false,
-    
-        
         Filter: LongMenu,
         filter: MultipleFilter
-
       },
-    
-
       {
-        Header: ()=>{return(<span>Vormimärgendid</span>)},
+        Header: () => { return (<span>Vormimärgendid</span>) },
         accessor: 'colvorm',
         Cell: (props) => {
-          const word= props.value
-          return <span  className="word" onClick={(e) => onFormSelect(e.target.textContent)}>{word}</span>
+          const word = props.value
+          return <span className="word" onClick={(e) => onFormSelect(e.target.textContent)}>{word}</span>
         },
         width: 400,
         className: 'colvorm',
-        
         disableSortBy: true,
         sortable: false,
-
         Filter: LongMenu,
-        filter: MultipleFilter2 
+        filter: MultipleFilter2
       },
-
       {
         Header: 'Sõnad tekstis',
         accessor: 'col2',
         Cell: (props) => {
           const items = props.value
-
           let cellContent = []
-          for(let i=0; i<items[0].length; i++){
-              let word = items[0][i]
-              let count = items[1][i]
-              let content = (
-                <span key={uuidv4()}>
-                <span key={props.id}  className="word" onClick={(e) => onWordSelect(e.target.textContent)}>{word}</span>{String.fromCharCode(160)}{count}
-                </span>
-
-              )
-              cellContent.push(content)
+          for (let i = 0; i < items[0].length; i++) {
+            let word = items[0][i]
+            let count = items[1][i]
+            let content = (
+              <span key={uuidv4()}>
+                <span key={props.id} className="word" onClick={(e) => onWordSelect(e.target.textContent)}>{word}</span>{String.fromCharCode(160)}{count}
+              </span>
+            )
+            cellContent.push(content)
           }
           return cellContent
-      },
+        },
         width: 700,
         disableFilters: true,
         disableSortBy: true,
@@ -516,28 +340,25 @@ import { v4 as uuidv4 } from 'uuid';
         disableFilters: true,
       }
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [sonad, sonaliik, onWordSelect]
   );
 
   const tableHeaders = [
-    {label: "Sõnaliik ja vorm", key: "col1"},
-    {label: 'Vormimärgendid', key: "colvorm"},
-    {label: 'Sõnad tekstis', key: "col2"},
-    {label: 'Sagedus', key: "col3"},
-    {label: 'Osakaal (%)', key: "col4"},
+    { label: "Sõnaliik ja vorm", key: "col1" },
+    { label: 'Vormimärgendid', key: "colvorm" },
+    { label: 'Sõnad tekstis', key: "col2" },
+    { label: 'Sagedus', key: "col3" },
+    { label: 'Osakaal (%)', key: "col4" },
   ]
 
-
-  function closeDownload(){
-      if(document.getElementById('fileDownload').style.display === "block"){
+  function closeDownload() {
+    if (document.getElementById('fileDownload').style.display === "block") {
       document.getElementById('fileDownload').style.display = "none"
     }
   }
 
-  
-
   const handleClickDownload = e => ShowButton();
-
 
   const {
     getTableProps,
@@ -558,64 +379,52 @@ import { v4 as uuidv4 } from 'uuid';
 
   return (
     <Fragment>
-       <Tooltip title="Laadi alla" placement="top">
-          <div className='downloadPopUp' onClick={ShowDownload}>
-            <DownloadIcon fontSize="large"/>
-          </div>
-          </Tooltip>
-      
-
-      <div id='peidusDiv' className='peidusDiv'>
-    <div id='fileDownload' className='fileDownload' style={{display: "none"}}>
-      <div id='closeIcon' className='closeIcon' onClick={closeDownload}><CloseIcon/></div>
-    
-    <FormControl id="formId" fullWidth>
-        
-        <InputLabel id="demo-simple-select-label">Laadi alla</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="simple-select"
-          label="Laadimine"
-          onChange={handleClickDownload}
-          size="medium"
-          className='selectElement'
-        >
-          <MenuItem value="Excel">Excel</MenuItem>
-          <MenuItem value="CSV">CSV</MenuItem>
-        </Select>
-        
-      </FormControl>
-
-    <div className='laadiBtn'>{buttonType}</div>
-    </div>
-    </div>
-
-    
+      <Tooltip title="Laadi alla" placement="top">
+        <div className='downloadPopUp' onClick={ShowDownload} style={{marginBottom: "1.75rem", marginLeft: "4rem"}}>
+          <DownloadIcon fontSize="large" />
+        </div>
+      </Tooltip>
+      <div>
+        <div id='fileDownload' className='fileDownload' style={{ display: "none" }}>
+          <div id='closeIcon' className='closeIcon' onClick={closeDownload}><CloseIcon /></div>
+          <FormControl id="formId" fullWidth>
+            <InputLabel id="demo-simple-select-label">Laadi alla</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="simple-select"
+              label="Laadimine"
+              onChange={handleClickDownload}
+              size="medium"
+              className='selectElement'
+            >
+              <MenuItem value="Excel">Excel</MenuItem>
+              <MenuItem value="CSV">CSV</MenuItem>
+            </Select>
+          </FormControl>
+          <div className='laadiBtn'>{buttonType}</div>
+        </div>
+      </div>
       <table {...getTableProps()} style={{ marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%' }}>
         <thead>
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
                 <th
-                  {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}
+                  {...column.getHeaderProps(column.getSortByToggleProps({ title: "" }))}
                   style={{
                     borderBottom: 'solid 1px',
                     color: 'black',
                     fontWeight: 'bold',
                   }}
                 >
-                  
                   {<span>{column.render('Header')} {column.canFilter ? column.render("Filter") : null}</span>}
-                  
                   <span className='sortIcon'>
                     {column.isSorted
                       ? column.isSortedDesc
                         ? ' ▼'
                         : ' ▲'
                       : ' ▼▲'}
-                      
                   </span>
-                  
                 </th>
               ))}
             </tr>
@@ -632,10 +441,8 @@ import { v4 as uuidv4 } from 'uuid';
                       {...cell.getCellProps()}
                       style={{
                         padding: '10px',
-
                         width: cell.column.width,
                       }}
-                      // lisasin borderi
                       className="border"
                     >
                       {cell.render('Cell')}
@@ -649,20 +456,20 @@ import { v4 as uuidv4 } from 'uuid';
       </table>
       <div className="pagination">
         <div className='buttongroup'>
-        <ButtonGroup size='medium' fullWidth variant="contained" aria-label="outlined primary button group">
-        <Button variant='contained' onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-          {<FirstPageIcon/>}
-        </Button>{' '}
-        <Button variant='contained' onClick={() => previousPage()} disabled={!canPreviousPage}>
-          {<NavigateBeforeIcon/>}
-        </Button>{' '}
-        <Button variant='contained' onClick={() => nextPage()} disabled={!canNextPage}>
-          {<NavigateNextIcon/>}
-        </Button>{' '}
-        <Button variant='contained' onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-          {<LastPageIcon/>}
-        </Button>{' '}
-        </ButtonGroup>
+          <ButtonGroup size='medium' fullWidth variant="contained" aria-label="outlined primary button group">
+            <Button variant='contained' onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+              {<FirstPageIcon />}
+            </Button>{' '}
+            <Button variant='contained' onClick={() => previousPage()} disabled={!canPreviousPage}>
+              {<NavigateBeforeIcon />}
+            </Button>{' '}
+            <Button variant='contained' onClick={() => nextPage()} disabled={!canNextPage}>
+              {<NavigateNextIcon />}
+            </Button>{' '}
+            <Button variant='contained' onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+              {<LastPageIcon />}
+            </Button>{' '}
+          </ButtonGroup>
         </div>
         <span className='fontStyle'>
           Leht{' '}
@@ -694,14 +501,11 @@ import { v4 as uuidv4 } from 'uuid';
         >
           {[5, 10, 20, 30, 40, 50, 100].map(pageSize => (
             <MenuItem key={pageSize} value={pageSize}>{pageSize}</MenuItem>
-
           ))}
         </Select>
       </div>
-      
     </Fragment>
   );
 }
 
 export default GrammaticalAnalysis;
-
