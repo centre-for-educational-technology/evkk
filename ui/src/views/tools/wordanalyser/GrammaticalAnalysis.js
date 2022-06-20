@@ -393,15 +393,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 
-  const [buttonType, setButtonType] = useState(<ExcelFile filename="gram_analyys" element={<Button variant='contained'>Laadi alla</Button>}>
-    <ExcelSheet data={data} name="Sõnatabel">
-        <ExcelColumn label="Sõnaliik ja vorm" value="col1"/>
-        <ExcelColumn label="Vormimärgendid" value="colvorm"/>
-        <ExcelColumn label="Sõnad tekstis" value={(col) => col.col2[2]}/>
-        <ExcelColumn label="Sagedus" value="col3"/>
-        <ExcelColumn label="Osakaal (%)" value="col4"/>
-    </ExcelSheet>
-</ExcelFile>);
+  const [buttonType, setButtonType] = useState(<Button variant='contained' disabled>Laadi alla</Button>);
 
   function ShowButton(){
     

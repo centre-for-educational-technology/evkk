@@ -99,7 +99,7 @@ function App() {
     let newData = []
     for(let i=0; i<data.length; i++){
       if(data[i]){
-        let item = data[i].replace(/['",.]+/g, '')
+        let item = data[i].replace(/[()'",.]+/g, '')
         if(item){
           newData.push(item)
         }

@@ -47,7 +47,7 @@ export const Input = ({ onInsert, onAnalyse, onMarkWords, onWordSelect, onWordIn
     setInput(textFromFile);
   }, [textFromFile]);
 
-  //Tekst on analüüsi kuvamiseks liiga pikk kui 101
+  //Tekst on analüüsi kuvamiseks liiga pikk kui on üle 100 sõna
 
   return (
     <div className="containerItem">
