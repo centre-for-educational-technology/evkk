@@ -1,6 +1,6 @@
 FROM node:16-alpine AS ui-builder
 COPY ./ui /app
-RUN cd /app && yarn install && yarn build
+RUN cd /app && apk add --no-cache git && yarn install && yarn build
 
 FROM node:16-alpine AS ui
 RUN yarn global add serve@12.0.1
