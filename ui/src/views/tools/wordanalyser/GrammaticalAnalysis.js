@@ -263,8 +263,8 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
     } else if (!fileType) {
       setButtonType(<ExcelFile filename="gram_analyys" element={<Button variant='contained'>Laadi alla</Button>}>
         <ExcelSheet data={data} name="Sõnatabel">
-          <ExcelColumn label="Sõnaliik ja vorm" value="col1" />
-          <ExcelColumn label="Vormimärgendid" value="colvorm" />
+          <ExcelColumn label="Sõnaliik" value="col1" />
+          <ExcelColumn label="Vorm" value="colvorm" />
           <ExcelColumn label="Sõnad tekstis" value={(col) => col.col2[2]} />
           <ExcelColumn label="Sagedus" value="col3" />
           <ExcelColumn label="Osakaal (%)" value="col4" />
@@ -277,7 +277,7 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
   const columns = useMemo(
     () => [
       {
-        Header: () => { return (<span>Sõnaliik ja vorm </span>) },
+        Header: () => { return (<span>Sõnaliik</span>) },
         accessor: 'col1', // accessor is the "key" in the data
         Cell: (props) => {
           const word = props.value
@@ -291,7 +291,7 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
         filter: MultipleFilter
       },
       {
-        Header: () => { return (<span>Vormimärgendid</span>) },
+        Header: () => { return (<span>Vorm</span>) },
         accessor: 'colvorm',
         Cell: (props) => {
           const word = props.value
@@ -345,8 +345,8 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
   );
 
   const tableHeaders = [
-    { label: "Sõnaliik ja vorm", key: "col1" },
-    { label: 'Vormimärgendid', key: "colvorm" },
+    { label: "Sõnaliik", key: "col1" },
+    { label: 'Vorm', key: "colvorm" },
     { label: 'Sõnad tekstis', key: "col2" },
     { label: 'Sagedus', key: "col3" },
     { label: 'Osakaal (%)', key: "col4" },

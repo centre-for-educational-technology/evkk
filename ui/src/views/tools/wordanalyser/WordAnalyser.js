@@ -170,7 +170,7 @@ function App() {
     }
     
     setShowResults(true)
-    if (inputObj.ids.length > 100){
+    if (inputObj.ids.length > 1000){
       setTextTooLong(true)
     }
     setAnalysedInput(inputObj)
@@ -388,7 +388,12 @@ function App() {
           <Input textFromFile={textFromFile} onInsert={analyseInput} onAnalyse={analysedInput} onMarkWords={selectedWords} onWordSelect={showThisWord} onWordInfo={showInfo} onReset={resetAnalyser}/>
         </Grid>
         <Grid item xs={12} md={6}>
-          {showResults && <WordInfo onWordInfo={wordInfo}/>}
+          {showResults ?
+          <WordInfo onWordInfo={wordInfo} /> :
+          <Alert severity="info">
+            Rakenduse abil saad sõnu silbitada, vaadata nende algvorme ja grammatilist kirjeldust. Sisesta sõna või tekst (kuni 1000 sõna).<br/>
+            Teksti sõnu saad analüüsida ühekaupa ja näha ka teksti silpide, algvormide ja grammatiliste vormide statistikat.
+          </Alert>}
         </Grid>
         {showResults && textTooLong &&
           <Grid item xs={12} md={12}>
