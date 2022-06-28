@@ -13,8 +13,8 @@ class Employees extends Component {
           <li>MSc Jaagup Kippar – tarkvaratehnika lektor (jaagup@tlu.ee)</li>
           <li>MA Kais Allkivi-Metsoja, nooremteadur (kais@tlu.ee)</li>
           <li>MSc Kaisa Norak – analüütik (kaisa.norak@tlu.ee)</li>
-          <li>BA Mikk Tarvas – magistrant, analüütik-programmeerija (mtarvas@tlu.ee)</li>
-          <li>Martin Pedak – analüütik-programmeerija (martin.pedak@tlu.ee)</li>
+          <li>BSc Mikk Tarvas – magistrant, analüütik-programmeerija (mtarvas@tlu.ee)</li>
+          <li>Martin Mõtus – analüütik-programmeerija (martin.motus@tlu.ee)</li>
           <li>Harli Kodasma – analüütik-programmeerija (harli.kodasma@tlu.ee)</li>
         </ul>
 
@@ -29,6 +29,7 @@ class Employees extends Component {
           <li>EKKM15-419 Eesti õppijakeele tervikkäsitlus (2015−2018)</li>
           <li>TF2019 Tallinna Ülikooli eesti vahekeele korpuse uue platvormi prototüübi arendamine õppijakorpuseks (2019−2021)</li>
           <li>TF2621 ELLE: eesti keele õpet toetav keeletehnoloogiline ressurss (2021−2023)</li>
+          <li>EKTB Eestikeelse teksti automaatkorrektuur (2021−2023, koostöös Tartu Ülikooliga)</li>
         </ul>
       </div>
     );
