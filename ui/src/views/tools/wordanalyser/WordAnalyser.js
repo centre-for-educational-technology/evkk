@@ -9,7 +9,7 @@ import {Alert, Box, Grid, Tab, Tabs, Typography} from '@mui/material';
 import LemmaView from './LemmaView';
 import Syllables from './Syllables';
 
-function App() {
+function WordAnalyser() {
   const [showResults, setShowResults] = useState(false);
   const [textTooLong, setTextTooLong] = useState(false);
   const [analysedInput, setAnalysedInput] = useState({
@@ -451,4 +451,4 @@ function App() {
   )
 }
 
-export default App;
+export default WordAnalyser;

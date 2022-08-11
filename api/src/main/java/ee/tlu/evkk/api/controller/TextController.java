@@ -6,16 +6,12 @@ import ee.tlu.evkk.api.controller.dto.TextSearchRequest;
 import ee.tlu.evkk.api.controller.dto.TextSearchResponse;
 import ee.tlu.evkk.common.env.ServiceLocator;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
-import org.springframework.web.bind.annotation.*;
-
-import ee.tlu.evkk.dal.dto.TextQueryHelper;
-import ee.tlu.evkk.dal.dto.TextQueryCountsHelper;
-import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.service.TextService;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.Pageable;
+import ee.tlu.evkk.dal.dto.TextQueryCountsHelper;
 import ee.tlu.evkk.dal.dto.TextQueryHelper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.Arrays;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -68,8 +61,6 @@ public class TextController {
   public List<String> kysikorpusetekstiIDjapealkiri(String korpusekood) {
     return textDao.findTextIDandTitleByCorpusID(korpusekood);
   }
-
-  @CrossOrigin("*")
 
   @PostMapping("/sonaliik")
   public ResponseEntity<List<String>> sonaliik(@RequestBody LemmadRequestEntity request) {

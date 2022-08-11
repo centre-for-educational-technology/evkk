@@ -1,11 +1,7 @@
 import React, {useEffect, useMemo, useState} from "react";
 import {usePagination, useSortBy, useTable} from 'react-table';
 import './styles/Syllables.css';
-import {Button, ButtonGroup, MenuItem, Select, TextField} from "@mui/material";
-import LastPageIcon from '@mui/icons-material/LastPage';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import TablePagination from "./TablePagination";
 
 function Syllables({onAnalyse, onSyllableSelect}) {
   const data = onAnalyse.syllables;
@@ -200,58 +196,20 @@ function Syllables({onAnalyse, onSyllableSelect}) {
                         })
                     }
                 </tbody>
-            </table>
-            <div className="pagination">
-                <div className='buttongroup'>
-                    <ButtonGroup size='medium' fullWidth variant="contained" aria-label="outlined primary button group">
-                        <Button variant='contained' onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-                            {<FirstPageIcon/>}
-                        </Button>{' '}
-                        <Button variant='contained' onClick={() => previousPage()} disabled={!canPreviousPage}>
-                            {<NavigateBeforeIcon/>}
-                        </Button>{' '}
-                        <Button variant='contained' onClick={() => nextPage()} disabled={!canNextPage}>
-                            {<NavigateNextIcon/>}
-                        </Button>{' '}
-                        <Button variant='contained' onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-                            {<LastPageIcon/>}
-                        </Button>{' '}
-                    </ButtonGroup>
-                </div>
-                <span className='fontStyle'>
-                Leht{' '}
-                <strong>
-                    {state.pageIndex + 1} / {pageOptions.length}
-                </strong>{' '}
-                </span>
-                <TextField
-                size='small'
-                id="outlined-number"
-                label="Mine lehele nr:"
-                type="number"
-                defaultValue={state.pageIndex + 1}
-                onChange={e => {
-                    const page = e.target.value ? Number(e.target.value) - 1 : 0
-                    gotoPage(page)
-                }}
-                InputLabelProps={{
-                    shrink: true,
-                }}
-                />
-                <Select
-                size='small'
-                value={state.pageSize}
-                variant='outlined'
-                onChange={e => {
-                    setPageSize(Number(e.target.value))
-                }}
-                >
-                    {[5, 10, 20, 30, 40, 50, 100].map(pageSize => (
-                        <MenuItem key={pageSize} value={pageSize}>{pageSize}</MenuItem>
-                    ))}
-                </Select>
-            </div>
-        </>
+      </table>
+      <TablePagination
+        gotoPage={gotoPage}
+        previousPage={previousPage}
+        canPreviousPage={canPreviousPage}
+        nextPage={nextPage}
+        canNextPage={canNextPage}
+        pageIndex={state.pageIndex}
+        pageOptions={pageOptions}
+        pageSize={state.pageSize}
+        setPageSize={setPageSize}
+        pageCount={pageCount}
+      />
+    </>
     )
 }
 
