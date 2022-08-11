@@ -1,21 +1,21 @@
-import React, { Fragment } from "react";
+import React, {Fragment} from "react";
 import "./styles/LemmaView.css";
-import { useTable, useSortBy, usePagination } from "react-table";
-import { MenuItem, Select, Button, ButtonGroup, TextField } from "@mui/material";
+import {usePagination, useSortBy, useTable} from "react-table";
+import {Button, ButtonGroup, MenuItem, Select, TextField} from "@mui/material";
 import LastPageIcon from '@mui/icons-material/LastPage';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 
-function Table({ columns, data }) {
-    
-  const { 
-    getTableProps, 
-    getTableBodyProps, 
-    headerGroups, 
+function Table({columns, data}) {
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
     page,
-    state, 
+    state,
     prepareRow,
     canPreviousPage,
     canNextPage,
@@ -24,7 +24,8 @@ function Table({ columns, data }) {
     gotoPage,
     nextPage,
     previousPage,
-    setPageSize, } =
+    setPageSize,
+  } =
     useTable({
       columns,
       data,
@@ -34,30 +35,30 @@ function Table({ columns, data }) {
   return (
     <>
     <Fragment>
-    <table 
-      {...getTableProps()}
-      style={{
-        marginRight: 'auto',
-        marginLeft: 'auto',
-        borderBottom: 'solid 1px',
-        width: '100%'
-      }}
-    >
-      <thead>
+      <table className="analyserTable"
+             {...getTableProps()}
+             style={{
+               marginRight: 'auto',
+               marginLeft: 'auto',
+               borderBottom: 'solid 1px',
+               width: '100%'
+             }}
+      >
+        <thead>
         {headerGroups.map((headerGroup) => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
+          <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
-              <th 
+              <th
                 {...column.getHeaderProps(column.getSortByToggleProps())}
                 style={{
                   borderBottom: 'solid 1px',
                   color: 'black',
                   fontWeight: 'bold'
                 }}
-                className="hover"
+                className="tableHead hover"
               >
-              {column.render('Header')}
-              <span className="sort">
+                {column.render('Header')}
+                <span className="sort">
                 {column.isSorted
                   ? column.isSortedDesc
                     ? ' ▼'
@@ -73,16 +74,16 @@ function Table({ columns, data }) {
         {page.map((row) => {
           prepareRow(row);
           return (
-            <tr {...row.getRowProps()} key={row.id}>
+            <tr className="tableRow" {...row.getRowProps()} key={row.id}>
               {row.cells.map((cell) => {
                 return (
-                  <td 
-                    {...cell.getCellProps()} 
+                  <td
+                    {...cell.getCellProps()}
                     style={{
-                      padding: '10px', 
+                      padding: '10px',
                       width: cell.column.width
                     }}
-                    className="border"
+                    className="border tableData"
                   >
                     {cell.render("Cell")}
                   </td>
@@ -191,21 +192,21 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
         col3: 0,
         col4: 0
       }
-      
+
       info.col1 = <span className="word" onClick={(e) => onLemmaSelect(e.target.textContent)}>{Array.from(sonaList.keys())[i]}</span>;
       const ajutineList = sonaList.get(Array.from(sonaList.keys())[i]);
 
       for (let j = 0; j < mapSort2.size; j++) {
         let valueAjutine = iterator1.next().value;
         if (ajutineList.includes(valueAjutine)) {
-          info.col2[0].push(String(valueAjutine))
-          info.col2[1].push("(" + numbrid.get(valueAjutine) + "), ")
-          info.col3 = parseInt(info.col3) + parseInt(numbrid.get(String(valueAjutine)))
+          info.col2[0].push(String(valueAjutine));
+          info.col2[1].push("(" + numbrid.get(valueAjutine) + "), ");
+          info.col3 = parseInt(info.col3) + parseInt(numbrid.get(String(valueAjutine)));
         }
       }
 
-      info.col2[1][info.col2[1].length - 1] = info.col2[1][info.col2[1].length - 1].slice(0, -2)
-      info.col4 = (info.col3 * 100 / sonad.length).toFixed(2)
+      info.col2[1][info.col2[1].length - 1] = info.col2[1][info.col2[1].length - 1].slice(0, -2);
+      info.col4 = (info.col3 * 100 / sonad.length).toFixed(2);
       tableVal.push(info);
     }
 
@@ -215,11 +216,11 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
   fillData();
     const columns = React.useMemo(() => [
         {
-            Header: 'Algvormid',
-            accessor: 'col1',
-            disableSortBy: true, 
-            sortable: false,
-            width: 400,
+          Header: 'Algvormid',
+          accessor: 'col1',
+          disableSortBy: true,
+          sortable: false,
+          width: 400,
         },
         {
             Header: 'Sõnavormid',
@@ -262,9 +263,9 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
 
     return (
         <>
-        <div> 
-            <Table columns={columns} data={data} />
-        </div>
+          <div>
+            <Table columns={columns} data={data}/>
+          </div>
         </>
     );
 }

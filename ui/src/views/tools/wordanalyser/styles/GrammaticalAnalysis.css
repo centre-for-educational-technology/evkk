@@ -7,8 +7,8 @@
     background-color: white;
 }
 
-th:hover{
-    cursor: pointer;
+.tableHead:hover {
+  cursor: pointer;
 }
 
 .buttongroup{
@@ -27,41 +27,40 @@ th:hover{
     font-size: large;
 }
 
-tr{
-    background-color: white;
+.tableRow {
+  background-color: white;
 }
 
-tr:nth-child(even){
-    background-color: #EBECF0;
+.tableRow:nth-child(even) {
+  background-color: #EBECF0;
 }
 
-th{
-    padding-left: 10px;
+.tableHead {
+  padding-left: 10px;
 }
 
-
-th:nth-child(3):hover{
-    cursor: auto;
+.tableHead:nth-child(1):hover {
+  cursor: auto;
 }
 
-th:nth-child(1):hover{
-    cursor: auto;
+.tableHead:nth-child(2):hover {
+  cursor: auto;
 }
 
-th:nth-child(2):hover{
-    cursor: auto;
+.tableHead:nth-child(3):hover {
+  cursor: auto;
 }
 
-th:nth-child(1)>.sortIcon{
-    display: none;
+.tableHead:nth-child(1) > .sortIcon {
+  display: none;
 }
 
-th:nth-child(2)>.sortIcon{
-    display: none;
+.tableHead:nth-child(2) > .sortIcon {
+  display: none;
 }
 
-th:nth-child(3)>.sortIcon{
-    display: none;
+.tableHead:nth-child(3) > .sortIcon {
+  display: none;
 }
 
 .downloadDiv{

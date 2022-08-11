@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static ee.tlu.evkk.core.service.maps.TranslationMappings.*;
+import static java.util.Arrays.stream;
+
 /**
  * @author Mikk Tarvas
  * Date: 10.02.2022
@@ -46,74 +49,15 @@ public class TextService {
   }
 
   public String[] translateWordType(String[] tekst) {
-    Map<String, String> translations = new HashMap<>();
-    translations.put("ADJ", "omadussõna");
-    translations.put("ADP", "kaassõna");
-    translations.put("ADV", "määrsõna");
-    translations.put("AUX", "tegusõna (abitegusõna)");
-    translations.put("CCONJ", "sidesõna (rinnastav)");
-    translations.put("DET", "asesõna");
-    translations.put("INTJ", "hüüdsõna");
-    translations.put("NOUN", "nimisõna");
-    translations.put("NUM", "arvsõna");
-    translations.put("PRON", "asesõna");
-    translations.put("PROPN", "nimisõna (pärisnimi)");
-    translations.put("SCONJ", "sidesõna (alistav)");
-    translations.put("VERB", "tegusõna");
-    translations.put("X", "tundmatu");
-    for (int i = 0; i < tekst.length; i++) {
-      tekst[i] = translations.get(tekst[i]);
+    String[] returnText = stream(tekst).toArray(String[]::new);
+    for (int i = 0; i < returnText.length; i++) {
+      returnText[i] = wordTypes.get(returnText[i]);
     }
-    return tekst;
+    return returnText;
   }
 
   public List<String> translateFeats(String[][] tekst) {
     List<String> result = new ArrayList<>();
-
-    String[] firstType = new String[]{"NOUN", "PROPN", "ADJ", "DET", "PRON", "NUM"};
-    String[] secondType = new String[]{"AUX", "VERB"};
-
-    Map<String, String> numberTranslations = new HashMap<>();
-    numberTranslations.put("Sing", "ainsuse");
-    numberTranslations.put("Plur", "mitmuse");
-
-    Map<String, String> caseTranslations = new HashMap<>();
-    caseTranslations.put("Nom", "nimetav kääne");
-    caseTranslations.put("Gen", "omastav kääne");
-    caseTranslations.put("Par", "osastav kääne");
-    caseTranslations.put("Add", "lühike sisseütlev kääne");
-    caseTranslations.put("Ill", "sisseütlev kääne");
-    caseTranslations.put("Ine", "seesütlev kääne");
-    caseTranslations.put("Ela", "seestütlev kääne");
-    caseTranslations.put("All", "alaleütlev kääne");
-    caseTranslations.put("Ade", "alalütlev kääne");
-    caseTranslations.put("Abl", "alaltütlev kääne");
-    caseTranslations.put("Tra", "saav kääne");
-    caseTranslations.put("Ter", "rajav kääne");
-    caseTranslations.put("Ess", "olev kääne");
-    caseTranslations.put("Abe", "ilmaütlev kääne");
-    caseTranslations.put("Com", "kaasaütlev kääne");
-
-    Map<String, String> degreeTranslations = new HashMap<>();
-    degreeTranslations.put("Pos", "algvõrre");
-    degreeTranslations.put("Cmp", "keskvõrre");
-    degreeTranslations.put("Sup", "ülivõrre");
-
-    Map<String, String> moodTranslations = new HashMap<>();
-    moodTranslations.put("Ind", "kindla kõneviisi");
-    moodTranslations.put("Cnd", "tingiva kõneviisi");
-    moodTranslations.put("Imp", "käskiv kõneviis,");
-    moodTranslations.put("Qot", "kaudse kõneviisi");
-
-    Map<String, String> personTranslations = new HashMap<>();
-    personTranslations.put("1", "1. pööre");
-    personTranslations.put("2", "2. pööre");
-    personTranslations.put("3", "3. pööre");
-
-    Map<String, String> verbFormTranslations = new HashMap<>();
-    verbFormTranslations.put("Inf", "da-tegevusnimi");
-    verbFormTranslations.put("Sup", "ma-tegevusnimi");
-    verbFormTranslations.put("Conv", "des-vorm");
 
     for (String[] word: tekst) {
       // muutumatud sõnad
@@ -122,14 +66,14 @@ public class TextService {
       }
 
       // käändsõnad
-      else if (Arrays.asList(firstType).contains(word[0])) {
+      else if (firstType.contains(word[0])) {
         String[] feats = word[1].split("\\|");
         String numberLabel = "";
         String caseLabel = "";
         String degreeLabel = "";
-        String tenseLabel = "";
+        StringBuilder tenseLabel = new StringBuilder();
 
-        for (String feat: feats) {
+        for (String feat : feats) {
           if (feat.contains("Number")) {
             numberLabel = numberTranslations.get(feat.split("=")[1]);
           }
@@ -141,46 +85,46 @@ public class TextService {
           }
           if (feat.contains("Tense")) {
             if (feat.split("=")[1].equals("Pres")) {
-              tenseLabel = "oleviku kesksõna";
+              tenseLabel = new StringBuilder("oleviku kesksõna");
             } else {
-              tenseLabel = "mineviku kesksõna";
+              tenseLabel = new StringBuilder("mineviku kesksõna");
             }
           }
           if (feat.contains("Voice")) {
-            if (tenseLabel.equals("mineviku kesksõna")) {
+            if (tenseLabel.toString().equals("mineviku kesksõna")) {
               if (feat.split("=")[1].equals("Act")) {
-                tenseLabel += " nud-vorm";
+                tenseLabel.append(" nud-vorm");
               } else {
-                tenseLabel += " tud-vorm";
+                tenseLabel.append(" tud-vorm");
               }
             }
           }
         }
 
-        String subResult = "";
+        StringBuilder subResult = new StringBuilder();
         if (!numberLabel.isEmpty()) {
-          subResult += numberLabel + " ";
+          subResult.append(numberLabel).append(" ");
         }
         if (!caseLabel.isEmpty()) {
-          subResult += caseLabel;
+          subResult.append(caseLabel);
         }
         if (!degreeLabel.isEmpty()) {
-          if (!subResult.isEmpty()) {
-            subResult += ", ";
+          if (!subResult.toString().isEmpty()) {
+            subResult.append(", ");
           }
-          subResult += degreeLabel;
+          subResult.append(degreeLabel);
         }
-        if (!tenseLabel.isEmpty()) {
-          if (!subResult.isEmpty()) {
-            subResult += ", ";
+        if (tenseLabel.length() > 0) {
+          if (!subResult.toString().isEmpty()) {
+            subResult.append(", ");
           }
-          subResult += tenseLabel;
+          subResult.append(tenseLabel);
         }
-        result.add(subResult);
+        result.add(subResult.toString());
       }
 
       // tegusõnad
-      else if (Arrays.asList(secondType).contains(word[0])) {
+      else if (secondType.contains(word[0])) {
         String[] feats = word[1].split("\\|");
         String moodLabel = "";
         String tenseLabel = "";
@@ -227,35 +171,35 @@ public class TextService {
               }
             }
             if (feat.contains("Person")) {
-              if (personVoiceLabel != "umbisikuline tegumood") {
+              if (!Objects.equals(personVoiceLabel, "umbisikuline tegumood")) {
                 personVoiceLabel = personTranslations.get(feat.split("=")[1]);
               }
             }
           }
 
-          String subResult = moodLabel;
-          if (moodLabel != "käskiv kõneviis,") {
-            subResult += " " + tenseLabel;
+          StringBuilder subResult = new StringBuilder(moodLabel);
+          if (!Objects.equals(moodLabel, "käskiv kõneviis,")) {
+            subResult.append(" ").append(tenseLabel);
           }
-          if (negativityLabel != "eitus" && personVoiceLabel != "umbisikuline tegumood" && !numberLabel.isEmpty()) {
+          if (!negativityLabel.equals("eitus") && !Objects.equals(personVoiceLabel, "umbisikuline tegumood") && !numberLabel.isEmpty()) {
             if (!tenseLabel.isEmpty()) {
-              subResult += ",";
+              subResult.append(",");
             }
-            subResult += " " + numberLabel;
+            subResult.append(" ").append(numberLabel);
           }
-          if (negativityLabel != "eitus" && !personVoiceLabel.isEmpty()) {
+          if (!negativityLabel.equals("eitus") && !personVoiceLabel.isEmpty()) {
             if (numberLabel.isEmpty()) {
-              subResult += ",";
+              subResult.append(",");
             }
-            subResult += " " + personVoiceLabel;
+            subResult.append(" ").append(personVoiceLabel);
           }
           if (!negativityLabel.isEmpty()) {
             if (personVoiceLabel.isEmpty() && numberLabel.isEmpty()) {
-              subResult += ",";
+              subResult.append(",");
             }
-            subResult += " " + negativityLabel;
+            subResult.append(" ").append(negativityLabel);
           }
-          result.add(subResult);
+          result.add(subResult.toString());
         }
 
         // käändelised vormid

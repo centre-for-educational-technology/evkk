@@ -1,31 +1,45 @@
-import React, { Fragment, useMemo, useState, useEffect } from 'react';
-import { useSortBy, useFilters, useTable, usePagination } from 'react-table';
-import { Button, Checkbox, ButtonGroup, Select, MenuItem, TextField, FormControl, InputLabel, Tooltip, IconButton, ListItemIcon, ListItemText } from "@mui/material";
+import React, {Fragment, useEffect, useMemo, useState} from 'react';
+import {useFilters, usePagination, useSortBy, useTable} from 'react-table';
+import {
+  Button,
+  ButtonGroup,
+  Checkbox,
+  FormControl,
+  IconButton,
+  InputLabel,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Select,
+  TextField,
+  Tooltip
+} from "@mui/material";
 import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import { CSVLink } from "react-csv";
+import {CSVLink} from "react-csv";
 import DownloadIcon from '@mui/icons-material/Download';
 import ReactExport from "react-export-excel";
 import CloseIcon from '@mui/icons-material/Close';
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 
 function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnalyse }) {
   const ExcelFile = ReactExport.ExcelFile;
   const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
   const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
   const [fileType, setFileType] = useState(false);
-  const [sonaliik, setSonaliik] = useState('')
-  const [sonad, setSonad] = useState('')
-  const [vormiliik, setVormiliik] = useState('')
+  const [sonaliik, setSonaliik] = useState('');
+  const [sonad, setSonad] = useState('');
+  const [vormiliik, setVormiliik] = useState('');
+  const fileDownloadElement = React.createRef();
 
   useEffect(() => {
-    setSonaliik(onAnalyse.wordtypes)
-    setSonad(onAnalyse.words)
-    setVormiliik(onAnalyse.wordforms)
+    setSonaliik(onAnalyse.wordtypes);
+    setSonad(onAnalyse.words);
+    setVormiliik(onAnalyse.wordforms);
   }, [onAnalyse]);
 
   let sonaList = new Map();
@@ -92,11 +106,11 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
 
   function fillData() {
     for (let i = 0; i < vormiList.size; i++) {
-      const ajutineList2 = sonaList.get(Array.from(sonaList.keys())[i])
-      const ajutineList3 = vormiList.get(Array.from(vormiList.keys())[i])
+      const ajutineList2 = sonaList.get(Array.from(sonaList.keys())[i]);
+      const ajutineList3 = vormiList.get(Array.from(vormiList.keys())[i]);
       let valueAjutine;
       for (let k = 0; k < sonaList2.size; k++) {
-        const ajutineColvorm = Array.from(sonaList2.keys())[k]
+        const ajutineColvorm = Array.from(sonaList2.keys())[k];
         if (ajutineList3.includes(ajutineColvorm)) {
           let info = {
             col1: "",
@@ -107,17 +121,17 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
           }
           info.col1 = Array.from(vormiList.keys())[i];
           const iterator1 = mapSort2.keys();
-          info.colvorm = Array.from(sonaList2.keys())[k]
+          info.colvorm = Array.from(sonaList2.keys())[k];
           const ajutineList = sonaList2.get(Array.from(sonaList2.keys())[k]);
           for (let j = 0; j < mapSort2.size; j++) {
             valueAjutine = iterator1.next().value;
             if (ajutineList.includes(valueAjutine) && ajutineList2.includes(valueAjutine)) {
-              info.col2[0].push(String(valueAjutine))
-              info.col2[1].push("(" + String(numbrid.get(valueAjutine)) + "), ")
-              info.col3 = parseInt(info.col3) + parseInt(numbrid.get(String(valueAjutine)))
+              info.col2[0].push(String(valueAjutine));
+              info.col2[1].push("(" + String(numbrid.get(valueAjutine)) + "), ");
+              info.col3 = parseInt(info.col3) + parseInt(numbrid.get(String(valueAjutine)));
             }
           }
-          info.col2[1][info.col2[1].length - 1] = info.col2[1][info.col2[1].length - 1].slice(0, -2)
+          info.col2[1][info.col2[1].length - 1] = info.col2[1][info.col2[1].length - 1].slice(0, -2);
           info.col4 = (info.col3 * 100 / sonad.length).toFixed(1);
           tableVal.push(info);
         }
@@ -143,10 +157,10 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
   };
 
   function ShowDownload() {
-    if (document.getElementById('fileDownload').style.display === "none") {
-      document.getElementById('fileDownload').style.display = "block"
-    } else if (document.getElementById('fileDownload').style.display === "block") {
-      document.getElementById('fileDownload').style.display = "none"
+    if (fileDownloadElement.current.style.display === "none") {
+      fileDownloadElement.current.style.display = "block";
+    } else if (fileDownloadElement.current.style.display === "block") {
+      fileDownloadElement.current.style.display = "none";
     }
   }
 
@@ -161,14 +175,14 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
   }
 
   let data = useMemo(() =>
-    fillData(),
+      fillData(),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [sonad, sonaliik]
-  )
+  );
 
   function LongMenu({ column: { filterValue = [], setFilter, preFilteredRows, id } }) {
     const [anchorEl, setAnchorEl] = useState(false);
-    const open = Boolean(anchorEl)
+    const open = Boolean(anchorEl);
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
     };
@@ -258,19 +272,19 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
     if (fileType) {
       setButtonType(<Button className='CSVBtn' variant='contained' color='primary'>
         <CSVLink filename='gram_analyys' className='csvLink' headers={tableHeaders} data={csvData}>Laadi alla</CSVLink>
-      </Button>)
-      setFileType(false)
+      </Button>);
+      setFileType(false);
     } else if (!fileType) {
       setButtonType(<ExcelFile filename="gram_analyys" element={<Button variant='contained'>Laadi alla</Button>}>
         <ExcelSheet data={data} name="Sõnatabel">
-          <ExcelColumn label="Sõnaliik" value="col1" />
-          <ExcelColumn label="Vorm" value="colvorm" />
-          <ExcelColumn label="Sõnad tekstis" value={(col) => col.col2[2]} />
-          <ExcelColumn label="Sagedus" value="col3" />
-          <ExcelColumn label="Osakaal (%)" value="col4" />
+          <ExcelColumn label="Sõnaliik" value="col1"/>
+          <ExcelColumn label="Vorm" value="colvorm"/>
+          <ExcelColumn label="Sõnad tekstis" value={(col) => col.col2[2]}/>
+          <ExcelColumn label="Sagedus" value="col3"/>
+          <ExcelColumn label="Osakaal (%)" value="col4"/>
         </ExcelSheet>
-      </ExcelFile>)
-      setFileType(true)
+      </ExcelFile>);
+      setFileType(true);
     }
   }
 
@@ -280,7 +294,7 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
         Header: () => { return (<span>Sõnaliik</span>) },
         accessor: 'col1', // accessor is the "key" in the data
         Cell: (props) => {
-          const word = props.value
+          const word = props.value;
           return <span key={props.id} className="word" onClick={(e) => onTypeSelect(e.target.textContent)}>{word}</span>
         },
         className: 'user',
@@ -294,7 +308,7 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
         Header: () => { return (<span>Vorm</span>) },
         accessor: 'colvorm',
         Cell: (props) => {
-          const word = props.value
+          const word = props.value;
           return <span className="word" onClick={(e) => onFormSelect(e.target.textContent)}>{word}</span>
         },
         width: 400,
@@ -311,14 +325,15 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
           const items = props.value
           let cellContent = []
           for (let i = 0; i < items[0].length; i++) {
-            let word = items[0][i]
-            let count = items[1][i]
+            let word = items[0][i];
+            let count = items[1][i];
             let content = (
               <span key={uuidv4()}>
-                <span key={props.id} className="word" onClick={(e) => onWordSelect(e.target.textContent)}>{word}</span>{String.fromCharCode(160)}{count}
+                <span key={props.id} className="word"
+                      onClick={(e) => onWordSelect(e.target.textContent)}>{word}</span>{String.fromCharCode(160)}{count}
               </span>
             )
-            cellContent.push(content)
+            cellContent.push(content);
           }
           return cellContent
         },
@@ -353,8 +368,8 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
   ]
 
   function closeDownload() {
-    if (document.getElementById('fileDownload').style.display === "block") {
-      document.getElementById('fileDownload').style.display = "none"
+    if (fileDownloadElement.current.style.display === "block") {
+      fileDownloadElement.current.style.display = "none";
     }
   }
 
@@ -374,8 +389,8 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
     nextPage,
     previousPage,
     setPageSize,
-    state: { pageIndex, pageSize },
-  } = useTable({ columns, data, initialState: { pageIndex: 0 } }, useFilters, useSortBy, usePagination)
+    state: {pageIndex, pageSize},
+  } = useTable({columns, data, initialState: {pageIndex: 0}}, useFilters, useSortBy, usePagination);
 
   return (
     <Fragment>
@@ -385,8 +400,8 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
         </div>
       </Tooltip>
       <div>
-        <div id='fileDownload' className='fileDownload' style={{ display: "none" }}>
-          <div id='closeIcon' className='closeIcon' onClick={closeDownload}><CloseIcon /></div>
+        <div id='fileDownload' className='fileDownload' style={{display: "none"}} ref={fileDownloadElement}>
+          <div id='closeIcon' className='closeIcon' onClick={closeDownload}><CloseIcon/></div>
           <FormControl id="formId" fullWidth>
             <InputLabel id="demo-simple-select-label">Laadi alla</InputLabel>
             <Select
@@ -404,19 +419,21 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
           <div className='laadiBtn'>{buttonType}</div>
         </div>
       </div>
-      <table {...getTableProps()} style={{ marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%' }}>
+      <table className='analyserTable' {...getTableProps()}
+             style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>
         <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th
-                  {...column.getHeaderProps(column.getSortByToggleProps({ title: "" }))}
-                  style={{
-                    borderBottom: 'solid 1px',
-                    color: 'black',
-                    fontWeight: 'bold',
-                  }}
-                >
+        {headerGroups.map(headerGroup => (
+          <tr className='tableRow' {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map(column => (
+              <th
+                className='tableHead'
+                {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}
+                style={{
+                  borderBottom: 'solid 1px',
+                  color: 'black',
+                  fontWeight: 'bold',
+                }}
+              >
                   {<span>{column.render('Header')} {column.canFilter ? column.render("Filter") : null}</span>}
                   <span className='sortIcon'>
                     {column.isSorted
@@ -434,7 +451,7 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
           {page.map((row, i) => {
             prepareRow(row)
             return (
-              <tr {...row.getRowProps()}>
+              <tr className='tableRow' {...row.getRowProps()}>
                 {row.cells.map(cell => {
                   return (
                     <td
@@ -443,7 +460,7 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
                         padding: '10px',
                         width: cell.column.width,
                       }}
-                      className="border"
+                      className="border tableData"
                     >
                       {cell.render('Cell')}
                     </td>
