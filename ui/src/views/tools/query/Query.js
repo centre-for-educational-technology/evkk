@@ -1,21 +1,35 @@
-import React, { useState } from "react";
-import { Checkbox, Button, Alert, FormControl, InputLabel, MenuItem, Select, ListItemIcon, ListItemText, Accordion, AccordionSummary, Typography, AccordionDetails } from "@mui/material";
-import "./styles/CorpusSelect.css";
-import { MenuProps, useStyles, addedYearOptions, charactersOptions, wordsOptions, sentencesOptions } from "./utils";
-import CorpusTexts from "./CorpusTexts";
+import React, {useState} from "react";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Alert,
+  Button,
+  Checkbox,
+  FormControl,
+  InputLabel,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Select,
+  Typography
+} from "@mui/material";
+import "./styles/Query.css";
+import {addedYearOptions, charactersOptions, MenuProps, sentencesOptions, useStyles, wordsOptions} from "./utils";
+import QueryResults from "./QueryResults";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-function CorpusSelect() {
+function Query() {
 
-    const selectWidth = 250;
-    const classes = useStyles();
-    const currentYear = new Date().getFullYear();
+  const selectWidth = 250;
+  const classes = useStyles();
+  const currentYear = new Date().getFullYear();
 
-    const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(true);
 
-    const [results, setResults] = useState([]);
+  const [results, setResults] = useState([]);
 
-    const [corpusCheckboxStatus, setCorpusCheckboxStatus] = useState({
+  const [corpusCheckboxStatus, setCorpusCheckboxStatus] = useState({
         all: false,
         cFqPphvYi: false,
         clWmOIrLa: false,
@@ -623,11 +637,11 @@ function CorpusSelect() {
                     </form>
                 </AccordionDetails>
             </Accordion>
-            <br/>
-            {noResultsError ? <div><Alert severity="error">Ei leitud ühtegi teksti!</Alert><br/></div> : <></>}
-            <CorpusTexts data={results} />
+          <br/>
+          {noResultsError ? <div><Alert severity="error">Ei leitud ühtegi teksti!</Alert><br/></div> : <></>}
+          <QueryResults data={results}/>
         </div>
     );
 }
 
-export default CorpusSelect;
+export default Query;
