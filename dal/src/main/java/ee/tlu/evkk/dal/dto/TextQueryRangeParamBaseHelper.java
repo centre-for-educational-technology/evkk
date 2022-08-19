@@ -5,8 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TextQueryHelper {
+public class TextQueryRangeParamBaseHelper {
+
   private String tabel;
   private String parameeter;
-  private String[] vaartused;
+  private boolean castable;
+  private TextQueryRangeParamHelper[] vaartused;
 }

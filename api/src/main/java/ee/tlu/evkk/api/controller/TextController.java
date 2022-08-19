@@ -1,37 +1,42 @@
 package ee.tlu.evkk.api.controller;
 
 import ee.tlu.evkk.api.ApiMapper;
-import ee.tlu.evkk.api.controller.dto.LemmadRequestEntity;
 import ee.tlu.evkk.api.controller.dto.CorpusRequestEntity;
+import ee.tlu.evkk.api.controller.dto.LemmadRequestEntity;
 import ee.tlu.evkk.api.controller.dto.TextSearchRequest;
 import ee.tlu.evkk.api.controller.dto.TextSearchResponse;
 import ee.tlu.evkk.common.env.ServiceLocator;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
-import org.springframework.web.bind.annotation.*;
-
-import ee.tlu.evkk.dal.dto.TextQueryHelper;
-import ee.tlu.evkk.dal.dto.TextQueryCountsHelper;
-import ee.tlu.evkk.dal.dto.TextQueryParamHelper;
-import ee.tlu.evkk.dal.dto.TextQueryCorpusHelper;
-import ee.tlu.evkk.dal.dto.TextQueryAmongParamHelper;
-import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.service.TextService;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.Pageable;
+import ee.tlu.evkk.dal.dto.TextQueryCorpusHelper;
+import ee.tlu.evkk.dal.dto.TextQueryCountsHelper;
+import ee.tlu.evkk.dal.dto.TextQueryHelper;
+import ee.tlu.evkk.dal.dto.TextQueryParamHelper;
+import ee.tlu.evkk.dal.dto.TextQueryRangeParamBaseHelper;
+import ee.tlu.evkk.dal.dto.TextQueryRangeParamHelper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static java.util.Collections.addAll;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @RestController
@@ -115,30 +120,32 @@ return ResponseEntity.ok(body);
   @PostMapping("/detailneparing2")
   public String detailneparing2(@RequestBody CorpusRequestEntity vaartused) {
     int loendur = 2;
-    List<TextQueryParamHelper> paramHelper = new ArrayList<TextQueryParamHelper>();
+    List<TextQueryParamHelper> paramHelper = new ArrayList<>();
     TextQueryCorpusHelper corpusHelper = new TextQueryCorpusHelper();
-    List<TextQueryAmongParamHelper> amongParamHelper = new ArrayList<TextQueryAmongParamHelper>();
+    List<TextQueryRangeParamBaseHelper> rangeParamBaseHelper = new ArrayList<>();
 
     loendur++;
     corpusHelper.setTabel("p" + loendur);
     corpusHelper.setParameeter("korpus");
     List<String> corpuses = new ArrayList<>();
-    for (String korpus : vaartused.getCorpuses()) {
-      corpuses.add(korpus);
-    }
+    addAll(corpuses, vaartused.getCorpuses());
     corpusHelper.setVaartused(corpuses);
 
     if (vaartused.getAddedYear() != null) {
       loendur++;
-      TextQueryAmongParamHelper h10 = new TextQueryAmongParamHelper();
+      TextQueryRangeParamBaseHelper h10 = new TextQueryRangeParamBaseHelper();
+      List<TextQueryRangeParamHelper> helperid = new ArrayList<>();
       h10.setTabel("p" + loendur);
       h10.setParameeter("aasta");
-      for (Integer[] vaartus : vaartused.getAddedYear()) {
-        h10.setAlgVaartus((int) vaartus[0]);
-        h10.setLoppVaartus((int) vaartus[1]);
-      }
       h10.setCastable(false);
-      amongParamHelper.add(h10);
+      for (Integer[] vaartus : vaartused.getAddedYear()) {
+        TextQueryRangeParamHelper helper = new TextQueryRangeParamHelper();
+        helper.setAlgVaartus(vaartus[0]);
+        helper.setLoppVaartus(vaartus[1]);
+        helperid.add(helper);
+      }
+      h10.setVaartused(helperid.toArray(new TextQueryRangeParamHelper[0]));
+      rangeParamBaseHelper.add(h10);
     }
 
     if (isNotBlank(vaartused.getType())) {
@@ -214,7 +221,7 @@ return ResponseEntity.ok(body);
       paramHelper.add(h9);
     }
 
-    String vastus = textDao.textTitleQueryByParameters2(corpusHelper, paramHelper, amongParamHelper);
+    String vastus = textDao.textTitleQueryByParameters2(corpusHelper, paramHelper, rangeParamBaseHelper);
     if (isNotBlank(vastus)) {
       return vastus;
     } else {

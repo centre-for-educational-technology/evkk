@@ -79,14 +79,7 @@ function Query() {
         } else {
             let params = {};
 
-            let corpuses = [];
-            Object.entries(corpusCheckboxStatus).forEach((entry) => {
-                const [key, value] = entry;
-                if (value) {
-                    corpuses.push(key);
-                }
-            });
-            params.corpuses = corpuses;
+            params.corpuses = selectedCorpuses;
 
             Object.entries(textData).forEach((entry) => {
                 const [key, value] = entry;
@@ -118,7 +111,7 @@ function Query() {
                 params.sentences = simplifyDropdowns(sentences);
             }
 
-            console.log(params);
+          //console.log(params);
             fetch("/api/texts/detailneparing2", {
                 method: "POST",
                 body: JSON.stringify(params),
@@ -144,7 +137,7 @@ function Query() {
     function simplifyDropdowns(data) {
         let simplified = [];
         data.forEach((entry) => {
-            let local = [];
+          let local;
             if (entry.includes("...")) {
                 local = [parseInt(entry.split("...")[0]), currentYear];
             } else if (entry.includes("kuni")) {
@@ -163,18 +156,14 @@ function Query() {
         let newCorpusCheckboxStatus = {...corpusCheckboxStatus};
         let trueCount = 0;
         newCorpusCheckboxStatus[event.target.id] = event.target.checked;
-        Object.entries(newCorpusCheckboxStatus).forEach((entry) => {
-            const [key, value] = entry;
-            if (value && key !== "all") {
-                trueCount++;
-            }
-        });
-        if (trueCount === 7) {
-            newCorpusCheckboxStatus.all = true;
-        } else {
-            newCorpusCheckboxStatus.all = false;
+      Object.entries(newCorpusCheckboxStatus).forEach((entry) => {
+        const [key, value] = entry;
+        if (value && key !== "all") {
+          trueCount++;
         }
-        setCorpusCheckboxStatus(newCorpusCheckboxStatus);
+      });
+      newCorpusCheckboxStatus.all = trueCount === 7;
+      setCorpusCheckboxStatus(newCorpusCheckboxStatus);
     }
 
     const alterAllCorpusCheckboxes = (event) => {
