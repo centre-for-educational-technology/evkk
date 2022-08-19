@@ -111,7 +111,6 @@ function Query() {
                 params.sentences = simplifyDropdowns(sentences);
             }
 
-          //console.log(params);
             fetch("/api/texts/detailneparing2", {
                 method: "POST",
                 body: JSON.stringify(params),
