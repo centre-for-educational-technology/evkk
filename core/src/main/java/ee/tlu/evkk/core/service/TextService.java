@@ -10,10 +10,27 @@ import ee.tlu.evkk.dal.repository.TextPropertyRepository;
 import ee.tlu.evkk.dal.repository.TextRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.*;
+import static ee.tlu.evkk.core.service.maps.TranslationMappings.caseTranslations;
+import static ee.tlu.evkk.core.service.maps.TranslationMappings.degreeTranslations;
+import static ee.tlu.evkk.core.service.maps.TranslationMappings.firstType;
+import static ee.tlu.evkk.core.service.maps.TranslationMappings.moodTranslations;
+import static ee.tlu.evkk.core.service.maps.TranslationMappings.numberTranslations;
+import static ee.tlu.evkk.core.service.maps.TranslationMappings.personTranslations;
+import static ee.tlu.evkk.core.service.maps.TranslationMappings.secondType;
+import static ee.tlu.evkk.core.service.maps.TranslationMappings.verbFormTranslations;
+import static ee.tlu.evkk.core.service.maps.TranslationMappings.wordTypes;
 import static java.util.Arrays.stream;
 
 /**
@@ -49,11 +66,7 @@ public class TextService {
   }
 
   public String[] translateWordType(String[] tekst) {
-    String[] returnText = stream(tekst).toArray(String[]::new);
-    for (int i = 0; i < returnText.length; i++) {
-      returnText[i] = wordTypes.get(returnText[i]);
-    }
-    return returnText;
+    return stream(tekst).map(wordTypes::get).toArray(String[]::new);
   }
 
   public List<String> translateFeats(String[][] tekst) {

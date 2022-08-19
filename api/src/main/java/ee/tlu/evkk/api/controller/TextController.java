@@ -15,14 +15,20 @@ import ee.tlu.evkk.dal.dto.TextQueryCountsHelper;
 import ee.tlu.evkk.dal.dto.TextQueryHelper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static java.util.Arrays.asList;
 
 @RestController
 @RequestMapping("/texts")
@@ -65,21 +71,21 @@ public class TextController {
   @PostMapping("/sonaliik")
   public ResponseEntity<List<String>> sonaliik(@RequestBody LemmadRequestEntity request) {
     String[] sonaliik = stanzaServerClient.getSonaliik(request.getTekst());
-    List<String> body = Arrays.asList(textService.translateWordType(sonaliik));
+    List<String> body = asList(textService.translateWordType(sonaliik));
     return ResponseEntity.ok(body);
   }
 
   @PostMapping("/silbid")
   public ResponseEntity<List<String>> silbid(@RequestBody LemmadRequestEntity request) {
     String[] silbid = stanzaServerClient.getSilbid(request.getTekst());
-    List<String> body = Arrays.asList(silbid);
+    List<String> body = asList(silbid);
     return ResponseEntity.ok(body);
   }
 
   @PostMapping("/raw/vormimargendid")
   public ResponseEntity<List<String[]>> rawVormimargendid(@RequestBody LemmadRequestEntity request) {
     String[][] vormimargendid = stanzaServerClient.getVormimargendid(request.getTekst());
-    List<String[]> body = Arrays.asList(vormimargendid);
+    List<String[]> body = asList(vormimargendid);
     return ResponseEntity.ok(body);
   }
 
@@ -92,29 +98,28 @@ public class TextController {
   @PostMapping("/lemmad")
   public ResponseEntity<List<String>> lemmad(@RequestBody LemmadRequestEntity request) {
     String[] lemmad = stanzaServerClient.getLemmad(request.getTekst());
-    List<String> body = Arrays.asList(lemmad);
+    List<String> body = asList(lemmad);
     return ResponseEntity.ok(body);
   }
 
   @PostMapping("/sonad")
   public ResponseEntity<List<String>> sonad(@RequestBody LemmadRequestEntity request) {
-   // return ResponseEntity.ok(new ArrayList(Arrays.asList(new String[]{"aa", "ab"})));
-   String[] sonad = stanzaServerClient.getSonad(request.getTekst());
-   List<String> body = Arrays.asList(sonad);
+    String[] sonad = stanzaServerClient.getSonad(request.getTekst());
+    List<String> body = asList(sonad);
     return ResponseEntity.ok(body);
   }
 
   @PostMapping("/laused")
   public ResponseEntity<List<String[]>> laused(@RequestBody LemmadRequestEntity request) throws Exception {
     String[][] laused = stanzaServerClient.getLaused(request.getTekst());
-    List<String[]> body = Arrays.asList(laused);
+    List<String[]> body = asList(laused);
     return ResponseEntity.ok(body);
   }
 
   @PostMapping("/korrektuur")
   public ResponseEntity<List<String>> korrektuur(@RequestBody LemmadRequestEntity request) throws Exception {
     String[] vastus = correctorServerClient.getKorrektuur(request.getTekst());
-    List<String> body = Arrays.asList(vastus);
+    List<String> body = asList(vastus);
     return ResponseEntity.ok(body);
   }
 
@@ -122,7 +127,7 @@ public class TextController {
   public ResponseEntity<List<String[]>> keeletase(@RequestBody LemmadRequestEntity request) throws Exception {
    // String[] sonad = stanzaClient.getLemmad(request.getTekst());
     String[][] tasemed = stanzaServerClient.getKeeletase(request.getTekst());
-List<String[]> body = Arrays.asList(tasemed);
+    List<String[]> body = asList(tasemed);
 //List<String> body = Arrays.asList(sonad);
 return ResponseEntity.ok(body);
   }
