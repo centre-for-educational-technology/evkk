@@ -1,0 +1,43 @@
+.tableRow:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.tableRow:hover {
+  background-color: #ddd;
+}
+
+.fontStyle{
+    font-size: large;
+}
+
+.tableHead.hover:nth-child(1):hover {
+  cursor: auto;
+}
+
+.tableHead.hover:nth-child(2):hover {
+  cursor: auto;
+}
+
+.tableHead.hover:nth-child(3):hover {
+  cursor: pointer !important;
+}
+
+.tableHead:nth-child(1) > .sort {
+  display: none;
+}
+
+.tableHead:nth-child(2) > .sort {
+  display: none;
+}
+
+.pagination{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    align-items: center;
+}
+
+.buttongroup{
+    width: 40%;
+}
