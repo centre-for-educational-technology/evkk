@@ -6,6 +6,7 @@ import ClusterFinder from "./views/tools/ClusterFinder";
 import {Files} from "./views/user";
 import Resource from "./views/Resource.component";
 import Correction from "./views/Correction.component";
+import WordAnalyser from './views/tools/wordanalyser/WordAnalyser';
 
 class Routes extends Component {
 
@@ -32,6 +33,7 @@ class Routes extends Component {
           <Route path="/tools/minitorn-pikkus" component={MinitornPikkus}/>
           <Route path="/tools/masinoppe-ennustus" component={MasinoppeEnnustus}/>
           <Route path="/tools/clusterfinder" component={ClusterFinder}/>
+          <Route path="/tools/wordanalyser" component={WordAnalyser}/>
           <Route component={() => this.render404()}/>
         </Switch>
       </div>
