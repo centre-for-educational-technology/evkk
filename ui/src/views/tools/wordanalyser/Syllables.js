@@ -2,10 +2,13 @@ import React, {useEffect, useMemo, useState} from "react";
 import {usePagination, useSortBy, useTable} from 'react-table';
 import './styles/Syllables.css';
 import TablePagination from "./TablePagination";
+import {useTranslation} from "react-i18next";
+import "../../../translations/i18n";
 
 function Syllables({onAnalyse, onSyllableSelect}) {
   const data = onAnalyse.syllables;
   const len = data.length;
+  const {t} = useTranslation();
   let baseSyllables = [];
   let syllables = [];
 
@@ -93,23 +96,23 @@ function Syllables({onAnalyse, onSyllableSelect}) {
 
     // TABELI OSA
     const COLUMNS = [
-        {
-            Header: 'Silp',
-            accessor: 'silp',
-            disableSortBy: true,
-        },
-        {
-            Header: 'Silbi asukoht sõnas',
-            accessor: el => {
-                let display = "";
-                if (el.algus) {
-                    display += "algus (" + el.algus + "), ";
-                }
-                if (el.keskel) {
-                    display += "keskel (" + el.keskel + "), ";
-                }
-                if (el.lõpp) {
-                    display += "lõpp (" + el.lõpp + "), ";
+      {
+        Header: t("syllables_header_syllable"),
+        accessor: 'silp',
+        disableSortBy: true,
+      },
+      {
+        Header: t("syllables_header_location"),
+        accessor: el => {
+          let display = "";
+          if (el.algus) {
+            display += t("syllables_beginning") + " (" + el.algus + "), ";
+          }
+          if (el.keskel) {
+            display += t("syllables_middle") + " (" + el.keskel + "), ";
+          }
+          if (el.lõpp) {
+            display += t("syllables_end") + " (" + el.lõpp + "), ";
                 }
                 display = display.slice(0, -2);
               return display;
@@ -117,7 +120,7 @@ function Syllables({onAnalyse, onSyllableSelect}) {
           disableSortBy: true,
         },
       {
-        Header: 'Sagedus',
+        Header: t("common_header_frequency"),
         accessor: 'sagedus',
       }
     ]

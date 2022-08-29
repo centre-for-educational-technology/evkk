@@ -3,6 +3,8 @@ import "./styles/LemmaView.css";
 import {usePagination, useSortBy, useTable} from "react-table";
 import {v4 as uuidv4} from 'uuid';
 import TablePagination from "./TablePagination";
+import {useTranslation} from "react-i18next";
+import "../../../translations/i18n";
 
 function Table({columns, data}) {
 
@@ -111,6 +113,7 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
 
   const lemmad = onAnalyse.lemmas;
   const sonad = onAnalyse.words;
+  const {t} = useTranslation();
 
   let sonaList = new Map();
   let numbrid = new Map();
@@ -174,24 +177,24 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
   fillData();
     const columns = React.useMemo(() => [
         {
-          Header: 'Algvormid',
+          Header: t("common_lemmas"),
           accessor: 'col1',
           disableSortBy: true,
           sortable: false,
           width: 400,
         },
         {
-            Header: 'Sõnavormid',
-            accessor: 'col2',
-            disableSortBy: true,
-            sortable: false,
-            width: 700,
-            Cell: (props) => {
-              const items = props.value
-              let cellContent = []
-              for (let i = 0; i < items[0].length; i++) {
-                  let word = items[0][i]
-                  let count = items[1][i]
+          Header: t("lemmas_header_wordforms"),
+          accessor: 'col2',
+          disableSortBy: true,
+          sortable: false,
+          width: 700,
+          Cell: (props) => {
+            const items = props.value
+            let cellContent = []
+            for (let i = 0; i < items[0].length; i++) {
+              let word = items[0][i]
+              let count = items[1][i]
                   let content = (
                     <span key={uuidv4()}>
                     <span className="word" onClick={(e) => onWordSelect(e.target.textContent)}>{word}</span>{String.fromCharCode(160)}{count}
@@ -203,17 +206,17 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
             }
         },
         {
-            Header: 'Sagedus',
-            accessor: 'col3',
-            width: 300,
+          Header: t("common_header_frequency"),
+          accessor: 'col3',
+          width: 300,
         },
         {
-            Header: 'Osakaal (%)',
-            accessor: 'col4',
-            width: 300,
+          Header: t("common_header_percentage"),
+          accessor: 'col4',
+          width: 300,
         },
     ],
-    [onWordSelect]
+      [onWordSelect, t]
     );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

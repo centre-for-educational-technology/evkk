@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {connectedComponent} from "./util/redux-utils";
 import {getStatusIfNeeded} from "./rootActions";
 import {selectStatus} from "./rootSelectors";
+import i18n from "i18next";
+import ReactCountryFlag from "react-country-flag";
 
 class Nav extends Component {
 
@@ -69,24 +71,63 @@ class Nav extends Component {
               </li>
               */}
               <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="?" role="button" data-toggle="dropdown">
+                <a className="nav-link dropdown-toggle"
+                   href="?"
+                   role="button"
+                   data-toggle="dropdown">
                   Tööriistad
                 </a>
                 <div className="dropdown-menu">
-                <Link to="/correction" className={'dropdown-item'}>Tekstihindaja</Link>
-                <Link to="/tools/clusterfinder" className={'dropdown-item'}>Keelemustrite leidja</Link>
-                  <a className="dropdown-item" href="/sonarakendus/home.html" rel="noopener noreferrer" target="_blank">Sõnasagedus & kontekst</a>
+                  <Link to="/correction"
+                        className={'dropdown-item'}>Tekstihindaja</Link>
+                  <Link to="/tools/clusterfinder"
+                        className={'dropdown-item'}>Keelemustrite leidja</Link>
+                  <a className="dropdown-item"
+                     href="/sonarakendus/home.html"
+                     rel="noopener noreferrer"
+                     target="_blank">Sõnasagedus & kontekst</a>
                   {/*<a className="dropdown-item" href="/tools/clusterfinder" rel="noopener noreferrer">Keelemustrite leidja</a>*/}
                   {/*<Link to="/tools/masinoppe-ennustus" className={'dropdown-item'}>Masinõppe ennustus</Link>*/}
-                <Link to="/tools/wordanalyser" className={'dropdown-item'}>Sõnaanalüsaator</Link>
+                  <Link to="/tools/wordanalyser"
+                        className={'dropdown-item'}>Sõnaanalüsaator</Link>
                 </div>
               </li>
               <li className="nav-item">
-                <Link to="/employees" className={'nav-link'}>Töötajad</Link>
+                <Link to="/employees"
+                      className={'nav-link'}>Töötajad</Link>
               </li>
               <li className="nav-item">
-                <a href="https://evkk.tlu.ee/vers1/" target="_blank" rel="noopener noreferrer" className={'nav-link'}>Vana versioon <i className="fas fa-external-link-alt"/></a>
+                <a href="https://evkk.tlu.ee/vers1/"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   className={'nav-link'}>Vana versioon <i className="fas fa-external-link-alt"/></a>
               </li>
+              {this.props.location.pathname === '/tools/wordanalyser' ?
+                <li className="nav-item dropdown lang-dropdown">
+                  <a className="nav-link dropdown-toggle"
+                     href="?"
+                     role="button"
+                     data-toggle="dropdown">
+                    <i className="fas fa-globe"/> Muuda keelt
+                  </a>
+                  <div className="dropdown-menu">
+                    <a className="dropdown-item"
+                       href="#"
+                       onClick={() => {
+                         i18n.changeLanguage('et')
+                       }}>
+                      <ReactCountryFlag countryCode={"EE"}/> Eesti
+                    </a>
+                    <a className="dropdown-item"
+                       href="#"
+                       onClick={() => {
+                         i18n.changeLanguage('en')
+                       }}>
+                      <ReactCountryFlag countryCode={"GB"}/> English
+                    </a>
+                  </div>
+                </li>
+                : <></>}
             </ul>
             {/*
             <ul className="navbar-nav ml-auto">
@@ -106,4 +147,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {getStatusIfNeeded};
 
-export default connectedComponent(Nav, mapStateToProps, mapDispatchToProps);
+export default connectedComponent(withRouter(Nav), mapStateToProps, mapDispatchToProps);
