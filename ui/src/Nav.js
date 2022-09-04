@@ -4,7 +4,6 @@ import {connectedComponent} from "./util/redux-utils";
 import {getStatusIfNeeded} from "./rootActions";
 import {selectStatus} from "./rootSelectors";
 import i18n from "i18next";
-import ReactCountryFlag from "react-country-flag";
 
 class Nav extends Component {
 
@@ -116,14 +115,16 @@ class Nav extends Component {
                        onClick={() => {
                          i18n.changeLanguage('et')
                        }}>
-                      <ReactCountryFlag countryCode={"EE"}/> Eesti
+                      <img src={require('./resources/flags/est.png').default}
+                           alt='EST'/> EST
                     </a>
                     <a className="dropdown-item"
                        href="#"
                        onClick={() => {
                          i18n.changeLanguage('en')
                        }}>
-                      <ReactCountryFlag countryCode={"GB"}/> English
+                      <img src={require('./resources/flags/eng.png').default}
+                           alt='ENG'/> ENG
                     </a>
                   </div>
                 </li>
