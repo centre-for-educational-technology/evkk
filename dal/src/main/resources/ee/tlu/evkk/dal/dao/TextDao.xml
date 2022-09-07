@@ -82,9 +82,11 @@
       </foreach>
       <foreach item="rangeParamHelper" collection="rangeParamHelper" separator=" ">
         <if test="rangeParamHelper.castable == true">
-          and ${rangeParamHelper.tabel + 1}.type = 'CHARS_WORDS_SENTENCES'
-          and cast(${rangeParamHelper.tabel + 1}.result::json->#{rangeParamHelper.parameeter} as TEXT) between
-          #{rangeParamHelper.algVaartus} and #{rangeParamHelper.loppVaartus}
+          and ${rangeParamHelper.tabel + 1}.type = 'CHARS_WORDS_SENTENCES' and
+          <foreach item="vaartused" collection="rangeParamHelper.vaartused" separator=" or " open="(" close=")">
+            (cast(cast(${rangeParamHelper.tabel + 1}.result::json->#{rangeParamHelper.parameeter} as TEXT) as INTEGER)
+            between #{vaartused.algVaartus} and #{vaartused.loppVaartus})
+          </foreach>
         </if>
         <if test="rangeParamHelper.castable == false">
           and ${rangeParamHelper.tabel}.property_name = #{rangeParamHelper.parameeter} and

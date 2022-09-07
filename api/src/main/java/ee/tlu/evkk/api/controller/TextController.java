@@ -131,23 +131,6 @@ return ResponseEntity.ok(body);
     addAll(corpuses, vaartused.getCorpuses());
     corpusHelper.setVaartused(corpuses);
 
-    if (vaartused.getAddedYear() != null) {
-      loendur++;
-      TextQueryRangeParamBaseHelper h10 = new TextQueryRangeParamBaseHelper();
-      List<TextQueryRangeParamHelper> helperid = new ArrayList<>();
-      h10.setTabel("p" + loendur);
-      h10.setParameeter("aasta");
-      h10.setCastable(false);
-      for (Integer[] vaartus : vaartused.getAddedYear()) {
-        TextQueryRangeParamHelper helper = new TextQueryRangeParamHelper();
-        helper.setAlgVaartus(vaartus[0]);
-        helper.setLoppVaartus(vaartus[1]);
-        helperid.add(helper);
-      }
-      h10.setVaartused(helperid.toArray(new TextQueryRangeParamHelper[0]));
-      rangeParamBaseHelper.add(h10);
-    }
-
     if (isNotBlank(vaartused.getType())) {
       loendur++;
       TextQueryParamHelper h1 = new TextQueryParamHelper();
@@ -219,6 +202,74 @@ return ResponseEntity.ok(body);
       h9.setParameeter("elukoht");
       h9.setVaartus(vaartused.getCountry());
       paramHelper.add(h9);
+    }
+
+    if (vaartused.getAddedYear() != null) {
+      loendur++;
+      TextQueryRangeParamBaseHelper h10 = new TextQueryRangeParamBaseHelper();
+      List<TextQueryRangeParamHelper> helperid = new ArrayList<>();
+      h10.setTabel("p" + loendur);
+      h10.setParameeter("aasta");
+      h10.setCastable(false);
+      for (Integer[] vaartus : vaartused.getAddedYear()) {
+        TextQueryRangeParamHelper helper = new TextQueryRangeParamHelper();
+        helper.setAlgVaartus(vaartus[0]);
+        helper.setLoppVaartus(vaartus[1]);
+        helperid.add(helper);
+      }
+      h10.setVaartused(helperid.toArray(new TextQueryRangeParamHelper[0]));
+      rangeParamBaseHelper.add(h10);
+    }
+
+    if (vaartused.getCharacters() != null) {
+      loendur++;
+      TextQueryRangeParamBaseHelper h11 = new TextQueryRangeParamBaseHelper();
+      List<TextQueryRangeParamHelper> helperid = new ArrayList<>();
+      h11.setTabel("p" + loendur);
+      h11.setParameeter("charCount");
+      h11.setCastable(true);
+      for (Integer[] vaartus : vaartused.getCharacters()) {
+        TextQueryRangeParamHelper helper = new TextQueryRangeParamHelper();
+        helper.setAlgVaartus(vaartus[0]);
+        helper.setLoppVaartus(vaartus[1]);
+        helperid.add(helper);
+      }
+      h11.setVaartused(helperid.toArray(new TextQueryRangeParamHelper[0]));
+      rangeParamBaseHelper.add(h11);
+    }
+
+    if (vaartused.getWords() != null) {
+      loendur++;
+      TextQueryRangeParamBaseHelper h12 = new TextQueryRangeParamBaseHelper();
+      List<TextQueryRangeParamHelper> helperid = new ArrayList<>();
+      h12.setTabel("p" + loendur);
+      h12.setParameeter("wordCount");
+      h12.setCastable(true);
+      for (Integer[] vaartus : vaartused.getWords()) {
+        TextQueryRangeParamHelper helper = new TextQueryRangeParamHelper();
+        helper.setAlgVaartus(vaartus[0]);
+        helper.setLoppVaartus(vaartus[1]);
+        helperid.add(helper);
+      }
+      h12.setVaartused(helperid.toArray(new TextQueryRangeParamHelper[0]));
+      rangeParamBaseHelper.add(h12);
+    }
+
+    if (vaartused.getSentences() != null) {
+      loendur++;
+      TextQueryRangeParamBaseHelper h13 = new TextQueryRangeParamBaseHelper();
+      List<TextQueryRangeParamHelper> helperid = new ArrayList<>();
+      h13.setTabel("p" + loendur);
+      h13.setParameeter("sentenceCount");
+      h13.setCastable(true);
+      for (Integer[] vaartus : vaartused.getSentences()) {
+        TextQueryRangeParamHelper helper = new TextQueryRangeParamHelper();
+        helper.setAlgVaartus(vaartus[0]);
+        helper.setLoppVaartus(vaartus[1]);
+        helperid.add(helper);
+      }
+      h13.setVaartused(helperid.toArray(new TextQueryRangeParamHelper[0]));
+      rangeParamBaseHelper.add(h13);
     }
 
     String vastus = textDao.textTitleQueryByParameters2(corpusHelper, paramHelper, rangeParamBaseHelper);
