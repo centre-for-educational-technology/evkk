@@ -17,6 +17,46 @@ else:
   asendused=[]
 app = Flask(__name__)
 
+@app.route('/sonaliik', methods=['POST'])
+def silbid():
+    nlp = nlp_tp
+    doc = nlp(request.json["tekst"])
+    v1 = []
+    for sentence in doc.sentences:
+        for word in sentence.words:
+            if word._upos != "PUNCT":
+                v1.append(word.pos)
+    return Response(json.dumps(v1), mimetype="application/json")
+
+@app.route('/vormimargendid', methods=['POST'])
+def vormimargendid():
+    nlp = nlp_tp
+    doc = nlp(request.json["tekst"])
+    v1 = []
+    for sentence in doc.sentences:
+        for word in sentence.words:
+            if word._upos != "PUNCT":
+                if word._upos not in ["ADP", "ADV", "CCONJ", "SCONJ", "INTJ", "X"]:
+                    v1.append([word.pos, word.feats, word.text])
+                else:
+                    v1.append([word.pos, "–", word.text])
+    return Response(json.dumps(v1), mimetype="application/json")
+
+@app.route('/silbid', methods=['POST'])
+def silbita():
+    tekst = request.json["tekst"]
+    sonad = tekst.split()
+    response = []
+    for sona in sonad:
+        response.append(silbita_sisemine(sona).rstrip())
+    return Response(json.dumps(response), mimetype="application/json")
+
+def silbita_sisemine(tekst):
+    import subprocess
+    a = subprocess.Popen("/app/silbitaja.bin", cwd="/app", shell=True, stderr=subprocess.PIPE, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    stdo, stde = a.communicate(tekst.encode("iso-8859-13"))
+    return stdo.decode("iso-8859-13")
+
 @app.route('/lemmad', methods=['POST'])
 def lemmad():
     nlp = nlp_tpl
@@ -24,7 +64,7 @@ def lemmad():
     v1 = []
     for sentence in doc.sentences:
         for word in sentence.words:
-            if word._upos!="PUNCT":
+            if word._upos != "PUNCT":
                 v1.append(word.lemma)
     return Response(json.dumps(v1), mimetype="application/json")
 
@@ -47,7 +87,7 @@ def sonad():
     v1 = []
     for sentence in doc.sentences:
         for word in sentence.words:
-            if word._upos!="PUNCT":
+            if word._upos != "PUNCT":
                 v1.append(word.text)
     return Response(json.dumps(v1), mimetype="application/json")
 

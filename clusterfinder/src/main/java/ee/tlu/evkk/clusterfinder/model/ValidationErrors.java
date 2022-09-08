@@ -4,13 +4,14 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor( access = AccessLevel.PRIVATE )
 public class ValidationErrors
 {
-  private List < ValidationError > errors;
+  private List < ValidationError > errors = new ArrayList<>();
 
   public void addError( ValidationError error )
   {

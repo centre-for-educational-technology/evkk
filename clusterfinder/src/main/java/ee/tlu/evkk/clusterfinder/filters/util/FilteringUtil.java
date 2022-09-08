@@ -68,16 +68,32 @@ public final class FilteringUtil
 
   public static List< String > getUnionizedFilters( List < String > wordTypeFilters, List < String > clauseTypeFilters )
   {
-    List< String > filters = new ArrayList<>();
+    if ( !wordTypeFilters.isEmpty() && clauseTypeFilters.isEmpty() )
+    {
+      return wordTypeFilters;
+    }
+
+    if ( wordTypeFilters.isEmpty() && !clauseTypeFilters.isEmpty() )
+    {
+      return clauseTypeFilters;
+    }
+
+    return getJoinedFilters( wordTypeFilters, clauseTypeFilters );
+  }
+
+  private static List< String > getJoinedFilters(List< String > wordTypeFilters, List< String > clauseTypeFilters)
+  {
+    List< String > joinedFilters = new ArrayList<>();
+
     for( String wordTypeFilter : wordTypeFilters )
     {
       for ( String clauseTypeFilter : clauseTypeFilters )
       {
-        filters.add( joinFilters( wordTypeFilter, clauseTypeFilter ) );
+        joinedFilters.add( joinFilters( wordTypeFilter, clauseTypeFilter ) );
       }
     }
 
-    return filters;
+    return joinedFilters;
   }
 
   private static String joinFilters(String wordTypeFilter, String clauseTypeFilter)

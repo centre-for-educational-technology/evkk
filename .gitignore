@@ -13,5 +13,5 @@ generated/
 dist/
 bin/
 
-stanza-server/*.bin
+stanza-server/j*.bin
 *.pyc
