@@ -88,11 +88,14 @@ class Adding extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {pealkiri:"", kirjeldus:"", sisu:"", liik:"", oppematerjal:"", autoriVanus:"", autoriSugu:"", autoriOppeaste:"", autoriEriala:"", autoriEmakeel:"", autoriMuudKeeled:"", autoriElukohariik:""};
+		this.state = {pealkiri:"", kirjeldus:"", sisu:"", liik:"Akadeemiline", oppematerjal:"", autoriVanus:"", autoriSugu:"", autoriOppeaste:"", autoriEriala:"", autoriEmakeel:"", autoriMuudKeeled:"", autoriElukohariik:"eesti"};
 		this.handleChange = this.handleChange.bind(this);
     	this.handleSubmit = this.handleSubmit.bind(this);
 		this.state = {users: []};
+		this.formDataElement = React.createRef();
+
   	}
+
 
 	addField = () => {
 		this.setState({
@@ -127,6 +130,37 @@ class Adding extends Component {
 		console.log(sisu.match(/(\w+)/g).length);
 	}
 
+	readFile(f){
+       console.log(this.formDataElement.current);
+	   let oData = new FormData(this.formDataElement.current);
+	   const request_test = {
+		 method: "POST",
+		 body: oData
+	   }
+   
+	   fetch("/api/textfromfile", request_test)
+		 .then(response => response.text())
+		 .then(data => {
+			 console.log(data);
+			 this.setState({sisu: data});
+		   //props.sendTextFromFile(data);
+		 });
+/*
+	   fetch("/api/textfromfile", {method:"POST",
+	   headers: {
+		 'Accept': 'application/json',
+		 'Content-Type': 'application/json',
+		 'enctype': 'multipart/form-data'
+	   },
+	   body: JSON.stringify(f)});*/
+	}
+
+    readFile2(form){
+		var oData = new FormData(form);
+        console.log(oData);
+	}
+
+
     render() {
 		const { classes } = this.props;
 
@@ -135,11 +169,12 @@ class Adding extends Component {
 				<div style={{ textAlign:"center"}}>
 					<Typography variant="h5"><strong>Lisa uus tekst</strong></Typography>
 				</div>
-				<form onSubmit={this.handleSubmit}>
+						<form onSubmit={this.handleSubmit} id="f1" ref={this.formDataElement}>
 					<Grid container spacing={1}>
 						<Grid item xs={1}></Grid>
 						<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-						<span class="material-icons" > upload_file </span>
+						
+						<input type="file" name="file" onChange={(e) => this.readFile(e.target.form)}/>
 					</Grid>
 					<Grid container spacing={1}>
 						<Grid item xs={1}></Grid>
@@ -167,7 +202,7 @@ class Adding extends Component {
 									<Grid item>
 										<FormControl sx={{ m: 0, width: 240}} size="small">
 											<InputLabel id="liik">Teksti liik:*</InputLabel>
-											<Select value={this.state.liik} onChange={this.handleChange} label="Teksti liik:*" labelId="liik" select name="liik" required>
+											<Select value={this.state.liik} onChange={this.handleChange} label="Teksti liik:*" labelId="liik"  name="liik" required>
 												<MenuItem value={"Akadeemiline"}>Akadeemiline</MenuItem>
 												<MenuItem value={"Mitte akadeemiline"}>Mitteakadeemiline</MenuItem>
 											</Select>
@@ -200,7 +235,7 @@ class Adding extends Component {
 									<Grid item>
 										<Button style={{width: 2, height: 10}}>
 											<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-											<span class="material-icons"> expand_more </span>
+											<span className="material-icons"> expand_more </span>
 										</Button>
 									</Grid>
 								</Grid>
@@ -256,7 +291,7 @@ class Adding extends Component {
 									<Grid item>
 									<FormControl sx={{ m: 0, width: 240}} size="small">
 										<InputLabel id="oppeaste">Õppeaste/teaduskraad:*</InputLabel>
-										<Select value={this.state.autoriOppeaste} label="Õppeaste/teaduskraad:*" labelId="oppeaste" onChange={this.handleChange} select name="autoriOppeaste">
+										<Select value={this.state.autoriOppeaste} label="Õppeaste/teaduskraad:*" labelId="oppeaste" onChange={this.handleChange}  name="autoriOppeaste">
 											<MenuItem value={"oppeaste"}>õppeaste</MenuItem>
 											<MenuItem value={"teaduskraad"}>teaduskraad</MenuItem>
 										</Select>
@@ -359,7 +394,7 @@ class Adding extends Component {
 									<Grid item>
 										<Button style={{height: 38}} onClick={this.addField}>
 											<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
-											<span class="material-icons-outlined"> add </span>
+											<span className="material-icons-outlined"> add </span>
 										</Button>
 									</Grid>
 								</Grid>
@@ -388,7 +423,7 @@ class Adding extends Component {
 								</Grid>
 							</label>
 							<br />
-							<div class="buttonHolder">
+							<div className="buttonHolder">
 								<Grid container spacing={1} className={classes.holder}>
 									<Grid item>
 										<Checkbox className={classes.checkBox}  name="nousOlek"/>
