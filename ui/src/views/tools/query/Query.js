@@ -654,7 +654,7 @@ function Query() {
               submitted()
             }}
                            loading={isLoading}
-                           variant="contained">Saada päring</LoadingButton>
+                           variant={isLoading ? "outlined" : "contained"}>Saada päring</LoadingButton>
           </form>
         </AccordionDetails>
       </Accordion>
