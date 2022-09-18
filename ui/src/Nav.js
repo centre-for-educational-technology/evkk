@@ -113,7 +113,7 @@ class Nav extends Component {
                     <a className="dropdown-item"
                        href="#"
                        onClick={() => {
-                         i18n.changeLanguage('et')
+                         i18n.changeLanguage('et');
                        }}>
                       <img src={require('./resources/flags/est.png').default}
                            alt='EST'/> EST
@@ -121,7 +121,7 @@ class Nav extends Component {
                     <a className="dropdown-item"
                        href="#"
                        onClick={() => {
-                         i18n.changeLanguage('en')
+                         i18n.changeLanguage('en');
                        }}>
                       <img src={require('./resources/flags/eng.png').default}
                            alt='ENG'/> ENG

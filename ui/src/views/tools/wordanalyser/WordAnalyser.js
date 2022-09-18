@@ -10,6 +10,7 @@ import LemmaView from './LemmaView';
 import Syllables from './Syllables';
 import {useTranslation} from "react-i18next";
 import "../../../translations/i18n";
+import i18n from "i18next";
 
 function WordAnalyser() {
   const [showResults, setShowResults] = useState(false);
@@ -42,9 +43,9 @@ function WordAnalyser() {
     const data = await response.json();
 
     let newData = [];
-    for (let i = 0; i < data.length; i++) {
-      if (data[i]) {
-        let item = data[i].replace(/['*]+/g, '');
+    for (const element of data) {
+      if (element) {
+        let item = element.replace(/['*]+/g, '');
         newData.push(item);
       }
     }
@@ -63,9 +64,9 @@ function WordAnalyser() {
 
     const data = await response.json();
     let newData = [];
-    for (let i = 0; i < data.length; i++) {
-      if (data[i]) {
-        let item = data[i].replace(/['*_=]+/g, '');
+    for (const element of data) {
+      if (element) {
+        let item = element.replace(/['*_=]+/g, '');
         newData.push(item);
       }
     }
@@ -81,8 +82,7 @@ function WordAnalyser() {
       },
       body: JSON.stringify({tekst: input}),
     });
-    const data = await response.json();
-    return data;
+    return await response.json();
   }
 
   //get word type
@@ -92,10 +92,9 @@ function WordAnalyser() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({tekst: input}),
+      body: JSON.stringify({tekst: input, language: i18n.language}),
     });
-    const data = await response.json();
-    return data;
+    return await response.json();
   }
 
   //get syllables
@@ -110,10 +109,10 @@ function WordAnalyser() {
     const data = await response.json();
 
     let newData = [];
-    for (let i = 0; i < data.length; i++){
-      if (data[i]){
-        let item = data[i].replace(/[()'",.]+/g, '');
-        if(item){
+    for (const element of data) {
+      if (element) {
+        let item = element.replace(/[()'",.]+/g, '');
+        if (item) {
           newData.push(item);
         }
       }
@@ -128,16 +127,15 @@ function WordAnalyser() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({tekst: input}),
+      body: JSON.stringify({tekst: input, language: i18n.language}),
     })
-    const data = await response.json();
-    return data;
+    return await response.json();
   }
 
   //create ids
   const createIds = (words) => {
     let data = [];
-    for (let i = 0; i < words.length; i++) {
+    for (const element of words) {
       let id = uuidv4();
       data.push(id);
     }
@@ -157,16 +155,14 @@ function WordAnalyser() {
     let analysedWordsLowerCase = [...analysedWordsOrig];
     for (let i = 0; i < analysedWordsLowerCase.length; i++) {
       if (analysedWordTypes[i] !== "nimisõna (pärisnimi)") {
-        let currentWord = analysedWordsLowerCase[i].toLowerCase();
-        analysedWordsLowerCase[i] = currentWord;
+        analysedWordsLowerCase[i] = analysedWordsLowerCase[i].toLowerCase();
       }
     }
 
     let analysedSyllablesLowerCase = [...analysedSyllables];
     for (let i = 0; i < analysedSyllablesLowerCase.length; i++) {
       if (analysedWordTypes[i] !== "nimisõna (pärisnimi)") {
-        let currentItem = analysedSyllablesLowerCase[i].toLowerCase();
-        analysedSyllablesLowerCase[i] = currentItem;
+        analysedSyllablesLowerCase[i] = analysedSyllablesLowerCase[i].toLowerCase();
       }
     }
 
@@ -396,7 +392,7 @@ function WordAnalyser() {
 
   const [value, setValue] = useState(0);
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (_event, newValue) => {
     setValue(newValue);
   };
 
