@@ -5,6 +5,7 @@ export const TRANSLATIONS_ET = {
   common_form: "Vorm",
   common_header_frequency: "Sagedus",
   common_header_percentage: "Osakaal (%)",
+  common_lemma: "Algvorm",
   common_lemmas: "Algvormid",
   common_syllables: "Silbid",
   common_wordtype: "Sõnaliik",
@@ -29,7 +30,6 @@ export const TRANSLATIONS_ET = {
   textupload_chosen_files: "Valitud failid:",
   textupload_title: "Vali tekst",
   textupload_upload: "Laadi failid üles",
-  wordinfo_lemma: "Algvorm",
   wordinfo_title: "Sõnaanalüüs",
   wordinfo_word: "Sõna",
 };

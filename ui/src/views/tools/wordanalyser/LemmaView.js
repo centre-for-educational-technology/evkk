@@ -177,7 +177,7 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
   fillData();
     const columns = React.useMemo(() => [
         {
-          Header: t("common_lemmas"),
+          Header: t("common_lemma"),
           accessor: 'col1',
           disableSortBy: true,
           sortable: false,
