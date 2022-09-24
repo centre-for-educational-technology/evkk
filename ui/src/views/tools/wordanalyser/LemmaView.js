@@ -24,7 +24,14 @@ function Table({columns, data}) {
   } =
     useTable({
       columns,
-      data,
+      data, initialState: {
+          sortBy: [
+            {
+              id: 'sagedus',
+              desc: true
+            }
+          ]
+        }
     }, useSortBy, usePagination,
     );
 
@@ -204,6 +211,7 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
         },
         {
             Header: 'Sagedus',
+            id: 'sagedus',
             accessor: 'col3',
             width: 300,
         },
