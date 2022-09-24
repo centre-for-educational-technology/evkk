@@ -3,7 +3,7 @@ import {Link, withRouter} from 'react-router-dom';
 import {connectedComponent} from "./util/redux-utils";
 import {getStatusIfNeeded} from "./rootActions";
 import {selectStatus} from "./rootSelectors";
-import i18n from "i18next";
+import {withTranslation} from "react-i18next";
 
 class Nav extends Component {
 
@@ -107,21 +107,21 @@ class Nav extends Component {
                      href="?"
                      role="button"
                      data-toggle="dropdown">
-                    <i className="fas fa-globe"/> Muuda keelt
+                    <i className="fas fa-globe"/> {this.props.t("change_lang")}
                   </a>
                   <div className="dropdown-menu">
                     <a className="dropdown-item"
-                       href="#"
+                       href="/tools/wordanalyser"
                        onClick={() => {
-                         i18n.changeLanguage('et');
+                         changeLanguage('et');
                        }}>
                       <img src={require('./resources/flags/est.png').default}
                            alt='EST'/> EST
                     </a>
                     <a className="dropdown-item"
-                       href="#"
+                       href="/tools/wordanalyser"
                        onClick={() => {
-                         i18n.changeLanguage('en');
+                         changeLanguage('en');
                        }}>
                       <img src={require('./resources/flags/eng.png').default}
                            alt='ENG'/> ENG
@@ -146,6 +146,11 @@ const mapStateToProps = state => ({
   status: selectStatus()(state)
 });
 
+function changeLanguage(lang) {
+  localStorage.setItem("language", lang);
+  window.location.reload();
+}
+
 const mapDispatchToProps = {getStatusIfNeeded};
 
-export default connectedComponent(withRouter(Nav), mapStateToProps, mapDispatchToProps);
+export default connectedComponent(withRouter(withTranslation()(Nav)), mapStateToProps, mapDispatchToProps);

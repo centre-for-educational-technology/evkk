@@ -1,5 +1,6 @@
 export const TRANSLATIONS_EN = {
   analyse_button: "Analyse",
+  change_lang: "Change language",
   common_download: "Download",
   common_excel_sheet_name: "Table",
   common_form: "Form",

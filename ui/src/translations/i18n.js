@@ -14,7 +14,6 @@ i18n
       et: {
         translation: TRANSLATIONS_ET
       }
-    }
+    },
+    lng: localStorage.getItem('language') || 'et'
   });
-
-i18n.changeLanguage("et");
