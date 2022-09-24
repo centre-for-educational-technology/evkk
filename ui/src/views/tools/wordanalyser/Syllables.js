@@ -73,24 +73,29 @@ function Syllables({onAnalyse, onSyllableSelect}) {
     const [formatedList, setFormatedList] = useState([]);
 
     function formating() {
-        let output = (formatedSyllables.map((row) => {
-            return {
-                "silp": <span className="word" onClick={(e) => onSyllableSelect(e.target.textContent)}>{row[0]}</span>,
-                "algus": row[1], "keskel": row[2], "lõpp": row[3], "sagedus": row[1] + row[2] + row[3], "osakaal": ((row[1] + row[2] + row[3])*100 / syllables.length).toFixed(2)
-            }
-        }))
-
-        for (let i = 0; i < output.length; i++) {
-            if (!output[i].algus) {
-              delete output[i].algus;
-            }
-            if (output[i].keskel === 0) {
-              delete output[i].keskel;
-            }
-            if (output[i]["lõpp"] === 0) {
-              delete output[i]["lõpp"];
-            }
+      let output = (formatedSyllables.map((row) => {
+        return {
+          "silp": <span className="word"
+                        onClick={(e) => onSyllableSelect(e.target.textContent)}>{row[0]}</span>,
+          "algus": row[1],
+          "keskel": row[2],
+          "lõpp": row[3],
+          "sagedus": row[1] + row[2] + row[3],
+          "osakaal": ((row[1] + row[2] + row[3]) * 100 / syllables.length).toFixed(2)
         }
+      }))
+
+      for (const element of output) {
+        if (!element.algus) {
+          delete element.algus;
+        }
+        if (element.keskel === 0) {
+          delete element.keskel;
+        }
+        if (element["lõpp"] === 0) {
+          delete element["lõpp"];
+        }
+      }
       setFormatedList(output);
     }
 
@@ -125,16 +130,15 @@ function Syllables({onAnalyse, onSyllableSelect}) {
         id: 'sagedus'
       },
       {
-        Header: 'Osakaal (%)',
+        Header: t("common_header_percentage"),
         accessor: 'osakaal',
       }
     ]
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const columns = useMemo(() => COLUMNS, []);
-  const tableData = formatedList;
   const tableInstance = useTable({
     columns: columns,
-    data: tableData,
+    data: formatedList,
     initialState: {
       sortBy: [
         {

@@ -136,7 +136,7 @@ function WordAnalyser() {
   const createIds = (words) => {
     let data = [];
     for (const element of words) {
-      let id = uuidv4();
+      let id = uuidv4(element);
       data.push(id);
     }
     return data;
@@ -234,7 +234,7 @@ function WordAnalyser() {
       let analysedWord = analysedInput.words[i];
       let analysedSillable = analysedInput.syllables[i];
       let id = analysedInput.ids[i];
-      if (analysedWord.indexOf(syllable) >= 0 && syllable == analysedSillable || analysedSillable.endsWith("-"+syllable) || analysedSillable.startsWith(syllable+"-") || analysedSillable.includes("-"+syllable+"-")) {
+      if (analysedWord.indexOf(syllable) >= 0 && (syllable === analysedSillable || analysedSillable.endsWith("-" + syllable) || analysedSillable.startsWith(syllable + "-") || analysedSillable.includes("-" + syllable + "-"))) {
         content.push(id);
       }
     }
