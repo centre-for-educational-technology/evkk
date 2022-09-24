@@ -119,6 +119,7 @@ function Syllables({onAnalyse, onSyllableSelect}) {
       {
         Header: 'Sagedus',
         accessor: 'sagedus',
+        id: 'sagedus'
       },
       {
         Header: 'Osakaal (%)',
@@ -130,7 +131,15 @@ function Syllables({onAnalyse, onSyllableSelect}) {
   const tableData = formatedList;
   const tableInstance = useTable({
     columns: columns,
-    data: tableData
+    data: tableData,
+    initialState: {
+      sortBy: [
+        {
+          id: 'sagedus',
+          desc: true
+        }
+      ]
+    }
   }, useSortBy, usePagination);
 
   const {
