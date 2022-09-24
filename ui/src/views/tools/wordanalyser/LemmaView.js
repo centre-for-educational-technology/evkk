@@ -26,7 +26,14 @@ function Table({columns, data}) {
   } =
     useTable({
       columns,
-      data,
+      data, initialState: {
+          sortBy: [
+            {
+              id: 'sagedus',
+              desc: true
+            }
+          ]
+        }
     }, useSortBy, usePagination,
     );
 
@@ -207,6 +214,7 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
         },
         {
           Header: t("common_header_frequency"),
+          id: 'sagedus',
           accessor: 'col3',
           width: 300,
         },

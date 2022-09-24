@@ -232,8 +232,9 @@ function WordAnalyser() {
     let content = [];
     for (let i = 0; i < analysedInput.words.length; i++) {
       let analysedWord = analysedInput.words[i];
+      let analysedSillable = analysedInput.syllables[i];
       let id = analysedInput.ids[i];
-      if (analysedWord.indexOf(syllable) >= 0) {
+      if (analysedWord.indexOf(syllable) >= 0 && syllable == analysedSillable || analysedSillable.endsWith("-"+syllable) || analysedSillable.startsWith(syllable+"-") || analysedSillable.includes("-"+syllable+"-")) {
         content.push(id);
       }
     }

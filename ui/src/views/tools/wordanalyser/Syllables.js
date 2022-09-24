@@ -76,7 +76,7 @@ function Syllables({onAnalyse, onSyllableSelect}) {
         let output = (formatedSyllables.map((row) => {
             return {
                 "silp": <span className="word" onClick={(e) => onSyllableSelect(e.target.textContent)}>{row[0]}</span>,
-                "algus": row[1], "keskel": row[2], "lõpp": row[3], "sagedus": row[1] + row[2] + row[3]
+                "algus": row[1], "keskel": row[2], "lõpp": row[3], "sagedus": row[1] + row[2] + row[3], "osakaal": ((row[1] + row[2] + row[3])*100 / syllables.length).toFixed(2)
             }
         }))
 
@@ -122,6 +122,11 @@ function Syllables({onAnalyse, onSyllableSelect}) {
       {
         Header: t("common_header_frequency"),
         accessor: 'sagedus',
+        id: 'sagedus'
+      },
+      {
+        Header: 'Osakaal (%)',
+        accessor: 'osakaal',
       }
     ]
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -129,7 +134,15 @@ function Syllables({onAnalyse, onSyllableSelect}) {
   const tableData = formatedList;
   const tableInstance = useTable({
     columns: columns,
-    data: tableData
+    data: tableData,
+    initialState: {
+      sortBy: [
+        {
+          id: 'sagedus',
+          desc: true
+        }
+      ]
+    }
   }, useSortBy, usePagination);
 
   const {

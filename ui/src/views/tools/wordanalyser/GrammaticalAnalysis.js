@@ -361,6 +361,7 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
       },
       {
         Header: t("common_header_frequency"),
+        id: 'sagedus',
         accessor: 'col3', // accessor is the "key" in the data
         width: 300,
         disableFilters: true,
@@ -407,7 +408,14 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
     previousPage,
     setPageSize,
     state: {pageIndex, pageSize},
-  } = useTable({columns, data, initialState: {pageIndex: 0}}, useFilters, useSortBy, usePagination);
+  } = useTable({columns, data, initialState: {
+      sortBy: [
+        {
+          id: 'sagedus',
+          desc: true
+        }
+      ]
+    }}, useFilters, useSortBy, usePagination);
 
   return (
     <Fragment>
