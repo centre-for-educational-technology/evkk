@@ -119,6 +119,7 @@ function Syllables({onAnalyse, onSyllableSelect}) {
       {
         Header: 'Sagedus',
         accessor: 'sagedus',
+        id: 'sagedus'
       }
     ]
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -126,7 +127,15 @@ function Syllables({onAnalyse, onSyllableSelect}) {
   const tableData = formatedList;
   const tableInstance = useTable({
     columns: columns,
-    data: tableData
+    data: tableData,
+    initialState: {
+      sortBy: [
+        {
+          id: 'sagedus',
+          desc: true
+        }
+      ]
+    }
   }, useSortBy, usePagination);
 
   const {
