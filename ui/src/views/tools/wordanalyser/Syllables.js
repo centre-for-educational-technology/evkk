@@ -6,7 +6,7 @@ import TablePagination from "./TablePagination";
 function Syllables({onAnalyse, onSyllableSelect}) {
   const data = onAnalyse.syllables;
   const len = data.length;
-  const words = onAnalyse.words
+  const words = onAnalyse.words;
   let baseSyllables = [];
   let syllables = [];
 
@@ -53,8 +53,9 @@ function Syllables({onAnalyse, onSyllableSelect}) {
           }
 
           for(var j = 0; j < data.length; ++j){
-            if(data[j] === syllables[i][2])
+            if(data[j] === syllables[i][2]){
               count++;
+            }
           }
 
           if (!syllableList[0].includes(syllables[i][2])){
@@ -70,8 +71,9 @@ function Syllables({onAnalyse, onSyllableSelect}) {
                   if (!syllableList[0].includes(syllables[i+1][2])){
                     syllableList[0].push(syllables[i+1][2]);
                     for(var j = 0; j < data.length; ++j){
-                      if(data[j] === syllables[i+1][2])
+                      if(data[j] === syllables[i+1][2]){
                         count++;
+                      }
                     }
                     syllableList[1].push(count);
                   }
