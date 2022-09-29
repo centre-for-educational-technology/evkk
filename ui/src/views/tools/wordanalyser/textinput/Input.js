@@ -54,9 +54,14 @@ export const Input = ({onInsert, onAnalyse, onMarkWords, onWordSelect, onWordInf
       {showAnalyseBtn ?
         <form>
           <label className="textInputContainer">
-            <textarea className='textInput' name='textInput' value={input} onChange={(e) => setInput(e.target.value)}/>
+            <textarea spellCheck="false"
+                      className='textInput'
+                      name='textInput'
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}/>
           </label>
-          <Button variant="contained" onClick={onSubmit}>Analüüsi</Button>
+          <Button variant="contained"
+                  onClick={onSubmit}>Analüüsi</Button>
           {showAlert && <span><br/><br/><Alert severity="warning">Analüüsimiseks sisesta esmalt tekst!</Alert></span>}
         </form>
         :

@@ -58,15 +58,7 @@ function WordAnalyser() {
       body: JSON.stringify({tekst: input}),
     });
 
-    const data = await response.json();
-    let newData = [];
-    for (let i = 0; i < data.length; i++) {
-      if (data[i]) {
-        let item = data[i].replace(/['*_=]+/g, '');
-        newData.push(item);
-      }
-    }
-    return newData;
+    return await response.json();
   }
 
   //get sentences
@@ -143,13 +135,47 @@ function WordAnalyser() {
 
   //analyse text
   const analyseInput = async (input) => {
-    const analysedSentences = await getSentences(input);
-    const analysedWordsOrig = await getWords(input);
-    const analysedLemmas = await getLemmas(input);
-    const analysedSyllables = await getSyllables(input);
-    const analysedWordTypes = await getWordTypes(input);
-    const analysedWordForms = await getWordForm(input);
+    const wordsAndLemmas = await Promise.all([getLemmas(input), getWords(input)]);
+    const rawLemmas = wordsAndLemmas[0];
+    const analysedWordsOrig = wordsAndLemmas[1];
+
+    const beautifiedLemmas = [];
+    let syllableReadyWords = '';
+    for (const element of rawLemmas) {
+      if (element) {
+        beautifiedLemmas.push(element.replace(/['*_=]+/g, ''));
+      }
+    }
+
+    for (let i = 0; i < rawLemmas.length; i++) {
+      let word = analysedWordsOrig[i];
+      // remove "–" symbols before syllabifying, otherwise it crashes
+      // replace "_" with "-" because syllabifier doesn't recognize compound words and stanza puts "_" symbol between compound words (when lemmatizing), so the problem can be fixed with this little hack
+      if (rawLemmas[i].includes('_')) {
+        let index = rawLemmas[i].indexOf('_');
+        syllableReadyWords += [word.slice(0, index), '-', word.slice(index)].join('').replaceAll("–", "") + " ";
+      } else {
+        syllableReadyWords += word + " ";
+      }
+    }
+
+    const results = await Promise.all([getSyllables(syllableReadyWords), getSentences(input), getWordTypes(input), getWordForm(input)]);
+    let analysedSyllables = results[0];
+    const analysedSentences = results[1];
+    const analysedWordTypes = results[2];
+    const analysedWordForms = results[3];
     const createdIds = createIds(analysedWordsOrig);
+
+    for (let i = 0; i < analysedSyllables.length; i++) {
+      let word = analysedSyllables[i];
+      if (word.charAt(0) === '-') {
+        analysedSyllables[i] = word.slice(1);
+        word = analysedSyllables[i];
+      }
+      if (word.charAt(word.length - 1) === '-') {
+        analysedSyllables[i] = word.slice(0, word.length - 1);
+      }
+    }
 
     let analysedWordsLowerCase = [...analysedWordsOrig];
     for (let i = 0; i < analysedWordsLowerCase.length; i++) {
@@ -173,7 +199,7 @@ function WordAnalyser() {
       sentences: analysedSentences,
       wordsOrig: analysedWordsOrig,
       words: analysedWordsLowerCase,
-      lemmas: analysedLemmas,
+      lemmas: beautifiedLemmas,
       syllables: analysedSyllablesLowerCase,
       wordtypes: analysedWordTypes,
       wordforms: analysedWordForms
@@ -228,7 +254,6 @@ function WordAnalyser() {
     showInfo(firstSelectedId);
   }
 
-  //praegu otsib ainult kas sõna sisaldaba seda täheühendit, aga peaks looma eraldi massiivi, kui sõna ja tema sibid massiivis
   const showSyllable = (syllable) => {
     let content = [];
     for (let i = 0; i < analysedInput.words.length; i++) {
