@@ -104,13 +104,13 @@ function Syllables({onAnalyse, onSyllableSelect}) {
           const syllableWords = () => {for (let i = 0; i < row[4][0].length; i++) {
             if (i === row[4][0].length - 1) {
               sonadTekstisOutput += " " + row[4][0][i] + "&nbsp;" + "(" + row[4][1][i] + ")";
-            } else if( i === 0) {
+            } else if (i === 0) {
               sonadTekstisOutput += row[4][0][i] + "&nbsp;" + "(" + row[4][1][i] + "),";
             } else {
               sonadTekstisOutput += " " + row[4][0][i] + "&nbsp;" + "(" + row[4][1][i] + "),";
             }
           }
-            sonadTekstisOutput = sonadTekstisOutput.replaceAll("-", "&#8209;");
+            sonadTekstisOutput = sonadTekstisOutput.charAt(0) === ' ' ? sonadTekstisOutput.slice(1) : sonadTekstisOutput;
             return (<span style={{whiteSpace: "break-spaces"}} dangerouslySetInnerHTML={{__html: sonadTekstisOutput}}></span>);
           }
 
