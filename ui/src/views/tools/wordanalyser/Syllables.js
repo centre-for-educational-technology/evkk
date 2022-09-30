@@ -8,6 +8,7 @@ import "../../../translations/i18n";
 function Syllables({onAnalyse, onSyllableSelect}) {
   const data = onAnalyse.syllables;
   const len = data.length;
+  const words = onAnalyse.words;
   const {t} = useTranslation();
   let baseSyllables = [];
   let syllables = [];
@@ -24,13 +25,13 @@ function Syllables({onAnalyse, onSyllableSelect}) {
         let tempSyllables = [];
                 if (y === 0) {
                   let syllableLocation = "algus";
-                  tempSyllables.push(baseSyllables[i][y], syllableLocation);
+                  tempSyllables.push(baseSyllables[i][y], syllableLocation, data[i], words[i]);
                 } else if (y === baseSyllables[i].length - 1) {
                   let syllableLocation = "lõpp";
-                  tempSyllables.push(baseSyllables[i][y], syllableLocation);
+                  tempSyllables.push(baseSyllables[i][y], syllableLocation, data[i], words[i]);
                 } else {
                   let syllableLocation = "keskmine";
-                  tempSyllables.push(baseSyllables[i][y], syllableLocation);
+                  tempSyllables.push(baseSyllables[i][y], syllableLocation, data[i], words[i]);
                 }
         syllables.push(tempSyllables);
             }
@@ -42,6 +43,8 @@ function Syllables({onAnalyse, onSyllableSelect}) {
     function findDuplicates() {
         for (let i = 0; i < syllables.length; i++) {
           let tempList = [];
+          let syllableList = [[],[]];
+          let count = 0;
           let listCounter = [0, 0, 0];
 
           if (syllables[i][1] === 'algus') {
@@ -52,9 +55,32 @@ function Syllables({onAnalyse, onSyllableSelect}) {
             listCounter[2] = listCounter[2] + 1;
           }
 
+          for(var j = 0; j < data.length; ++j){
+            if(data[j] === syllables[i][2]){
+              count++;
+            }
+          }
+
+          if (!syllableList[0].includes(syllables[i][2])){
+            syllableList[0].push(syllables[i][2]);
+            syllableList[1].push(count);
+          }
+
           tempList.push(syllables[i][0]);
             if (syllables[i][0] === syllables?.[i + 1]?.[0]) {
-                while (syllables[i][0] === syllables?.[i + 1]?.[0]) {
+
+              while (syllables[i][0] === syllables?.[i + 1]?.[0]) {
+                count = 0;
+                  if (!syllableList[0].includes(syllables[i+1][2])){
+                    syllableList[0].push(syllables[i+1][2]);
+                    for(var j = 0; j < data.length; ++j){
+                      if(data[j] === syllables[i+1][2]){
+                        count++;
+                      }
+                    }
+                    syllableList[1].push(count);
+                  }
+
                   if (syllables[i + 1][1] === 'algus') {
                     listCounter[0] = listCounter[0] + 1;
                   } else if (syllables[i + 1][1] === 'keskmine') {
@@ -65,7 +91,7 @@ function Syllables({onAnalyse, onSyllableSelect}) {
                   i++;
                 }
             }
-          tempList.push(listCounter[0], listCounter[1], listCounter[2]);
+          tempList.push(listCounter[0], listCounter[1], listCounter[2], syllableList);
           formatedSyllables.push(tempList);
         }
     }
@@ -73,17 +99,28 @@ function Syllables({onAnalyse, onSyllableSelect}) {
     const [formatedList, setFormatedList] = useState([]);
 
     function formating() {
-      let output = (formatedSyllables.map((row) => {
-        return {
-          "silp": <span className="word"
-                        onClick={(e) => onSyllableSelect(e.target.textContent)}>{row[0]}</span>,
-          "algus": row[1],
-          "keskel": row[2],
-          "lõpp": row[3],
-          "sagedus": row[1] + row[2] + row[3],
-          "osakaal": ((row[1] + row[2] + row[3]) * 100 / syllables.length).toFixed(2)
-        }
-      }))
+        let output = (formatedSyllables.map((row) => {
+          let sonadTekstisOutput = "";
+          const syllableWords = () => {for (let i = 0; i < row[4][0].length; i++) {
+            if (i === row[4][0].length - 1) {
+              sonadTekstisOutput += " " + row[4][0][i] + "&nbsp;" + "(" + row[4][1][i] + ")";
+            } else if( i === 0) {
+              sonadTekstisOutput += row[4][0][i] + "&nbsp;" + "(" + row[4][1][i] + "),";
+            } else {
+              sonadTekstisOutput += " " + row[4][0][i] + "&nbsp;" + "(" + row[4][1][i] + "),";
+            }
+          }
+            sonadTekstisOutput = sonadTekstisOutput.replaceAll("-", "&#8209;");
+            return (<span style={{whiteSpace: "break-spaces"}} dangerouslySetInnerHTML={{__html: sonadTekstisOutput}}></span>);
+          }
+
+            return {
+                "silp": <span className="word" onClick={(e) => onSyllableSelect(e.target.textContent)}>{row[0]}</span>,
+                "algus": row[1], "keskel": row[2], "lõpp": row[3], "sagedus": row[1] + row[2] + row[3],
+                "sonadtekstis": syllableWords(),
+                "osakaal": ((row[1] + row[2] + row[3]) * 100 / syllables.length).toFixed(2),
+            }
+        }))
 
       for (const element of output) {
         if (!element.algus) {
@@ -105,6 +142,7 @@ function Syllables({onAnalyse, onSyllableSelect}) {
         Header: t("syllables_header_syllable"),
         accessor: 'silp',
         disableSortBy: true,
+        width: 200,
       },
       {
         Header: t("syllables_header_location"),
@@ -123,7 +161,14 @@ function Syllables({onAnalyse, onSyllableSelect}) {
               return display;
             },
           disableSortBy: true,
+          width: 400
         },
+      {
+        Header: 'Sõnad tekstis',
+        accessor: 'sonadtekstis',
+        width: 700,
+        disableSortBy: true
+      },
       {
         Header: t("common_header_frequency"),
         accessor: 'sagedus',
@@ -181,7 +226,8 @@ function Syllables({onAnalyse, onSyllableSelect}) {
             // eslint-disable-next-line react-hooks/exhaustive-deps
             }, [])}
 
-      <table className="analyserTable" {...getTableProps()}>
+      <table className="analyserTable" {...getTableProps()}
+             style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>
         <thead>
         {headerGroups.map((headerGroup) => (
           <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
@@ -208,7 +254,7 @@ function Syllables({onAnalyse, onSyllableSelect}) {
                               <tr className="tableRow" {...row.getRowProps()}>
                                 {
                                   row.cells.map(cell => {
-                                    return <td className="tableData" {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                    return <td className="tableData" {...cell.getCellProps()} style={{padding: '10px', width: cell.column.width,}}>{cell.render('Cell')}</td>
                                   })
                                 }
                               </tr>
