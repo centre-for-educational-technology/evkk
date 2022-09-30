@@ -14,7 +14,6 @@ import i18n from "i18next";
 
 function WordAnalyser() {
   const [showResults, setShowResults] = useState(false);
-  const [textTooLong, setTextTooLong] = useState(false);
   const [analysedInput, setAnalysedInput] = useState({
     ids: [''],
     text: '',
@@ -179,9 +178,6 @@ function WordAnalyser() {
     }
 
     setShowResults(true);
-    if (inputObj.ids.length > 1000) {
-      setTextTooLong(true);
-    }
     setAnalysedInput(inputObj);
   }
 
@@ -244,7 +240,7 @@ function WordAnalyser() {
       word: "–",
       lemma: "–",
       syllables: syllable,
-      type:"–",
+      type: "–",
       form: "–",
     }
     setWordInfo(wordInfoObj);
@@ -360,12 +356,11 @@ function WordAnalyser() {
     };
     setAnalysedInput(newInputObj);
     setShowResults(false);
-    setTextTooLong(false);
   }
 
   //tabs
   function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+    const {children, value, index, ...other} = props;
 
     return (
       <div
@@ -376,7 +371,7 @@ function WordAnalyser() {
         {...other}
       >
         {value === index && (
-          <Box sx={{ p: 3 }}>
+          <Box sx={{p: 3}}>
             <Typography component={`span`}>{children}</Typography>
           </Box>
         )}
@@ -398,55 +393,76 @@ function WordAnalyser() {
   };
 
   return (
-    <Box component='section' className="container">
-      <Grid container columnSpacing={{ xs: 0, md: 4 }}>
-        <Grid item xs={12} md={12}>
-          <TextUpload sendTextFromFile={sendTextFromFile} />
+    <Box component='section'
+         className="container">
+      <Grid container
+            columnSpacing={{xs: 0, md: 4}}>
+        <Grid item
+              xs={12}
+              md={12}>
+          <TextUpload sendTextFromFile={sendTextFromFile}/>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Input textFromFile={textFromFile} onInsert={analyseInput} onAnalyse={analysedInput} onMarkWords={selectedWords} onWordSelect={showThisWord} onWordInfo={showInfo} onReset={resetAnalyser}/>
+        <Grid item
+              xs={12}
+              md={6}>
+          <Input textFromFile={textFromFile}
+                 onInsert={analyseInput}
+                 onAnalyse={analysedInput}
+                 onMarkWords={selectedWords}
+                 onWordSelect={showThisWord}
+                 onWordInfo={showInfo}
+                 onReset={resetAnalyser}/>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item
+              xs={12}
+              md={6}>
           {showResults ?
-          <WordInfo onWordInfo={wordInfo} /> :
+            <WordInfo onWordInfo={wordInfo}/> :
             <Alert severity="info">
               {t("infobox_first")}<br/>
               {t("infobox_second")}
             </Alert>}
         </Grid>
-        {showResults && textTooLong &&
-          <Grid item xs={12} md={12}>
-            <Alert severity="warning">{t("error_text_too_long")}</Alert>
+        {showResults &&
+          <Grid item
+                xs={12}
+                md={12}>
+            <h2>{t("text_analysis")}</h2>
+            <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+              <Tabs value={value}
+                    onChange={handleChange}
+                    aria-label="basic tabs example">
+                <Tab label={t("common_syllables")} {...a11yProps(0)} />
+                <Tab label={t("common_lemmas")} {...a11yProps(1)} />
+                <Tab label={t("tab_gram_anal")} {...a11yProps(2)} />
+              </Tabs>
+            </Box>
+            <TabPanel value={value}
+                      index={0}>
+              <div>
+                {(analysedInput.syllables.length > 1 || analysedInput.syllables[0] !== "") &&
+                  <Syllables onAnalyse={analysedInput}
+                             onSyllableSelect={showSyllable}/>}
+              </div>
+            </TabPanel>
+            <TabPanel value={value}
+                      index={1}>
+              <div>
+                <LemmaView onAnalyse={analysedInput}
+                           onLemmaSelect={showLemma}
+                           onWordSelect={showWord}/>
+              </div>
+            </TabPanel>
+            <TabPanel value={value}
+                      index={2}>
+              <div>
+                <GrammaticalAnalysis onTypeSelect={showType}
+                                     onFormSelect={showForm}
+                                     onWordSelect={showWord}
+                                     onAnalyse={analysedInput}/>
+              </div>
+            </TabPanel>
           </Grid>
-        }
-        {showResults && !textTooLong &&
-        <Grid item xs={12}  md={12}>
-          <h2>{t("text_analysis")}</h2>
-          <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
-            <Tabs value={value}
-                  onChange={handleChange}
-                  aria-label="basic tabs example">
-              <Tab label={t("common_syllables")} {...a11yProps(0)} />
-              <Tab label={t("common_lemmas")} {...a11yProps(1)} />
-              <Tab label={t("tab_gram_anal")} {...a11yProps(2)} />
-            </Tabs>
-          </Box>
-          <TabPanel value={value} index={0}>
-            <div>
-              {(analysedInput.syllables.length > 1 || analysedInput.syllables[0] !== "") && <Syllables onAnalyse={analysedInput} onSyllableSelect={showSyllable} />}
-            </div>
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <div>
-              <LemmaView onAnalyse={analysedInput} onLemmaSelect={showLemma} onWordSelect={showWord} />
-            </div>
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            <div>
-              <GrammaticalAnalysis onTypeSelect={showType} onFormSelect={showForm} onWordSelect={showWord} onAnalyse={analysedInput} />
-            </div>
-          </TabPanel>
-        </Grid>
         }
       </Grid>
     </Box>
