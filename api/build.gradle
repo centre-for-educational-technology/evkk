@@ -16,10 +16,6 @@ dependencies {
   // Redis
   implementation "io.lettuce:lettuce-core"
 
-  // Lombok
-  compileOnly "org.projectlombok:lombok:1.18.12"
-  annotationProcessor "org.projectlombok:lombok:1.18.12"
-
   // Other
   implementation 'org.apache.tika:tika-core:2.2.1'
   implementation 'org.apache.tika:tika-parser-miscoffice-module:2.2.1'
