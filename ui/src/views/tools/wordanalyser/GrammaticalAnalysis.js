@@ -285,7 +285,7 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
                        value="col1"/>
           <ExcelColumn label={t("common_form")}
                        value="colvorm"/>
-          <ExcelColumn label={t("gram_anal_words_in_text")}
+          <ExcelColumn label={t("common_words_in_text")}
                        value={(col) => col.col2[2]}/>
           <ExcelColumn label={t("common_header_frequency")}
                        value="col3"/>
@@ -335,7 +335,7 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
         filter: MultipleFilter2
       },
       {
-        Header: t("gram_anal_words_in_text"),
+        Header: t("common_words_in_text"),
         accessor: 'col2',
         Cell: (props) => {
           const items = props.value
@@ -380,7 +380,7 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
   const tableHeaders = [
     {label: t("common_wordtype"), key: "col1"},
     {label: t("common_form"), key: "colvorm"},
-    {label: t("gram_anal_words_in_text"), key: "col2"},
+    {label: t("common_words_in_text"), key: "col2"},
     {label: t("common_header_frequency"), key: "col3"},
     {label: t("common_header_percentage"), key: "col4"},
   ]

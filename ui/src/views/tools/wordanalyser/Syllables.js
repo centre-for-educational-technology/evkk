@@ -55,13 +55,13 @@ function Syllables({onAnalyse, onSyllableSelect}) {
             listCounter[2] = listCounter[2] + 1;
           }
 
-          for(var j = 0; j < data.length; ++j){
-            if(data[j] === syllables[i][2]){
+          for (const element of data) {
+            if (element === syllables[i][2]) {
               count++;
             }
           }
 
-          if (!syllableList[0].includes(syllables[i][2])){
+          if (!syllableList[0].includes(syllables[i][2])) {
             syllableList[0].push(syllables[i][2]);
             syllableList[1].push(count);
           }
@@ -71,10 +71,10 @@ function Syllables({onAnalyse, onSyllableSelect}) {
 
               while (syllables[i][0] === syllables?.[i + 1]?.[0]) {
                 count = 0;
-                  if (!syllableList[0].includes(syllables[i+1][2])){
-                    syllableList[0].push(syllables[i+1][2]);
-                    for(var j = 0; j < data.length; ++j){
-                      if(data[j] === syllables[i+1][2]){
+                  if (!syllableList[0].includes(syllables[i+1][2])) {
+                    syllableList[0].push(syllables[i + 1][2]);
+                    for (const element of data) {
+                      if (element === syllables[i + 1][2]) {
                         count++;
                       }
                     }
@@ -164,7 +164,7 @@ function Syllables({onAnalyse, onSyllableSelect}) {
           width: 400
         },
       {
-        Header: 'Sõnad tekstis',
+        Header: t("common_words_in_text"),
         accessor: 'sonadtekstis',
         width: 700,
         disableSortBy: true
