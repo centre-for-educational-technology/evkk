@@ -99,28 +99,31 @@ function Syllables({onAnalyse, onSyllableSelect}) {
     const [formatedList, setFormatedList] = useState([]);
 
     function formating() {
-        let output = (formatedSyllables.map((row) => {
+        let output = formatedSyllables.map((row) => {
           let sonadTekstisOutput = "";
-          const syllableWords = () => {for (let i = 0; i < row[4][0].length; i++) {
-            if (i === row[4][0].length - 1) {
-              sonadTekstisOutput += " " + row[4][0][i] + "&nbsp;" + "(" + row[4][1][i] + ")";
-            } else if (i === 0) {
-              sonadTekstisOutput += row[4][0][i] + "&nbsp;" + "(" + row[4][1][i] + "),";
-            } else {
-              sonadTekstisOutput += " " + row[4][0][i] + "&nbsp;" + "(" + row[4][1][i] + "),";
+          const syllableWords = () => {
+            for (let i = 0; i < row[4][0].length; i++) {
+              if (i === row[4][0].length - 1) {
+                sonadTekstisOutput += ` ${row[4][0][i]}&nbsp;(${row[4][1][i]})`;
+              } else if (i === 0) {
+                sonadTekstisOutput += `${row[4][0][i]}&nbsp;(${row[4][1][i]}),`;
+              } else {
+                sonadTekstisOutput += ` ${row[4][0][i]}&nbsp;(${row[4][1][i]}),`;
+              }
             }
-          }
             sonadTekstisOutput = sonadTekstisOutput.charAt(0) === ' ' ? sonadTekstisOutput.slice(1) : sonadTekstisOutput;
-            return (<span style={{whiteSpace: "break-spaces"}} dangerouslySetInnerHTML={{__html: sonadTekstisOutput}}></span>);
+            return <span style={{whiteSpace: "break-spaces"}}
+                         dangerouslySetInnerHTML={{__html: sonadTekstisOutput}}></span>;
           }
 
-            return {
-                "silp": <span className="word" onClick={(e) => onSyllableSelect(e.target.textContent)}>{row[0]}</span>,
-                "algus": row[1], "keskel": row[2], "lõpp": row[3], "sagedus": row[1] + row[2] + row[3],
-                "sonadtekstis": syllableWords(),
-                "osakaal": ((row[1] + row[2] + row[3]) * 100 / syllables.length).toFixed(2),
-            }
-        }))
+          return {
+            "silp": <span className="word"
+                          onClick={(e) => onSyllableSelect(e.target.textContent)}>{row[0]}</span>,
+            "algus": row[1], "keskel": row[2], "lõpp": row[3], "sagedus": row[1] + row[2] + row[3],
+            "sonadtekstis": syllableWords(),
+            "osakaal": ((row[1] + row[2] + row[3]) * 100 / syllables.length).toFixed(2),
+          }
+        })
 
       for (const element of output) {
         if (!element.algus) {
