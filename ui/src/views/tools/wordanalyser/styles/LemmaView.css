@@ -10,23 +10,13 @@
     font-size: large;
 }
 
-.tableHead.hover:nth-child(1):hover {
+
+.tableHeader:hover {
   cursor: auto;
 }
 
-.tableHead.hover:nth-child(2):hover {
-  cursor: auto;
-}
 
-.tableHead.hover:nth-child(3):hover {
-  cursor: pointer !important;
-}
-
-.tableHead:nth-child(1) > .sort {
-  display: none;
-}
-
-.tableHead:nth-child(2) > .sort {
+.tableHeader:nth-child(2) > .sort {
   display: none;
 }
 

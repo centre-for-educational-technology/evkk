@@ -140,7 +140,6 @@ function Syllables({onAnalyse, onSyllableSelect}) {
         {
             Header: 'Silp',
             accessor: 'silp',
-            disableSortBy: true,
             width: 200,
         },
         {
@@ -166,16 +165,19 @@ function Syllables({onAnalyse, onSyllableSelect}) {
         Header: 'Sõnad tekstis',
         accessor: 'sonadtekstis',
         width: 700,
-        disableSortBy: true
+        disableSortBy: true,
+        sortable: false
       },
       {
         Header: 'Sagedus',
         accessor: 'sagedus',
-        id: 'sagedus'
+        id: 'sagedus',
+        width: 300
       },
       {
         Header: 'Osakaal (%)',
         accessor: 'osakaal',
+        width: 300
       }
     ]
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -232,13 +234,13 @@ function Syllables({onAnalyse, onSyllableSelect}) {
         {headerGroups.map((headerGroup) => (
           <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
-              <th {...column.getHeaderProps(column.getSortByToggleProps())}
+              <th
                   style={{
                     borderBottom: "1px solid",
                     color: "black",
                     fontWeight: "bold"
-                  }} className="tableHead headerbox">{column.render('Header')}
-                <span className="sort">
+                  }} className="tableHdr headerbox">{column.render('Header')}
+                <span className="sort" {...column.getHeaderProps(column.getSortByToggleProps())}>
                                         {column.isSorted ? (column.isSortedDesc ? ' ▼' : ' ▲') : ' ▼▲'}
                                     </span>
               </th>

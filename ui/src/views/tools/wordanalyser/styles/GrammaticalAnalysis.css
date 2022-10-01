@@ -7,10 +7,6 @@
     background-color: white;
 }
 
-.tableHead:hover {
-  cursor: pointer;
-}
-
 .buttongroup{
     width: 40%;
 }
@@ -39,24 +35,8 @@
   padding-left: 10px;
 }
 
-.tableHead:nth-child(1):hover {
+.tableHead:hover {
   cursor: auto;
-}
-
-.tableHead:nth-child(2):hover {
-  cursor: auto;
-}
-
-.tableHead:nth-child(3):hover {
-  cursor: auto;
-}
-
-.tableHead:nth-child(1) > .sortIcon {
-  display: none;
-}
-
-.tableHead:nth-child(2) > .sortIcon {
-  display: none;
 }
 
 .tableHead:nth-child(3) > .sortIcon {
