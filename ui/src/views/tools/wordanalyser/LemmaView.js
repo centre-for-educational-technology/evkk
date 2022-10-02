@@ -53,17 +53,15 @@ function Table({columns, data}) {
         {headerGroups.map((headerGroup) => (
           <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
-              <th
-                {...column.getHeaderProps(column.getSortByToggleProps())}
+              <th className="tableHeader"
                 style={{
                   borderBottom: 'solid 1px',
                   color: 'black',
                   fontWeight: 'bold'
                 }}
-                className="tableHead hover"
               >
                 {column.render('Header')}
-                <span className="sort">
+                <span className="sort" {...column.getHeaderProps(column.getSortByToggleProps())}>
                 {column.isSorted
                   ? column.isSortedDesc
                     ? ' ▼'
@@ -141,6 +139,7 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
         }
       }
     }
+    sonaList = new Map([...sonaList.entries()].sort());
   }
 
   sonuKasutuses();
@@ -186,15 +185,11 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
         {
           Header: t("common_lemma"),
           accessor: 'col1',
-          disableSortBy: true,
-          sortable: false,
           width: 400,
         },
         {
           Header: t("lemmas_header_wordforms"),
           accessor: 'col2',
-          disableSortBy: true,
-          sortable: false,
           width: 700,
           Cell: (props) => {
             const items = props.value

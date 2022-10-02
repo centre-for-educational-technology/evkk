@@ -312,8 +312,6 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
         },
         className: 'user',
         width: 400,
-        disableSortBy: true,
-        sortable: false,
         Filter: LongMenu,
         filter: MultipleFilter
       },
@@ -329,8 +327,6 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
         },
         width: 400,
         className: 'colvorm',
-        disableSortBy: true,
-        sortable: false,
         Filter: LongMenu,
         filter: MultipleFilter2
       },
@@ -461,7 +457,7 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
             {headerGroup.headers.map(column => (
               <th
                 className='tableHead'
-                {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}
+
                 style={{
                   borderBottom: 'solid 1px',
                   color: 'black',
@@ -469,7 +465,7 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
                 }}
               >
                   {<span>{column.render('Header')} {column.canFilter ? column.render("Filter") : null}</span>}
-                  <span className='sortIcon'>
+                  <span className='sortIcon' {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>
                     {column.isSorted
                       ? column.isSortedDesc
                         ? ' ▼'

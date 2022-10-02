@@ -144,7 +144,6 @@ function Syllables({onAnalyse, onSyllableSelect}) {
       {
         Header: t("syllables_header_syllable"),
         accessor: 'silp',
-        disableSortBy: true,
         width: 200,
       },
       {
@@ -159,27 +158,30 @@ function Syllables({onAnalyse, onSyllableSelect}) {
           }
           if (el.lõpp) {
             display += t("syllables_end") + " (" + el.lõpp + "), ";
-                }
-                display = display.slice(0, -2);
-              return display;
-            },
-          disableSortBy: true,
-          width: 400
+          }
+          display = display.slice(0, -2);
+          return display;
         },
+        disableSortBy: true,
+        width: 400
+      },
       {
         Header: t("common_words_in_text"),
         accessor: 'sonadtekstis',
         width: 700,
-        disableSortBy: true
+        disableSortBy: true,
+        sortable: false
       },
       {
         Header: t("common_header_frequency"),
         accessor: 'sagedus',
-        id: 'sagedus'
+        id: 'sagedus',
+        width: 300
       },
       {
         Header: t("common_header_percentage"),
         accessor: 'osakaal',
+        width: 300
       }
     ]
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -235,13 +237,13 @@ function Syllables({onAnalyse, onSyllableSelect}) {
         {headerGroups.map((headerGroup) => (
           <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
-              <th {...column.getHeaderProps(column.getSortByToggleProps())}
+              <th
                   style={{
                     borderBottom: "1px solid",
                     color: "black",
                     fontWeight: "bold"
-                  }} className="tableHead headerbox">{column.render('Header')}
-                <span className="sort">
+                  }} className="tableHdr headerbox">{column.render('Header')}
+                <span className="sort" {...column.getHeaderProps(column.getSortByToggleProps())}>
                                         {column.isSorted ? (column.isSortedDesc ? ' ▼' : ' ▲') : ' ▼▲'}
                                     </span>
               </th>
