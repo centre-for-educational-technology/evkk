@@ -3,9 +3,11 @@ import "./styles/LemmaView.css";
 import {usePagination, useSortBy, useTable} from "react-table";
 import {v4 as uuidv4} from 'uuid';
 import TablePagination from "./TablePagination";
+import DownloadBtn from "./DownloadBtn";
 
 function Table({columns, data}) {
 
+  const tableToDwnld = ["Algvormid", "Sõnavormid", "Sagedus", "Osakaal"]
   const {
     getTableProps,
     getTableBodyProps,
@@ -38,6 +40,7 @@ function Table({columns, data}) {
   return (
     <>
     <Fragment>
+      <DownloadBtn data={data} headers={tableToDwnld}/>
       <table className="analyserTable"
              {...getTableProps()}
              style={{
@@ -121,6 +124,7 @@ function LemmaView({onLemmaSelect, onWordSelect, onAnalyse}) {
 
   let sonaList = new Map();
   let numbrid = new Map();
+
 
   const sonuKasutuses = () => {
 

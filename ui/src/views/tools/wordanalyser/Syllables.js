@@ -2,6 +2,7 @@ import React, {useEffect, useMemo, useState} from "react";
 import {usePagination, useSortBy, useTable} from 'react-table';
 import './styles/Syllables.css';
 import TablePagination from "./TablePagination";
+import DownloadBtn from "./DownloadBtn";
 
 function Syllables({onAnalyse, onSyllableSelect}) {
   const data = onAnalyse.syllables;
@@ -9,6 +10,10 @@ function Syllables({onAnalyse, onSyllableSelect}) {
   const words = onAnalyse.words;
   let baseSyllables = [];
   let syllables = [];
+  let infoList = [];
+  const [infoListNew, setInfolistNew] = useState([]);
+
+  const tableToDwnld = ["Silp", "Asukoht(algus)", "Asukoht(keskel)", "Asukoht(lõpp)", "Sõnad tekstis", "Sagedus", "Osakaal (%)"]
 
   function createList(value) {
     let cleanValue = value.toLowerCase();
@@ -99,19 +104,43 @@ function Syllables({onAnalyse, onSyllableSelect}) {
         let output = (formatedSyllables.map((row) => {
 
           let sonadTekstisOutput = "";
+          let info = {
+            col1: "",
+            col2: 0,
+            col3: 0,
+            col4: 0,
+            col5: [[],[]],
+            col6: 0,
+            col7: 0
+          }
+
+          info.col1 = row[0];
+          info.col2 = row[1];
+          info.col3 = row[2];
+          info.col4 = row[3];
+          info.col6 = row[1] + row[2] + row[3];
+          info.col7 = ((row[1] + row[2] + row[3])*100 / syllables.length).toFixed(2);
           const syllableWords = () => {for (let i = 0; i < row[4][0].length; i++) {
+            info.col5[0].push(row[4][0][i]);
+
             if(i === row[4][0].length - 1){
+              info.col5[1].push("(" + row[4][1][i] + ")");
               sonadTekstisOutput += " " + row[4][0][i] + "&nbsp;" + "(" + row[4][1][i] + ")";
             }else if(i === 0){
+              info.col5[1].push("(" + row[4][1][i] + "), ");
               sonadTekstisOutput += row[4][0][i] + "&nbsp;" + "(" + row[4][1][i] + "),";
             }
             else{
+              info.col5[1].push("(" + row[4][1][i] + "), ");
               sonadTekstisOutput += " " + row[4][0][i] + "&nbsp;" + "(" + row[4][1][i] + "),";
             }
           }
             sonadTekstisOutput = sonadTekstisOutput.replaceAll("-", "&#8209;");
             return(<span style={{whiteSpace: "break-spaces"}} dangerouslySetInnerHTML={{__html: sonadTekstisOutput}}></span>);
           }
+
+
+          infoList.push(info)
 
             return {
                 "silp": <span className="word" onClick={(e) => onSyllableSelect(e.target.textContent)}>{row[0]}</span>,
@@ -132,6 +161,7 @@ function Syllables({onAnalyse, onSyllableSelect}) {
               delete output[i]["lõpp"];
             }
         }
+      setInfolistNew(infoList);
       setFormatedList(output);
     }
 
@@ -225,6 +255,8 @@ function Syllables({onAnalyse, onSyllableSelect}) {
                 formating();
             // eslint-disable-next-line react-hooks/exhaustive-deps
             }, [])}
+
+      <DownloadBtn data={infoListNew} headers={tableToDwnld}/>
 
       <table className="analyserTable" {...getTableProps()}
              style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>

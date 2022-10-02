@@ -1,35 +1,24 @@
 import React, {Fragment, useEffect, useMemo, useState} from 'react';
 import {useFilters, usePagination, useSortBy, useTable} from 'react-table';
 import {
-  Button,
   Checkbox,
   FormControl,
   IconButton,
-  InputLabel,
   ListItemIcon,
   ListItemText,
   MenuItem,
   Select,
-  Tooltip
 } from "@mui/material";
+import DownloadBtn from "./DownloadBtn"
 import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import {CSVLink} from "react-csv";
-import DownloadIcon from '@mui/icons-material/Download';
-import ReactExport from "react-export-excel";
-import CloseIcon from '@mui/icons-material/Close';
 import {v4 as uuidv4} from 'uuid';
 import TablePagination from "./TablePagination";
 
 function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnalyse }) {
-  const ExcelFile = ReactExport.ExcelFile;
-  const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-  const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
-  const [fileType, setFileType] = useState(false);
   const [sonaliik, setSonaliik] = useState('');
   const [sonad, setSonad] = useState('');
   const [vormiliik, setVormiliik] = useState('');
-  const fileDownloadElement = React.createRef();
 
   useEffect(() => {
     setSonaliik(onAnalyse.wordtypes);
@@ -43,6 +32,7 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
   let numbrid2 = new Map();
   let vormiList = new Map();
   let tableVal = [];
+  const tableToDwnld = ["Sõnaliik", "Vorm", "Sõnad tekstis", "Sagedus", "Osakaal"]
 
   const sonuSonaliigis = () => {
     for (let i = 0; i < sonaliik.length; i++) {
@@ -109,29 +99,30 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
         if (ajutineList3.includes(ajutineColvorm)) {
           let info = {
             col1: "",
-            colvorm: "",
-            col2: [[], []],
-            col3: 0,
-            col4: 0
+            col2: "",
+            col3: [[], []],
+            col4: 0,
+            col5: 0,
           }
           info.col1 = Array.from(vormiList.keys())[i];
           const iterator1 = mapSort2.keys();
-          info.colvorm = Array.from(sonaList2.keys())[k];
+          info.col2 = Array.from(sonaList2.keys())[k];
           const ajutineList = sonaList2.get(Array.from(sonaList2.keys())[k]);
           for (let j = 0; j < mapSort2.size; j++) {
             valueAjutine = iterator1.next().value;
             if (ajutineList.includes(valueAjutine) && ajutineList2.includes(valueAjutine)) {
-              info.col2[0].push(String(valueAjutine));
-              info.col2[1].push("(" + String(numbrid.get(valueAjutine)) + "), ");
-              info.col3 = parseInt(info.col3) + parseInt(numbrid.get(String(valueAjutine)));
+              info.col3[0].push(String(valueAjutine));
+              info.col3[1].push("(" + String(numbrid.get(valueAjutine)) + "), ");
+              info.col4 = parseInt(info.col4) + parseInt(numbrid.get(String(valueAjutine)));
             }
           }
-          info.col2[1][info.col2[1].length - 1] = info.col2[1][info.col2[1].length - 1].slice(0, -2);
-          info.col4 = (info.col3 * 100 / sonad.length).toFixed(1);
+          info.col3[1][info.col3[1].length - 1] = info.col3[1][info.col3[1].length - 1].slice(0, -2);
+          info.col5 = (info.col4 * 100 / sonad.length).toFixed(1);
           tableVal.push(info);
         }
       }
     }
+
     return tableVal;
   }
 
@@ -146,18 +137,10 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
   const MultipleFilter2 = (rows, filler, filterValue) => {
     const arr = [];
     rows.forEach((val) => {
-      if (filterValue.includes(val.original.colvorm)) arr.push(val);
+      if (filterValue.includes(val.original.col2)) arr.push(val);
     });
     return arr;
   };
-
-  function ShowDownload() {
-    if (fileDownloadElement.current.style.display === "none") {
-      fileDownloadElement.current.style.display = "block";
-    } else if (fileDownloadElement.current.style.display === "block") {
-      fileDownloadElement.current.style.display = "none";
-    }
-  }
 
   function setFilteredParams(filterArr, val) {
     if (filterArr.includes(val)) {
@@ -247,41 +230,6 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
     );
   }
 
-  const [buttonType, setButtonType] = useState(<Button variant='contained' disabled>Laadi alla</Button>);
-
-  function ShowButton() {
-    for (let i = 0; i < data.length; i++) {
-      let a = "";
-      for (let j = 0; j < data[i].col2[0].length; j++) {
-        a += data[i].col2[0][j] + " ";
-        a += data[i].col2[1][j];
-      }
-      data[i].col2[2] = a;
-    }
-
-    let csvData = JSON.parse(JSON.stringify(data));
-    for (let i = 0; i < data.length; i++) {
-      csvData[i].col2.splice(0, 2);
-    }
-
-    if (fileType) {
-      setButtonType(<Button className='CSVBtn' variant='contained' color='primary'>
-        <CSVLink filename='gram_analyys' className='csvLink' headers={tableHeaders} data={csvData}>Laadi alla</CSVLink>
-      </Button>);
-      setFileType(false);
-    } else if (!fileType) {
-      setButtonType(<ExcelFile filename="gram_analyys" element={<Button variant='contained'>Laadi alla</Button>}>
-        <ExcelSheet data={data} name="Sõnatabel">
-          <ExcelColumn label="Sõnaliik" value="col1"/>
-          <ExcelColumn label="Vorm" value="colvorm"/>
-          <ExcelColumn label="Sõnad tekstis" value={(col) => col.col2[2]}/>
-          <ExcelColumn label="Sagedus" value="col3"/>
-          <ExcelColumn label="Osakaal (%)" value="col4"/>
-        </ExcelSheet>
-      </ExcelFile>);
-      setFileType(true);
-    }
-  }
 
   const columns = useMemo(
     () => [
@@ -301,13 +249,13 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
       },
       {
         Header: () => { return (<span>Vorm</span>) },
-        accessor: 'colvorm',
+        accessor: 'col2',
         Cell: (props) => {
           const word = props.value;
           return <span className="word" onClick={(e) => onFormSelect(e.target.textContent)}>{word}</span>
         },
         width: 400,
-        className: 'colvorm',
+        className: 'col2',
         disableSortBy: true,
         sortable: false,
         Filter: LongMenu,
@@ -315,7 +263,7 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
       },
       {
         Header: 'Sõnad tekstis',
-        accessor: 'col2',
+        accessor: 'col3',
         Cell: (props) => {
           const items = props.value
           let cellContent = []
@@ -340,13 +288,13 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
       {
         Header: 'Sagedus',
         id: 'sagedus',
-        accessor: 'col3', // accessor is the "key" in the data
+        accessor: 'col4', // accessor is the "key" in the data
         width: 300,
         disableFilters: true,
       },
       {
         Header: 'Osakaal (%)',
-        accessor: 'col4',
+        accessor: 'col5',
         width: 300,
         disableFilters: true,
       }
@@ -357,19 +305,11 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
 
   const tableHeaders = [
     { label: "Sõnaliik", key: "col1" },
-    { label: 'Vorm', key: "colvorm" },
-    { label: 'Sõnad tekstis', key: "col2" },
-    { label: 'Sagedus', key: "col3" },
-    { label: 'Osakaal (%)', key: "col4" },
+    { label: 'Vorm', key: "col2" },
+    { label: 'Sõnad tekstis', key: "col3" },
+    { label: 'Sagedus', key: "col4" },
+    { label: 'Osakaal (%)', key: "col5" },
   ]
-
-  function closeDownload() {
-    if (fileDownloadElement.current.style.display === "block") {
-      fileDownloadElement.current.style.display = "none";
-    }
-  }
-
-  const handleClickDownload = e => ShowButton();
 
   const {
     getTableProps,
@@ -397,31 +337,7 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
 
   return (
     <Fragment>
-      <Tooltip title="Laadi alla" placement="top">
-        <div className='downloadPopUp' onClick={ShowDownload} style={{marginBottom: "1.75rem", marginLeft: "4rem"}}>
-          <DownloadIcon fontSize="large" />
-        </div>
-      </Tooltip>
-      <div>
-        <div id='fileDownload' className='fileDownload' style={{display: "none"}} ref={fileDownloadElement}>
-          <div id='closeIcon' className='closeIcon' onClick={closeDownload}><CloseIcon/></div>
-          <FormControl id="formId" fullWidth>
-            <InputLabel id="demo-simple-select-label">Laadi alla</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="simple-select"
-              label="Laadimine"
-              onChange={handleClickDownload}
-              size="medium"
-              className='selectElement'
-            >
-              <MenuItem value="Excel">Excel</MenuItem>
-              <MenuItem value="CSV">CSV</MenuItem>
-            </Select>
-          </FormControl>
-          <div className='laadiBtn'>{buttonType}</div>
-        </div>
-      </div>
+      <DownloadBtn data={data} headers={tableToDwnld}/>
       <table className='analyserTable' {...getTableProps()}
              style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>
         <thead>
