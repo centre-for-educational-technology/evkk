@@ -51,22 +51,16 @@
     border-color: #ddd;
 }
 
-.tableHead:nth-child(1) > .sort {
+
+.tableHdr:nth-child(2) > .sort {
   display: none;
 }
 
-.tableHead:nth-child(2) > .sort {
+.tableHdr:nth-child(3) > .sort {
   display: none;
 }
 
-.tableHead.headerbox:nth-child(3):hover {
-  cursor: pointer !important;
+.tableHdr.headerbox:hover {
+  cursor: auto;
 }
 
-.tableHead.headerbox:nth-child(2):hover {
-  cursor: auto !important;
-}
-
-.tableHead.headerbox:nth-child(1):hover {
-  cursor: auto !important;
-}
