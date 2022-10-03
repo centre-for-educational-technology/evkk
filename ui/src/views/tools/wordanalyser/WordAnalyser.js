@@ -8,10 +8,12 @@ import GrammaticalAnalysis from './GrammaticalAnalysis';
 import {Alert, Box, Grid, Tab, Tabs, Typography} from '@mui/material';
 import LemmaView from './LemmaView';
 import Syllables from './Syllables';
+import {useTranslation} from "react-i18next";
+import "../../../translations/i18n";
+import i18n from "i18next";
 
 function WordAnalyser() {
   const [showResults, setShowResults] = useState(false);
-  const [textTooLong, setTextTooLong] = useState(false);
   const [analysedInput, setAnalysedInput] = useState({
     ids: [''],
     text: '',
@@ -26,6 +28,7 @@ function WordAnalyser() {
   const [selectedWords, setSelectedWords] = useState(['']);
   const [wordInfo, setWordInfo] = useState('');
   const [textFromFile, setTextFromFile] = useState('');
+  const {t} = useTranslation();
 
   //get words
   const getWords = async (input) => {
@@ -39,9 +42,9 @@ function WordAnalyser() {
     const data = await response.json();
 
     let newData = [];
-    for (let i = 0; i < data.length; i++) {
-      if (data[i]) {
-        let item = data[i].replace(/['*]+/g, '');
+    for (const element of data) {
+      if (element) {
+        let item = element.replace(/['*]+/g, '');
         newData.push(item);
       }
     }
@@ -60,9 +63,9 @@ function WordAnalyser() {
 
     const data = await response.json();
     let newData = [];
-    for (let i = 0; i < data.length; i++) {
-      if (data[i]) {
-        let item = data[i].replace(/['*_=]+/g, '');
+    for (const element of data) {
+      if (element) {
+        let item = element.replace(/['*_=]+/g, '');
         newData.push(item);
       }
     }
@@ -78,8 +81,7 @@ function WordAnalyser() {
       },
       body: JSON.stringify({tekst: input}),
     });
-    const data = await response.json();
-    return data;
+    return await response.json();
   }
 
   //get word type
@@ -89,10 +91,9 @@ function WordAnalyser() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({tekst: input}),
+      body: JSON.stringify({tekst: input, language: i18n.language}),
     });
-    const data = await response.json();
-    return data;
+    return await response.json();
   }
 
   //get syllables
@@ -107,10 +108,10 @@ function WordAnalyser() {
     const data = await response.json();
 
     let newData = [];
-    for (let i = 0; i < data.length; i++){
-      if (data[i]){
-        let item = data[i].replace(/[()'",.]+/g, '');
-        if(item){
+    for (const element of data) {
+      if (element) {
+        let item = element.replace(/[()'",.]+/g, '');
+        if (item) {
           newData.push(item);
         }
       }
@@ -125,17 +126,16 @@ function WordAnalyser() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({tekst: input}),
+      body: JSON.stringify({tekst: input, language: i18n.language}),
     })
-    const data = await response.json();
-    return data;
+    return await response.json();
   }
 
   //create ids
   const createIds = (words) => {
     let data = [];
-    for (let i = 0; i < words.length; i++) {
-      let id = uuidv4();
+    for (const element of words) {
+      let id = uuidv4(element);
       data.push(id);
     }
     return data;
@@ -154,16 +154,14 @@ function WordAnalyser() {
     let analysedWordsLowerCase = [...analysedWordsOrig];
     for (let i = 0; i < analysedWordsLowerCase.length; i++) {
       if (analysedWordTypes[i] !== "nimisõna (pärisnimi)") {
-        let currentWord = analysedWordsLowerCase[i].toLowerCase();
-        analysedWordsLowerCase[i] = currentWord;
+        analysedWordsLowerCase[i] = analysedWordsLowerCase[i].toLowerCase();
       }
     }
 
     let analysedSyllablesLowerCase = [...analysedSyllables];
     for (let i = 0; i < analysedSyllablesLowerCase.length; i++) {
       if (analysedWordTypes[i] !== "nimisõna (pärisnimi)") {
-        let currentItem = analysedSyllablesLowerCase[i].toLowerCase();
-        analysedSyllablesLowerCase[i] = currentItem;
+        analysedSyllablesLowerCase[i] = analysedSyllablesLowerCase[i].toLowerCase();
       }
     }
 
@@ -180,9 +178,6 @@ function WordAnalyser() {
     }
 
     setShowResults(true);
-    if (inputObj.ids.length > 1000) {
-      setTextTooLong(true);
-    }
     setAnalysedInput(inputObj);
   }
 
@@ -235,7 +230,7 @@ function WordAnalyser() {
       let analysedWord = analysedInput.words[i];
       let analysedSillable = analysedInput.syllables[i];
       let id = analysedInput.ids[i];
-      if (analysedWord.indexOf(syllable) >= 0 && syllable == analysedSillable || analysedSillable.endsWith("-"+syllable) || analysedSillable.startsWith(syllable+"-") || analysedSillable.includes("-"+syllable+"-")) {
+      if (analysedWord.indexOf(syllable) >= 0 && (syllable === analysedSillable || analysedSillable.endsWith("-" + syllable) || analysedSillable.startsWith(syllable + "-") || analysedSillable.includes("-" + syllable + "-"))) {
         content.push(id);
       }
     }
@@ -245,7 +240,7 @@ function WordAnalyser() {
       word: "–",
       lemma: "–",
       syllables: syllable,
-      type:"–",
+      type: "–",
       form: "–",
     }
     setWordInfo(wordInfoObj);
@@ -361,12 +356,11 @@ function WordAnalyser() {
     };
     setAnalysedInput(newInputObj);
     setShowResults(false);
-    setTextTooLong(false);
   }
 
   //tabs
   function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+    const {children, value, index, ...other} = props;
 
     return (
       <div
@@ -377,7 +371,7 @@ function WordAnalyser() {
         {...other}
       >
         {value === index && (
-          <Box sx={{ p: 3 }}>
+          <Box sx={{p: 3}}>
             <Typography component={`span`}>{children}</Typography>
           </Box>
         )}
@@ -394,58 +388,81 @@ function WordAnalyser() {
 
   const [value, setValue] = useState(0);
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (_event, newValue) => {
     setValue(newValue);
   };
 
   return (
-    <Box component='section' className="container">
-      <Grid container columnSpacing={{ xs: 0, md: 4 }}>
-        <Grid item xs={12} md={12}>
-          <TextUpload sendTextFromFile={sendTextFromFile} />
+    <Box component='section'
+         className="container">
+      <Grid container
+            columnSpacing={{xs: 0, md: 4}}>
+        <Grid item
+              xs={12}
+              md={12}>
+          <TextUpload sendTextFromFile={sendTextFromFile}/>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Input textFromFile={textFromFile} onInsert={analyseInput} onAnalyse={analysedInput} onMarkWords={selectedWords} onWordSelect={showThisWord} onWordInfo={showInfo} onReset={resetAnalyser}/>
+        <Grid item
+              xs={12}
+              md={6}>
+          <Input textFromFile={textFromFile}
+                 onInsert={analyseInput}
+                 onAnalyse={analysedInput}
+                 onMarkWords={selectedWords}
+                 onWordSelect={showThisWord}
+                 onWordInfo={showInfo}
+                 onReset={resetAnalyser}/>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item
+              xs={12}
+              md={6}>
           {showResults ?
-          <WordInfo onWordInfo={wordInfo} /> :
-          <Alert severity="info">
-            Rakenduse abil saad sõnu silbitada, vaadata nende algvorme ja grammatilist kirjeldust. Sisesta sõna või tekst (kuni 1000 sõna).<br/>
-            Teksti sõnu saad analüüsida ühekaupa ja näha ka teksti silpide, algvormide ja grammatiliste vormide statistikat.
-          </Alert>}
+            <WordInfo onWordInfo={wordInfo}/> :
+            <Alert severity="info">
+              {t("infobox_first")}<br/>
+              {t("infobox_second")}
+            </Alert>}
         </Grid>
-        {showResults && textTooLong &&
-          <Grid item xs={12} md={12}>
-            <Alert severity="warning">Tekst on analüüsi kuvamiseks liiga pikk!</Alert>
+        {showResults &&
+          <Grid item
+                xs={12}
+                md={12}>
+            <h2>{t("text_analysis")}</h2>
+            <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+              <Tabs value={value}
+                    onChange={handleChange}
+                    aria-label="basic tabs example">
+                <Tab label={t("common_syllables")} {...a11yProps(0)} />
+                <Tab label={t("common_lemmas")} {...a11yProps(1)} />
+                <Tab label={t("tab_gram_anal")} {...a11yProps(2)} />
+              </Tabs>
+            </Box>
+            <TabPanel value={value}
+                      index={0}>
+              <div>
+                {(analysedInput.syllables.length > 1 || analysedInput.syllables[0] !== "") &&
+                  <Syllables onAnalyse={analysedInput}
+                             onSyllableSelect={showSyllable}/>}
+              </div>
+            </TabPanel>
+            <TabPanel value={value}
+                      index={1}>
+              <div>
+                <LemmaView onAnalyse={analysedInput}
+                           onLemmaSelect={showLemma}
+                           onWordSelect={showWord}/>
+              </div>
+            </TabPanel>
+            <TabPanel value={value}
+                      index={2}>
+              <div>
+                <GrammaticalAnalysis onTypeSelect={showType}
+                                     onFormSelect={showForm}
+                                     onWordSelect={showWord}
+                                     onAnalyse={analysedInput}/>
+              </div>
+            </TabPanel>
           </Grid>
-        }
-        {showResults && !textTooLong &&
-        <Grid item xs={12}  md={12}>
-          <h2>Tekstianalüüs</h2>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-              <Tab label="Silbid" {...a11yProps(0)} />
-              <Tab label="Algvormid" {...a11yProps(1)} />
-              <Tab label="Grammatiline analüüs" {...a11yProps(2)} />
-            </Tabs>
-          </Box>
-          <TabPanel value={value} index={0}>
-            <div>
-              {(analysedInput.syllables.length > 1 || analysedInput.syllables[0] !== "") && <Syllables onAnalyse={analysedInput} onSyllableSelect={showSyllable} />}
-            </div>
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <div>
-              <LemmaView onAnalyse={analysedInput} onLemmaSelect={showLemma} onWordSelect={showWord} />
-            </div>
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            <div>
-              <GrammaticalAnalysis onTypeSelect={showType} onFormSelect={showForm} onWordSelect={showWord} onAnalyse={analysedInput} />
-            </div>
-          </TabPanel>
-        </Grid>
         }
       </Grid>
     </Box>

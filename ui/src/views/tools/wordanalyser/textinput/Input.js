@@ -1,7 +1,9 @@
 import {InputText} from './InputText';
 import {useEffect, useState} from 'react';
-import {Alert, Button} from '@mui/material';
+import {Alert, Button, Grid} from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
+import {useTranslation} from "react-i18next";
+import "../../../../translations/i18n";
 
 export const Input = ({onInsert, onAnalyse, onMarkWords, onWordSelect, onWordInfo, onReset, textFromFile}) => {
   const [input, setInput] = useState('');
@@ -10,13 +12,18 @@ export const Input = ({onInsert, onAnalyse, onMarkWords, onWordSelect, onWordInf
   const [showResetBtn, setShowResetBtn] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
+  const [textTooLong, setTextTooLong] = useState(false);
+  const {t} = useTranslation();
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (input.length > 0) {
+    setTextTooLong(false);
+    setShowAlert(false);
+    if (input.replaceAll(/[^a-zA-ZõäüöÕÄÖÜ0-9]/g, ' ').replaceAll(/\s+/g, ' ').split(' ').length > 1020) {
+      setTextTooLong(true);
+    } else if (input.length > 0) {
       setShowAnalyseBtn(false);
       onInsert(input);
-      setShowAlert(false);
       setShowLoading(true);
     } else {
       setShowAlert(true);
@@ -47,23 +54,46 @@ export const Input = ({onInsert, onAnalyse, onMarkWords, onWordSelect, onWordInf
     setInput(textFromFile);
   }, [textFromFile]);
 
-  //Tekst on analüüsi kuvamiseks liiga pikk kui on üle 100 sõna
+  //Tekst on analüüsi kuvamiseks liiga pikk kui on üle 1000 sõna
 
   return (
     <div className="containerItem">
       {showAnalyseBtn ?
         <form>
           <label className="textInputContainer">
-            <textarea className='textInput' name='textInput' value={input} onChange={(e) => setInput(e.target.value)}/>
+            <textarea className='textInput'
+                      name='textInput'
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}/>
           </label>
-          <Button variant="contained" onClick={onSubmit}>Analüüsi</Button>
-          {showAlert && <span><br/><br/><Alert severity="warning">Analüüsimiseks sisesta esmalt tekst!</Alert></span>}
+          <Button variant="contained"
+                  onClick={onSubmit}>{t("analyse_button")}</Button>
+          {showAlert &&
+            <span>
+              <br/><br/>
+              <Alert severity="warning">{t("error_no_text")}</Alert>
+            </span>
+          }
+          {textTooLong &&
+            <Grid item
+                  xs={12}
+                  md={12}>
+              <br/>
+              <Alert severity="warning">{t("error_text_too_long")}</Alert>
+            </Grid>
+          }
         </form>
         :
-        <InputText onMarkWords={onMarkWords} onWordSelect={onWordSelect} onAnalyse={onAnalyse} onWordInfo={onWordInfo}/>
+        <InputText onMarkWords={onMarkWords}
+                   onWordSelect={onWordSelect}
+                   onAnalyse={onAnalyse}
+                   onWordInfo={onWordInfo}/>
       }
-        {showLoading && <LoadingButton loading variant="outlined">Analüüsi</LoadingButton>}
-        {showResetBtn && <Button variant="contained" className="mainBtn" onClick={resetAnalyser}>Lähtesta</Button>}
+      {showLoading && <LoadingButton loading
+                                     variant="outlined">{t("analyse_button")}</LoadingButton>}
+      {showResetBtn && <Button variant="contained"
+                               className="mainBtn"
+                               onClick={resetAnalyser}>{t("reset_button")}</Button>}
     </div>
   )
 }
