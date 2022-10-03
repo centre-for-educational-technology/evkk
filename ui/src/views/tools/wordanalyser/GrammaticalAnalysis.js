@@ -1,37 +1,18 @@
 import React, {Fragment, useEffect, useMemo, useState} from 'react';
 import {useFilters, usePagination, useSortBy, useTable} from 'react-table';
-import {
-  Button,
-  Checkbox,
-  FormControl,
-  IconButton,
-  InputLabel,
-  ListItemIcon,
-  ListItemText,
-  MenuItem,
-  Select,
-  Tooltip
-} from "@mui/material";
+import {Checkbox, FormControl, IconButton, ListItemIcon, ListItemText, MenuItem, Select,} from "@mui/material";
+import DownloadButton from "./DownloadButton";
 import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import {CSVLink} from "react-csv";
-import DownloadIcon from '@mui/icons-material/Download';
-import ReactExport from "react-export-excel";
-import CloseIcon from '@mui/icons-material/Close';
 import {v4 as uuidv4} from 'uuid';
 import TablePagination from "./TablePagination";
 import {useTranslation} from "react-i18next";
 import "../../../translations/i18n";
 
 function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalyse}) {
-  const ExcelFile = ReactExport.ExcelFile;
-  const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-  const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
-  const [fileType, setFileType] = useState(false);
   const [sonaliik, setSonaliik] = useState('');
   const [sonad, setSonad] = useState('');
   const [vormiliik, setVormiliik] = useState('');
-  const fileDownloadElement = React.createRef();
   const {t} = useTranslation();
 
   useEffect(() => {
@@ -43,9 +24,9 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
   let sonaList = new Map();
   let sonaList2 = new Map();
   let numbrid = new Map();
-  let numbrid2 = new Map();
   let vormiList = new Map();
   let tableVal = [];
+  const tableToDownload = [t("common_wordtype"), t("common_form"), t("common_words_in_text"), t("common_header_frequency"), t("common_header_percentage")];
 
   const sonuSonaliigis = () => {
     for (let i = 0; i < sonaliik.length; i++) {
@@ -69,13 +50,9 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
       if (!sonaList2.has(vormiliik[i])) {
         sonaList2.set(vormiliik[i], []);
         sonaList2.get(vormiliik[i]).push(sonad[i]);
-        numbrid2.set(sonad[i], 1);
       } else if (sonaList2.has(vormiliik[i])) {
-        if (sonaList2.get(vormiliik[i]).includes(sonad[i])) {
-          numbrid2.set(sonad[i], (numbrid.get(sonad[i]) + 1));
-        } else {
+        if (!(sonaList2.get(vormiliik[i]).includes(sonad[i]))) {
           sonaList2.get(vormiliik[i]).push(sonad[i]);
-          numbrid2.set(sonad[i], 1);
         }
       }
     }
@@ -87,8 +64,7 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
         vormiList.set(sonaliik[i], []);
         vormiList.get(sonaliik[i]).push(vormiliik[i]);
       } else if (vormiList.has(sonaliik[i])) {
-        if (vormiList.get(sonaliik[i]).includes(vormiliik[i])) {
-        } else {
+        if (!(vormiList.get(sonaliik[i]).includes(vormiliik[i]))) {
           vormiList.get(sonaliik[i]).push(vormiliik[i]);
         }
       }
@@ -112,25 +88,25 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
         if (ajutineList3.includes(ajutineColvorm)) {
           let info = {
             col1: "",
-            colvorm: "",
-            col2: [[], []],
-            col3: 0,
-            col4: 0
+            col2: "",
+            col3: [[], []],
+            col4: 0,
+            col5: 0,
           }
           info.col1 = Array.from(vormiList.keys())[i];
           const iterator1 = mapSort2.keys();
-          info.colvorm = Array.from(sonaList2.keys())[k];
+          info.col2 = Array.from(sonaList2.keys())[k];
           const ajutineList = sonaList2.get(Array.from(sonaList2.keys())[k]);
           for (let j = 0; j < mapSort2.size; j++) {
             valueAjutine = iterator1.next().value;
             if (ajutineList.includes(valueAjutine) && ajutineList2.includes(valueAjutine)) {
-              info.col2[0].push(String(valueAjutine));
-              info.col2[1].push("(" + String(numbrid.get(valueAjutine)) + "), ");
-              info.col3 = parseInt(info.col3) + parseInt(numbrid.get(String(valueAjutine)));
+              info.col3[0].push(String(valueAjutine));
+              info.col3[1].push("(" + String(numbrid.get(valueAjutine)) + "), ");
+              info.col4 = parseInt(info.col4) + parseInt(numbrid.get(String(valueAjutine)));
             }
           }
-          info.col2[1][info.col2[1].length - 1] = info.col2[1][info.col2[1].length - 1].slice(0, -2);
-          info.col4 = (info.col3 * 100 / sonad.length).toFixed(1);
+          info.col3[1][info.col3[1].length - 1] = info.col3[1][info.col3[1].length - 1].slice(0, -2);
+          info.col5 = (info.col4 * 100 / sonad.length).toFixed(1);
           tableVal.push(info);
         }
       }
@@ -138,7 +114,7 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
     return tableVal;
   }
 
-  const MultipleFilter = (rows, filler, filterValue) => {
+  const MultipleFilter = (rows, _filler, filterValue) => {
     const arr = [];
     rows.forEach((val) => {
       if (filterValue.includes(val.original.col1)) arr.push(val);
@@ -146,21 +122,13 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
     return arr;
   };
 
-  const MultipleFilter2 = (rows, filler, filterValue) => {
+  const MultipleFilter2 = (rows, _filler, filterValue) => {
     const arr = [];
     rows.forEach((val) => {
-      if (filterValue.includes(val.original.colvorm)) arr.push(val);
+      if (filterValue.includes(val.original.col2)) arr.push(val);
     });
     return arr;
   };
-
-  function ShowDownload() {
-    if (fileDownloadElement.current.style.display === "none") {
-      fileDownloadElement.current.style.display = "block";
-    } else if (fileDownloadElement.current.style.display === "block") {
-      fileDownloadElement.current.style.display = "none";
-    }
-  }
 
   function setFilteredParams(filterArr, val) {
     if (filterArr.includes(val)) {
@@ -178,7 +146,7 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
     [sonad, sonaliik]
   );
 
-  function LongMenu({ column: { filterValue = [], setFilter, preFilteredRows, id } }) {
+  function LongMenu({column: {filterValue = [], setFilter, preFilteredRows, id}}) {
     const [anchorEl, setAnchorEl] = useState(false);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -188,11 +156,11 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
       setAnchorEl(null);
     }
     const options = useMemo(() => {
-      const options = new Set();
+      const options2 = new Set();
       preFilteredRows.forEach((row) => {
-        options.add(row.values[id]);
+        options2.add(row.values[id]);
       });
-      return [...options.values()];
+      return [...options2.values()];
 
     }, [id, preFilteredRows,]);
 
@@ -206,14 +174,14 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
           aria-haspopup="true"
           onClick={handleClick}
         >
-          <FilterAltIcon />
+          <FilterAltIcon/>
         </IconButton>
         <FormControl>
           <Select
             multiple
             value={[]}
             open={open}
-            style={{ zIndex: "-30", position: "absolute", transform: "translate(-6rem, -.5rem)" }}
+            style={{zIndex: "-30", position: "absolute", transform: "translate(-6rem, -.5rem)"}}
             onClose={handleClose}
             MenuProps={{
               anchorOrigin: {
@@ -226,7 +194,7 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
               }
             }}
           >
-            {options.map((option, i) => (
+            {options.map((option, _i) => (
               <MenuItem
                 key={option}
                 value={option}
@@ -241,60 +209,15 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
                     checked={filterValue.includes(option)}
                   />
                 </ListItemIcon>
-                <ListItemText primary={option} id={option} value={option} />
+                <ListItemText primary={option}
+                              id={option}
+                              value={option}/>
               </MenuItem>
             ))}
           </Select>
         </FormControl>
       </Fragment>
     );
-  }
-
-  const [buttonType, setButtonType] = useState(<Button variant='contained'
-                                                       disabled>{t("common_download")}</Button>);
-
-  function ShowButton() {
-    for (let i = 0; i < data.length; i++) {
-      let a = "";
-      for (let j = 0; j < data[i].col2[0].length; j++) {
-        a += data[i].col2[0][j] + " ";
-        a += data[i].col2[1][j];
-      }
-      data[i].col2[2] = a;
-    }
-
-    let csvData = JSON.parse(JSON.stringify(data));
-    for (let i = 0; i < data.length; i++) {
-      csvData[i].col2.splice(0, 2);
-    }
-
-    if (fileType) {
-      setButtonType(<Button className='CSVBtn' variant='contained' color='primary'>
-        <CSVLink filename={t("gram_anal_filename")}
-                 className='csvLink'
-                 headers={tableHeaders}
-                 data={csvData}>{t("common_download")}</CSVLink>
-      </Button>);
-      setFileType(false);
-    } else if (!fileType) {
-      setButtonType(<ExcelFile filename={t("gram_anal_filename")}
-                               element={<Button variant='contained'>{t("common_download")}</Button>}>
-        <ExcelSheet data={data}
-                    name={t("common_excel_sheet_name")}>
-          <ExcelColumn label={t("common_wordtype")}
-                       value="col1"/>
-          <ExcelColumn label={t("common_form")}
-                       value="colvorm"/>
-          <ExcelColumn label={t("common_words_in_text")}
-                       value={(col) => col.col2[2]}/>
-          <ExcelColumn label={t("common_header_frequency")}
-                       value="col3"/>
-          <ExcelColumn label={t("common_header_percentage")}
-                       value="col4"/>
-        </ExcelSheet>
-      </ExcelFile>);
-      setFileType(true);
-    }
   }
 
   const columns = useMemo(
@@ -319,20 +242,22 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
         Header: () => {
           return (<span>{t("common_form")}</span>)
         },
-        accessor: 'colvorm',
+        accessor: 'col2',
         Cell: (props) => {
           const word = props.value;
           return <span className="word"
                        onClick={(e) => onFormSelect(e.target.textContent)}>{word}</span>
         },
         width: 400,
-        className: 'colvorm',
+        className: 'col2',
+        disableSortBy: true,
+        sortable: false,
         Filter: LongMenu,
         filter: MultipleFilter2
       },
       {
         Header: t("common_words_in_text"),
-        accessor: 'col2',
+        accessor: 'col3',
         Cell: (props) => {
           const items = props.value
           let cellContent = []
@@ -358,13 +283,13 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
       {
         Header: t("common_header_frequency"),
         id: 'sagedus',
-        accessor: 'col3', // accessor is the "key" in the data
+        accessor: 'col4', // accessor is the "key" in the data
         width: 300,
         disableFilters: true,
       },
       {
         Header: t("common_header_percentage"),
-        accessor: 'col4',
+        accessor: 'col5',
         width: 300,
         disableFilters: true,
       }
@@ -372,22 +297,6 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [sonad, sonaliik, onWordSelect]
   );
-
-  const tableHeaders = [
-    {label: t("common_wordtype"), key: "col1"},
-    {label: t("common_form"), key: "colvorm"},
-    {label: t("common_words_in_text"), key: "col2"},
-    {label: t("common_header_frequency"), key: "col3"},
-    {label: t("common_header_percentage"), key: "col4"},
-  ]
-
-  function closeDownload() {
-    if (fileDownloadElement.current.style.display === "block") {
-      fileDownloadElement.current.style.display = "none";
-    }
-  }
-
-  const handleClickDownload = e => ShowButton();
 
   const {
     getTableProps,
@@ -404,51 +313,21 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
     previousPage,
     setPageSize,
     state: {pageIndex, pageSize},
-  } = useTable({columns, data, initialState: {
+  } = useTable({
+    columns, data, initialState: {
       sortBy: [
         {
           id: 'sagedus',
           desc: true
         }
       ]
-    }}, useFilters, useSortBy, usePagination);
+    }
+  }, useFilters, useSortBy, usePagination);
 
   return (
     <Fragment>
-      <Tooltip title={t("common_download")}
-               placement="top">
-        <div className='downloadPopUp'
-             onClick={ShowDownload}
-             style={{marginBottom: "1.75rem", marginLeft: "4rem"}}>
-          <DownloadIcon fontSize="large"/>
-        </div>
-      </Tooltip>
-      <div>
-        <div id='fileDownload'
-             className='fileDownload'
-             style={{display: "none"}}
-             ref={fileDownloadElement}>
-          <div id='closeIcon'
-               className='closeIcon'
-               onClick={closeDownload}><CloseIcon/></div>
-          <FormControl id="formId"
-                       fullWidth>
-            <InputLabel id="demo-simple-select-label">{t("common_download")}</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="simple-select"
-              label="Laadimine"
-              onChange={handleClickDownload}
-              size="medium"
-              className='selectElement'
-            >
-              <MenuItem value="Excel">Excel</MenuItem>
-              <MenuItem value="CSV">CSV</MenuItem>
-            </Select>
-          </FormControl>
-          <div className='laadiBtn'>{buttonType}</div>
-        </div>
-      </div>
+      <DownloadButton data={data}
+                      headers={tableToDownload}/>
       <table className='analyserTable' {...getTableProps()}
              style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>
         <thead>
@@ -457,48 +336,48 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
             {headerGroup.headers.map(column => (
               <th
                 className='tableHead'
-
+                key={uuidv4()}
                 style={{
                   borderBottom: 'solid 1px',
                   color: 'black',
                   fontWeight: 'bold',
                 }}
               >
-                  {<span>{column.render('Header')} {column.canFilter ? column.render("Filter") : null}</span>}
-                  <span className='sortIcon' {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>
+                {<span>{column.render('Header')} {column.canFilter ? column.render("Filter") : null}</span>}
+                <span className='sortIcon' {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>
                     {column.isSorted
                       ? column.isSortedDesc
                         ? ' ▼'
                         : ' ▲'
                       : ' ▼▲'}
                   </span>
-                </th>
-              ))}
-            </tr>
-          ))}
+              </th>
+            ))}
+          </tr>
+        ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {page.map((row, i) => {
-            prepareRow(row)
-            return (
-              <tr className='tableRow' {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return (
-                    <td
-                      {...cell.getCellProps()}
-                      style={{
-                        padding: '10px',
-                        width: cell.column.width,
-                      }}
-                      className="border tableData"
-                    >
-                      {cell.render('Cell')}
-                    </td>
-                  )
-                })}
-              </tr>
-            )
-          })}
+        {page.map((row, _i) => {
+          prepareRow(row)
+          return (
+            <tr className='tableRow' {...row.getRowProps()}>
+              {row.cells.map(cell => {
+                return (
+                  <td
+                    {...cell.getCellProps()}
+                    style={{
+                      padding: '10px',
+                      width: cell.column.width,
+                    }}
+                    className="border tableData"
+                  >
+                    {cell.render('Cell')}
+                  </td>
+                )
+              })}
+            </tr>
+          )
+        })}
         </tbody>
       </table>
       <TablePagination

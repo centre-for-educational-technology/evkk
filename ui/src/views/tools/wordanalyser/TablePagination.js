@@ -6,6 +6,7 @@ import LastPageIcon from "@mui/icons-material/LastPage";
 import React from "react";
 import {useTranslation} from "react-i18next";
 import "../../../translations/i18n";
+import "./styles/TablePagination.css"
 
 function TablePagination({
                            gotoPage,
@@ -80,8 +81,9 @@ function TablePagination({
           setPageSize(Number(e.target.value))
         }}
       >
-        {[5, 10, 20, 30, 40, 50, 100].map(pageSize => (
-          <MenuItem key={pageSize} value={pageSize}>{pageSize}</MenuItem>
+        {[5, 10, 20, 30, 40, 50, 100].map(pageSizeNo => (
+          <MenuItem key={pageSizeNo}
+                    value={pageSizeNo}>{pageSizeNo}</MenuItem>
         ))}
       </Select>
     </div>

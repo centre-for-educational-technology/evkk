@@ -6,8 +6,8 @@
   background-color: #ddd;
 }
 
-.fontStyle{
-    font-size: large;
+.fontStyle {
+  font-size: large;
 }
 
 
@@ -20,14 +20,14 @@
   display: none;
 }
 
-.pagination{
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-    align-items: center;
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  align-items: center;
 }
 
-.buttongroup{
-    width: 40%;
+.buttongroup {
+  width: 40%;
 }
