@@ -14,11 +14,14 @@ import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import {v4 as uuidv4} from 'uuid';
 import TablePagination from "./TablePagination";
+import {useTranslation} from "react-i18next";
+import "../../../translations/i18n";
 
 function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnalyse }) {
   const [sonaliik, setSonaliik] = useState('');
   const [sonad, setSonad] = useState('');
   const [vormiliik, setVormiliik] = useState('');
+  const {t} = useTranslation();
 
   useEffect(() => {
     setSonaliik(onAnalyse.wordtypes);
@@ -122,7 +125,6 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
         }
       }
     }
-
     return tableVal;
   }
 
@@ -230,15 +232,18 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
     );
   }
 
-
   const columns = useMemo(
     () => [
       {
-        Header: () => { return (<span>Sõnaliik</span>) },
+        Header: () => {
+          return (<span>{t("common_wordtype")}</span>)
+        },
         accessor: 'col1', // accessor is the "key" in the data
         Cell: (props) => {
           const word = props.value;
-          return <span key={props.id} className="word" onClick={(e) => onTypeSelect(e.target.textContent)}>{word}</span>
+          return <span key={props.id}
+                       className="word"
+                       onClick={(e) => onTypeSelect(e.target.textContent)}>{word}</span>
         },
         className: 'user',
         width: 400,
@@ -246,22 +251,24 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
         filter: MultipleFilter
       },
       {
-        Header: () => { return (<span>Vorm</span>) },
+        Header: () => {
+          return (<span>{t("common_form")}</span>)
+        },
         accessor: 'col2',
         Cell: (props) => {
           const word = props.value;
-          return <span className="word" onClick={(e) => onFormSelect(e.target.textContent)}>{word}</span>
+          return <span className="word"
+                       onClick={(e) => onFormSelect(e.target.textContent)}>{word}</span>
         },
         width: 400,
         className: 'col2',
         disableSortBy: true,
         sortable: false,
-        className: 'colvorm',
         Filter: LongMenu,
         filter: MultipleFilter2
       },
       {
-        Header: 'Sõnad tekstis',
+        Header: t("common_words_in_text"),
         accessor: 'col3',
         Cell: (props) => {
           const items = props.value
@@ -271,7 +278,8 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
             let count = items[1][i];
             let content = (
               <span key={uuidv4()}>
-                <span key={props.id} className="word"
+                <span key={props.id}
+                      className="word"
                       onClick={(e) => onWordSelect(e.target.textContent)}>{word}</span>{String.fromCharCode(160)}{count}
               </span>
             )
@@ -285,14 +293,14 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
         sortable: false,
       },
       {
-        Header: 'Sagedus',
+        Header: t("common_header_frequency"),
         id: 'sagedus',
         accessor: 'col4', // accessor is the "key" in the data
         width: 300,
         disableFilters: true,
       },
       {
-        Header: 'Osakaal (%)',
+        Header: t("common_header_percentage"),
         accessor: 'col5',
         width: 300,
         disableFilters: true,
@@ -303,11 +311,11 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
   );
 
   const tableHeaders = [
-    { label: "Sõnaliik", key: "col1" },
-    { label: 'Vorm', key: "col2" },
-    { label: 'Sõnad tekstis', key: "col3" },
-    { label: 'Sagedus', key: "col4" },
-    { label: 'Osakaal (%)', key: "col5" },
+    {label: t("common_wordtype"), key: "col1"},
+    {label: t("common_form"), key: "col2"},
+    {label: t("common_words_in_text"), key: "col3"},
+    {label: t("common_header_frequency"), key: "col4"},
+    {label: t("common_header_percentage"), key: "col5"},
   ]
 
   const {
