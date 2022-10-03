@@ -7,6 +7,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import {Box, Button, FormControl, InputLabel, MenuItem, Select, Tooltip} from "@mui/material";
 import {useTranslation} from "react-i18next";
 import "../../../translations/i18n";
+import './styles/DownloadButton.css';
 
 export default function DownloadButton({data, headers}) {
 
@@ -16,7 +17,8 @@ export default function DownloadButton({data, headers}) {
   const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
   const [fileType, setFileType] = useState(false);
   const fileDownloadElement = React.createRef();
-  const [buttonType, setButtonType] = useState(<Button variant='contained' onClick={showButton}>{t("common_download")}</Button>);
+  const [buttonType, setButtonType] = useState(<Button variant='contained'
+                                                       onClick={showButton}>{t("common_download")}</Button>);
   let csvData = "";
   const [anchorEl, setAnchorEl] = React.useState(null);
   let tableHeaders = [];
@@ -34,7 +36,7 @@ export default function DownloadButton({data, headers}) {
 
 
   for (let i = 0; i < headers.length; i++) {
-    tableHeaders.push({label: headers[i], key: "col" + [i+1]});
+    tableHeaders.push({label: headers[i], key: "col" + [i + 1]});
   }
 
   function setFirstRow() {
@@ -48,11 +50,10 @@ export default function DownloadButton({data, headers}) {
   useEffect(() => {
     setFirstRow();
     setData();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function setData(){
+  function setData() {
     if (headers.length === 5) {
       for (const element of data) {
         let a = "";
@@ -105,7 +106,6 @@ export default function DownloadButton({data, headers}) {
           <CSVLink filename={t("gram_anal_filename")}
                    className='csvLink'
                    headers={tableHeaders}
-                   style = {{color: "white", textDecoration: "none"}}
                    data={csvData}>{t("common_download")}</CSVLink>
         </Button>);
       } else if (!fileType) {
@@ -118,7 +118,7 @@ export default function DownloadButton({data, headers}) {
             <ExcelColumn label={headers[1]}
                          value="col2"/>
             <ExcelColumn label={headers[2]}
-                         value={(col) => col.col3[2] }/>
+                         value={(col) => col.col3[2]}/>
             <ExcelColumn label={headers[3]}
                          value="col4"/>
             <ExcelColumn label={headers[4]}
@@ -189,8 +189,6 @@ export default function DownloadButton({data, headers}) {
     }
   }
 
-
-
   useEffect(() => {
     setData();
     showButton(); // This will always use latest value of count
@@ -206,9 +204,7 @@ export default function DownloadButton({data, headers}) {
   }
 
   return (
-    <Box display={"flex"}
-         marginBottom={"20px"}
-         justifyContent={"end"}>
+    <Box className="download-button-section">
       <Tooltip title={t("common_download")}
                placement="top">
         <Button aria-describedby={id}
@@ -227,8 +223,8 @@ export default function DownloadButton({data, headers}) {
           horizontal: 'left',
         }}
       >
-        <Box sx={{width: "300px", height: "200px"}}>
-          <Box padding={"30px"}
+        <Box className="download-dialog">
+          <Box className="download-dialog-inner"
                id='fileDownload'
                ref={fileDownloadElement}>
             <FormControl id="formId"
@@ -247,7 +243,7 @@ export default function DownloadButton({data, headers}) {
                           onClick={itemClickTrue}>CSV</MenuItem>
               </Select>
             </FormControl>
-            <div style={{paddingTop: "45px", paddingLeft: "60px"}}>{buttonType}</div>
+            <div className="download-button">{buttonType}</div>
           </Box>
         </Box>
       </Popover>
