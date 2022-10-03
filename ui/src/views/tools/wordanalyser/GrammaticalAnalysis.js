@@ -20,8 +20,10 @@ import ReactExport from "react-export-excel";
 import CloseIcon from '@mui/icons-material/Close';
 import {v4 as uuidv4} from 'uuid';
 import TablePagination from "./TablePagination";
+import {useTranslation} from "react-i18next";
+import "../../../translations/i18n";
 
-function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnalyse }) {
+function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalyse}) {
   const ExcelFile = ReactExport.ExcelFile;
   const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
   const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
@@ -30,6 +32,7 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
   const [sonad, setSonad] = useState('');
   const [vormiliik, setVormiliik] = useState('');
   const fileDownloadElement = React.createRef();
+  const {t} = useTranslation();
 
   useEffect(() => {
     setSonaliik(onAnalyse.wordtypes);
@@ -247,7 +250,8 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
     );
   }
 
-  const [buttonType, setButtonType] = useState(<Button variant='contained' disabled>Laadi alla</Button>);
+  const [buttonType, setButtonType] = useState(<Button variant='contained'
+                                                       disabled>{t("common_download")}</Button>);
 
   function ShowButton() {
     for (let i = 0; i < data.length; i++) {
@@ -266,17 +270,27 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
 
     if (fileType) {
       setButtonType(<Button className='CSVBtn' variant='contained' color='primary'>
-        <CSVLink filename='gram_analyys' className='csvLink' headers={tableHeaders} data={csvData}>Laadi alla</CSVLink>
+        <CSVLink filename={t("gram_anal_filename")}
+                 className='csvLink'
+                 headers={tableHeaders}
+                 data={csvData}>{t("common_download")}</CSVLink>
       </Button>);
       setFileType(false);
     } else if (!fileType) {
-      setButtonType(<ExcelFile filename="gram_analyys" element={<Button variant='contained'>Laadi alla</Button>}>
-        <ExcelSheet data={data} name="Sõnatabel">
-          <ExcelColumn label="Sõnaliik" value="col1"/>
-          <ExcelColumn label="Vorm" value="colvorm"/>
-          <ExcelColumn label="Sõnad tekstis" value={(col) => col.col2[2]}/>
-          <ExcelColumn label="Sagedus" value="col3"/>
-          <ExcelColumn label="Osakaal (%)" value="col4"/>
+      setButtonType(<ExcelFile filename={t("gram_anal_filename")}
+                               element={<Button variant='contained'>{t("common_download")}</Button>}>
+        <ExcelSheet data={data}
+                    name={t("common_excel_sheet_name")}>
+          <ExcelColumn label={t("common_wordtype")}
+                       value="col1"/>
+          <ExcelColumn label={t("common_form")}
+                       value="colvorm"/>
+          <ExcelColumn label={t("common_words_in_text")}
+                       value={(col) => col.col2[2]}/>
+          <ExcelColumn label={t("common_header_frequency")}
+                       value="col3"/>
+          <ExcelColumn label={t("common_header_percentage")}
+                       value="col4"/>
         </ExcelSheet>
       </ExcelFile>);
       setFileType(true);
@@ -286,35 +300,38 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
   const columns = useMemo(
     () => [
       {
-        Header: () => { return (<span>Sõnaliik</span>) },
+        Header: () => {
+          return (<span>{t("common_wordtype")}</span>)
+        },
         accessor: 'col1', // accessor is the "key" in the data
         Cell: (props) => {
           const word = props.value;
-          return <span key={props.id} className="word" onClick={(e) => onTypeSelect(e.target.textContent)}>{word}</span>
+          return <span key={props.id}
+                       className="word"
+                       onClick={(e) => onTypeSelect(e.target.textContent)}>{word}</span>
         },
         className: 'user',
         width: 400,
-        disableSortBy: true,
-        sortable: false,
         Filter: LongMenu,
         filter: MultipleFilter
       },
       {
-        Header: () => { return (<span>Vorm</span>) },
+        Header: () => {
+          return (<span>{t("common_form")}</span>)
+        },
         accessor: 'colvorm',
         Cell: (props) => {
           const word = props.value;
-          return <span className="word" onClick={(e) => onFormSelect(e.target.textContent)}>{word}</span>
+          return <span className="word"
+                       onClick={(e) => onFormSelect(e.target.textContent)}>{word}</span>
         },
         width: 400,
         className: 'colvorm',
-        disableSortBy: true,
-        sortable: false,
         Filter: LongMenu,
         filter: MultipleFilter2
       },
       {
-        Header: 'Sõnad tekstis',
+        Header: t("common_words_in_text"),
         accessor: 'col2',
         Cell: (props) => {
           const items = props.value
@@ -324,7 +341,8 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
             let count = items[1][i];
             let content = (
               <span key={uuidv4()}>
-                <span key={props.id} className="word"
+                <span key={props.id}
+                      className="word"
                       onClick={(e) => onWordSelect(e.target.textContent)}>{word}</span>{String.fromCharCode(160)}{count}
               </span>
             )
@@ -338,14 +356,14 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
         sortable: false,
       },
       {
-        Header: 'Sagedus',
+        Header: t("common_header_frequency"),
         id: 'sagedus',
         accessor: 'col3', // accessor is the "key" in the data
         width: 300,
         disableFilters: true,
       },
       {
-        Header: 'Osakaal (%)',
+        Header: t("common_header_percentage"),
         accessor: 'col4',
         width: 300,
         disableFilters: true,
@@ -356,11 +374,11 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
   );
 
   const tableHeaders = [
-    { label: "Sõnaliik", key: "col1" },
-    { label: 'Vorm', key: "colvorm" },
-    { label: 'Sõnad tekstis', key: "col2" },
-    { label: 'Sagedus', key: "col3" },
-    { label: 'Osakaal (%)', key: "col4" },
+    {label: t("common_wordtype"), key: "col1"},
+    {label: t("common_form"), key: "colvorm"},
+    {label: t("common_words_in_text"), key: "col2"},
+    {label: t("common_header_frequency"), key: "col3"},
+    {label: t("common_header_percentage"), key: "col4"},
   ]
 
   function closeDownload() {
@@ -397,16 +415,25 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
 
   return (
     <Fragment>
-      <Tooltip title="Laadi alla" placement="top">
-        <div className='downloadPopUp' onClick={ShowDownload} style={{marginBottom: "1.75rem", marginLeft: "4rem"}}>
-          <DownloadIcon fontSize="large" />
+      <Tooltip title={t("common_download")}
+               placement="top">
+        <div className='downloadPopUp'
+             onClick={ShowDownload}
+             style={{marginBottom: "1.75rem", marginLeft: "4rem"}}>
+          <DownloadIcon fontSize="large"/>
         </div>
       </Tooltip>
       <div>
-        <div id='fileDownload' className='fileDownload' style={{display: "none"}} ref={fileDownloadElement}>
-          <div id='closeIcon' className='closeIcon' onClick={closeDownload}><CloseIcon/></div>
-          <FormControl id="formId" fullWidth>
-            <InputLabel id="demo-simple-select-label">Laadi alla</InputLabel>
+        <div id='fileDownload'
+             className='fileDownload'
+             style={{display: "none"}}
+             ref={fileDownloadElement}>
+          <div id='closeIcon'
+               className='closeIcon'
+               onClick={closeDownload}><CloseIcon/></div>
+          <FormControl id="formId"
+                       fullWidth>
+            <InputLabel id="demo-simple-select-label">{t("common_download")}</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="simple-select"
@@ -430,7 +457,7 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
             {headerGroup.headers.map(column => (
               <th
                 className='tableHead'
-                {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}
+
                 style={{
                   borderBottom: 'solid 1px',
                   color: 'black',
@@ -438,7 +465,7 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
                 }}
               >
                   {<span>{column.render('Header')} {column.canFilter ? column.render("Filter") : null}</span>}
-                  <span className='sortIcon'>
+                  <span className='sortIcon' {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>
                     {column.isSorted
                       ? column.isSortedDesc
                         ? ' ▼'
