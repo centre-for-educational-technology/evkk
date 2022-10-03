@@ -61,7 +61,8 @@ export const Input = ({onInsert, onAnalyse, onMarkWords, onWordSelect, onWordInf
       {showAnalyseBtn ?
         <form>
           <label className="textInputContainer">
-            <textarea className='textInput'
+            <textarea spellCheck="false"
+                      className='textInput'
                       name='textInput'
                       value={input}
                       onChange={(e) => setInput(e.target.value)}/>
