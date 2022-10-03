@@ -63,11 +63,9 @@ export default function DownloadButton({data, headers}) {
         element.col3[2] = a;
       }
       csvData = JSON.parse(JSON.stringify(data));
-      console.log(csvData)
       for (let i = 0; i < data.length; i++) {
         csvData[i].col3.splice(0, 2);
       }
-      console.log(csvData)
     } else if (headers.length === 4) {
       for (const element of data) {
         let a = "";
