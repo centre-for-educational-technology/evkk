@@ -16,10 +16,8 @@ export default function DownloadButton({data, headers}) {
   const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
   const [fileType, setFileType] = useState(false);
   const fileDownloadElement = React.createRef();
-  const [buttonType, setButtonType] = useState(<Button variant='contained'
-                                                       disabled>{t("common_download")}</Button>);
+  const [buttonType, setButtonType] = useState(<Button variant='contained' onClick={showButton}>{t("common_download")}</Button>);
   let csvData = "";
-
   const [anchorEl, setAnchorEl] = React.useState(null);
   let tableHeaders = [];
 
@@ -36,7 +34,7 @@ export default function DownloadButton({data, headers}) {
 
 
   for (let i = 0; i < headers.length; i++) {
-    tableHeaders.push({label: headers[i], key: "col" + [i]});
+    tableHeaders.push({label: headers[i], key: "col" + [i+1]});
   }
 
   function setFirstRow() {
@@ -49,10 +47,12 @@ export default function DownloadButton({data, headers}) {
 
   useEffect(() => {
     setFirstRow();
+    setData();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function ShowButton() {
+  function setData(){
     if (headers.length === 5) {
       for (const element of data) {
         let a = "";
@@ -63,9 +63,11 @@ export default function DownloadButton({data, headers}) {
         element.col3[2] = a;
       }
       csvData = JSON.parse(JSON.stringify(data));
+      console.log(csvData)
       for (let i = 0; i < data.length; i++) {
         csvData[i].col3.splice(0, 2);
       }
+      console.log(csvData)
     } else if (headers.length === 4) {
       for (const element of data) {
         let a = "";
@@ -93,15 +95,19 @@ export default function DownloadButton({data, headers}) {
         csvData[i].col5.splice(0, 2);
       }
     }
+  }
 
+  function showButton() {
     if (headers.length === 5) {
       if (fileType) {
         setButtonType(<Button className='CSVBtn'
                               variant='contained'
-                              color='primary'>
+                              color='primary'
+        >
           <CSVLink filename={t("gram_anal_filename")}
                    className='csvLink'
                    headers={tableHeaders}
+                   style = {{color: "white", textDecoration: "none"}}
                    data={csvData}>{t("common_download")}</CSVLink>
         </Button>);
       } else if (!fileType) {
@@ -114,7 +120,7 @@ export default function DownloadButton({data, headers}) {
             <ExcelColumn label={headers[1]}
                          value="col2"/>
             <ExcelColumn label={headers[2]}
-                         value={(col) => col.col3[2]}/>
+                         value={(col) => col.col3[2] }/>
             <ExcelColumn label={headers[3]}
                          value="col4"/>
             <ExcelColumn label={headers[4]}
@@ -185,10 +191,13 @@ export default function DownloadButton({data, headers}) {
     }
   }
 
+
+
   useEffect(() => {
-    ShowButton(); // This will always use latest value of count
+    setData();
+    showButton(); // This will always use latest value of count
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fileType])
+  }, [fileType, data])
 
   async function itemClickTrue() {
     await setFileType(true);
