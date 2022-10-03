@@ -1,15 +1,7 @@
 import React, {Fragment, useEffect, useMemo, useState} from 'react';
 import {useFilters, usePagination, useSortBy, useTable} from 'react-table';
-import {
-  Checkbox,
-  FormControl,
-  IconButton,
-  ListItemIcon,
-  ListItemText,
-  MenuItem,
-  Select,
-} from "@mui/material";
-import DownloadBtn from "./DownloadBtn"
+import {Checkbox, FormControl, IconButton, ListItemIcon, ListItemText, MenuItem, Select,} from "@mui/material";
+import DownloadButton from "./DownloadButton";
 import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import {v4 as uuidv4} from 'uuid';
@@ -17,7 +9,7 @@ import TablePagination from "./TablePagination";
 import {useTranslation} from "react-i18next";
 import "../../../translations/i18n";
 
-function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnalyse }) {
+function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalyse}) {
   const [sonaliik, setSonaliik] = useState('');
   const [sonad, setSonad] = useState('');
   const [vormiliik, setVormiliik] = useState('');
@@ -32,10 +24,9 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
   let sonaList = new Map();
   let sonaList2 = new Map();
   let numbrid = new Map();
-  let numbrid2 = new Map();
   let vormiList = new Map();
   let tableVal = [];
-  const tableToDwnld = ["Sõnaliik", "Vorm", "Sõnad tekstis", "Sagedus", "Osakaal"]
+  const tableToDownload = [t("common_wordtype"), t("common_form"), t("common_words_in_text"), t("common_header_frequency"), t("common_header_percentage")];
 
   const sonuSonaliigis = () => {
     for (let i = 0; i < sonaliik.length; i++) {
@@ -59,13 +50,9 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
       if (!sonaList2.has(vormiliik[i])) {
         sonaList2.set(vormiliik[i], []);
         sonaList2.get(vormiliik[i]).push(sonad[i]);
-        numbrid2.set(sonad[i], 1);
       } else if (sonaList2.has(vormiliik[i])) {
-        if (sonaList2.get(vormiliik[i]).includes(sonad[i])) {
-          numbrid2.set(sonad[i], (numbrid.get(sonad[i]) + 1));
-        } else {
+        if (!(sonaList2.get(vormiliik[i]).includes(sonad[i]))) {
           sonaList2.get(vormiliik[i]).push(sonad[i]);
-          numbrid2.set(sonad[i], 1);
         }
       }
     }
@@ -77,8 +64,7 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
         vormiList.set(sonaliik[i], []);
         vormiList.get(sonaliik[i]).push(vormiliik[i]);
       } else if (vormiList.has(sonaliik[i])) {
-        if (vormiList.get(sonaliik[i]).includes(vormiliik[i])) {
-        } else {
+        if (!(vormiList.get(sonaliik[i]).includes(vormiliik[i]))) {
           vormiList.get(sonaliik[i]).push(vormiliik[i]);
         }
       }
@@ -128,7 +114,7 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
     return tableVal;
   }
 
-  const MultipleFilter = (rows, filler, filterValue) => {
+  const MultipleFilter = (rows, _filler, filterValue) => {
     const arr = [];
     rows.forEach((val) => {
       if (filterValue.includes(val.original.col1)) arr.push(val);
@@ -136,7 +122,7 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
     return arr;
   };
 
-  const MultipleFilter2 = (rows, filler, filterValue) => {
+  const MultipleFilter2 = (rows, _filler, filterValue) => {
     const arr = [];
     rows.forEach((val) => {
       if (filterValue.includes(val.original.col2)) arr.push(val);
@@ -160,7 +146,7 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
     [sonad, sonaliik]
   );
 
-  function LongMenu({ column: { filterValue = [], setFilter, preFilteredRows, id } }) {
+  function LongMenu({column: {filterValue = [], setFilter, preFilteredRows, id}}) {
     const [anchorEl, setAnchorEl] = useState(false);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -170,11 +156,11 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
       setAnchorEl(null);
     }
     const options = useMemo(() => {
-      const options = new Set();
+      const options2 = new Set();
       preFilteredRows.forEach((row) => {
-        options.add(row.values[id]);
+        options2.add(row.values[id]);
       });
-      return [...options.values()];
+      return [...options2.values()];
 
     }, [id, preFilteredRows,]);
 
@@ -188,14 +174,14 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
           aria-haspopup="true"
           onClick={handleClick}
         >
-          <FilterAltIcon />
+          <FilterAltIcon/>
         </IconButton>
         <FormControl>
           <Select
             multiple
             value={[]}
             open={open}
-            style={{ zIndex: "-30", position: "absolute", transform: "translate(-6rem, -.5rem)" }}
+            style={{zIndex: "-30", position: "absolute", transform: "translate(-6rem, -.5rem)"}}
             onClose={handleClose}
             MenuProps={{
               anchorOrigin: {
@@ -208,7 +194,7 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
               }
             }}
           >
-            {options.map((option, i) => (
+            {options.map((option, _i) => (
               <MenuItem
                 key={option}
                 value={option}
@@ -223,7 +209,9 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
                     checked={filterValue.includes(option)}
                   />
                 </ListItemIcon>
-                <ListItemText primary={option} id={option} value={option} />
+                <ListItemText primary={option}
+                              id={option}
+                              value={option}/>
               </MenuItem>
             ))}
           </Select>
@@ -310,14 +298,6 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
     [sonad, sonaliik, onWordSelect]
   );
 
-  const tableHeaders = [
-    {label: t("common_wordtype"), key: "col1"},
-    {label: t("common_form"), key: "col2"},
-    {label: t("common_words_in_text"), key: "col3"},
-    {label: t("common_header_frequency"), key: "col4"},
-    {label: t("common_header_percentage"), key: "col5"},
-  ]
-
   const {
     getTableProps,
     getTableBodyProps,
@@ -333,18 +313,21 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
     previousPage,
     setPageSize,
     state: {pageIndex, pageSize},
-  } = useTable({columns, data, initialState: {
+  } = useTable({
+    columns, data, initialState: {
       sortBy: [
         {
           id: 'sagedus',
           desc: true
         }
       ]
-    }}, useFilters, useSortBy, usePagination);
+    }
+  }, useFilters, useSortBy, usePagination);
 
   return (
     <Fragment>
-      <DownloadBtn data={data} headers={tableToDwnld}/>
+      <DownloadButton data={data}
+                      headers={tableToDownload}/>
       <table className='analyserTable' {...getTableProps()}
              style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>
         <thead>
@@ -353,48 +336,48 @@ function GrammaticalAnalysis({ onTypeSelect, onFormSelect, onWordSelect, onAnaly
             {headerGroup.headers.map(column => (
               <th
                 className='tableHead'
-
+                key={uuidv4()}
                 style={{
                   borderBottom: 'solid 1px',
                   color: 'black',
                   fontWeight: 'bold',
                 }}
               >
-                  {<span>{column.render('Header')} {column.canFilter ? column.render("Filter") : null}</span>}
-                  <span className='sortIcon' {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>
+                {<span>{column.render('Header')} {column.canFilter ? column.render("Filter") : null}</span>}
+                <span className='sortIcon' {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>
                     {column.isSorted
                       ? column.isSortedDesc
                         ? ' ▼'
                         : ' ▲'
                       : ' ▼▲'}
                   </span>
-                </th>
-              ))}
-            </tr>
-          ))}
+              </th>
+            ))}
+          </tr>
+        ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {page.map((row, i) => {
-            prepareRow(row)
-            return (
-              <tr className='tableRow' {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return (
-                    <td
-                      {...cell.getCellProps()}
-                      style={{
-                        padding: '10px',
-                        width: cell.column.width,
-                      }}
-                      className="border tableData"
-                    >
-                      {cell.render('Cell')}
-                    </td>
-                  )
-                })}
-              </tr>
-            )
-          })}
+        {page.map((row, _i) => {
+          prepareRow(row)
+          return (
+            <tr className='tableRow' {...row.getRowProps()}>
+              {row.cells.map(cell => {
+                return (
+                  <td
+                    {...cell.getCellProps()}
+                    style={{
+                      padding: '10px',
+                      width: cell.column.width,
+                    }}
+                    className="border tableData"
+                  >
+                    {cell.render('Cell')}
+                  </td>
+                )
+              })}
+            </tr>
+          )
+        })}
         </tbody>
       </table>
       <TablePagination

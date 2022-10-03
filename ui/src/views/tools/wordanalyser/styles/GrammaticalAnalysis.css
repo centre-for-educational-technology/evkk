@@ -1,26 +1,10 @@
-.filterDiv{
-    position: fixed;
-    width: 180px;
-    left: 20%;
-    top: 100px;
-    z-index: 1;
-    background-color: white;
-}
-
-.buttongroup{
-    width: 40%;
-}
-
-.pagination{
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-    align-items: baseline;
-}
-
-.fontStyle{
-    font-size: large;
+.filterDiv {
+  position: fixed;
+  width: 180px;
+  left: 20%;
+  top: 100px;
+  z-index: 1;
+  background-color: white;
 }
 
 .tableRow {
@@ -41,57 +25,4 @@
 
 .tableHead:nth-child(3) > .sortIcon {
   display: none;
-}
-
-.downloadDiv{
-    position: relative;
-    left: 85%;
-    width: 50px;
-    color: black;
-}
-
-.csvLink{
-    color: white;
-}
-
-.fileDownload{
-    padding: 30px;
-    position: fixed;
-    width: 300px;
-    right: 10%;
-    top: 100px;
-    z-index: 1;
-    background-color: white;
-}
-
-.downloadPopUp{
-    position: relative;
-    width: 40px;
-    left: 85%
-}
-
-.downloadPopUp:hover{
-    cursor: pointer;
-}
-
-.laadiBtn{
-    margin-top: 30px;
-    position: relative;
-    text-align: right;
-}
-
-.closeIcon:hover{
-    cursor: pointer;
-}
-
-.closeIcon{
-    position: relative;
-    text-align: right;
-    top: -15px;
-    right: -15px;
-}
-
-.csvLink:hover{
-    color: white;
-    text-decoration: none
 }

@@ -31,7 +31,7 @@ export const Input = ({onInsert, onAnalyse, onMarkWords, onWordSelect, onWordInf
   }
 
   useEffect(() => {
-    if (JSON.stringify(selectedWords)!==JSON.stringify(onMarkWords)) {
+    if (JSON.stringify(selectedWords) !== JSON.stringify(onMarkWords)) {
       setSelectedWords(onMarkWords);
     }
   }, [onMarkWords, selectedWords]);
