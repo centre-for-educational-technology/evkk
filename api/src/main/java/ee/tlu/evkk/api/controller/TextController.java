@@ -4,6 +4,7 @@ import ee.tlu.evkk.api.ApiMapper;
 import ee.tlu.evkk.api.controller.dto.LemmadRequestEntity;
 import ee.tlu.evkk.api.controller.dto.TextSearchRequest;
 import ee.tlu.evkk.api.controller.dto.TextSearchResponse;
+import ee.tlu.evkk.api.controller.dto.WordFeatsRequestEntity;
 import ee.tlu.evkk.common.env.ServiceLocator;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
@@ -69,9 +70,9 @@ public class TextController {
   }
 
   @PostMapping("/sonaliik")
-  public ResponseEntity<List<String>> sonaliik(@RequestBody LemmadRequestEntity request) {
+  public ResponseEntity<List<String>> sonaliik(@RequestBody WordFeatsRequestEntity request) {
     String[] sonaliik = stanzaServerClient.getSonaliik(request.getTekst());
-    List<String> body = asList(textService.translateWordType(sonaliik));
+    List<String> body = asList(textService.translateWordType(sonaliik, request.getLanguage()));
     return ResponseEntity.ok(body);
   }
 
@@ -90,9 +91,9 @@ public class TextController {
   }
 
   @PostMapping("/vormimargendid")
-  public ResponseEntity<List<String>> vormimargendid(@RequestBody LemmadRequestEntity request) {
+  public ResponseEntity<List<String>> vormimargendid(@RequestBody WordFeatsRequestEntity request) {
     String[][] vormimargendid = stanzaServerClient.getVormimargendid(request.getTekst());
-    return ResponseEntity.ok(textService.translateFeats(vormimargendid));
+    return ResponseEntity.ok(textService.translateFeats(vormimargendid, request.getLanguage()));
   }
 
   @PostMapping("/lemmad")

@@ -17,8 +17,8 @@ export const InputText = ({onAnalyse, onMarkWords, onWordSelect, onWordInfo}) =>
       for (let i = 0; i < analysedWords.length; i++) {
         let index = text.indexOf(analysedWords[i]);
         let isMarked = false;
-        for (let j = 0; j < onMarkWords.length; j++) {
-          if (ids[i] === onMarkWords[j]) {
+        for (const element of onMarkWords) {
+          if (ids[i] === element) {
             isMarked = true;
           }
         }
@@ -42,19 +42,27 @@ export const InputText = ({onAnalyse, onMarkWords, onWordSelect, onWordInfo}) =>
           content.push(sequence);
 
           if (isMarked) {
-            content.push(<span id={ids[i]} className="word marked" key={uuidv4()}
+            content.push(<span id={ids[i]}
+                               className="word marked"
+                               key={uuidv4()}
                                onClick={(e) => handleWord(e)}>{analysedWords[i]}</span>);
           } else {
-            content.push(<span id={ids[i]} className="word" key={uuidv4()}
+            content.push(<span id={ids[i]}
+                               className="word"
+                               key={uuidv4()}
                                onClick={(e) => handleWord(e)}>{analysedWords[i]}</span>);
           }
           text = text.substring(index + analysedWords[i].length, text.length);
         } else {
           if (isMarked) {
-            content.push(<span id={ids[i]} className="word marked" key={uuidv4()}
+            content.push(<span id={ids[i]}
+                               className="word marked"
+                               key={uuidv4()}
                                onClick={(e) => handleWord(e)}>{analysedWords[i]}</span>);
           } else {
-            content.push(<span id={ids[i]} className="word" key={uuidv4()}
+            content.push(<span id={ids[i]}
+                               className="word"
+                               key={uuidv4()}
                                onClick={(e) => handleWord(e)}>{analysedWords[i]}</span>);
           }
           text = text.substring(index + analysedWords[i].length, text.length);
@@ -62,13 +70,12 @@ export const InputText = ({onAnalyse, onMarkWords, onWordSelect, onWordInfo}) =>
       }
     }
     content.push(text);
-    let output = <>{content}</>
-    return output;
+    return <>{content}</>;
   }, [onAnalyse, onMarkWords, handleWord])
 
   return (
-    <div className="textInputDiv" >
-        {updatedText}
+    <div className="textInputDiv">
+      {updatedText}
     </div>
   )
 }

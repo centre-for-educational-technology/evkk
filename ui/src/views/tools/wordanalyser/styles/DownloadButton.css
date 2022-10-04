@@ -1,0 +1,29 @@
+.download-button {
+  padding-top: 45px;
+  padding-left: 60px;
+}
+
+.download-button-section {
+  display: flex;
+  margin-bottom: 20px;
+  justify-content: flex-end;
+}
+
+.download-dialog {
+  width: 300px;
+  height: 200px;
+}
+
+.download-dialog-inner {
+  padding: 30px;
+}
+
+.csvLink {
+  color: white;
+  text-decoration: none;
+}
+
+.csvLink:hover {
+  color: white;
+  text-decoration: none;
+}

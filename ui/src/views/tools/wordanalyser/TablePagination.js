@@ -4,6 +4,9 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import React from "react";
+import {useTranslation} from "react-i18next";
+import "../../../translations/i18n";
+import "./styles/TablePagination.css"
 
 function TablePagination({
                            gotoPage,
@@ -17,26 +20,40 @@ function TablePagination({
                            setPageSize,
                            pageCount
                          }) {
+
+  const {t} = useTranslation();
+
   return (
     <div className="pagination">
       <div className='buttongroup'>
-        <ButtonGroup size='medium' fullWidth variant="contained" aria-label="outlined primary button group">
-          <Button variant='contained' onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+        <ButtonGroup size='medium'
+                     fullWidth
+                     variant="contained"
+                     aria-label="outlined primary button group">
+          <Button variant='contained'
+                  onClick={() => gotoPage(0)}
+                  disabled={!canPreviousPage}>
             {<FirstPageIcon/>}
           </Button>{' '}
-          <Button variant='contained' onClick={() => previousPage()} disabled={!canPreviousPage}>
+          <Button variant='contained'
+                  onClick={() => previousPage()}
+                  disabled={!canPreviousPage}>
             {<NavigateBeforeIcon/>}
           </Button>{' '}
-          <Button variant='contained' onClick={() => nextPage()} disabled={!canNextPage}>
+          <Button variant='contained'
+                  onClick={() => nextPage()}
+                  disabled={!canNextPage}>
             {<NavigateNextIcon/>}
           </Button>{' '}
-          <Button variant='contained' onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+          <Button variant='contained'
+                  onClick={() => gotoPage(pageCount - 1)}
+                  disabled={!canNextPage}>
             {<LastPageIcon/>}
           </Button>{' '}
         </ButtonGroup>
       </div>
       <span className='fontStyle'>
-          Leht{' '}
+          {t("pagination_page")}{' '}
         <strong>
             {pageIndex + 1} / {pageOptions.length}
           </strong>{' '}
@@ -44,7 +61,7 @@ function TablePagination({
       <TextField
         size='small'
         id="outlined-number"
-        label="Mine lehele nr:"
+        label={t("pagination_go_to_page")}
         type="number"
         defaultValue={pageIndex + 1}
         onChange={e => {
@@ -59,12 +76,14 @@ function TablePagination({
         size='small'
         value={pageSize}
         variant='outlined'
+        label="Kirjete arv:"
         onChange={e => {
           setPageSize(Number(e.target.value))
         }}
       >
-        {[5, 10, 20, 30, 40, 50, 100].map(pageSize => (
-          <MenuItem key={pageSize} value={pageSize}>{pageSize}</MenuItem>
+        {[5, 10, 20, 30, 40, 50, 100].map(pageSizeNo => (
+          <MenuItem key={pageSizeNo}
+                    value={pageSizeNo}>{pageSizeNo}</MenuItem>
         ))}
       </Select>
     </div>

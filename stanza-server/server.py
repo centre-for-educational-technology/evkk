@@ -9,7 +9,6 @@ from tasemehindaja import arvuta
 from nlp import nlp_t, nlp_tp, nlp_tpl
 
 from nlp import nlp_ru_t, nlp_ru_tp
-#from stanza_caller import lemmatize
 
 if os.path.isfile("/app/word_mapping.csv"):
   asendused=[rida.strip().split(",") for rida in open("/app/word_mapping.csv").readlines()]
@@ -45,10 +44,14 @@ def vormimargendid():
 @app.route('/silbid', methods=['POST'])
 def silbita():
     tekst = request.json["tekst"]
+    mitmekaupa = 4
     sonad = tekst.split()
+    sonad = [" ".join(sonad[i:i+mitmekaupa]) for i in range(0, len(sonad), mitmekaupa)]
     response = []
     for sona in sonad:
-        response.append(silbita_sisemine(sona).rstrip())
+        vahetulemus = silbita_sisemine(sona).rstrip().split()
+        for tulem in vahetulemus:
+            response.append(tulem)
     return Response(json.dumps(response), mimetype="application/json")
 
 def silbita_sisemine(tekst):
@@ -81,7 +84,6 @@ def laused():
 
 @app.route('/sonad', methods=['POST'])
 def sonad():
-    #return Response(json.dumps(arvuta(request.json["tekst"])), mimetype="application/json")
     nlp = nlp_tp
     doc = nlp(request.json["tekst"])
     v1 = []
@@ -93,7 +95,6 @@ def sonad():
 
 @app.route('/keeletase', methods=['POST'])
 def keeletase():
-    #return Response(json.dumps(arvuta("Juku tuli kooli ja oli üllatavalt rõõmsas tujus")), mimetype="application/json")
     return Response(json.dumps(arvuta(request.json["tekst"])), mimetype="application/json")
 
 
