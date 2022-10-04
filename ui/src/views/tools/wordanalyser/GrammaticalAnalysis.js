@@ -162,7 +162,7 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
       });
       return [...options2.values()];
 
-    }, [id, preFilteredRows,]);
+    }, [id, preFilteredRows]);
 
     return (
       <Fragment>
@@ -181,7 +181,7 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
             multiple
             value={[]}
             open={open}
-            style={{zIndex: "-30", position: "absolute", transform: "translate(-6rem, -.5rem)"}}
+            style={{zIndex: "-30", position: "absolute", transform: "translate(-3.7rem, -.5rem)"}}
             onClose={handleClose}
             MenuProps={{
               anchorOrigin: {

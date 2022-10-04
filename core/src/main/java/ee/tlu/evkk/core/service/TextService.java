@@ -108,8 +108,8 @@ public class TextService {
     List<String> result = new ArrayList<>();
 
     for (String[] word : tekst) {
-      // muutumatud sõnad
-      if (word[1] == null || word[1].equals("–")) {
+      // muutumatud sõnad (Abbr=Yes ehk lühendid; NumForm=Digit ehk arvud jne)
+      if (word[1] == null || word[1].equals("–") || word[1].equals("Abbr=Yes") || word[1].contains("NumForm=Digit")) {
         result.add("–");
       }
 
@@ -191,7 +191,7 @@ public class TextService {
 
         // pöördelised vormid
         else if (Arrays.asList(feats).contains("VerbForm=Fin")) {
-          for (String feat: feats) {
+          for (String feat : feats) {
             if (feat.contains("Mood")) {
               moodLabel = moodTranslations.get(feat.split("=")[1]);
             }
@@ -209,7 +209,7 @@ public class TextService {
               }
             }
           }
-          for (String feat: feats) {
+          for (String feat : feats) {
             if (feat.contains("Tense")) {
               if (feat.split("=")[1].equals("Pres")) {
                 tenseLabel = present;
@@ -266,7 +266,7 @@ public class TextService {
               verbFormLabel = inflectedFormTudParticiple;
             }
           } else {
-            for (String feat: feats) {
+            for (String feat : feats) {
               if (feat.split("=")[0].equals("VerbForm")) {
                 verbFormLabel = verbFormTranslations.get(feat.split("=")[1]);
               }
