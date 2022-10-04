@@ -8,6 +8,11 @@ import Resource from "./views/Resource.component";
 import Correction from "./views/Correction.component";
 import WordAnalyser from './views/tools/wordanalyser/WordAnalyser';
 
+import About2 from "./elle/pages/About2";
+import Corrector from "./elle/pages/Corrector";
+import Links from "./elle/pages/Links";
+import Tools from "./elle/pages/Tools";
+
 class Routes extends Component {
 
   render404 = () => {
@@ -34,6 +39,13 @@ class Routes extends Component {
           <Route path="/tools/masinoppe-ennustus" component={MasinoppeEnnustus}/>
           <Route path="/tools/clusterfinder" component={ClusterFinder}/>
           <Route path="/tools/wordanalyser" component={WordAnalyser}/>
+
+          <Route path="/about2" component={About2}/>
+          <Route path="/tools" component={Tools}/>
+          <Route path="/corrector" component={Corrector}/>
+          <Route path="/links" component={Links}/>
+
+
           <Route component={() => this.render404()}/>
         </Switch>
       </div>

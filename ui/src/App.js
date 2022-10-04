@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Nav from './Nav';
+import Navbar from "./elle/components/Navbar"
 import Routes from './Routes';
 import {Provider} from 'react-redux'
 import {applyMiddleware, createStore} from 'redux';
@@ -22,7 +23,8 @@ class AppWithStatus extends Component {
     if (!this.props.statusLoaded) return null;
     return (
       <>
-        <Nav/>
+        {/*<Nav/>*/}
+        <Navbar/>
         <Routes/>
         <footer className="footer">
           <div className="container">
