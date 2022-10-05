@@ -7,7 +7,18 @@ import "../../../translations/i18n";
 import DownloadButton from "./DownloadButton";
 import {v4 as uuidv4} from 'uuid';
 
-function Syllables({onAnalyse, onSyllableSelect}) {
+function Syllables({
+                     onAnalyse,
+                     onSyllableSelect,
+                     newPageSize,
+                     setNewPageSize,
+                     newPageIndex,
+                     setPageIndex,
+                     newSortHeader,
+                     setNewSortHeader,
+                     newSortDesc,
+                     setNewSortDesc
+                   }) {
 
   const data = onAnalyse.syllables;
   const len = data.length;
@@ -17,6 +28,8 @@ function Syllables({onAnalyse, onSyllableSelect}) {
   let syllables = [];
   let infoList = [];
   const [infoListNew, setInfolistNew] = useState([]);
+  const [tempHeader, setTempHeader] = useState(newSortHeader);
+  const [tempSortDesc, setTempSortDesc] = useState(newSortDesc);
 
   const tableToDownload = [t("syllables_header_syllable"), t("syllables_table_beginning"), t("syllables_table_middle"), t("syllables_table_end"), t("common_words_in_text"), t("common_header_frequency"), t("common_header_percentage")];
 
@@ -221,10 +234,12 @@ function Syllables({onAnalyse, onSyllableSelect}) {
     columns: columns,
     data: formatedList,
     initialState: {
+      pageSize: newPageSize,
+      pageIndex: newPageIndex,
       sortBy: [
         {
-          id: 'sagedus',
-          desc: true
+          id: newSortHeader,
+          desc: newSortDesc
         }
       ]
     }
@@ -235,17 +250,30 @@ function Syllables({onAnalyse, onSyllableSelect}) {
     getTableBodyProps,
     headerGroups,
     page,
-    state,
-    nextPage,
-    previousPage,
-    canNextPage,
+    prepareRow,
     canPreviousPage,
+    canNextPage,
     pageOptions,
     pageCount,
     gotoPage,
+    nextPage,
+    previousPage,
     setPageSize,
-    prepareRow
+    state: {pageIndex, pageSize}
   } = tableInstance;
+
+  useEffect(() => {
+    setNewPageSize(pageSize)
+  }, [pageSize]);
+  useEffect(() => {
+    setPageIndex(pageIndex)
+  }, [pageIndex]);
+  useEffect(() => {
+    setNewSortHeader(tempHeader)
+  }, [tempHeader]);
+  useEffect(() => {
+    setNewSortDesc(tempSortDesc)
+  }, [tempSortDesc]);
 
   return (
     <>
@@ -281,6 +309,9 @@ function Syllables({onAnalyse, onSyllableSelect}) {
                 className="tableHdr headerbox">{column.render('Header')}
                 <span className="sort" {...column.getHeaderProps(column.getSortByToggleProps())}>
                                         {column.isSorted ? (column.isSortedDesc ? ' ▼' : ' ▲') : ' ▼▲'}
+                  {column.isSorted && tempHeader !== column.id ? setTempHeader(column.id) : null}
+                  {column.isSorted && column.isSortedDesc && tempSortDesc !== true ? setTempSortDesc(true) : null}
+                  {column.isSorted && !column.isSortedDesc && column.isSortedDesc !== undefined && tempSortDesc !== false ? setTempSortDesc(false) : null}
                                     </span>
               </th>
             ))}
@@ -311,9 +342,9 @@ function Syllables({onAnalyse, onSyllableSelect}) {
         canPreviousPage={canPreviousPage}
         nextPage={nextPage}
         canNextPage={canNextPage}
-        pageIndex={state.pageIndex}
+        pageIndex={pageIndex}
         pageOptions={pageOptions}
-        pageSize={state.pageSize}
+        pageSize={pageSize}
         setPageSize={setPageSize}
         pageCount={pageCount}
       />

@@ -29,6 +29,10 @@ function WordAnalyser() {
   const [wordInfo, setWordInfo] = useState('');
   const [textFromFile, setTextFromFile] = useState('');
   const {t} = useTranslation();
+  const [newPageSize, setNewPageSize] = useState(10);
+  const [newPageIndex, setPageIndex] = useState(0);
+  const [newSortHeader, setNewSortHeader] = useState("sagedus");
+  const [newSortDesc, setNewSortDesc] = useState(true);
 
   //get words
   const getWords = async (input) => {
@@ -415,6 +419,9 @@ function WordAnalyser() {
 
   const handleChange = (_event, newValue) => {
     setValue(newValue);
+    setNewSortDesc(true);
+    setNewSortHeader("sagedus");
+    setPageIndex(0);
   };
 
   return (
@@ -467,7 +474,13 @@ function WordAnalyser() {
               <div>
                 {(analysedInput.syllables.length > 1 || analysedInput.syllables[0] !== "") &&
                   <Syllables onAnalyse={analysedInput}
-                             onSyllableSelect={showSyllable}/>}
+                             onSyllableSelect={showSyllable} newPageSize={newPageSize}
+                             setNewPageSize={setNewPageSize}
+                             newPageIndex={newPageIndex}
+                             setPageIndex={setPageIndex}
+                             newSortHeader={newSortHeader}
+                             setNewSortHeader={setNewSortHeader} newSortDesc={newSortDesc}
+                             setNewSortDesc={setNewSortDesc}/>}
               </div>
             </TabPanel>
             <TabPanel value={value}
@@ -475,7 +488,14 @@ function WordAnalyser() {
               <div>
                 <LemmaView onAnalyse={analysedInput}
                            onLemmaSelect={showLemma}
-                           onWordSelect={showWord}/>
+                           onWordSelect={showWord}
+                           newPageSize={newPageSize}
+                           setNewPageSize={setNewPageSize}
+                           newPageIndex={newPageIndex}
+                           setPageIndex={setPageIndex}
+                           newSortHeader={newSortHeader}
+                           setNewSortHeader={setNewSortHeader} newSortDesc={newSortDesc}
+                           setNewSortDesc={setNewSortDesc}/>
               </div>
             </TabPanel>
             <TabPanel value={value}
@@ -484,7 +504,14 @@ function WordAnalyser() {
                 <GrammaticalAnalysis onTypeSelect={showType}
                                      onFormSelect={showForm}
                                      onWordSelect={showWord}
-                                     onAnalyse={analysedInput}/>
+                                     onAnalyse={analysedInput}
+                                     newPageSize={newPageSize}
+                                     setNewPageSize={setNewPageSize}
+                                     newPageIndex={newPageIndex}
+                                     setPageIndex={setPageIndex}
+                                     newSortHeader={newSortHeader}
+                                     setNewSortHeader={setNewSortHeader} newSortDesc={newSortDesc}
+                                     setNewSortDesc={setNewSortDesc}/>
               </div>
             </TabPanel>
           </Grid>
