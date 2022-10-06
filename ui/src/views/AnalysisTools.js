@@ -36,7 +36,7 @@ class AnalysisTools extends Component {
                   expandIcon={<ExpandMoreIcon />}
                   onClick={() => this.setState({ expanded: true })}
                 >
-                  Analüüsivahendid
+                  Analüüsivahendid : <strong>{this.state.selected}</strong>
                 </AccordionSummary>
                 <AccordionDetails>
                   <AnalysisTool
@@ -49,7 +49,7 @@ class AnalysisTools extends Component {
                     title="Keerukuse analüüs"
                     img="/img/keerukus.png"
                     description="jaga sõna silpideks..."
-                    action={() => this.clicked("keerukus")}
+                    action={() => this.clicked("Keerukus")}
                   ></AnalysisTool>
                   <AnalysisTool
                     title="Mustrid"
