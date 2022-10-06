@@ -40,10 +40,11 @@ class Routes extends Component {
           <Route path="/tools/clusterfinder" component={ClusterFinder}/>
           <Route path="/tools/wordanalyser" component={WordAnalyser}/>
 
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/corrector" component={Corrector}/>
+          <Route exact
+                 path="/"
+                 component={Home}/>
+          <Route path="/corrector"
+                 component={Corrector}/>
           <Route path="/tools" component={Tools}/>
           <Route path="/links" component={Links}/>
           <Route component={() => this.render404()}/>
