@@ -1,13 +1,13 @@
-import Logo from "../images/elle_logo.png";
-import CoverImage from "../images/header2.png";
-import { AppBar, Box, Divider, Grid, Link, styled, Toolbar } from "@mui/material";
-import { Help, Language, Search } from "@mui/icons-material";
+import Logo from "../resources/images/elle_logo.png";
+import CoverImage from "../resources/images/header.png";
+import {AppBar, Box, Divider, Grid, Link, styled, Toolbar} from "@mui/material";
+import {Help, Language, Search} from "@mui/icons-material";
 import {NavLink} from 'react-router-dom';
 
 const MenuLink = styled(Link)({
   fontWeight: 600,
   fontSize: 16,
-  color:"#1B1B1B",
+  color: "#1B1B1B",
   textDecoration: "none",
   '&:hover': {
     color: "#9C27B0",
@@ -71,7 +71,7 @@ function Navbar() {
             </Box>
             <Divider orientation="vertical" sx={{ borderRightWidth: 2, background: "rgba(156,39,176,0.4)", my:.6}} flexItem />
             <Box sx={{my:0, mx:4 }}>
-              <MenuLink to="/about2" component={NavLink} >
+              <MenuLink to="/about" component={NavLink}>
                 Keskkonnast
               </MenuLink>
             </Box>

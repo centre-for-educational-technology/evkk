@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Redirect, Route, Switch} from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 import {About, Employees, Login, Resources} from "./views";
 import {MasinoppeEnnustus, MinitornPikkus} from "./views/tools";
 import ClusterFinder from "./views/tools/ClusterFinder";
@@ -8,7 +8,6 @@ import Resource from "./views/Resource.component";
 import Correction from "./views/Correction.component";
 import WordAnalyser from './views/tools/wordanalyser/WordAnalyser';
 
-import About2 from "./elle/pages/About2";
 import Corrector from "./elle/pages/Corrector";
 import Home from "./elle/pages/Home";
 import Links from "./elle/pages/Links";
@@ -47,9 +46,6 @@ class Routes extends Component {
           <Route path="/corrector" component={Corrector}/>
           <Route path="/tools" component={Tools}/>
           <Route path="/links" component={Links}/>
-          <Route path="/about2" component={About2}/>
-
-
           <Route component={() => this.render404()}/>
         </Switch>
       </div>
