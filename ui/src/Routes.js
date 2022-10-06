@@ -27,8 +27,11 @@ class Routes extends Component {
     return (
       <div className={'mt-4'}>
         <Switch>
-          {/*<Route exact path={'/'} render={() => <Redirect to={'/about'}/>}/>*/}
-          <Route path="/about" component={About}/>
+          <Route exact
+                 path='/'
+                 component={Home}/>
+          <Route path="/about"
+                 component={About}/>
           <Route path="/employees" component={Employees}/>
           <Route path="/resources" component={Resources}/>
           <Route path="/resource" component={Resource}/>
@@ -38,14 +41,12 @@ class Routes extends Component {
           <Route path="/tools/minitorn-pikkus" component={MinitornPikkus}/>
           <Route path="/tools/masinoppe-ennustus" component={MasinoppeEnnustus}/>
           <Route path="/tools/clusterfinder" component={ClusterFinder}/>
-          <Route path="/tools/wordanalyser" component={WordAnalyser}/>
-
-          <Route exact
-                 path="/"
-                 component={Home}/>
+          <Route path="/tools/wordanalyser"
+                 component={WordAnalyser}/>
           <Route path="/corrector"
                  component={Corrector}/>
-          <Route path="/tools" component={Tools}/>
+          <Route path="/tools"
+                 component={Tools}/>
           <Route path="/links" component={Links}/>
           <Route component={() => this.render404()}/>
         </Switch>
