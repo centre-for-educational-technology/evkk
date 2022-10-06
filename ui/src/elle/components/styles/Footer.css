@@ -1,0 +1,14 @@
+.footer-base {
+  background: url(src/elle/resources/images/footer.svg);
+  background-size: 100% 100%;
+  position: absolute;
+  bottom: 0;
+  height: 120px;
+  width: 100%;
+  padding-left: 2em;
+}
+
+.footer-column {
+  text-align: center;
+  padding-top: 26px;
+}
