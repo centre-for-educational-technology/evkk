@@ -24,7 +24,7 @@ function Navbar() {
   //Logo
   // Avaleht (home)
   // Tekstihindaja (corrector)
-  // Tekstikogud (tools)
+  // Tekstid & tööriistad (tools)
   // Lingikogud (links)
   // Keskkonnast (about)
   //
@@ -59,8 +59,9 @@ function Navbar() {
             </Box>
             <Divider orientation="vertical" sx={{ borderRightWidth: 2, background: "rgba(156,39,176,0.4)", my:.6}} flexItem />
             <Box sx={{my:0, mx:4 }} >
-              <MenuLink to="/tools" component={NavLink}>
-                Tekstikogud
+              <MenuLink to="/tools"
+                        component={NavLink}>
+                Tekstid & tööriistad
               </MenuLink>
             </Box>
             <Divider orientation="vertical" sx={{ borderRightWidth: 2, background: "rgba(156,39,176,0.4)", my:.6}} flexItem />

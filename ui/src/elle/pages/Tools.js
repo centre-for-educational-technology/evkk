@@ -2,7 +2,7 @@
 function Tools(){
   return(
     <>
-      Tekstikogud
+      Tekstid & tööriistad
     </>
   )
 }
