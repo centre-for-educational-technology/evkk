@@ -32,22 +32,32 @@ class Routes extends Component {
                  component={Home}/>
           <Route path="/about"
                  component={About}/>
-          <Route path="/employees" component={Employees}/>
-          <Route path="/resources" component={Resources}/>
-          <Route path="/resource" component={Resource}/>
-          <Route path="/correction" component={Correction}/>
-          <Route path="/login" component={Login}/>
-          <Route path="/files" component={Files}/>
-          <Route path="/tools/minitorn-pikkus" component={MinitornPikkus}/>
-          <Route path="/tools/masinoppe-ennustus" component={MasinoppeEnnustus}/>
-          <Route path="/tools/clusterfinder" component={ClusterFinder}/>
+          <Route path="/employees"
+                 component={Employees}/>
+          <Route path="/resources"
+                 component={Resources}/>
+          <Route path="/resource"
+                 component={Resource}/>
+          <Route path="/correction"
+                 component={Correction}/>
+          <Route path="/login"
+                 component={Login}/>
+          <Route path="/files"
+                 component={Files}/>
+          <Route path="/tools/minitorn-pikkus"
+                 component={MinitornPikkus}/>
+          <Route path="/tools/masinoppe-ennustus"
+                 component={MasinoppeEnnustus}/>
+          <Route path="/tools/clusterfinder"
+                 component={ClusterFinder}/>
           <Route path="/tools/wordanalyser"
                  component={WordAnalyser}/>
           <Route path="/corrector"
                  component={Corrector}/>
           <Route path="/tools"
                  component={Tools}/>
-          <Route path="/links" component={Links}/>
+          <Route path="/links"
+                 component={Links}/>
           <Route component={() => this.render404()}/>
         </Switch>
       </div>
