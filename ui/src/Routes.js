@@ -22,7 +22,7 @@ class Routes extends Component {
 
   render() {
     return (
-      <Container sx={{ mb: 10 }}>
+      <Container sx={{ mb: 10 }} maxWidth="xl">
         <Switch>
           <Route exact path={"/"} render={() => <Redirect to={"/about"} />} />
           <Route path="/about" component={About} />
