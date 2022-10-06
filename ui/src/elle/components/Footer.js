@@ -20,7 +20,7 @@ function Footer() {
           <Grid item
                 xs={1}
                 className="footer-column">
-            <img src={require("../resources/tlu.png").default}
+            <img src={require("../resources/images/tlu.png").default}
                  alt="TLÜ logo"/>
           </Grid>
         </Grid>
