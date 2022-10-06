@@ -23,6 +23,10 @@
   cursor: auto;
 }
 
+.tableHead:nth-child(2) > .sortIcon {
+  display: none;
+}
+
 .tableHead:nth-child(3) > .sortIcon {
   display: none;
 }

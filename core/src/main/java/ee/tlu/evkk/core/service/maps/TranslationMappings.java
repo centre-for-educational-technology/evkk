@@ -41,6 +41,9 @@ public class TranslationMappings {
     wordTypesEt.put("SCONJ", "sidesõna (alistav)");
     wordTypesEt.put("VERB", "tegusõna");
     wordTypesEt.put("X", "tundmatu");
+    wordTypesEt.put("SYM", "–");
+    wordTypesEt.put("PUNCT", "–");
+    wordTypesEt.put("PART", "–");
 
     firstType.add("NOUN");
     firstType.add("PROPN");
@@ -103,6 +106,9 @@ public class TranslationMappings {
     wordTypesEn.put("SCONJ", "conjunction (subordinating)");
     wordTypesEn.put("VERB", "verb");
     wordTypesEn.put("X", "unknown");
+    wordTypesEn.put("SYM", "–");
+    wordTypesEn.put("PUNCT", "–");
+    wordTypesEn.put("PART", "–");
 
     numberTranslationsEn.put("Sing", "singular");
     numberTranslationsEn.put("Plur", "plural");

@@ -9,11 +9,26 @@ import TablePagination from "./TablePagination";
 import {useTranslation} from "react-i18next";
 import "../../../translations/i18n";
 
-function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalyse}) {
+function GrammaticalAnalysis({
+                               onTypeSelect,
+                               onFormSelect,
+                               onWordSelect,
+                               onAnalyse,
+                               newPageSize,
+                               setNewPageSize,
+                               newPageIndex,
+                               setPageIndex,
+                               newSortHeader,
+                               setNewSortHeader,
+                               newSortDesc,
+                               setNewSortDesc
+                             }) {
   const [sonaliik, setSonaliik] = useState('');
   const [sonad, setSonad] = useState('');
   const [vormiliik, setVormiliik] = useState('');
   const {t} = useTranslation();
+  const [tempHeader, setTempHeader] = useState(newSortHeader)
+  const [tempSortDesc, setTempSortDesc] = useState(newSortDesc)
 
   useEffect(() => {
     setSonaliik(onAnalyse.wordtypes);
@@ -162,7 +177,7 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
       });
       return [...options2.values()];
 
-    }, [id, preFilteredRows,]);
+    }, [id, preFilteredRows]);
 
     return (
       <Fragment>
@@ -181,7 +196,7 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
             multiple
             value={[]}
             open={open}
-            style={{zIndex: "-30", position: "absolute", transform: "translate(-6rem, -.5rem)"}}
+            style={{zIndex: "-30", position: "absolute", transform: "translate(-3.7rem, -.5rem)"}}
             onClose={handleClose}
             MenuProps={{
               anchorOrigin: {
@@ -236,7 +251,7 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
         className: 'user',
         width: 400,
         Filter: LongMenu,
-        filter: MultipleFilter
+        filter: MultipleFilter,
       },
       {
         Header: () => {
@@ -253,7 +268,7 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
         disableSortBy: true,
         sortable: false,
         Filter: LongMenu,
-        filter: MultipleFilter2
+        filter: MultipleFilter2,
       },
       {
         Header: t("common_words_in_text"),
@@ -315,14 +330,30 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
     state: {pageIndex, pageSize},
   } = useTable({
     columns, data, initialState: {
+      pageSize: newPageSize,
+      pageIndex: newPageIndex,
       sortBy: [
         {
-          id: 'sagedus',
-          desc: true
+          id: newSortHeader,
+          desc: newSortDesc
         }
       ]
     }
   }, useFilters, useSortBy, usePagination);
+
+  useEffect(() => {
+    setNewPageSize(pageSize)
+  }, [pageSize]);
+  useEffect(() => {
+    setPageIndex(pageIndex)
+  }, [pageIndex]);
+  useEffect(() => {
+    setNewSortHeader(tempHeader)
+  }, [tempHeader]);
+  useEffect(() => {
+    setNewSortDesc(tempSortDesc)
+  }, [tempSortDesc]);
+
 
   return (
     <Fragment>
@@ -344,12 +375,15 @@ function GrammaticalAnalysis({onTypeSelect, onFormSelect, onWordSelect, onAnalys
                 }}
               >
                 {<span>{column.render('Header')} {column.canFilter ? column.render("Filter") : null}</span>}
-                <span className='sortIcon' {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>
+                <span className='sortIcon'  {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>
                     {column.isSorted
                       ? column.isSortedDesc
                         ? ' ▼'
                         : ' ▲'
                       : ' ▼▲'}
+                  {column.isSorted && tempHeader !== column.id ? setTempHeader(column.id) : null}
+                  {column.isSorted && column.isSortedDesc && tempSortDesc !== true ? setTempSortDesc(true) : null}
+                  {column.isSorted && !column.isSortedDesc && column.isSortedDesc !== undefined && tempSortDesc !== false ? setTempSortDesc(false) : null}
                   </span>
               </th>
             ))}
