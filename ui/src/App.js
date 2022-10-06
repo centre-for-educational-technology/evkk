@@ -9,6 +9,7 @@ import rootReducer from './rootReducer';
 import {getStatusIfNeeded} from './rootActions';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {selectStatusLoaded} from './rootSelectors';
+import Footer from "./elle/components/Footer";
 
 const store = createStore(rootReducer, compose(applyMiddleware(thunkMiddleware)));
 
@@ -24,15 +25,7 @@ class AppWithStatus extends Component {
       <>
         <Navbar/>
         <Routes/>
-        <footer className="footer">
-          <div className="container">
-            <span className="text-muted">
-              <center>
-                <small>TLÜ EVKK {new Date().getFullYear()}</small>
-              </center>
-            </span>
-          </div>
-        </footer>
+        <Footer/>
       </>
     )
   }
