@@ -10,6 +10,7 @@ import WordAnalyser from './views/tools/wordanalyser/WordAnalyser';
 
 import About2 from "./elle/pages/About2";
 import Corrector from "./elle/pages/Corrector";
+import Home from "./elle/pages/Home";
 import Links from "./elle/pages/Links";
 import Tools from "./elle/pages/Tools";
 
@@ -27,7 +28,7 @@ class Routes extends Component {
     return (
       <div className={'mt-4'}>
         <Switch>
-          <Route exact path={'/'} render={() => <Redirect to={'/about'}/>}/>
+          {/*<Route exact path={'/'} render={() => <Redirect to={'/about'}/>}/>*/}
           <Route path="/about" component={About}/>
           <Route path="/employees" component={Employees}/>
           <Route path="/resources" component={Resources}/>
@@ -40,10 +41,13 @@ class Routes extends Component {
           <Route path="/tools/clusterfinder" component={ClusterFinder}/>
           <Route path="/tools/wordanalyser" component={WordAnalyser}/>
 
-          <Route path="/about2" component={About2}/>
-          <Route path="/tools" component={Tools}/>
+          <Route exact path="/">
+            <Home />
+          </Route>
           <Route path="/corrector" component={Corrector}/>
+          <Route path="/tools" component={Tools}/>
           <Route path="/links" component={Links}/>
+          <Route path="/about2" component={About2}/>
 
 
           <Route component={() => this.render404()}/>

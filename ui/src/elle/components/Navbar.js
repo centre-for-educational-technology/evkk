@@ -31,7 +31,7 @@ function Navbar() {
 
   return (
     <>
-    <AppBar elevation={0} sx={{ background: "#FFD0FD", backgroundImage: `url(${CoverImage})`, backgroundSize: "cover", backgroundPosition: "center bottom", zIndex: "auto"}} position="static"   >
+    <AppBar elevation={0} sx={{ position: "static", zIndex: "auto", background: "#FFD0FD", backgroundImage: `url(${CoverImage})`, backgroundSize: "cover", backgroundPosition: "center bottom"}}   >
       <Toolbar>
         <Grid container>
           <Grid item xs={2} sx={{mt:1}}>
