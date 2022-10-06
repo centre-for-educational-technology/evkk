@@ -1,5 +1,5 @@
 import Logo from "../images/elle_logo.png";
-import CoverImage from "../images/header2.svg";
+import CoverImage from "../images/header2.png";
 import { AppBar, Box, Divider, Grid, Link, styled, Toolbar } from "@mui/material";
 import { Help, Language, Search } from "@mui/icons-material";
 import {NavLink} from 'react-router-dom';
