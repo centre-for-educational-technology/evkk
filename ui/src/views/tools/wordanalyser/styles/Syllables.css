@@ -26,47 +26,41 @@
 }
 
 .filter {
-    position: fixed;
-    top: 90px;
-    left:100px;
-    width: 260px;
-    height: 10px;
-    background-color: rgb(255, 255, 255);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: fixed;
+  top: 90px;
+  left: 100px;
+  width: 260px;
+  height: 10px;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .inner-div {
-    position: relative;
-    width: 100%;
-    background-color: #ddd;
+  position: relative;
+  width: 100%;
+  background-color: #ddd;
 }
 
 .inner-div .close-btn {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    background-color: #ddd;
-    border-color: #ddd;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #ddd;
+  border-color: #ddd;
 }
 
-.tableHead:nth-child(1) > .sort {
+
+.tableHdr:nth-child(2) > .sort {
   display: none;
 }
 
-.tableHead:nth-child(2) > .sort {
+.tableHdr:nth-child(3) > .sort {
   display: none;
 }
 
-.tableHead.headerbox:nth-child(3):hover {
-  cursor: pointer !important;
+.tableHdr.headerbox:hover {
+  cursor: auto;
 }
 
-.tableHead.headerbox:nth-child(2):hover {
-  cursor: auto !important;
-}
-
-.tableHead.headerbox:nth-child(1):hover {
-  cursor: auto !important;
-}

@@ -6,38 +6,28 @@
   background-color: #ddd;
 }
 
-.fontStyle{
-    font-size: large;
+.fontStyle {
+  font-size: large;
 }
 
-.tableHead.hover:nth-child(1):hover {
+
+.tableHeader:hover {
   cursor: auto;
 }
 
-.tableHead.hover:nth-child(2):hover {
-  cursor: auto;
-}
 
-.tableHead.hover:nth-child(3):hover {
-  cursor: pointer !important;
-}
-
-.tableHead:nth-child(1) > .sort {
+.tableHeader:nth-child(2) > .sort {
   display: none;
 }
 
-.tableHead:nth-child(2) > .sort {
-  display: none;
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  align-items: center;
 }
 
-.pagination{
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-    align-items: center;
-}
-
-.buttongroup{
-    width: 40%;
+.buttongroup {
+  width: 40%;
 }

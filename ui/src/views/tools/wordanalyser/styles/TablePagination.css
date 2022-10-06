@@ -1,0 +1,15 @@
+.buttongroup {
+  width: 40%;
+}
+
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  align-items: baseline;
+}
+
+.fontStyle {
+  font-size: large;
+}
