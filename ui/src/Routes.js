@@ -6,7 +6,10 @@ import ClusterFinder from "./views/tools/ClusterFinder";
 import {Files} from "./views/user";
 import Resource from "./views/Resource.component";
 import Correction from "./views/Correction.component";
-import WordAnalyser from './views/tools/wordanalyser/WordAnalyser';
+import WordAnalyser from "./views/tools/wordanalyser/WordAnalyser";
+import AnalysisTool from "./components/AnalysisTool";
+import AnalysisTools from "./views/AnalysisTools";
+import { Container } from "@mui/material";
 
 import Corrector from "./elle/pages/Corrector";
 import Home from "./elle/pages/Home";
@@ -25,7 +28,7 @@ class Routes extends Component {
 
   render() {
     return (
-      <div className={'mt-4'}>
+      <Container sx={{ mb: 10 }} maxWidth="xl">
         <Switch>
           <Route exact
                  path='/'
@@ -55,12 +58,12 @@ class Routes extends Component {
           <Route path="/corrector"
                  component={Corrector}/>
           <Route path="/tools"
-                 component={Tools}/>
+                 component={AnalysisTools}/>
           <Route path="/links"
                  component={Links}/>
           <Route component={() => this.render404()}/>
         </Switch>
-      </div>
+      </Container>
     );
   }
 

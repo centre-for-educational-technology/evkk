@@ -24,3 +24,11 @@ body {
     right: 1em;
   }
 }
+
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  color: #9C27B0;
+}
