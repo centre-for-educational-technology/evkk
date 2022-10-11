@@ -21,66 +21,90 @@ const MenuLink = styled(Link)({
 
 function Navbar() {
 
-  //Logo
-  // Avaleht (home)
-  // Tekstihindaja (corrector)
-  // Tekstid & tööriistad (tools)
-  // Lingikogud (links)
-  // Keskkonnast (about)
-  //
+  // Logo
+  //  Avaleht (home)
+  //  Tekstihindaja (corrector)
+  //  Tekstid & tööriistad (tools)
+  //  Lingikogud (links)
+  //  Keskkonnast (about)
 
   return (
     <>
-    <AppBar elevation={0} sx={{ position: "static", zIndex: "auto", background: "#FFD0FD", backgroundImage: `url(${CoverImage})`, backgroundSize: "cover", backgroundPosition: "center bottom"}}   >
-      <Toolbar>
-        <Grid container>
-          <Grid item xs={2} sx={{mt:1}}>
-            <NavLink to="/">
-              <Box
-                component="img"
-                sx={{ height: 35, mt: 1.5, mb: 2, ml: 3.25 }}
-                alt="Logo"
-                src={Logo}
-              />
-            </NavLink>
+      <AppBar elevation={0}
+              sx={{
+                position: "static",
+                zIndex: "auto",
+                background: "#FFD0FD",
+                backgroundImage: `url(${CoverImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center bottom"
+              }}>
+        <Toolbar>
+          <Grid container>
+            <Grid item
+                  xs={2}
+                  sx={{mt: 1}}>
+              <NavLink to="/">
+                <Box
+                  component="img"
+                  sx={{height: 35, mt: 1.5, mb: 2, ml: 3.25}}
+                  alt="Logo"
+                  src={Logo}
+                />
+              </NavLink>
+            </Grid>
+            <Grid item
+                  xs={10}
+                  sx={{mt: 1}}>
+              <Box display="flex">
+                <Search sx={{marginLeft: "auto"}}/>
+                <Language sx={{marginLeft: 2}}/>
+                <Help sx={{marginLeft: 2}}/>
+              </Box>
+            </Grid>
+            <Grid container
+                  item
+                  xs={12}
+                  justifyContent="center"
+                  sx={{mb: 2}}>
+              <Box sx={{my: 0, mx: 4}}>
+                <MenuLink to="/corrector"
+                          component={NavLink}>
+                  Tekstihindaja
+                </MenuLink>
+              </Box>
+              <Divider orientation="vertical"
+                       sx={{borderRightWidth: 2, background: "rgba(156,39,176,0.4)", my: .6}}
+                       flexItem/>
+              <Box sx={{my: 0, mx: 4}}>
+                <MenuLink to="/tools"
+                          component={NavLink}>
+                  Tekstid & tööriistad
+                </MenuLink>
+              </Box>
+              <Divider orientation="vertical"
+                       sx={{borderRightWidth: 2, background: "rgba(156,39,176,0.4)", my: .6}}
+                       flexItem/>
+              <Box sx={{my: 0, mx: 4}}>
+                <MenuLink to="/links"
+                          component={NavLink}>
+                  Lingikogud
+                </MenuLink>
+              </Box>
+              <Divider orientation="vertical"
+                       sx={{borderRightWidth: 2, background: "rgba(156,39,176,0.4)", my: .6}}
+                       flexItem/>
+              <Box sx={{my: 0, mx: 4}}>
+                <MenuLink to="/about"
+                          component={NavLink}>
+                  Keskkonnast
+                </MenuLink>
+              </Box>
+            </Grid>
           </Grid>
-          <Grid item xs={10} sx={{mt:1}}>
-            <Box display="flex">
-              <Search sx={{marginLeft:"auto"}}/>
-              <Language sx={{marginLeft:2}}/>
-              <Help sx={{marginLeft:2}}/>
-            </Box>
-          </Grid>
-          <Grid container item xs={12} justifyContent="center" sx={{mb:2}}>
-            <Box sx={{my:0, mx:4}}>
-              <MenuLink to="/corrector" component={NavLink}>
-                Tekstihindaja
-              </MenuLink>
-            </Box>
-            <Divider orientation="vertical" sx={{ borderRightWidth: 2, background: "rgba(156,39,176,0.4)", my:.6}} flexItem />
-            <Box sx={{my:0, mx:4 }} >
-              <MenuLink to="/tools"
-                        component={NavLink}>
-                Tekstid & tööriistad
-              </MenuLink>
-            </Box>
-            <Divider orientation="vertical" sx={{ borderRightWidth: 2, background: "rgba(156,39,176,0.4)", my:.6}} flexItem />
-            <Box sx={{my:0, mx:4 }}>
-              <MenuLink to="/links" component={NavLink} >
-                Lingikogud
-              </MenuLink>
-            </Box>
-            <Divider orientation="vertical" sx={{ borderRightWidth: 2, background: "rgba(156,39,176,0.4)", my:.6}} flexItem />
-            <Box sx={{my:0, mx:4 }}>
-              <MenuLink to="/about" component={NavLink}>
-                Keskkonnast
-              </MenuLink>
-            </Box>
-          </Grid>
-        </Grid>
-      </Toolbar>
-    </AppBar>
-</>
+        </Toolbar>
+      </AppBar>
+    </>
   );
 }
 
