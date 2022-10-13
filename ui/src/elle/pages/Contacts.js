@@ -7,7 +7,6 @@ function Contacts() {
   return (
     <Box sx={{
       backgroundColor: "#FFFBFE",
-      width: "100vw",
       height: "auto",
       position: "center",
       display: "flex",

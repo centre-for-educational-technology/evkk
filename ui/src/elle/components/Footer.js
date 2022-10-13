@@ -5,7 +5,7 @@ import './styles/Footer.css';
 function Footer() {
 
   return (
-    <div style={{height: "100px"}}>
+    <div style={{height: "40px"}}>
       <div className="footer-base">
         <Grid container
               spacing={0}

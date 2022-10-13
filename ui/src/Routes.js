@@ -27,8 +27,9 @@ class Routes extends Component {
 
   render() {
     return (
-      <Container sx={{mb: 10}}
-                 maxWidth="xl">
+      <Container sx={{mb: 10, marginBottom: 0}}
+                 disableGutters
+                 maxWidth={false}>
         <Switch>
           <Route exact
                  path='/'
