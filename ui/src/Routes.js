@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Route, Switch} from "react-router-dom";
-import {About, Employees, Login, Resources} from "./views";
+import {Employees, Login, Resources} from "./views";
 import {MasinoppeEnnustus, MinitornPikkus} from "./views/tools";
 import ClusterFinder from "./views/tools/ClusterFinder";
 import {Files} from "./views/user";
@@ -13,6 +13,7 @@ import {Container} from "@mui/material";
 import Corrector from "./elle/pages/Corrector";
 import Home from "./elle/pages/Home";
 import Links from "./elle/pages/Links";
+import Contacts from "./elle/pages/Contacts";
 
 class Routes extends Component {
 
@@ -33,7 +34,7 @@ class Routes extends Component {
                  path='/'
                  component={Home}/>
           <Route path="/about"
-                 component={About}/>
+                 component={Contacts}/>
           <Route path="/employees"
                  component={Employees}/>
           <Route path="/resources"
