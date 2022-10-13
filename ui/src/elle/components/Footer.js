@@ -12,7 +12,7 @@ function Footer() {
               columns={3}>
           <Grid item
                 xs={1}
-                className="footer-column">
+                className="footer-contact-column">
             <strong>Kontakt:</strong><br/>
             elle@tlu.ee<br/><br/>
             ELLE, {new Date().getFullYear()}

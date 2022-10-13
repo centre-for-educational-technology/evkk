@@ -21,7 +21,7 @@ import {useState} from "react";
 
 const pages = [
   {title: "Tekstihindaja", target: "/corrector"},
-  {title: "Tekstikogud", target: "/tools"},
+  {title: "Tekstid & tööriistad", target: "/tools"},
   {title: "Lingikogud", target: "/links"},
   {title: "Keskkonnast", target: "/about"},
 ]
