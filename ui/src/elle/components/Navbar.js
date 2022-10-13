@@ -1,14 +1,25 @@
 import Logo from "../resources/images/elle_logo.png";
 import CoverImage from "../resources/images/header.png";
-import {AppBar, Box, Divider, Grid, Link, styled, Toolbar} from "@mui/material";
-import {Help, Language, Search} from "@mui/icons-material";
+import {AppBar, Box, Divider, Drawer, Grid, IconButton, Link, List, ListItem, Stack, styled, Toolbar} from "@mui/material";
+import {Close, Help, Language, Menu, Search} from "@mui/icons-material";
 import {NavLink} from 'react-router-dom';
+import "@fontsource/exo-2/600.css";
+import { useState } from "react";
+import React  from "react";
+
+const pages = [
+  {title: "Tekstihindaja", target: "/corrector"},
+  {title: "Tekstikogud", target: "/tools"},
+  {title: "Lingikogud", target: "/links"},
+  {title: "Keskkonnast", target: "/about"},
+]
 
 const MenuLink = styled(Link)({
   fontWeight: 600,
   fontSize: 16,
   color: "#1B1B1B",
   textDecoration: "none",
+  fontFamily: ['Exo-2','sans-serif',].join(','),
   '&:hover': {
     color: "#9C27B0",
     textDecoration: "none",
@@ -19,92 +30,123 @@ const MenuLink = styled(Link)({
   },
 });
 
+const BurgerLink = styled(Link)({
+  fontWeight: 400,
+  fontSize: 16,
+  color: "#1B1B1B",
+  textDecoration: "none",
+  fontFamily: ['Exo-2','sans-serif',].join(','),
+  '&:hover': {
+    color: "#1B1B1B",
+    textDecoration: "underline",
+  },
+  '&.active': {
+    color: "#1B1B1B",
+    textDecoration: "none",
+  },
+});
+
+
 function Navbar() {
 
-  // Logo
-  //  Avaleht (home)
-  //  Tekstihindaja (corrector)
-  //  Tekstid & tööriistad (tools)
-  //  Lingikogud (links)
-  //  Keskkonnast (about)
+  const [open, setOpen] = useState(false);
+  const toggleDrawer = () => {
+    setOpen(!open)
+  }
 
   return (
     <>
-      <AppBar elevation={0}
-              sx={{
-                position: "static",
-                zIndex: "auto",
-                background: "#FFD0FD",
-                backgroundImage: `url(${CoverImage})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center bottom"
-              }}>
-        <Toolbar>
-          <Grid container>
-            <Grid item
-                  xs={2}
-                  sx={{mt: 1}}>
+    <AppBar elevation={0} sx={{ position: "static", zIndex: "auto", background: "#FFD0FD", backgroundImage: `url(${CoverImage})`, backgroundSize: "cover", backgroundPosition: "center bottom"}}   >
+      <Toolbar>
+        <Grid container>
+          <Grid item xs={6} sx={{mt:1, pl: {xs:0, sm:4, md: 6 }}} display="flex">
+            <IconButton
+              onClick = {()=>toggleDrawer()}
+              sx={{mr: 2, mb: 2, display: { md: 'flex', lg: 'none'}}}
+            >
+              <Menu sx={{ color: "black", fontSize: 45}} />
+            </IconButton>
+            <NavLink to="/">
+              <Box
+                component="img"
+                sx={{ height: 35, mt: 1.5, mb: 1.5}}
+                alt="Logo"
+                src={Logo}
+              />
+            </NavLink>
+          </Grid>
+          <Grid item xs={6} sx={{mt:1}}>
+            <Box display="flex">
+              <Search sx={{marginLeft:"auto"}}/>
+              <Language sx={{marginLeft:2}}/>
+              <Help sx={{marginLeft:2}}/>
+            </Box>
+          </Grid>
+          <Grid container item xs={12} justifyContent="center" sx={{mb:2, display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex'}}}>
+            {pages.map((page, index, elements) => {
+              return (
+                <>
+                  <Box sx={{my:0, mx:4}}>
+                    <MenuLink to={page.target} component={NavLink}>
+                      {page.title}
+                    </MenuLink>
+                  </Box>
+                  { elements[index + 1] &&
+                    <Divider
+                      orientation="vertical"
+                      sx={{borderRightWidth: 2, background: "rgba(156,39,176,0.4)", my: .6}}
+                      flexItem
+                    />
+                  }
+                </>)
+            })}
+          </Grid>
+        </Grid>
+      </Toolbar>
+      <Drawer
+        open={open}
+        anchor='left'
+        onClose={toggleDrawer}
+        PaperProps={{
+          sx: { width: {md:"50%", sm:"100%", xs:"100%"} },
+        }}
+      >
+        <Grid container sx={{ pt: 1.5, px: 4}}>
+          <Grid item xs={12} sm={12}>
+            <Stack direction="row" justifyContent="space-between">
               <NavLink to="/">
                 <Box
                   component="img"
-                  sx={{height: 35, mt: 1.5, mb: 2, ml: 3.25}}
+                  sx={{ height: 35, mt: 1.5, mb: 1.5}}
                   alt="Logo"
                   src={Logo}
                 />
               </NavLink>
-            </Grid>
-            <Grid item
-                  xs={10}
-                  sx={{mt: 1}}>
-              <Box display="flex">
-                <Search sx={{marginLeft: "auto"}}/>
-                <Language sx={{marginLeft: 2}}/>
-                <Help sx={{marginLeft: 2}}/>
+              <Box >
+                <IconButton
+                  onClick = {()=>toggleDrawer()}
+                  sx={{mt: 0}}
+                >
+                  <Close sx={{ color: "black", fontSize: 45}} />
+                </IconButton>
               </Box>
-            </Grid>
-            <Grid container
-                  item
-                  xs={12}
-                  justifyContent="center"
-                  sx={{mb: 2}}>
-              <Box sx={{my: 0, mx: 4}}>
-                <MenuLink to="/corrector"
-                          component={NavLink}>
-                  Tekstihindaja
-                </MenuLink>
-              </Box>
-              <Divider orientation="vertical"
-                       sx={{borderRightWidth: 2, background: "rgba(156,39,176,0.4)", my: .6}}
-                       flexItem/>
-              <Box sx={{my: 0, mx: 4}}>
-                <MenuLink to="/tools"
-                          component={NavLink}>
-                  Tekstid & tööriistad
-                </MenuLink>
-              </Box>
-              <Divider orientation="vertical"
-                       sx={{borderRightWidth: 2, background: "rgba(156,39,176,0.4)", my: .6}}
-                       flexItem/>
-              <Box sx={{my: 0, mx: 4}}>
-                <MenuLink to="/links"
-                          component={NavLink}>
-                  Lingikogud
-                </MenuLink>
-              </Box>
-              <Divider orientation="vertical"
-                       sx={{borderRightWidth: 2, background: "rgba(156,39,176,0.4)", my: .6}}
-                       flexItem/>
-              <Box sx={{my: 0, mx: 4}}>
-                <MenuLink to="/about"
-                          component={NavLink}>
-                  Keskkonnast
-                </MenuLink>
-              </Box>
-            </Grid>
+            </Stack>
           </Grid>
-        </Toolbar>
-      </AppBar>
-    </>
+          <List >
+            {pages.map((page) => {
+              return (
+                <ListItem sx={{ pl: 0}}>
+                  <BurgerLink to={page.target} component={NavLink} onClick={toggleDrawer}>
+                    {page.title}
+                  </BurgerLink>
+                </ListItem>
+              )
+            })}
+          </List>
+        </Grid>
+      </Drawer>
+    </AppBar>
+</>
   );
 }
 
