@@ -2,7 +2,7 @@ import React from "react";
 import {Box} from "@mui/material";
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
-function ContactCard({firstName, lastName, role, email}) {
+function ContactCard({name, role, email}) {
   return (
     <Box display="flex"
          flexDirection="row"
@@ -19,7 +19,7 @@ function ContactCard({firstName, lastName, role, email}) {
           fontWeight: "bold",
           fontSize: "1.5rem",
           paddingTop: "6%"
-        }}>{firstName} {lastName}</Box>
+        }}>{name}</Box>
         <Box sx={{paddingLeft: "20px", paddingTop: "5%"}}>
           <div><b>Roll:</b> {role}</div>
           <div><b>E-mail:</b> {email}</div>

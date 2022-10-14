@@ -5,9 +5,7 @@ class ClusterFinder extends Component {
 
   render() {
     return (
-      <div className={'container'}>
-        <IntegrationFrame integrationName={'clusterFinder'}/>
-      </div>
+      <IntegrationFrame integrationName={'clusterFinder'}/>
     )
   }
 }

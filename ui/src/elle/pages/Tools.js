@@ -1,10 +1,17 @@
 import ToolCard from "../components/ToolCard";
 import React, {Component} from "react";
-import {Box, Button, Card, CardContent, Grid, TextField} from "@mui/material";
+import {Card, CardContent, Grid} from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
+import ClusterFinder from "../../views/tools/ClusterFinder";
+import WordAnalyser from "../../views/tools/wordanalyser/WordAnalyser";
+
+const components = {
+  clusterfinder: ClusterFinder,
+  wordanalyser: WordAnalyser
+};
 
 class Tools extends Component {
   constructor(props) {
@@ -12,14 +19,20 @@ class Tools extends Component {
     this.state = {
       expanded: false,
       selected: "",
+      selectedTool: null,
     };
   }
 
-  clicked(item) {
-    this.setState({expanded: false, selected: item});
-  }
-
   render() {
+    // kui ühtegi tööriista pole valitud, siis ära näita midagi
+    let SelectedTool = () => {
+      return <div></div>;
+    };
+    // kui midagi on valitud, siis näita seda tööriista
+    if (this.state.selectedTool) {
+      SelectedTool = components[this.state.selectedTool];
+    }
+
     return (
       <Card raised={true}
             square={true}
@@ -38,53 +51,31 @@ class Tools extends Component {
               >
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon/>}
-                  onClick={() => this.setState({expanded: !this.state.expanded})}
+                  onClick={() =>
+                    this.setState({expanded: !this.state.expanded})
+                  }
                 >
-                  Analüüsivahendid : <strong>{this.state.selected}</strong>
+                  Analüüsivahendid
                 </AccordionSummary>
                 <AccordionDetails>
                   <ToolCard
-                    title="Silbitamine"
-                    img={require("../resources/images/silbitamine.png").default}
-                    description="jaga sõna silpideks..."
-                    action={() => this.clicked("Silbitamine")}
-                  ></ToolCard>
-                  <ToolCard
-                    title="Keerukuse analüüs"
-                    img={require("../resources/images/keerukus.png").default}
-                    description="jaga sõna silpideks..."
-                    action={() => this.clicked("Keerukus")}
-                  ></ToolCard>
-                  <ToolCard
                     title="Mustrid"
-                    img={require("../resources/images/mustrid.png").default}
-                    description="jaga sõna silpideks..."
-                    action={() => this.clicked("Mustrid")}
+                    img={require("../resources/images/tools/mustrid.png").default}
+                    description="Mustrid ehk n-grammid aitavad tekstist leida tüüpilisemad sõnajärjendid"
+                    action={() => this.setState({selectedTool: "clusterfinder", expanded: false})}
+                  ></ToolCard>
+                  <ToolCard
+                    title="Sõnaanalüsaator"
+                    img={require("../resources/images/tools/silbitamine.png").default}
+                    description="lorem ipsum"
+                    action={() => this.setState({selectedTool: "wordanalyser", expanded: false})}
                   ></ToolCard>
                 </AccordionDetails>
               </Accordion>
             </Grid>
           </Grid>
-
           <hr/>
-          <h3>{this.state.selected}</h3>
-          <TextField
-            id="outlined-multiline-flexible"
-            label="Analüüsitav tekst"
-            multiline
-            rows={10}
-            fullWidth
-            margin="normal"
-          />
-          <Box textAlign="center"
-               sx={{m: 2}}>
-            <Button
-              variant="contained"
-              sx={{py: 2, px: 4, backgroundColor: "#2196F3"}}
-            >
-              Analüüsi
-            </Button>
-          </Box>
+          <SelectedTool/>
         </CardContent>
       </Card>
     );

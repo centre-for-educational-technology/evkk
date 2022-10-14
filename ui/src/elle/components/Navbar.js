@@ -1,5 +1,5 @@
-import Logo from "../resources/images/elle_logo.png";
-import CoverImage from "../resources/images/header.png";
+import Logo from "../resources/images/header/elle_logo.png";
+import CoverImage from "../resources/images/header/header.svg";
 import {
   AppBar,
   Box,

@@ -29,7 +29,6 @@ function Contacts() {
         marginTop: "3vh",
         width: "80vw",
         height: "auto",
-        boxShadow: "0px 0px 20px -5px #CCA8FD",
         overflow: "auto"
       }}>
         <Box sx={{
@@ -65,30 +64,30 @@ function Contacts() {
           marginBottom: "100px",
           overflow: "auto"
         }}>
-          <ContactCard firstName={"Eesnimi"}
-                       email={"mingimail@mingiaadress.ee"}
-                       lastName={"Perenimi"}
-                       role={"Tööline"}/>
-          <ContactCard firstName={"Eesnimi"}
-                       email={"mingimail@mingiaadress.ee"}
-                       lastName={"Perenimi"}
-                       role={"Tööline"}/>
-          <ContactCard firstName={"Eesnimi"}
-                       email={"mingimail@mingiaadress.ee"}
-                       lastName={"Perenimi"}
-                       role={"Tööline"}/>
-          <ContactCard firstName={"Eesnimi"}
-                       email={"mingimail@mingiaadress.ee"}
-                       lastName={"Perenimi"}
-                       role={"Tööline"}/>
-          <ContactCard firstName={"Eesnimi"}
-                       email={"mingimail@mingiaadress.ee"}
-                       lastName={"Perenimi"}
-                       role={"Tööline"}/>
-          <ContactCard firstName={"Eesnimi"}
-                       email={"mingimail@mingiaadress.ee"}
-                       lastName={"Perenimi"}
-                       role={"Tööline"}/>
+          <ContactCard name={"PhD Pille Eslon"}
+                       email={"peslon@tlu.ee"}
+                       role={"dotsent"}/>
+          <ContactCard name={"MSc Jaagup Kippar"}
+                       email={"jaagup@tlu.ee"}
+                       role={"tarkvaratehnika lektor"}/>
+          <ContactCard name={"MA Kais Allkivi-Metsoja"}
+                       email={"kais@tlu.ee"}
+                       role={"nooremteadur"}/>
+          <ContactCard name={"MSc Kaisa Norak"}
+                       email={"kaisa.norak@tlu.ee"}
+                       role={"analüütik"}/>
+          <ContactCard name={"BSc Mikk Tarvas"}
+                       email={"mtarvas@tlu.ee"}
+                       role={"magistrant, analüütik-programmeerija"}/>
+          <ContactCard name={"Martin Mõtus"}
+                       email={"martin.motus@tlu.ee"}
+                       role={"analüütik-programmeerija"}/>
+          <ContactCard name={"Harli Kodasma"}
+                       email={"harli.kodasma@tlu.ee"}
+                       role={"analüütik-programmeerija"}/>
+          <ContactCard name={"Taavi Kamarik"}
+                       email={"taavik@tlu.ee"}
+                       role={"programmeerija"}/>
         </Box>
       </Box>
     </Box>

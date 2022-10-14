@@ -27,7 +27,13 @@ class Routes extends Component {
 
   render() {
     return (
-      <Container sx={{mb: 10, marginBottom: 0}}
+      <Container sx={{
+        mb: 10,
+        marginBottom: '20px',
+        width: '80vw',
+        boxShadow: "0px 0px 20px -5px #CCA8FD",
+        marginTop: '20px'
+      }}
                  disableGutters
                  maxWidth={false}>
         <Switch>
