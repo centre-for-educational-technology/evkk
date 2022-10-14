@@ -12,10 +12,10 @@
     "_Z_": "kirjavahemärk"
   },
   "syntacticAnalysis": {
-    "@FMV": "põhitegusõna (pöördeline)",
+    "@FMV": "öeldis (pöördeline)",
     "@FCV": "abitegusõna (pöördeline)",
     "@ICV": "abitegusõna (käändeline)",
-    "@IMV": "põhitegusõna (käändeline)",
+    "@IMV": "öeldis (käändeline)",
     "@NEG": "tegusõna eitus",
     "@Q>": "hulgasõna eeslaiend",
     "@<Q": "hulgasõna järellaiend",
