@@ -10,8 +10,7 @@ import {getStatusIfNeeded} from './rootActions';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {selectStatusLoaded} from './rootSelectors';
 import Footer from "./elle/components/Footer";
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { createTheme } from "@mui/material/styles";
+import {createTheme} from "@mui/material/styles";
 
 const store = createStore(
   rootReducer,

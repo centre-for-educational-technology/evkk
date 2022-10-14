@@ -3,9 +3,6 @@ import {Box, Card, CardActionArea, CardContent, Typography,} from "@mui/material
 import {Link} from "react-router-dom";
 
 class ToolCard extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return (

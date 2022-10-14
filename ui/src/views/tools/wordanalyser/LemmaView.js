@@ -7,7 +7,6 @@ import {useTranslation} from "react-i18next";
 import "../../../translations/i18n";
 import DownloadButton from "./DownloadButton";
 
-
 function LemmaView({
                      onLemmaSelect,
                      onWordSelect,
@@ -163,16 +162,16 @@ function LemmaView({
 
   useEffect(() => {
     setNewPageSize(pageSize)
-  }, [pageSize]);
+  }, [pageSize, setNewPageSize]);
   useEffect(() => {
     setPageIndex(pageIndex)
-  }, [pageIndex]);
+  }, [pageIndex, setPageIndex]);
   useEffect(() => {
     setNewSortHeader(tempHeader)
-  }, [tempHeader]);
+  }, [tempHeader, setNewSortHeader]);
   useEffect(() => {
     setNewSortDesc(tempSortDesc)
-  }, [tempSortDesc]);
+  }, [tempSortDesc, setNewSortDesc]);
 
   return (
     <>

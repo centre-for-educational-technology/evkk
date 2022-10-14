@@ -264,16 +264,16 @@ function Syllables({
 
   useEffect(() => {
     setNewPageSize(pageSize)
-  }, [pageSize]);
+  }, [pageSize, setNewPageSize]);
   useEffect(() => {
     setPageIndex(pageIndex)
-  }, [pageIndex]);
+  }, [pageIndex, setPageIndex]);
   useEffect(() => {
     setNewSortHeader(tempHeader)
-  }, [tempHeader]);
+  }, [tempHeader, setNewSortHeader]);
   useEffect(() => {
     setNewSortDesc(tempSortDesc)
-  }, [tempSortDesc]);
+  }, [tempSortDesc, setNewSortDesc]);
 
   return (
     <>
