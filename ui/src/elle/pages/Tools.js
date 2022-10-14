@@ -65,9 +65,9 @@ class Tools extends Component {
                     action={() => this.setState({selectedTool: "clusterfinder", expanded: false})}
                   ></ToolCard>
                   <ToolCard
-                    title="Sõnaanalüsaator"
+                    title="Sõnaanalüüs"
                     img={require("../resources/images/tools/silbitamine.png").default}
-                    description="lorem ipsum"
+                    description="Leia sõnade silbid, algvormid ja grammatilised vormid"
                     action={() => this.setState({selectedTool: "wordanalyser", expanded: false})}
                   ></ToolCard>
                 </AccordionDetails>
