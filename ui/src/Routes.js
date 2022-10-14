@@ -10,7 +10,6 @@ import WordAnalyser from "./views/tools/wordanalyser/WordAnalyser";
 import Tools from "./elle/pages/Tools";
 import {Container} from "@mui/material";
 
-import Corrector from "./elle/pages/Corrector";
 import Home from "./elle/pages/Home";
 import Links from "./elle/pages/Links";
 import Contacts from "./elle/pages/Contacts";
@@ -63,7 +62,7 @@ class Routes extends Component {
           <Route path="/tools/wordanalyser"
                  component={WordAnalyser}/>
           <Route path="/corrector"
-                 component={Corrector}/>
+                 component={Correction}/>
           <Route path="/tools"
                  component={Tools}/>
           <Route path="/links"

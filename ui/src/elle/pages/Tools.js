@@ -57,7 +57,7 @@ class Tools extends Component {
                 >
                   Analüüsivahendid
                 </AccordionSummary>
-                <AccordionDetails>
+                <AccordionDetails style={{minWidth: '350px'}}>
                   <ToolCard
                     title="Mustrid"
                     img={require("../resources/images/tools/mustrid.png").default}

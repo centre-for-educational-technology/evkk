@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import "./correction.css";
+import {Card} from "@mui/material";
 
 class Correction extends Component {
   constructor(props){
@@ -248,29 +249,41 @@ this.setState({yksikmuutus: vahetus});
   render() {
 
     return (
-      <div className={'container'}>
+      <Card raised={true}
+            square={true}
+            elevation={2}>
 
         <p/>
-        <div style={{'float':'left', 'margin':'10px', 'width': '45%'}}>
-        <div className="wrapper">
-        <div id="highlights" ref={(e) =>this.taust1=e}>{this.state.taustakood}</div>
-          <textarea id="textarea" onScroll={(e) => this.kerimine()}  ref={(e) => this.ala1=e} onChange={(event) =>this.alaMuutus(event)} rows="15" cols="60"
-           value={this.state.alasisu}  spellCheck={false} onMouseUp={(event) => this.tekstialaHiir(event)}
-          placeholder={"Kopeeri või kirjuta siia analüüsitav tekst"}/>
-          <div className={"borderbox"}></div>
-        </div>
-          <br />
-
-          <br />
-          <div style={{width:"300px"}}>Rakenduse abil saad parandada oma teksti õigekirja ja vaadata,
-          mis keeleoskustasemele see vastab (A2–C1).
-          Loe lähemalt  <a href={"https://github.com/centre-for-educational-technology/evkk/wiki/Demos"}>siit</a>.</div>
-          <br />
-          <br />
-          <br />
+        <div style={{'float': 'left', 'margin': '10px', 'width': '45%'}}>
+          <div className="wrapper">
+            <div id="highlights"
+                 ref={(e) => this.taust1 = e}>{this.state.taustakood}</div>
+            <textarea id="textarea"
+                      onScroll={(e) => this.kerimine()}
+                      ref={(e) => this.ala1 = e}
+                      onChange={(event) => this.alaMuutus(event)}
+                      rows="15"
+                      cols="60"
+                      value={this.state.alasisu}
+                      spellCheck={false}
+                      onMouseUp={(event) => this.tekstialaHiir(event)}
+                      placeholder={"Kopeeri või kirjuta siia analüüsitav tekst"}/>
+            <div className={"borderbox"}></div>
           </div>
-           <div style={{'float':'left', 'margin':'10px', 'width': '50%'}}>
-           <style>{`
+          <br/>
+
+          <br/>
+          <div style={{width: "300px", marginLeft: '40px'}}>Rakenduse abil saad parandada oma teksti õigekirja ja
+            vaadata,
+            mis keeleoskustasemele see vastab (A2–C1).
+            Loe lähemalt <a href={"https://github.com/centre-for-educational-technology/evkk/wiki/Demos"}>siit</a>.
+          </div>
+          <br/>
+          <br/>
+          <br/>
+        </div>
+        <div style={{'float': 'left', 'margin': '10px', 'width': '50%'}}>
+          <style>{`
              @keyframes spin{
                   from {transform:rotate(0deg);}
                   to {transform:rotate(360deg);}
@@ -301,24 +314,24 @@ this.setState({yksikmuutus: vahetus});
          {this.state.avatudkaart==="korrektuur" && <span>
              {this.state.kordab && this.state.alasisu!==this.state.korrektorivastus[1] && this.ketas()}<br />
              {(this.state.yksikmuutus) ? this.state.yksikmuutus : "" //this.state.muutuskood
-             }<br />
+             }<br/>
 
-              { /*(this.state.alasisu.length>0  )? <span>{ (this.state.kordab) &&
+           { /*(this.state.alasisu.length>0  )? <span>{ (this.state.kordab) &&
                 <button  onClick={() =>this.setState((state, props) => {return {vastusnahtav: !state.vastusnahtav}})}> {this.state.vastusnahtav?"Peida tekst":"Näita teksti"} </button>
                 }</span> : ""
-              */ }
-            {  this.state.vastusnahtav && <span>{this.state.tasemevastus?this.state.vastuskood:"algus"}</span>}
+              */}
+           {this.state.vastusnahtav && <span>{this.state.tasemevastus ? this.state.vastuskood : "algus"}</span>}
              </span>}
 
 
-         {this.state.avatudkaart==="hindamine" && this.state.kordab && <div>
-           {  (this.state.alasisu!==this.state.tasemetekst) ? this.ketas() :""} <br />
-           <span>{this.renderTase()}</span></div>}
+          {this.state.avatudkaart === "hindamine" && this.state.kordab && <div>
+            {(this.state.alasisu !== this.state.tasemetekst) ? this.ketas() : ""} <br/>
+            <span>{this.renderTase()}</span></div>}
 
-             </div>
+        </div>
 
 
-      </div>
+      </Card>
     );
   }
 
