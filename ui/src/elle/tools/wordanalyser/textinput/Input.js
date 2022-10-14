@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 import {Alert, Button, Grid} from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import {useTranslation} from "react-i18next";
-import "../../../../translations/i18n";
+import "../../../translations/i18n";
 
 export const Input = ({onInsert, onAnalyse, onMarkWords, onWordSelect, onWordInfo, onReset, textFromFile}) => {
   const [input, setInput] = useState('');

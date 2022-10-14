@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import "./correction.css";
+import "./Correction.css";
 import {Card} from "@mui/material";
 
 class Correction extends Component {

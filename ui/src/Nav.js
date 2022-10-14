@@ -115,7 +115,7 @@ class Nav extends Component {
                        onClick={() => {
                          changeLanguage('et');
                        }}>
-                      <img src={require('./resources/flags/est.png').default}
+                      <img src={require('./elle/resources/images/flags/est.png').default}
                            alt='EST'/> EST
                     </a>
                     <a className="dropdown-item"
@@ -123,7 +123,7 @@ class Nav extends Component {
                        onClick={() => {
                          changeLanguage('en');
                        }}>
-                      <img src={require('./resources/flags/eng.png').default}
+                      <img src={require('./elle/resources/images/flags/eng.png').default}
                            alt='ENG'/> ENG
                     </a>
                   </div>

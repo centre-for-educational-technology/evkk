@@ -5,8 +5,8 @@ import Accordion from "@mui/material/Accordion";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import ClusterFinder from "../../views/tools/ClusterFinder";
-import WordAnalyser from "../../views/tools/wordanalyser/WordAnalyser";
+import ClusterFinder from "../tools/ClusterFinder";
+import WordAnalyser from "../tools/wordanalyser/WordAnalyser";
 
 const components = {
   clusterfinder: ClusterFinder,

@@ -3,7 +3,7 @@ import {usePagination, useSortBy, useTable} from 'react-table';
 import './styles/Syllables.css';
 import TablePagination from "./TablePagination";
 import {useTranslation} from "react-i18next";
-import "../../../translations/i18n";
+import "../../translations/i18n";
 import DownloadButton from "./DownloadButton";
 import {v4 as uuidv4} from 'uuid';
 

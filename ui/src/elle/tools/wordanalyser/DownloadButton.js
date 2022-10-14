@@ -6,7 +6,7 @@ import {CSVLink} from "react-csv";
 import DownloadIcon from '@mui/icons-material/Download';
 import {Box, Button, FormControl, InputLabel, MenuItem, Select, Tooltip} from "@mui/material";
 import {useTranslation} from "react-i18next";
-import "../../../translations/i18n";
+import "../../translations/i18n";
 import './styles/DownloadButton.css';
 
 export default function DownloadButton({data, headers}) {

@@ -25,18 +25,18 @@ export const InputText = ({onAnalyse, onMarkWords, onWordSelect, onWordInfo}) =>
         if (index > 0) {
           let sequence = text.slice(0, index);
           //check for line breaks and preserve them
-          let match = /\r|\n/.exec(sequence);
+          let match = /[\r\n]/.exec(sequence);
           while (match) {
             if (match.index > 0) {
               let newSequence = sequence.slice(0, match.index);
               content.push(newSequence);
               content.push(<br key={uuidv4()}/>);
               sequence = sequence.substring(match.index + 1, sequence.length);
-              match = /\r|\n/.exec(sequence);
+              match = /[\r\n]/.exec(sequence);
             } else {
               content.push(<br key={uuidv4()}/>);
               sequence = sequence.substring(1, sequence.length);
-              match = /\r|\n/.exec(sequence);
+              match = /[\r\n]/.exec(sequence);
             }
           }
           content.push(sequence);

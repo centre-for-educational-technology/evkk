@@ -1,5 +1,5 @@
 import {useTranslation} from "react-i18next";
-import "../../../translations/i18n";
+import "../../translations/i18n";
 
 export const WordInfo = ({_onShowWordInfo, onWordInfo}) => {
 

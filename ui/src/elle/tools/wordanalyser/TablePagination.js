@@ -5,7 +5,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import React from "react";
 import {useTranslation} from "react-i18next";
-import "../../../translations/i18n";
+import "../../translations/i18n";
 import "./styles/TablePagination.css"
 
 function TablePagination({

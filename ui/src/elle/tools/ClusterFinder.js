@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import IntegrationFrame from "../../components/IntegrationFrame";
+import IntegrationFrame from "../components/IntegrationFrame";
 
 class ClusterFinder extends Component {
 

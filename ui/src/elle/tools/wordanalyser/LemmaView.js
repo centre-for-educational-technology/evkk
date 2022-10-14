@@ -4,7 +4,7 @@ import {useFilters, usePagination, useSortBy, useTable} from "react-table";
 import {v4 as uuidv4} from 'uuid';
 import TablePagination from "./TablePagination";
 import {useTranslation} from "react-i18next";
-import "../../../translations/i18n";
+import "../../translations/i18n";
 import DownloadButton from "./DownloadButton";
 
 function LemmaView({

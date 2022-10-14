@@ -4,7 +4,7 @@ import "../styles/TextUpload.css";
 import {Button, Grid} from "@mui/material";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import {useTranslation} from "react-i18next";
-import "../../../../translations/i18n";
+import "../../../translations/i18n";
 
 function TextUpload(props) {
 

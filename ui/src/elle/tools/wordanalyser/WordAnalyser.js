@@ -9,7 +9,7 @@ import {Alert, Box, Grid, Tab, Tabs, Typography} from '@mui/material';
 import LemmaView from './LemmaView';
 import Syllables from './Syllables';
 import {useTranslation} from "react-i18next";
-import "../../../translations/i18n";
+import "../../translations/i18n";
 import i18n from "i18next";
 
 function WordAnalyser() {
