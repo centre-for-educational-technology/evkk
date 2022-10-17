@@ -60,13 +60,13 @@ class Tools extends Component {
                 <AccordionDetails style={{minWidth: '350px'}}>
                   <ToolCard
                     title="Mustrid"
-                    img={require("../resources/images/tools/mustrid.png").default}
+                    img={require("../resources/images/tools/mustrileidja.png").default}
                     description="Mustrid ehk n-grammid aitavad tekstist leida tüüpilisemad sõnajärjendid"
                     action={() => this.setState({selectedTool: "clusterfinder", expanded: false})}
                   ></ToolCard>
                   <ToolCard
                     title="Sõnaanalüüs"
-                    img={require("../resources/images/tools/silbitamine.png").default}
+                    img={require("../resources/images/tools/sonaanalyys.png").default}
                     description="Leia sõnade silbid, algvormid ja grammatilised vormid"
                     action={() => this.setState({selectedTool: "wordanalyser", expanded: false})}
                   ></ToolCard>
