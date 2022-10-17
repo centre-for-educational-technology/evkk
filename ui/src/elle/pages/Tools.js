@@ -1,5 +1,5 @@
 import ToolCard from "../components/ToolCard";
-import React, {Component} from "react";
+import React, {useState} from "react";
 import {Card, CardContent, Grid} from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -13,73 +13,75 @@ const components = {
   wordanalyser: WordAnalyser
 };
 
-class Tools extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      expanded: false,
-      selected: "",
-      selectedTool: null,
-    };
+function Tools() {
+  const [selectedTool, setSelectedTool] = useState(null);
+  const [expanded, setExpanded] = useState(false);
+
+  // kui ühtegi tööriista pole valitud, siis ära näita midagi
+  let SelectedTool = () => {
+    return <div></div>;
+  };
+  // kui midagi on valitud, siis näita seda tööriista
+  if (selectedTool) {
+    SelectedTool = components[selectedTool];
   }
 
-  render() {
-    // kui ühtegi tööriista pole valitud, siis ära näita midagi
-    let SelectedTool = () => {
-      return <div></div>;
-    };
-    // kui midagi on valitud, siis näita seda tööriista
-    if (this.state.selectedTool) {
-      SelectedTool = components[this.state.selectedTool];
-    }
-
-    return (
-      <Card raised={true}
-            square={true}
-            elevation={2}>
-        <CardContent sx={{p: 3}}>
-          <Grid container
-                spacing={2}>
-            <Grid item
-                  xs={4}>
-              <Accordion
-                disableGutters
-                elevation={0}
-                square
-                sx={{w: 10}}
-                expanded={this.state.expanded}
+  return (
+    <Card raised={true}
+          square={true}
+          elevation={2}>
+      <CardContent sx={{p: 3}}>
+        <Grid container
+              spacing={2}>
+          <Grid item
+                xs={12}
+                sm={12}
+                md={12}
+                lg={4}
+                xl={3}>
+            <Accordion
+              disableGutters
+              elevation={0}
+              square
+              sx={{w: 10}}
+              expanded={expanded}
+            >
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon/>}
+                onClick={() =>
+                  setExpanded(!expanded)
+                }
               >
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon/>}
-                  onClick={() =>
-                    this.setState({expanded: !this.state.expanded})
-                  }
-                >
-                  Analüüsivahendid
-                </AccordionSummary>
-                <AccordionDetails style={{minWidth: '350px'}}>
-                  <ToolCard
-                    title="Mustrid"
-                    img={require("../resources/images/tools/mustrileidja.png").default}
-                    description="Mustrid ehk n-grammid aitavad tekstist leida tüüpilisemad sõnajärjendid"
-                    action={() => this.setState({selectedTool: "clusterfinder", expanded: false})}
-                  ></ToolCard>
-                  <ToolCard
-                    title="Sõnaanalüüs"
-                    img={require("../resources/images/tools/sonaanalyys.png").default}
-                    description="Leia sõnade silbid, algvormid ja grammatilised vormid"
-                    action={() => this.setState({selectedTool: "wordanalyser", expanded: false})}
-                  ></ToolCard>
-                </AccordionDetails>
-              </Accordion>
-            </Grid>
+                Analüüsivahendid
+              </AccordionSummary>
+              <AccordionDetails style={{minWidth: '350px'}}>
+                <ToolCard
+                  title="Mustrid"
+                  img={require("../resources/images/tools/mustrileidja.png").default}
+                  description="Mustrid ehk n-grammid aitavad tekstist leida tüüpilisemad sõnajärjendid"
+                  action={() => {
+                    setSelectedTool("clusterfinder");
+                    setExpanded(false);
+                  }}
+                ></ToolCard>
+                <ToolCard
+                  title="Sõnaanalüüs"
+                  img={require("../resources/images/tools/sonaanalyys.png").default}
+                  description="Leia sõnade silbid, algvormid ja grammatilised vormid"
+                  action={() => {
+                    setSelectedTool("wordanalyser");
+                    setExpanded(false);
+                  }}
+                ></ToolCard>
+              </AccordionDetails>
+            </Accordion>
           </Grid>
-          <hr/>
-          <SelectedTool/>
-        </CardContent>
-      </Card>
-    );
-  }
+        </Grid>
+        <hr/>
+        <SelectedTool/>
+      </CardContent>
+    </Card>
+  );
 }
 
 export default Tools;
