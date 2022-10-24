@@ -1,0 +1,17 @@
+https://drive.google.com/file/d/10VfctnoiDAIZRmrYM0M4GB-yKdvXjtLk/view?usp=sharing
+
+curl -L "https://drive.google.com/uc?export=download&id=10VfctnoiDAIZRmrYM0M4GB-yKdvXjtLk"
+
+javac -d ./out/ -cp commons-cli-1.5.0.jar;commons-lang-2.6.jar;. ee\clusters\*.java ee\words\*.java ee\words\parser\*.java  ee\words\parser\estmorf\*.java  ee\commandline\*.java ee\filemanagment\*.java
+
+javac -cp commons-cli-1.5.0.jar;commons-lang-2.6.jar;. ee\clusters\*.java ee\words\*.java ee\words\parser\*.java  ee\words\parser\estmorf\*.java  ee\commandline\*.java ee\filemanagment\*.java ee\ui\*.java
+
+javac -d .\out\ -cp commons-cli-1.5.0.jar;commons-lang-2.6.jar;. ee\clusters\*.java ee\words\*.java ee\words\parser\*.java  ee\words\parser\estmorf\*.java  ee\commandline\*.java ee\filemanagment\*.java ee\ui\*.java
+
+java -cp commons-cli-1.5.0.jar;commons-lang-2.6.jar;. ee.ui.Main -e -w -f sisend2.txt -k 3
+
+c:\jaagup\tarkvara\java8\bin\jar.exe cvfe klastrileidja.jar ee.ui.Main *.class -C . .
+
+c:\jaagup\tarkvara\java8\bin\jar.exe cvfe klastrileidja.jar ee.ui.Main *.class -C . .
+
+java -jar klastrileidja.jar -e -w -z -f sisend2.txt -k 1
