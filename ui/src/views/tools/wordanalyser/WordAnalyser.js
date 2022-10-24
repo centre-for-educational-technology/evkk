@@ -1,39 +1,32 @@
-import {useEffect, useState} from 'react';
+import {memo, useContext, useEffect, useMemo, useState} from 'react';
 import {Input} from './textinput/Input';
 import {WordInfo} from './WordInfo';
 import {v4 as uuidv4} from 'uuid';
 import './styles/WordAnalyser.css';
 import TextUpload from './textupload/TextUpload';
-import GrammaticalAnalysis from './GrammaticalAnalysis';
-import {Alert, Box, Grid, Tab, Tabs, Typography} from '@mui/material';
-import LemmaView from './LemmaView';
-import Syllables from './Syllables';
+import {Alert, Box, Grid} from '@mui/material';
 import {useTranslation} from "react-i18next";
 import "../../../translations/i18n";
 import i18n from "i18next";
+import {AnalyseContext} from "./Contexts/AnalyseContext";
+import {TypeContext} from "./Contexts/TypeContext";
+import {FormContext} from "./Contexts/FormContext";
+import {WordContext} from "./Contexts/WordContext";
+import {SyllableContext} from "./Contexts/SyllableContext";
+import {TabContext} from "./Contexts/TabContext";
 
 function WordAnalyser() {
+  const [analysedInput, setAnalysedInput] = useContext(AnalyseContext)
   const [showResults, setShowResults] = useState(false);
-  const [analysedInput, setAnalysedInput] = useState({
-    ids: [''],
-    text: '',
-    sentences: [''],
-    words: [''],
-    wordsOrig: [''],
-    lemmas: [''],
-    syllables: [''],
-    wordtypes: [''],
-    wordforms: ['']
-  });
   const [selectedWords, setSelectedWords] = useState(['']);
   const [wordInfo, setWordInfo] = useState('');
   const [textFromFile, setTextFromFile] = useState('');
+  const [tableValue, setTableValue] = useContext(TabContext);
+  const type = useContext(TypeContext);
+  const form = useContext(FormContext);
+  const word = useContext(WordContext);
+  const syllable = useContext(SyllableContext);
   const {t} = useTranslation();
-  const [newPageSize, setNewPageSize] = useState(10);
-  const [newPageIndex, setPageIndex] = useState(0);
-  const [newSortHeader, setNewSortHeader] = useState("sagedus");
-  const [newSortDesc, setNewSortDesc] = useState(true);
-
   //get words
   const getWords = async (input) => {
     const response = await fetch("/api/texts/sonad", {
@@ -209,6 +202,7 @@ function WordAnalyser() {
 
     setShowResults(true);
     setAnalysedInput(inputObj);
+    setTableValue(1);
   }
 
   //select first word and show wordInfo after loading
@@ -231,29 +225,8 @@ function WordAnalyser() {
     setSelectedWords(content);
   }
 
-  //highlight selected word in lemma table
-  const showWord = (word) => {
-    let content = [];
-    for (let i = 0; i < analysedInput.words.length; i++) {
-      let analysedWord = analysedInput.words[i];
-      let id = analysedInput.ids[i];
-      if (analysedWord === word) {
-        content.push(id);
-      }
-    }
-    setSelectedWords(content);
 
-    let firstSelectedId;
-    for (let i = 0; i < analysedInput.words.length; i++) {
-      if (word === analysedInput.words[i]) {
-        firstSelectedId = analysedInput.ids[i];
-        break;
-      }
-    }
-    showInfo(firstSelectedId);
-  }
-
-  const showSyllable = (syllable) => {
+  useEffect(() => {
     let content = [];
     for (let i = 0; i < analysedInput.words.length; i++) {
       let analysedWord = analysedInput.words[i];
@@ -273,9 +246,9 @@ function WordAnalyser() {
       form: "–",
     }
     setWordInfo(wordInfoObj);
-  }
+  }, [syllable]);
 
-  const showType = (type) => {
+  useMemo(() => {
     let content = [];
     for (let i = 0; i < analysedInput.words.length; i++) {
       let analysedWord = analysedInput.wordtypes[i];
@@ -294,9 +267,9 @@ function WordAnalyser() {
       form: "–",
     }
     setWordInfo(wordInfoObj);
-  }
+  }, [type]);
 
-  const showForm = (form) => {
+  useMemo(() => {
     let content = [];
     for (let i = 0; i < analysedInput.words.length; i++) {
       let analysedWord = analysedInput.wordforms[i];
@@ -315,7 +288,7 @@ function WordAnalyser() {
       form: form,
     }
     setWordInfo(wordInfoObj);
-  }
+  }, [form]);
 
   //highlight selected lemma
   const showLemma = (lemma) => {
@@ -347,25 +320,51 @@ function WordAnalyser() {
   }
 
   //forward selected word from input to wordInfo
-  const showInfo = (selectedId) => {
-    let index = "";
-    for (let i = 0; i < analysedInput.words.length; i++) {
-      if (analysedInput.ids[i] === selectedId.toString()) {
-        index = parseInt(i);
-        break;
+  function showInfo(selectedId) {
+    if (analysedInput.ids[0] !== undefined) {
+      let index = "";
+      for (let i = 0; i < analysedInput.words.length; i++) {
+        if (analysedInput.ids[i] === selectedId.toString()) {
+          index = parseInt(i);
+          break;
+        }
       }
-    }
 
-    const wordInfoObj = {
-      word: analysedInput.words[index],
-      lemma: analysedInput.lemmas[index],
-      syllables: analysedInput.syllables[index],
-      type: analysedInput.wordtypes[index],
-      form: analysedInput.wordforms[index],
-    }
+      const wordInfoObj = {
+        word: analysedInput.words[index],
+        lemma: analysedInput.lemmas[index],
+        syllables: analysedInput.syllables[index],
+        type: analysedInput.wordtypes[index],
+        form: analysedInput.wordforms[index],
+      }
 
-    setWordInfo(wordInfoObj);
+      setWordInfo(wordInfoObj);
+    }
   }
+
+  //highlight selected word in lemma table
+  useMemo(() => {
+    if (analysedInput.ids[0] !== "") {
+      let content = [];
+      for (let i = 0; i < analysedInput.words.length; i++) {
+        let analysedWord = analysedInput.words[i];
+        let id = analysedInput.ids[i];
+        if (analysedWord === word) {
+          content.push(id);
+        }
+      }
+      setSelectedWords(content);
+
+      let firstSelectedId;
+      for (let i = 0; i < analysedInput.words.length; i++) {
+        if (word === analysedInput.words[i]) {
+          firstSelectedId = analysedInput.ids[i];
+          break;
+        }
+      }
+      showInfo(firstSelectedId);
+    }
+  }, [word]);
 
   const sendTextFromFile = (data) => {
     setTextFromFile(data);
@@ -384,45 +383,9 @@ function WordAnalyser() {
       wordforms: ['']
     };
     setAnalysedInput(newInputObj);
+    setTableValue(0);
     setShowResults(false);
   }
-
-  //tabs
-  function TabPanel(props) {
-    const {children, value, index, ...other} = props;
-
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && (
-          <Box sx={{p: 3}}>
-            <Typography component={`span`}>{children}</Typography>
-          </Box>
-        )}
-      </div>
-    );
-  }
-
-  function a11yProps(index) {
-    return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
-    };
-  }
-
-  const [value, setValue] = useState(0);
-
-  const handleChange = (_event, newValue) => {
-    setValue(newValue);
-    setNewSortDesc(true);
-    setNewSortHeader("sagedus");
-    setPageIndex(0);
-  };
 
   return (
     <Box component='section'
@@ -439,7 +402,6 @@ function WordAnalyser() {
               md={6}>
           <Input textFromFile={textFromFile}
                  onInsert={analyseInput}
-                 onAnalyse={analysedInput}
                  onMarkWords={selectedWords}
                  onWordSelect={showThisWord}
                  onWordInfo={showInfo}
@@ -455,70 +417,9 @@ function WordAnalyser() {
               {t("infobox_second")}
             </Alert>}
         </Grid>
-        {showResults &&
-          <Grid item
-                xs={12}
-                md={12}>
-            <h2>{t("text_analysis")}</h2>
-            <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
-              <Tabs value={value}
-                    onChange={handleChange}
-                    aria-label="basic tabs example">
-                <Tab label={t("common_syllables")} {...a11yProps(0)} />
-                <Tab label={t("common_lemmas")} {...a11yProps(1)} />
-                <Tab label={t("tab_gram_anal")} {...a11yProps(2)} />
-              </Tabs>
-            </Box>
-            <TabPanel value={value}
-                      index={0}>
-              <div>
-                {(analysedInput.syllables.length > 1 || analysedInput.syllables[0] !== "") &&
-                  <Syllables onAnalyse={analysedInput}
-                             onSyllableSelect={showSyllable} newPageSize={newPageSize}
-                             setNewPageSize={setNewPageSize}
-                             newPageIndex={newPageIndex}
-                             setPageIndex={setPageIndex}
-                             newSortHeader={newSortHeader}
-                             setNewSortHeader={setNewSortHeader} newSortDesc={newSortDesc}
-                             setNewSortDesc={setNewSortDesc}/>}
-              </div>
-            </TabPanel>
-            <TabPanel value={value}
-                      index={1}>
-              <div>
-                <LemmaView onAnalyse={analysedInput}
-                           onLemmaSelect={showLemma}
-                           onWordSelect={showWord}
-                           newPageSize={newPageSize}
-                           setNewPageSize={setNewPageSize}
-                           newPageIndex={newPageIndex}
-                           setPageIndex={setPageIndex}
-                           newSortHeader={newSortHeader}
-                           setNewSortHeader={setNewSortHeader} newSortDesc={newSortDesc}
-                           setNewSortDesc={setNewSortDesc}/>
-              </div>
-            </TabPanel>
-            <TabPanel value={value}
-                      index={2}>
-              <div>
-                <GrammaticalAnalysis onTypeSelect={showType}
-                                     onFormSelect={showForm}
-                                     onWordSelect={showWord}
-                                     onAnalyse={analysedInput}
-                                     newPageSize={newPageSize}
-                                     setNewPageSize={setNewPageSize}
-                                     newPageIndex={newPageIndex}
-                                     setPageIndex={setPageIndex}
-                                     newSortHeader={newSortHeader}
-                                     setNewSortHeader={setNewSortHeader} newSortDesc={newSortDesc}
-                                     setNewSortDesc={setNewSortDesc}/>
-              </div>
-            </TabPanel>
-          </Grid>
-        }
       </Grid>
     </Box>
   )
 }
 
-export default WordAnalyser;
+export default memo(WordAnalyser);

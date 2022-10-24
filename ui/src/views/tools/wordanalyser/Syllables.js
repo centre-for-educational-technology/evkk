@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useContext, useEffect, useMemo, useState} from "react";
 import {usePagination, useSortBy, useTable} from 'react-table';
 import './styles/Syllables.css';
 import TablePagination from "./TablePagination";
@@ -6,30 +6,21 @@ import {useTranslation} from "react-i18next";
 import "../../../translations/i18n";
 import DownloadButton from "./DownloadButton";
 import {v4 as uuidv4} from 'uuid';
+import {AnalyseContext} from "./Contexts/AnalyseContext";
+import {SetSyllableContext} from "./Contexts/SetSyllableContext";
 
-function Syllables({
-                     onAnalyse,
-                     onSyllableSelect,
-                     newPageSize,
-                     setNewPageSize,
-                     newPageIndex,
-                     setPageIndex,
-                     newSortHeader,
-                     setNewSortHeader,
-                     newSortDesc,
-                     setNewSortDesc
-                   }) {
+function Syllables() {
 
-  const data = onAnalyse.syllables;
+  const [analyse, setAnalyse] = useContext(AnalyseContext);
+  const setSyllable = useContext(SetSyllableContext);
+  const data = analyse.syllables;
   const len = data.length;
-  const words = onAnalyse.words;
+  const words = analyse.words;
   const {t} = useTranslation();
   let baseSyllables = [];
   let syllables = [];
   let infoList = [];
   const [infoListNew, setInfolistNew] = useState([]);
-  const [tempHeader, setTempHeader] = useState(newSortHeader);
-  const [tempSortDesc, setTempSortDesc] = useState(newSortDesc);
 
   const tableToDownload = [t("syllables_header_syllable"), t("syllables_table_beginning"), t("syllables_table_middle"), t("syllables_table_end"), t("common_words_in_text"), t("common_header_frequency"), t("common_header_percentage")];
 
@@ -161,7 +152,7 @@ function Syllables({
       infoList.push(info)
       return {
         "silp": <span className="word"
-                      onClick={(e) => onSyllableSelect(e.target.textContent)}>{row[0]}</span>,
+                      onClick={(e) => setSyllable(e.target.textContent)}>{row[0]}</span>,
         "algus": row[1], "keskel": row[2], "lõpp": row[3], "sagedus": row[1] + row[2] + row[3],
         "sonadtekstis": syllableWords(),
         "osakaal": ((row[1] + row[2] + row[3]) * 100 / syllables.length).toFixed(2),
@@ -234,12 +225,10 @@ function Syllables({
     columns: columns,
     data: formatedList,
     initialState: {
-      pageSize: newPageSize,
-      pageIndex: newPageIndex,
       sortBy: [
         {
-          id: newSortHeader,
-          desc: newSortDesc
+          id: "sagedus",
+          desc: true
         }
       ]
     }
@@ -262,18 +251,6 @@ function Syllables({
     state: {pageIndex, pageSize}
   } = tableInstance;
 
-  useEffect(() => {
-    setNewPageSize(pageSize)
-  }, [pageSize]);
-  useEffect(() => {
-    setPageIndex(pageIndex)
-  }, [pageIndex]);
-  useEffect(() => {
-    setNewSortHeader(tempHeader)
-  }, [tempHeader]);
-  useEffect(() => {
-    setNewSortDesc(tempSortDesc)
-  }, [tempSortDesc]);
 
   return (
     <>
@@ -309,9 +286,6 @@ function Syllables({
                 className="tableHdr headerbox">{column.render('Header')}
                 <span className="sort" {...column.getHeaderProps(column.getSortByToggleProps())}>
                                         {column.isSorted ? (column.isSortedDesc ? ' ▼' : ' ▲') : ' ▼▲'}
-                  {column.isSorted && tempHeader !== column.id ? setTempHeader(column.id) : null}
-                  {column.isSorted && column.isSortedDesc && tempSortDesc !== true ? setTempSortDesc(true) : null}
-                  {column.isSorted && !column.isSortedDesc && column.isSortedDesc !== undefined && tempSortDesc !== false ? setTempSortDesc(false) : null}
                                     </span>
               </th>
             ))}

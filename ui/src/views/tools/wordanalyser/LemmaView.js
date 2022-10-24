@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState} from "react";
+import React, {Fragment, useContext} from "react";
 import "./styles/LemmaView.css";
 import {useFilters, usePagination, useSortBy, useTable} from "react-table";
 import {v4 as uuidv4} from 'uuid';
@@ -6,29 +6,20 @@ import TablePagination from "./TablePagination";
 import {useTranslation} from "react-i18next";
 import "../../../translations/i18n";
 import DownloadButton from "./DownloadButton";
+import {AnalyseContext} from "./Contexts/AnalyseContext";
+import {SetLemmaContext} from "./Contexts/SetLemmaContext";
+import {SetWordContext} from "./Contexts/SetWordContext";
 
 
-function LemmaView({
-                     onLemmaSelect,
-                     onWordSelect,
-                     onAnalyse,
-                     newPageSize,
-                     setNewPageSize,
-                     newPageIndex,
-                     setPageIndex,
-                     newSortHeader,
-                     setNewSortHeader,
-                     newSortDesc,
-                     setNewSortDesc
-                   }) {
+function LemmaView() {
 
-
-  const lemmad = onAnalyse.lemmas;
-  const sonad = onAnalyse.words;
+  const [analyse, setAnalyse] = useContext(AnalyseContext);
+  const setWord = useContext(SetWordContext);
+  const setLemma = useContext(SetLemmaContext);
+  const lemmad = analyse.lemmas;
+  const sonad = analyse.words;
   const {t} = useTranslation();
   const tableToDownload = [t("common_lemma"), t("lemmas_header_wordforms"), t("common_header_frequency"), t("common_header_percentage")];
-  const [tempHeader, setTempHeader] = useState(newSortHeader);
-  const [tempSortDesc, setTempSortDesc] = useState(newSortDesc);
 
   let sonaList = new Map();
   let numbrid = new Map();
@@ -68,7 +59,7 @@ function LemmaView({
         col4: 0
       }
       info.col1 = <span className="word"
-                        onClick={(e) => onLemmaSelect(e.target.textContent)}>{Array.from(sonaList.keys())[i]}</span>;
+                        onClick={(e) => setLemma(e.target.textContent)}>{Array.from(sonaList.keys())[i]}</span>;
       const ajutineList = sonaList.get(Array.from(sonaList.keys())[i]);
 
       for (let j = 0; j < mapSort2.size; j++) {
@@ -107,7 +98,7 @@ function LemmaView({
             let content = (
               <span key={uuidv4()}>
                     <span className="word"
-                          onClick={(e) => onWordSelect(e.target.textContent)}>{word}</span>{String.fromCharCode(160)}{count}
+                          onClick={(e) => setWord(e.target.textContent)}>{word}</span>{String.fromCharCode(160)}{count}
                     </span>
             )
             cellContent.push(content)
@@ -127,7 +118,7 @@ function LemmaView({
         width: 300,
       },
     ],
-    [onWordSelect, t]
+    [t]
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -150,29 +141,15 @@ function LemmaView({
     state: {pageIndex, pageSize},
   } = useTable({
     columns, data, initialState: {
-      pageSize: newPageSize,
-      pageIndex: newPageIndex,
       sortBy: [
         {
-          id: newSortHeader,
-          desc: newSortDesc
+          id: "sagedus",
+          desc: true
         }
       ]
     }
   }, useFilters, useSortBy, usePagination);
 
-  useEffect(() => {
-    setNewPageSize(pageSize)
-  }, [pageSize]);
-  useEffect(() => {
-    setPageIndex(pageIndex)
-  }, [pageIndex]);
-  useEffect(() => {
-    setNewSortHeader(tempHeader)
-  }, [tempHeader]);
-  useEffect(() => {
-    setNewSortDesc(tempSortDesc)
-  }, [tempSortDesc]);
 
   return (
     <>
@@ -207,9 +184,6 @@ function LemmaView({
                     ? ' ▼'
                     : ' ▲'
                   : '▼▲'}
-                    {column.isSorted && tempHeader !== column.id ? setTempHeader(column.id) : null}
-                    {column.isSorted && column.isSortedDesc && tempSortDesc !== true ? setTempSortDesc(true) : null}
-                    {column.isSorted && !column.isSortedDesc && column.isSortedDesc !== undefined && tempSortDesc !== false ? setTempSortDesc(false) : null}
               </span>
                 </th>
               ))}
