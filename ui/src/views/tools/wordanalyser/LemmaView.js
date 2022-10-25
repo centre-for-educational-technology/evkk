@@ -9,6 +9,7 @@ import DownloadButton from "./DownloadButton";
 import {AnalyseContext} from "./Contexts/AnalyseContext";
 import {SetLemmaContext} from "./Contexts/SetLemmaContext";
 import {SetWordContext} from "./Contexts/SetWordContext";
+import {Box} from "@mui/material";
 
 
 function LemmaView() {
@@ -153,81 +154,83 @@ function LemmaView() {
 
   return (
     <>
-      <Fragment>
-        <DownloadButton data={data}
-                        headers={tableToDownload}/>
-        <table className="analyserTable"
-               {...getTableProps()}
-               style={{
-                 marginRight: 'auto',
-                 marginLeft: 'auto',
-                 borderBottom: 'solid 1px',
-                 width: '100%'
-               }}
-        >
-          <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th className="tableHeader"
-                    key={uuidv4()}
-                    style={{
-                      borderBottom: 'solid 1px',
-                      color: 'black',
-                      fontWeight: 'bold'
-                    }}
-                >
-                  {column.render('Header')}
-                  <span className="sort" {...column.getHeaderProps(column.getSortByToggleProps())}>
+      <Box marginRight={"200px"} marginLeft={"200px"}>
+        <Fragment>
+          <DownloadButton data={data}
+                          headers={tableToDownload}/>
+          <table className="analyserTable"
+                 {...getTableProps()}
+                 style={{
+                   marginRight: 'auto',
+                   marginLeft: 'auto',
+                   borderBottom: 'solid 1px',
+                   width: '100%'
+                 }}
+          >
+            <thead>
+            {headerGroups.map((headerGroup) => (
+              <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th className="tableHeader"
+                      key={uuidv4()}
+                      style={{
+                        borderBottom: 'solid 1px',
+                        color: 'black',
+                        fontWeight: 'bold'
+                      }}
+                  >
+                    {column.render('Header')}
+                    <span className="sort" {...column.getHeaderProps(column.getSortByToggleProps())}>
                 {column.isSorted
                   ? column.isSortedDesc
                     ? ' ▼'
                     : ' ▲'
                   : '▼▲'}
               </span>
-                </th>
-              ))}
-            </tr>
-          ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-          {page.map((row) => {
-            prepareRow(row);
-            return (
-              <tr className="tableRow" {...row.getRowProps()}
-                  key={row.id}>
-                {row.cells.map((cell) => {
-                  return (
-                    <td
-                      {...cell.getCellProps()}
-                      style={{
-                        padding: '10px',
-                        width: cell.column.width
-                      }}
-                      className="border tableData"
-                    >
-                      {cell.render("Cell")}
-                    </td>
-                  )
-                })}
+                  </th>
+                ))}
               </tr>
-            );
-          })}
-          </tbody>
-        </table>
-      </Fragment>
-      <TablePagination
-        gotoPage={gotoPage}
-        previousPage={previousPage}
-        canPreviousPage={canPreviousPage}
-        nextPage={nextPage}
-        canNextPage={canNextPage}
-        pageIndex={pageIndex}
-        pageOptions={pageOptions}
-        pageSize={pageSize}
-        setPageSize={setPageSize}
-        pageCount={pageCount}
-      />
+            ))}
+            </thead>
+            <tbody {...getTableBodyProps()}>
+            {page.map((row) => {
+              prepareRow(row);
+              return (
+                <tr className="tableRow" {...row.getRowProps()}
+                    key={row.id}>
+                  {row.cells.map((cell) => {
+                    return (
+                      <td
+                        {...cell.getCellProps()}
+                        style={{
+                          padding: '10px',
+                          width: cell.column.width
+                        }}
+                        className="border tableData"
+                      >
+                        {cell.render("Cell")}
+                      </td>
+                    )
+                  })}
+                </tr>
+              );
+            })}
+            </tbody>
+          </table>
+        </Fragment>
+        <TablePagination
+          gotoPage={gotoPage}
+          previousPage={previousPage}
+          canPreviousPage={canPreviousPage}
+          nextPage={nextPage}
+          canNextPage={canNextPage}
+          pageIndex={pageIndex}
+          pageOptions={pageOptions}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+          pageCount={pageCount}
+        />
+      </Box>
     </>
   );
 }

@@ -28,7 +28,11 @@ function TableComponent() {
     <>
       <Grid item
             xs={12}
-            md={12}>
+            md={12}
+            marginLeft={"200px"}
+            marginRight={"200px"}
+            marginTop={"100px"}
+            marginBottom={"50px"}>
         <h2>{t("text_analysis")}</h2>
         <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
           <Tabs value={value}

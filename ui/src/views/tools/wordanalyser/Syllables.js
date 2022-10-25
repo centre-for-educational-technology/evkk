@@ -8,6 +8,7 @@ import DownloadButton from "./DownloadButton";
 import {v4 as uuidv4} from 'uuid';
 import {AnalyseContext} from "./Contexts/AnalyseContext";
 import {SetSyllableContext} from "./Contexts/SetSyllableContext";
+import {Box} from "@mui/material";
 
 function Syllables() {
 
@@ -254,74 +255,76 @@ function Syllables() {
 
   return (
     <>
-      {data.map((value, index) => {
-        return <div key={index}>
-          {createList(value)}
-        </div>
-      })}
+      <Box marginRight={"200px"} marginLeft={"200px"}>
+        {data.map((value, index) => {
+          return <div key={index}>
+            {createList(value)}
+          </div>
+        })}
 
-      {createSyllableList()}
-      {findDuplicates()}
-      {useEffect(() => {
-        formating();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [])}
+        {createSyllableList()}
+        {findDuplicates()}
+        {useEffect(() => {
+          formating();
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [])}
 
-      <DownloadButton data={infoListNew}
-                      headers={tableToDownload}/>
+        <DownloadButton data={infoListNew}
+                        headers={tableToDownload}/>
 
-      <table className="analyserTable" {...getTableProps()}
-             style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>
-        <thead>
-        {headerGroups.map((headerGroup) => (
-          <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
-              <th
-                key={uuidv4()}
-                style={{
-                  borderBottom: "1px solid",
-                  color: "black",
-                  fontWeight: "bold"
-                }}
-                className="tableHdr headerbox">{column.render('Header')}
-                <span className="sort" {...column.getHeaderProps(column.getSortByToggleProps())}>
+        <table className="analyserTable" {...getTableProps()}
+               style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>
+          <thead>
+          {headerGroups.map((headerGroup) => (
+            <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <th
+                  key={uuidv4()}
+                  style={{
+                    borderBottom: "1px solid",
+                    color: "black",
+                    fontWeight: "bold"
+                  }}
+                  className="tableHdr headerbox">{column.render('Header')}
+                  <span className="sort" {...column.getHeaderProps(column.getSortByToggleProps())}>
                                         {column.isSorted ? (column.isSortedDesc ? ' ▼' : ' ▲') : ' ▼▲'}
                                     </span>
-              </th>
-            ))}
-          </tr>
-        ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-        {
-          page.map((row) => {
-            prepareRow(row)
-            return (
-              <tr className="tableRow" {...row.getRowProps()}>
-                {
-                  row.cells.map(cell => {
-                    return <td className="tableData" {...cell.getCellProps()}
-                               style={{padding: '10px', width: cell.column.width,}}>{cell.render('Cell')}</td>
-                  })
-                }
-              </tr>
-            )
-          })
-        }
-        </tbody>
-      </table>
-      <TablePagination
-        gotoPage={gotoPage}
-        previousPage={previousPage}
-        canPreviousPage={canPreviousPage}
-        nextPage={nextPage}
-        canNextPage={canNextPage}
-        pageIndex={pageIndex}
-        pageOptions={pageOptions}
-        pageSize={pageSize}
-        setPageSize={setPageSize}
-        pageCount={pageCount}
-      />
+                </th>
+              ))}
+            </tr>
+          ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+          {
+            page.map((row) => {
+              prepareRow(row)
+              return (
+                <tr className="tableRow" {...row.getRowProps()}>
+                  {
+                    row.cells.map(cell => {
+                      return <td className="tableData" {...cell.getCellProps()}
+                                 style={{padding: '10px', width: cell.column.width,}}>{cell.render('Cell')}</td>
+                    })
+                  }
+                </tr>
+              )
+            })
+          }
+          </tbody>
+        </table>
+        <TablePagination
+          gotoPage={gotoPage}
+          previousPage={previousPage}
+          canPreviousPage={canPreviousPage}
+          nextPage={nextPage}
+          canNextPage={canNextPage}
+          pageIndex={pageIndex}
+          pageOptions={pageOptions}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+          pageCount={pageCount}
+        />
+      </Box>
     </>
   )
 }
