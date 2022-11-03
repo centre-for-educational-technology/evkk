@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Navbar from "./elle/components/Navbar"
-import Routes from './Routes';
 import {Provider} from 'react-redux'
 import {applyMiddleware, createStore} from 'redux';
 import thunkMiddleware from 'redux-thunk';
@@ -10,8 +9,8 @@ import {getStatusIfNeeded} from './rootActions';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {selectStatusLoaded} from './rootSelectors';
 import Footer from "./elle/components/Footer";
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { createTheme } from "@mui/material/styles";
+import {createTheme} from "@mui/material/styles";
+import AppRoutes from "./AppRoutes";
 
 const store = createStore(
   rootReducer,
@@ -63,7 +62,7 @@ class AppWithStatus extends Component {
     return (
       <>
         <Navbar/>
-        <Routes/>
+        <AppRoutes/>
         <Footer/>
       </>
     );

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Route, Switch} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import {Employees, Login, Resources} from "./views";
 import {MasinoppeEnnustus, MinitornPikkus} from "./views/tools";
 import ClusterFinder from "./views/tools/ClusterFinder";
@@ -9,13 +9,14 @@ import Correction from "./views/Correction.component";
 import WordAnalyser from "./views/tools/wordanalyser/WordAnalyser";
 import Tools from "./elle/pages/Tools";
 import {Container} from "@mui/material";
-
 import Corrector from "./elle/pages/Corrector";
 import Home from "./elle/pages/Home";
 import Links from "./elle/pages/Links";
 import Contacts from "./elle/pages/Contacts";
+import FilledContacts from "./elle/components/FilledContacts";
+import Grants from "./elle/components/Grants";
 
-class Routes extends Component {
+class AppRoutes extends Component {
 
   render404 = () => {
     return (
@@ -30,43 +31,47 @@ class Routes extends Component {
       <Container sx={{mb: 10, marginBottom: 0}}
                  disableGutters
                  maxWidth={false}>
-        <Switch>
+        <Routes>
           <Route exact
                  path='/'
-                 component={Home}/>
+                 element={<Home/>}/>
           <Route path="/about"
-                 component={Contacts}/>
+                 element={<Contacts/>}>
+            <Route index element={<FilledContacts/>}/>
+            <Route path="people" element={<FilledContacts/>}/>
+            <Route path="grants" element={<Grants/>}/>
+          </Route>
           <Route path="/employees"
-                 component={Employees}/>
+                 element={<Employees/>}/>
           <Route path="/resources"
-                 component={Resources}/>
+                 element={<Resources/>}/>
           <Route path="/resource"
-                 component={Resource}/>
+                 element={<Resource/>}/>
           <Route path="/correction"
-                 component={Correction}/>
+                 element={<Correction/>}/>
           <Route path="/login"
-                 component={Login}/>
+                 element={<Login/>}/>
           <Route path="/files"
-                 component={Files}/>
+                 element={<Files/>}/>
           <Route path="/tools/minitorn-pikkus"
-                 component={MinitornPikkus}/>
+                 element={<MinitornPikkus/>}/>
           <Route path="/tools/masinoppe-ennustus"
-                 component={MasinoppeEnnustus}/>
+                 element={<MasinoppeEnnustus/>}/>
           <Route path="/tools/clusterfinder"
-                 component={ClusterFinder}/>
+                 element={<ClusterFinder/>}/>
           <Route path="/tools/wordanalyser"
-                 component={WordAnalyser}/>
+                 element={<WordAnalyser/>}/>
           <Route path="/corrector"
-                 component={Corrector}/>
+                 element={<Corrector/>}/>
           <Route path="/tools"
-                 component={Tools}/>
+                 element={<Tools/>}/>
           <Route path="/links"
-                 component={Links}/>
-          <Route component={() => this.render404()}/>
-        </Switch>
+                 element={<Links/>}/>
+          <Route element={() => this.render404()}/>
+        </Routes>
       </Container>
     );
   }
 }
 
-export default Routes;
+export default AppRoutes;

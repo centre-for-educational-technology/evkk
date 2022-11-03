@@ -1,7 +1,7 @@
 import React from "react";
 import {Box, Typography} from "@mui/material";
 import HomeIcon from '@mui/icons-material/Home';
-import ContactCard from "../components/ContactCard";
+import {Link, Outlet} from 'react-router-dom';
 
 function Contacts() {
   return (
@@ -29,7 +29,6 @@ function Contacts() {
         marginTop: "3vh",
         width: "80vw",
         height: "auto",
-        boxShadow: "0px 0px 20px -5px #CCA8FD",
         overflow: "auto"
       }}>
         <Box sx={{
@@ -43,11 +42,11 @@ function Contacts() {
           marginBottom: "100px",
           borderWidth: "thin"
         }}>
-          <Box component={"span"}><Typography color={"#9C27B0"}
-                                              fontSize={"1rem"}
-                                              marginTop={"10px"}>People</Typography></Box>
+          <Box component={"span"}><Typography
+            fontSize={"1rem"}
+            marginTop={"10px"}><Link to="people">Töötajad</Link></Typography></Box>
           <Box component={"span"}><Typography fontSize={"1rem"}
-                                              marginTop={"10px"}>Töötajad</Typography></Box>
+                                              marginTop={"10px"}><Link to="grants">Grandid</Link></Typography></Box>
           <Box component={"span"}><Typography fontSize={"1rem"}
                                               marginTop={"10px"}>Publikatsioonid</Typography></Box>
           <Box component={"span"}><Typography fontSize={"1rem"}
@@ -65,30 +64,7 @@ function Contacts() {
           marginBottom: "100px",
           overflow: "auto"
         }}>
-          <ContactCard firstName={"Eesnimi"}
-                       email={"mingimail@mingiaadress.ee"}
-                       lastName={"Perenimi"}
-                       role={"Tööline"}/>
-          <ContactCard firstName={"Eesnimi"}
-                       email={"mingimail@mingiaadress.ee"}
-                       lastName={"Perenimi"}
-                       role={"Tööline"}/>
-          <ContactCard firstName={"Eesnimi"}
-                       email={"mingimail@mingiaadress.ee"}
-                       lastName={"Perenimi"}
-                       role={"Tööline"}/>
-          <ContactCard firstName={"Eesnimi"}
-                       email={"mingimail@mingiaadress.ee"}
-                       lastName={"Perenimi"}
-                       role={"Tööline"}/>
-          <ContactCard firstName={"Eesnimi"}
-                       email={"mingimail@mingiaadress.ee"}
-                       lastName={"Perenimi"}
-                       role={"Tööline"}/>
-          <ContactCard firstName={"Eesnimi"}
-                       email={"mingimail@mingiaadress.ee"}
-                       lastName={"Perenimi"}
-                       role={"Tööline"}/>
+          <Outlet/>
         </Box>
       </Box>
     </Box>
