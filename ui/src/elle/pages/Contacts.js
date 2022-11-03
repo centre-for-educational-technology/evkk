@@ -1,7 +1,7 @@
 import React from "react";
 import {Box, Typography} from "@mui/material";
 import HomeIcon from '@mui/icons-material/Home';
-import ContactCard from "../components/ContactCard";
+import {Link, Outlet} from 'react-router-dom';
 
 function Contacts() {
   return (
@@ -42,11 +42,14 @@ function Contacts() {
           marginBottom: "100px",
           borderWidth: "thin"
         }}>
-          <Box component={"span"}><Typography color={"#9C27B0"}
-                                              fontSize={"1rem"}
-                                              marginTop={"10px"}>People</Typography></Box>
           <Box component={"span"}><Typography fontSize={"1rem"}
-                                              marginTop={"10px"}>Töötajad</Typography></Box>
+                                              marginTop={"10px"}>
+            <Link to="people">Töötajad</Link>
+          </Typography></Box>
+          <Box component={"span"}><Typography fontSize={"1rem"}
+                                              marginTop={"10px"}>
+            <Link to="grants">Grandid</Link>
+          </Typography></Box>
           <Box component={"span"}><Typography fontSize={"1rem"}
                                               marginTop={"10px"}>Publikatsioonid</Typography></Box>
           <Box component={"span"}><Typography fontSize={"1rem"}
@@ -64,30 +67,7 @@ function Contacts() {
           marginBottom: "100px",
           overflow: "auto"
         }}>
-          <ContactCard name={"PhD Pille Eslon"}
-                       email={"peslon@tlu.ee"}
-                       role={"dotsent"}/>
-          <ContactCard name={"MSc Jaagup Kippar"}
-                       email={"jaagup@tlu.ee"}
-                       role={"tarkvaratehnika lektor"}/>
-          <ContactCard name={"MA Kais Allkivi-Metsoja"}
-                       email={"kais@tlu.ee"}
-                       role={"nooremteadur"}/>
-          <ContactCard name={"MSc Kaisa Norak"}
-                       email={"kaisa.norak@tlu.ee"}
-                       role={"analüütik"}/>
-          <ContactCard name={"BSc Mikk Tarvas"}
-                       email={"mtarvas@tlu.ee"}
-                       role={"magistrant, analüütik-programmeerija"}/>
-          <ContactCard name={"Martin Mõtus"}
-                       email={"martin.motus@tlu.ee"}
-                       role={"analüütik-programmeerija"}/>
-          <ContactCard name={"Harli Kodasma"}
-                       email={"harli.kodasma@tlu.ee"}
-                       role={"analüütik-programmeerija"}/>
-          <ContactCard name={"Taavi Kamarik"}
-                       email={"taavik@tlu.ee"}
-                       role={"programmeerija"}/>
+          <Outlet/>
         </Box>
       </Box>
     </Box>

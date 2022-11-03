@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
-import {Route, Switch} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import {MasinoppeEnnustus, MinitornPikkus} from "./views/tools";
 import Correction from "./elle/tools/correction/Correction.component";
 import Tools from "./elle/pages/Tools";
 import {Container} from "@mui/material";
-
 import Home from "./elle/pages/Home";
 import Links from "./elle/pages/Links";
 import Contacts from "./elle/pages/Contacts";
+import FilledContacts from "./elle/components/FilledContacts";
+import Grants from "./elle/components/Grants";
 
-class Routes extends Component {
+class AppRoutes extends Component {
 
   render404 = () => {
     return (
@@ -30,29 +31,36 @@ class Routes extends Component {
       }}
                  disableGutters
                  maxWidth={false}>
-        <Switch>
+        <Routes>
           <Route exact
                  path='/'
-                 component={Home}/>
+                 element={<Home/>}/>
           <Route path="/about"
-                 component={Contacts}/>
+                 element={<Contacts/>}>
+            <Route index
+                   element={<FilledContacts/>}/>
+            <Route path="people"
+                   element={<FilledContacts/>}/>
+            <Route path="grants"
+                   element={<Grants/>}/>
+          </Route>
           <Route path="/tools/minitorn-pikkus"
-                 component={MinitornPikkus}/>
+                 element={<MinitornPikkus/>}/>
           <Route path="/tools/masinoppe-ennustus"
-                 component={MasinoppeEnnustus}/>
+                 element={<MasinoppeEnnustus/>}/>
           <Route path="/corrector"
-                 component={Correction}/>
+                 element={<Correction/>}/>
           <Route path="/tools/:id"
-                 component={Tools}/>
+                 element={<Tools/>}/>
           <Route path="/tools"
-                 component={Tools}/>
+                 element={<Tools/>}/>
           <Route path="/links"
-                 component={Links}/>
-          <Route component={() => this.render404()}/>
-        </Switch>
+                 element={<Links/>}/>
+          <Route element={() => this.render404()}/>
+        </Routes>
       </Container>
     );
   }
 }
 
-export default Routes;
+export default AppRoutes;

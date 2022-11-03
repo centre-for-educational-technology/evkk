@@ -1,9 +1,25 @@
 import React, {Component} from 'react';
 import {postLogin} from "../Api";
-import {withRouter} from "react-router-dom";
 import {connectedComponent} from "../util/redux-utils";
 import {selectStatus} from "../rootSelectors";
 import {getStatus} from "../rootActions";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
+
+function withRouter() {
+  function ComponentWithRouterProp(props) {
+    let location = useLocation();
+    let navigate = useNavigate();
+    let params = useParams();
+    return (
+      <Component
+        {...props}
+        router={{location, navigate, params}}
+      />
+    );
+  }
+
+  return ComponentWithRouterProp;
+}
 
 class Login extends Component {
 
@@ -57,18 +73,31 @@ class Login extends Component {
             <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <label htmlFor="exampleInputEmail1">E-mail</label>
-                <input name={'emailAddress'} onChange={this.handleInputChange} value={this.state.form.emailAddress}
-                       type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                <input name={'emailAddress'}
+                       onChange={this.handleInputChange}
+                       value={this.state.form.emailAddress}
+                       type="email"
+                       className="form-control"
+                       id="exampleInputEmail1"
+                       aria-describedby="emailHelp"
                        placeholder="E-maili aadress"/>
-                <small id="emailHelp" className="form-text text-muted">Teie e-mail millega kasutajakonto seotud on.</small>
+                <small id="emailHelp"
+                       className="form-text text-muted">Teie e-mail millega kasutajakonto seotud on.</small>
               </div>
               <div className="form-group">
                 <label htmlFor="exampleInputPassword1">Parool</label>
-                <input name={'password'} onChange={this.handleInputChange} value={this.state.form.password}
-                       type="password" className="form-control" id="exampleInputPassword1" placeholder="Parool"/>
+                <input name={'password'}
+                       onChange={this.handleInputChange}
+                       value={this.state.form.password}
+                       type="password"
+                       className="form-control"
+                       id="exampleInputPassword1"
+                       placeholder="Parool"/>
               </div>
               <div>
-                <button type="submit" className="btn btn-primary btn-lg btn-block">Logi sisse</button>
+                <button type="submit"
+                        className="btn btn-primary btn-lg btn-block">Logi sisse
+                </button>
               </div>
             </form>
           </div>
@@ -85,4 +114,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {getStatus};
 
-export default connectedComponent(withRouter(Login), mapStateToProps, mapDispatchToProps);
+export default connectedComponent(withRouter(), mapStateToProps, mapDispatchToProps);

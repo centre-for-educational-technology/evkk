@@ -7,7 +7,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ClusterFinder from "../tools/ClusterFinder";
 import WordAnalyser from "../tools/wordanalyser/WordAnalyser";
-import {useHistory, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 const components = {
   clusterfinder: ClusterFinder,
@@ -18,7 +18,7 @@ function Tools() {
   const {id} = useParams();
   const [selectedTool, setSelectedTool] = useState(id ? id : null);
   const [expanded, setExpanded] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   // kui ühtegi tööriista pole valitud, siis ära näita midagi
   let SelectedTool = () => {
@@ -31,7 +31,7 @@ function Tools() {
 
   useEffect(() => {
     if (selectedTool) {
-      history.push(`/tools/` + selectedTool);
+      navigate(`/tools/` + selectedTool);
     }
   }, [selectedTool]);
 
