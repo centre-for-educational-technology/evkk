@@ -1,12 +1,13 @@
 import ToolCard from "../components/ToolCard";
-import React, {useState} from "react";
-import {Card, CardContent, Grid} from "@mui/material";
+import React, {useEffect, useState} from "react";
+import {Box, Card, CardContent, Grid} from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ClusterFinder from "../tools/ClusterFinder";
 import WordAnalyser from "../tools/wordanalyser/WordAnalyser";
+import {useHistory, useParams} from "react-router-dom";
 
 const components = {
   clusterfinder: ClusterFinder,
@@ -14,8 +15,10 @@ const components = {
 };
 
 function Tools() {
-  const [selectedTool, setSelectedTool] = useState(null);
+  const {id} = useParams();
+  const [selectedTool, setSelectedTool] = useState(id ? id : null);
   const [expanded, setExpanded] = useState(false);
+  const history = useHistory();
 
   // kui ühtegi tööriista pole valitud, siis ära näita midagi
   let SelectedTool = () => {
@@ -25,6 +28,12 @@ function Tools() {
   if (selectedTool) {
     SelectedTool = components[selectedTool];
   }
+
+  useEffect(() => {
+    if (selectedTool) {
+      history.push(`/tools/` + selectedTool);
+    }
+  }, [selectedTool]);
 
   return (
     <Card raised={true}
@@ -36,9 +45,7 @@ function Tools() {
           <Grid item
                 xs={12}
                 sm={12}
-                md={12}
-                lg={4}
-                xl={3}>
+                md={12}>
             <Accordion
               disableGutters
               elevation={0}
@@ -47,6 +54,7 @@ function Tools() {
               expanded={expanded}
             >
               <AccordionSummary
+                className="tools-accordion"
                 expandIcon={<ExpandMoreIcon/>}
                 onClick={() =>
                   setExpanded(!expanded)
@@ -55,24 +63,26 @@ function Tools() {
                 Analüüsivahendid
               </AccordionSummary>
               <AccordionDetails style={{minWidth: '350px'}}>
-                <ToolCard
-                  title="Mustrid"
-                  img={require("../resources/images/tools/mustrileidja.png").default}
-                  description="Mustrid ehk n-grammid aitavad tekstist leida tüüpilisemad sõnajärjendid"
-                  action={() => {
-                    setSelectedTool("clusterfinder");
-                    setExpanded(false);
-                  }}
-                ></ToolCard>
-                <ToolCard
-                  title="Sõnaanalüüs"
-                  img={require("../resources/images/tools/sonaanalyys.png").default}
-                  description="Leia sõnade silbid, algvormid ja grammatilised vormid"
-                  action={() => {
-                    setSelectedTool("wordanalyser");
-                    setExpanded(false);
-                  }}
-                ></ToolCard>
+                <Box sx={{display: "flex", flexWrap: "wrap"}}>
+                  <ToolCard
+                    title="Mustrid"
+                    img={require("../resources/images/tools/mustrileidja.png").default}
+                    description="Mustrid ehk n-grammid aitavad tekstist leida tüüpilisemad sõnajärjendid"
+                    action={() => {
+                      setSelectedTool("clusterfinder");
+                      setExpanded(false);
+                    }}
+                  ></ToolCard>
+                  <ToolCard
+                    title="Sõnaanalüüs"
+                    img={require("../resources/images/tools/sonaanalyys.png").default}
+                    description="Leia sõnade silbid, algvormid ja grammatilised vormid"
+                    action={() => {
+                      setSelectedTool("wordanalyser");
+                      setExpanded(false);
+                    }}
+                  ></ToolCard>
+                </Box>
               </AccordionDetails>
             </Accordion>
           </Grid>

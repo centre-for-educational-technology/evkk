@@ -42,6 +42,8 @@ class Routes extends Component {
                  component={MasinoppeEnnustus}/>
           <Route path="/corrector"
                  component={Correction}/>
+          <Route path="/tools/:id"
+                 component={Tools}/>
           <Route path="/tools"
                  component={Tools}/>
           <Route path="/links"

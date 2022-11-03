@@ -19,12 +19,12 @@ function Home() {
                 order={1}
                 title={"Mustrileidjaga"}
                 text={"saad tekstist leida tüüpilisemad sõnajärjendid."}
-                linkTo={"/tools"}/>
+                linkTo={"/tools/clusterfinder"}/>
       <HomeCard image={analyserImg}
                 order={2}
                 title={"Sõnaanalüsaatoriga"}
                 text={"saad tekstist leida silpe, algvorme ja grammatilisi vorme."}
-                linkTo={"/tools"}/>
+                linkTo={"/tools/wordanalyser"}/>
     </div>
   )
 }
