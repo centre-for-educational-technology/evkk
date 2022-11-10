@@ -49,7 +49,8 @@
 }
 
 .word {
-  cursor: pointer
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .wordInfo {

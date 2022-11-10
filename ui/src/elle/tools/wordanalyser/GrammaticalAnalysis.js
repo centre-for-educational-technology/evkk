@@ -9,6 +9,7 @@ import TablePagination from "./TablePagination";
 import {useTranslation} from "react-i18next";
 import "../../translations/i18n";
 import {AnalyseContext, SetFormContext, SetTypeContext, SetWordContext} from "./Contexts";
+import ToggleCell from "./ToggleCell";
 
 function GrammaticalAnalysis() {
   const [sonaliik, setSonaliik] = useState('');
@@ -293,12 +294,14 @@ function GrammaticalAnalysis() {
               <span key={uuidv4()}>
                 <span key={props.id}
                       className="word"
-                      onClick={(e) => setWord(e.target.textContent)}>{word}</span>{String.fromCharCode(160)}{count}
+                      onClick={(e) => setWord(e.target.textContent)}>{word}
+                </span>
+                {String.fromCharCode(160)}{count}
               </span>
             )
             cellContent.push(content);
           }
-          return cellContent
+          return <ToggleCell onCellContent={cellContent}/>
         },
         width: 700,
         disableFilters: true,
