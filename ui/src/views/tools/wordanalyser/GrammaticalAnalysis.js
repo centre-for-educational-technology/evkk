@@ -1,6 +1,6 @@
 import React, {Fragment, useContext, useEffect, useMemo, useState} from 'react';
 import {useFilters, usePagination, useSortBy, useTable} from 'react-table';
-import {Box, Checkbox, FormControl, IconButton, ListItemIcon, ListItemText, MenuItem, Select,} from "@mui/material";
+import {Box, Checkbox, FormControl, IconButton, ListItemText, MenuItem, Select,} from "@mui/material";
 import DownloadButton from "./DownloadButton";
 import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
@@ -138,13 +138,16 @@ function GrammaticalAnalysis() {
     return arr;
   };
 
-  function setFilteredParams(filterArr, val) {
+  const setFilteredParams = (filterArr, val) => {
     if (filterArr.includes(val)) {
       filterArr = filterArr.filter((n) => {
         return n !== val;
       });
-    } else filterArr.push(val);
-    if (filterArr.length === 0) filterArr = undefined;
+    } else {
+      filterArr.push(val);
+      filterArr = filterArr.slice();
+    }
+    if (filterArr.length === 0) filterArr = [];
     return filterArr;
   }
 
@@ -155,12 +158,18 @@ function GrammaticalAnalysis() {
   );
 
   function LongMenu({column: {filterValue = [], setFilter, preFilteredRows, id}}) {
+    const [newFilterValue, setNewFilterValue] = useState(filterValue);
     const [anchorEl, setAnchorEl] = useState(false);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
+      if (newFilterValue.length < 1) {
+        setFilter(options);
+      } else {
+        setFilter(newFilterValue);
+      }
       setAnchorEl(null);
     }
     const options = useMemo(() => {
@@ -170,7 +179,11 @@ function GrammaticalAnalysis() {
       });
       return [...options2.values()];
 
-    }, [id, preFilteredRows]);
+    }, [id, preFilteredRows, newFilterValue]);
+
+    if (newFilterValue.length > 0 && newFilterValue.length === options.length || options.length < newFilterValue.length) {
+      setNewFilterValue([]);
+    }
 
     return (
       <Fragment>
@@ -191,6 +204,7 @@ function GrammaticalAnalysis() {
             open={open}
             style={{zIndex: "-30", position: "absolute", transform: "translate(-3.7rem, -.5rem)"}}
             onClose={handleClose}
+            renderValue={() => ""}
             MenuProps={{
               anchorOrigin: {
                 vertical: "bottom",
@@ -207,16 +221,14 @@ function GrammaticalAnalysis() {
                 key={option}
                 value={option}
                 onClick={(e) => {
-                  setFilter(setFilteredParams(filterValue, e.currentTarget.dataset.value));
+                  setNewFilterValue(setFilteredParams(newFilterValue, e.currentTarget.dataset.value))
                 }}
               >
-                <ListItemIcon>
-                  <Checkbox
-                    id={option}
-                    value={option}
-                    checked={filterValue.includes(option)}
-                  />
-                </ListItemIcon>
+                <Checkbox
+                  id={option}
+                  value={option}
+                  checked={newFilterValue.includes(option)}
+                />
                 <ListItemText primary={option}
                               id={option}
                               value={option}/>
