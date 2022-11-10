@@ -1,6 +1,6 @@
-import React, {Fragment, useEffect, useMemo, useState} from 'react';
+import React, {Fragment, useContext, useEffect, useMemo, useState} from 'react';
 import {useFilters, usePagination, useSortBy, useTable} from 'react-table';
-import {Checkbox, FormControl, IconButton, ListItemIcon, ListItemText, MenuItem, Select,} from "@mui/material";
+import {Box, Checkbox, FormControl, IconButton, ListItemText, MenuItem, Select} from "@mui/material";
 import DownloadButton from "./DownloadButton";
 import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
@@ -8,33 +8,23 @@ import {v4 as uuidv4} from 'uuid';
 import TablePagination from "./TablePagination";
 import {useTranslation} from "react-i18next";
 import "../../translations/i18n";
+import {AnalyseContext, SetFormContext, SetTypeContext, SetWordContext} from "./Contexts";
 
-function GrammaticalAnalysis({
-                               onTypeSelect,
-                               onFormSelect,
-                               onWordSelect,
-                               onAnalyse,
-                               newPageSize,
-                               setNewPageSize,
-                               newPageIndex,
-                               setPageIndex,
-                               newSortHeader,
-                               setNewSortHeader,
-                               newSortDesc,
-                               setNewSortDesc
-                             }) {
+function GrammaticalAnalysis() {
   const [sonaliik, setSonaliik] = useState('');
   const [sonad, setSonad] = useState('');
   const [vormiliik, setVormiliik] = useState('');
   const {t} = useTranslation();
-  const [tempHeader, setTempHeader] = useState(newSortHeader)
-  const [tempSortDesc, setTempSortDesc] = useState(newSortDesc)
+  const setType = useContext(SetTypeContext);
+  const setForm = useContext(SetFormContext);
+  const setWord = useContext(SetWordContext);
+  const [analyse, setAnalyse] = useContext(AnalyseContext);
 
   useEffect(() => {
-    setSonaliik(onAnalyse.wordtypes);
-    setSonad(onAnalyse.words);
-    setVormiliik(onAnalyse.wordforms);
-  }, [onAnalyse]);
+    setSonaliik(analyse.wordtypes);
+    setSonad(analyse.words);
+    setVormiliik(analyse.wordforms);
+  }, [analyse]);
 
   let sonaList = new Map();
   let sonaList2 = new Map();
@@ -145,13 +135,16 @@ function GrammaticalAnalysis({
     return arr;
   };
 
-  function setFilteredParams(filterArr, val) {
+  const setFilteredParams = (filterArr, val) => {
     if (filterArr.includes(val)) {
       filterArr = filterArr.filter((n) => {
         return n !== val;
       });
-    } else filterArr.push(val);
-    if (filterArr.length === 0) filterArr = undefined;
+    } else {
+      filterArr.push(val);
+      filterArr = filterArr.slice();
+    }
+    if (filterArr.length === 0) filterArr = [];
     return filterArr;
   }
 
@@ -162,12 +155,18 @@ function GrammaticalAnalysis({
   );
 
   function LongMenu({column: {filterValue = [], setFilter, preFilteredRows, id}}) {
+    const [newFilterValue, setNewFilterValue] = useState(filterValue);
     const [anchorEl, setAnchorEl] = useState(false);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
+      if (newFilterValue.length < 1) {
+        setFilter(options);
+      } else {
+        setFilter(newFilterValue);
+      }
       setAnchorEl(null);
     }
     const options = useMemo(() => {
@@ -177,7 +176,11 @@ function GrammaticalAnalysis({
       });
       return [...options2.values()];
 
-    }, [id, preFilteredRows]);
+    }, [id, preFilteredRows, newFilterValue]);
+
+    if (newFilterValue.length > 0 && newFilterValue.length === options.length || options.length < newFilterValue.length) {
+      setNewFilterValue([]);
+    }
 
     return (
       <Fragment>
@@ -198,6 +201,7 @@ function GrammaticalAnalysis({
             open={open}
             style={{zIndex: "-30", position: "absolute", transform: "translate(-3.7rem, -.5rem)"}}
             onClose={handleClose}
+            renderValue={() => ""}
             MenuProps={{
               anchorOrigin: {
                 vertical: "bottom",
@@ -214,16 +218,14 @@ function GrammaticalAnalysis({
                 key={option}
                 value={option}
                 onClick={(e) => {
-                  setFilter(setFilteredParams(filterValue, e.currentTarget.dataset.value));
+                  setNewFilterValue(setFilteredParams(newFilterValue, e.currentTarget.dataset.value))
                 }}
               >
-                <ListItemIcon>
-                  <Checkbox
-                    id={option}
-                    value={option}
-                    checked={filterValue.includes(option)}
-                  />
-                </ListItemIcon>
+                <Checkbox
+                  id={option}
+                  value={option}
+                  checked={newFilterValue.includes(option)}
+                />
                 <ListItemText primary={option}
                               id={option}
                               value={option}/>
@@ -233,6 +235,14 @@ function GrammaticalAnalysis({
         </FormControl>
       </Fragment>
     );
+  }
+
+  function handleTypeClick(e) {
+    setType(e);
+  }
+
+  function handleFormClick(e) {
+    setForm(e);
   }
 
   const columns = useMemo(
@@ -246,7 +256,7 @@ function GrammaticalAnalysis({
           const word = props.value;
           return <span key={props.id}
                        className="word"
-                       onClick={(e) => onTypeSelect(e.target.textContent)}>{word}</span>
+                       onClick={(e) => handleTypeClick(e.target.textContent)}>{word}</span>
         },
         className: 'user',
         width: 400,
@@ -261,7 +271,7 @@ function GrammaticalAnalysis({
         Cell: (props) => {
           const word = props.value;
           return <span className="word"
-                       onClick={(e) => onFormSelect(e.target.textContent)}>{word}</span>
+                       onClick={(e) => handleFormClick(e.target.textContent)}>{word}</span>
         },
         width: 400,
         className: 'col2',
@@ -283,7 +293,7 @@ function GrammaticalAnalysis({
               <span key={uuidv4()}>
                 <span key={props.id}
                       className="word"
-                      onClick={(e) => onWordSelect(e.target.textContent)}>{word}</span>{String.fromCharCode(160)}{count}
+                      onClick={(e) => setWord(e.target.textContent)}>{word}</span>{String.fromCharCode(160)}{count}
               </span>
             )
             cellContent.push(content);
@@ -310,7 +320,7 @@ function GrammaticalAnalysis({
       }
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [sonad, sonaliik, onWordSelect]
+    [sonad, sonaliik]
   );
 
   const {
@@ -330,102 +340,86 @@ function GrammaticalAnalysis({
     state: {pageIndex, pageSize},
   } = useTable({
     columns, data, initialState: {
-      pageSize: newPageSize,
-      pageIndex: newPageIndex,
       sortBy: [
         {
-          id: newSortHeader,
-          desc: newSortDesc
+          id: "sagedus",
+          desc: true
         }
       ]
     }
   }, useFilters, useSortBy, usePagination);
 
-  useEffect(() => {
-    setNewPageSize(pageSize)
-  }, [pageSize, setNewPageSize]);
-  useEffect(() => {
-    setPageIndex(pageIndex)
-  }, [pageIndex, setPageIndex]);
-  useEffect(() => {
-    setNewSortHeader(tempHeader)
-  }, [tempHeader, setNewSortHeader]);
-  useEffect(() => {
-    setNewSortDesc(tempSortDesc)
-  }, [tempSortDesc, setNewSortDesc]);
-
 
   return (
     <Fragment>
-      <DownloadButton data={data}
-                      headers={tableToDownload}/>
-      <table className='analyserTable' {...getTableProps()}
-             style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>
-        <thead>
-        {headerGroups.map(headerGroup => (
-          <tr className='tableRow' {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column => (
-              <th
-                className='tableHead'
-                key={uuidv4()}
-                style={{
-                  borderBottom: 'solid 1px',
-                  color: 'black',
-                  fontWeight: 'bold',
-                }}
-              >
-                {<span>{column.render('Header')} {column.canFilter ? column.render("Filter") : null}</span>}
-                <span className='sortIcon'  {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>
+      <Box>
+        <DownloadButton data={data}
+                        headers={tableToDownload}/>
+        <table className='analyserTable' {...getTableProps()}
+               style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>
+          <thead>
+          {headerGroups.map(headerGroup => (
+            <tr className='tableRow' {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(column => (
+                <th
+                  className='tableHead'
+                  key={uuidv4()}
+                  style={{
+                    borderBottom: 'solid 1px',
+                    color: 'black',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  {<span>{column.render('Header')} {column.canFilter ? column.render("Filter") : null}</span>}
+                  <span className='sortIcon'  {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>
                     {column.isSorted
                       ? column.isSortedDesc
                         ? ' ▼'
                         : ' ▲'
                       : ' ▼▲'}
-                  {column.isSorted && tempHeader !== column.id ? setTempHeader(column.id) : null}
-                  {column.isSorted && column.isSortedDesc && tempSortDesc !== true ? setTempSortDesc(true) : null}
-                  {column.isSorted && !column.isSortedDesc && column.isSortedDesc !== undefined && tempSortDesc !== false ? setTempSortDesc(false) : null}
                   </span>
-              </th>
-            ))}
-          </tr>
-        ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-        {page.map((row, _i) => {
-          prepareRow(row)
-          return (
-            <tr className='tableRow' {...row.getRowProps()}>
-              {row.cells.map(cell => {
-                return (
-                  <td
-                    {...cell.getCellProps()}
-                    style={{
-                      padding: '10px',
-                      width: cell.column.width,
-                    }}
-                    className="border tableData"
-                  >
-                    {cell.render('Cell')}
-                  </td>
-                )
-              })}
+                </th>
+              ))}
             </tr>
-          )
-        })}
-        </tbody>
-      </table>
-      <TablePagination
-        gotoPage={gotoPage}
-        previousPage={previousPage}
-        canPreviousPage={canPreviousPage}
-        nextPage={nextPage}
-        canNextPage={canNextPage}
-        pageIndex={pageIndex}
-        pageOptions={pageOptions}
-        pageSize={pageSize}
-        setPageSize={setPageSize}
-        pageCount={pageCount}
-      />
+          ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+          {page.map((row, _i) => {
+            prepareRow(row)
+            return (
+              <tr className='tableRow' {...row.getRowProps()}>
+                {row.cells.map(cell => {
+                  return (
+                    <td
+                      {...cell.getCellProps()}
+                      style={{
+                        padding: '10px',
+                        width: cell.column.width,
+                      }}
+                      className="border tableData"
+                    >
+                      {cell.render('Cell')}
+                    </td>
+                  )
+                })}
+              </tr>
+            )
+          })}
+          </tbody>
+        </table>
+        <TablePagination
+          gotoPage={gotoPage}
+          previousPage={previousPage}
+          canPreviousPage={canPreviousPage}
+          nextPage={nextPage}
+          canNextPage={canNextPage}
+          pageIndex={pageIndex}
+          pageOptions={pageOptions}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+          pageCount={pageCount}
+        />
+      </Box>
     </Fragment>
   );
 }

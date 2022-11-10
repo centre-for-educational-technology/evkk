@@ -1,11 +1,12 @@
 import {InputText} from './InputText';
-import {useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {Alert, Button, Grid} from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import {useTranslation} from "react-i18next";
 import "../../../translations/i18n";
+import {AnalyseContext, TabContext} from "../Contexts";
 
-export const Input = ({onInsert, onAnalyse, onMarkWords, onWordSelect, onWordInfo, onReset, textFromFile}) => {
+export const Input = ({onInsert, onMarkWords, onWordSelect, onWordInfo, onReset, textFromFile}) => {
   const [input, setInput] = useState('');
   const [selectedWords, setSelectedWords] = useState(onMarkWords);
   const [showAnalyseBtn, setShowAnalyseBtn] = useState(true);
@@ -13,7 +14,9 @@ export const Input = ({onInsert, onAnalyse, onMarkWords, onWordSelect, onWordInf
   const [showAlert, setShowAlert] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
   const [textTooLong, setTextTooLong] = useState(false);
+  const [analyse, setAnalyse] = useContext(AnalyseContext);
   const {t} = useTranslation();
+  const [tableValue, setTableValue] = useContext(TabContext);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -38,12 +41,13 @@ export const Input = ({onInsert, onAnalyse, onMarkWords, onWordSelect, onWordInf
 
   useEffect(() => {
     setShowLoading(false);
-    if (onAnalyse.ids[0].length > 0) {
+    if (analyse.ids[0].length > 0) {
       setShowResetBtn(true);
     }
-  }, [onAnalyse]);
+  }, [analyse]);
 
   const resetAnalyser = () => {
+    setTableValue(0);
     setShowAnalyseBtn(true);
     setShowResetBtn(false);
     setInput('');
@@ -87,7 +91,6 @@ export const Input = ({onInsert, onAnalyse, onMarkWords, onWordSelect, onWordInf
         :
         <InputText onMarkWords={onMarkWords}
                    onWordSelect={onWordSelect}
-                   onAnalyse={onAnalyse}
                    onWordInfo={onWordInfo}/>
       }
       {showLoading && <LoadingButton loading

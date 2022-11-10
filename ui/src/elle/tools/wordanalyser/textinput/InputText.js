@@ -1,7 +1,10 @@
-import {useCallback, useMemo} from 'react';
+import {useCallback, useContext, useMemo} from 'react';
 import {v4 as uuidv4} from 'uuid';
+import {AnalyseContext} from "../Contexts";
 
-export const InputText = ({onAnalyse, onMarkWords, onWordSelect, onWordInfo}) => {
+export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
+
+  const [analyse, setAnalyse] = useContext(AnalyseContext);
 
   const handleWord = useCallback((e) => {
     onWordInfo(e.target.id);
@@ -9,9 +12,9 @@ export const InputText = ({onAnalyse, onMarkWords, onWordSelect, onWordInfo}) =>
   }, [onWordInfo, onWordSelect]);
 
   const updatedText = useMemo(() => {
-    let analysedWords = onAnalyse.wordsOrig;
-    let text = onAnalyse.text;
-    let ids = onAnalyse.ids;
+    let analysedWords = analyse.wordsOrig;
+    let text = analyse.text;
+    let ids = analyse.ids;
     let content = [];
     if (analysedWords) {
       for (let i = 0; i < analysedWords.length; i++) {
@@ -71,7 +74,7 @@ export const InputText = ({onAnalyse, onMarkWords, onWordSelect, onWordInfo}) =>
     }
     content.push(text);
     return <>{content}</>;
-  }, [onAnalyse, onMarkWords, handleWord])
+  }, [analyse, onMarkWords, handleWord]);
 
   return (
     <div className="textInputDiv">

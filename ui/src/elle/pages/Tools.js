@@ -6,12 +6,12 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ClusterFinder from "../tools/ClusterFinder";
-import WordAnalyser from "../tools/wordanalyser/WordAnalyser";
 import {useNavigate, useParams} from "react-router-dom";
+import WordAnalyserParent from "../tools/wordanalyser/WordAnalyserParent";
 
 const components = {
   clusterfinder: ClusterFinder,
-  wordanalyser: WordAnalyser
+  wordanalyser: WordAnalyserParent
 };
 
 function Tools() {
