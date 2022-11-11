@@ -11,6 +11,7 @@ import {selectStatusLoaded} from './rootSelectors';
 import Footer from "./elle/components/Footer";
 import {createTheme} from "@mui/material/styles";
 import AppRoutes from "./AppRoutes";
+import {ThemeProvider} from "@mui/material";
 
 const store = createStore(
   rootReducer,
@@ -21,7 +22,7 @@ const theme = createTheme({
   palette: {
     primary: {
       // light: will be calculated from palette.primary.main,
-      main: "#9C27B0",
+      main: "#2196F3",
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
     },
@@ -49,6 +50,9 @@ const theme = createTheme({
     // E.g., shift from Red 500 to Red 300 or Red 700.
     tonalOffset: 0.2,
   },
+  typography: {
+    fontFamily: `"Mulish", "sans-serif"`
+  }
 });
 
 class AppWithStatus extends Component {
@@ -83,9 +87,11 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <Provider store={store}>
-          <ConnectedAppWithStatus />
-        </Provider>
+        <ThemeProvider theme={theme}>
+          <Provider store={store}>
+            <ConnectedAppWithStatus/>
+          </Provider>
+        </ThemeProvider>
       </Router>
     );
   }

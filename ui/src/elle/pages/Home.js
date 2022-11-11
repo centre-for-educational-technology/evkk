@@ -8,8 +8,7 @@ function Home() {
   return (
     <div style={{paddingBottom: "5%"}}>
       <h2 style={{textAlign: "center", marginLeft: "20%", width: "60%", marginBottom: "5%", paddingTop: "4%"}}>ELLE -
-        keeleõppe ja
-        -analüüsi keskkond õppijale, õpetajale ja teadlasele</h2>
+        keeleõppe ja -analüüsi keskkond õppijale, õpetajale ja teadlasele</h2>
       <HomeCard image={correctorImg}
                 order={2}
                 title={"Tekstihindajaga"}
