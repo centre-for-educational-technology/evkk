@@ -6,13 +6,15 @@ import {useTranslation} from "react-i18next";
 import "../../translations/i18n";
 import DownloadButton from "./DownloadButton";
 import {v4 as uuidv4} from 'uuid';
-import {AnalyseContext, SetSyllableContext} from "./Contexts";
+import {AnalyseContext, SetSyllableContext, SetSyllableWordContext} from "./Contexts";
 import {Box} from "@mui/material";
+import ToggleCell from "./ToggleCell";
 
 function Syllables() {
 
   const [analyse, setAnalyse] = useContext(AnalyseContext);
   const setSyllable = useContext(SetSyllableContext);
+  const setSyllableWord = useContext(SetSyllableWordContext);
   const data = analyse.syllables;
   const len = data.length;
   const words = analyse.words;
@@ -112,7 +114,7 @@ function Syllables() {
 
   function formating() {
     let output = formatedSyllables.map((row) => {
-      let sonadTekstisOutput = "";
+      let cellContent = []
       let info = {
         col1: "",
         col2: 0,
@@ -129,24 +131,48 @@ function Syllables() {
       info.col4 = row[3];
       info.col6 = row[1] + row[2] + row[3];
       info.col7 = ((row[1] + row[2] + row[3]) * 100 / syllables.length).toFixed(2);
+
       const syllableWords = () => {
         for (let i = 0; i < row[4][0].length; i++) {
+          let word = row[4][0][i]
+          let count = row[4][1][i]
           info.col5[0].push(row[4][0][i]);
           if (i === row[4][0].length - 1) {
             info.col5[1].push(`(${row[4][1][i]})`);
-            sonadTekstisOutput += ` ${row[4][0][i]}&nbsp;(${row[4][1][i]})`;
+            cellContent.push(
+              <span key={uuidv4()}>
+                <span key={uuidv4()}
+                      className="word"
+                      onClick={(e) => setSyllableWord(e.target.textContent)}>
+                  {word}
+                </span>
+                &nbsp;({count})
+              </span>)
           } else if (i === 0) {
             info.col5[1].push(`(${row[4][1][i]}), `);
-            sonadTekstisOutput += `${row[4][0][i]}&nbsp;(${row[4][1][i]}),`;
+            cellContent.push(
+              <span key={uuidv4()}>
+                <span key={uuidv4()}
+                      className="word"
+                      onClick={(e) => setSyllableWord(e.target.textContent)}>
+                  {word}
+                </span>
+                &nbsp;({count}),{' '}
+              </span>)
           } else {
             info.col5[1].push(`(${row[4][1][i]}), `);
-            sonadTekstisOutput += ` ${row[4][0][i]}&nbsp;(${row[4][1][i]}),`;
+            cellContent.push(
+              <span key={uuidv4()}>
+                <span key={uuidv4()}
+                      className="word"
+                      onClick={(e) => setSyllableWord(e.target.textContent)}>
+                  {word}
+                </span>
+                &nbsp;({count}),{' '}
+              </span>)
           }
-          sonadTekstisOutput = sonadTekstisOutput.replaceAll("-", "&#8209;");
-          sonadTekstisOutput = sonadTekstisOutput.charAt(0) === ' ' ? sonadTekstisOutput.slice(1) : sonadTekstisOutput;
         }
-        return <span style={{whiteSpace: "break-spaces"}}
-                     dangerouslySetInnerHTML={{__html: sonadTekstisOutput}}></span>;
+        return <ToggleCell onCellContent={cellContent}/>
       }
 
       infoList.push(info)
@@ -219,6 +245,7 @@ function Syllables() {
       width: 300
     }
   ]
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const columns = useMemo(() => COLUMNS, []);
   const tableInstance = useTable({

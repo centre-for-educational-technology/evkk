@@ -8,6 +8,7 @@ import "../../translations/i18n";
 import DownloadButton from "./DownloadButton";
 import {AnalyseContext, SetLemmaContext, SetWordContext} from "./Contexts";
 import {Box} from "@mui/material";
+import ToggleCell from "./ToggleCell";
 
 function LemmaView() {
 
@@ -101,7 +102,7 @@ function LemmaView() {
             )
             cellContent.push(content)
           }
-          return cellContent
+          return <ToggleCell onCellContent={cellContent}/>
         }
       },
       {
@@ -116,7 +117,7 @@ function LemmaView() {
         width: 300,
       },
     ],
-    [t]
+    [t, setWord]
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps

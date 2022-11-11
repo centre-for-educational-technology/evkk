@@ -5,9 +5,11 @@ import {
   SetFormContext,
   SetLemmaContext,
   SetSyllableContext,
+  SetSyllableWordContext,
   SetTypeContext,
   SetWordContext,
   SyllableContext,
+  SyllableWordContext,
   TabContext,
   TypeContext,
   WordContext
@@ -21,9 +23,9 @@ import LemmaView from "./LemmaView";
 
 export default function WordAnalyserParent() {
 
-  const [wordValue, setWordValue] = useState("")
-  const [formValue, setFormValue] = useState("")
-  const [typeValue, setTypeValue] = useState("")
+  const [wordValue, setWordValue] = useState("");
+  const [formValue, setFormValue] = useState("");
+  const [typeValue, setTypeValue] = useState("");
   const [analyseValue, setAnalyseValue] = useState({
     ids: [''],
     text: '',
@@ -34,10 +36,11 @@ export default function WordAnalyserParent() {
     syllables: [''],
     wordtypes: [''],
     wordforms: ['']
-  })
-  const [syllableValue, setSyllableValue] = useState("")
-  const [lemmaValue, setLemmaValue] = useState("")
-  const [tabValue, setTabValue] = useState(0)
+  });
+  const [syllableValue, setSyllableValue] = useState("");
+  const [syllableWordValue, setSyllableWordValue] = useState("");
+  const [lemmaValue, setLemmaValue] = useState("");
+  const [tabValue, setTabValue] = useState(0);
 
   return (
     <>
@@ -50,17 +53,21 @@ export default function WordAnalyserParent() {
                   <AnalyseContext.Provider value={[analyseValue, setAnalyseValue]}>
                     <SyllableContext.Provider value={syllableValue}>
                       <SetSyllableContext.Provider value={setSyllableValue}>
-                        <LemmaContext.Provider value={lemmaValue}>
-                          <SetLemmaContext.Provider value={setLemmaValue}>
-                            <TabContext.Provider value={[tabValue, setTabValue]}>
-                              <WordAnalyser/>
-                              {tabValue === 1 || tabValue === 2 || tabValue === 3 ? <TableComponent/> : null}
-                              {tabValue === 1 ? <Syllables/> : null}
-                              {tabValue === 2 ? <LemmaView/> : null}
-                              {tabValue === 3 ? <GrammaticalAnalysis/> : null}
-                            </TabContext.Provider>
-                          </SetLemmaContext.Provider>
-                        </LemmaContext.Provider>
+                        <SyllableWordContext.Provider value={syllableWordValue}>
+                          <SetSyllableWordContext.Provider value={setSyllableWordValue}>
+                            <LemmaContext.Provider value={lemmaValue}>
+                              <SetLemmaContext.Provider value={setLemmaValue}>
+                                <TabContext.Provider value={[tabValue, setTabValue]}>
+                                  <WordAnalyser/>
+                                  {tabValue === 1 || tabValue === 2 || tabValue === 3 ? <TableComponent/> : null}
+                                  {tabValue === 1 ? <Syllables/> : null}
+                                  {tabValue === 2 ? <LemmaView/> : null}
+                                  {tabValue === 3 ? <GrammaticalAnalysis/> : null}
+                                </TabContext.Provider>
+                              </SetLemmaContext.Provider>
+                            </LemmaContext.Provider>
+                          </SetSyllableWordContext.Provider>
+                        </SyllableWordContext.Provider>
                       </SetSyllableContext.Provider>
                     </SyllableContext.Provider>
                   </AnalyseContext.Provider>
@@ -71,6 +78,6 @@ export default function WordAnalyserParent() {
         </WordContext.Provider>
       </SetWordContext.Provider>
     </>
-  )
+  );
 
 }

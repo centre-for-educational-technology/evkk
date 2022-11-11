@@ -1,4 +1,4 @@
-import {memo, useContext, useEffect, useMemo, useState} from 'react';
+import {memo, useContext, useEffect, useState} from 'react';
 import {Input} from './textinput/Input';
 import {WordInfo} from './WordInfo';
 import {v4 as uuidv4} from 'uuid';
@@ -8,7 +8,16 @@ import {Alert, Box, Grid} from '@mui/material';
 import {useTranslation} from "react-i18next";
 import "../../translations/i18n";
 import i18n from "i18next";
-import {AnalyseContext, FormContext, SyllableContext, TabContext, TypeContext, WordContext} from "./Contexts";
+import {
+  AnalyseContext,
+  FormContext,
+  LemmaContext,
+  SyllableContext,
+  SyllableWordContext,
+  TabContext,
+  TypeContext,
+  WordContext
+} from "./Contexts";
 
 function WordAnalyser() {
   const [analysedInput, setAnalysedInput] = useContext(AnalyseContext)
@@ -21,6 +30,9 @@ function WordAnalyser() {
   const form = useContext(FormContext);
   const word = useContext(WordContext);
   const syllable = useContext(SyllableContext);
+  const syllableWord = useContext(SyllableWordContext);
+  const lemma = useContext(LemmaContext);
+
   const {t} = useTranslation();
   //get words
   const getWords = async (input) => {
@@ -198,21 +210,19 @@ function WordAnalyser() {
     setShowResults(true);
     setAnalysedInput(inputObj);
     setTableValue(1);
-  }
 
-  //select first word and show wordInfo after loading
-  useEffect(() => {
-    setSelectedWords([analysedInput.ids[0]]);
+    //select first word and show wordInfo after loading
+    setSelectedWords([inputObj.ids[0]]);
 
     let wordInfoObj = {
-      word: analysedInput.words[0],
-      lemma: analysedInput.lemmas[0],
-      syllables: analysedInput.syllables[0],
-      type: analysedInput.wordtypes[0],
-      form: analysedInput.wordforms[0],
+      word: inputObj.words[0],
+      lemma: inputObj.lemmas[0],
+      syllables: inputObj.syllables[0],
+      type: inputObj.wordtypes[0],
+      form: inputObj.wordforms[0],
     }
     setWordInfo(wordInfoObj);
-  }, [analysedInput]);
+  }
 
   //highlight the word selected in input
   const showThisWord = (id) => {
@@ -220,7 +230,7 @@ function WordAnalyser() {
     setSelectedWords(content);
   }
 
-
+  //highlight selected syllables
   useEffect(() => {
     let content = [];
     for (let i = 0; i < analysedInput.words.length; i++) {
@@ -241,9 +251,31 @@ function WordAnalyser() {
       form: "–",
     }
     setWordInfo(wordInfoObj);
-  }, [syllable]);
+  }, [syllable, analysedInput]);
 
-  useMemo(() => {
+  //highlight selected syllable word
+  useEffect(() => {
+    let content = []
+    for (let i = 0; i < analysedInput.words.length; i++) {
+      let analysedSyllable = analysedInput.syllables[i];
+      let id = analysedInput.ids[i];
+      if (syllableWord === analysedSyllable) {
+        content.push(id)
+      }
+    }
+    setSelectedWords(content);
+
+    const wordInfoObj = {
+      word: "–",
+      lemma: "–",
+      syllables: syllableWord,
+      type: "–",
+      form: "–",
+    }
+    setWordInfo(wordInfoObj);
+  }, [syllableWord, analysedInput]);
+
+  useEffect(() => {
     let content = [];
     for (let i = 0; i < analysedInput.words.length; i++) {
       let analysedWord = analysedInput.wordtypes[i];
@@ -262,9 +294,9 @@ function WordAnalyser() {
       form: "–",
     }
     setWordInfo(wordInfoObj);
-  }, [type]);
+  }, [type, analysedInput]);
 
-  useMemo(() => {
+  useEffect(() => {
     let content = [];
     for (let i = 0; i < analysedInput.words.length; i++) {
       let analysedWord = analysedInput.wordforms[i];
@@ -283,10 +315,11 @@ function WordAnalyser() {
       form: form,
     }
     setWordInfo(wordInfoObj);
-  }, [form]);
+  }, [form, analysedInput]);
+
 
   //highlight selected lemma
-  const showLemma = (lemma) => {
+  useEffect(() => {
     let content = [];
     for (let i = 0; i < analysedInput.lemmas.length; i++) {
       let analysedLemma = analysedInput.lemmas[i];
@@ -312,54 +345,55 @@ function WordAnalyser() {
       form: "–",
     }
     setWordInfo(wordInfoObj);
-  }
+  }, [lemma, analysedInput]);
 
   //forward selected word from input to wordInfo
   function showInfo(selectedId) {
-    if (analysedInput.ids[0] !== undefined) {
-      let index = "";
-      for (let i = 0; i < analysedInput.words.length; i++) {
-        if (analysedInput.ids[i] === selectedId.toString()) {
-          index = parseInt(i);
-          break;
-        }
+    let index = "";
+    for (let i = 0; i < analysedInput.words.length; i++) {
+      if (analysedInput.ids[i] === selectedId.toString()) {
+        index = parseInt(i);
+        break;
       }
-
-      const wordInfoObj = {
-        word: analysedInput.words[index],
-        lemma: analysedInput.lemmas[index],
-        syllables: analysedInput.syllables[index],
-        type: analysedInput.wordtypes[index],
-        form: analysedInput.wordforms[index],
-      }
-
-      setWordInfo(wordInfoObj);
     }
+
+    const wordInfoObj = {
+      word: analysedInput.words[index],
+      lemma: analysedInput.lemmas[index],
+      syllables: analysedInput.syllables[index],
+      type: analysedInput.wordtypes[index],
+      form: analysedInput.wordforms[index],
+    }
+
+    setWordInfo(wordInfoObj);
   }
 
   //highlight selected word in lemma table
-  useMemo(() => {
-    if (analysedInput.ids[0] !== "") {
-      let content = [];
-      for (let i = 0; i < analysedInput.words.length; i++) {
-        let analysedWord = analysedInput.words[i];
-        let id = analysedInput.ids[i];
-        if (analysedWord === word) {
-          content.push(id);
-        }
+  useEffect(() => {
+    let content = [];
+    for (let i = 0; i < analysedInput.words.length; i++) {
+      let analysedWord = analysedInput.words[i];
+      let id = analysedInput.ids[i];
+      if (analysedWord === word) {
+        content.push(id);
       }
-      setSelectedWords(content);
-
-      let firstSelectedId;
-      for (let i = 0; i < analysedInput.words.length; i++) {
-        if (word === analysedInput.words[i]) {
-          firstSelectedId = analysedInput.ids[i];
-          break;
-        }
-      }
-      showInfo(firstSelectedId);
     }
-  }, [word]);
+    setSelectedWords(content);
+
+    const wordId = analysedInput.words.findIndex((element) => element === word)
+    const index = analysedInput.ids[wordId]
+
+    const wordInfoObj = {
+      word: analysedInput.words[index],
+      lemma: analysedInput.lemmas[index],
+      syllables: analysedInput.syllables[index],
+      type: analysedInput.wordtypes[index],
+      form: analysedInput.wordforms[index],
+    }
+
+    setWordInfo(wordInfoObj);
+
+  }, [word, analysedInput]);
 
   const sendTextFromFile = (data) => {
     setTextFromFile(data);
