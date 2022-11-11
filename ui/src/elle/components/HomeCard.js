@@ -60,8 +60,14 @@ function HomeCard({title, image, text, linkTo, order}) {
               xs={5}>
           <Typography style={{fontSize: "1.3rem"}}><b>{title}</b> {text}</Typography>
           <Link to={linkTo}>
-            <Button style={{marginTop: 40, fontWeight: "bold"}}
-                    variant="contained">Alusta</Button>
+            <Button style={{
+              marginTop: 40,
+              fontWeight: "bold"
+            }}
+                    variant="contained"
+            >
+              Alusta
+            </Button>
           </Link>
         </Grid>
       </Grid>
