@@ -9,6 +9,8 @@ import Links from "./elle/pages/Links";
 import Contacts from "./elle/pages/Contacts";
 import FilledContacts from "./elle/components/FilledContacts";
 import Grants from "./elle/components/Grants";
+import ClusterFinder from "./elle/tools/ClusterFinder";
+import WordAnalyserParent from "./elle/tools/wordanalyser/WordAnalyserParent";
 
 class AppRoutes extends Component {
 
@@ -50,10 +52,13 @@ class AppRoutes extends Component {
                  element={<MasinoppeEnnustus/>}/>
           <Route path="/corrector"
                  element={<Correction/>}/>
-          <Route path="/tools/:id"
-                 element={<Tools/>}/>
           <Route path="/tools"
-                 element={<Tools/>}/>
+                 element={<Tools/>}>
+            <Route path="clusterfinder"
+                   element={<ClusterFinder/>}/>
+            <Route path="wordanalyser"
+                   element={<WordAnalyserParent/>}/>
+          </Route>
           <Route path="/links"
                  element={<Links/>}/>
           <Route element={() => this.render404()}/>
