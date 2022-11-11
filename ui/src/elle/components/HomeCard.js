@@ -26,7 +26,11 @@ function HomeCard({title, image, text, linkTo, order}) {
   } else if (order === 2) {
     img = <Grid item
                 xs={6}>
-      <CardMedia style={{position: "relative", top: "50%", transform: "translateY(-50%)"}}
+      <CardMedia style={{
+        position: "relative",
+        top: "50%",
+        transform: "translateY(-50%)"
+      }}
                  component="img"
                  image={image}
                  alt=""/>
@@ -34,13 +38,24 @@ function HomeCard({title, image, text, linkTo, order}) {
   }
 
   return (
-    <Card style={{marginLeft: "10%", marginRight: "10%", marginTop: 50, paddingBottom: "5%", padding: 40}}>
+    <Card style={{
+      marginLeft: "10%",
+      marginRight: "10%",
+      marginTop: 50,
+      paddingBottom: "5%",
+      padding: 40
+    }}>
       <Grid className="grid"
             gridTemplateColumns={2}
             container
-            spacing={1}>
+            spacing={1}
+            style={{height: "100%"}}>
         {img}
-        <Grid style={{textAlign: "center", marginTop: "7%", marginLeft: "5%"}}
+        <Grid style={{
+          textAlign: "center",
+          marginLeft: "5%",
+          alignSelf: "center"
+        }}
               item
               xs={5}>
           <Typography style={{fontSize: "1.3rem"}}><b>{title}</b> {text}</Typography>
