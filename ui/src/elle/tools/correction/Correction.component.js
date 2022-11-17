@@ -1,6 +1,15 @@
 import React, {Component} from 'react';
 import "./Correction.css";
-import {Card} from "@mui/material";
+import {Button, Card} from "@mui/material";
+import TextUpload from "../wordanalyser/textupload/TextUpload";
+
+//history to keep all changes step-by-step made to alasisu
+let history = [
+  "",
+]
+
+//integer for indexing history with undo and redo
+let currentHistory = 0
 
 class Correction extends Component {
   constructor(props) {
@@ -12,12 +21,16 @@ class Correction extends Component {
       vastuskood: "", vastusnahtav: false, muutuskood: "", yksikmuutus: false, taustatekst: <span></span>,
       taselisa: false, avatudkaart: "korrektuur", kordab: false, sisukohad: [], sisusonad: [], vastussonad: []
     };
+    this.handleRedo = this.handleRedo.bind(this)
+    this.handleUndo = this.handleUndo.bind(this)
+    this.sendTextFromFile = this.sendTextFromFile.bind(this)
     this.alaMuutus = this.alaMuutus.bind(this);
     this.ala1 = React.createRef();
     this.taust1 = React.createRef();
     this.kysi3 = this.kysi3.bind(this);
     this.korda = this.korda.bind(this);
   }
+
 
   puhasta(sona) {
     return sona.replace(/^[^0-9a-zA-ZõäöüÕÄÖÜ]+/, '').replace(/[^0-9a-zA-ZõäöüÕÄÖÜ]+$/, '')
@@ -28,6 +41,7 @@ class Correction extends Component {
     return re.exec(sona);
   }
 
+
   kordama() {
     this.setState({kordab: true});
     this.korda();
@@ -35,12 +49,17 @@ class Correction extends Component {
   }
 
   korda() {
+//    if(this.state.avatudkaart==="korrektuur"){this.kysi3();}
+//    if(this.state.avatudkaart==="hindamine"){this.kysi4();}
     this.kysi3();
     this.kysi4();
   }
 
   alaMuutus(event) {
+//    this.setState({alasisu: event.target.value}, this.kysi3);
     this.setState({alasisu: event.target.value});
+    //this.kysi3();
+    this.keepHistory()
   }
 
   asenda(algus, sisu, vahetus) {
@@ -51,27 +70,37 @@ class Correction extends Component {
   }
 
   margi(algus, sisu, puhastab = false) {
+    //console.log(algus, sisu);
     this.ala1.focus();
+    //this.ala1.setSelectionRange(algus, pikkus);
+    //this.ala1.setSelectionRange(12, 1);
     let koht = this.state.alasisu.indexOf(sisu, (algus > 10 ? algus - 10 : algus));
+    // console.log(koht);
     if (koht === -1) {
       koht = this.state.alasisu.indexOf(sisu);
     }
     this.ala1.selectionStart = koht;
     this.ala1.selectionEnd = koht + sisu.length;
+    //let charsPerRow = this.ala1.cols;
+    //let selectionRow = (this.ala1.selectionStart - (this.ala1.selectionStart % charsPerRow)) / charsPerRow;
+    //let lineHeight = this.ala1.clientHeight / this.ala1.rows;
+    //this.ala1.scrollTop = lineHeight * selectionRow-30;
     if (puhastab) {
       this.setState({yksikmuutus: false});
     }
-    // scroll !!
+// scroll !!
   }
 
   kysi4 = () => {
     if (this.state.alasisu === this.state.tasemetekst) {
+      // console.log("juba tase ", this.state.alasisu);
       return;
     }
 
-    let obj = {};
+    let obj = {}; //new Object();
     obj["tekst"] = this.state.alasisu;
     const asisu = this.state.alasisu;
+//  this.setState({tasemetekst: this.state.alasisu});
     fetch("/api/texts/keeletase", {
       method: "POST",
       headers: {
@@ -80,10 +109,12 @@ class Correction extends Component {
       },
       body: JSON.stringify(obj)
     }).then(v => v.json()).then(t => {
+      // console.log(t);
       this.setState({"tasemevastus": t});
       this.setState({tasemetekst: asisu});
     })
   }
+
 
   korrektuuriVajutus = () => {
     this.setState({avatudkaart: "korrektuur"})
@@ -101,9 +132,10 @@ class Correction extends Component {
 
   kysi3 = () => {
     if (this.state.alasisu === this.state.korrektorivastus[1]) {
+      //console.log("juba olemas", this.state.alasisu);
       return;
     }
-    let obj = {};
+    let obj = {}; //new Object();
     obj["tekst"] = this.state.alasisu;
     fetch("/api/texts/korrektuur", {
       method: "POST",
@@ -113,6 +145,7 @@ class Correction extends Component {
       },
       body: JSON.stringify(obj)
     }).then(v => v.json()).then(t => {
+      // console.log(t);
       this.setState({"korrektorivastus": t});
       let sm = t[1].split(" ");
       let vm = t[0].split(" ");
@@ -130,10 +163,16 @@ class Correction extends Component {
           const sisu = sm[i];
           muutused[i] = <span key={"sm" + i}>
                 <span onClick={() => this.margi(algus, sisu, true)}
-                      style={{'backgroundColor': 'lightpink'}}>{sm[i]}</span> - <span>{vm[i]}</span> <button onClick={() => this.asenda(algus, sisu, vm[i])}>Asenda</button><br/>
+                      style={{'backgroundColor': 'lightpink'}}>{sm[i]}</span> - <span>{vm[i]}</span> <button
+            onClick={() => this.asenda(algus, sisu, vm[i])}>Asenda</button><br/>
              </span>
+          console.log("muutus", algus, sisu, vm[i]);
+//             taustatekst[i]=<span key={"t"+i}><span className="margitud" onClick={(e) => {console.log(e);}}  title={vm[i]}>{sm[i]}</span><span> </span></span>;
           let kpl = this.puhasta2(sm[i]);
           taustatekst[i] = <span key={"t" + i}><span>{kpl[1]}</span><span className="margitud"
+                                                                          onClick={(e) => {
+                                                                            console.log(e);
+                                                                          }}
                                                                           title={vm[i]}>{kpl[2]}</span><span>{kpl[3]}</span><span> </span></span>;
           vastustekst[i] = <span key={"s" + i}><span title={vm[i]}
                                                      onClick={() => this.margi(algus, sisu)}
@@ -209,7 +248,7 @@ class Correction extends Component {
     this.taust1.scrollTop = this.ala1.scrollTop;
   }
 
-  tekstialaHiir(_e) {
+  tekstialaHiir(e) {
     let koht = this.ala1.selectionStart;
     let algus = koht;
     let ots = koht;
@@ -240,28 +279,84 @@ class Correction extends Component {
         v = k - i;
       }
     }
+    console.log(v, this.state.sisusonad[v], this.state.vastussonad[v]);
     if (this.state.sisusonad[v] !== this.state.vastussonad[v]) {
+      //this.setState({yksikmuutus: this.state.muutuskood[v]});
+      console.log("vahetatud " + v);
+      /*      let vahetus=<span key={"sm"+v}>
+                      <span onClick={() =>this.margi(this.state.sisukohad[v]-this.state.sisusonad[v].length, this.state.sisusonad[v])} style={{'backgroundColor': 'lightpink'}}>{this.puhasta(this.state.sisusonad[v])}</span> - <span>{this.puhasta(this.state.vastussonad[v])}</span> <button onClick={() =>this.asenda(this.state.sisukohad[v]-this.state.sisusonad[v].length, this.state.sisusonad[v], this.state.vastussonad[v])}>asenda</button><br />
+                   </span> */
       let vahetus = <span key={"sm" + v}>
-      <span style={{'backgroundColor': 'lightpink'}}>{this.puhasta(this.state.sisusonad[v])}</span> - <span>{this.puhasta(this.state.vastussonad[v])}</span> <button onClick={() => this.asenda(this.state.sisukohad[v] - this.state.sisusonad[v].length, this.state.sisusonad[v], this.state.vastussonad[v])}>asenda</button><br/>
+      <span
+        style={{'backgroundColor': 'lightpink'}}>{this.puhasta(this.state.sisusonad[v])}</span> - <span>{this.puhasta(this.state.vastussonad[v])}</span> <button
+        onClick={() => this.asenda(this.state.sisukohad[v] - this.state.sisusonad[v].length, this.state.sisusonad[v], this.state.vastussonad[v])}>asenda</button><br/>
    </span>
       this.setState({yksikmuutus: vahetus});
+      console.log(vahetus, this.state.sisukohad[v], this.state.sisusonad[v], this.state.vastussonad[v]);
     } else {
       this.setState({yksikmuutus: false});
+      console.log("tagasi");
     }
   }
 
+  //upload text to alasisu
+  sendTextFromFile(data) {
+    this.setState({alasisu: data})
+    this.keepHistory()
+  }
+
+  //history for undo and redo
+  //called by alaMuutus when a change is made
+  keepHistory() {
+    currentHistory += 1
+    history.push(this.state.alasisu)
+  }
+
+  //undo and redo
+  handleUndo() {
+    if (currentHistory === 0) {
+      return;
+    }
+    currentHistory -= 1
+    const previousFromHistory = history[currentHistory]
+    this.setState({alasisu: previousFromHistory})
+  }
+
+  handleRedo() {
+    //if on last change then nothing to redo
+    if (currentHistory === history.length - 1) {
+      return;
+    }
+    currentHistory += 1
+    const nextFromHistory = history[currentHistory]
+    this.setState({alasisu: nextFromHistory})
+  }
+
   render() {
+
     return (
       <Card raised={true}
             square={true}
             elevation={2}>
         <p/>
         <div style={{'float': 'left', 'margin': '10px', 'width': '45%'}}>
+          <div style={{'float': 'left'}}>
+            <TextUpload sendTextFromFile={this.sendTextFromFile}/>
+            {/*<span className="material-symbols-outlined" onClick={(data) => this.sendTextFromFile(data)}>upload_file</span>*/}
+          </div>
+
+          <div style={{'float': 'right'}}>
+            <span className="material-symbols-outlined"
+                  onClick={this.handleUndo}>undo</span>
+            <span className="material-symbols-outlined"
+                  onClick={this.handleRedo}>redo</span>
+          </div>
+          <br/><br/>
           <div className="wrapper">
             <div id="highlights"
                  ref={(e) => this.taust1 = e}>{this.state.taustakood}</div>
             <textarea id="textarea"
-                      onScroll={(_e) => this.kerimine()}
+                      onScroll={(e) => this.kerimine()}
                       ref={(e) => this.ala1 = e}
                       onChange={(event) => this.alaMuutus(event)}
                       rows="15"
@@ -269,13 +364,15 @@ class Correction extends Component {
                       value={this.state.alasisu}
                       spellCheck={false}
                       onMouseUp={(event) => this.tekstialaHiir(event)}
-                      placeholder={"Kopeeri või kirjuta siia analüüsitav tekst"}/>
+                      placeholder={"Kopeeri või kirjuta siia analüüsitav tekst"}
+
+            />
             <div className={"borderbox"}></div>
           </div>
           <br/>
+
           <br/>
-          <div style={{width: "300px", marginLeft: '40px'}}>Rakenduse abil saad parandada oma teksti õigekirja ja
-            vaadata,
+          <div style={{width: "300px"}}>Rakenduse abil saad parandada oma teksti õigekirja ja vaadata,
             mis keeleoskustasemele see vastab (A2–C1).
             Loe lähemalt <a href={"https://github.com/centre-for-educational-technology/evkk/wiki/Demos"}>siit</a>.
           </div>
@@ -283,7 +380,7 @@ class Correction extends Component {
           <br/>
           <br/>
         </div>
-        <div style={{'float': 'left', 'margin': '10px', 'width': '50%'}}>
+        <div style={{'float': 'left', 'margin': '10px', 'width': '50%', 'height': '500px',}}>
           <style>{`
              @keyframes spin{
                   from {transform:rotate(0deg);}
@@ -306,24 +403,37 @@ class Correction extends Component {
               </li>
             </ul>
           </nav>
+
           {!this.state.kordab &&
             <div><br/> <br/><br/> <br/>
-              <div style={{width: "100%", textAlign: "center"}}>
-                <button onClick={() => this.kordama()}>Analüüsi</button>
+              <div style={{width: "100%", textAlign: "center", height: 500}}>
+                <Button style={{'fontSize': '20px'}}
+                        sx={{width: 200}}
+                        variant="contained"
+                        onClick={() => this.kordama()}>Analüüsi</Button>
               </div>
             </div>
           }
+
           <br/>
           <br/>
           {this.state.avatudkaart === "korrektuur" && <span>
              {this.state.kordab && this.state.alasisu !== this.state.korrektorivastus[1] && this.ketas()}<br/>
-            {(this.state.yksikmuutus) ? this.state.yksikmuutus : ""
+            {(this.state.yksikmuutus) ? this.state.yksikmuutus : "" //this.state.muutuskood
             }<br/>
+
+            { /*(this.state.alasisu.length>0  )? <span>{ (this.state.kordab) &&
+                <button  onClick={() =>this.setState((state, props) => {return {vastusnahtav: !state.vastusnahtav}})}> {this.state.vastusnahtav?"Peida tekst":"Näita teksti"} </button>
+                }</span> : ""
+              */}
             {this.state.vastusnahtav && <span>{this.state.tasemevastus ? this.state.vastuskood : "algus"}</span>}
              </span>}
+
+
           {this.state.avatudkaart === "hindamine" && this.state.kordab && <div>
             {(this.state.alasisu !== this.state.tasemetekst) ? this.ketas() : ""} <br/>
             <span>{this.renderTase()}</span></div>}
+
         </div>
       </Card>
     );
