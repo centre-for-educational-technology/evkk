@@ -8,7 +8,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import {Outlet, useNavigate} from "react-router-dom";
 
 function Tools() {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const navigate = useNavigate();
 
   const tools = [
@@ -29,8 +29,8 @@ function Tools() {
   ];
 
   function toolSelect(tool) {
-    setExpanded(false);
-    navigate(tool)
+    setExpanded(false)
+    navigate(tool);
   }
 
   return (

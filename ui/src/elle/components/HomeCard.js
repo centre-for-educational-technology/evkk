@@ -59,7 +59,8 @@ function HomeCard({title, image, text, linkTo, order}) {
               item
               xs={5}>
           <Typography style={{fontSize: "1.3rem"}}><b>{title}</b> {text}</Typography>
-          <Link to={linkTo}>
+          <Link to={linkTo}
+                onClick={() => window.scrollTo(0, 0)}>
             <Button style={{
               marginTop: 40,
               fontWeight: "bold"
