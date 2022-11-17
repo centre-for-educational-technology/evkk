@@ -11,6 +11,7 @@ import FilledContacts from "./elle/components/FilledContacts";
 import Grants from "./elle/components/Grants";
 import ClusterFinder from "./elle/tools/ClusterFinder";
 import WordAnalyserParent from "./elle/tools/wordanalyser/WordAnalyserParent";
+import Works from "./elle/components/Works";
 
 class AppRoutes extends Component {
 
@@ -45,6 +46,8 @@ class AppRoutes extends Component {
                    element={<FilledContacts/>}/>
             <Route path="grants"
                    element={<Grants/>}/>
+            <Route path="works"
+                   element={<Works/>}/>
           </Route>
           <Route path="/tools/minitorn-pikkus"
                  element={<MinitornPikkus/>}/>
