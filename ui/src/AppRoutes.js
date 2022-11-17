@@ -9,8 +9,10 @@ import Links from "./elle/pages/Links";
 import Contacts from "./elle/pages/Contacts";
 import FilledContacts from "./elle/components/FilledContacts";
 import Grants from "./elle/components/Grants";
+import Works from "./elle/components/Works";
 import ClusterFinder from "./elle/tools/ClusterFinder";
 import WordAnalyserParent from "./elle/tools/wordanalyser/WordAnalyserParent";
+
 
 class AppRoutes extends Component {
 
@@ -45,6 +47,8 @@ class AppRoutes extends Component {
                    element={<FilledContacts/>}/>
             <Route path="grants"
                    element={<Grants/>}/>
+            <Route path="yllitised"
+                   element={<Works/>}/>
           </Route>
           <Route path="/tools/minitorn-pikkus"
                  element={<MinitornPikkus/>}/>

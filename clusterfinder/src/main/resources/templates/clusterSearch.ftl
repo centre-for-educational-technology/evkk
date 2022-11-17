@@ -124,60 +124,62 @@
         <h5>[@translations.retrieveTranslation "common.input.type.header" /]</h5>
         <div class="form-group">
             <label for="userText">[@translations.retrieveTranslation "common.text.input.label" /]</label>
-            <textarea class="form-control" rows="5" name="userText" id="userText"></textarea>
+          <textarea class="form-control" rows="5" name="userText" id="userText"></textarea>
         </div>
         <div id="fileText" class="custom-file w-separation">
-            <input type="file" class="custom-file-input" id="userFile">
-            <label class="custom-file-label" for="userFile">[@translations.retrieveTranslation "common.choose.file" /]</label>
+          <input type="file" class="custom-file-input" id="userFile">
+          <label class="custom-file-label"
+                 for="userFile">[@translations.retrieveTranslation "common.choose.file" /]</label>
         </div>
 
         <!-- Basic search checkboxes -->
         <h5>[@translations.retrieveTranslation "common.analysis.header" /]</h5>
         <div class="form-check">
-          [@input.createCheckboxWithTooltip
-              id="morfoAnalysis"
-              name="morfological"
-              labelKey="morfological.analysis.label"
-              tooltipKey="morfological.analysis.tooltip" /]
+            [@input.createCheckboxWithTooltip
+            id="wordtypeAnalysis"
+            name="wordtype"
+            labelKey="wordtype.analysis.label"
+            tooltipKey="wordtype.analysis.tooltip"/]
         </div>
         <div class="form-check">
-          [@input.createCheckboxWithTooltip
-              id="syntacticAnalysis"
-              name="syntactic"
-              labelKey="syntactic.analysis.label"
-              tooltipKey="syntactic.analysis.tooltip" /]
+            [@input.createCheckboxWithTooltip
+            id="syntacticAnalysis"
+            name="syntactic"
+            labelKey="syntactic.analysis.label"
+            tooltipKey="syntactic.analysis.tooltip" /]
         </div>
         <div class="form-check">
-          [@input.createCheckboxWithTooltip
-              id="wordtypeAnalysis"
-              name="wordtype"
-              labelKey="wordtype.analysis.label"
-              tooltipKey="wordtype.analysis.tooltip" /]
+            [@input.createCheckboxWithTooltip
+            id="morfoAnalysis"
+            name="morfological"
+            labelKey="morfological.analysis.label"
+            tooltipKey="morfological.analysis.tooltip" /]
         </div>
         <div class="form-check">
-          [@input.createCheckboxWithTooltip
-              id="punctuationAnalysis"
-              name="punctuation"
-              labelKey="punctuation.analysis.label"
-              tooltipKey="punctuation.analysis.tooltip" /]
+            [@input.createCheckboxWithTooltip
+            id="punctuationAnalysis"
+            name="punctuation"
+            labelKey="punctuation.analysis.label"
+            tooltipKey="punctuation.analysis.tooltip" /]
         </div>
 
         <!-- Sorting checkboxes -->
         <h5>[@translations.retrieveTranslation "common.sorting.header" /]</h5>
         <div class="form-check">
-          [@input.createCheckbox id="sortByFreq" name="sorting" labelKey="sorting.by.frequency" value="freq" /]
+            [@input.createCheckbox id="sortByFreq" name="sorting" labelKey="sorting.by.frequency" value="freq" /]
         </div>
         <div class="form-check hidden" data-word-sort="1">
-          [@input.createCheckbox id="sortByFirstWord" name="sorting" labelKey="sorting.by.first.word" value="fwrd" /]
+          <h5>[@translations.retrieveTranslation "common.sorting.header" /]</h5>
+            [@input.createCheckbox id="sortByFirstWord" name="sorting" labelKey="sorting.by.first.word" value="fwrd" /]
         </div>
         <div class="form-check hidden" data-word-sort="2">
-          [@input.createCheckbox id="sortBySecondWord" name="sorting" labelKey="sorting.by.second.word" value="swrd" /]
+            [@input.createCheckbox id="sortBySecondWord" name="sorting" labelKey="sorting.by.second.word" value="swrd" /]
         </div>
         <div class="form-check hidden" data-word-sort="3">
-          [@input.createCheckbox id="sortByThirdWord" name="sorting" labelKey="sorting.by.third.word" value="twrd" /]
+            [@input.createCheckbox id="sortByThirdWord" name="sorting" labelKey="sorting.by.third.word" value="twrd" /]
         </div>
         <div class="form-check hidden" data-word-sort="4">
-          [@input.createCheckbox id="sortByFourthWord" name="sorting" labelKey="sorting.by.fourth.word" value="fowrd" /]
+            [@input.createCheckbox id="sortByFourthWord" name="sorting" labelKey="sorting.by.fourth.word" value="fowrd" /]
         </div>
         <div class="form-check hidden" data-word-sort="5">
           [@input.createCheckbox id="sortByFifthWord" name="sorting" labelKey="sorting.by.fifth.word" value="fiwrd" /]
@@ -197,12 +199,12 @@
     <div id="clusters" class="container hidden">
       <table class="table table-bordered w-top-margin" id="clustersTable">
         <thead>
-          <tr>
-            <th>[@translations.retrieveTranslation "common.sorting.header.frequency"/]</th>
-            <th>[@translations.retrieveTranslation "common.sorting.header.description" /]</th>
-            <th>[@translations.retrieveTranslation "common.sorting.header.markups" /]</th>
-            <th>[@translations.retrieveTranslation "common.sorting.header.usages" /]</th>
-          </tr>
+        <tr>
+          <th>[@translations.retrieveTranslation "common.sorting.header.markups"/]</th>
+          <th>[@translations.retrieveTranslation "common.sorting.header.description" /]</th>
+          <th>[@translations.retrieveTranslation "common.sorting.header.frequency" /]</th>
+          <th>[@translations.retrieveTranslation "common.sorting.header.usages" /]</th>
+        </tr>
         </thead>
       </table>
     </div>
@@ -260,12 +262,16 @@
               "last": "[@translations.retrieveTranslation "cluster.result.table.pagination.last" /]"
             }
           },
-          order: [[ 0, 'desc']],
+          order: [[2, 'desc']],
           columns: [
-            { data: 'frequency' },
-            { data: 'description' },
-            { data: 'markups' },
-            { data: 'usages', render: function(data, type, row, meta) { return type === 'display' ? ClusterSearchForm.util.renderUsagesColumn(data) : data.split("<br>").map(u => u).join(","); } }
+            {data: 'markups'},
+            {data: 'description'},
+            {data: 'frequency'},
+            {
+              data: 'usages', render: function (data, type, row, meta) {
+                return type === 'display' ? ClusterSearchForm.util.renderUsagesColumn(data) : data.split("<br>").map(u => u).join(",");
+              }
+            }
           ],
           buttons: [
             {
