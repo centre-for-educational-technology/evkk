@@ -48,7 +48,7 @@ function SingleLink({name, siteLink, tekst, image, tags}) {
           {tags.map(tag => {
             return (
               <Chip label={tag}
-                    style={{marginRight: '0.5vw'}}/>
+                    style={{marginRight: '0.5vw', marginTop: '0.5vw'}}/>
             )
           })}
 

@@ -166,7 +166,7 @@ function Links() {
                           marginTop={"10px"}>
                           <MenuLink key={"6"}
                                     smooth
-                                    to="#video">Video</MenuLink>
+                                    to="#visuaalne">Sarjad, filmid ja videod</MenuLink>
                         </Typography>}>
 
               </TreeItem>
@@ -175,7 +175,7 @@ function Links() {
                           marginTop={"10px"}>
                           <MenuLink key={"7"}
                                     smooth
-                                    to="#audio">Audio</MenuLink>
+                                    to="#audio">Raadio, audio, taskuhäälingud</MenuLink>
                         </Typography>}>
 
               </TreeItem>
@@ -232,7 +232,7 @@ function Links() {
                           textDecoration: "none",
                         },
                       }}
-                                         marginTop={"10px"}>Keeleõppekeskkonnad</Typography>}>
+                                         marginTop={"10px"}>Keeleõppekeskkonnad ja kursused</Typography>}>
               <TreeItem nodeId={"15"}
                         label={<Typography
                           marginTop={"10px"}>
@@ -257,7 +257,7 @@ function Links() {
                         marginTop={"10px"}>
                         <MenuLink key={"12"}
                                   smooth
-                                  to="#abivahendid">Õpetaja abivahendid</MenuLink>
+                                  to="#abiksõpetajale">Abiks õpetajale</MenuLink>
                       </Typography>}>
 
             </TreeItem>
@@ -538,36 +538,318 @@ function Links() {
                         variant={"h4"}>Raadio, audio, taskuhäälingud</Typography>
           </Box>
 
+          <SingleLink
+            siteLink={"https://r4.err.ee/1011175/keelekodi-urok-jestonskogo-jazyka"}
+            name={"Keelekõdi"}
+            tekst={"Raadio 4 taskuhääling vene emakeelega keeleõppijatele. Õpetatakse eesti keele grammatikat ja väljendeid."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["taskuhääling"]}/>
+
+          <SingleLink
+            siteLink={"https://podcastid.ee/eesti-podcastid-kategooriatena/"}
+            name={"Eesti podcastid"}
+            tekst={"Keskkond koondab erinevatel platvormidel avaldatud eestikeelseid taskuhäälinguid ja jagab need temaatilistesse kategooriatesse."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["taskuhääling"]}/>
+
+          <SingleLink
+            siteLink={"https://vikerraadio.err.ee/"}
+            name={"Vikerraadio"}
+            tekst={"Eesti Rahvusringhäälingu raadiojaam, kust kuuleb lisaks muusikale ka mitmeid kultuuri- ja vestlussaateid."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["raadio"]}/>
+
+          <SingleLink
+            siteLink={"https://r2.err.ee/"}
+            name={"Raadio 2"}
+            tekst={"Eesti Rahvusringhäälingu raadiokanal, kus mängitakse rohkelt uut muusikat nii Eestist kui ka välismaalt. Lisaks on eetris ka rohkelt vestlussaateid."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["raadio"]}/>
+
+          <SingleLink
+            siteLink={"https://sky.ee/tag/skyplus/#SkyPlus"}
+            name={"SkyPlus"}
+            tekst={"Sky Media meelelahutuslik raadiokanal, kus on rohkelt muusikat, kuid ka raadiomänge ja vestlussaateid. Sky muusikaportaali lehel on ka linke teistele sama konsortsiumi raadiokanalitele ja taskuhäälingutele. Lisaks on seal ka mitmeid meelelahutuslikke uudiseid nii Eestist kui ka välismaalt."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["raadio", "uudised", "taskuhääling"]}/>
+
+          <SingleLink
+            siteLink={"https://kuku.postimees.ee/"}
+            name={"Kuku raadio"}
+            tekst={"Rohkelt uudiseid, päevakajalisi vestlussaateid ja veidike muusikat sisaldav raadiokanal."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["raadio", "uudised"]}/>
+
+          <SingleLink
+            siteLink={"https://jupiter.err.ee/raadioteater"}
+            name={"Raadioteater"}
+            tekst={"Eesti Rahvusringhäälingu kuuldemängude kogumik, mis sisaldab mitmetes raadiokanalites esitatud järjejutte ja raadioteatri etendusi, kuid ka vestlussaateid eesti keele ja sugulaskeelte teemadel."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["kuuldemäng", "järjejutt"]}/>
+
+          <Box>
+            <Typography id={"keeleõppevara"}
+                        variant={"h3"}>Keeleõppevara</Typography>
+          </Box>
+          <br/>
           <Box>
             <Typography id={"õppematerjalid"}
-                        variant={"h3"}>Õppematerjalid ja harjutused</Typography>
+                        variant={"h4"}>Õppematerjalid ja harjutused</Typography>
           </Box>
+
+          <SingleLink
+            siteLink={"https://sonaveeb.ee/learn"}
+            name={"Sõnaveebi keeleõpe"}
+            tekst={"Eesti Keele Instituudi keeleõppematerjalide lehekülg Sõnaveebis, millest saavad kasu nii algajad keeleõppijad kui ka emakeelekõnelejad. Lehekülg sisaldab muuhulgas piltsõnastikku, kasulikke fraase ja põhilisi õigekirjareegleid, kuid õpetatakse ka vormistama tabeleid ja loetelusid või e-kirju ja avaldusi."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["õigekiri", "vormistus", "algaja keeleõppija", "õppematerjal", "tasuta"]}/>
+
+          <SingleLink
+            siteLink={"https://eki.ee/teatmik/"}
+            name={"EKI Teatmik"}
+            tekst={"Eesti õigekeelsuskäsiraamat, mis sisaldab mitmesugust teavet tänapäeva eesti keele kohta, sh keelenõuandeid, seisukohavõtte, loendeid jm."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["õppematerjal", "õigekiri", "vormistus", "tasuta"]}/>
+
+          <SingleLink
+            siteLink={"https://www.taskutark.ee/aine/eesti-keel/"}
+            name={"Taskutark"}
+            tekst={"Õppematerjalid ja harjutused, mis on jaotatud erinevate kooliastmete, klasside ja õppeainete kaupa. Eesti keele materjalide seast võib õppida nii keele- kui ka vormistusreegleid ja testida oma teadmisi. Algklassidele mõeldud materjalid on igati sobivad ka algajale keeleõppijale."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["õppematerjal", "harjutus", "õigekiri", "vormistus", "tasuta", "tasuline"]}/>
+
+          <SingleLink
+            siteLink={"https://e-koolikott.ee/"}
+            name={"E-koolikott"}
+            tekst={"Rohkelt digitaalseid õppematerjale ja harjutusi sisaldav keskkond, kus on õppematerjalid jaotatud kooliastmete järgi. Sealt võib leida õppevara nii eesti emakeelega õpilastele kui ka eesti keelt teise keelena kõnelevatele õppijatele. Osa materjale on lehele vistutatud ja neid on võimalik kohe eKoolikotis teha, kuid osa on esitatud linkidena teistele lehtedele või töölehena allalaaditavad."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["õppematerjal", "harjutus", "tasuta"]}/>
+
+          <SingleLink
+            siteLink={"https://www.opiq.ee/Search/Kits?searchPhrase=&CurriculumGroup=&classcourse=&subject=Estonian&publishinghouse=&package=&language=&sortingorder=LanguageFirst"}
+            name={"Opiq"}
+            tekst={"E-õpikute kogumik, mis sisaldab mitme erineva õppeaine jaoks loodud sisu. Eesti keele õpikutest leiad nii õppematerjale kui ka nende juurde käivaid harjutusi. Kooliõpilastele, kel on eKooli või Stuudiumi konto, on Opiq üldjuhul tasuta, kuid erakasutajale on Opiq-u kasutamine kuutasuline, kusjuures tasuta tutvumiseks on tihtipeale kättesaadav esimene peatükk."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["õpikud", "tasuta", "tasuline", "õppematerjal", "harjutus"]}/>
+
+          <SingleLink
+            siteLink={"https://eis.ekk.edu.ee/eis/lahendamine?rid=13177091685934061&sort=ylesanne.id&psize=&id=&aine=E&aste=&kvaliteet=&teema=&alateema=&ylkogu_id=&testiliik=&keeletase=&lang=&kysimus=&otsi=1"}
+            name={"EISi eesti keele tasemetestid"}
+            tekst={"Siit leiad õppeainete kaupa jaotatud eksamiülesannete kogumiku. Harjutusi on kõigil võimalik teha tasuta ja sisse logimata."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["harjutus", "tasuta", "eksam"]}/>
+
+          <SingleLink
+            siteLink={"http://web.meis.ee/testest/goto.php?target=root_1&client_id=integratsioon"}
+            name={"Eesti keele tasemetestid"}
+            tekst={"Siit leiad näidisülesandeid, mis aitavad sul eesti keele tasemeeksamiks ette valmistuda. Lehelt leiad nii automaatse tagasisidega kui ka tagasisideta teste, mis annavad aimu tasemeeksami ja selle ülesannete ülesehitusest."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["harjutus", "tasuta", "eksam"]}/>
+
+          <SingleLink
+            siteLink={"http://keeleabi.eki.ee/?leht=11"}
+            name={"EKI keelenõuande testid"}
+            tekst={"Eesti keele teadmisi kontrollivad valikvastustega testid."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["harjutus", "tasuta"]}/>
+
+          <SingleLink
+            siteLink={"https://www.tandm.ee/harjutused/"}
+            name={"Tandm"}
+            tekst={"Vene emakeelega õppijatele suunatud keskkond, kus on võimalik leida tasemeeksami näidiseid ja õppida nii sõnavara kui ka grammatikat."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["harjutus", "õppematerjal", "eksam", "tasuta"]}/>
 
           <Box>
             <Typography id={"õppemängud"}
-                        variant={"h3"}>Keeleõppemängud</Typography>
+                        variant={"h4"}>Keeleõppemängud</Typography>
           </Box>
 
+          <SingleLink
+            siteLink={"https://k44nuk.ee/"}
+            name={"Käänuk"}
+            tekst={"Mäng, mis õpetab sihitist õigesti kasutama, esitades mängijale lühikesi valikvastustega täidetavaid koomikseid. Mänguga käib kaasas ka EKI sihitisesõnastik."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["mäng", "arvuti", "tasuta"]}/>
+
+          <SingleLink
+            siteLink={"https://play.google.com/store/apps/details?id=com.AblasAlpa.AlpaOnUnity&hl=en_US&gl=US"}
+            name={"ALPA Kids"}
+            tekst={"Eestikeelsed digiõppemängud, mis sobivad eriti lastele või algajatele keeleõppijatele. Teenus on saadaval vaid nutiseadmes ja on tasuline, kuid seevastu reklaamivaba."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["tasuline", "mäng", "nutiseade", "lastele"]}/>
+
+          <SingleLink
+            siteLink={"http://www11.edu.fi/retki_viroon/"}
+            name={"Retk Eestisse"}
+            tekst={"Eesti kultuuri tutvustav keelemäng algkooliõpilastele või algajatele keeleõppijatele. Mängija saab külastada kaardil mitut Eesti linna, tutvuda kohaliku kultuuriga, mängida minimänge ja teha õigekirjaharjutusi."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["tasuta", "mäng", "arvuti", "harjutus", "lastele"]}/>
+
+          <SingleLink
+            siteLink={"https://sonaveeb.ee/games"}
+            name={"Sõnaveebi keelemängud"}
+            tekst={"Sõnaveebi keeleõppemängud, millest osad on sobilikud kõigile keeleõppijatele, osad aga vene emakeelega õppijatele. Mängudes tuleb hinnata, kas tegu on eestikeelse sõnaga või leida, kumb esitatud sõnapaaridest on üksteisele sarnasemad."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["tasuta", "mäng", "arvuti", "nutiseade"]}/>
+
+          <SingleLink
+            siteLink={"https://keeleressursid.ee/et/keelemangud"}
+            name={"Keeleressursside keskuse \"Keelemängud\""}
+            tekst={"Keeleressursside keskuse koondatud keelemängude loetelu. Mängi näiteks sõnaseletusmängu Alias või loo lõbusaid anagramme oma nimest anagrammimasinaga."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["tasuta", "mäng", "arvuti"]}/>
+
+          <Box>
+            <Typography id={"keskkonnadkursused"}
+                        variant={"h3"}>Keeleõppekeskkonnad ja kursused</Typography>
+          </Box>
+          <br/>
           <Box>
             <Typography id={"keeleõppekeskkonnad"}
-                        variant={"h3"}>Keeleõppekeskkonnad</Typography>
+                        variant={"h4"}>Keeleõppekeskkonnad</Typography>
           </Box>
+
+          <SingleLink
+            siteLink={"https://keeleklikk.ee/"}
+            name={"Keeleklikk ja Keeletee"}
+            tekst={"Tasuta eesti keele veebikursused algajatele ja juba edasijõudnud õppijatele, kättesaadavad nii vene kui ka inglise keeles. Keskkonnas on nii videopõhiseid õppematerjale kui ka automaatse tagasisidega harjutusi. Lisaks on õppijatel võimalik saada vahetut tagasisidet kirjutades päris eesti keele õpetajale."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["e-kursus", "tasuta", "keeleõppekeskkond", "arvuti", "nutiseade"]}/>
+
+          <SingleLink
+            siteLink={"https://speakly.me/"}
+            name={"Speakly"}
+            tekst={"Tasuline keeleõppekeskkond, kus saab õppida statistiliselt kõige olulisemaid eesti keele sõnu ja lauseid. Selleks on keskkonnas nii lugemis-, kuulamis-, rääkimis-, kui ka kirjutamisülesandeid."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["tasuline", "keeleõppekeskkond", "arvuti", "nutiseade"]}/>
+
+          <SingleLink
+            siteLink={"https://walktalk.ee/"}
+            name={"WalkTalk"}
+            tekst={"Asukohapõhine keeleõpperakendus, mis aitab õppijal omandada väljendeid, mida just neis kohtades, nt poes, tänaval või kohvikus vaja võiks minna. Keskkond on saadaval vaid nutiseadmes ja on tasuline."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["tasuline", "nutiseade", "keeleõppekeskkond"]}/>
+
+          <SingleLink
+            siteLink={"https://multikey.app/"}
+            name={"Multikey"}
+            tekst={"Suhtluspõhine tasuta keeleõppekeskkond, mis viib kokku erinevate emakeeltega keeleõppijad ja võimaldab neil õpitavaid keeli harjutada. Keskkonnas leiad lisaks suhtlusvõimalustele ka linke üritustele, kus keeleõppijad vahetult kokku saavad."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["tasuta", "nutiseade", "keeleõppekeskkond", "suhtlus"]}/>
+
+          <SingleLink
+            siteLink={"https://languagedrops.com/"}
+            name={"Drops"}
+            tekst={"Visuaalne ja mänguline keeleõppekeskkond, kus rõhk on suuresti õpitava keele sõnade treenimisel ja nende sidumisel mälus vastava pildiga. Keskkond on kasutatav nii arvutis kui ka nutiseadmes. Tasuline versioon on reklaamivaba ja piiramatu mänguajaga."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["tasuta", "tasuline", "nutiseade", "arvuti", "keeleõppekeskkond"]}/>
 
           <Box>
             <Typography id={"kursused"}
-                        variant={"h3"}>Kursused</Typography>
+                        variant={"h4"}>Kursused</Typography>
           </Box>
 
+          <SingleLink
+            siteLink={"https://yleilmakool.ee/oppetoo/"}
+            name={"Üleilmakool"}
+            tekst={"Kindlal ajal toimuvad eestikeelsed e-kursused Moodle-i keskkonnas. Lisaks eesti keele kursustele on lehelt leitavad ka mõningate teiste õppeainete kursused nii kooliõpilastele kui ka täiskasvanutele. Kursustele saab tasuta registreeruda, kuid individuaaltunnid õpetajaga on tasulised."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["e-kursus", "tasuta", "tasuline", "suhtlus"]}/>
+
+          <SingleLink
+            siteLink={"http://eestikeel.ee/"}
+            name={"Eesti keele kursus lastele"}
+            tekst={"Tasuta e-kursus eesti emakeelega lastele. Kursusel saab teha erinevaid eestikeelseid harjutusi, täita lapsevanema väljaprinditud töölehti kui ka kuulata eestikeelseid laule ja vaadata multifilme."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["e-kursus", "tasuta", "lastele"]}/>
+
+          <SingleLink
+            siteLink={"https://integratsioon.ee/eesti-keele-kohvikud"}
+            name={"Keelekohvikud"}
+            tekst={"Integratsiooni Sihtasutuse korraldatavad keelekohvikud, kus avaneb keeleõppijatel võimalus teistega vahetult eesti keeles suhelda ja nii keelt praktiliselt õppida."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["suhtlus", "tasuta"]}/>
+
+          <SingleLink
+            siteLink={"https://ekkm.estinst.ee/eesti-keele-ope-valismaal/"}
+            name={"Eesti keel ja kultuur maailmas"}
+            tekst={"Integratsiooni Sihtasutuse korraldatavad keelekohvikud, kus avaneb keeleõppijatel võimalus teistega vahetult eesti keeles suhelda ja nii keelt praktiliselt õppida."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["kursus"]}/>
+
+          <SingleLink
+            siteLink={"https://www.tahela.com/"}
+            name={"Tahela"}
+            tekst={"Keskkonnas pakutakse nii tasulist eesti keele kursust individuaalsele või grupis õppijale kui ka tasuta õppevideosid ja keeleõppeharjutusi."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["e-kursus", "suhtlus", "tasuline", "tasuta", "õppematerjal", "harjutus"]}/>
+
           <Box>
-            <Typography id={"abivahendid"}
-                        variant={"h3"}>Õpetaja abivahendid</Typography>
+            <Typography id={"abiksõpetajale"}
+                        variant={"h3"}>Abiks õpetajale</Typography>
           </Box>
+
+          <SingleLink
+            siteLink={"https://leplanner.ee/et/"}
+            name={"LePlanner"}
+            tekst={"Teemapõhiste tunnistsenaariumite keskkond õpetajatele. Stsenaariumitega on kirjeldatud tundide ülesehitus, läbitavad teemad ja tehtavad harjutused. Lisaks on stsenaariumites välja toodud kui kaua aega igale tegevusele kulub ja kohati on lisatud ka linke vastavatele õppematerjalidele teistes keskkondades."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["tunnistsenaariumid"]}/>
+
+          <SingleLink
+            siteLink={"https://haridustehnoloogid.ee/blog/"}
+            name={"Ehtl"}
+            tekst={"Eesti Haridustehnoloogide Liidu digitöövahendite kogu, mis sisaldab hulgaliselt linke õppetöös kasutust leidvatele keskkondadele."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["harjutuste loomine"]}/>
+
+          <SingleLink
+            siteLink={"https://pghtl.wordpress.com/e-abimehed/"}
+            name={"Pghtl"}
+            tekst={"Blogi, mis sisaldab muuhulgas hulgaliselt linke erinevat tüüpi keskkondadele, mida õppetöös kasutada."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["harjutuste loomine"]}/>
+
+          <SingleLink
+            siteLink={"https://sonaveeb.ee/teacher-tools/#/home"}
+            name={"Sõnaveebi õpetaja tööriistad"}
+            tekst={"Eesti keele kui teise keele õpetajatele loodud tööriistad, mis on abiks tundide ülesehitamisel või õppematerjalide ja harjutuste loomisel. Sisu on jaotatud keeletasemete järgi ja tasemetel õpitavate teemade juures on toodud ka näiteid. Lisaks on lehel võimalik kirjutatud teksti taset ka hinnata ja selle põhjal õpilastele näidatavat teksti lihtsustada."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["keeletasemed", "tasemehinnang", "eesti keel teise keelena", "EKI"]}/>
 
           <Box>
             <Typography id={"keelekorpused"}
                         variant={"h3"}>Eesti keele korpused</Typography>
           </Box>
 
+          <SingleLink
+            siteLink={"https://korp.keeleressursid.ee/"}
+            name={"KORP"}
+            tekst={"Erinevaid eesti keele korpusi koondav korpuspäringukeskkond. Sealt võib leida nii tänapäevaseid kui ka ajaloolisi korpuseid ning otsida keeleõppijatele mõeldud lihtsaid lauseid ja õpikuid."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["korpuspäring"]}/>
+
+          <SingleLink
+            siteLink={"http://keeleveeb.ee/"}
+            name={"Keeleveeb"}
+            tekst={"Mitmekülgne keskkond, mis võimaldab otsida märksõnu kõigist väljatoodud sõnastikest ja korpustest. Lisaks eesti keele sõnastikele on valikus termini-, kooli-, ja tõlkesõnastikud. Välja on toodud ka viited välislehtedele ja eesti keele tarkvarale."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["koondsõnastik", "korpused", "korpuspäring", "terminisõnastik"]}/>
+
+          <SingleLink
+            siteLink={"https://skell.sketchengine.eu/#home"}
+            name={"SkeLL"}
+            tekst={"Keeleõppijatele mõeldud eestikeelsete näitelausete otsing Sketch Engine’is sisalduvast eesti keele ühendkorpusest 2017 ja eesti keele A1-C1 õpikute korpusest 2018. Siit leiab lisaks ka sarnased sõnad ja saab vaadata otsitava sõna tüüpilisi koosesinemisi."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["korpuspäring", "näitelaused", "sõnavisand"]}/>
+
+          <SingleLink
+            siteLink={"https://portaal.eki.ee/keelekogud.html"}
+            name={"EKI keelekogud"}
+            tekst={"Erinevate Eesti Keele Instituudi loodud korpuste loend."}
+            image={"https://taxreform.dof.gov.ph/wp-content/uploads/2019/07/no-thumbnail-medium-768x526.png"}
+            tags={["korpused"]}/>
         </Box>
       </Box>
     </Box>
