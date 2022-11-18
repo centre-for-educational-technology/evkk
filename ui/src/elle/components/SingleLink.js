@@ -2,7 +2,7 @@ import React from "react";
 import {Box, Chip, Grid, Link, styled, Typography} from "@mui/material";
 import {Image} from "@mui/icons-material";
 
-function Works({name, siteLink, tekst, image, tags}) {
+function SingleLink({name, siteLink, tekst, image, tags}) {
 
   const MenuLink = styled(Link)({
     fontWeight: "bold",
@@ -47,7 +47,8 @@ function Works({name, siteLink, tekst, image, tags}) {
               xs={10}>
           {tags.map(tag => {
             return (
-              <Chip label={tag}/>
+              <Chip label={tag}
+                    style={{marginRight: '0.5vw'}}/>
             )
           })}
 
@@ -57,4 +58,4 @@ function Works({name, siteLink, tekst, image, tags}) {
   )
 }
 
-export default Works;
+export default SingleLink;
