@@ -8,6 +8,18 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 function Contacts() {
 
+  const classes = {
+    focused: {
+      bgcolor: "transparent",
+    },
+    selected: {
+      bgcolor: "transparent",
+    },
+    hover: {
+      bgcolor: "transparent",
+    }
+  };
+
   const MenuLink = styled(Link)({
     fontWeight: 600,
     fontSize: 16,
@@ -33,7 +45,6 @@ function Contacts() {
       alignItems: "center",
       justifyContent: "center",
       flexDirection: "column",
-      overflow: "auto",
       paddingBottom: "100px"
 
     }}>
@@ -50,70 +61,76 @@ function Contacts() {
         marginTop: "3vh",
         width: "80vw",
         height: "auto",
-        overflow: "auto"
       }}>
-        <Box sx={{
-          width: "25%",
-          height: "auto",
-          marginTop: "110px",
-          marginLeft: "20px",
-          borderRight: "solid",
-          borderColor: "#FFD0FD",
-          overflow: "auto",
-          marginBottom: "100px",
-          borderWidth: "thin"
-        }}>
-          <TreeView aria-label="file system navigator"
-                    defaultCollapseIcon={<ExpandMoreIcon/>}
-                    defaultExpandIcon={<ChevronRightIcon/>}
-                    sx={{height: 240, flexGrow: 1, maxWidth: 400, overflowY: 'auto'}}>
-            <TreeItem nodeId={"1"}
-                      label={<Typography fontSize={"1rem"}
-                                         marginTop={"10px"}>
-                        <MenuLink to="people">Töötajad</MenuLink>
-                      </Typography>}>
-
-            </TreeItem>
-            <TreeItem nodeId={"2"}
-                      label={<Typography fontSize={"1rem"}
-                                         marginTop={"10px"}>
-                        <MenuLink to="grants">Grandid</MenuLink>
-                      </Typography>}>
-
-            </TreeItem>
-            <TreeItem nodeId={"3"}
-                      label={<Typography style={{
-                        fontWeight: 600,
-                        fontSize: 16,
-                        color: "#1B1B1B",
-                        textDecoration: "none",
-                        fontFamily: ["'Exo 2'", 'sans-serif',].join(','),
-                        '&:hover': {
-                          color: "#9C27B0",
-                          textDecoration: "none",
-                        },
-                        '&.active': {
-                          color: "#9C27B0",
-                          textDecoration: "none",
-                        },
-                      }}
-                                         marginTop={"10px"}>Üllitised</Typography>}>
-              <TreeItem nodeId={"4"}
+        <Box sx={{position: "sticky", height: "100%", width: "25%", marginTop: "110px", top: "50px"}}>
+          <Box sx={{
+            width: "100%",
+            height: "auto",
+            marginLeft: "20px",
+            borderRight: "solid",
+            borderColor: "#FFD0FD",
+            marginBottom: "100px",
+            borderWidth: "thin"
+          }}>
+            <TreeView aria-label="file system navigator"
+                      defaultCollapseIcon={<ExpandMoreIcon/>}
+                      defaultExpandIcon={<ChevronRightIcon/>}
+                      sx={{
+                        height: 240, flexGrow: 1, maxWidth: 400, overflowY: 'auto', ".MuiTreeItem-root": {
+                          "	.MuiTreeItem-content:hover": classes.hover,
+                          ".Mui-focused:not(.Mui-selected)": classes.focused,
+                          ".Mui-selected, .Mui-focused.Mui-selected, .Mui-selected:hover":
+                          classes.selected
+                        }
+                      }}>
+              <TreeItem nodeId={"1"}
                         label={<Typography fontSize={"1rem"}
                                            marginTop={"10px"}>
-                          <MenuLink to="grants">Kontaktid</MenuLink>
+                          <MenuLink to="people">Töötajad</MenuLink>
                         </Typography>}>
 
               </TreeItem>
-              <TreeItem nodeId={"5"}
+              <TreeItem nodeId={"2"}
                         label={<Typography fontSize={"1rem"}
                                            marginTop={"10px"}>
                           <MenuLink to="grants">Grandid</MenuLink>
                         </Typography>}>
 
               </TreeItem>
-            </TreeItem>
-          </TreeView>
+              <TreeItem nodeId={"3"}
+                        label={<Typography style={{
+                          fontWeight: 600,
+                          fontSize: 16,
+                          color: "#1B1B1B",
+                          textDecoration: "none",
+                          fontFamily: ["'Exo 2'", 'sans-serif',].join(','),
+                          '&:hover': {
+                            color: "#9C27B0",
+                            textDecoration: "none",
+                          },
+                          '&.active': {
+                            color: "#9C27B0",
+                            textDecoration: "none",
+                          },
+                        }}
+                                           marginTop={"10px"}>Üllitised</Typography>}>
+                <TreeItem nodeId={"4"}
+                          label={<Typography fontSize={"1rem"}
+                                             marginTop={"10px"}>
+                            <MenuLink to="grants">Kontaktid</MenuLink>
+                          </Typography>}>
+
+                </TreeItem>
+                <TreeItem nodeId={"5"}
+                          label={<Typography fontSize={"1rem"}
+                                             marginTop={"10px"}>
+                            <MenuLink to="grants">Grandid</MenuLink>
+                          </Typography>}>
+
+                </TreeItem>
+              </TreeItem>
+            </TreeView>
+          </Box>
         </Box>
 
         <Box sx={{
