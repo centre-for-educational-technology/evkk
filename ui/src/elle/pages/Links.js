@@ -57,7 +57,7 @@ function Links() {
            height={"50px"}
            paddingLeft={"20px"}
            alignItems={"flex-end"}
-           sx={{wordSpacing: "20px"}}><HomeIcon sx={{marginRight: "20px"}}/> / Keskkonnast / Töötajad</Box>
+           sx={{wordSpacing: "20px"}}><HomeIcon sx={{marginRight: "20px"}}/> / Lingikogud</Box>
       <Box sx={{
         display: "flex",
         backgroundColor: "white",
