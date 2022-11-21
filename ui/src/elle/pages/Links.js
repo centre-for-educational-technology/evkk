@@ -63,10 +63,9 @@ function Links() {
         backgroundColor: "white",
         marginTop: "3vh",
         width: "80vw",
-        height: "auto",
-
+        height: "auto"
       }}>
-        <Box sx={{position: "sticky", height: "100%", width: "25%", marginTop: "110px", top: "50px"}}>
+        <Box sx={{position: "sticky", height: "100%", width: "25%", marginTop: "20px", top: "50px"}}>
           <Box
             sx={{
               width: "100%",
@@ -78,8 +77,8 @@ function Links() {
               borderWidth: "thin"
             }}>
             <TreeView aria-label="file system navigator"
-                      defaultCollapseIcon={<ExpandMoreIcon/>}
-                      defaultExpandIcon={<ChevronRightIcon/>}
+                      defaultCollapseIcon={<ExpandMoreIcon style={{paddingTop: '12px', fontSize: '2rem'}}/>}
+                      defaultExpandIcon={<ChevronRightIcon style={{paddingTop: '12px', fontSize: '2rem'}}/>}
                       sx={{
                         height: "auto", flexGrow: 1, maxWidth: 400, ".MuiTreeItem-root": {
                           "	.MuiTreeItem-content:hover": classes.hover,
@@ -293,14 +292,15 @@ function Links() {
 
         <Box sx={{
           padding: "50px",
+          paddingTop: "0",
           width: "75%",
           height: "auto",
-          marginTop: "70px",
           marginBottom: "50px",
         }}>
           <Box id={"tutvustus"}>
             <Typography align={"center"}
-                        padding={"50px"}>ELLE eesmärk on eesti keele õpet igati toetada, mistõttu oleme
+                        padding={"50px"}
+                        paddingTop={"25px"}>ELLE eesmärk on eesti keele õpet igati toetada, mistõttu oleme
               lingikogusse koondanud hulgaliselt erinevaid keskkondi, millest võib kasu olla nii eesti keele õppijatele,
               õpetajatele kui ka keeleteadlastele. Kui ELLEst jääb väheks, siis ehk leiad sobiliku lehe siit! Kui ei,
               siis anna meile teada!</Typography>

@@ -54,7 +54,7 @@ function Contacts() {
            height={"50px"}
            paddingLeft={"20px"}
            alignItems={"flex-end"}
-           sx={{wordSpacing: "20px"}}><HomeIcon sx={{marginRight: "20px"}}/> / Keskkonnast / Töötajad</Box>
+           sx={{wordSpacing: "20px"}}><HomeIcon sx={{marginRight: "20px"}}/> / Keskkonnast</Box>
       <Box sx={{
         display: "flex",
         backgroundColor: "white",
@@ -73,8 +73,8 @@ function Contacts() {
             borderWidth: "thin"
           }}>
             <TreeView aria-label="file system navigator"
-                      defaultCollapseIcon={<ExpandMoreIcon/>}
-                      defaultExpandIcon={<ChevronRightIcon/>}
+                      defaultCollapseIcon={<ExpandMoreIcon style={{paddingTop: '12px', fontSize: '2rem'}}/>}
+                      defaultExpandIcon={<ChevronRightIcon style={{paddingTop: '12px', fontSize: '2rem'}}/>}
                       sx={{
                         height: 240, flexGrow: 1, maxWidth: 400, overflowY: 'auto', ".MuiTreeItem-root": {
                           "	.MuiTreeItem-content:hover": classes.hover,
@@ -117,14 +117,21 @@ function Contacts() {
                 <TreeItem nodeId={"4"}
                           label={<Typography fontSize={"1rem"}
                                              marginTop={"10px"}>
-                            <MenuLink to="grants">Kontaktid</MenuLink>
+                            <MenuLink to="grants">Lõputööd</MenuLink>
                           </Typography>}>
 
                 </TreeItem>
                 <TreeItem nodeId={"5"}
                           label={<Typography fontSize={"1rem"}
                                              marginTop={"10px"}>
-                            <MenuLink to="grants">Grandid</MenuLink>
+                            <MenuLink to="grants">Konverentsid ja töötoad</MenuLink>
+                          </Typography>}>
+
+                </TreeItem>
+                <TreeItem nodeId={"6"}
+                          label={<Typography fontSize={"1rem"}
+                                             marginTop={"10px"}>
+                            <MenuLink to="grants">Publikatsioonid</MenuLink>
                           </Typography>}>
 
                 </TreeItem>
