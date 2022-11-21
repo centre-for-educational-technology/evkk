@@ -10,6 +10,19 @@ import "@fontsource/exo-2/600.css";
 
 function Links() {
 
+  const classes = {
+    focused: {
+      bgcolor: "transparent",
+    },
+    selected: {
+      bgcolor: "transparent",
+    },
+    hover: {
+      bgcolor: "transparent",
+    }
+  };
+
+
   const MenuLink = styled(HashLink)({
     fontWeight: 600,
     fontSize: 16,
@@ -31,12 +44,10 @@ function Links() {
 
       backgroundColor: "#FFFBFE",
       height: "auto",
-      position: "center",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       flexDirection: "column",
-      overflow: "auto",
       paddingBottom: "100px"
 
     }}>
@@ -46,231 +57,238 @@ function Links() {
            height={"50px"}
            paddingLeft={"20px"}
            alignItems={"flex-end"}
-           sx={{wordSpacing: "20px"}}><HomeIcon sx={{marginRight: "20px"}}/> / Keskkonnast / Töötajad</Box>
+           sx={{wordSpacing: "20px"}}><HomeIcon sx={{marginRight: "20px"}}/> / Lingikogud</Box>
       <Box sx={{
         display: "flex",
         backgroundColor: "white",
         marginTop: "3vh",
         width: "80vw",
         height: "auto",
-        overflow: "auto"
+
       }}>
-        <Box
-          position={"fixed"}
-          sx={{
-            width: "25%",
-            height: "auto",
-            marginTop: "110px",
-            marginLeft: "20px",
-            borderRight: "solid",
-            borderColor: "#FFD0FD",
-            overflow: "auto",
-            marginBottom: "100px",
-            borderWidth: "thin"
-          }}>
-          <TreeView aria-label="file system navigator"
-                    defaultCollapseIcon={<ExpandMoreIcon/>}
-                    defaultExpandIcon={<ChevronRightIcon/>}
-                    sx={{height: "auto", flexGrow: 1, maxWidth: 400, overflowY: 'auto'}}>
-            <TreeItem nodeId={"1"}
-                      label={<Typography
-                        marginTop={"10px"}>
-                        <MenuLink key={"1"}
-                                  smooth
-                                  to="#tutvustus">Tutvustus</MenuLink>
-                      </Typography>}>
-
-            </TreeItem>
-            <TreeItem nodeId={"2"}
-                      label={<Typography
-                        marginTop={"10px"}>
-                        <MenuLink key={"2"}
-                                  smooth
-                                  to="#sõnastikud">Sõnastikud</MenuLink>
-                      </Typography>}>
-
-            </TreeItem>
-            <TreeItem nodeId={"3"}
-                      label={<Typography
-                        marginTop={"10px"}>
-                        <MenuLink key={"3"}
-                                  smooth
-                                  to="#tõlkerakendused">Tõlkerakendused</MenuLink>
-                      </Typography>}>
-
-            </TreeItem>
-            <TreeItem nodeId={"4"}
-                      label={<Typography style={{
-                        fontWeight: 600,
-                        fontSize: 16,
-                        color: "#1B1B1B",
-                        textDecoration: "none",
-                        fontFamily: ["'Exo 2'", 'sans-serif',].join(','),
-                        '&:hover': {
-                          color: "#9C27B0",
-                          textDecoration: "none",
-                        },
-                        '&.active': {
-                          color: "#9C27B0",
-                          textDecoration: "none",
-                        },
+        <Box sx={{position: "sticky", height: "100%", width: "25%", marginTop: "110px", top: "50px"}}>
+          <Box
+            sx={{
+              width: "100%",
+              height: "auto",
+              marginLeft: "20px",
+              borderRight: "solid",
+              borderColor: "#FFD0FD",
+              marginBottom: "100px",
+              borderWidth: "thin"
+            }}>
+            <TreeView aria-label="file system navigator"
+                      defaultCollapseIcon={<ExpandMoreIcon/>}
+                      defaultExpandIcon={<ChevronRightIcon/>}
+                      sx={{
+                        height: "auto", flexGrow: 1, maxWidth: 400, ".MuiTreeItem-root": {
+                          "	.MuiTreeItem-content:hover": classes.hover,
+                          ".Mui-focused:not(.Mui-selected)": classes.focused,
+                          ".Mui-selected, .Mui-focused.Mui-selected, .Mui-selected:hover":
+                          classes.selected
+                        }
                       }}
-                                         marginTop={"10px"}>Eestikeelsed tekstid</Typography>}>
-              <TreeItem nodeId={"5"}
+            >
+              <TreeItem nodeId={"1"}
                         label={<Typography
                           marginTop={"10px"}>
-                          <MenuLink key={"4"}
+                          <MenuLink key={"1"}
                                     smooth
-                                    to="#meediatekstid">Meediatekstid</MenuLink>
+                                    to="#tutvustus">Tutvustus</MenuLink>
                         </Typography>}>
 
               </TreeItem>
-              <TreeItem nodeId={"6"}
+              <TreeItem nodeId={"2"}
                         label={<Typography
                           marginTop={"10px"}>
-                          <MenuLink key={"4"}
+                          <MenuLink key={"2"}
                                     smooth
-                                    to="#kirjandus">Kirjandus</MenuLink>
+                                    to="#sõnastikud">Sõnastikud</MenuLink>
                         </Typography>}>
 
               </TreeItem>
-              <TreeItem nodeId={"7"}
+              <TreeItem nodeId={"3"}
                         label={<Typography
                           marginTop={"10px"}>
-                          <MenuLink key={"5"}
+                          <MenuLink key={"3"}
                                     smooth
-                                    to="#teadustekstid">Teadustekstid</MenuLink>
+                                    to="#tõlkerakendused">Tõlkerakendused</MenuLink>
                         </Typography>}>
 
               </TreeItem>
-            </TreeItem>
-            <TreeItem nodeId={"8"}
-                      label={<Typography style={{
-                        fontWeight: 600,
-                        fontSize: 16,
-                        color: "#1B1B1B",
-                        textDecoration: "none",
-                        fontFamily: ["'Exo 2'", 'sans-serif',].join(','),
-                        '&:hover': {
-                          color: "#9C27B0",
+              <TreeItem nodeId={"4"}
+                        label={<Typography style={{
+                          fontWeight: 600,
+                          fontSize: 16,
+                          color: "#1B1B1B",
                           textDecoration: "none",
-                        },
-                        '&.active': {
-                          color: "#9C27B0",
+                          fontFamily: ["'Exo 2'", 'sans-serif',].join(','),
+                          '&:hover': {
+                            color: "#9C27B0",
+                            textDecoration: "none",
+                          },
+                          '&.active': {
+                            color: "#9C27B0",
+                            textDecoration: "none",
+                          },
+                        }}
+                                           marginTop={"10px"}>Eestikeelsed tekstid</Typography>}>
+                <TreeItem nodeId={"5"}
+                          label={<Typography
+                            marginTop={"10px"}>
+                            <MenuLink key={"4"}
+                                      smooth
+                                      to="#meediatekstid">Meediatekstid</MenuLink>
+                          </Typography>}>
+
+                </TreeItem>
+                <TreeItem nodeId={"6"}
+                          label={<Typography
+                            marginTop={"10px"}>
+                            <MenuLink key={"4"}
+                                      smooth
+                                      to="#kirjandus">Kirjandus</MenuLink>
+                          </Typography>}>
+
+                </TreeItem>
+                <TreeItem nodeId={"7"}
+                          label={<Typography
+                            marginTop={"10px"}>
+                            <MenuLink key={"5"}
+                                      smooth
+                                      to="#teadustekstid">Teadustekstid</MenuLink>
+                          </Typography>}>
+
+                </TreeItem>
+              </TreeItem>
+              <TreeItem nodeId={"8"}
+                        label={<Typography style={{
+                          fontWeight: 600,
+                          fontSize: 16,
+                          color: "#1B1B1B",
                           textDecoration: "none",
-                        },
-                      }}
-                                         marginTop={"10px"}>Audiovisuaalne meedia</Typography>}>
-              <TreeItem nodeId={"9"}
-                        label={<Typography
-                          marginTop={"10px"}>
-                          <MenuLink key={"6"}
-                                    smooth
-                                    to="#visuaalne">Sarjad, filmid ja videod</MenuLink>
-                        </Typography>}>
+                          fontFamily: ["'Exo 2'", 'sans-serif',].join(','),
+                          '&:hover': {
+                            color: "#9C27B0",
+                            textDecoration: "none",
+                          },
+                          '&.active': {
+                            color: "#9C27B0",
+                            textDecoration: "none",
+                          },
+                        }}
+                                           marginTop={"10px"}>Audiovisuaalne meedia</Typography>}>
+                <TreeItem nodeId={"9"}
+                          label={<Typography
+                            marginTop={"10px"}>
+                            <MenuLink key={"6"}
+                                      smooth
+                                      to="#visuaalne">Sarjad, filmid ja videod</MenuLink>
+                          </Typography>}>
 
-              </TreeItem>
-              <TreeItem nodeId={"10"}
-                        label={<Typography
-                          marginTop={"10px"}>
-                          <MenuLink key={"7"}
-                                    smooth
-                                    to="#audio">Raadio, audio, taskuhäälingud</MenuLink>
-                        </Typography>}>
+                </TreeItem>
+                <TreeItem nodeId={"10"}
+                          label={<Typography
+                            marginTop={"10px"}>
+                            <MenuLink key={"7"}
+                                      smooth
+                                      to="#audio">Raadio, audio, taskuhäälingud</MenuLink>
+                          </Typography>}>
 
+                </TreeItem>
               </TreeItem>
-            </TreeItem>
-            <TreeItem nodeId={"11"}
-                      label={<Typography style={{
-                        fontWeight: 600,
-                        fontSize: 16,
-                        color: "#1B1B1B",
-                        textDecoration: "none",
-                        fontFamily: ["'Exo 2'", 'sans-serif',].join(','),
-                        '&:hover': {
-                          color: "#9C27B0",
+              <TreeItem nodeId={"11"}
+                        label={<Typography style={{
+                          fontWeight: 600,
+                          fontSize: 16,
+                          color: "#1B1B1B",
                           textDecoration: "none",
-                        },
-                        '&.active': {
-                          color: "#9C27B0",
+                          fontFamily: ["'Exo 2'", 'sans-serif',].join(','),
+                          '&:hover': {
+                            color: "#9C27B0",
+                            textDecoration: "none",
+                          },
+                          '&.active': {
+                            color: "#9C27B0",
+                            textDecoration: "none",
+                          },
+                        }}
+                                           marginTop={"10px"}>Keeleõppevara</Typography>}>
+                <TreeItem nodeId={"12"}
+                          label={<Typography
+                            marginTop={"10px"}>
+                            <MenuLink key={"8"}
+                                      smooth
+                                      to="#õppematerjalid">Õppematerjalid ja harjutused</MenuLink>
+                          </Typography>}>
+
+                </TreeItem>
+                <TreeItem nodeId={"13"}
+                          label={<Typography
+                            marginTop={"10px"}>
+                            <MenuLink key={"9"}
+                                      smooth
+                                      to="#õppemängud">Keeleõppemängud</MenuLink>
+                          </Typography>}>
+
+                </TreeItem>
+              </TreeItem>
+              <TreeItem nodeId={"14"}
+                        label={<Typography style={{
+                          fontWeight: 600,
+                          fontSize: 16,
+                          color: "#1B1B1B",
                           textDecoration: "none",
-                        },
-                      }}
-                                         marginTop={"10px"}>Keeleõppevara</Typography>}>
-              <TreeItem nodeId={"12"}
+                          fontFamily: ["'Exo 2'", 'sans-serif',].join(','),
+                          '&:hover': {
+                            color: "#9C27B0",
+                            textDecoration: "none",
+                          },
+                          '&.active': {
+                            color: "#9C27B0",
+                            textDecoration: "none",
+                          },
+                        }}
+                                           marginTop={"10px"}>Keeleõppekeskkonnad ja kursused</Typography>}>
+                <TreeItem nodeId={"15"}
+                          label={<Typography
+                            marginTop={"10px"}>
+                            <MenuLink key={"10"}
+                                      smooth
+                                      to="#keeleõppekeskkonnad">Keeleõppekeskkonnad</MenuLink>
+                          </Typography>}>
+
+                </TreeItem>
+                <TreeItem nodeId={"16"}
+                          label={<Typography
+                            marginTop={"10px"}>
+                            <MenuLink key={"11"}
+                                      smooth
+                                      to="#kursused">Kursused</MenuLink>
+                          </Typography>}>
+
+                </TreeItem>
+              </TreeItem>
+              <TreeItem nodeId={"17"}
                         label={<Typography
                           marginTop={"10px"}>
-                          <MenuLink key={"8"}
+                          <MenuLink key={"12"}
                                     smooth
-                                    to="#õppematerjalid">Õppematerjalid ja harjutused</MenuLink>
+                                    to="#abiksõpetajale">Abiks õpetajale</MenuLink>
                         </Typography>}>
 
               </TreeItem>
-              <TreeItem nodeId={"13"}
+              <TreeItem nodeId={"18"}
                         label={<Typography
                           marginTop={"10px"}>
-                          <MenuLink key={"9"}
+                          <MenuLink key={"13"}
                                     smooth
-                                    to="#õppemängud">Keeleõppemängud</MenuLink>
+                                    to="#keelekorpused">Eesti keele korpused</MenuLink>
                         </Typography>}>
 
               </TreeItem>
-            </TreeItem>
-            <TreeItem nodeId={"14"}
-                      label={<Typography style={{
-                        fontWeight: 600,
-                        fontSize: 16,
-                        color: "#1B1B1B",
-                        textDecoration: "none",
-                        fontFamily: ["'Exo 2'", 'sans-serif',].join(','),
-                        '&:hover': {
-                          color: "#9C27B0",
-                          textDecoration: "none",
-                        },
-                        '&.active': {
-                          color: "#9C27B0",
-                          textDecoration: "none",
-                        },
-                      }}
-                                         marginTop={"10px"}>Keeleõppekeskkonnad ja kursused</Typography>}>
-              <TreeItem nodeId={"15"}
-                        label={<Typography
-                          marginTop={"10px"}>
-                          <MenuLink key={"10"}
-                                    smooth
-                                    to="#keeleõppekeskkonnad">Keeleõppekeskkonnad</MenuLink>
-                        </Typography>}>
-
-              </TreeItem>
-              <TreeItem nodeId={"16"}
-                        label={<Typography
-                          marginTop={"10px"}>
-                          <MenuLink key={"11"}
-                                    smooth
-                                    to="#kursused">Kursused</MenuLink>
-                        </Typography>}>
-
-              </TreeItem>
-            </TreeItem>
-            <TreeItem nodeId={"17"}
-                      label={<Typography
-                        marginTop={"10px"}>
-                        <MenuLink key={"12"}
-                                  smooth
-                                  to="#abiksõpetajale">Abiks õpetajale</MenuLink>
-                      </Typography>}>
-
-            </TreeItem>
-            <TreeItem nodeId={"18"}
-                      label={<Typography
-                        marginTop={"10px"}>
-                        <MenuLink key={"13"}
-                                  smooth
-                                  to="#keelekorpused">Eesti keele korpused</MenuLink>
-                      </Typography>}>
-
-            </TreeItem>
-          </TreeView>
+            </TreeView>
+          </Box>
         </Box>
 
         <Box sx={{
@@ -278,8 +296,7 @@ function Links() {
           width: "75%",
           height: "auto",
           marginTop: "70px",
-          marginLeft: "35%",
-          marginBottom: "100px",
+          marginBottom: "50px",
         }}>
           <Box id={"tutvustus"}>
             <Typography align={"center"}
