@@ -4,7 +4,7 @@ import {AnalyseContext} from "../Contexts";
 
 export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
 
-  const [analyse, setAnalyse] = useContext(AnalyseContext);
+  const analyse = useContext(AnalyseContext)[0];
 
   const handleWord = useCallback((e) => {
     onWordInfo(e.target.id);

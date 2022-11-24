@@ -25,7 +25,7 @@ function WordAnalyser() {
   const [selectedWords, setSelectedWords] = useState(['']);
   const [wordInfo, setWordInfo] = useState('');
   const [textFromFile, setTextFromFile] = useState('');
-  const [tableValue, setTableValue] = useContext(TabContext);
+  const setTableValue = useContext(TabContext)[1];
   const type = useContext(TypeContext);
   const form = useContext(FormContext);
   const word = useContext(WordContext);

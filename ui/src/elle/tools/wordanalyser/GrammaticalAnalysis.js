@@ -19,7 +19,7 @@ function GrammaticalAnalysis() {
   const setType = useContext(SetTypeContext);
   const setForm = useContext(SetFormContext);
   const setWord = useContext(SetWordContext);
-  const [analyse, setAnalyse] = useContext(AnalyseContext);
+  const analyse = useContext(AnalyseContext)[0];
 
   useEffect(() => {
     setSonaliik(analyse.wordtypes);
@@ -177,9 +177,9 @@ function GrammaticalAnalysis() {
       });
       return [...options2.values()];
 
-    }, [id, preFilteredRows, newFilterValue]);
+    }, [id, preFilteredRows]);
 
-    if (newFilterValue.length > 0 && newFilterValue.length === options.length || options.length < newFilterValue.length) {
+    if ((newFilterValue.length > 0 && newFilterValue.length === options.length) || (options.length < newFilterValue.length)) {
       setNewFilterValue([]);
     }
 
