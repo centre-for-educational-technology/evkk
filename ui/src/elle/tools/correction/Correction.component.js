@@ -19,7 +19,11 @@ class Correction extends Component {
       tasemetekst: "",
       korrektorivastus: ["", ""],
       vastuskood: "", vastusnahtav: false, muutuskood: "", yksikmuutus: false, taustatekst: <span></span>,
-      taselisa: false, avatudkaart: "korrektuur", kordab: false, sisukohad: [], sisusonad: [], vastussonad: []
+      taselisa: false, avatudkaart: "korrektuur", kordab: false, sisukohad: [], sisusonad: [], vastussonad: [],
+      paringlopetatud: false,
+      keerukusvastus: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      mitmekesisusvastus: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      korrektuur: ""
     };
     this.handleRedo = this.handleRedo.bind(this)
     this.handleUndo = this.handleUndo.bind(this)
@@ -49,17 +53,19 @@ class Correction extends Component {
   }
 
   korda() {
-//    if(this.state.avatudkaart==="korrektuur"){this.kysi3();}
-//    if(this.state.avatudkaart==="hindamine"){this.kysi4();}
+    if (this.state.alasisu === this.state.tasemetekst) {
+      return;
+    }
     this.kysi3();
     this.kysi4();
+    this.kysi5();
+    this.kysi6();
   }
 
   alaMuutus(event) {
-//    this.setState({alasisu: event.target.value}, this.kysi3);
     this.setState({alasisu: event.target.value});
-    //this.kysi3();
-    this.keepHistory()
+    this.kysi3();
+    this.keepHistory();
   }
 
   asenda(algus, sisu, vahetus) {
@@ -70,37 +76,27 @@ class Correction extends Component {
   }
 
   margi(algus, sisu, puhastab = false) {
-    //console.log(algus, sisu);
     this.ala1.focus();
-    //this.ala1.setSelectionRange(algus, pikkus);
-    //this.ala1.setSelectionRange(12, 1);
     let koht = this.state.alasisu.indexOf(sisu, (algus > 10 ? algus - 10 : algus));
-    // console.log(koht);
     if (koht === -1) {
       koht = this.state.alasisu.indexOf(sisu);
     }
     this.ala1.selectionStart = koht;
     this.ala1.selectionEnd = koht + sisu.length;
-    //let charsPerRow = this.ala1.cols;
-    //let selectionRow = (this.ala1.selectionStart - (this.ala1.selectionStart % charsPerRow)) / charsPerRow;
-    //let lineHeight = this.ala1.clientHeight / this.ala1.rows;
-    //this.ala1.scrollTop = lineHeight * selectionRow-30;
     if (puhastab) {
       this.setState({yksikmuutus: false});
     }
-// scroll !!
+    // scroll !!
   }
 
   kysi4 = () => {
     if (this.state.alasisu === this.state.tasemetekst) {
-      // console.log("juba tase ", this.state.alasisu);
       return;
     }
 
-    let obj = {}; //new Object();
+    let obj = {};
     obj["tekst"] = this.state.alasisu;
     const asisu = this.state.alasisu;
-//  this.setState({tasemetekst: this.state.alasisu});
     fetch("/api/texts/keeletase", {
       method: "POST",
       headers: {
@@ -109,9 +105,38 @@ class Correction extends Component {
       },
       body: JSON.stringify(obj)
     }).then(v => v.json()).then(t => {
-      // console.log(t);
       this.setState({"tasemevastus": t});
       this.setState({tasemetekst: asisu});
+    })
+  }
+
+  kysi5 = () => {
+    let obj = {};
+    obj["tekst"] = this.state.alasisu;
+    fetch("/api/texts/keerukus", {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(obj)
+    }).then(v => v.json()).then(t => {
+      this.setState({"keerukusvastus": t});
+    })
+  }
+
+  kysi6 = () => {
+    let obj = {};
+    obj["tekst"] = this.state.alasisu;
+    fetch("/api/texts/mitmekesisus", {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(obj)
+    }).then(v => v.json()).then(t => {
+      this.setState({"mitmekesisusvastus": t});
     })
   }
 
@@ -130,12 +155,19 @@ class Correction extends Component {
     }
   }
 
+  keerukusVajutus = () => {
+    this.setState({avatudkaart: "keerukus"})
+  }
+
+  mitmekesisusVajutus = () => {
+    this.setState({avatudkaart: "mitmekesisus"})
+  }
+
   kysi3 = () => {
     if (this.state.alasisu === this.state.korrektorivastus[1]) {
-      //console.log("juba olemas", this.state.alasisu);
       return;
     }
-    let obj = {}; //new Object();
+    let obj = {};
     obj["tekst"] = this.state.alasisu;
     fetch("/api/texts/korrektuur", {
       method: "POST",
@@ -145,7 +177,6 @@ class Correction extends Component {
       },
       body: JSON.stringify(obj)
     }).then(v => v.json()).then(t => {
-      // console.log(t);
       this.setState({"korrektorivastus": t});
       let sm = t[1].split(" ");
       let vm = t[0].split(" ");
@@ -154,32 +185,32 @@ class Correction extends Component {
       let sisutekst = "";
       let muutused = [];
       let sisukohad = [];
-      for (let i = 0; i < vm.length; i++) {
-        if (sm[i] === vm[i]) {
-          vastustekst[i] = <span key={"s" + i}>{vm[i] + " "}</span>;
-          taustatekst[i] = <span key={"t" + i}>{sm[i] + " "}</span>;
-        } else {
-          const algus = sisutekst.length;
-          const sisu = sm[i];
-          muutused[i] = <span key={"sm" + i}>
+
+      if (sm === vm) {
+        this.setState({korrektuur: "Kõik korras"});
+      } else {
+        for (let i = 0; i < vm.length; i++) {
+          if (sm[i] === vm[i]) {
+            vastustekst[i] = <span key={"s" + i}>{vm[i] + " "}</span>;
+            taustatekst[i] = <span key={"t" + i}>{sm[i] + " "}</span>;
+          } else {
+            const algus = sisutekst.length;
+            const sisu = sm[i];
+            muutused[i] = <span key={"sm" + i}>
                 <span onClick={() => this.margi(algus, sisu, true)}
                       style={{'backgroundColor': 'lightpink'}}>{sm[i]}</span> - <span>{vm[i]}</span> <button
-            onClick={() => this.asenda(algus, sisu, vm[i])}>Asenda</button><br/>
+              onClick={() => this.asenda(algus, sisu, vm[i])}>Asenda</button><br/>
              </span>
-          console.log("muutus", algus, sisu, vm[i]);
-//             taustatekst[i]=<span key={"t"+i}><span className="margitud" onClick={(e) => {console.log(e);}}  title={vm[i]}>{sm[i]}</span><span> </span></span>;
-          let kpl = this.puhasta2(sm[i]);
-          taustatekst[i] = <span key={"t" + i}><span>{kpl[1]}</span><span className="margitud"
-                                                                          onClick={(e) => {
-                                                                            console.log(e);
-                                                                          }}
-                                                                          title={vm[i]}>{kpl[2]}</span><span>{kpl[3]}</span><span> </span></span>;
-          vastustekst[i] = <span key={"s" + i}><span title={vm[i]}
-                                                     onClick={() => this.margi(algus, sisu)}
-                                                     style={{'backgroundColor': 'lightgray'}}>{sm[i]}</span><span> </span></span>;
+            let kpl = this.puhasta2(sm[i]);
+            taustatekst[i] = <span key={"t" + i}><span>{kpl[1]}</span><span className="margitud"
+                                                                            title={vm[i]}>{kpl[2]}</span><span>{kpl[3]}</span><span> </span></span>;
+            vastustekst[i] = <span key={"s" + i}><span title={vm[i]}
+                                                       onClick={() => this.margi(algus, sisu)}
+                                                       style={{'backgroundColor': 'lightgray'}}>{sm[i]}</span><span> </span></span>;
+          }
+          sisutekst += sm[i] + " ";
+          sisukohad[i] = sisutekst.length;
         }
-        sisutekst += sm[i] + " ";
-        sisukohad[i] = sisutekst.length;
       }
       this.setState({"muutuskood": <div>{muutused.length > 0 ? muutused : "Parandused puuduvad!"}</div>})
       this.setState({"vastuskood": <div>{vastustekst}<br/><br/><br/><br/><br/><br/></div>})
@@ -190,6 +221,7 @@ class Correction extends Component {
       this.setState({"sisusonad": sm});
       this.setState({"vastussonad": vm});
       this.setState({yksikmuutus: false});
+      this.setState({"paringlopetatud": true});
     })
   }
 
@@ -210,7 +242,8 @@ class Correction extends Component {
             <span>(tõenäosus {(this.state.tasemevastus[12][0] * 100).toFixed(0)} %)<br/></span>}
 
           Arvesse on võetud sõnavaliku mitmekesisus ja ulatus (unikaalsete sõnade hulk, harvem esineva sõnavara
-          osakaal), sõnavara tihedus (sisusõnade osakaal) ja nimisõnade abstraktsus.</p>
+          osakaal),
+          sõnavara tihedus (sisusõnade osakaal) ja nimisõnade abstraktsus.</p>
         <br/>
         <br/>
         <br/>
@@ -218,6 +251,7 @@ class Correction extends Component {
     }
     return <div onClick={() => this.setState({taselisa: true})}>Loe täpsemalt ...</div>
   }
+  state;
 
   ketas() {
     return <div
@@ -248,7 +282,7 @@ class Correction extends Component {
     this.taust1.scrollTop = this.ala1.scrollTop;
   }
 
-  tekstialaHiir(e) {
+  tekstialaHiir() {
     let koht = this.ala1.selectionStart;
     let algus = koht;
     let ots = koht;
@@ -259,7 +293,6 @@ class Correction extends Component {
       ots++;
     }
     let sona = this.state.alasisu.substring(algus + 1, ots);
-    console.log(this.ala1.selectionStart, sona);
     this.vali(sona, this.ala1.selectionStart);
   }
 
@@ -279,23 +312,15 @@ class Correction extends Component {
         v = k - i;
       }
     }
-    console.log(v, this.state.sisusonad[v], this.state.vastussonad[v]);
     if (this.state.sisusonad[v] !== this.state.vastussonad[v]) {
-      //this.setState({yksikmuutus: this.state.muutuskood[v]});
-      console.log("vahetatud " + v);
-      /*      let vahetus=<span key={"sm"+v}>
-                      <span onClick={() =>this.margi(this.state.sisukohad[v]-this.state.sisusonad[v].length, this.state.sisusonad[v])} style={{'backgroundColor': 'lightpink'}}>{this.puhasta(this.state.sisusonad[v])}</span> - <span>{this.puhasta(this.state.vastussonad[v])}</span> <button onClick={() =>this.asenda(this.state.sisukohad[v]-this.state.sisusonad[v].length, this.state.sisusonad[v], this.state.vastussonad[v])}>asenda</button><br />
-                   </span> */
       let vahetus = <span key={"sm" + v}>
       <span
         style={{'backgroundColor': 'lightpink'}}>{this.puhasta(this.state.sisusonad[v])}</span> - <span>{this.puhasta(this.state.vastussonad[v])}</span> <button
         onClick={() => this.asenda(this.state.sisukohad[v] - this.state.sisusonad[v].length, this.state.sisusonad[v], this.state.vastussonad[v])}>asenda</button><br/>
    </span>
       this.setState({yksikmuutus: vahetus});
-      console.log(vahetus, this.state.sisukohad[v], this.state.sisusonad[v], this.state.vastussonad[v]);
     } else {
       this.setState({yksikmuutus: false});
-      console.log("tagasi");
     }
   }
 
@@ -333,7 +358,6 @@ class Correction extends Component {
   }
 
   render() {
-
     return (
       <Card raised={true}
             square={true}
@@ -342,7 +366,6 @@ class Correction extends Component {
         <div style={{'float': 'left', 'margin': '10px', 'width': '45%'}}>
           <div style={{'float': 'left'}}>
             <TextUpload sendTextFromFile={this.sendTextFromFile}/>
-            {/*<span className="material-symbols-outlined" onClick={(data) => this.sendTextFromFile(data)}>upload_file</span>*/}
           </div>
 
           <div style={{'float': 'right'}}>
@@ -356,7 +379,7 @@ class Correction extends Component {
             <div id="highlights"
                  ref={(e) => this.taust1 = e}>{this.state.taustakood}</div>
             <textarea id="textarea"
-                      onScroll={(e) => this.kerimine()}
+                      onScroll={() => this.kerimine()}
                       ref={(e) => this.ala1 = e}
                       onChange={(event) => this.alaMuutus(event)}
                       rows="15"
@@ -401,6 +424,16 @@ class Correction extends Component {
                   style={this.state.avatudkaart === "hindamine" ? {fontWeight: "bold"} : {}}
               >Tasemehinnang
               </li>
+              <li className={"nav-item nav-link"}
+                  onClick={() => this.keerukusVajutus()}
+                  style={this.state.avatudkaart === "keerukus" ? {fontWeight: "bold"} : {}}
+              >Keerukus
+              </li>
+              <li className={"nav-item nav-link"}
+                  onClick={() => this.mitmekesisusVajutus()}
+                  style={this.state.avatudkaart === "mitmekesisus" ? {fontWeight: "bold"} : {}}
+              >Mitmekesisus
+              </li>
             </ul>
           </nav>
 
@@ -414,26 +447,141 @@ class Correction extends Component {
               </div>
             </div>
           }
-
           <br/>
           <br/>
-          {this.state.avatudkaart === "korrektuur" && <span>
+          {this.state.avatudkaart === "korrektuur" && this.state.kordab && this.state.paringlopetatud &&
+          this.state.muutuskood.props.children === "puuduvad" ?
+            <span>
+                 <div style={{'float': 'left', 'margin': '10px', 'width': '50%'}}>
+                   <h3>Kõik on õige</h3>
+                 </div>
+               </span>
+            :
+            <span>
              {this.state.kordab && this.state.alasisu !== this.state.korrektorivastus[1] && this.ketas()}<br/>
-            {(this.state.yksikmuutus) ? this.state.yksikmuutus : "" //this.state.muutuskood
-            }<br/>
-
-            { /*(this.state.alasisu.length>0  )? <span>{ (this.state.kordab) &&
-                <button  onClick={() =>this.setState((state, props) => {return {vastusnahtav: !state.vastusnahtav}})}> {this.state.vastusnahtav?"Peida tekst":"Näita teksti"} </button>
-                }</span> : ""
-              */}
-            {this.state.vastusnahtav && <span>{this.state.tasemevastus ? this.state.vastuskood : "algus"}</span>}
-             </span>}
+              {(this.state.yksikmuutus) ? this.state.yksikmuutus : ""
+              }<br/>
+              {this.state.vastusnahtav && <span>{this.state.tasemevastus ? this.state.vastuskood : "algus"}</span>}
+             </span>
+          }
 
 
           {this.state.avatudkaart === "hindamine" && this.state.kordab && <div>
             {(this.state.alasisu !== this.state.tasemetekst) ? this.ketas() : ""} <br/>
             <span>{this.renderTase()}</span></div>}
 
+          {this.state.avatudkaart === "keerukus" && this.state.kordab && this.state.keerukusvastus[0] > 0 &&
+            <div>Keerukuse andmed <br/>
+
+              <table>
+                <tbody>
+                <tr>
+                  <td>Lauseid</td>
+                  <td>&nbsp;&nbsp;</td>
+                  <td>{this.state.keerukusvastus[0]}</td>
+                </tr>
+                <tr>
+                  <td>Sõnu</td>
+                  <td>&nbsp;</td>
+                  <td>{this.state.keerukusvastus[1]}</td>
+                </tr>
+                <tr>
+                  <td>Paljusilbilisi sõnu</td>
+                  <td>&nbsp;</td>
+                  <td>{this.state.keerukusvastus[2]}</td>
+                </tr>
+                <tr>
+                  <td>Silpe</td>
+                  <td>&nbsp;</td>
+                  <td>{this.state.keerukusvastus[3]}</td>
+                </tr>
+                <tr>
+                  <td>Pikki sõnu</td>
+                  <td>&nbsp;</td>
+                  <td>{this.state.keerukusvastus[4]}</td>
+                </tr>
+                </tbody>
+              </table>
+              <br/><br/>
+              Indeksid<br/>
+              <table>
+                <tbody>
+                <tr>
+                  <td
+                    title="1,0430*√((vähemalt kolmesilbilisi sonu*30)/lausete arv)+3,1291  (McLaughlin, 1969)">SMOG
+                  </td>
+                  <td>&nbsp;</td>
+                  <td>{parseFloat(this.state.keerukusvastus[5]).toFixed(2)}</td>
+                </tr>
+                <tr>
+                  <td
+                    title="0.39 * (sõnade arv/lausete arv) + 11.8 * (silpide arv/sõnade arv) - 15.59  (Kincaid et al., 1975)">Flesch-Kincaidi
+                    indeks
+                  </td>
+                  <td>&nbsp;</td>
+                  <td>{parseFloat(this.state.keerukusvastus[6]).toFixed(2)}</td>
+                </tr>
+                <tr>
+                  <td
+                    title="sõnade arv/lausete arv + ((pikkade sõnade arv * 100)/sõnade arv)  (Björnsson, 1968)">LIX
+                  </td>
+                  <td>&nbsp;</td>
+                  <td>{this.state.keerukusvastus[7]}</td>
+                </tr>
+                </tbody>
+              </table>
+              <div style={{fontSize: "20px"}}>Pakutav keerukustase: {this.state.keerukusvastus[11]}</div>
+            </div>}
+          {this.state.avatudkaart === "mitmekesisus" && this.state.kordab && this.state.mitmekesisusvastus[10] > 0 &&
+            <div>Sõnavara mitmekesisuse andmed<br/>
+              <table>
+                <tbody>
+                <tr>
+                  <td>Sõnu</td>
+                  <td>&nbsp;&nbsp;</td>
+                  <td>{this.state.mitmekesisusvastus[10]}</td>
+                </tr>
+                <tr>
+                  <td>Lemmasid ehk erinevaid sõnu</td>
+                  <td>&nbsp;</td>
+                  <td>{this.state.mitmekesisusvastus[11]}</td>
+                </tr>
+                <tr>
+                  <td title="lemmade arv / √(2 * sõnade arv)  (Carroll, 1964)">Korrigeeritud lemmade-sõnade suhtarv -
+                    KLSS <br/>(ingl Corrected Type-Token Ratio)
+                  </td>
+                  <td>&nbsp;</td>
+                  <td>{this.state.mitmekesisusvastus[0]}</td>
+                </tr>
+                <tr>
+                  <td title="lemmade arv /  √(sõnade arv)  (Guiraud, 1960)">Juuritud lemmade-sõnade suhtarv -
+                    JLSS <br/>(ingl Root Type-Token Ratio)
+                  </td>
+                  <td>&nbsp;</td>
+                  <td>{this.state.mitmekesisusvastus[1]}</td>
+                </tr>
+                <tr>
+                  <td
+                    title="Indeks mõõdab lemmade ja sõnade suhtarvu järjestikustes tekstiosades. Algul on suhtarv 1. Iga sõna juures arvutatakse see uuesti, kuni väärtus langeb alla piirarvu 0,72. Tsükkel kordub, kuni teksti lõpus jagatakse sõnade arv selliste tsüklite arvuga. Seejärel korratakse sama, liikudes tekstis tagantpoolt ettepoole. MTLD on nende kahe teksti keskväärtus. (McCarthy &amp; Jarvis, 2010)">MTLD
+                    indeks <br/>(ingl Measure of Textual Lexical Diversity)
+                  </td>
+                  <td>&nbsp;</td>
+                  <td>{this.state.mitmekesisusvastus[4]}</td>
+                </tr>
+                <tr>
+                  <td
+                    title="Indeksi arvutamiseks leitakse iga tekstis sisalduva lemma esinemistõenäosus juhuslikus 42-sõnalises tekstiosas. Kuna kõigi võimalike tekstikatkete arv on enamasti väga suur, arvutatakse tõenäosused hüpergeomeetrilise jaotuse funktsiooni abil. Kõigi lemmade esinemistõenäosused summeeritakse. (McCarthy &amp; Jarvis, 2007)">HDD
+                    indeks <br/>(ingl Hypergeometric Distribution D)
+                  </td>
+                  <td>&nbsp;</td>
+                  <td>{this.state.mitmekesisusvastus[5]}</td>
+                </tr>
+                </tbody>
+              </table>
+              {this.state.mitmekesisusvastus[7] && this.state.mitmekesisusvastus[7] !== "0" &&
+                <div style={{fontSize: "20px"}}>Pakutav
+                  tase: {this.state.mitmekesisusvastus.slice(7, 10).filter((v, i, a) => a.indexOf(v) === i).join("/")}</div>}
+            </div>}
         </div>
       </Card>
     );

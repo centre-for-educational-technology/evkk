@@ -6,6 +6,8 @@ import org.springframework.web.client.RestOperations;
 
 import java.util.Map;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * @author Mikk Tarvas
  * Date: 30.09.2021
@@ -60,6 +62,20 @@ public class StanzaServerClient extends AbstractRestOperationsClient {
     return forEntity.getBody();
   }
 
+  public String[] getKeerukus(String tekst) {
+    Map<String, String> map = Map.of("tekst", tekst);
+    HttpEntity<?> requestEntity = new HttpEntity<>(map);
+    ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/keerukus", requestEntity, String[].class));
+    return forEntity.getBody();
+  }
+
+  public String[] getMitmekesisus(String tekst) {
+    Map<String, String> map = Map.of("tekst", tekst);
+    HttpEntity<?> requestEntity = new HttpEntity<>(map);
+    ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/mitmekesisus", requestEntity, String[].class));
+    return forEntity.getBody();
+  }
+
   public String[][] getKeeletase(String tekst) {
     Map<String, String> map = Map.of("tekst", tekst);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
@@ -70,19 +86,15 @@ public class StanzaServerClient extends AbstractRestOperationsClient {
   public String getStanzaConllu(String tekst, String failinimi, String keel) {
     Map<String, String> map = Map.of("tekst", tekst, "failinimi", failinimi, "keel", keel);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
-   ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/stanzaconllu", requestEntity, String[].class));
-    return forEntity.getBody()[0];
+    ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/stanzaconllu", requestEntity, String[].class));
+    return requireNonNull(forEntity.getBody())[0];
   }
 
   public String[] getTahedSonadLaused(String tekst, String keel) {
     Map<String, String> map = Map.of("tekst", tekst, "keel", keel);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
-   ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/tahedsonadlaused", requestEntity, String[].class));
+    ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/tahedsonadlaused", requestEntity, String[].class));
     return forEntity.getBody();
-  }
-
-  public String getTervitus(){
-    return retry().execute(context -> rest.getForEntity("/tervitus", String.class)).getBody();
   }
 
 }
