@@ -12,6 +12,7 @@ import Grants from "./elle/components/Grants";
 import ClusterFinder from "./elle/tools/ClusterFinder";
 import WordAnalyserParent from "./elle/tools/wordanalyser/WordAnalyserParent";
 import SingleLink from "./elle/components/SingleLink";
+import BreadcrumbLinks from "./elle/components/BreadcrumbLinks";
 
 class AppRoutes extends Component {
 
@@ -34,6 +35,7 @@ class AppRoutes extends Component {
       }}
                  disableGutters
                  maxWidth={false}>
+        <BreadcrumbLinks/>
         <Routes>
           <Route exact
                  path='/'

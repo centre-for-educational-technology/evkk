@@ -1,6 +1,5 @@
 import React from "react";
 import {Box, styled, Typography} from "@mui/material";
-import HomeIcon from '@mui/icons-material/Home';
 import {Link, Outlet} from 'react-router-dom';
 import {TreeItem, TreeView} from "@mui/lab";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -48,17 +47,9 @@ function Contacts() {
       paddingBottom: "100px"
 
     }}>
-      <Box display={"flex"}
-           width={"80vw"}
-           paddingBottom={"5px"}
-           height={"50px"}
-           paddingLeft={"20px"}
-           alignItems={"flex-end"}
-           sx={{wordSpacing: "20px"}}><HomeIcon sx={{marginRight: "20px"}}/> / Keskkonnast</Box>
       <Box sx={{
         display: "flex",
         backgroundColor: "white",
-        marginTop: "3vh",
         width: "80vw",
         height: "auto",
       }}>

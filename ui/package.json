@@ -30,6 +30,7 @@
     "react-table": "^7.8.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "use-react-router-breadcrumbs": "^4.0.1",
     "uuid": "^9.0.0"
   },
   "scripts": {

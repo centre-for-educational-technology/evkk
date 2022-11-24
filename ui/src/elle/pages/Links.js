@@ -1,5 +1,4 @@
 import {Box, styled, Typography} from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
 import React from "react";
 import {TreeItem, TreeView} from "@mui/lab";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -22,7 +21,6 @@ function Links() {
     }
   };
 
-
   const MenuLink = styled(HashLink)({
     fontWeight: 600,
     fontSize: 16,
@@ -41,7 +39,6 @@ function Links() {
 
   return (
     <Box sx={{
-
       backgroundColor: "#FFFBFE",
       height: "auto",
       display: "flex",
@@ -49,19 +46,10 @@ function Links() {
       justifyContent: "center",
       flexDirection: "column",
       paddingBottom: "100px"
-
     }}>
-      <Box display={"flex"}
-           width={"80vw"}
-           paddingBottom={"5px"}
-           height={"50px"}
-           paddingLeft={"20px"}
-           alignItems={"flex-end"}
-           sx={{wordSpacing: "20px"}}><HomeIcon sx={{marginRight: "20px"}}/> / Lingikogud</Box>
       <Box sx={{
         display: "flex",
         backgroundColor: "white",
-        marginTop: "3vh",
         width: "80vw",
         height: "auto"
       }}>
