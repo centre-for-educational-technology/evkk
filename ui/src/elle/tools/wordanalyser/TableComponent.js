@@ -6,7 +6,7 @@ import {TabContext} from "./Contexts";
 function TableComponent() {
 
   const {t} = useTranslation();
-  const [tabValue, setTabValue] = useContext(TabContext)
+  const setTabValue = useContext(TabContext)[1]
 
   function a11yProps(index) {
     return {

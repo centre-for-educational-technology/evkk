@@ -12,7 +12,7 @@ import ToggleCell from "./ToggleCell";
 
 function Syllables() {
 
-  const [analyse, setAnalyse] = useContext(AnalyseContext);
+  const analyse = useContext(AnalyseContext)[0];
   const setSyllable = useContext(SetSyllableContext);
   const setSyllableWord = useContext(SetSyllableWordContext);
   const data = analyse.syllables;
@@ -40,7 +40,7 @@ function Syllables() {
           let syllableLocation = "algus";
           tempSyllables.push(baseSyllables[i][y], syllableLocation, data[i], words[i]);
         } else if (y === baseSyllables[i].length - 1) {
-          let syllableLocation = "lõpp";
+          let syllableLocation = "l6pp";
           tempSyllables.push(baseSyllables[i][y], syllableLocation, data[i], words[i]);
         } else {
           let syllableLocation = "keskmine";
@@ -65,7 +65,7 @@ function Syllables() {
         listCounter[0] = listCounter[0] + 1;
       } else if (syllables[i][1] === 'keskmine') {
         listCounter[1] = listCounter[1] + 1;
-      } else if (syllables[i][1] === 'lõpp') {
+      } else if (syllables[i][1] === 'l6pp') {
         listCounter[2] = listCounter[2] + 1;
       }
 
@@ -98,7 +98,7 @@ function Syllables() {
             listCounter[0] = listCounter[0] + 1;
           } else if (syllables[i + 1][1] === 'keskmine') {
             listCounter[1] = listCounter[1] + 1;
-          } else if (syllables[i + 1][1] === 'lõpp') {
+          } else if (syllables[i + 1][1] === 'l6pp') {
             listCounter[2] = listCounter[2] + 1;
           }
           // this assignment is necessary
@@ -179,7 +179,7 @@ function Syllables() {
       return {
         "silp": <span className="word"
                       onClick={(e) => setSyllable(e.target.textContent)}>{row[0]}</span>,
-        "algus": row[1], "keskel": row[2], "lõpp": row[3], "sagedus": row[1] + row[2] + row[3],
+        "algus": row[1], "keskel": row[2], "l6pp": row[3], "sagedus": row[1] + row[2] + row[3],
         "sonadtekstis": syllableWords(),
         "osakaal": ((row[1] + row[2] + row[3]) * 100 / syllables.length).toFixed(2),
       }
@@ -192,8 +192,8 @@ function Syllables() {
       if (element.keskel === 0) {
         delete element.keskel;
       }
-      if (element["lõpp"] === 0) {
-        delete element["lõpp"];
+      if (element["l6pp"] === 0) {
+        delete element["l6pp"];
       }
     }
     setInfolistNew(infoList);
@@ -217,8 +217,8 @@ function Syllables() {
         if (el.keskel) {
           display += `${t("syllables_middle")} (${el.keskel}), `;
         }
-        if (el.lõpp) {
-          display += `${t("syllables_end")} (${el.lõpp}), `;
+        if (el.l6pp) {
+          display += `${t("syllables_end")} (${el.l6pp}), `;
         }
         display = display.slice(0, -2);
         return display;

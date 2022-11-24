@@ -12,7 +12,7 @@ import ToggleCell from "./ToggleCell";
 
 function LemmaView() {
 
-  const [analyse, setAnalyse] = useContext(AnalyseContext);
+  const analyse = useContext(AnalyseContext)[0];
   const setWord = useContext(SetWordContext);
   const setLemma = useContext(SetLemmaContext);
   const lemmad = analyse.lemmas;

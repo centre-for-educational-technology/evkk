@@ -14,9 +14,9 @@ export const Input = ({onInsert, onMarkWords, onWordSelect, onWordInfo, onReset,
   const [showAlert, setShowAlert] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
   const [textTooLong, setTextTooLong] = useState(false);
-  const [analyse, setAnalyse] = useContext(AnalyseContext);
+  const analyse = useContext(AnalyseContext)[0];
   const {t} = useTranslation();
-  const [tableValue, setTableValue] = useContext(TabContext);
+  const setTableValue = useContext(TabContext)[1];
 
   const onSubmit = (e) => {
     e.preventDefault();
