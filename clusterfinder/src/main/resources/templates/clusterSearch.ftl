@@ -157,7 +157,8 @@
                 id="userText"></textarea>
     </div>
     <div id="fileText"
-         class="custom-file w-separation">
+         class="custom-file w-separation"
+         style="z-index: 0">
       <input type="file"
              class="custom-file-input"
              id="userFile">
@@ -188,6 +189,7 @@
         labelKey="morfological.analysis.label"
         tooltipKey="morfological.analysis.tooltip" /]
     </div>
+    <h5>[@translations.retrieveTranslation "common.punctuation.header" /]</h5>
     <div class="form-check">
         [@input.createCheckboxWithTooltip
         id="punctuationAnalysis"
@@ -197,13 +199,10 @@
     </div>
 
     <!-- Sorting checkboxes -->
-    <h5>[@translations.retrieveTranslation "common.sorting.header" /]</h5>
-    <div class="form-check">
-        [@input.createCheckbox id="sortByFreq" name="sorting" labelKey="sorting.by.frequency" value="freq" /]
-    </div>
+
     <div class="form-check hidden"
          data-word-sort="1">
-      <h5>[@translations.retrieveTranslation "common.sorting.header" /]</h5>
+      <h5 style="margin-left: -20px">[@translations.retrieveTranslation "common.sorting.header" /]</h5>
         [@input.createCheckbox id="sortByFirstWord" name="sorting" labelKey="sorting.by.first.word" value="fwrd" /]
     </div>
     <div class="form-check hidden"
@@ -405,6 +404,7 @@
 
       // Sorting by frequency should be checked by default
       $("#sortByFreq").prop("checked", true).change();
+      $("#wordtypeAnalysis").prop("checked", true);
     },
 
     handleComponentSortingSelection: function () {
