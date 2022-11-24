@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 import {MasinoppeEnnustus, MinitornPikkus} from "./views/tools";
 import Correction from "./elle/tools/correction/Correction.component";
 import Tools from "./elle/pages/Tools";
@@ -43,7 +43,8 @@ class AppRoutes extends Component {
           <Route path="/about"
                  element={<Contacts/>}>
             <Route index
-                   element={<FilledContacts/>}/>
+                   element={<Navigate to="people"
+                                      replace/>}/>
             <Route path="people"
                    element={<FilledContacts/>}/>
             <Route path="grants"
