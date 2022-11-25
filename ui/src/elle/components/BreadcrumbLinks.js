@@ -9,6 +9,7 @@ const breadcrumbNameMap = {
   '/links': 'Lingikogud',
   '/tools': 'Tekstid & tööriistad',
   '/about': 'Keskkonnast',
+  '/about/us': "Meist",
   '/about/people': 'Töötajad',
   '/about/grants': 'Grandid',
   '/tools/clusterfinder': 'Mustrid',

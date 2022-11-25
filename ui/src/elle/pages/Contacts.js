@@ -77,18 +77,25 @@ function Contacts() {
               <TreeItem nodeId={"1"}
                         label={<Typography fontSize={"1rem"}
                                            marginTop={"10px"}>
-                          <MenuLink to="people">Töötajad</MenuLink>
+                          <MenuLink to="us">Meist</MenuLink>
                         </Typography>}>
 
               </TreeItem>
               <TreeItem nodeId={"2"}
                         label={<Typography fontSize={"1rem"}
                                            marginTop={"10px"}>
-                          <MenuLink to="grants">Grandid</MenuLink>
+                          <MenuLink to="people">Töötajad</MenuLink>
                         </Typography>}>
 
               </TreeItem>
               <TreeItem nodeId={"3"}
+                        label={<Typography fontSize={"1rem"}
+                                           marginTop={"10px"}>
+                          <MenuLink to="grants">Grandid</MenuLink>
+                        </Typography>}>
+
+              </TreeItem>
+              <TreeItem nodeId={"4"}
                         label={<Typography style={{
                           fontWeight: 600,
                           fontSize: 16,
@@ -105,21 +112,21 @@ function Contacts() {
                           },
                         }}
                                            marginTop={"10px"}>Üllitised</Typography>}>
-                <TreeItem nodeId={"4"}
+                <TreeItem nodeId={"5"}
                           label={<Typography fontSize={"1rem"}
                                              marginTop={"10px"}>
                             <MenuLink to="grants">Lõputööd</MenuLink>
                           </Typography>}>
 
                 </TreeItem>
-                <TreeItem nodeId={"5"}
+                <TreeItem nodeId={"6"}
                           label={<Typography fontSize={"1rem"}
                                              marginTop={"10px"}>
                             <MenuLink to="grants">Konverentsid ja töötoad</MenuLink>
                           </Typography>}>
 
                 </TreeItem>
-                <TreeItem nodeId={"6"}
+                <TreeItem nodeId={"7"}
                           label={<Typography fontSize={"1rem"}
                                              marginTop={"10px"}>
                             <MenuLink to="grants">Publikatsioonid</MenuLink>

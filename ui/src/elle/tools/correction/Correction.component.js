@@ -454,7 +454,7 @@ class Correction extends Component {
           <br/>
           <br/>
           {this.state.avatudkaart === "korrektuur" && this.state.kordab && this.state.paringlopetatud &&
-          this.state.muutuskood.props.children == "puuduvad" ?
+          this.state.muutuskood.props.children === "puuduvad" ?
             <span>
                  <div style={{'float': 'left', 'margin': '10px', 'width': '50%'}}>
                    <h3>Kõik on õige</h3>

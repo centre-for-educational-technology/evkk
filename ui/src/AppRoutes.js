@@ -13,6 +13,7 @@ import ClusterFinder from "./elle/tools/ClusterFinder";
 import WordAnalyserParent from "./elle/tools/wordanalyser/WordAnalyserParent";
 import SingleLink from "./elle/components/SingleLink";
 import BreadcrumbLinks from "./elle/components/BreadcrumbLinks";
+import AboutUs from "./elle/components/AboutUs";
 
 class AppRoutes extends Component {
 
@@ -43,8 +44,10 @@ class AppRoutes extends Component {
           <Route path="/about"
                  element={<Contacts/>}>
             <Route index
-                   element={<Navigate to="people"
+                   element={<Navigate to="us"
                                       replace/>}/>
+            <Route path="us"
+                   element={<AboutUs/>}/>
             <Route path="people"
                    element={<FilledContacts/>}/>
             <Route path="grants"
