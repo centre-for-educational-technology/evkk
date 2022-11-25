@@ -63,16 +63,19 @@ class Correction extends Component {
   }
 
   alaMuutus(event) {
-    this.setState({alasisu: event.target.value});
+    this.setState({alasisu: event.target.value}, function () {
+      this.keepHistory();
+    });
     this.kysi3();
-    this.keepHistory();
   }
 
   asenda(algus, sisu, vahetus) {
     this.margi(algus, sisu);
     let uus = this.state.alasisu.substring(0, this.ala1.selectionStart) + vahetus +
       this.state.alasisu.substring(this.ala1.selectionEnd);
-    this.setState({alasisu: uus});
+    this.setState({alasisu: uus}, function () {
+      this.keepHistory();
+    });
   }
 
   margi(algus, sisu, puhastab = false) {
@@ -326,8 +329,9 @@ class Correction extends Component {
 
   //upload text to alasisu
   sendTextFromFile(data) {
-    this.setState({alasisu: data})
-    this.keepHistory()
+    this.setState({alasisu: data}, function () {
+      this.keepHistory();
+    });
   }
 
   //history for undo and redo
@@ -450,7 +454,7 @@ class Correction extends Component {
           <br/>
           <br/>
           {this.state.avatudkaart === "korrektuur" && this.state.kordab && this.state.paringlopetatud &&
-          this.state.muutuskood.props.children === "puuduvad" ?
+          this.state.muutuskood.props.children == "puuduvad" ?
             <span>
                  <div style={{'float': 'left', 'margin': '10px', 'width': '50%'}}>
                    <h3>Kõik on õige</h3>
