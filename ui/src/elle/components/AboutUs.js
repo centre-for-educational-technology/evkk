@@ -27,7 +27,8 @@ function AboutUs() {
           Kõik EVKK ressursid ei ole veel ELLE-sse üle kantud. Korpuse vana lehekülge on võimalik
           külastada <Link to="../../vers1/">siin</Link>. ELLE arendusega saab ennast kurssi viia
           meie <a href="https://github.com/centre-for-educational-technology/evkk/wiki"
-                  target="_blank">Wikis</a>.<br/><br/>
+                  target="_blank"
+                  rel="noopener noreferrer">Wikis</a>.<br/><br/>
         </Typography>
       </Box>
     </Box>
