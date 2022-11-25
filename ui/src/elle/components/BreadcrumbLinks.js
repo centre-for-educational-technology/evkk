@@ -12,6 +12,7 @@ const breadcrumbNameMap = {
   '/about/us': "Meist",
   '/about/people': 'Töötajad',
   '/about/grants': 'Grandid',
+  '/about/publications': 'Üllitised',
   '/tools/clusterfinder': 'Mustrid',
   '/tools/wordanalyser': 'Sõnaanalüüs',
 };
@@ -41,12 +42,14 @@ export default function BreadcrumbLinks() {
               return index === 0 ? (
                 <MenuLink to="/"
                           key={value.key}
+                          style={{paddingRight: '15px'}}
                           component={RouterLink}>
                   <HomeIcon/>
                 </MenuLink>
               ) : (
                 <MenuLink to={value.key}
                           key={value.key}
+                          style={{paddingRight: '15px', paddingLeft: '15px'}}
                           component={RouterLink}>
                   {breadcrumbNameMap[value.key]}
                 </MenuLink>

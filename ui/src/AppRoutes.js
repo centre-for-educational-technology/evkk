@@ -11,15 +11,15 @@ import FilledContacts from "./elle/components/FilledContacts";
 import Grants from "./elle/components/Grants";
 import ClusterFinder from "./elle/tools/ClusterFinder";
 import WordAnalyserParent from "./elle/tools/wordanalyser/WordAnalyserParent";
-import SingleLink from "./elle/components/SingleLink";
 import BreadcrumbLinks from "./elle/components/BreadcrumbLinks";
 import AboutUs from "./elle/components/AboutUs";
+import Publications from "./elle/components/Publications";
 
 class AppRoutes extends Component {
 
   render404 = () => {
     return (
-      <div className={'text-center'}>
+      <div className={'text-center pb-4'}>
         <p className={"lead"}>404: lehte ei leitud</p>
       </div>
     );
@@ -32,7 +32,8 @@ class AppRoutes extends Component {
         marginBottom: '20px',
         width: '80vw',
         boxShadow: "0px 0px 20px -5px #CCA8FD",
-        marginTop: '20px'
+        marginTop: '20px',
+        backgroundColor: 'white'
       }}
                  disableGutters
                  maxWidth={false}>
@@ -52,8 +53,8 @@ class AppRoutes extends Component {
                    element={<FilledContacts/>}/>
             <Route path="grants"
                    element={<Grants/>}/>
-            <Route path="works"
-                   element={<SingleLink/>}/>
+            <Route path="publications"
+                   element={<Publications/>}/>
           </Route>
           <Route path="/tools/minitorn-pikkus"
                  element={<MinitornPikkus/>}/>
@@ -70,7 +71,8 @@ class AppRoutes extends Component {
           </Route>
           <Route path="/links"
                  element={<Links/>}/>
-          <Route element={() => this.render404()}/>
+          <Route path="*"
+                 element={this.render404()}/>
         </Routes>
       </Container>
     );

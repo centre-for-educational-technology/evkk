@@ -215,7 +215,7 @@ class Correction extends Component {
           sisukohad[i] = sisutekst.length;
         }
       }
-      this.setState({"muutuskood": <div>{muutused.length > 0 ? muutused : "Parandused puuduvad!"}</div>})
+      this.setState({"muutuskood": <div>{muutused.length > 0 ? muutused : "puuduvad"}</div>})
       this.setState({"vastuskood": <div>{vastustekst}<br/><br/><br/><br/><br/><br/></div>})
       this.setState({"taustakood": <div>{taustatekst}</div>}, () => {
         this.kerimine()

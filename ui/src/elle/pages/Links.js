@@ -39,7 +39,6 @@ function Links() {
 
   return (
     <Box sx={{
-      backgroundColor: "#FFFBFE",
       height: "auto",
       display: "flex",
       alignItems: "center",
