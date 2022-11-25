@@ -111,25 +111,30 @@ function Contacts() {
                             textDecoration: "none",
                           },
                         }}
-                                           marginTop={"10px"}>Üllitised</Typography>}>
+                                           marginTop={"10px"}>
+                          <MenuLink to="publications">Üllitised</MenuLink>
+                        </Typography>}>
                 <TreeItem nodeId={"5"}
                           label={<Typography fontSize={"1rem"}
                                              marginTop={"10px"}>
-                            <MenuLink to="grants">Lõputööd</MenuLink>
+                            <MenuLink to="publications#lõputööd"
+                                      smooth>Lõputööd</MenuLink>
                           </Typography>}>
 
                 </TreeItem>
                 <TreeItem nodeId={"6"}
                           label={<Typography fontSize={"1rem"}
                                              marginTop={"10px"}>
-                            <MenuLink to="grants">Konverentsid ja töötoad</MenuLink>
+                            <MenuLink to="publications#konverentsid"
+                                      smooth>Konverentsid ja töötoad</MenuLink>
                           </Typography>}>
 
                 </TreeItem>
                 <TreeItem nodeId={"7"}
                           label={<Typography fontSize={"1rem"}
                                              marginTop={"10px"}>
-                            <MenuLink to="grants">Publikatsioonid</MenuLink>
+                            <MenuLink to="publications#publikatsioonid"
+                                      smooth>Publikatsioonid</MenuLink>
                           </Typography>}>
 
                 </TreeItem>

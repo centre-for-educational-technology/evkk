@@ -119,7 +119,10 @@ function Links() {
                             textDecoration: "none",
                           },
                         }}
-                                           marginTop={"10px"}>Eestikeelsed tekstid</Typography>}>
+                                           marginTop={"10px"}>
+                          <MenuLink to="#eestikeelsed"
+                                    smooth>Eestikeelsed tekstid</MenuLink>
+                        </Typography>}>
                 <TreeItem nodeId={"5"}
                           label={<Typography
                             marginTop={"10px"}>
@@ -164,7 +167,10 @@ function Links() {
                             textDecoration: "none",
                           },
                         }}
-                                           marginTop={"10px"}>Audiovisuaalne meedia</Typography>}>
+                                           marginTop={"10px"}>
+                          <MenuLink to="#audiovisuaalne"
+                                    smooth>Audiovisuaalne meedia</MenuLink>
+                        </Typography>}>
                 <TreeItem nodeId={"9"}
                           label={<Typography
                             marginTop={"10px"}>
@@ -200,7 +206,10 @@ function Links() {
                             textDecoration: "none",
                           },
                         }}
-                                           marginTop={"10px"}>Keeleõppevara</Typography>}>
+                                           marginTop={"10px"}>
+                          <MenuLink to="#keeleõppevara"
+                                    smooth>Keeleõppevara</MenuLink>
+                        </Typography>}>
                 <TreeItem nodeId={"12"}
                           label={<Typography
                             marginTop={"10px"}>
@@ -236,7 +245,11 @@ function Links() {
                             textDecoration: "none",
                           },
                         }}
-                                           marginTop={"10px"}>Keeleõppekeskkonnad ja kursused</Typography>}>
+                                           marginTop={"10px"}>
+                          <MenuLink to="#keskkonnadkursused"
+                                    smooth>Keeleõppekeskkonnad ja kursused</MenuLink>
+                        </Typography>
+                        }>
                 <TreeItem nodeId={"15"}
                           label={<Typography
                             marginTop={"10px"}>
