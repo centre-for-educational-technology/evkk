@@ -66,7 +66,7 @@ function Contacts() {
                       defaultCollapseIcon={<ExpandMoreIcon style={{paddingTop: '12px', fontSize: '2rem'}}/>}
                       defaultExpandIcon={<ChevronRightIcon style={{paddingTop: '12px', fontSize: '2rem'}}/>}
                       sx={{
-                        height: 240, flexGrow: 1, maxWidth: 400, overflowY: 'auto', ".MuiTreeItem-root": {
+                        height: 280, flexGrow: 1, maxWidth: 400, overflowY: 'auto', ".MuiTreeItem-root": {
                           "	.MuiTreeItem-content:hover": classes.hover,
                           ".Mui-focused:not(.Mui-selected)": classes.focused,
                           ".Mui-selected, .Mui-focused.Mui-selected, .Mui-selected:hover":
@@ -76,21 +76,27 @@ function Contacts() {
               <TreeItem nodeId={"1"}
                         label={<Typography fontSize={"1rem"}
                                            marginTop={"10px"}>
-                          <MenuLink to="us">Meist</MenuLink>
+                          <MenuLink to="us"
+                                    key={"1"}
+                                    onClick={() => window.scrollTo(0, 0)}>Meist</MenuLink>
                         </Typography>}>
 
               </TreeItem>
               <TreeItem nodeId={"2"}
                         label={<Typography fontSize={"1rem"}
                                            marginTop={"10px"}>
-                          <MenuLink to="people">Töötajad</MenuLink>
+                          <MenuLink to="people"
+                                    key={"2"}
+                                    onClick={() => window.scrollTo(0, 0)}>Töötajad</MenuLink>
                         </Typography>}>
 
               </TreeItem>
               <TreeItem nodeId={"3"}
                         label={<Typography fontSize={"1rem"}
                                            marginTop={"10px"}>
-                          <MenuLink to="grants">Grandid</MenuLink>
+                          <MenuLink to="grants"
+                                    key={"3"}
+                                    onClick={() => window.scrollTo(0, 0)}>Grandid</MenuLink>
                         </Typography>}>
 
               </TreeItem>
@@ -111,29 +117,28 @@ function Contacts() {
                           },
                         }}
                                            marginTop={"10px"}>
-                          <MenuLink to="publications">Üllitised</MenuLink>
+                          <MenuLink to="publications"
+                                    key={"4"}
+                                    onClick={() => window.scrollTo(0, 0)}>Üllitised</MenuLink>
                         </Typography>}>
                 <TreeItem nodeId={"5"}
                           label={<Typography fontSize={"1rem"}
                                              marginTop={"10px"}>
-                            <MenuLink to="publications#lõputööd"
-                                      smooth>Lõputööd</MenuLink>
+                            <MenuLink to="publications#loputood">Lõputööd</MenuLink>
                           </Typography>}>
 
                 </TreeItem>
                 <TreeItem nodeId={"6"}
                           label={<Typography fontSize={"1rem"}
                                              marginTop={"10px"}>
-                            <MenuLink to="publications#konverentsid"
-                                      smooth>Konverentsid ja töötoad</MenuLink>
+                            <MenuLink to="publications#konverentsid">Konverentsid ja töötoad</MenuLink>
                           </Typography>}>
 
                 </TreeItem>
                 <TreeItem nodeId={"7"}
                           label={<Typography fontSize={"1rem"}
                                              marginTop={"10px"}>
-                            <MenuLink to="publications#publikatsioonid"
-                                      smooth>Publikatsioonid</MenuLink>
+                            <MenuLink to="publications#publikatsioonid">Publikatsioonid</MenuLink>
                           </Typography>}>
 
                 </TreeItem>

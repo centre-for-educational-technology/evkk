@@ -29,8 +29,40 @@ const MenuLink = styled(Link)({
 
 export default function BreadcrumbLinks() {
   const breadcrumbs = useBreadcrumbs();
+  let noMatch = false;
 
   if (breadcrumbs.length > 1) {
+    const allButHome = breadcrumbs.slice(1);
+    allButHome.forEach((path) => {
+      if (breadcrumbNameMap[path.key] === undefined) {
+        noMatch = true;
+      }
+    });
+  }
+
+  if (noMatch) {
+    return (
+      <React.Fragment>
+        <Box display={"flex"}
+             width={"80vw"}
+             padding={"25px"}
+             alignItems={"flex-end"}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <MenuLink to="/"
+                      key="/"
+                      style={{paddingRight: '15px'}}
+                      component={RouterLink}>
+              <HomeIcon/>
+            </MenuLink>
+            <MenuLink style={{paddingRight: '15px', paddingLeft: '15px'}}
+                      component={RouterLink}>
+              Lehte ei leitud
+            </MenuLink>
+          </Breadcrumbs>
+        </Box>
+      </React.Fragment>
+    )
+  } else if (breadcrumbs.length > 1) {
     return (
       <React.Fragment>
         <Box display={"flex"}
