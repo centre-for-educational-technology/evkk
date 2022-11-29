@@ -18,7 +18,6 @@ function TextUpload(props) {
 
   function fileUpload() {
     let oData = new FormData(formDataElement.current);
-    console.log(formDataElement.current)
     const request_test = {
       method: "POST",
       body: oData
@@ -42,7 +41,6 @@ function TextUpload(props) {
     b.appendChild(fileNameDataContent);
     div.appendChild(b);
     div.appendChild(br);
-    console.log(text1Element.current.files)
 
     let file_length = text1Element.current.files.length;
     for (let i = 0; i < file_length; i++) {
@@ -53,7 +51,6 @@ function TextUpload(props) {
     }
 
     fileNameElement.current.appendChild(div);
-    console.log(fileNameElement.current)
   }
 
   return (

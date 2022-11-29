@@ -36,7 +36,7 @@
           referrerpolicy="no-referrer"></script>
   <script defer>
     function handleChange(input) {
-      document.getElementById("file_name").innerHTML = input.files[0].name
+      document.getElementById("file_name").textContent = input.files[0].name
     }
   </script>
 
@@ -691,10 +691,8 @@
           contentType: false,
           cache: false,
           success: function (data) {
-            var regex = new RegExp("[^a-zA-ZõäöüÕÄÖÜ;:,.!?'/&()=@–-]", "gi");
-            allFormatText = data.replace(/\\n/g, ' ').replaceAll('"', "'").replaceAll(regex, " ");
-            localStorage.setItem("sonad", allFormatText.replaceAll("'", "").replace(/ +/g, " "));
-            localStorage.setItem("paritolu", "FILEUPLOAD");
+            let regex = new RegExp("[^a-zA-ZõäöüÕÄÖÜ;:,.!?'/&()=@–-]", "gi");
+            let allFormatText = data.replace(/\\n/g, ' ').replaceAll('"', "'").replaceAll(regex, " ");
             $.ajax({
               type: "POST",
               url: "http://localhost:3000/api/texts/laused",
@@ -702,8 +700,6 @@
               contentType: "application/json; charset=utf-8",
               data: '{"tekst": "' + allFormatText + '"}',
               success: function (data) {
-                localStorage.setItem("laused", JSON.stringify(data));
-                console.log(JSON.stringify(data))
                 let str = JSON.stringify(data[0][0])
                 str = str.replace(/^"(.*)"$/, '$1');
                 document.getElementById("userText").value = str;
