@@ -1,4 +1,4 @@
-import React, {Fragment, useContext, useEffect, useMemo, useState} from 'react';
+import {useContext, useMemo, useState} from 'react';
 import {useFilters, usePagination, useSortBy, useTable} from 'react-table';
 import {Box, Checkbox, FormControl, IconButton, ListItemText, MenuItem, Select} from "@mui/material";
 import DownloadButton from "./DownloadButton";
@@ -12,110 +12,85 @@ import {AnalyseContext, SetFormContext, SetTypeContext, SetWordContext} from "./
 import ToggleCell from "./ToggleCell";
 
 function GrammaticalAnalysis() {
-  const [sonaliik, setSonaliik] = useState('');
-  const [sonad, setSonad] = useState('');
-  const [vormiliik, setVormiliik] = useState('');
   const {t} = useTranslation();
   const setType = useContext(SetTypeContext);
   const setForm = useContext(SetFormContext);
   const setWord = useContext(SetWordContext);
-  const analyse = useContext(AnalyseContext)[0];
+  const analysedInput = useContext(AnalyseContext)[0];
 
-  useEffect(() => {
-    setSonaliik(analyse.wordtypes);
-    setSonad(analyse.words);
-    setVormiliik(analyse.wordforms);
-  }, [analyse]);
+  let wordArray = []
+  const types = analysedInput.wordtypes
+  const forms = analysedInput.wordforms
+  const words = analysedInput.words
+  const ids = analysedInput.ids
 
-  let sonaList = new Map();
-  let sonaList2 = new Map();
-  let numbrid = new Map();
-  let vormiList = new Map();
-  let tableVal = [];
+  const analyseInput = () => {
+    for (let i = 0; i < words.length; i++) {
+      let typeIndex = wordArray.findIndex(
+        element => element.type === types[i] && element.form === forms[i]
+      );
+      //kui ei ole sama sõnaliigi ja -tüübiga objekti
+      if (typeIndex === -1) {
+        let content = {
+          type: types[i],
+          form: forms[i],
+          words: [{
+            word: words[i],
+            ids: [ids[i]]
+          }],
+          count: 1
+        }
+        wordArray.push(content)
+      } else {
+        let wordIndex = wordArray[typeIndex].words.findIndex(element => element.word === words[i])
+        if (wordIndex === -1) {
+          let newWord = {
+            word: words[i],
+            ids: [ids[i]],
+          }
+          wordArray[typeIndex].words.push(newWord)
+          wordArray[typeIndex].count += 1
+        } else {
+          wordArray[typeIndex].count += 1
+          wordArray[typeIndex].words[wordIndex].ids.push(ids[i])
+        }
+      }
+    }
+    //liigi ja tüübi sortimine
+    wordArray.sort((a, b) => (a.count === b.count) ? ((a.type > b.type) ? -1 : 1) : ((a.count > b.count) ? -1 : 1))
+    //sõnade sortimine
+    for (const element of wordArray) {
+      element.words.sort((a, b) => (a.ids.length === b.ids.length) ? ((a.word < b.word) ? -1 : 1) : ((a.ids.length > b.ids.length) ? -1 : 1))
+    }
+  }
+
+  analyseInput()
+
   const tableToDownload = [t("common_wordtype"), t("common_form"), t("common_words_in_text"), t("common_header_frequency"), t("common_header_percentage")];
 
-  const sonuSonaliigis = () => {
-    for (let i = 0; i < sonaliik.length; i++) {
-      if (!sonaList.has(sonaliik[i])) {
-        sonaList.set(sonaliik[i], []);
-        sonaList.get(sonaliik[i]).push(sonad[i]);
-        numbrid.set(sonad[i], 1);
-      } else if (sonaList.has(sonaliik[i])) {
-        if (sonaList.get(sonaliik[i]).includes(sonad[i])) {
-          numbrid.set(sonad[i], (numbrid.get(sonad[i]) + 1));
-        } else {
-          sonaList.get(sonaliik[i]).push(sonad[i]);
-          numbrid.set(sonad[i], 1);
-        }
-      }
-    }
-  }
-
-  const sonuSonavormis = () => {
-    for (let i = 0; i < sonad.length; i++) {
-      if (!sonaList2.has(vormiliik[i])) {
-        sonaList2.set(vormiliik[i], []);
-        sonaList2.get(vormiliik[i]).push(sonad[i]);
-      } else if (sonaList2.has(vormiliik[i])) {
-        if (!(sonaList2.get(vormiliik[i]).includes(sonad[i]))) {
-          sonaList2.get(vormiliik[i]).push(sonad[i]);
-        }
-      }
-    }
-  }
-
-  const sonaVormeSonaliigis = () => {
-    for (let i = 0; i < vormiliik.length; i++) {
-      if (!vormiList.has(sonaliik[i])) {
-        vormiList.set(sonaliik[i], []);
-        vormiList.get(sonaliik[i]).push(vormiliik[i]);
-      } else if (vormiList.has(sonaliik[i])) {
-        if (!(vormiList.get(sonaliik[i]).includes(vormiliik[i]))) {
-          vormiList.get(sonaliik[i]).push(vormiliik[i]);
-        }
-      }
-    }
-  }
-
-  sonuSonaliigis();
-  sonuSonavormis();
-  sonaVormeSonaliigis();
-
-  const mapSort3 = new Map([...numbrid.entries()].sort());
-  const mapSort2 = new Map([...mapSort3.entries()].sort((a, b) => b[1] - a[1]));
-
   function fillData() {
-    for (let i = 0; i < vormiList.size; i++) {
-      const ajutineList2 = sonaList.get(Array.from(sonaList.keys())[i]);
-      const ajutineList3 = vormiList.get(Array.from(vormiList.keys())[i]);
-      let valueAjutine;
-      for (let k = 0; k < sonaList2.size; k++) {
-        const ajutineColvorm = Array.from(sonaList2.keys())[k];
-        if (ajutineList3.includes(ajutineColvorm)) {
-          let info = {
-            col1: "",
-            col2: "",
-            col3: [[], []],
-            col4: 0,
-            col5: 0,
-          }
-          info.col1 = Array.from(vormiList.keys())[i];
-          const iterator1 = mapSort2.keys();
-          info.col2 = Array.from(sonaList2.keys())[k];
-          const ajutineList = sonaList2.get(Array.from(sonaList2.keys())[k]);
-          for (let j = 0; j < mapSort2.size; j++) {
-            valueAjutine = iterator1.next().value;
-            if (ajutineList.includes(valueAjutine) && ajutineList2.includes(valueAjutine)) {
-              info.col3[0].push(String(valueAjutine));
-              info.col3[1].push("(" + String(numbrid.get(valueAjutine)) + "), ");
-              info.col4 = parseInt(info.col4) + parseInt(numbrid.get(String(valueAjutine)));
-            }
-          }
-          info.col3[1][info.col3[1].length - 1] = info.col3[1][info.col3[1].length - 1].slice(0, -2);
-          info.col5 = (info.col4 * 100 / sonad.length).toFixed(1);
-          tableVal.push(info);
-        }
+    let tableVal = [];
+
+    for (const element of wordArray) {
+      let info = {
+        col1: "",
+        col2: "",
+        col3: [[], [], [], []],
+        col4: 0,
+        col5: 0,
       }
+      info.col1 = element.type
+      info.col2 = element.form
+      for (let value of element.words) {
+        info.col3[0].push(value.word);
+        info.col3[1].push("(" + value.ids.length + "), ");
+        info.col3[3].push(value.ids[0]);
+      }
+      info.col3[1][info.col3[1].length - 1] = info.col3[1][info.col3[1].length - 1].slice(0, -2);
+      info.col4 = element.count;
+      info.col5 = (element.count * 100 / words.length).toFixed(1);
+
+      tableVal.push(info);
     }
     return tableVal;
   }
@@ -149,11 +124,8 @@ function GrammaticalAnalysis() {
     return filterArr;
   }
 
-  let data = useMemo(() =>
-      fillData(),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [sonad, sonaliik]
-  );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  let data = useMemo(() => fillData(), []);
 
   function LongMenu({column: {filterValue = [], setFilter, preFilteredRows, id}}) {
     const [newFilterValue, setNewFilterValue] = useState(filterValue);
@@ -184,7 +156,7 @@ function GrammaticalAnalysis() {
     }
 
     return (
-      <Fragment>
+      <>
         <IconButton
           aria-label="more"
           id="long-button"
@@ -234,7 +206,7 @@ function GrammaticalAnalysis() {
             ))}
           </Select>
         </FormControl>
-      </Fragment>
+      </>
     );
   }
 
@@ -257,7 +229,7 @@ function GrammaticalAnalysis() {
           const word = props.value;
           return <span key={props.id}
                        className="word"
-                       onClick={(e) => handleTypeClick(e.target.textContent)}>{word}</span>
+                       onClick={() => handleTypeClick(word)}>{word}</span>
         },
         className: 'user',
         width: 400,
@@ -272,7 +244,7 @@ function GrammaticalAnalysis() {
         Cell: (props) => {
           const word = props.value;
           return <span className="word"
-                       onClick={(e) => handleFormClick(e.target.textContent)}>{word}</span>
+                       onClick={() => handleFormClick(word)}>{word}</span>
         },
         width: 400,
         className: 'col2',
@@ -290,11 +262,13 @@ function GrammaticalAnalysis() {
           for (let i = 0; i < items[0].length; i++) {
             let word = items[0][i];
             let count = items[1][i];
+            let id = items[3][i];
+            //console.log(items)
             let content = (
               <span key={uuidv4()}>
                 <span key={props.id}
                       className="word"
-                      onClick={(e) => setWord(e.target.textContent)}>{word}
+                      onClick={() => setWord(id)}>{word}
                 </span>
                 {String.fromCharCode(160)}{count}
               </span>
@@ -323,7 +297,7 @@ function GrammaticalAnalysis() {
       }
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [sonad, sonaliik]
+    [setWord]
   );
 
   const {
@@ -354,76 +328,74 @@ function GrammaticalAnalysis() {
 
 
   return (
-    <Fragment>
-      <Box>
-        <DownloadButton data={data}
-                        headers={tableToDownload}/>
-        <table className='analyserTable' {...getTableProps()}
-               style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>
-          <thead>
-          {headerGroups.map(headerGroup => (
-            <tr className='tableRow' {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th
-                  className='tableHead'
-                  key={uuidv4()}
-                  style={{
-                    borderBottom: 'solid 1px',
-                    color: 'black',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {<span>{column.render('Header')} {column.canFilter ? column.render("Filter") : null}</span>}
-                  <span className='sortIcon'  {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>
+    <Box>
+      <DownloadButton data={data}
+                      headers={tableToDownload}/>
+      <table className='analyserTable' {...getTableProps()}
+             style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>
+        <thead>
+        {headerGroups.map(headerGroup => (
+          <tr className='tableRow' {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map(column => (
+              <th
+                className='tableHead'
+                key={uuidv4()}
+                style={{
+                  borderBottom: 'solid 1px',
+                  color: 'black',
+                  fontWeight: 'bold',
+                }}
+              >
+                {<span>{column.render('Header')} {column.canFilter ? column.render("Filter") : null}</span>}
+                <span className='sortIcon'  {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>
                     {column.isSorted
                       ? column.isSortedDesc
                         ? ' ▼'
                         : ' ▲'
                       : ' ▼▲'}
                   </span>
-                </th>
-              ))}
+              </th>
+            ))}
+          </tr>
+        ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+        {page.map((row, _i) => {
+          prepareRow(row)
+          return (
+            <tr className='tableRow' {...row.getRowProps()}>
+              {row.cells.map(cell => {
+                return (
+                  <td
+                    {...cell.getCellProps()}
+                    style={{
+                      padding: '10px',
+                      width: cell.column.width,
+                    }}
+                    className="border tableData"
+                  >
+                    {cell.render('Cell')}
+                  </td>
+                )
+              })}
             </tr>
-          ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-          {page.map((row, _i) => {
-            prepareRow(row)
-            return (
-              <tr className='tableRow' {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return (
-                    <td
-                      {...cell.getCellProps()}
-                      style={{
-                        padding: '10px',
-                        width: cell.column.width,
-                      }}
-                      className="border tableData"
-                    >
-                      {cell.render('Cell')}
-                    </td>
-                  )
-                })}
-              </tr>
-            )
-          })}
-          </tbody>
-        </table>
-        <TablePagination
-          gotoPage={gotoPage}
-          previousPage={previousPage}
-          canPreviousPage={canPreviousPage}
-          nextPage={nextPage}
-          canNextPage={canNextPage}
-          pageIndex={pageIndex}
-          pageOptions={pageOptions}
-          pageSize={pageSize}
-          setPageSize={setPageSize}
-          pageCount={pageCount}
-        />
-      </Box>
-    </Fragment>
+          )
+        })}
+        </tbody>
+      </table>
+      <TablePagination
+        gotoPage={gotoPage}
+        previousPage={previousPage}
+        canPreviousPage={canPreviousPage}
+        nextPage={nextPage}
+        canNextPage={canNextPage}
+        pageIndex={pageIndex}
+        pageOptions={pageOptions}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+        pageCount={pageCount}
+      />
+    </Box>
   );
 }
 

@@ -64,7 +64,6 @@ function WordAnalyser() {
       },
       body: JSON.stringify({tekst: input}),
     });
-
     return await response.json();
   }
 
@@ -164,7 +163,7 @@ function WordAnalyser() {
     }
 
     const results = await Promise.all([getSyllables(syllableReadyWords), getSentences(input), getWordTypes(input), getWordForm(input)]);
-    let analysedSyllables = results[0];
+    const analysedSyllables = results[0];
     const analysedSentences = results[1];
     const analysedWordTypes = results[2];
     const analysedWordForms = results[3];
@@ -224,13 +223,13 @@ function WordAnalyser() {
     setWordInfo(wordInfoObj);
   }
 
-  //highlight the word selected in input
+  //highlight selected word from input
   const showThisWord = (id) => {
     let content = [id];
     setSelectedWords(content);
   }
 
-  //highlight selected syllables
+  //highlight selected syllable from syllable table
   useEffect(() => {
     let content = [];
     for (let i = 0; i < analysedInput.words.length; i++) {
@@ -253,7 +252,7 @@ function WordAnalyser() {
     setWordInfo(wordInfoObj);
   }, [syllable, analysedInput]);
 
-  //highlight selected syllable word
+  //highlight selected syllable word from syllable table
   useEffect(() => {
     let content = []
     for (let i = 0; i < analysedInput.words.length; i++) {
@@ -275,50 +274,7 @@ function WordAnalyser() {
     setWordInfo(wordInfoObj);
   }, [syllableWord, analysedInput]);
 
-  useEffect(() => {
-    let content = [];
-    for (let i = 0; i < analysedInput.words.length; i++) {
-      let analysedWord = analysedInput.wordtypes[i];
-      let id = analysedInput.ids[i];
-      if (analysedWord === type) {
-        content.push(id);
-      }
-    }
-    setSelectedWords(content);
-
-    const wordInfoObj = {
-      word: "–",
-      lemma: "–",
-      syllables: "–",
-      type: type,
-      form: "–",
-    }
-    setWordInfo(wordInfoObj);
-  }, [type, analysedInput]);
-
-  useEffect(() => {
-    let content = [];
-    for (let i = 0; i < analysedInput.words.length; i++) {
-      let analysedWord = analysedInput.wordforms[i];
-      let id = analysedInput.ids[i];
-      if (analysedWord === form) {
-        content.push(id);
-      }
-    }
-    setSelectedWords(content);
-
-    const wordInfoObj = {
-      word: "–",
-      lemma: "–",
-      syllables: "–",
-      type: "-",
-      form: form,
-    }
-    setWordInfo(wordInfoObj);
-  }, [form, analysedInput]);
-
-
-  //highlight selected lemma
+  //highlight selected lemma from lemma table
   useEffect(() => {
     let content = [];
     for (let i = 0; i < analysedInput.lemmas.length; i++) {
@@ -347,6 +303,79 @@ function WordAnalyser() {
     setWordInfo(wordInfoObj);
   }, [lemma, analysedInput]);
 
+  //highlight selected word from lemma table and grammatical analysis table
+  useEffect(() => {
+    const index = analysedInput.ids.findIndex((element) => element === word)
+    let content = [];
+
+    for (let i = 0; i < analysedInput.words.length; i++) {
+      let id = analysedInput.ids[i];
+      if (analysedInput.words[i] === analysedInput.words[index]
+        && analysedInput.wordtypes[i] === analysedInput.wordtypes[index]
+        && analysedInput.wordforms[i] === analysedInput.wordforms[index] //see peaks ka ikka olema
+      ) {
+        content.push(id);
+      }
+    }
+    setSelectedWords(content);
+
+    const wordInfoObj = {
+      word: analysedInput.words[index],
+      lemma: analysedInput.lemmas[index],
+      syllables: analysedInput.syllables[index],
+      type: analysedInput.wordtypes[index],
+      form: analysedInput.wordforms[index],
+    }
+
+    setWordInfo(wordInfoObj);
+
+  }, [word, analysedInput]);
+
+  // highlight selected word form from grammatical analysis table
+  useEffect(() => {
+    let content = [];
+    for (let i = 0; i < analysedInput.words.length; i++) {
+      let analysedWord = analysedInput.wordforms[i];
+      let id = analysedInput.ids[i];
+      if (analysedWord === form) {
+        content.push(id);
+      }
+    }
+    setSelectedWords(content);
+
+    const wordInfoObj = {
+      word: "–",
+      lemma: "–",
+      syllables: "–",
+      type: "–",
+      form: form,
+    }
+    setWordInfo(wordInfoObj);
+  }, [form, analysedInput]);
+
+  // highlight selected word type from grammatical analysis table
+  useEffect(() => {
+    let content = [];
+    for (let i = 0; i < analysedInput.words.length; i++) {
+      let analysedWord = analysedInput.wordtypes[i];
+      let id = analysedInput.ids[i];
+      if (analysedWord === type) {
+        content.push(id);
+      }
+    }
+    setSelectedWords(content);
+
+    const wordInfoObj = {
+      word: "–",
+      lemma: "–",
+      syllables: "–",
+      type: type,
+      form: "–",
+    }
+    setWordInfo(wordInfoObj);
+  }, [type, analysedInput]);
+
+
   //forward selected word from input to wordInfo
   function showInfo(selectedId) {
     let index = "";
@@ -367,33 +396,6 @@ function WordAnalyser() {
 
     setWordInfo(wordInfoObj);
   }
-
-  //highlight selected word in lemma table
-  useEffect(() => {
-    let content = [];
-    for (let i = 0; i < analysedInput.words.length; i++) {
-      let analysedWord = analysedInput.words[i];
-      let id = analysedInput.ids[i];
-      if (analysedWord === word) {
-        content.push(id);
-      }
-    }
-    setSelectedWords(content);
-
-    const wordId = analysedInput.words.findIndex((element) => element === word)
-    const index = analysedInput.ids[wordId]
-
-    const wordInfoObj = {
-      word: analysedInput.words[index],
-      lemma: analysedInput.lemmas[index],
-      syllables: analysedInput.syllables[index],
-      type: analysedInput.wordtypes[index],
-      form: analysedInput.wordforms[index],
-    }
-
-    setWordInfo(wordInfoObj);
-
-  }, [word, analysedInput]);
 
   const sendTextFromFile = (data) => {
     setTextFromFile(data);

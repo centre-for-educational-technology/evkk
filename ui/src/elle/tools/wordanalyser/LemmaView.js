@@ -1,4 +1,4 @@
-import React, {Fragment, useContext} from "react";
+import {useContext, useMemo} from "react";
 import "./styles/LemmaView.css";
 import {useFilters, usePagination, useSortBy, useTable} from "react-table";
 import {v4 as uuidv4} from 'uuid';
@@ -13,72 +13,84 @@ import ToggleCell from "./ToggleCell";
 function LemmaView() {
 
   const analyse = useContext(AnalyseContext)[0];
-  const setWord = useContext(SetWordContext);
   const setLemma = useContext(SetLemmaContext);
-  const lemmad = analyse.lemmas;
-  const sonad = analyse.words;
+  const setWord = useContext(SetWordContext);
+  let lemmaArray = []
+  const lemmas = analyse.lemmas
+  const words = analyse.words
+  const ids = analyse.ids
+
   const {t} = useTranslation();
   const tableToDownload = [t("common_lemma"), t("lemmas_header_wordforms"), t("common_header_frequency"), t("common_header_percentage")];
 
-  let sonaList = new Map();
-  let numbrid = new Map();
+  const analyseLemmas = () => {
+    for (let i = 0; i < lemmas.length; i++) {
+      let lemmaIndex = lemmaArray.findIndex(element => element.lemma === lemmas[i])
+      //kui sellist lemmat pole
+      if (lemmaIndex === -1) {
+        let newLemma = {
+          lemma: lemmas[i],
+          forms: [{
+            form: words[i],
+            ids: [ids[i]]
+          }],
+          count: 1
 
-  const sonuKasutuses = () => {
-    for (let i = 0; i < sonad.length; i++) {
-      if (!sonaList.has(lemmad[i])) {
-        sonaList.set(lemmad[i], []);
-        sonaList.get(lemmad[i]).push(sonad[i]);
-        numbrid.set(sonad[i], 1);
-      } else if (sonaList.has(lemmad[i])) {
-        if (sonaList.get(lemmad[i]).includes(sonad[i])) {
-          numbrid.set(sonad[i], (numbrid.get(sonad[i]) + 1));
+        }
+        lemmaArray.push(newLemma);
+      } else {
+        let currentLemma = lemmaArray[lemmaIndex]
+        let formIndex = currentLemma.forms.findIndex(element => element.form === words[i])
+        //kui sellist sõnavormi pole
+        if (formIndex === -1) {
+          let newForm = {
+            form: words[i],
+            ids: [ids[i]]
+          }
+          lemmaArray[lemmaIndex].forms.push(newForm)
+          lemmaArray[lemmaIndex].count += 1
         } else {
-          sonaList.get(lemmad[i]).push(sonad[i]);
-          numbrid.set(sonad[i], 1);
+          lemmaArray[lemmaIndex].forms[formIndex].ids.push(ids[i])
+          lemmaArray[lemmaIndex].count += 1
         }
       }
     }
-    sonaList = new Map([...sonaList.entries()].sort());
+    //lemmade sortimine
+    lemmaArray.sort((a, b) => (a.count === b.count) ? ((a.lemma > b.lemma) ? -1 : 1) : ((a.count > b.count) ? -1 : 1))
+    //vormide sortimine
+    for (const element of lemmaArray) {
+      element.forms.sort((a, b) => (a.ids.length === b.ids.length) ? ((a.form < b.form) ? -1 : 1) : ((a.ids.length > b.ids.length) ? -1 : 1))
+    }
   }
 
-  sonuKasutuses();
-
-  const mapSort3 = new Map([...numbrid.entries()].sort());
-  const mapSort2 = new Map([...mapSort3.entries()].sort((a, b) => b[1] - a[1]));
+  analyseLemmas()
 
   function fillData() {
     let tableVal = [];
 
-    for (let i = 0; i < sonaList.size; i++) {
-      const iterator1 = mapSort2.keys();
+    for (const element of lemmaArray) {
       let info = {
         col1: "",
-        col2: [[], []],
+        col2: [[], [], [], []],
         col3: 0,
         col4: 0
       }
       info.col1 = <span className="word"
-                        onClick={(e) => setLemma(e.target.textContent)}>{Array.from(sonaList.keys())[i]}</span>;
-      const ajutineList = sonaList.get(Array.from(sonaList.keys())[i]);
-
-      for (let j = 0; j < mapSort2.size; j++) {
-        let valueAjutine = iterator1.next().value;
-        if (ajutineList.includes(valueAjutine)) {
-          info.col2[0].push(String(valueAjutine));
-          info.col2[1].push("(" + numbrid.get(valueAjutine) + "), ");
-          info.col3 = parseInt(info.col3) + parseInt(numbrid.get(String(valueAjutine)));
-        }
+                        onClick={() => setLemma(element.lemma)}>{element.lemma}</span>;
+      for (let value of element.forms) {
+        info.col2[0].push(value.form);
+        info.col2[1].push("(" + value.ids.length + "), ");
+        info.col2[3].push(value.ids[0]);
       }
-
+      info.col3 = element.count;
       info.col2[1][info.col2[1].length - 1] = info.col2[1][info.col2[1].length - 1].slice(0, -2);
-      info.col4 = (info.col3 * 100 / sonad.length).toFixed(2);
+      info.col4 = (element.count * 100 / words.length).toFixed(2);
       tableVal.push(info);
     }
     return tableVal;
   }
 
-  fillData();
-  const columns = React.useMemo(() => [
+  const columns = useMemo(() => [
       {
         Header: t("common_lemma"),
         accessor: 'col1',
@@ -94,10 +106,11 @@ function LemmaView() {
           for (let i = 0; i < items[0].length; i++) {
             let word = items[0][i]
             let count = items[1][i]
+            let id = items[3][i]
             let content = (
               <span key={uuidv4()}>
                     <span className="word"
-                          onClick={(e) => setWord(e.target.textContent)}>{word}</span>{String.fromCharCode(160)}{count}
+                          onClick={() => setWord(id)}>{word}</span>{String.fromCharCode(160)}{count}
                     </span>
             )
             cellContent.push(content)
@@ -121,7 +134,7 @@ function LemmaView() {
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const data = React.useMemo(() => fillData(), []);
+  const data = useMemo(() => fillData(), []);
 
   const {
     getTableProps,
@@ -153,69 +166,68 @@ function LemmaView() {
   return (
     <>
       <Box>
-        <Fragment>
-          <DownloadButton data={data}
-                          headers={tableToDownload}/>
-          <table className="analyserTable"
-                 {...getTableProps()}
-                 style={{
-                   marginRight: 'auto',
-                   marginLeft: 'auto',
-                   borderBottom: 'solid 1px',
-                   width: '100%'
-                 }}
-          >
-            <thead>
-            {headerGroups.map((headerGroup) => (
-              <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th className="tableHeader"
-                      key={uuidv4()}
-                      style={{
-                        borderBottom: 'solid 1px',
-                        color: 'black',
-                        fontWeight: 'bold'
-                      }}
-                  >
-                    {column.render('Header')}
-                    <span className="sort" {...column.getHeaderProps(column.getSortByToggleProps())}>
+        <DownloadButton data={data}
+                        headers={tableToDownload}/>
+        <table className="analyserTable"
+               {...getTableProps()}
+               style={{
+                 marginRight: 'auto',
+                 marginLeft: 'auto',
+                 borderBottom: 'solid 1px',
+                 width: '100%'
+               }}
+        >
+          <thead>
+          {headerGroups.map((headerGroup) => (
+            <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <th className="tableHeader"
+                    key={uuidv4()}
+                    style={{
+                      borderBottom: 'solid 1px',
+                      color: 'black',
+                      fontWeight: 'bold'
+                    }}
+                >
+                  {column.render('Header')}
+                  <span className="sort" {...column.getHeaderProps(column.getSortByToggleProps())}>
                 {column.isSorted
                   ? column.isSortedDesc
                     ? ' ▼'
                     : ' ▲'
                   : '▼▲'}
               </span>
-                  </th>
-                ))}
+                </th>
+              ))}
+            </tr>
+          ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+          {page.map((row) => {
+            prepareRow(row);
+            return (
+              <tr className="tableRow" {...row.getRowProps()}
+                  key={row.id}>
+                {row.cells.map((cell) => {
+                  return (
+                    <td
+                      {...cell.getCellProps()}
+                      style={{
+                        padding: '10px',
+                        width: cell.column.width
+                      }}
+                      className="border tableData"
+                    >
+                      {cell.render("Cell")}
+                    </td>
+                  )
+                })}
               </tr>
-            ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-            {page.map((row) => {
-              prepareRow(row);
-              return (
-                <tr className="tableRow" {...row.getRowProps()}
-                    key={row.id}>
-                  {row.cells.map((cell) => {
-                    return (
-                      <td
-                        {...cell.getCellProps()}
-                        style={{
-                          padding: '10px',
-                          width: cell.column.width
-                        }}
-                        className="border tableData"
-                      >
-                        {cell.render("Cell")}
-                      </td>
-                    )
-                  })}
-                </tr>
-              );
-            })}
-            </tbody>
-          </table>
-        </Fragment>
+            );
+          })}
+          </tbody>
+        </table>
+
         <TablePagination
           gotoPage={gotoPage}
           previousPage={previousPage}
