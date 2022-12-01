@@ -10,14 +10,17 @@ import {
   Link,
   List,
   ListItem,
+  Menu,
+  MenuItem,
   Stack,
   styled,
   Toolbar
 } from "@mui/material";
-import {Close, Help, Language, Menu, Search} from "@mui/icons-material";
+import {Close, Help, Language, Menu as MenuIcon, Search} from "@mui/icons-material";
 import {NavLink} from 'react-router-dom';
 import "@fontsource/exo-2/600.css";
-import {useState} from "react";
+import React, {useState} from "react";
+import './styles/Navbar.css';
 
 const pages = [
   {title: "Tekstihindaja", target: "/corrector"},
@@ -64,6 +67,19 @@ function Navbar() {
     setOpen(!open);
   }
 
+  const [langAnchorEl, setLangAnchorEl] = useState(false);
+  const langOpen = Boolean(langAnchorEl);
+  const handleLangClick = (event) => {
+    setLangAnchorEl(event.currentTarget);
+  };
+  const handleLangClose = () => {
+    setLangAnchorEl(false);
+  };
+  const handleLangSelect = (lang) => {
+    console.log(lang);
+    setLangAnchorEl(false);
+  }
+
   return (
     <>
       <AppBar elevation={0}
@@ -85,7 +101,7 @@ function Navbar() {
                 onClick={() => toggleDrawer()}
                 sx={{mr: 2, mb: 2, display: {md: 'flex', lg: 'none'}}}
               >
-                <Menu sx={{color: "black", fontSize: 45}}/>
+                <MenuIcon sx={{color: "black", fontSize: 45}}/>
               </IconButton>
               <NavLink to="/">
                 <Box
@@ -101,7 +117,27 @@ function Navbar() {
                   sx={{mt: 1}}>
               <Box display="flex">
                 <Search sx={{marginLeft: "auto"}}/>
-                <Language sx={{marginLeft: 2}}/>
+                <Language sx={{marginLeft: 2}}
+                          className="hover"
+                          onClick={handleLangClick}/>
+                <Menu
+                  anchorEl={langAnchorEl}
+                  open={langOpen}
+                  onClose={handleLangClose}
+                >
+                  <MenuItem onClick={() => handleLangSelect("et")}>
+                    <img src={require('../resources/images/flags/est.png').default}
+                         className="lang-icon"
+                         alt='EST'/>
+                    EST
+                  </MenuItem>
+                  <MenuItem onClick={() => handleLangSelect("en")}>
+                    <img src={require('../resources/images/flags/eng.png').default}
+                         className="lang-icon"
+                         alt='ENG'/>
+                    ENG
+                  </MenuItem>
+                </Menu>
                 <Help sx={{marginLeft: 2}}/>
               </Box>
             </Grid>
