@@ -1,6 +1,5 @@
 export const TRANSLATIONS_ET = {
   analyse_button: "Analüüsi",
-  change_lang: "Muuda keelt",
   common_download: "Laadi alla",
   common_excel_sheet_name: "Tabel",
   common_form: "Vorm",

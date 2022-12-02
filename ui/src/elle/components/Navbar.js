@@ -17,7 +17,7 @@ import {
   Toolbar
 } from "@mui/material";
 import {Close, Help, Language, Menu as MenuIcon, Search} from "@mui/icons-material";
-import {NavLink} from 'react-router-dom';
+import {NavLink, useLocation} from 'react-router-dom';
 import "@fontsource/exo-2/600.css";
 import React, {useState} from "react";
 import './styles/Navbar.css';
@@ -69,6 +69,7 @@ function Navbar() {
 
   const [langAnchorEl, setLangAnchorEl] = useState(false);
   const langOpen = Boolean(langAnchorEl);
+  const location = useLocation();
   const handleLangClick = (event) => {
     setLangAnchorEl(event.currentTarget);
   };
@@ -76,7 +77,10 @@ function Navbar() {
     setLangAnchorEl(false);
   };
   const handleLangSelect = (lang) => {
-    console.log(lang);
+    if (location.pathname === '/tools/wordanalyser') {
+      localStorage.setItem("language", lang);
+      window.location.reload();
+    }
     setLangAnchorEl(false);
   }
 
