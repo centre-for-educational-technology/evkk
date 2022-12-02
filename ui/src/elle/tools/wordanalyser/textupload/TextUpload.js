@@ -27,6 +27,7 @@ function TextUpload(props) {
       .then(response => response.text())
       .then(data => {
         props.sendTextFromFile(data);
+
       });
     fileNameElement.current.textContent = "";
   }
@@ -48,6 +49,7 @@ function TextUpload(props) {
       div.appendChild(temp_name);
       div.appendChild(eachBr);
     }
+
     fileNameElement.current.appendChild(div);
   }
 

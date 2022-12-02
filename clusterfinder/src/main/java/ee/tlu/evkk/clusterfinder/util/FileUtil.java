@@ -17,7 +17,7 @@ public class FileUtil
 {
   private static final String UTF_8_ENCODING = "UTF-8";
 
-  private static final Set< String > ALLOWED_FILE_EXTENSIONS = Set.of( "txt" );
+  private static final Set<String> ALLOWED_FILE_EXTENSIONS = Set.of("txt", "pdf", "doc", "docx", "odt");
 
   public static void uploadFile(MultipartFile file) throws FileUploadException
   {

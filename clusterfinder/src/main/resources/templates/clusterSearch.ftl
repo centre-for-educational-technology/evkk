@@ -34,6 +34,11 @@
           integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
           crossorigin="anonymous"
           referrerpolicy="no-referrer"></script>
+  <script defer>
+    function handleChange(input) {
+      document.getElementById("file_name").textContent = input.files[0].name
+    }
+  </script>
 
   <!-- TODO: Separate global styles to a separate CSS file -->
   <!-- TODO: Add support for other devices (tablets) -->
@@ -161,8 +166,10 @@
          style="z-index: 0">
       <input type="file"
              class="custom-file-input"
-             id="userFile">
-      <label class="custom-file-label"
+             id="userFile"
+             onchange="handleChange(this)"
+             accept=".txt,.pdf,.docx,.doc,.odt">
+      <label id="file_name" class="custom-file-label"
              for="userFile">[@translations.retrieveTranslation "common.choose.file" /]</label>
     </div>
 
@@ -676,23 +683,35 @@
         formData.append("file", file);
 
         $.ajax({
-          method: "POST",
-          url: "${ajaxUrls.uploadFile}",
+          type: "POST",
+          enctype: 'multipart/form-data',
+          url: "http://localhost:3000/api/textfromfile",
           data: formData,
           processData: false,
           contentType: false,
+          cache: false,
           success: function (data) {
-            // Update the form's hidden parameter
-            $("#fileName").val(file.name);
-            $(".custom-file-label").html(file.name);
-            $("#inputType").val("FILE_BASED_TEXT");
+            let regex = new RegExp("[^a-zA-ZõäöüÕÄÖÜ;:,.!?'/&()=@–-]", "gi");
+            let allFormatText = data.replace(/\\n/g, ' ').replaceAll('"', "'").replaceAll(regex, " ");
+            $.ajax({
+              type: "POST",
+              url: "http://localhost:3000/api/texts/laused",
+              dataType: "json",
+              contentType: "application/json; charset=utf-8",
+              data: '{"tekst": "' + allFormatText + '"}',
+              success: function (data) {
+                let str = JSON.stringify(data[0][0])
+                str = str.replace(/^"(.*)"$/, '$1');
+                document.getElementById("userText").value = str;
+              },
+              error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus + "\n" + errorThrown);
+              }
+            });
           },
-          error: function (data) {
-            // Empty the value
-            // TODO: Add notification displaying support for this
-            $("#fileName").val("");
-            $(".custom-file-label").html("[@translations.retrieveTranslation "common.choose.file" /]");
-            $("#inputType").val("FREE_TEXT");
+          error: function (e) {
+            console.log("ERROR: ", e);
+            alert("Tekkis viga failide üleslaadimisel! Kontrolli, et valisid ainult lubatud formaadis faile või proovi hiljem uuesti.")
           }
         });
       }
