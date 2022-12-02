@@ -5,11 +5,12 @@ import Accordion from "@mui/material/Accordion";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import {Outlet, useNavigate} from "react-router-dom";
+import {Outlet, useLocation, useNavigate} from "react-router-dom";
 
 function Tools() {
-  const [expanded, setExpanded] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+  const [expanded, setExpanded] = useState(location.pathname === '/tools');
 
   const tools = [
     {
@@ -29,7 +30,7 @@ function Tools() {
   ];
 
   function toolSelect(tool) {
-    setExpanded(false)
+    setExpanded(false);
     navigate(tool);
   }
 
