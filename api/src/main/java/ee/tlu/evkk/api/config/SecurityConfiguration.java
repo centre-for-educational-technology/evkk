@@ -5,7 +5,6 @@ import ee.tlu.evkk.api.security.ApiAuthenticationRedirectStrategy;
 import ee.tlu.evkk.api.security.ApiUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,6 +19,17 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 
 /**
  * @author Mikk Tarvas
@@ -45,10 +55,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     http
       .csrf().disable() //TODO: use repo
       .authorizeRequests()
-      .mvcMatchers(HttpMethod.GET, "/status").permitAll()
-      .mvcMatchers(HttpMethod.POST, "/login").permitAll()
-      .mvcMatchers(HttpMethod.POST, "/tools/minitorn-pikkus").permitAll()
-      .mvcMatchers(HttpMethod.POST, "/tools/masinoppe-ennustus").permitAll()
+      .mvcMatchers(GET, "/status").permitAll()
+      .mvcMatchers(POST, "/login").permitAll()
+      .mvcMatchers(POST, "/tools/minitorn-pikkus").permitAll()
+      .mvcMatchers(POST, "/tools/masinoppe-ennustus").permitAll()
       .mvcMatchers("/texts/**").permitAll()
       .mvcMatchers("/textfromfile/**").permitAll()
       .mvcMatchers("/integration/**").permitAll()
@@ -56,6 +66,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .formLogin().successHandler(successHandler()).and()
       .logout().logoutSuccessHandler(logoutSuccessHandler())
       .and().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint());
+  }
+
+  @Component
+  public static class CorsFilter extends OncePerRequestFilter {
+
+    @Override
+    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
+                                    final FilterChain filterChain) throws ServletException, IOException {
+      response.addHeader("Access-Control-Allow-Origin", "http://localhost:9092");
+      response.addHeader("Access-Control-Allow-Methods", "*");
+      response.addHeader("Access-Control-Allow-Headers", "*");
+      response.addHeader("Access-Control-Allow-Credentials", "true");
+      response.addIntHeader("Access-Control-Max-Age", 3600);
+      filterChain.doFilter(request, response);
+    }
   }
 
   private AuthenticationSuccessHandler successHandler() {

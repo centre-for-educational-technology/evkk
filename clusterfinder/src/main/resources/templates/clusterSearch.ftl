@@ -691,27 +691,11 @@
           contentType: false,
           cache: false,
           success: function (data) {
-            let regex = new RegExp("[^a-zA-ZõäöüÕÄÖÜ;:,.!?'/&()=@–-]", "gi");
-            let allFormatText = data.replace(/\\n/g, ' ').replaceAll('"', "'").replaceAll(regex, " ");
-            $.ajax({
-              type: "POST",
-              url: "http://localhost:3000/api/texts/laused",
-              dataType: "json",
-              contentType: "application/json; charset=utf-8",
-              data: '{"tekst": "' + allFormatText + '"}',
-              success: function (data) {
-                let str = JSON.stringify(data[0][0])
-                str = str.replace(/^"(.*)"$/, '$1');
-                document.getElementById("userText").value = str;
-              },
-              error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(textStatus + "\n" + errorThrown);
-              }
-            });
+            document.getElementById("userText").value = data;
           },
           error: function (e) {
             console.log("ERROR: ", e);
-            alert("Tekkis viga failide üleslaadimisel! Kontrolli, et valisid ainult lubatud formaadis faile või proovi hiljem uuesti.")
+            alert("Tekkis viga faili üleslaadimisel! Kontrolli, et valisid lubatud formaadis faili või proovi hiljem uuesti.")
           }
         });
       }
