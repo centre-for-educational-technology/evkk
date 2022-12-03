@@ -74,7 +74,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
                                     final FilterChain filterChain) throws ServletException, IOException {
-      response.addHeader("Access-Control-Allow-Origin", "http://localhost:9092");
+      response.addHeader("Access-Control-Allow-Origin", "*");
       response.addHeader("Access-Control-Allow-Methods", "*");
       response.addHeader("Access-Control-Allow-Headers", "*");
       response.addHeader("Access-Control-Allow-Credentials", "true");
