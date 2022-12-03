@@ -685,7 +685,7 @@
         $.ajax({
           type: "POST",
           enctype: 'multipart/form-data',
-          url: "http://localhost:3000/api/textfromfile",
+          url: document.referrer + "api/textfromfile",
           data: formData,
           processData: false,
           contentType: false,
