@@ -682,10 +682,13 @@
         const formData = new FormData();
         formData.append("file", file);
 
+        const slashIndexes = [...document.referrer.matchAll(new RegExp('/', 'gi'))].map(a => a.index);
+        const urlBase = document.referrer.includes('localhost') ? document.referrer : (document.referrer.slice(0, slashIndexes[2]) + '/');
+
         $.ajax({
           type: "POST",
           enctype: 'multipart/form-data',
-          url: document.referrer + "api/textfromfile",
+          url: urlBase + "api/textfromfile",
           data: formData,
           processData: false,
           contentType: false,
