@@ -1,4 +1,6 @@
 @import "~@fortawesome/fontawesome-free/css/all.css";
+@import url('https://fonts.googleapis.com/css?family=Mulish');
+@import url('https://fonts.googleapis.com/css?family=Exo+2');
 
 html {
   position: relative;
@@ -7,6 +9,12 @@ html {
 
 body {
   margin-bottom: 80px;
+  font-family: "Mulish", sans-serif;
+  background-color: #FFFBFE;
+}
+
+h2 {
+  font-family: "Exo 2", sans-serif;
 }
 
 .footer {
@@ -23,4 +31,13 @@ body {
     position: absolute;
     right: 1em;
   }
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #9C27B0;
 }

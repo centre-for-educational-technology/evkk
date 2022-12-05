@@ -72,7 +72,7 @@ public class TextController {
   @PostMapping("/sonaliik")
   public ResponseEntity<List<String>> sonaliik(@RequestBody WordFeatsRequestEntity request) {
     String[] sonaliik = stanzaServerClient.getSonaliik(request.getTekst());
-    List<String> body = asList(textService.translateWordType(sonaliik, request.getLanguage()));
+    List<String> body = asList(TextService.translateWordType(sonaliik, request.getLanguage()));
     return ResponseEntity.ok(body);
   }
 
@@ -126,68 +126,79 @@ public class TextController {
 
   @PostMapping("/keeletase")
   public ResponseEntity<List<String[]>> keeletase(@RequestBody LemmadRequestEntity request) throws Exception {
-   // String[] sonad = stanzaClient.getLemmad(request.getTekst());
     String[][] tasemed = stanzaServerClient.getKeeletase(request.getTekst());
     List<String[]> body = asList(tasemed);
-//List<String> body = Arrays.asList(sonad);
-return ResponseEntity.ok(body);
+    return ResponseEntity.ok(body);
+  }
+
+  @PostMapping("/keerukus")
+  public ResponseEntity<List<String>> keerukus(@RequestBody LemmadRequestEntity request) throws Exception {
+    String[] m = stanzaServerClient.getKeerukus(request.getTekst());
+    List<String> body = asList(m);
+    return ResponseEntity.ok(body);
+  }
+
+  @PostMapping("/mitmekesisus")
+  public ResponseEntity<List<String>> mitmekesisus(@RequestBody LemmadRequestEntity request) throws Exception {
+    String[] m = stanzaServerClient.getMitmekesisus(request.getTekst());
+    List<String> body = asList(m);
+    return ResponseEntity.ok(body);
   }
 
   @PostMapping("/detailneparing")
-    public String detailneparing(@RequestBody String[][] vaartused) {
-        String[] tavaparameetrid = {"korpus", "tekstityyp", "tekstikeel", "keeletase", "abivahendid", "emakeel", "sugu", "haridus", "aasta", "vanus", "elukoht"};
-        // "kodukeel" tavaparameetritest välja võetud
-        String[] loendurparameetrid = {"charCount", "wordCount", "sentenceCount"};
+  public String detailneparing(@RequestBody String[][] vaartused) {
+    String[] tavaparameetrid = {"korpus", "tekstityyp", "tekstikeel", "keeletase", "abivahendid", "emakeel", "sugu", "haridus", "aasta", "vanus", "elukoht"};
+    // "kodukeel" tavaparameetritest välja võetud
+    String[] loendurparameetrid = {"charCount", "wordCount", "sentenceCount"};
 
-        int tavaVaartusteArv = 0;
-        for(int i = 0; i < vaartused[0].length; i++) {
-          if(!(vaartused[0][i].equals("NO"))) {
-              tavaVaartusteArv++;
-          }
-        }
-
-        int loendurVaartusteArv = 0;
-        for(int i = 0; i < vaartused[1].length; i++) {
-          if(!(vaartused[1][i].equals("NO"))) {
-            loendurVaartusteArv++;
-          }
-        }
-
-        TextQueryCountsHelper[] loendurHelperid = new TextQueryCountsHelper[loendurVaartusteArv];
-        loendurVaartusteArv = 0;
-
-        TextQueryHelper[] helperid = new TextQueryHelper[tavaVaartusteArv];
-        tavaVaartusteArv = 0;
-
-        for(int i = 0; i < vaartused[0].length; i++) {
-          if(!(vaartused[0][i].equals("NO"))) {
-            TextQueryHelper h = new TextQueryHelper();
-            h.setTabel("p" + (tavaVaartusteArv + 5));
-            h.setParameeter(tavaparameetrid[i]);
-            h.setVaartused(vaartused[0][i].split(","));
-            helperid[tavaVaartusteArv] = h;
-            tavaVaartusteArv++;
-          }
-        }
-
-        for(int i = 0; i < vaartused[1].length; i++) {
-          if(!(vaartused[1][i].equals("NO"))) {
-            TextQueryCountsHelper ch = new TextQueryCountsHelper();
-            ch.setParameeter(loendurparameetrid[i]);
-            ch.setVaartus(vaartused[1][i]);
-            loendurHelperid[loendurVaartusteArv] = ch;
-            loendurVaartusteArv++;
-          }
-        }
-
-        String vastus = textDao.textTitleQueryByParameters(helperid, loendurHelperid);
-        return vastus;
+    int tavaVaartusteArv = 0;
+    for (int i = 0; i < vaartused[0].length; i++) {
+      if (!(vaartused[0][i].equals("NO"))) {
+        tavaVaartusteArv++;
+      }
     }
 
-    @GetMapping("/asukoht")
-    public String asukoht(){
-       return new java.io.File(".").getAbsolutePath().toString();
+    int loendurVaartusteArv = 0;
+    for (int i = 0; i < vaartused[1].length; i++) {
+      if (!(vaartused[1][i].equals("NO"))) {
+        loendurVaartusteArv++;
+      }
     }
+
+    TextQueryCountsHelper[] loendurHelperid = new TextQueryCountsHelper[loendurVaartusteArv];
+    loendurVaartusteArv = 0;
+
+    TextQueryHelper[] helperid = new TextQueryHelper[tavaVaartusteArv];
+    tavaVaartusteArv = 0;
+
+    for (int i = 0; i < vaartused[0].length; i++) {
+      if (!(vaartused[0][i].equals("NO"))) {
+        TextQueryHelper h = new TextQueryHelper();
+        h.setTabel("p" + (tavaVaartusteArv + 5));
+        h.setParameeter(tavaparameetrid[i]);
+        h.setVaartused(vaartused[0][i].split(","));
+        helperid[tavaVaartusteArv] = h;
+        tavaVaartusteArv++;
+      }
+    }
+
+    for (int i = 0; i < vaartused[1].length; i++) {
+      if (!(vaartused[1][i].equals("NO"))) {
+        TextQueryCountsHelper ch = new TextQueryCountsHelper();
+        ch.setParameeter(loendurparameetrid[i]);
+        ch.setVaartus(vaartused[1][i]);
+        loendurHelperid[loendurVaartusteArv] = ch;
+        loendurVaartusteArv++;
+      }
+    }
+
+    return textDao.textTitleQueryByParameters(helperid, loendurHelperid);
+  }
+
+  @GetMapping("/asukoht")
+  public String asukoht() {
+    return new java.io.File(".").getAbsolutePath();
+  }
 
   @GetMapping("/getValues")
   public String getValues(String cId) {
