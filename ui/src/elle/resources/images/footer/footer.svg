@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+  width="100%"
+  height="120"
+  preserveAspectRatio="none"
+  viewBox="0 0 509.88793 62.181249"
+  version="1.1"
+  id="svg5"
+  inkscape:version="1.1 (ce6663b3b7, 2021-05-25)"
+  sodipodi:docname="footer.svg"
+  xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+  xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <sodipodi:namedview
+    id="namedview7"
+    pagecolor="#ffffff"
+    bordercolor="#666666"
+    borderopacity="1.0"
+    inkscape:pageshadow="2"
+    inkscape:pageopacity="0.0"
+    inkscape:pagecheckerboard="0"
+    inkscape:document-units="px"
+    showgrid="true"
+    inkscape:zoom="0.49193142"
+    inkscape:cx="1169.8785"
+    inkscape:cy="-34.557662"
+    inkscape:window-width="1848"
+    inkscape:window-height="1017"
+    inkscape:window-x="72"
+    inkscape:window-y="35"
+    inkscape:window-maximized="1"
+    inkscape:current-layer="layer1"
+    units="px"
+    inkscape:snap-global="false"
+    fit-margin-top="0"
+    fit-margin-left="0"
+    fit-margin-right="0"
+    fit-margin-bottom="0">
+    <inkscape:grid
+      type="xygrid"
+      id="grid828"
+      originx="-0.7640697"
+      originy="1.1200439e-06"/>
+  </sodipodi:namedview>
+  <defs
+    id="defs2">
+    <inkscape:path-effect
+      effect="skeletal"
+      id="path-effect1115"
+      is_visible="true"
+      lpeversion="1"
+      pattern="M 0,4.9921384 C 0,2.236478 2.236478,0 4.9921384,0 c 2.7556603,0 4.9921383,2.236478 4.9921383,4.9921384 0,2.7556603 -2.236478,4.9921383 -4.9921383,4.9921383 C 2.236478,9.9842767 0,7.7477987 0,4.9921384 Z"
+      copytype="single_stretched"
+      prop_scale="1"
+      scale_y_rel="false"
+      spacing="0"
+      normal_offset="0"
+      tang_offset="0"
+      prop_units="false"
+      vertical_pattern="false"
+      hide_knot="false"
+      fuse_tolerance="0"/>
+    <inkscape:path-effect
+      effect="skeletal"
+      id="path-effect1109"
+      is_visible="true"
+      lpeversion="1"
+      pattern="M 0,4.9921384 C 0,2.236478 2.236478,0 4.9921384,0 c 2.7556603,0 4.9921383,2.236478 4.9921383,4.9921384 0,2.7556603 -2.236478,4.9921383 -4.9921383,4.9921383 C 2.236478,9.9842767 0,7.7477987 0,4.9921384 Z"
+      copytype="single_stretched"
+      prop_scale="1"
+      scale_y_rel="false"
+      spacing="0"
+      normal_offset="0"
+      tang_offset="0"
+      prop_units="false"
+      vertical_pattern="false"
+      hide_knot="false"
+      fuse_tolerance="0"/>
+    <filter
+      style="color-interpolation-filters:sRGB"
+      id="filter1298"
+      inkscape:label="filter0"/>
+  </defs>
+  <g
+    inkscape:label="Layer 1"
+    inkscape:groupmode="layer"
+    id="layer1"
+    transform="translate(-0.28158346,-0.00527188)">
+    <rect
+      style="fill:#ffd0fd;fill-opacity:1;stroke-width:3.18125"
+      id="rect1033"
+      width="509.88794"
+      height="62.181248"
+      x="0.28158346"
+      y="0.00527188"/>
+    <path
+      id="rect26937-5-3-7"
+      style="fill:#cca8fd;fill-opacity:1;stroke-width:0.321137"
+      d="M 510.16623,62.186341 H 0.27827868 L 0.280585,36.517533 c 0,0 10.929713,12.233807 38.090188,9.016852 48.302266,-5.721042 27.662482,6.342165 70.357497,-2.331178 40.03721,-8.133421 75.16308,15.025656 152.8686,10.630421 21.12761,-1.195035 56.25438,-23.91316 92.65077,-10.769336 33.36904,12.050553 52.87562,10.899507 79.18493,13.231901 39.4324,3.495793 76.73366,5.890148 76.73366,5.890148 z"
+      sodipodi:nodetypes="cccsssssc"/>
+    <rect
+      style="fill:none;fill-opacity:0.647059;stroke-width:0.629592"
+      id="rect41073"
+      width="508.72821"
+      height="61.303616"
+      x="-509.0098"
+      y="-61.308887"
+      inkscape:export-filename="/home/kaisa/Documents/evkk_projekt/rect41073.png"
+      inkscape:export-xdpi="95"
+      inkscape:export-ydpi="95"
+      transform="scale(-1)"/>
+    <rect
+      style="fill:none;fill-opacity:0.647059;stroke-width:0.611"
+      id="rect929"
+      width="343.48773"
+      height="58.537357"
+      x="-509.0098"
+      y="-61.308887"
+      transform="scale(-1)"/>
+  </g>
+</svg>

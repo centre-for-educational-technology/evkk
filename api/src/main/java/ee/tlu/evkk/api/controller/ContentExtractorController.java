@@ -1,27 +1,28 @@
-package ee.tlu.evkk.api.text.extractor;
+package ee.tlu.evkk.api.controller;
 
-import org.springframework.web.bind.annotation.*;
 import ee.tlu.evkk.api.text.extractor.ContentExtractorExecutor;
-import org.springframework.beans.factory.annotation.Autowired;
 import ee.tlu.evkk.api.text.extractor.ex.TextExtractionException;
 import ee.tlu.evkk.api.text.extractor.ex.UnsupportedMimeTypeException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+@CrossOrigin("*")
 @RestController
-
 public class ContentExtractorController {
 
     @Autowired
     private ContentExtractorExecutor extractor;
 
-    @CrossOrigin("*")
-
-    @PostMapping("/textfromfile")
-    public String ContentExtractorController(@RequestParam("file") MultipartFile[] files) throws UnsupportedMimeTypeException, TextExtractionException {
-        String data = "";
-        for(int i = 0; i < files.length; i++) {
-            data += extractor.extract(files[i], files[i].getOriginalFilename());
-        }
-        return data;
+  @PostMapping("/textfromfile")
+  public String textFromFile(@RequestParam("file") MultipartFile[] files) throws UnsupportedMimeTypeException, TextExtractionException {
+    StringBuilder data = new StringBuilder();
+    for (MultipartFile file : files) {
+      data.append(extractor.extract(file, file.getOriginalFilename()));
     }
+    return data.toString();
+  }
 }

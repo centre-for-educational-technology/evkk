@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200";
+
+.punataust {
+  background-color: red;
+}
+
+.wrapper {
+  width: 90%;
+  height: 350px;
+  margin: 1em auto;
+  text-align: center;
+  position: relative;
+}
+
+#highlights, #textarea {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  border-radius: 0;
+  border: none;
+  padding: 0;
+  text-align: left;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  white-space: pre-wrap;
+}
+
+textarea {
+  color: #444;
+  background-color: transparent;
+  z-index: 2;
+}
+
+input:focus,
+textarea:active,
+textarea:focus,
+textarea:hover {
+  outline: 0 !important;
+  -webkit-appearance: none !important;
+  box-shadow: none !important;
+}
+
+#highlights {
+  word-wrap: break-word;
+  color: transparent;
+  overflow-y: auto;
+}
+
+.borderbox {
+  width: 104%;
+  height: 104%;
+  position: absolute;
+  top: -2%;
+  left: -2%;
+  margin: 0;
+  border-radius: 2px;
+  border: 1px solid rgb(112, 112, 110);
+  padding: 0;
+}
+
+.margitud {
+  background-color: lightpink;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
+
+.material-symbols-outlined:hover {
+  cursor: pointer;
+}
+
+.material-symbols-outlined:active {
+  transform: scale(0.95);
+}
