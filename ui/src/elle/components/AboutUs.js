@@ -1,8 +1,9 @@
 import {Box, Typography} from "@mui/material";
 import React from "react";
-import {Link} from "react-router-dom";
 
 function AboutUs() {
+  const vers1path = window.location.origin + "/vers1/";
+
   return (
     <Box sx={{
       padding: "50px",
@@ -14,7 +15,8 @@ function AboutUs() {
       <Box id={"tutvustus"}>
         <Typography padding={"50px"}
                     paddingTop={"25px"}>
-          <h3>Mis on ELLE?</h3><br/>
+          <h3>Mis on ELLE?</h3>
+          <br/>
           ELLE on Tallinna Ülikoolis arendatav keskkond eesti keele õpetamiseks, õppimiseks ja keeleanalüüsiks.
           Keskkonna aluseks on eesti vahekeele ehk õppijakeele korpus EVKK, mis on eesti keele kui teise keele ja
           võõrkeele õppijate kirjalike tekstide kogu.<br/><br/>
@@ -25,10 +27,12 @@ function AboutUs() {
           Keeleõppijate kirjutiste kõrval kogume eesti ja muu emakeelega üliõpilaste akadeemilisi tekste, et luua
           edaspidi erialakeele omandamist toetavat õppevara.<br/><br/>
           Kõik EVKK ressursid ei ole veel ELLE-sse üle kantud. Korpuse vana lehekülge on võimalik
-          külastada <Link to="../../vers1/">siin</Link>. ELLE arendusega saab ennast kurssi viia
+          külastada <a href={vers1path}
+                       target="_blank"
+                       rel="noopener noreferrer">siin</a>. ELLE arendusega saab ennast kurssi viia
           meie <a href="https://github.com/centre-for-educational-technology/evkk/wiki"
                   target="_blank"
-                  rel="noopener noreferrer">Wikis</a>.<br/><br/>
+                  rel="noopener noreferrer">Wikis</a>.
         </Typography>
       </Box>
     </Box>
