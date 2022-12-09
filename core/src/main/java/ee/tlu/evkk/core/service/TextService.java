@@ -18,7 +18,6 @@ import ee.tlu.evkk.dal.repository.TextRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -43,8 +42,8 @@ import static ee.tlu.evkk.core.service.maps.TranslationMappings.verbFormTranslat
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.verbFormTranslationsEt;
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.wordTypesEn;
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.wordTypesEt;
+import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
-import static java.util.Collections.addAll;
 import static org.apache.logging.log4j.util.Strings.isNotBlank;
 
 /**
@@ -101,166 +100,58 @@ public class TextService {
     return texts.stream().map(text -> toTextWithProperties(text, textPropertiesByTextId)).collect(Collectors.toUnmodifiableList());
   }
 
-  public String detailneparing(CorpusRequestDto vaartused) {
-    int loendur = 2;
-    List<TextQueryParamHelper> paramHelper = new ArrayList<>();
-    TextQueryCorpusHelper corpusHelper = new TextQueryCorpusHelper();
-    List<TextQueryRangeParamBaseHelper> rangeParamBaseHelper = new ArrayList<>();
+  public String detailneparing(CorpusRequestDto corpusRequestDto) {
+    List<TextQueryParamHelper> paramHelpers = new ArrayList<>();
+    List<TextQueryRangeParamBaseHelper> rangeParamBaseHelpers = new ArrayList<>();
 
-    loendur++;
-    corpusHelper.setTable("p" + loendur);
-    corpusHelper.setParameter("korpus");
-    List<String> corpuses = new ArrayList<>();
-    addAll(corpuses, vaartused.getCorpuses());
-    corpusHelper.setValues(corpuses);
+    TextQueryCorpusHelper corpusHelper = new TextQueryCorpusHelper("p3", "korpus", asList(corpusRequestDto.getCorpuses()));
 
-    if (isNotBlank(vaartused.getType())) {
-      loendur++;
-      TextQueryParamHelper h1 = new TextQueryParamHelper();
-      h1.setTable("p" + loendur);
-      h1.setParameter("tekstityyp");
-      h1.setValue(vaartused.getType());
-      paramHelper.add(h1);
+    if (isNotBlank(corpusRequestDto.getType())) {
+      paramHelpers.add(new TextQueryParamHelper("p4", "tekstityyp", corpusRequestDto.getType()));
     }
-    if (isNotBlank(vaartused.getLanguage())) {
-      loendur++;
-      TextQueryParamHelper h2 = new TextQueryParamHelper();
-      h2.setTable("p" + loendur);
-      h2.setParameter("tekstikeel");
-      h2.setValue(vaartused.getLanguage());
-      paramHelper.add(h2);
+    if (isNotBlank(corpusRequestDto.getLanguage())) {
+      paramHelpers.add(new TextQueryParamHelper("p5", "tekstikeel", corpusRequestDto.getLanguage()));
     }
-    if (isNotBlank(vaartused.getLevel())) {
-      loendur++;
-      TextQueryParamHelper h3 = new TextQueryParamHelper();
-      h3.setTable("p" + loendur);
-      h3.setParameter("keeletase");
-      h3.setValue(vaartused.getLevel());
-      paramHelper.add(h3);
+    if (isNotBlank(corpusRequestDto.getLevel())) {
+      paramHelpers.add(new TextQueryParamHelper("p6", "keeletase", corpusRequestDto.getLevel()));
     }
-    if (isNotBlank(vaartused.getUsedMaterials())) {
-      loendur++;
-      TextQueryParamHelper h4 = new TextQueryParamHelper();
-      h4.setTable("p" + loendur);
-      h4.setParameter("abivahendid");
-      h4.setValue(vaartused.getUsedMaterials());
-      paramHelper.add(h4);
+    if (isNotBlank(corpusRequestDto.getUsedMaterials())) {
+      paramHelpers.add(new TextQueryParamHelper("p7", "abivahendid", corpusRequestDto.getUsedMaterials()));
     }
-    if (isNotBlank(vaartused.getAge())) {
-      loendur++;
-      TextQueryParamHelper h5 = new TextQueryParamHelper();
-      h5.setTable("p" + loendur);
-      h5.setParameter("vanus");
-      h5.setValue(vaartused.getAge());
-      paramHelper.add(h5);
+    if (isNotBlank(corpusRequestDto.getAge())) {
+      paramHelpers.add(new TextQueryParamHelper("p8", "vanus", corpusRequestDto.getAge()));
     }
-    if (isNotBlank(vaartused.getGender())) {
-      loendur++;
-      TextQueryParamHelper h6 = new TextQueryParamHelper();
-      h6.setTable("p" + loendur);
-      h6.setParameter("sugu");
-      h6.setValue(vaartused.getGender());
-      paramHelper.add(h6);
+    if (isNotBlank(corpusRequestDto.getGender())) {
+      paramHelpers.add(new TextQueryParamHelper("p9", "sugu", corpusRequestDto.getGender()));
     }
-    if (isNotBlank(vaartused.getEducation())) {
-      loendur++;
-      TextQueryParamHelper h7 = new TextQueryParamHelper();
-      h7.setTable("p" + loendur);
-      h7.setParameter("haridus");
-      h7.setValue(vaartused.getEducation());
-      paramHelper.add(h7);
+    if (isNotBlank(corpusRequestDto.getEducation())) {
+      paramHelpers.add(new TextQueryParamHelper("p10", "haridus", corpusRequestDto.getEducation()));
     }
-    if (isNotBlank(vaartused.getNativeLang())) {
-      loendur++;
-      TextQueryParamHelper h8 = new TextQueryParamHelper();
-      h8.setTable("p" + loendur);
-      h8.setParameter("emakeel");
-      h8.setValue(vaartused.getNativeLang());
-      paramHelper.add(h8);
+    if (isNotBlank(corpusRequestDto.getNativeLang())) {
+      paramHelpers.add(new TextQueryParamHelper("p11", "emakeel", corpusRequestDto.getNativeLang()));
     }
-    if (isNotBlank(vaartused.getCountry())) {
-      loendur++;
-      TextQueryParamHelper h9 = new TextQueryParamHelper();
-      h9.setTable("p" + loendur);
-      h9.setParameter("elukoht");
-      h9.setValue(vaartused.getCountry());
-      paramHelper.add(h9);
+    if (isNotBlank(corpusRequestDto.getCountry())) {
+      paramHelpers.add(new TextQueryParamHelper("p12", "elukoht", corpusRequestDto.getCountry()));
     }
 
-    if (vaartused.getAddedYear() != null) {
-      loendur++;
-      TextQueryRangeParamBaseHelper h10 = new TextQueryRangeParamBaseHelper();
-      List<TextQueryRangeParamHelper> helperid = new ArrayList<>();
-      h10.setTable("p" + loendur);
-      h10.setParameter("aasta");
-      h10.setCastable(false);
-      for (Integer[] vaartus : vaartused.getAddedYear()) {
-        TextQueryRangeParamHelper helper = new TextQueryRangeParamHelper();
-        helper.setStartValue(vaartus[0]);
-        helper.setEndValue(vaartus[1]);
-        helperid.add(helper);
-      }
-      h10.setValues(helperid.toArray(new TextQueryRangeParamHelper[0]));
-      rangeParamBaseHelper.add(h10);
+    if (corpusRequestDto.getAddedYear() != null) {
+      rangeParamBaseHelpers.add(createRangeBaseHelper("p13", "aasta", false, corpusRequestDto.getAddedYear()));
     }
 
-    if (vaartused.getCharacters() != null) {
-      loendur++;
-      TextQueryRangeParamBaseHelper h11 = new TextQueryRangeParamBaseHelper();
-      List<TextQueryRangeParamHelper> helperid = new ArrayList<>();
-      h11.setTable("p" + loendur);
-      h11.setParameter("charCount");
-      h11.setCastable(true);
-      for (Integer[] vaartus : vaartused.getCharacters()) {
-        TextQueryRangeParamHelper helper = new TextQueryRangeParamHelper();
-        helper.setStartValue(vaartus[0]);
-        helper.setEndValue(vaartus[1]);
-        helperid.add(helper);
-      }
-      h11.setValues(helperid.toArray(new TextQueryRangeParamHelper[0]));
-      rangeParamBaseHelper.add(h11);
+    if (corpusRequestDto.getCharacters() != null) {
+      rangeParamBaseHelpers.add(createRangeBaseHelper("p14", "charCount", true, corpusRequestDto.getCharacters()));
     }
 
-    if (vaartused.getWords() != null) {
-      loendur++;
-      TextQueryRangeParamBaseHelper h12 = new TextQueryRangeParamBaseHelper();
-      List<TextQueryRangeParamHelper> helperid = new ArrayList<>();
-      h12.setTable("p" + loendur);
-      h12.setParameter("wordCount");
-      h12.setCastable(true);
-      for (Integer[] vaartus : vaartused.getWords()) {
-        TextQueryRangeParamHelper helper = new TextQueryRangeParamHelper();
-        helper.setStartValue(vaartus[0]);
-        helper.setEndValue(vaartus[1]);
-        helperid.add(helper);
-      }
-      h12.setValues(helperid.toArray(new TextQueryRangeParamHelper[0]));
-      rangeParamBaseHelper.add(h12);
+    if (corpusRequestDto.getWords() != null) {
+      rangeParamBaseHelpers.add(createRangeBaseHelper("p15", "wordCount", true, corpusRequestDto.getWords()));
     }
 
-    if (vaartused.getSentences() != null) {
-      loendur++;
-      TextQueryRangeParamBaseHelper h13 = new TextQueryRangeParamBaseHelper();
-      List<TextQueryRangeParamHelper> helperid = new ArrayList<>();
-      h13.setTable("p" + loendur);
-      h13.setParameter("sentenceCount");
-      h13.setCastable(true);
-      for (Integer[] vaartus : vaartused.getSentences()) {
-        TextQueryRangeParamHelper helper = new TextQueryRangeParamHelper();
-        helper.setStartValue(vaartus[0]);
-        helper.setEndValue(vaartus[1]);
-        helperid.add(helper);
-      }
-      h13.setValues(helperid.toArray(new TextQueryRangeParamHelper[0]));
-      rangeParamBaseHelper.add(h13);
+    if (corpusRequestDto.getSentences() != null) {
+      rangeParamBaseHelpers.add(createRangeBaseHelper("p16", "sentenceCount", true, corpusRequestDto.getSentences()));
     }
 
-    String vastus = textDao.detailedTextQueryByParameters(corpusHelper, paramHelper, rangeParamBaseHelper);
-    if (isNotBlank(vastus)) {
-      return vastus;
-    } else {
-      return new ArrayList<>().toString();
-    }
+    String daoResponse = textDao.detailedTextQueryByParameters(corpusHelper, paramHelpers, rangeParamBaseHelpers);
+    return isNotBlank(daoResponse) ? daoResponse : new ArrayList<>().toString();
   }
 
   public static String[] translateWordType(String[] tekst, String language) {
@@ -358,7 +249,7 @@ public class TextService {
         }
 
         // pöördelised vormid
-        else if (Arrays.asList(feats).contains("VerbForm=Fin")) {
+        else if (asList(feats).contains("VerbForm=Fin")) {
           for (String feat : feats) {
             if (feat.contains("Mood")) {
               moodLabel = moodTranslations.get(feat.split("=")[1]);
@@ -422,10 +313,10 @@ public class TextService {
 
         // käändelised vormid (inflected form)
         else {
-          if (Arrays.asList(feats).contains("VerbForm=Part") && Arrays.asList(feats).contains("Tense=Past")) {
-            if (Arrays.asList(feats).contains("Voice=Act")) {
+          if (asList(feats).contains("VerbForm=Part") && asList(feats).contains("Tense=Past")) {
+            if (asList(feats).contains("Voice=Act")) {
               verbFormLabel = inflectedFormNudParticiple;
-            } else if (Arrays.asList(feats).contains("Voice=Pass")) {
+            } else if (asList(feats).contains("Voice=Pass")) {
               verbFormLabel = inflectedFormTudParticiple;
             }
           } else {
@@ -484,6 +375,22 @@ public class TextService {
       inflectedFormTudParticiple = "impersonal past participle (-tud)";
       imperativeMood = "imperative,";
     }
+  }
+
+  private TextQueryRangeParamBaseHelper createRangeBaseHelper(String table, String parameter, boolean castable, Integer[][] values) {
+    List<TextQueryRangeParamHelper> rangeHelpers = new ArrayList<>();
+    for (Integer[] value : values) {
+      TextQueryRangeParamHelper helper = new TextQueryRangeParamHelper();
+      helper.setStartValue(value[0]);
+      helper.setEndValue(value[1]);
+      rangeHelpers.add(helper);
+    }
+    return new TextQueryRangeParamBaseHelper(
+      table,
+      parameter,
+      castable,
+      rangeHelpers.toArray(new TextQueryRangeParamHelper[0])
+    );
   }
 
   private Map<String, Collection<String>> buildFilters(String[] korpus, String tekstityyp, String tekstikeel, String keeletase, Boolean abivahendid, Integer aasta, String sugu) {

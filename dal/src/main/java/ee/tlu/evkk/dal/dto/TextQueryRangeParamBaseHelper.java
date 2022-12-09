@@ -7,6 +7,13 @@ public class TextQueryRangeParamBaseHelper {
   private boolean castable;
   private TextQueryRangeParamHelper[] values;
 
+  public TextQueryRangeParamBaseHelper(String table, String parameter, boolean castable, TextQueryRangeParamHelper[] values) {
+    this.table = table;
+    this.parameter = parameter;
+    this.castable = castable;
+    this.values = values;
+  }
+
   public String getTable() {
     return table;
   }

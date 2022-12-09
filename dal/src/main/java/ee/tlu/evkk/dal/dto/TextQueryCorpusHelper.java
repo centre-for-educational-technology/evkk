@@ -8,6 +8,12 @@ public class TextQueryCorpusHelper {
   private String parameter;
   private List<String> values;
 
+  public TextQueryCorpusHelper(String table, String parameter, List<String> values) {
+    this.table = table;
+    this.parameter = parameter;
+    this.values = values;
+  }
+
   public String getTable() {
     return table;
   }

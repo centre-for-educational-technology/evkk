@@ -6,6 +6,12 @@ public class TextQueryParamHelper {
   private String parameter;
   private String value;
 
+  public TextQueryParamHelper(String table, String parameter, String value) {
+    this.table = table;
+    this.parameter = parameter;
+    this.value = value;
+  }
+
   public String getTable() {
     return table;
   }

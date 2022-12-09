@@ -144,7 +144,7 @@ function Query() {
       } else if (entry.includes("kuni")) {
         local = [1, parseInt(entry.split("kuni ")[1])];
       } else if (entry.includes("üle")) {
-        local = [parseInt(entry.split("üle ")[1]), 999999999];
+        local = [parseInt(entry.split("üle ")[1]), 2147483647]; //java int max value
       } else {
         local = [parseInt(entry.split("—")[0]), parseInt(entry.split("—")[1])];
       }
