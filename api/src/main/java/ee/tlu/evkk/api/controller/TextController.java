@@ -110,35 +110,35 @@ public class TextController {
   }
 
   @PostMapping("/laused")
-  public ResponseEntity<List<String[]>> laused(@RequestBody LemmadRequestEntity request) throws Exception {
+  public ResponseEntity<List<String[]>> laused(@RequestBody LemmadRequestEntity request) {
     String[][] laused = stanzaServerClient.getLaused(request.getTekst());
     List<String[]> body = asList(laused);
     return ResponseEntity.ok(body);
   }
 
   @PostMapping("/korrektuur")
-  public ResponseEntity<List<String>> korrektuur(@RequestBody LemmadRequestEntity request) throws Exception {
+  public ResponseEntity<List<String>> korrektuur(@RequestBody LemmadRequestEntity request) {
     String[] vastus = correctorServerClient.getKorrektuur(request.getTekst());
     List<String> body = asList(vastus);
     return ResponseEntity.ok(body);
   }
 
   @PostMapping("/keeletase")
-  public ResponseEntity<List<String[]>> keeletase(@RequestBody LemmadRequestEntity request) throws Exception {
+  public ResponseEntity<List<String[]>> keeletase(@RequestBody LemmadRequestEntity request) {
     String[][] tasemed = stanzaServerClient.getKeeletase(request.getTekst());
     List<String[]> body = asList(tasemed);
     return ResponseEntity.ok(body);
   }
 
   @PostMapping("/keerukus")
-  public ResponseEntity<List<String>> keerukus(@RequestBody LemmadRequestEntity request) throws Exception {
+  public ResponseEntity<List<String>> keerukus(@RequestBody LemmadRequestEntity request) {
     String[] m = stanzaServerClient.getKeerukus(request.getTekst());
     List<String> body = asList(m);
     return ResponseEntity.ok(body);
   }
 
   @PostMapping("/mitmekesisus")
-  public ResponseEntity<List<String>> mitmekesisus(@RequestBody LemmadRequestEntity request) throws Exception {
+  public ResponseEntity<List<String>> mitmekesisus(@RequestBody LemmadRequestEntity request) {
     String[] m = stanzaServerClient.getMitmekesisus(request.getTekst());
     List<String> body = asList(m);
     return ResponseEntity.ok(body);

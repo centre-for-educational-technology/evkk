@@ -59,9 +59,8 @@ public class TextService {
   private final TextProcessorService textProcessorService;
   private final TextDao textDao;
 
-  private static Map<String, String> wordTypes;
-  private static Set<String> firstType = TranslationMappings.firstType;
-  private static Set<String> secondType = TranslationMappings.secondType;
+  private static final Set<String> firstType = TranslationMappings.firstType;
+  private static final Set<String> secondType = TranslationMappings.secondType;
   private static Map<String, String> numberTranslations;
   private static Map<String, String> caseTranslations;
   private static Map<String, String> degreeTranslations;
@@ -94,9 +93,7 @@ public class TextService {
     return json.getAsObject(String.class);
   }
 
-  public List<TextWithProperties> search(Pageable pageable, String[] korpus, String tekstityyp, String tekstikeel, String keeletase, Boolean abivahendid,
-                                         Integer aasta, String sugu) {
-
+  public List<TextWithProperties> search(Pageable pageable, String[] korpus, String tekstityyp, String tekstikeel, String keeletase, Boolean abivahendid, Integer aasta, String sugu) {
     Map<String, Collection<String>> filters = buildFilters(korpus, tekstityyp, tekstikeel, keeletase, abivahendid, aasta, sugu);
     List<Text> texts = textRepository.search(filters, pageable);
     Set<UUID> textIds = texts.stream().map(Text::getId).collect(Collectors.toUnmodifiableSet());
@@ -267,6 +264,7 @@ public class TextService {
   }
 
   public static String[] translateWordType(String[] tekst, String language) {
+    Map<String, String> wordTypes;
     if (language.equals("et")) {
       wordTypes = wordTypesEt;
     } else {
@@ -310,15 +308,13 @@ public class TextService {
               tenseLabel = tensePrefixPast;
             }
           }
-          if (feat.contains("Voice")) {
-            if (tenseLabel.toString().equals(tensePrefixPast.toString())) {
-              if (feat.split("=")[1].equals("Act")) {
-                tenseLabel.append(tensePostfixNud);
-              } else {
-                tenseLabel.append(tensePostfixTud);
-                if (language.equals("en")) {
-                  tenseLabel.insert(0, "im");
-                }
+          if (feat.contains("Voice") && tenseLabel.toString().equals(tensePrefixPast.toString())) {
+            if (feat.split("=")[1].equals("Act")) {
+              tenseLabel.append(tensePostfixNud);
+            } else {
+              tenseLabel.append(tensePostfixTud);
+              if (language.equals("en")) {
+                tenseLabel.insert(0, "im");
               }
             }
           }
@@ -370,15 +366,12 @@ public class TextService {
             if (feat.contains("Number")) {
               numberLabel = numberTranslations.get(feat.split("=")[1]);
             }
-            if (feat.contains("Voice")) {
-              if (feat.split("=")[1].equals("Pass")) {
-                personVoiceLabel = impersonal;
-              }
+            if (feat.contains("Voice") && feat.split("=")[1].equals("Pass")) {
+              personVoiceLabel = impersonal;
             }
-            if (feat.contains("Polarity") || feat.contains("Connegative")) {
-              if (feat.split("=")[1].equals("Neg") || feat.split("=")[1].equals("Yes")) {
-                negativityLabel = negation;
-              }
+            if ((feat.contains("Polarity") || feat.contains("Connegative"))
+              && (feat.split("=")[1].equals("Neg") || feat.split("=")[1].equals("Yes"))) {
+              negativityLabel = negation;
             }
           }
           for (String feat : feats) {
@@ -397,10 +390,8 @@ public class TextService {
                 }
               }
             }
-            if (feat.contains("Person")) {
-              if (!Objects.equals(personVoiceLabel, impersonal)) {
-                personVoiceLabel = personTranslations.get(feat.split("=")[1]);
-              }
+            if (feat.contains("Person") && !Objects.equals(personVoiceLabel, impersonal)) {
+              personVoiceLabel = personTranslations.get(feat.split("=")[1]);
             }
           }
 
@@ -495,9 +486,7 @@ public class TextService {
     }
   }
 
-  private Map<String, Collection<String>> buildFilters(String[] korpus, String tekstityyp, String tekstikeel, String keeletase, Boolean abivahendid,
-                                                       Integer aasta, String sugu) {
-
+  private Map<String, Collection<String>> buildFilters(String[] korpus, String tekstityyp, String tekstikeel, String keeletase, Boolean abivahendid, Integer aasta, String sugu) {
     Map<String, Collection<String>> result = new HashMap<>();
     if (korpus != null && korpus.length > 0) result.put("korpus", Set.of(korpus));
     if (hasText(tekstityyp)) result.put("tekstityyp", Set.of(tekstityyp));
