@@ -1,8 +1,9 @@
 package ee.tlu.evkk.dal.dao;
 
 import ee.tlu.evkk.dal.dto.Text;
-import ee.tlu.evkk.dal.dto.TextQueryHelper;
-import ee.tlu.evkk.dal.dto.TextQueryCountsHelper;
+import ee.tlu.evkk.dal.dto.TextQueryCorpusHelper;
+import ee.tlu.evkk.dal.dto.TextQueryParamHelper;
+import ee.tlu.evkk.dal.dto.TextQueryRangeParamBaseHelper;
 import ee.tlu.evkk.dal.jdbc.SqlArray;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -25,13 +26,13 @@ public interface TextDao {
 
   List<String> findTextIDandTitleByCorpusID(@Param("corpusId") String korpusekood);
 
-  String textTitleQueryByParameters(@Param("helperid") TextQueryHelper[] helperid, @Param("loendurHelperid") TextQueryCountsHelper[] loendurHelperid);
+  String detailedTextQueryByParameters(@Param("corpusHelper") TextQueryCorpusHelper corpusHelper, @Param("paramHelper") List<TextQueryParamHelper> paramHelper, @Param("rangeParamHelper") List<TextQueryRangeParamBaseHelper> rangeParamHelper);
 
-  String findDetailedValueByPropertyName(@Param("pValue") String pValue[], @Param("pName") String pName, @Param("cId") String[] cId); // property value, name, corpus id
+  String findDetailedValueByPropertyName(@Param("pValue") String[] pValue, @Param("pName") String pName, @Param("cId") String[] cId); // property value, name, corpus id
 
   String findValueByPropertyName(@Param("cId") String cId); // corpus id
 
-  String findMiniStats(@Param("cId") String cId[]); // corpus id
+  String findMiniStats(@Param("cId") String[] cId); // corpus id
 
   String findAvailableValues(@Param("pName") String pName); // selected filter
 

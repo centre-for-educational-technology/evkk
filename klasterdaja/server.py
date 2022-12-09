@@ -10,6 +10,7 @@ import os
 import re
 
 app = Flask(__name__)
+parser = VISLCG3Parser()
 
 # Although regex expressions are compiled and cached during usage, could still do before that (Improves performance a little bit)
 UNNECESSARY_MARKUP_REGEXP = re.compile('("\s)(L(\w+))')
@@ -19,9 +20,8 @@ def removeUnnecessaryMarkup(value, removeOptionalMarkup):
   valueWithoutUnnecessaryMarkup = re.sub(UNNECESSARY_MARKUP_REGEXP, r'\1<redacted>', value)
   return valueWithoutUnnecessaryMarkup if removeOptionalMarkup == "ei" else re.sub(VERB_AND_ADPOSITION_MARKUP_REGEXP, '', valueWithoutUnnecessaryMarkup)
 
-def parsi(tekst, eemaldaValikulised):
+def parsi(tekst, eemaldaValikulised="ei"):
    inputText = Text(tekst)
-   parser = VISLCG3Parser()
    initial_output = parser.parse_text(inputText, return_type='vislcg3')
    simplified_output = [ s if s.find("#") == -1 else removeUnnecessaryMarkup(s[ 0 : s.find("#") ], eemaldaValikulised) for s in initial_output ]
    return "\n".join(simplified_output)

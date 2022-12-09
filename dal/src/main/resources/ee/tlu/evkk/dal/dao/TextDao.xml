@@ -9,66 +9,95 @@
 
     <select id="findTextMetadata" resultType="java.lang.String">
         select array_to_json(array_agg(row_to_json(t)))
-        from (
-            select property_name, property_value from core.text_property where text_id = #{textId}
-        ) t
+        from (select property_name, property_value from core.text_property where text_id = #{textId}) t
     </select>
 
-    <select id="findTextIDsByCorpusID" resultType="java.lang.String">
-        select text_id
-        from core.text_property
-        where core.text_property.property_value = #{corpusId} and core.text_property.property_name = 'korpus';
-    </select>
+  <select id="findTextIDsByCorpusID" resultType="java.lang.String">
+    select text_id
+    from core.text_property
+    where core.text_property.property_value = #{corpusId}
+      and core.text_property.property_name = 'korpus';
+  </select>
 
-    <select id="findTextIDandTitleByCorpusID" resultType="java.lang.String">
-        select array_to_json(array_agg(row_to_json(t)))
-        from (
-            select tp1.text_id,
-            (select tp2.property_value FROM core.text_property as tp2 where tp2.property_name='title' and tp2.text_id = tp1.text_id)
-        from core.text_property as tp1
-        where tp1.property_value = #{corpusId} and tp1.property_name = 'korpus'
-        ) t
-    </select>
+  <select id="findTextIDandTitleByCorpusID" resultType="java.lang.String">
+    select array_to_json(array_agg(row_to_json(t)))
+    from (select tp1.text_id,
+                 (select tp2.property_value
+                  FROM core.text_property as tp2
+                  where tp2.property_name = 'title'
+                    and tp2.text_id = tp1.text_id)
+          from core.text_property as tp1
+          where tp1.property_value = #{corpusId}
+            and tp1.property_name = 'korpus') t
+  </select>
 
-    <select id="textTitleQueryByParameters" resultType="java.lang.String">
-        select array_to_json(array_agg(row_to_json(t)))
-        from (
-            select p2.text_id, p2.property_value
-            from core.text_property as p2
-            <if test="loendurHelperid.length != 0">
-                join core.text as p3 on p2.text_id = p3.id
-                join core.text_processor_result as p4 on p3.hash = p4.text_hash
-            </if>
-            <foreach item="helperid" collection="helperid" separator=" ">join core.text_property as ${helperid.tabel} on p2.text_id = ${helperid.tabel}.text_id</foreach>
-            where p2.property_name = 'title'
-            <foreach item="helperid" collection="helperid" separator=" "> and ${helperid.tabel}.property_name = #{helperid.parameeter} and ${helperid.tabel}.property_value in <foreach item="v" collection="helperid.vaartus" separator=", " open="(" close=")">#{v}</foreach></foreach>
-            <if test="loendurHelperid.length != 0">
-             and p4.type = 'CHARS_WORDS_SENTENCES'
-                <foreach item="loendurHelperid" collection="loendurHelperid" separator=" ">
-                     and cast(p4.result::json->#{loendurHelperid.parameeter} as TEXT) = #{loendurHelperid.vaartus}
-                </foreach>
-            </if>
-        ) t
-    </select>
+  <select id="detailedTextQueryByParameters" resultType="java.lang.String">
+    select array_to_json(array_agg(row_to_json(t)))
+    from (
+    select p2.text_id, p2.property_value
+    from core.text_property as p2
+    join core.text_property as ${corpusHelper.table} on p2.text_id = ${corpusHelper.table}.text_id
+    <foreach item="paramHelper" collection="paramHelper" separator=" ">
+      join core.text_property as ${paramHelper.table} on p2.text_id = ${paramHelper.table}.text_id
+    </foreach>
+    <foreach item="rangeParamHelper" collection="rangeParamHelper" separator=" ">
+      <if test="rangeParamHelper.castable == true">
+        join core.text as ${rangeParamHelper.table} on p2.text_id = ${rangeParamHelper.table}.id
+        join core.text_processor_result as ${rangeParamHelper.table + 1} on ${rangeParamHelper.table}.hash =
+        ${rangeParamHelper.table + 1}.text_hash
+      </if>
+      <if test="rangeParamHelper.castable == false">
+        join core.text_property as ${rangeParamHelper.table} on p2.text_id = ${rangeParamHelper.table}.text_id
+      </if>
+    </foreach>
+    where p2.property_name = 'title'
+    and ${corpusHelper.table}.property_name = #{corpusHelper.parameter}
+    and ${corpusHelper.table}.property_value in
+    <foreach item="corpus" collection="corpusHelper.values" separator=", " open="(" close=")">
+      #{corpus}
+    </foreach>
+    <foreach item="paramHelper" collection="paramHelper" separator=" ">
+      and ${paramHelper.table}.property_name = #{paramHelper.parameter}
+      and ${paramHelper.table}.property_value = #{paramHelper.value}
+    </foreach>
+    <foreach item="rangeParamHelper" collection="rangeParamHelper" separator=" ">
+      <if test="rangeParamHelper.castable == true">
+        and ${rangeParamHelper.table + 1}.type = 'CHARS_WORDS_SENTENCES' and
+        <foreach item="baseValues" collection="rangeParamHelper.values" separator=" or " open="(" close=")">
+          (cast(cast(${rangeParamHelper.table + 1}.result::json->#{rangeParamHelper.parameter} as TEXT) as INTEGER)
+          between #{baseValues.startValue} and #{baseValues.endValue})
+        </foreach>
+      </if>
+      <if test="rangeParamHelper.castable == false">
+        and ${rangeParamHelper.table}.property_name = #{rangeParamHelper.parameter} and
+        <foreach item="baseValues" collection="rangeParamHelper.values" separator=" or " open="(" close=")">
+          (${rangeParamHelper.table}.property_value::integer between #{baseValues.startValue} and
+          #{baseValues.endValue})
+        </foreach>
+      </if>
+    </foreach>
+    ) t
+  </select>
 
-    <select id="findMiniStats" resultType="java.lang.String">
-        select array_to_json(array_agg(row_to_json(t)))
-        from (
-        select distinct count(tp1.text_id) as sum,
-        sum(tp2.property_value::integer) as sonu,
-        sum(tp3.property_value::integer) as lauseid
-        from core.text_property as tp1
-        JOIN core.text_property as tp2 on tp1.text_id=tp2.text_id
-        JOIN core.text_property as tp3 on tp2.text_id=tp3.text_id
-        WHERE tp1.property_name = 'korpus' AND tp1.property_value IN <foreach item="cId" collection="cId" separator="," open="(" close=")">
-        #{cId}
-    </foreach> AND tp2.property_name = 'sonu' AND tp3.property_name = 'lauseid'
-        ) t
-    </select>
+  <select id="findMiniStats" resultType="java.lang.String">
+    select array_to_json(array_agg(row_to_json(t)))
+    from (
+    select distinct count(tp1.text_id) as sum,
+    sum(tp2.property_value::integer) as sonu,
+    sum(tp3.property_value::integer) as lauseid
+    from core.text_property as tp1
+    JOIN core.text_property as tp2 on tp1.text_id=tp2.text_id
+    JOIN core.text_property as tp3 on tp2.text_id=tp3.text_id
+    WHERE tp1.property_name = 'korpus' AND tp1.property_value IN <foreach item="cId" collection="cId" separator=","
+                                                                          open="(" close=")">
+    #{cId}
+  </foreach> AND tp2.property_name = 'sonu' AND tp3.property_name = 'lauseid'
+    ) t
+  </select>
 
-    <select id="findAvailableValues" resultType="java.lang.String">
-       select array_to_json(array_agg(row_to_json(t)))
-        from (
+  <select id="findAvailableValues" resultType="java.lang.String">
+    select array_to_json(array_agg(row_to_json(t)))
+    from (
         select distinct tp1.property_value as value
         from core.text_property as tp1
         WHERE tp1.property_name = #{pName}

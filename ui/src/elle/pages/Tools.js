@@ -6,6 +6,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import {Outlet, useLocation, useNavigate} from "react-router-dom";
+import Query from "../components/Query";
+import {AccordionStyle} from "../utils/constants";
 
 function Tools() {
   const navigate = useNavigate();
@@ -45,15 +47,12 @@ function Tools() {
                 xs={12}
                 sm={12}
                 md={12}>
+            <Query/>
             <Accordion
-              disableGutters
-              elevation={0}
-              square
-              sx={{w: 10}}
+              sx={AccordionStyle}
               expanded={expanded}
             >
               <AccordionSummary
-                className="tools-accordion"
                 expandIcon={<ExpandMoreIcon/>}
                 onClick={() =>
                   setExpanded(!expanded)
@@ -76,7 +75,6 @@ function Tools() {
             </Accordion>
           </Grid>
         </Grid>
-        <hr/>
         <Outlet/>
       </CardContent>
     </Card>
