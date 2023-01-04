@@ -1,8 +1,8 @@
 package ee.tlu.evkk.dal.dao;
 
 import ee.tlu.evkk.dal.dto.Text;
-import ee.tlu.evkk.dal.dto.TextQueryHelper;
 import ee.tlu.evkk.dal.dto.TextQueryCountsHelper;
+import ee.tlu.evkk.dal.dto.TextQueryHelper;
 import ee.tlu.evkk.dal.jdbc.SqlArray;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -43,4 +43,7 @@ public interface TextDao {
 
   List<Text> list(@Param("limit") Integer limit, @Param("offset") Integer offset);
 
+  void insertAdding(@Param("id") UUID id, @Param("content") String content);
+
+  void insertAddingProperty(@Param("id") UUID id, @Param("pname") String pname, @Param("pvalue") String pvalue);
 }
