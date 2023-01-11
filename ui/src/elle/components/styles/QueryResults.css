@@ -1,3 +1,26 @@
 .modal-head {
   font-size: 1.5em;
 }
+
+.resultTable {
+  margin-right: auto;
+  margin-left: auto;
+  border-bottom: solid 1px;
+  width: 100%;
+}
+
+.tableRow {
+  background-color: white;
+}
+
+.tableRow:nth-child(even) {
+  background-color: #EBECF0;
+}
+
+.checkboxRow {
+  width: 4em;
+}
+
+.clickableRow {
+  cursor: pointer;
+}

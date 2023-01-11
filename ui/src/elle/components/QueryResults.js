@@ -1,5 +1,15 @@
 import React, {useState} from "react";
-import {Accordion, AccordionDetails, AccordionSummary, Box, Modal, Typography} from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Backdrop,
+  Box,
+  Checkbox,
+  CircularProgress,
+  Modal,
+  Typography
+} from "@mui/material";
 import {usePagination, useTable} from "react-table";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import "./styles/QueryResults.css";
@@ -11,6 +21,7 @@ function QueryResults(props) {
   const [modalOpen, setModalOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [text, setText] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const [metadata, setMetadata] = useState({
     title: '',
@@ -90,6 +101,8 @@ function QueryResults(props) {
   };
 
   function previewText(id) {
+    setLoading(true);
+
     fetch("/api/texts/kysitekstimetainfo?id=" + id, {
       method: "GET",
       headers: {
@@ -147,6 +160,7 @@ function QueryResults(props) {
             }
           }
         });
+        setLoading(false);
       })
     fetch("/api/texts/kysitekst?id=" + id, {
       method: "GET",
@@ -181,17 +195,24 @@ function QueryResults(props) {
     <>
       {response.length > 0 ? <h4><strong>Leitud tekste:</strong> {response.length}</h4> : <></>}
       <br/>
-      <table>
+      <table className='resultTable'>
         <thead>
         <tr>
+          <th></th>
           <th></th>
         </tr>
         </thead>
         <tbody>
         {response.map((e) => (
           <tr
-            key={e.text_id}>
-            <td onClick={() => previewText(e.text_id)}>
+            className='tableRow border'
+            key={e.text_id}
+            id={e.text_id}>
+            <td className='checkboxRow'>
+              <Checkbox/>
+            </td>
+            <td className='clickableRow'
+                onClick={() => previewText(e.text_id)}>
               {e.property_value}
             </td>
           </tr>
@@ -236,6 +257,13 @@ function QueryResults(props) {
               </AccordionDetails>
             </Accordion>
             <br/>
+            <Backdrop
+              open={loading}
+            >
+              <CircularProgress disableShrink
+                                thickness='4'
+                                size='10%'/>
+            </Backdrop>
             {text.split(/\\n/g).map(function (item, index) {
               return (
                 <span key={index}>
