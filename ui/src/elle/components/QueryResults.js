@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from "react";
+import React, {useMemo, useReducer, useRef, useState} from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -23,7 +23,8 @@ function QueryResults(props) {
   const [expanded, setExpanded] = useState(false);
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
-  const [checkboxStatus, setCheckboxStatus] = useState([]);
+  const checkboxStatuses = useRef(new Set());
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
 
   const [metadata, setMetadata] = useState({
     title: '',
@@ -47,7 +48,7 @@ function QueryResults(props) {
         Header: '',
         accessor: 'text_id',
         Cell: (cellProps) => {
-          return <Checkbox checked={checkboxStatus.includes(cellProps.value)}
+          return <Checkbox checked={checkboxStatuses.current.has(cellProps.value)}
                            id={cellProps.value}
                            onChange={() => alterCheckbox(cellProps.value)}/>
         },
@@ -105,12 +106,12 @@ function QueryResults(props) {
   };
 
   const alterCheckbox = (id) => {
-    if (checkboxStatus.some(item => item === id)) {
-      const index = checkboxStatus.indexOf(id);
-      setCheckboxStatus([...checkboxStatus.slice(index, 1)]);
+    if (checkboxStatuses.current.has(id)) {
+      checkboxStatuses.current.delete(id);
     } else {
-      setCheckboxStatus([...checkboxStatus, id]);
+      checkboxStatuses.current.add(id);
     }
+    forceUpdate();
   }
 
   function previewText(id) {

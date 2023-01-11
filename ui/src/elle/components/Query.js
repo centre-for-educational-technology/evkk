@@ -64,8 +64,10 @@ function Query() {
   const [alert, setAlert] = useState(false);
   const [noResultsError, setNoResultsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [resultsKey, setResultsKey] = useState(1);
 
   function submitted() {
+    setResultsKey(Math.random());
     setIsLoading(true);
     let selectedCorpuses = [];
     Object.entries(corpusCheckboxStatus).forEach((entry) => {
@@ -661,7 +663,7 @@ function Query() {
             </div>
             <br/><br/>
             <LoadingButton onClick={() => {
-              submitted()
+              submitted();
             }}
                            loading={isLoading}
                            variant={isLoading ? "outlined" : "contained"}>Saada päring</LoadingButton>
@@ -670,7 +672,8 @@ function Query() {
       </Accordion>
       <br/>
       {noResultsError ? <div><Alert severity="error">Ei leitud ühtegi teksti!</Alert><br/></div> : <></>}
-      <QueryResults data={results}/>
+      <QueryResults key={resultsKey}
+                    data={results}/>
     </div>
   );
 }
