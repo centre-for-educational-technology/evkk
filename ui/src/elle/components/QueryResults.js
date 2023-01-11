@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useMemo, useState} from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -14,6 +14,7 @@ import {usePagination, useTable} from "react-table";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import "./styles/QueryResults.css";
 import {ages, corpuses, educations, genders, locations, types} from "../utils/constants";
+import TablePagination from "../tools/wordanalyser/TablePagination";
 
 function QueryResults(props) {
 
@@ -22,6 +23,7 @@ function QueryResults(props) {
   const [expanded, setExpanded] = useState(false);
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
+  const [checkboxStatus, setCheckboxStatus] = useState([]);
 
   const [metadata, setMetadata] = useState({
     title: '',
@@ -40,36 +42,37 @@ function QueryResults(props) {
 
   const basicMetadataFields = ['title', 'tekstikeel', 'keeletase', 'abivahendid', 'aasta', 'emakeel'];
 
-  const columns = React.useMemo(() => [
+  const columns = useMemo(() => [
       {
         Header: '',
-        accessor: 'col1',
-        disableSortBy: true,
-        sortable: false,
-        width: 800,
+        accessor: 'text_id',
+        Cell: (cellProps) => {
+          return <Checkbox checked={checkboxStatus.includes(cellProps.value)}
+                           id={cellProps.value}
+                           onChange={() => alterCheckbox(cellProps.value)}/>
+        },
+        className: 'checkboxRow'
+      },
+      {
+        Header: '',
+        accessor: 'property_value',
+        Cell: (cellProps) => {
+          return <span className='clickableRow'
+                       onClick={() => previewText(cellProps.row.original.text_id)}>{cellProps.value}</span>
+        },
       }
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
-  const data = React.useMemo(() => fillData(), []);
 
-  function fillData() {
-    let tableVal = [];
-    for (let i = 0; i < response.size; i++) {
-      let info = {
-        col1: ""
-      }
-      info.col1 = <span onClick={() => previewText(response[i].text_id)}>{response[i].property_value}</span>;
-      tableVal.push(info);
-    }
-    return tableVal;
-  }
+  const data = useMemo(() => response, [response]);
 
   const {
     getTableProps,
     getTableBodyProps,
+    headerGroups,
     page,
-    state,
     prepareRow,
     canPreviousPage,
     canNextPage,
@@ -79,6 +82,7 @@ function QueryResults(props) {
     nextPage,
     previousPage,
     setPageSize,
+    state: {pageIndex, pageSize}
   } =
     useTable({columns, data}, usePagination);
 
@@ -99,6 +103,15 @@ function QueryResults(props) {
   const changeAccordion = () => {
     setExpanded(!expanded);
   };
+
+  const alterCheckbox = (id) => {
+    if (checkboxStatus.some(item => item === id)) {
+      const index = checkboxStatus.indexOf(id);
+      setCheckboxStatus([...checkboxStatus.slice(index, 1)]);
+    } else {
+      setCheckboxStatus([...checkboxStatus, id]);
+    }
+  }
 
   function previewText(id) {
     setLoading(true);
@@ -194,31 +207,59 @@ function QueryResults(props) {
   return (
     <>
       {response.length > 0 ? <h4><strong>Leitud tekste:</strong> {response.length}</h4> : <></>}
-      <br/>
-      <table className='resultTable'>
-        <thead>
-        <tr>
-          <th></th>
-          <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        {response.map((e) => (
-          <tr
-            className='tableRow border'
-            key={e.text_id}
-            id={e.text_id}>
-            <td className='checkboxRow'>
-              <Checkbox/>
-            </td>
-            <td className='clickableRow'
-                onClick={() => previewText(e.text_id)}>
-              {e.property_value}
-            </td>
-          </tr>
-        ))}
-        </tbody>
-      </table>
+      {response.length > 0 &&
+        <>
+          <br/>
+          <table className='resultTable'
+                 {...getTableProps()}>
+            <thead>
+            {headerGroups.map(headerGroup => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map(column => (
+                  <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                ))}
+              </tr>
+            ))}
+            </thead>
+            <tbody {...getTableBodyProps()}>
+            {page.map((row, _i) => {
+              prepareRow(row);
+              return (
+                <tr
+                  className='tableRow border'
+                  {...row.getRowProps()}
+                  key={row.values.text_id}
+                  id={row.values.text_id}>
+                  {row.cells.map(cell => {
+                    return (
+                      <td {...cell.getCellProps({
+                        className: cell.column.className
+                      })}>
+                        {cell.render('Cell')}
+                      </td>
+                    )
+                  })}
+                </tr>
+              )
+            })}
+            </tbody>
+          </table>
+          <br/>
+          <TablePagination
+            gotoPage={gotoPage}
+            previousPage={previousPage}
+            canPreviousPage={canPreviousPage}
+            nextPage={nextPage}
+            canNextPage={canNextPage}
+            pageIndex={pageIndex}
+            pageOptions={pageOptions}
+            pageSize={pageSize}
+            setPageSize={setPageSize}
+            pageCount={pageCount}
+          />
+        </>
+      }
+
       <Modal
         open={modalOpen}
         onClose={() => {
@@ -261,7 +302,7 @@ function QueryResults(props) {
               open={loading}
             >
               <CircularProgress disableShrink
-                                thickness='4'
+                                thickness={4}
                                 size='10%'/>
             </Backdrop>
             {text.split(/\\n/g).map(function (item, index) {

@@ -19,10 +19,10 @@ function GrammaticalAnalysis() {
   const analysedInput = useContext(AnalyseContext)[0];
 
   let wordArray = []
-  const types = analysedInput.wordtypes
-  const forms = analysedInput.wordforms
-  const words = analysedInput.words
-  const ids = analysedInput.ids
+  const types = analysedInput.wordtypes;
+  const forms = analysedInput.wordforms;
+  const words = analysedInput.words;
+  const ids = analysedInput.ids;
 
   const analyseInput = () => {
     for (let i = 0; i < words.length; i++) {
@@ -48,23 +48,23 @@ function GrammaticalAnalysis() {
             word: words[i],
             ids: [ids[i]],
           }
-          wordArray[typeIndex].words.push(newWord)
-          wordArray[typeIndex].count += 1
+          wordArray[typeIndex].words.push(newWord);
+          wordArray[typeIndex].count += 1;
         } else {
-          wordArray[typeIndex].count += 1
-          wordArray[typeIndex].words[wordIndex].ids.push(ids[i])
+          wordArray[typeIndex].count += 1;
+          wordArray[typeIndex].words[wordIndex].ids.push(ids[i]);
         }
       }
     }
     //liigi ja tüübi sortimine
-    wordArray.sort((a, b) => (a.count === b.count) ? ((a.type > b.type) ? -1 : 1) : ((a.count > b.count) ? -1 : 1))
+    wordArray.sort((a, b) => (a.count === b.count) ? ((a.type > b.type) ? -1 : 1) : ((a.count > b.count) ? -1 : 1));
     //sõnade sortimine
     for (const element of wordArray) {
-      element.words.sort((a, b) => (a.ids.length === b.ids.length) ? ((a.word < b.word) ? -1 : 1) : ((a.ids.length > b.ids.length) ? -1 : 1))
+      element.words.sort((a, b) => (a.ids.length === b.ids.length) ? ((a.word < b.word) ? -1 : 1) : ((a.ids.length > b.ids.length) ? -1 : 1));
     }
   }
 
-  analyseInput()
+  analyseInput();
 
   const tableToDownload = [t("common_wordtype"), t("common_form"), t("common_words_in_text"), t("common_header_frequency"), t("common_header_percentage")];
 
@@ -361,7 +361,7 @@ function GrammaticalAnalysis() {
         </thead>
         <tbody {...getTableBodyProps()}>
         {page.map((row, _i) => {
-          prepareRow(row)
+          prepareRow(row);
           return (
             <tr className='tableRow' {...row.getRowProps()}>
               {row.cells.map(cell => {
