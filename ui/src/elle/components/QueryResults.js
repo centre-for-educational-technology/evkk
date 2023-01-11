@@ -3,14 +3,32 @@ import {Accordion, AccordionDetails, AccordionSummary, Box, Modal, Typography} f
 import {usePagination, useTable} from "react-table";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import "./styles/QueryResults.css";
+import {ages, corpuses, educations, genders, locations, types} from "../utils/constants";
 
 function QueryResults(props) {
 
   const response = props.data;
   const [modalOpen, setModalOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const [title, setTitle] = useState('');
   const [text, setText] = useState('');
+
+  const [metadata, setMetadata] = useState({
+    title: '',
+    korpus: '',
+    tekstityyp: '',
+    tekstikeel: '',
+    keeletase: '',
+    abivahendid: '',
+    aasta: '',
+    vanus: '',
+    sugu: '',
+    haridus: '',
+    emakeel: '',
+    elukohariik: '',
+  });
+
+  const basicMetadataFields = ['title', 'tekstikeel', 'keeletase', 'abivahendid', 'aasta', 'emakeel'];
+
   const columns = React.useMemo(() => [
       {
         Header: '',
@@ -81,10 +99,54 @@ function QueryResults(props) {
       .then(res => res.json())
       .then((result) => {
         result.forEach(param => {
-          if (param.property_name === 'title') {
-            setTitle(param.property_value);
+          if (basicMetadataFields.includes(param.property_name)) {
+            setIndividualMetadata(param.property_name, param.property_value);
           }
-        })
+          if (param.property_name === 'korpus') {
+            setIndividualMetadata('korpus', corpuses[param.property_value]);
+          }
+          if (param.property_name === 'tekstityyp') {
+            const value = types[param.property_value] === undefined
+              ? 'tundmatu teksti liik'
+              : types[param.property_value];
+            setIndividualMetadata('tekstityyp', value);
+          }
+          if (param.property_name === 'vanus') {
+            if (ages[param.property_value] !== undefined) {
+              setIndividualMetadata('vanus', ages[param.property_value]);
+            } else {
+              if (param.property_value <= 18) {
+                setIndividualMetadata('vanus', ages['kuni18']);
+              } else if (param.property_value > 18 && param.property_value < 27) {
+                setIndividualMetadata('vanus', ages['kuni26']);
+              } else if (param.property_value > 26 && param.property_value < 41) {
+                setIndividualMetadata('vanus', ages['kuni40']);
+              } else if (param.property_value > 40) {
+                setIndividualMetadata('vanus', ages['41plus']);
+              }
+            }
+          }
+          if (param.property_name === 'sugu') {
+            setIndividualMetadata('sugu', genders[param.property_value]);
+          }
+          if (param.property_name === 'haridus') {
+            setIndividualMetadata('haridus', educations[param.property_value]);
+          }
+          if (param.property_name === 'elukoht') {
+            if ('riik' in result) {
+              const countryPropertyValue = result['riik'].property_value;
+              const startingLetter = countryPropertyValue.charAt(0).toUpperCase();
+              setIndividualMetadata('elukohariik', startingLetter + countryPropertyValue.slice(1));
+            } else {
+              if (locations.includes(param.property_value)) {
+                setIndividualMetadata('elukohariik', 'Eesti');
+              } else {
+                const startingLetter = param.property_value.charAt(0).toUpperCase();
+                setIndividualMetadata('elukohariik', startingLetter + param.property_value.slice(1));
+              }
+            }
+          }
+        });
       })
     fetch("/api/texts/kysitekst?id=" + id, {
       method: "GET",
@@ -95,8 +157,24 @@ function QueryResults(props) {
       .then(res => res.text())
       .then((result) => {
         setText(result);
-      })
+      });
+
+    Object.entries(metadata).forEach((entry) => {
+      if (entry[1] === '') {
+        setIndividualMetadata(entry[0], '-');
+      }
+    });
+
     setModalOpen(true);
+  }
+
+  const setIndividualMetadata = (keyName, valueName) => {
+    setMetadata(prevData => {
+      return {
+        ...prevData,
+        [keyName]: valueName
+      }
+    });
   }
 
   return (
@@ -123,12 +201,12 @@ function QueryResults(props) {
       <Modal
         open={modalOpen}
         onClose={() => {
-          setModalOpen(false)
+          setModalOpen(false);
         }}
       >
         <Box sx={modalStyle}>
           <div className="modal-head">
-            {title}
+            {metadata.title}
           </div>
           <br/>
           <div>
@@ -143,18 +221,18 @@ function QueryResults(props) {
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <strong>Korpus: </strong><br/>
-                <strong>Teksti liik: </strong><br/>
-                <strong>Teksti keel: </strong><br/>
-                <strong>Teksti tase: </strong><br/>
-                <strong>Kasutatud õppematerjale: </strong><br/>
-                <strong>Teksti lisamise aasta: </strong><br/>
+                <strong>Korpus:</strong> {metadata.korpus}<br/>
+                <strong>Teksti liik:</strong> {metadata.tekstityyp}<br/>
+                <strong>Teksti keel:</strong> {metadata.tekstikeel}<br/>
+                <strong>Teksti tase:</strong> {metadata.keeletase}<br/>
+                <strong>Kasutatud õppematerjale:</strong> {metadata.abivahendid}<br/>
+                <strong>Teksti lisamise aasta:</strong> {metadata.aasta}<br/>
                 <br/>
-                <strong>Autori vanus: </strong><br/>
-                <strong>Autori sugu: </strong><br/>
-                <strong>Autori haridus: </strong><br/>
-                <strong>Autori emakeel: </strong><br/>
-                <strong>Autori elukohariik: </strong><br/>
+                <strong>Autori vanus:</strong> {metadata.vanus}<br/>
+                <strong>Autori sugu:</strong> {metadata.sugu}<br/>
+                <strong>Autori haridus:</strong> {metadata.haridus}<br/>
+                <strong>Autori emakeel:</strong> {metadata.emakeel}<br/>
+                <strong>Autori elukohariik:</strong> {metadata.elukohariik}<br/>
               </AccordionDetails>
             </Accordion>
             <br/>
