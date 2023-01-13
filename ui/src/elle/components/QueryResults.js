@@ -5,6 +5,7 @@ import {
   AccordionSummary,
   Backdrop,
   Box,
+  Button,
   Checkbox,
   CircularProgress,
   IconButton,
@@ -70,6 +71,9 @@ function QueryResults(props) {
   );
 
   const data = useMemo(() => response, [response]);
+  const allTextIds = data.map(item => {
+    return item.text_id;
+  });
 
   const {
     getTableProps,
@@ -207,12 +211,32 @@ function QueryResults(props) {
     });
   }
 
+  function selectAll() {
+    if (allTextsSelected()) {
+      checkboxStatuses.current.clear();
+    } else {
+      checkboxStatuses.current.clear();
+      allTextIds.forEach(item => {
+        checkboxStatuses.current.add(item);
+      });
+    }
+    forceUpdate();
+  }
+
+  function allTextsSelected() {
+    return allTextIds.every(v => Array.from(checkboxStatuses.current).includes(v));
+  }
+
   return (
     <>
       {response.length > 0 ? <h4><strong>Leitud tekste:</strong> {response.length}</h4> : <></>}
       {response.length > 0 &&
         <>
-          <br/>
+          <Button variant='outlined'
+                  className='selectAllButton'
+                  onClick={() => selectAll()}>
+            {allTextsSelected() ? 'Eemalda kõik' : 'Vali kõik'}
+          </Button>
           <table className='resultTable'
                  {...getTableProps()}>
             <thead>

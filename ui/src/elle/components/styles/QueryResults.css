@@ -29,3 +29,8 @@
   top: 0.5em;
   right: 0.5em;
 }
+
+.selectAllButton {
+  margin-top: 1em !important;
+  margin-bottom: 1em !important;
+}
