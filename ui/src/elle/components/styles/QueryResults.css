@@ -23,3 +23,9 @@
 .clickableRow {
   cursor: pointer;
 }
+
+.closeButton {
+  position: absolute !important;
+  top: 0.5em;
+  right: 0.5em;
+}

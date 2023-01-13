@@ -7,11 +7,13 @@ import {
   Box,
   Checkbox,
   CircularProgress,
+  IconButton,
   Modal,
   Typography
 } from "@mui/material";
 import {usePagination, useTable} from "react-table";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import CloseIcon from '@mui/icons-material/Close';
 import "./styles/QueryResults.css";
 import {ages, corpuses, educations, genders, locations, types} from "../utils/constants";
 import TablePagination from "../tools/wordanalyser/TablePagination";
@@ -271,6 +273,15 @@ function QueryResults(props) {
           <div className="modal-head">
             {metadata.title}
           </div>
+          <IconButton
+            aria-label="close"
+            onClick={() => {
+              setModalOpen(false);
+            }}
+            className='closeButton'
+          >
+            <CloseIcon/>
+          </IconButton>
           <br/>
           <div>
             <Accordion expanded={expanded}
