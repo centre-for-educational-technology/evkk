@@ -1,10 +1,12 @@
 package ee.tlu.evkk.core.service;
 
+import ee.tlu.evkk.core.service.dto.CorpusDownloadDto;
 import ee.tlu.evkk.core.service.dto.CorpusRequestDto;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.core.service.maps.TranslationMappings;
 import ee.tlu.evkk.core.text.processor.TextProcessor;
 import ee.tlu.evkk.dal.dao.TextDao;
+import ee.tlu.evkk.dal.dto.CorpusDownloadResponseDto;
 import ee.tlu.evkk.dal.dto.Pageable;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.dto.TextProperty;
@@ -17,6 +19,8 @@ import ee.tlu.evkk.dal.repository.TextPropertyRepository;
 import ee.tlu.evkk.dal.repository.TextRepository;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -27,6 +31,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.caseTranslationsEn;
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.caseTranslationsEt;
@@ -42,6 +48,8 @@ import static ee.tlu.evkk.core.service.maps.TranslationMappings.verbFormTranslat
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.verbFormTranslationsEt;
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.wordTypesEn;
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.wordTypesEt;
+import static java.lang.String.format;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static org.apache.logging.log4j.util.Strings.isNotBlank;
@@ -152,6 +160,31 @@ public class TextService {
 
     String daoResponse = textDao.detailedTextQueryByParameters(corpusHelper, paramHelpers, rangeParamBaseHelpers);
     return isNotBlank(daoResponse) ? daoResponse : new ArrayList<>().toString();
+  }
+
+  public byte[] tekstidfailina(CorpusDownloadDto corpusDownloadDto) throws IOException {
+    List<CorpusDownloadResponseDto> contentsAndTitles = textDao.findTextContentsAndTitlesByIds(corpusDownloadDto.getFileList());
+
+    if (corpusDownloadDto.getType().equals("zip")) {
+      ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+      try (ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
+        for (int i = 0; i < contentsAndTitles.size(); i++) {
+          ZipEntry zipEntry = new ZipEntry(format("%s (%s)", contentsAndTitles.get(i).getTitle(), corpusDownloadDto.getFileList().get(i)));
+          zipOutputStream.putNextEntry(zipEntry);
+          zipOutputStream.write(contentsAndTitles.get(i).getContents().getBytes(UTF_8));
+          zipOutputStream.closeEntry();
+        }
+      } catch (IOException e) {
+        throw new IOException("Something went wrong while generating ZIP file.");
+      }
+      return byteArrayOutputStream.toByteArray();
+    }
+
+    StringBuilder contentsCombined = new StringBuilder();
+    for (CorpusDownloadResponseDto entry : contentsAndTitles) {
+      contentsCombined.append(entry.getContents());
+    }
+    return contentsCombined.toString().getBytes(UTF_8);
   }
 
   public static String[] translateWordType(String[] tekst, String language) {

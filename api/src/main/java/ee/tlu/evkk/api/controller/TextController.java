@@ -9,6 +9,7 @@ import ee.tlu.evkk.common.env.ServiceLocator;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.service.TextService;
+import ee.tlu.evkk.core.service.dto.CorpusDownloadDto;
 import ee.tlu.evkk.core.service.dto.CorpusRequestDto;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.dal.dao.TextDao;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
@@ -147,6 +149,11 @@ public class TextController {
   @PostMapping("/detailneparing")
   public ResponseEntity<String> detailneparing(@RequestBody CorpusRequestDto vaartused) {
     return ResponseEntity.ok(textService.detailneparing(vaartused));
+  }
+
+  @PostMapping("/tekstidfailina")
+  public ResponseEntity<byte[]> tekstidfailina(@RequestBody CorpusDownloadDto corpusDownloadDto) throws IOException {
+    return ResponseEntity.ok(textService.tekstidfailina(corpusDownloadDto));
   }
 
   @GetMapping("/asukoht")

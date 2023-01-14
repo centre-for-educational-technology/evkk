@@ -1,5 +1,6 @@
 package ee.tlu.evkk.dal.dao;
 
+import ee.tlu.evkk.dal.dto.CorpusDownloadResponseDto;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.dto.TextQueryCorpusHelper;
 import ee.tlu.evkk.dal.dto.TextQueryParamHelper;
@@ -37,6 +38,8 @@ public interface TextDao {
   String findAvailableValues(@Param("pName") String pName); // selected filter
 
   List<String> findTextsByCorpusId(@Param("corpusId") String corpusId);
+
+  List<CorpusDownloadResponseDto> findTextContentsAndTitlesByIds(@Param("ids") List<UUID> ids);
 
   Optional<Text> findById(@Param("id") UUID id);
 
