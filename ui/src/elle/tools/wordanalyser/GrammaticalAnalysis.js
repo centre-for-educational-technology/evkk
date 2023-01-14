@@ -1,7 +1,7 @@
 import {useContext, useMemo, useState} from 'react';
 import {useFilters, usePagination, useSortBy, useTable} from 'react-table';
 import {Box, Checkbox, FormControl, IconButton, ListItemText, MenuItem, Select} from "@mui/material";
-import DownloadButton from "./DownloadButton";
+import TableDownloadButton from "./TableDownloadButton";
 import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import {v4 as uuidv4} from 'uuid';
@@ -329,8 +329,8 @@ function GrammaticalAnalysis() {
 
   return (
     <Box>
-      <DownloadButton data={data}
-                      headers={tableToDownload}/>
+      <TableDownloadButton data={data}
+                           headers={tableToDownload}/>
       <table className='analyserTable' {...getTableProps()}
              style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>
         <thead>

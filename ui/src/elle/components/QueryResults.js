@@ -18,6 +18,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import "./styles/QueryResults.css";
 import {ages, corpuses, educations, genders, locations, types} from "../utils/constants";
 import TablePagination from "../tools/wordanalyser/TablePagination";
+import QueryDownloadButton from "./QueryDownloadButton";
 
 function QueryResults(props) {
 
@@ -237,6 +238,7 @@ function QueryResults(props) {
                   onClick={() => selectAll()}>
             {allTextsSelected() ? 'Eemalda kõik' : 'Vali kõik'}
           </Button>
+          <QueryDownloadButton selected={checkboxStatuses.current}/>
           <table className='resultTable'
                  {...getTableProps()}>
             <thead>

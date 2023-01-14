@@ -37,4 +37,11 @@ export const TRANSLATIONS_ET = {
   textupload_upload: "Laadi failid üles",
   wordinfo_title: "Sõnaanalüüs",
   wordinfo_word: "Sõna",
+  query_download_form: "Vorming",
+  query_download_basictext: "Lihttekstina",
+  query_download_tei: "TEI-märgendusega",
+  query_download_stanza: "Stanza märgendusega",
+  query_download_vislcg3: "VISLCG3 märgendusega",
+  query_download_txt: "Ühe failina",
+  query_download_zip: "ZIP failina"
 };

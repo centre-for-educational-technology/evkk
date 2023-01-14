@@ -37,4 +37,11 @@ export const TRANSLATIONS_EN = {
   textupload_upload: "Upload files",
   wordinfo_title: "Word analysis",
   wordinfo_word: "Word",
+  query_download_form: "Format",
+  query_download_basictext: "Text only",
+  query_download_tei: "TEI-tagging",
+  query_download_stanza: "Stanza tagging",
+  query_download_vislcg3: "VISLCG3 tagging",
+  query_download_txt: "Single file",
+  query_download_zip: "ZIP file"
 };
