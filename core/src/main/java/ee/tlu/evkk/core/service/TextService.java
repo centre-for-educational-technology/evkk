@@ -163,13 +163,18 @@ public class TextService {
   }
 
   public byte[] tekstidfailina(CorpusDownloadDto corpusDownloadDto) throws IOException {
+    final String forbiddenCharacters = "[\\\\<>:\"/|?*]";
     List<CorpusDownloadResponseDto> contentsAndTitles = textDao.findTextContentsAndTitlesByIds(corpusDownloadDto.getFileList());
 
     if (corpusDownloadDto.getType().equals("zip")) {
       ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
       try (ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
         for (int i = 0; i < contentsAndTitles.size(); i++) {
-          ZipEntry zipEntry = new ZipEntry(format("%s (%s)", contentsAndTitles.get(i).getTitle(), corpusDownloadDto.getFileList().get(i)));
+          ZipEntry zipEntry = new ZipEntry(format(
+            "%s (%s).txt",
+            contentsAndTitles.get(i).getTitle().replaceAll(forbiddenCharacters, ""),
+            corpusDownloadDto.getFileList().get(i))
+          );
           zipOutputStream.putNextEntry(zipEntry);
           zipOutputStream.write(contentsAndTitles.get(i).getContents().getBytes(UTF_8));
           zipOutputStream.closeEntry();
