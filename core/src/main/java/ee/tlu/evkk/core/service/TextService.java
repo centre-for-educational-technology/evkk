@@ -49,6 +49,7 @@ import static ee.tlu.evkk.core.service.maps.TranslationMappings.verbFormTranslat
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.wordTypesEn;
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.wordTypesEt;
 import static java.lang.String.format;
+import static java.lang.System.lineSeparator;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
@@ -176,7 +177,7 @@ public class TextService {
             corpusDownloadDto.getFileList().get(i))
           );
           zipOutputStream.putNextEntry(zipEntry);
-          zipOutputStream.write(contentsAndTitles.get(i).getContents().getBytes(UTF_8));
+          zipOutputStream.write(contentsAndTitles.get(i).getContents().replace("\\n", lineSeparator()).getBytes(UTF_8));
           zipOutputStream.closeEntry();
         }
       } catch (IOException e) {
@@ -187,7 +188,9 @@ public class TextService {
 
     StringBuilder contentsCombined = new StringBuilder();
     for (CorpusDownloadResponseDto entry : contentsAndTitles) {
-      contentsCombined.append(entry.getContents());
+      contentsCombined.append(entry.getContents().replace("\\n", lineSeparator()))
+        .append(lineSeparator())
+        .append(lineSeparator());
     }
     return contentsCombined.toString().getBytes(UTF_8);
   }
