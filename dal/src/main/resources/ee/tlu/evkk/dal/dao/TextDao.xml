@@ -168,6 +168,15 @@
     t1.id in <foreach item="id" collection="ids" separator="," open="(" close=")">#{id}</foreach>;
   </select>
 
+  <select id="findTextTitlesAndContentsWithStanzaTaggingByIds"
+          resultType="ee.tlu.evkk.dal.dto.CorpusDownloadResponseDto">
+    select t2.property_value as title, t3.result as contents from core.text_processor_result as t3
+    join core.text as t1 on t1.id = t2.text_id
+    join core.text_property as t2 on t1.hash = t3.text_hash
+    where t2.property_name = #{type} and
+    t1.id in <foreach item="id" collection="ids" separator="," open="(" close=")">#{id}</foreach>;
+  </select>
+
   <select id="findById" resultType="ee.tlu.evkk.dal.dto.Text">
     select *
     from core.text t

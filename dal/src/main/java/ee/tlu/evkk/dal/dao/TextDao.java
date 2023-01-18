@@ -41,6 +41,8 @@ public interface TextDao {
 
   List<CorpusDownloadResponseDto> findTextContentsAndTitlesByIds(@Param("ids") List<UUID> ids);
 
+  List<CorpusDownloadResponseDto> findTextTitlesAndContentsWithStanzaTaggingByIds(@Param("ids") List<UUID> ids, @Param("type") String type);
+
   Optional<Text> findById(@Param("id") UUID id);
 
   List<Text> search(@Param("filters") Map<String, SqlArray<String>> filters, @Param("limit") Integer limit, @Param("offset") Integer offset);

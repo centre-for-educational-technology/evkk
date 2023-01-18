@@ -94,8 +94,7 @@ export default function QueryDownloadButton({selected}) {
                 <MenuItem value="basictext">{t('query_download_basictext')}</MenuItem>
                 <MenuItem value="tei"
                           disabled>{t('query_download_tei')}</MenuItem>
-                <MenuItem value="stanza"
-                          disabled>{t('query_download_stanza')}</MenuItem>
+                <MenuItem value="stanza">{t('query_download_stanza')}</MenuItem>
                 <MenuItem value="vislcg3"
                           disabled>{t('query_download_vislcg3')}</MenuItem>
               </Select>

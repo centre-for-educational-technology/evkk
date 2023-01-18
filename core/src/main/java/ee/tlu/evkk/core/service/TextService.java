@@ -165,7 +165,17 @@ public class TextService {
 
   public byte[] tekstidfailina(CorpusDownloadDto corpusDownloadDto) throws IOException {
     final String forbiddenCharacters = "[\\\\<>:\"/|?*]";
-    List<CorpusDownloadResponseDto> contentsAndTitles = textDao.findTextContentsAndTitlesByIds(corpusDownloadDto.getFileList());
+    List<CorpusDownloadResponseDto> contentsAndTitles;
+
+    if (corpusDownloadDto.getForm().equals("basictext")) {
+      contentsAndTitles = textDao.findTextContentsAndTitlesByIds(corpusDownloadDto.getFileList());
+    } else {
+      String typeColumn = "";
+      if (corpusDownloadDto.getForm().equals("stanza")) {
+        typeColumn = "ANNOTATE_STANZA_CONLLU";
+      }
+      contentsAndTitles = textDao.findTextTitlesAndContentsWithStanzaTaggingByIds(corpusDownloadDto.getFileList(), typeColumn);
+    }
 
     if (corpusDownloadDto.getType().equals("zip")) {
       ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
