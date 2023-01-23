@@ -165,14 +165,18 @@ public class TextService {
 
   public byte[] tekstidfailina(CorpusDownloadDto corpusDownloadDto) throws IOException {
     final String forbiddenCharacters = "[\\\\<>:\"/|?*]";
+    final String basicText = "basictext";
     List<CorpusDownloadResponseDto> contentsAndTitles;
 
-    if (corpusDownloadDto.getForm().equals("basictext")) {
+    if (corpusDownloadDto.getForm().equals(basicText)) {
       contentsAndTitles = textDao.findTextContentsAndTitlesByIds(corpusDownloadDto.getFileList());
     } else {
       String typeColumn = "";
       if (corpusDownloadDto.getForm().equals("stanza")) {
         typeColumn = "ANNOTATE_STANZA_CONLLU";
+      }
+      if (corpusDownloadDto.getForm().equals("vislcg3")) {
+        typeColumn = "ANNOTATE_ESTNLTK";
       }
       contentsAndTitles = textDao.findTextTitlesAndContentsWithStanzaTaggingByIds(corpusDownloadDto.getFileList(), typeColumn);
     }
@@ -187,7 +191,10 @@ public class TextService {
             corpusDownloadDto.getFileList().get(i))
           );
           zipOutputStream.putNextEntry(zipEntry);
-          zipOutputStream.write(contentsAndTitles.get(i).getContents().replace("\\n", lineSeparator()).getBytes(UTF_8));
+          String fileContents = corpusDownloadDto.getForm().equals(basicText)
+            ? contentsAndTitles.get(i).getContents().replace("\\n", lineSeparator())
+            : contentsAndTitles.get(i).getContents();
+          zipOutputStream.write(fileContents.getBytes(UTF_8));
           zipOutputStream.closeEntry();
         }
       } catch (IOException e) {
@@ -198,9 +205,14 @@ public class TextService {
 
     StringBuilder contentsCombined = new StringBuilder();
     for (CorpusDownloadResponseDto entry : contentsAndTitles) {
-      contentsCombined.append(entry.getContents().replace("\\n", lineSeparator()))
-        .append(lineSeparator())
-        .append(lineSeparator());
+      String fileContents = corpusDownloadDto.getForm().equals(basicText)
+        ? entry.getContents().replace("\\n", lineSeparator())
+        : entry.getContents();
+      contentsCombined.append(fileContents);
+      if (corpusDownloadDto.getForm().equals(basicText)) {
+        contentsCombined.append(lineSeparator())
+          .append(lineSeparator());
+      }
     }
     return contentsCombined.toString().getBytes(UTF_8);
   }
