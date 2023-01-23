@@ -10,6 +10,7 @@ export const TRANSLATIONS_ET = {
   common_syllables: "Silbid",
   common_words_in_text: "Tekstisõnad",
   common_wordtype: "Sõnaliik",
+  error_generic_server_error: "Toiming ebaõnnestus! Proovi hiljem uuesti.",
   error_no_text: "Analüüsimiseks sisesta esmalt tekst!",
   error_text_too_long: "Tekst on analüüsi kuvamiseks liiga pikk!",
   gram_anal_filename: "gram_analyys",

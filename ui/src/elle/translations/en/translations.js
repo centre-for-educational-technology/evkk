@@ -10,6 +10,7 @@ export const TRANSLATIONS_EN = {
   common_syllables: "Syllables",
   common_words_in_text: "Words in text",
   common_wordtype: "Part of speech",
+  error_generic_server_error: "Operation failed! Try again later.",
   error_no_text: "Enter text to run analysis!",
   error_text_too_long: "The text is too long for analysis!",
   gram_anal_filename: "gram_analysis",

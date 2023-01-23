@@ -1,11 +1,10 @@
-import React, {useMemo, useReducer, useRef, useState} from "react";
+import React, {useEffect, useMemo, useReducer, useRef, useState} from "react";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Backdrop,
   Box,
-  Button,
   Checkbox,
   CircularProgress,
   IconButton,
@@ -19,6 +18,7 @@ import "./styles/QueryResults.css";
 import {ages, corpuses, educations, genders, locations, types} from "../utils/constants";
 import TablePagination from "../tools/wordanalyser/TablePagination";
 import QueryDownloadButton from "./QueryDownloadButton";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 function QueryResults(props) {
 
@@ -26,9 +26,10 @@ function QueryResults(props) {
   const [modalOpen, setModalOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [text, setText] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [isLoadingQueryResults, setIsLoadingQueryResults] = useState(false);
+  const [isLoadingSelectAllTexts, setIsLoadingSelectAllTexts] = useState(false);
   const checkboxStatuses = useRef(new Set());
-  const [, forceUpdate] = useReducer(x => x + 1, 0);
+  const [update, forceUpdate] = useReducer(x => x + 1, 0);
 
   const [metadata, setMetadata] = useState({
     title: '',
@@ -122,7 +123,7 @@ function QueryResults(props) {
   }
 
   function previewText(id) {
-    setLoading(true);
+    setIsLoadingQueryResults(true);
 
     fetch("/api/texts/kysitekstimetainfo?id=" + id, {
       method: "GET",
@@ -181,7 +182,7 @@ function QueryResults(props) {
             }
           }
         });
-        setLoading(false);
+        setIsLoadingQueryResults(false);
       })
     fetch("/api/texts/kysitekst?id=" + id, {
       method: "GET",
@@ -212,17 +213,24 @@ function QueryResults(props) {
     });
   }
 
-  function selectAll() {
-    if (allTextsSelected()) {
-      checkboxStatuses.current.clear();
-    } else {
-      checkboxStatuses.current.clear();
-      allTextIds.forEach(item => {
-        checkboxStatuses.current.add(item);
-      });
+  useEffect(() => {
+    setIsLoadingSelectAllTexts(false);
+  }, [update]);
+
+  useEffect(() => {
+    if (isLoadingSelectAllTexts) {
+      if (allTextsSelected()) {
+        checkboxStatuses.current.clear();
+      } else {
+        checkboxStatuses.current.clear();
+        allTextIds.forEach(item => {
+          checkboxStatuses.current.add(item);
+        });
+      }
+      forceUpdate();
     }
-    forceUpdate();
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoadingSelectAllTexts]);
 
   function allTextsSelected() {
     return allTextIds.every(v => Array.from(checkboxStatuses.current).includes(v));
@@ -233,11 +241,16 @@ function QueryResults(props) {
       {response.length > 0 ? <h4><strong>Leitud tekste:</strong> {response.length}</h4> : <></>}
       {response.length > 0 &&
         <>
-          <Button variant='outlined'
-                  className='selectAllButton'
-                  onClick={() => selectAll()}>
+          <LoadingButton variant='outlined'
+                         loadingIndicator={<CircularProgress disableShrink
+                                                             color="inherit"
+                                                             size={16}/>}
+                         loading={isLoadingSelectAllTexts}
+                         disabled={isLoadingSelectAllTexts}
+                         className='selectAllButton'
+                         onClick={() => setIsLoadingSelectAllTexts(true)}>
             {allTextsSelected() ? 'Eemalda kõik' : 'Vali kõik'}
-          </Button>
+          </LoadingButton>
           <QueryDownloadButton selected={checkboxStatuses.current}/>
           <table className='resultTable'
                  {...getTableProps()}>
@@ -337,7 +350,7 @@ function QueryResults(props) {
             </Accordion>
             <br/>
             <Backdrop
-              open={loading}
+              open={isLoadingQueryResults}
             >
               <CircularProgress disableShrink
                                 thickness={4}

@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   FormControl,
@@ -8,6 +9,7 @@ import {
   Radio,
   RadioGroup,
   Select,
+  Snackbar,
   Tooltip
 } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -17,24 +19,34 @@ import './styles/QueryDownloadButton.css';
 import {useState} from "react";
 import i18n from "i18next";
 import FileSaver from 'file-saver';
+import LoadingButton from "@mui/lab/LoadingButton";
 
 export default function QueryDownloadButton({selected}) {
 
   const [downloadForm, setDownloadForm] = useState('basictext');
   const [downloadFileType, setDownloadFileType] = useState('txt');
   const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+  const [isLoading, setIsLoading] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const optionsDialogOpen = Boolean(anchorEl);
   const {t} = useTranslation();
 
-  const handleClick = (event) => {
+  const handleOptionsDialogOpenButtonClick = (event) => {
     setDownloadForm('basictext');
     setDownloadFileType('txt');
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleOptionsDialogClose = () => {
     setAnchorEl(null);
   };
+
+  const handleSnackbarClose = (_event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  }
 
   const changeDownloadForm = (event) => {
     setDownloadForm(event.target.value);
@@ -45,6 +57,7 @@ export default function QueryDownloadButton({selected}) {
   }
 
   const downloadTexts = () => {
+    setIsLoading(true);
     fetch(`/api/texts/tekstidfailina`, {
       method: "POST",
       body: JSON.stringify({
@@ -56,27 +69,47 @@ export default function QueryDownloadButton({selected}) {
         "Content-Type": "application/json"
       }
     })
-      .then(res => res.blob())
+      .then((res) => {
+        if (res.ok) {
+          return res.blob();
+        }
+        throw new Error();
+      })
       .then((blob) => {
         FileSaver.saveAs(blob, `${i18n.language === 'et' ? 'tekstid' : 'texts'}.${downloadFileType === 'txt' ? 'txt' : 'zip'}`);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setSnackbarOpen(true);
+        setIsLoading(false);
       });
   }
 
   return (
     <span className="query-download-button-span">
+      <Snackbar open={snackbarOpen}
+                autoHideDuration={6000}
+                anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                onClose={handleSnackbarClose}>
+        <Alert onClose={handleSnackbarClose}
+               className="error-alert"
+               severity="error">
+          {t('error_generic_server_error')}
+        </Alert>
+      </Snackbar>
       <Tooltip title={t("common_download")}
                placement="top">
         <Button variant="contained"
                 disabled={selected.size === 0}
                 className='query-download-modal-button'
-                onClick={handleClick}>
+                onClick={handleOptionsDialogOpenButtonClick}>
           <DownloadIcon fontSize="medium"/>
         </Button>
       </Tooltip>
       <Popover
-        open={open}
+        open={optionsDialogOpen}
         anchorEl={anchorEl}
-        onClose={handleClose}
+        onClose={handleOptionsDialogClose}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'left',
@@ -114,10 +147,11 @@ export default function QueryDownloadButton({selected}) {
               </RadioGroup>
             </FormControl>
             <div className="download-button">
-              <Button variant='contained'
-                      onClick={downloadTexts}>
+              <LoadingButton variant={isLoading ? "outlined" : "contained"}
+                             loading={isLoading}
+                             onClick={downloadTexts}>
                 {t("common_download")}
-              </Button>
+              </LoadingButton>
             </div>
           </Box>
         </Box>
