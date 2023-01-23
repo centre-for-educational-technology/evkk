@@ -16,8 +16,8 @@ class TextControllerTest extends IntegrationTest {
   @Test
   @DisplayName("Syllabify text")
   void syllabifyText() throws Exception {
-    var request = readResourceAsString("SilbidInputRequest.json");
-    var response = readResourceAsString("SilbidInputResponse.json");
+    var request = readResourceAsString("SyllabificationRequest.json");
+    var response = readResourceAsString("SyllabificationResponse.json");
 
     var mockResponse = mockMvc.perform(
         post("/texts/silbid")
