@@ -23,6 +23,7 @@ import LemmaView from "./LemmaView";
 import {Alert, Box, Fade, IconButton, Typography} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import Tutorial from "../../components/Tutorial";
 
 export default function WordAnalyserParent() {
 
@@ -130,6 +131,7 @@ export default function WordAnalyserParent() {
                                     {tabValue === 2 ? <LemmaView/> : null}
                                     {tabValue === 3 ? <GrammaticalAnalysis/> : null}
                                   </Box>
+                                  {tabValue !== 0 ? <Tutorial/> : null}
                                 </TabContext.Provider>
                               </SetLemmaContext.Provider>
                             </LemmaContext.Provider>

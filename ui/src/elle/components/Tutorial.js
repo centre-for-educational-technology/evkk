@@ -1,0 +1,107 @@
+import {Box, Button, Card, CardActions, CardContent, Typography} from "@mui/material";
+import {useState} from "react";
+
+function Tutorial() {
+
+  const [boxOpen, setBoxOpen] = new useState(1)
+
+  function Box1() {
+    return (
+      <>
+        <Box position={"absolute"} left={"20%"} top={"20%"} width={"30%"} height={"15%"} borderRadius={"10px"}
+             boxShadow={"0 0 0 99999px rgba(0, 0, 0, .8)"}>
+        </Box>
+        <Card
+          sx={{position: "absolute", top: "15%", left: "10%", width: "15%", border: "solid", borderColor: "yellow"}}>
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              Siin kastis on võimalik sõnadel klõpsata. Klõpsates hkuvatakse valitud sõnad kollase taustaga.
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small" onClick={() => setBoxOpen(2)}>EDASI</Button>
+            <Button size="small" onClick={() => setBoxOpen(0)}>LÕPETA</Button>
+          </CardActions>
+        </Card>
+      </>
+    )
+  }
+
+  function Box2() {
+    return (
+      <>
+        <Box position={"absolute"} left={"50%"} top={"20%"} width={"15%"} height={"15%"} borderRadius={"10px"}
+             boxShadow={"0 0 0 99999px rgba(0, 0, 0, .8)"}>
+        </Box>
+        <Card
+          sx={{position: "absolute", top: "15%", left: "40%", width: "15%", border: "solid", borderColor: "yellow"}}>
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              Sõnadel klõpsates ilmub siia valitud sõna grammatiline info.
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small" onClick={() => setBoxOpen(1)}>TAGASI</Button>
+            <Button size="small" onClick={() => setBoxOpen(3)}>EDASI</Button>
+            <Button size="small" onClick={() => setBoxOpen(0)}>LÕPETA</Button>
+          </CardActions>
+        </Card>
+      </>
+    )
+  }
+
+  function Box3() {
+    return (
+      <>
+        <Box position={"absolute"} left={"10%"} top={"42%"} width={"25%"} height={"10%"} borderRadius={"10px"}
+             boxShadow={"0 0 0 99999px rgba(0, 0, 0, .8)"}>
+        </Box>
+        <Card sx={{position: "absolute", top: "38%", left: "0%", width: "15%", border: "solid", borderColor: "yellow"}}>
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              Siit saad valida, mis infot sa allolevates tabelites näha soovid.
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small" onClick={() => setBoxOpen(2)}>TAGASI</Button>
+            <Button size="small" onClick={() => setBoxOpen(4)}>EDASI</Button>
+            <Button size="small" onClick={() => setBoxOpen(0)}>LÕPETA</Button>
+          </CardActions>
+        </Card>
+      </>
+    )
+  }
+
+  function Box4() {
+    return (
+      <>
+        <Box position={"absolute"} left={"10%"} top={"58%"} width={"80%"} height={"30%"} borderRadius={"10px"}
+             boxShadow={"0 0 0 99999px rgba(0, 0, 0, .8)"}>
+        </Box>
+        <Card sx={{position: "absolute", top: "55%", left: "0%", width: "15%", border: "solid", borderColor: "yellow"}}>
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              Siin tabelis näed infot tekstikastis olevate sõnade kohta.
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small" onClick={() => setBoxOpen(3)}>TAGASI</Button>
+            <Button size="small" onClick={() => setBoxOpen(0)}>LÕPETA</Button>
+          </CardActions>
+        </Card>
+      </>
+    )
+  }
+
+  return (
+    <Box>
+      {boxOpen === 1 ? <Box1/> : null}
+      {boxOpen === 2 ? <Box2/> : null}
+      {boxOpen === 3 ? <Box3/> : null}
+      {boxOpen === 4 ? <Box4/> : null}
+    </Box>
+  )
+
+}
+
+export default Tutorial
