@@ -27,6 +27,8 @@ export default function QueryDownloadButton({selected}) {
   const {t} = useTranslation();
 
   const handleClick = (event) => {
+    setDownloadForm('basictext');
+    setDownloadFileType('txt');
     setAnchorEl(event.currentTarget);
   };
 
