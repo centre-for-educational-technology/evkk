@@ -4,10 +4,11 @@ import {WordInfo} from './WordInfo';
 import {v4 as uuidv4} from 'uuid';
 import './styles/WordAnalyser.css';
 import TextUpload from './textupload/TextUpload';
-import {Alert, Box, Grid} from '@mui/material';
+import {Alert, Box, Fade, Grid, IconButton, Typography} from '@mui/material';
 import {useTranslation} from "react-i18next";
 import "../../translations/i18n";
 import i18n from "i18next";
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import {
   AnalyseContext,
   FormContext,
@@ -18,6 +19,8 @@ import {
   TypeContext,
   WordContext
 } from "./Contexts";
+import CloseIcon from '@mui/icons-material/Close';
+import {AlertTitle} from "@mui/lab";
 
 function WordAnalyser() {
   const [analysedInput, setAnalysedInput] = useContext(AnalyseContext)
@@ -33,7 +36,11 @@ function WordAnalyser() {
   const syllableWord = useContext(SyllableWordContext);
   const lemma = useContext(LemmaContext);
 
+
   const {t} = useTranslation();
+  const [open, setOpen] = useState(false);
+  const [border, setBorder] = useState(0);
+
   //get words
   const getWords = async (input) => {
     const response = await fetch("/api/texts/sonad", {
@@ -420,13 +427,64 @@ function WordAnalyser() {
 
   return (
     <Box component='section'
-         className="container">
+         className="container"
+         paddingTop={"20px"}
+         border={border}
+         borderColor={"#E1F5FE"}
+         borderRadius={10}
+    >
+      <Fade in={open}>
+      <Box
+        paddingX={"10px"}
+        width={"65%"}
+        borderRadius={5}
+        bgcolor={"#E1F5FE"}
+      marginTop={"-50px"}
+      marginLeft={"auto"}
+      marginRight={"auto"}
+      >
+
+        <Alert
+          severity={"info"}
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setOpen(false);
+                setBorder(0)
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          <Typography color={"#1A237E"} ><strong>Vasakus kastis sõnadel klõpastes ilmub paremale info antud sõna kohta</strong></Typography>
+        </Alert>
+
+      </Box>
+      </Fade>
+
       <Grid container
             columnSpacing={{xs: 0, md: 4}}>
         <Grid item
               xs={12}
               md={12}>
-          <TextUpload sendTextFromFile={sendTextFromFile}/>
+          <Box display={"flex"}
+          justifyContent={"flex-start"}>
+            <Box><TextUpload sendTextFromFile={sendTextFromFile}/></Box>
+            <Box style={{cursor: "pointer"}} onClick={() => { if(open === false){
+              setBorder(10);
+              setOpen(true)
+            }else{
+              setBorder(0);
+              setOpen(false)
+            }}}><HelpOutlineIcon/></Box>
+          </Box>
+
+
         </Grid>
         <Grid item
               xs={12}

@@ -20,12 +20,18 @@ import GrammaticalAnalysis from "./GrammaticalAnalysis";
 import TableComponent from "./TableComponent";
 import Syllables from "./Syllables";
 import LemmaView from "./LemmaView";
+import {Alert, Box, Fade, IconButton, Typography} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
 export default function WordAnalyserParent() {
 
   const [wordValue, setWordValue] = useState("");
   const [formValue, setFormValue] = useState("");
   const [typeValue, setTypeValue] = useState("");
+  const [border, setBorder] = useState(0);
+  const [open, setOpen] = useState(false);
+
   const [analyseValue, setAnalyseValue] = useState({
     ids: [''],
     text: '',
@@ -58,11 +64,72 @@ export default function WordAnalyserParent() {
                             <LemmaContext.Provider value={lemmaValue}>
                               <SetLemmaContext.Provider value={setLemmaValue}>
                                 <TabContext.Provider value={[tabValue, setTabValue]}>
-                                  <WordAnalyser/>
-                                  {tabValue === 1 || tabValue === 2 || tabValue === 3 ? <TableComponent/> : null}
-                                  {tabValue === 1 ? <Syllables/> : null}
-                                  {tabValue === 2 ? <LemmaView/> : null}
-                                  {tabValue === 3 ? <GrammaticalAnalysis/> : null}
+                                  <Box
+                                    border={border}
+                                    borderColor={"#E1F5FE"}
+                                    borderRadius={10}
+                                  >
+                                    <WordAnalyser/>
+                                  </Box>
+
+                                  <Box component={"span"}>
+                                    {tabValue === 1 || tabValue === 2 || tabValue === 3 ? <TableComponent/> : null}
+                                    {tabValue === 1 || tabValue === 2 || tabValue === 3 ? <Box position={"relative"} bottom={"90px"} left={"450px"} component={"span"}
+                                          style={{cursor: "pointer"}} onClick={() => {
+                                            if(open === false){
+                                              setBorder(10);
+                                              setOpen(true)
+                                            }else{
+                                              setBorder(0);
+                                              setOpen(false)
+                                            }
+
+                                    }}><HelpOutlineIcon/></Box> : null}
+                                  </Box>
+
+                                  <Box
+                                    padding={"20px"}
+                                    border={border}
+                                    borderColor={"#E1F5FE"}
+                                    borderRadius={10}
+                                  >
+                                    <Fade in={open}>
+                                      <Box
+                                        paddingX={"10px"}
+                                        width={"65%"}
+                                        borderRadius={5}
+                                        bgcolor={"#E1F5FE"}
+                                        marginTop={"-50px"}
+                                        marginLeft={"auto"}
+                                        marginRight={"auto"}
+                                      >
+
+                                        <Alert
+                                          severity={"info"}
+                                          action={
+                                            <IconButton
+                                              aria-label="close"
+                                              color="inherit"
+                                              size="small"
+                                              onClick={() => {
+                                                setOpen(false);
+                                                setBorder(0)
+                                              }}
+                                            >
+                                              <CloseIcon fontSize="inherit" />
+                                            </IconButton>
+                                          }
+                                          sx={{ mb: 2 }}
+                                        >
+                                          <Typography color={"#1A237E"} ><strong>Tabelis olevatel väärtustel klõpsides märgitakse väärtused ära ülaoleva kasti tekstis</strong></Typography>
+                                        </Alert>
+
+                                      </Box>
+                                    </Fade>
+                                    {tabValue === 1 ? <Syllables/> : null}
+                                    {tabValue === 2 ? <LemmaView/> : null}
+                                    {tabValue === 3 ? <GrammaticalAnalysis/> : null}
+                                  </Box>
                                 </TabContext.Provider>
                               </SetLemmaContext.Provider>
                             </LemmaContext.Provider>
