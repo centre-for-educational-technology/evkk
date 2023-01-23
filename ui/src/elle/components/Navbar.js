@@ -92,7 +92,7 @@ function Navbar() {
                 zIndex: "auto",
                 background: "#FFD0FD",
                 backgroundImage: `url(${CoverImage})`,
-                backgroundSize: "cover",
+                backgroundSize: "100% 100%",
                 backgroundPosition: "center bottom"
               }}>
         <Toolbar>
