@@ -1,9 +1,20 @@
 import {Box, Button, Card, CardActions, CardContent, Typography} from "@mui/material";
-import {useState} from "react";
+import {useRef, useState} from "react";
 
 function Tutorial() {
 
   const [boxOpen, setBoxOpen] = new useState(1)
+  const ref1 = useRef();
+
+  const handleClick = () => {
+    setBoxOpen(3)
+    window.scrollBy({top: 400, behavior: "smooth"})
+  }
+
+  const handleClose = () => {
+    setBoxOpen(0)
+    window.scrollBy({top: -99999, behavior: "smooth"})
+  }
 
   function Box1() {
     return (
@@ -20,7 +31,7 @@ function Tutorial() {
           </CardContent>
           <CardActions>
             <Button size="small" onClick={() => setBoxOpen(2)}>EDASI</Button>
-            <Button size="small" onClick={() => setBoxOpen(0)}>LÕPETA</Button>
+            <Button size="small" onClick={handleClose}>LÕPETA</Button>
           </CardActions>
         </Card>
       </>
@@ -42,8 +53,8 @@ function Tutorial() {
           </CardContent>
           <CardActions>
             <Button size="small" onClick={() => setBoxOpen(1)}>TAGASI</Button>
-            <Button size="small" onClick={() => setBoxOpen(3)}>EDASI</Button>
-            <Button size="small" onClick={() => setBoxOpen(0)}>LÕPETA</Button>
+            <Button size="small" onClick={handleClick}>EDASI</Button>
+            <Button size="small" onClick={handleClose}>LÕPETA</Button>
           </CardActions>
         </Card>
       </>
@@ -53,7 +64,8 @@ function Tutorial() {
   function Box3() {
     return (
       <>
-        <Box position={"absolute"} left={"10%"} top={"42%"} width={"25%"} height={"10%"} borderRadius={"10px"}
+        <Box ref={ref1} position={"absolute"} left={"10%"} top={"42%"} width={"25%"} height={"10%"}
+             borderRadius={"10px"}
              boxShadow={"0 0 0 99999px rgba(0, 0, 0, .8)"}>
         </Box>
         <Card sx={{position: "absolute", top: "38%", left: "0%", width: "15%", border: "solid", borderColor: "yellow"}}>
@@ -63,9 +75,15 @@ function Tutorial() {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small" onClick={() => setBoxOpen(2)}>TAGASI</Button>
-            <Button size="small" onClick={() => setBoxOpen(4)}>EDASI</Button>
-            <Button size="small" onClick={() => setBoxOpen(0)}>LÕPETA</Button>
+            <Button size="small" onClick={() => {
+              setBoxOpen(2)
+              window.scrollBy({top: -400, behavior: "smooth"})
+            }}>TAGASI</Button>
+            <Button size="small" onClick={() => {
+              setBoxOpen(4)
+              window.scrollBy({top: 400, behavior: "smooth"})
+            }}>EDASI</Button>
+            <Button size="small" onClick={handleClose}>LÕPETA</Button>
           </CardActions>
         </Card>
       </>
@@ -85,8 +103,34 @@ function Tutorial() {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small" onClick={() => setBoxOpen(3)}>TAGASI</Button>
-            <Button size="small" onClick={() => setBoxOpen(0)}>LÕPETA</Button>
+            <Button size="small" onClick={() => {
+              setBoxOpen(3)
+              window.scrollBy({top: -400, behavior: "smooth"})
+            }}>TAGASI</Button>
+            <Button size="small" onClick={() => setBoxOpen(5)}>EDASI</Button>
+            <Button size="small" onClick={handleClose}>LÕPETA</Button>
+          </CardActions>
+        </Card>
+      </>
+    )
+  }
+
+  function Box5() {
+    return (
+      <>
+        <Box position={"absolute"} left={"10%"} top={"61%"} width={"55%"} height={"4%"} borderRadius={"10px"}
+             boxShadow={"0 0 0 99999px rgba(0, 0, 0, .8)"}>
+        </Box>
+        <Card sx={{position: "absolute", top: "55%", left: "0%", width: "15%", border: "solid", borderColor: "yellow"}}>
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              Tabelis olevatel väärtustel klõpsates märgitakse ülevaloleval tekstikastis kõik sõnad, mis on valikuga
+              seotud.
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small" onClick={() => setBoxOpen(4)}>TAGASI</Button>
+            <Button size="small" onClick={handleClose}>LÕPETA</Button>
           </CardActions>
         </Card>
       </>
@@ -99,7 +143,10 @@ function Tutorial() {
       {boxOpen === 2 ? <Box2/> : null}
       {boxOpen === 3 ? <Box3/> : null}
       {boxOpen === 4 ? <Box4/> : null}
+      {boxOpen === 5 ? <Box5/> : null}
+
     </Box>
+
   )
 
 }
