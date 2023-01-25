@@ -48,6 +48,10 @@
   background-color: #FFFF00;
 }
 
+.blue {
+  background-color: #02a5de;
+}
+
 .word {
   cursor: pointer;
   white-space: nowrap;
