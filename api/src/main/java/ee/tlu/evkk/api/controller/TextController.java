@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 import static java.util.UUID.randomUUID;
-
+import javax.validation.Valid;
 @RestController
 @RequestMapping("/texts")
 public class TextController {
@@ -203,7 +203,7 @@ public class TextController {
   }
 
   @PostMapping("/lisatekst")
-  public String lisatekst(@RequestBody AddingRequestEntity andmed) {
+  public String lisatekst(@Valid @RequestBody AddingRequestEntity andmed) {
     UUID kood = randomUUID();
     textDao.insertAdding(kood, andmed.getSisu());
     lisaTekstiOmadus(kood, "title", andmed.getPealkiri());

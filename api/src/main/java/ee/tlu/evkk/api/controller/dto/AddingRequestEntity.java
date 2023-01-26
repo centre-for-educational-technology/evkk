@@ -1,9 +1,12 @@
 package ee.tlu.evkk.api.controller.dto;
+import javax.validation.constraints.NotBlank;
 
 public class AddingRequestEntity {
 
+  @NotBlank
   private String pealkiri;
   private String kirjeldus;
+  @NotBlank
   private String sisu;
   private String liik;
   private String oppematerjal;
