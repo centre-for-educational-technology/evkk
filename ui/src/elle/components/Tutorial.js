@@ -1,9 +1,16 @@
 import {Box, Button, Card, CardActions, CardContent, Typography} from "@mui/material";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 function Tutorial() {
 
   const [boxOpen, setBoxOpen] = new useState(1)
+
+  useEffect(() => {
+    if (sessionStorage.getItem('tutorial')) {
+      setBoxOpen(0);
+    }
+  }, [])
+
   const ref1 = useRef();
 
   const handleClick = () => {
@@ -14,6 +21,7 @@ function Tutorial() {
   const handleClose = () => {
     setBoxOpen(0)
     window.scrollBy({top: -99999, behavior: "smooth"})
+    sessionStorage.setItem('tutorial', "false")
   }
 
   function Box1() {

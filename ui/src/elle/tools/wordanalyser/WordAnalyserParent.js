@@ -22,7 +22,6 @@ import Syllables from "./Syllables";
 import LemmaView from "./LemmaView";
 import {Alert, Box, Fade, IconButton, Typography} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Tutorial from "../../components/Tutorial";
 
 export default function WordAnalyserParent() {
@@ -75,7 +74,7 @@ export default function WordAnalyserParent() {
 
                                   <Box component={"span"}>
                                     {tabValue === 1 || tabValue === 2 || tabValue === 3 ? <TableComponent/> : null}
-                                    {tabValue === 1 || tabValue === 2 || tabValue === 3 ? <Box position={"relative"} bottom={"90px"} left={"450px"} component={"span"}
+                                    {/*  {tabValue === 1 || tabValue === 2 || tabValue === 3 ? <Box position={"relative"} bottom={"90px"} left={"450px"} component={"span"}
                                           style={{cursor: "pointer"}} onClick={() => {
                                             if(open === false){
                                               setBorder(10);
@@ -85,7 +84,7 @@ export default function WordAnalyserParent() {
                                               setOpen(false)
                                             }
 
-                                    }}><HelpOutlineIcon/></Box> : null}
+                                    }}><HelpOutlineIcon/></Box> : null}*/}
                                   </Box>
 
                                   <Box

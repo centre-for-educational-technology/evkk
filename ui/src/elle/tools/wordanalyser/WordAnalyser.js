@@ -8,7 +8,6 @@ import {Alert, Box, Fade, Grid, IconButton, Typography} from '@mui/material';
 import {useTranslation} from "react-i18next";
 import "../../translations/i18n";
 import i18n from "i18next";
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import {
   AnalyseContext,
   FormContext,
@@ -20,7 +19,6 @@ import {
   WordContext
 } from "./Contexts";
 import CloseIcon from '@mui/icons-material/Close';
-import {AlertTitle} from "@mui/lab";
 
 function WordAnalyser() {
   const [analysedInput, setAnalysedInput] = useContext(AnalyseContext)
@@ -475,13 +473,13 @@ function WordAnalyser() {
           <Box display={"flex"}
           justifyContent={"flex-start"}>
             <Box><TextUpload sendTextFromFile={sendTextFromFile}/></Box>
-            <Box style={{cursor: "pointer"}} onClick={() => { if(open === false){
+           {/* <Box style={{cursor: "pointer"}} onClick={() => { if(open === false){
               setBorder(10);
               setOpen(true)
             }else{
               setBorder(0);
               setOpen(false)
-            }}}><HelpOutlineIcon/></Box>
+            }}}><HelpOutlineIcon/></Box>*/}
           </Box>
 
 
