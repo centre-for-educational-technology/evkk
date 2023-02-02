@@ -15,3 +15,5 @@ create table core.text_property_added
   property_value varchar,
   constraint text_property_added_pkey primary key (id)
 );
+
+call core.attach_meta_trigger('core.text_property_added');
