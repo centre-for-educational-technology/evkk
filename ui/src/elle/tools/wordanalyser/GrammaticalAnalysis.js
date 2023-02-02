@@ -1,6 +1,17 @@
-import {useContext, useMemo, useState} from 'react';
+import {useContext, useEffect, useMemo, useState} from 'react';
 import {useFilters, usePagination, useSortBy, useTable} from 'react-table';
-import {Box, Checkbox, FormControl, IconButton, ListItemText, MenuItem, Select} from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  Chip,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select
+} from "@mui/material";
 import DownloadButton from "./DownloadButton";
 import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
@@ -11,18 +22,86 @@ import "../../translations/i18n";
 import {AnalyseContext, SetFormContext, SetTypeContext, SetWordContext} from "./Contexts";
 import ToggleCell from "./ToggleCell";
 
+
 function GrammaticalAnalysis() {
   const {t} = useTranslation();
   const setType = useContext(SetTypeContext);
   const setForm = useContext(SetFormContext);
   const setWord = useContext(SetWordContext);
   const analysedInput = useContext(AnalyseContext)[0];
+  const [filterValue, setValue] = useState([])
 
   let wordArray = []
   const types = analysedInput.wordtypes
   const forms = analysedInput.wordforms
   const words = analysedInput.words
   const ids = analysedInput.ids
+  const [col1, setCol1] = useState([])
+  const [col2, setCol2] = useState([])
+  const [filtersInUse, setAppliedFilters] = useState([])
+
+  function checkFilters(filter1, filter2) {
+    let list = []
+    for (let i = 0; i < filter1.length; i++) {
+      if (filter2.includes(filter1[i])) {
+        list.push(filter1[i])
+      }
+    }
+    return list
+  }
+
+  function multiSelectFilter(rows, columnIds, filterValue) {
+    return filterValue.length === 0
+      ? rows
+      : rows.filter((row) =>
+        filterValue.includes(String(row.original[columnIds])),
+      );
+  }
+
+  function multiSelect(values, label, column) {
+
+    const handleChange = (event) => {
+      const {
+        target: {value},
+      } = event;
+      setValue(
+        value
+      )
+
+      setAppliedFilters(value)
+
+      if (column === 1) {
+        setAllFilters([{id: "col1", value: checkFilters(value, col1)}, {id: "col2", value: checkFilters(value, col2)}])
+      } else {
+        setAllFilters([{id: "col1", value: checkFilters(value, col1)}, {id: "col2", value: checkFilters(value, col2)}])
+      }
+    }
+
+
+    return (
+      <Box marginY={"5px"}>
+        <FormControl size={"small"} sx={{width: 330, minWidth: 330}}>
+          <InputLabel>{label}</InputLabel>
+          <Select
+            label={label}
+            multiple
+            value={filterValue}
+            onChange={handleChange}
+          >
+            {values.map((value) => (
+              <MenuItem
+                key={value}
+                value={value}
+              >
+                {value}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+    )
+  }
+
 
   const analyseInput = () => {
     for (let i = 0; i < words.length; i++) {
@@ -95,120 +174,24 @@ function GrammaticalAnalysis() {
     return tableVal;
   }
 
-  const MultipleFilter = (rows, _filler, filterValue) => {
-    const arr = [];
-    rows.forEach((val) => {
-      if (filterValue.includes(val.original.col1)) arr.push(val);
-    });
-    return arr;
-  };
-
-  const MultipleFilter2 = (rows, _filler, filterValue) => {
-    const arr = [];
-    rows.forEach((val) => {
-      if (filterValue.includes(val.original.col2)) arr.push(val);
-    });
-    return arr;
-  };
-
-  const setFilteredParams = (filterArr, val) => {
-    if (filterArr.includes(val)) {
-      filterArr = filterArr.filter((n) => {
-        return n !== val;
-      });
-    } else {
-      filterArr.push(val);
-      filterArr = filterArr.slice();
-    }
-    if (filterArr.length === 0) filterArr = [];
-    return filterArr;
-  }
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   let data = useMemo(() => fillData(), []);
 
-  function LongMenu({column: {filterValue = [], setFilter, preFilteredRows, id}}) {
-    const [newFilterValue, setNewFilterValue] = useState(filterValue);
-    const [anchorEl, setAnchorEl] = useState(false);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-      if (newFilterValue.length < 1) {
-        setFilter(options);
-      } else {
-        setFilter(newFilterValue);
+  useEffect(() => {
+    let list = []
+    let list2 = []
+    for (let i = 0; i < data.length; i++) {
+      if (!list.includes(data[i].col1)) {
+        list.push(data[i].col1)
       }
-      setAnchorEl(null);
+      if (!list2.includes(data[i].col2)) {
+        list2.push(data[i].col2)
+      }
     }
-    const options = useMemo(() => {
-      const options2 = new Set();
-      preFilteredRows.forEach((row) => {
-        options2.add(row.values[id]);
-      });
-      return [...options2.values()];
+    setCol1(list)
+    setCol2(list2)
+  }, [data])
 
-    }, [id, preFilteredRows]);
-
-    if ((newFilterValue.length > 0 && newFilterValue.length === options.length) || (options.length < newFilterValue.length)) {
-      setNewFilterValue([]);
-    }
-
-    return (
-      <>
-        <IconButton
-          aria-label="more"
-          id="long-button"
-          aria-controls={open ? "long-menu" : undefined}
-          aria-expanded={open ? "true" : undefined}
-          aria-haspopup="true"
-          onClick={handleClick}
-        >
-          <FilterAltIcon/>
-        </IconButton>
-        <FormControl>
-          <Select
-            multiple
-            value={[]}
-            open={open}
-            style={{zIndex: "-30", position: "absolute", transform: "translate(-3.7rem, -.5rem)"}}
-            onClose={handleClose}
-            renderValue={() => ""}
-            MenuProps={{
-              anchorOrigin: {
-                vertical: "bottom",
-                horizontal: "left"
-              },
-              transformOrigin: {
-                vertical: "top",
-                horizontal: "right"
-              }
-            }}
-          >
-            {options.map((option, _i) => (
-              <MenuItem
-                key={option}
-                value={option}
-                onClick={(e) => {
-                  setNewFilterValue(setFilteredParams(newFilterValue, e.currentTarget.dataset.value))
-                }}
-              >
-                <Checkbox
-                  id={option}
-                  value={option}
-                  checked={newFilterValue.includes(option)}
-                />
-                <ListItemText primary={option}
-                              id={option}
-                              value={option}/>
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </>
-    );
-  }
 
   function handleTypeClick(e) {
     setType(e);
@@ -225,33 +208,33 @@ function GrammaticalAnalysis() {
           return (<span>{t("common_wordtype")}</span>)
         },
         accessor: 'col1', // accessor is the "key" in the data
+        id: 'col1',
         Cell: (props) => {
           const word = props.value;
           return <span key={props.id}
                        className="word"
                        onClick={() => handleTypeClick(word)}>{word}</span>
         },
+        filter: multiSelectFilter,
         className: 'user',
-        width: 400,
-        Filter: LongMenu,
-        filter: MultipleFilter,
+        width: 400
       },
       {
         Header: () => {
           return (<span>{t("common_form")}</span>)
         },
         accessor: 'col2',
+        is: "col2",
         Cell: (props) => {
           const word = props.value;
           return <span className="word"
                        onClick={() => handleFormClick(word)}>{word}</span>
         },
+        filter: multiSelectFilter,
         width: 400,
         className: 'col2',
         disableSortBy: true,
         sortable: false,
-        Filter: LongMenu,
-        filter: MultipleFilter2,
       },
       {
         Header: t("common_words_in_text"),
@@ -314,6 +297,8 @@ function GrammaticalAnalysis() {
     nextPage,
     previousPage,
     setPageSize,
+    setFilter,
+    setAllFilters,
     state: {pageIndex, pageSize},
   } = useTable({
     columns, data, initialState: {
@@ -326,11 +311,40 @@ function GrammaticalAnalysis() {
     }
   }, useFilters, useSortBy, usePagination);
 
+  function AppliedFilters() {
+    if (filtersInUse !== []) {
+      return (
+
+        filtersInUse.map((value) => (<Chip sx={{marginBottom: "5px"}} key={value} label={value}/>))
+
+      )
+
+    }
+  }
+
+  console.log(data)
 
   return (
     <Box>
-      <DownloadButton data={data}
-                      headers={tableToDownload}/>
+      <Box>
+        <Box component={"span"}>{filtersInUse !== [] ?
+          <Box maxWidth={"70%"}>Rakendatud filtrid: {AppliedFilters()} </Box> : null}</Box>
+        <Box position={"absolute"} right={"15%"}>
+          <Accordion sx={{border: "none", boxShadow: "none", width: "68px", height: "48px"}}>
+
+            <AccordionSummary sx={{height: "100%"}}> <Button sx={{height: "48px", width: "68px"}} variant={"contained"}><FilterAltIcon/></Button></AccordionSummary>
+            <AccordionDetails
+              sx={{backgroundColor: "white", width: "360px", position: "absolute", right: "-100%", zIndex: "100"}}>
+              {multiSelect(col1, "Filtreeri sõnaliigi järgi", 1)}
+              {multiSelect(col2, "Filtreeri vormi järgi", 2)}
+            </AccordionDetails>
+          </Accordion>
+        </Box>
+
+        <DownloadButton data={data}
+                        headers={tableToDownload}/>
+      </Box>
+
       <table className='analyserTable' {...getTableProps()}
              style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>
         <thead>
@@ -346,7 +360,7 @@ function GrammaticalAnalysis() {
                   fontWeight: 'bold',
                 }}
               >
-                {<span>{column.render('Header')} {column.canFilter ? column.render("Filter") : null}</span>}
+                {<span>{column.render('Header')}</span>}
                 <span className='sortIcon'  {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>
                     {column.isSorted
                       ? column.isSortedDesc
