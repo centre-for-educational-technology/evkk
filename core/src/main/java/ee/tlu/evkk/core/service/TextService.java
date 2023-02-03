@@ -191,10 +191,11 @@ public class TextService {
             corpusDownloadDto.getFileList().get(i))
           );
           zipOutputStream.putNextEntry(zipEntry);
-          String fileContents = corpusDownloadDto.getForm().equals(basicText)
-            ? contentsAndTitles.get(i).getContents().replace("\\n", lineSeparator())
-            : contentsAndTitles.get(i).getContents();
-          zipOutputStream.write(fileContents.getBytes(UTF_8));
+          zipOutputStream.write(contentsAndTitles.get(i).getContents()
+            .replace("\\n", lineSeparator())
+            .replace("\\t", "    ")
+            .getBytes(UTF_8)
+          );
           zipOutputStream.closeEntry();
         }
       } catch (IOException e) {
@@ -205,14 +206,11 @@ public class TextService {
 
     StringBuilder contentsCombined = new StringBuilder();
     for (CorpusDownloadResponseDto entry : contentsAndTitles) {
-      String fileContents = corpusDownloadDto.getForm().equals(basicText)
-        ? entry.getContents().replace("\\n", lineSeparator())
-        : entry.getContents();
-      contentsCombined.append(fileContents);
-      if (corpusDownloadDto.getForm().equals(basicText)) {
-        contentsCombined.append(lineSeparator())
-          .append(lineSeparator());
-      }
+      contentsCombined.append(entry.getContents()
+        .replace("\\n", lineSeparator())
+        .replace("\\t", "    ")
+      );
+      contentsCombined.append(lineSeparator()).append(lineSeparator());
     }
     return contentsCombined.toString().getBytes(UTF_8);
   }
