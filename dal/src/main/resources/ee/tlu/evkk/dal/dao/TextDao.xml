@@ -210,7 +210,18 @@
     where t.content is not null
       and t.content != ''
     order by t.id asc
-    limit #{limit} offset #{offset};
+      limit #{limit}
+    offset #{offset};
   </select>
+
+  <insert id="insertAdding">
+    insert into core.text_added (id, content)
+    values (#{id}, #{content});
+  </insert>
+
+  <insert id="insertAddingProperty">
+    insert into core.text_property_added (text_id, property_name, property_value)
+    values (#{id}, #{pname}, #{pvalue});
+  </insert>
 
 </mapper>

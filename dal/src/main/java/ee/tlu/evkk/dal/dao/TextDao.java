@@ -49,4 +49,7 @@ public interface TextDao {
 
   List<Text> list(@Param("limit") Integer limit, @Param("offset") Integer offset);
 
+  void insertAdding(@Param("id") UUID id, @Param("content") String content);
+
+  void insertAddingProperty(@Param("id") UUID id, @Param("pname") String pname, @Param("pvalue") String pvalue);
 }

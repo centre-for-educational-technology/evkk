@@ -1,6 +1,7 @@
 package ee.tlu.evkk.api.controller;
 
 import ee.tlu.evkk.api.ApiMapper;
+import ee.tlu.evkk.api.controller.dto.AddingRequestEntity;
 import ee.tlu.evkk.api.controller.dto.LemmadRequestEntity;
 import ee.tlu.evkk.api.controller.dto.TextSearchRequest;
 import ee.tlu.evkk.api.controller.dto.TextSearchResponse;
@@ -31,7 +32,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
-
+import static java.util.UUID.randomUUID;
+import javax.validation.Valid;
 @RestController
 @RequestMapping("/texts")
 public class TextController {
@@ -161,6 +163,35 @@ public class TextController {
     return new java.io.File(".").getAbsolutePath();
   }
 
+  @PostMapping("/lisatekst")
+  public String lisatekst(@Valid @RequestBody AddingRequestEntity andmed) {
+    UUID kood = randomUUID();
+    textDao.insertAdding(kood, andmed.getSisu());
+    lisaTekstiOmadus(kood, "title", andmed.getPealkiri());
+    lisaTekstiOmadus(kood, "kirjeldus", andmed.getKirjeldus());
+    lisaTekstiOmadus(kood, "tekstityyp", andmed.getLiik());
+    if (andmed.getLiik().equals("akadeemiline")) {
+      if (andmed.getOppematerjal().equals("jah")) {
+        lisaTekstiOmadus(kood, "akad_oppematerjal", andmed.getAkadOppematerjal());
+      }
+      lisaTekstiOmadus(kood, "eriala", andmed.getAutoriEriala());
+      lisaTekstiOmadus(kood, "akad_alamliik", andmed.getAkadAlamliik());
+    }
+    if (andmed.getLiik().equals("mitteakadeemiline")) {
+      lisaTekstiOmadus(kood, "mitteakad_alamliik", andmed.getMitteakadAlamliik());
+    }
+    lisaTekstiOmadus(kood, "abivahendid", andmed.getOppematerjal());
+    lisaTekstiOmadus(kood, "kasAutor", andmed.getTekstiAutor());
+    lisaTekstiOmadus(kood, "vanus", andmed.getAutoriVanus());
+    lisaTekstiOmadus(kood, "sugu", andmed.getAutoriSugu());
+    lisaTekstiOmadus(kood, "haridus", andmed.getAutoriOppeaste());
+    lisaTekstiOmadus(kood, "emakeel", andmed.getAutoriEmakeel());
+    lisaTekstiOmadus(kood, "muudkeeled", andmed.getAutoriMuudKeeled());
+    lisaTekstiOmadus(kood, "riik", andmed.getAutoriElukohariik());
+    lisaTekstiOmadus(kood, "nousolek", andmed.getNousOlek());
+    return kood.toString();
+  }
+
   @GetMapping("/getValues")
   public String getValues(String cId) {
     return textDao.findValueByPropertyName(cId);
@@ -204,6 +235,12 @@ public class TextController {
     UUID textId = textWithProperties.getText().getId();
     String downloadUrl = UriComponentsBuilder.fromUri(publicApiUri).pathSegment("texts", "download", "{textId}").encode().build(textId.toString()).toString();
     return ApiMapper.INSTANCE.toTextSearchResponse(textWithProperties, downloadUrl);
+  }
+
+  private void lisaTekstiOmadus(UUID kood, String tunnus, String omadus) {
+    if (omadus != null && omadus.length() > 0) {
+      textDao.insertAddingProperty(kood, tunnus, omadus);
+    }
   }
 
 }
