@@ -381,8 +381,9 @@ class Correction extends Component {
           <br/><br/>
           <div className="wrapper">
             <div id="highlights"
-                 ref={(e) => this.taust1 = e}>{this.state.taustakood}</div>
+                 style={{padding: "5px"}} ref={(e) => this.taust1 = e}>{this.state.taustakood}</div>
             <textarea id="textarea"
+                      style={{border:"solid grey 1px", padding: "5px"}}
                       onScroll={() => this.kerimine()}
                       ref={(e) => this.ala1 = e}
                       onChange={(event) => this.alaMuutus(event)}
@@ -394,7 +395,6 @@ class Correction extends Component {
                       placeholder={"Kopeeri või kirjuta siia analüüsitav tekst"}
 
             />
-            <div className={"borderbox"}></div>
           </div>
           <br/>
 
@@ -407,7 +407,7 @@ class Correction extends Component {
           <br/>
           <br/>
         </div>
-        <div style={{'float': 'left', 'margin': '10px', 'width': '50%', 'height': '500px',}}>
+        <div style={{'float': 'left', 'margin': '10px', 'width': '50%', 'height': 'auto'}}>
           <style>{`
              @keyframes spin{
                   from {transform:rotate(0deg);}
@@ -443,7 +443,7 @@ class Correction extends Component {
 
           {!this.state.kordab &&
             <div><br/> <br/><br/> <br/>
-              <div style={{width: "100%", textAlign: "center", height: 500}}>
+              <div style={{width: "100%", textAlign: "center", height: 500, overflowY: "auto"}}>
                 <Button style={{'fontSize': '20px'}}
                         sx={{width: 200}}
                         variant="contained"
@@ -457,7 +457,7 @@ class Correction extends Component {
           this.state.muutuskood.props.children === "puuduvad" ?
             <span>
                  <div style={{'float': 'left', 'margin': '10px', 'width': '50%'}}>
-                   <h3>Kõik on õige</h3>
+                   <h3>Vigu ei leitud</h3>
                  </div>
                </span>
             :
@@ -582,9 +582,6 @@ class Correction extends Component {
                 </tr>
                 </tbody>
               </table>
-              {this.state.mitmekesisusvastus[7] && this.state.mitmekesisusvastus[7] !== "0" &&
-                <div style={{fontSize: "20px"}}>Pakutav
-                  tase: {this.state.mitmekesisusvastus.slice(7, 10).filter((v, i, a) => a.indexOf(v) === i).join("/")}</div>}
             </div>}
         </div>
       </Card>
