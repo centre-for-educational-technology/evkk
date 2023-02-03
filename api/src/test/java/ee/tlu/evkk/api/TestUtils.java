@@ -14,7 +14,7 @@ import static org.springframework.util.StreamUtils.copyToString;
 
 public class TestUtils {
 
-  public static Gson gson = new Gson();
+  private static final Gson gson = new Gson();
 
   public static String readResourceAsString(@NotNull String path) throws IOException {
     ClassPathResource resource = new ClassPathResource(path);
