@@ -27,16 +27,19 @@ class Adding extends Component {
       oppematerjal: "",
       akadOppematerjal: "",
       mitteakadAlamliik: "",
+      akadKategooria: "",
       akadAlamliik: "",
       autoriVanus: "",
       autoriSugu: "",
       autoriOppeaste: "",
+      autoriTeaduskraad: "",
       autoriHaridus: "",
       autoriEriala: "",
       autoriEmakeel: "",
       autorKakskeelne: false,
       autoriMuudKeeled: "",
       autoriElukohariik: "eesti",
+      elukohariikMuu: "",
       nousOlek: false
     };
     this.handleChange = this.handleChange.bind(this);
@@ -161,11 +164,11 @@ class Adding extends Component {
               {this.state.avalikkusValik === "avalik" && <>
                 <Grid>
                   <FormControl>
-                    <InputLabel>Teksti liik</InputLabel>
+                    <InputLabel>Tekst</InputLabel>
                     <Select
                       name="liik"
                       value={this.state.liik}
-                      label="Teksti liik"
+                      label="Tekst"
                       onChange={this.handleChange}
                     >
                       <MenuItem value={"akadeemiline"}>akadeemiline</MenuItem>
@@ -176,15 +179,15 @@ class Adding extends Component {
                 {this.state.liik === "akadeemiline" && <Grid>
                   <Grid>
                     <FormControl sx={{m: 1, minWidth: 240}}>
-                      <InputLabel id="eriala-select-label">Autori eriala</InputLabel>
+                      <InputLabel id="valdkond-select-label">Valdkond</InputLabel>
                       <Select
-                        labelId="eriala-select-label"
+                        labelId="valdkond-select-label"
                         name="autoriEriala"
                         value={this.state.autoriEriala}
                         label="Eriala"
                         onChange={this.handleChange}
                       >
-                        <MenuItem value={"biojakeskkonnateadused"}>bio- ja keskkonnateadused</MenuItem>
+                        <MenuItem value={"biojakeskkonnateadused"}>Bio- ja keskkonnateadused</MenuItem>
                         <MenuItem value={"yhiskondjakultuur"}>Ühiskonnateadused ja kultuur</MenuItem>
                         <MenuItem value={"terviseuuringud"}>Terviseuuringud</MenuItem>
                         <MenuItem value={"loodustehnika"}>Loodusteadused ja tehnika</MenuItem>
@@ -194,30 +197,66 @@ class Adding extends Component {
                 </Grid>}
                 {this.state.liik === "mitteakadeemiline" && <Grid>
                   <FormControl sx={{m: 1, minWidth: 240}}>
-                    <InputLabel id="mitteakad-alamliik-select-label">Teksti alamliik</InputLabel>
+                    <InputLabel id="mitteakad-alamliik-select-label">Tekstiliik</InputLabel>
                     <Select
                       labelId="mitteakad-alamliik-select-label"
                       name="mitteakadAlamliik"
                       value={this.state.mitteakadAlamliik}
-                      label="Alamliik"
+                      label="Tekstiliik"
                       onChange={this.handleChange}
                     >
-                      <MenuItem value={"amtkiri"}>Ametlik kiri</MenuItem>
-                      <MenuItem value={"isikiri"}>Isiklik kiri</MenuItem>
-                      <MenuItem value={"essee"}>Essee</MenuItem>
-                      <MenuItem value={"referaat"}>Referaat</MenuItem>
-                      <MenuItem value={"analyys"}>Analüüs</MenuItem>
-                      <MenuItem value={"vastkys"}>Vastus küsimusele</MenuItem>
-                      <MenuItem value={"ymberjutustus"}>Ümberjutustus</MenuItem>
-                      <MenuItem value={"tolge"}>Tõlge</MenuItem>
-                      <MenuItem value={"harjutus"}>Harjutus</MenuItem>
-                      <MenuItem value={"arvamuslugu"}>Arvamuslugu</MenuItem>
+                      <MenuItem value={"k2eesti_riiklik_eksamitoo"}>K2 riiklik eksamitöö</MenuItem>
+                      <MenuItem value={"k2eesti_ol-loovkirjutis"}>K2 olümpiaaditöö loovkirjutis</MenuItem>
+                      <MenuItem value={"k2eesti_keeleope"} disabled>K2 keeleõpe</MenuItem>
+                      <MenuItem value={"k2eesti_tolge"}>Tõlge</MenuItem>
+                      <MenuItem value={"k2eesti_eksamitoo"}>Eksamitöö</MenuItem>
+                      <MenuItem value={"k2eesti_kontrolltoo_test"}>Kontrolltöö/test</MenuItem>
+                      <MenuItem value={"k2eesti_loovkirjutis"}>Loovkirjutis</MenuItem>
+                      <MenuItem value={"k2eesti_kiri"} disabled>K2 kiri</MenuItem>
+                      <MenuItem value={"k2eesti_kiri_isiklik"}>Isiklik</MenuItem>
+                      <MenuItem value={"k2eesti_kiri_poolametlik"}>(Pool)ametlik</MenuItem>
+                      <MenuItem value={"k2eesti_harjutus"} disabled>K2 Harjutus</MenuItem>
+                      <MenuItem value={"k2eesti_harjutus_dialoog"}>Dialoog</MenuItem>
+                      <MenuItem value={"k2eesti_harjutus_etteutlus"}>Etteütlus</MenuItem>
+                      <MenuItem value={"k2eesti_harjutus_juhend"}>Juhend</MenuItem>
+                      <MenuItem value={"k2eesti_harjutus_kirjeldus"}>Kirjeldus</MenuItem>
+                      <MenuItem value={"k2eesti_harjutus_kuulutus"}>Kuulutus</MenuItem>
+                      <MenuItem value={"k2eesti_harjutus_kone"}>Kõne</MenuItem>
+                      <MenuItem value={"k2eesti_harjutus_laused"}>Laused</MenuItem>
+                      <MenuItem value={"k2eesti_harjutus_leping"}>Leping</MenuItem>
+                      <MenuItem value={"k2eesti_harjutus_lunktekst"}>Lünktekst</MenuItem>
+                      <MenuItem value={"k2eesti_harjutus_menuu"}>Menüü</MenuItem>
+                      <MenuItem value={"k2eesti_harjutus_reklaam"}>Reklaam</MenuItem>
+                      <MenuItem value={"k2eesti_harjutus_retsept"}>Retsept</MenuItem>
+                      <MenuItem value={"k2eesti_harjutus_teejuht"}>Teejuht</MenuItem>
+                      <MenuItem value={"k2eesti_harjutus_vastused"}>Vastused küsimustele</MenuItem>
+                      <MenuItem value={"k2eesti_harjutus_umberjutustus"}>Ümberjutustus</MenuItem>
+                      <MenuItem value={"k2eesti_harjutus_ots"} disabled>K1 eesti keel</MenuItem>
+                      <MenuItem value={"k1eesti_arvamuslugu"}>Arvamuslugu</MenuItem>
+                      <MenuItem value={"k1eesti_eksamitoo"}>Eksamitöö</MenuItem>
+                      <MenuItem value={"k1eesti_harjutus"}>Harjutus</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>}
                 {this.state.liik === "akadeemiline" && <Grid>
                   <FormControl sx={{m: 1, minWidth: 240}}>
-                    <InputLabel id="akad-alamliik-select-label">Teksti alamliik</InputLabel>
+                    <InputLabel id="akad-kategooria-select-label">Kategooria</InputLabel>
+                    <Select
+                      labelId="akad-kategooria-select-label"
+                      name="akadKategooria"
+                      value={this.state.akadKategooria}
+                      label="Kategooria"
+                      onChange={this.handleChange}
+                    >
+                      <MenuItem value={"ak_erialaopingud"}>Erialaõpingud</MenuItem>
+                      <MenuItem value={"ak_uurimused"}>Uurimused</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>}
+
+                {this.state.liik === "akadeemiline" && this.state.akadKategooria === "ak_erialaopingud" && <Grid>
+                  <FormControl sx={{m: 1, minWidth: 240}}>
+                    <InputLabel id="akad-alamliik-select-label">Tekstiliik</InputLabel>
                     <Select
                       labelId="akad-alamliik-select-label"
                       name="akadAlamliik"
@@ -225,15 +264,37 @@ class Adding extends Component {
                       label="Alamliik"
                       onChange={this.handleChange}
                     >
-                      <MenuItem value={"doktoritoo"}>Doktoritöö</MenuItem>
-                      <MenuItem value={"vaitekirja_kokkuvote"}>Võõrkeelse väitekirja eestikeelne kokkuvõte</MenuItem>
-                      <MenuItem value={"magistritoo"}>Magistritöö</MenuItem>
-                      <MenuItem value={"bakalaureusetoo"}>Bakalaureusetöö</MenuItem>
-                      <MenuItem value={"diplomitoo"}>Diplomitöö</MenuItem>
-                      <MenuItem value={"referaat"}>Referaat</MenuItem>
-                      <MenuItem value={"essee"}>Essee</MenuItem>
-                      <MenuItem value={"uurimus"}>Uurimus</MenuItem>
-                      <MenuItem value={"artikli_kasikiri"}>Artikli käsikiri</MenuItem>
+
+
+                      <MenuItem value={"ak_analuus"}>Analüüs</MenuItem>
+                      <MenuItem value={"ak_eriala_essee"}>Essee</MenuItem>
+                      <MenuItem value={"ak_eriala_kursusetoo"}>Kursusetöö</MenuItem>
+                      <MenuItem value={"ak_eriala_referaat"}>Referaat</MenuItem>
+                      <MenuItem value={"ak_eriala_retsensioon"}>Retsensioon</MenuItem>
+                      <MenuItem value={"ak_eriala_seminaritoo"}>Seminaritöö</MenuItem>
+                      <MenuItem value={"ak_eriala_ulevaade"}>Ülevaade</MenuItem>
+
+                    </Select>
+                  </FormControl>
+                </Grid>}
+                {this.state.liik === "akadeemiline" && this.state.akadKategooria === "ak_uurimused" && <Grid>
+                  <FormControl sx={{m: 1, minWidth: 240}}>
+                    <InputLabel id="akad-alamliik-select-label">Tekstiliik</InputLabel>
+                    <Select
+                      labelId="akad-alamliik-select-label"
+                      name="akadAlamliik"
+                      value={this.state.akadAlamliik}
+                      label="Alamliik"
+                      onChange={this.handleChange}
+                    >
+                      <MenuItem value={"ak_uurimus_artikkel"}>Artikkel</MenuItem>
+                      <MenuItem value={"ak_uurimus_ettekanne"}>Ettekanne</MenuItem>
+                      <MenuItem value={"ak_uurimus_kokkuvote"}>Kokkuvõte</MenuItem>
+                      <MenuItem value={"ak_uurimus_batoo"}>Bakalaureusetöö</MenuItem>
+                      <MenuItem value={"ak_uurimus_diplomitoo"}>Diplomitöö</MenuItem>
+                      <MenuItem value={"ak_uurimus_matoo"}>Magistritöö</MenuItem>
+                      <MenuItem value={"ak_uurimus_phdtoo"}>Doktoritöö</MenuItem>
+
                     </Select>
                   </FormControl>
                 </Grid>}
@@ -282,7 +343,7 @@ class Adding extends Component {
                 </Grid>
                 <Grid>
                   <FormControl sx={{m: 1, minWidth: 240}}>
-                    <InputLabel id="sugu-select-label">sugu</InputLabel>
+                    <InputLabel id="sugu-select-label">Sugu</InputLabel>
                     <Select
                       labelId="sugu-select-label"
                       name="autoriSugu"
@@ -337,7 +398,7 @@ class Adding extends Component {
                 </Grid>
                 {this.state.autorKakskeelne && <Grid>
                   <FormControl sx={{m: 1, minWidth: 240}}>
-                    <InputLabel>Muud õppe- või töökeeled:</InputLabel>
+                    <InputLabel>Muu õppe- või töökeel:</InputLabel>
                     <Select value={this.state.autoriMuudKeeled}
                             onChange={this.handleChange}
                             name="autoriMuudKeeled"
@@ -386,6 +447,20 @@ class Adding extends Component {
                     </Select>
                   </FormControl>
                 </Grid>
+                {this.state.autoriElukohariik === "muu" &&
+                  <Grid>
+                    <FormControl sx={{m: 1, minWidth: 240}}>
+
+                      <TextField
+                        multiline
+                        label="Elukohariik"
+                        variant="outlined"
+                        name="elukohariikMuu"
+                        value={this.state.elukohariikMuu}
+                        onChange={this.handleChange}
+                        style={{width: "75%"}}></TextField>
+                    </FormControl>
+                  </Grid>}
                 {this.state.liik === "akadeemiline" && <Grid>
                   <FormControl sx={{m: 1, minWidth: 240}}>
                     <InputLabel id="oppeaste-select-label">Autori õppeaste</InputLabel>
@@ -396,13 +471,23 @@ class Adding extends Component {
                       label="Oppeaste"
                       onChange={this.handleChange}
                     >
-                      <MenuItem value={"oppeaste"}
-                                disabled>Õppeaste</MenuItem>
-                      <MenuItem value={"bakalaureuseope"}>bakalaureuseõpe</MenuItem>
-                      <MenuItem value={"magistriope"}>magistriõpe</MenuItem>
-                      <MenuItem value={"doktoriope"}>doktoriõpe</MenuItem>
-                      <MenuItem value={"teaduskraad"}
-                                disabled>Teaduskraad</MenuItem>
+                      <MenuItem value={"bakalaureuseope"}>Bakalaureuseõpe</MenuItem>
+                      <MenuItem value={"magistriope"}>Magistriõpe</MenuItem>
+                      <MenuItem value={"doktoriope"}>Doktoriõpe</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>}
+                {this.state.liik === "akadeemiline" && <Grid>
+                  <FormControl sx={{m: 1, minWidth: 240}}>
+                    <InputLabel id="teaduskraad-select-label">Autori teaduskraad</InputLabel>
+                    <Select
+                      labelId="teaduskraad-select-label"
+                      name="autoriTeaduskraad"
+                      value={this.state.autoriTeaduskraad}
+                      label="Teaduskraad"
+                      onChange={this.handleChange}
+                    >
+                      <MenuItem value={"ba"}>BA</MenuItem>
                       <MenuItem value={"ma"}>MA</MenuItem>
                       <MenuItem value={"msc"}>MSc</MenuItem>
                       <MenuItem value={"phd"}>PhD</MenuItem>
@@ -411,7 +496,7 @@ class Adding extends Component {
                 </Grid>}
                 {this.state.liik === "mitteakadeemiline" && <Grid>
                   <FormControl sx={{m: 1, minWidth: 240}}>
-                    <InputLabel id="haridus-select-label">Autori omandatud haridus</InputLabel>
+                    <InputLabel id="haridus-select-label">Autori haridus</InputLabel>
                     <Select
                       labelId="haridus-select-label"
                       name="autoriHaridus"

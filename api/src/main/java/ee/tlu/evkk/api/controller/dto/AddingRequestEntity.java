@@ -17,11 +17,13 @@ public class AddingRequestEntity {
   private String autoriVanus;
   private String autoriSugu;
   private String autoriOppeaste;
+  private String autoriTeaduskraad;
   private String autoriHaridus;
   private String autoriEriala;
   private String autoriEmakeel;
   private String autoriMuudKeeled;
   private String autoriElukohariik;
+  private String elukohariikMuu;
   private String nousOlek;
 
   public String getPealkiri() {
@@ -153,18 +155,30 @@ public class AddingRequestEntity {
   }
 
   public String getAutoriElukohariik() {
+    if(autoriElukohariik==null){return "";}
+    if(autoriElukohariik.equals("muu")){return this.elukohariikMuu;}
     return autoriElukohariik;
   }
 
   public void setAutoriElukohariik(String autoriElukohariik) {
     this.autoriElukohariik = autoriElukohariik;
   }
-
+  public void setElukohariikMuu(String elukohariikMuu){
+    this.elukohariikMuu=elukohariikMuu;
+  }
   public String getNousOlek() {
     return nousOlek;
   }
 
   public void setNousOlek(String nousOlek) {
     this.nousOlek = nousOlek;
+  }
+
+  public String getAutoriTeaduskraad() {
+    return autoriTeaduskraad;
+  }
+
+  public void setAutoriTeaduskraad(String autoriTeaduskraad) {
+    this.autoriTeaduskraad = autoriTeaduskraad;
   }
 }

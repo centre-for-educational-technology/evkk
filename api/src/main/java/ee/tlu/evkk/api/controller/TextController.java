@@ -215,6 +215,8 @@ public class TextController {
       }
       lisaTekstiOmadus(kood, "eriala", andmed.getAutoriEriala());
       lisaTekstiOmadus(kood, "akad_alamliik", andmed.getAkadAlamliik());
+      lisaTekstiOmadus(kood, "oppeaste", andmed.getAutoriOppeaste());
+      lisaTekstiOmadus(kood, "teaduskraad", andmed.getAutoriTeaduskraad());
     }
     if (andmed.getLiik().equals("mitteakadeemiline")) {
       lisaTekstiOmadus(kood, "mitteakad_alamliik", andmed.getMitteakadAlamliik());
