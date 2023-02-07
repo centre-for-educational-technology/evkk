@@ -22,7 +22,7 @@ class Adding extends Component {
       pealkiri: "",
       kirjeldus: "",
       sisu: "",
-      avalikkusValik: "privaatne",
+      avalikkusValik: "avalik",
       liik: "akadeemiline",
       oppematerjal: "",
       akadOppematerjal: "",
@@ -45,6 +45,13 @@ class Adding extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.formDataElement = React.createRef();
+  }
+
+  kuvaTingimused() {
+    alert("LUBA\n" +
+      "Luban kasutada oma tekste õppejõududel ja üliõpilastel, õpetajatel ja õppijatel, " +
+      "teadustöötajatel ja tarkvaraarendajatel erialase töö ning keeleõppe vajadustel. Tekstid " +
+      "säilitatakse ELLE arhiivis. Kõik autoriõigused on tagatud.");
   }
 
   handleChange(event) {
@@ -155,7 +162,7 @@ class Adding extends Component {
                 >
                   <FormControlLabel value="privaatne"
                                     control={<Radio/>}
-                                    label="Hoia privaatsena"/>
+                                    label="Hoia privaatsena" disabled/>
                   <FormControlLabel value="avalik"
                                     control={<Radio/>}
                                     label="Avalikusta korpusesse"/>
@@ -487,10 +494,9 @@ class Adding extends Component {
                       label="Teaduskraad"
                       onChange={this.handleChange}
                     >
-                      <MenuItem value={"ba"}>BA</MenuItem>
-                      <MenuItem value={"ma"}>MA</MenuItem>
-                      <MenuItem value={"msc"}>MSc</MenuItem>
-                      <MenuItem value={"phd"}>PhD</MenuItem>
+                      <MenuItem value={"ba"}>Bakalaureusekraad</MenuItem>
+                      <MenuItem value={"ma"}>Magistrikraad</MenuItem>
+                      <MenuItem value={"phd"}>Doktorikraad</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>}
@@ -517,12 +523,9 @@ class Adding extends Component {
                   <Grid container
                         spacing={1}>
                     <Grid item>
-                      <Checkbox name="nousOlek"
-                                checked={this.state.nousOlek}
-                                onChange={this.handleChange}/>
-                    </Grid>
-                    <Grid item>
-                      <Typography>Teksti üles laadides nõustun <u>ELLE kasutustingimustega</u>.</Typography>
+                      <Typography>Teksti üles laadides nõustun <u style={{cursor: "pointer"}}
+                                                                  onClick={() => this.kuvaTingimused()}>ELLE
+                        kasutustingimustega</u>.</Typography>
                     </Grid>
                   </Grid>
                   <br/>
