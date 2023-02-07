@@ -229,7 +229,6 @@ public class TextController {
     lisaTekstiOmadus(kood, "emakeel", andmed.getAutoriEmakeel());
     lisaTekstiOmadus(kood, "muudkeeled", andmed.getAutoriMuudKeeled());
     lisaTekstiOmadus(kood, "riik", andmed.getAutoriElukohariik());
-    lisaTekstiOmadus(kood, "nousolek", andmed.getNousOlek());
     return kood.toString();
   }
 
