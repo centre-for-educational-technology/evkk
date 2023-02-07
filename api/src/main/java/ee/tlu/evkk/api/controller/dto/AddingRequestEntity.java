@@ -24,7 +24,6 @@ public class AddingRequestEntity {
   private String autoriMuudKeeled;
   private String autoriElukohariik;
   private String elukohariikMuu;
-  private String nousOlek;
 
   public String getPealkiri() {
     return pealkiri;
@@ -165,13 +164,6 @@ public class AddingRequestEntity {
   }
   public void setElukohariikMuu(String elukohariikMuu){
     this.elukohariikMuu=elukohariikMuu;
-  }
-  public String getNousOlek() {
-    return nousOlek;
-  }
-
-  public void setNousOlek(String nousOlek) {
-    this.nousOlek = nousOlek;
   }
 
   public String getAutoriTeaduskraad() {
