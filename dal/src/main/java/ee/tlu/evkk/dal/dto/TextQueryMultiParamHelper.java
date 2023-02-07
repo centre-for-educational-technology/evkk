@@ -1,14 +1,14 @@
 package ee.tlu.evkk.dal.dto;
 
-import java.util.List;
+import java.util.Set;
 
-public class TextQueryCorpusHelper {
+public class TextQueryMultiParamHelper {
 
   private String table;
   private String parameter;
-  private List<String> values;
+  private Set<String> values;
 
-  public TextQueryCorpusHelper(String table, String parameter, List<String> values) {
+  public TextQueryMultiParamHelper(String table, String parameter, Set<String> values) {
     this.table = table;
     this.parameter = parameter;
     this.values = values;
@@ -30,11 +30,11 @@ public class TextQueryCorpusHelper {
     this.parameter = parameter;
   }
 
-  public List<String> getValues() {
+  public Set<String> getValues() {
     return values;
   }
 
-  public void setValues(List<String> values) {
+  public void setValues(Set<String> values) {
     this.values = values;
   }
 }

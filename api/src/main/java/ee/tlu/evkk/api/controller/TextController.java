@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
@@ -33,7 +34,6 @@ import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 import static java.util.UUID.randomUUID;
-import javax.validation.Valid;
 @RestController
 @RequestMapping("/texts")
 public class TextController {
@@ -64,12 +64,12 @@ public class TextController {
 
   @GetMapping("/kysikorpusetekstiIDd")
   public List<String> kysikorpusetekstiIDd(String korpusekood) {
-    return textDao.findTextIDsByCorpusID(korpusekood);
+    return textDao.findTextIdsByCorpusId(korpusekood);
   }
 
   @GetMapping("/kysikorpusetekstiIDjapealkiri")
   public List<String> kysikorpusetekstiIDjapealkiri(String korpusekood) {
-    return textDao.findTextIDandTitleByCorpusID(korpusekood);
+    return textDao.findTextIdAndTitleByCorpusId(korpusekood);
   }
 
   @PostMapping("/sonaliik")

@@ -10,10 +10,10 @@ import ee.tlu.evkk.dal.dto.CorpusDownloadResponseDto;
 import ee.tlu.evkk.dal.dto.Pageable;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.dto.TextProperty;
-import ee.tlu.evkk.dal.dto.TextQueryCorpusHelper;
-import ee.tlu.evkk.dal.dto.TextQueryParamHelper;
+import ee.tlu.evkk.dal.dto.TextQueryMultiParamHelper;
 import ee.tlu.evkk.dal.dto.TextQueryRangeParamBaseHelper;
 import ee.tlu.evkk.dal.dto.TextQueryRangeParamHelper;
+import ee.tlu.evkk.dal.dto.TextQuerySingleParamHelper;
 import ee.tlu.evkk.dal.json.Json;
 import ee.tlu.evkk.dal.repository.TextPropertyRepository;
 import ee.tlu.evkk.dal.repository.TextRepository;
@@ -110,37 +110,35 @@ public class TextService {
   }
 
   public String detailneparing(CorpusRequestDto corpusRequestDto) {
-    List<TextQueryParamHelper> paramHelpers = new ArrayList<>();
+    List<TextQuerySingleParamHelper> singleParamHelpers = new ArrayList<>();
     List<TextQueryRangeParamBaseHelper> rangeParamBaseHelpers = new ArrayList<>();
 
-    TextQueryCorpusHelper corpusHelper = new TextQueryCorpusHelper("p3", "korpus", asList(corpusRequestDto.getCorpuses()));
+    TextQueryMultiParamHelper corpusHelper = new TextQueryMultiParamHelper("p3", "korpus", corpusRequestDto.getCorpuses());
+    TextQueryMultiParamHelper textTypeHelper = new TextQueryMultiParamHelper("p4", "tekstityyp", corpusRequestDto.getTypes());
 
-    if (isNotBlank(corpusRequestDto.getType())) {
-      paramHelpers.add(new TextQueryParamHelper("p4", "tekstityyp", corpusRequestDto.getType()));
-    }
     if (isNotBlank(corpusRequestDto.getLanguage())) {
-      paramHelpers.add(new TextQueryParamHelper("p5", "tekstikeel", corpusRequestDto.getLanguage()));
+      singleParamHelpers.add(new TextQuerySingleParamHelper("p5", "tekstikeel", corpusRequestDto.getLanguage()));
     }
     if (isNotBlank(corpusRequestDto.getLevel())) {
-      paramHelpers.add(new TextQueryParamHelper("p6", "keeletase", corpusRequestDto.getLevel()));
+      singleParamHelpers.add(new TextQuerySingleParamHelper("p6", "keeletase", corpusRequestDto.getLevel()));
     }
     if (isNotBlank(corpusRequestDto.getUsedMaterials())) {
-      paramHelpers.add(new TextQueryParamHelper("p7", "abivahendid", corpusRequestDto.getUsedMaterials()));
+      singleParamHelpers.add(new TextQuerySingleParamHelper("p7", "abivahendid", corpusRequestDto.getUsedMaterials()));
     }
     if (isNotBlank(corpusRequestDto.getAge())) {
-      paramHelpers.add(new TextQueryParamHelper("p8", "vanus", corpusRequestDto.getAge()));
+      singleParamHelpers.add(new TextQuerySingleParamHelper("p8", "vanus", corpusRequestDto.getAge()));
     }
     if (isNotBlank(corpusRequestDto.getGender())) {
-      paramHelpers.add(new TextQueryParamHelper("p9", "sugu", corpusRequestDto.getGender()));
+      singleParamHelpers.add(new TextQuerySingleParamHelper("p9", "sugu", corpusRequestDto.getGender()));
     }
     if (isNotBlank(corpusRequestDto.getEducation())) {
-      paramHelpers.add(new TextQueryParamHelper("p10", "haridus", corpusRequestDto.getEducation()));
+      singleParamHelpers.add(new TextQuerySingleParamHelper("p10", "haridus", corpusRequestDto.getEducation()));
     }
     if (isNotBlank(corpusRequestDto.getNativeLang())) {
-      paramHelpers.add(new TextQueryParamHelper("p11", "emakeel", corpusRequestDto.getNativeLang()));
+      singleParamHelpers.add(new TextQuerySingleParamHelper("p11", "emakeel", corpusRequestDto.getNativeLang()));
     }
     if (isNotBlank(corpusRequestDto.getCountry())) {
-      paramHelpers.add(new TextQueryParamHelper("p12", "elukoht", corpusRequestDto.getCountry()));
+      singleParamHelpers.add(new TextQuerySingleParamHelper("p12", "elukoht", corpusRequestDto.getCountry()));
     }
 
     if (corpusRequestDto.getAddedYear() != null) {
@@ -159,7 +157,7 @@ public class TextService {
       rangeParamBaseHelpers.add(createRangeBaseHelper("p16", "sentenceCount", true, corpusRequestDto.getSentences()));
     }
 
-    String daoResponse = textDao.detailedTextQueryByParameters(corpusHelper, paramHelpers, rangeParamBaseHelpers);
+    String daoResponse = textDao.detailedTextQueryByParameters(corpusHelper, textTypeHelper, singleParamHelpers, rangeParamBaseHelpers);
     return isNotBlank(daoResponse) ? daoResponse : new ArrayList<>().toString();
   }
 
@@ -438,12 +436,12 @@ public class TextService {
     }
   }
 
-  private TextQueryRangeParamBaseHelper createRangeBaseHelper(String table, String parameter, boolean castable, Integer[][] values) {
+  private TextQueryRangeParamBaseHelper createRangeBaseHelper(String table, String parameter, boolean castable, List<List<Integer>> values) {
     List<TextQueryRangeParamHelper> rangeHelpers = new ArrayList<>();
-    for (Integer[] value : values) {
+    for (List<Integer> value : values) {
       TextQueryRangeParamHelper helper = new TextQueryRangeParamHelper();
-      helper.setStartValue(value[0]);
-      helper.setEndValue(value[1]);
+      helper.setStartValue(value.get(0));
+      helper.setEndValue(value.get(1));
       rangeHelpers.add(helper);
     }
     return new TextQueryRangeParamBaseHelper(

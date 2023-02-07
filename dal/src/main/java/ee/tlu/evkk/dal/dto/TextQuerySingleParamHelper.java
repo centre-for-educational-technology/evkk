@@ -1,12 +1,12 @@
 package ee.tlu.evkk.dal.dto;
 
-public class TextQueryParamHelper {
+public class TextQuerySingleParamHelper {
 
   private String table;
   private String parameter;
   private String value;
 
-  public TextQueryParamHelper(String table, String parameter, String value) {
+  public TextQuerySingleParamHelper(String table, String parameter, String value) {
     this.table = table;
     this.parameter = parameter;
     this.value = value;

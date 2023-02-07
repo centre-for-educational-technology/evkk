@@ -1,9 +1,12 @@
 package ee.tlu.evkk.core.service.dto;
 
+import java.util.List;
+import java.util.Set;
+
 public class CorpusRequestDto {
 
-  private String[] corpuses;
-  private String type;
+  private Set<String> corpuses;
+  private Set<String> types;
   private String language;
   private String level;
   private String usedMaterials;
@@ -12,25 +15,25 @@ public class CorpusRequestDto {
   private String education;
   private String nativeLang;
   private String country;
-  private Integer[][] addedYear;
-  private Integer[][] characters;
-  private Integer[][] words;
-  private Integer[][] sentences;
+  private List<List<Integer>> addedYear;
+  private List<List<Integer>> characters;
+  private List<List<Integer>> words;
+  private List<List<Integer>> sentences;
 
-  public String[] getCorpuses() {
+  public Set<String> getCorpuses() {
     return corpuses;
   }
 
-  public void setCorpuses(String[] corpuses) {
+  public void setCorpuses(Set<String> corpuses) {
     this.corpuses = corpuses;
   }
 
-  public String getType() {
-    return type;
+  public Set<String> getTypes() {
+    return types;
   }
 
-  public void setType(String type) {
-    this.type = type;
+  public void setTypes(Set<String> types) {
+    this.types = types;
   }
 
   public String getLanguage() {
@@ -97,35 +100,35 @@ public class CorpusRequestDto {
     this.country = country;
   }
 
-  public Integer[][] getAddedYear() {
+  public List<List<Integer>> getAddedYear() {
     return addedYear;
   }
 
-  public void setAddedYear(Integer[][] addedYear) {
+  public void setAddedYear(List<List<Integer>> addedYear) {
     this.addedYear = addedYear;
   }
 
-  public Integer[][] getCharacters() {
+  public List<List<Integer>> getCharacters() {
     return characters;
   }
 
-  public void setCharacters(Integer[][] characters) {
+  public void setCharacters(List<List<Integer>> characters) {
     this.characters = characters;
   }
 
-  public Integer[][] getWords() {
+  public List<List<Integer>> getWords() {
     return words;
   }
 
-  public void setWords(Integer[][] words) {
+  public void setWords(List<List<Integer>> words) {
     this.words = words;
   }
 
-  public Integer[][] getSentences() {
+  public List<List<Integer>> getSentences() {
     return sentences;
   }
 
-  public void setSentences(Integer[][] sentences) {
+  public void setSentences(List<List<Integer>> sentences) {
     this.sentences = sentences;
   }
 }

@@ -37,10 +37,13 @@
     select p2.text_id, p2.property_value
     from core.text_property as p2
     join core.text_property as ${corpusHelper.table} on p2.text_id = ${corpusHelper.table}.text_id
-    <foreach item="paramHelper" collection="paramHelper" separator=" ">
-      join core.text_property as ${paramHelper.table} on p2.text_id = ${paramHelper.table}.text_id
+    <if test="textTypeHelper.values != null">
+      join core.text_property as ${textTypeHelper.table} on p2.text_id = ${textTypeHelper.table}.text_id
+    </if>
+    <foreach item="singleParamHelper" collection="singleParamHelpers" separator=" ">
+      join core.text_property as ${singleParamHelper.table} on p2.text_id = ${singleParamHelper.table}.text_id
     </foreach>
-    <foreach item="rangeParamHelper" collection="rangeParamHelper" separator=" ">
+    <foreach item="rangeParamHelper" collection="rangeParamHelpers" separator=" ">
       <if test="rangeParamHelper.castable == true">
         join core.text as ${rangeParamHelper.table} on p2.text_id = ${rangeParamHelper.table}.id
         join core.text_processor_result as ${rangeParamHelper.table + 1} on ${rangeParamHelper.table}.hash =
@@ -56,11 +59,18 @@
     <foreach item="corpus" collection="corpusHelper.values" separator=", " open="(" close=")">
       #{corpus}
     </foreach>
-    <foreach item="paramHelper" collection="paramHelper" separator=" ">
-      and ${paramHelper.table}.property_name = #{paramHelper.parameter}
-      and ${paramHelper.table}.property_value = #{paramHelper.value}
+    <if test="textTypeHelper.values != null">
+      and ${textTypeHelper.table}.property_name = #{textTypeHelper.parameter}
+      and ${textTypeHelper.table}.property_value in
+      <foreach item="textType" collection="textTypeHelper.values" separator=", " open="(" close=")">
+        #{textType}
+      </foreach>
+    </if>
+    <foreach item="singleParamHelper" collection="singleParamHelpers" separator=" ">
+      and ${singleParamHelper.table}.property_name = #{singleParamHelper.parameter}
+      and ${singleParamHelper.table}.property_value = #{singleParamHelper.value}
     </foreach>
-    <foreach item="rangeParamHelper" collection="rangeParamHelper" separator=" ">
+    <foreach item="rangeParamHelper" collection="rangeParamHelpers" separator=" ">
       <if test="rangeParamHelper.castable == true">
         and ${rangeParamHelper.table + 1}.type = 'CHARS_WORDS_SENTENCES' and
         <foreach item="baseValues" collection="rangeParamHelper.values" separator=" or " open="(" close=")">
