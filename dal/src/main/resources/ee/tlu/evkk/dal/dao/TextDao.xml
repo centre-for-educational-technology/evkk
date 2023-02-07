@@ -12,14 +12,14 @@
         from (select property_name, property_value from core.text_property where text_id = #{textId}) t
     </select>
 
-  <select id="findTextIDsByCorpusID" resultType="java.lang.String">
+  <select id="findTextIdsByCorpusId" resultType="java.lang.String">
     select text_id
     from core.text_property
     where core.text_property.property_value = #{corpusId}
       and core.text_property.property_name = 'korpus';
   </select>
 
-  <select id="findTextIDandTitleByCorpusID" resultType="java.lang.String">
+  <select id="findTextIdAndTitleByCorpusId" resultType="java.lang.String">
     select array_to_json(array_agg(row_to_json(t)))
     from (select tp1.text_id,
                  (select tp2.property_value
