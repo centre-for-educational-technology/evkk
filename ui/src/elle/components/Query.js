@@ -11,6 +11,7 @@ import {
   ListItemText,
   MenuItem,
   Select,
+  Tooltip,
   Typography
 } from "@mui/material";
 import "./styles/Query.css";
@@ -20,6 +21,7 @@ import {
   charactersOptions,
   MenuProps,
   sentencesOptions,
+  textTypesOptions,
   useStyles,
   wordsOptions
 } from "../utils/constants";
@@ -44,23 +46,21 @@ function Query() {
     cZjHWUPtD: false,
     cwUSEqQLt: false
   });
-  const [textData, setTextData] = useState({
-    type: 'teadmata',
+  const [singlePropertyData, setSinglePropertyData] = useState({
     language: 'eesti',
-    level: 'teadmata',
-    usedMaterials: 'teadmata'
+    level: '',
+    usedMaterials: '',
+    age: '',
+    gender: '',
+    education: '',
+    nativeLang: '',
+    country: ''
   });
-  const [addedYear, setAddedYear] = useState([]);
+  const [addedYears, setAddedYears] = useState([]);
   const [characters, setCharacters] = useState([]);
   const [words, setWords] = useState([]);
   const [sentences, setSentences] = useState([]);
-  const [authorData, setAuthorData] = useState({
-    age: 'teadmata',
-    gender: 'teadmata',
-    education: 'teadmata',
-    nativeLang: 'teadmata',
-    country: 'teadmata'
-  });
+  const [textTypes, setTextTypes] = useState([]);
   const [alert, setAlert] = useState(false);
   const [noResultsError, setNoResultsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -84,22 +84,15 @@ function Query() {
 
       params.corpuses = selectedCorpuses;
 
-      Object.entries(textData).forEach((entry) => {
+      Object.entries(singlePropertyData).forEach((entry) => {
         const [key, value] = entry;
-        if (value !== "teadmata") {
+        if (value !== "") {
           params[key] = value;
         }
       });
 
-      Object.entries(authorData).forEach((entry) => {
-        const [key, value] = entry;
-        if (value !== "teadmata") {
-          params[key] = value;
-        }
-      });
-
-      if (addedYear.length > 0) {
-        params.addedYear = simplifyDropdowns(addedYear);
+      if (addedYears.length > 0) {
+        params.addedYears = simplifyDropdowns(addedYears);
       }
 
       if (characters.length > 0) {
@@ -177,16 +170,12 @@ function Query() {
     setCorpusCheckboxStatus(newCorpusCheckboxStatus);
   }
 
-  const alterTextData = (event) => {
-    let newTextData = {...textData};
-    newTextData[event.target.name] = event.target.value;
-    setTextData(newTextData);
-  }
-
-  const alterAuthorData = (event) => {
-    let newAuthorData = {...authorData};
-    newAuthorData[event.target.name] = event.target.value;
-    setAuthorData(newAuthorData);
+  const alterSinglePropertyData = (event, fieldName) => {
+    let newSinglePropertyData = {...singlePropertyData};
+    newSinglePropertyData[fieldName] = (newSinglePropertyData[fieldName] === event.target.dataset.value || event.target.dataset.value === undefined)
+      ? ''
+      : event.target.dataset.value;
+    setSinglePropertyData(newSinglePropertyData);
   }
 
   const changeAccordion = () => {
@@ -215,7 +204,6 @@ function Query() {
                 id="vorm">
             <div className="queryContainer">
               <div>
-                {/*<div id="cover-spin"></div>*/}
                 <b>Korpus</b>
                 <br/><br/>
                 <span style={{fontSize: "smaller"}}>Hiirega korpuse nimele liikudes näeb selle selgitust</span>
@@ -227,117 +215,144 @@ function Query() {
                 <label>kõik</label>
                 <br/>
                 <Checkbox
-                  id="cFqPphvYi"
-                  checked={corpusCheckboxStatus.cFqPphvYi}
-                  onChange={alterCorpusCheckbox}
-                />
-                <label className="corpustitle"
-                       data-hover="Sisaldab eri emakeelega õpilaste eesti keele olümpiaadi esseid">
-                  K2 olümpiaadi tööd
-                </label>
-                <br/>
-                <Checkbox
                   id="clWmOIrLa"
                   checked={corpusCheckboxStatus.clWmOIrLa}
                   onChange={alterCorpusCheckbox}
                 />
-                <label className="corpustitle"
-                       data-hover="Sisaldab riiklikke eksami- ja tasemetöid">
-                  K2 tasemeeksamite tekstid
-                </label>
+                <Tooltip title="Sisaldab riiklikke eksami- ja tasemetöid"
+                         followCursor>
+                  <label className="corpustitle">
+                    K2 riiklikud eksamitööd
+                  </label>
+                </Tooltip>
+                <br/>
+                <Checkbox
+                  id="cFqPphvYi"
+                  checked={corpusCheckboxStatus.cFqPphvYi}
+                  onChange={alterCorpusCheckbox}
+                />
+                <Tooltip title="Sisaldab eri emakeelega õpilaste eesti keele olümpiaadi esseid"
+                         followCursor>
+                  <label className="corpustitle">
+                    K2 olümpiaaditööd
+                  </label>
+                </Tooltip>
                 <br/>
                 <Checkbox
                   id="cFOoRQekA"
                   checked={corpusCheckboxStatus.cFOoRQekA}
                   onChange={alterCorpusCheckbox}
                 />
-                <label className="corpustitle"
-                       data-hover="Sisaldab eksamiväliselt kirjutatud A2-, B1-, B2- ja C1-taseme tekste, mille tase on määratud kolme tunnustatud hindamise spetsialisti ühise arvamuse põhjal">
-                  K2 tuumkorpus
-                </label>
-                <br/>
-                <Checkbox
-                  id="cYDRkpymb"
-                  checked={corpusCheckboxStatus.cYDRkpymb}
-                  onChange={alterCorpusCheckbox}
-                />
-                <label className="corpustitle"
-                       data-hover="Võrdluskorpus, sisaldab emakeelekõnelejate arvamuslugusid ajalehtedest">
-                  K1 eesti keel
-                </label>
-                <br/>
-                <Checkbox
-                  id="cgSRJPKTr"
-                  checked={corpusCheckboxStatus.cgSRJPKTr}
-                  onChange={alterCorpusCheckbox}
-                />
-                <label className="corpustitle"
-                       data-hover="Sisaldab põhikooli ja gümnaasiumi vene emakeelega õpilaste loomingulist laadi tekste">
-                  K1 vene keel
-                </label>
-                <br/>
-                <Checkbox
-                  id="cZjHWUPtD"
-                  checked={corpusCheckboxStatus.cZjHWUPtD}
-                  onChange={alterCorpusCheckbox}
-                />
-                <label className="corpustitle"
-                       data-hover="Sisaldab tekste eesti emakeelega õpilastelt, kes õpivad koolis vene keelt kolmanda keelena">
-                  K3 vene keel
-                </label>
+                <Tooltip title="Sisaldab eksamiväliselt kirjutatud A2-, B1-, B2- ja C1-taseme tekste, mille tase on määratud kolme tunnustatud hindamise spetsialisti ühise arvamuse põhjal"
+                         followCursor>
+                  <label className="corpustitle">
+                    K2 keeleõpe
+                  </label>
+                </Tooltip>
                 <br/>
                 <Checkbox
                   id="cwUSEqQLt"
                   checked={corpusCheckboxStatus.cwUSEqQLt}
                   onChange={alterCorpusCheckbox}
                 />
-                <label className="corpustitle"
-                       data-hover="Sisaldab emakeelekõneleja ja eesti keelt teise keelena kasutava üliõpilase akadeemilise keelekasutuse näiteid (referaadid, seminaritööd, lõputööd jm)">
-                  Akadeemiline õppijakeel
-                </label>
+                <Tooltip title="Sisaldab emakeelekõneleja ja eesti keelt teise keelena kasutava üliõpilase akadeemilise keelekasutuse näiteid (referaadid, seminaritööd, lõputööd jm)"
+                         followCursor>
+                  <label className="corpustitle">
+                    Akadeemiline kirjutamine
+                  </label>
+                </Tooltip>
                 <br/>
-                {/* <Checkbox
-                                    id="cwUprXCTL"
-                                    checked={corpusCheckboxStatus.cwUprXCTL}
-                                    onChange={alterCorpusCheckbox}
-                                />
-                                <label className="corpustitle">Eesti teaduskeel</label>
-                                <br/> */}
+                <Checkbox
+                  id="cYDRkpymb"
+                  checked={corpusCheckboxStatus.cYDRkpymb}
+                  onChange={alterCorpusCheckbox}
+                />
+                <Tooltip title="Võrdluskorpus, sisaldab emakeelekõnelejate arvamuslugusid ajalehtedest"
+                         followCursor>
+                  <label className="corpustitle">
+                    K1 eesti keel
+                  </label>
+                </Tooltip>
+                <br/>
+                <Checkbox
+                  id="cgSRJPKTr"
+                  checked={corpusCheckboxStatus.cgSRJPKTr}
+                  onChange={alterCorpusCheckbox}
+                />
+                <Tooltip title="Sisaldab põhikooli ja gümnaasiumi vene emakeelega õpilaste loomingulist laadi tekste"
+                         followCursor>
+                  <label className="corpustitle">
+                    K1 vene keel
+                  </label>
+                </Tooltip>
+                <br/>
+                <Checkbox
+                  id="cZjHWUPtD"
+                  checked={corpusCheckboxStatus.cZjHWUPtD}
+                  onChange={alterCorpusCheckbox}
+                />
+                <Tooltip title="Sisaldab tekste eesti emakeelega õpilastelt, kes õpivad koolis vene keelt kolmanda keelena"
+                         followCursor>
+                  <label className="corpustitle">
+                    K3 vene keel
+                  </label>
+                </Tooltip>
+                <br/>
               </div>
               <div>
                 <b>Teksti andmed</b>
                 <br/><br/>
-                <FormControl size="small">
-                  <InputLabel id="type-label">Teksti liik</InputLabel>
+                <FormControl className={classes.formControl}
+                             size="small">
+                  <InputLabel id="types-label">Teksti liik</InputLabel>
                   <Select
-                    sx={{minWidth: selectWidth}}
-                    labelId="type-label"
-                    name="type"
-                    value={textData.type}
+                    labelId="types-label"
                     label="Teksti liik"
-                    onChange={alterTextData}
+                    multiple
+                    value={textTypes}
+                    name="types"
+                    onClick={(e) => {
+                      // setTextTypes(e.target.value)
+                      // console.log(e.target.offsetParent.id);
+                      // console.log(e.target);
+                    }}
+                    renderValue={(textType) => textType.join(", ")}
+                    MenuProps={MenuProps}
                   >
-                    <MenuItem value="teadmata"
-                              className="empty-select"></MenuItem>
-                    <MenuItem value="isikiri">isiklik kiri</MenuItem>
-                    <MenuItem value="amtkiri">ametlik kiri</MenuItem>
-                    <MenuItem value="essee">essee</MenuItem>
-                    <MenuItem value="referaat">referaat</MenuItem>
-                    <MenuItem value="trilumunud">trükis ilmunud</MenuItem>
-                    <MenuItem value="analyys">analüüs</MenuItem>
-                    <MenuItem value="vastkys">vastus küsimusele</MenuItem>
-                    <MenuItem value="ymberjutustus">ümberjutustus</MenuItem>
-                    <MenuItem value="tolge">tõlge</MenuItem>
-                    <MenuItem value="harjutus">harjutus</MenuItem>
-                    <MenuItem value="teadus">teadusartikkel</MenuItem>
-                    <MenuItem value="monograafia">monograafia</MenuItem>
-                    <MenuItem value="vaitekiri">väitekiri</MenuItem>
-                    <MenuItem value="ma">MA-töö</MenuItem>
-                    <MenuItem value="batoo">BA-töö</MenuItem>
-                    <MenuItem value="arvamuslugu">arvamuslugu</MenuItem>
-                    <MenuItem value="teade">teade</MenuItem>
-                    <MenuItem value="kirjeldus/jutustus">kirjeldus/jutustus</MenuItem>
-                    <MenuItem value="muu">muu</MenuItem>
+                    {Object.keys(textTypesOptions).map((corpus) => (
+                      corpusCheckboxStatus[corpus] && Object.keys(textTypesOptions[corpus]).map((textType) => (
+                        typeof textTypesOptions[corpus][textType] === 'string'
+                          ? <MenuItem key={textType}
+                                      id={textType}
+                                      value={textType}>
+                            <ListItemIcon>
+                              <Checkbox checked={textTypes.indexOf(textType) > -1}/>
+                            </ListItemIcon>
+                            <ListItemText primary={textTypesOptions[corpus][textType]}/>
+                          </MenuItem>
+                          : <span>
+                            <MenuItem key={textType}
+                                      id={textType}
+                                      value={textType}>
+                              <ListItemIcon>
+                                <Checkbox checked={textTypes.indexOf(textType) > -1}/>
+                              </ListItemIcon>
+                              <ListItemText primary={textType}/>
+                            </MenuItem>
+                            {Object.keys(textTypesOptions[corpus][textType]).map((specificTextType) => (
+                              <MenuItem key={specificTextType}
+                                        id={specificTextType}
+                                        value={specificTextType}
+                                        sx={{paddingLeft: "2rem"}}>
+                                <ListItemIcon>
+                                  <Checkbox checked={textTypes.indexOf(specificTextType) > -1}/>
+                                </ListItemIcon>
+                                <ListItemText primary={textTypesOptions[corpus][textType][specificTextType]}/>
+                              </MenuItem>
+                            ))}
+                          </span>
+                      ))
+                    ))}
                   </Select>
                 </FormControl>
                 <br/><br/>
@@ -347,9 +362,9 @@ function Query() {
                     sx={{minWidth: selectWidth}}
                     labelId="language-label"
                     name="language"
-                    value={textData.language}
+                    value={singlePropertyData.language}
                     label="Teksti keel"
-                    onChange={alterTextData}
+                    onClick={(e) => alterSinglePropertyData(e, "language")}
                   >
                     <MenuItem value="eesti">eesti</MenuItem>
                     <MenuItem value="inglise">inglise</MenuItem>
@@ -364,15 +379,13 @@ function Query() {
                     sx={{minWidth: selectWidth}}
                     labelId="level-label"
                     name="level"
-                    value={textData.level}
+                    value={singlePropertyData.level}
                     label="Teksti tase"
-                    onChange={alterTextData}
+                    onClick={(e) => alterSinglePropertyData(e, "level")}
                   >
-                    <MenuItem value="teadmata"
-                              className="empty-select"></MenuItem>
                     <MenuItem value="A">A</MenuItem>
                     <MenuItem value="B">B</MenuItem>
-                    <MenuItem value="A">C</MenuItem>
+                    <MenuItem value="C">C</MenuItem>
                     <MenuItem value="A1">A1</MenuItem>
                     <MenuItem value="A2">A2</MenuItem>
                     <MenuItem value="B1">B1</MenuItem>
@@ -388,12 +401,10 @@ function Query() {
                     sx={{minWidth: selectWidth}}
                     labelId="usedMaterials-label"
                     name="usedMaterials"
-                    value={textData.usedMaterials}
+                    value={singlePropertyData.usedMaterials}
                     label="Kasutatud õppematerjale"
-                    onChange={alterTextData}
+                    onClick={(e) => alterSinglePropertyData(e, "usedMaterials")}
                   >
-                    <MenuItem value="teadmata"
-                              className="empty-select"></MenuItem>
                     <MenuItem value="jah">jah</MenuItem>
                     <MenuItem value="ei">ei</MenuItem>
                   </Select>
@@ -401,16 +412,14 @@ function Query() {
                 <br/><br/>
                 <FormControl className={classes.formControl}
                              size="small">
-                  <InputLabel id="addedYear-label">Teksti lisamise aasta</InputLabel>
+                  <InputLabel id="addedYears-label">Teksti lisamise aasta</InputLabel>
                   <Select
-                    labelId="addedYear-label"
+                    labelId="addedYears-label"
                     label="Teksti lisamise aasta"
                     multiple
-                    value={addedYear}
-                    name="addedYear"
-                    onChange={(e) => {
-                      setAddedYear(e.target.value)
-                    }}
+                    value={addedYears}
+                    name="addedYears"
+                    onChange={(e) => setAddedYears(e.target.value)}
                     renderValue={(addedYear) => addedYear.join(", ")}
                     MenuProps={MenuProps}
                   >
@@ -418,7 +427,7 @@ function Query() {
                       <MenuItem key={year}
                                 value={year}>
                         <ListItemIcon>
-                          <Checkbox checked={addedYear.indexOf(year) > -1}/>
+                          <Checkbox checked={addedYears.indexOf(year) > -1}/>
                         </ListItemIcon>
                         <ListItemText primary={year}/>
                       </MenuItem>
@@ -435,10 +444,8 @@ function Query() {
                     multiple
                     value={characters}
                     name="characters"
-                    onChange={(e) => {
-                      setCharacters(e.target.value)
-                    }}
-                    renderValue={(characters) => characters.join(", ")}
+                    onChange={(e) => setCharacters(e.target.value)}
+                    renderValue={(character) => character.join(", ")}
                     MenuProps={MenuProps}
                   >
                     {charactersOptions.map((item) => (
@@ -462,10 +469,8 @@ function Query() {
                     multiple
                     value={words}
                     name="words"
-                    onChange={(e) => {
-                      setWords(e.target.value)
-                    }}
-                    renderValue={(words) => words.join(", ")}
+                    onChange={(e) => setWords(e.target.value)}
+                    renderValue={(word) => word.join(", ")}
                     MenuProps={MenuProps}
                   >
                     {wordsOptions.map((item) => (
@@ -489,10 +494,8 @@ function Query() {
                     multiple
                     value={sentences}
                     name="sentences"
-                    onChange={(e) => {
-                      setSentences(e.target.value)
-                    }}
-                    renderValue={(sentences) => sentences.join(", ")}
+                    onChange={(e) => setSentences(e.target.value)}
+                    renderValue={(sentence) => sentence.join(", ")}
                     MenuProps={MenuProps}
                   >
                     {sentencesOptions.map((item) => (
@@ -516,12 +519,10 @@ function Query() {
                     sx={{minWidth: selectWidth}}
                     labelId="age-label"
                     name="age"
-                    value={authorData.age}
+                    value={singlePropertyData.age}
                     label="Vanus"
-                    onChange={alterAuthorData}
+                    onClick={(e) => alterSinglePropertyData(e, "age")}
                   >
-                    <MenuItem value="teadmata"
-                              className="empty-select"></MenuItem>
                     <MenuItem value="kuni18">- 18</MenuItem>
                     <MenuItem value="kuni26">18 - 26</MenuItem>
                     <MenuItem value="kuni40">27 - 40</MenuItem>
@@ -535,15 +536,12 @@ function Query() {
                     sx={{minWidth: selectWidth}}
                     labelId="gender-label"
                     name="gender"
-                    value={authorData.gender}
+                    value={singlePropertyData.gender}
                     label="Sugu"
-                    onChange={alterAuthorData}
+                    onClick={(e) => alterSinglePropertyData(e, "gender")}
                   >
-                    <MenuItem value="teadmata"
-                              className="empty-select"></MenuItem>
                     <MenuItem value="mees">mees</MenuItem>
                     <MenuItem value="naine">naine</MenuItem>
-                    {/*<MenuItem value="muu">muu</MenuItem>*/}
                   </Select>
                 </FormControl>
                 <br/><br/>
@@ -553,12 +551,10 @@ function Query() {
                     sx={{minWidth: selectWidth}}
                     labelId="education-label"
                     name="education"
-                    value={authorData.education}
+                    value={singlePropertyData.education}
                     label="Haridus"
-                    onChange={alterAuthorData}
+                    onClick={(e) => alterSinglePropertyData(e, "education")}
                   >
-                    <MenuItem value="teadmata"
-                              className="empty-select"></MenuItem>
                     <MenuItem value="Alg-/põhiharidus,alg,pohi">algharidus/põhiharidus</MenuItem>
                     <MenuItem value="Keskharidus,kesk">keskharidus</MenuItem>
                     <MenuItem value="Keskeriharidus/kutseharidus,keskeri,kutse">keskeriharidus/kutseharidus</MenuItem>
@@ -572,12 +568,10 @@ function Query() {
                     sx={{minWidth: selectWidth}}
                     labelId="nativeLang-label"
                     name="nativeLang"
-                    value={authorData.nativeLang}
+                    value={singlePropertyData.nativeLang}
                     label="Emakeel"
-                    onChange={alterAuthorData}
+                    onClick={(e) => alterSinglePropertyData(e, "nativeLang")}
                   >
-                    <MenuItem value="teadmata"
-                              className="empty-select"></MenuItem>
                     <MenuItem value="eesti">eesti</MenuItem>
                     <MenuItem value="vene">vene</MenuItem>
                     <MenuItem value="soome">soome</MenuItem>
@@ -601,41 +595,6 @@ function Query() {
                     <MenuItem value="tsehhi">tšehhi</MenuItem>
                   </Select>
                 </FormControl>
-                {/* <br/><br/>
-                                <FormControl size="small">
-                                    <InputLabel id="homeLang-label">Kodukeel</InputLabel>
-                                    <Select
-                                        sx={{ minWidth: selectWidth }}
-                                        labelId="homeLang-label"
-                                        name="homeLang"
-                                        value={authorData.homeLang}
-                                        label="Kodukeel"
-                                        onChange={alterAuthorData}
-                                    >
-                                        <MenuItem value="teadmata" className="empty-select"></MenuItem>
-                                        <MenuItem value="eesti">eesti</MenuItem>
-                                        <MenuItem value="vene">vene</MenuItem>
-                                        <MenuItem value="soome">soome</MenuItem>
-                                        <MenuItem value="saksa">saksa</MenuItem>
-                                        <MenuItem value="ukraina">ukraina</MenuItem>
-                                        <MenuItem value="valgevene">valgevene</MenuItem>
-                                        <MenuItem value="lati">läti</MenuItem>
-                                        <MenuItem value="leedu">leedu</MenuItem>
-                                        <MenuItem value="rootsi">rootsi</MenuItem>
-                                        <MenuItem value="inglise">inglise</MenuItem>
-                                        <MenuItem value="jidis">jidiš</MenuItem>
-                                        <MenuItem value="itaalia">itaalia</MenuItem>
-                                        <MenuItem value="jaapani">jaapani</MenuItem>
-                                        <MenuItem value="poola">poola</MenuItem>
-                                        <MenuItem value="hollandi">hollandi</MenuItem>
-                                        <MenuItem value="sloveenia">sloveenia</MenuItem>
-                                        <MenuItem value="heebrea">heebrea</MenuItem>
-                                        <MenuItem value="prantsuse">prantsuse</MenuItem>
-                                        <MenuItem value="katalaani">katalaani</MenuItem>
-                                        <MenuItem value="ungari">ungari</MenuItem>
-                                        <MenuItem value="tsehhi">tšehhi</MenuItem>
-                                    </Select>
-                                </FormControl> */}
                 <br/><br/>
                 <FormControl size="small">
                   <InputLabel id="country-label">Elukohariik</InputLabel>
@@ -643,12 +602,10 @@ function Query() {
                     sx={{minWidth: selectWidth}}
                     labelId="country-label"
                     name="country"
-                    value={authorData.country}
+                    value={singlePropertyData.country}
                     label="Elukohariik"
-                    onChange={alterAuthorData}
+                    onClick={(e) => alterSinglePropertyData(e, "country")}
                   >
-                    <MenuItem value="teadmata"
-                              className="empty-select"></MenuItem>
                     <MenuItem value="eesti">Eesti</MenuItem>
                     <MenuItem value="soome">Soome</MenuItem>
                     <MenuItem value="rootsi">Rootsi</MenuItem>
@@ -656,7 +613,6 @@ function Query() {
                     <MenuItem value="lati">Läti</MenuItem>
                     <MenuItem value="leedu">Leedu</MenuItem>
                     <MenuItem value="saksamaa">Saksamaa</MenuItem>
-                    {/*<MenuItem value="inglismaa">Suurbritannia</MenuItem>*/}
                   </Select>
                 </FormControl>
               </div>

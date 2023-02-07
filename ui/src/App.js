@@ -52,6 +52,16 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: `"Mulish", "sans-serif"`
+  },
+  components: {
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          fontSize: "1rem",
+          maxWidth: "400px"
+        }
+      }
+    }
   }
 });
 

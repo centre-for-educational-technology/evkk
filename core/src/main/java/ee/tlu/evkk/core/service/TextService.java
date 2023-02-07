@@ -141,8 +141,8 @@ public class TextService {
       singleParamHelpers.add(new TextQuerySingleParamHelper("p12", "elukoht", corpusRequestDto.getCountry()));
     }
 
-    if (corpusRequestDto.getAddedYear() != null) {
-      rangeParamBaseHelpers.add(createRangeBaseHelper("p13", "aasta", false, corpusRequestDto.getAddedYear()));
+    if (corpusRequestDto.getAddedYears() != null) {
+      rangeParamBaseHelpers.add(createRangeBaseHelper("p13", "aasta", false, corpusRequestDto.getAddedYears()));
     }
 
     if (corpusRequestDto.getCharacters() != null) {

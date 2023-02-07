@@ -15,7 +15,7 @@ import {usePagination, useTable} from "react-table";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CloseIcon from '@mui/icons-material/Close';
 import "./styles/QueryResults.css";
-import {ages, corpuses, educations, genders, locations, types} from "../utils/constants";
+import {ages, corpuses, educations, genders, locations, textTypes} from "../utils/constants";
 import TablePagination from "../tools/wordanalyser/TablePagination";
 import QueryDownloadButton from "./QueryDownloadButton";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -141,10 +141,9 @@ function QueryResults(props) {
             setIndividualMetadata('korpus', corpuses[param.property_value]);
           }
           if (param.property_name === 'tekstityyp') {
-            const value = types[param.property_value] === undefined
-              ? 'tundmatu teksti liik'
-              : types[param.property_value];
-            setIndividualMetadata('tekstityyp', value);
+            if (textTypes[param.property_value] !== undefined) {
+              setIndividualMetadata('tekstityyp', textTypes[param.property_value]);
+            }
           }
           if (param.property_name === 'vanus') {
             if (ages[param.property_value] !== undefined) {
