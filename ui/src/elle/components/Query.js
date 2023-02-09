@@ -184,7 +184,7 @@ function Query() {
 
   return (
     <div>
-      {alert ? <div><Alert severity="error">Vali vähemalt üks korpus!</Alert><br/></div> : <></>}
+      {alert ? <div><Alert severity="error">Vali vähemalt üks alamkorpus!</Alert><br/></div> : <></>}
       <Accordion sx={AccordionStyle}
                  expanded={expanded}
                  onChange={changeAccordion}>
@@ -204,9 +204,7 @@ function Query() {
                 id="vorm">
             <div className="queryContainer">
               <div>
-                <b>Korpus</b>
-                <br/><br/>
-                <span style={{fontSize: "smaller"}}>Hiirega korpuse nimele liikudes näeb selle selgitust</span>
+                <b>Alamkorpus</b>
                 <br/><br/>
                 <Checkbox
                   checked={corpusCheckboxStatus.all}
@@ -251,18 +249,6 @@ function Query() {
                 </Tooltip>
                 <br/>
                 <Checkbox
-                  id="cwUSEqQLt"
-                  checked={corpusCheckboxStatus.cwUSEqQLt}
-                  onChange={alterCorpusCheckbox}
-                />
-                <Tooltip title="Sisaldab emakeelekõneleja ja eesti keelt teise keelena kasutava üliõpilase akadeemilise keelekasutuse näiteid (referaadid, seminaritööd, lõputööd jm)"
-                         followCursor>
-                  <label className="corpustitle">
-                    Akadeemiline kirjutamine
-                  </label>
-                </Tooltip>
-                <br/>
-                <Checkbox
                   id="cYDRkpymb"
                   checked={corpusCheckboxStatus.cYDRkpymb}
                   onChange={alterCorpusCheckbox}
@@ -298,16 +284,28 @@ function Query() {
                   </label>
                 </Tooltip>
                 <br/>
+                <Checkbox
+                  id="cwUSEqQLt"
+                  checked={corpusCheckboxStatus.cwUSEqQLt}
+                  onChange={alterCorpusCheckbox}
+                />
+                <Tooltip title="Sisaldab emakeelekõneleja ja eesti keelt teise keelena kasutava üliõpilase akadeemilise keelekasutuse näiteid (referaadid, seminaritööd, lõputööd jm)"
+                         followCursor>
+                  <label className="corpustitle">
+                    Akadeemiline kirjutamine
+                  </label>
+                </Tooltip>
+                <br/>
               </div>
               <div>
                 <b>Teksti andmed</b>
                 <br/><br/>
                 <FormControl className={classes.formControl}
                              size="small">
-                  <InputLabel id="types-label">Teksti liik</InputLabel>
+                  <InputLabel id="types-label">Tekstiliik</InputLabel>
                   <Select
                     labelId="types-label"
-                    label="Teksti liik"
+                    label="Tekstiliik"
                     multiple
                     value={textTypes}
                     name="types"

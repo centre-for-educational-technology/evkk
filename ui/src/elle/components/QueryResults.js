@@ -333,8 +333,8 @@ function QueryResults(props) {
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <strong>Korpus:</strong> {metadata.korpus}<br/>
-                <strong>Teksti liik:</strong> {metadata.tekstityyp}<br/>
+                <strong>Alamkorpus:</strong> {metadata.korpus}<br/>
+                <strong>Tekstiliik:</strong> {metadata.tekstityyp}<br/>
                 <strong>Teksti keel:</strong> {metadata.tekstikeel}<br/>
                 <strong>Teksti tase:</strong> {metadata.keeletase}<br/>
                 <strong>Kasutatud õppematerjale:</strong> {metadata.abivahendid}<br/>
