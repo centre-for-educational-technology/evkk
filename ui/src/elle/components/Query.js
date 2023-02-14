@@ -69,13 +69,8 @@ function Query() {
   function submitted() {
     setResultsKey(Math.random());
     setIsLoading(true);
-    let selectedCorpuses = [];
-    Object.entries(corpusCheckboxStatus).forEach((entry) => {
-      const [key, value] = entry;
-      if (value && key !== "all") {
-        selectedCorpuses.push(key);
-      }
-    });
+    let selectedCorpuses = getSelectedCorpusList();
+
     if (selectedCorpuses.length === 0) {
       setAlert(true);
       setIsLoading(false);
@@ -90,6 +85,10 @@ function Query() {
           params[key] = value;
         }
       });
+
+      if (textTypes.length > 0) {
+        params.types = textTypes;
+      }
 
       if (addedYears.length > 0) {
         params.addedYears = simplifyDropdowns(addedYears);
@@ -124,10 +123,21 @@ function Query() {
             setNoResultsError(true);
             setResults([]);
           }
-          setExpanded();
+          setExpanded(false);
           setIsLoading(false);
         });
     }
+  }
+
+  function getSelectedCorpusList() {
+    let selectedCorpuses = [];
+    Object.entries(corpusCheckboxStatus).forEach((entry) => {
+      const [key, value] = entry;
+      if (value && key !== "all") {
+        selectedCorpuses.push(key);
+      }
+    });
+    return selectedCorpuses;
   }
 
   function simplifyDropdowns(data) {
@@ -148,6 +158,16 @@ function Query() {
     return simplified;
   }
 
+  const findNestedKeys = (object, key) => key in object
+    ? [[key]]
+    : Object.entries(object).flatMap(([k, v]) => {
+      if (!v || typeof v !== 'object') return [];
+      const nestedKeys = findNestedKeys(v, key);
+      return nestedKeys.length
+        ? nestedKeys.map(a => [k, ...a])
+        : [];
+    });
+
   const alterCorpusCheckbox = (event) => {
     let newCorpusCheckboxStatus = {...corpusCheckboxStatus};
     let trueCount = 0;
@@ -160,6 +180,11 @@ function Query() {
     });
     newCorpusCheckboxStatus.all = trueCount === 7;
     setCorpusCheckboxStatus(newCorpusCheckboxStatus);
+
+    // reset selected text types
+    if (!event.target.checked) {
+      setTextTypes(textTypes.filter((type) => findNestedKeys(textTypesOptions[event.target.id], type).length === 0));
+    }
   }
 
   const alterAllCorpusCheckboxes = (event) => {
@@ -168,6 +193,11 @@ function Query() {
       newCorpusCheckboxStatus[checkbox] = event.target.checked;
     }
     setCorpusCheckboxStatus(newCorpusCheckboxStatus);
+
+    // reset selected text types
+    if (!event.target.checked) {
+      setTextTypes([]);
+    }
   }
 
   const alterSinglePropertyData = (event, fieldName) => {
@@ -181,6 +211,38 @@ function Query() {
   const changeAccordion = () => {
     setExpanded(!expanded);
   };
+
+  const alterHierarchyDropdown = (e, hierarchyLevel, corpus) => {
+    // hierarchyLevel: true - standalone or hierarchy child, false - hierarchy parent
+    let id = e.target.localName === 'span'
+      ? e.target.offsetParent.children[1].id
+      : e.target.id;
+    if (hierarchyLevel) {
+      if (textTypes.includes(id)) {
+        setTextTypes(textTypes.filter(type => type !== id));
+      } else {
+        setTextTypes([...textTypes, id]);
+      }
+    } else {
+      let childrenArray = Array.from(Object.keys(textTypesOptions[corpus][id]));
+      let filteredTextTypes = textTypes.filter(type => !childrenArray.includes(type));
+      if (childrenArray.every(child => textTypes.includes(child))) {
+        setTextTypes(filteredTextTypes);
+      } else {
+        setTextTypes([...filteredTextTypes, ...childrenArray]);
+      }
+    }
+  }
+
+  const checkHierarchyCheckboxStatus = (name, corpus) => {
+    let checked = true;
+    Object.keys(textTypesOptions[corpus][name]).forEach(type => {
+      if (!textTypes.includes(type)) {
+        checked = false;
+      }
+    });
+    return checked;
+  }
 
   return (
     <div>
@@ -309,12 +371,8 @@ function Query() {
                     multiple
                     value={textTypes}
                     name="types"
-                    onClick={(e) => {
-                      // setTextTypes(e.target.value)
-                      // console.log(e.target.offsetParent.id);
-                      // console.log(e.target);
-                    }}
-                    renderValue={(textType) => textType.join(", ")}
+                    renderValue={(textType) => `Valitud ${textType.length} ${textType.length === 1 ? 'liik' : 'liiki'}`}
+                    disabled={getSelectedCorpusList().length === 0}
                     MenuProps={MenuProps}
                   >
                     {Object.keys(textTypesOptions).map((corpus) => (
@@ -322,30 +380,39 @@ function Query() {
                         typeof textTypesOptions[corpus][textType] === 'string'
                           ? <MenuItem key={textType}
                                       id={textType}
+                                      onClick={(e) => alterHierarchyDropdown(e, true, null)}
                                       value={textType}>
                             <ListItemIcon>
-                              <Checkbox checked={textTypes.indexOf(textType) > -1}/>
+                              <Checkbox id={textType}
+                                        checked={textTypes.indexOf(textType) > -1}/>
                             </ListItemIcon>
-                            <ListItemText primary={textTypesOptions[corpus][textType]}/>
+                            <ListItemText id={textType}
+                                          primary={textTypesOptions[corpus][textType]}/>
                           </MenuItem>
                           : <span>
                             <MenuItem key={textType}
                                       id={textType}
+                                      onClick={(e) => alterHierarchyDropdown(e, false, corpus)}
                                       value={textType}>
                               <ListItemIcon>
-                                <Checkbox checked={textTypes.indexOf(textType) > -1}/>
+                                <Checkbox id={textType}
+                                          checked={checkHierarchyCheckboxStatus(textType, corpus)}/>
                               </ListItemIcon>
-                              <ListItemText primary={textType}/>
+                              <ListItemText id={textType}
+                                            primary={textType}/>
                             </MenuItem>
                             {Object.keys(textTypesOptions[corpus][textType]).map((specificTextType) => (
                               <MenuItem key={specificTextType}
                                         id={specificTextType}
+                                        onClick={(e) => alterHierarchyDropdown(e, true, null)}
                                         value={specificTextType}
                                         sx={{paddingLeft: "2rem"}}>
                                 <ListItemIcon>
-                                  <Checkbox checked={textTypes.indexOf(specificTextType) > -1}/>
+                                  <Checkbox id={specificTextType}
+                                            checked={textTypes.indexOf(specificTextType) > -1}/>
                                 </ListItemIcon>
-                                <ListItemText primary={textTypesOptions[corpus][textType][specificTextType]}/>
+                                <ListItemText id={specificTextType}
+                                              primary={textTypesOptions[corpus][textType][specificTextType]}/>
                               </MenuItem>
                             ))}
                           </span>

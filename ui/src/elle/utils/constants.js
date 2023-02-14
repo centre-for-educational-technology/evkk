@@ -30,7 +30,7 @@ export const ITEM_PADDING_TOP = 8;
 export const MenuProps = {
   PaperProps: {
     style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      maxHeight: ITEM_HEIGHT * 11.5 + ITEM_PADDING_TOP,
       width: 250
     }
   },
@@ -135,6 +135,12 @@ export const textTypes = {
 };
 
 export const textTypesOptions = {
+  "clWmOIrLa": {
+    "k2eesti_riiklik_eksamitoo": "K2 riiklik eksamitöö"
+  },
+  "cFqPphvYi": {
+    "k2eesti_ol_loovkirjutis": "K2 OT loovkirjutis"
+  },
   "cFOoRQekA": {
     "K2 kiri": {
       "k2eesti_kiri_isiklik": "Isiklik",
@@ -161,6 +167,39 @@ export const textTypesOptions = {
     "k2eesti_eksamitoo": "K2 eksamitöö",
     "k2eesti_kontrolltoo_test": "K2 kontrolltöö/test",
     "k2eesti_tolge": "K2 tõlge"
+  },
+  "cYDRkpymb": {
+    "k1eesti_arvamuslugu": "K1 arvamuslugu",
+    "k1eesti_eksamitoo": "K1 eksamitöö",
+    "k1eesti_harjutus": "K1 harjutus"
+  },
+  "cgSRJPKTr": {
+    "k1vene_loovkirjutis": "K1 vene loovkirjutis",
+    "k1vene_eksamitoo": "K1 vene eksamitöö",
+  },
+  "cZjHWUPtD": {
+    "k3vene_loovkirjutis": "K3 vene loovkirjutis",
+    "k3vene_eksamitoo": "K3 vene eksamitöö",
+  },
+  "cwUSEqQLt": {
+    "AK erialaõpingud": {
+      "ak_eriala_analuus": "Analüüs",
+      "ak_eriala_essee": "Essee",
+      "ak_eriala_kursusetoo": "Kursusetöö",
+      "ak_eriala_referaat": "Referaat",
+      "ak_eriala_retsensioon": "Retsensioon",
+      "ak_eriala_seminaritoo": "Seminaritöö",
+      "ak_eriala_ulevaade": "Ülevaade",
+    },
+    "AK uurimused": {
+      "ak_uurimus_artikkel": "Artikkel",
+      "ak_uurimus_ettekanne": "Ettekanne",
+      "ak_uurimus_kokkuvote": "Kokkuvõte",
+      "ak_uurimus_batoo": "Bakalaureusetöö",
+      "ak_uurimus_diplomitoo": "Diplomitöö",
+      "ak_uurimus_matoo": "Magistritöö",
+      "ak_uurimus_pdhtoo": "Doktoritöö",
+    }
   }
 };
 
