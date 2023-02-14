@@ -21,7 +21,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 
 function WordAnalyser() {
-  const [analysedInput, setAnalysedInput] = useContext(AnalyseContext)
+  const [analysedInput, setAnalysedInput] = useContext(AnalyseContext);
   const [showResults, setShowResults] = useState(false);
   const [selectedWords, setSelectedWords] = useState(['']);
   const [wordInfo, setWordInfo] = useState('');
@@ -33,8 +33,6 @@ function WordAnalyser() {
   const syllable = useContext(SyllableContext);
   const syllableWord = useContext(SyllableWordContext);
   const lemma = useContext(LemmaContext);
-
-
   const {t} = useTranslation();
   const [open, setOpen] = useState(false);
   const [border, setBorder] = useState(0);
@@ -48,9 +46,10 @@ function WordAnalyser() {
       },
       body: JSON.stringify({tekst: input}),
     });
-    const data = await response.json();
 
+    const data = await response.json();
     let newData = [];
+
     for (const element of data) {
       if (element) {
         let item = element.replace(/['*]+/g, '');
@@ -157,8 +156,6 @@ function WordAnalyser() {
 
     for (let i = 0; i < rawLemmas.length; i++) {
       let word = analysedWordsOrig[i];
-      // remove "–" symbols before syllabifying, otherwise it crashes
-      // replace "_" with "-" because syllabifier doesn't recognize compound words and stanza puts "_" symbol between compound words (when lemmatizing), so the problem can be fixed with this little hack
       if (rawLemmas[i].includes('_')) {
         let index = rawLemmas[i].indexOf('_');
         syllableReadyWords += [word.slice(0, index), '-', word.slice(index)].join('').replaceAll("–", "") + " ";
@@ -398,7 +395,6 @@ function WordAnalyser() {
       type: analysedInput.wordtypes[index],
       form: analysedInput.wordforms[index],
     }
-
     setWordInfo(wordInfoObj);
   }
 
@@ -441,7 +437,6 @@ function WordAnalyser() {
       marginLeft={"auto"}
       marginRight={"auto"}
       >
-
         <Alert
           severity={"info"}
           action={
@@ -461,10 +456,8 @@ function WordAnalyser() {
         >
           <Typography color={"#1A237E"} ><strong>Vasakus kastis sõnadel klõpastes ilmub paremale info antud sõna kohta</strong></Typography>
         </Alert>
-
       </Box>
       </Fade>
-
       <Grid container
             columnSpacing={{xs: 0, md: 4}}>
         <Grid item
@@ -473,16 +466,7 @@ function WordAnalyser() {
           <Box display={"flex"}
           justifyContent={"flex-start"}>
             <Box><TextUpload sendTextFromFile={sendTextFromFile}/></Box>
-           {/* <Box style={{cursor: "pointer"}} onClick={() => { if(open === false){
-              setBorder(10);
-              setOpen(true)
-            }else{
-              setBorder(0);
-              setOpen(false)
-            }}}><HelpOutlineIcon/></Box>*/}
           </Box>
-
-
         </Grid>
         <Grid item
               xs={12}

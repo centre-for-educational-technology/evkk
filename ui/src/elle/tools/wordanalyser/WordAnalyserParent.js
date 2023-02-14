@@ -23,6 +23,7 @@ import LemmaView from "./LemmaView";
 import {Alert, Box, Fade, IconButton, Typography} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Tutorial from "../../components/Tutorial";
+import './styles/WordAnalyserParent.css';
 
 export default function WordAnalyserParent() {
 
@@ -31,7 +32,6 @@ export default function WordAnalyserParent() {
   const [typeValue, setTypeValue] = useState("");
   const [border, setBorder] = useState(0);
   const [open, setOpen] = useState(false);
-
   const [analyseValue, setAnalyseValue] = useState({
     ids: [''],
     text: '',
@@ -71,22 +71,9 @@ export default function WordAnalyserParent() {
                                   >
                                     <WordAnalyser/>
                                   </Box>
-
                                   <Box component={"span"}>
                                     {tabValue === 1 || tabValue === 2 || tabValue === 3 ? <TableComponent/> : null}
-                                    {/*  {tabValue === 1 || tabValue === 2 || tabValue === 3 ? <Box position={"relative"} bottom={"90px"} left={"450px"} component={"span"}
-                                          style={{cursor: "pointer"}} onClick={() => {
-                                            if(open === false){
-                                              setBorder(10);
-                                              setOpen(true)
-                                            }else{
-                                              setBorder(0);
-                                              setOpen(false)
-                                            }
-
-                                    }}><HelpOutlineIcon/></Box> : null}*/}
                                   </Box>
-
                                   <Box
                                     padding={"20px"}
                                     border={border}
@@ -94,16 +81,7 @@ export default function WordAnalyserParent() {
                                     borderRadius={10}
                                   >
                                     <Fade in={open}>
-                                      <Box
-                                        paddingX={"10px"}
-                                        width={"65%"}
-                                        borderRadius={5}
-                                        bgcolor={"#E1F5FE"}
-                                        marginTop={"-50px"}
-                                        marginLeft={"auto"}
-                                        marginRight={"auto"}
-                                      >
-
+                                      <Box className="alertBox">
                                         <Alert
                                           severity={"info"}
                                           action={
@@ -123,7 +101,6 @@ export default function WordAnalyserParent() {
                                         >
                                           <Typography color={"#1A237E"} ><strong>Tabelis olevatel väärtustel klõpsides märgitakse väärtused ära ülaoleva kasti tekstis</strong></Typography>
                                         </Alert>
-
                                       </Box>
                                     </Fade>
                                     {tabValue === 1 ? <Syllables/> : null}
@@ -147,5 +124,4 @@ export default function WordAnalyserParent() {
       </SetWordContext.Provider>
     </>
   );
-
 }

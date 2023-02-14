@@ -1,37 +1,37 @@
 import {Box, Button, Card, CardActions, CardContent, Typography} from "@mui/material";
 import {useEffect, useRef, useState} from "react";
+import './styles/Tutorial.css';
 
 function Tutorial() {
 
-  const [boxOpen, setBoxOpen] = new useState(1)
+  const [boxOpen, setBoxOpen] = new useState(1);
 
   useEffect(() => {
-    if (sessionStorage.getItem('tutorial')) {
+    if (sessionStorage.getItem("tutorial")) {
       setBoxOpen(0);
     }
-  }, [])
+  }, []);
 
   const ref1 = useRef();
-
   const handleClick = () => {
-    setBoxOpen(3)
-    window.scrollBy({top: 400, behavior: "smooth"})
+    setBoxOpen(3);
+    window.scrollBy({top: 400, behavior: "smooth"});
   }
 
   const handleClose = () => {
-    setBoxOpen(0)
-    window.scrollBy({top: -99999, behavior: "smooth"})
-    sessionStorage.setItem('tutorial', "false")
+    setBoxOpen(0);
+    window.scrollBy({top: -99999, behavior: "smooth"});
+    sessionStorage.setItem("tutorial", "false");
   }
 
   function Box1() {
     return (
       <>
-        <Box position={"absolute"} left={"20%"} top={"20%"} width={"30%"} height={"15%"} borderRadius={"10px"}
-             boxShadow={"0 0 0 99999px rgba(0, 0, 0, .8)"}>
+        <Box className="tutorialBox" left={"20%"} top={"20%"} width={"30%"} height={"15%"}>
         </Box>
         <Card
-          sx={{position: "absolute", top: "15%", left: "10%", width: "15%", border: "solid", borderColor: "yellow"}}>
+          className="tutorialcard"
+          sx={{top: "15%", left: "10%", width: "15%"}}>
           <CardContent>
             <Typography variant="body2" color="text.secondary">
               Siin kastis on võimalik sõnadel klõpsata. Klõpsates hkuvatakse valitud sõnad kollase taustaga.
@@ -43,17 +43,17 @@ function Tutorial() {
           </CardActions>
         </Card>
       </>
-    )
+    );
   }
 
   function Box2() {
     return (
       <>
-        <Box position={"absolute"} left={"50%"} top={"20%"} width={"15%"} height={"15%"} borderRadius={"10px"}
-             boxShadow={"0 0 0 99999px rgba(0, 0, 0, .8)"}>
+        <Box className="tutorialBox" left={"50%"} top={"20%"} width={"15%"} height={"15%"}>
         </Box>
         <Card
-          sx={{position: "absolute", top: "15%", left: "40%", width: "15%", border: "solid", borderColor: "yellow"}}>
+          className="tutorialcard"
+          sx={{top: "15%", left: "40%", width: "15%"}}>
           <CardContent>
             <Typography variant="body2" color="text.secondary">
               Sõnadel klõpsates ilmub siia valitud sõna grammatiline info.
@@ -66,17 +66,17 @@ function Tutorial() {
           </CardActions>
         </Card>
       </>
-    )
+    );
   }
 
   function Box3() {
     return (
       <>
-        <Box ref={ref1} position={"absolute"} left={"10%"} top={"42%"} width={"25%"} height={"10%"}
-             borderRadius={"10px"}
-             boxShadow={"0 0 0 99999px rgba(0, 0, 0, .8)"}>
+        <Box ref={ref1} className="tutorialBox" left={"10%"} top={"42%"} width={"25%"} height={"10%"}>
         </Box>
-        <Card sx={{position: "absolute", top: "38%", left: "0%", width: "15%", border: "solid", borderColor: "yellow"}}>
+        <Card
+          className="tutorialcard"
+          sx={{top: "38%", left: "0%", width: "15%"}}>
           <CardContent>
             <Typography variant="body2" color="text.secondary">
               Siit saad valida, mis infot sa allolevates tabelites näha soovid.
@@ -95,16 +95,17 @@ function Tutorial() {
           </CardActions>
         </Card>
       </>
-    )
+    );
   }
 
   function Box4() {
     return (
       <>
-        <Box position={"absolute"} left={"10%"} top={"58%"} width={"80%"} height={"30%"} borderRadius={"10px"}
-             boxShadow={"0 0 0 99999px rgba(0, 0, 0, .8)"}>
+        <Box className="tutorialBox" left={"10%"} top={"58%"} width={"80%"} height={"30%"}>
         </Box>
-        <Card sx={{position: "absolute", top: "55%", left: "0%", width: "15%", border: "solid", borderColor: "yellow"}}>
+        <Card
+          className="tutorialcard"
+          sx={{top: "55%", left: "0%", width: "15%"}}>
           <CardContent>
             <Typography variant="body2" color="text.secondary">
               Siin tabelis näed infot tekstikastis olevate sõnade kohta.
@@ -120,16 +121,17 @@ function Tutorial() {
           </CardActions>
         </Card>
       </>
-    )
+    );
   }
 
   function Box5() {
     return (
       <>
-        <Box position={"absolute"} left={"10%"} top={"61%"} width={"55%"} height={"4%"} borderRadius={"10px"}
-             boxShadow={"0 0 0 99999px rgba(0, 0, 0, .8)"}>
+        <Box className="tutorialBox" left={"10%"} top={"61%"} width={"55%"} height={"4%"}>
         </Box>
-        <Card sx={{position: "absolute", top: "55%", left: "0%", width: "15%", border: "solid", borderColor: "yellow"}}>
+        <Card
+          className="tutorialcard"
+          sx={{top: "55%", left: "0%", width: "15%"}}>
           <CardContent>
             <Typography variant="body2" color="text.secondary">
               Tabelis olevatel väärtustel klõpsates märgitakse ülevaloleval tekstikastis kõik sõnad, mis on valikuga
@@ -142,7 +144,7 @@ function Tutorial() {
           </CardActions>
         </Card>
       </>
-    )
+    );
   }
 
   return (
@@ -152,11 +154,7 @@ function Tutorial() {
       {boxOpen === 3 ? <Box3/> : null}
       {boxOpen === 4 ? <Box4/> : null}
       {boxOpen === 5 ? <Box5/> : null}
-
     </Box>
-
   )
-
 }
-
 export default Tutorial
