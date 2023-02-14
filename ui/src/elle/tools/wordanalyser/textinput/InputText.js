@@ -5,27 +5,22 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {Box} from "@mui/material";
 
-
 function changeNextColor(idNumber, setIdNumber, markedIds, onWordInfo) {
   if (idNumber < markedIds.length - 1) {
     onWordInfo(markedIds[idNumber + 1]);
     setIdNumber(idNumber + 1);
   }
 }
-
 function changePreviousColor(idNumber, setIdNumber, markedIds, onWordInfo) {
   if (idNumber > 0) {
     onWordInfo(markedIds[idNumber - 1]);
     setIdNumber(idNumber - 1);
   }
 }
-
 export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
-
   const analyse = useContext(AnalyseContext)[0];
   const markedIds = [];
   const [idNumber, setIdNumber] = useState(0);
-
   const handleWord = useCallback((e) => {
     onWordInfo(e);
     onWordSelect(e);
@@ -103,8 +98,6 @@ export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
                                  onClick={(e) => {
                                    handleWord(e.target.id)
                                  }}>{analysedWords[i]}</span>);
-
-
             } else {
               content.push(<span id={ids[i]}
                                  className="word marked"
@@ -130,7 +123,7 @@ export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
   return (
     <div className="textInputDiv">
       {updatedText}
-      <div style={{position: "absolute", left: "45%", top: "34%", display: "flex"}}>
+      <div className="wordHighlightButtons">
         {idNumber > 0 ? <KeyboardArrowLeftIcon cursor={"pointer"}
                                                onClick={() => changePreviousColor(idNumber, setIdNumber, markedIds, onWordInfo)}/> :
           <Box width={"24px"} height={"24px"}></Box>}
