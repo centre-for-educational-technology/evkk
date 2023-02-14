@@ -8,15 +8,15 @@ import {Box} from "@mui/material";
 
 function changeNextColor(idNumber, setIdNumber, markedIds, onWordInfo) {
   if (idNumber < markedIds.length - 1) {
-    onWordInfo(markedIds[idNumber + 1])
-    setIdNumber(idNumber + 1)
+    onWordInfo(markedIds[idNumber + 1]);
+    setIdNumber(idNumber + 1);
   }
 }
 
 function changePreviousColor(idNumber, setIdNumber, markedIds, onWordInfo) {
   if (idNumber > 0) {
-    onWordInfo(markedIds[idNumber - 1])
-    setIdNumber(idNumber - 1)
+    onWordInfo(markedIds[idNumber - 1]);
+    setIdNumber(idNumber - 1);
   }
 }
 
@@ -24,7 +24,7 @@ export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
 
   const analyse = useContext(AnalyseContext)[0];
   const markedIds = [];
-  const [idNumber, setIdNumber] = useState(0)
+  const [idNumber, setIdNumber] = useState(0);
 
   const handleWord = useCallback((e) => {
     onWordInfo(e);
@@ -32,11 +32,11 @@ export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
   }, [onWordInfo, onWordSelect]);
 
   useEffect(() => {
-    setIdNumber(0)
+    setIdNumber(0);
     if (markedIds.length > 0) {
-      onWordInfo(markedIds[0])
+      onWordInfo(markedIds[0]);
     }
-  }, [onMarkWords])
+  }, [onMarkWords]);
 
   const updatedText = useMemo(() => {
     let analysedWords = analyse.wordsOrig;
@@ -50,7 +50,7 @@ export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
         for (const element of onMarkWords) {
           if (ids[i] === element) {
             isMarked = true;
-            markedIds.push(ids[i])
+            markedIds.push(ids[i]);
           }
         }
         if (index > 0) {
