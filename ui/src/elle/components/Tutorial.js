@@ -1,10 +1,13 @@
 import {Box, Button, Card, CardActions, CardContent, Typography} from "@mui/material";
 import {useEffect, useRef, useState} from "react";
 import './styles/Tutorial.css';
+import {useTranslation} from "react-i18next";
+import "../translations/i18n";
 
 function Tutorial() {
 
   const [boxOpen, setBoxOpen] = new useState(1);
+  const {t} = useTranslation();
 
   useEffect(() => {
     if (sessionStorage.getItem("tutorial")) {
@@ -24,7 +27,7 @@ function Tutorial() {
     sessionStorage.setItem("tutorial", "false");
   }
 
-  function Box1() {
+  function InputBoxTutorial() {
     return (
       <>
         <Box className="tutorialBox" left={"20%"} top={"20%"} width={"30%"} height={"15%"}>
@@ -34,19 +37,19 @@ function Tutorial() {
           sx={{top: "15%", left: "10%", width: "15%"}}>
           <CardContent>
             <Typography variant="body2" color="text.secondary">
-              Siin kastis on võimalik sõnadel klõpsata. Klõpsates hkuvatakse valitud sõnad kollase taustaga.
+              {t("input_field_tutorial_text")}
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small" onClick={() => setBoxOpen(2)}>EDASI</Button>
-            <Button size="small" onClick={handleClose}>LÕPETA</Button>
+            <Button size="small" onClick={() => setBoxOpen(2)}>{t("forward")}</Button>
+            <Button size="small" onClick={handleClose}>{t("exit")}</Button>
           </CardActions>
         </Card>
       </>
     );
   }
 
-  function Box2() {
+  function WordDescriptionTutorial() {
     return (
       <>
         <Box className="tutorialBox" left={"50%"} top={"20%"} width={"15%"} height={"15%"}>
@@ -56,20 +59,20 @@ function Tutorial() {
           sx={{top: "15%", left: "40%", width: "15%"}}>
           <CardContent>
             <Typography variant="body2" color="text.secondary">
-              Sõnadel klõpsates ilmub siia valitud sõna grammatiline info.
+              {t("wordinfo_tutorial_text")}
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small" onClick={() => setBoxOpen(1)}>TAGASI</Button>
-            <Button size="small" onClick={handleClick}>EDASI</Button>
-            <Button size="small" onClick={handleClose}>LÕPETA</Button>
+            <Button size="small" onClick={() => setBoxOpen(1)}>{t("back")}</Button>
+            <Button size="small" onClick={handleClick}>{t("forward")}</Button>
+            <Button size="small" onClick={handleClose}>{t("exit")}</Button>
           </CardActions>
         </Card>
       </>
     );
   }
 
-  function Box3() {
+  function TableTabTutorial() {
     return (
       <>
         <Box ref={ref1} className="tutorialBox" left={"10%"} top={"42%"} width={"25%"} height={"10%"}>
@@ -79,26 +82,26 @@ function Tutorial() {
           sx={{top: "38%", left: "0%", width: "15%"}}>
           <CardContent>
             <Typography variant="body2" color="text.secondary">
-              Siit saad valida, mis infot sa allolevates tabelites näha soovid.
+              {t("table_tab_tutorial_text")}
             </Typography>
           </CardContent>
           <CardActions>
             <Button size="small" onClick={() => {
               setBoxOpen(2)
               window.scrollBy({top: -400, behavior: "smooth"})
-            }}>TAGASI</Button>
+            }}>{t("back")}</Button>
             <Button size="small" onClick={() => {
               setBoxOpen(4)
               window.scrollBy({top: 400, behavior: "smooth"})
-            }}>EDASI</Button>
-            <Button size="small" onClick={handleClose}>LÕPETA</Button>
+            }}>{t("forward")}</Button>
+            <Button size="small" onClick={handleClose}>{t("exit")}</Button>
           </CardActions>
         </Card>
       </>
     );
   }
 
-  function Box4() {
+  function TableTutorial() {
     return (
       <>
         <Box className="tutorialBox" left={"10%"} top={"58%"} width={"80%"} height={"30%"}>
@@ -108,23 +111,23 @@ function Tutorial() {
           sx={{top: "55%", left: "0%", width: "15%"}}>
           <CardContent>
             <Typography variant="body2" color="text.secondary">
-              Siin tabelis näed infot tekstikastis olevate sõnade kohta.
+              {t("table_tutorial_text")}
             </Typography>
           </CardContent>
           <CardActions>
             <Button size="small" onClick={() => {
               setBoxOpen(3)
               window.scrollBy({top: -400, behavior: "smooth"})
-            }}>TAGASI</Button>
-            <Button size="small" onClick={() => setBoxOpen(5)}>EDASI</Button>
-            <Button size="small" onClick={handleClose}>LÕPETA</Button>
+            }}>{t("back")}</Button>
+            <Button size="small" onClick={() => setBoxOpen(5)}>{t("forward")}</Button>
+            <Button size="small" onClick={handleClose}>{t("exit")}</Button>
           </CardActions>
         </Card>
       </>
     );
   }
 
-  function Box5() {
+  function TableClickTutorial() {
     return (
       <>
         <Box className="tutorialBox" left={"10%"} top={"61%"} width={"55%"} height={"4%"}>
@@ -134,13 +137,12 @@ function Tutorial() {
           sx={{top: "55%", left: "0%", width: "15%"}}>
           <CardContent>
             <Typography variant="body2" color="text.secondary">
-              Tabelis olevatel väärtustel klõpsates märgitakse ülevaloleval tekstikastis kõik sõnad, mis on valikuga
-              seotud.
+              {t("table_click_tutorial_text")}
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small" onClick={() => setBoxOpen(4)}>TAGASI</Button>
-            <Button size="small" onClick={handleClose}>LÕPETA</Button>
+            <Button size="small" onClick={() => setBoxOpen(4)}>{t("back")}</Button>
+            <Button size="small" onClick={handleClose}>{t("exit")}</Button>
           </CardActions>
         </Card>
       </>
@@ -149,11 +151,11 @@ function Tutorial() {
 
   return (
     <Box>
-      {boxOpen === 1 ? <Box1/> : null}
-      {boxOpen === 2 ? <Box2/> : null}
-      {boxOpen === 3 ? <Box3/> : null}
-      {boxOpen === 4 ? <Box4/> : null}
-      {boxOpen === 5 ? <Box5/> : null}
+      {boxOpen === 1 ? <InputBoxTutorial/> : null}
+      {boxOpen === 2 ? <WordDescriptionTutorial/> : null}
+      {boxOpen === 3 ? <TableTabTutorial/> : null}
+      {boxOpen === 4 ? <TableTutorial/> : null}
+      {boxOpen === 5 ? <TableClickTutorial/> : null}
     </Box>
   )
 }
