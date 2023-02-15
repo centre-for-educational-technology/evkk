@@ -224,7 +224,7 @@ function GrammaticalAnalysis() {
           return (<span>{t("common_form")}</span>)
         },
         accessor: 'col2',
-        is: "col2",
+        id: "col2",
         Cell: (props) => {
           const word = props.value;
           return <span className="word"

@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useMemo, useState} from "react";
-import {usePagination, useSortBy, useTable} from 'react-table';
+import {useFilters, usePagination, useSortBy, useTable} from 'react-table';
 import './styles/Syllables.css';
 import TablePagination from "./TablePagination";
 import {useTranslation} from "react-i18next";
@@ -7,8 +7,20 @@ import "../../translations/i18n";
 import DownloadButton from "./DownloadButton";
 import {v4 as uuidv4} from 'uuid';
 import {AnalyseContext, SetSyllableContext, SetSyllableWordContext} from "./Contexts";
-import {Box} from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  Chip,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select
+} from "@mui/material";
 import ToggleCell from "./ToggleCell";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 function Syllables() {
 
@@ -23,8 +35,60 @@ function Syllables() {
   let syllables = [];
   let infoList = [];
   const [infoListNew, setInfolistNew] = useState([]);
+  const [filterValue, setValue] = useState([])
+  const col2 = ["algus", "keskel", "lõpp"];
+  const [filtersInUse, setAppliedFilters] = useState([])
 
   const tableToDownload = [t("syllables_header_syllable"), t("syllables_table_beginning"), t("syllables_table_middle"), t("syllables_table_end"), t("common_words_in_text"), t("common_header_frequency"), t("common_header_percentage")];
+
+  function multiSelectFilter(rows, columnIds, filterValue) {
+    return filterValue.length === 0
+      ? rows
+      : rows.filter((row) =>
+        filterValue.includes(String(row.original[columnIds])),
+      );
+  }
+
+  function multiSelect(values, label, column) {
+
+    const handleChange = (event) => {
+      const {
+        target: {value},
+      } = event;
+      setValue(
+        value
+      )
+      console.log(value);
+
+      setAppliedFilters(value)
+
+      setFilter('col2', value)
+    }
+
+
+    return (
+      <Box marginY={"5px"}>
+        <FormControl size={"small"} sx={{width: 330, minWidth: 330}}>
+          <InputLabel>{label}</InputLabel>
+          <Select
+            label={label}
+            multiple
+            value={filterValue}
+            onChange={handleChange}
+          >
+            {values.map((value) => (
+              <MenuItem
+                key={value}
+                value={value}
+              >
+                {value}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+    )
+  }
 
   function createList(value) {
     let cleanValue = value.toLowerCase();
@@ -223,8 +287,11 @@ function Syllables() {
         display = display.slice(0, -2);
         return display;
       },
+      filter: multiSelectFilter,
       disableSortBy: true,
-      width: 400
+      width: 400,
+      id: 'col2',
+      className: 'col2'
     },
     {
       Header: t("common_words_in_text"),
@@ -259,7 +326,7 @@ function Syllables() {
         }
       ]
     }
-  }, useSortBy, usePagination);
+  }, useFilters, useSortBy, usePagination);
 
   const {
     getTableProps,
@@ -275,8 +342,20 @@ function Syllables() {
     nextPage,
     previousPage,
     setPageSize,
+    setFilter,
     state: {pageIndex, pageSize}
   } = tableInstance;
+
+  function AppliedFilters() {
+    if (filtersInUse !== []) {
+      return (
+
+        filtersInUse.map((value) => (<Chip sx={{marginBottom: "5px"}} key={value} label={value}/>))
+
+      )
+
+    }
+  }
 
 
   return (
@@ -295,8 +374,25 @@ function Syllables() {
           // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [])}
 
-        <DownloadButton data={infoListNew}
-                        headers={tableToDownload}/>
+        <Box>
+          <Box component={"span"}>{filtersInUse !== [] ?
+            <Box maxWidth={"70%"}>Rakendatud filtrid: {AppliedFilters()} </Box> : null}</Box>
+          <Box position={"absolute"} right={"15%"}>
+            <Accordion sx={{border: "none", boxShadow: "none", width: "68px", height: "48px"}}>
+
+              <AccordionSummary sx={{height: "100%"}}> <Button sx={{height: "48px", width: "68px"}}
+                                                               variant={"contained"}><FilterAltIcon/></Button></AccordionSummary>
+              <AccordionDetails
+                sx={{backgroundColor: "white", width: "360px", position: "absolute", right: "-100%", zIndex: "100"}}>
+                {multiSelect(col2, "Filtreeri vormi järgi", 2)}
+              </AccordionDetails>
+            </Accordion>
+          </Box>
+
+          <DownloadButton data={infoListNew}
+                          headers={tableToDownload}/>
+        </Box>
+
 
         <table className="analyserTable" {...getTableProps()}
                style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>
