@@ -30,10 +30,10 @@ class Adding extends Component {
       mitteakadAlamliik: "",
       akadKategooria: "",
       akadAlamliik: "",
-      artikkel_valjaanne: "",
-      artikkel_aasta: "",
-      artikkel_number: "",
-      artikkel_lehekyljed: "",
+      artikkelValjaanne: "",
+      artikkelAasta: "",
+      artikkelNumber: "",
+      artikkelLehekyljed: "",
       autoriVanus: "",
       autoriSugu: "",
       autoriOppeaste: "",
@@ -341,8 +341,8 @@ class Adding extends Component {
                             multiline required
                             label="Väljaanne "
                             variant="outlined"
-                            name="artikkel_valjaanne"
-                            value={this.state.artikkel_valjaanne}
+                            name="artikkelValjaanne"
+                            value={this.state.artikkelValjaanne}
                             onChange={this.handleChange}
                             style={{width: "75%"}}></TextField>
                         </FormControl>
@@ -354,8 +354,8 @@ class Adding extends Component {
                             multiline required
                             label="Aasta "
                             variant="outlined"
-                            name="artikkel_aasta"
-                            value={this.state.artikkel_aasta}
+                            name="artikkelAasta"
+                            value={this.state.artikkelAasta}
                             onChange={this.handleChange}
                             style={{width: "75%"}}></TextField>
                         </FormControl>
@@ -367,8 +367,8 @@ class Adding extends Component {
                             multiline
                             label="Number"
                             variant="outlined"
-                            name="artikkel_number"
-                            value={this.state.artikkel_number}
+                            name="artikkelNumber"
+                            value={this.state.artikkelNumber}
                             onChange={this.handleChange}
                             style={{width: "75%"}}></TextField>
                         </FormControl>
@@ -380,8 +380,8 @@ class Adding extends Component {
                             multiline
                             label="Leheküljed"
                             variant="outlined"
-                            name="artikkel_lehekyljed"
-                            value={this.state.artikkel_lehekyljed}
+                            name="artikkelLehekyljed"
+                            value={this.state.artikkelLehekyljed}
                             onChange={this.handleChange}
                             style={{width: "75%"}}></TextField>
                         </FormControl>
