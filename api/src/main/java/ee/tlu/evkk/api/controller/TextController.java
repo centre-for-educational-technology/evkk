@@ -215,6 +215,10 @@ public class TextController {
       }
       lisaTekstiOmadus(kood, "eriala", andmed.getAutoriEriala());
       lisaTekstiOmadus(kood, "akad_alamliik", andmed.getAkadAlamliik());
+      lisaTekstiOmadus(kood, "artikkel_aasta", andmed.getArtikkelAasta());
+      lisaTekstiOmadus(kood, "artikkel_valjaanne", andmed.getArtikkelValjaanne());
+      lisaTekstiOmadus(kood, "artikkel_number", andmed.getArtikkelNumber());
+      lisaTekstiOmadus(kood, "artikkel_lehekyljed", andmed.getArtikkelLehekyljed());
       lisaTekstiOmadus(kood, "oppeaste", andmed.getAutoriOppeaste());
       lisaTekstiOmadus(kood, "teaduskraad", andmed.getAutoriTeaduskraad());
     }
@@ -227,7 +231,19 @@ public class TextController {
     lisaTekstiOmadus(kood, "sugu", andmed.getAutoriSugu());
     lisaTekstiOmadus(kood, "haridus", andmed.getAutoriOppeaste());
     lisaTekstiOmadus(kood, "emakeel", andmed.getAutoriEmakeel());
-    lisaTekstiOmadus(kood, "muudkeeled", andmed.getAutoriMuudKeeled());
+    String[] muudkeeled=andmed.getAutoriMuudKeeled();
+    if(muudkeeled!=null){
+      for(int i=0; i<muudkeeled.length; i++) {
+        lisaTekstiOmadus(kood, "muudkeeled", muudkeeled[i]);
+      }
+    }
+    String muukeel=andmed.getMuukeel();
+    if(muukeel!=null){
+      String[] keeled=muukeel.split(",");
+      for(int i=0; i<keeled.length; i++){
+         lisaTekstiOmadus(kood, "muudkeeled", keeled[i].trim());
+      }
+    }
     lisaTekstiOmadus(kood, "riik", andmed.getAutoriElukohariik());
     return kood.toString();
   }
