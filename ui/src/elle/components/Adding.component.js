@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {
   Button,
-  Checkbox,
   FormControl,
   FormControlLabel,
   Grid,
@@ -13,6 +12,8 @@ import {
   TextField,
   Typography
 } from '@mui/material'
+import TextUpload from '../tools/wordanalyser/textupload/TextUpload';
+
 
 class Adding extends Component {
 
@@ -29,6 +30,10 @@ class Adding extends Component {
       mitteakadAlamliik: "",
       akadKategooria: "",
       akadAlamliik: "",
+      artikkel_valjaanne: "",
+      artikkel_aasta: "",
+      artikkel_number: "",
+      artikkel_lehekyljed: "",
       autoriVanus: "",
       autoriSugu: "",
       autoriOppeaste: "",
@@ -37,21 +42,29 @@ class Adding extends Component {
       autoriEriala: "",
       autoriEmakeel: "",
       autorKakskeelne: false,
-      autoriMuudKeeled: "",
+      autoriMuudKeeled: [],
+      muukeel: "",
       autoriElukohariik: "eesti",
       elukohariikMuu: "",
-      nousOlek: false
+      nousOlek: false,
+      ennistusNupp: false
     };
+    this.startingstate = {...this.state};
+    this.previous = {...this.state};
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.sendTextFromFile = this.sendTextFromFile.bind(this);
     this.formDataElement = React.createRef();
   }
 
   kuvaTingimused() {
     alert("LUBA\n" +
-      "Luban kasutada oma tekste õppejõududel ja üliõpilastel, õpetajatel ja õppijatel, " +
-      "teadustöötajatel ja tarkvaraarendajatel erialase töö ning keeleõppe vajadustel. Tekstid " +
-      "säilitatakse ELLE arhiivis. Kõik autoriõigused on tagatud.");
+      "Luban kasutada oma teksti ja taustaandmeid õppejõududel ja üliõpilastel, " +
+      "õpetajatel ja õppijatel, teadustöötajatel ja tarkvaraarendajatel erialase töö ning" +
+      "keeleõppe vajadustel. \n" +
+      "Isikuandmed on eemaldatud, autorit pole andmebaasis märgitud. Kui korpusesse soovitakse" +
+      "lisada avalikult kättesaadav tekst, siis tuleb järgida väljaande litsentsitingimusi. Kõik " +
+      "autoriõigused on tagatud. ");
   }
 
   handleChange(event) {
@@ -64,6 +77,7 @@ class Adding extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    this.previous = {...this.state};
     const request_test = {
       method: "POST",
       body: JSON.stringify(this.state),
@@ -71,8 +85,18 @@ class Adding extends Component {
         'Content-Type': 'application/json'
       },
     }
-
+    this.setState(this.startingstate);
+    this.setState({ennistusnupp: true});
     fetch("/api/texts/lisatekst", request_test).then(() => alert("salvestatud"));
+  }
+
+  taastaVormiSisu() {
+    this.setState(this.previous);
+  }
+
+  sendTextFromFile(tekst) {
+    //console.log(tekst);
+    this.setState({sisu: tekst});
   }
 
   readFile() {
@@ -95,6 +119,7 @@ class Adding extends Component {
         <div style={{textAlign: "center"}}>
           <Typography variant="h5"><strong>Lisa uus tekst</strong></Typography>
         </div>
+
         <form onSubmit={this.handleSubmit}
               id="f1"
               ref={this.formDataElement}>
@@ -108,12 +133,14 @@ class Adding extends Component {
               <Grid item>
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
                       rel="stylesheet"/>
-                <input type="file"
+                {/*       <input type="file"
                        name="file"
-                       onChange={(e) => this.readFile(e.target.form)}/>
+                       onChange={(e) => this.readFile(e.target.form)}/> */}
+                <TextUpload sendTextFromFile={this.sendTextFromFile}/>
+
               </Grid>
               <Grid item>
-                <Typography><strong>Pealkiri*</strong></Typography>
+                <Typography><strong>Pealkiri *</strong></Typography>
                 <div>
                   <TextField required
                              multiline
@@ -136,7 +163,7 @@ class Adding extends Component {
                              style={{width: "75%"}}></TextField>
                 </div>}
                 <div>
-                  <Typography style={{paddingTop: 10}}><strong>Tekst*</strong></Typography>
+                  <Typography style={{paddingTop: 10}}><strong>Tekst *</strong></Typography>
                   <TextField required
                              multiline
                              rows={20}
@@ -165,7 +192,7 @@ class Adding extends Component {
                                     label="Hoia privaatsena" disabled/>
                   <FormControlLabel value="avalik"
                                     control={<Radio/>}
-                                    label="Avalikusta korpusesse"/>
+                                    label="Avalikusta"/>
                 </RadioGroup>
               </Grid>
               {this.state.avalikkusValik === "avalik" && <>
@@ -178,21 +205,22 @@ class Adding extends Component {
                       label="Tekst"
                       onChange={this.handleChange}
                     >
-                      <MenuItem value={"akadeemiline"}>akadeemiline</MenuItem>
-                      <MenuItem value={"mitteakadeemiline"}>mitteakadeemiline</MenuItem>
+                      <MenuItem value={"akadeemiline"}>Akadeemiline</MenuItem>
+                      <MenuItem value={"mitteakadeemiline"}>Mitteakadeemiline</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
                 {this.state.liik === "akadeemiline" && <Grid>
                   <Grid>
                     <FormControl sx={{m: 1, minWidth: 240}}>
-                      <InputLabel id="valdkond-select-label">Valdkond</InputLabel>
+                      <InputLabel id="valdkond-select-label">Valdkond *</InputLabel>
                       <Select
                         labelId="valdkond-select-label"
                         name="autoriEriala"
                         value={this.state.autoriEriala}
-                        label="Eriala"
+                        label="Valdkond *"
                         onChange={this.handleChange}
+                        required
                       >
                         <MenuItem value={"biojakeskkonnateadused"}>Bio- ja keskkonnateadused</MenuItem>
                         <MenuItem value={"yhiskondjakultuur"}>Ühiskonnateadused ja kultuur</MenuItem>
@@ -284,7 +312,7 @@ class Adding extends Component {
                     </Select>
                   </FormControl>
                 </Grid>}
-                {this.state.liik === "akadeemiline" && this.state.akadKategooria === "ak_uurimused" && <Grid>
+                {this.state.liik === "akadeemiline" && this.state.akadKategooria === "ak_uurimused" && <><Grid>
                   <FormControl sx={{m: 1, minWidth: 240}}>
                     <InputLabel id="akad-alamliik-select-label">Tekstiliik</InputLabel>
                     <Select
@@ -304,7 +332,66 @@ class Adding extends Component {
 
                     </Select>
                   </FormControl>
-                </Grid>}
+                </Grid>
+                  {
+                    this.state.akadAlamliik === "ak_uurimus_artikkel" && <>
+                      <Grid>
+                        <FormControl sx={{m: 1, minWidth: 240}}>
+                          <TextField
+                            multiline required
+                            label="Väljaanne "
+                            variant="outlined"
+                            name="artikkel_valjaanne"
+                            value={this.state.artikkel_valjaanne}
+                            onChange={this.handleChange}
+                            style={{width: "75%"}}></TextField>
+                        </FormControl>
+                      </Grid>
+
+                      <Grid>
+                        <FormControl sx={{m: 1, minWidth: 240}}>
+                          <TextField
+                            multiline required
+                            label="Aasta "
+                            variant="outlined"
+                            name="artikkel_aasta"
+                            value={this.state.artikkel_aasta}
+                            onChange={this.handleChange}
+                            style={{width: "75%"}}></TextField>
+                        </FormControl>
+                      </Grid>
+
+                      <Grid>
+                        <FormControl sx={{m: 1, minWidth: 240}}>
+                          <TextField
+                            multiline
+                            label="Number"
+                            variant="outlined"
+                            name="artikkel_number"
+                            value={this.state.artikkel_number}
+                            onChange={this.handleChange}
+                            style={{width: "75%"}}></TextField>
+                        </FormControl>
+                      </Grid>
+
+                      <Grid>
+                        <FormControl sx={{m: 1, minWidth: 240}}>
+                          <TextField
+                            multiline
+                            label="Leheküljed"
+                            variant="outlined"
+                            name="artikkel_lehekyljed"
+                            value={this.state.artikkel_lehekyljed}
+                            onChange={this.handleChange}
+                            style={{width: "75%"}}></TextField>
+                        </FormControl>
+                      </Grid>
+
+                    </>
+                  }
+                </>
+
+                }
                 <Grid>
                   <FormControl sx={{m: 1, minWidth: 240}}>
                     <InputLabel id="sugu-materjalid-label">Kasutatud õppe- või abimaterjale</InputLabel>
@@ -365,12 +452,13 @@ class Adding extends Component {
                 </Grid>
                 <Grid>
                   <FormControl sx={{m: 1, minWidth: 240}}>
-                    <InputLabel>Emakeel:</InputLabel>
+                    <InputLabel>Emakeel *</InputLabel>
                     <Select value={this.state.autoriEmakeel}
                             onChange={this.handleChange}
                             name="autoriEmakeel"
-                            label="Emakeel:*"
-                            labelId="emakeel">
+                            label="Emakeel *"
+                            labelId="emakeel"
+                            required>
                       <MenuItem value={"eesti"}>eesti</MenuItem>
                       <MenuItem value={"heebrea"}>heebrea</MenuItem>
                       <MenuItem value={"hollandi"}>hollandi</MenuItem>
@@ -379,6 +467,7 @@ class Adding extends Component {
                       <MenuItem value={"jaapani"}>jaapani</MenuItem>
                       <MenuItem value={"jidiš"}>jidiš</MenuItem>
                       <MenuItem value={"katalaani"}>katalaani</MenuItem>
+                      <MenuItem value={"kreeka"}>kreeka</MenuItem>
                       <MenuItem value={"leedu"}>leedu</MenuItem>
                       <MenuItem value={"läti"}>läti</MenuItem>
                       <MenuItem value={"poola"}>poola</MenuItem>
@@ -388,6 +477,7 @@ class Adding extends Component {
                       <MenuItem value={"sloveenia"}>sloveenia</MenuItem>
                       <MenuItem value={"soome"}>soome</MenuItem>
                       <MenuItem value={"tšehhi"}>tšehhi</MenuItem>
+                      <MenuItem value={"türgi"}>türgi</MenuItem>
                       <MenuItem value={"ukraina"}>ukraina</MenuItem>
                       <MenuItem value={"ungari"}>ungari</MenuItem>
                       <MenuItem value={"valgevene"}>valgevene</MenuItem>
@@ -395,22 +485,14 @@ class Adding extends Component {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid>
+                {<Grid>
                   <FormControl sx={{m: 1, minWidth: 240}}>
-                    <InputLabel id="kakskeelne">Kakskeelne:</InputLabel>
-                    <Checkbox checked={this.state.autorKakskeelne}
-                              onChange={this.handleChange}
-                              name="autorKakskeelne"/>
-                  </FormControl>
-                </Grid>
-                {this.state.autorKakskeelne && <Grid>
-                  <FormControl sx={{m: 1, minWidth: 240}}>
-                    <InputLabel>Muu õppe- või töökeel:</InputLabel>
+                    <InputLabel>Muud õppe- või töökeeled</InputLabel>
                     <Select value={this.state.autoriMuudKeeled}
                             onChange={this.handleChange}
                             name="autoriMuudKeeled"
-                            label="Muud õppe- või töökeeled:"
-                            labelId="muudkeeled">
+                            label="Muud õppe- või töökeeled"
+                            labelId="muudkeeled" multiple>
                       <MenuItem value={"eesti"}>eesti</MenuItem>
                       <MenuItem value={"heebrea"}>heebrea</MenuItem>
                       <MenuItem value={"hollandi"}>hollandi</MenuItem>
@@ -419,6 +501,7 @@ class Adding extends Component {
                       <MenuItem value={"jaapani"}>jaapani</MenuItem>
                       <MenuItem value={"jidiš"}>jidiš</MenuItem>
                       <MenuItem value={"katalaani"}>katalaani</MenuItem>
+                      <MenuItem value={"kreeka"}>kreeka</MenuItem>
                       <MenuItem value={"leedu"}>leedu</MenuItem>
                       <MenuItem value={"läti"}>läti</MenuItem>
                       <MenuItem value={"poola"}>poola</MenuItem>
@@ -428,13 +511,30 @@ class Adding extends Component {
                       <MenuItem value={"sloveenia"}>sloveenia</MenuItem>
                       <MenuItem value={"soome"}>soome</MenuItem>
                       <MenuItem value={"tšehhi"}>tšehhi</MenuItem>
+                      <MenuItem value={"türgi"}>türgi</MenuItem>
                       <MenuItem value={"ukraina"}>ukraina</MenuItem>
                       <MenuItem value={"ungari"}>ungari</MenuItem>
                       <MenuItem value={"valgevene"}>valgevene</MenuItem>
                       <MenuItem value={"vene"}>vene</MenuItem>
+                      <MenuItem value={"muu"}>muu</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>}
+                {this.state.autoriMuudKeeled.includes("muu") &&
+                  <Grid>
+                    <FormControl sx={{m: 1, minWidth: 240}}>
+
+                      <TextField
+                        multiline
+                        label="Muu keel"
+                        variant="outlined"
+                        name="muukeel"
+                        value={this.state.muukeel}
+                        onChange={this.handleChange}
+                        style={{width: "75%"}}></TextField>
+                    </FormControl>
+                  </Grid>}
+
                 <Grid>
                   <FormControl sx={{m: 1, minWidth: 240}}>
                     <InputLabel id="elukohariik">Elukohariik:</InputLabel>
@@ -540,7 +640,18 @@ class Adding extends Component {
                               width: 160,
                               color: "white",
                               fontSize: 16
-                            }}>Laadi üles</Button>
+                            }}>Laadi üles</Button> &nbsp;
+                    {this.state.ennistusnupp && <Button type="button" onClick={() => this.taastaVormiSisu()}
+                                                        variant="text"
+                                                        style={{
+                                                          background: "#3898ec",
+                                                          border: 0,
+                                                          borderRadius: 4,
+                                                          height: 48,
+                                                          width: 160,
+                                                          color: "white",
+                                                          fontSize: 16
+                                                        }}>Ennista andmed</Button>}
                   </div>
                 </div>
               </>}

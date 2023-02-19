@@ -13,6 +13,10 @@ public class AddingRequestEntity {
   private String akadOppematerjal;
   private String mitteakadAlamliik;
   private String akadAlamliik;
+  private String artikkelValjaanne;
+  private String artikkelAasta;
+  private String artikkelNumber;
+  private String artikkelLehekyljed;
   private String tekstiAutor;
   private String autoriVanus;
   private String autoriSugu;
@@ -21,7 +25,9 @@ public class AddingRequestEntity {
   private String autoriHaridus;
   private String autoriEriala;
   private String autoriEmakeel;
-  private String autoriMuudKeeled;
+  private String[] autoriMuudKeeled;
+
+  private String muukeel;
   private String autoriElukohariik;
   private String elukohariikMuu;
 
@@ -89,6 +95,39 @@ public class AddingRequestEntity {
     this.akadAlamliik = akadAlamliik;
   }
 
+  public String getArtikkelValjaanne(){
+     return artikkelValjaanne;
+  }
+
+  public void setArtikkelValjaanne(String artikkelValjaanne){
+      this.artikkelValjaanne=artikkelValjaanne;
+  }
+
+  public String getArtikkelAasta(){
+    return artikkelAasta;
+  }
+
+  public void setArtikkelAasta(String artikkelAasta){
+    this.artikkelAasta=artikkelAasta;
+  }
+
+  public String getArtikkelNumber(){
+    return artikkelNumber;
+  }
+
+  public void setArtikkelNumber(String artikkelNumber){
+    this.artikkelNumber=artikkelNumber;
+  }
+
+  public String getArtikkelLehekyljed(){
+    return artikkelLehekyljed;
+  }
+
+  public void setArtikkelLehekyljed(String artikkelLehekyljed){
+    this.artikkelLehekyljed=artikkelLehekyljed;
+  }
+
+
   public String getTekstiAutor() {
     return tekstiAutor;
   }
@@ -145,12 +184,17 @@ public class AddingRequestEntity {
     this.autoriEmakeel = autoriEmakeel;
   }
 
-  public String getAutoriMuudKeeled() {
+  public String[] getAutoriMuudKeeled() {
     return autoriMuudKeeled;
   }
 
-  public void setAutoriMuudKeeled(String autoriMuudKeeled) {
+  public void setAutoriMuudKeeled(String[] autoriMuudKeeled) {
     this.autoriMuudKeeled = autoriMuudKeeled;
+  }
+
+  public String getMuukeel(){return muukeel;}
+  public void setMuukeel(String muukeel){
+    this.muukeel=muukeel;
   }
 
   public String getAutoriElukohariik() {

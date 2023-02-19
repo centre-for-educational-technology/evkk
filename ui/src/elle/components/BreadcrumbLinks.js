@@ -5,6 +5,7 @@ import useBreadcrumbs from "use-react-router-breadcrumbs";
 import {Link as RouterLink} from "react-router-dom";
 
 const breadcrumbNameMap = {
+  '/adding': 'Lisamine',
   '/corrector': 'Tekstihindaja',
   '/links': 'Lingikogud',
   '/tools': 'Tekstid & tööriistad',
