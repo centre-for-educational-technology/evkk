@@ -10,7 +10,8 @@ public class AddingRequestEntity {
   private String sisu;
   private String liik;
   private String oppematerjal;
-  private String akadOppematerjal;
+  private String[] akadOppematerjal;
+  private String akadOppematerjalMuu;
   private String mitteakadAlamliik;
   private String akadAlamliik;
   private String artikkelValjaanne;
@@ -25,7 +26,7 @@ public class AddingRequestEntity {
   private String autoriHaridus;
   private String autoriEriala;
   private String autoriEmakeel;
-  private String[] autoriMuudKeeled;
+  private String autoriMuudKeeled;
 
   private String muukeel;
   private String autoriElukohariik;
@@ -71,12 +72,17 @@ public class AddingRequestEntity {
     this.oppematerjal = oppematerjal;
   }
 
-  public String getAkadOppematerjal() {
+  public String[] getAkadOppematerjal() {
     return akadOppematerjal;
   }
 
-  public void setAkadOppematerjal(String akadOppematerjal) {
+  public void setAkadOppematerjal(String[] akadOppematerjal) {
     this.akadOppematerjal = akadOppematerjal;
+  }
+
+  public String getAkadOppematerjalMuu(){return akadOppematerjalMuu;}
+  public void setAkadOppematerjalMuu(String akadOppematerjalMuu){
+    this.akadOppematerjalMuu=akadOppematerjalMuu;
   }
 
   public String getMitteakadAlamliik() {
@@ -184,11 +190,11 @@ public class AddingRequestEntity {
     this.autoriEmakeel = autoriEmakeel;
   }
 
-  public String[] getAutoriMuudKeeled() {
+  public String getAutoriMuudKeeled() {
     return autoriMuudKeeled;
   }
 
-  public void setAutoriMuudKeeled(String[] autoriMuudKeeled) {
+  public void setAutoriMuudKeeled(String autoriMuudKeeled) {
     this.autoriMuudKeeled = autoriMuudKeeled;
   }
 
