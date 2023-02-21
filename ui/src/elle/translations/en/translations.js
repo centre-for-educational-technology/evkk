@@ -1,5 +1,6 @@
 export const TRANSLATIONS_EN = {
   analyse_button: "Analyse",
+  back: "PREVIOUS",
   common_download: "Download",
   common_excel_sheet_name: "Table",
   common_form: "Form",
@@ -13,9 +14,12 @@ export const TRANSLATIONS_EN = {
   error_generic_server_error: "Operation failed! Try again later.",
   error_no_text: "Enter text to run analysis!",
   error_text_too_long: "The text is too long for analysis!",
+  exit: "EXIT",
+  forward: "NEXT",
   gram_anal_filename: "gram_analysis",
   infobox_first: "With this app, you can syllabify words, see their base form and grammatical description. Insert a word or text (up to 1,000 words).",
   infobox_second: "You can analyse words one by one and see statistics about the syllables, words and grammatical forms used in text.",
+  input_field_tutorial_text: "You can click on the words in this textbox. Clicking them will highlight the selected word.",
   lemmas_filename: "baseforms",
   lemmas_header_wordforms: "Word forms",
   pagination_go_to_page: "Go to page:",
@@ -31,6 +35,9 @@ export const TRANSLATIONS_EN = {
   syllables_table_end: "Position (middle)",
   syllables_table_middle: "Position (end)",
   tab_gram_anal: "Grammatical analysis",
+  table_click_tutorial_text: "Clicking on a value in the table will highlight all the words connected with the value in the textbox above.",
+  table_tab_tutorial_text: "Here you can select, what info you want to have displayed on the tables below.",
+  table_tutorial_text: "The tables display information about the words in the textbox above.",
   text_analysis: "Text analysis",
   textupload_choose_files: "Choose files",
   textupload_chosen_files: "Chosen files:",
@@ -44,5 +51,6 @@ export const TRANSLATIONS_EN = {
   query_download_stanza: "Stanza tagging",
   query_download_vislcg3: "VISLCG3 tagging",
   query_download_txt: "Single file",
-  query_download_zip: "ZIP file"
+  query_download_zip: "ZIP file",
+  wordinfo_tutorial_text: "Clicking on a word will display the grammatical info of the word."
 };

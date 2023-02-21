@@ -13,16 +13,23 @@ public class AddingRequestEntity {
   private String akadOppematerjal;
   private String mitteakadAlamliik;
   private String akadAlamliik;
+  private String artikkelValjaanne;
+  private String artikkelAasta;
+  private String artikkelNumber;
+  private String artikkelLehekyljed;
   private String tekstiAutor;
   private String autoriVanus;
   private String autoriSugu;
   private String autoriOppeaste;
+  private String autoriTeaduskraad;
   private String autoriHaridus;
   private String autoriEriala;
   private String autoriEmakeel;
-  private String autoriMuudKeeled;
+  private String[] autoriMuudKeeled;
+
+  private String muukeel;
   private String autoriElukohariik;
-  private String nousOlek;
+  private String elukohariikMuu;
 
   public String getPealkiri() {
     return pealkiri;
@@ -88,6 +95,39 @@ public class AddingRequestEntity {
     this.akadAlamliik = akadAlamliik;
   }
 
+  public String getArtikkelValjaanne(){
+     return artikkelValjaanne;
+  }
+
+  public void setArtikkelValjaanne(String artikkelValjaanne){
+      this.artikkelValjaanne=artikkelValjaanne;
+  }
+
+  public String getArtikkelAasta(){
+    return artikkelAasta;
+  }
+
+  public void setArtikkelAasta(String artikkelAasta){
+    this.artikkelAasta=artikkelAasta;
+  }
+
+  public String getArtikkelNumber(){
+    return artikkelNumber;
+  }
+
+  public void setArtikkelNumber(String artikkelNumber){
+    this.artikkelNumber=artikkelNumber;
+  }
+
+  public String getArtikkelLehekyljed(){
+    return artikkelLehekyljed;
+  }
+
+  public void setArtikkelLehekyljed(String artikkelLehekyljed){
+    this.artikkelLehekyljed=artikkelLehekyljed;
+  }
+
+
   public String getTekstiAutor() {
     return tekstiAutor;
   }
@@ -144,27 +184,37 @@ public class AddingRequestEntity {
     this.autoriEmakeel = autoriEmakeel;
   }
 
-  public String getAutoriMuudKeeled() {
+  public String[] getAutoriMuudKeeled() {
     return autoriMuudKeeled;
   }
 
-  public void setAutoriMuudKeeled(String autoriMuudKeeled) {
+  public void setAutoriMuudKeeled(String[] autoriMuudKeeled) {
     this.autoriMuudKeeled = autoriMuudKeeled;
   }
 
+  public String getMuukeel(){return muukeel;}
+  public void setMuukeel(String muukeel){
+    this.muukeel=muukeel;
+  }
+
   public String getAutoriElukohariik() {
+    if(autoriElukohariik==null){return "";}
+    if(autoriElukohariik.equals("muu")){return this.elukohariikMuu;}
     return autoriElukohariik;
   }
 
   public void setAutoriElukohariik(String autoriElukohariik) {
     this.autoriElukohariik = autoriElukohariik;
   }
-
-  public String getNousOlek() {
-    return nousOlek;
+  public void setElukohariikMuu(String elukohariikMuu){
+    this.elukohariikMuu=elukohariikMuu;
   }
 
-  public void setNousOlek(String nousOlek) {
-    this.nousOlek = nousOlek;
+  public String getAutoriTeaduskraad() {
+    return autoriTeaduskraad;
+  }
+
+  public void setAutoriTeaduskraad(String autoriTeaduskraad) {
+    this.autoriTeaduskraad = autoriTeaduskraad;
   }
 }

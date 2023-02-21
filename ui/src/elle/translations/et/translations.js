@@ -1,5 +1,6 @@
 export const TRANSLATIONS_ET = {
   analyse_button: "Analüüsi",
+  back: "EELMINE",
   common_download: "Laadi alla",
   common_excel_sheet_name: "Tabel",
   common_form: "Vorm",
@@ -13,9 +14,12 @@ export const TRANSLATIONS_ET = {
   error_generic_server_error: "Toiming ebaõnnestus! Proovi hiljem uuesti.",
   error_no_text: "Analüüsimiseks sisesta esmalt tekst!",
   error_text_too_long: "Tekst on analüüsi kuvamiseks liiga pikk!",
+  exit: "LÕPETA",
+  forward: "JÄRGMINE",
   gram_anal_filename: "gram_analyys",
   infobox_first: "Rakenduse abil saad sõnu silbitada, vaadata nende algvorme ja grammatilist kirjeldust. Sisesta sõna või tekst (kuni 1000 sõna).",
   infobox_second: "Teksti sõnu saad analüüsida ühekaupa ja näha ka teksti silpide, algvormide ja grammatiliste vormide statistikat.",
+  input_field_tutorial_text: "Siin kastis on võimalik sõnadel klõpsata. Klõpsates hkuvatakse valitud sõnad kollase taustaga.",
   lemmas_filename: "algvormid",
   lemmas_header_wordforms: "Sõnavormid",
   pagination_go_to_page: "Mine lehele:",
@@ -31,6 +35,9 @@ export const TRANSLATIONS_ET = {
   syllables_table_end: "Asukoht (keskel)",
   syllables_table_middle: "Asukoht (lõpp)",
   tab_gram_anal: "Grammatiline analüüs",
+  table_click_tutorial_text: "Tabelis olevatel väärtustel klõpsates märgitakse ülevaloleval tekstikastis kõik sõnad, mis on valikuga seotud.",
+  table_tab_tutorial_text: "Siit saad valida, mis infot sa allolevates tabelites näha soovid.",
+  table_tutorial_text: "Siin tabelis näed infot tekstikastis olevate sõnade kohta.",
   text_analysis: "Tekstianalüüs",
   textupload_choose_files: "Vali failid",
   textupload_chosen_files: "Valitud failid:",
@@ -44,5 +51,6 @@ export const TRANSLATIONS_ET = {
   query_download_stanza: "Stanza märgendusega",
   query_download_vislcg3: "VISLCG3 märgendusega",
   query_download_txt: "Ühe failina",
-  query_download_zip: "ZIP failina"
+  query_download_zip: "ZIP failina",
+  wordinfo_tutorial_text: "Sõnadel klõpsates ilmub siia valitud sõna grammatiline info."
 };
