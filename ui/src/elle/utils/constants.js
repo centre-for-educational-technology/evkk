@@ -46,9 +46,11 @@ export const MenuProps = {
 };
 
 export const addedYearOptions = [
-  "2000—2009",
-  "2010—2019",
-  "2020..."
+  "2000—2005",
+  "2006—2010",
+  "2011—2015",
+  "2016—2020",
+  "2021..."
 ];
 
 export const charactersOptions = [
