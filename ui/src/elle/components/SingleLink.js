@@ -1,6 +1,6 @@
 import React from "react";
 import {Box, Chip, Grid, Link, styled, Typography} from "@mui/material";
-import {Image} from "@mui/icons-material";
+import './styles/SingleLink.css'
 
 function SingleLink({name, siteLink, tekst, image, tags}) {
 
@@ -29,8 +29,9 @@ function SingleLink({name, siteLink, tekst, image, tags}) {
         spacing={2}>
         <Grid item
               xs={2}>
-          <Image src={image}
-                 sx={{width: "100px", height: "100px", margin: "auto"}}/>
+          <img src={image}
+               className="linkImage"
+               alt={name + " logo"}/>
         </Grid>
         <Grid item
               xs={10}>
