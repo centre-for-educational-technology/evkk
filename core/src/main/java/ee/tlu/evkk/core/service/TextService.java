@@ -19,7 +19,9 @@ import ee.tlu.evkk.dal.repository.TextPropertyRepository;
 import ee.tlu.evkk.dal.repository.TextRepository;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,6 +32,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -48,11 +52,13 @@ import static ee.tlu.evkk.core.service.maps.TranslationMappings.verbFormTranslat
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.verbFormTranslationsEt;
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.wordTypesEn;
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.wordTypesEt;
+import static java.io.File.createTempFile;
 import static java.lang.String.format;
 import static java.lang.System.lineSeparator;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
+import static java.util.regex.Pattern.compile;
 import static org.apache.logging.log4j.util.Strings.isNotBlank;
 
 /**
@@ -88,6 +94,8 @@ public class TextService {
   private static String inflectedFormNudParticiple;
   private static String inflectedFormTudParticiple;
   private static String imperativeMood;
+
+  private static final Pattern fileNameCharacterWhitelist = compile("[\\p{L}0-9& ._()!-]");
 
   public TextService(TextRepository textRepository, TextPropertyRepository textPropertyRepository, TextProcessorService textProcessorService, TextDao textDao) {
     this.textRepository = textRepository;
@@ -162,7 +170,6 @@ public class TextService {
   }
 
   public byte[] tekstidfailina(CorpusDownloadDto corpusDownloadDto) throws IOException {
-    final String forbiddenCharacters = "[\\\\<>:\"/|?*]";
     final String basicText = "basictext";
     List<CorpusDownloadResponseDto> contentsAndTitles;
 
@@ -180,12 +187,12 @@ public class TextService {
     }
 
     if (corpusDownloadDto.getType().equals("zip")) {
-      ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-      try (ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
+      File tempFile = createTempFile("corpusDownloadTempZip", null, null);
+      try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(tempFile))) {
         for (int i = 0; i < contentsAndTitles.size(); i++) {
           ZipEntry zipEntry = new ZipEntry(format(
             "%s (%s).txt",
-            contentsAndTitles.get(i).getTitle().replaceAll(forbiddenCharacters, ""),
+            getSanitizedFileName(contentsAndTitles.get(i).getTitle()),
             corpusDownloadDto.getFileList().get(i))
           );
           zipOutputStream.putNextEntry(zipEntry);
@@ -197,9 +204,12 @@ public class TextService {
           zipOutputStream.closeEntry();
         }
       } catch (IOException e) {
-        throw new IOException("Something went wrong while generating ZIP file.");
+        throw new IOException("Something went wrong while generating ZIP file.", e);
       }
-      return byteArrayOutputStream.toByteArray();
+
+      try (FileInputStream fileInputStream = new FileInputStream(tempFile)) {
+        return fileInputStream.readAllBytes();
+      }
     }
 
     StringBuilder contentsCombined = new StringBuilder();
@@ -450,6 +460,15 @@ public class TextService {
       castable,
       rangeHelpers.toArray(new TextQueryRangeParamHelper[0])
     );
+  }
+
+  private String getSanitizedFileName(String rawFileName) {
+    StringBuilder stringBuilder = new StringBuilder();
+    Matcher matcher = fileNameCharacterWhitelist.matcher(rawFileName);
+    while (matcher.find()) {
+      stringBuilder.append(matcher.group());
+    }
+    return stringBuilder.toString();
   }
 
   private Map<String, Collection<String>> buildFilters(String[] korpus, String tekstityyp, String tekstikeel, String keeletase, Boolean abivahendid, Integer aasta, String sugu) {

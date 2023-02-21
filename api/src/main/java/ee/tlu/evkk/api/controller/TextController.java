@@ -15,6 +15,8 @@ import ee.tlu.evkk.core.service.dto.CorpusRequestDto;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.Pageable;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
@@ -34,6 +37,9 @@ import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 import static java.util.UUID.randomUUID;
+import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
+import static org.springframework.http.ResponseEntity.ok;
+
 @RestController
 @RequestMapping("/texts")
 public class TextController {
@@ -76,86 +82,92 @@ public class TextController {
   public ResponseEntity<List<String>> sonaliik(@RequestBody WordFeatsRequestEntity request) {
     String[] sonaliik = stanzaServerClient.getSonaliik(request.getTekst());
     List<String> body = asList(TextService.translateWordType(sonaliik, request.getLanguage()));
-    return ResponseEntity.ok(body);
+    return ok(body);
   }
 
   @PostMapping("/silbid")
   public ResponseEntity<List<String>> silbid(@RequestBody LemmadRequestEntity request) {
     String[] silbid = stanzaServerClient.getSilbid(request.getTekst());
     List<String> body = asList(silbid);
-    return ResponseEntity.ok(body);
+    return ok(body);
   }
 
   @PostMapping("/raw/vormimargendid")
   public ResponseEntity<List<String[]>> rawVormimargendid(@RequestBody LemmadRequestEntity request) {
     String[][] vormimargendid = stanzaServerClient.getVormimargendid(request.getTekst());
     List<String[]> body = asList(vormimargendid);
-    return ResponseEntity.ok(body);
+    return ok(body);
   }
 
   @PostMapping("/vormimargendid")
   public ResponseEntity<List<String>> vormimargendid(@RequestBody WordFeatsRequestEntity request) {
     String[][] vormimargendid = stanzaServerClient.getVormimargendid(request.getTekst());
-    return ResponseEntity.ok(textService.translateFeats(vormimargendid, request.getLanguage()));
+    return ok(textService.translateFeats(vormimargendid, request.getLanguage()));
   }
 
   @PostMapping("/lemmad")
   public ResponseEntity<List<String>> lemmad(@RequestBody LemmadRequestEntity request) {
     String[] lemmad = stanzaServerClient.getLemmad(request.getTekst());
     List<String> body = asList(lemmad);
-    return ResponseEntity.ok(body);
+    return ok(body);
   }
 
   @PostMapping("/sonad")
   public ResponseEntity<List<String>> sonad(@RequestBody LemmadRequestEntity request) {
     String[] sonad = stanzaServerClient.getSonad(request.getTekst());
     List<String> body = asList(sonad);
-    return ResponseEntity.ok(body);
+    return ok(body);
   }
 
   @PostMapping("/laused")
   public ResponseEntity<List<String[]>> laused(@RequestBody LemmadRequestEntity request) {
     String[][] laused = stanzaServerClient.getLaused(request.getTekst());
     List<String[]> body = asList(laused);
-    return ResponseEntity.ok(body);
+    return ok(body);
   }
 
   @PostMapping("/korrektuur")
   public ResponseEntity<List<String>> korrektuur(@RequestBody LemmadRequestEntity request) {
     String[] vastus = correctorServerClient.getKorrektuur(request.getTekst());
     List<String> body = asList(vastus);
-    return ResponseEntity.ok(body);
+    return ok(body);
   }
 
   @PostMapping("/keeletase")
   public ResponseEntity<List<String[]>> keeletase(@RequestBody LemmadRequestEntity request) {
     String[][] tasemed = stanzaServerClient.getKeeletase(request.getTekst());
     List<String[]> body = asList(tasemed);
-    return ResponseEntity.ok(body);
+    return ok(body);
   }
 
   @PostMapping("/keerukus")
   public ResponseEntity<List<String>> keerukus(@RequestBody LemmadRequestEntity request) {
     String[] m = stanzaServerClient.getKeerukus(request.getTekst());
     List<String> body = asList(m);
-    return ResponseEntity.ok(body);
+    return ok(body);
   }
 
   @PostMapping("/mitmekesisus")
   public ResponseEntity<List<String>> mitmekesisus(@RequestBody LemmadRequestEntity request) {
     String[] m = stanzaServerClient.getMitmekesisus(request.getTekst());
     List<String> body = asList(m);
-    return ResponseEntity.ok(body);
+    return ok(body);
   }
 
   @PostMapping("/detailneparing")
   public ResponseEntity<String> detailneparing(@RequestBody CorpusRequestDto vaartused) {
-    return ResponseEntity.ok(textService.detailneparing(vaartused));
+    return ok(textService.detailneparing(vaartused));
   }
 
   @PostMapping("/tekstidfailina")
-  public ResponseEntity<byte[]> tekstidfailina(@RequestBody CorpusDownloadDto corpusDownloadDto) throws IOException {
-    return ResponseEntity.ok(textService.tekstidfailina(corpusDownloadDto));
+  public HttpEntity<byte[]> tekstidfailina(@RequestBody CorpusDownloadDto corpusDownloadDto, HttpServletResponse response) throws IOException {
+    byte[] file = textService.tekstidfailina(corpusDownloadDto);
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(APPLICATION_OCTET_STREAM);
+    response.setHeader("Content-Disposition", "attachment");
+
+    return new HttpEntity<>(file, headers);
   }
 
   @GetMapping("/asukoht")
