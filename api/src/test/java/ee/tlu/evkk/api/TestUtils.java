@@ -1,7 +1,8 @@
 package ee.tlu.evkk.api;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.io.ClassPathResource;
 
 import javax.validation.constraints.NotNull;
@@ -14,33 +15,25 @@ import static org.springframework.util.StreamUtils.copyToString;
 
 public class TestUtils {
 
-  private static final Gson gson = new Gson();
+  private static final ObjectMapper objectMapper = new ObjectMapper();
 
   public static String readResourceAsString(@NotNull String path) throws IOException {
     ClassPathResource resource = new ClassPathResource(path);
     if (!resource.exists()) {
-      throw new ResourceNotFoundException(path);
+      throw new RuntimeException(format("Resource not found from path %s.", path));
     }
     try (InputStream stream = resource.getInputStream()) {
       return readFromStream(stream);
     }
   }
 
-  public static JsonElement stringArrayToJson(@NotNull String content) {
-    return gson.toJsonTree(content
+  public static JsonNode stringArrayToJson(@NotNull String content) throws JsonProcessingException {
+    return objectMapper.readTree(content
       .replaceAll("\n", "")
       .replaceAll(" ", ""));
   }
 
   private static String readFromStream(InputStream inputStream) throws IOException {
     return copyToString(inputStream, UTF_8);
-  }
-
-  private static class ResourceNotFoundException extends RuntimeException {
-    private static final String MESSAGE = "Resource not found from path %s.";
-
-    public ResourceNotFoundException(String path) {
-      super(format(MESSAGE, path));
-    }
   }
 }
