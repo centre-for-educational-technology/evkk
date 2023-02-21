@@ -54,6 +54,7 @@ function Query() {
     gender: '',
     education: '',
     nativeLang: '',
+    nationality: '',
     country: ''
   });
   const [addedYears, setAddedYears] = useState([]);
@@ -140,6 +141,11 @@ function Query() {
     return selectedCorpuses;
   }
 
+  function checkIfOnlySpecificCorpusIsChecked(corpus) {
+    let selectedCorpuses = getSelectedCorpusList();
+    return selectedCorpuses.length === 1 && selectedCorpuses[0] === corpus;
+  }
+
   function simplifyDropdowns(data) {
     let simplified = [];
     data.forEach((entry) => {
@@ -185,6 +191,9 @@ function Query() {
     if (!event.target.checked) {
       setTextTypes(textTypes.filter((type) => findNestedKeys(textTypesOptions[event.target.id], type).length === 0));
     }
+
+    // reset corpus-based filters
+    setSinglePropertyData({...singlePropertyData, nativeLang: '', nationality: ''});
   }
 
   const alterAllCorpusCheckboxes = (event) => {
@@ -198,6 +207,9 @@ function Query() {
     if (!event.target.checked) {
       setTextTypes([]);
     }
+
+    // reset corpus-based filters
+    setSinglePropertyData({...singlePropertyData, nativeLang: '', nationality: ''});
   }
 
   const alterSinglePropertyData = (event, fieldName) => {
@@ -627,39 +639,80 @@ function Query() {
                   </Select>
                 </FormControl>
                 <br/><br/>
-                <FormControl size="small">
-                  <InputLabel id="nativeLang-label">Emakeel</InputLabel>
-                  <Select
-                    sx={{minWidth: selectWidth}}
-                    labelId="nativeLang-label"
-                    name="nativeLang"
-                    value={singlePropertyData.nativeLang}
-                    label="Emakeel"
-                    onClick={(e) => alterSinglePropertyData(e, "nativeLang")}
-                  >
-                    <MenuItem value="eesti">eesti</MenuItem>
-                    <MenuItem value="vene">vene</MenuItem>
-                    <MenuItem value="soome">soome</MenuItem>
-                    <MenuItem value="saksa">saksa</MenuItem>
-                    <MenuItem value="ukraina">ukraina</MenuItem>
-                    <MenuItem value="valgevene">valgevene</MenuItem>
-                    <MenuItem value="lati">läti</MenuItem>
-                    <MenuItem value="leedu">leedu</MenuItem>
-                    <MenuItem value="rootsi">rootsi</MenuItem>
-                    <MenuItem value="inglise">inglise</MenuItem>
-                    <MenuItem value="jidis">jidiš</MenuItem>
-                    <MenuItem value="itaalia">itaalia</MenuItem>
-                    <MenuItem value="jaapani">jaapani</MenuItem>
-                    <MenuItem value="poola">poola</MenuItem>
-                    <MenuItem value="hollandi">hollandi</MenuItem>
-                    <MenuItem value="sloveenia">sloveenia</MenuItem>
-                    <MenuItem value="heebrea">heebrea</MenuItem>
-                    <MenuItem value="prantsuse">prantsuse</MenuItem>
-                    <MenuItem value="katalaani">katalaani</MenuItem>
-                    <MenuItem value="ungari">ungari</MenuItem>
-                    <MenuItem value="tsehhi">tšehhi</MenuItem>
-                  </Select>
-                </FormControl>
+                {checkIfOnlySpecificCorpusIsChecked('clWmOIrLa')
+                  ? <FormControl size="small">
+                    <InputLabel id="nationality-label">Kodakondsus</InputLabel>
+                    <Select
+                      sx={{minWidth: selectWidth}}
+                      labelId="nationality-label"
+                      name="nationality"
+                      value={singlePropertyData.nationality}
+                      label="Kodakondsus"
+                      onClick={(e) => alterSinglePropertyData(e, "nationality")}
+                    >
+                      <MenuItem value="Eesti">Eesti</MenuItem>
+                      <MenuItem value="Ameerika Ühendriigid">Ameerika Ühendriigid</MenuItem>
+                      <MenuItem value="Brasiilia">Brasiilia</MenuItem>
+                      <MenuItem value="Bulgaaria">Bulgaaria</MenuItem>
+                      <MenuItem value="Egiptus">Egiptus</MenuItem>
+                      <MenuItem value="Filipiinid">Filipiinid</MenuItem>
+                      <MenuItem value="Hiina">Hiina</MenuItem>
+                      <MenuItem value="Hispaania">Hispaania</MenuItem>
+                      <MenuItem value="Holland">Holland</MenuItem>
+                      <MenuItem value="Iirimaa">Iirimaa</MenuItem>
+                      <MenuItem value="India">India</MenuItem>
+                      <MenuItem value="Kreeka">Kreeka</MenuItem>
+                      <MenuItem value="Leedu">Leedu</MenuItem>
+                      <MenuItem value="Läti">Läti</MenuItem>
+                      <MenuItem value="Makedoonia">Makedoonia</MenuItem>
+                      <MenuItem value="Määramata">Määramata</MenuItem>
+                      <MenuItem value="Poola">Poola</MenuItem>
+                      <MenuItem value="Prantsusmaa">Prantsusmaa</MenuItem>
+                      <MenuItem value="Rumeenia">Rumeenia</MenuItem>
+                      <MenuItem value="Saksamaa">Saksamaa</MenuItem>
+                      <MenuItem value="Soome">Soome</MenuItem>
+                      <MenuItem value="Suurbritannia">Suurbritannia</MenuItem>
+                      <MenuItem value="Türgi">Türgi</MenuItem>
+                      <MenuItem value="Ukraina">Ukraina</MenuItem>
+                      <MenuItem value="Valgevene">Valgevene</MenuItem>
+                      <MenuItem value="Venemaa">Venemaa</MenuItem>
+                      <MenuItem value="Venezuela">Venezuela</MenuItem>
+                    </Select>
+                  </FormControl>
+                  : <FormControl size="small">
+                    <InputLabel id="nativeLang-label">Emakeel</InputLabel>
+                    <Select
+                      sx={{minWidth: selectWidth}}
+                      labelId="nativeLang-label"
+                      name="nativeLang"
+                      value={singlePropertyData.nativeLang}
+                      label="Emakeel"
+                      onClick={(e) => alterSinglePropertyData(e, "nativeLang")}
+                    >
+                      <MenuItem value="eesti">eesti</MenuItem>
+                      <MenuItem value="vene">vene</MenuItem>
+                      <MenuItem value="soome">soome</MenuItem>
+                      <MenuItem value="saksa">saksa</MenuItem>
+                      <MenuItem value="ukraina">ukraina</MenuItem>
+                      <MenuItem value="valgevene">valgevene</MenuItem>
+                      <MenuItem value="lati">läti</MenuItem>
+                      <MenuItem value="leedu">leedu</MenuItem>
+                      <MenuItem value="rootsi">rootsi</MenuItem>
+                      <MenuItem value="inglise">inglise</MenuItem>
+                      <MenuItem value="jidis">jidiš</MenuItem>
+                      <MenuItem value="itaalia">itaalia</MenuItem>
+                      <MenuItem value="jaapani">jaapani</MenuItem>
+                      <MenuItem value="poola">poola</MenuItem>
+                      <MenuItem value="hollandi">hollandi</MenuItem>
+                      <MenuItem value="sloveenia">sloveenia</MenuItem>
+                      <MenuItem value="heebrea">heebrea</MenuItem>
+                      <MenuItem value="prantsuse">prantsuse</MenuItem>
+                      <MenuItem value="katalaani">katalaani</MenuItem>
+                      <MenuItem value="ungari">ungari</MenuItem>
+                      <MenuItem value="tsehhi">tšehhi</MenuItem>
+                    </Select>
+                  </FormControl>
+                }
                 <br/><br/>
                 <FormControl size="small">
                   <InputLabel id="country-label">Elukohariik</InputLabel>

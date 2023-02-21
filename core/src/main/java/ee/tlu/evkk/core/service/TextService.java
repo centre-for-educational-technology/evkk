@@ -145,24 +145,27 @@ public class TextService {
     if (isNotBlank(corpusRequestDto.getNativeLang())) {
       singleParamHelpers.add(new TextQuerySingleParamHelper("p11", "emakeel", corpusRequestDto.getNativeLang()));
     }
+    if (isNotBlank(corpusRequestDto.getNationality())) {
+      singleParamHelpers.add(new TextQuerySingleParamHelper("p12", "kodakondsus", corpusRequestDto.getNationality()));
+    }
     if (isNotBlank(corpusRequestDto.getCountry())) {
-      singleParamHelpers.add(new TextQuerySingleParamHelper("p12", "elukoht", corpusRequestDto.getCountry()));
+      singleParamHelpers.add(new TextQuerySingleParamHelper("p13", "elukoht", corpusRequestDto.getCountry()));
     }
 
     if (corpusRequestDto.getAddedYears() != null) {
-      rangeParamBaseHelpers.add(createRangeBaseHelper("p13", "aasta", false, corpusRequestDto.getAddedYears()));
+      rangeParamBaseHelpers.add(createRangeBaseHelper("p14", "aasta", false, corpusRequestDto.getAddedYears()));
     }
 
     if (corpusRequestDto.getCharacters() != null) {
-      rangeParamBaseHelpers.add(createRangeBaseHelper("p14", "charCount", true, corpusRequestDto.getCharacters()));
+      rangeParamBaseHelpers.add(createRangeBaseHelper("p15", "charCount", true, corpusRequestDto.getCharacters()));
     }
 
     if (corpusRequestDto.getWords() != null) {
-      rangeParamBaseHelpers.add(createRangeBaseHelper("p15", "wordCount", true, corpusRequestDto.getWords()));
+      rangeParamBaseHelpers.add(createRangeBaseHelper("p16", "wordCount", true, corpusRequestDto.getWords()));
     }
 
     if (corpusRequestDto.getSentences() != null) {
-      rangeParamBaseHelpers.add(createRangeBaseHelper("p16", "sentenceCount", true, corpusRequestDto.getSentences()));
+      rangeParamBaseHelpers.add(createRangeBaseHelper("p17", "sentenceCount", true, corpusRequestDto.getSentences()));
     }
 
     String daoResponse = textDao.detailedTextQueryByParameters(corpusHelper, textTypeHelper, singleParamHelpers, rangeParamBaseHelpers);

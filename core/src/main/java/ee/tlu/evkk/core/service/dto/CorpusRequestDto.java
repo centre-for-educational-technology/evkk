@@ -14,6 +14,7 @@ public class CorpusRequestDto {
   private String gender;
   private String education;
   private String nativeLang;
+  private String nationality;
   private String country;
   private List<List<Integer>> addedYears;
   private List<List<Integer>> characters;
@@ -130,5 +131,13 @@ public class CorpusRequestDto {
 
   public void setSentences(List<List<Integer>> sentences) {
     this.sentences = sentences;
+  }
+
+  public String getNationality() {
+    return nationality;
+  }
+
+  public void setNationality(String nationality) {
+    this.nationality = nationality;
   }
 }
