@@ -26,7 +26,8 @@ class Adding extends Component {
       avalikkusValik: "avalik",
       liik: "akadeemiline",
       oppematerjal: "",
-      akadOppematerjal: "",
+      akadOppematerjal: [],
+      akadOppematerjalMuu: "",
       mitteakadAlamliik: "",
       akadKategooria: "",
       akadAlamliik: "",
@@ -42,7 +43,7 @@ class Adding extends Component {
       autoriEriala: "",
       autoriEmakeel: "",
       autorKakskeelne: false,
-      autoriMuudKeeled: [],
+      autoriMuudKeeled: "",
       muukeel: "",
       autoriElukohariik: "eesti",
       elukohariikMuu: "",
@@ -406,15 +407,15 @@ class Adding extends Component {
                       <MenuItem value={"ei"}>ei</MenuItem>
                     </Select>
                   </FormControl>
-                  {this.state.oppematerjal === "jah" && this.state.liik === "akadeemiline" && <Grid>
+                  {this.state.oppematerjal === "jah" && this.state.liik === "akadeemiline" && <><Grid>
                     <FormControl sx={{m: 1, minWidth: 240}}>
                       <InputLabel>Abimaterjal</InputLabel>
-                      <Select
-                        labelId="akad-materjalid-label"
-                        name="akadOppematerjal"
-                        value={this.state.akadOppematerjal}
-                        label="Akadeemiline õppematerjal"
-                        onChange={this.handleChange}
+                      <Select multiple
+                              labelId="akad-materjalid-label"
+                              name="akadOppematerjal"
+                              value={this.state.akadOppematerjal}
+                              label="Akadeemiline õppematerjal"
+                              onChange={this.handleChange}
                       >
                         <MenuItem value={""}></MenuItem>
                         <MenuItem value={"tolkesõnastik"}>Tõlkesõnastik/masintõlge</MenuItem>
@@ -425,7 +426,25 @@ class Adding extends Component {
                         <MenuItem value={"muu"}>Muu</MenuItem>
                       </Select>
                     </FormControl>
-                  </Grid>}
+                  </Grid>
+                    {this.state.akadOppematerjal.indexOf("muu") !== -1 &&
+                      <Grid>
+                        <FormControl sx={{m: 1, minWidth: 320}}>
+
+                          <TextField
+                            multiline
+                            label="Muu õppematerjal"
+                            variant="outlined"
+
+                            name="akadOppematerjalMuu"
+                            value={this.state.akadOppematerjalMuu}
+                            onChange={this.handleChange}
+                            style={{width: "75%"}}></TextField>
+                        </FormControl>
+                      </Grid>
+
+                    }
+                  </>}
                   <h3>Teksti autori andmed</h3>
                   <TextField size="small"
                              type="number"
@@ -451,89 +470,35 @@ class Adding extends Component {
                   </FormControl>
                 </Grid>
                 <Grid>
-                  <FormControl sx={{m: 1, minWidth: 240}}>
-                    <InputLabel>Emakeel *</InputLabel>
-                    <Select value={this.state.autoriEmakeel}
-                            onChange={this.handleChange}
-                            name="autoriEmakeel"
-                            label="Emakeel *"
-                            labelId="emakeel"
-                            required>
-                      <MenuItem value={"eesti"}>eesti</MenuItem>
-                      <MenuItem value={"heebrea"}>heebrea</MenuItem>
-                      <MenuItem value={"hollandi"}>hollandi</MenuItem>
-                      <MenuItem value={"inglise"}>inglise</MenuItem>
-                      <MenuItem value={"itaalia"}>itaalia</MenuItem>
-                      <MenuItem value={"jaapani"}>jaapani</MenuItem>
-                      <MenuItem value={"jidiš"}>jidiš</MenuItem>
-                      <MenuItem value={"katalaani"}>katalaani</MenuItem>
-                      <MenuItem value={"kreeka"}>kreeka</MenuItem>
-                      <MenuItem value={"leedu"}>leedu</MenuItem>
-                      <MenuItem value={"läti"}>läti</MenuItem>
-                      <MenuItem value={"poola"}>poola</MenuItem>
-                      <MenuItem value={"prantsuse"}>prantsuse</MenuItem>
-                      <MenuItem value={"rootsi"}>rootsi</MenuItem>
-                      <MenuItem value={"saksa"}>saksa</MenuItem>
-                      <MenuItem value={"sloveenia"}>sloveenia</MenuItem>
-                      <MenuItem value={"soome"}>soome</MenuItem>
-                      <MenuItem value={"tšehhi"}>tšehhi</MenuItem>
-                      <MenuItem value={"türgi"}>türgi</MenuItem>
-                      <MenuItem value={"ukraina"}>ukraina</MenuItem>
-                      <MenuItem value={"ungari"}>ungari</MenuItem>
-                      <MenuItem value={"valgevene"}>valgevene</MenuItem>
-                      <MenuItem value={"vene"}>vene</MenuItem>
-                    </Select>
+                  <FormControl sx={{m: 1, minWidth: 320}}>
+
+                    <TextField
+                      multiline required
+                      label="Emakeel"
+                      variant="outlined"
+
+                      name="autoriEmakeel"
+                      value={this.state.autoriEmakeel}
+                      onChange={this.handleChange}
+                      style={{width: "75%"}}></TextField>
                   </FormControl>
                 </Grid>
-                {<Grid>
-                  <FormControl sx={{m: 1, minWidth: 240}}>
-                    <InputLabel>Muud õppe- või töökeeled</InputLabel>
-                    <Select value={this.state.autoriMuudKeeled}
-                            onChange={this.handleChange}
-                            name="autoriMuudKeeled"
-                            label="Muud õppe- või töökeeled"
-                            labelId="muudkeeled" multiple>
-                      <MenuItem value={"eesti"}>eesti</MenuItem>
-                      <MenuItem value={"heebrea"}>heebrea</MenuItem>
-                      <MenuItem value={"hollandi"}>hollandi</MenuItem>
-                      <MenuItem value={"inglise"}>inglise</MenuItem>
-                      <MenuItem value={"itaalia"}>itaalia</MenuItem>
-                      <MenuItem value={"jaapani"}>jaapani</MenuItem>
-                      <MenuItem value={"jidiš"}>jidiš</MenuItem>
-                      <MenuItem value={"katalaani"}>katalaani</MenuItem>
-                      <MenuItem value={"kreeka"}>kreeka</MenuItem>
-                      <MenuItem value={"leedu"}>leedu</MenuItem>
-                      <MenuItem value={"läti"}>läti</MenuItem>
-                      <MenuItem value={"poola"}>poola</MenuItem>
-                      <MenuItem value={"prantsuse"}>prantsuse</MenuItem>
-                      <MenuItem value={"rootsi"}>rootsi</MenuItem>
-                      <MenuItem value={"saksa"}>saksa</MenuItem>
-                      <MenuItem value={"sloveenia"}>sloveenia</MenuItem>
-                      <MenuItem value={"soome"}>soome</MenuItem>
-                      <MenuItem value={"tšehhi"}>tšehhi</MenuItem>
-                      <MenuItem value={"türgi"}>türgi</MenuItem>
-                      <MenuItem value={"ukraina"}>ukraina</MenuItem>
-                      <MenuItem value={"ungari"}>ungari</MenuItem>
-                      <MenuItem value={"valgevene"}>valgevene</MenuItem>
-                      <MenuItem value={"vene"}>vene</MenuItem>
-                      <MenuItem value={"muu"}>muu</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>}
-                {this.state.autoriMuudKeeled.includes("muu") &&
-                  <Grid>
-                    <FormControl sx={{m: 1, minWidth: 240}}>
 
-                      <TextField
-                        multiline
-                        label="Muu keel"
-                        variant="outlined"
-                        name="muukeel"
-                        value={this.state.muukeel}
-                        onChange={this.handleChange}
-                        style={{width: "75%"}}></TextField>
-                    </FormControl>
-                  </Grid>}
+                <Grid>
+                  <FormControl sx={{m: 1, minWidth: 320}}>
+
+                    <TextField
+                      multiline
+                      label="Muud õppe-, töö- või suhtluskeeled"
+                      variant="outlined"
+                      title={"Esimesena keel, mida kõige paremini oskad"}
+
+                      name="autoriMuudKeeled"
+                      value={this.state.autoriMuudKeeled}
+                      onChange={this.handleChange}
+                      style={{width: "75%"}}></TextField>
+                  </FormControl>
+                </Grid>
 
                 <Grid>
                   <FormControl sx={{m: 1, minWidth: 240}}>
