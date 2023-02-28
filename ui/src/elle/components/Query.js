@@ -22,6 +22,7 @@ import {
   MenuProps,
   sentencesOptions,
   textTypesOptions,
+  usedMaterialsOptions,
   useStyles,
   wordsOptions
 } from "../utils/constants";
@@ -31,7 +32,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 function Query() {
 
-  const selectWidth = 275;
+  const selectWidth = 290;
   const classes = useStyles();
   const currentYear = new Date().getFullYear();
   const [expanded, setExpanded] = useState(true);
@@ -66,6 +67,7 @@ function Query() {
   const [words, setWords] = useState([]);
   const [sentences, setSentences] = useState([]);
   const [textTypes, setTextTypes] = useState([]);
+  const [usedMultiMaterials, setUsedMultiMaterials] = useState([]);
   const [alert, setAlert] = useState(false);
   const [noResultsError, setNoResultsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -93,6 +95,10 @@ function Query() {
 
       if (textTypes.length > 0) {
         params.types = textTypes;
+      }
+
+      if (usedMultiMaterials.length > 0) {
+        params.usedMultiMaterials = usedMultiMaterials;
       }
 
       if (addedYears.length > 0) {
@@ -223,11 +229,13 @@ function Query() {
     if (checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')) {
       newSinglePropertyData.level = '';
       newSinglePropertyData.education = '';
+      newSinglePropertyData.usedMaterials = '';
     } else {
       newSinglePropertyData.studyLevel = '';
       newSinglePropertyData.degree = '';
       newSinglePropertyData.otherLang = '';
       newSinglePropertyData.domain = '';
+      setUsedMultiMaterials([]);
     }
 
     setSinglePropertyData(newSinglePropertyData);
@@ -245,7 +253,7 @@ function Query() {
     setExpanded(!expanded);
   };
 
-  const alterHierarchyDropdown = (e, hierarchyLevel, corpus) => {
+  const alterTextTypeHierarchyDropdown = (e, hierarchyLevel, corpus) => {
     // hierarchyLevel: true - standalone or hierarchy child, false - hierarchy parent
     let id = e.target.localName === 'span'
       ? e.target.offsetParent.children[1].id
@@ -267,10 +275,42 @@ function Query() {
     }
   }
 
-  const checkHierarchyCheckboxStatus = (name, corpus) => {
+  const alterUsedMaterialsHierarchyDropdown = (e, hierarchyLevel) => {
+    // hierarchyLevel: true - standalone or hierarchy child, false - hierarchy parent
+    let id = e.target.localName === 'span'
+      ? e.target.offsetParent.children[1].id
+      : e.target.id;
+    if (hierarchyLevel) {
+      if (usedMultiMaterials.includes(id)) {
+        setUsedMultiMaterials(usedMultiMaterials.filter(material => material !== id));
+      } else {
+        setUsedMultiMaterials([...usedMultiMaterials, id]);
+      }
+    } else {
+      let childrenArray = Array.from(Object.keys(usedMaterialsOptions[id]));
+      let filteredUsedMaterials = usedMultiMaterials.filter(material => !childrenArray.includes(material));
+      if (childrenArray.every(child => usedMultiMaterials.includes(child))) {
+        setUsedMultiMaterials(filteredUsedMaterials);
+      } else {
+        setUsedMultiMaterials([...filteredUsedMaterials, ...childrenArray]);
+      }
+    }
+  }
+
+  const checkTextTypeHierarchyCheckboxStatus = (name, corpus) => {
     let checked = true;
     Object.keys(textTypesOptions[corpus][name]).forEach(type => {
       if (!textTypes.includes(type)) {
+        checked = false;
+      }
+    });
+    return checked;
+  }
+
+  const checkUsedMaterialsHierarchyCheckboxStatus = (name) => {
+    let checked = true;
+    Object.keys(usedMaterialsOptions[name]).forEach(material => {
+      if (!usedMultiMaterials.includes(material)) {
         checked = false;
       }
     });
@@ -413,7 +453,7 @@ function Query() {
                         typeof textTypesOptions[corpus][textType] === 'string'
                           ? <MenuItem key={textType}
                                       id={textType}
-                                      onClick={(e) => alterHierarchyDropdown(e, true, null)}
+                                      onClick={(e) => alterTextTypeHierarchyDropdown(e, true, null)}
                                       value={textType}>
                             <ListItemIcon>
                               <Checkbox id={textType}
@@ -425,11 +465,11 @@ function Query() {
                           : <span>
                             <MenuItem key={textType}
                                       id={textType}
-                                      onClick={(e) => alterHierarchyDropdown(e, false, corpus)}
+                                      onClick={(e) => alterTextTypeHierarchyDropdown(e, false, corpus)}
                                       value={textType}>
                               <ListItemIcon>
                                 <Checkbox id={textType}
-                                          checked={checkHierarchyCheckboxStatus(textType, corpus)}/>
+                                          checked={checkTextTypeHierarchyCheckboxStatus(textType, corpus)}/>
                               </ListItemIcon>
                               <ListItemText id={textType}
                                             primary={textType}/>
@@ -437,7 +477,7 @@ function Query() {
                             {Object.keys(textTypesOptions[corpus][textType]).map((specificTextType) => (
                               <MenuItem key={specificTextType}
                                         id={specificTextType}
-                                        onClick={(e) => alterHierarchyDropdown(e, true, null)}
+                                        onClick={(e) => alterTextTypeHierarchyDropdown(e, true, null)}
                                         value={specificTextType}
                                         sx={{paddingLeft: "2rem"}}>
                                 <ListItemIcon>
@@ -472,59 +512,119 @@ function Query() {
                 </FormControl>
                 <br/><br/>
                 {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
-                  ? <FormControl size="small">
-                    <InputLabel id="domain-label">Valdkond</InputLabel>
-                    <Select
-                      sx={{minWidth: selectWidth}}
-                      labelId="domain-label"
-                      name="domain"
-                      value={singlePropertyData.domain}
-                      label="Valdkond"
-                      onClick={(e) => alterSinglePropertyData(e, "domain")}
-                    >
-                      <MenuItem value="biojakeskkonnateadused">Bio- ja keskkonnateadused</MenuItem>
-                      <MenuItem value="yhiskondjakultuur">Ühiskonnateadused ja kultuur</MenuItem>
-                      <MenuItem value="terviseuuringud">Terviseuuringud</MenuItem>
-                      <MenuItem value="loodustehnika">Loodusteadused ja tehnika</MenuItem>
-                    </Select>
-                  </FormControl>
-                  : <FormControl size="small">
-                    <InputLabel id="level-label">Teksti tase</InputLabel>
-                    <Select
-                      sx={{minWidth: selectWidth}}
-                      labelId="level-label"
-                      name="level"
-                      value={singlePropertyData.level}
-                      label="Teksti tase"
-                      onClick={(e) => alterSinglePropertyData(e, "level")}
-                    >
-                      <MenuItem value="A">A</MenuItem>
-                      <MenuItem value="B">B</MenuItem>
-                      <MenuItem value="C">C</MenuItem>
-                      <MenuItem value="A1">A1</MenuItem>
-                      <MenuItem value="A2">A2</MenuItem>
-                      <MenuItem value="B1">B1</MenuItem>
-                      <MenuItem value="B2">B2</MenuItem>
-                      <MenuItem value="C1">C1</MenuItem>
-                      <MenuItem value="C2">C2</MenuItem>
-                    </Select>
-                  </FormControl>
+                  ? <>
+                    <FormControl size="small">
+                      <InputLabel id="domain-label">Valdkond</InputLabel>
+                      <Select
+                        sx={{minWidth: selectWidth}}
+                        labelId="domain-label"
+                        name="domain"
+                        value={singlePropertyData.domain}
+                        label="Valdkond"
+                        onClick={(e) => alterSinglePropertyData(e, "domain")}
+                      >
+                        <MenuItem value="biojakeskkonnateadused">Bio- ja keskkonnateadused</MenuItem>
+                        <MenuItem value="yhiskondjakultuur">Ühiskonnateadused ja kultuur</MenuItem>
+                        <MenuItem value="terviseuuringud">Terviseuuringud</MenuItem>
+                        <MenuItem value="loodustehnika">Loodusteadused ja tehnika</MenuItem>
+                      </Select>
+                    </FormControl>
+                    <br/><br/>
+                    <FormControl className={classes.formControl}
+                                 size="small">
+                      <InputLabel id="usedMultiMaterials-label">Kasutatud õppe- või abimaterjale</InputLabel>
+                      <Select
+                        labelId="usedMultiMaterials-label"
+                        label="Kasutatud õppe- või abimaterjale"
+                        multiple
+                        value={usedMultiMaterials}
+                        name="usedMultiMaterials"
+                        renderValue={(material) => `Valitud ${material.length} ${material.length === 1 ? 'materjal' : 'materjali'}`}
+                        MenuProps={MenuProps}
+                      >
+                        {Object.keys(usedMaterialsOptions).map((material) => (
+                          typeof usedMaterialsOptions[material] === 'string'
+                            ? <MenuItem key={material}
+                                        id={material}
+                                        onClick={(e) => alterUsedMaterialsHierarchyDropdown(e, true)}
+                                        value={material}>
+                              <ListItemIcon>
+                                <Checkbox id={material}
+                                          checked={usedMultiMaterials.indexOf(material) > -1}/>
+                              </ListItemIcon>
+                              <ListItemText id={material}
+                                            primary={usedMaterialsOptions[material]}/>
+                            </MenuItem>
+                            : <span>
+                                <MenuItem key={material}
+                                          id={material}
+                                          onClick={(e) => alterUsedMaterialsHierarchyDropdown(e, false)}
+                                          value={material}>
+                                  <ListItemIcon>
+                                    <Checkbox id={material}
+                                              checked={checkUsedMaterialsHierarchyCheckboxStatus(material)}/>
+                                  </ListItemIcon>
+                                  <ListItemText id={material}
+                                                primary={material}/>
+                                </MenuItem>
+                              {Object.keys(usedMaterialsOptions[material]).map((subMaterial) => (
+                                <MenuItem key={subMaterial}
+                                          id={subMaterial}
+                                          onClick={(e) => alterUsedMaterialsHierarchyDropdown(e, true)}
+                                          value={subMaterial}
+                                          sx={{paddingLeft: "2rem"}}>
+                                  <ListItemIcon>
+                                    <Checkbox id={subMaterial}
+                                              checked={usedMultiMaterials.indexOf(subMaterial) > -1}/>
+                                  </ListItemIcon>
+                                  <ListItemText id={subMaterial}
+                                                primary={usedMaterialsOptions[material][subMaterial]}/>
+                                </MenuItem>
+                              ))}
+                              </span>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </>
+                  : <>
+                    <FormControl size="small">
+                      <InputLabel id="level-label">Teksti tase</InputLabel>
+                      <Select
+                        sx={{minWidth: selectWidth}}
+                        labelId="level-label"
+                        name="level"
+                        value={singlePropertyData.level}
+                        label="Teksti tase"
+                        onClick={(e) => alterSinglePropertyData(e, "level")}
+                      >
+                        <MenuItem value="A">A</MenuItem>
+                        <MenuItem value="B">B</MenuItem>
+                        <MenuItem value="C">C</MenuItem>
+                        <MenuItem value="A1">A1</MenuItem>
+                        <MenuItem value="A2">A2</MenuItem>
+                        <MenuItem value="B1">B1</MenuItem>
+                        <MenuItem value="B2">B2</MenuItem>
+                        <MenuItem value="C1">C1</MenuItem>
+                        <MenuItem value="C2">C2</MenuItem>
+                      </Select>
+                    </FormControl>
+                    <br/><br/>
+                    <FormControl size="small">
+                      <InputLabel id="usedMaterials-label">Kasutatud õppematerjale</InputLabel>
+                      <Select
+                        sx={{minWidth: selectWidth}}
+                        labelId="usedMaterials-label"
+                        name="usedMaterials"
+                        value={singlePropertyData.usedMaterials}
+                        label="Kasutatud õppematerjale"
+                        onClick={(e) => alterSinglePropertyData(e, "usedMaterials")}
+                      >
+                        <MenuItem value="jah">jah</MenuItem>
+                        <MenuItem value="ei">ei</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </>
                 }
-                <br/><br/>
-                <FormControl size="small">
-                  <InputLabel id="usedMaterials-label">Kasutatud õppematerjale</InputLabel>
-                  <Select
-                    sx={{minWidth: selectWidth}}
-                    labelId="usedMaterials-label"
-                    name="usedMaterials"
-                    value={singlePropertyData.usedMaterials}
-                    label="Kasutatud õppematerjale"
-                    onClick={(e) => alterSinglePropertyData(e, "usedMaterials")}
-                  >
-                    <MenuItem value="jah">jah</MenuItem>
-                    <MenuItem value="ei">ei</MenuItem>
-                  </Select>
-                </FormControl>
                 <br/><br/>
                 <FormControl className={classes.formControl}
                              size="small">

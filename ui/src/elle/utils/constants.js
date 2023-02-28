@@ -3,7 +3,7 @@ import {makeStyles} from "@mui/styles";
 export const useStyles = makeStyles((_theme) => ({
   formControl: {
     margin: 1,
-    width: 275
+    width: 290
   },
   indeterminateColor: {
     color: "#f50057"
@@ -31,7 +31,7 @@ export const MenuProps = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 11.5 + ITEM_PADDING_TOP,
-      width: 275
+      width: 390
     }
   },
   anchorOrigin: {
@@ -203,6 +203,17 @@ export const textTypesOptions = {
       "ak_uurimus_pdhtoo": "Doktoritöö",
     }
   }
+};
+
+export const usedMaterialsOptions = {
+  "Jah": {
+    "tolkesonastik": "Tõlkesõnastik/masintõlge",
+    "ykskeelnesonastik": "Ükskeelne sõnastik (k.a. veebisõnastikud)",
+    "terminisonastik": "Erialane terminisõnastik või -baas",
+    "kasiraamat": "Erialane käsiraamat või teatmik",
+    "automaatkontroll": "Automaatkontroll",
+  },
+  "ei": "Ei"
 };
 
 export const ages = {

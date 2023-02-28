@@ -28,7 +28,7 @@ public interface TextDao {
 
   List<String> findTextIdAndTitleByCorpusId(@Param("corpusId") String korpusekood);
 
-  String detailedTextQueryByParameters(@Param("corpusHelper") TextQueryMultiParamHelper corpusHelper, @Param("textTypeHelper") TextQueryMultiParamHelper textTypeHelper, @Param("singleParamHelpers") List<TextQuerySingleParamHelper> singleParamHelpers, @Param("rangeParamHelpers") List<TextQueryRangeParamBaseHelper> rangeParamHelpers, @Param("studyLevelAndDegreeHelper") TextQueryDisjunctionParamHelper studyLevelAndDegreeHelper, @Param("otherLangHelper") TextQuerySingleParamHelper otherLangHelper);
+  String detailedTextQueryByParameters(@Param("multiParamHelpers") List<TextQueryMultiParamHelper> multiParamHelpers, @Param("singleParamHelpers") List<TextQuerySingleParamHelper> singleParamHelpers, @Param("rangeParamHelpers") List<TextQueryRangeParamBaseHelper> rangeParamHelpers, @Param("studyLevelAndDegreeHelper") TextQueryDisjunctionParamHelper studyLevelAndDegreeHelper, @Param("otherLangHelper") TextQuerySingleParamHelper otherLangHelper, @Param("usedMultiMaterialsHelper") TextQueryMultiParamHelper usedMultiMaterialsHelper);
 
   String findDetailedValueByPropertyName(@Param("pValue") String[] pValue, @Param("pName") String pName, @Param("cId") String[] cId); // property value, name, corpus id
 

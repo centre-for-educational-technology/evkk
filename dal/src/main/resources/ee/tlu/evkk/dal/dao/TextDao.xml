@@ -36,10 +36,11 @@
     from (
     select p2.text_id, p2.property_value
     from core.text_property as p2
-    join core.text_property as ${corpusHelper.table} on p2.text_id = ${corpusHelper.table}.text_id
-    <if test="textTypeHelper.values != null">
-      join core.text_property as ${textTypeHelper.table} on p2.text_id = ${textTypeHelper.table}.text_id
-    </if>
+    <foreach item="multiParamHelper" collection="multiParamHelpers" separator=" ">
+      <if test="multiParamHelper.values != null">
+        join core.text_property as ${multiParamHelper.table} on p2.text_id = ${multiParamHelper.table}.text_id
+      </if>
+    </foreach>
     <foreach item="singleParamHelper" collection="singleParamHelpers" separator=" ">
       join core.text_property as ${singleParamHelper.table} on p2.text_id = ${singleParamHelper.table}.text_id
     </foreach>
@@ -60,12 +61,11 @@
     <if test="otherLangHelper.table != null">
       join core.text_property as ${otherLangHelper.table} on p2.text_id = ${otherLangHelper.table}.text_id
     </if>
+    <if test="usedMultiMaterialsHelper.table != null">
+      join core.text_property as ${usedMultiMaterialsHelper.table} on p2.text_id =
+      ${usedMultiMaterialsHelper.table}.text_id
+    </if>
     where p2.property_name = 'title'
-    and ${corpusHelper.table}.property_name = #{corpusHelper.parameter}
-    and ${corpusHelper.table}.property_value in
-    <foreach item="corpus" collection="corpusHelper.values" separator=", " open="(" close=")">
-      #{corpus}
-    </foreach>
     <choose>
       <when test="studyLevelAndDegreeHelper.firstValue != null and studyLevelAndDegreeHelper.secondValue != null">
         and ((${studyLevelAndDegreeHelper.table}.property_name = #{studyLevelAndDegreeHelper.firstParameter}
@@ -85,15 +85,25 @@
     <if test="otherLangHelper.table != null">
       <bind name="likeValue" value="'%' + otherLangHelper.value + '%'"/>
       and ${otherLangHelper.table}.property_name = #{otherLangHelper.parameter}
-      and ${otherLangHelper.table}.property_value like #{likeValue}
+      and ${otherLangHelper.table}.property_value ilike #{likeValue}
     </if>
-    <if test="textTypeHelper.values != null">
-      and ${textTypeHelper.table}.property_name = #{textTypeHelper.parameter}
-      and ${textTypeHelper.table}.property_value in
-      <foreach item="textType" collection="textTypeHelper.values" separator=", " open="(" close=")">
-        #{textType}
+    <if test="usedMultiMaterialsHelper.table != null">
+      and ${usedMultiMaterialsHelper.table}.property_name = #{usedMultiMaterialsHelper.parameter}
+      and ${usedMultiMaterialsHelper.table}.property_value ilike any
+      <foreach item="usedMultiMaterial" collection="usedMultiMaterialsHelper.values" separator=", " open="(array["
+               close="])">
+        concat('%', #{usedMultiMaterial}, '%')
       </foreach>
     </if>
+    <foreach item="multiParamHelper" collection="multiParamHelpers" separator=" ">
+      <if test="multiParamHelper.values != null">
+        and ${multiParamHelper.table}.property_name = #{multiParamHelper.parameter}
+        and ${multiParamHelper.table}.property_value in
+        <foreach item="multiParam" collection="multiParamHelper.values" separator=", " open="(" close=")">
+          #{multiParam}
+        </foreach>
+      </if>
+    </foreach>
     <foreach item="singleParamHelper" collection="singleParamHelpers" separator=" ">
       and ${singleParamHelper.table}.property_name = #{singleParamHelper.parameter}
       and ${singleParamHelper.table}.property_value = #{singleParamHelper.value}

@@ -14,6 +14,9 @@ public class TextQueryMultiParamHelper {
     this.values = values;
   }
 
+  public TextQueryMultiParamHelper() {
+  }
+
   public String getTable() {
     return table;
   }

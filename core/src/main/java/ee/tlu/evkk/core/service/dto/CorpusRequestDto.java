@@ -11,6 +11,7 @@ public class CorpusRequestDto {
   private String level;
   private String domain;
   private String usedMaterials;
+  private Set<String> usedMultiMaterials;
   private String age;
   private String gender;
   private String education;
@@ -175,5 +176,13 @@ public class CorpusRequestDto {
 
   public void setDomain(String domain) {
     this.domain = domain;
+  }
+
+  public Set<String> getUsedMultiMaterials() {
+    return usedMultiMaterials;
+  }
+
+  public void setUsedMultiMaterials(Set<String> usedMultiMaterials) {
+    this.usedMultiMaterials = usedMultiMaterials;
   }
 }
