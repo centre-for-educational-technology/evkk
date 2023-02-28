@@ -9,6 +9,7 @@ public class CorpusRequestDto {
   private Set<String> types;
   private String language;
   private String level;
+  private String domain;
   private String usedMaterials;
   private String age;
   private String gender;
@@ -166,5 +167,13 @@ public class CorpusRequestDto {
 
   public void setOtherLang(String otherLang) {
     this.otherLang = otherLang;
+  }
+
+  public String getDomain() {
+    return domain;
+  }
+
+  public void setDomain(String domain) {
+    this.domain = domain;
   }
 }

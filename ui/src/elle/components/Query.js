@@ -49,6 +49,7 @@ function Query() {
   const [singlePropertyData, setSinglePropertyData] = useState({
     language: 'eesti',
     level: '',
+    domain: '',
     usedMaterials: '',
     age: '',
     gender: '',
@@ -226,6 +227,7 @@ function Query() {
       newSinglePropertyData.studyLevel = '';
       newSinglePropertyData.degree = '';
       newSinglePropertyData.otherLang = '';
+      newSinglePropertyData.domain = '';
     }
 
     setSinglePropertyData(newSinglePropertyData);
@@ -470,32 +472,45 @@ function Query() {
                 </FormControl>
                 <br/><br/>
                 {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
-                  ? <></>
-                  : <>
-                    <FormControl size="small">
-                      <InputLabel id="level-label">Teksti tase</InputLabel>
-                      <Select
-                        sx={{minWidth: selectWidth}}
-                        labelId="level-label"
-                        name="level"
-                        value={singlePropertyData.level}
-                        label="Teksti tase"
-                        onClick={(e) => alterSinglePropertyData(e, "level")}
-                      >
-                        <MenuItem value="A">A</MenuItem>
-                        <MenuItem value="B">B</MenuItem>
-                        <MenuItem value="C">C</MenuItem>
-                        <MenuItem value="A1">A1</MenuItem>
-                        <MenuItem value="A2">A2</MenuItem>
-                        <MenuItem value="B1">B1</MenuItem>
-                        <MenuItem value="B2">B2</MenuItem>
-                        <MenuItem value="C1">C1</MenuItem>
-                        <MenuItem value="C2">C2</MenuItem>
-                      </Select>
-                    </FormControl>
-                    <br/><br/>
-                  </>
+                  ? <FormControl size="small">
+                    <InputLabel id="domain-label">Valdkond</InputLabel>
+                    <Select
+                      sx={{minWidth: selectWidth}}
+                      labelId="domain-label"
+                      name="domain"
+                      value={singlePropertyData.domain}
+                      label="Valdkond"
+                      onClick={(e) => alterSinglePropertyData(e, "domain")}
+                    >
+                      <MenuItem value="biojakeskkonnateadused">Bio- ja keskkonnateadused</MenuItem>
+                      <MenuItem value="yhiskondjakultuur">Ühiskonnateadused ja kultuur</MenuItem>
+                      <MenuItem value="terviseuuringud">Terviseuuringud</MenuItem>
+                      <MenuItem value="loodustehnika">Loodusteadused ja tehnika</MenuItem>
+                    </Select>
+                  </FormControl>
+                  : <FormControl size="small">
+                    <InputLabel id="level-label">Teksti tase</InputLabel>
+                    <Select
+                      sx={{minWidth: selectWidth}}
+                      labelId="level-label"
+                      name="level"
+                      value={singlePropertyData.level}
+                      label="Teksti tase"
+                      onClick={(e) => alterSinglePropertyData(e, "level")}
+                    >
+                      <MenuItem value="A">A</MenuItem>
+                      <MenuItem value="B">B</MenuItem>
+                      <MenuItem value="C">C</MenuItem>
+                      <MenuItem value="A1">A1</MenuItem>
+                      <MenuItem value="A2">A2</MenuItem>
+                      <MenuItem value="B1">B1</MenuItem>
+                      <MenuItem value="B2">B2</MenuItem>
+                      <MenuItem value="C1">C1</MenuItem>
+                      <MenuItem value="C2">C2</MenuItem>
+                    </Select>
+                  </FormControl>
                 }
+                <br/><br/>
                 <FormControl size="small">
                   <InputLabel id="usedMaterials-label">Kasutatud õppematerjale</InputLabel>
                   <Select
