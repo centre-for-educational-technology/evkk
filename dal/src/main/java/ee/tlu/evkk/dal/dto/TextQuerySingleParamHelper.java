@@ -12,6 +12,9 @@ public class TextQuerySingleParamHelper {
     this.value = value;
   }
 
+  public TextQuerySingleParamHelper() {
+  }
+
   public String getTable() {
     return table;
   }

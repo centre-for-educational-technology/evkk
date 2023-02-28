@@ -126,6 +126,7 @@ public class TextService {
     TextQueryMultiParamHelper corpusHelper = new TextQueryMultiParamHelper("p3", "korpus", corpusRequestDto.getCorpuses());
     TextQueryMultiParamHelper textTypeHelper = new TextQueryMultiParamHelper("p4", "tekstityyp", corpusRequestDto.getTypes());
     TextQueryDisjunctionParamHelper studyLevelAndDegreeHelper = new TextQueryDisjunctionParamHelper("p11", "teaduskraad", "oppeaste");
+    TextQuerySingleParamHelper otherLangHelper = new TextQuerySingleParamHelper();
 
     if (isNotBlank(corpusRequestDto.getLanguage())) {
       singleParamHelpers.add(new TextQuerySingleParamHelper("p5", "tekstikeel", corpusRequestDto.getLanguage()));
@@ -166,26 +167,31 @@ public class TextService {
     if (isNotBlank(corpusRequestDto.getNativeLang())) {
       singleParamHelpers.add(new TextQuerySingleParamHelper("p12", "emakeel", corpusRequestDto.getNativeLang()));
     }
+    if (isNotBlank(corpusRequestDto.getOtherLang())) {
+      otherLangHelper.setTable("p13");
+      otherLangHelper.setParameter("muudkeeled");
+      otherLangHelper.setValue(corpusRequestDto.getOtherLang());
+    }
     if (isNotBlank(corpusRequestDto.getNationality())) {
-      singleParamHelpers.add(new TextQuerySingleParamHelper("p13", "kodakondsus", corpusRequestDto.getNationality()));
+      singleParamHelpers.add(new TextQuerySingleParamHelper("p14", "kodakondsus", corpusRequestDto.getNationality()));
     }
     if (isNotBlank(corpusRequestDto.getCountry())) {
-      singleParamHelpers.add(new TextQuerySingleParamHelper("p14", "elukoht", corpusRequestDto.getCountry()));
+      singleParamHelpers.add(new TextQuerySingleParamHelper("p15", "elukoht", corpusRequestDto.getCountry()));
     }
     if (corpusRequestDto.getAddedYears() != null) {
-      rangeParamBaseHelpers.add(createRangeBaseHelper("p15", "aasta", false, corpusRequestDto.getAddedYears()));
+      rangeParamBaseHelpers.add(createRangeBaseHelper("p16", "aasta", false, corpusRequestDto.getAddedYears()));
     }
     if (corpusRequestDto.getCharacters() != null) {
-      rangeParamBaseHelpers.add(createRangeBaseHelper("p16", "charCount", true, corpusRequestDto.getCharacters()));
+      rangeParamBaseHelpers.add(createRangeBaseHelper("p17", "charCount", true, corpusRequestDto.getCharacters()));
     }
     if (corpusRequestDto.getWords() != null) {
-      rangeParamBaseHelpers.add(createRangeBaseHelper("p17", "wordCount", true, corpusRequestDto.getWords()));
+      rangeParamBaseHelpers.add(createRangeBaseHelper("p18", "wordCount", true, corpusRequestDto.getWords()));
     }
     if (corpusRequestDto.getSentences() != null) {
-      rangeParamBaseHelpers.add(createRangeBaseHelper("p18", "sentenceCount", true, corpusRequestDto.getSentences()));
+      rangeParamBaseHelpers.add(createRangeBaseHelper("p19", "sentenceCount", true, corpusRequestDto.getSentences()));
     }
 
-    String daoResponse = textDao.detailedTextQueryByParameters(corpusHelper, textTypeHelper, singleParamHelpers, rangeParamBaseHelpers, studyLevelAndDegreeHelper);
+    String daoResponse = textDao.detailedTextQueryByParameters(corpusHelper, textTypeHelper, singleParamHelpers, rangeParamBaseHelpers, studyLevelAndDegreeHelper, otherLangHelper);
     return isNotBlank(daoResponse) ? daoResponse : new ArrayList<>().toString();
   }
 

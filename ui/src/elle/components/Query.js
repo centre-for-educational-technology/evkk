@@ -31,7 +31,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 function Query() {
 
-  const selectWidth = 250;
+  const selectWidth = 275;
   const classes = useStyles();
   const currentYear = new Date().getFullYear();
   const [expanded, setExpanded] = useState(true);
@@ -56,6 +56,7 @@ function Query() {
     studyLevel: '',
     degree: '',
     nativeLang: '',
+    otherLang: '',
     nationality: '',
     country: ''
   });
@@ -224,6 +225,7 @@ function Query() {
     } else {
       newSinglePropertyData.studyLevel = '';
       newSinglePropertyData.degree = '';
+      newSinglePropertyData.otherLang = '';
     }
 
     setSinglePropertyData(newSinglePropertyData);
@@ -770,6 +772,44 @@ function Query() {
                   </FormControl>
                 }
                 <br/><br/>
+                {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
+                  ? <>
+                    <FormControl size="small">
+                      <InputLabel id="otherLang-label">Muu õppe-, töö- või suhtluskeel</InputLabel>
+                      <Select
+                        sx={{minWidth: selectWidth}}
+                        labelId="otherLang-label"
+                        name="otherLang"
+                        value={singlePropertyData.otherLang}
+                        label="Muu õppe-, töö- või suhtluskeel"
+                        onClick={(e) => alterSinglePropertyData(e, "otherLang")}
+                      >
+                        <MenuItem value="eesti">eesti</MenuItem>
+                        <MenuItem value="vene">vene</MenuItem>
+                        <MenuItem value="soome">soome</MenuItem>
+                        <MenuItem value="saksa">saksa</MenuItem>
+                        <MenuItem value="ukraina">ukraina</MenuItem>
+                        <MenuItem value="valgevene">valgevene</MenuItem>
+                        <MenuItem value="lati">läti</MenuItem>
+                        <MenuItem value="leedu">leedu</MenuItem>
+                        <MenuItem value="rootsi">rootsi</MenuItem>
+                        <MenuItem value="inglise">inglise</MenuItem>
+                        <MenuItem value="jidis">jidiš</MenuItem>
+                        <MenuItem value="itaalia">itaalia</MenuItem>
+                        <MenuItem value="jaapani">jaapani</MenuItem>
+                        <MenuItem value="poola">poola</MenuItem>
+                        <MenuItem value="hollandi">hollandi</MenuItem>
+                        <MenuItem value="sloveenia">sloveenia</MenuItem>
+                        <MenuItem value="heebrea">heebrea</MenuItem>
+                        <MenuItem value="prantsuse">prantsuse</MenuItem>
+                        <MenuItem value="katalaani">katalaani</MenuItem>
+                        <MenuItem value="ungari">ungari</MenuItem>
+                        <MenuItem value="tsehhi">tšehhi</MenuItem>
+                      </Select>
+                    </FormControl>
+                    <br/><br/>
+                  </>
+                  : <></>}
                 <FormControl size="small">
                   <InputLabel id="country-label">Elukohariik</InputLabel>
                   <Select

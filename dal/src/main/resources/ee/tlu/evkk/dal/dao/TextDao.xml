@@ -57,6 +57,9 @@
       join core.text_property as ${studyLevelAndDegreeHelper.table} on p2.text_id =
       ${studyLevelAndDegreeHelper.table}.text_id
     </if>
+    <if test="otherLangHelper.table != null">
+      join core.text_property as ${otherLangHelper.table} on p2.text_id = ${otherLangHelper.table}.text_id
+    </if>
     where p2.property_name = 'title'
     and ${corpusHelper.table}.property_name = #{corpusHelper.parameter}
     and ${corpusHelper.table}.property_value in
@@ -79,6 +82,11 @@
         and ${studyLevelAndDegreeHelper.table}.property_value = #{studyLevelAndDegreeHelper.secondValue}
       </when>
     </choose>
+    <if test="otherLangHelper.table != null">
+      <bind name="likeValue" value="'%' + otherLangHelper.value + '%'"/>
+      and ${otherLangHelper.table}.property_name = #{otherLangHelper.parameter}
+      and ${otherLangHelper.table}.property_value like #{likeValue}
+    </if>
     <if test="textTypeHelper.values != null">
       and ${textTypeHelper.table}.property_name = #{textTypeHelper.parameter}
       and ${textTypeHelper.table}.property_value in

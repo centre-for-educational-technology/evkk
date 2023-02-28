@@ -3,7 +3,7 @@ import {makeStyles} from "@mui/styles";
 export const useStyles = makeStyles((_theme) => ({
   formControl: {
     margin: 1,
-    width: 250
+    width: 275
   },
   indeterminateColor: {
     color: "#f50057"
@@ -31,7 +31,7 @@ export const MenuProps = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 11.5 + ITEM_PADDING_TOP,
-      width: 250
+      width: 275
     }
   },
   anchorOrigin: {

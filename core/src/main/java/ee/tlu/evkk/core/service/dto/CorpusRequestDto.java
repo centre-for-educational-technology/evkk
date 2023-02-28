@@ -16,6 +16,7 @@ public class CorpusRequestDto {
   private String studyLevel;
   private String degree;
   private String nativeLang;
+  private String otherLang;
   private String nationality;
   private String country;
   private List<List<Integer>> addedYears;
@@ -157,5 +158,13 @@ public class CorpusRequestDto {
 
   public void setDegree(String degree) {
     this.degree = degree;
+  }
+
+  public String getOtherLang() {
+    return otherLang;
+  }
+
+  public void setOtherLang(String otherLang) {
+    this.otherLang = otherLang;
   }
 }
