@@ -53,12 +53,32 @@
         join core.text_property as ${rangeParamHelper.table} on p2.text_id = ${rangeParamHelper.table}.text_id
       </if>
     </foreach>
+    <if test="studyLevelAndDegreeHelper.firstValue != null or studyLevelAndDegreeHelper.secondValue != null">
+      join core.text_property as ${studyLevelAndDegreeHelper.table} on p2.text_id =
+      ${studyLevelAndDegreeHelper.table}.text_id
+    </if>
     where p2.property_name = 'title'
     and ${corpusHelper.table}.property_name = #{corpusHelper.parameter}
     and ${corpusHelper.table}.property_value in
     <foreach item="corpus" collection="corpusHelper.values" separator=", " open="(" close=")">
       #{corpus}
     </foreach>
+    <choose>
+      <when test="studyLevelAndDegreeHelper.firstValue != null and studyLevelAndDegreeHelper.secondValue != null">
+        and ((${studyLevelAndDegreeHelper.table}.property_name = #{studyLevelAndDegreeHelper.firstParameter}
+        and ${studyLevelAndDegreeHelper.table}.property_value = #{studyLevelAndDegreeHelper.firstValue})
+        or (${studyLevelAndDegreeHelper.table}.property_name = #{studyLevelAndDegreeHelper.secondParameter}
+        and ${studyLevelAndDegreeHelper.table}.property_value = #{studyLevelAndDegreeHelper.secondValue}))
+      </when>
+      <when test="studyLevelAndDegreeHelper.firstValue != null">
+        and ${studyLevelAndDegreeHelper.table}.property_name = #{studyLevelAndDegreeHelper.firstParameter}
+        and ${studyLevelAndDegreeHelper.table}.property_value = #{studyLevelAndDegreeHelper.firstValue}
+      </when>
+      <when test="studyLevelAndDegreeHelper.secondValue != null">
+        and ${studyLevelAndDegreeHelper.table}.property_name = #{studyLevelAndDegreeHelper.secondParameter}
+        and ${studyLevelAndDegreeHelper.table}.property_value = #{studyLevelAndDegreeHelper.secondValue}
+      </when>
+    </choose>
     <if test="textTypeHelper.values != null">
       and ${textTypeHelper.table}.property_name = #{textTypeHelper.parameter}
       and ${textTypeHelper.table}.property_value in

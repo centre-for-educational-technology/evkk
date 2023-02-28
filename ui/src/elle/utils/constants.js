@@ -88,7 +88,7 @@ export const corpuses = {
   'cYDRkpymb': 'K1 eesti keel',
   'cgSRJPKTr': 'K1 vene keel',
   'cZjHWUPtD': 'K3 vene keel',
-  'cwUSEqQLt': 'Akadeemiline kirjutamine'
+  'cwUSEqQLt': 'Akadeemiline eesti keel'
 };
 
 export const textTypes = {

@@ -13,6 +13,8 @@ public class CorpusRequestDto {
   private String age;
   private String gender;
   private String education;
+  private String studyLevel;
+  private String degree;
   private String nativeLang;
   private String nationality;
   private String country;
@@ -139,5 +141,21 @@ public class CorpusRequestDto {
 
   public void setNationality(String nationality) {
     this.nationality = nationality;
+  }
+
+  public String getStudyLevel() {
+    return studyLevel;
+  }
+
+  public void setStudyLevel(String studyLevel) {
+    this.studyLevel = studyLevel;
+  }
+
+  public String getDegree() {
+    return degree;
+  }
+
+  public void setDegree(String degree) {
+    this.degree = degree;
   }
 }

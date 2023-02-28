@@ -2,6 +2,7 @@ package ee.tlu.evkk.dal.dao;
 
 import ee.tlu.evkk.dal.dto.CorpusDownloadResponseDto;
 import ee.tlu.evkk.dal.dto.Text;
+import ee.tlu.evkk.dal.dto.TextQueryDisjunctionParamHelper;
 import ee.tlu.evkk.dal.dto.TextQueryMultiParamHelper;
 import ee.tlu.evkk.dal.dto.TextQueryRangeParamBaseHelper;
 import ee.tlu.evkk.dal.dto.TextQuerySingleParamHelper;
@@ -27,7 +28,7 @@ public interface TextDao {
 
   List<String> findTextIdAndTitleByCorpusId(@Param("corpusId") String korpusekood);
 
-  String detailedTextQueryByParameters(@Param("corpusHelper") TextQueryMultiParamHelper corpusHelper, @Param("textTypeHelper") TextQueryMultiParamHelper textTypeHelper, @Param("singleParamHelpers") List<TextQuerySingleParamHelper> singleParamHelpers, @Param("rangeParamHelpers") List<TextQueryRangeParamBaseHelper> rangeParamHelpers);
+  String detailedTextQueryByParameters(@Param("corpusHelper") TextQueryMultiParamHelper corpusHelper, @Param("textTypeHelper") TextQueryMultiParamHelper textTypeHelper, @Param("singleParamHelpers") List<TextQuerySingleParamHelper> singleParamHelpers, @Param("rangeParamHelpers") List<TextQueryRangeParamBaseHelper> rangeParamHelpers, @Param("studyLevelAndDegreeHelper") TextQueryDisjunctionParamHelper studyLevelAndDegreeHelper);
 
   String findDetailedValueByPropertyName(@Param("pValue") String[] pValue, @Param("pName") String pName, @Param("cId") String[] cId); // property value, name, corpus id
 

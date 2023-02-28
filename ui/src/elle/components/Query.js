@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -53,6 +53,8 @@ function Query() {
     age: '',
     gender: '',
     education: '',
+    studyLevel: '',
+    degree: '',
     nativeLang: '',
     nationality: '',
     country: ''
@@ -82,7 +84,7 @@ function Query() {
 
       Object.entries(singlePropertyData).forEach((entry) => {
         const [key, value] = entry;
-        if (value !== "") {
+        if (value !== '') {
           params[key] = value;
         }
       });
@@ -191,9 +193,6 @@ function Query() {
     if (!event.target.checked) {
       setTextTypes(textTypes.filter((type) => findNestedKeys(textTypesOptions[event.target.id], type).length === 0));
     }
-
-    // reset corpus-based filters
-    setSinglePropertyData({...singlePropertyData, nativeLang: '', nationality: ''});
   }
 
   const alterAllCorpusCheckboxes = (event) => {
@@ -207,10 +206,28 @@ function Query() {
     if (!event.target.checked) {
       setTextTypes([]);
     }
-
-    // reset corpus-based filters
-    setSinglePropertyData({...singlePropertyData, nativeLang: '', nationality: ''});
   }
+
+  // reset corpus-based filters
+  useEffect(() => {
+    let newSinglePropertyData = {...singlePropertyData};
+
+    if (checkIfOnlySpecificCorpusIsChecked('clWmOIrLa')) {
+      newSinglePropertyData.nativeLang = '';
+    } else {
+      newSinglePropertyData.nationality = '';
+    }
+
+    if (checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')) {
+      newSinglePropertyData.level = '';
+      newSinglePropertyData.education = '';
+    } else {
+      newSinglePropertyData.studyLevel = '';
+      newSinglePropertyData.degree = '';
+    }
+
+    setSinglePropertyData(newSinglePropertyData);
+  }, [corpusCheckboxStatus]);
 
   const alterSinglePropertyData = (event, fieldName) => {
     let newSinglePropertyData = {...singlePropertyData};
@@ -366,7 +383,7 @@ function Query() {
                 <Tooltip title="Sisaldab emakeelekõneleja ja eesti keelt teise keelena kasutava üliõpilase akadeemilise keelekasutuse näiteid (referaadid, seminaritööd, lõputööd jm)"
                          followCursor>
                   <label className="corpustitle">
-                    Akadeemiline kirjutamine
+                    Akadeemiline eesti keel
                   </label>
                 </Tooltip>
                 <br/>
@@ -450,28 +467,33 @@ function Query() {
                   </Select>
                 </FormControl>
                 <br/><br/>
-                <FormControl size="small">
-                  <InputLabel id="level-label">Teksti tase</InputLabel>
-                  <Select
-                    sx={{minWidth: selectWidth}}
-                    labelId="level-label"
-                    name="level"
-                    value={singlePropertyData.level}
-                    label="Teksti tase"
-                    onClick={(e) => alterSinglePropertyData(e, "level")}
-                  >
-                    <MenuItem value="A">A</MenuItem>
-                    <MenuItem value="B">B</MenuItem>
-                    <MenuItem value="C">C</MenuItem>
-                    <MenuItem value="A1">A1</MenuItem>
-                    <MenuItem value="A2">A2</MenuItem>
-                    <MenuItem value="B1">B1</MenuItem>
-                    <MenuItem value="B2">B2</MenuItem>
-                    <MenuItem value="C1">C1</MenuItem>
-                    <MenuItem value="C2">C2</MenuItem>
-                  </Select>
-                </FormControl>
-                <br/><br/>
+                {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
+                  ? <></>
+                  : <>
+                    <FormControl size="small">
+                      <InputLabel id="level-label">Teksti tase</InputLabel>
+                      <Select
+                        sx={{minWidth: selectWidth}}
+                        labelId="level-label"
+                        name="level"
+                        value={singlePropertyData.level}
+                        label="Teksti tase"
+                        onClick={(e) => alterSinglePropertyData(e, "level")}
+                      >
+                        <MenuItem value="A">A</MenuItem>
+                        <MenuItem value="B">B</MenuItem>
+                        <MenuItem value="C">C</MenuItem>
+                        <MenuItem value="A1">A1</MenuItem>
+                        <MenuItem value="A2">A2</MenuItem>
+                        <MenuItem value="B1">B1</MenuItem>
+                        <MenuItem value="B2">B2</MenuItem>
+                        <MenuItem value="C1">C1</MenuItem>
+                        <MenuItem value="C2">C2</MenuItem>
+                      </Select>
+                    </FormControl>
+                    <br/><br/>
+                  </>
+                }
                 <FormControl size="small">
                   <InputLabel id="usedMaterials-label">Kasutatud õppematerjale</InputLabel>
                   <Select
@@ -622,22 +644,56 @@ function Query() {
                   </Select>
                 </FormControl>
                 <br/><br/>
-                <FormControl size="small">
-                  <InputLabel id="education-label">Haridus</InputLabel>
-                  <Select
-                    sx={{minWidth: selectWidth}}
-                    labelId="education-label"
-                    name="education"
-                    value={singlePropertyData.education}
-                    label="Haridus"
-                    onClick={(e) => alterSinglePropertyData(e, "education")}
-                  >
-                    <MenuItem value="Alg-/põhiharidus,alg,pohi">algharidus/põhiharidus</MenuItem>
-                    <MenuItem value="Keskharidus,kesk">keskharidus</MenuItem>
-                    <MenuItem value="Keskeriharidus/kutseharidus,keskeri,kutse">keskeriharidus/kutseharidus</MenuItem>
-                    <MenuItem value="Kõrgharidus,korg">kõrgharidus</MenuItem>
-                  </Select>
-                </FormControl>
+                {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
+                  ? <>
+                    <FormControl size="small">
+                      <InputLabel id="studyLevel-label">Õppeaste</InputLabel>
+                      <Select
+                        sx={{minWidth: selectWidth}}
+                        labelId="studyLevel-label"
+                        name="studyLevel"
+                        value={singlePropertyData.studyLevel}
+                        label="Õppeaste"
+                        onClick={(e) => alterSinglePropertyData(e, "studyLevel")}
+                      >
+                        <MenuItem value="bakalaureuseope">Bakalaureuseõpe</MenuItem>
+                        <MenuItem value="magistriope">Magistriõpe</MenuItem>
+                        <MenuItem value="doktoriope">Doktoriõpe</MenuItem>
+                      </Select>
+                    </FormControl>
+                    <br/><br/>
+                    <FormControl size="small">
+                      <InputLabel id="degree-label">Teaduskraad</InputLabel>
+                      <Select
+                        sx={{minWidth: selectWidth}}
+                        labelId="degree-label"
+                        name="degree"
+                        value={singlePropertyData.degree}
+                        label="Teaduskraad"
+                        onClick={(e) => alterSinglePropertyData(e, "degree")}
+                      >
+                        <MenuItem value="ba">Bakalaureusekraad</MenuItem>
+                        <MenuItem value="ma">Magistrikraad</MenuItem>
+                        <MenuItem value="phd">Doktorikraad</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </>
+                  : <FormControl size="small">
+                    <InputLabel id="education-label">Haridus</InputLabel>
+                    <Select
+                      sx={{minWidth: selectWidth}}
+                      labelId="education-label"
+                      name="education"
+                      value={singlePropertyData.education}
+                      label="Haridus"
+                      onClick={(e) => alterSinglePropertyData(e, "education")}
+                    >
+                      <MenuItem value="Alg-/põhiharidus,alg,pohi">algharidus/põhiharidus</MenuItem>
+                      <MenuItem value="Keskharidus,kesk">keskharidus</MenuItem>
+                      <MenuItem value="Keskeriharidus/kutseharidus,keskeri,kutse">keskeriharidus/kutseharidus</MenuItem>
+                      <MenuItem value="Kõrgharidus,korg">kõrgharidus</MenuItem>
+                    </Select>
+                  </FormControl>}
                 <br/><br/>
                 {checkIfOnlySpecificCorpusIsChecked('clWmOIrLa')
                   ? <FormControl size="small">
