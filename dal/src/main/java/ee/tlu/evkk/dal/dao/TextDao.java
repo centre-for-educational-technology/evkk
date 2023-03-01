@@ -1,8 +1,11 @@
 package ee.tlu.evkk.dal.dao;
 
+import ee.tlu.evkk.dal.dto.CorpusDownloadResponseDto;
 import ee.tlu.evkk.dal.dto.Text;
-import ee.tlu.evkk.dal.dto.TextQueryCountsHelper;
-import ee.tlu.evkk.dal.dto.TextQueryHelper;
+import ee.tlu.evkk.dal.dto.TextQueryDisjunctionParamHelper;
+import ee.tlu.evkk.dal.dto.TextQueryMultiParamHelper;
+import ee.tlu.evkk.dal.dto.TextQueryRangeParamBaseHelper;
+import ee.tlu.evkk.dal.dto.TextQuerySingleParamHelper;
 import ee.tlu.evkk.dal.jdbc.SqlArray;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -21,21 +24,25 @@ public interface TextDao {
 
   String findTextMetadata(@Param("textId") UUID textId);
 
-  List<String> findTextIDsByCorpusID(@Param("corpusId") String korpusekood);
+  List<String> findTextIdsByCorpusId(@Param("corpusId") String korpusekood);
 
-  List<String> findTextIDandTitleByCorpusID(@Param("corpusId") String korpusekood);
+  List<String> findTextIdAndTitleByCorpusId(@Param("corpusId") String korpusekood);
 
-  String textTitleQueryByParameters(@Param("helperid") TextQueryHelper[] helperid, @Param("loendurHelperid") TextQueryCountsHelper[] loendurHelperid);
+  String detailedTextQueryByParameters(@Param("multiParamHelpers") List<TextQueryMultiParamHelper> multiParamHelpers, @Param("singleParamHelpers") List<TextQuerySingleParamHelper> singleParamHelpers, @Param("rangeParamHelpers") List<TextQueryRangeParamBaseHelper> rangeParamHelpers, @Param("studyLevelAndDegreeHelper") TextQueryDisjunctionParamHelper studyLevelAndDegreeHelper, @Param("otherLangHelper") TextQuerySingleParamHelper otherLangHelper, @Param("usedMultiMaterialsHelper") TextQueryMultiParamHelper usedMultiMaterialsHelper);
 
-  String findDetailedValueByPropertyName(@Param("pValue") String pValue[], @Param("pName") String pName, @Param("cId") String[] cId); // property value, name, corpus id
+  String findDetailedValueByPropertyName(@Param("pValue") String[] pValue, @Param("pName") String pName, @Param("cId") String[] cId); // property value, name, corpus id
 
   String findValueByPropertyName(@Param("cId") String cId); // corpus id
 
-  String findMiniStats(@Param("cId") String cId[]); // corpus id
+  String findMiniStats(@Param("cId") String[] cId); // corpus id
 
   String findAvailableValues(@Param("pName") String pName); // selected filter
 
   List<String> findTextsByCorpusId(@Param("corpusId") String corpusId);
+
+  List<CorpusDownloadResponseDto> findTextContentsAndTitlesByIds(@Param("ids") List<UUID> ids);
+
+  List<CorpusDownloadResponseDto> findTextTitlesAndContentsWithStanzaTaggingByIds(@Param("ids") List<UUID> ids, @Param("type") String type);
 
   Optional<Text> findById(@Param("id") UUID id);
 

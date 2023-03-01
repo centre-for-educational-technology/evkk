@@ -11,6 +11,7 @@ export const TRANSLATIONS_ET = {
   common_syllables: "Silbid",
   common_words_in_text: "Tekstisõnad",
   common_wordtype: "Sõnaliik",
+  error_generic_server_error: "Toiming ebaõnnestus! Proovi hiljem uuesti.",
   error_no_text: "Analüüsimiseks sisesta esmalt tekst!",
   error_text_too_long: "Tekst on analüüsi kuvamiseks liiga pikk!",
   exit: "LÕPETA",
@@ -23,6 +24,13 @@ export const TRANSLATIONS_ET = {
   lemmas_header_wordforms: "Sõnavormid",
   pagination_go_to_page: "Mine lehele:",
   pagination_page: "Leht",
+  query_download_basictext: "Lihttekstina",
+  query_download_form: "Vorming",
+  query_download_stanza: "Stanza märgendusega",
+  query_download_tei: "TEI-märgendusega",
+  query_download_txt: "Ühe failina",
+  query_download_vislcg3: "VISLCG3 märgendusega",
+  query_download_zip: "ZIP failina",
   reset_button: "Lähtesta",
   syllables_beginning: "algus",
   syllables_end: "lõpp",
@@ -43,6 +51,6 @@ export const TRANSLATIONS_ET = {
   textupload_title: "Vali tekst",
   textupload_upload: "Laadi failid üles",
   wordinfo_title: "Sõnaanalüüs",
-  wordinfo_word: "Sõna",
-  wordinfo_tutorial_text: "Sõnadel klõpsates ilmub siia valitud sõna grammatiline info."
+  wordinfo_tutorial_text: "Sõnadel klõpsates ilmub siia valitud sõna grammatiline info.",
+  wordinfo_word: "Sõna"
 };

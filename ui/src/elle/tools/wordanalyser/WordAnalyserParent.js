@@ -49,7 +49,7 @@ export default function WordAnalyserParent() {
   const [tabValue, setTabValue] = useState(0);
 
   return (
-    <>
+    <div style={{marginTop: "5vh"}}>
       <SetWordContext.Provider value={setWordValue}>
         <WordContext.Provider value={wordValue}>
           <FormContext.Provider value={formValue}>
@@ -122,6 +122,6 @@ export default function WordAnalyserParent() {
           </FormContext.Provider>
         </WordContext.Provider>
       </SetWordContext.Provider>
-    </>
+    </div>
   );
 }

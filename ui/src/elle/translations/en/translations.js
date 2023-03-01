@@ -11,6 +11,7 @@ export const TRANSLATIONS_EN = {
   common_syllables: "Syllables",
   common_words_in_text: "Words in text",
   common_wordtype: "Part of speech",
+  error_generic_server_error: "Operation failed! Try again later.",
   error_no_text: "Enter text to run analysis!",
   error_text_too_long: "The text is too long for analysis!",
   exit: "EXIT",
@@ -23,6 +24,13 @@ export const TRANSLATIONS_EN = {
   lemmas_header_wordforms: "Word forms",
   pagination_go_to_page: "Go to page:",
   pagination_page: "Page",
+  query_download_basictext: "Text only",
+  query_download_form: "Format",
+  query_download_stanza: "Stanza tagging",
+  query_download_tei: "TEI-tagging",
+  query_download_txt: "Single file",
+  query_download_vislcg3: "VISLCG3 tagging",
+  query_download_zip: "ZIP file",
   reset_button: "Reset",
   syllables_beginning: "beginning",
   syllables_end: "end",
@@ -43,6 +51,6 @@ export const TRANSLATIONS_EN = {
   textupload_title: "Choose text",
   textupload_upload: "Upload files",
   wordinfo_title: "Word analysis",
-  wordinfo_word: "Word",
-  wordinfo_tutorial_text: "Clicking on a word will display the grammatical info of the word."
+  wordinfo_tutorial_text: "Clicking on a word will display the grammatical info of the word.",
+  wordinfo_word: "Word"
 };

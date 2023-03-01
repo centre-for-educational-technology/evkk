@@ -14,7 +14,6 @@ import {
 } from '@mui/material'
 import TextUpload from '../tools/wordanalyser/textupload/TextUpload';
 
-
 class Adding extends Component {
 
   constructor(props) {
@@ -96,22 +95,7 @@ class Adding extends Component {
   }
 
   sendTextFromFile(tekst) {
-    //console.log(tekst);
     this.setState({sisu: tekst});
-  }
-
-  readFile() {
-    let oData = new FormData(this.formDataElement.current);
-    const request_test = {
-      method: "POST",
-      body: oData
-    }
-
-    fetch("/api/textfromfile", request_test)
-      .then(response => response.text())
-      .then(data => {
-        this.setState({sisu: data});
-      });
   }
 
   render() {
@@ -418,9 +402,9 @@ class Adding extends Component {
                               onChange={this.handleChange}
                       >
                         <MenuItem value={""}></MenuItem>
-                        <MenuItem value={"tolkesõnastik"}>Tõlkesõnastik/masintõlge</MenuItem>
+                        <MenuItem value={"tolkesonastik"}>Tõlkesõnastik/masintõlge</MenuItem>
                         <MenuItem value={"ykskeelnesonastik"}>Ükskeelne sõnastik (k.a. veebisõnastikud)</MenuItem>
-                        <MenuItem value={"terminisonastik"}>Erialane teriminisõnastik või -baas</MenuItem>
+                        <MenuItem value={"terminisonastik"}>Erialane terminisõnastik või -baas</MenuItem>
                         <MenuItem value={"kasiraamat"}>Erialane käsiraamat või teatmik</MenuItem>
                         <MenuItem value={"automaatkontroll"}>Automaatkontroll</MenuItem>
                         <MenuItem value={"muu"}>Muu</MenuItem>

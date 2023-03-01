@@ -4,7 +4,7 @@ import './styles/Syllables.css';
 import TablePagination from "./TablePagination";
 import {useTranslation} from "react-i18next";
 import "../../translations/i18n";
-import DownloadButton from "./DownloadButton";
+import TableDownloadButton from "./TableDownloadButton";
 import {v4 as uuidv4} from 'uuid';
 import {AnalyseContext, SetSyllableContext, SetSyllableWordContext} from "./Contexts";
 import {Box} from "@mui/material";
@@ -295,8 +295,8 @@ function Syllables() {
           // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [])}
 
-        <DownloadButton data={infoListNew}
-                        headers={tableToDownload}/>
+        <TableDownloadButton data={infoListNew}
+                             headers={tableToDownload}/>
 
         <table className="analyserTable" {...getTableProps()}
                style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>

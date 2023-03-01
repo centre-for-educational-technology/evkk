@@ -9,7 +9,7 @@ import {useTranslation} from "react-i18next";
 import "../../translations/i18n";
 import './styles/DownloadButton.css';
 
-export default function DownloadButton({data, headers}) {
+export default function TableDownloadButton({data, headers}) {
 
   const {t} = useTranslation();
   const ExcelFile = ReactExport.ExcelFile;
@@ -229,12 +229,11 @@ export default function DownloadButton({data, headers}) {
                ref={fileDownloadElement}>
             <FormControl id="formId"
                          fullWidth>
-              <InputLabel id="demo-simple-select-label">{t("common_download")}</InputLabel>
+              <InputLabel>{t("common_download")}</InputLabel>
               <Select
-                labelId="demo-simple-select-label"
-                id="simple-select"
                 size="medium"
                 className='selectElement'
+                label={t("common_download")}
                 defaultValue='Excel'
               >
                 <MenuItem value="Excel"
