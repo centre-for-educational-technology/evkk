@@ -42,12 +42,17 @@ function Syllables() {
   const tableToDownload = [t("syllables_header_syllable"), t("syllables_table_beginning"), t("syllables_table_middle"), t("syllables_table_end"), t("common_words_in_text"), t("common_header_frequency"), t("common_header_percentage")];
 
   function multiSelectFilter(rows, columnIds, filterValue) {
+    console.log(rows)
+    console.log(filterValue)
+    console.log(columnIds)
     return filterValue.length === 0
       ? rows
       : rows.filter((row) =>
-        filterValue.includes(String(row.original[columnIds])),
+        filterValue.some(substring => row.values[columnIds].includes(substring))
       );
   }
+
+
 
   function multiSelect(values, label, column) {
 
@@ -58,7 +63,8 @@ function Syllables() {
       setValue(
         value
       )
-      console.log(value);
+
+      console.log(value)
 
       setAppliedFilters(value)
 
@@ -345,6 +351,7 @@ function Syllables() {
     setFilter,
     state: {pageIndex, pageSize}
   } = tableInstance;
+
 
   function AppliedFilters() {
     if (filtersInUse !== []) {
