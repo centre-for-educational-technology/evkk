@@ -13,6 +13,7 @@ import {
   Typography
 } from '@mui/material'
 import TextUpload from '../tools/wordanalyser/textupload/TextUpload';
+import "../components/styles/Adding.css"
 
 class Adding extends Component {
 
@@ -100,21 +101,20 @@ class Adding extends Component {
 
   render() {
     return (
-      <div className={'container'}>
-        <div style={{textAlign: "center"}}>
+      <div className='container'>
+        <div style={{width: "100%", textAlign: "center"}}>
           <Typography variant="h5"><strong>Lisa uus tekst</strong></Typography>
         </div>
 
         <form onSubmit={this.handleSubmit}
               id="f1"
               ref={this.formDataElement}>
-          <Grid container
-                columns={12}>
-            <Grid container
-                  item
-                  xs={6}
-                  direction="column"
-                  style={{padding: "20px"}}>
+          <Grid container>
+            <Grid
+              item
+              xs={6}
+              direction="column"
+              style={{padding: "20px"}}>
               <Grid item>
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
                       rel="stylesheet"/>
@@ -124,12 +124,13 @@ class Adding extends Component {
                 <TextUpload sendTextFromFile={this.sendTextFromFile}/>
 
               </Grid>
-              <Grid item>
-                <Typography><strong>Pealkiri *</strong></Typography>
+              <Grid item xs={2}>
                 <div>
                   <TextField required
                              multiline
-                             label="Kirjuta siia teksti pealkiri"
+                             size="small"
+                             helperText="Kirjuta siia teksti pealkiri"
+                             label="Pealkiri"
                              variant="outlined"
                              name="pealkiri"
                              value={this.state.pealkiri}
@@ -137,27 +138,27 @@ class Adding extends Component {
                              style={{width: "75%"}}></TextField>
                 </div>
                 {this.state.avalikkusValik === "avalik" && <div>
-                  <Typography style={{paddingTop: 10}}><strong>Ülesande kirjeldus</strong></Typography>
                   <TextField multiline
-                             rows={4}
-                             label="Kirjuta siia ülesande kirjeldus"
+                             rows={2}
+                             helperText="Kirjuta siia ülesande kirjeldus"
+                             label="Ülesande kirjeldus"
                              variant="outlined"
                              name="kirjeldus"
                              value={this.state.kirjeldus}
                              onChange={this.handleChange}
-                             style={{width: "75%"}}></TextField>
+                             style={{width: "75%", marginTop: 20}}></TextField>
                 </div>}
                 <div>
-                  <Typography style={{paddingTop: 10}}><strong>Tekst *</strong></Typography>
                   <TextField required
                              multiline
-                             rows={20}
-                             label="Laadi tekst üles või kirjuta see siia tekstikasti"
+                             rows={10}
+                             helperText="Laadi tekst üles või kirjuta see siia tekstikasti"
+                             label="Tekst"
                              variant="outlined"
                              name="sisu"
                              value={this.state.sisu}
                              onChange={this.handleChange}
-                             style={{width: "75%"}}></TextField>
+                             style={{width: "100%", marginTop: 20}}></TextField>
                 </div>
               </Grid>
             </Grid>
@@ -174,7 +175,7 @@ class Adding extends Component {
                 >
                   <FormControlLabel value="privaatne"
                                     control={<Radio/>}
-                                    label="Hoia privaatsena" disabled/>
+                                    label="Hoia privaatsena"/>
                   <FormControlLabel value="avalik"
                                     control={<Radio/>}
                                     label="Avalikusta"/>
@@ -182,7 +183,7 @@ class Adding extends Component {
               </Grid>
               {this.state.avalikkusValik === "avalik" && <>
                 <Grid>
-                  <FormControl>
+                  <FormControl size="small" className="form-control">
                     <InputLabel>Tekst</InputLabel>
                     <Select
                       name="liik"
@@ -197,13 +198,13 @@ class Adding extends Component {
                 </Grid>
                 {this.state.liik === "akadeemiline" && <Grid>
                   <Grid>
-                    <FormControl sx={{m: 1, minWidth: 240}}>
-                      <InputLabel id="valdkond-select-label">Valdkond *</InputLabel>
+                    <FormControl size="small" className="form-control" sx={{mt: 1, minWidth: 240}}>
+                      <InputLabel id="valdkond-select-label">Valdkond</InputLabel>
                       <Select
+                        label="Valdkond"
                         labelId="valdkond-select-label"
                         name="autoriEriala"
                         value={this.state.autoriEriala}
-                        label="Valdkond *"
                         onChange={this.handleChange}
                         required
                       >
@@ -216,7 +217,7 @@ class Adding extends Component {
                   </Grid>
                 </Grid>}
                 {this.state.liik === "mitteakadeemiline" && <Grid>
-                  <FormControl sx={{m: 1, minWidth: 240}}>
+                  <FormControl sx={{mt: 1, minWidth: 240}}>
                     <InputLabel id="mitteakad-alamliik-select-label">Tekstiliik</InputLabel>
                     <Select
                       labelId="mitteakad-alamliik-select-label"
@@ -259,7 +260,7 @@ class Adding extends Component {
                   </FormControl>
                 </Grid>}
                 {this.state.liik === "akadeemiline" && <Grid>
-                  <FormControl sx={{m: 1, minWidth: 240}}>
+                  <FormControl className="form-control" size="small" sx={{mt: 1, minWidth: 240}}>
                     <InputLabel id="akad-kategooria-select-label">Kategooria</InputLabel>
                     <Select
                       labelId="akad-kategooria-select-label"
@@ -378,7 +379,7 @@ class Adding extends Component {
 
                 }
                 <Grid>
-                  <FormControl sx={{m: 1, minWidth: 240}}>
+                  <FormControl className="form-control" size="small" sx={{mt: 1, minWidth: 240}}>
                     <InputLabel id="sugu-materjalid-label">Kasutatud õppe- või abimaterjale</InputLabel>
                     <Select
                       labelId="sugu-materjalid-label"
