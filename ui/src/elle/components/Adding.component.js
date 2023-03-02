@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import {
   Button,
+  Checkbox,
   FormControl,
   FormControlLabel,
   Grid,
   InputLabel,
+  ListItemIcon,
   MenuItem,
   Radio,
   RadioGroup,
@@ -60,9 +62,9 @@ class Adding extends Component {
   kuvaTingimused() {
     alert("LUBA\n" +
       "Luban kasutada oma teksti ja taustaandmeid õppejõududel ja üliõpilastel, " +
-      "õpetajatel ja õppijatel, teadustöötajatel ja tarkvaraarendajatel erialase töö ning" +
+      "õpetajatel ja õppijatel, teadustöötajatel ja tarkvaraarendajatel erialase töö ning " +
       "keeleõppe vajadustel. \n" +
-      "Isikuandmed on eemaldatud, autorit pole andmebaasis märgitud. Kui korpusesse soovitakse" +
+      "Isikuandmed on eemaldatud, autorit pole andmebaasis märgitud. Kui korpusesse soovitakse " +
       "lisada avalikult kättesaadav tekst, siis tuleb järgida väljaande litsentsitingimusi. Kõik " +
       "autoriõigused on tagatud. ");
   }
@@ -91,7 +93,8 @@ class Adding extends Component {
   }
 
   taastaVormiSisu() {
-    this.setState(this.previous);
+    this.setState(this.previous, () => this.setState(
+      {"pealkiri": "", "kirjeldus": "", "sisu": "", "ennistusnupp": false}));
   }
 
   sendTextFromFile(tekst) {
@@ -391,7 +394,7 @@ class Adding extends Component {
                       <MenuItem value={"ei"}>ei</MenuItem>
                     </Select>
                   </FormControl>
-                  {this.state.oppematerjal === "jah" && this.state.liik === "akadeemiline" && <><Grid>
+                  {this.state.oppematerjal === "jah" && <><Grid>
                     <FormControl sx={{m: 1, minWidth: 240}}>
                       <InputLabel>Abimaterjal</InputLabel>
                       <Select multiple
@@ -402,12 +405,21 @@ class Adding extends Component {
                               onChange={this.handleChange}
                       >
                         <MenuItem value={""}></MenuItem>
-                        <MenuItem value={"tolkesonastik"}>Tõlkesõnastik/masintõlge</MenuItem>
-                        <MenuItem value={"ykskeelnesonastik"}>Ükskeelne sõnastik (k.a. veebisõnastikud)</MenuItem>
-                        <MenuItem value={"terminisonastik"}>Erialane terminisõnastik või -baas</MenuItem>
-                        <MenuItem value={"kasiraamat"}>Erialane käsiraamat või teatmik</MenuItem>
-                        <MenuItem value={"automaatkontroll"}>Automaatkontroll</MenuItem>
-                        <MenuItem value={"muu"}>Muu</MenuItem>
+                        <MenuItem value={"tolkesonastik"}><ListItemIcon><Checkbox id={"cbtolkesonastik"}
+                                                                                  checked={this.state.akadOppematerjal.indexOf("tolkesonastik") > -1}></Checkbox></ListItemIcon> Tõlkesõnastik/masintõlge</MenuItem>
+                        <MenuItem value={"ykskeelnesonastik"}><ListItemIcon><Checkbox id={"cbykskeelnesonastik"}
+                                                                                      checked={this.state.akadOppematerjal.indexOf("ykskeelnesonastik") > -1}></Checkbox></ListItemIcon> Ükskeelne
+                          sõnastik (k.a. veebisõnastikud)</MenuItem>
+                        <MenuItem value={"terminisonastik"}><ListItemIcon><Checkbox id={"cbterminisonastik"}
+                                                                                    checked={this.state.akadOppematerjal.indexOf("terminisonastik") > -1}></Checkbox></ListItemIcon> Erialane
+                          terminisõnastik või -baas</MenuItem>
+                        <MenuItem value={"kasiraamat"}><ListItemIcon><Checkbox id={"cbkasiraamat"}
+                                                                               checked={this.state.akadOppematerjal.indexOf("kasiraamat") > -1}></Checkbox></ListItemIcon> Erialane
+                          käsiraamat või teatmik</MenuItem>
+                        <MenuItem value={"automaatkontroll"}><ListItemIcon><Checkbox id={"cbautomaatkontroll"}
+                                                                                     checked={this.state.akadOppematerjal.indexOf("automaatkontroll") > -1}></Checkbox></ListItemIcon> Automaatkontroll</MenuItem>
+                        <MenuItem value={"muu"}><ListItemIcon><Checkbox id={"cbmuu"}
+                                                                        checked={this.state.akadOppematerjal.indexOf("muu") > -1}></Checkbox></ListItemIcon> Muu</MenuItem>
                       </Select>
                     </FormControl>
                   </Grid>
