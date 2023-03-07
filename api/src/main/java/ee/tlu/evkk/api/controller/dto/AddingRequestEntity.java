@@ -10,9 +10,14 @@ public class AddingRequestEntity {
   private String sisu;
   private String liik;
   private String oppematerjal;
-  private String akadOppematerjal;
+  private String[] akadOppematerjal;
+  private String akadOppematerjalMuu;
   private String mitteakadAlamliik;
   private String akadAlamliik;
+  private String artikkelValjaanne;
+  private String artikkelAasta;
+  private String artikkelNumber;
+  private String artikkelLehekyljed;
   private String tekstiAutor;
   private String autoriVanus;
   private String autoriSugu;
@@ -22,6 +27,8 @@ public class AddingRequestEntity {
   private String autoriEriala;
   private String autoriEmakeel;
   private String autoriMuudKeeled;
+
+  private String muukeel;
   private String autoriElukohariik;
   private String elukohariikMuu;
 
@@ -65,12 +72,17 @@ public class AddingRequestEntity {
     this.oppematerjal = oppematerjal;
   }
 
-  public String getAkadOppematerjal() {
+  public String[] getAkadOppematerjal() {
     return akadOppematerjal;
   }
 
-  public void setAkadOppematerjal(String akadOppematerjal) {
+  public void setAkadOppematerjal(String[] akadOppematerjal) {
     this.akadOppematerjal = akadOppematerjal;
+  }
+
+  public String getAkadOppematerjalMuu(){return akadOppematerjalMuu;}
+  public void setAkadOppematerjalMuu(String akadOppematerjalMuu){
+    this.akadOppematerjalMuu=akadOppematerjalMuu;
   }
 
   public String getMitteakadAlamliik() {
@@ -88,6 +100,39 @@ public class AddingRequestEntity {
   public void setAkadAlamliik(String akadAlamliik) {
     this.akadAlamliik = akadAlamliik;
   }
+
+  public String getArtikkelValjaanne(){
+    return artikkelValjaanne;
+  }
+
+  public void setArtikkelValjaanne(String artikkelValjaanne){
+    this.artikkelValjaanne=artikkelValjaanne;
+  }
+
+  public String getArtikkelAasta(){
+    return artikkelAasta;
+  }
+
+  public void setArtikkelAasta(String artikkelAasta){
+    this.artikkelAasta=artikkelAasta;
+  }
+
+  public String getArtikkelNumber(){
+    return artikkelNumber;
+  }
+
+  public void setArtikkelNumber(String artikkelNumber){
+    this.artikkelNumber=artikkelNumber;
+  }
+
+  public String getArtikkelLehekyljed(){
+    return artikkelLehekyljed;
+  }
+
+  public void setArtikkelLehekyljed(String artikkelLehekyljed){
+    this.artikkelLehekyljed=artikkelLehekyljed;
+  }
+
 
   public String getTekstiAutor() {
     return tekstiAutor;
@@ -151,6 +196,11 @@ public class AddingRequestEntity {
 
   public void setAutoriMuudKeeled(String autoriMuudKeeled) {
     this.autoriMuudKeeled = autoriMuudKeeled;
+  }
+
+  public String getMuukeel(){return muukeel;}
+  public void setMuukeel(String muukeel){
+    this.muukeel=muukeel;
   }
 
   public String getAutoriElukohariik() {

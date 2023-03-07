@@ -4,7 +4,7 @@ import {WordInfo} from './WordInfo';
 import {v4 as uuidv4} from 'uuid';
 import './styles/WordAnalyser.css';
 import TextUpload from './textupload/TextUpload';
-import {Alert, Box, Grid} from '@mui/material';
+import {Alert, Box, Fade, Grid, IconButton, Typography} from '@mui/material';
 import {useTranslation} from "react-i18next";
 import "../../translations/i18n";
 import i18n from "i18next";
@@ -18,9 +18,10 @@ import {
   TypeContext,
   WordContext
 } from "./Contexts";
+import CloseIcon from '@mui/icons-material/Close';
 
 function WordAnalyser() {
-  const [analysedInput, setAnalysedInput] = useContext(AnalyseContext)
+  const [analysedInput, setAnalysedInput] = useContext(AnalyseContext);
   const [showResults, setShowResults] = useState(false);
   const [selectedWords, setSelectedWords] = useState(['']);
   const [wordInfo, setWordInfo] = useState('');
@@ -32,8 +33,10 @@ function WordAnalyser() {
   const syllable = useContext(SyllableContext);
   const syllableWord = useContext(SyllableWordContext);
   const lemma = useContext(LemmaContext);
-
   const {t} = useTranslation();
+  const [open, setOpen] = useState(false);
+  const [border, setBorder] = useState(0);
+
   //get words
   const getWords = async (input) => {
     const response = await fetch("/api/texts/sonad", {
@@ -43,9 +46,10 @@ function WordAnalyser() {
       },
       body: JSON.stringify({tekst: input}),
     });
-    const data = await response.json();
 
+    const data = await response.json();
     let newData = [];
+
     for (const element of data) {
       if (element) {
         let item = element.replace(/['*]+/g, '');
@@ -152,8 +156,6 @@ function WordAnalyser() {
 
     for (let i = 0; i < rawLemmas.length; i++) {
       let word = analysedWordsOrig[i];
-      // remove "–" symbols before syllabifying, otherwise it crashes
-      // replace "_" with "-" because syllabifier doesn't recognize compound words and stanza puts "_" symbol between compound words (when lemmatizing), so the problem can be fixed with this little hack
       if (rawLemmas[i].includes('_')) {
         let index = rawLemmas[i].indexOf('_');
         syllableReadyWords += [word.slice(0, index), '-', word.slice(index)].join('').replaceAll("–", "") + " ";
@@ -393,7 +395,6 @@ function WordAnalyser() {
       type: analysedInput.wordtypes[index],
       form: analysedInput.wordforms[index],
     }
-
     setWordInfo(wordInfoObj);
   }
 
@@ -420,13 +421,52 @@ function WordAnalyser() {
 
   return (
     <Box component='section'
-         className="container">
+         className="container"
+         paddingTop={"20px"}
+         border={border}
+         borderColor={"#E1F5FE"}
+         borderRadius={10}
+    >
+      <Fade in={open}>
+      <Box
+        paddingX={"10px"}
+        width={"65%"}
+        borderRadius={5}
+        bgcolor={"#E1F5FE"}
+      marginTop={"-50px"}
+      marginLeft={"auto"}
+      marginRight={"auto"}
+      >
+        <Alert
+          severity={"info"}
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setOpen(false);
+                setBorder(0)
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          <Typography color={"#1A237E"} ><strong>Vasakus kastis sõnadel klõpastes ilmub paremale info antud sõna kohta</strong></Typography>
+        </Alert>
+      </Box>
+      </Fade>
       <Grid container
             columnSpacing={{xs: 0, md: 4}}>
         <Grid item
               xs={12}
               md={12}>
-          <TextUpload sendTextFromFile={sendTextFromFile}/>
+          <Box display={"flex"}
+          justifyContent={"flex-start"}>
+            <Box><TextUpload sendTextFromFile={sendTextFromFile}/></Box>
+          </Box>
         </Grid>
         <Grid item
               xs={12}
