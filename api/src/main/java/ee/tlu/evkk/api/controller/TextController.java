@@ -12,6 +12,7 @@ import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.service.TextService;
 import ee.tlu.evkk.core.service.dto.CorpusDownloadDto;
 import ee.tlu.evkk.core.service.dto.CorpusRequestDto;
+import ee.tlu.evkk.core.service.dto.CorpusTextContentsDto;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.Pageable;
@@ -61,6 +62,11 @@ public class TextController {
   @GetMapping("/kysitekst")
   public String kysiTekst(String id) {
     return textDao.findTextById(UUID.fromString(id));
+  }
+
+  @GetMapping("/kysitekstid")
+  public String kysiTekstid(@RequestBody CorpusTextContentsDto dto) {
+    return textDao.findTextsByIds(dto.getIds());
   }
 
   @GetMapping("/kysitekstimetainfo")
@@ -183,9 +189,9 @@ public class TextController {
     lisaTekstiOmadus(kood, "kirjeldus", andmed.getKirjeldus());
     lisaTekstiOmadus(kood, "tekstityyp", andmed.getLiik());
     if (andmed.getOppematerjal().equals("jah")) {
-      String[] m=andmed.getAkadOppematerjal();
-      if(m!=null){
-        for(int i=0; i<m.length; i++){
+      String[] m = andmed.getAkadOppematerjal();
+      if (m != null) {
+        for (int i = 0; i < m.length; i++) {
           lisaTekstiOmadus(kood, "akad_oppematerjal", m[i]);
         }
       }

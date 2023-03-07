@@ -29,13 +29,15 @@ import {
 import QueryResults from "./QueryResults";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LoadingButton from '@mui/lab/LoadingButton';
+import {useLocation} from "react-router-dom";
 
 function Query() {
 
   const selectWidth = 290;
   const classes = useStyles();
   const currentYear = new Date().getFullYear();
-  const [expanded, setExpanded] = useState(true);
+  const location = useLocation();
+  const [expanded, setExpanded] = useState(location.pathname === '/tools');
   const [results, setResults] = useState([]);
   const [corpusCheckboxStatus, setCorpusCheckboxStatus] = useState({
     all: false,
@@ -82,6 +84,7 @@ function Query() {
       setAlert(true);
       setIsLoading(false);
     } else {
+      setAlert(false);
       let params = {};
 
       params.corpuses = selectedCorpuses;
@@ -127,7 +130,6 @@ function Query() {
         .then(res => res.json())
         .then((result) => {
           if (result.length > 0) {
-            setAlert(false);
             setNoResultsError(false);
             setResults(result);
           } else {
@@ -239,6 +241,7 @@ function Query() {
     }
 
     setSinglePropertyData(newSinglePropertyData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [corpusCheckboxStatus]);
 
   const alterSinglePropertyData = (event, fieldName) => {
@@ -319,8 +322,15 @@ function Query() {
 
   return (
     <div>
-      {alert ? <div><Alert severity="error">Vali vähemalt üks alamkorpus!</Alert><br/></div> : <></>}
+      <Alert severity="info">
+        Otsingust päritud tekste ei saa kasutada järgmistes analüüsivahendites: Mustrid, Sõnaanalüüs.<br/>
+        Nende kasutamiseks vali soovitud tööriist lehe allosas asuvast "Analüüsivahendid" menüüst ning sisesta oma tekst
+        avanenud vaates.<br/>
+        Töötame selle nimel, et viia ka need vahendid üle uuele kujule.
+      </Alert>
+      {alert && <><br/><Alert severity="error">Vali vähemalt üks alamkorpus!</Alert></>}
       <Accordion sx={AccordionStyle}
+                 className="queryAccordion"
                  expanded={expanded}
                  onChange={changeAccordion}>
         <AccordionSummary
@@ -955,8 +965,7 @@ function Query() {
           </form>
         </AccordionDetails>
       </Accordion>
-      <br/>
-      {noResultsError ? <div><Alert severity="error">Ei leitud ühtegi teksti!</Alert><br/></div> : <></>}
+      {noResultsError && <div><br/><Alert severity="error">Ei leitud ühtegi teksti!</Alert><br/></div>}
       <QueryResults key={resultsKey}
                     data={results}/>
     </div>

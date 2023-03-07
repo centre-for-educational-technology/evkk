@@ -1,20 +1,30 @@
 import ToolCard from "../components/ToolCard";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Box, Card, CardContent, Grid} from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import {Outlet, useLocation, useNavigate} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import Query from "../components/Query";
 import {AccordionStyle} from "../utils/constants";
 
 function Tools() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const [expanded, setExpanded] = useState(location.pathname === '/tools');
+  const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    setExpanded(window.location.search === '?open=true');
+  }, [window.location.search]);
 
   const tools = [
+    {
+      title: "Sõnaloend",
+      img: require("../resources/images/tools/sonaloend.png").default,
+      description: "Kuva kõik tekstis kasutatud sõnad sageduse või tähestiku järjekorras",
+      route: "wordlist",
+      action: () => toolSelect("wordlist")
+    },
     {
       title: "Mustrid",
       img: require("../resources/images/tools/mustrileidja.png").default,

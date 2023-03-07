@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Mapper
@@ -21,6 +22,8 @@ import java.util.UUID;
 public interface TextDao {
 
   String findTextById(@Param("textId") UUID textId);
+
+  String findTextsByIds(@Param("ids") Set<UUID> ids);
 
   String findTextMetadata(@Param("textId") UUID textId);
 

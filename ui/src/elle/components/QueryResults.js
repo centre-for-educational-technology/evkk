@@ -5,6 +5,7 @@ import {
   AccordionSummary,
   Backdrop,
   Box,
+  Button,
   Checkbox,
   CircularProgress,
   IconButton,
@@ -15,16 +16,19 @@ import {usePagination, useTable} from "react-table";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CloseIcon from '@mui/icons-material/Close';
 import "./styles/QueryResults.css";
-import {ages, corpuses, educations, genders, locations, textTypes} from "../utils/constants";
+import {AccordionStyle, ages, corpuses, educations, genders, locations, textTypes} from "../utils/constants";
 import TablePagination from "../tools/wordanalyser/TablePagination";
 import QueryDownloadButton from "./QueryDownloadButton";
 import LoadingButton from "@mui/lab/LoadingButton";
+import {useNavigate} from "react-router-dom";
 
 function QueryResults(props) {
 
   const response = props.data;
+  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
-  const [expanded, setExpanded] = useState(false);
+  const [modalAccordionExpanded, setModalAccordionExpanded] = useState(false);
+  const [resultAccordionExpanded, setResultAccordionExpanded] = useState(false);
   const [text, setText] = useState('');
   const [isLoadingQueryResults, setIsLoadingQueryResults] = useState(false);
   const [isLoadingSelectAllTexts, setIsLoadingSelectAllTexts] = useState(false);
@@ -109,9 +113,13 @@ function QueryResults(props) {
     overflow: 'auto'
   }
 
-  const changeAccordion = () => {
-    setExpanded(!expanded);
+  const changeModalAccordion = () => {
+    setModalAccordionExpanded(!modalAccordionExpanded);
   };
+
+  const changeResultAccordion = () => {
+    setResultAccordionExpanded(!resultAccordionExpanded);
+  }
 
   const alterCheckbox = (id) => {
     if (checkboxStatuses.current.has(id)) {
@@ -231,142 +239,168 @@ function QueryResults(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoadingSelectAllTexts]);
 
+  useEffect(() => {
+    setResultAccordionExpanded(response.length > 0);
+  }, [response]);
+
   function allTextsSelected() {
     return allTextIds.every(v => Array.from(checkboxStatuses.current).includes(v));
   }
 
-  return (
-    <>
-      {response.length > 0 ? <h4><strong>Leitud tekste:</strong> {response.length}</h4> : <></>}
-      {response.length > 0 &&
-        <>
-          <LoadingButton variant='outlined'
-                         loadingIndicator={<CircularProgress disableShrink
-                                                             color="inherit"
-                                                             size={16}/>}
-                         loading={isLoadingSelectAllTexts}
-                         disabled={isLoadingSelectAllTexts}
-                         className='selectAllButton'
-                         onClick={() => setIsLoadingSelectAllTexts(true)}>
-            {allTextsSelected() ? 'Eemalda kõik' : 'Vali kõik'}
-          </LoadingButton>
-          <QueryDownloadButton selected={checkboxStatuses.current}/>
-          <table className='resultTable'
-                 {...getTableProps()}>
-            <thead>
-            {headerGroups.map(headerGroup => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map(column => (
-                  <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-                ))}
-              </tr>
-            ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-            {page.map((row, _i) => {
-              prepareRow(row);
-              return (
-                <tr
-                  className='tableRow border'
-                  {...row.getRowProps()}
-                  key={row.values.text_id}
-                  id={row.values.text_id}>
-                  {row.cells.map(cell => {
-                    return (
-                      <td {...cell.getCellProps({
-                        className: cell.column.className
-                      })}>
-                        {cell.render('Cell')}
-                      </td>
-                    )
-                  })}
-                </tr>
-              )
-            })}
-            </tbody>
-          </table>
-          <br/>
-          <TablePagination
-            gotoPage={gotoPage}
-            previousPage={previousPage}
-            canPreviousPage={canPreviousPage}
-            nextPage={nextPage}
-            canNextPage={canNextPage}
-            pageIndex={pageIndex}
-            pageOptions={pageOptions}
-            pageSize={pageSize}
-            setPageSize={setPageSize}
-            pageCount={pageCount}
-          />
-        </>
-      }
+  const saveTexts = () => {
+    sessionStorage.setItem('saved_texts_from_query', Array.from(checkboxStatuses.current).join(','));
+    setResultAccordionExpanded(false);
+    navigate("?open=true");
+  }
 
-      <Modal
-        open={modalOpen}
-        onClose={() => {
-          setModalOpen(false);
-        }}
-      >
-        <Box sx={modalStyle}>
-          <div className="modal-head">
-            {metadata.title}
-          </div>
-          <IconButton
-            aria-label="close"
-            onClick={() => {
-              setModalOpen(false);
-            }}
-            className='closeButton'
-          >
-            <CloseIcon/>
-          </IconButton>
-          <br/>
-          <div>
-            <Accordion expanded={expanded}
-                       onChange={changeAccordion}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon/>}
-                id="filters-header"
-              >
-                <Typography>
-                  Teksti metainfo
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <strong>Alamkorpus:</strong> {metadata.korpus}<br/>
-                <strong>Tekstiliik:</strong> {metadata.tekstityyp}<br/>
-                <strong>Teksti keel:</strong> {metadata.tekstikeel}<br/>
-                <strong>Teksti tase:</strong> {metadata.keeletase}<br/>
-                <strong>Kasutatud õppematerjale:</strong> {metadata.abivahendid}<br/>
-                <strong>Teksti lisamise aasta:</strong> {metadata.aasta}<br/>
-                <br/>
-                <strong>Autori vanus:</strong> {metadata.vanus}<br/>
-                <strong>Autori sugu:</strong> {metadata.sugu}<br/>
-                <strong>Autori haridus:</strong> {metadata.haridus}<br/>
-                <strong>Autori emakeel:</strong> {metadata.emakeel}<br/>
-                <strong>Autori elukohariik:</strong> {metadata.elukohariik}<br/>
-              </AccordionDetails>
-            </Accordion>
+  return (
+    <Accordion sx={AccordionStyle}
+               expanded={resultAccordionExpanded}
+               className={`accordionBorder ${resultAccordionExpanded && 'openedResultsAccordion'}`}
+               disabled={response.length < 1}
+               onChange={changeResultAccordion}>
+      <AccordionSummary expandIcon={<ExpandMoreIcon/>}
+                        id="results-header">
+        <Typography>
+          Otsingu tulemused
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        {response.length > 0 ? <h4><strong>Leitud tekste:</strong> {response.length}</h4> : <></>}
+        {response.length > 0 &&
+          <>
+            <LoadingButton variant='outlined'
+                           loadingIndicator={<CircularProgress disableShrink
+                                                               color="inherit"
+                                                               size={16}/>}
+                           loading={isLoadingSelectAllTexts}
+                           disabled={isLoadingSelectAllTexts}
+                           className='selectAllButton'
+                           onClick={() => setIsLoadingSelectAllTexts(true)}>
+              {allTextsSelected() ? 'Eemalda kõik' : 'Vali kõik'}
+            </LoadingButton>
+            <Button variant="contained"
+                    disabled={checkboxStatuses.current.size === 0}
+                    onClick={saveTexts}
+                    className="saveTextsButton">Salvesta tekstid analüüsiks</Button>
+            <QueryDownloadButton selected={checkboxStatuses.current}/>
+            <table className='resultTable'
+                   {...getTableProps()}>
+              <thead>
+              {headerGroups.map(headerGroup => (
+                <tr {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map(column => (
+                    <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                  ))}
+                </tr>
+              ))}
+              </thead>
+              <tbody {...getTableBodyProps()}>
+              {page.map((row, _i) => {
+                prepareRow(row);
+                return (
+                  <tr
+                    className='tableRow border'
+                    {...row.getRowProps()}
+                    key={row.values.text_id}
+                    id={row.values.text_id}>
+                    {row.cells.map(cell => {
+                      return (
+                        <td {...cell.getCellProps({
+                          className: cell.column.className
+                        })}>
+                          {cell.render('Cell')}
+                        </td>
+                      )
+                    })}
+                  </tr>
+                )
+              })}
+              </tbody>
+            </table>
             <br/>
-            <Backdrop
-              open={isLoadingQueryResults}
+            <TablePagination
+              gotoPage={gotoPage}
+              previousPage={previousPage}
+              canPreviousPage={canPreviousPage}
+              nextPage={nextPage}
+              canNextPage={canNextPage}
+              pageIndex={pageIndex}
+              pageOptions={pageOptions}
+              pageSize={pageSize}
+              setPageSize={setPageSize}
+              pageCount={pageCount}
+            />
+          </>
+        }
+
+        <Modal
+          open={modalOpen}
+          onClose={() => {
+            setModalOpen(false);
+          }}
+        >
+          <Box sx={modalStyle}>
+            <div className="modal-head">
+              {metadata.title}
+            </div>
+            <IconButton
+              aria-label="close"
+              onClick={() => {
+                setModalOpen(false);
+              }}
+              className='closeButton'
             >
-              <CircularProgress disableShrink
-                                thickness={4}
-                                size='10%'/>
-            </Backdrop>
-            {text.split(/\\n/g).map(function (item, index) {
-              return (
-                <span key={index}>
-                  {item}
+              <CloseIcon/>
+            </IconButton>
+            <br/>
+            <div>
+              <Accordion expanded={modalAccordionExpanded}
+                         onChange={changeModalAccordion}>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon/>}
+                  id="filters-header"
+                >
+                  <Typography>
+                    Teksti metainfo
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <strong>Alamkorpus:</strong> {metadata.korpus}<br/>
+                  <strong>Tekstiliik:</strong> {metadata.tekstityyp}<br/>
+                  <strong>Teksti keel:</strong> {metadata.tekstikeel}<br/>
+                  <strong>Teksti tase:</strong> {metadata.keeletase}<br/>
+                  <strong>Kasutatud õppematerjale:</strong> {metadata.abivahendid}<br/>
+                  <strong>Teksti lisamise aasta:</strong> {metadata.aasta}<br/>
                   <br/>
+                  <strong>Autori vanus:</strong> {metadata.vanus}<br/>
+                  <strong>Autori sugu:</strong> {metadata.sugu}<br/>
+                  <strong>Autori haridus:</strong> {metadata.haridus}<br/>
+                  <strong>Autori emakeel:</strong> {metadata.emakeel}<br/>
+                  <strong>Autori elukohariik:</strong> {metadata.elukohariik}<br/>
+                </AccordionDetails>
+              </Accordion>
+              <br/>
+              <Backdrop
+                open={isLoadingQueryResults}
+              >
+                <CircularProgress disableShrink
+                                  thickness={4}
+                                  size='10%'/>
+              </Backdrop>
+              {text.split(/\\n/g).map(function (item, index) {
+                return (
+                  <span key={index}>
+                  {item}
+                    <br/>
                 </span>
-              )
-            })}
-          </div>
-        </Box>
-      </Modal>
-    </>
+                )
+              })}
+            </div>
+          </Box>
+        </Modal>
+      </AccordionDetails>
+    </Accordion>
   )
 }
 

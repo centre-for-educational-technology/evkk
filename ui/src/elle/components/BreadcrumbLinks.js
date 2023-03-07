@@ -16,6 +16,7 @@ const breadcrumbNameMap = {
   '/about/publications': 'Üllitised',
   '/tools/clusterfinder': 'Mustrid',
   '/tools/wordanalyser': 'Sõnaanalüüs',
+  '/tools/wordlist': 'Sõnaloend'
 };
 
 const MenuLink = styled(Link)({

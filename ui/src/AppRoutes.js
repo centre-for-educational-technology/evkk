@@ -15,6 +15,7 @@ import BreadcrumbLinks from "./elle/components/BreadcrumbLinks";
 import AboutUs from "./elle/components/AboutUs";
 import Publications from "./elle/components/Publications";
 import Adding from "./elle/components/Adding.component";
+import Wordlist from "./elle/tools/Wordlist";
 
 class AppRoutes extends Component {
 
@@ -65,6 +66,8 @@ class AppRoutes extends Component {
                  element={<Correction/>}/>
           <Route path="/tools"
                  element={<Tools/>}>
+            <Route path="wordlist"
+                   element={<Wordlist/>}/>
             <Route path="clusterfinder"
                    element={<ClusterFinder/>}/>
             <Route path="wordanalyser"

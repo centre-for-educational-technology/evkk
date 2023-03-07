@@ -34,3 +34,15 @@
   margin-top: 1em !important;
   margin-bottom: 1em !important;
 }
+
+.saveTextsButton {
+  margin-left: 1em !important;
+}
+
+.accordionBorder {
+  border-radius: 0 !important;
+}
+
+.openedResultsAccordion {
+  margin-bottom: 1em !important;
+}
