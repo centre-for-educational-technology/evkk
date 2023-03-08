@@ -3,10 +3,13 @@ import {
   Alert,
   Button,
   FormControl,
-  FormControlLabel, FormGroup,
+  FormControlLabel,
+  FormGroup,
   Grid,
   InputLabel,
-  Select, Switch,
+  MenuItem,
+  Select,
+  Switch,
   TextField,
   Typography
 } from '@mui/material'
@@ -474,7 +477,7 @@ class Adding extends Component {
                         multiline
                         label="Muud õppe-, töö- või suhtluskeeled"
                         variant="outlined"
-                        title={"Esimesena keel, mida kõige paremini oskad"}
+                        title={"Sisesta keeled komaga eraldatult, märkides esimesena keele, mida kõige paremini oskad"}
 
                         name="autoriMuudKeeled"
                         value={this.state.autoriMuudKeeled}
@@ -494,7 +497,6 @@ class Adding extends Component {
                         <MenuItem value={"leedu"}>Leedu</MenuItem>
                         <MenuItem value={"läti"}>Läti</MenuItem>
                         <MenuItem value={"rootsi"}>Rootsi</MenuItem>
-                        <MenuItem value={"saksa"}>Saksa</MenuItem>
                         <MenuItem value={"soome"}>Soome</MenuItem>
                         <MenuItem value={"venemaa"}>Venemaa</MenuItem>
                         <MenuItem value={"muu"}>Muu</MenuItem>
@@ -517,12 +519,12 @@ class Adding extends Component {
                     </Grid>}
                   {this.state.liik === "akadeemiline" && <Grid>
                     <FormControl className="form-control" size="small">
-                      <InputLabel id="oppeaste-select-label">Autori õppeaste</InputLabel>
+                      <InputLabel id="oppeaste-select-label">Õppeaste</InputLabel>
                       <Select
                         labelId="oppeaste-select-label"
                         name="autoriOppeaste"
                         value={this.state.autoriOppeaste}
-                        label="Autori õppeaste"
+                        label="Õppeaste"
                         onChange={this.handleChange}
                       >
                         <MenuItem value={"bakalaureuseope"}>Bakalaureuseõpe</MenuItem>
@@ -533,12 +535,12 @@ class Adding extends Component {
                   </Grid>}
                   {this.state.liik === "akadeemiline" && <Grid>
                     <FormControl className="form-control" size="small">
-                      <InputLabel id="teaduskraad-select-label">Autori teaduskraad</InputLabel>
+                      <InputLabel id="teaduskraad-select-label">Teaduskraad</InputLabel>
                       <Select
                         labelId="teaduskraad-select-label"
                         name="autoriTeaduskraad"
                         value={this.state.autoriTeaduskraad}
-                        label="Autori teaduskraad"
+                        label="Teaduskraad"
                         onChange={this.handleChange}
                       >
                         <MenuItem value={"ba"}>Bakalaureusekraad</MenuItem>
