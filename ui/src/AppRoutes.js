@@ -14,6 +14,7 @@ import WordAnalyserParent from "./elle/tools/wordanalyser/WordAnalyserParent";
 import BreadcrumbLinks from "./elle/components/BreadcrumbLinks";
 import AboutUs from "./elle/components/AboutUs";
 import Publications from "./elle/components/Publications";
+import Adding from "./elle/components/Adding.component";
 
 class AppRoutes extends Component {
 
@@ -71,6 +72,8 @@ class AppRoutes extends Component {
           </Route>
           <Route path="/links"
                  element={<Links/>}/>
+          <Route path="/adding"
+                 element={<Adding/>}/>
           <Route path="*"
                  element={this.render404()}/>
         </Routes>

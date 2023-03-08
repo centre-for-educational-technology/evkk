@@ -1,0 +1,10 @@
+.tutorialBox {
+  position: absolute;
+  border-radius: 10px;
+  box-shadow: 0 0 0 99999px rgba(0, 0, 0, .8);
+}
+
+.tutorialcard {
+  position: absolute;
+  border: solid yellow;
+}

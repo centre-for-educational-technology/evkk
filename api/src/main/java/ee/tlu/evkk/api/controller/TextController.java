@@ -1,6 +1,7 @@
 package ee.tlu.evkk.api.controller;
 
 import ee.tlu.evkk.api.ApiMapper;
+import ee.tlu.evkk.api.controller.dto.AddingRequestEntity;
 import ee.tlu.evkk.api.controller.dto.LemmadRequestEntity;
 import ee.tlu.evkk.api.controller.dto.TextSearchRequest;
 import ee.tlu.evkk.api.controller.dto.TextSearchResponse;
@@ -9,11 +10,13 @@ import ee.tlu.evkk.common.env.ServiceLocator;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.service.TextService;
+import ee.tlu.evkk.core.service.dto.CorpusDownloadDto;
+import ee.tlu.evkk.core.service.dto.CorpusRequestDto;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.Pageable;
-import ee.tlu.evkk.dal.dto.TextQueryCountsHelper;
-import ee.tlu.evkk.dal.dto.TextQueryHelper;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,12 +27,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
+import static java.util.UUID.randomUUID;
+import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/texts")
@@ -61,143 +70,149 @@ public class TextController {
 
   @GetMapping("/kysikorpusetekstiIDd")
   public List<String> kysikorpusetekstiIDd(String korpusekood) {
-    return textDao.findTextIDsByCorpusID(korpusekood);
+    return textDao.findTextIdsByCorpusId(korpusekood);
   }
 
   @GetMapping("/kysikorpusetekstiIDjapealkiri")
   public List<String> kysikorpusetekstiIDjapealkiri(String korpusekood) {
-    return textDao.findTextIDandTitleByCorpusID(korpusekood);
+    return textDao.findTextIdAndTitleByCorpusId(korpusekood);
   }
 
   @PostMapping("/sonaliik")
   public ResponseEntity<List<String>> sonaliik(@RequestBody WordFeatsRequestEntity request) {
     String[] sonaliik = stanzaServerClient.getSonaliik(request.getTekst());
     List<String> body = asList(TextService.translateWordType(sonaliik, request.getLanguage()));
-    return ResponseEntity.ok(body);
+    return ok(body);
   }
 
   @PostMapping("/silbid")
   public ResponseEntity<List<String>> silbid(@RequestBody LemmadRequestEntity request) {
     String[] silbid = stanzaServerClient.getSilbid(request.getTekst());
     List<String> body = asList(silbid);
-    return ResponseEntity.ok(body);
+    return ok(body);
   }
 
   @PostMapping("/raw/vormimargendid")
   public ResponseEntity<List<String[]>> rawVormimargendid(@RequestBody LemmadRequestEntity request) {
     String[][] vormimargendid = stanzaServerClient.getVormimargendid(request.getTekst());
     List<String[]> body = asList(vormimargendid);
-    return ResponseEntity.ok(body);
+    return ok(body);
   }
 
   @PostMapping("/vormimargendid")
   public ResponseEntity<List<String>> vormimargendid(@RequestBody WordFeatsRequestEntity request) {
     String[][] vormimargendid = stanzaServerClient.getVormimargendid(request.getTekst());
-    return ResponseEntity.ok(textService.translateFeats(vormimargendid, request.getLanguage()));
+    return ok(textService.translateFeats(vormimargendid, request.getLanguage()));
   }
 
   @PostMapping("/lemmad")
   public ResponseEntity<List<String>> lemmad(@RequestBody LemmadRequestEntity request) {
     String[] lemmad = stanzaServerClient.getLemmad(request.getTekst());
     List<String> body = asList(lemmad);
-    return ResponseEntity.ok(body);
+    return ok(body);
   }
 
   @PostMapping("/sonad")
   public ResponseEntity<List<String>> sonad(@RequestBody LemmadRequestEntity request) {
     String[] sonad = stanzaServerClient.getSonad(request.getTekst());
     List<String> body = asList(sonad);
-    return ResponseEntity.ok(body);
+    return ok(body);
   }
 
   @PostMapping("/laused")
-  public ResponseEntity<List<String[]>> laused(@RequestBody LemmadRequestEntity request) throws Exception {
+  public ResponseEntity<List<String[]>> laused(@RequestBody LemmadRequestEntity request) {
     String[][] laused = stanzaServerClient.getLaused(request.getTekst());
     List<String[]> body = asList(laused);
-    return ResponseEntity.ok(body);
+    return ok(body);
   }
 
   @PostMapping("/korrektuur")
-  public ResponseEntity<List<String>> korrektuur(@RequestBody LemmadRequestEntity request) throws Exception {
+  public ResponseEntity<List<String>> korrektuur(@RequestBody LemmadRequestEntity request) {
     String[] vastus = correctorServerClient.getKorrektuur(request.getTekst());
     List<String> body = asList(vastus);
-    return ResponseEntity.ok(body);
+    return ok(body);
   }
 
   @PostMapping("/keeletase")
-  public ResponseEntity<List<String[]>> keeletase(@RequestBody LemmadRequestEntity request) throws Exception {
+  public ResponseEntity<List<String[]>> keeletase(@RequestBody LemmadRequestEntity request) {
     String[][] tasemed = stanzaServerClient.getKeeletase(request.getTekst());
     List<String[]> body = asList(tasemed);
-    return ResponseEntity.ok(body);
+    return ok(body);
   }
 
   @PostMapping("/keerukus")
-  public ResponseEntity<List<String>> keerukus(@RequestBody LemmadRequestEntity request) throws Exception {
+  public ResponseEntity<List<String>> keerukus(@RequestBody LemmadRequestEntity request) {
     String[] m = stanzaServerClient.getKeerukus(request.getTekst());
     List<String> body = asList(m);
-    return ResponseEntity.ok(body);
+    return ok(body);
   }
 
   @PostMapping("/mitmekesisus")
-  public ResponseEntity<List<String>> mitmekesisus(@RequestBody LemmadRequestEntity request) throws Exception {
+  public ResponseEntity<List<String>> mitmekesisus(@RequestBody LemmadRequestEntity request) {
     String[] m = stanzaServerClient.getMitmekesisus(request.getTekst());
     List<String> body = asList(m);
-    return ResponseEntity.ok(body);
+    return ok(body);
   }
 
   @PostMapping("/detailneparing")
-  public String detailneparing(@RequestBody String[][] vaartused) {
-    String[] tavaparameetrid = {"korpus", "tekstityyp", "tekstikeel", "keeletase", "abivahendid", "emakeel", "sugu", "haridus", "aasta", "vanus", "elukoht"};
-    // "kodukeel" tavaparameetritest välja võetud
-    String[] loendurparameetrid = {"charCount", "wordCount", "sentenceCount"};
+  public ResponseEntity<String> detailneparing(@RequestBody CorpusRequestDto vaartused) {
+    return ok(textService.detailneparing(vaartused));
+  }
 
-    int tavaVaartusteArv = 0;
-    for (int i = 0; i < vaartused[0].length; i++) {
-      if (!(vaartused[0][i].equals("NO"))) {
-        tavaVaartusteArv++;
-      }
-    }
+  @PostMapping("/tekstidfailina")
+  public HttpEntity<byte[]> tekstidfailina(@RequestBody CorpusDownloadDto corpusDownloadDto, HttpServletResponse response) throws IOException {
+    byte[] file = textService.tekstidfailina(corpusDownloadDto);
 
-    int loendurVaartusteArv = 0;
-    for (int i = 0; i < vaartused[1].length; i++) {
-      if (!(vaartused[1][i].equals("NO"))) {
-        loendurVaartusteArv++;
-      }
-    }
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(APPLICATION_OCTET_STREAM);
+    response.setHeader("Content-Disposition", "attachment");
 
-    TextQueryCountsHelper[] loendurHelperid = new TextQueryCountsHelper[loendurVaartusteArv];
-    loendurVaartusteArv = 0;
-
-    TextQueryHelper[] helperid = new TextQueryHelper[tavaVaartusteArv];
-    tavaVaartusteArv = 0;
-
-    for (int i = 0; i < vaartused[0].length; i++) {
-      if (!(vaartused[0][i].equals("NO"))) {
-        TextQueryHelper h = new TextQueryHelper();
-        h.setTabel("p" + (tavaVaartusteArv + 5));
-        h.setParameeter(tavaparameetrid[i]);
-        h.setVaartused(vaartused[0][i].split(","));
-        helperid[tavaVaartusteArv] = h;
-        tavaVaartusteArv++;
-      }
-    }
-
-    for (int i = 0; i < vaartused[1].length; i++) {
-      if (!(vaartused[1][i].equals("NO"))) {
-        TextQueryCountsHelper ch = new TextQueryCountsHelper();
-        ch.setParameeter(loendurparameetrid[i]);
-        ch.setVaartus(vaartused[1][i]);
-        loendurHelperid[loendurVaartusteArv] = ch;
-        loendurVaartusteArv++;
-      }
-    }
-
-    return textDao.textTitleQueryByParameters(helperid, loendurHelperid);
+    return new HttpEntity<>(file, headers);
   }
 
   @GetMapping("/asukoht")
   public String asukoht() {
     return new java.io.File(".").getAbsolutePath();
+  }
+
+  @PostMapping("/lisatekst")
+  public String lisatekst(@Valid @RequestBody AddingRequestEntity andmed) {
+    UUID kood = randomUUID();
+    textDao.insertAdding(kood, andmed.getSisu());
+    lisaTekstiOmadus(kood, "title", andmed.getPealkiri());
+    lisaTekstiOmadus(kood, "kirjeldus", andmed.getKirjeldus());
+    lisaTekstiOmadus(kood, "tekstityyp", andmed.getLiik());
+    if (andmed.getOppematerjal().equals("jah")) {
+      String[] m=andmed.getAkadOppematerjal();
+      if(m!=null){
+        for(int i=0; i<m.length; i++){
+          lisaTekstiOmadus(kood, "akad_oppematerjal", m[i]);
+        }
+      }
+      lisaTekstiOmadus(kood, "akad_oppematerjal_muu", andmed.getAkadOppematerjalMuu());
+    }
+    if (andmed.getLiik().equals("akadeemiline")) {
+      lisaTekstiOmadus(kood, "eriala", andmed.getAutoriEriala());
+      lisaTekstiOmadus(kood, "akad_alamliik", andmed.getAkadAlamliik());
+      lisaTekstiOmadus(kood, "artikkel_aasta", andmed.getArtikkelAasta());
+      lisaTekstiOmadus(kood, "artikkel_valjaanne", andmed.getArtikkelValjaanne());
+      lisaTekstiOmadus(kood, "artikkel_number", andmed.getArtikkelNumber());
+      lisaTekstiOmadus(kood, "artikkel_lehekyljed", andmed.getArtikkelLehekyljed());
+      lisaTekstiOmadus(kood, "oppeaste", andmed.getAutoriOppeaste());
+      lisaTekstiOmadus(kood, "teaduskraad", andmed.getAutoriTeaduskraad());
+    }
+    if (andmed.getLiik().equals("mitteakadeemiline")) {
+      lisaTekstiOmadus(kood, "mitteakad_alamliik", andmed.getMitteakadAlamliik());
+    }
+    lisaTekstiOmadus(kood, "abivahendid", andmed.getOppematerjal());
+    lisaTekstiOmadus(kood, "kasAutor", andmed.getTekstiAutor());
+    lisaTekstiOmadus(kood, "vanus", andmed.getAutoriVanus());
+    lisaTekstiOmadus(kood, "sugu", andmed.getAutoriSugu());
+    lisaTekstiOmadus(kood, "haridus", andmed.getAutoriOppeaste());
+    lisaTekstiOmadus(kood, "emakeel", andmed.getAutoriEmakeel().toLowerCase());
+    lisaTekstiOmadus(kood, "muudkeeled", andmed.getAutoriMuudKeeled());
+    lisaTekstiOmadus(kood, "riik", andmed.getAutoriElukohariik());
+    return kood.toString();
   }
 
   @GetMapping("/getValues")
@@ -243,6 +258,12 @@ public class TextController {
     UUID textId = textWithProperties.getText().getId();
     String downloadUrl = UriComponentsBuilder.fromUri(publicApiUri).pathSegment("texts", "download", "{textId}").encode().build(textId.toString()).toString();
     return ApiMapper.INSTANCE.toTextSearchResponse(textWithProperties, downloadUrl);
+  }
+
+  private void lisaTekstiOmadus(UUID kood, String tunnus, String omadus) {
+    if (omadus != null && omadus.length() > 0) {
+      textDao.insertAddingProperty(kood, tunnus, omadus);
+    }
   }
 
 }
