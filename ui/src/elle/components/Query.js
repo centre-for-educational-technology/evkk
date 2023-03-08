@@ -26,6 +26,7 @@ import {
   useStyles,
   wordsOptions
 } from "../utils/constants";
+import {v4 as uuidv4} from 'uuid';
 import QueryResults from "./QueryResults";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -437,10 +438,10 @@ function Query() {
                 <br/><br/>
                 <FormControl className={classes.formControl}
                              size="small">
-                  <InputLabel id="types-label">Tekstiliik</InputLabel>
+                  <InputLabel id="types-label">Liik</InputLabel>
                   <Select
                     labelId="types-label"
-                    label="Tekstiliik"
+                    label="Liik"
                     multiple
                     value={textTypes}
                     name="types"
@@ -462,7 +463,7 @@ function Query() {
                             <ListItemText id={textType}
                                           primary={textTypesOptions[corpus][textType]}/>
                           </MenuItem>
-                          : <span>
+                          : <span key={uuidv4()}>
                             <MenuItem key={textType}
                                       id={textType}
                                       onClick={(e) => alterTextTypeHierarchyDropdown(e, false, corpus)}
@@ -495,13 +496,13 @@ function Query() {
                 </FormControl>
                 <br/><br/>
                 <FormControl size="small">
-                  <InputLabel id="language-label">Teksti keel</InputLabel>
+                  <InputLabel id="language-label">Keel</InputLabel>
                   <Select
                     sx={{minWidth: selectWidth}}
                     labelId="language-label"
                     name="language"
                     value={singlePropertyData.language}
-                    label="Teksti keel"
+                    label="Keel"
                     onClick={(e) => alterSinglePropertyData(e, "language")}
                   >
                     <MenuItem value="eesti">eesti</MenuItem>
@@ -555,7 +556,7 @@ function Query() {
                               <ListItemText id={material}
                                             primary={usedMaterialsOptions[material]}/>
                             </MenuItem>
-                            : <span>
+                            : <span key={uuidv4()}>
                                 <MenuItem key={material}
                                           id={material}
                                           onClick={(e) => alterUsedMaterialsHierarchyDropdown(e, false)}
@@ -588,13 +589,13 @@ function Query() {
                   </>
                   : <>
                     <FormControl size="small">
-                      <InputLabel id="level-label">Teksti tase</InputLabel>
+                      <InputLabel id="level-label">Tase</InputLabel>
                       <Select
                         sx={{minWidth: selectWidth}}
                         labelId="level-label"
                         name="level"
                         value={singlePropertyData.level}
-                        label="Teksti tase"
+                        label="Tase"
                         onClick={(e) => alterSinglePropertyData(e, "level")}
                       >
                         <MenuItem value="A">A</MenuItem>
@@ -628,10 +629,10 @@ function Query() {
                 <br/><br/>
                 <FormControl className={classes.formControl}
                              size="small">
-                  <InputLabel id="addedYears-label">Teksti lisamise aasta</InputLabel>
+                  <InputLabel id="addedYears-label">Lisamise aasta</InputLabel>
                   <Select
                     labelId="addedYears-label"
-                    label="Teksti lisamise aasta"
+                    label="Lisamise aasta"
                     multiple
                     value={addedYears}
                     name="addedYears"
@@ -727,7 +728,7 @@ function Query() {
                 </FormControl>
               </div>
               <div>
-                <b>Teksti autori andmed</b>
+                <b>Autori andmed</b>
                 <br/><br/>
                 <FormControl size="small">
                   <InputLabel id="age-label">Vanus</InputLabel>

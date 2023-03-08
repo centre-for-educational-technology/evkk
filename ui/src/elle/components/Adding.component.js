@@ -2,11 +2,13 @@ import React, {Component} from 'react';
 import {
   Alert,
   Button,
+  Checkbox,
   FormControl,
   FormControlLabel,
   FormGroup,
   Grid,
   InputLabel,
+  ListItemIcon,
   MenuItem,
   Select,
   Switch,
@@ -63,9 +65,9 @@ class Adding extends Component {
   kuvaTingimused() {
     alert("LUBA\n" +
       "Luban kasutada oma teksti ja taustaandmeid õppejõududel ja üliõpilastel, " +
-      "õpetajatel ja õppijatel, teadustöötajatel ja tarkvaraarendajatel erialase töö ning" +
+      "õpetajatel ja õppijatel, teadustöötajatel ja tarkvaraarendajatel erialase töö ning " +
       "keeleõppe vajadustel. \n" +
-      "Isikuandmed on eemaldatud, autorit pole andmebaasis märgitud. Kui korpusesse soovitakse" +
+      "Isikuandmed on eemaldatud, autorit pole andmebaasis märgitud. Kui korpusesse soovitakse " +
       "lisada avalikult kättesaadav tekst, siis tuleb järgida väljaande litsentsitingimusi. Kõik " +
       "autoriõigused on tagatud. ");
   }
@@ -101,7 +103,8 @@ class Adding extends Component {
   }
 
   taastaVormiSisu() {
-    this.setState(this.previous);
+    this.setState(this.previous, () => this.setState(
+      {"pealkiri": "", "kirjeldus": "", "sisu": "", "ennistusnupp": false}));
   }
 
   sendTextFromFile(tekst) {
@@ -312,7 +315,6 @@ class Adding extends Component {
                         <MenuItem value={"ak_uurimus_diplomitoo"}>Diplomitöö</MenuItem>
                         <MenuItem value={"ak_uurimus_matoo"}>Magistritöö</MenuItem>
                         <MenuItem value={"ak_uurimus_phdtoo"}>Doktoritöö</MenuItem>
-
                       </Select>
                     </FormControl>
                   </Grid>

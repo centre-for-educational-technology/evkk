@@ -182,16 +182,16 @@ public class TextController {
     lisaTekstiOmadus(kood, "title", andmed.getPealkiri());
     lisaTekstiOmadus(kood, "kirjeldus", andmed.getKirjeldus());
     lisaTekstiOmadus(kood, "tekstityyp", andmed.getLiik());
-    if (andmed.getLiik().equals("akadeemiline")) {
-      if (andmed.getOppematerjal().equals("jah")) {
-        String[] m=andmed.getAkadOppematerjal();
-        if(m!=null){
-          for(int i=0; i<m.length; i++){
-            lisaTekstiOmadus(kood, "akad_oppematerjal", m[i]);
-          }
+    if (andmed.getOppematerjal().equals("jah")) {
+      String[] m=andmed.getAkadOppematerjal();
+      if(m!=null){
+        for(int i=0; i<m.length; i++){
+          lisaTekstiOmadus(kood, "akad_oppematerjal", m[i]);
         }
-        lisaTekstiOmadus(kood, "akad_oppematerjal_muu", andmed.getAkadOppematerjalMuu());
       }
+      lisaTekstiOmadus(kood, "akad_oppematerjal_muu", andmed.getAkadOppematerjalMuu());
+    }
+    if (andmed.getLiik().equals("akadeemiline")) {
       lisaTekstiOmadus(kood, "eriala", andmed.getAutoriEriala());
       lisaTekstiOmadus(kood, "akad_alamliik", andmed.getAkadAlamliik());
       lisaTekstiOmadus(kood, "artikkel_aasta", andmed.getArtikkelAasta());
@@ -209,7 +209,7 @@ public class TextController {
     lisaTekstiOmadus(kood, "vanus", andmed.getAutoriVanus());
     lisaTekstiOmadus(kood, "sugu", andmed.getAutoriSugu());
     lisaTekstiOmadus(kood, "haridus", andmed.getAutoriOppeaste());
-    lisaTekstiOmadus(kood, "emakeel", andmed.getAutoriEmakeel());
+    lisaTekstiOmadus(kood, "emakeel", andmed.getAutoriEmakeel().toLowerCase());
     lisaTekstiOmadus(kood, "muudkeeled", andmed.getAutoriMuudKeeled());
     lisaTekstiOmadus(kood, "riik", andmed.getAutoriElukohariik());
     return kood.toString();
