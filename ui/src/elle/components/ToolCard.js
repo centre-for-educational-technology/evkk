@@ -23,7 +23,7 @@ function ToolCard({tool}) {
           square={true}
           style={{width: "350px"}}>
       <CardActionArea onClick={tool.action}
-                      className={isDisabled(tool.route) && 'disabled'}>
+                      className={isDisabled(tool.route) ? 'disabled' : ''}>
         <CardContent sx={{display: "flex"}}>
           <Box sx={{marginRight: 2}}>
             <img src={tool.img}
