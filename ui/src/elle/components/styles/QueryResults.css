@@ -35,6 +35,12 @@
   margin-bottom: 1em !important;
 }
 
+.metainfoSubtitle {
+  font-weight: bold;
+  text-decoration: underline;
+  padding-bottom: 0.75em;
+}
+
 .saveTextsButton {
   margin-left: 1em !important;
 }

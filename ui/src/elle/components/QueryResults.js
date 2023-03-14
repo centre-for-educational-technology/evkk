@@ -17,6 +17,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CloseIcon from '@mui/icons-material/Close';
 import "./styles/QueryResults.css";
 import {AccordionStyle, ages, corpuses, educations, genders, locations, textTypes} from "../utils/constants";
+import {v4 as uuidv4} from 'uuid';
 import TablePagination from "../tools/wordanalyser/TablePagination";
 import QueryDownloadButton from "./QueryDownloadButton";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -367,18 +368,20 @@ function QueryResults(props) {
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
+                  <div className="metainfoSubtitle">Teksti andmed</div>
                   <strong>Alamkorpus:</strong> {metadata.korpus}<br/>
-                  <strong>Tekstiliik:</strong> {metadata.tekstityyp}<br/>
-                  <strong>Teksti keel:</strong> {metadata.tekstikeel}<br/>
-                  <strong>Teksti tase:</strong> {metadata.keeletase}<br/>
+                  <strong>Liik:</strong> {metadata.tekstityyp}<br/>
+                  <strong>Keel:</strong> {metadata.tekstikeel}<br/>
+                  <strong>Tase:</strong> {metadata.keeletase}<br/>
                   <strong>Kasutatud õppematerjale:</strong> {metadata.abivahendid}<br/>
-                  <strong>Teksti lisamise aasta:</strong> {metadata.aasta}<br/>
+                  <strong>Lisamise aasta:</strong> {metadata.aasta}<br/>
                   <br/>
-                  <strong>Autori vanus:</strong> {metadata.vanus}<br/>
-                  <strong>Autori sugu:</strong> {metadata.sugu}<br/>
-                  <strong>Autori haridus:</strong> {metadata.haridus}<br/>
-                  <strong>Autori emakeel:</strong> {metadata.emakeel}<br/>
-                  <strong>Autori elukohariik:</strong> {metadata.elukohariik}<br/>
+                  <div className="metainfoSubtitle">Autori andmed</div>
+                  <strong>Vanus:</strong> {metadata.vanus}<br/>
+                  <strong>Sugu:</strong> {metadata.sugu}<br/>
+                  <strong>Haridus:</strong> {metadata.haridus}<br/>
+                  <strong>Emakeel:</strong> {metadata.emakeel}<br/>
+                  <strong>Elukohariik:</strong> {metadata.elukohariik}<br/>
                 </AccordionDetails>
               </Accordion>
               <br/>
@@ -389,9 +392,9 @@ function QueryResults(props) {
                                   thickness={4}
                                   size='10%'/>
               </Backdrop>
-              {text.split(/\\n/g).map(function (item, index) {
+              {text.split(/\\n/g).map(function (item) {
                 return (
-                  <span key={index}>
+                  <span key={uuidv4()}>
                   {item}
                     <br/>
                 </span>
