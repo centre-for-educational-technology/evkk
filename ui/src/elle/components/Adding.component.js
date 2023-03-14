@@ -2,13 +2,11 @@ import React, {Component} from 'react';
 import {
   Alert,
   Button,
-  Checkbox,
   FormControl,
   FormControlLabel,
   FormGroup,
   Grid,
   InputLabel,
-  ListItemIcon,
   MenuItem,
   Select,
   Switch,
@@ -73,19 +71,12 @@ class Adding extends Component {
   }
 
   handleChange(event) {
-    console.log(event.target.name)
     if (event.target.type === "checkbox") {
       this.setState({[event.target.name]: event.target.checked});
     } else {
       this.setState({[event.target.name]: event.target.value});
     }
   }
-
-  handleSwitchChange(event){
-    console.log(event.target.checked)
-    this.setState({[event.target.name]: event.target.checked})
-  }
-
 
   handleSubmit(event) {
     event.preventDefault();
@@ -96,7 +87,7 @@ class Adding extends Component {
       headers: {
         'Content-Type': 'application/json'
       },
-    }
+    };
     this.setState(this.startingstate);
     this.setState({ennistusnupp: true});
     fetch("/api/texts/lisatekst", request_test).then(() => alert("salvestatud"));
@@ -117,7 +108,6 @@ class Adding extends Component {
         <div style={{width: "100%", textAlign: "center"}}>
           <Typography marginBottom="50px" variant="h5"><strong>Lisa uus tekst</strong></Typography>
         </div>
-
         <form onSubmit={this.handleSubmit}
               id="f1"
               ref={this.formDataElement}>
@@ -274,7 +264,6 @@ class Adding extends Component {
                       </Select>
                     </FormControl>
                   </Grid>}
-
                   {this.state.liik === "akadeemiline" && this.state.akadKategooria === "ak_erialaopingud" && <Grid>
                     <FormControl className="form-control" size="small">
                       <InputLabel id="akad-alamliik-select-label">Tekstiliik</InputLabel>
@@ -285,8 +274,6 @@ class Adding extends Component {
                         label="Alamliik"
                         onChange={this.handleChange}
                       >
-
-
                         <MenuItem value={"ak_analuus"}>Analüüs</MenuItem>
                         <MenuItem value={"ak_eriala_essee"}>Essee</MenuItem>
                         <MenuItem value={"ak_eriala_kursusetoo"}>Kursusetöö</MenuItem>
@@ -294,7 +281,6 @@ class Adding extends Component {
                         <MenuItem value={"ak_eriala_retsensioon"}>Retsensioon</MenuItem>
                         <MenuItem value={"ak_eriala_seminaritoo"}>Seminaritöö</MenuItem>
                         <MenuItem value={"ak_eriala_ulevaade"}>Ülevaade</MenuItem>
-
                       </Select>
                     </FormControl>
                   </Grid>}
@@ -318,8 +304,7 @@ class Adding extends Component {
                       </Select>
                     </FormControl>
                   </Grid>
-                    {
-                      this.state.akadAlamliik === "ak_uurimus_artikkel" && <>
+                    {this.state.akadAlamliik === "ak_uurimus_artikkel" && <>
                         <Grid>
                           <FormControl className="form-control" size="small">
                             <TextField
@@ -332,7 +317,6 @@ class Adding extends Component {
                               style={{width: "75%"}}></TextField>
                           </FormControl>
                         </Grid>
-
                         <Grid>
                           <FormControl className="form-control" size="small">
                             <TextField
@@ -345,7 +329,6 @@ class Adding extends Component {
                               style={{width: "75%"}}></TextField>
                           </FormControl>
                         </Grid>
-
                         <Grid>
                           <FormControl className="form-control" size="small">
                             <TextField
@@ -358,7 +341,6 @@ class Adding extends Component {
                               style={{width: "75%"}}></TextField>
                           </FormControl>
                         </Grid>
-
                         <Grid>
                           <FormControl className="form-control" size="small">
                             <TextField
@@ -375,7 +357,6 @@ class Adding extends Component {
                       </>
                     }
                   </>
-
                   }
                   <Grid>
                     <FormControl className="form-control" size="small">
@@ -414,19 +395,16 @@ class Adding extends Component {
                       {this.state.akadOppematerjal.indexOf("muu") !== -1 &&
                         <Grid>
                           <FormControl className="form-control" size="small">
-
                             <TextField
                               multiline
                               label="Muu õppematerjal"
                               variant="outlined"
-
                               name="akadOppematerjalMuu"
                               value={this.state.akadOppematerjalMuu}
                               onChange={this.handleChange}
                               style={{width: "75%"}}></TextField>
                           </FormControl>
                         </Grid>
-
                       }
                     </>}
                   </Grid>
@@ -463,14 +441,12 @@ class Adding extends Component {
                         multiline required
                         label="Emakeel"
                         variant="outlined"
-
                         name="autoriEmakeel"
                         value={this.state.autoriEmakeel}
                         onChange={this.handleChange}
                       ></TextField>
                     </FormControl>
                   </Grid>
-
                   <Grid>
                     <FormControl className="form-control" size="small">
 
@@ -480,13 +456,11 @@ class Adding extends Component {
                         label="Muud õppe-, töö- või suhtluskeeled"
                         variant="outlined"
                         title={"Sisesta keeled komaga eraldatult, märkides esimesena keele, mida kõige paremini oskad"}
-
                         name="autoriMuudKeeled"
                         value={this.state.autoriMuudKeeled}
                         onChange={this.handleChange}></TextField>
                     </FormControl>
                   </Grid>
-
                   <Grid>
                     <FormControl className="form-control" size="small">
                       <InputLabel id="elukohariik">Elukohariik:</InputLabel>
@@ -508,7 +482,6 @@ class Adding extends Component {
                   {this.state.autoriElukohariik === "muu" &&
                     <Grid>
                       <FormControl className="form-control" size="small">
-
                         <TextField
                           multiline
                           label="Elukohariik"
@@ -579,7 +552,6 @@ class Adding extends Component {
             <FormGroup style={{width: "20%"}}>
               <FormControlLabel control={<Switch color="success" checked={this.state.avalikkusNupp} value="privaatne" name="avalikkusNupp"
                                                  onChange={this.handleChange}/>} label={"Avalikusta tekst"}/>
-
             </FormGroup>
           </Grid>
           <div className="buttonHolder">
@@ -589,7 +561,6 @@ class Adding extends Component {
                 <Alert severity="info"><Typography fontSize={12}>Teksti üles laadides nõustun <u style={{cursor: "pointer"}}
                                                                                                  onClick={() => this.kuvaTingimused()}>ELLE
                   kasutustingimustega</u>.</Typography></Alert>
-
               </Grid>
             </Grid>
             <div style={{paddingTop: "10px", paddingBottom: "50px"}}>
@@ -622,5 +593,4 @@ class Adding extends Component {
     );
   }
 }
-
 export default Adding;
