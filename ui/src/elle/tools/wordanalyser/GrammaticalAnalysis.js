@@ -109,15 +109,15 @@ function GrammaticalAnalysis() {
             ids: [ids[i]]
           }],
           count: 1
-        }
+        };
         wordArray.push(content);
       } else {
-        let wordIndex = wordArray[typeIndex].words.findIndex(element => element.word === words[i])
+        let wordIndex = wordArray[typeIndex].words.findIndex(element => element.word === words[i]);
         if (wordIndex === -1) {
           let newWord = {
             word: words[i],
             ids: [ids[i]],
-          }
+          };
           wordArray[typeIndex].words.push(newWord);
           wordArray[typeIndex].count += 1;
         } else {
@@ -146,9 +146,9 @@ function GrammaticalAnalysis() {
         col3: [[], [], [], []],
         col4: 0,
         col5: 0,
-      }
-      info.col1 = element.type
-      info.col2 = element.form
+      };
+      info.col1 = element.type;
+      info.col2 = element.form;
       for (let value of element.words) {
         info.col3[0].push(value.word);
         info.col3[1].push("(" + value.ids.length + "), ");
@@ -193,7 +193,7 @@ function GrammaticalAnalysis() {
     () => [
       {
         Header: () => {
-          return (<span>{t("common_wordtype")}</span>)
+          return (<span>{t("common_wordtype")}</span>);
         },
         accessor: 'col1', // accessor is the "key" in the data
         id: 'col1',
@@ -209,7 +209,7 @@ function GrammaticalAnalysis() {
       },
       {
         Header: () => {
-          return (<span>{t("common_form")}</span>)
+          return (<span>{t("common_form")}</span>);
         },
         accessor: 'col2',
         id: "col2",
