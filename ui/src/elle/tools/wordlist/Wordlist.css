@@ -1,0 +1,17 @@
+.wordlist-wrapper {
+  margin-top: 5vh;
+}
+
+.tool-title {
+  text-align: center;
+  padding-bottom: 2vh;
+}
+
+.wordlist-analyse-button {
+  margin-top: 3vh !important;
+}
+
+.stopwords-tooltip-icon {
+  margin-top: -0.25em;
+  margin-left: 0.25em;
+}

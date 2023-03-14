@@ -15,7 +15,7 @@ import BreadcrumbLinks from "./elle/components/BreadcrumbLinks";
 import AboutUs from "./elle/components/AboutUs";
 import Publications from "./elle/components/Publications";
 import Adding from "./elle/components/Adding.component";
-import Wordlist from "./elle/tools/Wordlist";
+import Wordlist from "./elle/tools/wordlist/Wordlist";
 
 class AppRoutes extends Component {
 

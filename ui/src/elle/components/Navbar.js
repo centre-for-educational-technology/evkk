@@ -20,6 +20,7 @@ import {Close, Help, Language, Menu as MenuIcon, Search} from "@mui/icons-materi
 import {NavLink, useLocation} from 'react-router-dom';
 import "@fontsource/exo-2/600.css";
 import React, {useState} from "react";
+import {v4 as uuidv4} from 'uuid';
 import './styles/Navbar.css';
 
 const pages = [
@@ -77,8 +78,8 @@ function Navbar() {
     setLangAnchorEl(false);
   };
   const handleLangSelect = (lang) => {
+    localStorage.setItem("language", lang);
     if (location.pathname === '/tools/wordanalyser') {
-      localStorage.setItem("language", lang);
       window.location.reload();
     }
     setLangAnchorEl(false);
@@ -152,7 +153,7 @@ function Navbar() {
                   sx={{mb: 2, display: {xs: 'none', sm: 'none', md: 'none', lg: 'flex'}}}>
               {pages.map((page, index, elements) => {
                 return (
-                  <span key={index}>
+                  <span key={uuidv4()}>
                   <Box sx={{my: 0, mx: 4}}>
                     <MenuLink to={page.target}
                               component={NavLink}>
@@ -205,10 +206,10 @@ function Navbar() {
               </Stack>
             </Grid>
             <List>
-              {pages.map((page, index) => {
+              {pages.map((page) => {
                 return (
                   <ListItem sx={{pl: 0}}
-                            key={index}>
+                            key={uuidv4()}>
                     <BurgerLink to={page.target}
                                 component={NavLink}
                                 onClick={toggleDrawer}>
