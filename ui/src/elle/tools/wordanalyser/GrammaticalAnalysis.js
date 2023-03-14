@@ -12,7 +12,6 @@ import {
   MenuItem,
   Select
 } from "@mui/material";
-import DownloadButton from "./DownloadButton";
 import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import {v4 as uuidv4} from 'uuid';
@@ -21,7 +20,7 @@ import {useTranslation} from "react-i18next";
 import "../../translations/i18n";
 import {AnalyseContext, SetFormContext, SetTypeContext, SetWordContext} from "./Contexts";
 import ToggleCell from "./ToggleCell";
-
+import TableDownloadButton from "./TableDownloadButton";
 
 function GrammaticalAnalysis() {
   const {t} = useTranslation();
@@ -30,7 +29,6 @@ function GrammaticalAnalysis() {
   const setWord = useContext(SetWordContext);
   const analysedInput = useContext(AnalyseContext)[0];
   const [filterValue, setValue] = useState([])
-
   let wordArray = []
   const types = analysedInput.wordtypes
   const forms = analysedInput.wordforms
@@ -57,9 +55,7 @@ function GrammaticalAnalysis() {
         filterValue.includes(String(row.original[columnIds])),
       );
   }
-
   function multiSelect(values, label, column) {
-
     const handleChange = (event) => {
       const {
         target: {value},
@@ -67,17 +63,13 @@ function GrammaticalAnalysis() {
       setValue(
         value
       )
-
       setAppliedFilters(value)
-
       if (column === 1) {
         setAllFilters([{id: "col1", value: checkFilters(value, col1)}, {id: "col2", value: checkFilters(value, col2)}])
       } else {
         setAllFilters([{id: "col1", value: checkFilters(value, col1)}, {id: "col2", value: checkFilters(value, col2)}])
       }
     }
-
-
     return (
       <Box marginY={"5px"}>
         <FormControl size={"small"} sx={{width: 330, minWidth: 330}}>
@@ -118,7 +110,7 @@ function GrammaticalAnalysis() {
           }],
           count: 1
         }
-        wordArray.push(content)
+        wordArray.push(content);
       } else {
         let wordIndex = wordArray[typeIndex].words.findIndex(element => element.word === words[i])
         if (wordIndex === -1) {
@@ -143,12 +135,10 @@ function GrammaticalAnalysis() {
   }
 
   analyseInput();
-
   const tableToDownload = [t("common_wordtype"), t("common_form"), t("common_words_in_text"), t("common_header_frequency"), t("common_header_percentage")];
 
   function fillData() {
     let tableVal = [];
-
     for (const element of wordArray) {
       let info = {
         col1: "",
@@ -190,7 +180,6 @@ function GrammaticalAnalysis() {
     setCol1(list)
     setCol2(list2)
   }, [data])
-
 
   function handleTypeClick(e) {
     setType(e);
@@ -245,7 +234,6 @@ function GrammaticalAnalysis() {
             let word = items[0][i];
             let count = items[1][i];
             let id = items[3][i];
-            //console.log(items)
             let content = (
               <span key={uuidv4()}>
                 <span key={props.id}
@@ -296,7 +284,6 @@ function GrammaticalAnalysis() {
     nextPage,
     previousPage,
     setPageSize,
-    setFilter,
     setAllFilters,
     state: {pageIndex, pageSize},
   } = useTable({
@@ -313,24 +300,18 @@ function GrammaticalAnalysis() {
   function AppliedFilters() {
     if (filtersInUse !== []) {
       return (
-
         filtersInUse.map((value) => (<Chip sx={{marginBottom: "5px"}} key={value} label={value}/>))
-
       )
-
     }
   }
-
-  console.log(data)
 
   return (
     <Box>
       <Box>
         <Box component={"span"}>{filtersInUse !== [] ?
           <Box maxWidth={"70%"}>Rakendatud filtrid: {AppliedFilters()} </Box> : null}</Box>
-        <Box position={"absolute"} right={"15%"}>
+        <Box position={"absolute"} right={"16%"}>
           <Accordion sx={{border: "none", boxShadow: "none", width: "68px", height: "48px"}}>
-
             <AccordionSummary sx={{height: "100%"}}> <Button sx={{height: "48px", width: "68px"}} variant={"contained"}><FilterAltIcon/></Button></AccordionSummary>
             <AccordionDetails
               sx={{backgroundColor: "white", width: "360px", position: "absolute", right: "-100%", zIndex: "100"}}>
@@ -339,8 +320,7 @@ function GrammaticalAnalysis() {
             </AccordionDetails>
           </Accordion>
         </Box>
-
-        <DownloadButton data={data}
+        <TableDownloadButton data={data}
                         headers={tableToDownload}/>
       </Box>
       <table className='analyserTable' {...getTableProps()}

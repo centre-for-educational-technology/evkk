@@ -42,9 +42,6 @@ function Syllables() {
   const tableToDownload = [t("syllables_header_syllable"), t("syllables_table_beginning"), t("syllables_table_middle"), t("syllables_table_end"), t("common_words_in_text"), t("common_header_frequency"), t("common_header_percentage")];
 
   function multiSelectFilter(rows, columnIds, filterValue) {
-    console.log(rows)
-    console.log(filterValue)
-    console.log(columnIds)
     return filterValue.length === 0
       ? rows
       : rows.filter((row) =>
@@ -63,12 +60,8 @@ function Syllables() {
       setValue(
         value
       )
-
-      console.log(value)
-
-      setAppliedFilters(value)
-
-      setFilter('col2', value)
+      setAppliedFilters(value);
+      setFilter('col2', value);
     }
 
 
@@ -194,7 +187,6 @@ function Syllables() {
         col6: 0,
         col7: 0
       }
-
       info.col1 = row[0];
       info.col2 = row[1];
       info.col3 = row[2];
@@ -245,7 +237,7 @@ function Syllables() {
         return <ToggleCell onCellContent={cellContent}/>
       }
 
-      infoList.push(info)
+      infoList.push(info);
       return {
         "silp": <span className="word"
                       onClick={(e) => setSyllable(e.target.textContent)}>{row[0]}</span>,
@@ -352,18 +344,13 @@ function Syllables() {
     state: {pageIndex, pageSize}
   } = tableInstance;
 
-
   function AppliedFilters() {
     if (filtersInUse !== []) {
       return (
-
         filtersInUse.map((value) => (<Chip sx={{marginBottom: "5px"}} key={value} label={value}/>))
-
       )
-
     }
   }
-
 
   return (
     <>
@@ -373,20 +360,17 @@ function Syllables() {
             {createList(value)}
           </div>
         })}
-
         {createSyllableList()}
         {findDuplicates()}
         {useEffect(() => {
           formating();
           // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [])}
-
         <Box>
           <Box component={"span"}>{filtersInUse !== [] ?
             <Box maxWidth={"70%"}>Rakendatud filtrid: {AppliedFilters()} </Box> : null}</Box>
-          <Box position={"absolute"} right={"15%"}>
+          <Box position={"absolute"} right={"16%"}>
             <Accordion sx={{border: "none", boxShadow: "none", width: "68px", height: "48px"}}>
-
               <AccordionSummary sx={{height: "100%"}}> <Button sx={{height: "48px", width: "68px"}}
                                                                variant={"contained"}><FilterAltIcon/></Button></AccordionSummary>
               <AccordionDetails
@@ -395,8 +379,7 @@ function Syllables() {
               </AccordionDetails>
             </Accordion>
           </Box>
-
-          <DownloadButton data={infoListNew}
+          <TableDownloadButton data={infoListNew}
                           headers={tableToDownload}/>
         </Box>
         <table className="analyserTable" {...getTableProps()}
