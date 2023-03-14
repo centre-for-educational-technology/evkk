@@ -40,7 +40,7 @@
 }
 
 .accordionBorder {
-  border-radius: 0 !important;
+  border-radius: 0 0 4px 4px !important;
 }
 
 .openedResultsAccordion {

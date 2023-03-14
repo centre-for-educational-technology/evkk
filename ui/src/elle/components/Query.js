@@ -4,6 +4,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Alert,
+  Button,
   Checkbox,
   FormControl,
   InputLabel,
@@ -29,7 +30,7 @@ import {
 import QueryResults from "./QueryResults";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LoadingButton from '@mui/lab/LoadingButton';
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 function Query() {
 
@@ -37,6 +38,7 @@ function Query() {
   const classes = useStyles();
   const currentYear = new Date().getFullYear();
   const location = useLocation();
+  const navigate = useNavigate();
   const [expanded, setExpanded] = useState(location.pathname === '/tools');
   const [results, setResults] = useState([]);
   const [corpusCheckboxStatus, setCorpusCheckboxStatus] = useState({
@@ -74,6 +76,7 @@ function Query() {
   const [noResultsError, setNoResultsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [resultsKey, setResultsKey] = useState(1);
+  const [queryVisible, setQueryVisible] = useState(false);
 
   function submitted() {
     setResultsKey(Math.random());
@@ -322,17 +325,25 @@ function Query() {
 
   return (
     <div>
-      <Alert severity="info">
-        Otsingust päritud tekste ei saa kasutada järgmistes analüüsivahendites: Mustrid, Sõnaanalüüs.<br/>
-        Nende kasutamiseks vali soovitud tööriist lehe allosas asuvast "Analüüsivahendid" menüüst ning sisesta oma tekst
-        avanenud vaates.<br/>
-        Töötame selle nimel, et viia ka need vahendid üle uuele kujule.
-      </Alert>
       {alert && <><br/><Alert severity="error">Vali vähemalt üks alamkorpus!</Alert></>}
-      <Accordion sx={AccordionStyle}
-                 className="queryAccordion"
-                 expanded={expanded}
-                 onChange={changeAccordion}>
+      <div className="buttonBox">
+        <Button variant="contained"
+                onClick={() => {
+                  setQueryVisible(true);
+                  setExpanded(true);
+                }}>Vali tekstid</Button>
+        <Button variant="contained"
+                className="buttonSecondLeft"
+                disabled>Lisa uus tekst</Button>
+        <Button variant="contained"
+                onClick={() => navigate('adding')}
+                className="buttonRight">Loovuta oma tekst</Button>
+      </div>
+      {queryVisible && <span>
+        <Accordion sx={AccordionStyle}
+                   className="queryAccordion"
+                   expanded={expanded}
+                   onChange={changeAccordion}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon/>}
           id="filters-header"
@@ -965,9 +976,11 @@ function Query() {
           </form>
         </AccordionDetails>
       </Accordion>
-      {noResultsError && <div><br/><Alert severity="error">Ei leitud ühtegi teksti!</Alert><br/></div>}
-      <QueryResults key={resultsKey}
-                    data={results}/>
+        {noResultsError && <div><br/><Alert severity="error">Ei leitud ühtegi teksti!</Alert><br/></div>}
+        <QueryResults key={resultsKey}
+                      data={results}/>
+        </span>
+      }
     </div>
   );
 }

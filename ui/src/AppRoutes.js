@@ -66,6 +66,8 @@ class AppRoutes extends Component {
                  element={<Correction/>}/>
           <Route path="/tools"
                  element={<Tools/>}>
+            <Route path="adding"
+                   element={<Adding/>}/>
             <Route path="wordlist"
                    element={<Wordlist/>}/>
             <Route path="clusterfinder"
@@ -76,7 +78,7 @@ class AppRoutes extends Component {
           <Route path="/links"
                  element={<Links/>}/>
           <Route path="/adding"
-                 element={<Adding/>}/>
+                 element={<Navigate to="/tools/adding"/>}/>
           <Route path="*"
                  element={this.render404()}/>
         </Routes>

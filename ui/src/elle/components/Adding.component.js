@@ -3,13 +3,10 @@ import {
   Button,
   Checkbox,
   FormControl,
-  FormControlLabel,
   Grid,
   InputLabel,
   ListItemIcon,
   MenuItem,
-  Radio,
-  RadioGroup,
   Select,
   TextField,
   Typography
@@ -24,7 +21,6 @@ class Adding extends Component {
       pealkiri: "",
       kirjeldus: "",
       sisu: "",
-      avalikkusValik: "avalik",
       liik: "akadeemiline",
       oppematerjal: "",
       akadOppematerjal: [],
@@ -105,7 +101,7 @@ class Adding extends Component {
     return (
       <div className={'container'}>
         <div style={{textAlign: "center"}}>
-          <Typography variant="h5"><strong>Lisa uus tekst</strong></Typography>
+          <Typography variant="h5"><strong>Loovuta oma tekst</strong></Typography>
         </div>
 
         <form onSubmit={this.handleSubmit}
@@ -139,17 +135,15 @@ class Adding extends Component {
                              onChange={this.handleChange}
                              style={{width: "75%"}}></TextField>
                 </div>
-                {this.state.avalikkusValik === "avalik" && <div>
-                  <Typography style={{paddingTop: 10}}><strong>Ülesande kirjeldus</strong></Typography>
-                  <TextField multiline
-                             rows={4}
-                             label="Kirjuta siia ülesande kirjeldus"
-                             variant="outlined"
-                             name="kirjeldus"
-                             value={this.state.kirjeldus}
-                             onChange={this.handleChange}
-                             style={{width: "75%"}}></TextField>
-                </div>}
+                <Typography style={{paddingTop: 10}}><strong>Ülesande kirjeldus</strong></Typography>
+                <TextField multiline
+                           rows={4}
+                           label="Kirjuta siia ülesande kirjeldus"
+                           variant="outlined"
+                           name="kirjeldus"
+                           value={this.state.kirjeldus}
+                           onChange={this.handleChange}
+                           style={{width: "75%"}}></TextField>
                 <div>
                   <Typography style={{paddingTop: 10}}><strong>Tekst *</strong></Typography>
                   <TextField required
@@ -170,21 +164,6 @@ class Adding extends Component {
                   direction="column"
                   style={{padding: "20px"}}>
               <Grid>
-                <RadioGroup
-                  value={this.state.avalikkusValik}
-                  name="avalikkusValik"
-                  onChange={this.handleChange}
-                >
-                  <FormControlLabel value="privaatne"
-                                    control={<Radio/>}
-                                    label="Hoia privaatsena" disabled/>
-                  <FormControlLabel value="avalik"
-                                    control={<Radio/>}
-                                    label="Avalikusta"/>
-                </RadioGroup>
-              </Grid>
-              {this.state.avalikkusValik === "avalik" && <>
-                <Grid>
                   <FormControl>
                     <InputLabel>Tekst</InputLabel>
                     <Select
@@ -615,7 +594,6 @@ class Adding extends Component {
                                                         }}>Ennista andmed</Button>}
                   </div>
                 </div>
-              </>}
             </Grid>
           </Grid>
         </form>

@@ -5,7 +5,6 @@ import useBreadcrumbs from "use-react-router-breadcrumbs";
 import {Link as RouterLink} from "react-router-dom";
 
 const breadcrumbNameMap = {
-  '/adding': 'Lisamine',
   '/corrector': 'Tekstihindaja',
   '/links': 'Lingikogud',
   '/tools': 'Tekstid & tööriistad',
@@ -14,6 +13,7 @@ const breadcrumbNameMap = {
   '/about/people': 'Töötajad',
   '/about/grants': 'Grandid',
   '/about/publications': 'Üllitised',
+  '/tools/adding': 'Loovuta oma tekst',
   '/tools/clusterfinder': 'Mustrid',
   '/tools/wordanalyser': 'Sõnaanalüüs',
   '/tools/wordlist': 'Sõnaloend'
