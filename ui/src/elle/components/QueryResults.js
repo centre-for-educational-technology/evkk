@@ -20,12 +20,11 @@ import {AccordionStyle, ages, corpuses, educations, genders, locations, textType
 import TablePagination from "../tools/wordanalyser/TablePagination";
 import QueryDownloadButton from "./QueryDownloadButton";
 import LoadingButton from "@mui/lab/LoadingButton";
-import {useNavigate} from "react-router-dom";
+import {queryStore} from "../store/QueryStore";
 
 function QueryResults(props) {
 
   const response = props.data;
-  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [modalAccordionExpanded, setModalAccordionExpanded] = useState(false);
   const [resultAccordionExpanded, setResultAccordionExpanded] = useState(false);
@@ -248,9 +247,11 @@ function QueryResults(props) {
   }
 
   const saveTexts = () => {
-    sessionStorage.setItem('saved_texts_from_query', Array.from(checkboxStatuses.current).join(','));
+    queryStore.dispatch({
+      type: 'CHANGE',
+      value: Array.from(checkboxStatuses.current).join(',')
+    });
     setResultAccordionExpanded(false);
-    navigate("?open=true");
   }
 
   return (

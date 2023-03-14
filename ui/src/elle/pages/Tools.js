@@ -1,6 +1,6 @@
 import ToolCard from "../components/ToolCard";
 import React, {useEffect, useState} from "react";
-import {Box, Card, CardContent, Grid} from "@mui/material";
+import {Alert, Box, Card, CardContent, Grid} from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -76,6 +76,9 @@ function Tools() {
                     Analüüsivahendid
                   </AccordionSummary>
                   <AccordionDetails style={{minWidth: '350px'}}>
+                    <Alert severity="info"
+                           style={{marginBottom: "1em"}}>Hallide tööriistade kasutamise eelduseks on eelnev tekstide
+                      valimine või lisamine.</Alert>
                     <Box sx={{display: "flex", flexWrap: "wrap"}}>
                       {tools.map(tool => {
                         return [
