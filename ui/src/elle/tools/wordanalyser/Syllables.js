@@ -134,8 +134,8 @@ function Syllables() {
 
       const syllableWords = () => {
         for (let i = 0; i < row[4][0].length; i++) {
-          let word = row[4][0][i]
-          let count = row[4][1][i]
+          let word = row[4][0][i];
+          let count = row[4][1][i];
           info.col5[0].push(row[4][0][i]);
           if (i === row[4][0].length - 1) {
             info.col5[1].push(`(${row[4][1][i]})`);
@@ -147,7 +147,7 @@ function Syllables() {
                   {word}
                 </span>
                 &nbsp;({count})
-              </span>)
+              </span>);
           } else if (i === 0) {
             info.col5[1].push(`(${row[4][1][i]}), `);
             cellContent.push(
@@ -158,7 +158,7 @@ function Syllables() {
                   {word}
                 </span>
                 &nbsp;({count}),{' '}
-              </span>)
+              </span>);
           } else {
             info.col5[1].push(`(${row[4][1][i]}), `);
             cellContent.push(
@@ -175,7 +175,7 @@ function Syllables() {
         return <ToggleCell onCellContent={cellContent}/>
       }
 
-      infoList.push(info)
+      infoList.push(info);
       return {
         "silp": <span className="word"
                       onClick={(e) => setSyllable(e.target.textContent)}>{row[0]}</span>,
