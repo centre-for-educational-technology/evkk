@@ -1,9 +1,6 @@
-import {useContext, useEffect, useMemo, useState} from 'react';
+import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {useFilters, usePagination, useSortBy, useTable} from 'react-table';
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Box,
   Button,
   Chip,
@@ -21,6 +18,7 @@ import "../../translations/i18n";
 import {AnalyseContext, SetFormContext, SetTypeContext, SetWordContext} from "./Contexts";
 import ToggleCell from "./ToggleCell";
 import TableDownloadButton from "./TableDownloadButton";
+import Popover from "@mui/material/Popover";
 
 function GrammaticalAnalysis() {
   const {t} = useTranslation();
@@ -28,24 +26,34 @@ function GrammaticalAnalysis() {
   const setForm = useContext(SetFormContext);
   const setWord = useContext(SetWordContext);
   const analysedInput = useContext(AnalyseContext)[0];
-  const [filterValue, setValue] = useState([])
-  let wordArray = []
-  const types = analysedInput.wordtypes
-  const forms = analysedInput.wordforms
-  const words = analysedInput.words
-  const ids = analysedInput.ids
-  const [col1, setCol1] = useState([])
-  const [col2, setCol2] = useState([])
-  const [filtersInUse, setAppliedFilters] = useState([])
+  const [filterValue, setFilterValue] = useState([]);
+  let wordArray = [];
+  const types = analysedInput.wordtypes;
+  const forms = analysedInput.wordforms;
+  const words = analysedInput.words;
+  const ids = analysedInput.ids;
+  const [col1, setCol1] = useState([]);
+  const [col2, setCol2] = useState([]);
+  const [filtersInUse, setAppliedFilters] = useState([]);
+  const [popoverAnchorEl, setPopoverAnchorEl] = useState(null);
+  const openPopover = Boolean(popoverAnchorEl);
+  const popoverId = openPopover ? 'simple-popover' : undefined;
+  const handlePopoverOpen = (event) => {
+    setPopoverAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setPopoverAnchorEl(null);
+  };
 
   function checkFilters(filter1, filter2) {
-    let list = []
+    let list = [];
     for (let i = 0; i < filter1.length; i++) {
       if (filter2.includes(filter1[i])) {
-        list.push(filter1[i])
+        list.push(filter1[i]);
       }
     }
-    return list
+    return list;
   }
 
   function multiSelectFilter(rows, columnIds, filterValue) {
@@ -57,13 +65,9 @@ function GrammaticalAnalysis() {
   }
   function multiSelect(values, label, column) {
     const handleChange = (event) => {
-      const {
-        target: {value},
-      } = event;
-      setValue(
-        value
-      )
-      setAppliedFilters(value)
+      let value = event.target.value;
+      setFilterValue(value);
+      setAppliedFilters(value);
       if (column === 1) {
         setAllFilters([{id: "col1", value: checkFilters(value, col1)}, {id: "col2", value: checkFilters(value, col2)}])
       } else {
@@ -72,7 +76,7 @@ function GrammaticalAnalysis() {
     }
     return (
       <Box marginY={"5px"}>
-        <FormControl size={"small"} sx={{width: 330, minWidth: 330}}>
+        <FormControl size={"small"} className="filter-class">
           <InputLabel>{label}</InputLabel>
           <Select
             label={label}
@@ -307,18 +311,29 @@ function GrammaticalAnalysis() {
 
   return (
     <Box>
-      <Box>
+      <Box className="filter-container">
         <Box component={"span"}>{filtersInUse !== [] ?
-          <Box maxWidth={"70%"}>Rakendatud filtrid: {AppliedFilters()} </Box> : null}</Box>
-        <Box position={"absolute"} right={"16%"}>
-          <Accordion sx={{border: "none", boxShadow: "none", width: "68px", height: "48px"}}>
-            <AccordionSummary sx={{height: "100%"}}> <Button sx={{height: "48px", width: "68px"}} variant={"contained"}><FilterAltIcon/></Button></AccordionSummary>
-            <AccordionDetails
-              sx={{backgroundColor: "white", width: "360px", position: "absolute", right: "-100%", zIndex: "100"}}>
+          <Box className="rakendatud-filtrid-box">Rakendatud filtrid: {AppliedFilters()} </Box> : null}</Box>
+        <Box>
+          <Button className="Popover-button" aria-describedby={popoverId} variant="contained" onClick={handlePopoverOpen}><FilterAltIcon fontSize="large"/></Button>
+          <Popover
+            id={popoverId}
+            open={openPopover}
+            anchorEl={popoverAnchorEl}
+            onClose={handlePopoverClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              horizontal: 'center',
+            }}
+          >
+            <Box className="popover-box">
               {multiSelect(col1, "Filtreeri sõnaliigi järgi", 1)}
               {multiSelect(col2, "Filtreeri vormi järgi", 2)}
-            </AccordionDetails>
-          </Accordion>
+            </Box>
+          </Popover>
         </Box>
         <TableDownloadButton data={data}
                         headers={tableToDownload}/>

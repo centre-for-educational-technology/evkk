@@ -3,6 +3,15 @@
   width: 100%;
 }
 
+.filter-class{
+  width: 330px;
+  min-width: 330px
+}
+
+.popover-box{
+  padding: 10px;
+}
+
 .analyserTable td, .analyserTable th {
   border: 1px solid #ddd;
   padding: 8px;
@@ -36,11 +45,21 @@
   align-items: center;
 }
 
+.filter-container{
+  display: flex;
+  gap: 10px;
+}
+
+.rakendatud-filtrid-box{
+  width: 65vw;
+}
+
 .inner-div {
   position: relative;
   width: 100%;
   background-color: #ddd;
 }
+
 
 .inner-div .close-btn {
   position: absolute;

@@ -8,9 +8,6 @@ import TableDownloadButton from "./TableDownloadButton";
 import {v4 as uuidv4} from 'uuid';
 import {AnalyseContext, SetSyllableContext, SetSyllableWordContext} from "./Contexts";
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Box,
   Button,
   Chip,
@@ -21,6 +18,7 @@ import {
 } from "@mui/material";
 import ToggleCell from "./ToggleCell";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import Popover from "@mui/material/Popover";
 
 function Syllables() {
 
@@ -35,12 +33,20 @@ function Syllables() {
   let syllables = [];
   let infoList = [];
   const [infoListNew, setInfolistNew] = useState([]);
-  const [filterValue, setValue] = useState([])
+  const [filterValue, setFilterValue] = useState([])
   const col2 = ["algus", "keskel", "lõpp"];
   const [filtersInUse, setAppliedFilters] = useState([])
-
   const tableToDownload = [t("syllables_header_syllable"), t("syllables_table_beginning"), t("syllables_table_middle"), t("syllables_table_end"), t("common_words_in_text"), t("common_header_frequency"), t("common_header_percentage")];
+  const [popoverAnchorEl, setPopoverAnchorEl] = useState(null);
+  const openPopover = Boolean(popoverAnchorEl);
+  const popoverId = openPopover ? 'simple-popover' : undefined;
+  const handlePopoverOpen = (event) => {
+    setPopoverAnchorEl(event.currentTarget);
+  };
 
+  const handlePopoverClose = () => {
+    setPopoverAnchorEl(null);
+  };
   function multiSelectFilter(rows, columnIds, filterValue) {
     return filterValue.length === 0
       ? rows
@@ -49,17 +55,11 @@ function Syllables() {
       );
   }
 
-
-
-  function multiSelect(values, label, column) {
+  function multiSelect(values, label) {
 
     const handleChange = (event) => {
-      const {
-        target: {value},
-      } = event;
-      setValue(
-        value
-      )
+      let value = event.target.value;
+      setFilterValue(value);
       setAppliedFilters(value);
       setFilter('col2', value);
     }
@@ -67,7 +67,7 @@ function Syllables() {
 
     return (
       <Box marginY={"5px"}>
-        <FormControl size={"small"} sx={{width: 330, minWidth: 330}}>
+        <FormControl className="filter-class" size={"small"}>
           <InputLabel>{label}</InputLabel>
           <Select
             label={label}
@@ -366,18 +366,28 @@ function Syllables() {
           formating();
           // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [])}
-        <Box>
-          <Box component={"span"}>{filtersInUse !== [] ?
-            <Box maxWidth={"70%"}>Rakendatud filtrid: {AppliedFilters()} </Box> : null}</Box>
-          <Box position={"absolute"} right={"16%"}>
-            <Accordion sx={{border: "none", boxShadow: "none", width: "68px", height: "48px"}}>
-              <AccordionSummary sx={{height: "100%"}}> <Button sx={{height: "48px", width: "68px"}}
-                                                               variant={"contained"}><FilterAltIcon/></Button></AccordionSummary>
-              <AccordionDetails
-                sx={{backgroundColor: "white", width: "360px", position: "absolute", right: "-100%", zIndex: "100"}}>
+        <Box className="filter-container">
+          <Box>{filtersInUse !== [] ?
+            <Box className="rakendatud-filtrid-box">Rakendatud filtrid: {AppliedFilters()} </Box> : null}</Box>
+          <Box>
+            <Button className="Popover-button" aria-describedby={popoverId} variant="contained" onClick={handlePopoverOpen}><FilterAltIcon fontSize="large"/></Button>
+            <Popover
+              id={popoverId}
+              open={openPopover}
+              anchorEl={popoverAnchorEl}
+              onClose={handlePopoverClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              transformOrigin={{
+                horizontal: 'center',
+              }}
+            >
+              <Box className="popover-box">
                 {multiSelect(col2, "Filtreeri vormi järgi", 2)}
-              </AccordionDetails>
-            </Accordion>
+              </Box>
+            </Popover>
           </Box>
           <TableDownloadButton data={infoListNew}
                           headers={tableToDownload}/>
