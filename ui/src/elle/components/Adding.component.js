@@ -378,10 +378,9 @@ class Adding extends Component {
                                 labelId="akad-materjalid-label"
                                 name="akadOppematerjal"
                                 value={this.state.akadOppematerjal}
-                                label="Akadeemiline õppematerjal"
+                                label="Abimaterjal"
                                 onChange={this.handleChange}
                         >
-                          <MenuItem value={""}></MenuItem>
                           <MenuItem value={"tolkesonastik"}>Tõlkesõnastik/masintõlge</MenuItem>
                           <MenuItem value={"ykskeelnesonastik"}>Ükskeelne sõnastik (k.a. veebisõnastikud)</MenuItem>
                           <MenuItem value={"terminisonastik"}>Erialane terminisõnastik või -baas</MenuItem>
@@ -398,10 +397,11 @@ class Adding extends Component {
                               multiline
                               label="Muu õppematerjal"
                               variant="outlined"
+                              size="small"
                               name="akadOppematerjalMuu"
                               value={this.state.akadOppematerjalMuu}
                               onChange={this.handleChange}
-                              style={{width: "75%"}}></TextField>
+                              ></TextField>
                           </FormControl>
                         </Grid>
                       }
