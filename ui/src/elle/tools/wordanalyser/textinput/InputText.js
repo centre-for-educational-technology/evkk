@@ -121,15 +121,17 @@ export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
   }, [analyse, onMarkWords, handleWord, markedIds, idNumber]);
 
   return (
+    <>
     <div className="textInputDiv">
       {updatedText}
-      <div className="wordHighlightButtons">
-        {idNumber > 0 ? <KeyboardArrowLeftIcon cursor={"pointer"}
+    </div>
+      <span className="wordHighlightButtons">
+        {idNumber > 0 ? <KeyboardArrowLeftIcon fontSize={"large"} cursor={"pointer"}
                                                onClick={() => changePreviousColor(idNumber, setIdNumber, markedIds, onWordInfo)}/> :
           <Box width={"24px"} height={"24px"}></Box>}
-        {idNumber < markedIds.length - 1 ? <KeyboardArrowRightIcon cursor={"pointer"}
+        {idNumber < markedIds.length - 1 ? <KeyboardArrowRightIcon fontSize={"large"} cursor={"pointer"}
                                                                    onClick={() => changeNextColor(idNumber, setIdNumber, markedIds, onWordInfo)}/> : null}
-      </div>
-    </div>
+      </span>
+    </>
   )
 }
