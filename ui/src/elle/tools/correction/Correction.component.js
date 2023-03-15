@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import "./Correction.css";
-import {Button, Card} from "@mui/material";
+import {Box, Button, Card, Tab, Tabs} from "@mui/material";
 import TextUpload from "../wordanalyser/textupload/TextUpload";
+import {TabContext, TabList, TabPanel} from "@mui/lab";
 
 //history to keep all changes step-by-step made to alasisu
 let history = [
@@ -142,6 +143,10 @@ class Correction extends Component {
       this.setState({"mitmekesisusvastus": t});
     })
   }
+
+  handleTabChange = (event, newValue) => {
+    this.setState({"avatudkaart": newValue});
+  };
 
 
   korrektuuriVajutus = () => {
@@ -408,38 +413,25 @@ class Correction extends Component {
           <br/>
         </div>
         <div style={{'float': 'left', 'margin': '10px', 'width': '50%', 'height': 'auto'}}>
-          <style>{`
-             @keyframes spin{
-                  from {transform:rotate(0deg);}
-                  to {transform:rotate(360deg);}
-                  }
-                  `}
-          </style>
-          <nav className="navbar navbar-expand-sm bg-light">
-            <ul className={"nav nav-tabs nav-justified"}
-                style={{width: "100%"}}>
-              <li className={"nav-item nav-link"}
-                  onClick={() => this.korrektuuriVajutus()}
-                  style={this.state.avatudkaart === "korrektuur" ? {fontWeight: "bold"} : {}}
-              >Eksimused
-              </li>
-              <li className={"nav-item nav-link"}
-                  onClick={() => this.hindajaVajutus()}
-                  style={this.state.avatudkaart === "hindamine" ? {fontWeight: "bold"} : {}}
-              >Tasemehinnang
-              </li>
-              <li className={"nav-item nav-link"}
-                  onClick={() => this.keerukusVajutus()}
-                  style={this.state.avatudkaart === "keerukus" ? {fontWeight: "bold"} : {}}
-              >Keerukus
-              </li>
-              <li className={"nav-item nav-link"}
-                  onClick={() => this.mitmekesisusVajutus()}
-                  style={this.state.avatudkaart === "mitmekesisus" ? {fontWeight: "bold"} : {}}
-              >Mitmekesisus
-              </li>
-            </ul>
-          </nav>
+          <TabContext value={this.state.avatudkaart}>
+            <TabList onChange={this.handleTabChange}>
+              <Tab
+                   value="korrektuur"
+                   label="Korrektuur"
+              />
+              <Tab
+                   value="hindamine"
+                   label="hindamine"
+              />
+              <Tab
+                   value="keerukus"
+                   label="keerukus"
+              />
+              <Tab
+                   value="mitmekesisus"
+                   label="mitmekesisus"
+              />
+            </TabList>
 
           {!this.state.kordab &&
             <div><br/> <br/><br/> <br/>
@@ -453,8 +445,9 @@ class Correction extends Component {
           }
           <br/>
           <br/>
-          {this.state.avatudkaart === "korrektuur" && this.state.kordab && this.state.paringlopetatud &&
-          this.state.muutuskood.props.children === "puuduvad" ?
+          <TabPanel value="korrektuur">
+            {this.state.kordab && this.state.paringlopetatud &&
+            this.state.muutuskood.props.children === "puuduvad" ?
             <span>
                  <div style={{'float': 'left', 'margin': '10px', 'width': '50%'}}>
                    <h3>Vigu ei leitud</h3>
@@ -467,14 +460,15 @@ class Correction extends Component {
               }<br/>
               {this.state.vastusnahtav && <span>{this.state.tasemevastus ? this.state.vastuskood : "algus"}</span>}
              </span>
-          }
-
-
-          {this.state.avatudkaart === "hindamine" && this.state.kordab && <div>
+            }
+          </TabPanel>
+          <TabPanel value="hindamine">
+            {this.state.kordab && <div>
             {(this.state.alasisu !== this.state.tasemetekst) ? this.ketas() : ""} <br/>
             <span>{this.renderTase()}</span></div>}
-
-          {this.state.avatudkaart === "keerukus" && this.state.kordab && this.state.keerukusvastus[0] > 0 &&
+          </TabPanel>
+          <TabPanel value="keerukus">
+            {this.state.kordab && this.state.keerukusvastus[0] > 0 &&
             <div>Keerukuse andmed <br/>
 
               <table>
@@ -536,7 +530,9 @@ class Correction extends Component {
               </table>
               <div style={{fontSize: "20px"}}>Pakutav keerukustase: {this.state.keerukusvastus[11]}</div>
             </div>}
-          {this.state.avatudkaart === "mitmekesisus" && this.state.kordab && this.state.mitmekesisusvastus[10] > 0 &&
+          </TabPanel>
+          <TabPanel value="mitmekesisus">
+            {this.state.kordab && this.state.mitmekesisusvastus[10] > 0 &&
             <div>Sõnavara mitmekesisuse andmed<br/>
               <table>
                 <tbody>
@@ -583,6 +579,8 @@ class Correction extends Component {
                 </tbody>
               </table>
             </div>}
+          </TabPanel>
+          </TabContext>
         </div>
       </Card>
     );
