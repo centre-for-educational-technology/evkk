@@ -339,11 +339,6 @@ function GrammaticalAnalysis() {
               <th
                 className='tableHead'
                 key={uuidv4()}
-                style={{
-                  borderBottom: 'solid 1px',
-                  color: 'black',
-                  fontWeight: 'bold',
-                }}
               >
                 {<span>{column.render('Header')} {column.canFilter ? column.render("Filter") : null}</span>}
                 <span className='sortIcon'  {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>

@@ -1,6 +1,6 @@
 import {queryStore} from "../../store/QueryStore";
 import {useNavigate} from "react-router-dom";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import "./Wordlist.css";
 import {
   Accordion,
@@ -21,6 +21,9 @@ import {
 import {AccordionStyle} from "../../utils/constants";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {QuestionMark} from "@mui/icons-material";
+import {usePagination, useSortBy, useTable} from "react-table";
+import TablePagination from "../wordanalyser/TablePagination";
+import WordlistMenu from "./menu/WordlistMenu";
 
 export default function Wordlist() {
 
@@ -32,6 +35,87 @@ export default function Wordlist() {
   const [customStopwords, setCustomStopwords] = useState('');
   const [capitalizationChecked, setCapitalizationChecked] = useState(false);
   const [minimumFrequency, setMinimumFrequency] = useState('');
+
+  const columns = useMemo(() => [
+    {
+      Header: 'Jrk',
+      accessor: 'id',
+      width: 40,
+      disableSortBy: true,
+      Cell: (cellProps) => {
+        return cellProps.sortedRows.findIndex(item => item.original.word === cellProps.row.original.word) + 1;
+      }
+    },
+    {
+      Header: () => {
+        return typeValue === 'sonad' ? 'Sõnavorm' : 'Algvorm';
+      },
+      accessor: 'word',
+      width: 200,
+      Cell: (cellProps) => {
+        return cellProps.value;
+      }
+    },
+    {
+      Header: 'Kasutuste arv',
+      accessor: 'freq_count',
+      width: 40,
+      Cell: (cellProps) => {
+        return cellProps.value;
+      }
+    },
+    {
+      Header: 'Osakaal',
+      accessor: 'freq_percentage',
+      width: 40,
+      Cell: (cellProps) => {
+        return cellProps.value;
+      }
+    },
+    {
+      Header: '',
+      accessor: 'menu',
+      width: 1,
+      disableSortBy: true,
+      Cell: (cellProps) => {
+        return <WordlistMenu cellProps={cellProps}/>;
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  ], [typeValue]);
+
+  // todo replace with real data when done testing!
+  const data = useMemo(() => [{word: 'asd', freq_count: 3, freq_percentage: '55%'}, {
+    word: 'tore',
+    freq_count: 1,
+    freq_percentage: '21.2%'
+  }, {word: 'arvuti', freq_count: 2, freq_percentage: '0.55%'}], []);
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    page,
+    prepareRow,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    state: {pageIndex, pageSize}
+  } = useTable({
+    columns, data, initialState: {
+      sortBy: [
+        {
+          id: "freq_count",
+          desc: true
+        }
+      ]
+    }
+  }, useSortBy, usePagination);
 
   useEffect(() => {
     if (!queryStore.getState()) {
@@ -151,6 +235,62 @@ export default function Wordlist() {
           </form>
         </AccordionDetails>
       </Accordion>
+      <table className='wordlist-table'
+             {...getTableProps()}>
+        <thead>
+        {headerGroups.map(headerGroup => (
+          <tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map(column => (
+              <th {...column.getHeaderProps()}>
+                {column.render('Header')}
+                {column.canSort &&
+                  <span className='sortIcon'
+                        {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>
+                      {column.isSorted
+                        ? column.isSortedDesc
+                          ? ' ▼'
+                          : ' ▲'
+                        : ' ▼▲'}
+                  </span>
+                }
+              </th>
+            ))}
+          </tr>
+        ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+        {page.map((row, _i) => {
+          prepareRow(row);
+          return (
+            <tr {...row.getRowProps()}>
+              {row.cells.map(cell => {
+                return (
+                  <td {...cell.getCellProps()}
+                      style={{
+                        width: cell.column.width
+                      }}>
+                    {cell.render('Cell')}
+                  </td>
+                )
+              })}
+            </tr>
+          )
+        })}
+        </tbody>
+      </table>
+      <br/>
+      <TablePagination
+        gotoPage={gotoPage}
+        previousPage={previousPage}
+        canPreviousPage={canPreviousPage}
+        nextPage={nextPage}
+        canNextPage={canNextPage}
+        pageIndex={pageIndex}
+        pageOptions={pageOptions}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+        pageCount={pageCount}
+      />
     </div>
   );
 }

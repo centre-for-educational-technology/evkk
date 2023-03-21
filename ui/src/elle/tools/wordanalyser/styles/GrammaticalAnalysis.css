@@ -17,6 +17,9 @@
 
 .tableHead {
   padding-left: 10px;
+  border-bottom: solid 1px !important;
+  color: black;
+  font-weight: bold;
 }
 
 .tableHead:hover {
