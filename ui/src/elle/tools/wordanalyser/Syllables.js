@@ -101,7 +101,7 @@ function Syllables() {
           } else if (syllables[i + 1][1] === 'l6pp') {
             listCounter[2] = listCounter[2] + 1;
           }
-          // this assignment is necessary
+          // this assignment is necessary!
           i++;
         }
       }
@@ -296,6 +296,7 @@ function Syllables() {
         }, [])}
 
         <TableDownloadButton data={infoListNew}
+                             tableType={'Syllables'}
                              headers={tableToDownload}/>
 
         <table className="analyserTable" {...getTableProps()}

@@ -52,5 +52,6 @@ export const TRANSLATIONS_ET = {
   textupload_upload: "Laadi failid üles",
   wordinfo_title: "Sõnaanalüüs",
   wordinfo_tutorial_text: "Sõnadel klõpsates ilmub siia valitud sõna grammatiline info.",
-  wordinfo_word: "Sõna"
+  wordinfo_word: "Sõna",
+  wordlist_filename: "sõnaloend"
 };

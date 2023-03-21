@@ -329,6 +329,7 @@ function GrammaticalAnalysis() {
   return (
     <Box>
       <TableDownloadButton data={data}
+                           tableType={'GrammaticalAnalysis'}
                            headers={tableToDownload}/>
       <table className='analyserTable' {...getTableProps()}
              style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>

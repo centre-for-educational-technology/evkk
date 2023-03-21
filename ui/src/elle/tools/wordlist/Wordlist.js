@@ -24,6 +24,7 @@ import {QuestionMark} from "@mui/icons-material";
 import {usePagination, useSortBy, useTable} from "react-table";
 import TablePagination from "../wordanalyser/TablePagination";
 import WordlistMenu from "./menu/WordlistMenu";
+import TableDownloadButton from "../wordanalyser/TableDownloadButton";
 
 export default function Wordlist() {
 
@@ -35,6 +36,8 @@ export default function Wordlist() {
   const [customStopwords, setCustomStopwords] = useState('');
   const [capitalizationChecked, setCapitalizationChecked] = useState(false);
   const [minimumFrequency, setMinimumFrequency] = useState('');
+  const [tableToDownload, setTableToDownload] = useState([]);
+  const accessors = ["word", "freq_count", "freq_percentage"];
 
   const columns = useMemo(() => [
     {
@@ -90,6 +93,11 @@ export default function Wordlist() {
     freq_count: 1,
     freq_percentage: '21.2%'
   }, {word: 'arvuti', freq_count: 2, freq_percentage: '0.55%'}], []);
+
+  useEffect(() => {
+    const type = typeValue === 'sonad' ? 'Sõnavorm' : 'Algvorm';
+    setTableToDownload([type, 'Kasutuste arv', 'Osakaal']);
+  }, [typeValue]);
 
   const {
     getTableProps,
@@ -235,6 +243,11 @@ export default function Wordlist() {
           </form>
         </AccordionDetails>
       </Accordion>
+      <TableDownloadButton data={data}
+                           tableType={'Wordlist'}
+                           headers={tableToDownload}
+                           accessors={accessors}
+                           marginRight={'18vw'}/>
       <table className='wordlist-table'
              {...getTableProps()}>
         <thead>

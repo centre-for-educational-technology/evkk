@@ -52,5 +52,6 @@ export const TRANSLATIONS_EN = {
   textupload_upload: "Upload files",
   wordinfo_title: "Word analysis",
   wordinfo_tutorial_text: "Clicking on a word will display the grammatical info of the word.",
-  wordinfo_word: "Word"
+  wordinfo_word: "Word",
+  wordlist_filename: "wordlist"
 };

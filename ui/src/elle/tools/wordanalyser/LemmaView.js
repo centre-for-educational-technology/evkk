@@ -167,6 +167,7 @@ function LemmaView() {
     <>
       <Box>
         <TableDownloadButton data={data}
+                             tableType={'LemmaView'}
                              headers={tableToDownload}/>
         <table className="analyserTable"
                {...getTableProps()}
