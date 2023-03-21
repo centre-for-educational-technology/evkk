@@ -30,6 +30,8 @@ export default function Wordlist() {
   const [typeError, setTypeError] = useState(false);
   const [stopwordsChecked, setStopwordsChecked] = useState(false);
   const [customStopwords, setCustomStopwords] = useState('');
+  const [capitalizationChecked, setCapitalizationChecked] = useState(false);
+  const [minimumFrequency, setMinimumFrequency] = useState('');
 
   useEffect(() => {
     if (!queryStore.getState()) {
@@ -121,6 +123,27 @@ export default function Wordlist() {
                              size="small"
                              value={customStopwords}
                              onChange={(e) => setCustomStopwords(e.target.value)}
+                             style={{width: "350px"}}/>
+                </FormControl>
+              </div>
+              <div>
+                <FormControl sx={{m: 7}}
+                             variant="standard">
+                  <FormControlLabel control={
+                    <Checkbox
+                      checked={capitalizationChecked}
+                      onChange={(e) => setCapitalizationChecked(e.target.checked)}
+                    ></Checkbox>
+                  }
+                                    label="säilita suurtähed"
+                  />
+                  <TextField label="Määra minimaalne sõna esinemise sagedus"
+                             type="number"
+                             inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: '1'}}
+                             variant="outlined"
+                             size="small"
+                             value={minimumFrequency}
+                             onChange={(e) => setMinimumFrequency(e.target.value)}
                              style={{width: "350px"}}/>
                 </FormControl>
               </div>
