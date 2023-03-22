@@ -7,12 +7,19 @@
   background-color: white;
 }
 
-.filter-class{
+.analyserTable {
+  margin-right: auto;
+  margin-left: auto;
+  border-bottom: solid 1px;
+  width: 100%
+}
+
+.filter-class {
   width: 330px;
   min-width: 330px
 }
 
-.accordion-class{
+.accordion-class {
   border: none;
   box-shadow: none;
   width: 68px;
@@ -34,6 +41,9 @@
 
 .tableHead {
   padding-left: 10px;
+  border-bottom: solid 1px;
+  color: black;
+  font-weight: bold
 }
 
 .popover-box{

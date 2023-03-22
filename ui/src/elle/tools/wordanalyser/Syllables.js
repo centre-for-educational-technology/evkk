@@ -381,10 +381,9 @@ function Syllables() {
             </Popover>
           </Box>
           <TableDownloadButton data={infoListNew}
-                          headers={tableToDownload}/>
+                               headers={tableToDownload}/>
         </Box>
-        <table className="analyserTable" {...getTableProps()}
-               style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>
+        <table className="analyserTable" {...getTableProps()}>
           <thead>
           {headerGroups.map((headerGroup) => (
             <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>

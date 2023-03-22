@@ -1,6 +1,9 @@
 .analyserTable {
   border-collapse: collapse;
   width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  border-bottom: solid 1px;
 }
 
 .filter-class{
@@ -66,6 +69,12 @@
   right: 0;
   background-color: #ddd;
   border-color: #ddd;
+}
+
+.tableHdr {
+  border-bottom: 1px solid;
+  color: black;
+  font-weight: bold
 }
 
 .tableHdr:nth-child(2) > .sort {

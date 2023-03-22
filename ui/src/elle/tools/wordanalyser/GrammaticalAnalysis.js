@@ -329,23 +329,14 @@ function GrammaticalAnalysis() {
           </Popover>
         </Box>
         <TableDownloadButton data={data}
-                        headers={tableToDownload}/>
+                             headers={tableToDownload}/>
       </Box>
-      <table className='analyserTable' {...getTableProps()}
-             style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>
+      <table className='analyserTable' {...getTableProps()}>
         <thead>
         {headerGroups.map(headerGroup => (
           <tr className='tableRow' {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
-              <th
-                className='tableHead'
-                key={uuidv4()}
-                style={{
-                  borderBottom: 'solid 1px',
-                  color: 'black',
-                  fontWeight: 'bold',
-                }}
-              >
+              <th className='tableHead'>
                 {<span>{column.render('Header')}</span>}
                 <span className='sortIcon'  {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>
                     {column.isSorted
