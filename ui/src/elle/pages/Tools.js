@@ -24,7 +24,7 @@ function Tools() {
     {
       title: "Sõnaloend",
       img: require("../resources/images/tools/sonaloend.png").default,
-      description: "Kuva kõik tekstis kasutatud sõnad sageduse või tähestiku järjekorras",
+      description: "Kuva tekstis kasutatud sõnad sageduse või tähestiku järjekorras",
       route: "wordlist",
       action: () => toolSelect("wordlist")
     },
@@ -77,8 +77,9 @@ function Tools() {
                   </AccordionSummary>
                   <AccordionDetails style={{minWidth: '350px'}}>
                     <Alert severity="info"
-                           style={{marginBottom: "1em"}}>Hallide tööriistade kasutamise eelduseks on eelnev tekstide
-                      valimine või lisamine.</Alert>
+                           style={{marginBottom: "1em"}}>Hallide tööriistade kasutamiseks vali või lisa esmalt
+                      tekst(id). Ülejäänud tööriistadesse ei saa veel tekste suunata: sisesta need tekstikasti või laadi
+                      üles.</Alert>
                     <Box sx={{display: "flex", flexWrap: "wrap"}}>
                       {tools.map(tool => {
                         return [

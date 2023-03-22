@@ -335,7 +335,10 @@ function Query() {
 
   return (
     <div>
-      {alert && <><br/><Alert severity="error">Vali vähemalt üks alamkorpus!</Alert></>}
+      <Alert severity="info">Otsi tekste ELLE tekstikogust ja analüüsi neid meie tööriistadega või sisesta
+        analüüsimiseks oma tekst(id).</Alert>
+      <br/>
+      {alert && <><Alert severity="error">Vali vähemalt üks alamkorpus!</Alert><br/></>}
       <div className="buttonBox">
         <Button variant="contained"
                 onClick={() => {

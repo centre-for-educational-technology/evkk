@@ -155,7 +155,7 @@ export default function Wordlist() {
           id="wordlist-filters-header"
         >
           <Typography>
-            Analüüsi parameetrid
+            Analüüsi valikud
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -227,16 +227,22 @@ export default function Wordlist() {
                       onChange={(e) => setCapitalizationChecked(e.target.checked)}
                     ></Checkbox>
                   }
-                                    label="säilita suurtähed"
+                                    label={<>
+                                      säilita suurtähed
+                                      {/* todo add tooltip text */}
+                                      <Tooltip title="todo"
+                                               placement="right">
+                                        <QuestionMark className="stopwords-tooltip-icon"/>
+                                      </Tooltip></>}
                   />
-                  <TextField label="Määra minimaalne sõna esinemise sagedus"
+                  <TextField label="Määra sõna minimaalne sagedus"
                              type="number"
                              inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: '1'}}
                              variant="outlined"
                              size="small"
                              value={minimumFrequency}
                              onChange={(e) => setMinimumFrequency(e.target.value)}
-                             style={{width: "350px"}}/>
+                             style={{width: "290px"}}/>
                 </FormControl>
               </div>
             </div>
