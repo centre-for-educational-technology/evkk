@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import "./Correction.css";
-import {Box, Button, Card, Tab, Tabs} from "@mui/material";
+import {Alert, Box, Button, Card, Tab} from "@mui/material";
 import TextUpload from "../wordanalyser/textupload/TextUpload";
 import {TabContext, TabList, TabPanel} from "@mui/lab";
 
@@ -261,6 +261,7 @@ class Correction extends Component {
   }
   state;
 
+
   ketas() {
     return <div
       style={{
@@ -271,19 +272,47 @@ class Correction extends Component {
   }
 
   renderTase() {
-    return <span>{this.state.kordab ? <span>{this.state.alasisu.length > 0 ?
-      (this.state.tasemevastus.length > 0 ?
-        (this.state.tasemevastus.length === 1 ? "" : <div style={{float: 'left', width: '95%'}}>
-          <h1>{this.state.tasemevastus[0][1]} {(this.state.tasemevastus[0][0] * 100).toFixed(0)}%</h1>
-          Muude tasemete tõenäosus: <br/>
-          <ul>
-            {this.state.tasemevastus.slice(1, 4).map((vastus) =>
-              <li key={vastus[1]}>{vastus[1] + " - " + (vastus[0] * 100).toFixed(0)}%</li>
-            )}
-          </ul>
+    var degreeValue
+    console.log(this.state.tasemevastus)
+    if (this.state.tasemevastus.length !== 1) {
+      let val1 = (this.state.tasemevastus[0][0] * 100 * 3.6).toFixed(0);
+      let val2 = (this.state.tasemevastus[1][0] * 100 * 3.6).toFixed(0);
+      let val3 = (this.state.tasemevastus[2][0] * 100 * 3.6).toFixed(0);
+      let val4 = (this.state.tasemevastus[3][0] * 100 * 3.6).toFixed(0);
+      degreeValue = "conic-gradient(red " + val1 + "deg, orange " + val1 + "deg " + val2 + "deg, yellow " + val2 + "deg " + val3 + "deg, green " + val3 + "deg " + val4 + "deg)";
+    }
+    return <Box component={"span"} width={"auto"}>{this.state.kordab ?
+      <Box component={"span"} width={"auto"}>{this.state.alasisu.length > 0 ?
+        (this.state.tasemevastus.length > 0 ?
+          (this.state.tasemevastus.length === 1 ? "" : <Box width={"100%"}>
 
-          {this.renderTasemed()}
-        </div>) : <div>Tekst liiga lühike</div>) : ""}</span> : "Tekst on liiga lühike"}</span>
+            <Box style={{display: "flex", paddingRight: "100px", paddingLeft: "100px", width: "100%"}}>
+              <Box width={"100%"} marginRight={"20%"}>
+                <Box display={"flex"} alignItems={"center"}>
+                  <Box width={15} height={15} borderRadius={"50px"} bgcolor={"red"} marginRight={"10px"}></Box>
+                  <Box>
+                    <h1>{this.state.tasemevastus[0][1]}: {(this.state.tasemevastus[0][0] * 100).toFixed(0)}%</h1>
+                  </Box>
+                </Box>
+
+                Muude tasemete tõenäosus: <br/>
+                <ul className="level-list">
+                  {this.state.tasemevastus.slice(1, 4).map((vastus) =>
+                    <li key={vastus[1]}>{vastus[1] + " - " + (vastus[0] * 100).toFixed(0)}%</li>
+                  )}
+                </ul>
+
+
+              </Box>
+              <Box display={"flex"} justifyContent={"center"}>
+                <Box height={150} width={150} borderRadius={50} paddingRight={"50px"} style={{background: degreeValue}}>
+                </Box>
+              </Box>
+            </Box>
+
+
+            {this.renderTasemed()}
+          </Box>) : <div>Tekst liiga lühike</div>) : ""}</Box> : "Tekst on liiga lühike"}</Box>
   }
 
   kerimine() {
@@ -372,215 +401,211 @@ class Correction extends Component {
             square={true}
             elevation={2}>
         <p/>
-        <div style={{'float': 'left', 'margin': '10px', 'width': '45%'}}>
-          <div style={{'float': 'left'}}>
+        <Box display="flex">
+          <div>
             <TextUpload sendTextFromFile={this.sendTextFromFile}/>
           </div>
-
-          <div style={{'float': 'right'}}>
+          <div>
             <span className="material-symbols-outlined"
                   onClick={this.handleUndo}>undo</span>
             <span className="material-symbols-outlined"
                   onClick={this.handleRedo}>redo</span>
           </div>
-          <br/><br/>
-          <div className="wrapper">
-            <div id="highlights"
-                 style={{padding: "5px"}} ref={(e) => this.taust1 = e}>{this.state.taustakood}</div>
-            <textarea id="textarea"
-                      style={{border:"solid grey 1px", padding: "5px"}}
-                      onScroll={() => this.kerimine()}
-                      ref={(e) => this.ala1 = e}
-                      onChange={(event) => this.alaMuutus(event)}
-                      rows="15"
-                      cols="60"
-                      value={this.state.alasisu}
-                      spellCheck={false}
-                      onMouseUp={(event) => this.tekstialaHiir(event)}
-                      placeholder={"Kopeeri või kirjuta siia analüüsitav tekst"}
+        </Box>
 
-            />
+        <div className="correction-container">
+          <div>
+            <br/><br/>
+            <Box>
+              <div id="highlights"
+                   ref={(e) => this.taust1 = e}>{this.state.taustakood}</div>
+              <textarea id="textarea"
+                        onScroll={() => this.kerimine()}
+                        ref={(e) => this.ala1 = e}
+                        onChange={(event) => this.alaMuutus(event)}
+                        value={this.state.alasisu}
+                        spellCheck={false}
+                        onMouseUp={(event) => this.tekstialaHiir(event)}
+                        placeholder={"Kopeeri või kirjuta siia analüüsitav tekst"}
+
+              />
+            </Box>
+            <Box marginTop="-200px">
+              <Button
+                variant="contained"
+                onClick={() => this.kordama()}>Analüüsi
+              </Button>
+            </Box>
+
           </div>
-          <br/>
+          <div className="tab-container">
+            <TabContext value={this.state.avatudkaart}>
+              <TabList centered={true} onChange={this.handleTabChange}>
+                <Tab
+                  value="korrektuur"
+                  label="Korrektuur"
+                />
+                <Tab
+                  value="hindamine"
+                  label="hindamine"
+                />
+                <Tab
+                  value="keerukus"
+                  label="keerukus"
+                />
+                <Tab
+                  value="mitmekesisus"
+                  label="mitmekesisus"
+                />
+              </TabList>
 
-          <br/>
-          <div style={{width: "300px"}}>Rakenduse abil saad parandada oma teksti õigekirja ja vaadata,
-            mis keeleoskustasemele see vastab (A2–C1).
-            Loe lähemalt <a href={"https://github.com/centre-for-educational-technology/evkk/wiki/Demos"}>siit</a>.
-          </div>
-          <br/>
-          <br/>
-          <br/>
-        </div>
-        <div style={{'float': 'left', 'margin': '10px', 'width': '50%', 'height': 'auto'}}>
-          <TabContext value={this.state.avatudkaart}>
-            <TabList onChange={this.handleTabChange}>
-              <Tab
-                   value="korrektuur"
-                   label="Korrektuur"
-              />
-              <Tab
-                   value="hindamine"
-                   label="hindamine"
-              />
-              <Tab
-                   value="keerukus"
-                   label="keerukus"
-              />
-              <Tab
-                   value="mitmekesisus"
-                   label="mitmekesisus"
-              />
-            </TabList>
-
-          {!this.state.kordab &&
-            <div><br/> <br/><br/> <br/>
-              <div style={{width: "100%", textAlign: "center", height: 500, overflowY: "auto"}}>
-                <Button style={{'fontSize': '20px'}}
-                        sx={{width: 200}}
-                        variant="contained"
-                        onClick={() => this.kordama()}>Analüüsi</Button>
-              </div>
-            </div>
-          }
-          <br/>
-          <br/>
-          <TabPanel value="korrektuur">
-            {this.state.kordab && this.state.paringlopetatud &&
-            this.state.muutuskood.props.children === "puuduvad" ?
-            <span>
+              {!this.state.kordab &&
+                <div>
+                  <Box marginTop="50px">
+                    <Alert severity="info">Rakenduse abil saad parandada oma teksti õigekirja ja vaadata,
+                      mis keeleoskustasemele see vastab (A2–C1).
+                      Loe lähemalt <a
+                        href={"https://github.com/centre-for-educational-technology/evkk/wiki/Demos"}>siit</a>.</Alert>
+                  </Box>
+                </div>
+              }
+              <TabPanel value="korrektuur">
+                {this.state.kordab && this.state.paringlopetatud &&
+                this.state.muutuskood.props.children === "puuduvad" ?
+                  <span>
                  <div style={{'float': 'left', 'margin': '10px', 'width': '50%'}}>
                    <h3>Vigu ei leitud</h3>
                  </div>
                </span>
-            :
-            <span>
+                  :
+                  <span>
              {this.state.kordab && this.state.alasisu !== this.state.korrektorivastus[1] && this.ketas()}<br/>
-              {(this.state.yksikmuutus) ? this.state.yksikmuutus : ""
-              }<br/>
-              {this.state.vastusnahtav && <span>{this.state.tasemevastus ? this.state.vastuskood : "algus"}</span>}
+                    {(this.state.yksikmuutus) ? this.state.yksikmuutus : ""
+                    }<br/>
+                    {this.state.vastusnahtav && <span>{this.state.tasemevastus ? this.state.vastuskood : "algus"}</span>}
              </span>
-            }
-          </TabPanel>
-          <TabPanel value="hindamine">
-            {this.state.kordab && <div>
-            {(this.state.alasisu !== this.state.tasemetekst) ? this.ketas() : ""} <br/>
-            <span>{this.renderTase()}</span></div>}
-          </TabPanel>
-          <TabPanel value="keerukus">
-            {this.state.kordab && this.state.keerukusvastus[0] > 0 &&
-            <div>Keerukuse andmed <br/>
+                }
+              </TabPanel>
+              <TabPanel value="hindamine">
+                {this.state.kordab && <div>
+                  {(this.state.alasisu !== this.state.tasemetekst) ? this.ketas() : ""} <br/>
+                  <span>{this.renderTase()}</span></div>}
+              </TabPanel>
+              <TabPanel value="keerukus">
+                {this.state.kordab && this.state.keerukusvastus[0] > 0 &&
+                  <div>Keerukuse andmed <br/>
 
-              <table>
-                <tbody>
-                <tr>
-                  <td>Lauseid</td>
-                  <td>&nbsp;&nbsp;</td>
-                  <td>{this.state.keerukusvastus[0]}</td>
-                </tr>
-                <tr>
-                  <td>Sõnu</td>
-                  <td>&nbsp;</td>
-                  <td>{this.state.keerukusvastus[1]}</td>
-                </tr>
-                <tr>
-                  <td>Paljusilbilisi sõnu</td>
-                  <td>&nbsp;</td>
-                  <td>{this.state.keerukusvastus[2]}</td>
-                </tr>
-                <tr>
-                  <td>Silpe</td>
-                  <td>&nbsp;</td>
-                  <td>{this.state.keerukusvastus[3]}</td>
-                </tr>
-                <tr>
-                  <td>Pikki sõnu</td>
-                  <td>&nbsp;</td>
-                  <td>{this.state.keerukusvastus[4]}</td>
-                </tr>
-                </tbody>
-              </table>
-              <br/><br/>
-              Indeksid<br/>
-              <table>
-                <tbody>
-                <tr>
-                  <td
-                    title="1,0430*√((vähemalt kolmesilbilisi sonu*30)/lausete arv)+3,1291  (McLaughlin, 1969)">SMOG
-                  </td>
-                  <td>&nbsp;</td>
-                  <td>{parseFloat(this.state.keerukusvastus[5]).toFixed(2)}</td>
-                </tr>
-                <tr>
-                  <td
-                    title="0.39 * (sõnade arv/lausete arv) + 11.8 * (silpide arv/sõnade arv) - 15.59  (Kincaid et al., 1975)">Flesch-Kincaidi
-                    indeks
-                  </td>
-                  <td>&nbsp;</td>
-                  <td>{parseFloat(this.state.keerukusvastus[6]).toFixed(2)}</td>
-                </tr>
-                <tr>
-                  <td
-                    title="sõnade arv/lausete arv + ((pikkade sõnade arv * 100)/sõnade arv)  (Björnsson, 1968)">LIX
-                  </td>
-                  <td>&nbsp;</td>
-                  <td>{this.state.keerukusvastus[7]}</td>
-                </tr>
-                </tbody>
-              </table>
-              <div style={{fontSize: "20px"}}>Pakutav keerukustase: {this.state.keerukusvastus[11]}</div>
-            </div>}
-          </TabPanel>
-          <TabPanel value="mitmekesisus">
-            {this.state.kordab && this.state.mitmekesisusvastus[10] > 0 &&
-            <div>Sõnavara mitmekesisuse andmed<br/>
-              <table>
-                <tbody>
-                <tr>
-                  <td>Sõnu</td>
-                  <td>&nbsp;&nbsp;</td>
-                  <td>{this.state.mitmekesisusvastus[10]}</td>
-                </tr>
-                <tr>
-                  <td>Lemmasid ehk erinevaid sõnu</td>
-                  <td>&nbsp;</td>
-                  <td>{this.state.mitmekesisusvastus[11]}</td>
-                </tr>
-                <tr>
-                  <td title="lemmade arv / √(2 * sõnade arv)  (Carroll, 1964)">Korrigeeritud lemmade-sõnade suhtarv -
-                    KLSS <br/>(ingl Corrected Type-Token Ratio)
-                  </td>
-                  <td>&nbsp;</td>
-                  <td>{this.state.mitmekesisusvastus[0]}</td>
-                </tr>
-                <tr>
-                  <td title="lemmade arv /  √(sõnade arv)  (Guiraud, 1960)">Juuritud lemmade-sõnade suhtarv -
-                    JLSS <br/>(ingl Root Type-Token Ratio)
-                  </td>
-                  <td>&nbsp;</td>
-                  <td>{this.state.mitmekesisusvastus[1]}</td>
-                </tr>
-                <tr>
-                  <td
-                    title="Indeks mõõdab lemmade ja sõnade suhtarvu järjestikustes tekstiosades. Algul on suhtarv 1. Iga sõna juures arvutatakse see uuesti, kuni väärtus langeb alla piirarvu 0,72. Tsükkel kordub, kuni teksti lõpus jagatakse sõnade arv selliste tsüklite arvuga. Seejärel korratakse sama, liikudes tekstis tagantpoolt ettepoole. MTLD on nende kahe teksti keskväärtus. (McCarthy &amp; Jarvis, 2010)">MTLD
-                    indeks <br/>(ingl Measure of Textual Lexical Diversity)
-                  </td>
-                  <td>&nbsp;</td>
-                  <td>{this.state.mitmekesisusvastus[4]}</td>
-                </tr>
-                <tr>
-                  <td
-                    title="Indeksi arvutamiseks leitakse iga tekstis sisalduva lemma esinemistõenäosus juhuslikus 42-sõnalises tekstiosas. Kuna kõigi võimalike tekstikatkete arv on enamasti väga suur, arvutatakse tõenäosused hüpergeomeetrilise jaotuse funktsiooni abil. Kõigi lemmade esinemistõenäosused summeeritakse. (McCarthy &amp; Jarvis, 2007)">HDD
-                    indeks <br/>(ingl Hypergeometric Distribution D)
-                  </td>
-                  <td>&nbsp;</td>
-                  <td>{this.state.mitmekesisusvastus[5]}</td>
-                </tr>
-                </tbody>
-              </table>
-            </div>}
-          </TabPanel>
-          </TabContext>
+                    <table>
+                      <tbody>
+                      <tr>
+                        <td>Lauseid</td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>{this.state.keerukusvastus[0]}</td>
+                      </tr>
+                      <tr>
+                        <td>Sõnu</td>
+                        <td>&nbsp;</td>
+                        <td>{this.state.keerukusvastus[1]}</td>
+                      </tr>
+                      <tr>
+                        <td>Paljusilbilisi sõnu</td>
+                        <td>&nbsp;</td>
+                        <td>{this.state.keerukusvastus[2]}</td>
+                      </tr>
+                      <tr>
+                        <td>Silpe</td>
+                        <td>&nbsp;</td>
+                        <td>{this.state.keerukusvastus[3]}</td>
+                      </tr>
+                      <tr>
+                        <td>Pikki sõnu</td>
+                        <td>&nbsp;</td>
+                        <td>{this.state.keerukusvastus[4]}</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                    <br/><br/>
+                    Indeksid<br/>
+                    <table>
+                      <tbody>
+                      <tr>
+                        <td
+                          title="1,0430*√((vähemalt kolmesilbilisi sonu*30)/lausete arv)+3,1291  (McLaughlin, 1969)">SMOG
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>{parseFloat(this.state.keerukusvastus[5]).toFixed(2)}</td>
+                      </tr>
+                      <tr>
+                        <td
+                          title="0.39 * (sõnade arv/lausete arv) + 11.8 * (silpide arv/sõnade arv) - 15.59  (Kincaid et al., 1975)">Flesch-Kincaidi
+                          indeks
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>{parseFloat(this.state.keerukusvastus[6]).toFixed(2)}</td>
+                      </tr>
+                      <tr>
+                        <td
+                          title="sõnade arv/lausete arv + ((pikkade sõnade arv * 100)/sõnade arv)  (Björnsson, 1968)">LIX
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>{this.state.keerukusvastus[7]}</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                    <div style={{fontSize: "20px"}}>Pakutav keerukustase: {this.state.keerukusvastus[11]}</div>
+                  </div>}
+              </TabPanel>
+              <TabPanel value="mitmekesisus">
+                {this.state.kordab && this.state.mitmekesisusvastus[10] > 0 &&
+                  <div>Sõnavara mitmekesisuse andmed<br/>
+                    <table>
+                      <tbody>
+                      <tr>
+                        <td>Sõnu</td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>{this.state.mitmekesisusvastus[10]}</td>
+                      </tr>
+                      <tr>
+                        <td>Lemmasid ehk erinevaid sõnu</td>
+                        <td>&nbsp;</td>
+                        <td>{this.state.mitmekesisusvastus[11]}</td>
+                      </tr>
+                      <tr>
+                        <td title="lemmade arv / √(2 * sõnade arv)  (Carroll, 1964)">Korrigeeritud lemmade-sõnade suhtarv -
+                          KLSS <br/>(ingl Corrected Type-Token Ratio)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>{this.state.mitmekesisusvastus[0]}</td>
+                      </tr>
+                      <tr>
+                        <td title="lemmade arv /  √(sõnade arv)  (Guiraud, 1960)">Juuritud lemmade-sõnade suhtarv -
+                          JLSS <br/>(ingl Root Type-Token Ratio)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>{this.state.mitmekesisusvastus[1]}</td>
+                      </tr>
+                      <tr>
+                        <td
+                          title="Indeks mõõdab lemmade ja sõnade suhtarvu järjestikustes tekstiosades. Algul on suhtarv 1. Iga sõna juures arvutatakse see uuesti, kuni väärtus langeb alla piirarvu 0,72. Tsükkel kordub, kuni teksti lõpus jagatakse sõnade arv selliste tsüklite arvuga. Seejärel korratakse sama, liikudes tekstis tagantpoolt ettepoole. MTLD on nende kahe teksti keskväärtus. (McCarthy &amp; Jarvis, 2010)">MTLD
+                          indeks <br/>(ingl Measure of Textual Lexical Diversity)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>{this.state.mitmekesisusvastus[4]}</td>
+                      </tr>
+                      <tr>
+                        <td
+                          title="Indeksi arvutamiseks leitakse iga tekstis sisalduva lemma esinemistõenäosus juhuslikus 42-sõnalises tekstiosas. Kuna kõigi võimalike tekstikatkete arv on enamasti väga suur, arvutatakse tõenäosused hüpergeomeetrilise jaotuse funktsiooni abil. Kõigi lemmade esinemistõenäosused summeeritakse. (McCarthy &amp; Jarvis, 2007)">HDD
+                          indeks <br/>(ingl Hypergeometric Distribution D)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>{this.state.mitmekesisusvastus[5]}</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>}
+              </TabPanel>
+            </TabContext>
+          </div>
         </div>
       </Card>
     );
