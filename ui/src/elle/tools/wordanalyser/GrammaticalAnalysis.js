@@ -1,14 +1,6 @@
 import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {useFilters, usePagination, useSortBy, useTable} from 'react-table';
-import {
-  Box,
-  Button,
-  Chip,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select
-} from "@mui/material";
+import {Box, Button, Chip, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import {v4 as uuidv4} from 'uuid';
@@ -34,7 +26,7 @@ function GrammaticalAnalysis() {
   const ids = analysedInput.ids;
   const [col1, setCol1] = useState([]);
   const [col2, setCol2] = useState([]);
-  const [filtersInUse, setAppliedFilters] = useState([]);
+  const [filtersInUse, setFiltersInUse] = useState([]);
   const [popoverAnchorEl, setPopoverAnchorEl] = useState(null);
   const openPopover = Boolean(popoverAnchorEl);
   const popoverId = openPopover ? 'simple-popover' : undefined;
@@ -67,7 +59,7 @@ function GrammaticalAnalysis() {
     const handleChange = (event) => {
       let value = event.target.value;
       setFilterValue(value);
-      setAppliedFilters(value);
+      setFiltersInUse(value);
       if (column === 1) {
         setAllFilters([{id: "col1", value: checkFilters(value, col1)}, {id: "col2", value: checkFilters(value, col2)}])
       } else {
@@ -313,9 +305,10 @@ function GrammaticalAnalysis() {
     <Box>
       <Box className="filter-container">
         <Box component={"span"}>{filtersInUse !== [] ?
-          <Box className="rakendatud-filtrid-box">Rakendatud filtrid: {AppliedFilters()} </Box> : null}</Box>
+          <Box className="applied-filters-box">Rakendatud filtrid: {AppliedFilters()} </Box> : null}</Box>
         <Box>
-          <Button className="Popover-button" aria-describedby={popoverId} variant="contained" onClick={handlePopoverOpen}><FilterAltIcon fontSize="large"/></Button>
+          <Button className="popover-button" aria-describedby={popoverId} variant="contained"
+                  onClick={handlePopoverOpen}><FilterAltIcon fontSize="large"/></Button>
           <Popover
             id={popoverId}
             open={openPopover}

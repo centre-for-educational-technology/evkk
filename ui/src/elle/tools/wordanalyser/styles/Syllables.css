@@ -60,7 +60,6 @@
   background-color: #ddd;
 }
 
-
 .inner-div .close-btn {
   position: absolute;
   top: 0;
@@ -68,7 +67,6 @@
   background-color: #ddd;
   border-color: #ddd;
 }
-
 
 .tableHdr:nth-child(2) > .sort {
   display: none;

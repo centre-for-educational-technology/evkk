@@ -7,15 +7,7 @@ import "../../translations/i18n";
 import TableDownloadButton from "./TableDownloadButton";
 import {v4 as uuidv4} from 'uuid';
 import {AnalyseContext, SetSyllableContext, SetSyllableWordContext} from "./Contexts";
-import {
-  Box,
-  Button,
-  Chip,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select
-} from "@mui/material";
+import {Box, Button, Chip, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import ToggleCell from "./ToggleCell";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import Popover from "@mui/material/Popover";
@@ -63,7 +55,6 @@ function Syllables() {
       setAppliedFilters(value);
       setFilter('col2', value);
     }
-
 
     return (
       <Box marginY={"5px"}>
