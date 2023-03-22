@@ -235,7 +235,7 @@ class Correction extends Component {
 
   renderTasemed = () => {
     if (this.state.taselisa) {
-      return <div onClick={() => this.setState({taselisa: false})}
+      return <div className={"pointer-hover"} onClick={() => this.setState({taselisa: false})}
                   style={{width: "100%"}}>
         Loe täpsemalt ↑
         <p style={{width: "100%"}}><b>Teksti üldine keerukus: <br/> {this.state.tasemevastus[4][1]} </b>
@@ -257,7 +257,7 @@ class Correction extends Component {
         <br/>
       </div>
     }
-    return <div onClick={() => this.setState({taselisa: true})}>Loe täpsemalt ...</div>
+    return <div className={"pointer-hover"} onClick={() => this.setState({taselisa: true})}>Loe täpsemalt ...</div>
   }
   state;
 
