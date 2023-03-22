@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import TextUploadModal from "./TextUploadModal";
 import "../styles/TextUpload.css";
-import {Button, Grid} from "@mui/material";
+import {Button, Grid, Tooltip} from "@mui/material";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import {useTranslation} from "react-i18next";
 import "../../../translations/i18n";
@@ -55,13 +55,15 @@ function TextUpload(props) {
 
   return (
     <div className='container'>
-      <FileUploadIcon id="upload_button"
-                      value="Vali tekst(id)"
-                      className="buttonFail"
-                      onClick={() => {
-                        setButtonPopup(true)
-                      }}
-                      style={{height: 30, width: 30, cursor: "pointer", margin: "0 0 1rem -.25rem"}}/>
+      <Tooltip title={"Lae tekst ülesse."} placement={"top-start"}>
+        <FileUploadIcon id="upload_button"
+                        value="Vali tekst(id)"
+                        className="buttonFail"
+                        onClick={() => {
+                          setButtonPopup(true)
+                        }}
+                        style={{height: 30, width: 30, cursor: "pointer", margin: "0 0 1rem -.25rem"}}/>
+      </Tooltip>
       <TextUploadModal trigger={buttonPopup}>
         <form encType="multipart/form-data"
               method="post"
