@@ -335,7 +335,7 @@ function Query() {
 
   return (
     <div>
-      <Alert severity="info">Otsi tekste ELLE tekstikogust ja analüüsi neid meie tööriistadega või sisesta
+      <Alert severity="info">Otsi tekste EVKK tekstikogust ja analüüsi neid meie tööriistadega või sisesta
         analüüsimiseks oma tekst(id).</Alert>
       <br/>
       {alert && <><Alert severity="error">Vali vähemalt üks alamkorpus!</Alert><br/></>}

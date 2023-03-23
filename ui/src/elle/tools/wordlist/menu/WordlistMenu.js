@@ -17,7 +17,12 @@ export default function WordlistMenu({cellProps}) {
 
   const handleWordMeaning = () => {
     handleClose();
-    window.open("https://sonaveeb.ee/search/unif/dlall/dsall/" + cellProps.row.original.word + "/1");
+    window.open(`https://sonaveeb.ee/search/unif/dlall/dsall/${cellProps.row.original.word}/1`);
+  }
+
+  const handleWordTranslation = () => {
+    handleClose();
+    window.open(`https://translate.google.com/?sl=et&text=${cellProps.row.original.word}`);
   }
 
   return (
@@ -30,8 +35,8 @@ export default function WordlistMenu({cellProps}) {
             onClose={handleClose}>
         <MenuItem onClick={handleClose}
                   disabled>Kasutuskontekst</MenuItem>
-        <MenuItem onClick={handleWordMeaning}>Sõna tähendus (sonaveeb.ee)</MenuItem>
-        <MenuItem onClick={handleClose}>Sõna tõlge</MenuItem>
+        <MenuItem onClick={handleWordMeaning}>Tähendus (Sõnaveeb)</MenuItem>
+        <MenuItem onClick={handleWordTranslation}>Tõlge (Google Translate)</MenuItem>
       </Menu>
     </>
   );

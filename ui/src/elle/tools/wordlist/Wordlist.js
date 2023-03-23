@@ -235,14 +235,21 @@ export default function Wordlist() {
                                         <QuestionMark className="stopwords-tooltip-icon"/>
                                       </Tooltip></>}
                   />
-                  <TextField label="Määra sõna minimaalne sagedus"
+                  <TextField label={<>
+                    Määra sõna minimaalne sagedus
+                    {/* todo add tooltip text */}
+                    <Tooltip title="todo"
+                             placement="right">
+                      <QuestionMark className="stopwords-tooltip-icon"/>
+                    </Tooltip></>}
                              type="number"
                              inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: '1'}}
+                             InputLabelProps={{style: {pointerEvents: "auto"}}}
                              variant="outlined"
                              size="small"
                              value={minimumFrequency}
                              onChange={(e) => setMinimumFrequency(e.target.value)}
-                             style={{width: "290px"}}/>
+                             style={{width: "310px"}}/>
                 </FormControl>
               </div>
             </div>
