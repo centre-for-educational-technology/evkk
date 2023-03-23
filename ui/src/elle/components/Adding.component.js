@@ -11,6 +11,7 @@ import {
   Select,
   Switch,
   TextField,
+  Tooltip,
   Typography
 } from '@mui/material'
 import TextUpload from '../tools/wordanalyser/textupload/TextUpload';
@@ -130,7 +131,6 @@ class Adding extends Component {
                   <TextField required
                              multiline
                              size="small"
-                             helperText="Kirjuta siia teksti pealkiri"
                              label="Pealkiri"
                              variant="outlined"
                              name="pealkiri"
@@ -141,7 +141,6 @@ class Adding extends Component {
                 {this.state.avalikkusNupp && <div>
                   <TextField multiline
                              rows={2}
-                             helperText="Kirjuta siia ülesande kirjeldus"
                              label="Ülesande kirjeldus"
                              variant="outlined"
                              name="kirjeldus"
@@ -450,15 +449,18 @@ class Adding extends Component {
                   <Grid>
                     <FormControl className="form-control" size="small">
 
-                      <TextField
-                        size="small"
-                        multiline
-                        label="Muud õppe-, töö- või suhtluskeeled"
-                        variant="outlined"
+                      <Tooltip
                         title={"Sisesta keeled komaga eraldatult, märkides esimesena keele, mida kõige paremini oskad"}
-                        name="autoriMuudKeeled"
-                        value={this.state.autoriMuudKeeled}
-                        onChange={this.handleChange}></TextField>
+                        placement={"top-start"}>
+                        <TextField
+                          size="small"
+                          multiline
+                          label="Muud õppe-, töö- või suhtluskeeled"
+                          variant="outlined"
+                          name="autoriMuudKeeled"
+                          value={this.state.autoriMuudKeeled}
+                          onChange={this.handleChange}></TextField>
+                      </Tooltip>
                     </FormControl>
                   </Grid>
                   <Grid>
