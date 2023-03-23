@@ -18,6 +18,10 @@
   padding-left: 50px;
 }
 
+.border-bottom {
+  border-bottom: solid 1px;
+}
+
 .level-list {
   list-style: none;
 }

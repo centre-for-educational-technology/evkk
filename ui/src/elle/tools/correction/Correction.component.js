@@ -502,7 +502,7 @@ class Correction extends Component {
                         <td>&nbsp;&nbsp;</td>
                         <td>{this.state.keerukusvastus[0]}</td>
                       </tr>
-                      <tr>
+                      <tr style={{width: "100%"}}>
                         <td>Sõnu</td>
                         <td>&nbsp;</td>
                         <td>{this.state.keerukusvastus[1]}</td>
@@ -557,34 +557,35 @@ class Correction extends Component {
               </TabPanel>
               <TabPanel value="mitmekesisus">
                 {this.state.kordab && this.state.mitmekesisusvastus[10] > 0 &&
-                  <div>Sõnavara mitmekesisuse andmed<br/>
-                    <table>
+                  <div style={{marginLeft: "10%", width: "100%"}}><h3>Sõnavara mitmekesisuse andmed</h3><br/>
+                    <table width={"80%"}>
                       <tbody>
-                      <tr>
+                      <tr className="border-bottom">
                         <td>Sõnu</td>
                         <td>&nbsp;&nbsp;</td>
                         <td>{this.state.mitmekesisusvastus[10]}</td>
                       </tr>
-                      <tr>
+                      <tr className="border-bottom">
                         <td>Lemmasid ehk erinevaid sõnu</td>
                         <td>&nbsp;</td>
                         <td>{this.state.mitmekesisusvastus[11]}</td>
                       </tr>
-                      <tr>
-                        <td title="lemmade arv / √(2 * sõnade arv)  (Carroll, 1964)">Korrigeeritud lemmade-sõnade suhtarv -
+                      <tr className="border-bottom">
+                        <td title="lemmade arv / √(2 * sõnade arv)  (Carroll, 1964)">Korrigeeritud lemmade-sõnade
+                          suhtarv -
                           KLSS <br/>(ingl Corrected Type-Token Ratio)
                         </td>
                         <td>&nbsp;</td>
                         <td>{this.state.mitmekesisusvastus[0]}</td>
                       </tr>
-                      <tr>
+                      <tr className="border-bottom">
                         <td title="lemmade arv /  √(sõnade arv)  (Guiraud, 1960)">Juuritud lemmade-sõnade suhtarv -
                           JLSS <br/>(ingl Root Type-Token Ratio)
                         </td>
                         <td>&nbsp;</td>
                         <td>{this.state.mitmekesisusvastus[1]}</td>
                       </tr>
-                      <tr>
+                      <tr className="border-bottom">
                         <td
                           title="Indeks mõõdab lemmade ja sõnade suhtarvu järjestikustes tekstiosades. Algul on suhtarv 1. Iga sõna juures arvutatakse see uuesti, kuni väärtus langeb alla piirarvu 0,72. Tsükkel kordub, kuni teksti lõpus jagatakse sõnade arv selliste tsüklite arvuga. Seejärel korratakse sama, liikudes tekstis tagantpoolt ettepoole. MTLD on nende kahe teksti keskväärtus. (McCarthy &amp; Jarvis, 2010)">MTLD
                           indeks <br/>(ingl Measure of Textual Lexical Diversity)
@@ -592,7 +593,7 @@ class Correction extends Component {
                         <td>&nbsp;</td>
                         <td>{this.state.mitmekesisusvastus[4]}</td>
                       </tr>
-                      <tr>
+                      <tr className="border-bottom">
                         <td
                           title="Indeksi arvutamiseks leitakse iga tekstis sisalduva lemma esinemistõenäosus juhuslikus 42-sõnalises tekstiosas. Kuna kõigi võimalike tekstikatkete arv on enamasti väga suur, arvutatakse tõenäosused hüpergeomeetrilise jaotuse funktsiooni abil. Kõigi lemmade esinemistõenäosused summeeritakse. (McCarthy &amp; Jarvis, 2007)">HDD
                           indeks <br/>(ingl Hypergeometric Distribution D)
