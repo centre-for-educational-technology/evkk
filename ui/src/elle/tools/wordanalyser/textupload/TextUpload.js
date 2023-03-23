@@ -55,14 +55,14 @@ function TextUpload(props) {
 
   return (
     <div className='container'>
-      <Tooltip title={"Lae tekst ülesse."} placement={"top-start"}>
+      <Tooltip title={"Laadi oma tekst üles"} placement={"top-start"}>
         <FileUploadIcon id="upload_button"
                         value="Vali tekst(id)"
-                        className="buttonFail"
+                        className="button-file"
                         onClick={() => {
                           setButtonPopup(true)
                         }}
-                        style={{height: 30, width: 30, cursor: "pointer", margin: "0 0 1rem -.25rem"}}/>
+        />
       </Tooltip>
       <TextUploadModal trigger={buttonPopup}>
         <form encType="multipart/form-data"
