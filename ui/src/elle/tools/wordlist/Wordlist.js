@@ -6,8 +6,10 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Backdrop,
   Button,
   Checkbox,
+  CircularProgress,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -37,7 +39,10 @@ export default function Wordlist() {
   const [capitalizationChecked, setCapitalizationChecked] = useState(false);
   const [minimumFrequency, setMinimumFrequency] = useState('');
   const [tableToDownload, setTableToDownload] = useState([]);
-  const accessors = ["word", "freq_count", "freq_percentage"];
+  const [loading, setLoading] = useState(false);
+  const [queryResponse, setQueryResponse] = useState([]);
+  const [showTable, setShowTable] = useState(false);
+  const accessors = ["word", "frequencyCount", "frequencyPercentage"];
 
   const columns = useMemo(() => [
     {
@@ -61,7 +66,7 @@ export default function Wordlist() {
     },
     {
       Header: 'Kasutuste arv',
-      accessor: 'freq_count',
+      accessor: 'frequencyCount',
       width: 40,
       Cell: (cellProps) => {
         return cellProps.value;
@@ -69,10 +74,10 @@ export default function Wordlist() {
     },
     {
       Header: 'Osakaal',
-      accessor: 'freq_percentage',
+      accessor: 'frequencyPercentage',
       width: 40,
       Cell: (cellProps) => {
-        return cellProps.value;
+        return `${cellProps.value}%`;
       }
     },
     {
@@ -87,12 +92,7 @@ export default function Wordlist() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   ], [typeValue]);
 
-  // todo replace with real data when done testing!
-  const data = useMemo(() => [{word: 'asd', freq_count: 3, freq_percentage: '55%'}, {
-    word: 'tore',
-    freq_count: 1,
-    freq_percentage: '21.2%'
-  }, {word: 'arvuti', freq_count: 2, freq_percentage: '0.55%'}], []);
+  const data = useMemo(() => queryResponse, [queryResponse]);
 
   useEffect(() => {
     const type = typeValue === 'sonad' ? 'Sõnavorm' : 'Algvorm';
@@ -118,7 +118,7 @@ export default function Wordlist() {
     columns, data, initialState: {
       sortBy: [
         {
-          id: "freq_count",
+          id: "frequencyCount",
           desc: true
         }
       ]
@@ -141,7 +141,43 @@ export default function Wordlist() {
     setTypeError(!typeValue);
     if (typeValue) {
       setParamsExpanded(false);
+      setLoading(true);
+      setQueryResponse([]);
+      fetch("/api/wordlist", {
+        method: "POST",
+        body: generateRequestData(),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+        .then(res => res.json())
+        .then((result) => {
+          setQueryResponse(result);
+          setShowTable(true);
+          setLoading(false);
+        });
     }
+  }
+
+  const generateRequestData = () => {
+    return JSON.stringify({
+      // todo use commented out line when done testing!
+      // corpusTextIds: queryStore.getState().split(","),
+      corpusTextIds: ["32c21cfc-b14f-45e5-8d67-e59d7cfa2e54", "86f4f30b-8348-4b0b-8d5d-cacc65d3ec1e"],
+      type: typeValue,
+      excludeStopwords: stopwordsChecked,
+      customStopwords: customStopwords === ''
+        ? null
+        : listifyCustomStopwords(customStopwords),
+      keepCapitalization: capitalizationChecked,
+      minFrequency: minimumFrequency === ''
+        ? null
+        : minimumFrequency
+    });
+  }
+
+  const listifyCustomStopwords = (stopwords) => {
+    return stopwords.replace(/ /g, '').split(",");
   }
 
   return (
@@ -172,10 +208,10 @@ export default function Wordlist() {
                     value={typeValue}
                     onChange={handleTypeChange}
                   >
-                    <FormControlLabel value="sonad"
+                    <FormControlLabel value="WORDS"
                                       control={<Radio/>}
                                       label="sõnavormid"/>
-                    <FormControlLabel value="lemmad"
+                    <FormControlLabel value="LEMMAS"
                                       control={<Radio/>}
                                       label="algvormid"/>
                   </RadioGroup>
@@ -256,67 +292,75 @@ export default function Wordlist() {
           </form>
         </AccordionDetails>
       </Accordion>
-      <TableDownloadButton data={data}
-                           tableType={'Wordlist'}
-                           headers={tableToDownload}
-                           accessors={accessors}
-                           marginRight={'18vw'}/>
-      <table className='wordlist-table'
-             {...getTableProps()}>
-        <thead>
-        {headerGroups.map(headerGroup => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps()}>
-                {column.render('Header')}
-                {column.canSort &&
-                  <span className='sortIcon'
-                        {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>
-                      {column.isSorted
-                        ? column.isSortedDesc
-                          ? ' ▼'
-                          : ' ▲'
-                        : ' ▼▲'}
-                  </span>
-                }
-              </th>
-            ))}
-          </tr>
-        ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-        {page.map((row, _i) => {
-          prepareRow(row);
-          return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map(cell => {
-                return (
-                  <td {...cell.getCellProps()}
-                      style={{
-                        width: cell.column.width
-                      }}>
-                    {cell.render('Cell')}
-                  </td>
-                )
-              })}
+      {showTable && <>
+        <TableDownloadButton data={data}
+                             tableType={'Wordlist'}
+                             headers={tableToDownload}
+                             accessors={accessors}
+                             marginRight={'18vw'}/>
+        <table className='wordlist-table'
+               {...getTableProps()}>
+          <thead>
+          {headerGroups.map(headerGroup => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(column => (
+                <th {...column.getHeaderProps()}>
+                  {column.render('Header')}
+                  {column.canSort &&
+                    <span className='sortIcon'
+                          {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>
+                        {column.isSorted
+                          ? column.isSortedDesc
+                            ? ' ▼'
+                            : ' ▲'
+                          : ' ▼▲'}
+                    </span>
+                  }
+                </th>
+              ))}
             </tr>
-          )
-        })}
-        </tbody>
-      </table>
-      <br/>
-      <TablePagination
-        gotoPage={gotoPage}
-        previousPage={previousPage}
-        canPreviousPage={canPreviousPage}
-        nextPage={nextPage}
-        canNextPage={canNextPage}
-        pageIndex={pageIndex}
-        pageOptions={pageOptions}
-        pageSize={pageSize}
-        setPageSize={setPageSize}
-        pageCount={pageCount}
-      />
+          ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+          {page.map((row, _i) => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map(cell => {
+                  return (
+                    <td {...cell.getCellProps()}
+                        style={{
+                          width: cell.column.width
+                        }}>
+                      {cell.render('Cell')}
+                    </td>
+                  )
+                })}
+              </tr>
+            )
+          })}
+          </tbody>
+        </table>
+        <br/>
+        <TablePagination
+          gotoPage={gotoPage}
+          previousPage={previousPage}
+          canPreviousPage={canPreviousPage}
+          nextPage={nextPage}
+          canNextPage={canNextPage}
+          pageIndex={pageIndex}
+          pageOptions={pageOptions}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+          pageCount={pageCount}
+        />
+        <Backdrop
+          open={loading}
+        >
+          <CircularProgress thickness={4}
+                            size='8rem'/>
+        </Backdrop>
+      </>}
     </div>
   );
 }

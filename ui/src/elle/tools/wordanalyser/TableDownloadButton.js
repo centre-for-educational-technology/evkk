@@ -185,9 +185,9 @@ export default function TableDownloadButton({data, headers, accessors, marginRig
             <ExcelColumn label={headers[0]}
                          value="word"/>
             <ExcelColumn label={headers[1]}
-                         value="freq_count"/>
+                         value="frequencyCount"/>
             <ExcelColumn label={headers[2]}
-                         value="freq_percentage"/>
+                         value="frequencyPercentage"/>
           </ExcelSheet>
         </ExcelFile>);
       }
@@ -210,7 +210,7 @@ export default function TableDownloadButton({data, headers, accessors, marginRig
 
   return (
     <Box className="download-button-section"
-         style={{marginRight: marginRight}}>
+         style={{marginTop: '2vh', marginRight: marginRight}}>
       <Tooltip title={t("common_download")}
                placement="top">
         <Button aria-describedby={id}

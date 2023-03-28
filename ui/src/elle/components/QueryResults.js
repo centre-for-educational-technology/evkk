@@ -390,7 +390,7 @@ function QueryResults(props) {
               >
                 <CircularProgress disableShrink
                                   thickness={4}
-                                  size='10%'/>
+                                  size='8rem'/>
               </Backdrop>
               {text.split(/\\n/g).map(function (item) {
                 return (
