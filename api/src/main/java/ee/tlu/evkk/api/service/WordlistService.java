@@ -1,9 +1,9 @@
 package ee.tlu.evkk.api.service;
 
-import ee.tlu.evkk.api.controller.dto.WordlistRequestDto;
-import ee.tlu.evkk.api.controller.dto.WordlistResponseDto;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.dal.dao.TextDao;
+import ee.tlu.evkk.dal.dto.WordlistRequestDto;
+import ee.tlu.evkk.dal.dto.WordlistResponseDto;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import static ee.tlu.evkk.api.enums.WordlistType.WORDS;
+import static ee.tlu.evkk.dal.enums.WordlistType.WORDS;
 import static java.math.BigDecimal.valueOf;
 import static java.math.RoundingMode.UP;
 import static java.util.Arrays.asList;
@@ -35,6 +35,9 @@ public class WordlistService {
     List<String> wordlist = dto.getType().equals(WORDS)
       ? asList(stanzaServerClient.getSonad(sanitizedText))
       : sanitizeLemmaList(asList(stanzaServerClient.getLemmad(sanitizedText)));
+    if (!dto.isKeepCapitalization()) {
+      wordlist = wordlist.stream().map(String::toLowerCase).collect(toList());
+    }
     Map<String, Long> frequencyCounts = getFrequencyCount(wordlist);
     Map<String, BigDecimal> frequencyPercentages = getFrequencyPercentages(wordlist, frequencyCounts);
     return new HashSet<>(wordlist).stream()
