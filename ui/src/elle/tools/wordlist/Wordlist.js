@@ -142,7 +142,7 @@ export default function Wordlist() {
     if (typeValue) {
       setParamsExpanded(false);
       setLoading(true);
-      setQueryResponse([]);
+      setShowTable(false);
       fetch("/api/wordlist", {
         method: "POST",
         body: generateRequestData(),
@@ -354,13 +354,13 @@ export default function Wordlist() {
           setPageSize={setPageSize}
           pageCount={pageCount}
         />
-        <Backdrop
-          open={loading}
-        >
-          <CircularProgress thickness={4}
-                            size='8rem'/>
-        </Backdrop>
       </>}
+      <Backdrop
+        open={loading}
+      >
+        <CircularProgress thickness={4}
+                          size='8rem'/>
+      </Backdrop>
     </div>
   );
 }

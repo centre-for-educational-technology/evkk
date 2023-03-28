@@ -14,7 +14,7 @@ import java.util.Map;
 
 import static ee.tlu.evkk.api.enums.WordlistType.WORDS;
 import static java.math.BigDecimal.valueOf;
-import static java.math.RoundingMode.HALF_EVEN;
+import static java.math.RoundingMode.UP;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
 
@@ -70,7 +70,7 @@ public class WordlistService {
     Map<String, BigDecimal> percentages = new HashMap<>();
     long wordCount = wordlist.size();
     for (Map.Entry<String, Long> entry : frequencyCounts.entrySet()) {
-      BigDecimal percentage = valueOf((entry.getValue() * 100.0) / wordCount).setScale(2, HALF_EVEN);
+      BigDecimal percentage = valueOf((entry.getValue() * 100.0) / wordCount).setScale(2, UP);
       percentages.put(entry.getKey(), percentage);
     }
     return percentages;
