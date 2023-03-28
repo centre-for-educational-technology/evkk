@@ -6,6 +6,7 @@ import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.core.service.maps.TranslationMappings;
 import ee.tlu.evkk.core.text.processor.TextProcessor;
 import ee.tlu.evkk.dal.dao.TextDao;
+import ee.tlu.evkk.dal.dto.AddingRequestEntity;
 import ee.tlu.evkk.dal.dto.CorpusDownloadResponseDto;
 import ee.tlu.evkk.dal.dto.Pageable;
 import ee.tlu.evkk.dal.dto.Text;
@@ -59,6 +60,7 @@ import static java.lang.System.lineSeparator;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
+import static java.util.UUID.randomUUID;
 import static java.util.regex.Pattern.compile;
 import static org.apache.logging.log4j.util.Strings.isBlank;
 import static org.apache.logging.log4j.util.Strings.isNotBlank;
@@ -260,6 +262,45 @@ public class TextService {
       contentsCombined.append(lineSeparator()).append(lineSeparator());
     }
     return contentsCombined.toString().getBytes(UTF_8);
+  }
+
+  public String lisatekst(AddingRequestEntity andmed) {
+    UUID kood = randomUUID();
+    textDao.insertAdding(kood, andmed.getSisu());
+    lisaTekstiOmadus(kood, "title", andmed.getPealkiri());
+    lisaTekstiOmadus(kood, "kirjeldus", andmed.getKirjeldus());
+    lisaTekstiOmadus(kood, "tekstityyp", andmed.getLiik());
+    if (andmed.getOppematerjal().equals("jah")) {
+      String[] m = andmed.getAkadOppematerjal();
+      if (m != null) {
+        for (String s : m) {
+          lisaTekstiOmadus(kood, "akad_oppematerjal", s);
+        }
+      }
+      lisaTekstiOmadus(kood, "akad_oppematerjal_muu", andmed.getAkadOppematerjalMuu());
+    }
+    if (andmed.getLiik().equals("akadeemiline")) {
+      lisaTekstiOmadus(kood, "eriala", andmed.getAutoriEriala());
+      lisaTekstiOmadus(kood, "akad_alamliik", andmed.getAkadAlamliik());
+      lisaTekstiOmadus(kood, "artikkel_aasta", andmed.getArtikkelAasta());
+      lisaTekstiOmadus(kood, "artikkel_valjaanne", andmed.getArtikkelValjaanne());
+      lisaTekstiOmadus(kood, "artikkel_number", andmed.getArtikkelNumber());
+      lisaTekstiOmadus(kood, "artikkel_lehekyljed", andmed.getArtikkelLehekyljed());
+      lisaTekstiOmadus(kood, "oppeaste", andmed.getAutoriOppeaste());
+      lisaTekstiOmadus(kood, "teaduskraad", andmed.getAutoriTeaduskraad());
+    }
+    if (andmed.getLiik().equals("mitteakadeemiline")) {
+      lisaTekstiOmadus(kood, "mitteakad_alamliik", andmed.getMitteakadAlamliik());
+    }
+    lisaTekstiOmadus(kood, "abivahendid", andmed.getOppematerjal());
+    lisaTekstiOmadus(kood, "kasAutor", andmed.getTekstiAutor());
+    lisaTekstiOmadus(kood, "vanus", andmed.getAutoriVanus());
+    lisaTekstiOmadus(kood, "sugu", andmed.getAutoriSugu());
+    lisaTekstiOmadus(kood, "haridus", andmed.getAutoriOppeaste());
+    lisaTekstiOmadus(kood, "emakeel", andmed.getAutoriEmakeel().toLowerCase());
+    lisaTekstiOmadus(kood, "muudkeeled", andmed.getAutoriMuudKeeled());
+    lisaTekstiOmadus(kood, "riik", andmed.getAutoriElukohariik());
+    return kood.toString();
   }
 
   public static String[] translateWordType(String[] tekst, String language) {
@@ -534,6 +575,12 @@ public class TextService {
   private TextWithProperties toTextWithProperties(Text text, Map<UUID, List<TextProperty>> textPropertiesByTextId) {
     List<TextProperty> properties = textPropertiesByTextId.getOrDefault(text.getId(), Collections.emptyList());
     return new TextWithProperties(text, properties);
+  }
+
+  private void lisaTekstiOmadus(UUID kood, String tunnus, String omadus) {
+    if (omadus != null && omadus.length() > 0) {
+      textDao.insertAddingProperty(kood, tunnus, omadus);
+    }
   }
 
 }

@@ -1,4 +1,4 @@
-package ee.tlu.evkk.api.enums;
+package ee.tlu.evkk.dal.enums;
 
 public enum WordlistType {
   WORDS, LEMMAS

@@ -1,6 +1,6 @@
-package ee.tlu.evkk.api.controller.dto;
+package ee.tlu.evkk.dal.dto;
 
-import ee.tlu.evkk.api.enums.WordlistType;
+import ee.tlu.evkk.dal.enums.WordlistType;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;

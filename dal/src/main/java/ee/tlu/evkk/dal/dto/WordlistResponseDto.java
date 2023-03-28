@@ -1,4 +1,4 @@
-package ee.tlu.evkk.api.controller.dto;
+package ee.tlu.evkk.dal.dto;
 
 import java.math.BigDecimal;
 

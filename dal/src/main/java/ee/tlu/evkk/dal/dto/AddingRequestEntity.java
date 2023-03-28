@@ -1,4 +1,5 @@
-package ee.tlu.evkk.api.controller.dto;
+package ee.tlu.evkk.dal.dto;
+
 import javax.validation.constraints.NotBlank;
 
 public class AddingRequestEntity {
