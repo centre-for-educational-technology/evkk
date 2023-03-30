@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {Alert, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography} from '@mui/material'
+import React, { Component } from 'react';
+import { Alert, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import TextUpload from '../tools/wordanalyser/textupload/TextUpload';
-import "../components/styles/Adding.css";
+import '../components/styles/Adding.css';
 
 class Adding extends Component {
 
@@ -92,7 +92,7 @@ class Adding extends Component {
       <div className='add-container'>
         <div style={{width: "100%", textAlign: "center"}}>
           <Typography marginBottom="50px"
-                      variant="h5"><strong>Lisa uus tekst</strong></Typography>
+                      variant="h5"><strong>Loovuta oma tekst</strong></Typography>
         </div>
         <form onSubmit={this.handleSubmit}
               id="f1"

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Accordion,
   AccordionDetails,
@@ -14,8 +14,8 @@ import {
   Select,
   Tooltip,
   Typography
-} from "@mui/material";
-import "./styles/Query.css";
+} from '@mui/material';
+import './styles/Query.css';
 import {
   AccordionStyle,
   addedYearOptions,
@@ -26,23 +26,14 @@ import {
   usedMaterialsOptions,
   useStyles,
   wordsOptions
-} from "../utils/constants";
-import {v4 as uuidv4} from 'uuid';
-import QueryResults from "./QueryResults";
+} from '../utils/constants';
+import { v4 as uuidv4 } from 'uuid';
+import QueryResults from './QueryResults';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LoadingButton from '@mui/lab/LoadingButton';
-import {useLocation, useNavigate} from "react-router-dom";
-import {queryStore} from "../store/QueryStore";
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function Query() {
-
-  // todo remove when done testing!
-  useEffect(() => {
-    queryStore.dispatch({
-      type: 'CHANGE',
-      value: 'b4a9e7ec-8442-49c5-a6cb-7cf4b8a74fc3'
-    });
-  });
 
   const selectWidth = 290;
   const classes = useStyles();
@@ -133,11 +124,11 @@ function Query() {
         params.sentences = simplifyDropdowns(sentences);
       }
 
-      fetch("/api/texts/detailneparing", {
-        method: "POST",
+      fetch('/api/texts/detailneparing', {
+        method: 'POST',
         body: JSON.stringify(params),
         headers: {
-          "Content-Type": "application/json"
+          'Content-Type': 'application/json'
         }
       })
         .then(res => res.json())
@@ -159,7 +150,7 @@ function Query() {
     let selectedCorpuses = [];
     Object.entries(corpusCheckboxStatus).forEach((entry) => {
       const [key, value] = entry;
-      if (value && key !== "all") {
+      if (value && key !== 'all') {
         selectedCorpuses.push(key);
       }
     });
@@ -175,17 +166,17 @@ function Query() {
     let simplified = [];
     data.forEach((entry) => {
       let local;
-      if (entry.includes("...")) {
-        local = [parseInt(entry.split("...")[0]), currentYear];
-      } else if (entry.includes("kuni")) {
-        local = [1, parseInt(entry.split("kuni ")[1])];
-      } else if (entry.includes("üle")) {
-        local = [parseInt(entry.split("üle ")[1]), 2147483647]; //java int max value
+      if (entry.includes('...')) {
+        local = [parseInt(entry.split('...')[0]), currentYear];
+      } else if (entry.includes('kuni')) {
+        local = [1, parseInt(entry.split('kuni ')[1])];
+      } else if (entry.includes('üle')) {
+        local = [parseInt(entry.split('üle ')[1]), 2147483647]; //java int max value
       } else {
-        local = [parseInt(entry.split("—")[0]), parseInt(entry.split("—")[1])];
+        local = [parseInt(entry.split('—')[0]), parseInt(entry.split('—')[1])];
       }
       simplified.push(local);
-    })
+    });
     return simplified;
   }
 
@@ -205,7 +196,7 @@ function Query() {
     newCorpusCheckboxStatus[event.target.id] = event.target.checked;
     Object.entries(newCorpusCheckboxStatus).forEach((entry) => {
       const [key, value] = entry;
-      if (value && key !== "all") {
+      if (value && key !== 'all') {
         trueCount++;
       }
     });
@@ -216,7 +207,7 @@ function Query() {
     if (!event.target.checked) {
       setTextTypes(textTypes.filter((type) => findNestedKeys(textTypesOptions[event.target.id], type).length === 0));
     }
-  }
+  };
 
   const alterAllCorpusCheckboxes = (event) => {
     let newCorpusCheckboxStatus = {...corpusCheckboxStatus};
@@ -229,7 +220,7 @@ function Query() {
     if (!event.target.checked) {
       setTextTypes([]);
     }
-  }
+  };
 
   // reset corpus-based filters
   useEffect(() => {
@@ -263,7 +254,7 @@ function Query() {
       ? ''
       : event.target.dataset.value;
     setSinglePropertyData(newSinglePropertyData);
-  }
+  };
 
   const changeAccordion = () => {
     setExpanded(!expanded);
@@ -289,7 +280,7 @@ function Query() {
         setTextTypes([...filteredTextTypes, ...childrenArray]);
       }
     }
-  }
+  };
 
   const alterUsedMaterialsHierarchyDropdown = (e, hierarchyLevel) => {
     // hierarchyLevel: true - standalone or hierarchy child, false - hierarchy parent
@@ -311,7 +302,7 @@ function Query() {
         setUsedMultiMaterials([...filteredUsedMaterials, ...childrenArray]);
       }
     }
-  }
+  };
 
   const checkTextTypeHierarchyCheckboxStatus = (name, corpus) => {
     let checked = true;
@@ -321,7 +312,7 @@ function Query() {
       }
     });
     return checked;
-  }
+  };
 
   const checkUsedMaterialsHierarchyCheckboxStatus = (name) => {
     let checked = true;
@@ -331,7 +322,7 @@ function Query() {
       }
     });
     return checked;
-  }
+  };
 
   return (
     <div>
@@ -347,10 +338,10 @@ function Query() {
                 }}>Vali tekstid</Button>
         <Button variant="contained"
                 className="buttonSecondLeft"
-                disabled>Lisa uus tekst</Button>
+                disabled>Oma tekst</Button>
         <Button variant="contained"
                 onClick={() => navigate('adding')}
-                className="buttonRight">Loovuta oma tekst</Button>
+                className="buttonRight">Loovuta tekst</Button>
       </div>
       {queryVisible && <span>
         <Accordion sx={AccordionStyle}
@@ -368,7 +359,7 @@ function Query() {
         <AccordionDetails>
           <form action=""
                 onSubmit={(e) => {
-                  e.preventDefault()
+                  e.preventDefault();
                 }}
                 id="vorm">
             <div className="queryContainer">
@@ -410,8 +401,9 @@ function Query() {
                   checked={corpusCheckboxStatus.cFOoRQekA}
                   onChange={alterCorpusCheckbox}
                 />
-                <Tooltip title="Sisaldab eksamiväliselt kirjutatud A2-, B1-, B2- ja C1-taseme tekste, mille tase on määratud kolme tunnustatud hindamise spetsialisti ühise arvamuse põhjal"
-                         followCursor>
+                <Tooltip
+                  title="Sisaldab eksamiväliselt kirjutatud A2-, B1-, B2- ja C1-taseme tekste, mille tase on määratud kolme tunnustatud hindamise spetsialisti ühise arvamuse põhjal"
+                  followCursor>
                   <label className="corpustitle">
                     K2 keeleõpe
                   </label>
@@ -446,8 +438,9 @@ function Query() {
                   checked={corpusCheckboxStatus.cZjHWUPtD}
                   onChange={alterCorpusCheckbox}
                 />
-                <Tooltip title="Sisaldab tekste eesti emakeelega õpilastelt, kes õpivad koolis vene keelt kolmanda keelena"
-                         followCursor>
+                <Tooltip
+                  title="Sisaldab tekste eesti emakeelega õpilastelt, kes õpivad koolis vene keelt kolmanda keelena"
+                  followCursor>
                   <label className="corpustitle">
                     K3 vene keel
                   </label>
@@ -458,8 +451,9 @@ function Query() {
                   checked={corpusCheckboxStatus.cwUSEqQLt}
                   onChange={alterCorpusCheckbox}
                 />
-                <Tooltip title="Sisaldab emakeelekõneleja ja eesti keelt teise keelena kasutava üliõpilase akadeemilise keelekasutuse näiteid (referaadid, seminaritööd, lõputööd jm)"
-                         followCursor>
+                <Tooltip
+                  title="Sisaldab emakeelekõneleja ja eesti keelt teise keelena kasutava üliõpilase akadeemilise keelekasutuse näiteid (referaadid, seminaritööd, lõputööd jm)"
+                  followCursor>
                   <label className="corpustitle">
                     Akadeemiline eesti keel
                   </label>
@@ -513,7 +507,7 @@ function Query() {
                                         id={specificTextType}
                                         onClick={(e) => alterTextTypeHierarchyDropdown(e, true, null)}
                                         value={specificTextType}
-                                        sx={{paddingLeft: "2rem"}}>
+                                        sx={{paddingLeft: '2rem'}}>
                                 <ListItemIcon>
                                   <Checkbox id={specificTextType}
                                             checked={textTypes.indexOf(specificTextType) > -1}/>
@@ -536,7 +530,7 @@ function Query() {
                     name="language"
                     value={singlePropertyData.language}
                     label="Keel"
-                    onClick={(e) => alterSinglePropertyData(e, "language")}
+                    onClick={(e) => alterSinglePropertyData(e, 'language')}
                   >
                     <MenuItem value="eesti">eesti</MenuItem>
                     <MenuItem value="inglise">inglise</MenuItem>
@@ -555,7 +549,7 @@ function Query() {
                         name="domain"
                         value={singlePropertyData.domain}
                         label="Valdkond"
-                        onClick={(e) => alterSinglePropertyData(e, "domain")}
+                        onClick={(e) => alterSinglePropertyData(e, 'domain')}
                       >
                         <MenuItem value="biojakeskkonnateadused">Bio- ja keskkonnateadused</MenuItem>
                         <MenuItem value="yhiskondjakultuur">Ühiskonnateadused ja kultuur</MenuItem>
@@ -606,7 +600,7 @@ function Query() {
                                           id={subMaterial}
                                           onClick={(e) => alterUsedMaterialsHierarchyDropdown(e, true)}
                                           value={subMaterial}
-                                          sx={{paddingLeft: "2rem"}}>
+                                          sx={{paddingLeft: '2rem'}}>
                                   <ListItemIcon>
                                     <Checkbox id={subMaterial}
                                               checked={usedMultiMaterials.indexOf(subMaterial) > -1}/>
@@ -629,7 +623,7 @@ function Query() {
                         name="level"
                         value={singlePropertyData.level}
                         label="Tase"
-                        onClick={(e) => alterSinglePropertyData(e, "level")}
+                        onClick={(e) => alterSinglePropertyData(e, 'level')}
                       >
                         <MenuItem value="A">A</MenuItem>
                         <MenuItem value="B">B</MenuItem>
@@ -651,7 +645,7 @@ function Query() {
                         name="usedMaterials"
                         value={singlePropertyData.usedMaterials}
                         label="Kasutatud õppematerjale"
-                        onClick={(e) => alterSinglePropertyData(e, "usedMaterials")}
+                        onClick={(e) => alterSinglePropertyData(e, 'usedMaterials')}
                       >
                         <MenuItem value="jah">jah</MenuItem>
                         <MenuItem value="ei">ei</MenuItem>
@@ -670,7 +664,7 @@ function Query() {
                     value={addedYears}
                     name="addedYears"
                     onChange={(e) => setAddedYears(e.target.value)}
-                    renderValue={(addedYear) => addedYear.join(", ")}
+                    renderValue={(addedYear) => addedYear.join(', ')}
                     MenuProps={MenuProps}
                   >
                     {addedYearOptions.map((year) => (
@@ -695,7 +689,7 @@ function Query() {
                     value={characters}
                     name="characters"
                     onChange={(e) => setCharacters(e.target.value)}
-                    renderValue={(character) => character.join(", ")}
+                    renderValue={(character) => character.join(', ')}
                     MenuProps={MenuProps}
                   >
                     {charactersOptions.map((item) => (
@@ -720,7 +714,7 @@ function Query() {
                     value={words}
                     name="words"
                     onChange={(e) => setWords(e.target.value)}
-                    renderValue={(word) => word.join(", ")}
+                    renderValue={(word) => word.join(', ')}
                     MenuProps={MenuProps}
                   >
                     {wordsOptions.map((item) => (
@@ -745,7 +739,7 @@ function Query() {
                     value={sentences}
                     name="sentences"
                     onChange={(e) => setSentences(e.target.value)}
-                    renderValue={(sentence) => sentence.join(", ")}
+                    renderValue={(sentence) => sentence.join(', ')}
                     MenuProps={MenuProps}
                   >
                     {sentencesOptions.map((item) => (
@@ -771,7 +765,7 @@ function Query() {
                     name="age"
                     value={singlePropertyData.age}
                     label="Vanus"
-                    onClick={(e) => alterSinglePropertyData(e, "age")}
+                    onClick={(e) => alterSinglePropertyData(e, 'age')}
                   >
                     <MenuItem value="kuni18">- 18</MenuItem>
                     <MenuItem value="kuni26">18 - 26</MenuItem>
@@ -788,7 +782,7 @@ function Query() {
                     name="gender"
                     value={singlePropertyData.gender}
                     label="Sugu"
-                    onClick={(e) => alterSinglePropertyData(e, "gender")}
+                    onClick={(e) => alterSinglePropertyData(e, 'gender')}
                   >
                     <MenuItem value="mees">mees</MenuItem>
                     <MenuItem value="naine">naine</MenuItem>
@@ -805,7 +799,7 @@ function Query() {
                         name="studyLevel"
                         value={singlePropertyData.studyLevel}
                         label="Õppeaste"
-                        onClick={(e) => alterSinglePropertyData(e, "studyLevel")}
+                        onClick={(e) => alterSinglePropertyData(e, 'studyLevel')}
                       >
                         <MenuItem value="bakalaureuseope">Bakalaureuseõpe</MenuItem>
                         <MenuItem value="magistriope">Magistriõpe</MenuItem>
@@ -821,7 +815,7 @@ function Query() {
                         name="degree"
                         value={singlePropertyData.degree}
                         label="Teaduskraad"
-                        onClick={(e) => alterSinglePropertyData(e, "degree")}
+                        onClick={(e) => alterSinglePropertyData(e, 'degree')}
                       >
                         <MenuItem value="ba">Bakalaureusekraad</MenuItem>
                         <MenuItem value="ma">Magistrikraad</MenuItem>
@@ -837,7 +831,7 @@ function Query() {
                       name="education"
                       value={singlePropertyData.education}
                       label="Haridus"
-                      onClick={(e) => alterSinglePropertyData(e, "education")}
+                      onClick={(e) => alterSinglePropertyData(e, 'education')}
                     >
                       <MenuItem value="Alg-/põhiharidus,alg,pohi">algharidus/põhiharidus</MenuItem>
                       <MenuItem value="Keskharidus,kesk">keskharidus</MenuItem>
@@ -855,7 +849,7 @@ function Query() {
                       name="nationality"
                       value={singlePropertyData.nationality}
                       label="Kodakondsus"
-                      onClick={(e) => alterSinglePropertyData(e, "nationality")}
+                      onClick={(e) => alterSinglePropertyData(e, 'nationality')}
                     >
                       <MenuItem value="Eesti">Eesti</MenuItem>
                       <MenuItem value="Ameerika Ühendriigid">Ameerika Ühendriigid</MenuItem>
@@ -894,7 +888,7 @@ function Query() {
                       name="nativeLang"
                       value={singlePropertyData.nativeLang}
                       label="Emakeel"
-                      onClick={(e) => alterSinglePropertyData(e, "nativeLang")}
+                      onClick={(e) => alterSinglePropertyData(e, 'nativeLang')}
                     >
                       <MenuItem value="eesti">eesti</MenuItem>
                       <MenuItem value="vene">vene</MenuItem>
@@ -931,7 +925,7 @@ function Query() {
                         name="otherLang"
                         value={singlePropertyData.otherLang}
                         label="Muu õppe-, töö- või suhtluskeel"
-                        onClick={(e) => alterSinglePropertyData(e, "otherLang")}
+                        onClick={(e) => alterSinglePropertyData(e, 'otherLang')}
                       >
                         <MenuItem value="eesti">eesti</MenuItem>
                         <MenuItem value="vene">vene</MenuItem>
@@ -967,7 +961,7 @@ function Query() {
                     name="country"
                     value={singlePropertyData.country}
                     label="Elukohariik"
-                    onClick={(e) => alterSinglePropertyData(e, "country")}
+                    onClick={(e) => alterSinglePropertyData(e, 'country')}
                   >
                     <MenuItem value="eesti">Eesti</MenuItem>
                     <MenuItem value="soome">Soome</MenuItem>
@@ -985,7 +979,7 @@ function Query() {
               submitted();
             }}
                            loading={isLoading}
-                           variant={isLoading ? "outlined" : "contained"}>Saada päring</LoadingButton>
+                           variant={isLoading ? 'outlined' : 'contained'}>Saada päring</LoadingButton>
           </form>
         </AccordionDetails>
       </Accordion>

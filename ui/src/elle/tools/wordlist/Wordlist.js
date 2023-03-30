@@ -1,7 +1,7 @@
-import {queryStore} from "../../store/QueryStore";
-import {useNavigate} from "react-router-dom";
-import React, {useEffect, useMemo, useState} from "react";
-import "./Wordlist.css";
+import { queryStore } from '../../store/QueryStore';
+import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
+import './Wordlist.css';
 import {
   Accordion,
   AccordionDetails,
@@ -19,14 +19,14 @@ import {
   TextField,
   Tooltip,
   Typography
-} from "@mui/material";
-import {AccordionStyle} from "../../utils/constants";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {QuestionMark} from "@mui/icons-material";
-import {usePagination, useSortBy, useTable} from "react-table";
-import TablePagination from "../wordanalyser/TablePagination";
-import WordlistMenu from "./menu/WordlistMenu";
-import TableDownloadButton from "../wordanalyser/TableDownloadButton";
+} from '@mui/material';
+import { AccordionStyle } from '../../utils/constants';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { QuestionMark } from '@mui/icons-material';
+import { usePagination, useSortBy, useTable } from 'react-table';
+import TablePagination from '../wordanalyser/TablePagination';
+import WordlistMenu from './menu/WordlistMenu';
+import TableDownloadButton from '../wordanalyser/TableDownloadButton';
 
 export default function Wordlist() {
 
@@ -42,7 +42,7 @@ export default function Wordlist() {
   const [loading, setLoading] = useState(false);
   const [queryResponse, setQueryResponse] = useState([]);
   const [showTable, setShowTable] = useState(false);
-  const accessors = ["word", "frequencyCount", "frequencyPercentage"];
+  const accessors = ['word', 'frequencyCount', 'frequencyPercentage'];
 
   const columns = useMemo(() => [
     {
@@ -118,7 +118,7 @@ export default function Wordlist() {
     columns, data, initialState: {
       sortBy: [
         {
-          id: "frequencyCount",
+          id: 'frequencyCount',
           desc: true
         }
       ]
@@ -134,7 +134,7 @@ export default function Wordlist() {
   const handleTypeChange = (event) => {
     setTypeValue(event.target.value);
     setTypeError(false);
-  }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -143,11 +143,11 @@ export default function Wordlist() {
       setParamsExpanded(false);
       setLoading(true);
       setShowTable(false);
-      fetch("/api/wordlist", {
-        method: "POST",
+      fetch('/api/wordlist', {
+        method: 'POST',
         body: generateRequestData(),
         headers: {
-          "Content-Type": "application/json"
+          'Content-Type': 'application/json'
         }
       })
         .then(res => res.json())
@@ -157,13 +157,11 @@ export default function Wordlist() {
           setLoading(false);
         });
     }
-  }
+  };
 
   const generateRequestData = () => {
     return JSON.stringify({
-      // todo use commented out line when done testing!
-      // corpusTextIds: queryStore.getState().split(","),
-      corpusTextIds: ["32c21cfc-b14f-45e5-8d67-e59d7cfa2e54", "86f4f30b-8348-4b0b-8d5d-cacc65d3ec1e"],
+      corpusTextIds: queryStore.getState().split(','),
       type: typeValue,
       excludeStopwords: stopwordsChecked,
       customStopwords: customStopwords === ''
@@ -174,11 +172,11 @@ export default function Wordlist() {
         ? null
         : minimumFrequency
     });
-  }
+  };
 
   const listifyCustomStopwords = (stopwords) => {
-    return stopwords.replace(/ /g, '').split(",");
-  }
+    return stopwords.replace(/ /g, '').split(',');
+  };
 
   return (
     <div className="wordlist-wrapper">
@@ -236,12 +234,12 @@ export default function Wordlist() {
                   }
                                     label={<>
                                       vaikimisi loendist
-                                      <Tooltip title={<>Stoppsõnadena kasutatakse Kristel Uiboaedi loodud listi. See
-                                        sisaldab sidesõnu, asesõnu, grammatilise tähendusega tegusõnu, sisutühjasid
-                                        määrsõnu jms. Täielik nimekiri on kättesaadav Tartu Ülikooli
-                                        andmerepositooriumis klikkides <a href={"https://datadoi.ee/handle/33/78"}
-                                                                          target="_blank"
-                                                                          rel="noopener noreferrer">siia</a>.</>}
+                                      <Tooltip title={<>Eesti keele stoppsõnade loendi on koostanud Kristel Uiboaed. See
+                                        sisaldab sidesõnu, asesõnu, sisutühje tegusõnu ja määrsõnu. Nimekiri on
+                                        kättesaadav Tartu Ülikooli andmerepositooriumis (vaata <a
+                                          href={'https://datadoi.ee/handle/33/78'}
+                                          target="_blank"
+                                          rel="noopener noreferrer">siit</a>).</>}
                                                placement="right">
                                         <QuestionMark className="stopwords-tooltip-icon"/>
                                       </Tooltip></>}
@@ -251,7 +249,7 @@ export default function Wordlist() {
                              size="small"
                              value={customStopwords}
                              onChange={(e) => setCustomStopwords(e.target.value)}
-                             style={{width: "350px"}}/>
+                             style={{width: '350px'}}/>
                 </FormControl>
               </div>
               <div>
@@ -265,27 +263,27 @@ export default function Wordlist() {
                   }
                                     label={<>
                                       säilita suurtähed
-                                      {/* todo add tooltip text */}
-                                      <Tooltip title="todo"
-                                               placement="right">
+                                      <Tooltip
+                                        title='Sõnad muudetakse vaikimisi väiketäheliseks, näiteks "kool" ja "Kool" loetakse samaks sõnaks. Märgi kasti linnuke, kui soovid, et suur- ja väiketähelisi sõnu arvestataks eraldi (nt "Eesti" ja "eesti").'
+                                        placement="right">
                                         <QuestionMark className="stopwords-tooltip-icon"/>
                                       </Tooltip></>}
                   />
                   <TextField label={<>
                     Määra sõna minimaalne sagedus
-                    {/* todo add tooltip text */}
-                    <Tooltip title="todo"
-                             placement="right">
+                    <Tooltip
+                      title="Kui soovid näiteks välistada sõnad, mida esineb tekstis vaid üks kord, siis määra sageduse alampiiriks 2. Mahukamaid tekstikogusid analüüsides jäetakse sageli kõrvale alla 5 korra esinevad sõnad."
+                      placement="right">
                       <QuestionMark className="stopwords-tooltip-icon"/>
                     </Tooltip></>}
                              type="number"
                              inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: '1'}}
-                             InputLabelProps={{style: {pointerEvents: "auto"}}}
+                             InputLabelProps={{style: {pointerEvents: 'auto'}}}
                              variant="outlined"
                              size="small"
                              value={minimumFrequency}
                              onChange={(e) => setMinimumFrequency(e.target.value)}
-                             style={{width: "310px"}}/>
+                             style={{width: '310px'}}/>
                 </FormControl>
               </div>
             </div>
@@ -298,7 +296,7 @@ export default function Wordlist() {
                              headers={tableToDownload}
                              accessors={accessors}
                              marginRight={'18vw'}/>
-        <table className='wordlist-table'
+        <table className="wordlist-table"
                {...getTableProps()}>
           <thead>
           {headerGroups.map(headerGroup => (
@@ -307,8 +305,8 @@ export default function Wordlist() {
                 <th {...column.getHeaderProps()}>
                   {column.render('Header')}
                   {column.canSort &&
-                    <span className='sortIcon'
-                          {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>
+                    <span className="sortIcon"
+                          {...column.getHeaderProps(column.getSortByToggleProps({title: ''}))}>
                         {column.isSorted
                           ? column.isSortedDesc
                             ? ' ▼'
@@ -334,10 +332,10 @@ export default function Wordlist() {
                         }}>
                       {cell.render('Cell')}
                     </td>
-                  )
+                  );
                 })}
               </tr>
-            )
+            );
           })}
           </tbody>
         </table>
@@ -359,7 +357,7 @@ export default function Wordlist() {
         open={loading}
       >
         <CircularProgress thickness={4}
-                          size='8rem'/>
+                          size="8rem"/>
       </Backdrop>
     </div>
   );
