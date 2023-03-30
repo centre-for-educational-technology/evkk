@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
-import { Alert, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import {
+  Alert,
+  Button,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Tooltip,
+  Typography
+} from '@mui/material';
 import TextUpload from '../tools/wordanalyser/textupload/TextUpload';
 import '../components/styles/Adding.css';
 
