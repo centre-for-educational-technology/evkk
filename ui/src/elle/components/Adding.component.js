@@ -118,7 +118,6 @@ class Adding extends Component {
                   <TextField required
                              multiline
                              size="small"
-                             helperText="Kirjuta siia teksti pealkiri"
                              label="Pealkiri"
                              variant="outlined"
                              name="pealkiri"
@@ -129,7 +128,6 @@ class Adding extends Component {
                 <div>
                   <TextField multiline
                              rows={2}
-                             helperText="Kirjuta siia ülesande kirjeldus"
                              label="Ülesande kirjeldus"
                              variant="outlined"
                              name="kirjeldus"
@@ -473,105 +471,108 @@ class Adding extends Component {
                       <FormControl className="form-control"
                                    size="small">
 
+                      <Tooltip
+                        title={"Sisesta keeled komaga eraldatult, märkides esimesena keele, mida kõige paremini oskad"}
+                        placement={"top-start"}>
                         <TextField
                           size="small"
                           multiline
                           label="Muud õppe-, töö- või suhtluskeeled"
                           variant="outlined"
-                          title={"Sisesta keeled komaga eraldatult, märkides esimesena keele, mida kõige paremini oskad"}
                           name="autoriMuudKeeled"
                           value={this.state.autoriMuudKeeled}
                           onChange={this.handleChange}></TextField>
-                      </FormControl>
-                    </Grid>
+                      </Tooltip>
+                    </FormControl>
+                  </Grid>
+                  <Grid>
+                    <FormControl className="form-control"
+                                 size="small">
+                      <InputLabel id="elukohariik">Elukohariik:</InputLabel>
+                      <Select value={this.state.autoriElukohariik}
+                              onChange={this.handleChange}
+                              name="autoriElukohariik"
+                              label="Elukohariik:"
+                              labelId="elukohariik">
+                        <MenuItem value={"eesti"}>Eesti</MenuItem>
+                        <MenuItem value={"leedu"}>Leedu</MenuItem>
+                        <MenuItem value={"läti"}>Läti</MenuItem>
+                        <MenuItem value={"rootsi"}>Rootsi</MenuItem>
+                        <MenuItem value={"soome"}>Soome</MenuItem>
+                        <MenuItem value={"venemaa"}>Venemaa</MenuItem>
+                        <MenuItem value={"muu"}>Muu</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  {this.state.autoriElukohariik === "muu" &&
                     <Grid>
                       <FormControl className="form-control"
                                    size="small">
-                        <InputLabel id="elukohariik">Elukohariik:</InputLabel>
-                        <Select value={this.state.autoriElukohariik}
-                                onChange={this.handleChange}
-                                name="autoriElukohariik"
-                                label="Elukohariik:"
-                                labelId="elukohariik">
-                          <MenuItem value={"eesti"}>Eesti</MenuItem>
-                          <MenuItem value={"leedu"}>Leedu</MenuItem>
-                          <MenuItem value={"läti"}>Läti</MenuItem>
-                          <MenuItem value={"rootsi"}>Rootsi</MenuItem>
-                          <MenuItem value={"soome"}>Soome</MenuItem>
-                          <MenuItem value={"venemaa"}>Venemaa</MenuItem>
-                          <MenuItem value={"muu"}>Muu</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    {this.state.autoriElukohariik === "muu" &&
-                      <Grid>
-                        <FormControl className="form-control"
-                                     size="small">
-                          <TextField
-                            multiline
-                            label="Elukohariik"
-                            variant="outlined"
-                            name="elukohariikMuu"
-                            value={this.state.elukohariikMuu}
-                            onChange={this.handleChange}
-                            style={{width: "75%"}}></TextField>
-                        </FormControl>
-                      </Grid>}
-                    {this.state.liik === "akadeemiline" && <Grid>
-                      <FormControl className="form-control"
-                                   size="small">
-                        <InputLabel id="oppeaste-select-label">Õppeaste</InputLabel>
-                        <Select
-                          labelId="oppeaste-select-label"
-                          name="autoriOppeaste"
-                          value={this.state.autoriOppeaste}
-                          label="Õppeaste"
+                        <TextField
+                          multiline
+                          label="Elukohariik"
+                          variant="outlined"
+                          name="elukohariikMuu"
+                          value={this.state.elukohariikMuu}
                           onChange={this.handleChange}
-                        >
-                          <MenuItem value={"bakalaureuseope"}>Bakalaureuseõpe</MenuItem>
-                          <MenuItem value={"magistriope"}>Magistriõpe</MenuItem>
-                          <MenuItem value={"doktoriope"}>Doktoriõpe</MenuItem>
-                        </Select>
+                          style={{width: "75%"}}></TextField>
                       </FormControl>
                     </Grid>}
-                    {this.state.liik === "akadeemiline" && <Grid>
-                      <FormControl className="form-control"
-                                   size="small">
-                        <InputLabel id="teaduskraad-select-label">Teaduskraad</InputLabel>
-                        <Select
-                          labelId="teaduskraad-select-label"
-                          name="autoriTeaduskraad"
-                          value={this.state.autoriTeaduskraad}
-                          label="Teaduskraad"
-                          onChange={this.handleChange}
-                        >
-                          <MenuItem value={"ba"}>Bakalaureusekraad</MenuItem>
-                          <MenuItem value={"ma"}>Magistrikraad</MenuItem>
-                          <MenuItem value={"phd"}>Doktorikraad</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </Grid>}
-                    {this.state.liik === "mitteakadeemiline" && <Grid>
-                      <FormControl className="form-control"
-                                   size="small">
-                        <InputLabel id="haridus-select-label">Autori haridus</InputLabel>
-                        <Select
-                          labelId="haridus-select-label"
-                          name="autoriHaridus"
-                          value={this.state.autoriHaridus}
-                          label="Haridus"
-                          onChange={this.handleChange}
-                        >
-                          <MenuItem value={"alusharidus"}>alusharidus</MenuItem>
-                          <MenuItem value={"pohiharidus"}>põhiharidus</MenuItem>
-                          <MenuItem value={"keskharidus"}>keskharidus</MenuItem>
-                          <MenuItem value={"keskeriharidus"}>keskeriharidus</MenuItem>
-                          <MenuItem value={"rakenduskorgharidus"}>rakenduskõrgharidus</MenuItem>
-                          <MenuItem value={"korgharidus"}>kõrgharidus</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </Grid>}
-                  </Grid>
+                  {this.state.liik === "akadeemiline" && <Grid>
+                    <FormControl className="form-control"
+                                 size="small">
+                      <InputLabel id="oppeaste-select-label">Õppeaste</InputLabel>
+                      <Select
+                        labelId="oppeaste-select-label"
+                        name="autoriOppeaste"
+                        value={this.state.autoriOppeaste}
+                        label="Õppeaste"
+                        onChange={this.handleChange}
+                      >
+                        <MenuItem value={"bakalaureuseope"}>Bakalaureuseõpe</MenuItem>
+                        <MenuItem value={"magistriope"}>Magistriõpe</MenuItem>
+                        <MenuItem value={"doktoriope"}>Doktoriõpe</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>}
+                  {this.state.liik === "akadeemiline" && <Grid>
+                    <FormControl className="form-control"
+                                 size="small">
+                      <InputLabel id="teaduskraad-select-label">Teaduskraad</InputLabel>
+                      <Select
+                        labelId="teaduskraad-select-label"
+                        name="autoriTeaduskraad"
+                        value={this.state.autoriTeaduskraad}
+                        label="Teaduskraad"
+                        onChange={this.handleChange}
+                      >
+                        <MenuItem value={"ba"}>Bakalaureusekraad</MenuItem>
+                        <MenuItem value={"ma"}>Magistrikraad</MenuItem>
+                        <MenuItem value={"phd"}>Doktorikraad</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>}
+                  {this.state.liik === "mitteakadeemiline" && <Grid>
+                    <FormControl className="form-control"
+                                 size="small">
+                      <InputLabel id="haridus-select-label">Autori haridus</InputLabel>
+                      <Select
+                        labelId="haridus-select-label"
+                        name="autoriHaridus"
+                        value={this.state.autoriHaridus}
+                        label="Haridus"
+                        onChange={this.handleChange}
+                      >
+                        <MenuItem value={"alusharidus"}>alusharidus</MenuItem>
+                        <MenuItem value={"pohiharidus"}>põhiharidus</MenuItem>
+                        <MenuItem value={"keskharidus"}>keskharidus</MenuItem>
+                        <MenuItem value={"keskeriharidus"}>keskeriharidus</MenuItem>
+                        <MenuItem value={"rakenduskorgharidus"}>rakenduskõrgharidus</MenuItem>
+                        <MenuItem value={"korgharidus"}>kõrgharidus</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>}
+                </Grid>
                 </Grid>
               </div>
             </Grid>

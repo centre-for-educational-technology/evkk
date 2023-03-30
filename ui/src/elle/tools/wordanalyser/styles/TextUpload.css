@@ -34,3 +34,10 @@
 #file_name {
   overflow-y: auto;
 }
+
+.button-file {
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
+  margin: 0 0 1rem -.25rem
+}
