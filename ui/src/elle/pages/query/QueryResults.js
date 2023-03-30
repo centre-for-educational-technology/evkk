@@ -18,7 +18,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import '../styles/QueryResults.css';
 import { AccordionStyle, ages, corpuses, educations, genders, locations, textTypes } from '../../utils/constants';
 import { v4 as uuidv4 } from 'uuid';
-import TablePagination from '../../tools/wordanalyser/TablePagination';
+import TablePagination from '../../components/table/TablePagination';
 import QueryDownloadButton from './QueryDownloadButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { queryStore } from '../../store/QueryStore';

@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
-import TextUploadModal from "./TextUploadModal";
-import "../styles/TextUpload.css";
-import {Button, Grid, Tooltip} from "@mui/material";
+import React, { useState } from 'react';
+import TextUploadModal from './TextUploadModal';
+import '../styles/TextUpload.css';
+import { Button, Grid, Tooltip } from '@mui/material';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
-import {useTranslation} from "react-i18next";
-import "../../../translations/i18n";
+import { useTranslation } from 'react-i18next';
+import '../../translations/i18n';
 
 function TextUpload(props) {
 

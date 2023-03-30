@@ -1,15 +1,15 @@
-import {useContext, useMemo, useState} from 'react';
-import {useFilters, usePagination, useSortBy, useTable} from 'react-table';
-import {Box, Checkbox, FormControl, IconButton, ListItemText, MenuItem, Select} from "@mui/material";
-import TableDownloadButton from "./TableDownloadButton";
+import { useContext, useMemo, useState } from 'react';
+import { useFilters, usePagination, useSortBy, useTable } from 'react-table';
+import { Box, Checkbox, FormControl, IconButton, ListItemText, MenuItem, Select } from '@mui/material';
+import TableDownloadButton from '../../components/table/TableDownloadButton';
 import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import {v4 as uuidv4} from 'uuid';
-import TablePagination from "./TablePagination";
-import {useTranslation} from "react-i18next";
-import "../../translations/i18n";
-import {AnalyseContext, SetFormContext, SetTypeContext, SetWordContext} from "./Contexts";
-import ToggleCell from "./ToggleCell";
+import { v4 as uuidv4 } from 'uuid';
+import TablePagination from '../../components/table/TablePagination';
+import { useTranslation } from 'react-i18next';
+import '../../translations/i18n';
+import { AnalyseContext, SetFormContext, SetTypeContext, SetWordContext } from './Contexts';
+import ToggleCell from './ToggleCell';
 
 function GrammaticalAnalysis() {
   const {t} = useTranslation();

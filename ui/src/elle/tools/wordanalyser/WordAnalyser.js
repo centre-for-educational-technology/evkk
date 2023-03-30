@@ -1,13 +1,13 @@
-import {memo, useContext, useEffect, useState} from 'react';
-import {Input} from './textinput/Input';
-import {WordInfo} from './WordInfo';
-import {v4 as uuidv4} from 'uuid';
+import { memo, useContext, useEffect, useState } from 'react';
+import { Input } from './textinput/Input';
+import { WordInfo } from './WordInfo';
+import { v4 as uuidv4 } from 'uuid';
 import './styles/WordAnalyser.css';
-import TextUpload from './textupload/TextUpload';
-import {Alert, Box, Fade, Grid, IconButton, Typography} from '@mui/material';
-import {useTranslation} from "react-i18next";
-import "../../translations/i18n";
-import i18n from "i18next";
+import TextUpload from '../../components/textupload/TextUpload';
+import { Alert, Box, Fade, Grid, IconButton, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import '../../translations/i18n';
+import i18n from 'i18next';
 import {
   AnalyseContext,
   FormContext,
@@ -17,7 +17,7 @@ import {
   TabContext,
   TypeContext,
   WordContext
-} from "./Contexts";
+} from './Contexts';
 import CloseIcon from '@mui/icons-material/Close';
 
 function WordAnalyser() {

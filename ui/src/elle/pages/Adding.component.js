@@ -11,7 +11,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import TextUpload from '../tools/wordanalyser/textupload/TextUpload';
+import TextUpload from '../components/textupload/TextUpload';
 import './styles/Adding.css';
 
 class Adding extends Component {

@@ -1,12 +1,12 @@
-import {createRef, useEffect, useState} from 'react';
+import { createRef, useEffect, useState } from 'react';
 import Popover from '@mui/material/Popover';
-import ReactExport from "react-export-excel";
-import {CSVLink} from "react-csv";
+import ReactExport from 'react-export-excel';
+import { CSVLink } from 'react-csv';
 import DownloadIcon from '@mui/icons-material/Download';
-import {Box, Button, FormControl, InputLabel, MenuItem, Select, Tooltip} from "@mui/material";
-import {useTranslation} from "react-i18next";
-import "../../translations/i18n";
-import './styles/DownloadButton.css';
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Tooltip } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import '../../translations/i18n';
+import '../../tools/wordanalyser/styles/DownloadButton.css';
 
 export default function TableDownloadButton({data, headers, accessors, marginRight, tableType}) {
 

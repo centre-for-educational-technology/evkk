@@ -1,5 +1,5 @@
-import React from "react";
-import "../styles/TextUpload.css";
+import React from 'react';
+import '../styles/TextUpload.css';
 
 function TextUploadModal(props) {
   return (props.trigger) ? (

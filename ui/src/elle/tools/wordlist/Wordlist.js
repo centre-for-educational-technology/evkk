@@ -24,9 +24,9 @@ import { AccordionStyle } from '../../utils/constants';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { QuestionMark } from '@mui/icons-material';
 import { usePagination, useSortBy, useTable } from 'react-table';
-import TablePagination from '../wordanalyser/TablePagination';
+import TablePagination from '../../components/table/TablePagination';
 import WordlistMenu from './menu/WordlistMenu';
-import TableDownloadButton from '../wordanalyser/TableDownloadButton';
+import TableDownloadButton from '../../components/table/TableDownloadButton';
 
 export default function Wordlist() {
 

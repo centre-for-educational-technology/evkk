@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import "./Correction.css";
-import {Button, Card} from "@mui/material";
-import TextUpload from "../wordanalyser/textupload/TextUpload";
+import React, { Component } from 'react';
+import './Correction.css';
+import { Button, Card } from '@mui/material';
+import TextUpload from '../../components/textupload/TextUpload';
 
 //history to keep all changes step-by-step made to alasisu
 let history = [

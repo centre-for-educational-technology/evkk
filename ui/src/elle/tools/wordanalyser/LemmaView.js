@@ -1,14 +1,14 @@
-import {useContext, useMemo} from "react";
-import "./styles/LemmaView.css";
-import {useFilters, usePagination, useSortBy, useTable} from "react-table";
-import {v4 as uuidv4} from 'uuid';
-import TablePagination from "./TablePagination";
-import {useTranslation} from "react-i18next";
-import "../../translations/i18n";
-import TableDownloadButton from "./TableDownloadButton";
-import {AnalyseContext, SetLemmaContext, SetWordContext} from "./Contexts";
-import {Box} from "@mui/material";
-import ToggleCell from "./ToggleCell";
+import { useContext, useMemo } from 'react';
+import './styles/LemmaView.css';
+import { useFilters, usePagination, useSortBy, useTable } from 'react-table';
+import { v4 as uuidv4 } from 'uuid';
+import TablePagination from '../../components/table/TablePagination';
+import { useTranslation } from 'react-i18next';
+import '../../translations/i18n';
+import TableDownloadButton from '../../components/table/TableDownloadButton';
+import { AnalyseContext, SetLemmaContext, SetWordContext } from './Contexts';
+import { Box } from '@mui/material';
+import ToggleCell from './ToggleCell';
 
 function LemmaView() {
 

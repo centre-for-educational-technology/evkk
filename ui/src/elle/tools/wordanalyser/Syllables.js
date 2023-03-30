@@ -1,14 +1,14 @@
-import React, {useContext, useEffect, useMemo, useState} from "react";
-import {usePagination, useSortBy, useTable} from 'react-table';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { usePagination, useSortBy, useTable } from 'react-table';
 import './styles/Syllables.css';
-import TablePagination from "./TablePagination";
-import {useTranslation} from "react-i18next";
-import "../../translations/i18n";
-import TableDownloadButton from "./TableDownloadButton";
-import {v4 as uuidv4} from 'uuid';
-import {AnalyseContext, SetSyllableContext, SetSyllableWordContext} from "./Contexts";
-import {Box} from "@mui/material";
-import ToggleCell from "./ToggleCell";
+import TablePagination from '../../components/table/TablePagination';
+import { useTranslation } from 'react-i18next';
+import '../../translations/i18n';
+import TableDownloadButton from '../../components/table/TableDownloadButton';
+import { v4 as uuidv4 } from 'uuid';
+import { AnalyseContext, SetSyllableContext, SetSyllableWordContext } from './Contexts';
+import { Box } from '@mui/material';
+import ToggleCell from './ToggleCell';
 
 function Syllables() {
 
