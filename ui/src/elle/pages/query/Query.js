@@ -15,7 +15,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import './styles/Query.css';
+import '../styles/Query.css';
 import {
   AccordionStyle,
   addedYearOptions,
@@ -26,7 +26,7 @@ import {
   usedMaterialsOptions,
   useStyles,
   wordsOptions
-} from '../utils/constants';
+} from '../../utils/constants';
 import { v4 as uuidv4 } from 'uuid';
 import QueryResults from './QueryResults';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';

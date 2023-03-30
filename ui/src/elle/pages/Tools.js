@@ -1,13 +1,13 @@
-import ToolCard from "../components/ToolCard";
-import React, {useEffect, useState} from "react";
-import {Alert, Box, Card, CardContent, Grid} from "@mui/material";
-import Accordion from "@mui/material/Accordion";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import {Outlet, useLocation, useNavigate} from "react-router-dom";
-import Query from "../components/Query";
-import {AccordionStyle} from "../utils/constants";
+import ToolCard from '../components/ToolCard';
+import React, { useEffect, useState } from 'react';
+import { Alert, Box, Card, CardContent, Grid } from '@mui/material';
+import Accordion from '@mui/material/Accordion';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { AccordionStyle } from '../utils/constants';
+import Query from './query/Query';
 
 function Tools() {
   const navigate = useNavigate();

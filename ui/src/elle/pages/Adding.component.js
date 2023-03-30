@@ -12,7 +12,7 @@ import {
   Typography
 } from '@mui/material';
 import TextUpload from '../tools/wordanalyser/textupload/TextUpload';
-import '../components/styles/Adding.css';
+import './styles/Adding.css';
 
 class Adding extends Component {
 

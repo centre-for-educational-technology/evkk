@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useReducer, useRef, useState} from "react";
+import React, { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import {
   Accordion,
   AccordionDetails,
@@ -11,17 +11,17 @@ import {
   IconButton,
   Modal,
   Typography
-} from "@mui/material";
-import {usePagination, useTable} from "react-table";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+} from '@mui/material';
+import { usePagination, useTable } from 'react-table';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CloseIcon from '@mui/icons-material/Close';
-import "./styles/QueryResults.css";
-import {AccordionStyle, ages, corpuses, educations, genders, locations, textTypes} from "../utils/constants";
-import {v4 as uuidv4} from 'uuid';
-import TablePagination from "../tools/wordanalyser/TablePagination";
-import QueryDownloadButton from "./QueryDownloadButton";
-import LoadingButton from "@mui/lab/LoadingButton";
-import {queryStore} from "../store/QueryStore";
+import '../styles/QueryResults.css';
+import { AccordionStyle, ages, corpuses, educations, genders, locations, textTypes } from '../../utils/constants';
+import { v4 as uuidv4 } from 'uuid';
+import TablePagination from '../../tools/wordanalyser/TablePagination';
+import QueryDownloadButton from './QueryDownloadButton';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { queryStore } from '../../store/QueryStore';
 
 function QueryResults(props) {
 

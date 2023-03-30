@@ -1,8 +1,8 @@
-import {Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography} from "@mui/material";
-import React, {useEffect} from "react";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import React, { useEffect } from 'react';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import './styles/Publications.css';
-import {useLocation} from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 function Publications() {
   const location = useLocation();
