@@ -1,0 +1,15 @@
+.add-container {
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-right: 50px;
+  padding-left: 50px;
+  width: 100%;
+  max-width: 100%;
+}
+
+.form-control {
+  width: 100%;
+  margin-top: 20px !important;
+  min-width: 240px;
+  max-width: 360px;
+}
