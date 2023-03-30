@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/wordlist")
+@RequestMapping("/tools/wordlist")
 public class WordlistController {
 
   private final WordlistService wordlistService;

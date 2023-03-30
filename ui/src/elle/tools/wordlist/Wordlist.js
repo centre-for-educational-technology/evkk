@@ -143,7 +143,7 @@ export default function Wordlist() {
       setParamsExpanded(false);
       setLoading(true);
       setShowTable(false);
-      fetch('/api/wordlist', {
+      fetch('/api/tools/wordlist', {
         method: 'POST',
         body: generateRequestData(),
         headers: {
