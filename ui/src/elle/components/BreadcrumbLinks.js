@@ -1,19 +1,19 @@
-import React from "react";
-import {Box, Breadcrumbs, Link, styled} from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import useBreadcrumbs from "use-react-router-breadcrumbs";
-import {Link as RouterLink} from "react-router-dom";
+import React from 'react';
+import { Box, Breadcrumbs, Link, styled } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
+import useBreadcrumbs from 'use-react-router-breadcrumbs';
+import { Link as RouterLink } from 'react-router-dom';
 
 const breadcrumbNameMap = {
   '/corrector': 'Tekstihindaja',
   '/links': 'Lingikogud',
   '/tools': 'Tekstid & tööriistad',
   '/about': 'Keskkonnast',
-  '/about/us': "Meist",
+  '/about/us': 'Meist',
   '/about/people': 'Töötajad',
   '/about/grants': 'Grandid',
   '/about/publications': 'Üllitised',
-  '/tools/adding': 'Loovuta oma tekst',
+  '/tools/adding': 'Loovuta tekst',
   '/tools/clusterfinder': 'Mustrid',
   '/tools/wordanalyser': 'Sõnaanalüüs',
   '/tools/wordlist': 'Sõnaloend'

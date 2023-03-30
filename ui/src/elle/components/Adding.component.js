@@ -103,7 +103,7 @@ class Adding extends Component {
       <div className='add-container'>
         <div style={{width: "100%", textAlign: "center"}}>
           <Typography marginBottom="50px"
-                      variant="h5"><strong>Loovuta oma tekst</strong></Typography>
+                      variant="h5"><strong>Loovuta tekst</strong></Typography>
         </div>
         <form onSubmit={this.handleSubmit}
               id="f1"
