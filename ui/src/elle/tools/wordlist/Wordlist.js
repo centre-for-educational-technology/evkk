@@ -295,6 +295,7 @@ export default function Wordlist() {
                              tableType={'Wordlist'}
                              headers={tableToDownload}
                              accessors={accessors}
+                             marginTop={'2vh'}
                              marginRight={'18vw'}/>
         <table className="wordlist-table"
                {...getTableProps()}>

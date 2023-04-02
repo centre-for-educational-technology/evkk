@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 import '../../tools/wordanalyser/styles/DownloadButton.css';
 
-export default function TableDownloadButton({data, headers, accessors, marginRight, tableType}) {
+export default function TableDownloadButton({data, headers, accessors, marginTop, marginRight, tableType}) {
 
   const {t} = useTranslation();
   const ExcelFile = ReactExport.ExcelFile;
@@ -16,9 +16,9 @@ export default function TableDownloadButton({data, headers, accessors, marginRig
   const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
   const [fileType, setFileType] = useState(false);
   const fileDownloadElement = createRef();
-  const [buttonType, setButtonType] = useState(<Button variant='contained'
-                                                       onClick={showButton}>{t("common_download")}</Button>);
-  let csvData = "";
+  const [buttonType, setButtonType] = useState(<Button variant="contained"
+                                                       onClick={showButton}>{t('common_download')}</Button>);
+  let csvData = '';
   const [anchorEl, setAnchorEl] = useState(null);
   let tableHeaders = [];
 
@@ -210,8 +210,8 @@ export default function TableDownloadButton({data, headers, accessors, marginRig
 
   return (
     <Box className="download-button-section"
-         style={{marginTop: '2vh', marginRight: marginRight}}>
-      <Tooltip title={t("common_download")}
+         style={{marginTop: marginTop, marginRight: marginRight}}>
+      <Tooltip title={t('common_download')}
                placement="top">
         <Button aria-describedby={id}
                 variant="contained"

@@ -1,16 +1,16 @@
-import React, {useContext, useEffect, useMemo, useState} from 'react';
-import {useFilters, usePagination, useSortBy, useTable} from 'react-table';
-import {Box, Button, Chip, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { useFilters, usePagination, useSortBy, useTable } from 'react-table';
+import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import {v4 as uuidv4} from 'uuid';
-import TablePagination from "../../components/table/TablePagination";
-import {useTranslation} from "react-i18next";
-import "../../translations/i18n";
-import {AnalyseContext, SetFormContext, SetTypeContext, SetWordContext} from "./Contexts";
-import ToggleCell from "./ToggleCell";
-import TableDownloadButton from "../../components/table/TableDownloadButton";
-import Popover from "@mui/material/Popover";
+import { v4 as uuidv4 } from 'uuid';
+import TablePagination from '../../components/table/TablePagination';
+import { useTranslation } from 'react-i18next';
+import '../../translations/i18n';
+import { AnalyseContext, SetFormContext, SetTypeContext, SetWordContext } from './Contexts';
+import ToggleCell from './ToggleCell';
+import TableDownloadButton from '../../components/table/TableDownloadButton';
+import Popover from '@mui/material/Popover';
 
 function GrammaticalAnalysis() {
   const {t} = useTranslation();
@@ -28,7 +28,7 @@ function GrammaticalAnalysis() {
   const [filtersInUse, setFiltersInUse] = useState([]);
   const [analyzerFilterPopoverAnchorEl, setAnalyzerFilterPopoverAnchorEl] = useState(null);
   const analyzerFilterPopoverToggle = Boolean(analyzerFilterPopoverAnchorEl);
-  const analyzerFilterPopoverID = analyzerFilterPopoverToggle ? 'simple-popover' : undefined;
+  const analyzerFilterPopoverID = analyzerFilterPopoverToggle ? 'analyzer-filter-popover' : undefined;
   let wordArray = [];
 
   const handlePopoverOpen = (event) => {
@@ -41,9 +41,9 @@ function GrammaticalAnalysis() {
 
   function checkFilters(filter1, filter2) {
     let list = [];
-    for (let i = 0; i < filter1.length; i++) {
-      if (filter2.includes(filter1[i])) {
-        list.push(filter1[i]);
+    for (const element of filter1) {
+      if (filter2.includes(element)) {
+        list.push(element);
       }
     }
     return list;
@@ -53,24 +53,20 @@ function GrammaticalAnalysis() {
     return filterValue.length === 0
       ? rows
       : rows.filter((row) =>
-        filterValue.includes(String(row.original[columnIds])),
+        filterValue.includes(String(row.original[columnIds]))
       );
   }
 
-  function multiSelect(values, label, column) {
+  function multiSelect(values, label) {
     const handleChange = (event) => {
       let value = event.target.value;
       setFilterValue(value);
       setFiltersInUse(value);
-      if (column === 1) {
-        setAllFilters([{id: "col1", value: checkFilters(value, col1)}, {id: "col2", value: checkFilters(value, col2)}])
-      } else {
-        setAllFilters([{id: "col1", value: checkFilters(value, col1)}, {id: "col2", value: checkFilters(value, col2)}])
-      }
-    }
+      setAllFilters([{id: 'col1', value: checkFilters(value, col1)}, {id: 'col2', value: checkFilters(value, col2)}]);
+    };
     return (
-      <Box marginY={"5px"}>
-        <FormControl size={"small"} className="filter-class">
+      <Box marginY={'5px'}>
+        <FormControl size={'small'} className="filter-class">
           <InputLabel>{label}</InputLabel>
           <Select
             label={label}
@@ -89,7 +85,7 @@ function GrammaticalAnalysis() {
           </Select>
         </FormControl>
       </Box>
-    )
+    );
   }
 
   const analyseInput = () => {
@@ -114,7 +110,7 @@ function GrammaticalAnalysis() {
         if (wordIndex === -1) {
           let newWord = {
             word: words[i],
-            ids: [ids[i]],
+            ids: [ids[i]]
           };
           wordArray[typeIndex].words.push(newWord);
           wordArray[typeIndex].count += 1;
@@ -130,26 +126,26 @@ function GrammaticalAnalysis() {
     for (const element of wordArray) {
       element.words.sort((a, b) => (a.ids.length === b.ids.length) ? ((a.word < b.word) ? -1 : 1) : ((a.ids.length > b.ids.length) ? -1 : 1));
     }
-  }
+  };
 
   analyseInput();
-  const tableToDownload = [t("common_wordtype"), t("common_form"), t("common_words_in_text"), t("common_header_frequency"), t("common_header_percentage")];
+  const tableToDownload = [t('common_wordtype'), t('common_form'), t('common_words_in_text'), t('common_header_frequency'), t('common_header_percentage')];
 
   function fillData() {
     let tableVal = [];
     for (const element of wordArray) {
       let info = {
-        col1: "",
-        col2: "",
+        col1: '',
+        col2: '',
         col3: [[], [], [], []],
         col4: 0,
-        col5: 0,
+        col5: 0
       };
       info.col1 = element.type;
       info.col2 = element.form;
       for (let value of element.words) {
         info.col3[0].push(value.word);
-        info.col3[1].push("(" + value.ids.length + "), ");
+        info.col3[1].push('(' + value.ids.length + '), ');
         info.col3[3].push(value.ids[0]);
       }
       info.col3[1][info.col3[1].length - 1] = info.col3[1][info.col3[1].length - 1].slice(0, -2);
@@ -166,12 +162,12 @@ function GrammaticalAnalysis() {
   useEffect(() => {
     let list = [];
     let list2 = [];
-    for (let i = 0; i < data.length; i++) {
-      if (!list.includes(data[i].col1)) {
-        list.push(data[i].col1);
+    for (const element of data) {
+      if (!list.includes(element.col1)) {
+        list.push(element.col1);
       }
-      if (!list2.includes(data[i].col2)) {
-        list2.push(data[i].col2);
+      if (!list2.includes(element.col2)) {
+        list2.push(element.col2);
       }
     }
     setCol1(list);
@@ -190,7 +186,7 @@ function GrammaticalAnalysis() {
     () => [
       {
         Header: () => {
-          return (<span>{t("common_wordtype")}</span>);
+          return (<span>{t('common_wordtype')}</span>);
         },
         accessor: 'col1', // accessor is the "key" in the data
         id: 'col1',
@@ -198,7 +194,7 @@ function GrammaticalAnalysis() {
           const word = props.value;
           return <span key={props.id}
                        className="word"
-                       onClick={() => handleTypeClick(word)}>{word}</span>
+                       onClick={() => handleTypeClick(word)}>{word}</span>;
         },
         filter: multiSelectFilter,
         className: 'user',
@@ -206,27 +202,27 @@ function GrammaticalAnalysis() {
       },
       {
         Header: () => {
-          return (<span>{t("common_form")}</span>);
+          return (<span>{t('common_form')}</span>);
         },
         accessor: 'col2',
         id: 'col2',
         Cell: (props) => {
           const word = props.value;
           return <span className="word"
-                       onClick={() => handleFormClick(word)}>{word}</span>
+                       onClick={() => handleFormClick(word)}>{word}</span>;
         },
         filter: multiSelectFilter,
         width: 400,
         className: 'col2',
         disableSortBy: true,
-        sortable: false,
+        sortable: false
       },
       {
-        Header: t("common_words_in_text"),
+        Header: t('common_words_in_text'),
         accessor: 'col3',
         Cell: (props) => {
-          const items = props.value
-          let cellContent = []
+          const items = props.value;
+          let cellContent = [];
           for (let i = 0; i < items[0].length; i++) {
             let word = items[0][i];
             let count = items[1][i];
@@ -239,28 +235,28 @@ function GrammaticalAnalysis() {
                 </span>
                 {String.fromCharCode(160)}{count}
               </span>
-            )
+            );
             cellContent.push(content);
           }
-          return <ToggleCell onCellContent={cellContent}/>
+          return <ToggleCell onCellContent={cellContent}/>;
         },
         width: 700,
         disableFilters: true,
         disableSortBy: true,
-        sortable: false,
+        sortable: false
       },
       {
-        Header: t("common_header_frequency"),
+        Header: t('common_header_frequency'),
         id: 'sagedus',
         accessor: 'col4', // accessor is the "key" in the data
         width: 300,
-        disableFilters: true,
+        disableFilters: true
       },
       {
-        Header: t("common_header_percentage"),
+        Header: t('common_header_percentage'),
         accessor: 'col5',
         width: 300,
-        disableFilters: true,
+        disableFilters: true
       }
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -282,12 +278,12 @@ function GrammaticalAnalysis() {
     previousPage,
     setPageSize,
     setAllFilters,
-    state: {pageIndex, pageSize},
+    state: {pageIndex, pageSize}
   } = useTable({
     columns, data, initialState: {
       sortBy: [
         {
-          id: "sagedus",
+          id: 'sagedus',
           desc: true
         }
       ]
@@ -297,17 +293,17 @@ function GrammaticalAnalysis() {
   function AppliedFilters() {
     if (filtersInUse !== []) {
       return (
-        filtersInUse.map((value) => (<Chip sx={{marginBottom: "5px"}} key={value} label={value}/>))
-      )
+        filtersInUse.map((value) => (<Chip sx={{marginBottom: '5px'}} key={value} label={value}/>))
+      );
     }
   }
 
   return (
     <Box>
       <Box className="filter-container">
-        <Box component={"span"}>
+        <Box component={'span'}>
           {filtersInUse !== [] ?
-            <Box className="applied-filters-box">{t("applied_filters")}: {AppliedFilters()} </Box> : null}</Box>
+            <Box className="applied-filters-box">{t('applied_filters')}: {AppliedFilters()} </Box> : null}</Box>
         <Box>
           <Button
             className="popover-button"
@@ -324,15 +320,15 @@ function GrammaticalAnalysis() {
             onClose={handlePopoverClose}
             anchorOrigin={{
               vertical: 'bottom',
-              horizontal: 'left',
+              horizontal: 'left'
             }}
             transformOrigin={{
-              horizontal: 'center',
+              horizontal: 'center'
             }}
           >
             <Box className="popover-box">
-              {multiSelect(col1, t("filter_by_word_type"), 1)}
-              {multiSelect(col2, t("filter_by_word_form"), 2)}
+              {multiSelect(col1, t('filter_by_word_type'))}
+              {multiSelect(col2, t('filter_by_word_form'))}
             </Box>
           </Popover>
         </Box>
@@ -340,14 +336,14 @@ function GrammaticalAnalysis() {
                              tableType={'GrammaticalAnalysis'}
                              headers={tableToDownload}/>
       </Box>
-      <table className='analyserTable' {...getTableProps()}>
+      <table className="analyserTable" {...getTableProps()}>
         <thead>
         {headerGroups.map(headerGroup => (
-          <tr className='tableRow' {...headerGroup.getHeaderGroupProps()}>
+          <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
-              <th className='tableHead'>
+              <th className="tableHead" key={uuidv4()}>
                 {<span>{column.render('Header')}</span>}
-                <span className='sortIcon'  {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>
+                <span className="sortIcon"  {...column.getHeaderProps(column.getSortByToggleProps({title: ''}))}>
                     {column.isSorted
                       ? column.isSortedDesc
                         ? ' ▼'
@@ -363,23 +359,23 @@ function GrammaticalAnalysis() {
         {page.map((row, _i) => {
           prepareRow(row);
           return (
-            <tr className='tableRow' {...row.getRowProps()}>
+            <tr className="tableRow" {...row.getRowProps()}>
               {row.cells.map(cell => {
                 return (
                   <td
                     {...cell.getCellProps()}
                     style={{
                       padding: '10px',
-                      width: cell.column.width,
+                      width: cell.column.width
                     }}
                     className="border tableData"
                   >
                     {cell.render('Cell')}
                   </td>
-                )
+                );
               })}
             </tr>
-          )
+          );
         })}
         </tbody>
       </table>

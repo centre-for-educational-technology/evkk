@@ -46,11 +46,11 @@
   font-weight: bold
 }
 
-.popover-box{
+.popover-box {
   padding: 10px;
 }
 
-.filter-container{
+.filter-container {
   display: flex;
   gap: 10px;
 }
