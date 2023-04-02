@@ -22,7 +22,6 @@ import Syllables from "./Syllables";
 import LemmaView from "./LemmaView";
 import {Alert, Box, Fade, IconButton, Typography} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import Tutorial from "../../components/Tutorial";
 import './styles/WordAnalyserParent.css';
 
 export default function WordAnalyserParent() {
@@ -107,7 +106,8 @@ export default function WordAnalyserParent() {
                                     {tabValue === 2 ? <LemmaView/> : null}
                                     {tabValue === 3 ? <GrammaticalAnalysis/> : null}
                                   </Box>
-                                  {tabValue !== 0 ? <Tutorial/> : null}
+                                  {/*TODO fix usage tutorial*/}
+                                  {/*{tabValue !== 0 ? <Tutorial/> : null}*/}
                                 </TabContext.Provider>
                               </SetLemmaContext.Provider>
                             </LemmaContext.Provider>
