@@ -1,6 +1,18 @@
 .analyserTable {
   border-collapse: collapse;
   width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  border-bottom: solid 1px;
+}
+
+.filter-class {
+  width: 330px;
+  min-width: 330px
+}
+
+.popover-box {
+  padding: 10px;
 }
 
 .analyserTable td, .analyserTable th {
@@ -36,6 +48,15 @@
   align-items: center;
 }
 
+.filter-container {
+  display: flex;
+  gap: 10px;
+}
+
+.rakendatud-filtrid-box {
+  width: 65vw;
+}
+
 .inner-div {
   position: relative;
   width: 100%;
@@ -48,6 +69,12 @@
   right: 0;
   background-color: #ddd;
   border-color: #ddd;
+}
+
+.tableHdr {
+  border-bottom: 1px solid;
+  color: black;
+  font-weight: bold
 }
 
 .tableHdr:nth-child(2) > .sort {
