@@ -1,5 +1,6 @@
 export const TRANSLATIONS_ET = {
   analyse_button: "Analüüsi",
+  applied_filters: "Rakendatud filtrid",
   back: "EELMINE",
   common_download: "Laadi alla",
   common_excel_sheet_name: "Tabel",
@@ -15,6 +16,8 @@ export const TRANSLATIONS_ET = {
   error_no_text: "Analüüsimiseks sisesta esmalt tekst!",
   error_text_too_long: "Tekst on analüüsi kuvamiseks liiga pikk!",
   exit: "LÕPETA",
+  filter_by_word_form: "Filtreeri sõnavormi järgi",
+  filter_by_word_type: "Filtreeri sõnaliigi järgi",
   forward: "JÄRGMINE",
   gram_anal_filename: "gram_analyys",
   infobox_first: "Rakenduse abil saad sõnu silbitada, vaadata nende algvorme ja grammatilist kirjeldust. Sisesta sõna või tekst (kuni 1000 sõna).",

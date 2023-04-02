@@ -25,20 +25,22 @@ function Syllables() {
   let syllables = [];
   let infoList = [];
   const [infoListNew, setInfolistNew] = useState([]);
-  const [filterValue, setFilterValue] = useState([])
+  const [filterValue, setFilterValue] = useState([]);
   const col2 = ["algus", "keskel", "lõpp"];
-  const [filtersInUse, setAppliedFilters] = useState([])
+  const [appliedFilters, setAppliedFilters] = useState([]);
   const tableToDownload = [t("syllables_header_syllable"), t("syllables_table_beginning"), t("syllables_table_middle"), t("syllables_table_end"), t("common_words_in_text"), t("common_header_frequency"), t("common_header_percentage")];
-  const [popoverAnchorEl, setPopoverAnchorEl] = useState(null);
-  const openPopover = Boolean(popoverAnchorEl);
-  const popoverId = openPopover ? 'simple-popover' : undefined;
+  const [syllableFilterPopoverAnchor, setSyllableFilterPopoverAnchor] = useState(null);
+  const syllableFilterPopoverToggle = Boolean(syllableFilterPopoverAnchor);
+  const syllableFilterPopoverID = syllableFilterPopoverToggle ? 'simple-popover' : undefined;
+
   const handlePopoverOpen = (event) => {
-    setPopoverAnchorEl(event.currentTarget);
+    setSyllableFilterPopoverAnchor(event.currentTarget);
   };
 
   const handlePopoverClose = () => {
-    setPopoverAnchorEl(null);
+    setSyllableFilterPopoverAnchor(null);
   };
+
   function multiSelectFilter(rows, columnIds, filterValue) {
     return filterValue.length === 0
       ? rows
@@ -48,7 +50,6 @@ function Syllables() {
   }
 
   function multiSelect(values, label) {
-
     const handleChange = (event) => {
       let value = event.target.value;
       setFilterValue(value);
@@ -336,9 +337,9 @@ function Syllables() {
   } = tableInstance;
 
   function AppliedFilters() {
-    if (filtersInUse !== []) {
+    if (appliedFilters !== []) {
       return (
-        filtersInUse.map((value) => (<Chip sx={{marginBottom: "5px"}} key={value} label={value}/>))
+        appliedFilters.map((value) => (<Chip sx={{marginBottom: "5px"}} key={value} label={value}/>))
       )
     }
   }
@@ -358,14 +359,15 @@ function Syllables() {
           // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [])}
         <Box className="filter-container">
-          <Box>{filtersInUse !== [] ?
-            <Box className="rakendatud-filtrid-box">Rakendatud filtrid: {AppliedFilters()} </Box> : null}</Box>
+          <Box>{appliedFilters !== [] ?
+            <Box className="rakendatud-filtrid-box">{t("applied_filters")}: {AppliedFilters()} </Box> : null}</Box>
           <Box>
-            <Button className="Popover-button" aria-describedby={popoverId} variant="contained" onClick={handlePopoverOpen}><FilterAltIcon fontSize="large"/></Button>
+            <Button className="Popover-button" aria-describedby={syllableFilterPopoverID} variant="contained"
+                    onClick={handlePopoverOpen}><FilterAltIcon fontSize="large"/></Button>
             <Popover
-              id={popoverId}
-              open={openPopover}
-              anchorEl={popoverAnchorEl}
+              id={syllableFilterPopoverID}
+              open={syllableFilterPopoverToggle}
+              anchorEl={syllableFilterPopoverAnchor}
               onClose={handlePopoverClose}
               anchorOrigin={{
                 vertical: 'bottom',
@@ -376,7 +378,7 @@ function Syllables() {
               }}
             >
               <Box className="popover-box">
-                {multiSelect(col2, "Filtreeri vormi järgi", 2)}
+                {multiSelect(col2, t("filter-by-word-form"), 2)}
               </Box>
             </Popover>
           </Box>

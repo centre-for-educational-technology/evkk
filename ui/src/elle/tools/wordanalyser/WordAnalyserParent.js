@@ -106,6 +106,7 @@ export default function WordAnalyserParent() {
                                     {tabValue === 2 ? <LemmaView/> : null}
                                     {tabValue === 3 ? <GrammaticalAnalysis/> : null}
                                   </Box>
+                                  {/*TODO fix usage tutorial*/}
                                   {/*{tabValue !== 0 ? <Tutorial/> : null}*/}
                                 </TabContext.Provider>
                               </SetLemmaContext.Provider>

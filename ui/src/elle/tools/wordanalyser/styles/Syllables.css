@@ -6,12 +6,12 @@
   border-bottom: solid 1px;
 }
 
-.filter-class{
+.filter-class {
   width: 330px;
   min-width: 330px
 }
 
-.popover-box{
+.popover-box {
   padding: 10px;
 }
 
@@ -48,12 +48,12 @@
   align-items: center;
 }
 
-.filter-container{
+.filter-container {
   display: flex;
   gap: 10px;
 }
 
-.rakendatud-filtrid-box{
+.rakendatud-filtrid-box {
   width: 65vw;
 }
 

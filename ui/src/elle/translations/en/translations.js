@@ -1,5 +1,6 @@
 export const TRANSLATIONS_EN = {
   analyse_button: "Analyse",
+  applied_filters: "Applied filters",
   back: "PREVIOUS",
   common_download: "Download",
   common_excel_sheet_name: "Table",
@@ -15,6 +16,8 @@ export const TRANSLATIONS_EN = {
   error_no_text: "Enter text to run analysis!",
   error_text_too_long: "The text is too long for analysis!",
   exit: "EXIT",
+  filter_by_word_form: "Filter by word form",
+  filter_by_word_type: "Filter by word type",
   forward: "NEXT",
   gram_anal_filename: "gram_analysis",
   infobox_first: "With this app, you can syllabify words, see their base form and grammatical description. Insert a word or text (up to 1,000 words).",

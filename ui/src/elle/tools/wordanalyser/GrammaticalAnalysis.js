@@ -19,7 +19,6 @@ function GrammaticalAnalysis() {
   const setWord = useContext(SetWordContext);
   const analysedInput = useContext(AnalyseContext)[0];
   const [filterValue, setFilterValue] = useState([]);
-  let wordArray = [];
   const types = analysedInput.wordtypes;
   const forms = analysedInput.wordforms;
   const words = analysedInput.words;
@@ -27,15 +26,17 @@ function GrammaticalAnalysis() {
   const [col1, setCol1] = useState([]);
   const [col2, setCol2] = useState([]);
   const [filtersInUse, setFiltersInUse] = useState([]);
-  const [popoverAnchorEl, setPopoverAnchorEl] = useState(null);
-  const openPopover = Boolean(popoverAnchorEl);
-  const popoverId = openPopover ? 'simple-popover' : undefined;
+  const [analyzerFilterPopoverAnchorEl, setAnalyzerFilterPopoverAnchorEl] = useState(null);
+  const analyzerFilterPopoverToggle = Boolean(analyzerFilterPopoverAnchorEl);
+  const analyzerFilterPopoverID = analyzerFilterPopoverToggle ? 'simple-popover' : undefined;
+  let wordArray = [];
+
   const handlePopoverOpen = (event) => {
-    setPopoverAnchorEl(event.currentTarget);
+    setAnalyzerFilterPopoverAnchorEl(event.currentTarget);
   };
 
   const handlePopoverClose = () => {
-    setPopoverAnchorEl(null);
+    setAnalyzerFilterPopoverAnchorEl(null);
   };
 
   function checkFilters(filter1, filter2) {
@@ -55,6 +56,7 @@ function GrammaticalAnalysis() {
         filterValue.includes(String(row.original[columnIds])),
       );
   }
+
   function multiSelect(values, label, column) {
     const handleChange = (event) => {
       let value = event.target.value;
@@ -162,19 +164,19 @@ function GrammaticalAnalysis() {
   let data = useMemo(() => fillData(), []);
 
   useEffect(() => {
-    let list = []
-    let list2 = []
+    let list = [];
+    let list2 = [];
     for (let i = 0; i < data.length; i++) {
       if (!list.includes(data[i].col1)) {
-        list.push(data[i].col1)
+        list.push(data[i].col1);
       }
       if (!list2.includes(data[i].col2)) {
-        list2.push(data[i].col2)
+        list2.push(data[i].col2);
       }
     }
-    setCol1(list)
-    setCol2(list2)
-  }, [data])
+    setCol1(list);
+    setCol2(list2);
+  }, [data]);
 
   function handleTypeClick(e) {
     setType(e);
@@ -207,7 +209,7 @@ function GrammaticalAnalysis() {
           return (<span>{t("common_form")}</span>);
         },
         accessor: 'col2',
-        id: "col2",
+        id: 'col2',
         Cell: (props) => {
           const word = props.value;
           return <span className="word"
@@ -303,15 +305,22 @@ function GrammaticalAnalysis() {
   return (
     <Box>
       <Box className="filter-container">
-        <Box component={"span"}>{filtersInUse !== [] ?
-          <Box className="applied-filters-box">Rakendatud filtrid: {AppliedFilters()} </Box> : null}</Box>
+        <Box component={"span"}>
+          {filtersInUse !== [] ?
+            <Box className="applied-filters-box">{t("applied_filters")}: {AppliedFilters()} </Box> : null}</Box>
         <Box>
-          <Button className="popover-button" aria-describedby={popoverId} variant="contained"
-                  onClick={handlePopoverOpen}><FilterAltIcon fontSize="large"/></Button>
+          <Button
+            className="popover-button"
+            aria-describedby={analyzerFilterPopoverID}
+            variant="contained"
+            onClick={handlePopoverOpen}
+          >
+            <FilterAltIcon fontSize="large"/>
+          </Button>
           <Popover
-            id={popoverId}
-            open={openPopover}
-            anchorEl={popoverAnchorEl}
+            id={analyzerFilterPopoverID}
+            open={analyzerFilterPopoverToggle}
+            anchorEl={analyzerFilterPopoverAnchorEl}
             onClose={handlePopoverClose}
             anchorOrigin={{
               vertical: 'bottom',
@@ -322,8 +331,8 @@ function GrammaticalAnalysis() {
             }}
           >
             <Box className="popover-box">
-              {multiSelect(col1, "Filtreeri sõnaliigi järgi", 1)}
-              {multiSelect(col2, "Filtreeri vormi järgi", 2)}
+              {multiSelect(col1, t("filter_by_word_type"), 1)}
+              {multiSelect(col2, t("filter_by_word_form"), 2)}
             </Box>
           </Popover>
         </Box>
