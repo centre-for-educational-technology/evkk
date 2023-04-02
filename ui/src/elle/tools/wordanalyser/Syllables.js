@@ -26,7 +26,7 @@ function Syllables() {
   let infoList = [];
   const [infoListNew, setInfolistNew] = useState([]);
   const [filterValue, setFilterValue] = useState([]);
-  const col2 = ["algus", "keskel", "lõpp"];
+  const col2 = [t("beginning"), t("middle"), t("end")];
   const [appliedFilters, setAppliedFilters] = useState([]);
   const tableToDownload = [t("syllables_header_syllable"), t("syllables_table_beginning"), t("syllables_table_middle"), t("syllables_table_end"), t("common_words_in_text"), t("common_header_frequency"), t("common_header_percentage")];
   const [syllableFilterPopoverAnchor, setSyllableFilterPopoverAnchor] = useState(null);
@@ -378,7 +378,7 @@ function Syllables() {
               }}
             >
               <Box className="popover-box">
-                {multiSelect(col2, t("filter-by-word-form"), 2)}
+                {multiSelect(col2, t("filter_by_word_form"), 2)}
               </Box>
             </Popover>
           </Box>
