@@ -1,6 +1,6 @@
-package ee.tlu.evkk.dal.dto;
+package ee.evkk.dto;
 
-public class WordFeatsRequestEntity {
+public class WordFeatsRequestDto {
 
   private String tekst;
   private String language;

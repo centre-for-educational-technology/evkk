@@ -210,7 +210,7 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
 
   return (
     <Box className="download-button-section"
-         style={{marginTop: marginTop, marginRight: marginRight}}>
+         style={{marginTop: marginTop ? marginTop : '', marginRight: marginRight ? marginRight : ''}}>
       <Tooltip title={t('common_download')}
                placement="top">
         <Button aria-describedby={id}

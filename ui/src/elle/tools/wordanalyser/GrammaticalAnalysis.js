@@ -3,7 +3,6 @@ import { useFilters, usePagination, useSortBy, useTable } from 'react-table';
 import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import { v4 as uuidv4 } from 'uuid';
 import TablePagination from '../../components/table/TablePagination';
 import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
@@ -219,6 +218,7 @@ function GrammaticalAnalysis() {
       },
       {
         Header: t('common_words_in_text'),
+        id: 'tekstisonad',
         accessor: 'col3',
         Cell: (props) => {
           const items = props.value;
@@ -228,7 +228,7 @@ function GrammaticalAnalysis() {
             let count = items[1][i];
             let id = items[3][i];
             let content = (
-              <span key={uuidv4()}>
+              <span key={id}>
                 <span key={props.id}
                       className="word"
                       onClick={() => setWord(id)}>{word}
@@ -254,6 +254,7 @@ function GrammaticalAnalysis() {
       },
       {
         Header: t('common_header_percentage'),
+        id: 'protsent',
         accessor: 'col5',
         width: 300,
         disableFilters: true
@@ -341,7 +342,7 @@ function GrammaticalAnalysis() {
         {headerGroups.map(headerGroup => (
           <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
-              <th className="tableHead" key={uuidv4()}>
+              <th className="tableHead" key={column.id}>
                 {<span>{column.render('Header')}</span>}
                 <span className="sortIcon"  {...column.getHeaderProps(column.getSortByToggleProps({title: ''}))}>
                     {column.isSorted

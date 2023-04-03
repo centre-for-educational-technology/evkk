@@ -1,8 +1,8 @@
 package ee.tlu.evkk.api.controller;
 
+import ee.evkk.dto.WordlistRequestDto;
+import ee.evkk.dto.WordlistResponseDto;
 import ee.tlu.evkk.api.service.WordlistService;
-import ee.tlu.evkk.dal.dto.WordlistRequestDto;
-import ee.tlu.evkk.dal.dto.WordlistResponseDto;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

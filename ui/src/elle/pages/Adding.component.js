@@ -389,8 +389,8 @@ class Adding extends Component {
                           label="Kasutatud õppe- või abimaterjale"
                           onChange={this.handleChange}
                         >
-                          <MenuItem value={"jah"}>jah</MenuItem>
-                          <MenuItem value={"ei"}>ei</MenuItem>
+                          <MenuItem value={true}>jah</MenuItem>
+                          <MenuItem value={false}>ei</MenuItem>
                         </Select>
                       </FormControl>
                       {this.state.oppematerjal === "jah" && this.state.liik === "akadeemiline" && <><Grid>

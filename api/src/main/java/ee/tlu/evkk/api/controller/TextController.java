@@ -1,5 +1,7 @@
 package ee.tlu.evkk.api.controller;
 
+import ee.evkk.dto.AddingRequestDto;
+import ee.evkk.dto.WordFeatsRequestDto;
 import ee.tlu.evkk.api.ApiMapper;
 import ee.tlu.evkk.api.controller.dto.LemmadRequestEntity;
 import ee.tlu.evkk.api.controller.dto.TextSearchRequest;
@@ -13,9 +15,7 @@ import ee.tlu.evkk.core.service.dto.CorpusRequestDto;
 import ee.tlu.evkk.core.service.dto.CorpusTextContentsDto;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.dal.dao.TextDao;
-import ee.tlu.evkk.dal.dto.AddingRequestEntity;
 import ee.tlu.evkk.dal.dto.Pageable;
-import ee.tlu.evkk.dal.dto.WordFeatsRequestEntity;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -84,7 +84,7 @@ public class TextController {
   }
 
   @PostMapping("/sonaliik")
-  public ResponseEntity<List<String>> sonaliik(@RequestBody WordFeatsRequestEntity request) {
+  public ResponseEntity<List<String>> sonaliik(@RequestBody WordFeatsRequestDto request) {
     String[] sonaliik = stanzaServerClient.getSonaliik(request.getTekst());
     List<String> body = asList(TextService.translateWordType(sonaliik, request.getLanguage()));
     return ok(body);
@@ -105,7 +105,7 @@ public class TextController {
   }
 
   @PostMapping("/vormimargendid")
-  public ResponseEntity<List<String>> vormimargendid(@RequestBody WordFeatsRequestEntity request) {
+  public ResponseEntity<List<String>> vormimargendid(@RequestBody WordFeatsRequestDto request) {
     String[][] vormimargendid = stanzaServerClient.getVormimargendid(request.getTekst());
     return ok(textService.translateFeats(vormimargendid, request.getLanguage()));
   }
@@ -181,7 +181,7 @@ public class TextController {
   }
 
   @PostMapping("/lisatekst")
-  public String lisatekst(@Valid @RequestBody AddingRequestEntity andmed) {
+  public String lisatekst(@Valid @RequestBody AddingRequestDto andmed) {
     return textService.lisatekst(andmed);
   }
 

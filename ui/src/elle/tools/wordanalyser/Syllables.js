@@ -5,7 +5,6 @@ import TablePagination from '../../components/table/TablePagination';
 import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
-import { v4 as uuidv4 } from 'uuid';
 import { AnalyseContext, SetSyllableContext, SetSyllableWordContext } from './Contexts';
 import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import ToggleCell from './ToggleCell';
@@ -193,8 +192,8 @@ function Syllables() {
           if (i === row[4][0].length - 1) {
             info.col5[1].push(`(${row[4][1][i]})`);
             cellContent.push(
-              <span key={uuidv4()}>
-                <span key={uuidv4()}
+              <span key={word}>
+                <span key={`${word}_sub`}
                       className="word"
                       onClick={(e) => setSyllableWord(e.target.textContent)}>
                   {word}
@@ -204,8 +203,8 @@ function Syllables() {
           } else {
             info.col5[1].push(`(${row[4][1][i]}), `);
             cellContent.push(
-              <span key={uuidv4()}>
-                <span key={uuidv4()}
+              <span key={word}>
+                <span key={`${word}_sub`}
                       className="word"
                       onClick={(e) => setSyllableWord(e.target.textContent)}>
                   {word}
@@ -246,11 +245,13 @@ function Syllables() {
   const COLUMNS = [
     {
       Header: t('syllables_header_syllable'),
+      id: 'silp',
       accessor: 'silp',
       width: 200
     },
     {
       Header: t('syllables_header_location'),
+      id: 'col2',
       accessor: el => {
         let display = '';
         if (el.algus) {
@@ -268,11 +269,11 @@ function Syllables() {
       filter: multiSelectFilter,
       disableSortBy: true,
       width: 400,
-      id: 'col2',
       className: 'col2'
     },
     {
       Header: t('common_words_in_text'),
+      id: 'sonadtekstis',
       accessor: 'sonadtekstis',
       width: 700,
       disableSortBy: true,
@@ -280,12 +281,13 @@ function Syllables() {
     },
     {
       Header: t('common_header_frequency'),
-      accessor: 'sagedus',
       id: 'sagedus',
+      accessor: 'sagedus',
       width: 300
     },
     {
       Header: t('common_header_percentage'),
+      id: 'protsent',
       accessor: 'osakaal',
       width: 300
     }
@@ -336,9 +338,7 @@ function Syllables() {
     <>
       <Box>
         {data.map((value, _i) => {
-          return <div key={uuidv4()}>
-            {createList(value)}
-          </div>;
+          return createList(value);
         })}
         {createSyllableList()}
         {findDuplicates()}
@@ -380,7 +380,7 @@ function Syllables() {
             <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th
-                  key={uuidv4()}
+                  key={column.id}
                   style={{
                     borderBottom: '1px solid',
                     color: 'black',

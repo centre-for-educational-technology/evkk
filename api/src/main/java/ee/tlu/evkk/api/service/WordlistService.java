@@ -1,10 +1,10 @@
 package ee.tlu.evkk.api.service;
 
+import ee.evkk.dto.WordlistRequestDto;
+import ee.evkk.dto.WordlistResponseDto;
 import ee.tlu.evkk.api.util.FileUtils;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.dal.dao.TextDao;
-import ee.tlu.evkk.dal.dto.WordlistRequestDto;
-import ee.tlu.evkk.dal.dto.WordlistResponseDto;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import static ee.tlu.evkk.dal.enums.WordlistType.WORDS;
+import static ee.evkk.dto.enums.WordlistType.WORDS;
 import static java.math.BigDecimal.valueOf;
 import static java.math.RoundingMode.UP;
 import static java.util.Arrays.asList;

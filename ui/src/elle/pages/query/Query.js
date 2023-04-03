@@ -27,7 +27,6 @@ import {
   useStyles,
   wordsOptions
 } from '../../utils/constants';
-import { v4 as uuidv4 } from 'uuid';
 import QueryResults from './QueryResults';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -490,7 +489,7 @@ function Query() {
                             <ListItemText id={textType}
                                           primary={textTypesOptions[corpus][textType]}/>
                           </MenuItem>
-                          : <span key={uuidv4()}>
+                          : <span key={`${textType}_span`}>
                             <MenuItem key={textType}
                                       id={textType}
                                       onClick={(e) => alterTextTypeHierarchyDropdown(e, false, corpus)}
@@ -583,7 +582,7 @@ function Query() {
                               <ListItemText id={material}
                                             primary={usedMaterialsOptions[material]}/>
                             </MenuItem>
-                            : <span key={uuidv4()}>
+                            : <span key={`${material}_span`}>
                                 <MenuItem key={material}
                                           id={material}
                                           onClick={(e) => alterUsedMaterialsHierarchyDropdown(e, false)}

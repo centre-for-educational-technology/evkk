@@ -220,7 +220,7 @@
                                                                                 AND core.text_property.property_value = #{corpusId});
   </select>
 
-  <select id="findTextContentsAndTitlesByIds" resultType="ee.tlu.evkk.dal.dto.CorpusDownloadResponseDto">
+  <select id="findTextContentsAndTitlesByIds" resultType="ee.tlu.evkk.dal.dto.CorpusDownloadResponseEntity">
     select t2.property_value as title, t1.content as contents from core.text as t1
     join core.text_property as t2 on t1.id = t2.text_id
     where t2.property_name = 'title' and
@@ -228,7 +228,7 @@
   </select>
 
   <select id="findTextTitlesAndContentsWithStanzaTaggingByIds"
-          resultType="ee.tlu.evkk.dal.dto.CorpusDownloadResponseDto">
+          resultType="ee.tlu.evkk.dal.dto.CorpusDownloadResponseEntity">
     select t2.property_value as title, t3.result as contents from core.text_processor_result as t3
     join core.text as t1 on t1.hash = t3.text_hash
     join core.text_property as t2 on t2.text_id = t1.id

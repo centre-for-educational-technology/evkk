@@ -8,4 +8,6 @@ dependencies {
   api "org.springframework.boot:spring-boot-starter"
   api "org.springframework.retry:spring-retry"
 
+  implementation project(path: ':dto')
+
 }

@@ -17,7 +17,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CloseIcon from '@mui/icons-material/Close';
 import '../styles/QueryResults.css';
 import { AccordionStyle, ages, corpuses, educations, genders, locations, textTypes } from '../../utils/constants';
-import { v4 as uuidv4 } from 'uuid';
 import TablePagination from '../../components/table/TablePagination';
 import QueryDownloadButton from './QueryDownloadButton';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -35,6 +34,8 @@ function QueryResults(props) {
   const checkboxStatuses = useRef(new Set());
   const [update, forceUpdate] = useReducer(x => x + 1, 0);
 
+  let paragraphCount = 0;
+
   const [metadata, setMetadata] = useState({
     title: '',
     korpus: '',
@@ -47,7 +48,7 @@ function QueryResults(props) {
     sugu: '',
     haridus: '',
     emakeel: '',
-    elukohariik: '',
+    elukohariik: ''
   });
 
   const basicMetadataFields = ['title', 'tekstikeel', 'keeletase', 'abivahendid', 'aasta', 'emakeel'];
@@ -59,7 +60,7 @@ function QueryResults(props) {
         Cell: (cellProps) => {
           return <Checkbox checked={checkboxStatuses.current.has(cellProps.value)}
                            id={cellProps.value}
-                           onChange={() => alterCheckbox(cellProps.value)}/>
+                           onChange={() => alterCheckbox(cellProps.value)}/>;
         },
         className: 'checkboxRow'
       },
@@ -67,9 +68,9 @@ function QueryResults(props) {
         Header: '',
         accessor: 'property_value',
         Cell: (cellProps) => {
-          return <span className='clickableRow'
-                       onClick={() => previewText(cellProps.row.original.text_id)}>{cellProps.value}</span>
-        },
+          return <span className="clickableRow"
+                       onClick={() => previewText(cellProps.row.original.text_id)}>{cellProps.value}</span>;
+        }
       }
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -111,7 +112,7 @@ function QueryResults(props) {
     p: 4,
     maxHeight: '80vh',
     overflow: 'auto'
-  }
+  };
 
   const changeModalAccordion = () => {
     setModalAccordionExpanded(!modalAccordionExpanded);
@@ -119,7 +120,7 @@ function QueryResults(props) {
 
   const changeResultAccordion = () => {
     setResultAccordionExpanded(!resultAccordionExpanded);
-  }
+  };
 
   const alterCheckbox = (id) => {
     if (checkboxStatuses.current.has(id)) {
@@ -128,15 +129,15 @@ function QueryResults(props) {
       checkboxStatuses.current.add(id);
     }
     forceUpdate();
-  }
+  };
 
   function previewText(id) {
     setIsLoadingQueryResults(true);
 
-    fetch("/api/texts/kysitekstimetainfo?id=" + id, {
-      method: "GET",
+    fetch('/api/texts/kysitekstimetainfo?id=' + id, {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       }
     })
       .then(res => res.json())
@@ -190,11 +191,11 @@ function QueryResults(props) {
           }
         });
         setIsLoadingQueryResults(false);
-      })
-    fetch("/api/texts/kysitekst?id=" + id, {
-      method: "GET",
+      });
+    fetch('/api/texts/kysitekst?id=' + id, {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       }
     })
       .then(res => res.text())
@@ -216,9 +217,9 @@ function QueryResults(props) {
       return {
         ...prevData,
         [keyName]: valueName
-      }
+      };
     });
-  }
+  };
 
   useEffect(() => {
     setIsLoadingSelectAllTexts(false);
@@ -253,7 +254,16 @@ function QueryResults(props) {
       value: Array.from(checkboxStatuses.current).join(',')
     });
     setResultAccordionExpanded(false);
-  }
+  };
+
+  const getParagraphKey = (item) => {
+    if (item) {
+      return item;
+    } else {
+      paragraphCount++;
+      return `empty_paragraph_${paragraphCount}`;
+    }
+  };
 
   return (
     <Accordion sx={AccordionStyle}
@@ -271,13 +281,13 @@ function QueryResults(props) {
         {response.length > 0 ? <h4><strong>Leitud tekste:</strong> {response.length}</h4> : <></>}
         {response.length > 0 &&
           <>
-            <LoadingButton variant='outlined'
+            <LoadingButton variant="outlined"
                            loadingIndicator={<CircularProgress disableShrink
                                                                color="inherit"
                                                                size={16}/>}
                            loading={isLoadingSelectAllTexts}
                            disabled={isLoadingSelectAllTexts}
-                           className='selectAllButton'
+                           className="selectAllButton"
                            onClick={() => setIsLoadingSelectAllTexts(true)}>
               {allTextsSelected() ? 'Eemalda kõik' : 'Vali kõik'}
             </LoadingButton>
@@ -286,7 +296,7 @@ function QueryResults(props) {
                     onClick={saveTexts}
                     className="saveTextsButton">Salvesta tekstid analüüsiks</Button>
             <QueryDownloadButton selected={checkboxStatuses.current}/>
-            <table className='resultTable'
+            <table className="resultTable"
                    {...getTableProps()}>
               <thead>
               {headerGroups.map(headerGroup => (
@@ -302,7 +312,7 @@ function QueryResults(props) {
                 prepareRow(row);
                 return (
                   <tr
-                    className='tableRow border'
+                    className="tableRow border"
                     {...row.getRowProps()}
                     key={row.values.text_id}
                     id={row.values.text_id}>
@@ -313,10 +323,10 @@ function QueryResults(props) {
                         })}>
                           {cell.render('Cell')}
                         </td>
-                      )
+                      );
                     })}
                   </tr>
-                )
+                );
               })}
               </tbody>
             </table>
@@ -351,7 +361,7 @@ function QueryResults(props) {
               onClick={() => {
                 setModalOpen(false);
               }}
-              className='closeButton'
+              className="closeButton"
             >
               <CloseIcon/>
             </IconButton>
@@ -390,22 +400,22 @@ function QueryResults(props) {
               >
                 <CircularProgress disableShrink
                                   thickness={4}
-                                  size='8rem'/>
+                                  size="8rem"/>
               </Backdrop>
               {text.split(/\\n/g).map(function (item) {
                 return (
-                  <span key={uuidv4()}>
-                  {item}
+                  <span key={getParagraphKey(item)}>
+                    {item}
                     <br/>
-                </span>
-                )
+                  </span>
+                );
               })}
             </div>
           </Box>
         </Modal>
       </AccordionDetails>
     </Accordion>
-  )
+  );
 }
 
 export default QueryResults;

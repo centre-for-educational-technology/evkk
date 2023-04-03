@@ -1,13 +1,13 @@
 package ee.tlu.evkk.core.service;
 
+import ee.evkk.dto.AddingRequestDto;
 import ee.tlu.evkk.core.service.dto.CorpusDownloadDto;
 import ee.tlu.evkk.core.service.dto.CorpusRequestDto;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.core.service.maps.TranslationMappings;
 import ee.tlu.evkk.core.text.processor.TextProcessor;
 import ee.tlu.evkk.dal.dao.TextDao;
-import ee.tlu.evkk.dal.dto.AddingRequestEntity;
-import ee.tlu.evkk.dal.dto.CorpusDownloadResponseDto;
+import ee.tlu.evkk.dal.dto.CorpusDownloadResponseEntity;
 import ee.tlu.evkk.dal.dto.Pageable;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.dto.TextProperty;
@@ -212,7 +212,7 @@ public class TextService {
 
   public byte[] tekstidfailina(CorpusDownloadDto corpusDownloadDto) throws IOException {
     final String basicText = "basictext";
-    List<CorpusDownloadResponseDto> contentsAndTitles;
+    List<CorpusDownloadResponseEntity> contentsAndTitles;
 
     if (corpusDownloadDto.getForm().equals(basicText)) {
       contentsAndTitles = textDao.findTextContentsAndTitlesByIds(corpusDownloadDto.getFileList());
@@ -254,7 +254,7 @@ public class TextService {
     }
 
     StringBuilder contentsCombined = new StringBuilder();
-    for (CorpusDownloadResponseDto entry : contentsAndTitles) {
+    for (CorpusDownloadResponseEntity entry : contentsAndTitles) {
       contentsCombined.append(entry.getContents()
         .replace("\\n", lineSeparator())
         .replace("\\t", "    ")
@@ -264,13 +264,13 @@ public class TextService {
     return contentsCombined.toString().getBytes(UTF_8);
   }
 
-  public String lisatekst(AddingRequestEntity andmed) {
+  public String lisatekst(AddingRequestDto andmed) {
     UUID kood = randomUUID();
     textDao.insertAdding(kood, andmed.getSisu());
     lisaTekstiOmadus(kood, "title", andmed.getPealkiri());
     lisaTekstiOmadus(kood, "kirjeldus", andmed.getKirjeldus());
     lisaTekstiOmadus(kood, "tekstityyp", andmed.getLiik());
-    if (andmed.getOppematerjal().equals("jah")) {
+    if (andmed.getOppematerjal() != null && andmed.getOppematerjal()) {
       String[] m = andmed.getAkadOppematerjal();
       if (m != null) {
         for (String s : m) {
@@ -292,7 +292,7 @@ public class TextService {
     if (andmed.getLiik().equals("mitteakadeemiline")) {
       lisaTekstiOmadus(kood, "mitteakad_alamliik", andmed.getMitteakadAlamliik());
     }
-    lisaTekstiOmadus(kood, "abivahendid", andmed.getOppematerjal());
+    lisaTekstiOmadus(kood, "abivahendid", booleanToJahEi(andmed.getOppematerjal()));
     lisaTekstiOmadus(kood, "kasAutor", andmed.getTekstiAutor());
     lisaTekstiOmadus(kood, "vanus", andmed.getAutoriVanus());
     lisaTekstiOmadus(kood, "sugu", andmed.getAutoriSugu());
@@ -348,7 +348,7 @@ public class TextService {
               tenseLabel = tensePrefixPast;
             }
           }
-          if (feat.contains("Voice") && tenseLabel.toString().equals(tensePrefixPast.toString())) {
+          if (feat.contains("Voice") && tenseLabel.toString().contentEquals(tensePrefixPast)) {
             if (feat.split("=")[1].equals("Act")) {
               tenseLabel.append(tensePostfixNud);
             } else {

@@ -1,15 +1,14 @@
-import {useState} from 'react'
-import {ExpandLess, MoreHoriz} from '@mui/icons-material'
-import {Button} from '@mui/material'
-import {v4 as uuidv4} from "uuid";
+import { useState } from 'react';
+import { ExpandLess, MoreHoriz } from '@mui/icons-material';
+import { Button } from '@mui/material';
 
 const ToggleCell = ({onCellContent}) => {
 
-  const wordsVisible = 3
-  const [open, setOpen] = useState(true)
+  const wordsVisible = 3;
+  const [open, setOpen] = useState(true);
   const toggleCellContent = () => {
     setOpen(!open);
-  }
+  };
 
   return (
     <>
@@ -20,20 +19,20 @@ const ToggleCell = ({onCellContent}) => {
           onCellContent.slice(0, wordsVisible).concat(
             <Button size="large"
                     sx={{margin: 0, padding: 0, borderRadius: 8, minWidth: 0}}
-                    key={uuidv4()}
+                    key={onCellContent}
                     onClick={() => toggleCellContent()}>
-              <MoreHoriz sx={{fontSize: "large"}}/>
+              <MoreHoriz sx={{fontSize: 'large'}}/>
             </Button>)
           : onCellContent.concat(
             <Button size="large"
                     sx={{ml: 1, padding: 0, borderRadius: 8, minWidth: 0}}
-                    key={uuidv4()}
+                    key={onCellContent}
                     onClick={() => toggleCellContent()}>
-              <ExpandLess sx={{fontSize: "large"}}/>
+              <ExpandLess sx={{fontSize: 'large'}}/>
             </Button>)
       }
     < />
-  )
-}
+  );
+};
 
 export default ToggleCell;

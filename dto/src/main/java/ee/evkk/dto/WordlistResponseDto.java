@@ -1,4 +1,4 @@
-package ee.tlu.evkk.dal.dto;
+package ee.evkk.dto;
 
 import java.math.BigDecimal;
 
