@@ -16,7 +16,8 @@ const breadcrumbNameMap = {
   '/tools/adding': 'Loovuta tekst',
   '/tools/clusterfinder': 'Mustrid',
   '/tools/wordanalyser': 'Sõnaanalüüs',
-  '/tools/wordlist': 'Sõnaloend'
+  '/tools/wordlist': 'Sõnaloend',
+  '/tools/wordcontext': 'Sõna kontekstis'
 };
 
 const MenuLink = styled(Link)({

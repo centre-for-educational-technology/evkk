@@ -40,7 +40,7 @@ export default function Wordlist() {
   const [minimumFrequency, setMinimumFrequency] = useState('');
   const [tableToDownload, setTableToDownload] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [queryResponse, setQueryResponse] = useState([]);
+  const [response, setResponse] = useState([]);
   const [showTable, setShowTable] = useState(false);
   const accessors = ['word', 'frequencyCount', 'frequencyPercentage'];
 
@@ -92,7 +92,7 @@ export default function Wordlist() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   ], [typeValue]);
 
-  const data = useMemo(() => queryResponse, [queryResponse]);
+  const data = useMemo(() => response, [response]);
 
   useEffect(() => {
     const type = typeValue === 'sonad' ? 'Sõnavorm' : 'Algvorm';
@@ -152,7 +152,7 @@ export default function Wordlist() {
       })
         .then(res => res.json())
         .then((result) => {
-          setQueryResponse(result);
+          setResponse(result);
           setShowTable(true);
           setLoading(false);
         });
@@ -179,7 +179,7 @@ export default function Wordlist() {
   };
 
   return (
-    <div className="wordlist-wrapper">
+    <div className="tool-wrapper">
       <h2 className="tool-title">Sõnaloend</h2>
       <Accordion sx={AccordionStyle}
                  expanded={paramsExpanded}
@@ -214,7 +214,7 @@ export default function Wordlist() {
                                       label="algvormid"/>
                   </RadioGroup>
                   {typeError && <FormHelperText>Väli on kohustuslik!</FormHelperText>}
-                  <Button sx={{mt: 1, mr: 1}}
+                  <Button sx={{width: 130}}
                           className="wordlist-analyse-button"
                           type="submit"
                           variant="contained">

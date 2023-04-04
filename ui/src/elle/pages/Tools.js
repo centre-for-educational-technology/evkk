@@ -10,6 +10,7 @@ import { AccordionStyle } from '../utils/constants';
 import Query from './query/Query';
 
 function Tools() {
+
   const navigate = useNavigate();
   const location = useLocation();
   const [expanded, setExpanded] = useState(true);
@@ -22,25 +23,32 @@ function Tools() {
 
   const tools = [
     {
-      title: "Sõnaloend",
-      img: require("../resources/images/tools/sonaloend.png").default,
-      description: "Kuva tekstis kasutatud sõnad sageduse või tähestiku järjekorras",
-      route: "wordlist",
-      action: () => toolSelect("wordlist")
+      title: 'Sõnaloend',
+      img: require('../resources/images/tools/sonaloend.png').default,
+      description: 'Kuva tekstis kasutatud sõnad sageduse või tähestiku järjekorras',
+      route: 'wordlist',
+      action: () => toolSelect('wordlist')
     },
     {
-      title: "Mustrid",
-      img: require("../resources/images/tools/mustrileidja.png").default,
-      description: "Mustrid ehk n-grammid aitavad tekstist leida tüüpilisemad sõnajärjendid",
-      route: "clusterfinder",
-      action: () => toolSelect("clusterfinder")
+      title: 'Sõna kontekstis',
+      img: require('../resources/images/tools/sona_kontekstis.png').default,
+      description: 'Vaata sõna kasutusnäiteid tekstis, et saada parem ülevaade selle kasutusest',
+      route: 'wordcontext',
+      action: () => toolSelect('wordcontext')
     },
     {
-      title: "Sõnaanalüüs",
-      img: require("../resources/images/tools/sonaanalyys.png").default,
-      description: "Leia sõnade silbid, algvormid ja grammatilised vormid",
-      route: "wordanalyser",
-      action: () => toolSelect("wordanalyser")
+      title: 'Sõnaanalüüs',
+      img: require('../resources/images/tools/sonaanalyys.png').default,
+      description: 'Leia sõnade silbid, algvormid ja grammatilised vormid',
+      route: 'wordanalyser',
+      action: () => toolSelect('wordanalyser')
+    },
+    {
+      title: 'Mustrid',
+      img: require('../resources/images/tools/mustrileidja.png').default,
+      description: 'Mustrid ehk n-grammid aitavad tekstist leida tüüpilisemad sõnajärjendid',
+      route: 'clusterfinder',
+      action: () => toolSelect('clusterfinder')
     }
   ];
 
@@ -77,17 +85,17 @@ function Tools() {
                   </AccordionSummary>
                   <AccordionDetails style={{minWidth: '350px'}}>
                     <Alert severity="info"
-                           style={{marginBottom: "1em"}}>Hallide tööriistade kasutamiseks vali või lisa esmalt
+                           style={{marginBottom: '1em'}}>Hallide tööriistade kasutamiseks vali või lisa esmalt
                       tekst(id). Ülejäänud tööriistadesse ei saa veel tekste suunata: sisesta need tekstikasti või laadi
                       üles.</Alert>
-                    <Box sx={{display: "flex", flexWrap: "wrap"}}>
+                    <Box sx={{display: 'flex', flexWrap: 'wrap'}}>
                       {tools.map(tool => {
                         return [
                           <ToolCard
                             key={tool.route}
                             tool={tool}
                           />
-                        ]
+                        ];
                       })}
                     </Box>
                   </AccordionDetails>

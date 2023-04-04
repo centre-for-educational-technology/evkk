@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import static ee.evkk.dto.enums.WordlistType.WORDS;
+import static ee.evkk.dto.enums.WordType.WORDS;
 import static java.math.BigDecimal.valueOf;
 import static java.math.RoundingMode.UP;
 import static java.util.Arrays.asList;
