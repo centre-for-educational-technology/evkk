@@ -1,7 +1,8 @@
-package ee.tlu.evkk.api.controller.dto;
+package ee.evkk.dto;
+
 import javax.validation.constraints.NotBlank;
 
-public class AddingRequestEntity {
+public class AddingRequestDto {
 
   @NotBlank
   private String pealkiri;
@@ -9,7 +10,7 @@ public class AddingRequestEntity {
   @NotBlank
   private String sisu;
   private String liik;
-  private String oppematerjal;
+  private Boolean oppematerjal;
   private String[] akadOppematerjal;
   private String akadOppematerjalMuu;
   private String mitteakadAlamliik;
@@ -64,11 +65,11 @@ public class AddingRequestEntity {
     this.liik = liik;
   }
 
-  public String getOppematerjal() {
+  public Boolean getOppematerjal() {
     return oppematerjal;
   }
 
-  public void setOppematerjal(String oppematerjal) {
+  public void setOppematerjal(Boolean oppematerjal) {
     this.oppematerjal = oppematerjal;
   }
 

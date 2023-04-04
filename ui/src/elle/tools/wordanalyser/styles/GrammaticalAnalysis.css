@@ -26,7 +26,7 @@
   height: 48px
 }
 
-.accordion-button{
+.accordion-button {
   height: 48px;
   width: 68px
 }
@@ -41,16 +41,16 @@
 
 .tableHead {
   padding-left: 10px;
-  border-bottom: solid 1px;
+  border-bottom: solid 1px !important;
   color: black;
   font-weight: bold
 }
 
-.popover-box{
+.popover-box {
   padding: 10px;
 }
 
-.filter-container{
+.filter-container {
   display: flex;
   gap: 10px;
 }

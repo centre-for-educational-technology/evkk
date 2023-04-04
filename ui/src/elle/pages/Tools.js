@@ -1,20 +1,33 @@
-import ToolCard from "../components/ToolCard";
-import React, {useState} from "react";
-import {Box, Card, CardContent, Grid} from "@mui/material";
-import Accordion from "@mui/material/Accordion";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import {Outlet, useLocation, useNavigate} from "react-router-dom";
-import Query from "../components/Query";
-import {AccordionStyle} from "../utils/constants";
+import ToolCard from '../components/ToolCard';
+import React, { useEffect, useState } from 'react';
+import { Alert, Box, Card, CardContent, Grid } from '@mui/material';
+import Accordion from '@mui/material/Accordion';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { AccordionStyle } from '../utils/constants';
+import Query from './query/Query';
 
 function Tools() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [expanded, setExpanded] = useState(location.pathname === '/tools');
+  const [expanded, setExpanded] = useState(true);
+  const [onlyOutletVisible, setOnlyOutletVisible] = useState(true);
+
+  useEffect(() => {
+    setExpanded(location.pathname === '/tools');
+    setOnlyOutletVisible(!location.pathname.includes('adding'));
+  }, [location]);
 
   const tools = [
+    {
+      title: "Sõnaloend",
+      img: require("../resources/images/tools/sonaloend.png").default,
+      description: "Kuva tekstis kasutatud sõnad sageduse või tähestiku järjekorras",
+      route: "wordlist",
+      action: () => toolSelect("wordlist")
+    },
     {
       title: "Mustrid",
       img: require("../resources/images/tools/mustrileidja.png").default,
@@ -32,52 +45,60 @@ function Tools() {
   ];
 
   function toolSelect(tool) {
-    setExpanded(false);
     navigate(tool);
   }
 
   return (
-    <Card raised={true}
-          square={true}
-          elevation={2}>
-      <CardContent sx={{p: 3}}>
-        <Grid container
-              spacing={2}>
-          <Grid item
-                xs={12}
-                sm={12}
-                md={12}>
-            <Query/>
-            <Accordion
-              sx={AccordionStyle}
-              expanded={expanded}
-            >
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon/>}
-                onClick={() =>
-                  setExpanded(!expanded)
-                }
-              >
-                Analüüsivahendid
-              </AccordionSummary>
-              <AccordionDetails style={{minWidth: '350px'}}>
-                <Box sx={{display: "flex", flexWrap: "wrap"}}>
-                  {tools.map(tool => {
-                    return [
-                      <ToolCard
-                        key={tool.route}
-                        tool={tool}
-                      />
-                    ]
-                  })}
-                </Box>
-              </AccordionDetails>
-            </Accordion>
-          </Grid>
-        </Grid>
-        <Outlet/>
-      </CardContent>
-    </Card>
+    <>
+      {onlyOutletVisible ?
+        <Card raised={true}
+              square={true}
+              elevation={2}>
+          <CardContent sx={{p: 3}}>
+            <Grid container
+                  spacing={2}>
+              <Grid item
+                    xs={12}
+                    sm={12}
+                    md={12}>
+                <Query/>
+                <Accordion
+                  sx={AccordionStyle}
+                  expanded={expanded}
+                  style={{marginTop: '1em'}}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon/>}
+                    onClick={() =>
+                      setExpanded(!expanded)
+                    }
+                  >
+                    Analüüsivahendid
+                  </AccordionSummary>
+                  <AccordionDetails style={{minWidth: '350px'}}>
+                    <Alert severity="info"
+                           style={{marginBottom: "1em"}}>Hallide tööriistade kasutamiseks vali või lisa esmalt
+                      tekst(id). Ülejäänud tööriistadesse ei saa veel tekste suunata: sisesta need tekstikasti või laadi
+                      üles.</Alert>
+                    <Box sx={{display: "flex", flexWrap: "wrap"}}>
+                      {tools.map(tool => {
+                        return [
+                          <ToolCard
+                            key={tool.route}
+                            tool={tool}
+                          />
+                        ]
+                      })}
+                    </Box>
+                  </AccordionDetails>
+                </Accordion>
+              </Grid>
+            </Grid>
+            <Outlet/>
+          </CardContent>
+        </Card>
+        : <Outlet/>}
+    </>
   );
 }
 

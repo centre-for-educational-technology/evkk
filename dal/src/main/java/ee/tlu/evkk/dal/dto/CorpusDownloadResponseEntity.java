@@ -1,6 +1,6 @@
 package ee.tlu.evkk.dal.dto;
 
-public class CorpusDownloadResponseDto {
+public class CorpusDownloadResponseEntity {
 
   private String title;
   private String contents;

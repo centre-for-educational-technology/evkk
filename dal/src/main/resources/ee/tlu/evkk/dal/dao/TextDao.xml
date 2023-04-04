@@ -3,14 +3,25 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ee.tlu.evkk.dal.dao.TextDao">
 
-    <select id="findTextById" resultType="java.lang.String">
-        select content from core.text where id = #{textId}
-    </select>
+  <select id="findTextById" resultType="java.lang.String">
+    select content
+    from core.text
+    where id = #{textId}
+  </select>
 
-    <select id="findTextMetadata" resultType="java.lang.String">
-        select array_to_json(array_agg(row_to_json(t)))
-        from (select property_name, property_value from core.text_property where text_id = #{textId}) t
-    </select>
+  <select id="findTextsByIds" resultType="java.lang.String">
+    select string_agg(content, ' ')
+    from core.text
+    where id in
+    <foreach item="id" collection="ids" separator=", " open="(" close=")">
+      #{id}
+    </foreach>
+  </select>
+
+  <select id="findTextMetadata" resultType="java.lang.String">
+    select array_to_json(array_agg(row_to_json(t)))
+    from (select property_name, property_value from core.text_property where text_id = #{textId}) t
+  </select>
 
   <select id="findTextIdsByCorpusId" resultType="java.lang.String">
     select text_id
@@ -209,7 +220,7 @@
                                                                                 AND core.text_property.property_value = #{corpusId});
   </select>
 
-  <select id="findTextContentsAndTitlesByIds" resultType="ee.tlu.evkk.dal.dto.CorpusDownloadResponseDto">
+  <select id="findTextContentsAndTitlesByIds" resultType="ee.tlu.evkk.dal.dto.CorpusDownloadResponseEntity">
     select t2.property_value as title, t1.content as contents from core.text as t1
     join core.text_property as t2 on t1.id = t2.text_id
     where t2.property_name = 'title' and
@@ -217,7 +228,7 @@
   </select>
 
   <select id="findTextTitlesAndContentsWithStanzaTaggingByIds"
-          resultType="ee.tlu.evkk.dal.dto.CorpusDownloadResponseDto">
+          resultType="ee.tlu.evkk.dal.dto.CorpusDownloadResponseEntity">
     select t2.property_value as title, t3.result as contents from core.text_processor_result as t3
     join core.text as t1 on t1.hash = t3.text_hash
     join core.text_property as t2 on t2.text_id = t1.id

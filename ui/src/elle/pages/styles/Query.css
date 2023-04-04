@@ -1,0 +1,29 @@
+.queryContainer {
+  display: flex;
+}
+
+.queryContainer > div {
+  flex: 1;
+}
+
+.corpustitle {
+  position: relative;
+  border-bottom: 1px dotted black;
+}
+
+.queryAccordion {
+  margin-top: 1em !important;
+  border-radius: 4px 4px 0 0 !important;
+}
+
+.buttonBox {
+  display: flex;
+}
+
+.buttonRight {
+  margin-left: auto !important;
+}
+
+.buttonSecondLeft {
+  margin-left: 1em !important;
+}

@@ -1,5 +1,5 @@
-import {Box, Typography} from "@mui/material";
-import React from "react";
+import { Box, Typography } from '@mui/material';
+import React from 'react';
 
 function AboutUs() {
   const vers1path = window.location.origin + "/vers1/";

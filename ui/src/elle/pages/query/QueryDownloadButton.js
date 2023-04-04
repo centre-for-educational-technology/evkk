@@ -11,15 +11,15 @@ import {
   Select,
   Snackbar,
   Tooltip
-} from "@mui/material";
-import DownloadIcon from "@mui/icons-material/Download";
-import Popover from "@mui/material/Popover";
-import {useTranslation} from "react-i18next";
-import './styles/QueryDownloadButton.css';
-import {useState} from "react";
-import i18n from "i18next";
+} from '@mui/material';
+import DownloadIcon from '@mui/icons-material/Download';
+import Popover from '@mui/material/Popover';
+import { useTranslation } from 'react-i18next';
+import '../styles/QueryDownloadButton.css';
+import { useState } from 'react';
+import i18n from 'i18next';
 import FileSaver from 'file-saver';
-import LoadingButton from "@mui/lab/LoadingButton";
+import LoadingButton from '@mui/lab/LoadingButton';
 
 export default function QueryDownloadButton({selected}) {
 
