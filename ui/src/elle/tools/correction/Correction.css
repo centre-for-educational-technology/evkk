@@ -30,6 +30,15 @@
   cursor: pointer;
 }
 
+.other-percentage-values :nth-child(1) :nth-child(1) {
+  background-color: #90e0ef;
+}
+
+.other-percentage-values :nth-child(2) :nth-child(1) {
+  background-color: #ffb3c1;
+}
+
+
 .level-list li:nth-child(1):before {
   content: "\2022"; /* Add content: \2022 is the CSS Code/unicode for a bullet */
   color: blue; /* Change the color */

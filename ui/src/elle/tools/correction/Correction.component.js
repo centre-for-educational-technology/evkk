@@ -280,16 +280,16 @@ class Correction extends Component {
   renderTasemed = () => {
     if (this.state.taselisa) {
       return <div className={"pointer-hover"} onClick={() => this.setState({taselisa: false})}
-                  style={{width: "100%"}}>
+                  style={{width: "80%"}}>
         Loe täpsemalt ↑
-        <p style={{width: "100%"}}><b>Teksti üldine keerukus: <br/> {this.state.tasemevastus[4][1]} </b>
+        <p style={{width: "80%"}}><b>Teksti üldine keerukus: <br/> {this.state.tasemevastus[4][1]} </b>
           (tõenäosus {(this.state.tasemevastus[4][0] * 100).toFixed(0)}
           %)<br/>Arvesse on võetud teksti, sõnade ja lausete pikkus.</p>
-        <p style={{width: "100%"}}><b>Morfoloogia ehk vormikasutus: <br/>{this.state.tasemevastus[8][1]} </b>
+        <p style={{width: "80%"}}><b>Morfoloogia ehk vormikasutus: <br/>{this.state.tasemevastus[8][1]} </b>
           (tõenäosus {(this.state.tasemevastus[8][0] * 100).toFixed(0)}%)<br/>Arvesse on võetud sõnaliikide ja
           muutevormide osakaalud ning sõnade vormirohkus.)</p>
 
-        <p style={{width: "100%"}}><b>Sõnavara: <br/>{this.state.tasemevastus[12][1]} </b>
+        <p style={{width: "80%"}}><b>Sõnavara: <br/>{this.state.tasemevastus[12][1]} </b>
           {this.state.tasemevastus[12][0] > 0 &&
             <span>(tõenäosus {(this.state.tasemevastus[12][0] * 100).toFixed(0)} %)<br/></span>}
 
@@ -319,43 +319,70 @@ class Correction extends Component {
     var degreeValue
     console.log(this.state.tasemevastus)
     if (this.state.tasemevastus.length !== 1) {
-      let val1 = (this.state.tasemevastus[0][0] * 100 * 3.6).toFixed(0);
-      let val2 = (this.state.tasemevastus[1][0] * 100 * 3.6).toFixed(0);
-      let val3 = (this.state.tasemevastus[2][0] * 100 * 3.6).toFixed(0);
-      let val4 = (this.state.tasemevastus[3][0] * 100 * 3.6).toFixed(0);
-      degreeValue = "conic-gradient(red " + val1 + "deg, orange " + val1 + "deg " + val2 + "deg, yellow " + val2 + "deg " + val3 + "deg, green " + val3 + "deg " + val4 + "deg)";
+      let val1 = parseInt((this.state.tasemevastus[0][0] * 100 * 3.6).toFixed(0), 10);
+      let val2 = parseInt((this.state.tasemevastus[1][0] * 100 * 3.6).toFixed(0), 10);
+      let val3 = parseInt((this.state.tasemevastus[2][0] * 100 * 3.6).toFixed(0), 10);
+      let val4 = parseInt((this.state.tasemevastus[3][0] * 100 * 3.6).toFixed(0), 10);
+      degreeValue = "conic-gradient(#b7e4c7 " + val1 + "deg,  #90e0ef " + val1 + "deg " + (val2 + val1) + "deg, #ffb3c1 " + (val2 + val1) + "deg " + (val2 + val1 + val3) + "deg, #90e0ef " + (val2 + val1 + val3) + "deg " + (val2 + val1 + val3 + val4) + "deg)";
     }
     return <Box component={"span"} width={"auto"}>{this.state.kordab ?
       <Box component={"span"} width={"auto"}>{this.state.alasisu.length > 0 ?
         (this.state.tasemevastus.length > 0 ?
           (this.state.tasemevastus.length === 1 ? "" : <Box width={"100%"}>
 
-            <Box style={{display: "flex", paddingRight: "100px", paddingLeft: "100px", width: "100%"}}>
-              <Box width={"100%"} marginRight={"20%"}>
-                <Box display={"flex"} alignItems={"center"}>
-                  <Box width={15} height={15} borderRadius={"50px"} bgcolor={"red"} marginRight={"10px"}></Box>
-                  <Box>
-                    <h1>{this.state.tasemevastus[0][1]}: {(this.state.tasemevastus[0][0] * 100).toFixed(0)}%</h1>
+            <Box style={{display: "flex", paddingRight: "50px", paddingLeft: "50px", width: "100%"}}>
+
+              <Box marginRight={"10%"} width={"80%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}
+                   paddingLeft={"20%"}>
+                <Box display={"flex"} alignItems={"center"} justifyContent={"start"}>
+                  <Box width={15} height={15} borderRadius={"50px"} bgcolor={"#b7e4c7"} marginRight={"10px"}></Box>
+                  <h2>{this.state.tasemevastus[0][1]}: {(this.state.tasemevastus[0][0] * 100).toFixed(0)}%</h2>
+                </Box>
+                <Box className="other-percentage-values">
+
+                  {this.state.tasemevastus.slice(1, 4).map((vastus) => {
+                      if ((vastus[0] * 100).toFixed(0) > 0) {
+                        console.log(vastus);
+                        return <Box display={"flex"} alignItems={"center"} justifyContent={"start"}> <Box width={15}
+                                                                                                          height={15}
+                                                                                                          borderRadius={"50px"}
+                                                                                                          marginRight={"10px"}></Box>
+                          <h2>{vastus[1]}: {(vastus[0] * 100).toFixed(0)}%</h2></Box>
+                      }
+                    }
+                  )}
+                </Box>
+              </Box>
+              {(this.state.tasemevastus[1][0] * 100).toFixed(0) > 0 ?
+                <Box display={"flex"} width={"40%"} justifyContent={"center"}>
+                  <Box height={150} width={150} borderRadius={50} paddingRight={"50px"}
+                       style={{background: degreeValue}}>
                   </Box>
                 </Box>
+                :
+                null
+              }
+            </Box>
+            <Box paddingLeft={"50px"} marginTop={"30px"} width={"100%"}>
+              <Box marginBottom={"20px"}><Typography><h2>Lisainfo</h2></Typography></Box>
+              <Box marginBottom={"20px"}><b>Teksti üldine keerukus: <br/> {this.state.tasemevastus[4][1]} </b>
+                (tõenäosus {(this.state.tasemevastus[4][0] * 100).toFixed(0)}
+                %)<br/>Arvesse on võetud teksti, sõnade ja lausete pikkus.</Box>
+              <Box marginBottom={"20px"}><b>Morfoloogia ehk vormikasutus: <br/>{this.state.tasemevastus[8][1]} </b>
+                (tõenäosus {(this.state.tasemevastus[8][0] * 100).toFixed(0)}%)<br/>Arvesse on võetud sõnaliikide ja
+                muutevormide osakaalud ning sõnade vormirohkus.)</Box>
 
-                Muude tasemete tõenäosus: <br/>
-                <ul className="level-list">
-                  {this.state.tasemevastus.slice(1, 4).map((vastus) =>
-                    <li key={vastus[1]}>{vastus[1] + " - " + (vastus[0] * 100).toFixed(0)}%</li>
-                  )}
-                </ul>
+              <Box marginBottom={"20px"}><b>Sõnavara: <br/>{this.state.tasemevastus[12][1]} </b>
+                {this.state.tasemevastus[12][0] > 0 &&
+                  <span>(tõenäosus {(this.state.tasemevastus[12][0] * 100).toFixed(0)} %)<br/></span>}
 
-
-              </Box>
-              <Box display={"flex"} justifyContent={"center"}>
-                <Box height={150} width={150} borderRadius={50} paddingRight={"50px"} style={{background: degreeValue}}>
-                </Box>
-              </Box>
+                Arvesse on võetud sõnavaliku mitmekesisus ja ulatus (unikaalsete sõnade hulk, harvem esineva sõnavara
+                osakaal),
+                sõnavara tihedus (sisusõnade osakaal) ja nimisõnade abstraktsus.</Box>
             </Box>
 
 
-            {this.renderTasemed()}
+            {/*this.renderTasemed()*/}
           </Box>) : <div>Tekst liiga lühike</div>) : ""}</Box> : "Tekst on liiga lühike"}</Box>
   }
 
