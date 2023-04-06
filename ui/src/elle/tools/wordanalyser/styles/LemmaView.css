@@ -10,11 +10,9 @@
   font-size: large;
 }
 
-
 .tableHeader:hover {
   cursor: auto;
 }
-
 
 .tableHeader:nth-child(2) > .sort {
   display: none;

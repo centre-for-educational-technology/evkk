@@ -40,3 +40,15 @@
   text-decoration: underline;
   padding-bottom: 0.75em;
 }
+
+.saveTextsButton {
+  margin-left: 1em !important;
+}
+
+.accordionBorder {
+  border-radius: 0 0 4px 4px !important;
+}
+
+.openedResultsAccordion {
+  margin-bottom: 1em !important;
+}

@@ -1,12 +1,13 @@
 package ee.tlu.evkk.core.service;
 
+import ee.evkk.dto.AddingRequestDto;
 import ee.tlu.evkk.core.service.dto.CorpusDownloadDto;
 import ee.tlu.evkk.core.service.dto.CorpusRequestDto;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.core.service.maps.TranslationMappings;
 import ee.tlu.evkk.core.text.processor.TextProcessor;
 import ee.tlu.evkk.dal.dao.TextDao;
-import ee.tlu.evkk.dal.dto.CorpusDownloadResponseDto;
+import ee.tlu.evkk.dal.dto.CorpusDownloadResponseEntity;
 import ee.tlu.evkk.dal.dto.Pageable;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.dto.TextProperty;
@@ -59,6 +60,7 @@ import static java.lang.System.lineSeparator;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
+import static java.util.UUID.randomUUID;
 import static java.util.regex.Pattern.compile;
 import static org.apache.logging.log4j.util.Strings.isBlank;
 import static org.apache.logging.log4j.util.Strings.isNotBlank;
@@ -210,7 +212,7 @@ public class TextService {
 
   public byte[] tekstidfailina(CorpusDownloadDto corpusDownloadDto) throws IOException {
     final String basicText = "basictext";
-    List<CorpusDownloadResponseDto> contentsAndTitles;
+    List<CorpusDownloadResponseEntity> contentsAndTitles;
 
     if (corpusDownloadDto.getForm().equals(basicText)) {
       contentsAndTitles = textDao.findTextContentsAndTitlesByIds(corpusDownloadDto.getFileList());
@@ -252,7 +254,7 @@ public class TextService {
     }
 
     StringBuilder contentsCombined = new StringBuilder();
-    for (CorpusDownloadResponseDto entry : contentsAndTitles) {
+    for (CorpusDownloadResponseEntity entry : contentsAndTitles) {
       contentsCombined.append(entry.getContents()
         .replace("\\n", lineSeparator())
         .replace("\\t", "    ")
@@ -260,6 +262,45 @@ public class TextService {
       contentsCombined.append(lineSeparator()).append(lineSeparator());
     }
     return contentsCombined.toString().getBytes(UTF_8);
+  }
+
+  public String lisatekst(AddingRequestDto andmed) {
+    UUID kood = randomUUID();
+    textDao.insertAdding(kood, andmed.getSisu());
+    lisaTekstiOmadus(kood, "title", andmed.getPealkiri());
+    lisaTekstiOmadus(kood, "kirjeldus", andmed.getKirjeldus());
+    lisaTekstiOmadus(kood, "tekstityyp", andmed.getLiik());
+    if (andmed.getOppematerjal() != null && andmed.getOppematerjal()) {
+      String[] m = andmed.getAkadOppematerjal();
+      if (m != null) {
+        for (String s : m) {
+          lisaTekstiOmadus(kood, "akad_oppematerjal", s);
+        }
+      }
+      lisaTekstiOmadus(kood, "akad_oppematerjal_muu", andmed.getAkadOppematerjalMuu());
+    }
+    if (andmed.getLiik().equals("akadeemiline")) {
+      lisaTekstiOmadus(kood, "eriala", andmed.getAutoriEriala());
+      lisaTekstiOmadus(kood, "akad_alamliik", andmed.getAkadAlamliik());
+      lisaTekstiOmadus(kood, "artikkel_aasta", andmed.getArtikkelAasta());
+      lisaTekstiOmadus(kood, "artikkel_valjaanne", andmed.getArtikkelValjaanne());
+      lisaTekstiOmadus(kood, "artikkel_number", andmed.getArtikkelNumber());
+      lisaTekstiOmadus(kood, "artikkel_lehekyljed", andmed.getArtikkelLehekyljed());
+      lisaTekstiOmadus(kood, "oppeaste", andmed.getAutoriOppeaste());
+      lisaTekstiOmadus(kood, "teaduskraad", andmed.getAutoriTeaduskraad());
+    }
+    if (andmed.getLiik().equals("mitteakadeemiline")) {
+      lisaTekstiOmadus(kood, "mitteakad_alamliik", andmed.getMitteakadAlamliik());
+    }
+    lisaTekstiOmadus(kood, "abivahendid", booleanToJahEi(andmed.getOppematerjal()));
+    lisaTekstiOmadus(kood, "kasAutor", andmed.getTekstiAutor());
+    lisaTekstiOmadus(kood, "vanus", andmed.getAutoriVanus());
+    lisaTekstiOmadus(kood, "sugu", andmed.getAutoriSugu());
+    lisaTekstiOmadus(kood, "haridus", andmed.getAutoriOppeaste());
+    lisaTekstiOmadus(kood, "emakeel", andmed.getAutoriEmakeel().toLowerCase());
+    lisaTekstiOmadus(kood, "muudkeeled", andmed.getAutoriMuudKeeled());
+    lisaTekstiOmadus(kood, "riik", andmed.getAutoriElukohariik());
+    return kood.toString();
   }
 
   public static String[] translateWordType(String[] tekst, String language) {
@@ -307,7 +348,7 @@ public class TextService {
               tenseLabel = tensePrefixPast;
             }
           }
-          if (feat.contains("Voice") && tenseLabel.toString().equals(tensePrefixPast.toString())) {
+          if (feat.contains("Voice") && tenseLabel.toString().contentEquals(tensePrefixPast)) {
             if (feat.split("=")[1].equals("Act")) {
               tenseLabel.append(tensePostfixNud);
             } else {
@@ -534,6 +575,12 @@ public class TextService {
   private TextWithProperties toTextWithProperties(Text text, Map<UUID, List<TextProperty>> textPropertiesByTextId) {
     List<TextProperty> properties = textPropertiesByTextId.getOrDefault(text.getId(), Collections.emptyList());
     return new TextWithProperties(text, properties);
+  }
+
+  private void lisaTekstiOmadus(UUID kood, String tunnus, String omadus) {
+    if (omadus != null && omadus.length() > 0) {
+      textDao.insertAddingProperty(kood, tunnus, omadus);
+    }
   }
 
 }

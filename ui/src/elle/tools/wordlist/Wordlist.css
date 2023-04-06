@@ -1,0 +1,53 @@
+.wordlist-wrapper {
+  margin-top: 5vh;
+}
+
+.tool-title {
+  text-align: center;
+  padding-bottom: 2vh;
+}
+
+.wordlist-analyse-button {
+  margin-top: 3vh !important;
+}
+
+.stopwords-tooltip-icon {
+  margin-top: -0.25em;
+  margin-left: 0.25em;
+}
+
+.wordlist-table {
+  border-collapse: collapse;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.wordlist-table td, .wordlist-table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.wordlist-table td:last-child, .wordlist-table th:last-child {
+  background-color: white;
+  border: none !important;
+}
+
+.wordlist-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.wordlist-table tr:hover {
+  background-color: #ddd;
+}
+
+.wordlist-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 10px;
+  text-align: center;
+  background-color: #ffffff;
+  border-bottom: solid 1px !important;
+  color: black;
+  font-weight: bold;
+}

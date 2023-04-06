@@ -10,7 +10,7 @@ import re
 from tasemehindaja import arvuta
 from nlp import nlp_t, nlp_tp, nlp_tpl
 
-from nlp import nlp_ru_t, nlp_ru_tp
+from nlp import nlp_ru_t, nlp_ru_tp, nlp_ru_tpl
 
 if os.path.isfile("/app/word_mapping.csv"):
   asendused=[rida.strip().split(",") for rida in open("/app/word_mapping.csv").readlines()]
@@ -119,10 +119,9 @@ def tervitus():
 
 def margenda_stanza(tekst, comments=True, filename="document", language='et'):
     v=[]
-#    nlp=nlp_tp
     nlp=nlp_tpl
     if language=='ru':
-        nlp=nlp_ru_tp
+        nlp=nlp_ru_tpl
     doc=nlp(tekst)
     index=0
     if comments:

@@ -7,6 +7,30 @@
   background-color: white;
 }
 
+.analyserTable {
+  margin-right: auto;
+  margin-left: auto;
+  border-bottom: solid 1px;
+  width: 100%
+}
+
+.filter-class {
+  width: 330px;
+  min-width: 330px
+}
+
+.accordion-class {
+  border: none;
+  box-shadow: none;
+  width: 68px;
+  height: 48px
+}
+
+.accordion-button {
+  height: 48px;
+  width: 68px
+}
+
 .tableRow {
   background-color: white;
 }
@@ -17,6 +41,22 @@
 
 .tableHead {
   padding-left: 10px;
+  border-bottom: solid 1px !important;
+  color: black;
+  font-weight: bold
+}
+
+.popover-box {
+  padding: 10px;
+}
+
+.filter-container {
+  display: flex;
+  gap: 10px;
+}
+
+.applied-filters-box {
+  width: 65vw;
 }
 
 .tableHead:hover {

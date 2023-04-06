@@ -1,14 +1,15 @@
-import React, {useContext, useEffect, useMemo, useState} from "react";
-import {usePagination, useSortBy, useTable} from 'react-table';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { useFilters, usePagination, useSortBy, useTable } from 'react-table';
 import './styles/Syllables.css';
-import TablePagination from "./TablePagination";
-import {useTranslation} from "react-i18next";
-import "../../translations/i18n";
-import TableDownloadButton from "./TableDownloadButton";
-import {v4 as uuidv4} from 'uuid';
-import {AnalyseContext, SetSyllableContext, SetSyllableWordContext} from "./Contexts";
-import {Box} from "@mui/material";
-import ToggleCell from "./ToggleCell";
+import TablePagination from '../../components/table/TablePagination';
+import { useTranslation } from 'react-i18next';
+import '../../translations/i18n';
+import TableDownloadButton from '../../components/table/TableDownloadButton';
+import { AnalyseContext, SetSyllableContext, SetSyllableWordContext } from './Contexts';
+import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import ToggleCell from './ToggleCell';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import Popover from '@mui/material/Popover';
 
 function Syllables() {
 
@@ -19,12 +20,68 @@ function Syllables() {
   const len = data.length;
   const words = analyse.words;
   const {t} = useTranslation();
+  const [infoListNew, setInfolistNew] = useState([]);
+  const [filterValue, setFilterValue] = useState([]);
+  const [formattedList, setFormattedList] = useState([]);
+  const col2 = [t('beginning'), t('middle'), t('end')];
+  const [appliedFilters, setAppliedFilters] = useState([]);
+  const tableToDownload = [t('syllables_header_syllable'), t('syllables_table_beginning'), t('syllables_table_middle'), t('syllables_table_end'), t('common_words_in_text'), t('common_header_frequency'), t('common_header_percentage')];
+  const [syllableFilterPopoverAnchor, setSyllableFilterPopoverAnchor] = useState(null);
+  const syllableFilterPopoverToggle = Boolean(syllableFilterPopoverAnchor);
+  const syllableFilterPopoverID = syllableFilterPopoverToggle ? 'syllable-filter-popover' : undefined;
+
   let baseSyllables = [];
   let syllables = [];
   let infoList = [];
-  const [infoListNew, setInfolistNew] = useState([]);
+  let formattedSyllables = [];
 
-  const tableToDownload = [t("syllables_header_syllable"), t("syllables_table_beginning"), t("syllables_table_middle"), t("syllables_table_end"), t("common_words_in_text"), t("common_header_frequency"), t("common_header_percentage")];
+  const handlePopoverOpen = (event) => {
+    setSyllableFilterPopoverAnchor(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setSyllableFilterPopoverAnchor(null);
+  };
+
+  function multiSelectFilter(rows, columnIds, filterValue) {
+    return filterValue.length === 0
+      ? rows
+      : rows.filter((row) =>
+        filterValue.some(substring => row.values[columnIds].includes(substring))
+      );
+  }
+
+  function multiSelect(values, label) {
+    const handleChange = (event) => {
+      let value = event.target.value;
+      setFilterValue(value);
+      setAppliedFilters(value);
+      setFilter('col2', value);
+    };
+
+    return (
+      <Box marginY={'5px'}>
+        <FormControl className="filter-class" size={'small'}>
+          <InputLabel>{label}</InputLabel>
+          <Select
+            label={label}
+            multiple
+            value={filterValue}
+            onChange={handleChange}
+          >
+            {values.map((value) => (
+              <MenuItem
+                key={value}
+                value={value}
+              >
+                {value}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+    );
+  }
 
   function createList(value) {
     let cleanValue = value.toLowerCase();
@@ -37,13 +94,13 @@ function Syllables() {
       for (let y = 0; y < baseSyllables[i].length; y++) {
         let tempSyllables = [];
         if (y === 0) {
-          let syllableLocation = "algus";
+          let syllableLocation = 'algus';
           tempSyllables.push(baseSyllables[i][y], syllableLocation, data[i], words[i]);
         } else if (y === baseSyllables[i].length - 1) {
-          let syllableLocation = "l6pp";
+          let syllableLocation = 'l6pp';
           tempSyllables.push(baseSyllables[i][y], syllableLocation, data[i], words[i]);
         } else {
-          let syllableLocation = "keskmine";
+          let syllableLocation = 'keskmine';
           tempSyllables.push(baseSyllables[i][y], syllableLocation, data[i], words[i]);
         }
         syllables.push(tempSyllables);
@@ -51,8 +108,6 @@ function Syllables() {
     }
     syllables.sort();
   }
-
-  let formatedSyllables = [];
 
   function findDuplicates() {
     for (let i = 0; i < syllables.length; i++) {
@@ -101,30 +156,27 @@ function Syllables() {
           } else if (syllables[i + 1][1] === 'l6pp') {
             listCounter[2] = listCounter[2] + 1;
           }
-          // this assignment is necessary
+          // this assignment is necessary!
           i++;
         }
       }
       tempList.push(listCounter[0], listCounter[1], listCounter[2], syllableList);
-      formatedSyllables.push(tempList);
+      formattedSyllables.push(tempList);
     }
   }
 
-  const [formatedList, setFormatedList] = useState([]);
-
   function formating() {
-    let output = formatedSyllables.map((row) => {
-      let cellContent = []
+    let output = formattedSyllables.map((row) => {
+      let cellContent = [];
       let info = {
-        col1: "",
+        col1: '',
         col2: 0,
         col3: 0,
         col4: 0,
         col5: [[], []],
         col6: 0,
         col7: 0
-      }
-
+      };
       info.col1 = row[0];
       info.col2 = row[1];
       info.col3 = row[2];
@@ -140,49 +192,38 @@ function Syllables() {
           if (i === row[4][0].length - 1) {
             info.col5[1].push(`(${row[4][1][i]})`);
             cellContent.push(
-              <span key={uuidv4()}>
-                <span key={uuidv4()}
+              <span key={word}>
+                <span key={`${word}_sub`}
                       className="word"
                       onClick={(e) => setSyllableWord(e.target.textContent)}>
                   {word}
                 </span>
                 &nbsp;({count})
               </span>);
-          } else if (i === 0) {
+          } else {
             info.col5[1].push(`(${row[4][1][i]}), `);
             cellContent.push(
-              <span key={uuidv4()}>
-                <span key={uuidv4()}
+              <span key={word}>
+                <span key={`${word}_sub`}
                       className="word"
                       onClick={(e) => setSyllableWord(e.target.textContent)}>
                   {word}
                 </span>
                 &nbsp;({count}),{' '}
               </span>);
-          } else {
-            info.col5[1].push(`(${row[4][1][i]}), `);
-            cellContent.push(
-              <span key={uuidv4()}>
-                <span key={uuidv4()}
-                      className="word"
-                      onClick={(e) => setSyllableWord(e.target.textContent)}>
-                  {word}
-                </span>
-                &nbsp;({count}),{' '}
-              </span>)
           }
         }
-        return <ToggleCell onCellContent={cellContent}/>
-      }
+        return <ToggleCell onCellContent={cellContent}/>;
+      };
 
       infoList.push(info);
       return {
-        "silp": <span className="word"
+        'silp': <span className="word"
                       onClick={(e) => setSyllable(e.target.textContent)}>{row[0]}</span>,
-        "algus": row[1], "keskel": row[2], "l6pp": row[3], "sagedus": row[1] + row[2] + row[3],
-        "sonadtekstis": syllableWords(),
-        "osakaal": ((row[1] + row[2] + row[3]) * 100 / syllables.length).toFixed(2),
-      }
+        'algus': row[1], 'keskel': row[2], 'l6pp': row[3], 'sagedus': row[1] + row[2] + row[3],
+        'sonadtekstis': syllableWords(),
+        'osakaal': ((row[1] + row[2] + row[3]) * 100 / syllables.length).toFixed(2)
+      };
     });
 
     for (const element of output) {
@@ -192,74 +233,80 @@ function Syllables() {
       if (element.keskel === 0) {
         delete element.keskel;
       }
-      if (element["l6pp"] === 0) {
-        delete element["l6pp"];
+      if (element['l6pp'] === 0) {
+        delete element['l6pp'];
       }
     }
     setInfolistNew(infoList);
-    setFormatedList(output);
+    setFormattedList(output);
   }
 
   // TABELI OSA
   const COLUMNS = [
     {
-      Header: t("syllables_header_syllable"),
+      Header: t('syllables_header_syllable'),
+      id: 'silp',
       accessor: 'silp',
-      width: 200,
+      width: 200
     },
     {
-      Header: t("syllables_header_location"),
+      Header: t('syllables_header_location'),
+      id: 'col2',
       accessor: el => {
-        let display = "";
+        let display = '';
         if (el.algus) {
-          display += `${t("syllables_beginning")} (${el.algus}), `;
+          display += `${t('syllables_beginning')} (${el.algus}), `;
         }
         if (el.keskel) {
-          display += `${t("syllables_middle")} (${el.keskel}), `;
+          display += `${t('syllables_middle')} (${el.keskel}), `;
         }
         if (el.l6pp) {
-          display += `${t("syllables_end")} (${el.l6pp}), `;
+          display += `${t('syllables_end')} (${el.l6pp}), `;
         }
         display = display.slice(0, -2);
         return display;
       },
+      filter: multiSelectFilter,
       disableSortBy: true,
-      width: 400
+      width: 400,
+      className: 'col2'
     },
     {
-      Header: t("common_words_in_text"),
+      Header: t('common_words_in_text'),
+      id: 'sonadtekstis',
       accessor: 'sonadtekstis',
       width: 700,
       disableSortBy: true,
       sortable: false
     },
     {
-      Header: t("common_header_frequency"),
-      accessor: 'sagedus',
+      Header: t('common_header_frequency'),
       id: 'sagedus',
+      accessor: 'sagedus',
       width: 300
     },
     {
-      Header: t("common_header_percentage"),
+      Header: t('common_header_percentage'),
+      id: 'protsent',
       accessor: 'osakaal',
       width: 300
     }
-  ]
+  ];
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const columns = useMemo(() => COLUMNS, []);
   const tableInstance = useTable({
     columns: columns,
-    data: formatedList,
+    data: formattedList,
     initialState: {
       sortBy: [
         {
-          id: "sagedus",
+          id: 'sagedus',
           desc: true
         }
       ]
     }
-  }, useSortBy, usePagination);
+  }, useFilters, useSortBy, usePagination);
 
   const {
     getTableProps,
@@ -275,41 +322,69 @@ function Syllables() {
     nextPage,
     previousPage,
     setPageSize,
+    setFilter,
     state: {pageIndex, pageSize}
   } = tableInstance;
 
+  function AppliedFilters() {
+    if (appliedFilters !== []) {
+      return (
+        appliedFilters.map((value) => (<Chip sx={{marginBottom: '5px'}} key={value} label={value}/>))
+      );
+    }
+  }
 
   return (
     <>
       <Box>
-        {data.map((value, index) => {
-          return <div key={index}>
-            {createList(value)}
-          </div>
+        {data.map((value, _i) => {
+          return createList(value);
         })}
-
         {createSyllableList()}
         {findDuplicates()}
         {useEffect(() => {
           formating();
           // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [])}
-
-        <TableDownloadButton data={infoListNew}
-                             headers={tableToDownload}/>
-
-        <table className="analyserTable" {...getTableProps()}
-               style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>
+        <Box className="filter-container">
+          <Box>{appliedFilters !== [] ?
+            <Box className="applied-filters-box">{t('applied_filters')}: {AppliedFilters()} </Box> : null}</Box>
+          <Box>
+            <Button className="Popover-button" aria-describedby={syllableFilterPopoverID} variant="contained"
+                    onClick={handlePopoverOpen}><FilterAltIcon fontSize="large"/></Button>
+            <Popover
+              id={syllableFilterPopoverID}
+              open={syllableFilterPopoverToggle}
+              anchorEl={syllableFilterPopoverAnchor}
+              onClose={handlePopoverClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left'
+              }}
+              transformOrigin={{
+                horizontal: 'center'
+              }}
+            >
+              <Box className="popover-box">
+                {multiSelect(col2, t('filter_by_word_form'))}
+              </Box>
+            </Popover>
+          </Box>
+          <TableDownloadButton data={infoListNew}
+                               tableType={'Syllables'}
+                               headers={tableToDownload}/>
+        </Box>
+        <table className="analyserTable" {...getTableProps()}>
           <thead>
           {headerGroups.map((headerGroup) => (
             <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th
-                  key={uuidv4()}
+                  key={column.id}
                   style={{
-                    borderBottom: "1px solid",
-                    color: "black",
-                    fontWeight: "bold"
+                    borderBottom: '1px solid',
+                    color: 'black',
+                    fontWeight: 'bold'
                   }}
                   className="tableHdr headerbox">{column.render('Header')}
                   <span className="sort" {...column.getHeaderProps(column.getSortByToggleProps())}>
@@ -323,17 +398,17 @@ function Syllables() {
           <tbody {...getTableBodyProps()}>
           {
             page.map((row) => {
-              prepareRow(row)
+              prepareRow(row);
               return (
                 <tr className="tableRow" {...row.getRowProps()}>
                   {
                     row.cells.map(cell => {
                       return <td className="tableData" {...cell.getCellProps()}
-                                 style={{padding: '10px', width: cell.column.width,}}>{cell.render('Cell')}</td>
+                                 style={{padding: '10px', width: cell.column.width}}>{cell.render('Cell')}</td>;
                     })
                   }
                 </tr>
-              )
+              );
             })
           }
           </tbody>
@@ -352,7 +427,7 @@ function Syllables() {
         />
       </Box>
     </>
-  )
+  );
 }
 
 export default Syllables;
