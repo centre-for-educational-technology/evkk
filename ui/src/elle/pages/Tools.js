@@ -32,7 +32,7 @@ function Tools() {
     {
       title: 'Sõna kontekstis',
       img: require('../resources/images/tools/sona_kontekstis.png').default,
-      description: 'Vaata sõna kasutusnäiteid tekstis, et saada parem ülevaade selle kasutusest',
+      description: 'Vaata sõna ümbrust tekstis, et saada parem ülevaade selle kasutusest',
       route: 'wordcontext',
       action: () => toolSelect('wordcontext')
     },

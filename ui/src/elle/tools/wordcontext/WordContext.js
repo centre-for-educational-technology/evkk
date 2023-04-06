@@ -24,7 +24,7 @@ import {
 } from '@mui/material';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import './WordContext.css';
-import { usePagination, useTable } from 'react-table';
+import { usePagination, useSortBy, useTable } from 'react-table';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
 import TablePagination from '../../components/table/TablePagination';
 
@@ -53,12 +53,12 @@ export default function WordContext() {
       width: 30,
       disableSortBy: true,
       Cell: (cellProps) => {
-        return cellProps.row.index + 1;
+        return cellProps.sortedRows.findIndex(item => item.original.keyword === cellProps.row.original.keyword) + 1;
       },
       className: 'text-center'
     },
     {
-      Header: '',
+      Header: 'Eelnev kontekst',
       accessor: 'contextBefore',
       width: 100,
       Cell: (cellProps) => {
@@ -67,7 +67,7 @@ export default function WordContext() {
       className: 'text-right'
     },
     {
-      Header: 'Kontekst',
+      Header: 'Otsisõna',
       accessor: 'keyword',
       width: 30,
       Cell: (cellProps) => {
@@ -76,7 +76,7 @@ export default function WordContext() {
       className: 'wordcontext-keyword'
     },
     {
-      Header: '',
+      Header: 'Järgnev kontekst',
       accessor: 'contextAfter',
       width: 100,
       Cell: (cellProps) => {
@@ -105,7 +105,7 @@ export default function WordContext() {
     state: {pageIndex, pageSize}
   } = useTable({
     columns, data
-  }, usePagination);
+  }, useSortBy, usePagination);
 
   useEffect(() => {
     if (!queryStore.getState()) {
@@ -278,6 +278,16 @@ export default function WordContext() {
               {headerGroup.headers.map(column => (
                 <th {...column.getHeaderProps()}>
                   {column.render('Header')}
+                  {column.canSort &&
+                    <span className="sortIcon"
+                          {...column.getHeaderProps(column.getSortByToggleProps({title: ''}))}>
+                        {column.isSorted
+                          ? column.isSortedDesc
+                            ? ' ▼'
+                            : ' ▲'
+                          : ' ▼▲'}
+                    </span>
+                  }
                 </th>
               ))}
             </tr>
