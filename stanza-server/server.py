@@ -119,7 +119,8 @@ def tervitus():
 
 def margenda_stanza(tekst, comments=True, filename="document", language='et'):
     v=[]
-    nlp=nlp_tp
+#    nlp=nlp_tp
+    nlp=nlp_tpl
     if language=='ru':
         nlp=nlp_ru_tp
     doc=nlp(tekst)
