@@ -6,8 +6,6 @@ import org.springframework.web.client.RestOperations;
 
 import java.util.Map;
 
-import static java.util.Objects.requireNonNull;
-
 /**
  * @author Mikk Tarvas
  * Date: 30.09.2021
@@ -87,7 +85,8 @@ public class StanzaServerClient extends AbstractRestOperationsClient {
     Map<String, String> map = Map.of("tekst", tekst, "failinimi", failinimi, "keel", keel);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
     ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/stanzaconllu", requestEntity, String[].class));
-    return requireNonNull(forEntity.getBody())[0];
+//    return requireNonNull(forEntity.getBody())[0];
+    return forEntity.getBody()[0];
   }
 
   public String[] getTahedSonadLaused(String tekst, String keel) {
