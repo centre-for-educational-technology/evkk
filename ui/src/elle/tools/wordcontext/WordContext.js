@@ -53,7 +53,7 @@ export default function WordContext() {
       width: 30,
       disableSortBy: true,
       Cell: (cellProps) => {
-        return cellProps.sortedRows.findIndex(item => item.original.keyword === cellProps.row.original.keyword) + 1;
+        return cellProps.sortedFlatRows.findIndex(item => item.id === cellProps.row.id) + 1;
       },
       className: 'text-center'
     },

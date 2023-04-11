@@ -51,7 +51,7 @@ export default function Wordlist() {
       width: 40,
       disableSortBy: true,
       Cell: (cellProps) => {
-        return cellProps.sortedRows.findIndex(item => item.original.word === cellProps.row.original.word) + 1;
+        return cellProps.sortedFlatRows.findIndex(item => item.id === cellProps.row.id) + 1;
       }
     },
     {

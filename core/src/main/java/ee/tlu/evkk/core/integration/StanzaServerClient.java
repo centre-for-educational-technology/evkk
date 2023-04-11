@@ -1,5 +1,6 @@
 package ee.tlu.evkk.core.integration;
 
+import ee.tlu.evkk.core.service.dto.WordAndPosInfoDto;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestOperations;
@@ -48,6 +49,13 @@ public class StanzaServerClient extends AbstractRestOperationsClient {
     return forEntity.getBody();
   }
 
+  public WordAndPosInfoDto[] getLemmadJaPosInfo(String tekst) {
+    Map<String, String> map = Map.of("tekst", tekst);
+    HttpEntity<?> requestEntity = new HttpEntity<>(map);
+    ResponseEntity<WordAndPosInfoDto[]> forEntity = retry().execute(context -> rest.postForEntity("/lemmadjaposinfo", requestEntity, WordAndPosInfoDto[].class));
+    return forEntity.getBody();
+  }
+
   public String[][] getLaused(String tekst) {
     Map<String, String> map = Map.of("tekst", tekst);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
@@ -59,6 +67,13 @@ public class StanzaServerClient extends AbstractRestOperationsClient {
     Map<String, String> map = Map.of("tekst", tekst);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
     ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/sonad", requestEntity, String[].class));
+    return forEntity.getBody();
+  }
+
+  public WordAndPosInfoDto[] getSonadJaPosInfo(String tekst) {
+    Map<String, String> map = Map.of("tekst", tekst);
+    HttpEntity<?> requestEntity = new HttpEntity<>(map);
+    ResponseEntity<WordAndPosInfoDto[]> forEntity = retry().execute(context -> rest.postForEntity("/sonadjaposinfo", requestEntity, WordAndPosInfoDto[].class));
     return forEntity.getBody();
   }
 

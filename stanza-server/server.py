@@ -73,6 +73,18 @@ def lemmad():
                 v1.append(word.lemma)
     return Response(json.dumps(v1), mimetype="application/json")
 
+@app.route('/lemmadjaposinfo', methods=['POST'])
+def lemmadjaposinfo():
+    nlp = nlp_tpl
+    doc = nlp(request.json["tekst"])
+    v1 = []
+    print(doc)
+    for sentence in doc.sentences:
+        for word in sentence.words:
+          if word._upos != "PUNCT":
+              v1.append({"word": word.lemma, "startChar": word.start_char, "endChar": word.end_char})
+    return Response(json.dumps(v1), mimetype="application/json")
+
 @app.route('/laused', methods=['POST'])
 def laused():
     nlp = nlp_t
@@ -93,6 +105,17 @@ def sonad():
         for word in sentence.words:
             if word._upos != "PUNCT":
                 v1.append(word.text)
+    return Response(json.dumps(v1), mimetype="application/json")
+
+@app.route('/sonadjaposinfo', methods=['POST'])
+def sonadjaposinfo():
+    nlp = nlp_tp
+    doc = nlp(request.json["tekst"])
+    v1 = []
+    for sentence in doc.sentences:
+        for word in sentence.words:
+          if word._upos != "PUNCT":
+              v1.append({"word": word.text, "startChar": word.start_char, "endChar": word.end_char})
     return Response(json.dumps(v1), mimetype="application/json")
 
 @app.route('/keeletase', methods=['POST'])
