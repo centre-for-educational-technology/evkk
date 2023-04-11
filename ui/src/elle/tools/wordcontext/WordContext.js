@@ -45,7 +45,8 @@ export default function WordContext() {
   const [response, setResponse] = useState([]);
   const [showTable, setShowTable] = useState(false);
   const [showNoResultsError, setShowNoResultsError] = useState(false);
-  const tableToDownload = ['', 'Kontekst', ''];
+  const [showLemmatizedResultWarning, setShowLemmatizedResultWarning] = useState(false);
+  const tableToDownload = ['Eelnev kontekst', 'Otsisõna', 'Järgnev kontekst'];
   const accessors = ['contextBefore', 'keyword', 'contextAfter'];
 
   const columns = useMemo(() => [
@@ -118,6 +119,9 @@ export default function WordContext() {
   const handleTypeChange = (event) => {
     setTypeValue(event.target.value);
     setTypeError(false);
+    if (event.target.value === 'LEMMAS') {
+      setCapitalizationChecked(false);
+    }
   };
 
   const handleSubmit = (event) => {
@@ -136,8 +140,9 @@ export default function WordContext() {
         .then(res => res.json())
         .then((result) => {
           setLoading(false);
-          setResponse(result);
-          if (result.length === 0) {
+          setShowLemmatizedResultWarning(false);
+          setResponse(result.contextList);
+          if (result.contextList.length === 0) {
             setShowTable(false);
             setParamsExpanded(true);
             setShowNoResultsError(true);
@@ -145,6 +150,9 @@ export default function WordContext() {
             setShowTable(true);
             setParamsExpanded(false);
             setShowNoResultsError(false);
+            if (result.keywordLemmatized) {
+              setShowLemmatizedResultWarning(true);
+            }
           }
         });
     }
@@ -261,6 +269,7 @@ export default function WordContext() {
                   <FormControlLabel control={
                     <Checkbox
                       checked={capitalizationChecked}
+                      disabled={typeValue === 'LEMMAS'}
                       onChange={(e) => setCapitalizationChecked(e.target.checked)}
                     ></Checkbox>
                   }
@@ -272,6 +281,11 @@ export default function WordContext() {
           </form>
         </AccordionDetails>
       </Accordion>
+      {showLemmatizedResultWarning && <>
+        <br/>
+        <Alert severity="warning">Algsele otsisõnale vasteid ei leitud. Kuna otsingu tüübiks valiti "algvormi alusel",
+          siis toimus automaatne otsisõna algvormistamine ning vasted leiti.</Alert>
+      </>}
       {showTable && <>
         <TableDownloadButton data={data}
                              tableType={'WordContext'}
@@ -345,7 +359,8 @@ export default function WordContext() {
                           size="8rem"/>
       </Backdrop>
       {showNoResultsError &&
-        <Alert severity="error">Tekstist ei leitud otsisõnale ühtegi vastet! Muuda otsisõna ning proovi uuesti.</Alert>}
+        <Alert severity="error">Tekstist ei leitud otsisõnale ühtegi vastet! Muuda analüüsi valikuid ning proovi
+          uuesti.</Alert>}
     </div>
   );
 }

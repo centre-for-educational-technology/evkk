@@ -1,12 +1,12 @@
 package ee.evkk.dto;
 
-public class WordContextResponseDto {
+public class WordContextDto {
 
   private String keyword;
   private String contextBefore;
   private String contextAfter;
 
-  public WordContextResponseDto(String keyword, String contextBefore, String contextAfter) {
+  public WordContextDto(String keyword, String contextBefore, String contextAfter) {
     this.keyword = keyword;
     this.contextBefore = contextBefore;
     this.contextAfter = contextAfter;

@@ -16,6 +16,7 @@ import java.util.Map;
 
 import static ee.evkk.dto.enums.WordType.WORDS;
 import static ee.tlu.evkk.api.util.FileUtils.readResourceAsString;
+import static ee.tlu.evkk.api.util.TextUtils.sanitizeLemmaStringList;
 import static ee.tlu.evkk.api.util.TextUtils.sanitizeText;
 import static java.math.BigDecimal.valueOf;
 import static java.math.RoundingMode.UP;
@@ -37,7 +38,7 @@ public class WordlistService {
     String sanitizedTextContent = sanitizeText(textDao.findTextsByIds(dto.getCorpusTextIds()));
     List<String> wordlist = dto.getType().equals(WORDS)
       ? asList(stanzaServerClient.getSonad(sanitizedTextContent))
-      : sanitizeLemmaList(asList(stanzaServerClient.getLemmad(sanitizedTextContent)));
+      : sanitizeLemmaStringList(asList(stanzaServerClient.getLemmad(sanitizedTextContent)));
     if (!dto.isKeepCapitalization()) {
       wordlist = wordlist.stream().map(String::toLowerCase).collect(toList());
     }
@@ -73,14 +74,6 @@ public class WordlistService {
     return dto.isKeepCapitalization()
       ? stopwords.contains(word)
       : stopwordsLower.contains(word);
-  }
-
-  private List<String> sanitizeLemmaList(List<String> lemmas) {
-    return lemmas.stream()
-      .map(lemma -> lemma
-        .replace("_", "")
-        .replace("=", ""))
-      .collect(toList());
   }
 
   private Map<String, Long> getFrequencyCount(List<String> wordlist) {

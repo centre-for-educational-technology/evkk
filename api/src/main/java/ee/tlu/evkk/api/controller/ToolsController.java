@@ -1,9 +1,9 @@
 package ee.tlu.evkk.api.controller;
 
 import ee.evkk.dto.WordContextRequestDto;
-import ee.evkk.dto.WordContextResponseDto;
 import ee.evkk.dto.WordlistRequestDto;
 import ee.evkk.dto.WordlistResponseDto;
+import ee.evkk.dto.integration.WordContextResponseDto;
 import ee.tlu.evkk.api.service.WordContextService;
 import ee.tlu.evkk.api.service.WordlistService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +33,7 @@ public class ToolsController {
   }
 
   @PostMapping("wordcontext")
-  public List<WordContextResponseDto> getWordContextResponse(@RequestBody @Valid WordContextRequestDto dto) {
+  public WordContextResponseDto getWordContextResponse(@RequestBody @Valid WordContextRequestDto dto) {
     return wordContextService.getWordContextResponse(dto);
   }
 }
