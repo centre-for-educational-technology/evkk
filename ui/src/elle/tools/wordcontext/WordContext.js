@@ -31,8 +31,6 @@ import TablePagination from '../../components/table/TablePagination';
 
 export default function WordContext() {
 
-  // todo remove old sõnarakendus when this is done
-
   const navigate = useNavigate();
   const [paramsExpanded, setParamsExpanded] = useState(true);
   const [typeValue, setTypeValue] = useState('');
