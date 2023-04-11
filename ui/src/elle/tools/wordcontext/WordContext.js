@@ -6,6 +6,7 @@ import Accordion from '@mui/material/Accordion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import {
+  Alert,
   Backdrop,
   Button,
   Checkbox,
@@ -43,6 +44,7 @@ export default function WordContext() {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState([]);
   const [showTable, setShowTable] = useState(false);
+  const [showNoResultsError, setShowNoResultsError] = useState(false);
   const tableToDownload = ['', 'Kontekst', ''];
   const accessors = ['contextBefore', 'keyword', 'contextAfter'];
 
@@ -122,7 +124,6 @@ export default function WordContext() {
     event.preventDefault();
     setTypeError(!typeValue);
     if (typeValue) {
-      setParamsExpanded(false);
       setLoading(true);
       setShowTable(false);
       fetch('/api/tools/wordcontext', {
@@ -134,9 +135,17 @@ export default function WordContext() {
       })
         .then(res => res.json())
         .then((result) => {
-          setResponse(result);
-          setShowTable(true);
           setLoading(false);
+          setResponse(result);
+          if (result.length === 0) {
+            setShowTable(false);
+            setParamsExpanded(true);
+            setShowNoResultsError(true);
+          } else {
+            setShowTable(true);
+            setParamsExpanded(false);
+            setShowNoResultsError(false);
+          }
         });
     }
   };
@@ -335,6 +344,8 @@ export default function WordContext() {
         <CircularProgress thickness={4}
                           size="8rem"/>
       </Backdrop>
+      {showNoResultsError &&
+        <Alert severity="error">Tekstist ei leitud otsisõnale ühtegi vastet! Muuda otsisõna ning proovi uuesti.</Alert>}
     </div>
   );
 }
