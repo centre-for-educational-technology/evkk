@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import React, { useEffect, useMemo, useState } from 'react';
 import { queryStore } from '../../store/QueryStore';
 import { AccordionStyle } from '../../utils/constants';
@@ -32,6 +32,7 @@ import TablePagination from '../../components/table/TablePagination';
 export default function WordContext() {
 
   const navigate = useNavigate();
+  const [urlParams] = useSearchParams();
   const [paramsExpanded, setParamsExpanded] = useState(true);
   const [typeValue, setTypeValue] = useState('');
   const [typeError, setTypeError] = useState(false);
@@ -124,6 +125,10 @@ export default function WordContext() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    sendRequest();
+  };
+
+  const sendRequest = () => {
     setTypeError(!typeValue);
     if (typeValue) {
       setLoading(true);
@@ -166,6 +171,18 @@ export default function WordContext() {
       keepCapitalization: capitalizationChecked
     });
   };
+
+  useEffect(() => {
+    if (urlParams.get('word') && urlParams.get('type') && urlParams.get('keepCapitalization')) {
+      setKeyword(urlParams.get('word'));
+      setTypeValue(urlParams.get('type'));
+      if (urlParams.get('type') !== 'LEMMAS') {
+        setCapitalizationChecked(urlParams.get('keepCapitalization') === 'true');
+      }
+      sendRequest();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlParams, keyword, typeValue, capitalizationChecked]);
 
   return (
     <div className="tool-wrapper">
@@ -248,7 +265,7 @@ export default function WordContext() {
                           onChange={(e) => setDisplayType(e.target.value)}
                         >
                           <MenuItem value="WORD">sõna</MenuItem>
-                          <MenuItem value="SENTENCE">lauset</MenuItem>
+                          <MenuItem value="SENTENCE" disabled>lauset</MenuItem>
                         </Select>
                       </FormControl>
                     </Grid>
