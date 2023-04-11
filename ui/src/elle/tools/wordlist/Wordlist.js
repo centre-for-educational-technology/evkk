@@ -86,11 +86,11 @@ export default function Wordlist() {
       width: 1,
       disableSortBy: true,
       Cell: (cellProps) => {
-        return <WordlistMenu cellProps={cellProps}/>;
+        return <WordlistMenu cellProps={cellProps} type={typeValue} keepCapitalization={capitalizationChecked}/>;
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  ], [typeValue]);
+  ], [typeValue, capitalizationChecked]);
 
   const data = useMemo(() => response, [response]);
 
