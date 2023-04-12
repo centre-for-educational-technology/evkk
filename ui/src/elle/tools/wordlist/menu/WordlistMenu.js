@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import { MoreHoriz } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 export default function WordlistMenu({cellProps, type, keepCapitalization}) {
 
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -17,7 +19,7 @@ export default function WordlistMenu({cellProps, type, keepCapitalization}) {
 
   const handleWordContext = () => {
     handleClose();
-    window.open(`${window.location.origin}/tools/wordcontext?word=${cellProps.row.original.word}&type=${type}&keepCapitalization=${keepCapitalization}`);
+    navigate(`../wordcontext?word=${cellProps.row.original.word}&type=${type}&keepCapitalization=${keepCapitalization}`);
   };
 
   const handleWordMeaning = () => {

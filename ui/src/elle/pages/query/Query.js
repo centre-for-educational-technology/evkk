@@ -31,17 +31,8 @@ import QueryResults from './QueryResults';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { queryStore } from '../../store/QueryStore';
 
 function Query() {
-
-  // todo remove when done testing!
-  useEffect(() => {
-    queryStore.dispatch({
-      type: 'CHANGE',
-      value: 'b4a9e7ec-8442-49c5-a6cb-7cf4b8a74fc3'
-    });
-  });
 
   const selectWidth = 290;
   const classes = useStyles();

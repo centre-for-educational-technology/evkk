@@ -111,7 +111,7 @@ export default function WordContext() {
 
   useEffect(() => {
     if (!queryStore.getState()) {
-      navigate(-1);
+      navigate('..');
     }
   }, [navigate]);
 
@@ -174,7 +174,7 @@ export default function WordContext() {
   };
 
   const removeUrlParams = () => {
-    navigate();
+    navigate('', {replace: true});
   };
 
   useEffect(() => {

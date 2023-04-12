@@ -127,7 +127,7 @@ export default function Wordlist() {
 
   useEffect(() => {
     if (!queryStore.getState()) {
-      navigate(-1);
+      navigate('..');
     }
   }, [navigate]);
 
