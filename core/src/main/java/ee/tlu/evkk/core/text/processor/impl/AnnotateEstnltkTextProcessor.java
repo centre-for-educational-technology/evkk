@@ -4,6 +4,8 @@ import ee.tlu.evkk.core.integration.KlasterdajaServerClient;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Mikk Tarvas
@@ -34,8 +36,12 @@ public class AnnotateEstnltkTextProcessor extends AbstractTextProcessor {
   protected Object doProcess(@Nonnull String input, @Nonnull Context context) {
     boolean isEstonianText = context.getLanguageCode().map(code -> code.equals("eesti")).orElse(Boolean.FALSE);
     // This processor only supports annotating texts in estonian
-    if (!isEstonianText) return "";
-    return klasterdajaServerClient.klasterdajaParsi(input);
+    Map<String, String> answer = new HashMap<>();
+    answer.put("content", isEstonianText
+            ? klasterdajaServerClient.klasterdajaParsi(input)
+            : "");
+    return answer;
+
   }
 
 }

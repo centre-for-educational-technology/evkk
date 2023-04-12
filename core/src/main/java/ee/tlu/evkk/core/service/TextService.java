@@ -5,7 +5,6 @@ import ee.tlu.evkk.core.service.dto.CorpusDownloadDto;
 import ee.tlu.evkk.core.service.dto.CorpusRequestDto;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.core.service.maps.TranslationMappings;
-import ee.tlu.evkk.core.text.processor.TextProcessor;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.CorpusDownloadResponseEntity;
 import ee.tlu.evkk.dal.dto.Pageable;
@@ -16,7 +15,6 @@ import ee.tlu.evkk.dal.dto.TextQueryMultiParamHelper;
 import ee.tlu.evkk.dal.dto.TextQueryRangeParamBaseHelper;
 import ee.tlu.evkk.dal.dto.TextQueryRangeParamHelper;
 import ee.tlu.evkk.dal.dto.TextQuerySingleParamHelper;
-import ee.tlu.evkk.dal.json.Json;
 import ee.tlu.evkk.dal.repository.TextPropertyRepository;
 import ee.tlu.evkk.dal.repository.TextRepository;
 import org.springframework.stereotype.Service;
@@ -74,7 +72,6 @@ public class TextService {
 
   private final TextRepository textRepository;
   private final TextPropertyRepository textPropertyRepository;
-  private final TextProcessorService textProcessorService;
   private final TextDao textDao;
 
   private static final Set<String> firstType = TranslationMappings.firstType;
@@ -101,16 +98,10 @@ public class TextService {
 
   private static final Pattern fileNameCharacterWhitelist = compile("[\\p{L}0-9& ._()!-]");
 
-  public TextService(TextRepository textRepository, TextPropertyRepository textPropertyRepository, TextProcessorService textProcessorService, TextDao textDao) {
+  public TextService(TextRepository textRepository, TextPropertyRepository textPropertyRepository, TextDao textDao) {
     this.textRepository = textRepository;
     this.textPropertyRepository = textPropertyRepository;
-    this.textProcessorService = textProcessorService;
     this.textDao = textDao;
-  }
-
-  public String annotateWithEstnltk(UUID textId) {
-    Json json = textProcessorService.processText(TextProcessor.Type.ANNOTATE_ESTNLTK, textId);
-    return json.getAsObject(String.class);
   }
 
   public List<TextWithProperties> search(Pageable pageable, String[] korpus, String tekstityyp, String tekstikeel, String keeletase, Boolean abivahendid, Integer aasta, String sugu) {
@@ -237,10 +228,7 @@ public class TextService {
             corpusDownloadDto.getFileList().get(i))
           );
           zipOutputStream.putNextEntry(zipEntry);
-          zipOutputStream.write(contentsAndTitles.get(i).getContents()
-            .replace("\\n", lineSeparator())
-            .replace("\\t", "    ")
-            .getBytes(UTF_8)
+          zipOutputStream.write(contentsAndTitles.get(i).getContents().getBytes(UTF_8)
           );
           zipOutputStream.closeEntry();
         }
@@ -255,10 +243,7 @@ public class TextService {
 
     StringBuilder contentsCombined = new StringBuilder();
     for (CorpusDownloadResponseEntity entry : contentsAndTitles) {
-      contentsCombined.append(entry.getContents()
-        .replace("\\n", lineSeparator())
-        .replace("\\t", "    ")
-      );
+      contentsCombined.append(entry.getContents());
       contentsCombined.append(lineSeparator()).append(lineSeparator());
     }
     return contentsCombined.toString().getBytes(UTF_8);
