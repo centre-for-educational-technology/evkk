@@ -11,12 +11,19 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ee.evkk.dto.enums.WordContextType.SENTENCE;
 import static ee.evkk.dto.enums.WordType.LEMMAS;
 import static ee.evkk.dto.enums.WordType.WORDS;
-import static ee.tlu.evkk.api.util.TextUtils.sanitizeLemmaStringList;
+import static ee.tlu.evkk.api.util.TextUtils.sanitizeLemmaStrings;
 import static ee.tlu.evkk.api.util.TextUtils.sanitizeText;
+import static ee.tlu.evkk.api.util.WordContextUtils.getWordAndPosInfoByIndexFromSentencelist;
+import static ee.tlu.evkk.api.util.WordContextUtils.getWordAndPosInfoByIndexFromWordlist;
+import static ee.tlu.evkk.api.util.WordContextUtils.removeCapitalization;
+import static ee.tlu.evkk.api.util.WordContextUtils.removeCapitalizationInList;
+import static ee.tlu.evkk.api.util.WordContextUtils.sanitizeLemmaList;
+import static ee.tlu.evkk.api.util.WordContextUtils.sanitizeLemmas;
+import static ee.tlu.evkk.api.util.WordContextUtils.sentenceArrayToList;
 import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.toList;
 
 @Service
 public class WordContextService {
@@ -31,37 +38,82 @@ public class WordContextService {
 
   public WordContextResponseDto getWordContextResponse(WordContextRequestDto dto) {
     String sanitizedTextContent = sanitizeText(textDao.findTextsByIds(dto.getCorpusTextIds()));
-    List<WordAndPosInfoDto> wordlist = dto.getType().equals(WORDS)
-      ? removeCapitalization(asList(stanzaServerClient.getSonadJaPosInfo(sanitizedTextContent)), dto.isKeepCapitalization())
-      : removeCapitalization(sanitizeLemmaList(asList(stanzaServerClient.getLemmadJaPosInfo(sanitizedTextContent))), false);
-    return generateResponse(wordlist, dto, sanitizedTextContent);
+    if (SENTENCE.equals(dto.getDisplayType())) {
+      List<List<WordAndPosInfoDto>> sentencelist = WORDS.equals(dto.getType())
+        ? removeCapitalizationInList(sentenceArrayToList(stanzaServerClient.getSonadLausetenaJaPosInfo(sanitizedTextContent)), dto.isKeepCapitalization())
+        : removeCapitalizationInList(sanitizeLemmaList(sentenceArrayToList(stanzaServerClient.getLemmadLausetenaJaPosInfo(sanitizedTextContent))), false);
+      return generateResponseForSentences(sentencelist, dto, sanitizedTextContent);
+    } else {
+      List<WordAndPosInfoDto> wordlist = WORDS.equals(dto.getType())
+        ? removeCapitalization(asList(stanzaServerClient.getSonadJaPosInfo(sanitizedTextContent)), dto.isKeepCapitalization())
+        : removeCapitalization(sanitizeLemmas(asList(stanzaServerClient.getLemmadJaPosInfo(sanitizedTextContent))), false);
+      return generateResponseForWords(wordlist, dto, sanitizedTextContent);
+    }
   }
 
-  private WordContextResponseDto generateResponse(List<WordAndPosInfoDto> wordlist, WordContextRequestDto dto, String sanitizedTextContent) {
-    List<WordContextDto> initialList = generateContextList(wordlist, dto, sanitizedTextContent);
-    if (initialList.isEmpty() && dto.getType().equals(LEMMAS)) {
-      String sanitizedLemmatizedKeyword = sanitizeLemmaStringList(asList(stanzaServerClient.getLemmad(dto.getKeyword()))).get(0);
+  private WordContextResponseDto generateResponseForSentences(List<List<WordAndPosInfoDto>> sentencelist, WordContextRequestDto dto, String sanitizedTextContent) {
+    List<WordContextDto> initialList = generateContextListForSentences(sentencelist, dto, sanitizedTextContent);
+    if (initialList.isEmpty() && LEMMAS.equals(dto.getType())) {
+      String sanitizedLemmatizedKeyword = sanitizeLemmaStrings(asList(stanzaServerClient.getLemmad(dto.getKeyword()))).get(0);
       if (!sanitizedLemmatizedKeyword.equalsIgnoreCase(dto.getKeyword())) {
         dto.setKeyword(sanitizedLemmatizedKeyword.toLowerCase());
-        List<WordContextDto> newList = generateContextList(wordlist, dto, sanitizedTextContent);
+        List<WordContextDto> newList = generateContextListForSentences(sentencelist, dto, sanitizedTextContent);
         return new WordContextResponseDto(newList, true);
       }
     }
     return new WordContextResponseDto(initialList, false);
   }
 
-  private List<WordContextDto> generateContextList(List<WordAndPosInfoDto> wordlist, WordContextRequestDto dto, String sanitizedTextContent) {
+  private List<WordContextDto> generateContextListForSentences(List<List<WordAndPosInfoDto>> sentencelist, WordContextRequestDto dto, String sanitizedTextContent) {
+    List<WordContextDto> result = new ArrayList<>();
+    for (int i = 0; i < sentencelist.size(); i++) {
+      for (int j = 0; j < sentencelist.get(i).size(); j++) {
+        String keyword = dto.isKeepCapitalization() && WORDS.equals(dto.getType())
+          ? dto.getKeyword()
+          : dto.getKeyword().toLowerCase();
+
+        if (sentencelist.get(i).get(j).getWord().equals(keyword)) {
+          int contextBeforeStart = getWordAndPosInfoByIndexFromSentencelist(sentencelist, i, dto.getDisplayCount(), false).getStartChar();
+          int contextBeforeEnd = sentencelist.get(i).get(j).getStartChar();
+          int contextAfterStart = sentencelist.get(i).get(j).getEndChar();
+          int contextAfterEnd = getWordAndPosInfoByIndexFromSentencelist(sentencelist, i, dto.getDisplayCount(), true).getEndChar() + 1;
+
+          result.add(new WordContextDto(
+            sanitizedTextContent.substring(contextBeforeEnd, contextAfterStart),
+            sanitizedTextContent.substring(contextBeforeStart, contextBeforeEnd),
+            sanitizedTextContent.substring(contextAfterStart, contextAfterEnd)
+          ));
+        }
+      }
+    }
+    return result;
+  }
+
+  private WordContextResponseDto generateResponseForWords(List<WordAndPosInfoDto> wordlist, WordContextRequestDto dto, String sanitizedTextContent) {
+    List<WordContextDto> initialList = generateContextListForWords(wordlist, dto, sanitizedTextContent);
+    if (initialList.isEmpty() && LEMMAS.equals(dto.getType())) {
+      String sanitizedLemmatizedKeyword = sanitizeLemmaStrings(asList(stanzaServerClient.getLemmad(dto.getKeyword()))).get(0);
+      if (!sanitizedLemmatizedKeyword.equalsIgnoreCase(dto.getKeyword())) {
+        dto.setKeyword(sanitizedLemmatizedKeyword.toLowerCase());
+        List<WordContextDto> newList = generateContextListForWords(wordlist, dto, sanitizedTextContent);
+        return new WordContextResponseDto(newList, true);
+      }
+    }
+    return new WordContextResponseDto(initialList, false);
+  }
+
+  private List<WordContextDto> generateContextListForWords(List<WordAndPosInfoDto> wordlist, WordContextRequestDto dto, String sanitizedTextContent) {
     List<WordContextDto> result = new ArrayList<>();
     for (int i = 0; i < wordlist.size(); i++) {
-      String keyword = dto.isKeepCapitalization() && dto.getType().equals(WORDS)
+      String keyword = dto.isKeepCapitalization() && WORDS.equals(dto.getType())
         ? dto.getKeyword()
         : dto.getKeyword().toLowerCase();
 
       if (wordlist.get(i).getWord().equals(keyword)) {
-        int contextBeforeStart = getWordAndPosInfoByIndex(wordlist, i, dto.getDisplayCount(), false).getStartChar();
+        int contextBeforeStart = getWordAndPosInfoByIndexFromWordlist(wordlist, i, dto.getDisplayCount(), false).getStartChar();
         int contextBeforeEnd = wordlist.get(i).getStartChar();
         int contextAfterStart = wordlist.get(i).getEndChar();
-        int contextAfterEnd = getWordAndPosInfoByIndex(wordlist, i, dto.getDisplayCount(), true).getEndChar();
+        int contextAfterEnd = getWordAndPosInfoByIndexFromWordlist(wordlist, i, dto.getDisplayCount(), true).getEndChar() + 1;
 
         result.add(new WordContextDto(
           sanitizedTextContent.substring(contextBeforeEnd, contextAfterStart),
@@ -71,50 +123,5 @@ public class WordContextService {
       }
     }
     return result;
-  }
-
-  private WordAndPosInfoDto getWordAndPosInfoByIndex(List<WordAndPosInfoDto> wordlist, int index, int displayCount, boolean ascending) {
-    WordAndPosInfoDto result;
-    while (true) {
-      try {
-        if (ascending) {
-          result = wordlist.get(index + displayCount);
-        } else {
-          result = wordlist.get(index - displayCount);
-        }
-        break;
-      } catch (IndexOutOfBoundsException e) {
-        if (ascending) {
-          index--;
-        } else {
-          index++;
-        }
-      }
-    }
-    return result;
-  }
-
-  private List<WordAndPosInfoDto> removeCapitalization(List<WordAndPosInfoDto> words, boolean keepCapitalization) {
-    return keepCapitalization
-      ? words
-      : words.stream().map(word -> {
-        word.setWord(
-          word.getWord().toLowerCase()
-        );
-        return word;
-      }).collect(toList());
-  }
-
-  private List<WordAndPosInfoDto> sanitizeLemmaList(List<WordAndPosInfoDto> lemmas) {
-    return lemmas.stream()
-      .map(lemma -> {
-        lemma.setWord(
-          lemma.getWord()
-            .replace("_", "")
-            .replace("=", "")
-        );
-        return lemma;
-      })
-      .collect(toList());
   }
 }

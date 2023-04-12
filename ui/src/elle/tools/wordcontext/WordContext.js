@@ -270,7 +270,7 @@ export default function WordContext() {
                           onChange={(e) => setDisplayType(e.target.value)}
                         >
                           <MenuItem value="WORD">sõna</MenuItem>
-                          <MenuItem value="SENTENCE" disabled>lauset</MenuItem>
+                          <MenuItem value="SENTENCE">lauset</MenuItem>
                         </Select>
                       </FormControl>
                     </Grid>

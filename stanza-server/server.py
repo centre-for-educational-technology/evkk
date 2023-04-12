@@ -78,7 +78,6 @@ def lemmadjaposinfo():
     nlp = nlp_tpl
     doc = nlp(request.json["tekst"])
     v1 = []
-    print(doc)
     for sentence in doc.sentences:
         for word in sentence.words:
           if word._upos != "PUNCT":
@@ -93,6 +92,32 @@ def laused():
     for sentence in doc.sentences:
         v2 = []
         v2.append(sentence.text)
+        v1.append(v2)
+    return Response(json.dumps(v1), mimetype="application/json")
+
+@app.route('/sonadlausetenajaposinfo', methods=['POST'])
+def sonadlausetenajaposinfo():
+    nlp = nlp_tp
+    doc = nlp(request.json["tekst"])
+    v1 = []
+    for sentence in doc.sentences:
+        v2 = []
+        for word in sentence.words:
+            if word._upos != "PUNCT":
+                v2.append({"word": word.text, "startChar": word.start_char, "endChar": word.end_char})
+        v1.append(v2)
+    return Response(json.dumps(v1), mimetype="application/json")
+
+@app.route('/lemmadlausetenajaposinfo', methods=['POST'])
+def lemmadlausetenajaposinfo():
+    nlp = nlp_tpl
+    doc = nlp(request.json["tekst"])
+    v1 = []
+    for sentence in doc.sentences:
+        v2 = []
+        for word in sentence.words:
+            if word._upos != "PUNCT":
+                v2.append({"word": word.lemma, "startChar": word.start_char, "endChar": word.end_char})
         v1.append(v2)
     return Response(json.dumps(v1), mimetype="application/json")
 
@@ -268,7 +293,6 @@ def hinda_mitmekesisust(tekst):
 
     #sõnade arv kokku
     words_count = len(words_array)
-    print(words_count)
     new_text = ""
     for j in range (0, len(words_array)):
         new_text = new_text + " " + words_array[j].text
@@ -288,7 +312,6 @@ def hinda_mitmekesisust(tekst):
 
     KLSS = round(lemmas_count / math.sqrt(2 * words_count), 4)
     JLSS = round(lemmas_count /  math.sqrt(words_count), 4)
-    print(words_count, lemmas_count)
     MAAS = round((math.log(words_count) - math.log(lemmas_count)) / math.ldexp(math.log(words_count), 2), 4)
     UBER = round(math.ldexp(math.log(words_count), 2) / (math.log(words_count) - math.log(lemmas_count)), 4)
     MTLD = round(valemid_mitmekesisus.mtld_calc(words_array, ttr_threshold = 0.72), 4)

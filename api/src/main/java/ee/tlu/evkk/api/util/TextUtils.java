@@ -17,7 +17,7 @@ public class TextUtils {
       .replace("\\t", " ");
   }
 
-  public static List<String> sanitizeLemmaStringList(List<String> lemmas) {
+  public static List<String> sanitizeLemmaStrings(List<String> lemmas) {
     return lemmas.stream()
       .map(lemma -> lemma
         .replace("_", "")
