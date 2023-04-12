@@ -142,6 +142,7 @@ export default function WordContext() {
       })
         .then(res => res.json())
         .then((result) => {
+          removeUrlParams();
           setLoading(false);
           setShowLemmatizedResultWarning(false);
           setResponse(result.contextList);
@@ -170,6 +171,10 @@ export default function WordContext() {
       displayType: displayType,
       keepCapitalization: capitalizationChecked
     });
+  };
+
+  const removeUrlParams = () => {
+    navigate();
   };
 
   useEffect(() => {
