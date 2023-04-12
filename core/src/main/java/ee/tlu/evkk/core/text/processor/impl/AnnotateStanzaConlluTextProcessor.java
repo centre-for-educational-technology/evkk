@@ -41,7 +41,6 @@ public class AnnotateStanzaConlluTextProcessor extends AbstractTextProcessor {
     Map<String, String> answer = new HashMap<>();
     answer.put("content", stanzaServerClient.getStanzaConllu(input, fileName, languageIsoCode));
     return answer;
-    //return stanzaServerClient.getStanzaConllu(input, fileName, languageIsoCode);
   }
 
   private static String getFileName(Context context) {

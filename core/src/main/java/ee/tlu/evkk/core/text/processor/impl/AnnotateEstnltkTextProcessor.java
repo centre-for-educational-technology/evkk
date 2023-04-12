@@ -36,13 +36,11 @@ public class AnnotateEstnltkTextProcessor extends AbstractTextProcessor {
   protected Object doProcess(@Nonnull String input, @Nonnull Context context) {
     boolean isEstonianText = context.getLanguageCode().map(code -> code.equals("eesti")).orElse(Boolean.FALSE);
     // This processor only supports annotating texts in estonian
-    Map<String, String> ańswer = new HashMap<>();
-    if (!isEstonianText) {
-      ańswer.put("content", "");
-    } else {
-      ańswer.put("content", klasterdajaServerClient.klasterdajaParsi(input));
-    }
-    return ańswer;
+    Map<String, String> answer = new HashMap<>();
+    answer.put("content", isEstonianText
+            ? klasterdajaServerClient.klasterdajaParsi(input)
+            : "");
+    return answer;
 
   }
 
