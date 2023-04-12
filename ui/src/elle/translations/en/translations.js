@@ -18,6 +18,7 @@ export const TRANSLATIONS_EN = {
   error_no_text: "Enter text to run analysis!",
   error_text_too_long: "The text is too long for analysis!",
   exit: "EXIT",
+  filter_by_syllable: "Filter by syllable placement in the word",
   filter_by_word_form: "Filter by word form",
   filter_by_word_type: "Filter by word type",
   forward: "NEXT",

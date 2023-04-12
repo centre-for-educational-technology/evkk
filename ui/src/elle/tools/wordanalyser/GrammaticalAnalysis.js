@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { useFilters, usePagination, useSortBy, useTable } from 'react-table';
-import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import React, {useContext, useEffect, useMemo, useState} from 'react';
+import {useFilters, usePagination, useSortBy, useTable} from 'react-table';
+import {Box, Button, Chip, FormControl, InputLabel, MenuItem, Select} from '@mui/material';
 import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import TablePagination from '../../components/table/TablePagination';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import '../../translations/i18n';
-import { AnalyseContext, SetFormContext, SetTypeContext, SetWordContext } from './Contexts';
+import {AnalyseContext, SetFormContext, SetTypeContext, SetWordContext} from './Contexts';
 import ToggleCell from './ToggleCell';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
 import Popover from '@mui/material/Popover';
@@ -56,7 +56,7 @@ function GrammaticalAnalysis() {
       );
   }
 
-  function multiSelect(values, label) {
+  function multiSelect(values, label, disableValue) {
     const handleChange = (event) => {
       let value = event.target.value;
       setFilterValue(value);
@@ -72,6 +72,8 @@ function GrammaticalAnalysis() {
             multiple
             value={filterValue}
             onChange={handleChange}
+            disabled={disableValue}
+            onClose={changeFilterOptions}
           >
             {values.map((value) => (
               <MenuItem
@@ -172,6 +174,16 @@ function GrammaticalAnalysis() {
     setCol1(list);
     setCol2(list2);
   }, [data]);
+
+  function changeFilterOptions() {
+    let list = [];
+    for (const element of data) {
+      if (filtersInUse.includes(element.col1)) {
+        list.push(element.col2);
+      }
+    }
+    setCol2(list);
+  }
 
   function handleTypeClick(e) {
     setType(e);
@@ -324,12 +336,13 @@ function GrammaticalAnalysis() {
               horizontal: 'left'
             }}
             transformOrigin={{
-              horizontal: 'center'
+              horizontal: 'center',
+              vertical: 'top'
             }}
           >
             <Box className="popover-box">
-              {multiSelect(col1, t('filter_by_word_type'))}
-              {multiSelect(col2, t('filter_by_word_form'))}
+              {multiSelect(col1.sort(), t('filter_by_word_type'), false)}
+              {multiSelect(col2.sort(), t('filter_by_word_form'), filtersInUse.length === 0)}
             </Box>
           </Popover>
         </Box>
