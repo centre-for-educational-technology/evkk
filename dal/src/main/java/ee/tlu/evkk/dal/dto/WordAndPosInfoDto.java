@@ -1,4 +1,4 @@
-package ee.tlu.evkk.core.service.dto;
+package ee.tlu.evkk.dal.dto;
 
 public class WordAndPosInfoDto {
 

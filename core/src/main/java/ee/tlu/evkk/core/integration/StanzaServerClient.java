@@ -1,6 +1,6 @@
 package ee.tlu.evkk.core.integration;
 
-import ee.tlu.evkk.core.service.dto.WordAndPosInfoDto;
+import ee.tlu.evkk.dal.dto.WordAndPosInfoDto;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestOperations;

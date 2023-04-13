@@ -4,8 +4,8 @@ import ee.evkk.dto.WordContextDto;
 import ee.evkk.dto.WordContextRequestDto;
 import ee.evkk.dto.integration.WordContextResponseDto;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
-import ee.tlu.evkk.core.service.dto.WordAndPosInfoDto;
 import ee.tlu.evkk.dal.dao.TextDao;
+import ee.tlu.evkk.dal.dto.WordAndPosInfoDto;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

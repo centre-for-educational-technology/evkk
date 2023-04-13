@@ -1,6 +1,6 @@
 package ee.tlu.evkk.api.util;
 
-import ee.tlu.evkk.core.service.dto.WordAndPosInfoDto;
+import ee.tlu.evkk.dal.dto.WordAndPosInfoDto;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;

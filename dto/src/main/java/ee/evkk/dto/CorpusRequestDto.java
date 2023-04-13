@@ -1,4 +1,4 @@
-package ee.tlu.evkk.core.service.dto;
+package ee.evkk.dto;
 
 import java.util.List;
 import java.util.Set;
