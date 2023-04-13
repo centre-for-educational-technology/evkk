@@ -229,7 +229,7 @@
 
   <select id="findTextTitlesAndContentsWithStanzaTaggingByIds"
           resultType="ee.tlu.evkk.dal.dto.CorpusDownloadResponseEntity">
-    select t2.property_value as title, t3.result as contents from core.text_processor_result as t3
+    select t2.property_value as title, t3.result ->> 'content' as contents from core.text_processor_result as t3
     join core.text as t1 on t1.hash = t3.text_hash
     join core.text_property as t2 on t2.text_id = t1.id
     where t2.property_name = 'title' and
