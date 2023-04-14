@@ -7,11 +7,13 @@ import java.util.List;
 public class WordContextResponseDto {
 
   private List<WordContextDto> contextList;
-  private boolean keywordLemmatized;
+  private String initialKeyword;
+  private String lemmatizedKeyword;
 
-  public WordContextResponseDto(List<WordContextDto> contextList, boolean keywordLemmatized) {
+  public WordContextResponseDto(List<WordContextDto> contextList, String initialKeyword, String lemmatizedKeyword) {
     this.contextList = contextList;
-    this.keywordLemmatized = keywordLemmatized;
+    this.initialKeyword = initialKeyword;
+    this.lemmatizedKeyword = lemmatizedKeyword;
   }
 
   public List<WordContextDto> getContextList() {
@@ -22,11 +24,19 @@ public class WordContextResponseDto {
     this.contextList = contextList;
   }
 
-  public boolean isKeywordLemmatized() {
-    return keywordLemmatized;
+  public String getInitialKeyword() {
+    return initialKeyword;
   }
 
-  public void setKeywordLemmatized(boolean keywordLemmatized) {
-    this.keywordLemmatized = keywordLemmatized;
+  public void setInitialKeyword(String initialKeyword) {
+    this.initialKeyword = initialKeyword;
+  }
+
+  public String getLemmatizedKeyword() {
+    return lemmatizedKeyword;
+  }
+
+  public void setLemmatizedKeyword(String lemmatizedKeyword) {
+    this.lemmatizedKeyword = lemmatizedKeyword;
   }
 }

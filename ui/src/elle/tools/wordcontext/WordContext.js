@@ -21,6 +21,7 @@ import {
   RadioGroup,
   Select,
   TextField,
+  Tooltip,
   Typography
 } from '@mui/material';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -28,6 +29,7 @@ import './WordContext.css';
 import { usePagination, useSortBy, useTable } from 'react-table';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
 import TablePagination from '../../components/table/TablePagination';
+import { QuestionMark } from '@mui/icons-material';
 
 export default function WordContext() {
 
@@ -44,7 +46,8 @@ export default function WordContext() {
   const [response, setResponse] = useState([]);
   const [showTable, setShowTable] = useState(false);
   const [showNoResultsError, setShowNoResultsError] = useState(false);
-  const [showLemmatizedResultWarning, setShowLemmatizedResultWarning] = useState(false);
+  const [lemmatizedKeywordResult, setLemmatizedKeywordResult] = useState(null);
+  const [initialKeywordResult, setInitialKeywordResult] = useState(null);
   const tableToDownload = ['Eelnev kontekst', 'Otsisõna', 'Järgnev kontekst'];
   const accessors = ['contextBefore', 'keyword', 'contextAfter'];
 
@@ -144,7 +147,7 @@ export default function WordContext() {
         .then((result) => {
           removeUrlParams();
           setLoading(false);
-          setShowLemmatizedResultWarning(false);
+          setLemmatizedKeywordResult(null);
           setResponse(result.contextList);
           if (result.contextList.length === 0) {
             setShowTable(false);
@@ -154,8 +157,9 @@ export default function WordContext() {
             setShowTable(true);
             setParamsExpanded(false);
             setShowNoResultsError(false);
-            if (result.keywordLemmatized) {
-              setShowLemmatizedResultWarning(true);
+            if (result.lemmatizedKeyword) {
+              setLemmatizedKeywordResult(result.lemmatizedKeyword);
+              setInitialKeywordResult(result.initialKeyword);
             }
           }
         });
@@ -293,7 +297,13 @@ export default function WordContext() {
                       onChange={(e) => setCapitalizationChecked(e.target.checked)}
                     ></Checkbox>
                   }
-                                    label="tõstutundlik"
+                                    label={<>
+                                      tõstutundlik
+                                      <Tooltip
+                                        title='Vaikimisi ei arvestata otsisõna suurt või väikest algustähte, nt "eesti" võimaldab leida nii "eesti" kui ka "Eesti" kasutuskontekstid. Märgi kasti linnuke, kui soovid ainult väike- või suurtähega algavaid vasteid.'
+                                        placement="right">
+                                        <QuestionMark className="stopwords-tooltip-icon"/>
+                                      </Tooltip></>}
                   />
                 </FormControl>
               </div>
@@ -301,10 +311,11 @@ export default function WordContext() {
           </form>
         </AccordionDetails>
       </Accordion>
-      {showLemmatizedResultWarning && <>
+      {lemmatizedKeywordResult && <>
         <br/>
-        <Alert severity="warning">Algsele otsisõnale vasteid ei leitud. Kuna otsingu tüübiks valiti "algvormi alusel",
-          siis toimus automaatne otsisõna algvormistamine ning vasted leiti.</Alert>
+        <Alert severity="warning">Otsisõna "{initialKeywordResult}" vasteid ei leitud. Kasutasime automaatset algvormi
+          tuvastust ja
+          otsisime sõna "{lemmatizedKeywordResult}" vormide kasutusnäiteid.</Alert>
       </>}
       {showTable && <>
         <TableDownloadButton data={data}
@@ -379,8 +390,7 @@ export default function WordContext() {
                           size="8rem"/>
       </Backdrop>
       {showNoResultsError &&
-        <Alert severity="error">Tekstist ei leitud otsisõnale ühtegi vastet! Muuda analüüsi valikuid ning proovi
-          uuesti.</Alert>}
+        <Alert severity="error">Tekstist ei leitud otsisõna. Muuda analüüsi valikuid ja proovi uuesti!</Alert>}
     </div>
   );
 }

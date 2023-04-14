@@ -54,14 +54,15 @@ public class WordContextService {
   private WordContextResponseDto generateResponseForSentences(List<List<WordAndPosInfoDto>> sentencelist, WordContextRequestDto dto, String sanitizedTextContent) {
     List<WordContextDto> initialList = generateContextListForSentences(sentencelist, dto, sanitizedTextContent);
     if (initialList.isEmpty() && LEMMAS.equals(dto.getType())) {
-      String sanitizedLemmatizedKeyword = sanitizeLemmaStrings(asList(stanzaServerClient.getLemmad(dto.getKeyword()))).get(0);
+      String initialKeyword = dto.getKeyword();
+      String sanitizedLemmatizedKeyword = sanitizeLemmaStrings(asList(stanzaServerClient.getLemmad(initialKeyword))).get(0);
       if (!sanitizedLemmatizedKeyword.equalsIgnoreCase(dto.getKeyword())) {
         dto.setKeyword(sanitizedLemmatizedKeyword.toLowerCase());
         List<WordContextDto> newList = generateContextListForSentences(sentencelist, dto, sanitizedTextContent);
-        return new WordContextResponseDto(newList, true);
+        return new WordContextResponseDto(newList, initialKeyword, sanitizedLemmatizedKeyword);
       }
     }
-    return new WordContextResponseDto(initialList, false);
+    return new WordContextResponseDto(initialList, null, null);
   }
 
   private List<WordContextDto> generateContextListForSentences(List<List<WordAndPosInfoDto>> sentencelist, WordContextRequestDto dto, String sanitizedTextContent) {
@@ -92,14 +93,15 @@ public class WordContextService {
   private WordContextResponseDto generateResponseForWords(List<WordAndPosInfoDto> wordlist, WordContextRequestDto dto, String sanitizedTextContent) {
     List<WordContextDto> initialList = generateContextListForWords(wordlist, dto, sanitizedTextContent);
     if (initialList.isEmpty() && LEMMAS.equals(dto.getType())) {
-      String sanitizedLemmatizedKeyword = sanitizeLemmaStrings(asList(stanzaServerClient.getLemmad(dto.getKeyword()))).get(0);
+      String initialKeyword = dto.getKeyword();
+      String sanitizedLemmatizedKeyword = sanitizeLemmaStrings(asList(stanzaServerClient.getLemmad(initialKeyword))).get(0);
       if (!sanitizedLemmatizedKeyword.equalsIgnoreCase(dto.getKeyword())) {
         dto.setKeyword(sanitizedLemmatizedKeyword.toLowerCase());
         List<WordContextDto> newList = generateContextListForWords(wordlist, dto, sanitizedTextContent);
-        return new WordContextResponseDto(newList, true);
+        return new WordContextResponseDto(newList, initialKeyword, sanitizedLemmatizedKeyword);
       }
     }
-    return new WordContextResponseDto(initialList, false);
+    return new WordContextResponseDto(initialList, null, null);
   }
 
   private List<WordContextDto> generateContextListForWords(List<WordAndPosInfoDto> wordlist, WordContextRequestDto dto, String sanitizedTextContent) {
