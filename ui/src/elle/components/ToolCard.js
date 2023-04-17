@@ -6,7 +6,7 @@ import './styles/ToolCard.css';
 
 function ToolCard({tool}) {
 
-  const disableableTools = ['wordlist', 'wordcontext'];
+  const disableableTools = ['wordlist', 'wordcontext', 'collocates'];
   const [textsSelected, setTextsSelected] = useState(false);
 
   queryStore.subscribe(() => {

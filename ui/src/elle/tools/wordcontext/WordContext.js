@@ -50,6 +50,25 @@ export default function WordContext() {
   const [initialKeywordResult, setInitialKeywordResult] = useState(null);
   const tableToDownload = ['Eelnev kontekst', 'Otsisõna', 'Järgnev kontekst'];
   const accessors = ['contextBefore', 'keyword', 'contextAfter'];
+  const data = useMemo(() => response, [response]);
+
+  useEffect(() => {
+    if (urlParams.get('word') && urlParams.get('type') && urlParams.get('keepCapitalization')) {
+      setKeyword(urlParams.get('word'));
+      setTypeValue(urlParams.get('type'));
+      if (urlParams.get('type') !== 'LEMMAS') {
+        setCapitalizationChecked(urlParams.get('keepCapitalization') === 'true');
+      }
+      sendRequest();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlParams, keyword, typeValue, capitalizationChecked]);
+
+  useEffect(() => {
+    if (!queryStore.getState()) {
+      navigate('..');
+    }
+  }, [navigate]);
 
   const columns = useMemo(() => [
     {
@@ -91,8 +110,6 @@ export default function WordContext() {
     }
   ], []);
 
-  const data = useMemo(() => response, [response]);
-
   const {
     getTableProps,
     getTableBodyProps,
@@ -112,11 +129,10 @@ export default function WordContext() {
     columns, data
   }, useSortBy, usePagination);
 
-  useEffect(() => {
-    if (!queryStore.getState()) {
-      navigate('..');
-    }
-  }, [navigate]);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    sendRequest();
+  };
 
   const handleTypeChange = (event) => {
     setTypeValue(event.target.value);
@@ -124,11 +140,6 @@ export default function WordContext() {
     if (event.target.value === 'LEMMAS') {
       setCapitalizationChecked(false);
     }
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    sendRequest();
   };
 
   const sendRequest = () => {
@@ -180,18 +191,6 @@ export default function WordContext() {
   const removeUrlParams = () => {
     navigate('', {replace: true});
   };
-
-  useEffect(() => {
-    if (urlParams.get('word') && urlParams.get('type') && urlParams.get('keepCapitalization')) {
-      setKeyword(urlParams.get('word'));
-      setTypeValue(urlParams.get('type'));
-      if (urlParams.get('type') !== 'LEMMAS') {
-        setCapitalizationChecked(urlParams.get('keepCapitalization') === 'true');
-      }
-      sendRequest();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [urlParams, keyword, typeValue, capitalizationChecked]);
 
   return (
     <div className="tool-wrapper">
@@ -354,9 +353,7 @@ export default function WordContext() {
               <tr {...row.getRowProps()}>
                 {row.cells.map(cell => {
                   return (
-                    <td {...cell.getCellProps({
-                      className: cell.column.className
-                    })}
+                    <td {...cell.getCellProps()}
                         style={{
                           width: cell.column.width
                         }}>

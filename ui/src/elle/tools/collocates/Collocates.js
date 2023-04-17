@@ -1,11 +1,10 @@
-import { queryStore } from '../../store/QueryStore';
-import { useNavigate } from 'react-router-dom';
+import './Collocates.css';
 import React, { useEffect, useMemo, useState } from 'react';
-import './Wordlist.css';
+import { AccordionStyle } from '../../utils/constants';
+import Accordion from '@mui/material/Accordion';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
+  Alert,
   Backdrop,
   Button,
   Checkbox,
@@ -14,41 +13,44 @@ import {
   FormControlLabel,
   FormHelperText,
   FormLabel,
+  Grid,
+  MenuItem,
   Radio,
   RadioGroup,
+  Select,
   TextField,
   Tooltip,
   Typography
 } from '@mui/material';
-import { AccordionStyle } from '../../utils/constants';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
 import { QuestionMark } from '@mui/icons-material';
-import { usePagination, useSortBy, useTable } from 'react-table';
-import TablePagination from '../../components/table/TablePagination';
-import WordlistMenu from './menu/WordlistMenu';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
+import { usePagination, useSortBy, useTable } from 'react-table';
+import { queryStore } from '../../store/QueryStore';
+import { useNavigate } from 'react-router-dom';
+import WordlistMenu from '../wordlist/menu/WordlistMenu';
+import TablePagination from '../../components/table/TablePagination';
 
-export default function Wordlist() {
+export default function Collocates() {
 
   const navigate = useNavigate();
   const [paramsExpanded, setParamsExpanded] = useState(true);
   const [typeValue, setTypeValue] = useState('');
   const [typeError, setTypeError] = useState(false);
-  const [stopwordsChecked, setStopwordsChecked] = useState(false);
-  const [customStopwords, setCustomStopwords] = useState('');
   const [capitalizationChecked, setCapitalizationChecked] = useState(false);
-  const [minimumFrequency, setMinimumFrequency] = useState('');
-  const [tableToDownload, setTableToDownload] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState([]);
+  const [keyword, setKeyword] = useState('');
+  const [searchCount, setSearchCount] = useState(3);
+  const [formula, setFormula] = useState('');
+  const [lemmatizedKeywordResult, setLemmatizedKeywordResult] = useState(null);
+  const [initialKeywordResult, setInitialKeywordResult] = useState(null);
   const [showTable, setShowTable] = useState(false);
-  const accessors = ['word', 'frequencyCount', 'frequencyPercentage'];
+  const tableToDownload = ['Naabersõna', 'Skoor', 'Kasutuste arv', 'Osakaal'];
+  const accessors = ['collocate', 'score', 'frequencyCount', 'frequencyPercentage'];
+  const [response, setResponse] = useState([]);
   const data = useMemo(() => response, [response]);
-
-  useEffect(() => {
-    const type = typeValue === 'sonad' ? 'Sõnavorm' : 'Algvorm';
-    setTableToDownload([type, 'Kasutuste arv', 'Osakaal']);
-  }, [typeValue]);
+  const [loading, setLoading] = useState(false);
+  const [showNoResultsError, setShowNoResultsError] = useState(false);
 
   useEffect(() => {
     if (!queryStore.getState()) {
@@ -67,11 +69,17 @@ export default function Wordlist() {
       }
     },
     {
-      Header: () => {
-        return typeValue === 'sonad' ? 'Sõnavorm' : 'Algvorm';
-      },
-      accessor: 'word',
+      Header: 'Naabersõna',
+      accessor: 'collocate',
       width: 200,
+      Cell: (cellProps) => {
+        return cellProps.value;
+      }
+    },
+    {
+      Header: 'Skoor',
+      accessor: 'score',
+      width: 40,
       Cell: (cellProps) => {
         return cellProps.value;
       }
@@ -98,11 +106,11 @@ export default function Wordlist() {
       width: 1,
       disableSortBy: true,
       Cell: (cellProps) => {
-        return <WordlistMenu word={cellProps.row.original.word} type={typeValue}
+        return <WordlistMenu word={cellProps.row.original.collocate} type={typeValue}
                              keepCapitalization={capitalizationChecked}/>;
       }
     }
-  ], [typeValue, capitalizationChecked]);
+  ], [keyword, typeValue, capitalizationChecked]);
 
   const {
     getTableProps,
@@ -123,7 +131,7 @@ export default function Wordlist() {
     columns, data, initialState: {
       sortBy: [
         {
-          id: 'frequencyCount',
+          id: 'score',
           desc: true
         }
       ]
@@ -134,10 +142,9 @@ export default function Wordlist() {
     event.preventDefault();
     setTypeError(!typeValue);
     if (typeValue) {
-      setParamsExpanded(false);
       setLoading(true);
       setShowTable(false);
-      fetch('/api/tools/wordlist', {
+      fetch('/api/tools/collocates', {
         method: 'POST',
         body: generateRequestData(),
         headers: {
@@ -146,9 +153,22 @@ export default function Wordlist() {
       })
         .then(res => res.json())
         .then((result) => {
-          setResponse(result);
-          setShowTable(true);
           setLoading(false);
+          setLemmatizedKeywordResult(null);
+          setResponse(result.collocateList);
+          if (result.collocateList.length === 0) {
+            setShowTable(false);
+            setParamsExpanded(true);
+            setShowNoResultsError(true);
+          } else {
+            setShowTable(true);
+            setParamsExpanded(false);
+            setShowNoResultsError(false);
+            if (result.lemmatizedKeyword) {
+              setLemmatizedKeywordResult(result.lemmatizedKeyword);
+              setInitialKeywordResult(result.initialKeyword);
+            }
+          }
         });
     }
   };
@@ -156,36 +176,31 @@ export default function Wordlist() {
   const handleTypeChange = (event) => {
     setTypeValue(event.target.value);
     setTypeError(false);
+    if (event.target.value === 'LEMMAS') {
+      setCapitalizationChecked(false);
+    }
   };
 
   const generateRequestData = () => {
     return JSON.stringify({
       corpusTextIds: queryStore.getState().split(','),
       type: typeValue,
-      excludeStopwords: stopwordsChecked,
-      customStopwords: customStopwords === ''
-        ? null
-        : listifyCustomStopwords(customStopwords),
-      keepCapitalization: capitalizationChecked,
-      minFrequency: minimumFrequency === ''
-        ? null
-        : minimumFrequency
+      keyword: keyword,
+      searchCount: searchCount,
+      formula: formula,
+      keepCapitalization: capitalizationChecked
     });
-  };
-
-  const listifyCustomStopwords = (stopwords) => {
-    return stopwords.replace(/ /g, '').split(',');
   };
 
   return (
     <div className="tool-wrapper">
-      <h2 className="tool-title">Sõnaloend</h2>
+      <h2 className="tool-title">Naabersõnad</h2>
       <Accordion sx={AccordionStyle}
                  expanded={paramsExpanded}
                  onChange={() => setParamsExpanded(!paramsExpanded)}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon/>}
-          id="wordlist-filters-header"
+          id="collocates-filters-header"
         >
           <Typography>
             Analüüsi valikud
@@ -207,14 +222,15 @@ export default function Wordlist() {
                   >
                     <FormControlLabel value="WORDS"
                                       control={<Radio/>}
-                                      label="sõnavormid"/>
+                                      label="sõnavormi alusel"/>
                     <FormControlLabel value="LEMMAS"
                                       control={<Radio/>}
-                                      label="algvormid"/>
+                                      label="algvormi alusel"/>
                   </RadioGroup>
                   {typeError && <FormHelperText>Väli on kohustuslik!</FormHelperText>}
                   <Button sx={{width: 130}}
-                          className="wordlist-analyse-button"
+                          style={{marginTop: '10vh !important'}}
+                          className="collocates-analyse-button"
                           type="submit"
                           variant="contained">
                     Analüüsi
@@ -224,78 +240,87 @@ export default function Wordlist() {
               <div>
                 <FormControl sx={{m: 3}}
                              variant="standard">
-                  <FormLabel id="stopwords">Välista stoppsõnad</FormLabel>
-                  <FormControlLabel control={
-                    <Checkbox
-                      checked={stopwordsChecked}
-                      onChange={(e) => setStopwordsChecked(e.target.checked)}
-                    ></Checkbox>
-                  }
-                                    label={<>
-                                      vaikimisi loendist
-                                      <Tooltip title={<>Eesti keele stoppsõnade loendi on koostanud Kristel Uiboaed. See
-                                        sisaldab sidesõnu, asesõnu, sisutühje tegusõnu ja määrsõnu. Nimekiri on
-                                        kättesaadav Tartu Ülikooli andmerepositooriumis (vaata <a
-                                          href={'https://datadoi.ee/handle/33/78'}
-                                          target="_blank"
-                                          rel="noopener noreferrer">siit</a>).</>}
-                                               placement="right">
-                                        <QuestionMark className="stopwords-tooltip-icon"/>
-                                      </Tooltip></>}
-                  />
-                  <TextField label="Kirjuta siia oma stoppsõnad (nt koer, kodu)"
-                             variant="outlined"
+                  <FormLabel id="keyword">Sisesta otsisõna</FormLabel>
+                  <TextField variant="outlined"
                              size="small"
-                             value={customStopwords}
-                             onChange={(e) => setCustomStopwords(e.target.value)}
-                             style={{width: '350px'}}/>
+                             required
+                             value={keyword}
+                             onChange={(e) => setKeyword(e.target.value)}
+                             style={{width: '250px'}}/>
+                </FormControl>
+                <br/>
+                <FormControl sx={{m: 3}}
+                             style={{marginTop: '-1vh'}}
+                             variant="standard">
+                  <FormLabel id="display">Otsi naabersõnu</FormLabel>
+                  <Grid container>
+                    <Grid item>
+                      <TextField variant="outlined"
+                                 type="number"
+                                 inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: '3', max: '5'}}
+                                 size="small"
+                                 required
+                                 value={searchCount}
+                                 onChange={(e) => setSearchCount(e.target.value)}
+                                 className="collocates-search-count-textfield"/>
+                    </Grid>
+                    <Grid
+                      item
+                      className="collocates-search-count-explanation"
+                    >
+                      eelneva ja järgneva sõna piires
+                    </Grid>
+                  </Grid>
                 </FormControl>
               </div>
               <div>
-                <FormControl sx={{m: 7}}
+                <FormControl sx={{m: 3}} size="small">
+                  <FormLabel id="formula">Vali valem</FormLabel>
+                  <Select
+                    sx={{width: '140px'}}
+                    name="formula"
+                    value={formula}
+                    onChange={(e) => setFormula(e.target.value)}
+                  >
+                    <MenuItem value="todo">todo</MenuItem>
+                  </Select>
+                </FormControl>
+                <br/>
+                <FormControl sx={{m: 3}}
                              variant="standard">
                   <FormControlLabel control={
                     <Checkbox
                       checked={capitalizationChecked}
+                      disabled={typeValue === 'LEMMAS'}
                       onChange={(e) => setCapitalizationChecked(e.target.checked)}
                     ></Checkbox>
                   }
                                     label={<>
-                                      säilita suurtähed
+                                      tõstutundlik
                                       <Tooltip
-                                        title='Sõnad muudetakse vaikimisi väiketäheliseks, näiteks "kool" ja "Kool" loetakse samaks sõnaks. Märgi kasti linnuke, kui soovid, et suur- ja väiketähelisi sõnu arvestataks eraldi (nt "Eesti" ja "eesti").'
+                                        title='Vaikimisi ei arvestata otsisõna suurt või väikest algustähte, nt "eesti" võimaldab leida nii "eesti" kui ka "Eesti" naabersõnad. Märgi kasti linnuke, kui soovid ainult väike- või suurtähega algavaid vasteid.'
                                         placement="right">
                                         <QuestionMark className="stopwords-tooltip-icon"/>
                                       </Tooltip></>}
                   />
-                  <TextField label={<>
-                    Määra sõna minimaalne sagedus
-                    <Tooltip
-                      title="Kui soovid näiteks välistada sõnad, mida esineb tekstis vaid üks kord, siis määra sageduse alampiiriks 2. Mahukamaid tekstikogusid analüüsides jäetakse sageli kõrvale alla 5 korra esinevad sõnad."
-                      placement="right">
-                      <QuestionMark className="stopwords-tooltip-icon"/>
-                    </Tooltip></>}
-                             type="number"
-                             inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: '1'}}
-                             InputLabelProps={{style: {pointerEvents: 'auto'}}}
-                             variant="outlined"
-                             size="small"
-                             value={minimumFrequency}
-                             onChange={(e) => setMinimumFrequency(e.target.value)}
-                             style={{width: '310px'}}/>
                 </FormControl>
               </div>
             </div>
           </form>
         </AccordionDetails>
       </Accordion>
+      {lemmatizedKeywordResult && <>
+        <br/>
+        <Alert severity="warning">Otsisõna "{initialKeywordResult}" vasteid ei leitud. Kasutasime automaatset algvormi
+          tuvastust ja
+          otsisime sõna "{lemmatizedKeywordResult}" naabersõnu.</Alert>
+      </>}
       {showTable && <>
         <TableDownloadButton data={data}
-                             tableType={'Wordlist'}
+                             tableType={'Collocates'}
                              headers={tableToDownload}
                              accessors={accessors}
-                             marginTop={'2vh'}
-                             marginRight={'18vw'}/>
+                             marginRight={'17.25vw'}/>
         <table className="wordlist-table"
                {...getTableProps()}>
           <thead>
@@ -359,6 +384,8 @@ export default function Wordlist() {
         <CircularProgress thickness={4}
                           size="8rem"/>
       </Backdrop>
+      {showNoResultsError &&
+        <Alert severity="error">Tekstist ei leitud otsisõna. Muuda analüüsi valikuid ja proovi uuesti!</Alert>}
     </div>
   );
 }

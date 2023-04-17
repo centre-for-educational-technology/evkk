@@ -37,6 +37,13 @@ function Tools() {
       action: () => toolSelect('wordcontext')
     },
     {
+      title: 'Naabersõnad',
+      img: require('../resources/images/tools/naabersonad.png').default,
+      description: 'Leia sõnad, mis esinevad tekstis sageli koos',
+      route: 'collocates',
+      action: () => toolSelect('collocates')
+    },
+    {
       title: 'Sõnaanalüüs',
       img: require('../resources/images/tools/sonaanalyys.png').default,
       description: 'Leia sõnade silbid, algvormid ja grammatilised vormid',
