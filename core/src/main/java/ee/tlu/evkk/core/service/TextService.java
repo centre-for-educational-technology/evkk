@@ -3,7 +3,7 @@ package ee.tlu.evkk.core.service;
 import ee.evkk.dto.AddingRequestDto;
 import ee.evkk.dto.CorpusDownloadDto;
 import ee.evkk.dto.CorpusRequestDto;
-import ee.evkk.dto.enums.CorpusDownloadFormType;
+import ee.evkk.dto.enums.CorpusDownloadForm;
 import ee.evkk.dto.enums.Language;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.core.service.maps.TranslationMappings;
@@ -41,9 +41,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import static ee.evkk.dto.enums.CorpusDownloadFileType.ZIP;
-import static ee.evkk.dto.enums.CorpusDownloadFormType.BASIC_TEXT;
-import static ee.evkk.dto.enums.CorpusDownloadFormType.CONLLU;
-import static ee.evkk.dto.enums.CorpusDownloadFormType.VISLCG3;
+import static ee.evkk.dto.enums.CorpusDownloadForm.BASIC_TEXT;
+import static ee.evkk.dto.enums.CorpusDownloadForm.CONLLU;
+import static ee.evkk.dto.enums.CorpusDownloadForm.VISLCG3;
 import static ee.evkk.dto.enums.Language.EN;
 import static ee.evkk.dto.enums.Language.ET;
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.caseTranslationsEn;
@@ -544,7 +544,7 @@ public class TextService {
     return stringBuilder.toString();
   }
 
-  private String replaceNewLinesAndTabs(CorpusDownloadFormType formType, String content) {
+  private String replaceNewLinesAndTabs(CorpusDownloadForm formType, String content) {
     return !BASIC_TEXT.equals(formType)
       ? content
       : content

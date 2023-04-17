@@ -1,27 +1,25 @@
-package ee.evkk.dto.integration;
-
-import ee.evkk.dto.WordContextDto;
+package ee.evkk.dto;
 
 import java.util.List;
 
-public class WordContextResponseDto {
+public class CollocateResponseDto {
 
-  private List<WordContextDto> contextList;
+  private List<CollocateDto> collocateList;
   private String initialKeyword;
   private String lemmatizedKeyword;
 
-  public WordContextResponseDto(List<WordContextDto> contextList, String initialKeyword, String lemmatizedKeyword) {
-    this.contextList = contextList;
+  public CollocateResponseDto(List<CollocateDto> collocateList, String initialKeyword, String lemmatizedKeyword) {
+    this.collocateList = collocateList;
     this.initialKeyword = initialKeyword;
     this.lemmatizedKeyword = lemmatizedKeyword;
   }
 
-  public List<WordContextDto> getContextList() {
-    return contextList;
+  public List<CollocateDto> getCollocateList() {
+    return collocateList;
   }
 
-  public void setContextList(List<WordContextDto> contextList) {
-    this.contextList = contextList;
+  public void setCollocateList(List<CollocateDto> collocateList) {
+    this.collocateList = collocateList;
   }
 
   public String getInitialKeyword() {

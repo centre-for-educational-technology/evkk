@@ -40,7 +40,7 @@ export default function Collocates() {
   const [capitalizationChecked, setCapitalizationChecked] = useState(false);
   const [keyword, setKeyword] = useState('');
   const [searchCount, setSearchCount] = useState(3);
-  const [formula, setFormula] = useState('');
+  const [formula, setFormula] = useState('LOGDICE');
   const [lemmatizedKeywordResult, setLemmatizedKeywordResult] = useState(null);
   const [initialKeywordResult, setInitialKeywordResult] = useState(null);
   const [showTable, setShowTable] = useState(false);
@@ -255,7 +255,9 @@ export default function Collocates() {
                     value={formula}
                     onChange={(e) => setFormula(e.target.value)}
                   >
-                    <MenuItem value="todo">todo</MenuItem>
+                    <MenuItem value="LOGDICE">logDice</MenuItem>
+                    <MenuItem value="T_SCORE">T-skoor</MenuItem>
+                    <MenuItem value="MI_SCORE">MI-skoor</MenuItem>
                   </Select>
                 </FormControl>
                 <br/>
@@ -293,6 +295,7 @@ export default function Collocates() {
                              tableType={'Collocates'}
                              headers={tableToDownload}
                              accessors={accessors}
+                             marginTop={'2vh'}
                              marginRight={'17.25vw'}/>
         <GenericTable tableClassname={'wordlist-table'} columns={columns} data={data} sortByColAccessor={'score'}/>
       </>}

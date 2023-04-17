@@ -62,7 +62,9 @@ export default function GenericTable({tableClassname, columns, data, sortByColAc
             <tr {...row.getRowProps()}>
               {row.cells.map(cell => {
                 return (
-                  <td {...cell.getCellProps()}
+                  <td {...cell.getCellProps({
+                    className: cell.column.className
+                  })}
                       style={{
                         width: cell.column.width
                       }}>
