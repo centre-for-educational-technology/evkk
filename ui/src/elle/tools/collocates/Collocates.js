@@ -26,11 +26,10 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import { QuestionMark } from '@mui/icons-material';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
-import { usePagination, useSortBy, useTable } from 'react-table';
 import { queryStore } from '../../store/QueryStore';
 import { useNavigate } from 'react-router-dom';
 import WordlistMenu from '../wordlist/menu/WordlistMenu';
-import TablePagination from '../../components/table/TablePagination';
+import GenericTable from '../../components/GenericTable';
 
 export default function Collocates() {
 
@@ -110,33 +109,7 @@ export default function Collocates() {
                              keepCapitalization={capitalizationChecked}/>;
       }
     }
-  ], [keyword, typeValue, capitalizationChecked]);
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    page,
-    prepareRow,
-    canPreviousPage,
-    canNextPage,
-    pageOptions,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    state: {pageIndex, pageSize}
-  } = useTable({
-    columns, data, initialState: {
-      sortBy: [
-        {
-          id: 'score',
-          desc: true
-        }
-      ]
-    }
-  }, useSortBy, usePagination);
+  ], [typeValue, capitalizationChecked]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -321,62 +294,7 @@ export default function Collocates() {
                              headers={tableToDownload}
                              accessors={accessors}
                              marginRight={'17.25vw'}/>
-        <table className="wordlist-table"
-               {...getTableProps()}>
-          <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>
-                  {column.render('Header')}
-                  {column.canSort &&
-                    <span className="sortIcon"
-                          {...column.getHeaderProps(column.getSortByToggleProps({title: ''}))}>
-                        {column.isSorted
-                          ? column.isSortedDesc
-                            ? ' ▼'
-                            : ' ▲'
-                          : ' ▼▲'}
-                    </span>
-                  }
-                </th>
-              ))}
-            </tr>
-          ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-          {page.map((row, _i) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return (
-                    <td {...cell.getCellProps()}
-                        style={{
-                          width: cell.column.width
-                        }}>
-                      {cell.render('Cell')}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-          </tbody>
-        </table>
-        <br/>
-        <TablePagination
-          gotoPage={gotoPage}
-          previousPage={previousPage}
-          canPreviousPage={canPreviousPage}
-          nextPage={nextPage}
-          canNextPage={canNextPage}
-          pageIndex={pageIndex}
-          pageOptions={pageOptions}
-          pageSize={pageSize}
-          setPageSize={setPageSize}
-          pageCount={pageCount}
-        />
+        <GenericTable tableClassname={'wordlist-table'} columns={columns} data={data} sortByColAccessor={'score'}/>
       </>}
       <Backdrop
         open={loading}

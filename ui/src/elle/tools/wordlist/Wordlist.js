@@ -23,10 +23,9 @@ import {
 import { AccordionStyle } from '../../utils/constants';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { QuestionMark } from '@mui/icons-material';
-import { usePagination, useSortBy, useTable } from 'react-table';
-import TablePagination from '../../components/table/TablePagination';
 import WordlistMenu from './menu/WordlistMenu';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
+import GenericTable from '../../components/GenericTable';
 
 export default function Wordlist() {
 
@@ -103,32 +102,6 @@ export default function Wordlist() {
       }
     }
   ], [typeValue, capitalizationChecked]);
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    page,
-    prepareRow,
-    canPreviousPage,
-    canNextPage,
-    pageOptions,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    state: {pageIndex, pageSize}
-  } = useTable({
-    columns, data, initialState: {
-      sortBy: [
-        {
-          id: 'frequencyCount',
-          desc: true
-        }
-      ]
-    }
-  }, useSortBy, usePagination);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -296,62 +269,8 @@ export default function Wordlist() {
                              accessors={accessors}
                              marginTop={'2vh'}
                              marginRight={'18vw'}/>
-        <table className="wordlist-table"
-               {...getTableProps()}>
-          <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>
-                  {column.render('Header')}
-                  {column.canSort &&
-                    <span className="sortIcon"
-                          {...column.getHeaderProps(column.getSortByToggleProps({title: ''}))}>
-                        {column.isSorted
-                          ? column.isSortedDesc
-                            ? ' ▼'
-                            : ' ▲'
-                          : ' ▼▲'}
-                    </span>
-                  }
-                </th>
-              ))}
-            </tr>
-          ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-          {page.map((row, _i) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return (
-                    <td {...cell.getCellProps()}
-                        style={{
-                          width: cell.column.width
-                        }}>
-                      {cell.render('Cell')}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-          </tbody>
-        </table>
-        <br/>
-        <TablePagination
-          gotoPage={gotoPage}
-          previousPage={previousPage}
-          canPreviousPage={canPreviousPage}
-          nextPage={nextPage}
-          canNextPage={canNextPage}
-          pageIndex={pageIndex}
-          pageOptions={pageOptions}
-          pageSize={pageSize}
-          setPageSize={setPageSize}
-          pageCount={pageCount}
-        />
+        <GenericTable tableClassname={'wordlist-table'} columns={columns} data={data}
+                      sortByColAccessor={'frequencyCount'}/>
       </>}
       <Backdrop
         open={loading}

@@ -26,10 +26,9 @@ import {
 } from '@mui/material';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import './WordContext.css';
-import { usePagination, useSortBy, useTable } from 'react-table';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
-import TablePagination from '../../components/table/TablePagination';
 import { QuestionMark } from '@mui/icons-material';
+import GenericTable from '../../components/GenericTable';
 
 export default function WordContext() {
 
@@ -109,25 +108,6 @@ export default function WordContext() {
       className: 'text-left'
     }
   ], []);
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    page,
-    prepareRow,
-    canPreviousPage,
-    canNextPage,
-    pageOptions,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    state: {pageIndex, pageSize}
-  } = useTable({
-    columns, data
-  }, useSortBy, usePagination);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -323,62 +303,7 @@ export default function WordContext() {
                              accessors={accessors}
                              marginTop={'2vh'}
                              marginRight={'11.5vw'}/>
-        <table className="wordcontext-table"
-               {...getTableProps()}>
-          <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>
-                  {column.render('Header')}
-                  {column.canSort &&
-                    <span className="sortIcon"
-                          {...column.getHeaderProps(column.getSortByToggleProps({title: ''}))}>
-                        {column.isSorted
-                          ? column.isSortedDesc
-                            ? ' ▼'
-                            : ' ▲'
-                          : ' ▼▲'}
-                    </span>
-                  }
-                </th>
-              ))}
-            </tr>
-          ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-          {page.map((row, _i) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return (
-                    <td {...cell.getCellProps()}
-                        style={{
-                          width: cell.column.width
-                        }}>
-                      {cell.render('Cell')}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-          </tbody>
-        </table>
-        <br/>
-        <TablePagination
-          gotoPage={gotoPage}
-          previousPage={previousPage}
-          canPreviousPage={canPreviousPage}
-          nextPage={nextPage}
-          canNextPage={canNextPage}
-          pageIndex={pageIndex}
-          pageOptions={pageOptions}
-          pageSize={pageSize}
-          setPageSize={setPageSize}
-          pageCount={pageCount}
-        />
+        <GenericTable tableClassname={'wordcontext-table'} columns={columns} data={data}/>
       </>}
       <Backdrop
         open={loading}
