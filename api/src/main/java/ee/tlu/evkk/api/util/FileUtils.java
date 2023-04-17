@@ -13,7 +13,9 @@ import static org.springframework.util.StreamUtils.copyToString;
 @Component
 public class FileUtils {
 
-  public String readResourceAsString(@NotNull String path) throws IOException {
+  private FileUtils() {}
+
+  public static String readResourceAsString(@NotNull String path) throws IOException {
     ClassPathResource resource = new ClassPathResource(path);
     try (InputStream stream = resource.getInputStream()) {
       return readFromStream(stream);

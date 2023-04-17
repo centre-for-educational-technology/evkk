@@ -129,13 +129,13 @@ function Navbar() {
                   open={langOpen}
                   onClose={handleLangClose}
                 >
-                  <MenuItem onClick={() => handleLangSelect('et')}>
+                  <MenuItem onClick={() => handleLangSelect('ET')}>
                     <img src={require('../resources/images/flags/est.png').default}
                          className="lang-icon"
                          alt="EST"/>
                     EST
                   </MenuItem>
-                  <MenuItem onClick={() => handleLangSelect('en')}>
+                  <MenuItem onClick={() => handleLangSelect('EN')}>
                     <img src={require('../resources/images/flags/eng.png').default}
                          className="lang-icon"
                          alt="ENG"/>

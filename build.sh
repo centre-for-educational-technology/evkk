@@ -18,7 +18,7 @@ rm -rf ./build/
 
 # Build service images
 mkdir -p ./build/images/
-declare -a services=("evkk-backend" "evkk-ui" "evkk-stanza-server" "evkk-corrector-server" "evkk-sonarakendus" "evkk-klasterdaja")
+declare -a services=("evkk-backend" "evkk-ui" "evkk-stanza-server" "evkk-corrector-server" "evkk-klasterdaja")
 
 for service in "${services[@]}"
 do

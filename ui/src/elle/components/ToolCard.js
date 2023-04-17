@@ -1,12 +1,12 @@
-import React, {useState} from "react";
-import {Box, Card, CardActionArea, CardContent, Typography,} from "@mui/material";
-import {Link} from "react-router-dom";
-import {queryStore} from "../store/QueryStore";
-import "./styles/ToolCard.css";
+import React, { useState } from 'react';
+import { Box, Card, CardActionArea, CardContent, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { queryStore } from '../store/QueryStore';
+import './styles/ToolCard.css';
 
 function ToolCard({tool}) {
 
-  const disableableTools = ['wordlist'];
+  const disableableTools = ['wordlist', 'wordcontext'];
   const [textsSelected, setTextsSelected] = useState(false);
 
   queryStore.subscribe(() => {
