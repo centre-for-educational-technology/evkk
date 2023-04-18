@@ -19,11 +19,14 @@ import java.util.List;
 import java.util.Map;
 
 import static ee.evkk.dto.enums.CollocateFormula.LOGDICE;
+import static ee.evkk.dto.enums.CollocateFormula.MI_SCORE;
+import static ee.evkk.dto.enums.CollocateFormula.T_SCORE;
 import static ee.evkk.dto.enums.WordType.LEMMAS;
 import static ee.evkk.dto.enums.WordType.WORDS;
 import static ee.tlu.evkk.api.util.TextUtils.sanitizeLemmaStrings;
 import static ee.tlu.evkk.api.util.TextUtils.sanitizeText;
 import static java.lang.Math.log;
+import static java.lang.Math.sqrt;
 import static java.math.BigDecimal.valueOf;
 import static java.math.RoundingMode.UP;
 import static java.util.Arrays.asList;
@@ -95,7 +98,8 @@ public class CollocateService {
 
       finalCollocates.add(new CollocateDto(
         collocate.getKey(),
-        calculateScore(formula, keywordFromFrequencyList.getFrequencyCount(), collocateFromFrequencyList.getFrequencyCount(), collocate.getValue()),
+        calculateScore(formula, keywordFromFrequencyList.getFrequencyCount(), collocateFromFrequencyList.getFrequencyCount(), collocate.getValue(), wordlistAndFrequencies.size())
+          .setScale(4, UP),
         collocateFromFrequencyList.getFrequencyCount(),
         collocateFromFrequencyList.getFrequencyPercentage()
       ));
@@ -147,9 +151,13 @@ public class CollocateService {
     return result;
   }
 
-  private BigDecimal calculateScore(CollocateFormula formula, long keywordOccurrences, long collocateOccurrences, long coOccurrences) {
+  private BigDecimal calculateScore(CollocateFormula formula, long keywordOccurrences, long collocateOccurrences, long coOccurrences, long totalWordCount) {
     if (LOGDICE.equals(formula)) {
-      return valueOf(14 + (log((double) (2 * coOccurrences) / (keywordOccurrences + collocateOccurrences)) / log(2))).setScale(4, UP);
+      return valueOf(14 + (log((double) (2 * coOccurrences) / (keywordOccurrences + collocateOccurrences)) / log(2)));
+    } else if (T_SCORE.equals(formula)) {
+      return valueOf((coOccurrences - ((double) (keywordOccurrences * collocateOccurrences) / totalWordCount)) / sqrt(coOccurrences));
+    } else if (MI_SCORE.equals(formula)) {
+      return valueOf(log((double) (coOccurrences * totalWordCount) / keywordOccurrences * collocateOccurrences) / log(2));
     }
     return valueOf(0);
   }
