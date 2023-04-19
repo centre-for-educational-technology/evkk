@@ -1,15 +1,15 @@
-import React, {useContext, useEffect, useMemo, useState} from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import './styles/LemmaView.css';
-import {useFilters, usePagination, useSortBy, useTable} from 'react-table';
+import { useFilters, usePagination, useSortBy, useTable } from 'react-table';
 import TablePagination from '../../components/table/TablePagination';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
-import {AnalyseContext, SetLemmaContext, SetWordContext} from './Contexts';
-import {Box, Button, Chip, FormControl, InputLabel, MenuItem, Select} from '@mui/material';
+import { AnalyseContext, SetLemmaContext, SetWordContext } from './Contexts';
+import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import ToggleCell from './ToggleCell';
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import Popover from "@mui/material/Popover";
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import Popover from '@mui/material/Popover';
 
 function LemmaView() {
 

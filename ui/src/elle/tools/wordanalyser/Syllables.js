@@ -1,12 +1,12 @@
-import React, {useContext, useEffect, useMemo, useState} from 'react';
-import {useFilters, usePagination, useSortBy, useTable} from 'react-table';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { useFilters, usePagination, useSortBy, useTable } from 'react-table';
 import './styles/Syllables.css';
 import TablePagination from '../../components/table/TablePagination';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
-import {AnalyseContext, SetSyllableContext, SetSyllableWordContext} from './Contexts';
-import {Box, Button, Chip, FormControl, InputLabel, MenuItem, Select} from '@mui/material';
+import { AnalyseContext, SetSyllableContext, SetSyllableWordContext } from './Contexts';
+import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import ToggleCell from './ToggleCell';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Popover from '@mui/material/Popover';
@@ -336,7 +336,7 @@ function Syllables() {
 
   data.map((value, _i) => {
     return createList(value);
-  })
+  });
   createSyllableList();
   findDuplicates();
   useEffect(() => {
@@ -428,7 +428,7 @@ function Syllables() {
       />
     </Box>
   </>
-  </>)
+  </>);
 }
 
 export default Syllables;

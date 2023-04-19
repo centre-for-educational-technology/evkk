@@ -1,12 +1,12 @@
-import React, {useContext, useEffect, useMemo, useState} from 'react';
-import {useFilters, usePagination, useSortBy, useTable} from 'react-table';
-import {Box, Button, Chip, FormControl, InputLabel, MenuItem, Select} from '@mui/material';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { useFilters, usePagination, useSortBy, useTable } from 'react-table';
+import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import TablePagination from '../../components/table/TablePagination';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
-import {AnalyseContext, SetFormContext, SetTypeContext, SetWordContext} from './Contexts';
+import { AnalyseContext, SetFormContext, SetTypeContext, SetWordContext } from './Contexts';
 import ToggleCell from './ToggleCell';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
 import Popover from '@mui/material/Popover';
