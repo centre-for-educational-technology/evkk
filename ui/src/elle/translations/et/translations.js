@@ -19,6 +19,7 @@ export const TRANSLATIONS_ET = {
   error_no_text: 'Analüüsimiseks sisesta esmalt tekst!',
   error_text_too_long: 'Tekst on analüüsi kuvamiseks liiga pikk!',
   exit: 'LÕPETA',
+  filter_by_syllable: 'Filtreeri silbi asukoha järgi sõnas',
   filter_by_word_form: 'Filtreeri sõnavormi järgi',
   filter_by_word_type: 'Filtreeri sõnaliigi järgi',
   forward: 'JÄRGMINE',
