@@ -1,15 +1,15 @@
-import { useContext, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useFilters, usePagination, useSortBy, useTable } from 'react-table';
-import { Box, Checkbox, FormControl, IconButton, ListItemText, MenuItem, Select } from '@mui/material';
-import TableDownloadButton from './TableDownloadButton';
+import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import { v4 as uuidv4 } from 'uuid';
-import TablePagination from './TablePagination';
+import TablePagination from '../../components/table/TablePagination';
 import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 import { AnalyseContext, SetFormContext, SetTypeContext, SetWordContext } from './Contexts';
 import ToggleCell from './ToggleCell';
+import TableDownloadButton from '../../components/table/TableDownloadButton';
+import Popover from '@mui/material/Popover';
 
 function GrammaticalAnalysis() {
   const {t} = useTranslation();
@@ -17,12 +17,75 @@ function GrammaticalAnalysis() {
   const setForm = useContext(SetFormContext);
   const setWord = useContext(SetWordContext);
   const analysedInput = useContext(AnalyseContext)[0];
-
-  let wordArray = [];
+  const [filterValue, setFilterValue] = useState([]);
   const types = analysedInput.wordtypes;
   const forms = analysedInput.wordforms;
   const words = analysedInput.words;
   const ids = analysedInput.ids;
+  const [col1, setCol1] = useState([]);
+  const [col2, setCol2] = useState([]);
+  const [filtersInUse, setFiltersInUse] = useState([]);
+  const [analyzerFilterPopoverAnchorEl, setAnalyzerFilterPopoverAnchorEl] = useState(null);
+  const analyzerFilterPopoverToggle = Boolean(analyzerFilterPopoverAnchorEl);
+  const analyzerFilterPopoverID = analyzerFilterPopoverToggle ? 'analyzer-filter-popover' : undefined;
+  let wordArray = [];
+
+  const handlePopoverOpen = (event) => {
+    setAnalyzerFilterPopoverAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnalyzerFilterPopoverAnchorEl(null);
+  };
+
+  function checkFilters(filter1, filter2) {
+    let list = [];
+    for (const element of filter1) {
+      if (filter2.includes(element)) {
+        list.push(element);
+      }
+    }
+    return list;
+  }
+
+  function multiSelectFilter(rows, columnIds, filterValue) {
+    return filterValue.length === 0
+      ? rows
+      : rows.filter((row) =>
+        filterValue.includes(String(row.original[columnIds]))
+      );
+  }
+
+  function multiSelect(values, label) {
+    const handleChange = (event) => {
+      let value = event.target.value;
+      setFilterValue(value);
+      setFiltersInUse(value);
+      setAllFilters([{id: 'col1', value: checkFilters(value, col1)}, {id: 'col2', value: checkFilters(value, col2)}]);
+    };
+    return (
+      <Box marginY={'5px'}>
+        <FormControl size={'small'} className="filter-class">
+          <InputLabel>{label}</InputLabel>
+          <Select
+            label={label}
+            multiple
+            value={filterValue}
+            onChange={handleChange}
+          >
+            {values.map((value) => (
+              <MenuItem
+                key={value}
+                value={value}
+              >
+                {value}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+    );
+  }
 
   const analyseInput = () => {
     for (let i = 0; i < words.length; i++) {
@@ -65,12 +128,10 @@ function GrammaticalAnalysis() {
   };
 
   analyseInput();
-
   const tableToDownload = [t('common_wordtype'), t('common_form'), t('common_words_in_text'), t('common_header_frequency'), t('common_header_percentage')];
 
   function fillData() {
     let tableVal = [];
-
     for (const element of wordArray) {
       let info = {
         col1: '',
@@ -89,126 +150,27 @@ function GrammaticalAnalysis() {
       info.col3[1][info.col3[1].length - 1] = info.col3[1][info.col3[1].length - 1].slice(0, -2);
       info.col4 = element.count;
       info.col5 = (element.count * 100 / words.length).toFixed(1);
-
       tableVal.push(info);
     }
     return tableVal;
   }
-
-  const MultipleFilter = (rows, _filler, filterValue) => {
-    const arr = [];
-    rows.forEach((val) => {
-      if (filterValue.includes(val.original.col1)) arr.push(val);
-    });
-    return arr;
-  };
-
-  const MultipleFilter2 = (rows, _filler, filterValue) => {
-    const arr = [];
-    rows.forEach((val) => {
-      if (filterValue.includes(val.original.col2)) arr.push(val);
-    });
-    return arr;
-  };
-
-  const setFilteredParams = (filterArr, val) => {
-    if (filterArr.includes(val)) {
-      filterArr = filterArr.filter((n) => {
-        return n !== val;
-      });
-    } else {
-      filterArr.push(val);
-      filterArr = filterArr.slice();
-    }
-    if (filterArr.length === 0) filterArr = [];
-    return filterArr;
-  };
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   let data = useMemo(() => fillData(), []);
 
-  function LongMenu({column: {filterValue = [], setFilter, preFilteredRows, id}}) {
-    const [newFilterValue, setNewFilterValue] = useState(filterValue);
-    const [anchorEl, setAnchorEl] = useState(false);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-      if (newFilterValue.length < 1) {
-        setFilter(options);
-      } else {
-        setFilter(newFilterValue);
+  useEffect(() => {
+    let list = [];
+    let list2 = [];
+    for (const element of data) {
+      if (!list.includes(element.col1)) {
+        list.push(element.col1);
       }
-      setAnchorEl(null);
-    };
-    const options = useMemo(() => {
-      const options2 = new Set();
-      preFilteredRows.forEach((row) => {
-        options2.add(row.values[id]);
-      });
-      return [...options2.values()];
-
-    }, [id, preFilteredRows]);
-
-    if ((newFilterValue.length > 0 && newFilterValue.length === options.length) || (options.length < newFilterValue.length)) {
-      setNewFilterValue([]);
+      if (!list2.includes(element.col2)) {
+        list2.push(element.col2);
+      }
     }
-
-    return (
-      <>
-        <IconButton
-          aria-label="more"
-          id="long-button"
-          aria-controls={open ? 'long-menu' : undefined}
-          aria-expanded={open ? 'true' : undefined}
-          aria-haspopup="true"
-          onClick={handleClick}
-        >
-          <FilterAltIcon/>
-        </IconButton>
-        <FormControl>
-          <Select
-            multiple
-            value={[]}
-            open={open}
-            style={{zIndex: '-30', position: 'absolute', transform: 'translate(-3.7rem, -.5rem)'}}
-            onClose={handleClose}
-            renderValue={() => ''}
-            MenuProps={{
-              anchorOrigin: {
-                vertical: 'bottom',
-                horizontal: 'left'
-              },
-              transformOrigin: {
-                vertical: 'top',
-                horizontal: 'right'
-              }
-            }}
-          >
-            {options.map((option, _i) => (
-              <MenuItem
-                key={option}
-                value={option}
-                onClick={(e) => {
-                  setNewFilterValue(setFilteredParams(newFilterValue, e.currentTarget.dataset.value));
-                }}
-              >
-                <Checkbox
-                  id={option}
-                  value={option}
-                  checked={newFilterValue.includes(option)}
-                />
-                <ListItemText primary={option}
-                              id={option}
-                              value={option}/>
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </>
-    );
-  }
+    setCol1(list);
+    setCol2(list2);
+  }, [data]);
 
   function handleTypeClick(e) {
     setType(e);
@@ -225,36 +187,37 @@ function GrammaticalAnalysis() {
           return (<span>{t('common_wordtype')}</span>);
         },
         accessor: 'col1', // accessor is the "key" in the data
+        id: 'col1',
         Cell: (props) => {
           const word = props.value;
           return <span key={props.id}
                        className="word"
                        onClick={() => handleTypeClick(word)}>{word}</span>;
         },
+        filter: multiSelectFilter,
         className: 'user',
-        width: 400,
-        Filter: LongMenu,
-        filter: MultipleFilter
+        width: 400
       },
       {
         Header: () => {
           return (<span>{t('common_form')}</span>);
         },
         accessor: 'col2',
+        id: 'col2',
         Cell: (props) => {
           const word = props.value;
           return <span className="word"
                        onClick={() => handleFormClick(word)}>{word}</span>;
         },
+        filter: multiSelectFilter,
         width: 400,
         className: 'col2',
         disableSortBy: true,
-        sortable: false,
-        Filter: LongMenu,
-        filter: MultipleFilter2
+        sortable: false
       },
       {
         Header: t('common_words_in_text'),
+        id: 'tekstisonad',
         accessor: 'col3',
         Cell: (props) => {
           const items = props.value;
@@ -263,9 +226,8 @@ function GrammaticalAnalysis() {
             let word = items[0][i];
             let count = items[1][i];
             let id = items[3][i];
-            //console.log(items)
             let content = (
-              <span key={uuidv4()}>
+              <span key={id}>
                 <span key={props.id}
                       className="word"
                       onClick={() => setWord(id)}>{word}
@@ -291,6 +253,7 @@ function GrammaticalAnalysis() {
       },
       {
         Header: t('common_header_percentage'),
+        id: 'protsent',
         accessor: 'col5',
         width: 300,
         disableFilters: true
@@ -314,6 +277,7 @@ function GrammaticalAnalysis() {
     nextPage,
     previousPage,
     setPageSize,
+    setAllFilters,
     state: {pageIndex, pageSize}
   } = useTable({
     columns, data, initialState: {
@@ -326,27 +290,59 @@ function GrammaticalAnalysis() {
     }
   }, useFilters, useSortBy, usePagination);
 
+  function AppliedFilters() {
+    if (filtersInUse !== []) {
+      return (
+        filtersInUse.map((value) => (<Chip sx={{marginBottom: '5px'}} key={value} label={value}/>))
+      );
+    }
+  }
 
   return (
     <Box>
-      <TableDownloadButton data={data}
-                           headers={tableToDownload}/>
-      <table className="analyserTable" {...getTableProps()}
-             style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>
+      <Box className="filter-container">
+        <Box component={'span'}>
+          {filtersInUse !== [] ?
+            <Box className="applied-filters-box">{t('applied_filters')}: {AppliedFilters()} </Box> : null}</Box>
+        <Box>
+          <Button
+            className="popover-button"
+            aria-describedby={analyzerFilterPopoverID}
+            variant="contained"
+            onClick={handlePopoverOpen}
+          >
+            <FilterAltIcon fontSize="large"/>
+          </Button>
+          <Popover
+            id={analyzerFilterPopoverID}
+            open={analyzerFilterPopoverToggle}
+            anchorEl={analyzerFilterPopoverAnchorEl}
+            onClose={handlePopoverClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left'
+            }}
+            transformOrigin={{
+              horizontal: 'center'
+            }}
+          >
+            <Box className="popover-box">
+              {multiSelect(col1, t('filter_by_word_type'))}
+              {multiSelect(col2, t('filter_by_word_form'))}
+            </Box>
+          </Popover>
+        </Box>
+        <TableDownloadButton data={data}
+                             tableType={'GrammaticalAnalysis'}
+                             headers={tableToDownload}/>
+      </Box>
+      <table className="analyserTable" {...getTableProps()}>
         <thead>
         {headerGroups.map(headerGroup => (
           <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
-              <th
-                className="tableHead"
-                key={uuidv4()}
-                style={{
-                  borderBottom: 'solid 1px',
-                  color: 'black',
-                  fontWeight: 'bold'
-                }}
-              >
-                {<span>{column.render('Header')} {column.canFilter ? column.render('Filter') : null}</span>}
+              <th className="tableHead" key={column.id}>
+                {<span>{column.render('Header')}</span>}
                 <span className="sortIcon"  {...column.getHeaderProps(column.getSortByToggleProps({title: ''}))}>
                     {column.isSorted
                       ? column.isSortedDesc

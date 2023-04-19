@@ -25,11 +25,6 @@ services:
     depends_on:
       - api
 
-  sonarakendus:
-    image: evkk-sonarakendus
-    container_name: evkk-sonarakendus
-    restart: always
-
   api:
     image: evkk-backend
     container_name: evkk-api

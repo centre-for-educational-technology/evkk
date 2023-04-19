@@ -22,10 +22,10 @@
   cursor: default;
 }
 
-.textInputDiv .wordHighlightButtons{
-  position: absolute;
-  left: 45%;
-  top: 34%;
+.wordHighlightButtons {
+  position: relative;
+  left: 85%;
+  height: 0;
   display: flex;
 }
 

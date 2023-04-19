@@ -1,6 +1,6 @@
 package ee.tlu.evkk.dal.dao;
 
-import ee.tlu.evkk.dal.dto.CorpusDownloadResponseDto;
+import ee.tlu.evkk.dal.dto.CorpusDownloadResponseEntity;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.dto.TextQueryDisjunctionParamHelper;
 import ee.tlu.evkk.dal.dto.TextQueryMultiParamHelper;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Mapper
@@ -21,6 +22,8 @@ import java.util.UUID;
 public interface TextDao {
 
   String findTextById(@Param("textId") UUID textId);
+
+  String findTextsByIds(@Param("ids") Set<UUID> ids);
 
   String findTextMetadata(@Param("textId") UUID textId);
 
@@ -40,9 +43,9 @@ public interface TextDao {
 
   List<String> findTextsByCorpusId(@Param("corpusId") String corpusId);
 
-  List<CorpusDownloadResponseDto> findTextContentsAndTitlesByIds(@Param("ids") List<UUID> ids);
+  List<CorpusDownloadResponseEntity> findTextContentsAndTitlesByIds(@Param("ids") List<UUID> ids);
 
-  List<CorpusDownloadResponseDto> findTextTitlesAndContentsWithStanzaTaggingByIds(@Param("ids") List<UUID> ids, @Param("type") String type);
+  List<CorpusDownloadResponseEntity> findTextTitlesAndContentsWithStanzaTaggingByIds(@Param("ids") List<UUID> ids, @Param("type") String type);
 
   Optional<Text> findById(@Param("id") UUID id);
 

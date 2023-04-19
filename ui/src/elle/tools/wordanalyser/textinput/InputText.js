@@ -1,9 +1,8 @@
-import {useCallback, useContext, useEffect, useMemo, useState} from 'react';
-import {v4 as uuidv4} from 'uuid';
-import {AnalyseContext} from "../Contexts";
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { AnalyseContext } from '../Contexts';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import {Box} from "@mui/material";
+import { Box } from '@mui/material';
 
 function changeNextColor(idNumber, setIdNumber, markedIds, onWordInfo) {
   if (idNumber < markedIds.length - 1) {
@@ -11,12 +10,14 @@ function changeNextColor(idNumber, setIdNumber, markedIds, onWordInfo) {
     setIdNumber(idNumber + 1);
   }
 }
+
 function changePreviousColor(idNumber, setIdNumber, markedIds, onWordInfo) {
   if (idNumber > 0) {
     onWordInfo(markedIds[idNumber - 1]);
     setIdNumber(idNumber - 1);
   }
 }
+
 export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
   const analyse = useContext(AnalyseContext)[0];
   const markedIds = [];
@@ -32,6 +33,31 @@ export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
       onWordInfo(markedIds[0]);
     }
   }, [onMarkWords]);
+
+  const handleIsMarked = (ids, i, analysedWords, markedIds, idNumber) => {
+    if (ids[i] === markedIds[idNumber]) {
+      return <span id={ids[i]}
+                   className="word blue"
+                   key={ids[i]}
+                   onClick={(e) => {
+                     handleWord(e.target.id);
+                   }}>{analysedWords[i]}</span>;
+    } else {
+      return <span id={ids[i]}
+                   className="word marked"
+                   key={ids[i]}
+                   onClick={(e) => {
+                     handleWord(e.target.id);
+                   }}>{analysedWords[i]}</span>;
+    }
+  };
+
+  const handleIsNotMarked = (ids, i, analysedWords) => {
+    return <span id={ids[i]}
+                 className="word"
+                 key={ids[i]}
+                 onClick={(e) => handleWord(e.target.id)}>{analysedWords[i]}</span>;
+  };
 
   const updatedText = useMemo(() => {
     let analysedWords = analyse.wordsOrig;
@@ -50,67 +76,33 @@ export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
         }
         if (index > 0) {
           let sequence = text.slice(0, index);
-          //check for line breaks and preserve them
+          // check for line breaks and preserve them
           let match = /[\r\n]/.exec(sequence);
           while (match) {
             if (match.index > 0) {
               let newSequence = sequence.slice(0, match.index);
               content.push(newSequence);
-              content.push(<br key={uuidv4()}/>);
+              content.push(<br key={index}/>);
               sequence = sequence.substring(match.index + 1, sequence.length);
               match = /[\r\n]/.exec(sequence);
             } else {
-              content.push(<br key={uuidv4()}/>);
+              content.push(<br key={index}/>);
               sequence = sequence.substring(1, sequence.length);
               match = /[\r\n]/.exec(sequence);
             }
           }
           content.push(sequence);
           if (isMarked) {
-            if (ids[i] === markedIds[idNumber]) {
-              content.push(<span id={ids[i]}
-                                 className="word blue"
-                                 key={uuidv4()}
-                                 onClick={(e) => {
-                                   handleWord(e.target.id)
-                                 }}>{analysedWords[i]}</span>);
-            } else {
-              content.push(<span id={ids[i]}
-                                 className="word marked"
-                                 key={uuidv4()}
-                                 onClick={(e) => {
-                                   handleWord(e.target.id)
-                                 }}>{analysedWords[i]}</span>);
-            }
+            content.push(handleIsMarked(ids, i, analysedWords, markedIds, idNumber));
           } else {
-            content.push(<span id={ids[i]}
-                               className="word"
-                               key={uuidv4()}
-                               onClick={(e) => handleWord(e.target.id)}>{analysedWords[i]}</span>);
+            content.push(handleIsNotMarked(ids, i, analysedWords));
           }
           text = text.substring(index + analysedWords[i].length, text.length);
         } else {
           if (isMarked) {
-            if (ids[i] === markedIds[idNumber]) {
-              content.push(<span id={ids[i]}
-                                 className="word blue"
-                                 key={uuidv4()}
-                                 onClick={(e) => {
-                                   handleWord(e.target.id)
-                                 }}>{analysedWords[i]}</span>);
-            } else {
-              content.push(<span id={ids[i]}
-                                 className="word marked"
-                                 key={uuidv4()}
-                                 onClick={(e) => {
-                                   handleWord(e.target.id)
-                                 }}>{analysedWords[i]}</span>);
-            }
+            content.push(handleIsMarked(ids, i, analysedWords, markedIds, idNumber));
           } else {
-            content.push(<span id={ids[i]}
-                               className="word"
-                               key={uuidv4()}
-                               onClick={(e) => handleWord(e.target.id)}>{analysedWords[i]}</span>);
+            content.push(handleIsNotMarked(ids, i, analysedWords));
           }
           text = text.substring(index + analysedWords[i].length, text.length);
         }
@@ -121,15 +113,17 @@ export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
   }, [analyse, onMarkWords, handleWord, markedIds, idNumber]);
 
   return (
-    <div className="textInputDiv">
-      {updatedText}
-      <div className="wordHighlightButtons">
-        {idNumber > 0 ? <KeyboardArrowLeftIcon cursor={"pointer"}
-                                               onClick={() => changePreviousColor(idNumber, setIdNumber, markedIds, onWordInfo)}/> :
-          <Box width={"24px"} height={"24px"}></Box>}
-        {idNumber < markedIds.length - 1 ? <KeyboardArrowRightIcon cursor={"pointer"}
-                                                                   onClick={() => changeNextColor(idNumber, setIdNumber, markedIds, onWordInfo)}/> : null}
+    <>
+      <div className="textInputDiv">
+        {updatedText}
       </div>
-    </div>
-  )
-}
+      <span className="wordHighlightButtons">
+        {idNumber > 0 ? <KeyboardArrowLeftIcon fontSize={'large'} cursor={'pointer'}
+                                               onClick={() => changePreviousColor(idNumber, setIdNumber, markedIds, onWordInfo)}/> :
+          <Box width={'24px'} height={'24px'}></Box>}
+        {idNumber < markedIds.length - 1 ? <KeyboardArrowRightIcon fontSize={'large'} cursor={'pointer'}
+                                                                   onClick={() => changeNextColor(idNumber, setIdNumber, markedIds, onWordInfo)}/> : null}
+      </span>
+    </>
+  );
+};

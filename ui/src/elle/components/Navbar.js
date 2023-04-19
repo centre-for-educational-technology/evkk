@@ -1,5 +1,5 @@
-import Logo from "../resources/images/header/elle_logo.png";
-import CoverImage from "../resources/images/header/header.svg";
+import Logo from '../resources/images/header/elle_logo.png';
+import CoverImage from '../resources/images/header/header.svg';
 import {
   AppBar,
   Box,
@@ -15,57 +15,57 @@ import {
   Stack,
   styled,
   Toolbar
-} from "@mui/material";
-import {Close, Help, Language, Menu as MenuIcon, Search} from "@mui/icons-material";
-import {NavLink, useLocation} from 'react-router-dom';
-import "@fontsource/exo-2/600.css";
-import React, {useState} from "react";
+} from '@mui/material';
+import { Close, Help, Language, Menu as MenuIcon, Search } from '@mui/icons-material';
+import { NavLink, useLocation } from 'react-router-dom';
+import '@fontsource/exo-2/600.css';
+import React, { useState } from 'react';
 import './styles/Navbar.css';
 
 const pages = [
-  {title: "Tekstihindaja", target: "/corrector"},
-  {title: "Tekstid & tööriistad", target: "/tools"},
-  {title: "Lingikogud", target: "/links"},
-  {title: "Keskkonnast", target: "/about"},
-]
+  {id: 1, title: 'Tekstihindaja', target: '/corrector'},
+  {id: 2, title: 'Tekstid & tööriistad', target: '/tools'},
+  {id: 3, title: 'Lingikogud', target: '/links'},
+  {id: 4, title: 'Keskkonnast', target: '/about'}
+];
 
 const MenuLink = styled(Link)({
   fontWeight: 600,
   fontSize: 16,
-  color: "#1B1B1B",
-  textDecoration: "none",
-  fontFamily: ["'Exo 2'", 'sans-serif',].join(','),
+  color: '#1B1B1B',
+  textDecoration: 'none',
+  fontFamily: ['Exo 2', 'sans-serif'].join(','),
   '&:hover': {
-    color: "#9C27B0",
-    textDecoration: "none",
+    color: '#9C27B0',
+    textDecoration: 'none'
   },
   '&.active': {
-    color: "#9C27B0",
-    textDecoration: "none",
-  },
+    color: '#9C27B0',
+    textDecoration: 'none'
+  }
 });
 
 const BurgerLink = styled(Link)({
   fontWeight: 400,
   fontSize: 16,
-  color: "#1B1B1B",
-  textDecoration: "none",
-  fontFamily: ["'Exo 2'", 'sans-serif',].join(','),
+  color: '#1B1B1B',
+  textDecoration: 'none',
+  fontFamily: ['Exo 2', 'sans-serif'].join(','),
   '&:hover': {
-    color: "#1B1B1B",
-    textDecoration: "underline",
+    color: '#1B1B1B',
+    textDecoration: 'underline'
   },
   '&.active': {
-    color: "#1B1B1B",
-    textDecoration: "none",
-  },
+    color: '#1B1B1B',
+    textDecoration: 'none'
+  }
 });
 
 function Navbar() {
   const [open, setOpen] = useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
-  }
+  };
 
   const [langAnchorEl, setLangAnchorEl] = useState(false);
   const langOpen = Boolean(langAnchorEl);
@@ -77,23 +77,23 @@ function Navbar() {
     setLangAnchorEl(false);
   };
   const handleLangSelect = (lang) => {
+    localStorage.setItem('language', lang);
     if (location.pathname === '/tools/wordanalyser') {
-      localStorage.setItem("language", lang);
       window.location.reload();
     }
     setLangAnchorEl(false);
-  }
+  };
 
   return (
     <>
       <AppBar elevation={0}
               sx={{
-                position: "static",
-                zIndex: "auto",
-                background: "#FFD0FD",
+                position: 'static',
+                zIndex: 'auto',
+                background: '#FFD0FD',
                 backgroundImage: `url(${CoverImage})`,
-                backgroundSize: "100% 100%",
-                backgroundPosition: "center bottom"
+                backgroundSize: '100% 100%',
+                backgroundPosition: 'center bottom'
               }}>
         <Toolbar>
           <Grid container>
@@ -105,7 +105,7 @@ function Navbar() {
                 onClick={() => toggleDrawer()}
                 sx={{mr: 2, mb: 2, display: {md: 'flex', lg: 'none'}}}
               >
-                <MenuIcon sx={{color: "black", fontSize: 45}}/>
+                <MenuIcon sx={{color: 'black', fontSize: 45}}/>
               </IconButton>
               <NavLink to="/">
                 <Box
@@ -120,7 +120,7 @@ function Navbar() {
                   xs={6}
                   sx={{mt: 1}}>
               <Box display="flex">
-                <Search sx={{marginLeft: "auto"}}/>
+                <Search sx={{marginLeft: 'auto'}}/>
                 <Language sx={{marginLeft: 2}}
                           className="hover"
                           onClick={handleLangClick}/>
@@ -129,16 +129,16 @@ function Navbar() {
                   open={langOpen}
                   onClose={handleLangClose}
                 >
-                  <MenuItem onClick={() => handleLangSelect("et")}>
+                  <MenuItem onClick={() => handleLangSelect('ET')}>
                     <img src={require('../resources/images/flags/est.png').default}
                          className="lang-icon"
-                         alt='EST'/>
+                         alt="EST"/>
                     EST
                   </MenuItem>
-                  <MenuItem onClick={() => handleLangSelect("en")}>
+                  <MenuItem onClick={() => handleLangSelect('EN')}>
                     <img src={require('../resources/images/flags/eng.png').default}
                          className="lang-icon"
-                         alt='ENG'/>
+                         alt="ENG"/>
                     ENG
                   </MenuItem>
                 </Menu>
@@ -152,7 +152,7 @@ function Navbar() {
                   sx={{mb: 2, display: {xs: 'none', sm: 'none', md: 'none', lg: 'flex'}}}>
               {pages.map((page, index, elements) => {
                 return (
-                  <span key={index}>
+                  <span key={page.id}>
                   <Box sx={{my: 0, mx: 4}}>
                     <MenuLink to={page.target}
                               component={NavLink}>
@@ -162,21 +162,21 @@ function Navbar() {
                     {elements[index + 1] &&
                       <Divider
                         orientation="vertical"
-                        sx={{borderRightWidth: 2, background: "rgba(156,39,176,0.4)", my: .6}}
+                        sx={{borderRightWidth: 2, background: 'rgba(156,39,176,0.4)', my: .6}}
                         flexItem
                       />
                     }
-                </span>)
+                </span>);
               })}
             </Grid>
           </Grid>
         </Toolbar>
         <Drawer
           open={open}
-          anchor='left'
+          anchor="left"
           onClose={toggleDrawer}
           PaperProps={{
-            sx: {width: {md: "50%", sm: "100%", xs: "100%"}},
+            sx: {width: {md: '50%', sm: '100%', xs: '100%'}}
           }}
         >
           <Grid container
@@ -199,23 +199,23 @@ function Navbar() {
                     onClick={() => toggleDrawer()}
                     sx={{mt: 0}}
                   >
-                    <Close sx={{color: "black", fontSize: 45}}/>
+                    <Close sx={{color: 'black', fontSize: 45}}/>
                   </IconButton>
                 </Box>
               </Stack>
             </Grid>
             <List>
-              {pages.map((page, index) => {
+              {pages.map((page) => {
                 return (
                   <ListItem sx={{pl: 0}}
-                            key={index}>
+                            key={page.id}>
                     <BurgerLink to={page.target}
                                 component={NavLink}
                                 onClick={toggleDrawer}>
                       {page.title}
                     </BurgerLink>
                   </ListItem>
-                )
+                );
               })}
             </List>
           </Grid>

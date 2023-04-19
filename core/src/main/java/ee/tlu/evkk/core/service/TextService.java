@@ -1,12 +1,14 @@
 package ee.tlu.evkk.core.service;
 
-import ee.tlu.evkk.core.service.dto.CorpusDownloadDto;
-import ee.tlu.evkk.core.service.dto.CorpusRequestDto;
+import ee.evkk.dto.AddingRequestDto;
+import ee.evkk.dto.CorpusDownloadDto;
+import ee.evkk.dto.CorpusRequestDto;
+import ee.evkk.dto.enums.CorpusDownloadFormType;
+import ee.evkk.dto.enums.Language;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.core.service.maps.TranslationMappings;
-import ee.tlu.evkk.core.text.processor.TextProcessor;
 import ee.tlu.evkk.dal.dao.TextDao;
-import ee.tlu.evkk.dal.dto.CorpusDownloadResponseDto;
+import ee.tlu.evkk.dal.dto.CorpusDownloadResponseEntity;
 import ee.tlu.evkk.dal.dto.Pageable;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.dto.TextProperty;
@@ -15,7 +17,6 @@ import ee.tlu.evkk.dal.dto.TextQueryMultiParamHelper;
 import ee.tlu.evkk.dal.dto.TextQueryRangeParamBaseHelper;
 import ee.tlu.evkk.dal.dto.TextQueryRangeParamHelper;
 import ee.tlu.evkk.dal.dto.TextQuerySingleParamHelper;
-import ee.tlu.evkk.dal.json.Json;
 import ee.tlu.evkk.dal.repository.TextPropertyRepository;
 import ee.tlu.evkk.dal.repository.TextRepository;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,12 @@ import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import static ee.evkk.dto.enums.CorpusDownloadFileType.ZIP;
+import static ee.evkk.dto.enums.CorpusDownloadFormType.BASIC_TEXT;
+import static ee.evkk.dto.enums.CorpusDownloadFormType.CONLLU;
+import static ee.evkk.dto.enums.CorpusDownloadFormType.VISLCG3;
+import static ee.evkk.dto.enums.Language.EN;
+import static ee.evkk.dto.enums.Language.ET;
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.caseTranslationsEn;
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.caseTranslationsEt;
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.degreeTranslationsEn;
@@ -59,6 +66,7 @@ import static java.lang.System.lineSeparator;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
+import static java.util.UUID.randomUUID;
 import static java.util.regex.Pattern.compile;
 import static org.apache.logging.log4j.util.Strings.isBlank;
 import static org.apache.logging.log4j.util.Strings.isNotBlank;
@@ -72,7 +80,6 @@ public class TextService {
 
   private final TextRepository textRepository;
   private final TextPropertyRepository textPropertyRepository;
-  private final TextProcessorService textProcessorService;
   private final TextDao textDao;
 
   private static final Set<String> firstType = TranslationMappings.firstType;
@@ -99,16 +106,10 @@ public class TextService {
 
   private static final Pattern fileNameCharacterWhitelist = compile("[\\p{L}0-9& ._()!-]");
 
-  public TextService(TextRepository textRepository, TextPropertyRepository textPropertyRepository, TextProcessorService textProcessorService, TextDao textDao) {
+  public TextService(TextRepository textRepository, TextPropertyRepository textPropertyRepository, TextDao textDao) {
     this.textRepository = textRepository;
     this.textPropertyRepository = textPropertyRepository;
-    this.textProcessorService = textProcessorService;
     this.textDao = textDao;
-  }
-
-  public String annotateWithEstnltk(UUID textId) {
-    Json json = textProcessorService.processText(TextProcessor.Type.ANNOTATE_ESTNLTK, textId);
-    return json.getAsObject(String.class);
   }
 
   public List<TextWithProperties> search(Pageable pageable, String[] korpus, String tekstityyp, String tekstikeel, String keeletase, Boolean abivahendid, Integer aasta, String sugu) {
@@ -209,37 +210,33 @@ public class TextService {
   }
 
   public byte[] tekstidfailina(CorpusDownloadDto corpusDownloadDto) throws IOException {
-    final String basicText = "basictext";
-    List<CorpusDownloadResponseDto> contentsAndTitles;
+    List<CorpusDownloadResponseEntity> contentsAndTitles;
 
-    if (corpusDownloadDto.getForm().equals(basicText)) {
+    if (BASIC_TEXT.equals(corpusDownloadDto.getForm())) {
       contentsAndTitles = textDao.findTextContentsAndTitlesByIds(corpusDownloadDto.getFileList());
     } else {
       String typeColumn = "";
-      if (corpusDownloadDto.getForm().equals("stanza")) {
+      if (CONLLU.equals(corpusDownloadDto.getForm())) {
         typeColumn = "ANNOTATE_STANZA_CONLLU";
       }
-      if (corpusDownloadDto.getForm().equals("vislcg3")) {
+      if (VISLCG3.equals(corpusDownloadDto.getForm())) {
         typeColumn = "ANNOTATE_ESTNLTK";
       }
       contentsAndTitles = textDao.findTextTitlesAndContentsWithStanzaTaggingByIds(corpusDownloadDto.getFileList(), typeColumn);
     }
 
-    if (corpusDownloadDto.getType().equals("zip")) {
+    if (ZIP.equals(corpusDownloadDto.getFileType())) {
       File tempFile = createTempFile("corpusDownloadTempZip", null, null);
       try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(tempFile))) {
         for (int i = 0; i < contentsAndTitles.size(); i++) {
+          String contents = replaceNewLinesAndTabs(corpusDownloadDto.getForm(), contentsAndTitles.get(i).getContents());
           ZipEntry zipEntry = new ZipEntry(format(
             "%s (%s).txt",
             getSanitizedFileName(contentsAndTitles.get(i).getTitle()),
             corpusDownloadDto.getFileList().get(i))
           );
           zipOutputStream.putNextEntry(zipEntry);
-          zipOutputStream.write(contentsAndTitles.get(i).getContents()
-            .replace("\\n", lineSeparator())
-            .replace("\\t", "    ")
-            .getBytes(UTF_8)
-          );
+          zipOutputStream.write(contents.getBytes(UTF_8));
           zipOutputStream.closeEntry();
         }
       } catch (IOException e) {
@@ -252,19 +249,56 @@ public class TextService {
     }
 
     StringBuilder contentsCombined = new StringBuilder();
-    for (CorpusDownloadResponseDto entry : contentsAndTitles) {
-      contentsCombined.append(entry.getContents()
-        .replace("\\n", lineSeparator())
-        .replace("\\t", "    ")
-      );
+    for (CorpusDownloadResponseEntity entry : contentsAndTitles) {
+      String contents = replaceNewLinesAndTabs(corpusDownloadDto.getForm(), entry.getContents());
+      contentsCombined.append(contents);
       contentsCombined.append(lineSeparator()).append(lineSeparator());
     }
     return contentsCombined.toString().getBytes(UTF_8);
   }
 
-  public static String[] translateWordType(String[] tekst, String language) {
+  public String lisatekst(AddingRequestDto andmed) {
+    UUID kood = randomUUID();
+    textDao.insertAdding(kood, andmed.getSisu());
+    lisaTekstiOmadus(kood, "title", andmed.getPealkiri());
+    lisaTekstiOmadus(kood, "kirjeldus", andmed.getKirjeldus());
+    lisaTekstiOmadus(kood, "tekstityyp", andmed.getLiik());
+    if (andmed.getOppematerjal() != null && andmed.getOppematerjal()) {
+      String[] m = andmed.getAkadOppematerjal();
+      if (m != null) {
+        for (String s : m) {
+          lisaTekstiOmadus(kood, "akad_oppematerjal", s);
+        }
+      }
+      lisaTekstiOmadus(kood, "akad_oppematerjal_muu", andmed.getAkadOppematerjalMuu());
+    }
+    if (andmed.getLiik().equals("akadeemiline")) {
+      lisaTekstiOmadus(kood, "eriala", andmed.getAutoriEriala());
+      lisaTekstiOmadus(kood, "akad_alamliik", andmed.getAkadAlamliik());
+      lisaTekstiOmadus(kood, "artikkel_aasta", andmed.getArtikkelAasta());
+      lisaTekstiOmadus(kood, "artikkel_valjaanne", andmed.getArtikkelValjaanne());
+      lisaTekstiOmadus(kood, "artikkel_number", andmed.getArtikkelNumber());
+      lisaTekstiOmadus(kood, "artikkel_lehekyljed", andmed.getArtikkelLehekyljed());
+      lisaTekstiOmadus(kood, "oppeaste", andmed.getAutoriOppeaste());
+      lisaTekstiOmadus(kood, "teaduskraad", andmed.getAutoriTeaduskraad());
+    }
+    if (andmed.getLiik().equals("mitteakadeemiline")) {
+      lisaTekstiOmadus(kood, "mitteakad_alamliik", andmed.getMitteakadAlamliik());
+    }
+    lisaTekstiOmadus(kood, "abivahendid", booleanToJahEi(andmed.getOppematerjal()));
+    lisaTekstiOmadus(kood, "kasAutor", andmed.getTekstiAutor());
+    lisaTekstiOmadus(kood, "vanus", andmed.getAutoriVanus());
+    lisaTekstiOmadus(kood, "sugu", andmed.getAutoriSugu());
+    lisaTekstiOmadus(kood, "haridus", andmed.getAutoriOppeaste());
+    lisaTekstiOmadus(kood, "emakeel", andmed.getAutoriEmakeel().toLowerCase());
+    lisaTekstiOmadus(kood, "muudkeeled", andmed.getAutoriMuudKeeled());
+    lisaTekstiOmadus(kood, "riik", andmed.getAutoriElukohariik());
+    return kood.toString();
+  }
+
+  public String[] translateWordType(String[] tekst, Language language) {
     Map<String, String> wordTypes;
-    if (language.equals("et")) {
+    if (ET.equals(language)) {
       wordTypes = wordTypesEt;
     } else {
       wordTypes = wordTypesEn;
@@ -272,7 +306,7 @@ public class TextService {
     return stream(tekst).map(wordTypes::get).toArray(String[]::new);
   }
 
-  public List<String> translateFeats(String[][] tekst, String language) {
+  public List<String> translateFeats(String[][] tekst, Language language) {
     getLanguageMappings(language);
     List<String> result = new ArrayList<>();
 
@@ -307,12 +341,12 @@ public class TextService {
               tenseLabel = tensePrefixPast;
             }
           }
-          if (feat.contains("Voice") && tenseLabel.toString().equals(tensePrefixPast.toString())) {
+          if (feat.contains("Voice") && tenseLabel.toString().contentEquals(tensePrefixPast)) {
             if (feat.split("=")[1].equals("Act")) {
               tenseLabel.append(tensePostfixNud);
             } else {
               tenseLabel.append(tensePostfixTud);
-              if (language.equals("en")) {
+              if (EN.equals(language)) {
                 tenseLabel.insert(0, "im");
               }
             }
@@ -378,7 +412,7 @@ public class TextService {
               if (feat.split("=")[1].equals("Pres")) {
                 tenseLabel = present;
               } else {
-                if (language.equals("en")) {
+                if (EN.equals(language)) {
                   tenseLabel = past;
                 } else {
                   if (moodLabel.equals("kindla kõneviisi")) {
@@ -442,8 +476,8 @@ public class TextService {
     return result;
   }
 
-  private static void getLanguageMappings(String language) {
-    if (language.equals("et")) {
+  private static void getLanguageMappings(Language language) {
+    if (ET.equals(language)) {
       numberTranslations = numberTranslationsEt;
       caseTranslations = caseTranslationsEt;
       degreeTranslations = degreeTranslationsEt;
@@ -510,6 +544,14 @@ public class TextService {
     return stringBuilder.toString();
   }
 
+  private String replaceNewLinesAndTabs(CorpusDownloadFormType formType, String content) {
+    return !BASIC_TEXT.equals(formType)
+      ? content
+      : content
+        .replace("\\n", lineSeparator())
+        .replace("\\t", "    ");
+  }
+
   private Map<String, Collection<String>> buildFilters(String[] korpus, String tekstityyp, String tekstikeel, String keeletase, Boolean abivahendid, Integer aasta, String sugu) {
     Map<String, Collection<String>> result = new HashMap<>();
     if (korpus != null && korpus.length > 0) result.put("korpus", Set.of(korpus));
@@ -534,6 +576,12 @@ public class TextService {
   private TextWithProperties toTextWithProperties(Text text, Map<UUID, List<TextProperty>> textPropertiesByTextId) {
     List<TextProperty> properties = textPropertiesByTextId.getOrDefault(text.getId(), Collections.emptyList());
     return new TextWithProperties(text, properties);
+  }
+
+  private void lisaTekstiOmadus(UUID kood, String tunnus, String omadus) {
+    if (omadus != null && omadus.length() > 0) {
+      textDao.insertAddingProperty(kood, tunnus, omadus);
+    }
   }
 
 }

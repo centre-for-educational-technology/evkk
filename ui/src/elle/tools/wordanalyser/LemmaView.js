@@ -1,11 +1,10 @@
 import { useContext, useMemo } from 'react';
 import './styles/LemmaView.css';
 import { useFilters, usePagination, useSortBy, useTable } from 'react-table';
-import { v4 as uuidv4 } from 'uuid';
-import TablePagination from './TablePagination';
+import TablePagination from '../../components/table/TablePagination';
 import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
-import TableDownloadButton from './TableDownloadButton';
+import TableDownloadButton from '../../components/table/TableDownloadButton';
 import { AnalyseContext, SetLemmaContext, SetWordContext } from './Contexts';
 import { Box } from '@mui/material';
 import ToggleCell from './ToggleCell';
@@ -15,10 +14,10 @@ function LemmaView() {
   const analyse = useContext(AnalyseContext)[0];
   const setLemma = useContext(SetLemmaContext);
   const setWord = useContext(SetWordContext);
-  let lemmaArray = [];
   const lemmas = analyse.lemmas;
   const words = analyse.words;
   const ids = analyse.ids;
+  let lemmaArray = [];
 
   const {t} = useTranslation();
   const tableToDownload = [t('common_lemma'), t('lemmas_header_wordforms'), t('common_header_frequency'), t('common_header_percentage')];
@@ -26,7 +25,7 @@ function LemmaView() {
   const analyseLemmas = () => {
     for (let i = 0; i < lemmas.length; i++) {
       let lemmaIndex = lemmaArray.findIndex(element => element.lemma === lemmas[i]);
-      //kui sellist lemmat pole
+      // kui sellist lemmat pole
       if (lemmaIndex === -1) {
         let newLemma = {
           lemma: lemmas[i],
@@ -41,7 +40,7 @@ function LemmaView() {
       } else {
         let currentLemma = lemmaArray[lemmaIndex];
         let formIndex = currentLemma.forms.findIndex(element => element.form === words[i]);
-        //kui sellist sõnavormi pole
+        // kui sellist sõnavormi pole
         if (formIndex === -1) {
           let newForm = {
             form: words[i],
@@ -55,9 +54,9 @@ function LemmaView() {
         }
       }
     }
-    //lemmade sortimine
+    // lemmade sortimine
     lemmaArray.sort((a, b) => (a.count === b.count) ? ((a.lemma > b.lemma) ? -1 : 1) : ((a.count > b.count) ? -1 : 1));
-    //vormide sortimine
+    // vormide sortimine
     for (const element of lemmaArray) {
       element.forms.sort((a, b) => (a.ids.length === b.ids.length) ? ((a.form < b.form) ? -1 : 1) : ((a.ids.length > b.ids.length) ? -1 : 1));
     }
@@ -79,7 +78,7 @@ function LemmaView() {
                         onClick={() => setLemma(element.lemma)}>{element.lemma}</span>;
       for (let value of element.forms) {
         info.col2[0].push(value.form);
-        info.col2[1].push('(' + value.ids.length + '), ');
+        info.col2[1].push(`(${value.ids.length}), `);
         info.col2[3].push(value.ids[0]);
       }
       info.col3 = element.count;
@@ -93,11 +92,13 @@ function LemmaView() {
   const columns = useMemo(() => [
       {
         Header: t('common_lemma'),
+        id: 'algvorm',
         accessor: 'col1',
         width: 400
       },
       {
         Header: t('lemmas_header_wordforms'),
+        id: 'sonavormid',
         accessor: 'col2',
         width: 700,
         Cell: (props) => {
@@ -108,7 +109,7 @@ function LemmaView() {
             let count = items[1][i];
             let id = items[3][i];
             let content = (
-              <span key={uuidv4()}>
+              <span key={id}>
                     <span className="word"
                           onClick={() => setWord(id)}>{word}</span>{String.fromCharCode(160)}{count}
                     </span>
@@ -126,6 +127,7 @@ function LemmaView() {
       },
       {
         Header: t('common_header_percentage'),
+        id: 'protsent',
         accessor: 'col4',
         width: 300
       }
@@ -167,6 +169,7 @@ function LemmaView() {
     <>
       <Box>
         <TableDownloadButton data={data}
+                             tableType={'LemmaView'}
                              headers={tableToDownload}/>
         <table className="analyserTable"
                {...getTableProps()}
@@ -182,7 +185,7 @@ function LemmaView() {
             <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th className="tableHeader"
-                    key={uuidv4()}
+                    key={column.id}
                     style={{
                       borderBottom: 'solid 1px',
                       color: 'black',

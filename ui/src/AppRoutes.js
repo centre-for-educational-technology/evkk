@@ -1,27 +1,29 @@
-import React, {Component} from 'react';
-import {Navigate, Route, Routes} from "react-router-dom";
-import {MasinoppeEnnustus, MinitornPikkus} from "./views/tools";
-import Correction from "./elle/tools/correction/Correction.component";
-import Tools from "./elle/pages/Tools";
-import {Container} from "@mui/material";
-import Home from "./elle/pages/Home";
-import Links from "./elle/pages/Links";
-import Contacts from "./elle/pages/Contacts";
-import FilledContacts from "./elle/components/FilledContacts";
-import Grants from "./elle/components/Grants";
-import ClusterFinder from "./elle/tools/ClusterFinder";
-import WordAnalyserParent from "./elle/tools/wordanalyser/WordAnalyserParent";
-import BreadcrumbLinks from "./elle/components/BreadcrumbLinks";
-import AboutUs from "./elle/components/AboutUs";
-import Publications from "./elle/components/Publications";
-import Adding from "./elle/components/Adding.component";
+import React, { Component } from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { MasinoppeEnnustus, MinitornPikkus } from './views/tools';
+import Correction from './elle/tools/correction/Correction.component';
+import Tools from './elle/pages/Tools';
+import { Container } from '@mui/material';
+import Home from './elle/pages/Home';
+import Links from './elle/pages/Links';
+import Contacts from './elle/pages/Contacts';
+import FilledContacts from './elle/pages/FilledContacts';
+import Grants from './elle/pages/Grants';
+import ClusterFinder from './elle/tools/ClusterFinder';
+import WordAnalyserParent from './elle/tools/wordanalyser/WordAnalyserParent';
+import BreadcrumbLinks from './elle/components/BreadcrumbLinks';
+import AboutUs from './elle/pages/AboutUs';
+import Publications from './elle/pages/Publications';
+import Adding from './elle/pages/Adding.component';
+import Wordlist from './elle/tools/wordlist/Wordlist';
+import WordContext from './elle/tools/wordcontext/WordContext';
 
 class AppRoutes extends Component {
 
   render404 = () => {
     return (
       <div className={'text-center pb-4'}>
-        <p className={"lead"}>404: lehte ei leitud</p>
+        <p className={'lead'}>404: lehte ei leitud</p>
       </div>
     );
   };
@@ -65,6 +67,12 @@ class AppRoutes extends Component {
                  element={<Correction/>}/>
           <Route path="/tools"
                  element={<Tools/>}>
+            <Route path="adding"
+                   element={<Adding/>}/>
+            <Route path="wordlist"
+                   element={<Wordlist/>}/>
+            <Route path="wordcontext"
+                   element={<WordContext/>}/>
             <Route path="clusterfinder"
                    element={<ClusterFinder/>}/>
             <Route path="wordanalyser"
@@ -73,7 +81,7 @@ class AppRoutes extends Component {
           <Route path="/links"
                  element={<Links/>}/>
           <Route path="/adding"
-                 element={<Adding/>}/>
+                 element={<Navigate to="/tools/adding"/>}/>
           <Route path="*"
                  element={this.render404()}/>
         </Routes>
