@@ -30,7 +30,6 @@ import static java.lang.Math.sqrt;
 import static java.math.BigDecimal.valueOf;
 import static java.math.RoundingMode.UP;
 import static java.util.Arrays.asList;
-import static java.util.Objects.isNull;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -48,48 +47,44 @@ public class CollocateService {
 
   public CollocateResponseDto getCollocateResponse(CollocateRequestDto dto) throws IOException {
     String sanitizedTextContent = sanitizeText(textDao.findTextsByIds(dto.getCorpusTextIds()));
-    List<WordlistResponseDto> wordlistAndFrequencies = getWordlistResponse(dto, WORDS);
-    List<String> wordlist = asList(stanzaServerClient.getSonad(sanitizedTextContent));
-    if (!dto.isKeepCapitalization()) {
-      wordlist = wordlist.stream().map(String::toLowerCase).collect(toList());
-    }
     String keyword = dto.isKeepCapitalization()
       ? dto.getKeyword()
       : dto.getKeyword().toLowerCase();
     return WORDS.equals(dto.getType())
-      ? wordResponse(dto, keyword, wordlist, wordlistAndFrequencies)
-      : lemmaResponse(dto, keyword, sanitizedTextContent, wordlist, wordlistAndFrequencies);
+      ? wordResponse(dto, keyword, sanitizedTextContent)
+      : lemmaResponse(dto, keyword, sanitizedTextContent);
   }
 
-  private CollocateResponseDto wordResponse(CollocateRequestDto dto, String keyword, List<String> wordlist, List<WordlistResponseDto> wordlistAndFrequencies) {
-    Map<String, Long> collocates = getCollocates(wordlist, null, keyword, dto.getSearchCount());
-    return combineFinalResult(collocates, wordlistAndFrequencies, null, keyword, dto.getFormula(), null);
+  private CollocateResponseDto wordResponse(CollocateRequestDto dto, String keyword, String sanitizedTextContent) throws IOException {
+    List<String> wordlist = asList(stanzaServerClient.getSonad(sanitizedTextContent));
+    if (!dto.isKeepCapitalization()) {
+      wordlist = wordlist.stream().map(String::toLowerCase).collect(toList());
+    }
+    List<WordlistResponseDto> wordlistAndFrequencies = getWordlistResponse(dto, WORDS);
+    Map<String, Long> collocates = getCollocates(wordlist, keyword, dto.getSearchCount());
+    return combineFinalResult(collocates, wordlistAndFrequencies, keyword, dto.getFormula(), null);
   }
 
-  private CollocateResponseDto lemmaResponse(CollocateRequestDto dto, String keyword, String sanitizedTextContent, List<String> wordlist, List<WordlistResponseDto> wordlistAndFrequencies) throws IOException {
+  private CollocateResponseDto lemmaResponse(CollocateRequestDto dto, String keyword, String sanitizedTextContent) throws IOException {
     String initialKeyword = null;
-    List<WordlistResponseDto> lemmalistAndFrequencies = getWordlistResponse(dto, LEMMAS);
     List<String> lemmalist = sanitizeLemmaStrings(asList(stanzaServerClient.getLemmad(sanitizedTextContent)));
     lemmalist = lemmalist.stream().map(String::toLowerCase).collect(toList());
-    Map<String, Long> collocates = getCollocates(wordlist, lemmalist, keyword, dto.getSearchCount());
+    List<WordlistResponseDto> lemmalistAndFrequencies = getWordlistResponse(dto, LEMMAS);
+    Map<String, Long> collocates = getCollocates(lemmalist, keyword, dto.getSearchCount());
     if (collocates.isEmpty()) {
       initialKeyword = dto.getKeyword();
       keyword = sanitizeLemmaStrings(asList(stanzaServerClient.getLemmad(initialKeyword))).get(0);
       if (!keyword.equalsIgnoreCase(initialKeyword)) {
-        collocates = getCollocates(wordlist, lemmalist, keyword, dto.getSearchCount());
+        collocates = getCollocates(lemmalist, keyword, dto.getSearchCount());
       }
     }
-    return combineFinalResult(collocates, wordlistAndFrequencies, lemmalistAndFrequencies, keyword, dto.getFormula(), initialKeyword);
+    return combineFinalResult(collocates, lemmalistAndFrequencies, keyword, dto.getFormula(), initialKeyword);
   }
 
-  private CollocateResponseDto combineFinalResult(Map<String, Long> collocates, List<WordlistResponseDto> wordlistAndFrequencies, List<WordlistResponseDto> lemmalistAndFrequencies, String keyword, CollocateFormula formula, String initialKeyword) {
+  private CollocateResponseDto combineFinalResult(Map<String, Long> collocates, List<WordlistResponseDto> wordlistAndFrequencies, String keyword, CollocateFormula formula, String initialKeyword) {
     List<CollocateDto> finalCollocates = new ArrayList<>();
-    List<WordlistResponseDto> keywordSearchList = isNull(lemmalistAndFrequencies)
-      ? wordlistAndFrequencies
-      : lemmalistAndFrequencies;
-
     for (Map.Entry<String, Long> collocate : collocates.entrySet()) {
-      WordlistResponseDto keywordFromFrequencyList = keywordSearchList.stream()
+      WordlistResponseDto keywordFromFrequencyList = wordlistAndFrequencies.stream()
         .filter(entry -> entry.getWord().equals(keyword))
         .collect(toList()).get(0);
       WordlistResponseDto collocateFromFrequencyList = wordlistAndFrequencies.stream()
@@ -110,14 +105,10 @@ public class CollocateService {
     return new CollocateResponseDto(finalCollocates, initialKeyword, lemmatizedKeyword);
   }
 
-  private Map<String, Long> getCollocates(List<String> wordlist, List<String> lemmalist, String keyword, int searchCount) {
+  private Map<String, Long> getCollocates(List<String> wordlist, String keyword, int searchCount) {
     Map<String, Long> result = new HashMap<>();
     for (int i = 0; i < wordlist.size(); i++) {
-      String wordToMatch = isNull(lemmalist)
-        ? wordlist.get(i)
-        : lemmalist.get(i);
-
-      if (wordToMatch.equals(keyword)) {
+      if (wordlist.get(i).equals(keyword)) {
         int counter = i;
         while (counter > i - searchCount) {
           counter--;
