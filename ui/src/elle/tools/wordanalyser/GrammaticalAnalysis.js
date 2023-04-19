@@ -1,15 +1,15 @@
-import {useContext, useMemo, useState} from 'react';
-import {useFilters, usePagination, useSortBy, useTable} from 'react-table';
-import {Box, Checkbox, FormControl, IconButton, ListItemText, MenuItem, Select} from "@mui/material";
-import TableDownloadButton from "./TableDownloadButton";
+import { useContext, useMemo, useState } from 'react';
+import { useFilters, usePagination, useSortBy, useTable } from 'react-table';
+import { Box, Checkbox, FormControl, IconButton, ListItemText, MenuItem, Select } from '@mui/material';
+import TableDownloadButton from './TableDownloadButton';
 import './styles/GrammaticalAnalysis.css';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import {v4 as uuidv4} from 'uuid';
-import TablePagination from "./TablePagination";
-import {useTranslation} from "react-i18next";
-import "../../translations/i18n";
-import {AnalyseContext, SetFormContext, SetTypeContext, SetWordContext} from "./Contexts";
-import ToggleCell from "./ToggleCell";
+import { v4 as uuidv4 } from 'uuid';
+import TablePagination from './TablePagination';
+import { useTranslation } from 'react-i18next';
+import '../../translations/i18n';
+import { AnalyseContext, SetFormContext, SetTypeContext, SetWordContext } from './Contexts';
+import ToggleCell from './ToggleCell';
 
 function GrammaticalAnalysis() {
   const {t} = useTranslation();
@@ -18,7 +18,7 @@ function GrammaticalAnalysis() {
   const setWord = useContext(SetWordContext);
   const analysedInput = useContext(AnalyseContext)[0];
 
-  let wordArray = []
+  let wordArray = [];
   const types = analysedInput.wordtypes;
   const forms = analysedInput.wordforms;
   const words = analysedInput.words;
@@ -39,15 +39,15 @@ function GrammaticalAnalysis() {
             ids: [ids[i]]
           }],
           count: 1
-        }
-        wordArray.push(content)
+        };
+        wordArray.push(content);
       } else {
-        let wordIndex = wordArray[typeIndex].words.findIndex(element => element.word === words[i])
+        let wordIndex = wordArray[typeIndex].words.findIndex(element => element.word === words[i]);
         if (wordIndex === -1) {
           let newWord = {
             word: words[i],
-            ids: [ids[i]],
-          }
+            ids: [ids[i]]
+          };
           wordArray[typeIndex].words.push(newWord);
           wordArray[typeIndex].count += 1;
         } else {
@@ -62,28 +62,28 @@ function GrammaticalAnalysis() {
     for (const element of wordArray) {
       element.words.sort((a, b) => (a.ids.length === b.ids.length) ? ((a.word < b.word) ? -1 : 1) : ((a.ids.length > b.ids.length) ? -1 : 1));
     }
-  }
+  };
 
   analyseInput();
 
-  const tableToDownload = [t("common_wordtype"), t("common_form"), t("common_words_in_text"), t("common_header_frequency"), t("common_header_percentage")];
+  const tableToDownload = [t('common_wordtype'), t('common_form'), t('common_words_in_text'), t('common_header_frequency'), t('common_header_percentage')];
 
   function fillData() {
     let tableVal = [];
 
     for (const element of wordArray) {
       let info = {
-        col1: "",
-        col2: "",
+        col1: '',
+        col2: '',
         col3: [[], [], [], []],
         col4: 0,
-        col5: 0,
-      }
-      info.col1 = element.type
-      info.col2 = element.form
+        col5: 0
+      };
+      info.col1 = element.type;
+      info.col2 = element.form;
       for (let value of element.words) {
         info.col3[0].push(value.word);
-        info.col3[1].push("(" + value.ids.length + "), ");
+        info.col3[1].push('(' + value.ids.length + '), ');
         info.col3[3].push(value.ids[0]);
       }
       info.col3[1][info.col3[1].length - 1] = info.col3[1][info.col3[1].length - 1].slice(0, -2);
@@ -122,7 +122,7 @@ function GrammaticalAnalysis() {
     }
     if (filterArr.length === 0) filterArr = [];
     return filterArr;
-  }
+  };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   let data = useMemo(() => fillData(), []);
@@ -141,7 +141,7 @@ function GrammaticalAnalysis() {
         setFilter(newFilterValue);
       }
       setAnchorEl(null);
-    }
+    };
     const options = useMemo(() => {
       const options2 = new Set();
       preFilteredRows.forEach((row) => {
@@ -160,8 +160,8 @@ function GrammaticalAnalysis() {
         <IconButton
           aria-label="more"
           id="long-button"
-          aria-controls={open ? "long-menu" : undefined}
-          aria-expanded={open ? "true" : undefined}
+          aria-controls={open ? 'long-menu' : undefined}
+          aria-expanded={open ? 'true' : undefined}
           aria-haspopup="true"
           onClick={handleClick}
         >
@@ -172,17 +172,17 @@ function GrammaticalAnalysis() {
             multiple
             value={[]}
             open={open}
-            style={{zIndex: "-30", position: "absolute", transform: "translate(-3.7rem, -.5rem)"}}
+            style={{zIndex: '-30', position: 'absolute', transform: 'translate(-3.7rem, -.5rem)'}}
             onClose={handleClose}
-            renderValue={() => ""}
+            renderValue={() => ''}
             MenuProps={{
               anchorOrigin: {
-                vertical: "bottom",
-                horizontal: "left"
+                vertical: 'bottom',
+                horizontal: 'left'
               },
               transformOrigin: {
-                vertical: "top",
-                horizontal: "right"
+                vertical: 'top',
+                horizontal: 'right'
               }
             }}
           >
@@ -191,7 +191,7 @@ function GrammaticalAnalysis() {
                 key={option}
                 value={option}
                 onClick={(e) => {
-                  setNewFilterValue(setFilteredParams(newFilterValue, e.currentTarget.dataset.value))
+                  setNewFilterValue(setFilteredParams(newFilterValue, e.currentTarget.dataset.value));
                 }}
               >
                 <Checkbox
@@ -222,43 +222,43 @@ function GrammaticalAnalysis() {
     () => [
       {
         Header: () => {
-          return (<span>{t("common_wordtype")}</span>)
+          return (<span>{t('common_wordtype')}</span>);
         },
         accessor: 'col1', // accessor is the "key" in the data
         Cell: (props) => {
           const word = props.value;
           return <span key={props.id}
                        className="word"
-                       onClick={() => handleTypeClick(word)}>{word}</span>
+                       onClick={() => handleTypeClick(word)}>{word}</span>;
         },
         className: 'user',
         width: 400,
         Filter: LongMenu,
-        filter: MultipleFilter,
+        filter: MultipleFilter
       },
       {
         Header: () => {
-          return (<span>{t("common_form")}</span>)
+          return (<span>{t('common_form')}</span>);
         },
         accessor: 'col2',
         Cell: (props) => {
           const word = props.value;
           return <span className="word"
-                       onClick={() => handleFormClick(word)}>{word}</span>
+                       onClick={() => handleFormClick(word)}>{word}</span>;
         },
         width: 400,
         className: 'col2',
         disableSortBy: true,
         sortable: false,
         Filter: LongMenu,
-        filter: MultipleFilter2,
+        filter: MultipleFilter2
       },
       {
-        Header: t("common_words_in_text"),
+        Header: t('common_words_in_text'),
         accessor: 'col3',
         Cell: (props) => {
-          const items = props.value
-          let cellContent = []
+          const items = props.value;
+          let cellContent = [];
           for (let i = 0; i < items[0].length; i++) {
             let word = items[0][i];
             let count = items[1][i];
@@ -272,28 +272,28 @@ function GrammaticalAnalysis() {
                 </span>
                 {String.fromCharCode(160)}{count}
               </span>
-            )
+            );
             cellContent.push(content);
           }
-          return <ToggleCell onCellContent={cellContent}/>
+          return <ToggleCell onCellContent={cellContent}/>;
         },
         width: 700,
         disableFilters: true,
         disableSortBy: true,
-        sortable: false,
+        sortable: false
       },
       {
-        Header: t("common_header_frequency"),
+        Header: t('common_header_frequency'),
         id: 'sagedus',
         accessor: 'col4', // accessor is the "key" in the data
         width: 300,
-        disableFilters: true,
+        disableFilters: true
       },
       {
-        Header: t("common_header_percentage"),
+        Header: t('common_header_percentage'),
         accessor: 'col5',
         width: 300,
-        disableFilters: true,
+        disableFilters: true
       }
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -314,12 +314,12 @@ function GrammaticalAnalysis() {
     nextPage,
     previousPage,
     setPageSize,
-    state: {pageIndex, pageSize},
+    state: {pageIndex, pageSize}
   } = useTable({
     columns, data, initialState: {
       sortBy: [
         {
-          id: "sagedus",
+          id: 'sagedus',
           desc: true
         }
       ]
@@ -331,23 +331,23 @@ function GrammaticalAnalysis() {
     <Box>
       <TableDownloadButton data={data}
                            headers={tableToDownload}/>
-      <table className='analyserTable' {...getTableProps()}
+      <table className="analyserTable" {...getTableProps()}
              style={{marginRight: 'auto', marginLeft: 'auto', borderBottom: 'solid 1px', width: '100%'}}>
         <thead>
         {headerGroups.map(headerGroup => (
-          <tr className='tableRow' {...headerGroup.getHeaderGroupProps()}>
+          <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
               <th
-                className='tableHead'
+                className="tableHead"
                 key={uuidv4()}
                 style={{
                   borderBottom: 'solid 1px',
                   color: 'black',
-                  fontWeight: 'bold',
+                  fontWeight: 'bold'
                 }}
               >
-                {<span>{column.render('Header')} {column.canFilter ? column.render("Filter") : null}</span>}
-                <span className='sortIcon'  {...column.getHeaderProps(column.getSortByToggleProps({title: ""}))}>
+                {<span>{column.render('Header')} {column.canFilter ? column.render('Filter') : null}</span>}
+                <span className="sortIcon"  {...column.getHeaderProps(column.getSortByToggleProps({title: ''}))}>
                     {column.isSorted
                       ? column.isSortedDesc
                         ? ' ▼'
@@ -363,23 +363,23 @@ function GrammaticalAnalysis() {
         {page.map((row, _i) => {
           prepareRow(row);
           return (
-            <tr className='tableRow' {...row.getRowProps()}>
+            <tr className="tableRow" {...row.getRowProps()}>
               {row.cells.map(cell => {
                 return (
                   <td
                     {...cell.getCellProps()}
                     style={{
                       padding: '10px',
-                      width: cell.column.width,
+                      width: cell.column.width
                     }}
                     className="border tableData"
                   >
                     {cell.render('Cell')}
                   </td>
-                )
+                );
               })}
             </tr>
-          )
+          );
         })}
         </tbody>
       </table>

@@ -1,31 +1,31 @@
-import {useContext, useMemo} from "react";
-import "./styles/LemmaView.css";
-import {useFilters, usePagination, useSortBy, useTable} from "react-table";
-import {v4 as uuidv4} from 'uuid';
-import TablePagination from "./TablePagination";
-import {useTranslation} from "react-i18next";
-import "../../translations/i18n";
-import TableDownloadButton from "./TableDownloadButton";
-import {AnalyseContext, SetLemmaContext, SetWordContext} from "./Contexts";
-import {Box} from "@mui/material";
-import ToggleCell from "./ToggleCell";
+import { useContext, useMemo } from 'react';
+import './styles/LemmaView.css';
+import { useFilters, usePagination, useSortBy, useTable } from 'react-table';
+import { v4 as uuidv4 } from 'uuid';
+import TablePagination from './TablePagination';
+import { useTranslation } from 'react-i18next';
+import '../../translations/i18n';
+import TableDownloadButton from './TableDownloadButton';
+import { AnalyseContext, SetLemmaContext, SetWordContext } from './Contexts';
+import { Box } from '@mui/material';
+import ToggleCell from './ToggleCell';
 
 function LemmaView() {
 
   const analyse = useContext(AnalyseContext)[0];
   const setLemma = useContext(SetLemmaContext);
   const setWord = useContext(SetWordContext);
-  let lemmaArray = []
-  const lemmas = analyse.lemmas
-  const words = analyse.words
-  const ids = analyse.ids
+  let lemmaArray = [];
+  const lemmas = analyse.lemmas;
+  const words = analyse.words;
+  const ids = analyse.ids;
 
   const {t} = useTranslation();
-  const tableToDownload = [t("common_lemma"), t("lemmas_header_wordforms"), t("common_header_frequency"), t("common_header_percentage")];
+  const tableToDownload = [t('common_lemma'), t('lemmas_header_wordforms'), t('common_header_frequency'), t('common_header_percentage')];
 
   const analyseLemmas = () => {
     for (let i = 0; i < lemmas.length; i++) {
-      let lemmaIndex = lemmaArray.findIndex(element => element.lemma === lemmas[i])
+      let lemmaIndex = lemmaArray.findIndex(element => element.lemma === lemmas[i]);
       //kui sellist lemmat pole
       if (lemmaIndex === -1) {
         let newLemma = {
@@ -36,50 +36,50 @@ function LemmaView() {
           }],
           count: 1
 
-        }
+        };
         lemmaArray.push(newLemma);
       } else {
-        let currentLemma = lemmaArray[lemmaIndex]
-        let formIndex = currentLemma.forms.findIndex(element => element.form === words[i])
+        let currentLemma = lemmaArray[lemmaIndex];
+        let formIndex = currentLemma.forms.findIndex(element => element.form === words[i]);
         //kui sellist sõnavormi pole
         if (formIndex === -1) {
           let newForm = {
             form: words[i],
             ids: [ids[i]]
-          }
-          lemmaArray[lemmaIndex].forms.push(newForm)
-          lemmaArray[lemmaIndex].count += 1
+          };
+          lemmaArray[lemmaIndex].forms.push(newForm);
+          lemmaArray[lemmaIndex].count += 1;
         } else {
-          lemmaArray[lemmaIndex].forms[formIndex].ids.push(ids[i])
-          lemmaArray[lemmaIndex].count += 1
+          lemmaArray[lemmaIndex].forms[formIndex].ids.push(ids[i]);
+          lemmaArray[lemmaIndex].count += 1;
         }
       }
     }
     //lemmade sortimine
-    lemmaArray.sort((a, b) => (a.count === b.count) ? ((a.lemma > b.lemma) ? -1 : 1) : ((a.count > b.count) ? -1 : 1))
+    lemmaArray.sort((a, b) => (a.count === b.count) ? ((a.lemma > b.lemma) ? -1 : 1) : ((a.count > b.count) ? -1 : 1));
     //vormide sortimine
     for (const element of lemmaArray) {
-      element.forms.sort((a, b) => (a.ids.length === b.ids.length) ? ((a.form < b.form) ? -1 : 1) : ((a.ids.length > b.ids.length) ? -1 : 1))
+      element.forms.sort((a, b) => (a.ids.length === b.ids.length) ? ((a.form < b.form) ? -1 : 1) : ((a.ids.length > b.ids.length) ? -1 : 1));
     }
-  }
+  };
 
-  analyseLemmas()
+  analyseLemmas();
 
   function fillData() {
     let tableVal = [];
 
     for (const element of lemmaArray) {
       let info = {
-        col1: "",
+        col1: '',
         col2: [[], [], [], []],
         col3: 0,
         col4: 0
-      }
+      };
       info.col1 = <span className="word"
                         onClick={() => setLemma(element.lemma)}>{element.lemma}</span>;
       for (let value of element.forms) {
         info.col2[0].push(value.form);
-        info.col2[1].push("(" + value.ids.length + "), ");
+        info.col2[1].push('(' + value.ids.length + '), ');
         info.col2[3].push(value.ids[0]);
       }
       info.col3 = element.count;
@@ -92,43 +92,43 @@ function LemmaView() {
 
   const columns = useMemo(() => [
       {
-        Header: t("common_lemma"),
+        Header: t('common_lemma'),
         accessor: 'col1',
-        width: 400,
+        width: 400
       },
       {
-        Header: t("lemmas_header_wordforms"),
+        Header: t('lemmas_header_wordforms'),
         accessor: 'col2',
         width: 700,
         Cell: (props) => {
-          const items = props.value
-          let cellContent = []
+          const items = props.value;
+          let cellContent = [];
           for (let i = 0; i < items[0].length; i++) {
-            let word = items[0][i]
-            let count = items[1][i]
-            let id = items[3][i]
+            let word = items[0][i];
+            let count = items[1][i];
+            let id = items[3][i];
             let content = (
               <span key={uuidv4()}>
                     <span className="word"
                           onClick={() => setWord(id)}>{word}</span>{String.fromCharCode(160)}{count}
                     </span>
-            )
-            cellContent.push(content)
+            );
+            cellContent.push(content);
           }
-          return <ToggleCell onCellContent={cellContent}/>
+          return <ToggleCell onCellContent={cellContent}/>;
         }
       },
       {
-        Header: t("common_header_frequency"),
+        Header: t('common_header_frequency'),
         id: 'sagedus',
         accessor: 'col3',
-        width: 300,
+        width: 300
       },
       {
-        Header: t("common_header_percentage"),
+        Header: t('common_header_percentage'),
         accessor: 'col4',
-        width: 300,
-      },
+        width: 300
+      }
     ],
     [t, setWord]
   );
@@ -150,12 +150,12 @@ function LemmaView() {
     nextPage,
     previousPage,
     setPageSize,
-    state: {pageIndex, pageSize},
+    state: {pageIndex, pageSize}
   } = useTable({
     columns, data, initialState: {
       sortBy: [
         {
-          id: "sagedus",
+          id: 'sagedus',
           desc: true
         }
       ]
@@ -218,9 +218,9 @@ function LemmaView() {
                       }}
                       className="border tableData"
                     >
-                      {cell.render("Cell")}
+                      {cell.render('Cell')}
                     </td>
-                  )
+                  );
                 })}
               </tr>
             );

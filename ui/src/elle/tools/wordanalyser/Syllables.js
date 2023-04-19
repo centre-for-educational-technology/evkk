@@ -1,14 +1,14 @@
-import React, {useContext, useEffect, useMemo, useState} from "react";
-import {usePagination, useSortBy, useTable} from 'react-table';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { usePagination, useSortBy, useTable } from 'react-table';
 import './styles/Syllables.css';
-import TablePagination from "./TablePagination";
-import {useTranslation} from "react-i18next";
-import "../../translations/i18n";
-import TableDownloadButton from "./TableDownloadButton";
-import {v4 as uuidv4} from 'uuid';
-import {AnalyseContext, SetSyllableContext, SetSyllableWordContext} from "./Contexts";
-import {Box} from "@mui/material";
-import ToggleCell from "./ToggleCell";
+import TablePagination from './TablePagination';
+import { useTranslation } from 'react-i18next';
+import '../../translations/i18n';
+import TableDownloadButton from './TableDownloadButton';
+import { v4 as uuidv4 } from 'uuid';
+import { AnalyseContext, SetSyllableContext, SetSyllableWordContext } from './Contexts';
+import { Box } from '@mui/material';
+import ToggleCell from './ToggleCell';
 
 function Syllables() {
 
@@ -24,7 +24,7 @@ function Syllables() {
   let infoList = [];
   const [infoListNew, setInfolistNew] = useState([]);
 
-  const tableToDownload = [t("syllables_header_syllable"), t("syllables_table_beginning"), t("syllables_table_middle"), t("syllables_table_end"), t("common_words_in_text"), t("common_header_frequency"), t("common_header_percentage")];
+  const tableToDownload = [t('syllables_header_syllable'), t('syllables_table_beginning'), t('syllables_table_middle'), t('syllables_table_end'), t('common_words_in_text'), t('common_header_frequency'), t('common_header_percentage')];
 
   function createList(value) {
     let cleanValue = value.toLowerCase();
@@ -37,13 +37,13 @@ function Syllables() {
       for (let y = 0; y < baseSyllables[i].length; y++) {
         let tempSyllables = [];
         if (y === 0) {
-          let syllableLocation = "algus";
+          let syllableLocation = 'algus';
           tempSyllables.push(baseSyllables[i][y], syllableLocation, data[i], words[i]);
         } else if (y === baseSyllables[i].length - 1) {
-          let syllableLocation = "l6pp";
+          let syllableLocation = 'l6pp';
           tempSyllables.push(baseSyllables[i][y], syllableLocation, data[i], words[i]);
         } else {
-          let syllableLocation = "keskmine";
+          let syllableLocation = 'keskmine';
           tempSyllables.push(baseSyllables[i][y], syllableLocation, data[i], words[i]);
         }
         syllables.push(tempSyllables);
@@ -114,16 +114,16 @@ function Syllables() {
 
   function formating() {
     let output = formatedSyllables.map((row) => {
-      let cellContent = []
+      let cellContent = [];
       let info = {
-        col1: "",
+        col1: '',
         col2: 0,
         col3: 0,
         col4: 0,
         col5: [[], []],
         col6: 0,
         col7: 0
-      }
+      };
 
       info.col1 = row[0];
       info.col2 = row[1];
@@ -134,8 +134,8 @@ function Syllables() {
 
       const syllableWords = () => {
         for (let i = 0; i < row[4][0].length; i++) {
-          let word = row[4][0][i]
-          let count = row[4][1][i]
+          let word = row[4][0][i];
+          let count = row[4][1][i];
           info.col5[0].push(row[4][0][i]);
           if (i === row[4][0].length - 1) {
             info.col5[1].push(`(${row[4][1][i]})`);
@@ -147,7 +147,7 @@ function Syllables() {
                   {word}
                 </span>
                 &nbsp;({count})
-              </span>)
+              </span>);
           } else if (i === 0) {
             info.col5[1].push(`(${row[4][1][i]}), `);
             cellContent.push(
@@ -158,7 +158,7 @@ function Syllables() {
                   {word}
                 </span>
                 &nbsp;({count}),{' '}
-              </span>)
+              </span>);
           } else {
             info.col5[1].push(`(${row[4][1][i]}), `);
             cellContent.push(
@@ -169,20 +169,20 @@ function Syllables() {
                   {word}
                 </span>
                 &nbsp;({count}),{' '}
-              </span>)
+              </span>);
           }
         }
-        return <ToggleCell onCellContent={cellContent}/>
-      }
+        return <ToggleCell onCellContent={cellContent}/>;
+      };
 
-      infoList.push(info)
+      infoList.push(info);
       return {
-        "silp": <span className="word"
+        'silp': <span className="word"
                       onClick={(e) => setSyllable(e.target.textContent)}>{row[0]}</span>,
-        "algus": row[1], "keskel": row[2], "l6pp": row[3], "sagedus": row[1] + row[2] + row[3],
-        "sonadtekstis": syllableWords(),
-        "osakaal": ((row[1] + row[2] + row[3]) * 100 / syllables.length).toFixed(2),
-      }
+        'algus': row[1], 'keskel': row[2], 'l6pp': row[3], 'sagedus': row[1] + row[2] + row[3],
+        'sonadtekstis': syllableWords(),
+        'osakaal': ((row[1] + row[2] + row[3]) * 100 / syllables.length).toFixed(2)
+      };
     });
 
     for (const element of output) {
@@ -192,8 +192,8 @@ function Syllables() {
       if (element.keskel === 0) {
         delete element.keskel;
       }
-      if (element["l6pp"] === 0) {
-        delete element["l6pp"];
+      if (element['l6pp'] === 0) {
+        delete element['l6pp'];
       }
     }
     setInfolistNew(infoList);
@@ -203,22 +203,22 @@ function Syllables() {
   // TABELI OSA
   const COLUMNS = [
     {
-      Header: t("syllables_header_syllable"),
+      Header: t('syllables_header_syllable'),
       accessor: 'silp',
-      width: 200,
+      width: 200
     },
     {
-      Header: t("syllables_header_location"),
+      Header: t('syllables_header_location'),
       accessor: el => {
-        let display = "";
+        let display = '';
         if (el.algus) {
-          display += `${t("syllables_beginning")} (${el.algus}), `;
+          display += `${t('syllables_beginning')} (${el.algus}), `;
         }
         if (el.keskel) {
-          display += `${t("syllables_middle")} (${el.keskel}), `;
+          display += `${t('syllables_middle')} (${el.keskel}), `;
         }
         if (el.l6pp) {
-          display += `${t("syllables_end")} (${el.l6pp}), `;
+          display += `${t('syllables_end')} (${el.l6pp}), `;
         }
         display = display.slice(0, -2);
         return display;
@@ -227,24 +227,24 @@ function Syllables() {
       width: 400
     },
     {
-      Header: t("common_words_in_text"),
+      Header: t('common_words_in_text'),
       accessor: 'sonadtekstis',
       width: 700,
       disableSortBy: true,
       sortable: false
     },
     {
-      Header: t("common_header_frequency"),
+      Header: t('common_header_frequency'),
       accessor: 'sagedus',
       id: 'sagedus',
       width: 300
     },
     {
-      Header: t("common_header_percentage"),
+      Header: t('common_header_percentage'),
       accessor: 'osakaal',
       width: 300
     }
-  ]
+  ];
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const columns = useMemo(() => COLUMNS, []);
@@ -254,7 +254,7 @@ function Syllables() {
     initialState: {
       sortBy: [
         {
-          id: "sagedus",
+          id: 'sagedus',
           desc: true
         }
       ]
@@ -285,7 +285,7 @@ function Syllables() {
         {data.map((value, index) => {
           return <div key={index}>
             {createList(value)}
-          </div>
+          </div>;
         })}
 
         {createSyllableList()}
@@ -307,9 +307,9 @@ function Syllables() {
                 <th
                   key={uuidv4()}
                   style={{
-                    borderBottom: "1px solid",
-                    color: "black",
-                    fontWeight: "bold"
+                    borderBottom: '1px solid',
+                    color: 'black',
+                    fontWeight: 'bold'
                   }}
                   className="tableHdr headerbox">{column.render('Header')}
                   <span className="sort" {...column.getHeaderProps(column.getSortByToggleProps())}>
@@ -323,17 +323,17 @@ function Syllables() {
           <tbody {...getTableBodyProps()}>
           {
             page.map((row) => {
-              prepareRow(row)
+              prepareRow(row);
               return (
                 <tr className="tableRow" {...row.getRowProps()}>
                   {
                     row.cells.map(cell => {
                       return <td className="tableData" {...cell.getCellProps()}
-                                 style={{padding: '10px', width: cell.column.width,}}>{cell.render('Cell')}</td>
+                                 style={{padding: '10px', width: cell.column.width}}>{cell.render('Cell')}</td>;
                     })
                   }
                 </tr>
-              )
+              );
             })
           }
           </tbody>
@@ -352,7 +352,7 @@ function Syllables() {
         />
       </Box>
     </>
-  )
+  );
 }
 
 export default Syllables;
