@@ -80,7 +80,6 @@ class Correction extends Component {
 
   }
 
-
   puhasta(sona) {
     return sona.replace(/^[^0-9a-zA-ZõäöüÕÄÖÜ]+/, '').replace(/[^0-9a-zA-ZõäöüÕÄÖÜ]+$/, '')
   }
@@ -90,7 +89,6 @@ class Correction extends Component {
     return re.exec(sona);
   }
 
-
   kordama() {
     this.setState({kordab: true});
     this.korda();
@@ -98,7 +96,7 @@ class Correction extends Component {
   }
 
   korda() {
-    if (this.state.alasisu === this.state.tasemetekst) {
+    if (this.state.alasisu.replace(/(\r\n|\n|\r)/gm, "") === this.state.tasemetekst.replace(/(\r\n|\n|\r)/gm, "")) {
       return;
     }
     this.kysi3();
@@ -108,7 +106,7 @@ class Correction extends Component {
   }
 
   alaMuutus(event) {
-    this.setState({alasisu: event.target.value}, function () {
+    this.setState({alasisu: event.target.value.replace(/(\r\n|\n|\r)/gm, "")}, function () {
       this.keepHistory();
     });
     this.kysi3();
@@ -254,18 +252,21 @@ class Correction extends Component {
               onClick={() => this.asenda(algus, sisu, vm[i])}>Asenda</button><br/>
              </span>
             let kpl = this.puhasta2(sm[i]);
-            taustatekst[i] = <span key={"t" + i}><span>{kpl[1]}</span><span className="margitud"
+            taustatekst[i] = <span key={"t" + i}><span>{kpl[1]}</span><span className="margitud pointer-hover"
                                                                             title={vm[i]}>{kpl[2]}</span><span>{kpl[3]}</span><span> </span></span>;
             vastustekst[i] = <span key={"s" + i}><span title={vm[i]}
                                                        onClick={() => this.margi(algus, sisu)}
-                                                       style={{'backgroundColor': 'lightgray'}}>{sm[i]}</span><span> </span></span>;
+                                                       style={{
+                                                         'backgroundColor': 'lightgray',
+                                                         cursor: "pointer"
+                                                       }}>{sm[i]}</span><span> </span></span>;
           }
           sisutekst += sm[i] + " ";
           sisukohad[i] = sisutekst.length;
         }
       }
       this.setState({"muutuskood": <div>{muutused.length > 0 ? muutused : "puuduvad"}</div>})
-      this.setState({"vastuskood": <div>{vastustekst}<br/><br/><br/><br/><br/><br/></div>})
+      this.setState({"vastuskood": <div>{vastustekst}</div>})
       this.setState({"taustakood": <div>{taustatekst}</div>}, () => {
         this.kerimine()
       });
@@ -279,7 +280,7 @@ class Correction extends Component {
 
   renderTasemed = () => {
     if (this.state.taselisa) {
-      return <div className={"pointer-hover"} onClick={() => this.setState({taselisa: false})}
+      return <div onClick={() => this.setState({taselisa: false})}
                   style={{width: "80%"}}>
         Loe täpsemalt ↑
         <p style={{width: "80%"}}><b>Teksti üldine keerukus: <br/> {this.state.tasemevastus[4][1]} </b>
@@ -317,7 +318,6 @@ class Correction extends Component {
 
   renderTase() {
     var degreeValue
-    console.log(this.state.tasemevastus)
     if (this.state.tasemevastus.length !== 1) {
       let val1 = parseInt((this.state.tasemevastus[0][0] * 100 * 3.6).toFixed(0), 10);
       let val2 = parseInt((this.state.tasemevastus[1][0] * 100 * 3.6).toFixed(0), 10);
@@ -342,7 +342,6 @@ class Correction extends Component {
 
                   {this.state.tasemevastus.slice(1, 4).map((vastus) => {
                       if ((vastus[0] * 100).toFixed(0) > 0) {
-                        console.log(vastus);
                         return <Box display={"flex"} alignItems={"center"} justifyContent={"start"}> <Box width={15}
                                                                                                           height={15}
                                                                                                           borderRadius={"50px"}

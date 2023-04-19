@@ -92,10 +92,10 @@
   top: -200px;
 }
 
-textarea {
+#textarea {
   color: #444;
   background-color: transparent;
-  z-index: 2;
+  z-index: 100;
 }
 
 input:focus,
@@ -144,4 +144,3 @@ textarea:hover {
 .material-symbols-outlined:active {
   transform: scale(0.95);
 }
-
