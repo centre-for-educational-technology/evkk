@@ -23,8 +23,8 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 export default function QueryDownloadButton({selected}) {
 
-  const [downloadForm, setDownloadForm] = useState('basictext');
-  const [downloadFileType, setDownloadFileType] = useState('txt');
+  const [downloadForm, setDownloadForm] = useState('BASIC_TEXT');
+  const [downloadFileType, setDownloadFileType] = useState('TXT');
   const [anchorEl, setAnchorEl] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -32,8 +32,8 @@ export default function QueryDownloadButton({selected}) {
   const {t} = useTranslation();
 
   const handleOptionsDialogOpenButtonClick = (event) => {
-    setDownloadForm('basictext');
-    setDownloadFileType('txt');
+    setDownloadForm('BASIC_TEXT');
+    setDownloadFileType('TXT');
     setAnchorEl(event.currentTarget);
   };
 
@@ -62,7 +62,7 @@ export default function QueryDownloadButton({selected}) {
       method: "POST",
       body: JSON.stringify({
         form: downloadForm,
-        type: downloadFileType,
+        fileType: downloadFileType,
         fileList: Array.from(selected)
       }),
       headers: {
@@ -76,7 +76,7 @@ export default function QueryDownloadButton({selected}) {
         throw new Error();
       })
       .then((blob) => {
-        FileSaver.saveAs(blob, `${i18n.language === 'et' ? 'tekstid' : 'texts'}.${downloadFileType === 'txt' ? 'txt' : 'zip'}`);
+        FileSaver.saveAs(blob, `${i18n.language === 'ET' ? 'tekstid' : 'texts'}.${downloadFileType === 'TXT' ? 'txt' : 'zip'}`);
         setIsLoading(false);
       })
       .catch(() => {
@@ -122,26 +122,26 @@ export default function QueryDownloadButton({selected}) {
               <InputLabel>{t('query_download_form')}</InputLabel>
               <Select
                 size="medium"
-                defaultValue='basictext'
+                defaultValue="BASIC_TEXT"
                 label={t('query_download_form')}
                 onChange={changeDownloadForm}
               >
-                <MenuItem value="basictext">{t('query_download_basictext')}</MenuItem>
-                <MenuItem value="tei"
+                <MenuItem value="BASIC_TEXT">{t('query_download_basictext')}</MenuItem>
+                <MenuItem value="TEI"
                           disabled>{t('query_download_tei')}</MenuItem>
-                <MenuItem value="stanza">{t('query_download_stanza')}</MenuItem>
-                <MenuItem value="vislcg3">{t('query_download_vislcg3')}</MenuItem>
+                <MenuItem value="CONLLU">{t('query_download_stanza')}</MenuItem>
+                <MenuItem value="VISLCG3">{t('query_download_vislcg3')}</MenuItem>
               </Select>
             </FormControl>
             <FormControl className='query-download-modal-radio-group'>
               <RadioGroup
-                defaultValue="txt"
+                defaultValue="TXT"
                 onChange={changeDownloadFileType}
               >
-                <FormControlLabel value="txt"
+                <FormControlLabel value="TXT"
                                   control={<Radio/>}
                                   label={t('query_download_txt')}/>
-                <FormControlLabel value="zip"
+                <FormControlLabel value="ZIP"
                                   control={<Radio/>}
                                   label={t('query_download_zip')}/>
               </RadioGroup>

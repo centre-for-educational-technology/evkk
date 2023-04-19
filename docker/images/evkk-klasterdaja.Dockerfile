@@ -1,4 +1,4 @@
-FROM evkk-estnltk141
+FROM --platform=linux/amd64 evkk-estnltk141
 WORKDIR /app
 ENV FLASK_ENV=development
 RUN pip install Flask

@@ -6,7 +6,6 @@
 :9999 {
 
   reverse_proxy /* ui:5000
-  reverse_proxy /sonarakendus/* sonarakendus:5001
 
   reverse_proxy /api/* api:9090
 

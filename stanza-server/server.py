@@ -8,9 +8,9 @@ from flask import request
 from flask import Response
 import re
 from tasemehindaja import arvuta
-from nlp import nlp_t, nlp_tp, nlp_tpl
+from nlp import nlp_t, nlp_tp, nlp_tpl, nlp_all
 
-from nlp import nlp_ru_t, nlp_ru_tp
+from nlp import nlp_ru_t, nlp_ru_tp, nlp_ru_tpl, nlp_ru_all
 
 if os.path.isfile("/app/word_mapping.csv"):
   asendused=[rida.strip().split(",") for rida in open("/app/word_mapping.csv").readlines()]
@@ -73,6 +73,17 @@ def lemmad():
                 v1.append(word.lemma)
     return Response(json.dumps(v1), mimetype="application/json")
 
+@app.route('/lemmadjaposinfo', methods=['POST'])
+def lemmadjaposinfo():
+    nlp = nlp_tpl
+    doc = nlp(request.json["tekst"])
+    v1 = []
+    for sentence in doc.sentences:
+        for word in sentence.words:
+          if word._upos != "PUNCT":
+              v1.append({"word": word.lemma, "startChar": word.start_char, "endChar": word.end_char})
+    return Response(json.dumps(v1), mimetype="application/json")
+
 @app.route('/laused', methods=['POST'])
 def laused():
     nlp = nlp_t
@@ -81,6 +92,32 @@ def laused():
     for sentence in doc.sentences:
         v2 = []
         v2.append(sentence.text)
+        v1.append(v2)
+    return Response(json.dumps(v1), mimetype="application/json")
+
+@app.route('/sonadlausetenajaposinfo', methods=['POST'])
+def sonadlausetenajaposinfo():
+    nlp = nlp_tp
+    doc = nlp(request.json["tekst"])
+    v1 = []
+    for sentence in doc.sentences:
+        v2 = []
+        for word in sentence.words:
+            if word._upos != "PUNCT":
+                v2.append({"word": word.text, "startChar": word.start_char, "endChar": word.end_char})
+        v1.append(v2)
+    return Response(json.dumps(v1), mimetype="application/json")
+
+@app.route('/lemmadlausetenajaposinfo', methods=['POST'])
+def lemmadlausetenajaposinfo():
+    nlp = nlp_tpl
+    doc = nlp(request.json["tekst"])
+    v1 = []
+    for sentence in doc.sentences:
+        v2 = []
+        for word in sentence.words:
+            if word._upos != "PUNCT":
+                v2.append({"word": word.lemma, "startChar": word.start_char, "endChar": word.end_char})
         v1.append(v2)
     return Response(json.dumps(v1), mimetype="application/json")
 
@@ -93,6 +130,17 @@ def sonad():
         for word in sentence.words:
             if word._upos != "PUNCT":
                 v1.append(word.text)
+    return Response(json.dumps(v1), mimetype="application/json")
+
+@app.route('/sonadjaposinfo', methods=['POST'])
+def sonadjaposinfo():
+    nlp = nlp_tp
+    doc = nlp(request.json["tekst"])
+    v1 = []
+    for sentence in doc.sentences:
+        for word in sentence.words:
+          if word._upos != "PUNCT":
+              v1.append({"word": word.text, "startChar": word.start_char, "endChar": word.end_char})
     return Response(json.dumps(v1), mimetype="application/json")
 
 @app.route('/keeletase', methods=['POST'])
@@ -119,9 +167,9 @@ def tervitus():
 
 def margenda_stanza(tekst, comments=True, filename="document", language='et'):
     v=[]
-    nlp=nlp_tp
+    nlp=nlp_all
     if language=='ru':
-        nlp=nlp_ru_tp
+        nlp=nlp_ru_all
     doc=nlp(tekst)
     index=0
     if comments:
@@ -245,7 +293,6 @@ def hinda_mitmekesisust(tekst):
 
     #sõnade arv kokku
     words_count = len(words_array)
-    print(words_count)
     new_text = ""
     for j in range (0, len(words_array)):
         new_text = new_text + " " + words_array[j].text
@@ -265,7 +312,6 @@ def hinda_mitmekesisust(tekst):
 
     KLSS = round(lemmas_count / math.sqrt(2 * words_count), 4)
     JLSS = round(lemmas_count /  math.sqrt(words_count), 4)
-    print(words_count, lemmas_count)
     MAAS = round((math.log(words_count) - math.log(lemmas_count)) / math.ldexp(math.log(words_count), 2), 4)
     UBER = round(math.ldexp(math.log(words_count), 2) / (math.log(words_count) - math.log(lemmas_count)), 4)
     MTLD = round(valemid_mitmekesisus.mtld_calc(words_array, ttr_threshold = 0.72), 4)

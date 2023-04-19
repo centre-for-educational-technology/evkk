@@ -1,6 +1,6 @@
 package ee.evkk.dto;
 
-import ee.evkk.dto.enums.WordlistType;
+import ee.evkk.dto.enums.WordType;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -13,7 +13,7 @@ public class WordlistRequestDto {
   private Set<UUID> corpusTextIds;
 
   @NotNull
-  private WordlistType type;
+  private WordType type;
 
   private boolean excludeStopwords;
 
@@ -33,11 +33,11 @@ public class WordlistRequestDto {
     this.corpusTextIds = corpusTextIds;
   }
 
-  public WordlistType getType() {
+  public WordType getType() {
     return type;
   }
 
-  public void setType(WordlistType type) {
+  public void setType(WordType type) {
     this.type = type;
   }
 

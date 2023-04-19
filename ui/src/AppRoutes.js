@@ -16,6 +16,7 @@ import AboutUs from './elle/pages/AboutUs';
 import Publications from './elle/pages/Publications';
 import Adding from './elle/pages/Adding.component';
 import Wordlist from './elle/tools/wordlist/Wordlist';
+import WordContext from './elle/tools/wordcontext/WordContext';
 
 class AppRoutes extends Component {
 
@@ -70,6 +71,8 @@ class AppRoutes extends Component {
                    element={<Adding/>}/>
             <Route path="wordlist"
                    element={<Wordlist/>}/>
+            <Route path="wordcontext"
+                   element={<WordContext/>}/>
             <Route path="clusterfinder"
                    element={<ClusterFinder/>}/>
             <Route path="wordanalyser"

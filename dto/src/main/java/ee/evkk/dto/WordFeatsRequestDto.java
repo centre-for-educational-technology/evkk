@@ -1,9 +1,11 @@
 package ee.evkk.dto;
 
+import ee.evkk.dto.enums.Language;
+
 public class WordFeatsRequestDto {
 
   private String tekst;
-  private String language;
+  private Language language;
 
   public String getTekst() {
     return tekst;
@@ -13,11 +15,11 @@ public class WordFeatsRequestDto {
     this.tekst = tekst;
   }
 
-  public String getLanguage() {
+  public Language getLanguage() {
     return language;
   }
 
-  public void setLanguage(String language) {
+  public void setLanguage(Language language) {
     this.language = language;
   }
 }
