@@ -32,6 +32,7 @@ export default function Wordlist() {
   const navigate = useNavigate();
   const [paramsExpanded, setParamsExpanded] = useState(true);
   const [typeValue, setTypeValue] = useState('');
+  const [typeValueToDisplay, setTypeValueToDisplay] = useState('');
   const [typeError, setTypeError] = useState(false);
   const [stopwordsChecked, setStopwordsChecked] = useState(false);
   const [customStopwords, setCustomStopwords] = useState('');
@@ -45,9 +46,9 @@ export default function Wordlist() {
   const data = useMemo(() => response, [response]);
 
   useEffect(() => {
-    const type = typeValue === 'sonad' ? 'Sõnavorm' : 'Algvorm';
+    const type = typeValueToDisplay === 'WORDS' ? 'Sõnavorm' : 'Algvorm';
     setTableToDownload([type, 'Kasutuste arv', 'Osakaal']);
-  }, [typeValue]);
+  }, [typeValueToDisplay]);
 
   useEffect(() => {
     if (!queryStore.getState()) {
@@ -67,7 +68,7 @@ export default function Wordlist() {
     },
     {
       Header: () => {
-        return typeValue === 'sonad' ? 'Sõnavorm' : 'Algvorm';
+        return typeValueToDisplay === 'WORDS' ? 'Sõnavorm' : 'Algvorm';
       },
       accessor: 'word',
       width: 140,
@@ -101,7 +102,7 @@ export default function Wordlist() {
                              keepCapitalization={capitalizationChecked}/>;
       }
     }
-  ], [typeValue, capitalizationChecked]);
+  ], [typeValue, typeValueToDisplay, capitalizationChecked]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -122,6 +123,7 @@ export default function Wordlist() {
           setResponse(result);
           setShowTable(true);
           setLoading(false);
+          setTypeValueToDisplay(typeValue);
         });
     }
   };
