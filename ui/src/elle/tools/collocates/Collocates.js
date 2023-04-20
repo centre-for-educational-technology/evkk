@@ -70,7 +70,7 @@ export default function Collocates() {
     {
       Header: 'Naabersõna',
       accessor: 'collocate',
-      width: 200,
+      width: 140,
       Cell: (cellProps) => {
         return cellProps.value;
       }
@@ -296,7 +296,7 @@ export default function Collocates() {
                              headers={tableToDownload}
                              accessors={accessors}
                              marginTop={'2vh'}
-                             marginRight={'17.25vw'}/>
+                             marginRight={'19.25vw'}/>
         <GenericTable tableClassname={'wordlist-table'} columns={columns} data={data} sortByColAccessor={'score'}/>
       </>}
       <Backdrop

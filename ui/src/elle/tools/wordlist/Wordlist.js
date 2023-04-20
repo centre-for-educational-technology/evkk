@@ -59,7 +59,7 @@ export default function Wordlist() {
     {
       Header: 'Jrk',
       accessor: 'id',
-      width: 40,
+      width: 20,
       disableSortBy: true,
       Cell: (cellProps) => {
         return cellProps.sortedFlatRows.findIndex(item => item.id === cellProps.row.id) + 1;
@@ -70,7 +70,7 @@ export default function Wordlist() {
         return typeValue === 'sonad' ? 'Sõnavorm' : 'Algvorm';
       },
       accessor: 'word',
-      width: 200,
+      width: 140,
       Cell: (cellProps) => {
         return cellProps.value;
       }
@@ -78,7 +78,7 @@ export default function Wordlist() {
     {
       Header: 'Kasutuste arv',
       accessor: 'frequencyCount',
-      width: 40,
+      width: 20,
       Cell: (cellProps) => {
         return cellProps.value;
       }
@@ -86,7 +86,7 @@ export default function Wordlist() {
     {
       Header: 'Osakaal',
       accessor: 'frequencyPercentage',
-      width: 40,
+      width: 20,
       Cell: (cellProps) => {
         return `${cellProps.value}%`;
       }
@@ -268,7 +268,7 @@ export default function Wordlist() {
                              headers={tableToDownload}
                              accessors={accessors}
                              marginTop={'2vh'}
-                             marginRight={'18vw'}/>
+                             marginRight={'20.25vw'}/>
         <GenericTable tableClassname={'wordlist-table'} columns={columns} data={data}
                       sortByColAccessor={'frequencyCount'}/>
       </>}
