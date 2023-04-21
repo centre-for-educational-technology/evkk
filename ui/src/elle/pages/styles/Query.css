@@ -36,3 +36,7 @@
   resize: none;
   overflow-y: auto;
 }
+
+.selected-text-chip {
+  margin-left: 0.5em !important;
+}

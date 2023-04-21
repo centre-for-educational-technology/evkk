@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   Checkbox,
+  Chip,
   FormControl,
   IconButton,
   InputLabel,
@@ -60,6 +61,8 @@ function Query() {
   const [queryVisible, setQueryVisible] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [textInputValue, setTextInputValue] = useState('');
+  const [corpusTextsSelected, setCorpusTextsSelected] = useState(0);
+  const [ownTextsSelected, setOwnTextsSelected] = useState(false);
   const [corpusCheckboxStatus, setCorpusCheckboxStatus] = useState({
     all: false,
     cFqPphvYi: false,
@@ -111,6 +114,15 @@ function Query() {
     setSinglePropertyData(newSinglePropertyData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [corpusCheckboxStatus]);
+
+  queryStore.subscribe(() => {
+    const storeState = queryStore.getState();
+    setCorpusTextsSelected(storeState.corpusTextIds !== null
+      ? storeState.corpusTextIds.length
+      : 0
+    );
+    setOwnTextsSelected(storeState.ownTexts !== null);
+  });
 
   const modalStyle = {
     position: 'absolute',
@@ -357,10 +369,24 @@ function Query() {
     setModalOpen(false);
   };
 
+  const handleChipDelete = (type) => {
+    if (type === 'CORPUS_TEXTS') {
+      queryStore.dispatch({
+        type: 'CHANGE_CORPUS_TEXTS',
+        value: null
+      });
+    } else {
+      queryStore.dispatch({
+        type: 'CHANGE_OWN_TEXTS',
+        value: null
+      });
+    }
+  };
+
   return (
     <div>
       <Alert severity="info">Otsi tekste EVKK tekstikogust ja analüüsi neid meie tööriistadega või sisesta
-        analüüsimiseks oma tekst(id).</Alert>
+        analüüsimiseks oma tekstid.</Alert>
       <br/>
       {alert && <><Alert severity="error">Vali vähemalt üks alamkorpus!</Alert><br/></>}
       <div className="buttonBox">
@@ -371,11 +397,23 @@ function Query() {
                 }}>Vali tekstid</Button>
         <Button variant="contained"
                 onClick={() => setModalOpen(true)}
-                className="buttonSecondLeft">Oma tekst</Button>
+                className="buttonSecondLeft">Oma tekstid</Button>
         <Button variant="contained"
                 onClick={() => navigate('adding')}
                 className="buttonRight">Loovuta tekst</Button>
       </div>
+      {(corpusTextsSelected > 0 || ownTextsSelected) && <>
+        <br/>
+        Analüüsiks salvestatud tekstid:
+        {corpusTextsSelected > 0 &&
+          <Chip label={`${corpusTextsSelected} korpuse tekst${corpusTextsSelected > 1 ? 'i' : ''}`}
+                className="selected-text-chip" variant="outlined" onDelete={() => handleChipDelete('CORPUS_TEXTS')}/>
+        }
+        {ownTextsSelected > 0 &&
+          <Chip label="oma tekstid" className="selected-text-chip" variant="outlined"
+                onDelete={() => handleChipDelete('OWN_TEXTS')}/>
+        }
+      </>}
       {queryVisible && <span>
         <Accordion sx={AccordionStyle}
                    className="queryAccordion"

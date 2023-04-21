@@ -162,7 +162,7 @@ export default function WordContext() {
     const storeState = queryStore.getState();
     return JSON.stringify({
       corpusTextIds: storeState.corpusTextIds
-        ? storeState.corpusTextIds.split(',')
+        ? storeState.corpusTextIds
         : null,
       ownTexts: storeState.ownTexts
         ? storeState.ownTexts
