@@ -71,12 +71,12 @@ function TextUpload({sendTextFromFile}) {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '40vw',
+    width: '40em',
     bgcolor: '#FCFCFC',
     boxShadow: 24,
     borderRadius: '12px',
     p: 4,
-    height: '50vh',
+    height: '28em',
     overflow: 'auto'
   };
 

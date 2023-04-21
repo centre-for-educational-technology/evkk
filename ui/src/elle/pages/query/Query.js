@@ -339,12 +339,12 @@ function Query() {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '60vw',
+    width: '55em',
     bgcolor: '#FCFCFC',
     boxShadow: 24,
     borderRadius: '12px',
     p: 4,
-    height: '60vh',
+    maxHeight: '37.5em',
     overflow: 'auto'
   };
 
@@ -1040,6 +1040,12 @@ function Query() {
               value={textInputValue}
               onChange={(e) => setTextInputValue(e.target.value)}
             ></textarea>
+            <Button variant="contained"
+                    style={{marginTop: '2.5em'}}
+                    disabled={textInputValue === ''}
+                    onClick={() => setModalOpen(false)}>
+              Salvesta tekstid analüüsiks
+            </Button>
           </div>
         </Box>
       </Modal>
