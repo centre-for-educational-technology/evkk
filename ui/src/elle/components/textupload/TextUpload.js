@@ -1,126 +1,140 @@
-import React, { useState } from 'react';
+import { createRef, useState } from 'react';
 import TextUploadModal from './TextUploadModal';
 import '../styles/TextUpload.css';
-import { Button, Grid, Tooltip } from '@mui/material';
+import { Alert, Button, Grid, Tooltip } from '@mui/material';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 
 function TextUpload(props) {
 
-  const formDataElement = React.createRef();
-  const fileNameElement = React.createRef();
-  const text1Element = React.createRef();
-
+  const [showError, setShowError] = useState(false);
+  const formDataElement = createRef();
+  const fileNameElement = createRef();
+  const text1Element = createRef();
   const [buttonPopup, setButtonPopup] = useState(false);
-
   const {t} = useTranslation();
 
   function fileUpload() {
-    let oData = new FormData(formDataElement.current);
-    const request_test = {
-      method: "POST",
-      body: oData
-    }
+    let formData = new FormData(formDataElement.current);
+    const requestBody = {
+      method: 'POST',
+      body: formData
+    };
 
-    fetch("/api/textfromfile", request_test)
-      .then(response => response.text())
-      .then(data => {
-        props.sendTextFromFile(data);
-
+    fetch('/api/textfromfile', requestBody)
+      .then(response => {
+        if (response.ok) {
+          return response.text();
+        }
+        return Promise.reject(response);
+      })
+      .then(response => {
+        props.sendTextFromFile(response);
+        setShowError(false);
+      })
+      .catch(() => {
+        props.sendTextFromFile('');
+        setShowError(true);
       });
-    fileNameElement.current.textContent = "";
+    fileNameElement.current.textContent = '';
   }
 
-  function filechange() {
-    fileNameElement.current.textContent = "";
-    let br = document.createElement("br");
-    let b = document.createElement("b");
-    let div = document.createElement("div");
-    let fileNameDataContent = document.createTextNode(t("textupload_chosen_files"));
+  function fileChange() {
+    fileNameElement.current.textContent = '';
+    let br = document.createElement('br');
+    let b = document.createElement('b');
+    let div = document.createElement('div');
+    let fileNameDataContent = document.createTextNode(t('textupload_chosen_files'));
     b.appendChild(fileNameDataContent);
     div.appendChild(b);
     div.appendChild(br);
 
-    let file_length = text1Element.current.files.length;
-    for (let i = 0; i < file_length; i++) {
-      let eachBr = document.createElement("br");
-      let temp_name = document.createTextNode(text1Element.current.files[i].name);
-      div.appendChild(temp_name);
-      div.appendChild(eachBr);
+    let fileLength = text1Element.current.files.length;
+    for (let i = 0; i < fileLength; i++) {
+      let brElement = document.createElement('br');
+      let tempName = document.createTextNode(text1Element.current.files[i].name);
+      div.appendChild(tempName);
+      div.appendChild(brElement);
     }
 
     fileNameElement.current.appendChild(div);
   }
 
   return (
-    <div className='container'>
-      <Tooltip title={"Laadi oma tekst üles"} placement={"top-start"}>
-        <FileUploadIcon id="upload_button"
-                        value="Vali tekst(id)"
-                        className="button-file"
+    <>
+      {showError &&
+        <span>
+          <Alert severity="error">{t('error_file_upload_failed')}</Alert>
+          <br/>
+        </span>
+      }
+      <div className="container">
+        <Tooltip title={t('textupload_tooltip')} placement={'top-start'}>
+          <FileUploadIcon id="upload_button"
+                          className="button-file"
+                          onClick={() => {
+                            setButtonPopup(true);
+                          }}
+          />
+        </Tooltip>
+        <TextUploadModal trigger={buttonPopup}>
+          <form encType="multipart/form-data"
+                method="post"
+                id="form_data"
+                ref={formDataElement}>
+            <div id="popup_1">
+              <Grid container
+                    spacing={2}
+                    alignItems="center"
+                    justifyContent="space-between"
+                    direction="column">
+                <Grid item
+                      xs={12}>
+                  <h1 id="pop_title">{t('textupload_title')}</h1>
+                </Grid>
+                <Button className="close-btn"
+                        id="close"
                         onClick={() => {
-                          setButtonPopup(true)
+                          setButtonPopup(false);
                         }}
-        />
-      </Tooltip>
-      <TextUploadModal trigger={buttonPopup}>
-        <form encType="multipart/form-data"
-              method="post"
-              id='form_data'
-              ref={formDataElement}>
-          <div id='popup_1'>
-            <Grid container
-                  spacing={2}
-                  alignItems="center"
-                  justifyContent="space-between"
-                  direction="column">
-              <Grid item
-                    xs={12}>
-                <h1 id="pop_title">{t("textupload_title")}</h1>
+                        style={{paddingTop: '.85rem'}}>X</Button>
+                <Grid item
+                      xs={12}>
+                  <Button component="label"
+                          htmlFor="text_1"
+                          variant="contained">{t('textupload_choose_files')}</Button>
+                </Grid>
+                <Grid item
+                      xs={12}>
+                  <div id="file_name"
+                       style={{height: '150px', width: '500px', textAlign: 'center'}}
+                       ref={fileNameElement}></div>
+                </Grid>
+                <Grid item
+                      xs={12}>
+                  <Button type="button"
+                          variant="contained"
+                          onClick={() => {
+                            setButtonPopup(false);
+                          }}
+                          onMouseDown={fileUpload}>{t('textupload_upload')}</Button>
+                </Grid>
+                <input style={{visibility: 'hidden'}}
+                       type="file"
+                       name="file"
+                       id="text_1"
+                       onChange={fileChange}
+                       multiple={true}
+                       accept=".txt,.pdf,.docx,.doc,.odt"
+                       ref={text1Element}></input>
               </Grid>
-              <Button className="close-btn"
-                      id="close"
-                      onClick={() => {
-                        setButtonPopup(false)
-                      }}
-                      style={{paddingTop: ".85rem"}}>X</Button>
-              <Grid item
-                    xs={12}>
-                <Button component="label"
-                        htmlFor='text_1'
-                        variant="contained">{t("textupload_choose_files")}</Button>
-              </Grid>
-              <Grid item
-                    xs={12}>
-                <div id="file_name"
-                     style={{height: "150px", width: "500px", textAlign: "center"}}
-                     ref={fileNameElement}></div>
-              </Grid>
-              <Grid item
-                    xs={12}>
-                <Button type='button'
-                        variant="contained"
-                        onClick={() => {
-                          setButtonPopup(false)
-                        }}
-                        onMouseDown={fileUpload}>{t("textupload_upload")}</Button>
-              </Grid>
-              <input style={{visibility: "hidden"}}
-                     type="file"
-                     name="file"
-                     id="text_1"
-                     onChange={filechange}
-                     title="your text"
-                     multiple={true}
-                     accept=".txt,.pdf,.docx,.doc,.odt"
-                     ref={text1Element}></input>
-            </Grid>
-          </div>
-        </form>
-      </TextUploadModal>
-    </div>
-  )
+            </div>
+          </form>
+        </TextUploadModal>
+      </div>
+    </>
+  );
 }
 
 export default TextUpload;

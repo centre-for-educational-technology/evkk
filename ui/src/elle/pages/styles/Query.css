@@ -27,3 +27,12 @@
 .buttonSecondLeft {
   margin-left: 1em !important;
 }
+
+.query-textinput {
+  width: 100%;
+  height: 250px;
+  padding: 10px;
+  border: solid 1px black;
+  resize: none;
+  overflow-y: auto;
+}

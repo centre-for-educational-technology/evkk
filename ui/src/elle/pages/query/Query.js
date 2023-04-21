@@ -4,13 +4,16 @@ import {
   AccordionDetails,
   AccordionSummary,
   Alert,
+  Box,
   Button,
   Checkbox,
   FormControl,
+  IconButton,
   InputLabel,
   ListItemIcon,
   ListItemText,
   MenuItem,
+  Modal,
   Select,
   Tooltip,
   Typography
@@ -31,6 +34,8 @@ import QueryResults from './QueryResults';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useLocation, useNavigate } from 'react-router-dom';
+import TextUpload from '../../components/textupload/TextUpload';
+import CloseIcon from '@mui/icons-material/Close';
 
 function Query() {
 
@@ -77,6 +82,8 @@ function Query() {
   const [isLoading, setIsLoading] = useState(false);
   const [resultsKey, setResultsKey] = useState(1);
   const [queryVisible, setQueryVisible] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [textInputValue, setTextInputValue] = useState('');
 
   function submitted() {
     setResultsKey(Math.random());
@@ -323,6 +330,24 @@ function Query() {
     return checked;
   };
 
+  const sendTextFromFile = (data) => {
+    setTextInputValue(data);
+  };
+
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '60vw',
+    bgcolor: '#FCFCFC',
+    boxShadow: 24,
+    borderRadius: '12px',
+    p: 4,
+    height: '60vh',
+    overflow: 'auto'
+  };
+
   return (
     <div>
       <Alert severity="info">Otsi tekste EVKK tekstikogust ja analüüsi neid meie tööriistadega või sisesta
@@ -336,8 +361,8 @@ function Query() {
                   setExpanded(true);
                 }}>Vali tekstid</Button>
         <Button variant="contained"
-                className="buttonSecondLeft"
-                disabled>Oma tekst</Button>
+                onClick={() => setModalOpen(true)}
+                className="buttonSecondLeft">Oma tekst</Button>
         <Button variant="contained"
                 onClick={() => navigate('adding')}
                 className="buttonRight">Loovuta tekst</Button>
@@ -987,6 +1012,37 @@ function Query() {
                       data={results}/>
         </span>
       }
+      <Modal
+        open={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+        }}
+      >
+        <Box sx={modalStyle}>
+          <div className="modal-head">
+            Sisesta või laadi üles oma tekstid
+          </div>
+          <IconButton
+            aria-label="close"
+            onClick={() => {
+              setModalOpen(false);
+            }}
+            className="closeButton"
+          >
+            <CloseIcon/>
+          </IconButton>
+          <br/><br/>
+          <div>
+            <TextUpload sendTextFromFile={sendTextFromFile}/>
+            <textarea
+              spellCheck="false"
+              className="query-textinput"
+              value={textInputValue}
+              onChange={(e) => setTextInputValue(e.target.value)}
+            ></textarea>
+          </div>
+        </Box>
+      </Modal>
     </div>
   );
 }
