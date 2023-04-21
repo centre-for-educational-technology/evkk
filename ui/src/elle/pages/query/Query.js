@@ -115,14 +115,22 @@ function Query() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [corpusCheckboxStatus]);
 
+  useEffect(() => {
+    refreshChips();
+  }, []);
+
   queryStore.subscribe(() => {
+    refreshChips();
+  });
+
+  const refreshChips = () => {
     const storeState = queryStore.getState();
     setCorpusTextsSelected(storeState.corpusTextIds !== null
       ? storeState.corpusTextIds.length
       : 0
     );
     setOwnTextsSelected(storeState.ownTexts !== null);
-  });
+  };
 
   const modalStyle = {
     position: 'absolute',
