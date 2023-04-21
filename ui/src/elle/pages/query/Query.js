@@ -34,7 +34,7 @@ import QueryResults from './QueryResults';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useLocation, useNavigate } from 'react-router-dom';
-import TextUpload from '../../components/textupload/TextUpload';
+import TextUpload from '../../components/TextUpload';
 import CloseIcon from '@mui/icons-material/Close';
 
 function Query() {

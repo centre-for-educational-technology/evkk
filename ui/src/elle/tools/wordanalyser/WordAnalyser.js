@@ -2,7 +2,7 @@ import { memo, useContext, useEffect, useState } from 'react';
 import { Input } from './textinput/Input';
 import { WordInfo } from './WordInfo';
 import './styles/WordAnalyser.css';
-import TextUpload from '../../components/textupload/TextUpload';
+import TextUpload from '../../components/TextUpload';
 import { Alert, Box, Fade, Grid, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
