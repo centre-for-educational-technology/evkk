@@ -51,7 +51,8 @@ export default function Wordlist() {
   }, [typeValueToDisplay]);
 
   useEffect(() => {
-    if (!queryStore.getState()) {
+    const storeState = queryStore.getState();
+    if (storeState.corpusTextIds === null && storeState.ownTexts === null) {
       navigate('..');
     }
   }, [navigate]);
@@ -134,8 +135,14 @@ export default function Wordlist() {
   };
 
   const generateRequestData = () => {
+    const storeState = queryStore.getState();
     return JSON.stringify({
-      corpusTextIds: queryStore.getState().split(','),
+      corpusTextIds: storeState.corpusTextIds
+        ? storeState.corpusTextIds.split(',')
+        : null,
+      ownTexts: storeState.ownTexts
+        ? storeState.ownTexts
+        : null,
       type: typeValue,
       excludeStopwords: stopwordsChecked,
       customStopwords: customStopwords === ''

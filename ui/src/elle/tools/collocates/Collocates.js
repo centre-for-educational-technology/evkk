@@ -52,7 +52,8 @@ export default function Collocates() {
   const [showNoResultsError, setShowNoResultsError] = useState(false);
 
   useEffect(() => {
-    if (!queryStore.getState()) {
+    const storeState = queryStore.getState();
+    if (storeState.corpusTextIds === null && storeState.ownTexts === null) {
       navigate('..');
     }
   }, [navigate]);
@@ -155,8 +156,14 @@ export default function Collocates() {
   };
 
   const generateRequestData = () => {
+    const storeState = queryStore.getState();
     return JSON.stringify({
-      corpusTextIds: queryStore.getState().split(','),
+      corpusTextIds: storeState.corpusTextIds
+        ? storeState.corpusTextIds.split(',')
+        : null,
+      ownTexts: storeState.ownTexts
+        ? storeState.ownTexts
+        : null,
       type: typeValue,
       keyword: keyword,
       searchCount: searchCount,

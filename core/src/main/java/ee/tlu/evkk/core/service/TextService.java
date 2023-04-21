@@ -66,6 +66,7 @@ import static java.lang.System.lineSeparator;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
+import static java.util.Objects.nonNull;
 import static java.util.UUID.randomUUID;
 import static java.util.regex.Pattern.compile;
 import static org.apache.logging.log4j.util.Strings.isBlank;
@@ -255,6 +256,18 @@ public class TextService {
       contentsCombined.append(lineSeparator()).append(lineSeparator());
     }
     return contentsCombined.toString().getBytes(UTF_8);
+  }
+
+  public String combineCorpusTextIdsAndOwnText(Set<UUID> corpusTextIds, String ownTexts) {
+    StringBuilder result = new StringBuilder();
+    if (nonNull(corpusTextIds) && !corpusTextIds.isEmpty()) {
+      result.append(textDao.findTextsByIds(corpusTextIds));
+    }
+    result.append(" ");
+    if (ownTexts != null && ownTexts.length() > 0) {
+      result.append(ownTexts);
+    }
+    return result.toString();
   }
 
   public String lisatekst(AddingRequestDto andmed) {

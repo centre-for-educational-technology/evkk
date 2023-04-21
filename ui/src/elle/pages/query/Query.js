@@ -36,6 +36,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { useLocation, useNavigate } from 'react-router-dom';
 import TextUpload from '../../components/TextUpload';
 import CloseIcon from '@mui/icons-material/Close';
+import { queryStore } from '../../store/QueryStore';
 
 function Query() {
 
@@ -46,6 +47,19 @@ function Query() {
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState(location.pathname === '/tools');
   const [results, setResults] = useState([]);
+  const [addedYears, setAddedYears] = useState([]);
+  const [characters, setCharacters] = useState([]);
+  const [words, setWords] = useState([]);
+  const [sentences, setSentences] = useState([]);
+  const [textTypes, setTextTypes] = useState([]);
+  const [usedMultiMaterials, setUsedMultiMaterials] = useState([]);
+  const [alert, setAlert] = useState(false);
+  const [noResultsError, setNoResultsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [resultsKey, setResultsKey] = useState(1);
+  const [queryVisible, setQueryVisible] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [textInputValue, setTextInputValue] = useState('');
   const [corpusCheckboxStatus, setCorpusCheckboxStatus] = useState({
     all: false,
     cFqPphvYi: false,
@@ -71,19 +85,46 @@ function Query() {
     nationality: '',
     country: ''
   });
-  const [addedYears, setAddedYears] = useState([]);
-  const [characters, setCharacters] = useState([]);
-  const [words, setWords] = useState([]);
-  const [sentences, setSentences] = useState([]);
-  const [textTypes, setTextTypes] = useState([]);
-  const [usedMultiMaterials, setUsedMultiMaterials] = useState([]);
-  const [alert, setAlert] = useState(false);
-  const [noResultsError, setNoResultsError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [resultsKey, setResultsKey] = useState(1);
-  const [queryVisible, setQueryVisible] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [textInputValue, setTextInputValue] = useState('');
+
+  // reset corpus-based filters
+  useEffect(() => {
+    let newSinglePropertyData = {...singlePropertyData};
+
+    if (checkIfOnlySpecificCorpusIsChecked('clWmOIrLa')) {
+      newSinglePropertyData.nativeLang = '';
+    } else {
+      newSinglePropertyData.nationality = '';
+    }
+
+    if (checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')) {
+      newSinglePropertyData.level = '';
+      newSinglePropertyData.education = '';
+      newSinglePropertyData.usedMaterials = '';
+    } else {
+      newSinglePropertyData.studyLevel = '';
+      newSinglePropertyData.degree = '';
+      newSinglePropertyData.otherLang = '';
+      newSinglePropertyData.domain = '';
+      setUsedMultiMaterials([]);
+    }
+
+    setSinglePropertyData(newSinglePropertyData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [corpusCheckboxStatus]);
+
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '55em',
+    bgcolor: '#FCFCFC',
+    boxShadow: 24,
+    borderRadius: '12px',
+    p: 4,
+    maxHeight: '37.5em',
+    overflow: 'auto'
+  };
 
   function submitted() {
     setResultsKey(Math.random());
@@ -228,32 +269,6 @@ function Query() {
     }
   };
 
-  // reset corpus-based filters
-  useEffect(() => {
-    let newSinglePropertyData = {...singlePropertyData};
-
-    if (checkIfOnlySpecificCorpusIsChecked('clWmOIrLa')) {
-      newSinglePropertyData.nativeLang = '';
-    } else {
-      newSinglePropertyData.nationality = '';
-    }
-
-    if (checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')) {
-      newSinglePropertyData.level = '';
-      newSinglePropertyData.education = '';
-      newSinglePropertyData.usedMaterials = '';
-    } else {
-      newSinglePropertyData.studyLevel = '';
-      newSinglePropertyData.degree = '';
-      newSinglePropertyData.otherLang = '';
-      newSinglePropertyData.domain = '';
-      setUsedMultiMaterials([]);
-    }
-
-    setSinglePropertyData(newSinglePropertyData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [corpusCheckboxStatus]);
-
   const alterSinglePropertyData = (event, fieldName) => {
     let newSinglePropertyData = {...singlePropertyData};
     newSinglePropertyData[fieldName] = (newSinglePropertyData[fieldName] === event.target.dataset.value || event.target.dataset.value === undefined)
@@ -334,18 +349,12 @@ function Query() {
     setTextInputValue(data);
   };
 
-  const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '55em',
-    bgcolor: '#FCFCFC',
-    boxShadow: 24,
-    borderRadius: '12px',
-    p: 4,
-    maxHeight: '37.5em',
-    overflow: 'auto'
+  const handleSubmitOwnTexts = () => {
+    queryStore.dispatch({
+      type: 'CHANGE_OWN_TEXTS',
+      value: textInputValue
+    });
+    setModalOpen(false);
   };
 
   return (
@@ -1043,7 +1052,7 @@ function Query() {
             <Button variant="contained"
                     style={{marginTop: '2.5em'}}
                     disabled={textInputValue === ''}
-                    onClick={() => setModalOpen(false)}>
+                    onClick={() => handleSubmitOwnTexts()}>
               Salvesta tekstid analüüsiks
             </Button>
           </div>

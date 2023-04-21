@@ -8,7 +8,7 @@ import ee.evkk.dto.WordlistResponseDto;
 import ee.evkk.dto.enums.CollocateFormula;
 import ee.evkk.dto.enums.WordType;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
-import ee.tlu.evkk.dal.dao.TextDao;
+import ee.tlu.evkk.core.service.TextService;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -35,18 +35,18 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class CollocateService {
 
-  private final TextDao textDao;
   private final StanzaServerClient stanzaServerClient;
+  private final TextService textService;
   private final WordlistService wordlistService;
 
-  public CollocateService(TextDao textDao, StanzaServerClient stanzaServerClient, WordlistService wordlistService) {
-    this.textDao = textDao;
+  public CollocateService(StanzaServerClient stanzaServerClient, TextService textService, WordlistService wordlistService) {
+    this.textService = textService;
     this.stanzaServerClient = stanzaServerClient;
     this.wordlistService = wordlistService;
   }
 
   public CollocateResponseDto getCollocateResponse(CollocateRequestDto dto) throws IOException {
-    String sanitizedTextContent = sanitizeText(textDao.findTextsByIds(dto.getCorpusTextIds()));
+    String sanitizedTextContent = sanitizeText(textService.combineCorpusTextIdsAndOwnText(dto.getCorpusTextIds(), dto.getOwnTexts()));
     String keyword = dto.isKeepCapitalization()
       ? dto.getKeyword()
       : dto.getKeyword().toLowerCase();
