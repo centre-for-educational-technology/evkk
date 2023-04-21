@@ -3,7 +3,7 @@ import { IconButton, Menu, MenuItem } from '@mui/material';
 import { MoreHoriz } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
-export default function WordlistMenu({cellProps, type, keepCapitalization}) {
+export default function WordlistMenu({word, type, keepCapitalization}) {
 
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -19,17 +19,17 @@ export default function WordlistMenu({cellProps, type, keepCapitalization}) {
 
   const handleWordContext = () => {
     handleClose();
-    navigate(`../wordcontext?word=${cellProps.row.original.word}&type=${type}&keepCapitalization=${keepCapitalization}`);
+    navigate(`../wordcontext?word=${word}&type=${type}&keepCapitalization=${keepCapitalization}`);
   };
 
   const handleWordMeaning = () => {
     handleClose();
-    window.open(`https://sonaveeb.ee/search/unif/dlall/dsall/${cellProps.row.original.word}/1`);
+    window.open(`https://sonaveeb.ee/search/unif/dlall/dsall/${word}/1`);
   };
 
   const handleWordTranslation = () => {
     handleClose();
-    window.open(`https://translate.google.com/?sl=et&text=${cellProps.row.original.word}`);
+    window.open(`https://translate.google.com/?sl=et&text=${word}`);
   };
 
   return (

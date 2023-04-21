@@ -23,16 +23,16 @@ import {
 import { AccordionStyle } from '../../utils/constants';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { QuestionMark } from '@mui/icons-material';
-import { usePagination, useSortBy, useTable } from 'react-table';
-import TablePagination from '../../components/table/TablePagination';
 import WordlistMenu from './menu/WordlistMenu';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
+import GenericTable from '../../components/GenericTable';
 
 export default function Wordlist() {
 
   const navigate = useNavigate();
   const [paramsExpanded, setParamsExpanded] = useState(true);
   const [typeValue, setTypeValue] = useState('');
+  const [typeValueToDisplay, setTypeValueToDisplay] = useState('');
   const [typeError, setTypeError] = useState(false);
   const [stopwordsChecked, setStopwordsChecked] = useState(false);
   const [customStopwords, setCustomStopwords] = useState('');
@@ -43,12 +43,24 @@ export default function Wordlist() {
   const [response, setResponse] = useState([]);
   const [showTable, setShowTable] = useState(false);
   const accessors = ['word', 'frequencyCount', 'frequencyPercentage'];
+  const data = useMemo(() => response, [response]);
+
+  useEffect(() => {
+    const type = typeValueToDisplay === 'WORDS' ? 'Sõnavorm' : 'Algvorm';
+    setTableToDownload([type, 'Kasutuste arv', 'Osakaal']);
+  }, [typeValueToDisplay]);
+
+  useEffect(() => {
+    if (!queryStore.getState()) {
+      navigate('..');
+    }
+  }, [navigate]);
 
   const columns = useMemo(() => [
     {
       Header: 'Jrk',
       accessor: 'id',
-      width: 40,
+      width: 20,
       disableSortBy: true,
       Cell: (cellProps) => {
         return cellProps.sortedFlatRows.findIndex(item => item.id === cellProps.row.id) + 1;
@@ -56,10 +68,10 @@ export default function Wordlist() {
     },
     {
       Header: () => {
-        return typeValue === 'sonad' ? 'Sõnavorm' : 'Algvorm';
+        return typeValueToDisplay === 'WORDS' ? 'Sõnavorm' : 'Algvorm';
       },
       accessor: 'word',
-      width: 200,
+      width: 140,
       Cell: (cellProps) => {
         return cellProps.value;
       }
@@ -67,7 +79,7 @@ export default function Wordlist() {
     {
       Header: 'Kasutuste arv',
       accessor: 'frequencyCount',
-      width: 40,
+      width: 20,
       Cell: (cellProps) => {
         return cellProps.value;
       }
@@ -75,7 +87,7 @@ export default function Wordlist() {
     {
       Header: 'Osakaal',
       accessor: 'frequencyPercentage',
-      width: 40,
+      width: 20,
       Cell: (cellProps) => {
         return `${cellProps.value}%`;
       }
@@ -86,55 +98,11 @@ export default function Wordlist() {
       width: 1,
       disableSortBy: true,
       Cell: (cellProps) => {
-        return <WordlistMenu cellProps={cellProps} type={typeValue} keepCapitalization={capitalizationChecked}/>;
+        return <WordlistMenu word={cellProps.row.original.word} type={typeValue}
+                             keepCapitalization={capitalizationChecked}/>;
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  ], [typeValue, capitalizationChecked]);
-
-  const data = useMemo(() => response, [response]);
-
-  useEffect(() => {
-    const type = typeValue === 'sonad' ? 'Sõnavorm' : 'Algvorm';
-    setTableToDownload([type, 'Kasutuste arv', 'Osakaal']);
-  }, [typeValue]);
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    page,
-    prepareRow,
-    canPreviousPage,
-    canNextPage,
-    pageOptions,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    state: {pageIndex, pageSize}
-  } = useTable({
-    columns, data, initialState: {
-      sortBy: [
-        {
-          id: 'frequencyCount',
-          desc: true
-        }
-      ]
-    }
-  }, useSortBy, usePagination);
-
-  useEffect(() => {
-    if (!queryStore.getState()) {
-      navigate('..');
-    }
-  }, [navigate]);
-
-  const handleTypeChange = (event) => {
-    setTypeValue(event.target.value);
-    setTypeError(false);
-  };
+  ], [typeValue, typeValueToDisplay, capitalizationChecked]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -155,8 +123,14 @@ export default function Wordlist() {
           setResponse(result);
           setShowTable(true);
           setLoading(false);
+          setTypeValueToDisplay(typeValue);
         });
     }
+  };
+
+  const handleTypeChange = (event) => {
+    setTypeValue(event.target.value);
+    setTypeError(false);
   };
 
   const generateRequestData = () => {
@@ -296,63 +270,9 @@ export default function Wordlist() {
                              headers={tableToDownload}
                              accessors={accessors}
                              marginTop={'2vh'}
-                             marginRight={'18vw'}/>
-        <table className="wordlist-table"
-               {...getTableProps()}>
-          <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>
-                  {column.render('Header')}
-                  {column.canSort &&
-                    <span className="sortIcon"
-                          {...column.getHeaderProps(column.getSortByToggleProps({title: ''}))}>
-                        {column.isSorted
-                          ? column.isSortedDesc
-                            ? ' ▼'
-                            : ' ▲'
-                          : ' ▼▲'}
-                    </span>
-                  }
-                </th>
-              ))}
-            </tr>
-          ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-          {page.map((row, _i) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return (
-                    <td {...cell.getCellProps()}
-                        style={{
-                          width: cell.column.width
-                        }}>
-                      {cell.render('Cell')}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-          </tbody>
-        </table>
-        <br/>
-        <TablePagination
-          gotoPage={gotoPage}
-          previousPage={previousPage}
-          canPreviousPage={canPreviousPage}
-          nextPage={nextPage}
-          canNextPage={canNextPage}
-          pageIndex={pageIndex}
-          pageOptions={pageOptions}
-          pageSize={pageSize}
-          setPageSize={setPageSize}
-          pageCount={pageCount}
-        />
+                             marginRight={'20.25vw'}/>
+        <GenericTable tableClassname={'wordlist-table'} columns={columns} data={data}
+                      sortByColAccessor={'frequencyCount'}/>
       </>}
       <Backdrop
         open={loading}

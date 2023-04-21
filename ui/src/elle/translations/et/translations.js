@@ -3,6 +3,7 @@ export const TRANSLATIONS_ET = {
   applied_filters: 'Rakendatud filtrid',
   back: 'EELMINE',
   beginning: 'algus',
+  collocates_filename: 'naabersõnad',
   common_download: 'Laadi alla',
   common_excel_sheet_name: 'Tabel',
   common_form: 'Vorm',

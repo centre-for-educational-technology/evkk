@@ -18,9 +18,10 @@
 
 .wordlist-table {
   border-collapse: collapse;
-  width: 70%;
+  width: 65%;
   margin-left: auto;
   margin-right: auto;
+  text-align: center;
 }
 
 .wordlist-table td, .wordlist-table th {
@@ -31,6 +32,7 @@
 .wordlist-table td:last-child, .wordlist-table th:last-child {
   background-color: white;
   border: none !important;
+  text-align: start;
 }
 
 .wordlist-table tr:nth-child(even) {

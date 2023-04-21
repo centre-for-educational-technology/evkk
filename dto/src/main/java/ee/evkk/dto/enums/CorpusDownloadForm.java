@@ -1,5 +1,5 @@
 package ee.evkk.dto.enums;
 
-public enum CorpusDownloadFormType {
+public enum CorpusDownloadForm {
   BASIC_TEXT, CONLLU, VISLCG3, TEI
 }

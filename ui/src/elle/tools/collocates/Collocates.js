@@ -1,10 +1,8 @@
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import './Collocates.css';
 import React, { useEffect, useMemo, useState } from 'react';
-import { queryStore } from '../../store/QueryStore';
 import { AccordionStyle } from '../../utils/constants';
 import Accordion from '@mui/material/Accordion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import AccordionSummary from '@mui/material/AccordionSummary';
 import {
   Alert,
   Backdrop,
@@ -24,44 +22,34 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
+import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import './WordContext.css';
-import TableDownloadButton from '../../components/table/TableDownloadButton';
 import { QuestionMark } from '@mui/icons-material';
+import TableDownloadButton from '../../components/table/TableDownloadButton';
+import { queryStore } from '../../store/QueryStore';
+import { useNavigate } from 'react-router-dom';
+import WordlistMenu from '../wordlist/menu/WordlistMenu';
 import GenericTable from '../../components/GenericTable';
 
-export default function WordContext() {
+export default function Collocates() {
 
   const navigate = useNavigate();
-  const [urlParams] = useSearchParams();
   const [paramsExpanded, setParamsExpanded] = useState(true);
   const [typeValue, setTypeValue] = useState('');
   const [typeError, setTypeError] = useState(false);
-  const [keyword, setKeyword] = useState('');
-  const [displayCount, setDisplayCount] = useState(5);
-  const [displayType, setDisplayType] = useState('WORD');
   const [capitalizationChecked, setCapitalizationChecked] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState([]);
-  const [showTable, setShowTable] = useState(false);
-  const [showNoResultsError, setShowNoResultsError] = useState(false);
+  const [keyword, setKeyword] = useState('');
+  const [searchCount, setSearchCount] = useState(3);
+  const [formula, setFormula] = useState('LOGDICE');
   const [lemmatizedKeywordResult, setLemmatizedKeywordResult] = useState(null);
   const [initialKeywordResult, setInitialKeywordResult] = useState(null);
-  const tableToDownload = ['Eelnev kontekst', 'Otsisõna', 'Järgnev kontekst'];
-  const accessors = ['contextBefore', 'keyword', 'contextAfter'];
+  const [showTable, setShowTable] = useState(false);
+  const tableToDownload = ['Naabersõna', 'Skoor', 'Kasutuste arv', 'Osakaal'];
+  const accessors = ['collocate', 'score', 'frequencyCount', 'frequencyPercentage'];
+  const [response, setResponse] = useState([]);
   const data = useMemo(() => response, [response]);
-
-  useEffect(() => {
-    if (urlParams.get('word') && urlParams.get('type') && urlParams.get('keepCapitalization')) {
-      setKeyword(urlParams.get('word'));
-      setTypeValue(urlParams.get('type'));
-      if (urlParams.get('type') !== 'LEMMAS') {
-        setCapitalizationChecked(urlParams.get('keepCapitalization') === 'true');
-      }
-      sendRequest();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [urlParams, keyword, typeValue, capitalizationChecked]);
+  const [loading, setLoading] = useState(false);
+  const [showNoResultsError, setShowNoResultsError] = useState(false);
 
   useEffect(() => {
     if (!queryStore.getState()) {
@@ -73,61 +61,63 @@ export default function WordContext() {
     {
       Header: 'Jrk',
       accessor: 'id',
-      width: 30,
+      width: 40,
       disableSortBy: true,
       Cell: (cellProps) => {
         return cellProps.sortedFlatRows.findIndex(item => item.id === cellProps.row.id) + 1;
-      },
-      className: 'text-center'
+      }
     },
     {
-      Header: 'Eelnev kontekst',
-      accessor: 'contextBefore',
-      width: 100,
+      Header: 'Naabersõna',
+      accessor: 'collocate',
+      width: 140,
       Cell: (cellProps) => {
         return cellProps.value;
-      },
-      className: 'text-right'
+      }
     },
     {
-      Header: 'Otsisõna',
-      accessor: 'keyword',
-      width: 30,
+      Header: 'Skoor',
+      accessor: 'score',
+      width: 40,
       Cell: (cellProps) => {
         return cellProps.value;
-      },
-      className: 'wordcontext-keyword'
+      }
     },
     {
-      Header: 'Järgnev kontekst',
-      accessor: 'contextAfter',
-      width: 100,
+      Header: 'Kasutuste arv',
+      accessor: 'frequencyCount',
+      width: 40,
       Cell: (cellProps) => {
         return cellProps.value;
-      },
-      className: 'text-left'
+      }
+    },
+    {
+      Header: 'Osakaal',
+      accessor: 'frequencyPercentage',
+      width: 40,
+      Cell: (cellProps) => {
+        return `${cellProps.value}%`;
+      }
+    },
+    {
+      Header: '',
+      accessor: 'menu',
+      width: 1,
+      disableSortBy: true,
+      Cell: (cellProps) => {
+        return <WordlistMenu word={cellProps.row.original.collocate} type={typeValue}
+                             keepCapitalization={capitalizationChecked}/>;
+      }
     }
-  ], []);
+  ], [typeValue, capitalizationChecked]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    sendRequest();
-  };
-
-  const handleTypeChange = (event) => {
-    setTypeValue(event.target.value);
-    setTypeError(false);
-    if (event.target.value === 'LEMMAS') {
-      setCapitalizationChecked(false);
-    }
-  };
-
-  const sendRequest = () => {
     setTypeError(!typeValue);
     if (typeValue) {
       setLoading(true);
       setShowTable(false);
-      fetch('/api/tools/wordcontext', {
+      fetch('/api/tools/collocates', {
         method: 'POST',
         body: generateRequestData(),
         headers: {
@@ -136,11 +126,10 @@ export default function WordContext() {
       })
         .then(res => res.json())
         .then((result) => {
-          removeUrlParams();
           setLoading(false);
           setLemmatizedKeywordResult(null);
-          setResponse(result.contextList);
-          if (result.contextList.length === 0) {
+          setResponse(result.collocateList);
+          if (result.collocateList.length === 0) {
             setShowTable(false);
             setParamsExpanded(true);
             setShowNoResultsError(true);
@@ -157,30 +146,34 @@ export default function WordContext() {
     }
   };
 
+  const handleTypeChange = (event) => {
+    setTypeValue(event.target.value);
+    setTypeError(false);
+    if (event.target.value === 'LEMMAS') {
+      setCapitalizationChecked(false);
+    }
+  };
+
   const generateRequestData = () => {
     return JSON.stringify({
       corpusTextIds: queryStore.getState().split(','),
       type: typeValue,
       keyword: keyword,
-      displayCount: displayCount,
-      displayType: displayType,
+      searchCount: searchCount,
+      formula: formula,
       keepCapitalization: capitalizationChecked
     });
   };
 
-  const removeUrlParams = () => {
-    navigate('', {replace: true});
-  };
-
   return (
     <div className="tool-wrapper">
-      <h2 className="tool-title">Sõna kontekstis</h2>
+      <h2 className="tool-title">Naabersõnad</h2>
       <Accordion sx={AccordionStyle}
                  expanded={paramsExpanded}
                  onChange={() => setParamsExpanded(!paramsExpanded)}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon/>}
-          id="wordcontext-filters-header"
+          id="collocates-filters-header"
         >
           <Typography>
             Analüüsi valikud
@@ -188,7 +181,7 @@ export default function WordContext() {
         </AccordionSummary>
         <AccordionDetails>
           <form onSubmit={handleSubmit}>
-            <div className="wordcontext-param-container">
+            <div className="queryContainer">
               <div>
                 <FormControl sx={{m: 3}}
                              error={typeError}
@@ -210,7 +203,7 @@ export default function WordContext() {
                   {typeError && <FormHelperText>Väli on kohustuslik!</FormHelperText>}
                   <Button sx={{width: 130}}
                           style={{marginTop: '10vh !important'}}
-                          className="wordcontext-analyse-button"
+                          className="collocates-analyse-button"
                           type="submit"
                           variant="contained">
                     Analüüsi
@@ -232,42 +225,43 @@ export default function WordContext() {
                 <FormControl sx={{m: 3}}
                              style={{marginTop: '-1vh'}}
                              variant="standard">
-                  <FormLabel id="display">Kuva</FormLabel>
+                  <FormLabel id="display">Otsi naabersõnu</FormLabel>
                   <Grid container>
                     <Grid item>
                       <TextField variant="outlined"
                                  type="number"
-                                 inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: '1', max: '15'}}
+                                 inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: '3', max: '5'}}
                                  size="small"
                                  required
-                                 value={displayCount}
-                                 onChange={(e) => setDisplayCount(e.target.value)}
-                                 className="wordcontext-display-count-textfield"/>
-                    </Grid>
-                    <Grid item>
-                      <FormControl size="small">
-                        <Select
-                          sx={{width: '95px'}}
-                          name="displayType"
-                          value={displayType}
-                          onChange={(e) => setDisplayType(e.target.value)}
-                        >
-                          <MenuItem value="WORD">sõna</MenuItem>
-                          <MenuItem value="SENTENCE">lauset</MenuItem>
-                        </Select>
-                      </FormControl>
+                                 value={searchCount}
+                                 onChange={(e) => setSearchCount(e.target.value)}
+                                 className="collocates-search-count-textfield"/>
                     </Grid>
                     <Grid
                       item
-                      className="wordcontext-display-explanation"
+                      className="collocates-search-count-explanation"
                     >
-                      enne ja pärast valitud sõna
+                      eelneva ja järgneva sõna piires
                     </Grid>
                   </Grid>
                 </FormControl>
               </div>
               <div>
-                <FormControl sx={{m: 6}}
+                <FormControl sx={{m: 3}} size="small">
+                  <FormLabel id="formula">Vali valem</FormLabel>
+                  <Select
+                    sx={{width: '140px'}}
+                    name="formula"
+                    value={formula}
+                    onChange={(e) => setFormula(e.target.value)}
+                  >
+                    <MenuItem value="LOGDICE">logDice</MenuItem>
+                    <MenuItem value="T_SCORE">T-skoor</MenuItem>
+                    <MenuItem value="MI_SCORE">MI-skoor</MenuItem>
+                  </Select>
+                </FormControl>
+                <br/>
+                <FormControl sx={{m: 3}}
                              variant="standard">
                   <FormControlLabel control={
                     <Checkbox
@@ -279,7 +273,7 @@ export default function WordContext() {
                                     label={<>
                                       tõstutundlik
                                       <Tooltip
-                                        title='Vaikimisi ei arvestata otsisõna suurt või väikest algustähte, nt "eesti" võimaldab leida nii "eesti" kui ka "Eesti" kasutuskontekstid. Märgi kasti linnuke, kui soovid ainult väike- või suurtähega algavaid vasteid.'
+                                        title='Vaikimisi ei arvestata otsisõna suurt või väikest algustähte, nt "eesti" võimaldab leida nii "eesti" kui ka "Eesti" naabersõnad. Märgi kasti linnuke, kui soovid ainult väike- või suurtähega algavaid vasteid.'
                                         placement="right">
                                         <QuestionMark className="stopwords-tooltip-icon"/>
                                       </Tooltip></>}
@@ -294,16 +288,16 @@ export default function WordContext() {
         <br/>
         <Alert severity="warning">Otsisõna "{initialKeywordResult}" vasteid ei leitud. Kasutasime automaatset algvormi
           tuvastust ja
-          otsisime sõna "{lemmatizedKeywordResult}" vormide kasutusnäiteid.</Alert>
+          otsisime sõna "{lemmatizedKeywordResult}" naabersõnu.</Alert>
       </>}
       {showTable && <>
         <TableDownloadButton data={data}
-                             tableType={'WordContext'}
+                             tableType={'Collocates'}
                              headers={tableToDownload}
                              accessors={accessors}
                              marginTop={'2vh'}
-                             marginRight={'11.5vw'}/>
-        <GenericTable tableClassname={'wordcontext-table'} columns={columns} data={data}/>
+                             marginRight={'19.25vw'}/>
+        <GenericTable tableClassname={'wordlist-table'} columns={columns} data={data} sortByColAccessor={'score'}/>
       </>}
       <Backdrop
         open={loading}

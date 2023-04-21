@@ -3,6 +3,7 @@ export const TRANSLATIONS_EN = {
   applied_filters: 'Applied filters',
   back: 'PREVIOUS',
   beginning: 'beginning',
+  collocates_filename: 'collocates',
   common_download: 'Download',
   common_excel_sheet_name: 'Table',
   common_form: 'Form',

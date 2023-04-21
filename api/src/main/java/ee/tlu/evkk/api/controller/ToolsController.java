@@ -1,9 +1,12 @@
 package ee.tlu.evkk.api.controller;
 
+import ee.evkk.dto.CollocateRequestDto;
+import ee.evkk.dto.CollocateResponseDto;
 import ee.evkk.dto.WordContextRequestDto;
+import ee.evkk.dto.WordContextResponseDto;
 import ee.evkk.dto.WordlistRequestDto;
 import ee.evkk.dto.WordlistResponseDto;
-import ee.evkk.dto.integration.WordContextResponseDto;
+import ee.tlu.evkk.api.service.CollocateService;
 import ee.tlu.evkk.api.service.WordContextService;
 import ee.tlu.evkk.api.service.WordlistService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,10 +24,12 @@ public class ToolsController {
 
   private final WordlistService wordlistService;
   private final WordContextService wordContextService;
+  private final CollocateService collocateService;
 
-  public ToolsController(WordlistService wordlistService, WordContextService wordContextService) {
+  public ToolsController(WordlistService wordlistService, WordContextService wordContextService, CollocateService collocateService) {
     this.wordlistService = wordlistService;
     this.wordContextService = wordContextService;
+    this.collocateService = collocateService;
   }
 
   @PostMapping("wordlist")
@@ -35,5 +40,10 @@ public class ToolsController {
   @PostMapping("wordcontext")
   public WordContextResponseDto getWordContextResponse(@RequestBody @Valid WordContextRequestDto dto) {
     return wordContextService.getWordContextResponse(dto);
+  }
+
+  @PostMapping("collocates")
+  public CollocateResponseDto getCollocateResponse(@RequestBody @Valid CollocateRequestDto dto) throws IOException {
+    return collocateService.getCollocateResponse(dto);
   }
 }

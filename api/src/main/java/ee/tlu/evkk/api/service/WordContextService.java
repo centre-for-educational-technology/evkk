@@ -2,7 +2,7 @@ package ee.tlu.evkk.api.service;
 
 import ee.evkk.dto.WordContextDto;
 import ee.evkk.dto.WordContextRequestDto;
-import ee.evkk.dto.integration.WordContextResponseDto;
+import ee.evkk.dto.WordContextResponseDto;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.WordAndPosInfoDto;
@@ -56,7 +56,7 @@ public class WordContextService {
     if (initialList.isEmpty() && LEMMAS.equals(dto.getType())) {
       String initialKeyword = dto.getKeyword();
       String sanitizedLemmatizedKeyword = sanitizeLemmaStrings(asList(stanzaServerClient.getLemmad(initialKeyword))).get(0);
-      if (!sanitizedLemmatizedKeyword.equalsIgnoreCase(dto.getKeyword())) {
+      if (!sanitizedLemmatizedKeyword.equalsIgnoreCase(initialKeyword)) {
         dto.setKeyword(sanitizedLemmatizedKeyword.toLowerCase());
         List<WordContextDto> newList = generateContextListForSentences(sentencelist, dto, sanitizedTextContent);
         return new WordContextResponseDto(newList, initialKeyword, sanitizedLemmatizedKeyword);

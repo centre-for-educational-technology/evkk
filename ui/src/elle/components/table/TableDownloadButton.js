@@ -92,7 +92,7 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
       for (let i = 0; i < data.length; i++) {
         csvData[i].col5.splice(0, 2);
       }
-    } else if (tableType === 'Wordlist' || tableType === 'WordContext') {
+    } else if (tableType === 'Wordlist' || tableType === 'WordContext' || tableType === 'Collocates') {
       csvData = JSON.parse(JSON.stringify(data));
     }
   }
@@ -205,6 +205,25 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
                          value="keyword"/>
             <ExcelColumn label={headers[2]}
                          value="contextAfter"/>
+          </ExcelSheet>
+        </ExcelFile>);
+      }
+    } else if (tableType === 'Collocates') {
+      if (fileType) {
+        setButtonType(csvButton('collocates_filename'));
+      } else {
+        setButtonType(<ExcelFile filename={t('collocates_filename')}
+                                 element={<Button variant="contained">{t('common_download')}</Button>}>
+          <ExcelSheet data={data}
+                      name={t('common_excel_sheet_name')}>
+            <ExcelColumn label={headers[0]}
+                         value="collocate"/>
+            <ExcelColumn label={headers[1]}
+                         value="score"/>
+            <ExcelColumn label={headers[2]}
+                         value="frequencyCount"/>
+            <ExcelColumn label={headers[3]}
+                         value="frequencyPercentage"/>
           </ExcelSheet>
         </ExcelFile>);
       }

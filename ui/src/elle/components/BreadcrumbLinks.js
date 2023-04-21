@@ -17,16 +17,17 @@ const breadcrumbNameMap = {
   '/tools/clusterfinder': 'Mustrid',
   '/tools/wordanalyser': 'Sõnaanalüüs',
   '/tools/wordlist': 'Sõnaloend',
-  '/tools/wordcontext': 'Sõna kontekstis'
+  '/tools/wordcontext': 'Sõna kontekstis',
+  '/tools/collocates': 'Naabersõnad'
 };
 
 const MenuLink = styled(Link)({
-  color: "#1B1B1B",
-  textDecoration: "none",
-  fontFamily: ["'Exo 2'", 'sans-serif',].join(','),
+  color: '#1B1B1B',
+  textDecoration: 'none',
+  fontFamily: ['\'Exo 2\'', 'sans-serif'].join(','),
   '&:hover': {
-    color: "#9C27B0",
-    textDecoration: "none",
+    color: '#9C27B0',
+    textDecoration: 'none'
   }
 });
 
@@ -46,10 +47,10 @@ export default function BreadcrumbLinks() {
   if (noMatch) {
     return (
       <React.Fragment>
-        <Box display={"flex"}
-             width={"80vw"}
-             padding={"25px"}
-             alignItems={"flex-end"}>
+        <Box display={'flex'}
+             width={'80vw'}
+             padding={'25px'}
+             alignItems={'flex-end'}>
           <Breadcrumbs aria-label="breadcrumb">
             <MenuLink to="/"
                       key="/"
@@ -64,14 +65,14 @@ export default function BreadcrumbLinks() {
           </Breadcrumbs>
         </Box>
       </React.Fragment>
-    )
+    );
   } else if (breadcrumbs.length > 1) {
     return (
       <React.Fragment>
-        <Box display={"flex"}
-             width={"80vw"}
-             padding={"25px"}
-             alignItems={"flex-end"}>
+        <Box display={'flex'}
+             width={'80vw'}
+             padding={'25px'}
+             alignItems={'flex-end'}>
           <Breadcrumbs aria-label="breadcrumb">
             {breadcrumbs.map((value, index) => {
               return index === 0 ? (
@@ -95,6 +96,6 @@ export default function BreadcrumbLinks() {
       </React.Fragment>
     );
   }
-  return <></>
+  return <></>;
 }
 
