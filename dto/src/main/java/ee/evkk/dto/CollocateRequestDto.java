@@ -23,7 +23,7 @@ public class CollocateRequestDto {
   private String keyword;
 
   @NotNull
-  @Min(3)
+  @Min(1)
   @Max(5)
   private int searchCount;
 

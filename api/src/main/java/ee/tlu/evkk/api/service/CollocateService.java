@@ -156,6 +156,7 @@ public class CollocateService {
   private List<WordlistResponseDto> getWordlistResponse(CollocateRequestDto dto, WordType wordType) throws IOException {
     WordlistRequestDto wordlistDto = new WordlistRequestDto();
     wordlistDto.setCorpusTextIds(dto.getCorpusTextIds());
+    wordlistDto.setOwnTexts(dto.getOwnTexts());
     wordlistDto.setType(wordType);
     wordlistDto.setExcludeStopwords(false);
     wordlistDto.setCustomStopwords(null);

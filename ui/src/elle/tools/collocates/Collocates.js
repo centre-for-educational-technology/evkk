@@ -237,7 +237,7 @@ export default function Collocates() {
                     <Grid item>
                       <TextField variant="outlined"
                                  type="number"
-                                 inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: '3', max: '5'}}
+                                 inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: '1', max: '5'}}
                                  size="small"
                                  required
                                  value={searchCount}
