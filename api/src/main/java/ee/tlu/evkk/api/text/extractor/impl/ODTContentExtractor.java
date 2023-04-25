@@ -30,10 +30,10 @@ public class ODTContentExtractor extends AbstractContentExtractor {
     try {
       BodyContentHandler handler = new BodyContentHandler();
       Metadata metadata = new Metadata();
-      ParseContext pcontext = new ParseContext();
+      ParseContext parseContext = new ParseContext();
 
       OpenDocumentParser openOfficeParser = new OpenDocumentParser();
-      openOfficeParser.parse(is, handler, metadata, pcontext);
+      openOfficeParser.parse(is, handler, metadata, parseContext);
       text = handler.toString();
     } catch (IOException | SAXException | TikaException ex) {
       throw new TextExtractionException("Unable to read stream", ex);
