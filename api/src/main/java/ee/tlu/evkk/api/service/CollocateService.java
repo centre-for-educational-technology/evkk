@@ -95,6 +95,7 @@ public class CollocateService {
         collocate.getKey(),
         calculateScore(formula, keywordFromFrequencyList.getFrequencyCount(), collocateFromFrequencyList.getFrequencyCount(), collocate.getValue(), wordlistAndFrequencies.size())
           .setScale(4, UP),
+        collocate.getValue(),
         collocateFromFrequencyList.getFrequencyCount(),
         collocateFromFrequencyList.getFrequencyPercentage()
       ));

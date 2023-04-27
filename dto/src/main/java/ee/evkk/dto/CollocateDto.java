@@ -6,12 +6,14 @@ public class CollocateDto {
 
   private String collocate;
   private BigDecimal score;
+  private Long coOccurrences;
   private Long frequencyCount;
   private BigDecimal frequencyPercentage;
 
-  public CollocateDto(String collocate, BigDecimal score, Long frequencyCount, BigDecimal frequencyPercentage) {
+  public CollocateDto(String collocate, BigDecimal score, Long coOccurrences, Long frequencyCount, BigDecimal frequencyPercentage) {
     this.collocate = collocate;
     this.score = score;
+    this.coOccurrences = coOccurrences;
     this.frequencyCount = frequencyCount;
     this.frequencyPercentage = frequencyPercentage;
   }
@@ -30,6 +32,14 @@ public class CollocateDto {
 
   public void setScore(BigDecimal score) {
     this.score = score;
+  }
+
+  public Long getCoOccurrences() {
+    return coOccurrences;
+  }
+
+  public void setCoOccurrences(Long coOccurrences) {
+    this.coOccurrences = coOccurrences;
   }
 
   public Long getFrequencyCount() {

@@ -47,7 +47,7 @@ export default function Wordlist() {
 
   useEffect(() => {
     const type = typeValueToDisplay === 'WORDS' ? 'Sõnavorm' : 'Algvorm';
-    setTableToDownload([type, 'Kasutuste arv', 'Osakaal']);
+    setTableToDownload([type, 'Sagedus', 'Osakaal']);
   }, [typeValueToDisplay]);
 
   useEffect(() => {
@@ -78,7 +78,7 @@ export default function Wordlist() {
       }
     },
     {
-      Header: 'Kasutuste arv',
+      Header: 'Sagedus',
       accessor: 'frequencyCount',
       width: 20,
       Cell: (cellProps) => {

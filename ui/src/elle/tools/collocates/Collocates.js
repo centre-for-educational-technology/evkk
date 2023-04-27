@@ -44,8 +44,8 @@ export default function Collocates() {
   const [lemmatizedKeywordResult, setLemmatizedKeywordResult] = useState(null);
   const [initialKeywordResult, setInitialKeywordResult] = useState(null);
   const [showTable, setShowTable] = useState(false);
-  const tableToDownload = ['Naabersõna', 'Skoor', 'Kasutuste arv', 'Osakaal'];
-  const accessors = ['collocate', 'score', 'frequencyCount', 'frequencyPercentage'];
+  const tableToDownload = ['Naabersõna', 'Skoor', 'Kooskasutuste arv', 'Sagedus tekstis', 'Osakaal tekstis'];
+  const accessors = ['collocate', 'score', 'coOccurrences', 'frequencyCount', 'frequencyPercentage'];
   const [response, setResponse] = useState([]);
   const data = useMemo(() => response, [response]);
   const [loading, setLoading] = useState(false);
@@ -85,7 +85,15 @@ export default function Collocates() {
       }
     },
     {
-      Header: 'Kasutuste arv',
+      Header: 'Kooskasutuste arv',
+      accessor: 'coOccurrences',
+      width: 40,
+      Cell: (cellProps) => {
+        return cellProps.value;
+      }
+    },
+    {
+      Header: 'Sagedus tekstis',
       accessor: 'frequencyCount',
       width: 40,
       Cell: (cellProps) => {
@@ -93,7 +101,7 @@ export default function Collocates() {
       }
     },
     {
-      Header: 'Osakaal',
+      Header: 'Osakaal tekstis',
       accessor: 'frequencyPercentage',
       width: 40,
       Cell: (cellProps) => {
