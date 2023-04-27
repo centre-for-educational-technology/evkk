@@ -1,8 +1,8 @@
-
 import React, {Component} from 'react';
+import EastIcon from '@mui/icons-material/East';
 import "./Correction.css";
 import {Alert, Box, Button, Card, Slider, styled, Tab, Typography} from "@mui/material";
-import TextUpload from "../wordanalyser/textupload/TextUpload";
+import TextUpload from "../../components/textupload/TextUpload";
 import {TabContext, TabList, TabPanel} from "@mui/lab";
 
 //history to keep all changes step-by-step made to alasisu
@@ -93,7 +93,6 @@ class Correction extends Component {
   kordama() {
     this.setState({kordab: true});
     this.korda();
-    setInterval(this.korda, 3000);
   }
 
   korda() {
@@ -110,7 +109,6 @@ class Correction extends Component {
     this.setState({alasisu: event.target.value.replace(/(\r\n|\n|\r)/gm, "")}, function () {
       this.keepHistory();
     });
-    this.kysi3();
   }
 
   asenda(algus, sisu, vahetus) {
@@ -119,7 +117,9 @@ class Correction extends Component {
       this.state.alasisu.substring(this.ala1.selectionEnd);
     this.setState({alasisu: uus}, function () {
       this.keepHistory();
+      this.korda();
     });
+
   }
 
   margi(algus, sisu, puhastab = false) {
@@ -317,16 +317,19 @@ class Correction extends Component {
       }}></div>
   }
 
+
   renderTase() {
+    console.log(this.state.mitmekesisusvastus[10] > 14);
     var degreeValue
-    if (this.state.tasemevastus.length !== 1) {
+    if (this.state.tasemevastus.length !== 1 && this.state.tasemevastus[0] != undefined) {
       let val1 = parseInt((this.state.tasemevastus[0][0] * 100 * 3.6).toFixed(0), 10);
       let val2 = parseInt((this.state.tasemevastus[1][0] * 100 * 3.6).toFixed(0), 10);
       let val3 = parseInt((this.state.tasemevastus[2][0] * 100 * 3.6).toFixed(0), 10);
       let val4 = parseInt((this.state.tasemevastus[3][0] * 100 * 3.6).toFixed(0), 10);
       degreeValue = "conic-gradient(#b7e4c7 " + val1 + "deg,  #90e0ef " + val1 + "deg " + (val2 + val1) + "deg, #ffb3c1 " + (val2 + val1) + "deg " + (val2 + val1 + val3) + "deg, #90e0ef " + (val2 + val1 + val3) + "deg " + (val2 + val1 + val3 + val4) + "deg)";
     }
-    return <Box component={"span"} width={"auto"}>{this.state.kordab ?
+    return <Box component={"span"}
+                width={"auto"}>{this.state.kordab && parseInt(this.state.mitmekesisusvastus[10]) > 14 ?
       <Box component={"span"} width={"auto"}>{this.state.alasisu.length > 0 ?
         (this.state.tasemevastus.length > 0 ?
           (this.state.tasemevastus.length === 1 ? "" : <Box width={"100%"}>
@@ -421,11 +424,25 @@ class Correction extends Component {
       }
     }
     if (this.state.sisusonad[v] !== this.state.vastussonad[v]) {
-      let vahetus = <span key={"sm" + v}>
+      let vahetus = <Box key={"sm" + v}
+                         style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "10px"}}>
       <span
-        style={{'backgroundColor': 'lightpink'}}>{this.puhasta(this.state.sisusonad[v])}</span> - <span>{this.puhasta(this.state.vastussonad[v])}</span> <button
-        onClick={() => this.asenda(this.state.sisukohad[v] - this.state.sisusonad[v].length, this.state.sisusonad[v], this.state.vastussonad[v])}>asenda</button><br/>
-   </span>
+        style={{
+          'backgroundColor': 'lightpink',
+          fontSize: "20px",
+          paddingLeft: "5px",
+          paddingRight: "5px",
+          borderRadius: "5px"
+        }}>{this.puhasta(this.state.sisusonad[v])}</span> <EastIcon/> <span style={{
+        'backgroundColor': 'lightgreen',
+        fontSize: "20px",
+        paddingLeft: "5px",
+        paddingRight: "5px",
+        borderRadius: "5px"
+      }}>{this.puhasta(this.state.vastussonad[v])}</span> <span style={{fontSize: "20px", fontWeight: "bold"}}>|</span>
+        <Button size="small" variant="contained"
+                onClick={() => this.asenda(this.state.sisukohad[v] - this.state.sisusonad[v].length, this.state.sisusonad[v], this.state.vastussonad[v])}>asenda</Button><br/>
+      </Box>
       this.setState({yksikmuutus: vahetus});
     } else {
       this.setState({yksikmuutus: false});
@@ -542,8 +559,14 @@ class Correction extends Component {
                 {this.state.kordab && this.state.paringlopetatud &&
                 this.state.muutuskood.props.children === "puuduvad" ?
                   <span>
-                 <div style={{'float': 'left', 'margin': '10px', 'width': '50%'}}>
-                   <h3>Vigu ei leitud</h3>
+                 <div style={{
+                   'float': 'left',
+                   'margin': '10px',
+                   'width': '50%',
+                   display: "flex",
+                   justifyContent: "center"
+                 }}>
+                   <h3>Vigu ei leitud!</h3>
                  </div>
                </span>
                   :
