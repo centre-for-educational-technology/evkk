@@ -10,7 +10,8 @@ function ToolCard({tool}) {
   const [textsSelected, setTextsSelected] = useState(false);
 
   queryStore.subscribe(() => {
-    setTextsSelected(!!queryStore.getState());
+    const storeState = queryStore.getState();
+    setTextsSelected(storeState.corpusTextIds !== null || storeState.ownTexts !== null);
   });
 
   function isDisabled(route) {

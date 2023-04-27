@@ -16,10 +16,10 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
   const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
   const [fileType, setFileType] = useState(false);
   const fileDownloadElement = createRef();
+  const [anchorEl, setAnchorEl] = useState(null);
   const [buttonType, setButtonType] = useState(<Button variant="contained"
                                                        onClick={showButton}>{t('common_download')}</Button>);
   let csvData = '';
-  const [anchorEl, setAnchorEl] = useState(null);
   let tableHeaders = [];
 
   const handleClick = (event) => {
@@ -221,8 +221,10 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
             <ExcelColumn label={headers[1]}
                          value="score"/>
             <ExcelColumn label={headers[2]}
-                         value="frequencyCount"/>
+                         value="coOccurrences"/>
             <ExcelColumn label={headers[3]}
+                         value="frequencyCount"/>
+            <ExcelColumn label={headers[4]}
                          value="frequencyPercentage"/>
           </ExcelSheet>
         </ExcelFile>);

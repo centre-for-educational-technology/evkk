@@ -64,7 +64,8 @@ export default function WordContext() {
   }, [urlParams, keyword, typeValue, capitalizationChecked]);
 
   useEffect(() => {
-    if (!queryStore.getState()) {
+    const storeState = queryStore.getState();
+    if (storeState.corpusTextIds === null && storeState.ownTexts === null) {
       navigate('..');
     }
   }, [navigate]);
@@ -158,8 +159,14 @@ export default function WordContext() {
   };
 
   const generateRequestData = () => {
+    const storeState = queryStore.getState();
     return JSON.stringify({
-      corpusTextIds: queryStore.getState().split(','),
+      corpusTextIds: storeState.corpusTextIds
+        ? storeState.corpusTextIds
+        : null,
+      ownTexts: storeState.ownTexts
+        ? storeState.ownTexts
+        : null,
       type: typeValue,
       keyword: keyword,
       displayCount: displayCount,

@@ -44,15 +44,16 @@ export default function Collocates() {
   const [lemmatizedKeywordResult, setLemmatizedKeywordResult] = useState(null);
   const [initialKeywordResult, setInitialKeywordResult] = useState(null);
   const [showTable, setShowTable] = useState(false);
-  const tableToDownload = ['Naabersõna', 'Skoor', 'Kasutuste arv', 'Osakaal'];
-  const accessors = ['collocate', 'score', 'frequencyCount', 'frequencyPercentage'];
+  const tableToDownload = ['Naabersõna', 'Skoor', 'Kooskasutuste arv', 'Sagedus tekstis', 'Osakaal tekstis'];
+  const accessors = ['collocate', 'score', 'coOccurrences', 'frequencyCount', 'frequencyPercentage'];
   const [response, setResponse] = useState([]);
   const data = useMemo(() => response, [response]);
   const [loading, setLoading] = useState(false);
   const [showNoResultsError, setShowNoResultsError] = useState(false);
 
   useEffect(() => {
-    if (!queryStore.getState()) {
+    const storeState = queryStore.getState();
+    if (storeState.corpusTextIds === null && storeState.ownTexts === null) {
       navigate('..');
     }
   }, [navigate]);
@@ -84,7 +85,15 @@ export default function Collocates() {
       }
     },
     {
-      Header: 'Kasutuste arv',
+      Header: 'Kooskasutuste arv',
+      accessor: 'coOccurrences',
+      width: 40,
+      Cell: (cellProps) => {
+        return cellProps.value;
+      }
+    },
+    {
+      Header: 'Sagedus tekstis',
       accessor: 'frequencyCount',
       width: 40,
       Cell: (cellProps) => {
@@ -92,7 +101,7 @@ export default function Collocates() {
       }
     },
     {
-      Header: 'Osakaal',
+      Header: 'Osakaal tekstis',
       accessor: 'frequencyPercentage',
       width: 40,
       Cell: (cellProps) => {
@@ -155,8 +164,14 @@ export default function Collocates() {
   };
 
   const generateRequestData = () => {
+    const storeState = queryStore.getState();
     return JSON.stringify({
-      corpusTextIds: queryStore.getState().split(','),
+      corpusTextIds: storeState.corpusTextIds
+        ? storeState.corpusTextIds
+        : null,
+      ownTexts: storeState.ownTexts
+        ? storeState.ownTexts
+        : null,
       type: typeValue,
       keyword: keyword,
       searchCount: searchCount,
@@ -230,7 +245,7 @@ export default function Collocates() {
                     <Grid item>
                       <TextField variant="outlined"
                                  type="number"
-                                 inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: '3', max: '5'}}
+                                 inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: '1', max: '5'}}
                                  size="small"
                                  required
                                  value={searchCount}

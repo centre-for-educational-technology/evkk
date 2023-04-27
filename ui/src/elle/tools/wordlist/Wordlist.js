@@ -47,11 +47,12 @@ export default function Wordlist() {
 
   useEffect(() => {
     const type = typeValueToDisplay === 'WORDS' ? 'Sõnavorm' : 'Algvorm';
-    setTableToDownload([type, 'Kasutuste arv', 'Osakaal']);
+    setTableToDownload([type, 'Sagedus', 'Osakaal']);
   }, [typeValueToDisplay]);
 
   useEffect(() => {
-    if (!queryStore.getState()) {
+    const storeState = queryStore.getState();
+    if (storeState.corpusTextIds === null && storeState.ownTexts === null) {
       navigate('..');
     }
   }, [navigate]);
@@ -77,7 +78,7 @@ export default function Wordlist() {
       }
     },
     {
-      Header: 'Kasutuste arv',
+      Header: 'Sagedus',
       accessor: 'frequencyCount',
       width: 20,
       Cell: (cellProps) => {
@@ -134,8 +135,14 @@ export default function Wordlist() {
   };
 
   const generateRequestData = () => {
+    const storeState = queryStore.getState();
     return JSON.stringify({
-      corpusTextIds: queryStore.getState().split(','),
+      corpusTextIds: storeState.corpusTextIds
+        ? storeState.corpusTextIds
+        : null,
+      ownTexts: storeState.ownTexts
+        ? storeState.ownTexts
+        : null,
       type: typeValue,
       excludeStopwords: stopwordsChecked,
       customStopwords: customStopwords === ''

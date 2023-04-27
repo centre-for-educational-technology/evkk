@@ -12,8 +12,9 @@ import java.util.UUID;
 
 public class CollocateRequestDto {
 
-  @NotNull
   private Set<UUID> corpusTextIds;
+
+  private String ownTexts;
 
   @NotNull
   private WordType type;
@@ -22,7 +23,7 @@ public class CollocateRequestDto {
   private String keyword;
 
   @NotNull
-  @Min(3)
+  @Min(1)
   @Max(5)
   private int searchCount;
 
@@ -37,6 +38,14 @@ public class CollocateRequestDto {
 
   public void setCorpusTextIds(Set<UUID> corpusTextIds) {
     this.corpusTextIds = corpusTextIds;
+  }
+
+  public String getOwnTexts() {
+    return ownTexts;
+  }
+
+  public void setOwnTexts(String ownTexts) {
+    this.ownTexts = ownTexts;
   }
 
   public WordType getType() {

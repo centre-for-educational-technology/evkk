@@ -250,7 +250,7 @@ function QueryResults(props) {
 
   const saveTexts = () => {
     queryStore.dispatch({
-      type: 'CHANGE',
+      type: 'CHANGE_CORPUS_TEXTS',
       value: Array.from(checkboxStatuses.current).join(',')
     });
     setResultAccordionExpanded(false);

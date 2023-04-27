@@ -4,7 +4,7 @@ import ee.evkk.dto.WordContextDto;
 import ee.evkk.dto.WordContextRequestDto;
 import ee.evkk.dto.WordContextResponseDto;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
-import ee.tlu.evkk.dal.dao.TextDao;
+import ee.tlu.evkk.core.service.TextService;
 import ee.tlu.evkk.dal.dto.WordAndPosInfoDto;
 import org.springframework.stereotype.Service;
 
@@ -28,16 +28,16 @@ import static java.util.Arrays.asList;
 @Service
 public class WordContextService {
 
-  private final TextDao textDao;
   private final StanzaServerClient stanzaServerClient;
+  private final TextService textService;
 
-  public WordContextService(TextDao textDao, StanzaServerClient stanzaServerClient) {
-    this.textDao = textDao;
+  public WordContextService(StanzaServerClient stanzaServerClient, TextService textService) {
+    this.textService = textService;
     this.stanzaServerClient = stanzaServerClient;
   }
 
   public WordContextResponseDto getWordContextResponse(WordContextRequestDto dto) {
-    String sanitizedTextContent = sanitizeText(textDao.findTextsByIds(dto.getCorpusTextIds()));
+    String sanitizedTextContent = sanitizeText(textService.combineCorpusTextIdsAndOwnText(dto.getCorpusTextIds(), dto.getOwnTexts()));
     if (SENTENCE.equals(dto.getDisplayType())) {
       List<List<WordAndPosInfoDto>> sentencelist = WORDS.equals(dto.getType())
         ? removeCapitalizationInList(sentenceArrayToList(stanzaServerClient.getSonadLausetenaJaPosInfo(sanitizedTextContent)), dto.isKeepCapitalization())
