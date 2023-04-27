@@ -11,7 +11,7 @@ function ToolCard({tool}) {
 
   queryStore.subscribe(() => {
     const storeState = queryStore.getState();
-    setTextsSelected(storeState.corpusTextIds != null || storeState.ownTexts != null);
+    setTextsSelected(storeState.corpusTextIds !== null || storeState.ownTexts !== null);
   });
 
   function isDisabled(route) {
