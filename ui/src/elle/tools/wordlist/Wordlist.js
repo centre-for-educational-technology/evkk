@@ -26,6 +26,7 @@ import { QuestionMark } from '@mui/icons-material';
 import WordlistMenu from './menu/WordlistMenu';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
 import GenericTable from '../../components/GenericTable';
+import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
 
 export default function Wordlist() {
 
@@ -51,11 +52,49 @@ export default function Wordlist() {
   }, [typeValueToDisplay]);
 
   useEffect(() => {
-    const storeState = queryStore.getState();
-    if (storeState.corpusTextIds === null && storeState.ownTexts === null) {
+    const queryStoreState = queryStore.getState();
+    const wordlistState = toolAnalysisStore.getState().wordlist;
+    if (wordlistState !== null && wordlistState.analysis.length > 0) {
+      setMinimumFrequency(wordlistState.parameters.minimumFrequency);
+      setCapitalizationChecked(wordlistState.parameters.capitalizationChecked);
+      setCustomStopwords(wordlistState.parameters.customStopwords);
+      setStopwordsChecked(wordlistState.parameters.stopwordsChecked);
+      setTypeValueToDisplay(wordlistState.parameters.typeValue);
+      setTypeValue(wordlistState.parameters.typeValue);
+      setResponse(wordlistState.analysis);
+
+      setParamsExpanded(false);
+      setShowTable(true);
+    } else if (queryStoreState.corpusTextIds === null && queryStoreState.ownTexts === null) {
       navigate('..');
     }
   }, [navigate]);
+
+  useEffect(() => {
+    toolAnalysisStore.dispatch({
+      type: 'CHANGE_WORDLIST_RESULT',
+      value: {
+        parameters: {
+          typeValue: typeValue,
+          stopwordsChecked: stopwordsChecked,
+          customStopwords: customStopwords,
+          capitalizationChecked: capitalizationChecked,
+          minimumFrequency: minimumFrequency
+        },
+        analysis: response
+      }
+    });
+  }, [response]);
+
+  queryStore.subscribe(() => {
+    const storeState = queryStore.getState();
+    setResponse([]);
+    setParamsExpanded(true);
+    setShowTable(false);
+    if (storeState.corpusTextIds === null && storeState.ownTexts === null) {
+      navigate('..');
+    }
+  });
 
   const columns = useMemo(() => [
     {
