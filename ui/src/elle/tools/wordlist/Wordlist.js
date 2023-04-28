@@ -6,10 +6,8 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Backdrop,
   Button,
   Checkbox,
-  CircularProgress,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -40,7 +38,6 @@ export default function Wordlist() {
   const [capitalizationChecked, setCapitalizationChecked] = useState(false);
   const [minimumFrequency, setMinimumFrequency] = useState('');
   const [tableToDownload, setTableToDownload] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState([]);
   const [showTable, setShowTable] = useState(false);
   const accessors = ['word', 'frequencyCount', 'frequencyPercentage'];
@@ -55,14 +52,14 @@ export default function Wordlist() {
     const queryStoreState = queryStore.getState();
     const wordlistState = toolAnalysisStore.getState().wordlist;
     if (wordlistState !== null && wordlistState.analysis.length > 0) {
-      setMinimumFrequency(wordlistState.parameters.minimumFrequency);
-      setCapitalizationChecked(wordlistState.parameters.capitalizationChecked);
-      setCustomStopwords(wordlistState.parameters.customStopwords);
-      setStopwordsChecked(wordlistState.parameters.stopwordsChecked);
-      setTypeValueToDisplay(wordlistState.parameters.typeValue);
-      setTypeValue(wordlistState.parameters.typeValue);
+      const params = wordlistState.parameters;
+      setTypeValue(params.typeValue);
+      setTypeValueToDisplay(params.typeValue);
+      setStopwordsChecked(params.stopwordsChecked);
+      setCustomStopwords(params.customStopwords);
+      setCapitalizationChecked(params.capitalizationChecked);
+      setMinimumFrequency(params.minimumFrequency);
       setResponse(wordlistState.analysis);
-
       setParamsExpanded(false);
       setShowTable(true);
     } else if (queryStoreState.corpusTextIds === null && queryStoreState.ownTexts === null) {
@@ -84,6 +81,7 @@ export default function Wordlist() {
         analysis: response
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response]);
 
   queryStore.subscribe(() => {
@@ -148,8 +146,6 @@ export default function Wordlist() {
     event.preventDefault();
     setTypeError(!typeValue);
     if (typeValue) {
-      setParamsExpanded(false);
-      setLoading(true);
       setShowTable(false);
       fetch('/api/tools/wordlist', {
         method: 'POST',
@@ -159,10 +155,9 @@ export default function Wordlist() {
         }
       })
         .then(res => res.json())
-        .then((result) => {
+        .then(result => {
           setResponse(result);
           setShowTable(true);
-          setLoading(false);
           setTypeValueToDisplay(typeValue);
         });
     }
@@ -320,12 +315,6 @@ export default function Wordlist() {
         <GenericTable tableClassname={'wordlist-table'} columns={columns} data={data}
                       sortByColAccessor={'frequencyCount'}/>
       </>}
-      <Backdrop
-        open={loading}
-      >
-        <CircularProgress thickness={4}
-                          size="8rem"/>
-      </Backdrop>
     </div>
   );
 }

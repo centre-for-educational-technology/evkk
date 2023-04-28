@@ -5,10 +5,8 @@ import Accordion from '@mui/material/Accordion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   Alert,
-  Backdrop,
   Button,
   Checkbox,
-  CircularProgress,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -30,6 +28,7 @@ import { queryStore } from '../../store/QueryStore';
 import { useNavigate } from 'react-router-dom';
 import WordlistMenu from '../wordlist/menu/WordlistMenu';
 import GenericTable from '../../components/GenericTable';
+import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
 
 export default function Collocates() {
 
@@ -48,15 +47,52 @@ export default function Collocates() {
   const accessors = ['collocate', 'score', 'coOccurrences', 'frequencyCount', 'frequencyPercentage'];
   const [response, setResponse] = useState([]);
   const data = useMemo(() => response, [response]);
-  const [loading, setLoading] = useState(false);
   const [showNoResultsError, setShowNoResultsError] = useState(false);
 
   useEffect(() => {
-    const storeState = queryStore.getState();
-    if (storeState.corpusTextIds === null && storeState.ownTexts === null) {
+    const queryStoreState = queryStore.getState();
+    const collocateState = toolAnalysisStore.getState().collocates;
+    if (collocateState !== null && collocateState.analysis.length > 0) {
+      const params = collocateState.parameters;
+      setTypeValue(params.typeValue);
+      setKeyword(params.keyword);
+      setSearchCount(params.searchCount);
+      setFormula(params.formula);
+      setCapitalizationChecked(params.capitalizationChecked);
+      setResponse(collocateState.analysis);
+      setParamsExpanded(false);
+      setShowTable(true);
+    } else if (queryStoreState.corpusTextIds === null && queryStoreState.ownTexts === null) {
       navigate('..');
     }
   }, [navigate]);
+
+  useEffect(() => {
+    toolAnalysisStore.dispatch({
+      type: 'CHANGE_COLLOCATES_RESULT',
+      value: {
+        parameters: {
+          typeValue: typeValue,
+          keyword: keyword,
+          searchCount: searchCount,
+          formula: formula,
+          capitalizationChecked: capitalizationChecked
+        },
+        analysis: response
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [response]);
+
+  queryStore.subscribe(() => {
+    const storeState = queryStore.getState();
+    setResponse([]);
+    setParamsExpanded(true);
+    setShowTable(false);
+    if (storeState.corpusTextIds === null && storeState.ownTexts === null) {
+      navigate('..');
+    }
+  });
 
   const columns = useMemo(() => [
     {
@@ -124,7 +160,6 @@ export default function Collocates() {
     event.preventDefault();
     setTypeError(!typeValue);
     if (typeValue) {
-      setLoading(true);
       setShowTable(false);
       fetch('/api/tools/collocates', {
         method: 'POST',
@@ -134,8 +169,7 @@ export default function Collocates() {
         }
       })
         .then(res => res.json())
-        .then((result) => {
-          setLoading(false);
+        .then(result => {
           setLemmatizedKeywordResult(null);
           setResponse(result.collocateList);
           if (result.collocateList.length === 0) {
@@ -314,12 +348,6 @@ export default function Collocates() {
                              marginRight={'19.25vw'}/>
         <GenericTable tableClassname={'wordlist-table'} columns={columns} data={data} sortByColAccessor={'score'}/>
       </>}
-      <Backdrop
-        open={loading}
-      >
-        <CircularProgress thickness={4}
-                          size="8rem"/>
-      </Backdrop>
       {showNoResultsError &&
         <Alert severity="error">Tekstist ei leitud otsisõna. Muuda analüüsi valikuid ja proovi uuesti!</Alert>}
     </div>

@@ -1,5 +1,4 @@
 import {
-  Alert,
   Box,
   Button,
   FormControl,
@@ -9,7 +8,6 @@ import {
   Radio,
   RadioGroup,
   Select,
-  Snackbar,
   Tooltip
 } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -19,15 +17,12 @@ import '../styles/QueryDownloadButton.css';
 import { useState } from 'react';
 import i18n from 'i18next';
 import FileSaver from 'file-saver';
-import LoadingButton from '@mui/lab/LoadingButton';
 
 export default function QueryDownloadButton({selected}) {
 
   const [downloadForm, setDownloadForm] = useState('BASIC_TEXT');
   const [downloadFileType, setDownloadFileType] = useState('TXT');
   const [anchorEl, setAnchorEl] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const optionsDialogOpen = Boolean(anchorEl);
   const {t} = useTranslation();
 
@@ -41,67 +36,37 @@ export default function QueryDownloadButton({selected}) {
     setAnchorEl(null);
   };
 
-  const handleSnackbarClose = (_event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setSnackbarOpen(false);
-  }
-
   const changeDownloadForm = (event) => {
     setDownloadForm(event.target.value);
-  }
+  };
 
   const changeDownloadFileType = (event) => {
     setDownloadFileType(event.target.value);
-  }
+  };
 
   const downloadTexts = () => {
-    setIsLoading(true);
     fetch(`/api/texts/tekstidfailina`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         form: downloadForm,
         fileType: downloadFileType,
         fileList: Array.from(selected)
       }),
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       }
     })
-      .then((res) => {
-        if (res.ok) {
-          return res.blob();
-        }
-        throw new Error();
-      })
-      .then((blob) => {
-        FileSaver.saveAs(blob, `${i18n.language === 'ET' ? 'tekstid' : 'texts'}.${downloadFileType === 'TXT' ? 'txt' : 'zip'}`);
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setSnackbarOpen(true);
-        setIsLoading(false);
-      });
-  }
+      .then(res => res.blob())
+      .then(blob => FileSaver.saveAs(blob, `${i18n.language === 'ET' ? 'tekstid' : 'texts'}.${downloadFileType === 'TXT' ? 'txt' : 'zip'}`));
+  };
 
   return (
     <span className="query-download-button-span">
-      <Snackbar open={snackbarOpen}
-                autoHideDuration={6000}
-                anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-                onClose={handleSnackbarClose}>
-        <Alert onClose={handleSnackbarClose}
-               className="error-alert"
-               severity="error">
-          {t('error_generic_server_error')}
-        </Alert>
-      </Snackbar>
-      <Tooltip title={t("common_download")}
+      <Tooltip title={t('common_download')}
                placement="top">
         <Button variant="contained"
                 disabled={selected.size === 0}
-                className='query-download-modal-button'
+                className="query-download-modal-button"
                 onClick={handleOptionsDialogOpenButtonClick}>
           <DownloadIcon fontSize="medium"/>
         </Button>
@@ -112,12 +77,12 @@ export default function QueryDownloadButton({selected}) {
         onClose={handleOptionsDialogClose}
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'left',
+          horizontal: 'left'
         }}
       >
         <Box className="query-download-dialog">
           <Box className="download-dialog-inner"
-               id='fileDownload'>
+               id="fileDownload">
             <FormControl fullWidth>
               <InputLabel>{t('query_download_form')}</InputLabel>
               <Select
@@ -133,7 +98,7 @@ export default function QueryDownloadButton({selected}) {
                 <MenuItem value="VISLCG3">{t('query_download_vislcg3')}</MenuItem>
               </Select>
             </FormControl>
-            <FormControl className='query-download-modal-radio-group'>
+            <FormControl className="query-download-modal-radio-group">
               <RadioGroup
                 defaultValue="TXT"
                 onChange={changeDownloadFileType}
@@ -147,11 +112,10 @@ export default function QueryDownloadButton({selected}) {
               </RadioGroup>
             </FormControl>
             <div className="download-button">
-              <LoadingButton variant={isLoading ? "outlined" : "contained"}
-                             loading={isLoading}
-                             onClick={downloadTexts}>
-                {t("common_download")}
-              </LoadingButton>
+              <Button onClick={downloadTexts}
+                      variant="contained">
+                {t('common_download')}
+              </Button>
             </div>
           </Box>
         </Box>

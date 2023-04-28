@@ -3,7 +3,6 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Backdrop,
   Box,
   Button,
   Checkbox,
@@ -29,7 +28,6 @@ function QueryResults(props) {
   const [modalAccordionExpanded, setModalAccordionExpanded] = useState(false);
   const [resultAccordionExpanded, setResultAccordionExpanded] = useState(false);
   const [text, setText] = useState('');
-  const [isLoadingQueryResults, setIsLoadingQueryResults] = useState(false);
   const [isLoadingSelectAllTexts, setIsLoadingSelectAllTexts] = useState(false);
   const checkboxStatuses = useRef(new Set());
   const [update, forceUpdate] = useReducer(x => x + 1, 0);
@@ -132,8 +130,6 @@ function QueryResults(props) {
   };
 
   function previewText(id) {
-    setIsLoadingQueryResults(true);
-
     fetch('/api/texts/kysitekstimetainfo?id=' + id, {
       method: 'GET',
       headers: {
@@ -190,7 +186,6 @@ function QueryResults(props) {
             }
           }
         });
-        setIsLoadingQueryResults(false);
       });
     fetch('/api/texts/kysitekst?id=' + id, {
       method: 'GET',
@@ -395,13 +390,6 @@ function QueryResults(props) {
                 </AccordionDetails>
               </Accordion>
               <br/>
-              <Backdrop
-                open={isLoadingQueryResults}
-              >
-                <CircularProgress disableShrink
-                                  thickness={4}
-                                  size="8rem"/>
-              </Backdrop>
               {text.split(/\\n/g).map(function (item) {
                 return (
                   <span key={getParagraphKey(item)}>
