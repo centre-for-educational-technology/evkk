@@ -25,7 +25,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import { QuestionMark } from '@mui/icons-material';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
 import { queryStore } from '../../store/QueryStore';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import WordlistMenu from '../wordlist/menu/WordlistMenu';
 import GenericTable from '../../components/GenericTable';
 import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
@@ -33,6 +33,7 @@ import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
 export default function Collocates() {
 
   const navigate = useNavigate();
+  const [urlParams] = useSearchParams();
   const [paramsExpanded, setParamsExpanded] = useState(true);
   const [typeValue, setTypeValue] = useState('');
   const [typeError, setTypeError] = useState(false);
@@ -48,6 +49,18 @@ export default function Collocates() {
   const [response, setResponse] = useState([]);
   const data = useMemo(() => response, [response]);
   const [showNoResultsError, setShowNoResultsError] = useState(false);
+
+  useEffect(() => {
+    if (urlParams.get('word') && urlParams.get('type') && urlParams.get('keepCapitalization')) {
+      setKeyword(urlParams.get('word'));
+      setTypeValue(urlParams.get('type'));
+      if (urlParams.get('type') !== 'LEMMAS') {
+        setCapitalizationChecked(urlParams.get('keepCapitalization') === 'true');
+      }
+      sendRequest();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlParams, keyword, typeValue, capitalizationChecked]);
 
   useEffect(() => {
     const queryStoreState = queryStore.getState();
@@ -151,6 +164,18 @@ export default function Collocates() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    sendRequest();
+  };
+
+  const handleTypeChange = (event) => {
+    setTypeValue(event.target.value);
+    setTypeError(false);
+    if (event.target.value === 'LEMMAS') {
+      setCapitalizationChecked(false);
+    }
+  };
+
+  const sendRequest = () => {
     setTypeError(!typeValue);
     if (typeValue) {
       setShowTable(false);
@@ -179,14 +204,6 @@ export default function Collocates() {
             }
           }
         });
-    }
-  };
-
-  const handleTypeChange = (event) => {
-    setTypeValue(event.target.value);
-    setTypeError(false);
-    if (event.target.value === 'LEMMAS') {
-      setCapitalizationChecked(false);
     }
   };
 
