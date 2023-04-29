@@ -132,7 +132,7 @@ export default function Wordlist() {
       disableSortBy: true,
       Cell: (cellProps) => {
         return <WordlistMenu word={cellProps.row.original.word} type={typeValue}
-                             keepCapitalization={capitalizationChecked}/>;
+                             keepCapitalization={capitalizationChecked} showCollocatesButton={true}/>;
       }
     }
   ], [typeValue, typeValueToDisplay, capitalizationChecked]);
@@ -305,8 +305,7 @@ export default function Wordlist() {
                              tableType={'Wordlist'}
                              headers={tableToDownload}
                              accessors={accessors}
-                             marginTop={'2vh'}
-                             marginRight={'20.25vw'}/>
+                             marginTop={'2vh'}/>
         <GenericTable tableClassname={'wordlist-table'} columns={columns} data={data}
                       sortByColAccessor={'frequencyCount'}/>
       </>}

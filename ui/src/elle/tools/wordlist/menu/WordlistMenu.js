@@ -3,7 +3,7 @@ import { IconButton, Menu, MenuItem } from '@mui/material';
 import { MoreHoriz } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
-export default function WordlistMenu({word, type, keepCapitalization}) {
+export default function WordlistMenu({word, type, keepCapitalization, showCollocatesButton}) {
 
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -20,6 +20,11 @@ export default function WordlistMenu({word, type, keepCapitalization}) {
   const handleWordContext = () => {
     handleClose();
     navigate(`../wordcontext?word=${word}&type=${type}&keepCapitalization=${keepCapitalization}`);
+  };
+
+  const handleCollocates = () => {
+    handleClose();
+    navigate(`../collocates?word=${word}&type=${type}&keepCapitalization=${keepCapitalization}`);
   };
 
   const handleWordMeaning = () => {
@@ -40,7 +45,8 @@ export default function WordlistMenu({word, type, keepCapitalization}) {
       <Menu anchorEl={anchorEl}
             open={open}
             onClose={handleClose}>
-        <MenuItem onClick={handleWordContext}>Kasutuskontekst</MenuItem>
+        <MenuItem onClick={handleWordContext}>Kasutuskontekstid</MenuItem>
+        {showCollocatesButton && <MenuItem onClick={handleCollocates}>Naabersõnad</MenuItem>}
         <MenuItem onClick={handleWordMeaning}>Tähendus (Sõnaveeb)</MenuItem>
         <MenuItem onClick={handleWordTranslation}>Tõlge (Google Translate)</MenuItem>
       </Menu>

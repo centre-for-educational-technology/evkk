@@ -337,8 +337,7 @@ export default function Collocates() {
                              tableType={'Collocates'}
                              headers={tableToDownload}
                              accessors={accessors}
-                             marginTop={'2vh'}
-                             marginRight={'19.25vw'}/>
+                             marginTop={'2vh'}/>
         <GenericTable tableClassname={'wordlist-table'} columns={columns} data={data} sortByColAccessor={'score'}/>
       </>}
       {showNoResultsError &&

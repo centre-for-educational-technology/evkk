@@ -338,8 +338,7 @@ export default function WordContext() {
                              tableType={'WordContext'}
                              headers={tableToDownload}
                              accessors={accessors}
-                             marginTop={'2vh'}
-                             marginRight={'11.5vw'}/>
+                             marginTop={'2vh'}/>
         <GenericTable tableClassname={'wordcontext-table'} columns={columns} data={data}/>
       </>}
       {showNoResultsError &&
