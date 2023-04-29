@@ -41,7 +41,7 @@ export const TRANSLATIONS_ET = {
   query_download_vislcg3: 'Süntaktiline märgendus – VISLCG3',
   query_download_zip: 'ZIP failina',
   reset_button: 'Lähtesta',
-  server_down_page_error: 'ELLE teenused ei ole hetkel kättesaadavad! Palun proovi hiljem uuesti.',
+  server_offline_page_error: 'ELLE teenused ei ole hetkel kättesaadavad! Palun proovi hiljem uuesti.',
   syllables_beginning: 'algus',
   syllables_end: 'lõpp',
   syllables_filename: 'silbid',

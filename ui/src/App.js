@@ -15,7 +15,7 @@ import { ThemeProvider } from '@mui/material';
 import { EventEmitter } from 'events';
 import ErrorSnackbar from './elle/components/ErrorSnackbar';
 import LoadingSpinner from './elle/components/LoadingSpinner';
-import ServerDownPage from './elle/components/ServerDownPage';
+import ServerOfflinePage from './elle/components/ServerOfflinePage';
 import { fetchInterceptor } from './elle/interceptor/FetchInterceptor';
 
 export const errorEmitter = new EventEmitter();
@@ -81,7 +81,7 @@ class AppWithStatus extends Component {
 
   render() {
     fetchInterceptor();
-    if (!this.props.statusLoaded) return <ServerDownPage/>;
+    if (!this.props.statusLoaded) return <ServerOfflinePage/>;
     return (
       <>
         <ErrorSnackbar/>

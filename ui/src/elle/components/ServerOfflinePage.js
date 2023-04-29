@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
-export default function ServerDownPage() {
+export default function ServerOfflinePage() {
 
   const {t} = useTranslation();
 
@@ -13,7 +13,7 @@ export default function ServerDownPage() {
       <Navbar/>
       <span className="server-error-page">
         <Alert severity="error">
-          {t('server_down_page_error')}
+          {t('server_offline_page_error')}
         </Alert>
         <Button variant="contained"
                 onClick={() => window.location.reload()}>

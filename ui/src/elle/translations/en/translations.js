@@ -41,7 +41,7 @@ export const TRANSLATIONS_EN = {
   query_download_vislcg3: 'Syntactic annotation – VISLCG3',
   query_download_zip: 'ZIP file',
   reset_button: 'Reset',
-  server_down_page_error: 'ELLE services are unavailable at the moment! Please try again later.',
+  server_offline_page_error: 'ELLE services are unavailable at the moment! Please try again later.',
   syllables_beginning: 'beginning',
   syllables_end: 'end',
   syllables_filename: 'syllables',
