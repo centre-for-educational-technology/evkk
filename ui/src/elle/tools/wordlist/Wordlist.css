@@ -27,6 +27,8 @@
 .wordlist-table td, .wordlist-table th {
   border: 1px solid #ddd;
   padding: 8px;
+  width: 1%;
+  white-space: nowrap;
 }
 
 .wordlist-table td:last-child, .wordlist-table th:last-child {

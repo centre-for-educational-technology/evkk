@@ -110,7 +110,6 @@ export default function WordContext() {
     {
       Header: 'Jrk',
       accessor: 'id',
-      width: 30,
       disableSortBy: true,
       Cell: (cellProps) => {
         return cellProps.sortedFlatRows.findIndex(item => item.id === cellProps.row.id) + 1;
@@ -120,7 +119,6 @@ export default function WordContext() {
     {
       Header: 'Eelnev kontekst',
       accessor: 'contextBefore',
-      width: 100,
       Cell: (cellProps) => {
         return cellProps.value;
       },
@@ -129,7 +127,6 @@ export default function WordContext() {
     {
       Header: 'Otsisõna',
       accessor: 'keyword',
-      width: 30,
       Cell: (cellProps) => {
         return cellProps.value;
       },
@@ -138,7 +135,6 @@ export default function WordContext() {
     {
       Header: 'Järgnev kontekst',
       accessor: 'contextAfter',
-      width: 100,
       Cell: (cellProps) => {
         return cellProps.value;
       },

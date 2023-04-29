@@ -65,9 +65,7 @@ export default function GenericTable({tableClassname, columns, data, sortByColAc
                   <td {...cell.getCellProps({
                     className: cell.column.className
                   })}
-                      style={{
-                        width: cell.column.width
-                      }}>
+                  >
                     {cell.render('Cell')}
                   </td>
                 );

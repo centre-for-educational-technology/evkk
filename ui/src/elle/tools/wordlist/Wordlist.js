@@ -98,7 +98,6 @@ export default function Wordlist() {
     {
       Header: 'Jrk',
       accessor: 'id',
-      width: 20,
       disableSortBy: true,
       Cell: (cellProps) => {
         return cellProps.sortedFlatRows.findIndex(item => item.id === cellProps.row.id) + 1;
@@ -109,7 +108,6 @@ export default function Wordlist() {
         return typeValueToDisplay === 'WORDS' ? 'Sõnavorm' : 'Algvorm';
       },
       accessor: 'word',
-      width: 140,
       Cell: (cellProps) => {
         return cellProps.value;
       }
@@ -117,7 +115,6 @@ export default function Wordlist() {
     {
       Header: 'Sagedus',
       accessor: 'frequencyCount',
-      width: 20,
       Cell: (cellProps) => {
         return cellProps.value;
       }
@@ -125,7 +122,6 @@ export default function Wordlist() {
     {
       Header: 'Osakaal',
       accessor: 'frequencyPercentage',
-      width: 20,
       Cell: (cellProps) => {
         return `${cellProps.value}%`;
       }
@@ -133,7 +129,6 @@ export default function Wordlist() {
     {
       Header: '',
       accessor: 'menu',
-      width: 1,
       disableSortBy: true,
       Cell: (cellProps) => {
         return <WordlistMenu word={cellProps.row.original.word} type={typeValue}

@@ -98,7 +98,6 @@ export default function Collocates() {
     {
       Header: 'Jrk',
       accessor: 'id',
-      width: 40,
       disableSortBy: true,
       Cell: (cellProps) => {
         return cellProps.sortedFlatRows.findIndex(item => item.id === cellProps.row.id) + 1;
@@ -107,7 +106,6 @@ export default function Collocates() {
     {
       Header: 'Naabersõna',
       accessor: 'collocate',
-      width: 140,
       Cell: (cellProps) => {
         return cellProps.value;
       }
@@ -115,7 +113,6 @@ export default function Collocates() {
     {
       Header: 'Skoor',
       accessor: 'score',
-      width: 40,
       Cell: (cellProps) => {
         return cellProps.value;
       }
@@ -123,7 +120,6 @@ export default function Collocates() {
     {
       Header: 'Kooskasutuste arv',
       accessor: 'coOccurrences',
-      width: 40,
       Cell: (cellProps) => {
         return cellProps.value;
       }
@@ -131,7 +127,6 @@ export default function Collocates() {
     {
       Header: 'Sagedus tekstis',
       accessor: 'frequencyCount',
-      width: 40,
       Cell: (cellProps) => {
         return cellProps.value;
       }
@@ -139,7 +134,6 @@ export default function Collocates() {
     {
       Header: 'Osakaal tekstis',
       accessor: 'frequencyPercentage',
-      width: 40,
       Cell: (cellProps) => {
         return `${cellProps.value}%`;
       }
@@ -147,7 +141,6 @@ export default function Collocates() {
     {
       Header: '',
       accessor: 'menu',
-      width: 1,
       disableSortBy: true,
       Cell: (cellProps) => {
         return <WordlistMenu word={cellProps.row.original.collocate} type={typeValue}
