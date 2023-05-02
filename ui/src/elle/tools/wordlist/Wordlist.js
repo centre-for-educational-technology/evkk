@@ -25,6 +25,7 @@ import WordlistMenu from './menu/WordlistMenu';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
 import GenericTable from '../../components/GenericTable';
 import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
+import { loadFetch } from '../../service/LoadFetch';
 
 export default function Wordlist() {
 
@@ -142,7 +143,7 @@ export default function Wordlist() {
     setTypeError(!typeValue);
     if (typeValue) {
       setShowTable(false);
-      fetch('/api/tools/wordlist', {
+      loadFetch('/api/tools/wordlist', {
         method: 'POST',
         body: generateRequestData(),
         headers: {

@@ -5,6 +5,7 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { useTranslation } from 'react-i18next';
 import '../translations/i18n';
 import CloseIcon from '@mui/icons-material/Close';
+import { loadFetch } from '../service/LoadFetch';
 
 function TextUpload({sendTextFromFile}) {
 
@@ -22,7 +23,7 @@ function TextUpload({sendTextFromFile}) {
       body: formData
     };
 
-    fetch('/api/textfromfile', requestBody)
+    loadFetch('/api/textfromfile', requestBody)
       .then(res => res.text())
       .then(response => {
         sendTextFromFile(response);

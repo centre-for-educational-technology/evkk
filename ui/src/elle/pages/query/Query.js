@@ -37,6 +37,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import TextUpload from '../../components/TextUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import { queryStore } from '../../store/QueryStore';
+import { loadFetch } from '../../service/LoadFetch';
 
 function Query() {
 
@@ -187,7 +188,7 @@ function Query() {
         params.sentences = simplifyDropdowns(sentences);
       }
 
-      fetch('/api/texts/detailneparing', {
+      loadFetch('/api/texts/detailneparing', {
         method: 'POST',
         body: JSON.stringify(params),
         headers: {

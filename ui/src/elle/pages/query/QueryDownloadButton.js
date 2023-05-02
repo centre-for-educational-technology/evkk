@@ -17,6 +17,7 @@ import '../styles/QueryDownloadButton.css';
 import { useState } from 'react';
 import i18n from 'i18next';
 import FileSaver from 'file-saver';
+import { loadFetch } from '../../service/LoadFetch';
 
 export default function QueryDownloadButton({selected}) {
 
@@ -45,7 +46,7 @@ export default function QueryDownloadButton({selected}) {
   };
 
   const downloadTexts = () => {
-    fetch(`/api/texts/tekstidfailina`, {
+    loadFetch(`/api/texts/tekstidfailina`, {
       method: 'POST',
       body: JSON.stringify({
         form: downloadForm,

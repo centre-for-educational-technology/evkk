@@ -20,6 +20,7 @@ import TablePagination from '../../components/table/TablePagination';
 import QueryDownloadButton from './QueryDownloadButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { queryStore } from '../../store/QueryStore';
+import { loadFetch } from '../../service/LoadFetch';
 
 function QueryResults(props) {
 
@@ -130,7 +131,7 @@ function QueryResults(props) {
   };
 
   function previewText(id) {
-    fetch('/api/texts/kysitekstimetainfo?id=' + id, {
+    loadFetch('/api/texts/kysitekstimetainfo?id=' + id, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -187,7 +188,7 @@ function QueryResults(props) {
           }
         });
       });
-    fetch('/api/texts/kysitekst?id=' + id, {
+    loadFetch('/api/texts/kysitekst?id=' + id, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'

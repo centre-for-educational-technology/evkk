@@ -29,6 +29,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import WordlistMenu from '../wordlist/menu/WordlistMenu';
 import GenericTable from '../../components/GenericTable';
 import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
+import { loadFetch } from '../../service/LoadFetch';
 
 export default function Collocates() {
 
@@ -179,7 +180,7 @@ export default function Collocates() {
     setTypeError(!typeValue);
     if (typeValue) {
       setShowTable(false);
-      fetch('/api/tools/collocates', {
+      loadFetch('/api/tools/collocates', {
         method: 'POST',
         body: generateRequestData(),
         headers: {

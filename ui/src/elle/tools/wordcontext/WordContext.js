@@ -28,6 +28,7 @@ import TableDownloadButton from '../../components/table/TableDownloadButton';
 import { QuestionMark } from '@mui/icons-material';
 import GenericTable from '../../components/GenericTable';
 import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
+import { loadFetch } from '../../service/LoadFetch';
 
 export default function WordContext() {
 
@@ -159,7 +160,7 @@ export default function WordContext() {
     setTypeError(!typeValue);
     if (typeValue) {
       setShowTable(false);
-      fetch('/api/tools/wordcontext', {
+      loadFetch('/api/tools/wordcontext', {
         method: 'POST',
         body: generateRequestData(),
         headers: {

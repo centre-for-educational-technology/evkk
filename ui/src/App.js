@@ -16,7 +16,6 @@ import { EventEmitter } from 'events';
 import ErrorSnackbar from './elle/components/ErrorSnackbar';
 import LoadingSpinner from './elle/components/LoadingSpinner';
 import ServerOfflinePage from './elle/components/ServerOfflinePage';
-import { fetchInterceptor } from './elle/interceptor/FetchInterceptor';
 
 export const errorEmitter = new EventEmitter();
 export const loadingEmitter = new EventEmitter();
@@ -80,7 +79,6 @@ class AppWithStatus extends Component {
   }
 
   render() {
-    fetchInterceptor();
     if (!this.props.statusLoaded) return <ServerOfflinePage/>;
     return (
       <>
