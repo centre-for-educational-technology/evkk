@@ -252,7 +252,7 @@ export default function Wordlist() {
                                           target="_blank"
                                           rel="noopener noreferrer">siit</a>).</>}
                                                placement="right">
-                                        <QuestionMark className="stopwords-tooltip-icon"/>
+                                        <QuestionMark className="tooltip-icon"/>
                                       </Tooltip></>}
                   />
                   <TextField label="Kirjuta siia oma stoppsõnad (nt koer, kodu)"
@@ -277,7 +277,7 @@ export default function Wordlist() {
                                       <Tooltip
                                         title='Sõnad muudetakse vaikimisi väiketäheliseks, näiteks "kool" ja "Kool" loetakse samaks sõnaks. Märgi kasti linnuke, kui soovid, et suur- ja väiketähelisi sõnu arvestataks eraldi (nt "Eesti" ja "eesti").'
                                         placement="right">
-                                        <QuestionMark className="stopwords-tooltip-icon"/>
+                                        <QuestionMark className="tooltip-icon"/>
                                       </Tooltip></>}
                   />
                   <TextField label={<>
@@ -285,7 +285,7 @@ export default function Wordlist() {
                     <Tooltip
                       title="Kui soovid näiteks välistada sõnad, mida esineb tekstis vaid üks kord, siis määra sageduse alampiiriks 2. Mahukamaid tekstikogusid analüüsides jäetakse sageli kõrvale alla 5 korra esinevad sõnad."
                       placement="right">
-                      <QuestionMark className="stopwords-tooltip-icon"/>
+                      <QuestionMark className="tooltip-icon"/>
                     </Tooltip></>}
                              type="number"
                              inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: '1'}}

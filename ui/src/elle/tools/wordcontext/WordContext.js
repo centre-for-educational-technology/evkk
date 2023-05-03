@@ -319,7 +319,7 @@ export default function WordContext() {
                                       <Tooltip
                                         title='Vaikimisi ei arvestata otsisõna suurt või väikest algustähte, nt "eesti" võimaldab leida nii "eesti" kui ka "Eesti" kasutuskontekstid. Märgi kasti linnuke, kui soovid ainult väike- või suurtähega algavaid vasteid.'
                                         placement="right">
-                                        <QuestionMark className="stopwords-tooltip-icon"/>
+                                        <QuestionMark className="tooltip-icon"/>
                                       </Tooltip></>}
                   />
                 </FormControl>

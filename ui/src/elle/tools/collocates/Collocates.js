@@ -299,7 +299,7 @@ export default function Collocates() {
                     </Grid>
                     <Grid
                       item
-                      className="collocates-search-count-explanation"
+                      className="collocates-explanation"
                     >
                       eelneva ja järgneva sõna piires
                     </Grid>
@@ -309,16 +309,30 @@ export default function Collocates() {
               <div>
                 <FormControl sx={{m: 3}} size="small">
                   <FormLabel id="formula">Vali valem</FormLabel>
-                  <Select
-                    sx={{width: '140px'}}
-                    name="formula"
-                    value={formula}
-                    onChange={(e) => setFormula(e.target.value)}
-                  >
-                    <MenuItem value="LOGDICE">logDice</MenuItem>
-                    <MenuItem value="T_SCORE">T-skoor</MenuItem>
-                    <MenuItem value="MI_SCORE">MI-skoor</MenuItem>
-                  </Select>
+                  <Grid container>
+                    <Grid item>
+                      <Select
+                        sx={{width: '140px'}}
+                        name="formula"
+                        value={formula}
+                        onChange={(e) => setFormula(e.target.value)}
+                      >
+                        <MenuItem value="LOGDICE">logDice</MenuItem>
+                        <MenuItem value="T_SCORE">T-skoor</MenuItem>
+                        <MenuItem value="MI_SCORE">MI-skoor</MenuItem>
+                      </Select>
+                    </Grid>
+                    <Grid
+                      item
+                      className="collocates-explanation"
+                    >
+                      <Tooltip
+                        title="Pakume naabersõnade leidmiseks kolme valemit, mis annavad mõnevõrra erinevaid tulemusi. logDice ei sõltu teksti pikkusest ja sobib seega kõige paremini mahukate tekstikogude analüüsimiseks. Üksikute tekstide puhul on logDice'i ja T-skoori alusel saadud tulemused üsna sarnased. MI-skoor toob paremini esile harvaesinevaid sõnaühendeid, kuid määrab oluliste naabersõnade hulka ka rohkem sisutühje sõnu, mis esinevad paljude sõnade lähiümbruses."
+                        placement="right">
+                        <QuestionMark className="tooltip-icon"/>
+                      </Tooltip>
+                    </Grid>
+                  </Grid>
                 </FormControl>
                 <br/>
                 <FormControl sx={{m: 3}}
@@ -335,7 +349,7 @@ export default function Collocates() {
                                       <Tooltip
                                         title='Vaikimisi ei arvestata otsisõna suurt või väikest algustähte, nt "eesti" võimaldab leida nii "eesti" kui ka "Eesti" naabersõnad. Märgi kasti linnuke, kui soovid ainult väike- või suurtähega algavaid vasteid.'
                                         placement="right">
-                                        <QuestionMark className="stopwords-tooltip-icon"/>
+                                        <QuestionMark className="tooltip-icon"/>
                                       </Tooltip></>}
                   />
                 </FormControl>

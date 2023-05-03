@@ -8,6 +8,6 @@ export const loadFetch = async (url, params) => {
       loadingEmitter.emit('loader-end');
       if (res.ok) return res;
       errorEmitter.emit('generic-error');
-      return Promise.reject();
+      return Promise.reject(res);
     });
 };
