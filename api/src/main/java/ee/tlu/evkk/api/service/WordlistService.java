@@ -2,9 +2,8 @@ package ee.tlu.evkk.api.service;
 
 import ee.evkk.dto.WordlistRequestDto;
 import ee.evkk.dto.WordlistResponseDto;
-import ee.tlu.evkk.api.util.FileUtils;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
-import ee.tlu.evkk.dal.dao.TextDao;
+import ee.tlu.evkk.core.service.TextService;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -15,7 +14,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import static ee.evkk.dto.enums.WordlistType.WORDS;
+import static ee.evkk.dto.enums.WordType.WORDS;
+import static ee.tlu.evkk.api.util.FileUtils.readResourceAsString;
+import static ee.tlu.evkk.api.util.TextUtils.sanitizeLemmaStrings;
+import static ee.tlu.evkk.api.util.TextUtils.sanitizeText;
 import static java.math.BigDecimal.valueOf;
 import static java.math.RoundingMode.UP;
 import static java.util.Arrays.asList;
@@ -24,22 +26,19 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class WordlistService {
 
-  private final TextDao textDao;
   private final StanzaServerClient stanzaServerClient;
-  private final FileUtils fileUtils;
+  private final TextService textService;
 
-  public WordlistService(TextDao textDao, StanzaServerClient stanzaServerClient, FileUtils fileUtils) {
-    this.textDao = textDao;
+  public WordlistService(StanzaServerClient stanzaServerClient, TextService textService) {
+    this.textService = textService;
     this.stanzaServerClient = stanzaServerClient;
-    this.fileUtils = fileUtils;
   }
 
   public List<WordlistResponseDto> getWordlistResponse(WordlistRequestDto dto) throws IOException {
-    String textContent = textDao.findTextsByIds(dto.getCorpusTextIds());
-    String sanitizedText = sanitizeText(textContent);
-    List<String> wordlist = dto.getType().equals(WORDS)
-      ? asList(stanzaServerClient.getSonad(sanitizedText))
-      : sanitizeLemmaList(asList(stanzaServerClient.getLemmad(sanitizedText)));
+    String sanitizedTextContent = sanitizeText(textService.combineCorpusTextIdsAndOwnText(dto.getCorpusTextIds(), dto.getOwnTexts()));
+    List<String> wordlist = WORDS.equals(dto.getType())
+      ? asList(stanzaServerClient.getSonad(sanitizedTextContent))
+      : sanitizeLemmaStrings(asList(stanzaServerClient.getLemmad(sanitizedTextContent)));
     if (!dto.isKeepCapitalization()) {
       wordlist = wordlist.stream().map(String::toLowerCase).collect(toList());
     }
@@ -49,7 +48,7 @@ public class WordlistService {
   }
 
   private List<WordlistResponseDto> filteredWordlistResponse(WordlistRequestDto dto, List<String> wordlist, Map<String, Long> frequencyCounts, Map<String, BigDecimal> frequencyPercentages) throws IOException {
-    List<String> defaultStopwords = new ArrayList<>(asList(fileUtils.readResourceAsString("Stopwords.txt").split(",")));
+    List<String> defaultStopwords = new ArrayList<>(asList(readResourceAsString("Stopwords.txt").split(",")));
     List<String> customStopwords = dto.getCustomStopwords() != null
       ? new ArrayList<>(dto.getCustomStopwords())
       : new ArrayList<>();
@@ -75,20 +74,6 @@ public class WordlistService {
     return dto.isKeepCapitalization()
       ? stopwords.contains(word)
       : stopwordsLower.contains(word);
-  }
-
-  private String sanitizeText(String text) {
-    return text
-      .replace("\\n", " ")
-      .replace("\\t", " ");
-  }
-
-  private List<String> sanitizeLemmaList(List<String> lemmas) {
-    return lemmas.stream()
-      .map(lemma -> lemma
-        .replace("_", "")
-        .replace("=", ""))
-      .collect(toList());
   }
 
   private Map<String, Long> getFrequencyCount(List<String> wordlist) {

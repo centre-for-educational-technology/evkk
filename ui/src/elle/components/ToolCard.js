@@ -1,16 +1,17 @@
-import React, {useState} from "react";
-import {Box, Card, CardActionArea, CardContent, Typography,} from "@mui/material";
-import {Link} from "react-router-dom";
-import {queryStore} from "../store/QueryStore";
-import "./styles/ToolCard.css";
+import React, { useState } from 'react';
+import { Box, Card, CardActionArea, CardContent, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { queryStore } from '../store/QueryStore';
+import './styles/ToolCard.css';
 
 function ToolCard({tool}) {
 
-  const disableableTools = ['wordlist'];
+  const disableableTools = ['wordlist', 'wordcontext', 'collocates'];
   const [textsSelected, setTextsSelected] = useState(false);
 
   queryStore.subscribe(() => {
-    setTextsSelected(!!queryStore.getState());
+    const storeState = queryStore.getState();
+    setTextsSelected(storeState.corpusTextIds !== null || storeState.ownTexts !== null);
   });
 
   function isDisabled(route) {
@@ -23,8 +24,9 @@ function ToolCard({tool}) {
           square={true}
           style={{width: "350px"}}>
       <CardActionArea onClick={tool.action}
+                      style={{height: '150px'}}
                       className={isDisabled(tool.route) ? 'disabled' : ''}>
-        <CardContent sx={{display: "flex"}}>
+        <CardContent sx={{display: 'flex', height: '140px'}}>
           <Box sx={{marginRight: 2}}>
             <img src={tool.img}
                  alt={tool.title}/>

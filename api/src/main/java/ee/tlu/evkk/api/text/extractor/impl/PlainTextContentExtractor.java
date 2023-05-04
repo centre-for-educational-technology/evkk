@@ -2,11 +2,12 @@ package ee.tlu.evkk.api.text.extractor.impl;
 
 import ee.tlu.evkk.api.text.extractor.ex.TextExtractionException;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MimeType;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.InputStream;
+
+import static org.springframework.util.MimeType.valueOf;
 
 /**
  * @author Mikk Tarvas
@@ -16,7 +17,7 @@ import java.io.InputStream;
 public class PlainTextContentExtractor extends AbstractContentExtractor {
 
   public PlainTextContentExtractor() {
-    super(MimeType.valueOf("text/plain"));
+    super(valueOf("text/plain"));
   }
 
   @Nonnull

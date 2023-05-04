@@ -4,13 +4,17 @@ import {
   AccordionDetails,
   AccordionSummary,
   Alert,
+  Box,
   Button,
   Checkbox,
+  Chip,
   FormControl,
+  IconButton,
   InputLabel,
   ListItemIcon,
   ListItemText,
   MenuItem,
+  Modal,
   Select,
   Tooltip,
   Typography
@@ -29,8 +33,11 @@ import {
 } from '../../utils/constants';
 import QueryResults from './QueryResults';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import LoadingButton from '@mui/lab/LoadingButton';
 import { useLocation, useNavigate } from 'react-router-dom';
+import TextUpload from '../../components/TextUpload';
+import CloseIcon from '@mui/icons-material/Close';
+import { queryStore } from '../../store/QueryStore';
+import { loadFetch } from '../../service/LoadFetch';
 
 function Query() {
 
@@ -41,6 +48,20 @@ function Query() {
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState(location.pathname === '/tools');
   const [results, setResults] = useState([]);
+  const [addedYears, setAddedYears] = useState([]);
+  const [characters, setCharacters] = useState([]);
+  const [words, setWords] = useState([]);
+  const [sentences, setSentences] = useState([]);
+  const [textTypes, setTextTypes] = useState([]);
+  const [usedMultiMaterials, setUsedMultiMaterials] = useState([]);
+  const [alert, setAlert] = useState(false);
+  const [noResultsError, setNoResultsError] = useState(false);
+  const [resultsKey, setResultsKey] = useState(1);
+  const [queryVisible, setQueryVisible] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [textInputValue, setTextInputValue] = useState('');
+  const [corpusTextsSelected, setCorpusTextsSelected] = useState(0);
+  const [ownTextsSelected, setOwnTextsSelected] = useState(false);
   const [corpusCheckboxStatus, setCorpusCheckboxStatus] = useState({
     all: false,
     cFqPphvYi: false,
@@ -66,26 +87,70 @@ function Query() {
     nationality: '',
     country: ''
   });
-  const [addedYears, setAddedYears] = useState([]);
-  const [characters, setCharacters] = useState([]);
-  const [words, setWords] = useState([]);
-  const [sentences, setSentences] = useState([]);
-  const [textTypes, setTextTypes] = useState([]);
-  const [usedMultiMaterials, setUsedMultiMaterials] = useState([]);
-  const [alert, setAlert] = useState(false);
-  const [noResultsError, setNoResultsError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [resultsKey, setResultsKey] = useState(1);
-  const [queryVisible, setQueryVisible] = useState(false);
 
-  function submitted() {
+  // reset corpus-based filters
+  useEffect(() => {
+    let newSinglePropertyData = {...singlePropertyData};
+
+    if (checkIfOnlySpecificCorpusIsChecked('clWmOIrLa')) {
+      newSinglePropertyData.nativeLang = '';
+    } else {
+      newSinglePropertyData.nationality = '';
+    }
+
+    if (checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')) {
+      newSinglePropertyData.level = '';
+      newSinglePropertyData.education = '';
+      newSinglePropertyData.usedMaterials = '';
+    } else {
+      newSinglePropertyData.studyLevel = '';
+      newSinglePropertyData.degree = '';
+      newSinglePropertyData.otherLang = '';
+      newSinglePropertyData.domain = '';
+      setUsedMultiMaterials([]);
+    }
+
+    setSinglePropertyData(newSinglePropertyData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [corpusCheckboxStatus]);
+
+  useEffect(() => {
+    refreshChips();
+  }, []);
+
+  queryStore.subscribe(() => {
+    refreshChips();
+  });
+
+  const refreshChips = () => {
+    const storeState = queryStore.getState();
+    setCorpusTextsSelected(storeState.corpusTextIds !== null
+      ? storeState.corpusTextIds.length
+      : 0
+    );
+    setOwnTextsSelected(storeState.ownTexts !== null);
+  };
+
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '55em',
+    bgcolor: '#FCFCFC',
+    boxShadow: 24,
+    borderRadius: '12px',
+    p: 4,
+    maxHeight: '37.5em',
+    overflow: 'auto'
+  };
+
+  const submitted = () => {
     setResultsKey(Math.random());
-    setIsLoading(true);
-    let selectedCorpuses = getSelectedCorpusList();
+    const selectedCorpuses = getSelectedCorpusList();
 
     if (selectedCorpuses.length === 0) {
       setAlert(true);
-      setIsLoading(false);
     } else {
       setAlert(false);
       let params = {};
@@ -123,7 +188,7 @@ function Query() {
         params.sentences = simplifyDropdowns(sentences);
       }
 
-      fetch('/api/texts/detailneparing', {
+      loadFetch('/api/texts/detailneparing', {
         method: 'POST',
         body: JSON.stringify(params),
         headers: {
@@ -140,7 +205,6 @@ function Query() {
             setResults([]);
           }
           setExpanded(false);
-          setIsLoading(false);
         });
     }
   }
@@ -221,32 +285,6 @@ function Query() {
     }
   };
 
-  // reset corpus-based filters
-  useEffect(() => {
-    let newSinglePropertyData = {...singlePropertyData};
-
-    if (checkIfOnlySpecificCorpusIsChecked('clWmOIrLa')) {
-      newSinglePropertyData.nativeLang = '';
-    } else {
-      newSinglePropertyData.nationality = '';
-    }
-
-    if (checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')) {
-      newSinglePropertyData.level = '';
-      newSinglePropertyData.education = '';
-      newSinglePropertyData.usedMaterials = '';
-    } else {
-      newSinglePropertyData.studyLevel = '';
-      newSinglePropertyData.degree = '';
-      newSinglePropertyData.otherLang = '';
-      newSinglePropertyData.domain = '';
-      setUsedMultiMaterials([]);
-    }
-
-    setSinglePropertyData(newSinglePropertyData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [corpusCheckboxStatus]);
-
   const alterSinglePropertyData = (event, fieldName) => {
     let newSinglePropertyData = {...singlePropertyData};
     newSinglePropertyData[fieldName] = (newSinglePropertyData[fieldName] === event.target.dataset.value || event.target.dataset.value === undefined)
@@ -323,10 +361,36 @@ function Query() {
     return checked;
   };
 
+  const sendTextFromFile = (data) => {
+    setTextInputValue(data);
+  };
+
+  const handleSubmitOwnTexts = () => {
+    queryStore.dispatch({
+      type: 'CHANGE_OWN_TEXTS',
+      value: textInputValue
+    });
+    setModalOpen(false);
+  };
+
+  const handleChipDelete = (type) => {
+    if (type === 'CORPUS_TEXTS') {
+      queryStore.dispatch({
+        type: 'CHANGE_CORPUS_TEXTS',
+        value: null
+      });
+    } else {
+      queryStore.dispatch({
+        type: 'CHANGE_OWN_TEXTS',
+        value: null
+      });
+    }
+  };
+
   return (
     <div>
       <Alert severity="info">Otsi tekste EVKK tekstikogust ja analüüsi neid meie tööriistadega või sisesta
-        analüüsimiseks oma tekst(id).</Alert>
+        analüüsimiseks oma tekstid.</Alert>
       <br/>
       {alert && <><Alert severity="error">Vali vähemalt üks alamkorpus!</Alert><br/></>}
       <div className="buttonBox">
@@ -336,12 +400,24 @@ function Query() {
                   setExpanded(true);
                 }}>Vali tekstid</Button>
         <Button variant="contained"
-                className="buttonSecondLeft"
-                disabled>Oma tekst</Button>
+                onClick={() => setModalOpen(true)}
+                className="buttonSecondLeft">Oma tekstid</Button>
         <Button variant="contained"
                 onClick={() => navigate('adding')}
                 className="buttonRight">Loovuta tekst</Button>
       </div>
+      {(corpusTextsSelected > 0 || ownTextsSelected) && <>
+        <br/>
+        Analüüsiks salvestatud tekstid:
+        {corpusTextsSelected > 0 &&
+          <Chip label={`${corpusTextsSelected} korpuse tekst${corpusTextsSelected > 1 ? 'i' : ''}`}
+                className="selected-text-chip" variant="outlined" onDelete={() => handleChipDelete('CORPUS_TEXTS')}/>
+        }
+        {ownTextsSelected > 0 &&
+          <Chip label="oma tekstid" className="selected-text-chip" variant="outlined"
+                onDelete={() => handleChipDelete('OWN_TEXTS')}/>
+        }
+      </>}
       {queryVisible && <span>
         <Accordion sx={AccordionStyle}
                    className="queryAccordion"
@@ -974,11 +1050,8 @@ function Query() {
               </div>
             </div>
             <br/><br/>
-            <LoadingButton onClick={() => {
-              submitted();
-            }}
-                           loading={isLoading}
-                           variant={isLoading ? 'outlined' : 'contained'}>Saada päring</LoadingButton>
+            <Button onClick={submitted}
+                    variant="contained">Saada päring</Button>
           </form>
         </AccordionDetails>
       </Accordion>
@@ -987,6 +1060,43 @@ function Query() {
                       data={results}/>
         </span>
       }
+      <Modal
+        open={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+        }}
+      >
+        <Box sx={modalStyle}>
+          <div className="modal-head">
+            Sisesta või laadi üles oma tekstid
+          </div>
+          <IconButton
+            aria-label="close"
+            onClick={() => {
+              setModalOpen(false);
+            }}
+            className="closeButton"
+          >
+            <CloseIcon/>
+          </IconButton>
+          <br/><br/>
+          <div>
+            <TextUpload sendTextFromFile={sendTextFromFile}/>
+            <textarea
+              spellCheck="false"
+              className="query-textinput"
+              value={textInputValue}
+              onChange={(e) => setTextInputValue(e.target.value)}
+            ></textarea>
+            <Button variant="contained"
+                    style={{marginTop: '2.5em'}}
+                    disabled={textInputValue === ''}
+                    onClick={() => handleSubmitOwnTexts()}>
+              Salvesta tekstid analüüsiks
+            </Button>
+          </div>
+        </Box>
+      </Modal>
     </div>
   );
 }

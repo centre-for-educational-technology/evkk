@@ -334,100 +334,101 @@ function Syllables() {
     }
   }
 
-  return (
-    <>
-      <Box>
-        {data.map((value, _i) => {
-          return createList(value);
-        })}
-        {createSyllableList()}
-        {findDuplicates()}
-        {useEffect(() => {
-          formating();
-          // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [])}
-        <Box className="filter-container">
-          <Box>{appliedFilters !== [] ?
-            <Box className="applied-filters-box">{t('applied_filters')}: {AppliedFilters()} </Box> : null}</Box>
-          <Box>
-            <Button className="Popover-button" aria-describedby={syllableFilterPopoverID} variant="contained"
-                    onClick={handlePopoverOpen}><FilterAltIcon fontSize="large"/></Button>
-            <Popover
-              id={syllableFilterPopoverID}
-              open={syllableFilterPopoverToggle}
-              anchorEl={syllableFilterPopoverAnchor}
-              onClose={handlePopoverClose}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left'
-              }}
-              transformOrigin={{
-                horizontal: 'center'
-              }}
-            >
-              <Box className="popover-box">
-                {multiSelect(col2, t('filter_by_word_form'))}
-              </Box>
-            </Popover>
-          </Box>
-          <TableDownloadButton data={infoListNew}
-                               tableType={'Syllables'}
-                               headers={tableToDownload}/>
+  data.map((value, _i) => {
+    return createList(value);
+  });
+  createSyllableList();
+  findDuplicates();
+  useEffect(() => {
+    formating();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (<><>
+    <Box>
+      <Box className="filter-container">
+        <Box>{appliedFilters !== [] ?
+          <Box className="applied-filters-box">{t('applied_filters')}: {AppliedFilters()} </Box> : null}</Box>
+        <Box>
+          <Button className="Popover-button" aria-describedby={syllableFilterPopoverID} variant="contained"
+                  onClick={handlePopoverOpen}><FilterAltIcon fontSize="large"/></Button>
+          <Popover
+            id={syllableFilterPopoverID}
+            open={syllableFilterPopoverToggle}
+            anchorEl={syllableFilterPopoverAnchor}
+            onClose={handlePopoverClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left'
+            }}
+            transformOrigin={{
+              horizontal: 'center',
+              vertical: 'top'
+            }}
+          >
+            <Box className="popover-box">
+              {multiSelect(col2, t('filter_by_syllable'))}
+            </Box>
+          </Popover>
         </Box>
-        <table className="analyserTable" {...getTableProps()}>
-          <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th
-                  key={column.id}
-                  style={{
-                    borderBottom: '1px solid',
-                    color: 'black',
-                    fontWeight: 'bold'
-                  }}
-                  className="tableHdr headerbox">{column.render('Header')}
-                  <span className="sort" {...column.getHeaderProps(column.getSortByToggleProps())}>
+        <TableDownloadButton data={infoListNew}
+                             tableType={'Syllables'}
+                             headers={tableToDownload}/>
+      </Box>
+      <table className="analyserTable" {...getTableProps()}>
+        <thead>
+        {headerGroups.map((headerGroup) => (
+          <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map((column) => (
+              <th
+                key={column.id}
+                style={{
+                  borderBottom: '1px solid',
+                  color: 'black',
+                  fontWeight: 'bold'
+                }}
+                className="tableHdr headerbox">{column.render('Header')}
+                <span className="sort" {...column.getHeaderProps(column.getSortByToggleProps())}>
                                         {column.isSorted ? (column.isSortedDesc ? ' ▼' : ' ▲') : ' ▼▲'}
                                     </span>
-                </th>
-              ))}
-            </tr>
-          ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-          {
-            page.map((row) => {
-              prepareRow(row);
-              return (
-                <tr className="tableRow" {...row.getRowProps()}>
-                  {
-                    row.cells.map(cell => {
-                      return <td className="tableData" {...cell.getCellProps()}
-                                 style={{padding: '10px', width: cell.column.width}}>{cell.render('Cell')}</td>;
-                    })
-                  }
-                </tr>
-              );
-            })
-          }
-          </tbody>
-        </table>
-        <TablePagination
-          gotoPage={gotoPage}
-          previousPage={previousPage}
-          canPreviousPage={canPreviousPage}
-          nextPage={nextPage}
-          canNextPage={canNextPage}
-          pageIndex={pageIndex}
-          pageOptions={pageOptions}
-          pageSize={pageSize}
-          setPageSize={setPageSize}
-          pageCount={pageCount}
-        />
-      </Box>
-    </>
-  );
+              </th>
+            ))}
+          </tr>
+        ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+        {
+          page.map((row) => {
+            prepareRow(row);
+            return (
+              <tr className="tableRow" {...row.getRowProps()}>
+                {
+                  row.cells.map(cell => {
+                    return <td className="tableData" {...cell.getCellProps()}
+                               style={{padding: '10px', width: cell.column.width}}>{cell.render('Cell')}</td>;
+                  })
+                }
+              </tr>
+            );
+          })
+        }
+        </tbody>
+      </table>
+      <TablePagination
+        gotoPage={gotoPage}
+        previousPage={previousPage}
+        canPreviousPage={canPreviousPage}
+        nextPage={nextPage}
+        canNextPage={canNextPage}
+        pageIndex={pageIndex}
+        pageOptions={pageOptions}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+        pageCount={pageCount}
+      />
+    </Box>
+  </>
+  </>);
 }
 
 export default Syllables;

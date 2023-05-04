@@ -1,6 +1,9 @@
 package ee.tlu.evkk.api.controller;
 
 import ee.evkk.dto.AddingRequestDto;
+import ee.evkk.dto.CorpusDownloadDto;
+import ee.evkk.dto.CorpusRequestDto;
+import ee.evkk.dto.CorpusTextContentsDto;
 import ee.evkk.dto.WordFeatsRequestDto;
 import ee.tlu.evkk.api.ApiMapper;
 import ee.tlu.evkk.api.controller.dto.LemmadRequestEntity;
@@ -10,9 +13,6 @@ import ee.tlu.evkk.common.env.ServiceLocator;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.service.TextService;
-import ee.tlu.evkk.core.service.dto.CorpusDownloadDto;
-import ee.tlu.evkk.core.service.dto.CorpusRequestDto;
-import ee.tlu.evkk.core.service.dto.CorpusTextContentsDto;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.Pageable;
@@ -86,7 +86,7 @@ public class TextController {
   @PostMapping("/sonaliik")
   public ResponseEntity<List<String>> sonaliik(@RequestBody WordFeatsRequestDto request) {
     String[] sonaliik = stanzaServerClient.getSonaliik(request.getTekst());
-    List<String> body = asList(TextService.translateWordType(sonaliik, request.getLanguage()));
+    List<String> body = asList(textService.translateWordType(sonaliik, request.getLanguage()));
     return ok(body);
   }
 

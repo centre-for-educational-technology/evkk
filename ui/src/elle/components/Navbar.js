@@ -21,6 +21,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import '@fontsource/exo-2/600.css';
 import React, { useState } from 'react';
 import './styles/Navbar.css';
+import i18n from 'i18next';
 
 const pages = [
   {id: 1, title: 'Tekstihindaja', target: '/corrector'},
@@ -77,6 +78,7 @@ function Navbar() {
     setLangAnchorEl(false);
   };
   const handleLangSelect = (lang) => {
+    i18n.changeLanguage(lang).then(r => r);
     localStorage.setItem('language', lang);
     if (location.pathname === '/tools/wordanalyser') {
       window.location.reload();
@@ -129,13 +131,13 @@ function Navbar() {
                   open={langOpen}
                   onClose={handleLangClose}
                 >
-                  <MenuItem onClick={() => handleLangSelect('et')}>
+                  <MenuItem onClick={() => handleLangSelect('ET')}>
                     <img src={require('../resources/images/flags/est.png').default}
                          className="lang-icon"
                          alt="EST"/>
                     EST
                   </MenuItem>
-                  <MenuItem onClick={() => handleLangSelect('en')}>
+                  <MenuItem onClick={() => handleLangSelect('EN')}>
                     <img src={require('../resources/images/flags/eng.png').default}
                          className="lang-icon"
                          alt="ENG"/>

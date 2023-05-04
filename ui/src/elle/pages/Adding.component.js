@@ -11,8 +11,9 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import TextUpload from '../components/textupload/TextUpload';
+import TextUpload from '../components/TextUpload';
 import './styles/Adding.css';
+import { loadFetch } from '../service/LoadFetch';
 
 class Adding extends Component {
 
@@ -86,7 +87,7 @@ class Adding extends Component {
     };
     this.setState(this.startingstate);
     this.setState({ennistusnupp: true});
-    fetch("/api/texts/lisatekst", request_test).then(() => alert("salvestatud"));
+    loadFetch('/api/texts/lisatekst', request_test).then(() => alert('salvestatud'));
   }
 
   taastaVormiSisu() {
