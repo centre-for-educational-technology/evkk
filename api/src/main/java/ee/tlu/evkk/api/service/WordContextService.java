@@ -116,6 +116,9 @@ public class WordContextService {
         int contextBeforeEnd = wordlist.get(i).getStartChar();
         int contextAfterStart = wordlist.get(i).getEndChar();
         int contextAfterEnd = getWordAndPosInfoByIndexFromWordlist(wordlist, i, dto.getDisplayCount(), true).getEndChar() + 1;
+        contextAfterEnd = contextAfterEnd <= sanitizedTextContent.length()
+          ? contextAfterEnd
+          : contextAfterEnd - 1;
 
         result.add(new WordContextDto(
           sanitizedTextContent.substring(contextBeforeEnd, contextAfterStart),

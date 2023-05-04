@@ -33,11 +33,11 @@ import {
 } from '../../utils/constants';
 import QueryResults from './QueryResults';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import LoadingButton from '@mui/lab/LoadingButton';
 import { useLocation, useNavigate } from 'react-router-dom';
 import TextUpload from '../../components/TextUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import { queryStore } from '../../store/QueryStore';
+import { loadFetch } from '../../service/LoadFetch';
 
 function Query() {
 
@@ -56,7 +56,6 @@ function Query() {
   const [usedMultiMaterials, setUsedMultiMaterials] = useState([]);
   const [alert, setAlert] = useState(false);
   const [noResultsError, setNoResultsError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [resultsKey, setResultsKey] = useState(1);
   const [queryVisible, setQueryVisible] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -146,14 +145,12 @@ function Query() {
     overflow: 'auto'
   };
 
-  function submitted() {
+  const submitted = () => {
     setResultsKey(Math.random());
-    setIsLoading(true);
-    let selectedCorpuses = getSelectedCorpusList();
+    const selectedCorpuses = getSelectedCorpusList();
 
     if (selectedCorpuses.length === 0) {
       setAlert(true);
-      setIsLoading(false);
     } else {
       setAlert(false);
       let params = {};
@@ -191,7 +188,7 @@ function Query() {
         params.sentences = simplifyDropdowns(sentences);
       }
 
-      fetch('/api/texts/detailneparing', {
+      loadFetch('/api/texts/detailneparing', {
         method: 'POST',
         body: JSON.stringify(params),
         headers: {
@@ -208,7 +205,6 @@ function Query() {
             setResults([]);
           }
           setExpanded(false);
-          setIsLoading(false);
         });
     }
   }
@@ -1054,11 +1050,8 @@ function Query() {
               </div>
             </div>
             <br/><br/>
-            <LoadingButton onClick={() => {
-              submitted();
-            }}
-                           loading={isLoading}
-                           variant={isLoading ? 'outlined' : 'contained'}>Saada päring</LoadingButton>
+            <Button onClick={submitted}
+                    variant="contained">Saada päring</Button>
           </form>
         </AccordionDetails>
       </Accordion>

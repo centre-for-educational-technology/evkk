@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 import '../../tools/wordanalyser/styles/DownloadButton.css';
 
-export default function TableDownloadButton({data, headers, accessors, marginTop, marginRight, tableType}) {
+export default function TableDownloadButton({data, headers, accessors, marginTop, tableType}) {
 
   const {t} = useTranslation();
   const ExcelFile = ReactExport.ExcelFile;
@@ -248,7 +248,7 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
 
   return (
     <Box className="download-button-section"
-         style={{marginTop: marginTop ? marginTop : '', marginRight: marginRight ? marginRight : ''}}>
+         style={{marginTop: marginTop ? marginTop : ''}}>
       <Tooltip title={t('common_download')}
                placement="top">
         <Button aria-describedby={id}

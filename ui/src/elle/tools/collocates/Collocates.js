@@ -5,10 +5,8 @@ import Accordion from '@mui/material/Accordion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   Alert,
-  Backdrop,
   Button,
   Checkbox,
-  CircularProgress,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -27,13 +25,16 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import { QuestionMark } from '@mui/icons-material';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
 import { queryStore } from '../../store/QueryStore';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import WordlistMenu from '../wordlist/menu/WordlistMenu';
 import GenericTable from '../../components/GenericTable';
+import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
+import { loadFetch } from '../../service/LoadFetch';
 
 export default function Collocates() {
 
   const navigate = useNavigate();
+  const [urlParams] = useSearchParams();
   const [paramsExpanded, setParamsExpanded] = useState(true);
   const [typeValue, setTypeValue] = useState('');
   const [typeError, setTypeError] = useState(false);
@@ -48,21 +49,69 @@ export default function Collocates() {
   const accessors = ['collocate', 'score', 'coOccurrences', 'frequencyCount', 'frequencyPercentage'];
   const [response, setResponse] = useState([]);
   const data = useMemo(() => response, [response]);
-  const [loading, setLoading] = useState(false);
   const [showNoResultsError, setShowNoResultsError] = useState(false);
 
   useEffect(() => {
-    const storeState = queryStore.getState();
-    if (storeState.corpusTextIds === null && storeState.ownTexts === null) {
+    if (urlParams.get('word') && urlParams.get('type') && urlParams.get('keepCapitalization')) {
+      setKeyword(urlParams.get('word'));
+      setTypeValue(urlParams.get('type'));
+      if (urlParams.get('type') !== 'LEMMAS') {
+        setCapitalizationChecked(urlParams.get('keepCapitalization') === 'true');
+      }
+      sendRequest();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlParams, keyword, typeValue, capitalizationChecked]);
+
+  useEffect(() => {
+    const queryStoreState = queryStore.getState();
+    const collocateState = toolAnalysisStore.getState().collocates;
+    if (collocateState !== null && collocateState.analysis.length > 0) {
+      const params = collocateState.parameters;
+      setTypeValue(params.typeValue);
+      setKeyword(params.keyword);
+      setSearchCount(params.searchCount);
+      setFormula(params.formula);
+      setCapitalizationChecked(params.capitalizationChecked);
+      setResponse(collocateState.analysis);
+      setParamsExpanded(false);
+      setShowTable(true);
+    } else if (queryStoreState.corpusTextIds === null && queryStoreState.ownTexts === null) {
       navigate('..');
     }
   }, [navigate]);
+
+  useEffect(() => {
+    toolAnalysisStore.dispatch({
+      type: 'CHANGE_COLLOCATES_RESULT',
+      value: {
+        parameters: {
+          typeValue: typeValue,
+          keyword: keyword,
+          searchCount: searchCount,
+          formula: formula,
+          capitalizationChecked: capitalizationChecked
+        },
+        analysis: response
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [response]);
+
+  queryStore.subscribe(() => {
+    const storeState = queryStore.getState();
+    setResponse([]);
+    setParamsExpanded(true);
+    setShowTable(false);
+    if (storeState.corpusTextIds === null && storeState.ownTexts === null) {
+      navigate('..');
+    }
+  });
 
   const columns = useMemo(() => [
     {
       Header: 'Jrk',
       accessor: 'id',
-      width: 40,
       disableSortBy: true,
       Cell: (cellProps) => {
         return cellProps.sortedFlatRows.findIndex(item => item.id === cellProps.row.id) + 1;
@@ -71,7 +120,6 @@ export default function Collocates() {
     {
       Header: 'Naabersõna',
       accessor: 'collocate',
-      width: 140,
       Cell: (cellProps) => {
         return cellProps.value;
       }
@@ -79,7 +127,6 @@ export default function Collocates() {
     {
       Header: 'Skoor',
       accessor: 'score',
-      width: 40,
       Cell: (cellProps) => {
         return cellProps.value;
       }
@@ -87,7 +134,6 @@ export default function Collocates() {
     {
       Header: 'Kooskasutuste arv',
       accessor: 'coOccurrences',
-      width: 40,
       Cell: (cellProps) => {
         return cellProps.value;
       }
@@ -95,7 +141,6 @@ export default function Collocates() {
     {
       Header: 'Sagedus tekstis',
       accessor: 'frequencyCount',
-      width: 40,
       Cell: (cellProps) => {
         return cellProps.value;
       }
@@ -103,7 +148,6 @@ export default function Collocates() {
     {
       Header: 'Osakaal tekstis',
       accessor: 'frequencyPercentage',
-      width: 40,
       Cell: (cellProps) => {
         return `${cellProps.value}%`;
       }
@@ -111,7 +155,6 @@ export default function Collocates() {
     {
       Header: '',
       accessor: 'menu',
-      width: 1,
       disableSortBy: true,
       Cell: (cellProps) => {
         return <WordlistMenu word={cellProps.row.original.collocate} type={typeValue}
@@ -122,11 +165,22 @@ export default function Collocates() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    sendRequest();
+  };
+
+  const handleTypeChange = (event) => {
+    setTypeValue(event.target.value);
+    setTypeError(false);
+    if (event.target.value === 'LEMMAS') {
+      setCapitalizationChecked(false);
+    }
+  };
+
+  const sendRequest = () => {
     setTypeError(!typeValue);
     if (typeValue) {
-      setLoading(true);
       setShowTable(false);
-      fetch('/api/tools/collocates', {
+      loadFetch('/api/tools/collocates', {
         method: 'POST',
         body: generateRequestData(),
         headers: {
@@ -134,8 +188,7 @@ export default function Collocates() {
         }
       })
         .then(res => res.json())
-        .then((result) => {
-          setLoading(false);
+        .then(result => {
           setLemmatizedKeywordResult(null);
           setResponse(result.collocateList);
           if (result.collocateList.length === 0) {
@@ -152,14 +205,6 @@ export default function Collocates() {
             }
           }
         });
-    }
-  };
-
-  const handleTypeChange = (event) => {
-    setTypeValue(event.target.value);
-    setTypeError(false);
-    if (event.target.value === 'LEMMAS') {
-      setCapitalizationChecked(false);
     }
   };
 
@@ -254,7 +299,7 @@ export default function Collocates() {
                     </Grid>
                     <Grid
                       item
-                      className="collocates-search-count-explanation"
+                      className="collocates-explanation"
                     >
                       eelneva ja järgneva sõna piires
                     </Grid>
@@ -264,16 +309,30 @@ export default function Collocates() {
               <div>
                 <FormControl sx={{m: 3}} size="small">
                   <FormLabel id="formula">Vali valem</FormLabel>
-                  <Select
-                    sx={{width: '140px'}}
-                    name="formula"
-                    value={formula}
-                    onChange={(e) => setFormula(e.target.value)}
-                  >
-                    <MenuItem value="LOGDICE">logDice</MenuItem>
-                    <MenuItem value="T_SCORE">T-skoor</MenuItem>
-                    <MenuItem value="MI_SCORE">MI-skoor</MenuItem>
-                  </Select>
+                  <Grid container>
+                    <Grid item>
+                      <Select
+                        sx={{width: '140px'}}
+                        name="formula"
+                        value={formula}
+                        onChange={(e) => setFormula(e.target.value)}
+                      >
+                        <MenuItem value="LOGDICE">logDice</MenuItem>
+                        <MenuItem value="T_SCORE">T-skoor</MenuItem>
+                        <MenuItem value="MI_SCORE">MI-skoor</MenuItem>
+                      </Select>
+                    </Grid>
+                    <Grid
+                      item
+                      className="collocates-explanation"
+                    >
+                      <Tooltip
+                        title="Pakume naabersõnade leidmiseks kolme valemit, mis annavad mõnevõrra erinevaid tulemusi. logDice ei sõltu teksti pikkusest ja sobib seega kõige paremini mahukate tekstikogude analüüsimiseks. Üksikute tekstide puhul on logDice'i ja T-skoori alusel saadud tulemused üsna sarnased. MI-skoor toob paremini esile harvaesinevaid sõnaühendeid, kuid määrab oluliste naabersõnade hulka ka rohkem sisutühje sõnu, mis esinevad paljude sõnade lähiümbruses."
+                        placement="right">
+                        <QuestionMark className="tooltip-icon"/>
+                      </Tooltip>
+                    </Grid>
+                  </Grid>
                 </FormControl>
                 <br/>
                 <FormControl sx={{m: 3}}
@@ -290,7 +349,7 @@ export default function Collocates() {
                                       <Tooltip
                                         title='Vaikimisi ei arvestata otsisõna suurt või väikest algustähte, nt "eesti" võimaldab leida nii "eesti" kui ka "Eesti" naabersõnad. Märgi kasti linnuke, kui soovid ainult väike- või suurtähega algavaid vasteid.'
                                         placement="right">
-                                        <QuestionMark className="stopwords-tooltip-icon"/>
+                                        <QuestionMark className="tooltip-icon"/>
                                       </Tooltip></>}
                   />
                 </FormControl>
@@ -310,16 +369,9 @@ export default function Collocates() {
                              tableType={'Collocates'}
                              headers={tableToDownload}
                              accessors={accessors}
-                             marginTop={'2vh'}
-                             marginRight={'19.25vw'}/>
+                             marginTop={'2vh'}/>
         <GenericTable tableClassname={'wordlist-table'} columns={columns} data={data} sortByColAccessor={'score'}/>
       </>}
-      <Backdrop
-        open={loading}
-      >
-        <CircularProgress thickness={4}
-                          size="8rem"/>
-      </Backdrop>
       {showNoResultsError &&
         <Alert severity="error">Tekstist ei leitud otsisõna. Muuda analüüsi valikuid ja proovi uuesti!</Alert>}
     </div>

@@ -7,10 +7,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import {
   Alert,
-  Backdrop,
   Button,
   Checkbox,
-  CircularProgress,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -29,6 +27,8 @@ import './WordContext.css';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
 import { QuestionMark } from '@mui/icons-material';
 import GenericTable from '../../components/GenericTable';
+import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
+import { loadFetch } from '../../service/LoadFetch';
 
 export default function WordContext() {
 
@@ -41,7 +41,6 @@ export default function WordContext() {
   const [displayCount, setDisplayCount] = useState(5);
   const [displayType, setDisplayType] = useState('WORD');
   const [capitalizationChecked, setCapitalizationChecked] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState([]);
   const [showTable, setShowTable] = useState(false);
   const [showNoResultsError, setShowNoResultsError] = useState(false);
@@ -64,17 +63,54 @@ export default function WordContext() {
   }, [urlParams, keyword, typeValue, capitalizationChecked]);
 
   useEffect(() => {
-    const storeState = queryStore.getState();
-    if (storeState.corpusTextIds === null && storeState.ownTexts === null) {
+    const queryStoreState = queryStore.getState();
+    const wordContextState = toolAnalysisStore.getState().wordContext;
+    if (wordContextState !== null && wordContextState.analysis.length > 0) {
+      const params = wordContextState.parameters;
+      setTypeValue(params.typeValue);
+      setKeyword(params.keyword);
+      setDisplayCount(params.displayCount);
+      setDisplayType(params.displayType);
+      setCapitalizationChecked(params.capitalizationChecked);
+      setResponse(wordContextState.analysis);
+      setParamsExpanded(false);
+      setShowTable(true);
+    } else if (queryStoreState.corpusTextIds === null && queryStoreState.ownTexts === null) {
       navigate('..');
     }
   }, [navigate]);
+
+  useEffect(() => {
+    toolAnalysisStore.dispatch({
+      type: 'CHANGE_WORDCONTEXT_RESULT',
+      value: {
+        parameters: {
+          typeValue: typeValue,
+          keyword: keyword,
+          displayCount: displayCount,
+          displayType: displayType,
+          capitalizationChecked: capitalizationChecked
+        },
+        analysis: response
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [response]);
+
+  queryStore.subscribe(() => {
+    const storeState = queryStore.getState();
+    setResponse([]);
+    setParamsExpanded(true);
+    setShowTable(false);
+    if (storeState.corpusTextIds === null && storeState.ownTexts === null) {
+      navigate('..');
+    }
+  });
 
   const columns = useMemo(() => [
     {
       Header: 'Jrk',
       accessor: 'id',
-      width: 30,
       disableSortBy: true,
       Cell: (cellProps) => {
         return cellProps.sortedFlatRows.findIndex(item => item.id === cellProps.row.id) + 1;
@@ -84,7 +120,6 @@ export default function WordContext() {
     {
       Header: 'Eelnev kontekst',
       accessor: 'contextBefore',
-      width: 100,
       Cell: (cellProps) => {
         return cellProps.value;
       },
@@ -93,7 +128,6 @@ export default function WordContext() {
     {
       Header: 'Otsisõna',
       accessor: 'keyword',
-      width: 30,
       Cell: (cellProps) => {
         return cellProps.value;
       },
@@ -102,7 +136,6 @@ export default function WordContext() {
     {
       Header: 'Järgnev kontekst',
       accessor: 'contextAfter',
-      width: 100,
       Cell: (cellProps) => {
         return cellProps.value;
       },
@@ -126,9 +159,8 @@ export default function WordContext() {
   const sendRequest = () => {
     setTypeError(!typeValue);
     if (typeValue) {
-      setLoading(true);
       setShowTable(false);
-      fetch('/api/tools/wordcontext', {
+      loadFetch('/api/tools/wordcontext', {
         method: 'POST',
         body: generateRequestData(),
         headers: {
@@ -136,9 +168,8 @@ export default function WordContext() {
         }
       })
         .then(res => res.json())
-        .then((result) => {
+        .then(result => {
           removeUrlParams();
-          setLoading(false);
           setLemmatizedKeywordResult(null);
           setResponse(result.contextList);
           if (result.contextList.length === 0) {
@@ -288,7 +319,7 @@ export default function WordContext() {
                                       <Tooltip
                                         title='Vaikimisi ei arvestata otsisõna suurt või väikest algustähte, nt "eesti" võimaldab leida nii "eesti" kui ka "Eesti" kasutuskontekstid. Märgi kasti linnuke, kui soovid ainult väike- või suurtähega algavaid vasteid.'
                                         placement="right">
-                                        <QuestionMark className="stopwords-tooltip-icon"/>
+                                        <QuestionMark className="tooltip-icon"/>
                                       </Tooltip></>}
                   />
                 </FormControl>
@@ -308,16 +339,9 @@ export default function WordContext() {
                              tableType={'WordContext'}
                              headers={tableToDownload}
                              accessors={accessors}
-                             marginTop={'2vh'}
-                             marginRight={'11.5vw'}/>
+                             marginTop={'2vh'}/>
         <GenericTable tableClassname={'wordcontext-table'} columns={columns} data={data}/>
       </>}
-      <Backdrop
-        open={loading}
-      >
-        <CircularProgress thickness={4}
-                          size="8rem"/>
-      </Backdrop>
       {showNoResultsError &&
         <Alert severity="error">Tekstist ei leitud otsisõna. Muuda analüüsi valikuid ja proovi uuesti!</Alert>}
     </div>
