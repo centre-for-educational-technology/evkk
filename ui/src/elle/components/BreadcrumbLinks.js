@@ -3,22 +3,23 @@ import { Box, Breadcrumbs, Link, styled } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
 import { Link as RouterLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const breadcrumbNameMap = {
-  '/corrector': 'Tekstihindaja',
-  '/links': 'Lingikogud',
-  '/tools': 'Tekstid & tööriistad',
-  '/about': 'Keskkonnast',
-  '/about/us': 'Meist',
-  '/about/people': 'Töötajad',
-  '/about/grants': 'Grandid',
-  '/about/publications': 'Üllitised',
-  '/tools/adding': 'Loovuta tekst',
-  '/tools/clusterfinder': 'Mustrid',
-  '/tools/wordanalyser': 'Sõnaanalüüs',
-  '/tools/wordlist': 'Sõnaloend',
-  '/tools/wordcontext': 'Sõna kontekstis',
-  '/tools/collocates': 'Naabersõnad'
+  '/corrector': 'common_corrector',
+  '/tools': 'common_tools',
+  '/links': 'common_links',
+  '/about': 'common_about',
+  '/about/us': 'common_us',
+  '/about/people': 'common_people',
+  '/about/grants': 'common_grants',
+  '/about/publications': 'common_publications',
+  '/tools/adding': 'common_upload_own_texts',
+  '/tools/clusterfinder': 'common_clusters',
+  '/tools/wordanalyser': 'common_word_analysis',
+  '/tools/wordlist': 'common_wordlist',
+  '/tools/wordcontext': 'common_word_in_context',
+  '/tools/collocates': 'common_neighboring_words'
 };
 
 const MenuLink = styled(Link)({
@@ -32,6 +33,7 @@ const MenuLink = styled(Link)({
 });
 
 export default function BreadcrumbLinks() {
+  const {t} = useTranslation();
   const breadcrumbs = useBreadcrumbs();
   let noMatch = false;
 
@@ -87,7 +89,7 @@ export default function BreadcrumbLinks() {
                           key={value.key}
                           style={{paddingRight: '15px', paddingLeft: '15px'}}
                           component={RouterLink}>
-                  {breadcrumbNameMap[value.key]}
+                  {t(breadcrumbNameMap[value.key])}
                 </MenuLink>
               );
             })}

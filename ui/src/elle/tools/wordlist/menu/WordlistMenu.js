@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import { MoreHoriz } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function WordlistMenu({word, type, keepCapitalization, showCollocatesButton}) {
 
+  const {t} = useTranslation();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -45,10 +47,10 @@ export default function WordlistMenu({word, type, keepCapitalization, showColloc
       <Menu anchorEl={anchorEl}
             open={open}
             onClose={handleClose}>
-        <MenuItem onClick={handleWordContext}>Kasutuskontekstid</MenuItem>
-        {showCollocatesButton && <MenuItem onClick={handleCollocates}>Naabersõnad</MenuItem>}
-        <MenuItem onClick={handleWordMeaning}>Tähendus (Sõnaveeb)</MenuItem>
-        <MenuItem onClick={handleWordTranslation}>Tõlge (Google Translate)</MenuItem>
+        <MenuItem onClick={handleWordContext}>{t('concordances')}</MenuItem>
+        {showCollocatesButton && <MenuItem onClick={handleCollocates}>{t('common_neighboring_words')}</MenuItem>}
+        <MenuItem onClick={handleWordMeaning}>{t('common_definition')}</MenuItem>
+        <MenuItem onClick={handleWordTranslation}>{t('common_translation')}</MenuItem>
       </Menu>
     </>
   );

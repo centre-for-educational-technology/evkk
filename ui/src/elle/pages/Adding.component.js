@@ -14,6 +14,7 @@ import {
 import TextUpload from '../components/TextUpload';
 import './styles/Adding.css';
 import { loadFetch } from '../service/LoadFetch';
+import { withTranslation } from 'react-i18next';
 
 class Adding extends Component {
 
@@ -100,11 +101,12 @@ class Adding extends Component {
   }
 
   render() {
+    const {t} = this.props;
     return (
       <div className='add-container'>
         <div style={{width: "100%", textAlign: "center"}}>
           <Typography marginBottom="50px"
-                      variant="h5"><strong>Loovuta tekst</strong></Typography>
+                      variant="h5"><strong>{t('common_upload_own_texts')}</strong></Typography>
         </div>
         <form onSubmit={this.handleSubmit}
               id="f1"
@@ -632,4 +634,4 @@ class Adding extends Component {
   }
 }
 
-export default Adding;
+export default withTranslation()(Adding);

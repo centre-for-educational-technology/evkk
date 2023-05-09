@@ -30,9 +30,11 @@ import WordlistMenu from '../wordlist/menu/WordlistMenu';
 import GenericTable from '../../components/GenericTable';
 import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
 import { loadFetch } from '../../service/LoadFetch';
+import { useTranslation } from 'react-i18next';
 
 export default function Collocates() {
 
+  const {t} = useTranslation();
   const navigate = useNavigate();
   const [urlParams] = useSearchParams();
   const [paramsExpanded, setParamsExpanded] = useState(true);
@@ -227,7 +229,7 @@ export default function Collocates() {
 
   return (
     <div className="tool-wrapper">
-      <h2 className="tool-title">Naabersõnad</h2>
+      <h2 className="tool-title">{t('common_neighboring_words')}</h2>
       <Accordion sx={AccordionStyle}
                  expanded={paramsExpanded}
                  onChange={() => setParamsExpanded(!paramsExpanded)}>

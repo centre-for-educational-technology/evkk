@@ -38,9 +38,11 @@ import TextUpload from '../../components/TextUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import { queryStore } from '../../store/QueryStore';
 import { loadFetch } from '../../service/LoadFetch';
+import { useTranslation } from 'react-i18next';
 
 function Query() {
 
+  const {t} = useTranslation();
   const selectWidth = 290;
   const classes = useStyles();
   const currentYear = new Date().getFullYear();
@@ -404,7 +406,7 @@ function Query() {
                 className="buttonSecondLeft">Oma tekstid</Button>
         <Button variant="contained"
                 onClick={() => navigate('adding')}
-                className="buttonRight">Loovuta tekst</Button>
+                className="buttonRight">{t('common_upload_own_texts')}</Button>
       </div>
       {(corpusTextsSelected > 0 || ownTextsSelected) && <>
         <br/>

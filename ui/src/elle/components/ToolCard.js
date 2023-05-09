@@ -3,9 +3,11 @@ import { Box, Card, CardActionArea, CardContent, Typography } from '@mui/materia
 import { Link } from 'react-router-dom';
 import { queryStore } from '../store/QueryStore';
 import './styles/ToolCard.css';
+import { useTranslation } from 'react-i18next';
 
 function ToolCard({tool}) {
 
+  const {t} = useTranslation();
   const disableableTools = ['wordlist', 'wordcontext', 'collocates'];
   const [textsSelected, setTextsSelected] = useState(false);
 
@@ -29,7 +31,7 @@ function ToolCard({tool}) {
         <CardContent sx={{display: 'flex', height: '140px'}}>
           <Box sx={{marginRight: 2}}>
             <img src={tool.img}
-                 alt={tool.title}/>
+                 alt={t(tool.title)}/>
           </Box>
           <Box>
             <Typography variant="h5"
@@ -37,13 +39,13 @@ function ToolCard({tool}) {
               <Link to={tool.route}
                     underline="hover"
                     color="inherit">
-                {tool.title}
+                {t(tool.title)}
               </Link>
             </Typography>
             <Typography gutterBottom
                         variant="body1"
                         component="p">
-              {tool.description}
+              {t(tool.description)}
             </Typography>
           </Box>
         </CardContent>

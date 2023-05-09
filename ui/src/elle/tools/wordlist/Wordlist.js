@@ -26,9 +26,11 @@ import TableDownloadButton from '../../components/table/TableDownloadButton';
 import GenericTable from '../../components/GenericTable';
 import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
 import { loadFetch } from '../../service/LoadFetch';
+import { useTranslation } from 'react-i18next';
 
 export default function Wordlist() {
 
+  const {t} = useTranslation();
   const navigate = useNavigate();
   const [paramsExpanded, setParamsExpanded] = useState(true);
   const [typeValue, setTypeValue] = useState('');
@@ -191,7 +193,7 @@ export default function Wordlist() {
 
   return (
     <div className="tool-wrapper">
-      <h2 className="tool-title">Sõnaloend</h2>
+      <h2 className="tool-title">{t('common_wordlist')}</h2>
       <Accordion sx={AccordionStyle}
                  expanded={paramsExpanded}
                  onChange={() => setParamsExpanded(!paramsExpanded)}>

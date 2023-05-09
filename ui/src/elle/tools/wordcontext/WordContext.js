@@ -29,9 +29,11 @@ import { QuestionMark } from '@mui/icons-material';
 import GenericTable from '../../components/GenericTable';
 import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
 import { loadFetch } from '../../service/LoadFetch';
+import { useTranslation } from 'react-i18next';
 
 export default function WordContext() {
 
+  const {t} = useTranslation();
   const navigate = useNavigate();
   const [urlParams] = useSearchParams();
   const [paramsExpanded, setParamsExpanded] = useState(true);
@@ -212,7 +214,7 @@ export default function WordContext() {
 
   return (
     <div className="tool-wrapper">
-      <h2 className="tool-title">Sõna kontekstis</h2>
+      <h2 className="tool-title">{t('common_word_in_context')}</h2>
       <Accordion sx={AccordionStyle}
                  expanded={paramsExpanded}
                  onChange={() => setParamsExpanded(!paramsExpanded)}>
