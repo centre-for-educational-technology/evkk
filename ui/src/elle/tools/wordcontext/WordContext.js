@@ -143,7 +143,7 @@ export default function WordContext() {
       },
       className: 'text-left'
     }
-  ], []);
+  ], [t]);
 
   const handleSubmit = (event) => {
     event.preventDefault();

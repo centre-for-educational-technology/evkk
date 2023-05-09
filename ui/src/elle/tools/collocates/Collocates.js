@@ -47,7 +47,7 @@ export default function Collocates() {
   const [lemmatizedKeywordResult, setLemmatizedKeywordResult] = useState(null);
   const [initialKeywordResult, setInitialKeywordResult] = useState(null);
   const [showTable, setShowTable] = useState(false);
-  const tableToDownload = ['Naabersõna', 'Skoor', 'Kooskasutuste arv', 'Sagedus tekstis', 'Osakaal tekstis'];
+  const tableToDownload = [t('neighboring_words_collocation'), t('neighboring_words_score'), t('neighboring_words_number_of_co_occurrences'), t('neighboring_words_frequency_in_text'), t('neighboring_words_percentage_in_text')];
   const accessors = ['collocate', 'score', 'coOccurrences', 'frequencyCount', 'frequencyPercentage'];
   const [response, setResponse] = useState([]);
   const data = useMemo(() => response, [response]);
@@ -112,7 +112,7 @@ export default function Collocates() {
 
   const columns = useMemo(() => [
     {
-      Header: 'Jrk',
+      Header: t('common_header_number'),
       accessor: 'id',
       disableSortBy: true,
       Cell: (cellProps) => {
@@ -120,35 +120,35 @@ export default function Collocates() {
       }
     },
     {
-      Header: 'Naabersõna',
+      Header: t('neighboring_words_collocation'),
       accessor: 'collocate',
       Cell: (cellProps) => {
         return cellProps.value;
       }
     },
     {
-      Header: 'Skoor',
+      Header: t('neighboring_words_score'),
       accessor: 'score',
       Cell: (cellProps) => {
         return cellProps.value;
       }
     },
     {
-      Header: 'Kooskasutuste arv',
+      Header: t('neighboring_words_number_of_co_occurrences'),
       accessor: 'coOccurrences',
       Cell: (cellProps) => {
         return cellProps.value;
       }
     },
     {
-      Header: 'Sagedus tekstis',
+      Header: t('neighboring_words_frequency_in_text'),
       accessor: 'frequencyCount',
       Cell: (cellProps) => {
         return cellProps.value;
       }
     },
     {
-      Header: 'Osakaal tekstis',
+      Header: t('neighboring_words_percentage_in_text'),
       accessor: 'frequencyPercentage',
       Cell: (cellProps) => {
         return `${cellProps.value}%`;
@@ -163,7 +163,7 @@ export default function Collocates() {
                              keepCapitalization={capitalizationChecked}/>;
       }
     }
-  ], [typeValue, capitalizationChecked]);
+  ], [typeValue, capitalizationChecked, t]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -238,7 +238,7 @@ export default function Collocates() {
           id="collocates-filters-header"
         >
           <Typography>
-            Analüüsi valikud
+            {t('common_analysis_options')}
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -248,7 +248,7 @@ export default function Collocates() {
                 <FormControl sx={{m: 3}}
                              error={typeError}
                              variant="standard">
-                  <FormLabel id="type-radios">Otsi</FormLabel>
+                  <FormLabel id="type-radios">{t('common_search')}</FormLabel>
                   <RadioGroup
                     aria-labelledby="type-radios"
                     name="type"
@@ -257,25 +257,25 @@ export default function Collocates() {
                   >
                     <FormControlLabel value="WORDS"
                                       control={<Radio/>}
-                                      label="sõnavormi alusel"/>
+                                      label={t('common_by_word_form')}/>
                     <FormControlLabel value="LEMMAS"
                                       control={<Radio/>}
-                                      label="algvormi alusel"/>
+                                      label={t('common_by_base_form')}/>
                   </RadioGroup>
-                  {typeError && <FormHelperText>Väli on kohustuslik!</FormHelperText>}
+                  {typeError && <FormHelperText>{t('error_mandatory_field')}</FormHelperText>}
                   <Button sx={{width: 130}}
                           style={{marginTop: '10vh !important'}}
                           className="collocates-analyse-button"
                           type="submit"
                           variant="contained">
-                    Analüüsi
+                    {t('analyse_button')}
                   </Button>
                 </FormControl>
               </div>
               <div>
                 <FormControl sx={{m: 3}}
                              variant="standard">
-                  <FormLabel id="keyword">Sisesta otsisõna</FormLabel>
+                  <FormLabel id="keyword">{t('common_enter_search_word')}</FormLabel>
                   <TextField variant="outlined"
                              size="small"
                              required
@@ -287,7 +287,7 @@ export default function Collocates() {
                 <FormControl sx={{m: 3}}
                              style={{marginTop: '-1vh'}}
                              variant="standard">
-                  <FormLabel id="display">Otsi naabersõnu</FormLabel>
+                  <FormLabel id="display">{t('neighboring_words_search_for_neighboring_words')}</FormLabel>
                   <Grid container>
                     <Grid item>
                       <TextField variant="outlined"
@@ -303,14 +303,14 @@ export default function Collocates() {
                       item
                       className="collocates-explanation"
                     >
-                      eelneva ja järgneva sõna piires
+                      {t('neighboring_words_search_within_preceding_and_following_words')}
                     </Grid>
                   </Grid>
                 </FormControl>
               </div>
               <div>
                 <FormControl sx={{m: 3}} size="small">
-                  <FormLabel id="formula">Vali valem</FormLabel>
+                  <FormLabel id="formula">{t('neighboring_words_choose_statistic_measure')}</FormLabel>
                   <Grid container>
                     <Grid item>
                       <Select
@@ -319,9 +319,9 @@ export default function Collocates() {
                         value={formula}
                         onChange={(e) => setFormula(e.target.value)}
                       >
-                        <MenuItem value="LOGDICE">logDice</MenuItem>
-                        <MenuItem value="T_SCORE">T-skoor</MenuItem>
-                        <MenuItem value="MI_SCORE">MI-skoor</MenuItem>
+                        <MenuItem value="LOGDICE">{t('neighboring_words_statistic_measure_logdice')}</MenuItem>
+                        <MenuItem value="T_SCORE">{t('neighboring_words_statistic_measure_t_score')}</MenuItem>
+                        <MenuItem value="MI_SCORE">{t('neighboring_words_statistic_measure_mi_score')}</MenuItem>
                       </Select>
                     </Grid>
                     <Grid
@@ -329,7 +329,7 @@ export default function Collocates() {
                       className="collocates-explanation"
                     >
                       <Tooltip
-                        title="Pakume naabersõnade leidmiseks kolme valemit, mis annavad mõnevõrra erinevaid tulemusi. logDice ei sõltu teksti pikkusest ja sobib seega kõige paremini mahukate tekstikogude analüüsimiseks. Üksikute tekstide puhul on logDice'i ja T-skoori alusel saadud tulemused üsna sarnased. MI-skoor toob paremini esile harvaesinevaid sõnaühendeid, kuid määrab oluliste naabersõnade hulka ka rohkem sisutühje sõnu, mis esinevad paljude sõnade lähiümbruses."
+                        title={t('neighboring_words_statistic_measure_hover')}
                         placement="right">
                         <QuestionMark className="tooltip-icon"/>
                       </Tooltip>
@@ -347,9 +347,9 @@ export default function Collocates() {
                     ></Checkbox>
                   }
                                     label={<>
-                                      tõstutundlik
+                                      {t('common_case_sensitive')}
                                       <Tooltip
-                                        title='Vaikimisi ei arvestata otsisõna suurt või väikest algustähte, nt "eesti" võimaldab leida nii "eesti" kui ka "Eesti" naabersõnad. Märgi kasti linnuke, kui soovid ainult väike- või suurtähega algavaid vasteid.'
+                                        title={t('neighboring_words_case_sensitive_hover')}
                                         placement="right">
                                         <QuestionMark className="tooltip-icon"/>
                                       </Tooltip></>}
@@ -362,9 +362,12 @@ export default function Collocates() {
       </Accordion>
       {lemmatizedKeywordResult && <>
         <br/>
-        <Alert severity="warning">Otsisõna "{initialKeywordResult}" vasteid ei leitud. Kasutasime automaatset algvormi
-          tuvastust ja
-          otsisime sõna "{lemmatizedKeywordResult}" naabersõnu.</Alert>
+        <Alert severity="warning">
+          {t('neighboring_words_keyword_lemmatization_warning', {
+            initialKeywordResult: initialKeywordResult,
+            lemmatizedKeywordResult: lemmatizedKeywordResult
+          })}
+        </Alert>
       </>}
       {showTable && <>
         <TableDownloadButton data={data}
@@ -375,7 +378,7 @@ export default function Collocates() {
         <GenericTable tableClassname={'wordlist-table'} columns={columns} data={data} sortByColAccessor={'score'}/>
       </>}
       {showNoResultsError &&
-        <Alert severity="error">Tekstist ei leitud otsisõna. Muuda analüüsi valikuid ja proovi uuesti!</Alert>}
+        <Alert severity="error">{t('error_no_matching_keywords')}</Alert>}
     </div>
   );
 }

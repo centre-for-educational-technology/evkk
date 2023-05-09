@@ -49,7 +49,7 @@ export default function Wordlist() {
   useEffect(() => {
     const type = typeValueToDisplay === 'WORDS' ? t('wordlist_word_column') : t('wordlist_lemma_column');
     setTableToDownload([type, t('common_header_frequency'), t('common_header_percentage')]);
-  }, [typeValueToDisplay]);
+  }, [typeValueToDisplay, t]);
 
   useEffect(() => {
     const queryStoreState = queryStore.getState();
@@ -138,7 +138,7 @@ export default function Wordlist() {
                              keepCapitalization={capitalizationChecked} showCollocatesButton={true}/>;
       }
     }
-  ], [typeValue, typeValueToDisplay, capitalizationChecked]);
+  ], [typeValue, typeValueToDisplay, capitalizationChecked, t]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
