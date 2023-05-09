@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Grid } from '@mui/material';
 import './styles/Footer.css';
 import i18n from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 function Footer() {
 
+  const {t} = useTranslation();
   const logoEt = require('../resources/images/footer/tlu_et.svg').default;
   const logoEn = require('../resources/images/footer/tlu_en.svg').default;
   const [logo, setLogo] = useState(i18n.language === 'ET' ? logoEt : logoEn);
@@ -22,7 +24,7 @@ function Footer() {
           <Grid item
                 xs={1}
                 className="footer-contact-column">
-            <strong>Kontakt:</strong><br/>
+            <strong>{t('footer_contact')}</strong><br/>
             elle@tlu.ee<br/><br/>
             ELLE, {new Date().getFullYear()}
           </Grid>

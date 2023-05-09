@@ -10,11 +10,14 @@ import SchoolIcon from '@mui/icons-material/School';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import { Avatar, Box, Card, Typography } from '@mui/material';
 import './styles/Home.css';
+import { useTranslation } from 'react-i18next';
 
 function Home() {
+  const {t} = useTranslation();
+
   return (
     <div style={{paddingBottom: '5%'}}>
-      <h2 className="home-title">ELLE - keeleõppe ja -analüüsi keskkond õppijale, õpetajale ja teadlasele</h2>
+      <h2 className="home-title">{t('homepage_title')}</h2>
 
       <Card className="home-mockup-card">
         <Box className="home-mockup-card-box">
@@ -22,20 +25,14 @@ function Home() {
             <img width="100%" src={elleMockupImg} alt="ELLE mockup"/>
           </Box>
           <Box className="home-mockup-card-textbox">
-            <Typography className="home-mockup-card-typography">ELLE pakub tekstikogusid ja tekstianalüüsi
-              vahendeid eesti keele õppimiseks ja õpetamiseks nii teise keelena kui ka emakeelena, samuti
-              keeleuurimiseks. Päringu abil saad leida huvipakkuvaid tekste Eesti vahekeele ehk õppijakeele korpusest
-              (EVKK), mis sisaldab peamiselt eesti keele kui teise keele õppijate kirjutisi, aga ka emakeelse
-              keelekasutuse näiteid ja akadeemilisi tekste. Tööriistad võimaldavad analüüsida ka omavalitud tekstide
-              sõnavara ja grammatikat, kontrollida nende keerukust ja korrektsust ning hinnata
-              keeleoskustaset.</Typography>
+            <Typography className="home-mockup-card-typography">{t('homepage_title_explainer')}</Typography>
           </Box>
         </Box>
       </Card>
 
       <Card className="home-summary-card">
         <Box className="home-summary-card-title-box">
-          <Typography className="home-summary-card-title-typography">Mida ELLE keskkond toetab?</Typography>
+          <Typography className="home-summary-card-title-typography">{t('homepage_summary_title')}</Typography>
         </Box>
         <Box className="home-summary-card-content-box">
           <Box className="home-summary-card-content-box-inner-1">
@@ -46,8 +43,7 @@ function Home() {
                 </Avatar>
               </Box>
               <Box className="home-summary-card-content-textbox">
-                <Typography className="home-summary-card-content-typography">Andmepõhist keeleõppimist, kus õppija saab
-                  keelematerjali põhjal ise keelereegleid tuletada või õpitud reegleid kinnitada.</Typography>
+                <Typography className="home-summary-card-content-typography">{t('homepage_summary_text_1')}</Typography>
               </Box>
             </Box>
           </Box>
@@ -59,9 +55,7 @@ function Home() {
                 </Avatar>
               </Box>
               <Box className="home-summary-card-content-textbox">
-                <Typography className="home-summary-card-content-typography">Tekstide koostamist nii õpingutes kui ka
-                  töös, näiteks
-                  kodutööde korrigeerimist ja ametitekstide lihtsustamist.</Typography>
+                <Typography className="home-summary-card-content-typography">{t('homepage_summary_text_2')}</Typography>
               </Box>
             </Box>
           </Box>
@@ -73,9 +67,7 @@ function Home() {
                 </Avatar>
               </Box>
               <Box className="home-summary-card-content-textbox">
-                <Typography className="home-summary-card-content-typography">Õpilaste kirjalike tööde kontrollimist,
-                  õppevara
-                  valikut ja koostamist lähtudes eri taseme õppijate tüüpilisest keelekasutusest.</Typography>
+                <Typography className="home-summary-card-content-typography">{t('homepage_summary_text_3')}</Typography>
               </Box>
             </Box>
           </Box>
@@ -87,8 +79,7 @@ function Home() {
                 </Avatar>
               </Box>
               <Box className="home-summary-card-content-textbox">
-                <Typography className="home-summary-card-content-typography">Tekstide sisu ja keelekasutuse analüüsimist
-                  uurimistöös, näiteks keele-, kultuuri- ja meediauuringutes.</Typography>
+                <Typography className="home-summary-card-content-typography">{t('homepage_summary_text_4')}</Typography>
               </Box>
             </Box>
           </Box>
@@ -97,18 +88,18 @@ function Home() {
 
       <HomeCard image={correctorImg}
                 order={2}
-                title={'Tekstihindajaga'}
-                text={'saad lasta oma kirjutist hinnata. Vaata, mida arvab robot sinu teksti õigekirjast ja millisele keeleoskustasemele see vastab.'}
+                title={'homepage_box_corrector_title'}
+                text={'homepage_box_corrector_content'}
                 linkTo={'/corrector'}/>
       <HomeCard image={clusterfinderImg}
                 order={1}
-                title={'Mustrileidjaga'}
-                text={'saad tekstist leida tüüpilisemad sõnajärjendid.'}
+                title={'homepage_box_clusters_title'}
+                text={'homepage_box_clusters_content'}
                 linkTo={'/tools/clusterfinder'}/>
       <HomeCard image={analyserImg}
                 order={2}
-                title={'Sõnaanalüsaatoriga'}
-                text={'saad tekstist leida silpe, algvorme ja grammatilisi vorme.'}
+                title={'homepage_box_word_analysis_title'}
+                text={'homepage_box_word_analysis_content'}
                 linkTo={'/tools/wordanalyser'}/>
     </div>
   );
