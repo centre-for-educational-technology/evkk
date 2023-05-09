@@ -1,0 +1,90 @@
+.home-title {
+  text-align: center;
+  margin-left: 20%;
+  margin-bottom: 5%;
+  padding-top: 4%;
+  width: 60%;
+}
+
+.home-mockup-card {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.home-mockup-card-box {
+  display: flex;
+  width: 100%;
+}
+
+.home-mockup-card-textbox {
+  display: flex;
+  width: 70%;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-mockup-card-typography {
+  padding: 10%;
+  font-size: 1.3rem !important;
+  text-align: center;
+}
+
+.home-summary-card {
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 50px;
+}
+
+.home-summary-card-title-box {
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+}
+
+.home-summary-card-title-typography {
+  font-size: 30px !important;
+  font-weight: bold;
+}
+
+.home-summary-card-content-box {
+  display: flex;
+  gap: 40px;
+  width: 100%;
+  padding: 40px;
+}
+
+.home-summary-card-content-box-inner-1 {
+  height: auto;
+  width: 25%;
+}
+
+.home-summary-card-content-box-inner-2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.home-summary-card-avatar-box {
+  padding-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 30px;
+  width: 100%;
+}
+
+.home-summary-card-avatar {
+  background-color: #9C27B0 !important;
+}
+
+.home-summary-card-content-textbox {
+  display: flex;
+  width: 100%;
+}
+
+.home-summary-card-content-typography {
+  align-self: center;
+  text-align: center;
+}
