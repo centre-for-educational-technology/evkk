@@ -48,7 +48,7 @@ export default function WordContext() {
   const [showNoResultsError, setShowNoResultsError] = useState(false);
   const [lemmatizedKeywordResult, setLemmatizedKeywordResult] = useState(null);
   const [initialKeywordResult, setInitialKeywordResult] = useState(null);
-  const tableToDownload = ['Eelnev kontekst', 'Otsisõna', 'Järgnev kontekst'];
+  const tableToDownload = [t('concordances_preceding_context'), t('concordances_search_word'), t('concordances_following_context')];
   const accessors = ['contextBefore', 'keyword', 'contextAfter'];
   const data = useMemo(() => response, [response]);
 
@@ -111,7 +111,7 @@ export default function WordContext() {
 
   const columns = useMemo(() => [
     {
-      Header: 'Jrk',
+      Header: t('common_header_number'),
       accessor: 'id',
       disableSortBy: true,
       Cell: (cellProps) => {
@@ -120,7 +120,7 @@ export default function WordContext() {
       className: 'text-center'
     },
     {
-      Header: 'Eelnev kontekst',
+      Header: t('concordances_preceding_context'),
       accessor: 'contextBefore',
       Cell: (cellProps) => {
         return cellProps.value;
@@ -128,7 +128,7 @@ export default function WordContext() {
       className: 'text-right'
     },
     {
-      Header: 'Otsisõna',
+      Header: t('concordances_search_word'),
       accessor: 'keyword',
       Cell: (cellProps) => {
         return cellProps.value;
@@ -136,7 +136,7 @@ export default function WordContext() {
       className: 'wordcontext-keyword'
     },
     {
-      Header: 'Järgnev kontekst',
+      Header: t('concordances_following_context'),
       accessor: 'contextAfter',
       Cell: (cellProps) => {
         return cellProps.value;
@@ -223,7 +223,7 @@ export default function WordContext() {
           id="wordcontext-filters-header"
         >
           <Typography>
-            Analüüsi valikud
+            {t('common_analysis_options')}
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -233,7 +233,7 @@ export default function WordContext() {
                 <FormControl sx={{m: 3}}
                              error={typeError}
                              variant="standard">
-                  <FormLabel id="type-radios">Otsi</FormLabel>
+                  <FormLabel id="type-radios">{t('common_search')}</FormLabel>
                   <RadioGroup
                     aria-labelledby="type-radios"
                     name="type"
@@ -242,25 +242,25 @@ export default function WordContext() {
                   >
                     <FormControlLabel value="WORDS"
                                       control={<Radio/>}
-                                      label="sõnavormi alusel"/>
+                                      label={t('common_by_word_form')}/>
                     <FormControlLabel value="LEMMAS"
                                       control={<Radio/>}
-                                      label="algvormi alusel"/>
+                                      label={t('common_by_base_form')}/>
                   </RadioGroup>
-                  {typeError && <FormHelperText>Väli on kohustuslik!</FormHelperText>}
+                  {typeError && <FormHelperText>{t('error_mandatory_field')}</FormHelperText>}
                   <Button sx={{width: 130}}
                           style={{marginTop: '10vh !important'}}
                           className="wordcontext-analyse-button"
                           type="submit"
                           variant="contained">
-                    Analüüsi
+                    {t('analyse_button')}
                   </Button>
                 </FormControl>
               </div>
               <div>
                 <FormControl sx={{m: 3}}
                              variant="standard">
-                  <FormLabel id="keyword">Sisesta otsisõna</FormLabel>
+                  <FormLabel id="keyword">{t('common_enter_search_word')}</FormLabel>
                   <TextField variant="outlined"
                              size="small"
                              required
@@ -272,7 +272,7 @@ export default function WordContext() {
                 <FormControl sx={{m: 3}}
                              style={{marginTop: '-1vh'}}
                              variant="standard">
-                  <FormLabel id="display">Kuva</FormLabel>
+                  <FormLabel id="display">{t('common_view')}</FormLabel>
                   <Grid container>
                     <Grid item>
                       <TextField variant="outlined"
@@ -292,8 +292,8 @@ export default function WordContext() {
                           value={displayType}
                           onChange={(e) => setDisplayType(e.target.value)}
                         >
-                          <MenuItem value="WORD">sõna</MenuItem>
-                          <MenuItem value="SENTENCE">lauset</MenuItem>
+                          <MenuItem value="WORD">{t('concordances_words')}</MenuItem>
+                          <MenuItem value="SENTENCE">{t('concordances_sentences')}</MenuItem>
                         </Select>
                       </FormControl>
                     </Grid>
@@ -301,7 +301,7 @@ export default function WordContext() {
                       item
                       className="wordcontext-display-explanation"
                     >
-                      enne ja pärast valitud sõna
+                      {t('concordances_before_and_after_selected_word')}
                     </Grid>
                   </Grid>
                 </FormControl>
@@ -317,9 +317,9 @@ export default function WordContext() {
                     ></Checkbox>
                   }
                                     label={<>
-                                      tõstutundlik
+                                      {t('common_case_sensitive')}
                                       <Tooltip
-                                        title='Vaikimisi ei arvestata otsisõna suurt või väikest algustähte, nt "eesti" võimaldab leida nii "eesti" kui ka "Eesti" kasutuskontekstid. Märgi kasti linnuke, kui soovid ainult väike- või suurtähega algavaid vasteid.'
+                                        title={t('concordances_case_sensitive_hover')}
                                         placement="right">
                                         <QuestionMark className="tooltip-icon"/>
                                       </Tooltip></>}
@@ -332,9 +332,12 @@ export default function WordContext() {
       </Accordion>
       {lemmatizedKeywordResult && <>
         <br/>
-        <Alert severity="warning">Otsisõna "{initialKeywordResult}" vasteid ei leitud. Kasutasime automaatset algvormi
-          tuvastust ja
-          otsisime sõna "{lemmatizedKeywordResult}" vormide kasutusnäiteid.</Alert>
+        <Alert severity="warning">
+          {t('concordances_keyword_lemmatization_warning', {
+            initialKeywordResult: initialKeywordResult,
+            lemmatizedKeywordResult: lemmatizedKeywordResult
+          })}
+        </Alert>
       </>}
       {showTable && <>
         <TableDownloadButton data={data}
@@ -345,7 +348,7 @@ export default function WordContext() {
         <GenericTable tableClassname={'wordcontext-table'} columns={columns} data={data}/>
       </>}
       {showNoResultsError &&
-        <Alert severity="error">Tekstist ei leitud otsisõna. Muuda analüüsi valikuid ja proovi uuesti!</Alert>}
+        <Alert severity="error">{t('error_no_matching_keywords')}</Alert>}
     </div>
   );
 }

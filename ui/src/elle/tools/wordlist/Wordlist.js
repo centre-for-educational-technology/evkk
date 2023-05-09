@@ -226,7 +226,7 @@ export default function Wordlist() {
                                       control={<Radio/>}
                                       label={t('wordlist_search_base_forms')}/>
                   </RadioGroup>
-                  {typeError && <FormHelperText>{t('mandatory_field_error')}</FormHelperText>}
+                  {typeError && <FormHelperText>{t('error_mandatory_field')}</FormHelperText>}
                   <Button sx={{width: 130}}
                           className="wordlist-analyse-button"
                           type="submit"
