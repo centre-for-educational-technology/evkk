@@ -151,7 +151,7 @@ function GrammaticalAnalysis() {
       }
       info.col3[1][info.col3[1].length - 1] = info.col3[1][info.col3[1].length - 1].slice(0, -2);
       info.col4 = element.count;
-      info.col5 = (element.count * 100 / words.length).toFixed(1);
+      info.col5 = (element.count * 100 / words.length).toFixed(1) + '%';
       tableVal.push(info);
     }
     return tableVal;

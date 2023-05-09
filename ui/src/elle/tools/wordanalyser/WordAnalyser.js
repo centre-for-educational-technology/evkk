@@ -493,8 +493,8 @@ function WordAnalyser() {
           {showResults ?
             <WordInfo onWordInfo={wordInfo}/> :
             <Alert severity="info">
-              {t('infobox_first')}<br/>
-              {t('infobox_second')}
+              {t('word_analysis_infobox_1')}<br/>
+              {t('word_analysis_infobox_2')}
             </Alert>}
         </Grid>
       </Grid>

@@ -38,9 +38,11 @@ import TextUpload from '../../components/TextUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import { queryStore } from '../../store/QueryStore';
 import { loadFetch } from '../../service/LoadFetch';
+import { useTranslation } from 'react-i18next';
 
 function Query() {
 
+  const {t} = useTranslation();
   const selectWidth = 290;
   const classes = useStyles();
   const currentYear = new Date().getFullYear();
@@ -207,7 +209,7 @@ function Query() {
           setExpanded(false);
         });
     }
-  }
+  };
 
   function getSelectedCorpusList() {
     let selectedCorpuses = [];
@@ -389,8 +391,7 @@ function Query() {
 
   return (
     <div>
-      <Alert severity="info">Otsi tekste EVKK tekstikogust ja analüüsi neid meie tööriistadega või sisesta
-        analüüsimiseks oma tekstid.</Alert>
+      <Alert severity="info">{t('tools_infobox')}</Alert>
       <br/>
       {alert && <><Alert severity="error">Vali vähemalt üks alamkorpus!</Alert><br/></>}
       <div className="buttonBox">
@@ -398,23 +399,26 @@ function Query() {
                 onClick={() => {
                   setQueryVisible(true);
                   setExpanded(true);
-                }}>Vali tekstid</Button>
+                }}>{t('query_choose_texts')}</Button>
         <Button variant="contained"
                 onClick={() => setModalOpen(true)}
-                className="buttonSecondLeft">Oma tekstid</Button>
+                className="buttonSecondLeft">{t('query_own_text')}</Button>
         <Button variant="contained"
                 onClick={() => navigate('adding')}
-                className="buttonRight">Loovuta tekst</Button>
+                className="buttonRight">{t('common_upload_own_texts')}</Button>
       </div>
       {(corpusTextsSelected > 0 || ownTextsSelected) && <>
         <br/>
-        Analüüsiks salvestatud tekstid:
+        {t('query_results_saved_for_analysis')}
         {corpusTextsSelected > 0 &&
-          <Chip label={`${corpusTextsSelected} korpuse tekst${corpusTextsSelected > 1 ? 'i' : ''}`}
-                className="selected-text-chip" variant="outlined" onDelete={() => handleChipDelete('CORPUS_TEXTS')}/>
+          <Chip
+            label={corpusTextsSelected > 1 ? t('query_results_saved_for_analysis_corpus_plural', {amount: corpusTextsSelected}) : t('query_results_saved_for_analysis_corpus')}
+            className="selected-text-chip" variant="outlined" onDelete={() => handleChipDelete('CORPUS_TEXTS')}/>
         }
         {ownTextsSelected > 0 &&
-          <Chip label="oma tekstid" className="selected-text-chip" variant="outlined"
+          <Chip label={t('query_results_saved_for_analysis_own_texts')}
+                className="selected-text-chip"
+                variant="outlined"
                 onDelete={() => handleChipDelete('OWN_TEXTS')}/>
         }
       </>}
@@ -608,8 +612,6 @@ function Query() {
                     onClick={(e) => alterSinglePropertyData(e, 'language')}
                   >
                     <MenuItem value="eesti">eesti</MenuItem>
-                    <MenuItem value="inglise">inglise</MenuItem>
-                    <MenuItem value="soome">soome</MenuItem>
                     <MenuItem value="vene">vene</MenuItem>
                   </Select>
                 </FormControl>
@@ -1068,7 +1070,7 @@ function Query() {
       >
         <Box sx={modalStyle}>
           <div className="modal-head">
-            Sisesta või laadi üles oma tekstid
+            {t('textupload_primary_modal_title')}
           </div>
           <IconButton
             aria-label="close"
@@ -1092,7 +1094,7 @@ function Query() {
                     style={{marginTop: '2.5em'}}
                     disabled={textInputValue === ''}
                     onClick={() => handleSubmitOwnTexts()}>
-              Salvesta tekstid analüüsiks
+              {t('textupload_primary_modal_save')}
             </Button>
           </div>
         </Box>

@@ -1,11 +1,13 @@
-import React from "react";
-import {Box, styled, Typography} from "@mui/material";
-import {Link, Outlet} from 'react-router-dom';
-import {TreeItem, TreeView} from "@mui/lab";
+import React from 'react';
+import { Box, styled, Typography } from '@mui/material';
+import { Link, Outlet } from 'react-router-dom';
+import { TreeItem, TreeView } from '@mui/lab';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { useTranslation } from 'react-i18next';
 
 function Contacts() {
+  const {t} = useTranslation();
 
   const classes = {
     focused: {
@@ -44,7 +46,6 @@ function Contacts() {
       justifyContent: "center",
       flexDirection: "column",
       paddingBottom: "100px"
-
     }}>
       <Box sx={{
         display: "flex",
@@ -77,8 +78,8 @@ function Contacts() {
                         label={<Typography fontSize={"1rem"}
                                            marginTop={"10px"}>
                           <MenuLink to="us"
-                                    key={"1"}
-                                    onClick={() => window.scrollTo(0, 0)}>Meist</MenuLink>
+                                    key={'1'}
+                                    onClick={() => window.scrollTo(0, 0)}>{t('common_us')}</MenuLink>
                         </Typography>}>
 
               </TreeItem>
@@ -86,8 +87,8 @@ function Contacts() {
                         label={<Typography fontSize={"1rem"}
                                            marginTop={"10px"}>
                           <MenuLink to="people"
-                                    key={"2"}
-                                    onClick={() => window.scrollTo(0, 0)}>Töötajad</MenuLink>
+                                    key={'2'}
+                                    onClick={() => window.scrollTo(0, 0)}>{t('common_people')}</MenuLink>
                         </Typography>}>
 
               </TreeItem>
@@ -95,8 +96,8 @@ function Contacts() {
                         label={<Typography fontSize={"1rem"}
                                            marginTop={"10px"}>
                           <MenuLink to="grants"
-                                    key={"3"}
-                                    onClick={() => window.scrollTo(0, 0)}>Grandid</MenuLink>
+                                    key={'3'}
+                                    onClick={() => window.scrollTo(0, 0)}>{t('common_grants')}</MenuLink>
                         </Typography>}>
 
               </TreeItem>
@@ -118,27 +119,27 @@ function Contacts() {
                         }}
                                            marginTop={"10px"}>
                           <MenuLink to="publications"
-                                    key={"4"}
-                                    onClick={() => window.scrollTo(0, 0)}>Üllitised</MenuLink>
+                                    key={'4'}
+                                    onClick={() => window.scrollTo(0, 0)}>{t('common_publications')}</MenuLink>
                         </Typography>}>
                 <TreeItem nodeId={"5"}
                           label={<Typography fontSize={"1rem"}
                                              marginTop={"10px"}>
-                            <MenuLink to="publications#loputood">Lõputööd</MenuLink>
+                            <MenuLink to="publications#loputood">{t('common_graduation_papers')}</MenuLink>
                           </Typography>}>
 
                 </TreeItem>
                 <TreeItem nodeId={"6"}
                           label={<Typography fontSize={"1rem"}
                                              marginTop={"10px"}>
-                            <MenuLink to="publications#konverentsid">Konverentsid ja töötoad</MenuLink>
+                            <MenuLink to="publications#konverentsid">{t('common_conferences_and_workshops')}</MenuLink>
                           </Typography>}>
 
                 </TreeItem>
                 <TreeItem nodeId={"7"}
                           label={<Typography fontSize={"1rem"}
                                              marginTop={"10px"}>
-                            <MenuLink to="publications#publikatsioonid">Publikatsioonid</MenuLink>
+                            <MenuLink to="publications#publikatsioonid">{t('common_articles')}</MenuLink>
                           </Typography>}>
 
                 </TreeItem>

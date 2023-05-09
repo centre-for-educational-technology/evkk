@@ -42,7 +42,7 @@ function TextUpload({sendTextFromFile}) {
     let br = document.createElement('br');
     let b = document.createElement('b');
     let div = document.createElement('div');
-    let fileNameDataContent = document.createTextNode(t('textupload_chosen_files'));
+    let fileNameDataContent = document.createTextNode(t('textupload_secondary_modal_chosen_files'));
     b.appendChild(fileNameDataContent);
     div.appendChild(b);
     div.appendChild(br);
@@ -76,7 +76,7 @@ function TextUpload({sendTextFromFile}) {
   return (
     <>
       <div className="container">
-        <Tooltip title={t('textupload_tooltip')} placement={'top-start'}>
+        <Tooltip title={t('textupload_secondary_modal_tooltip')} placement={'top-start'}>
           <FileUploadIcon id="upload_button"
                           className="button-file"
                           onClick={() => {
@@ -113,13 +113,13 @@ function TextUpload({sendTextFromFile}) {
                       direction="column">
                   <Grid item
                         xs={12}>
-                    <h1 id="pop_title">{t('textupload_title')}</h1>
+                    <h1 id="pop_title">{t('textupload_secondary_modal_title')}</h1>
                   </Grid>
                   <Grid item
                         xs={12}>
                     <Button component="label"
                             htmlFor="text_1"
-                            variant="contained">{t('textupload_choose_files')}</Button>
+                            variant="contained">{t('textupload_secondary_modal_choose_files')}</Button>
                   </Grid>
                   <Grid item
                         xs={12}>
@@ -135,7 +135,7 @@ function TextUpload({sendTextFromFile}) {
                               setModalOpen(false);
                             }}
                             disabled={uploadButtonDisabled}
-                            onMouseDown={fileUpload}>{t('textupload_upload')}</Button>
+                            onMouseDown={fileUpload}>{t('textupload_secondary_modal_upload')}</Button>
                   </Grid>
                   <input style={{visibility: 'hidden'}}
                          type="file"
