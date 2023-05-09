@@ -4,16 +4,14 @@ import analyserImg from '../resources/images/home/sonaanalyys.png';
 import correctorImg from '../resources/images/home/tekstihindaja.png';
 import elleMockupImg from '../resources/images/home/elle-mockup.jpg';
 import clusterfinderImg from '../resources/images/home/mustrileidja.png';
-import PostAddIcon from '@mui/icons-material/PostAdd';
-import GradingIcon from '@mui/icons-material/Grading';
 import SchoolIcon from '@mui/icons-material/School';
-import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import { Avatar, Box, Card, Typography } from '@mui/material';
 import './styles/Home.css';
 import { useTranslation } from 'react-i18next';
 
 function Home() {
   const {t} = useTranslation();
+  const summaryTexts = ['homepage_summary_text_1', 'homepage_summary_text_2', 'homepage_summary_text_3', 'homepage_summary_text_4'];
 
   return (
     <div style={{paddingBottom: '5%'}}>
@@ -35,54 +33,20 @@ function Home() {
           <Typography className="home-summary-card-title-typography">{t('homepage_summary_title')}</Typography>
         </Box>
         <Box className="home-summary-card-content-box">
-          <Box className="home-summary-card-content-box-inner-1">
-            <Box className="home-summary-card-content-box-inner-2">
-              <Box className="home-summary-card-avatar-box">
-                <Avatar className="home-summary-card-avatar">
-                  <SchoolIcon/>
-                </Avatar>
-              </Box>
-              <Box className="home-summary-card-content-textbox">
-                <Typography className="home-summary-card-content-typography">{t('homepage_summary_text_1')}</Typography>
-              </Box>
-            </Box>
-          </Box>
-          <Box className="home-summary-card-content-box-inner-1">
-            <Box className="home-summary-card-content-box-inner-2">
-              <Box className="home-summary-card-avatar-box">
-                <Avatar className="home-summary-card-avatar">
-                  <PostAddIcon/>
-                </Avatar>
-              </Box>
-              <Box className="home-summary-card-content-textbox">
-                <Typography className="home-summary-card-content-typography">{t('homepage_summary_text_2')}</Typography>
+          {summaryTexts.map((text) => (
+            <Box key={text} className="home-summary-card-content-box-inner-1">
+              <Box className="home-summary-card-content-box-inner-2">
+                <Box className="home-summary-card-avatar-box">
+                  <Avatar className="home-summary-card-avatar">
+                    <SchoolIcon/>
+                  </Avatar>
+                </Box>
+                <Box className="home-summary-card-content-textbox">
+                  <Typography className="home-summary-card-content-typography">{t(text)}</Typography>
+                </Box>
               </Box>
             </Box>
-          </Box>
-          <Box className="home-summary-card-content-box-inner-1">
-            <Box className="home-summary-card-content-box-inner-2">
-              <Box className="home-summary-card-avatar-box">
-                <Avatar className="home-summary-card-avatar">
-                  <GradingIcon/>
-                </Avatar>
-              </Box>
-              <Box className="home-summary-card-content-textbox">
-                <Typography className="home-summary-card-content-typography">{t('homepage_summary_text_3')}</Typography>
-              </Box>
-            </Box>
-          </Box>
-          <Box className="home-summary-card-content-box-inner-1">
-            <Box className="home-summary-card-content-box-inner-2">
-              <Box className="home-summary-card-avatar-box">
-                <Avatar className="home-summary-card-avatar">
-                  <ManageSearchIcon/>
-                </Avatar>
-              </Box>
-              <Box className="home-summary-card-content-textbox">
-                <Typography className="home-summary-card-content-typography">{t('homepage_summary_text_4')}</Typography>
-              </Box>
-            </Box>
-          </Box>
+          ))}
         </Box>
       </Card>
 
