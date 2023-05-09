@@ -608,8 +608,6 @@ function Query() {
                     onClick={(e) => alterSinglePropertyData(e, 'language')}
                   >
                     <MenuItem value="eesti">eesti</MenuItem>
-                    <MenuItem value="inglise">inglise</MenuItem>
-                    <MenuItem value="soome">soome</MenuItem>
                     <MenuItem value="vene">vene</MenuItem>
                   </Select>
                 </FormControl>
