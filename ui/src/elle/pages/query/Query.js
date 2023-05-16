@@ -33,7 +33,7 @@ import {
 } from '../../utils/constants';
 import QueryResults from './QueryResults';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import TextUpload from '../../components/TextUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import { queryStore } from '../../store/QueryStore';
@@ -48,6 +48,7 @@ function Query() {
   const currentYear = new Date().getFullYear();
   const location = useLocation();
   const navigate = useNavigate();
+  const [urlParams] = useSearchParams();
   const [expanded, setExpanded] = useState(location.pathname === '/tools');
   const [results, setResults] = useState([]);
   const [addedYears, setAddedYears] = useState([]);
@@ -119,6 +120,13 @@ function Query() {
   useEffect(() => {
     refreshChips();
   }, []);
+
+  useEffect(() => {
+    if (urlParams.get('openQuery')) {
+      setQueryVisible(true);
+      navigate('', {replace: true});
+    }
+  }, [urlParams]);
 
   queryStore.subscribe(() => {
     refreshChips();
