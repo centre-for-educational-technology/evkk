@@ -48,7 +48,7 @@ export default function WordlistMenu({word, type, keepCapitalization, showColloc
             open={open}
             onClose={handleClose}>
         <MenuItem onClick={handleWordContext}>{t('concordances')}</MenuItem>
-        {showCollocatesButton && <MenuItem onClick={handleCollocates}>{t('common_neighboring_words')}</MenuItem>}
+        {showCollocatesButton && <MenuItem onClick={handleCollocates}>{t('common_neighbouring_words')}</MenuItem>}
         <MenuItem onClick={handleWordMeaning}>{t('common_definition')}</MenuItem>
         <MenuItem onClick={handleWordTranslation}>{t('common_translation')}</MenuItem>
       </Menu>

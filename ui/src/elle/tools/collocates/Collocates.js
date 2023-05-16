@@ -47,7 +47,7 @@ export default function Collocates() {
   const [lemmatizedKeywordResult, setLemmatizedKeywordResult] = useState(null);
   const [initialKeywordResult, setInitialKeywordResult] = useState(null);
   const [showTable, setShowTable] = useState(false);
-  const tableToDownload = [t('neighboring_words_collocation'), t('neighboring_words_score'), t('neighboring_words_number_of_co_occurrences'), t('neighboring_words_frequency_in_text'), t('neighboring_words_percentage_in_text')];
+  const tableToDownload = [t('neighbouring_words_collocation'), t('neighbouring_words_score'), t('neighbouring_words_number_of_co_occurrences'), t('neighboring_words_frequency_in_text'), t('neighboring_words_percentage_in_text')];
   const accessors = ['collocate', 'score', 'coOccurrences', 'frequencyCount', 'frequencyPercentage'];
   const [response, setResponse] = useState([]);
   const data = useMemo(() => response, [response]);
@@ -120,35 +120,35 @@ export default function Collocates() {
       }
     },
     {
-      Header: t('neighboring_words_collocation'),
+      Header: t('neighbouring_words_collocation'),
       accessor: 'collocate',
       Cell: (cellProps) => {
         return cellProps.value;
       }
     },
     {
-      Header: t('neighboring_words_score'),
+      Header: t('neighbouring_words_score'),
       accessor: 'score',
       Cell: (cellProps) => {
         return cellProps.value;
       }
     },
     {
-      Header: t('neighboring_words_number_of_co_occurrences'),
+      Header: t('neighbouring_words_number_of_co_occurrences'),
       accessor: 'coOccurrences',
       Cell: (cellProps) => {
         return cellProps.value;
       }
     },
     {
-      Header: t('neighboring_words_frequency_in_text'),
+      Header: t('neighbouring_words_frequency_in_text'),
       accessor: 'frequencyCount',
       Cell: (cellProps) => {
         return cellProps.value;
       }
     },
     {
-      Header: t('neighboring_words_percentage_in_text'),
+      Header: t('neighbouring_words_percentage_in_text'),
       accessor: 'frequencyPercentage',
       Cell: (cellProps) => {
         return `${cellProps.value}%`;
@@ -229,7 +229,7 @@ export default function Collocates() {
 
   return (
     <div className="tool-wrapper">
-      <h2 className="tool-title">{t('common_neighboring_words')}</h2>
+      <h2 className="tool-title">{t('common_neighbouring_words')}</h2>
       <Accordion sx={AccordionStyle}
                  expanded={paramsExpanded}
                  onChange={() => setParamsExpanded(!paramsExpanded)}>
@@ -287,7 +287,7 @@ export default function Collocates() {
                 <FormControl sx={{m: 3}}
                              style={{marginTop: '-1vh'}}
                              variant="standard">
-                  <FormLabel id="display">{t('neighboring_words_search_for_neighboring_words')}</FormLabel>
+                  <FormLabel id="display">{t('neighbouring_words_search_for_neighbouring_words')}</FormLabel>
                   <Grid container>
                     <Grid item>
                       <TextField variant="outlined"
@@ -303,14 +303,14 @@ export default function Collocates() {
                       item
                       className="collocates-explanation"
                     >
-                      {t('neighboring_words_search_within_preceding_and_following_words')}
+                      {t('neighbouring_words_search_within_preceding_and_following_words')}
                     </Grid>
                   </Grid>
                 </FormControl>
               </div>
               <div>
                 <FormControl sx={{m: 3}} size="small">
-                  <FormLabel id="formula">{t('neighboring_words_choose_statistic_measure')}</FormLabel>
+                  <FormLabel id="formula">{t('neighbouring_words_choose_statistic_measure')}</FormLabel>
                   <Grid container>
                     <Grid item>
                       <Select
@@ -319,9 +319,9 @@ export default function Collocates() {
                         value={formula}
                         onChange={(e) => setFormula(e.target.value)}
                       >
-                        <MenuItem value="LOGDICE">{t('neighboring_words_statistic_measure_logdice')}</MenuItem>
-                        <MenuItem value="T_SCORE">{t('neighboring_words_statistic_measure_t_score')}</MenuItem>
-                        <MenuItem value="MI_SCORE">{t('neighboring_words_statistic_measure_mi_score')}</MenuItem>
+                        <MenuItem value="LOGDICE">{t('neighbouring_words_statistic_measure_logdice')}</MenuItem>
+                        <MenuItem value="T_SCORE">{t('neighbouring_words_statistic_measure_t_score')}</MenuItem>
+                        <MenuItem value="MI_SCORE">{t('neighbouring_words_statistic_measure_mi_score')}</MenuItem>
                       </Select>
                     </Grid>
                     <Grid
@@ -329,7 +329,7 @@ export default function Collocates() {
                       className="collocates-explanation"
                     >
                       <Tooltip
-                        title={t('neighboring_words_statistic_measure_hover')}
+                        title={t('neighbouring_words_statistic_measure_hover')}
                         placement="right">
                         <QuestionMark className="tooltip-icon"/>
                       </Tooltip>
@@ -349,7 +349,7 @@ export default function Collocates() {
                                     label={<>
                                       {t('common_case_sensitive')}
                                       <Tooltip
-                                        title={t('neighboring_words_case_sensitive_hover')}
+                                        title={t('neighbouring_words_case_sensitive_hover')}
                                         placement="right">
                                         <QuestionMark className="tooltip-icon"/>
                                       </Tooltip></>}
@@ -363,7 +363,7 @@ export default function Collocates() {
       {lemmatizedKeywordResult && <>
         <br/>
         <Alert severity="warning">
-          {t('neighboring_words_keyword_lemmatization_warning', {
+          {t('neighbouring_words_keyword_lemmatization_warning', {
             initialKeywordResult: initialKeywordResult,
             lemmatizedKeywordResult: lemmatizedKeywordResult
           })}
