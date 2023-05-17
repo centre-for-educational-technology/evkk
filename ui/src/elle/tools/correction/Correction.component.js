@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
 import EastIcon from '@mui/icons-material/East';
 import "./Correction.css";
-import {Alert, Box, Button, Card, Slider, styled, Tab, Typography} from "@mui/material";
+import {Alert, Box, Button, Card, CircularProgress, Slider, styled, Tab, Typography} from "@mui/material";
 import TextUpload from "../../components/textupload/TextUpload";
 import {TabContext, TabList, TabPanel} from "@mui/lab";
-
 //history to keep all changes step-by-step made to alasisu
 let history = [
   "",
 ]
-
-
 //integer for indexing history with undo and redo
 let currentHistory = 0
 
@@ -26,7 +23,9 @@ class Correction extends Component {
       paringlopetatud: false,
       keerukusvastus: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       mitmekesisusvastus: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      korrektuur: ""
+      korrektuur: "",
+      selectedError: "",
+      colorChanged: false,
     };
     this.handleRedo = this.handleRedo.bind(this)
     this.handleUndo = this.handleUndo.bind(this)
@@ -250,13 +249,18 @@ class Correction extends Component {
             muutused[i] = <span key={"sm" + i}>
                 <span onClick={() => this.margi(algus, sisu, true)}
                       style={{'backgroundColor': 'lightpink'}}>{sm[i]}</span> - <span>{vm[i]}</span> <button
-              onClick={() => this.asenda(algus, sisu, vm[i])}>Asenda</button><br/>
+              onClick={() => {
+                this.asenda(algus, sisu, vm[i])
+              }}>Asenda</button><br/>
              </span>
             let kpl = this.puhasta2(sm[i]);
-            taustatekst[i] = <span key={"t" + i}><span>{kpl[1]}</span><span className="margitud pointer-hover"
-                                                                            title={vm[i]}>{kpl[2]}</span><span>{kpl[3]}</span><span> </span></span>;
+            taustatekst[i] =
+              <span key={"t" + i}><span>{kpl[1]}</span><span className="corrector-margitud corrector-pointer-hover"
+                                                             title={vm[i]}>{kpl[2]}</span><span>{kpl[3]}</span><span> </span></span>;
             vastustekst[i] = <span key={"s" + i}><span title={vm[i]}
-                                                       onClick={() => this.margi(algus, sisu)}
+                                                       onClick={() => {
+                                                         this.margi(algus, sisu)
+                                                       }}
                                                        style={{
                                                          'backgroundColor': 'lightgray',
                                                          cursor: "pointer"
@@ -303,7 +307,8 @@ class Correction extends Component {
         <br/>
       </div>
     }
-    return <div className={"pointer-hover"} onClick={() => this.setState({taselisa: true})}>Loe täpsemalt ...</div>
+    return <div className={"corrector-pointer-hover"} onClick={() => this.setState({taselisa: true})}>Loe täpsemalt
+      ...</div>
   }
   state;
 
@@ -317,28 +322,28 @@ class Correction extends Component {
       }}></div>
   }
 
-
   renderTase() {
-    console.log(this.state.mitmekesisusvastus[10] > 14);
-    var degreeValue
-    if (this.state.tasemevastus.length !== 1 && this.state.tasemevastus[0] != undefined) {
+    let degreeValue
+    if (this.state.tasemevastus.length !== 1 && this.state.tasemevastus[0] !== undefined) {
       let val1 = parseInt((this.state.tasemevastus[0][0] * 100 * 3.6).toFixed(0), 10);
       let val2 = parseInt((this.state.tasemevastus[1][0] * 100 * 3.6).toFixed(0), 10);
       let val3 = parseInt((this.state.tasemevastus[2][0] * 100 * 3.6).toFixed(0), 10);
       let val4 = parseInt((this.state.tasemevastus[3][0] * 100 * 3.6).toFixed(0), 10);
       degreeValue = "conic-gradient(#b7e4c7 " + val1 + "deg,  #90e0ef " + val1 + "deg " + (val2 + val1) + "deg, #ffb3c1 " + (val2 + val1) + "deg " + (val2 + val1 + val3) + "deg, #90e0ef " + (val2 + val1 + val3) + "deg " + (val2 + val1 + val3 + val4) + "deg)";
     }
-    return <Box component={"span"}
-                width={"auto"}>{this.state.kordab && parseInt(this.state.mitmekesisusvastus[10]) > 14 ?
-      <Box component={"span"} width={"auto"}>{this.state.alasisu.length > 0 ?
-        (this.state.tasemevastus.length > 0 ?
-          (this.state.tasemevastus.length === 1 ? "" : <Box width={"100%"}>
+    return <Box>
+      <Box component={"span"}
+           width={"auto"}>{this.state.kordab && parseInt(this.state.mitmekesisusvastus[10]) > 14 ?
+        <Box component={"span"} width={"auto"}>{this.state.alasisu.length > 0 ?
+          (this.state.tasemevastus.length > 0 ?
+            (this.state.tasemevastus.length === 1 ? "" : <Box width={"100%"}>
 
-            <Box style={{display: "flex", paddingRight: "50px", paddingLeft: "50px", width: "100%"}}>
+              <Box style={{display: "flex", paddingRight: "50px", paddingLeft: "50px", width: "100%"}}>
 
-              <Box marginRight={"10%"} width={"80%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}
-                   paddingLeft={"20%"}>
-                <Box display={"flex"} alignItems={"center"} justifyContent={"start"}>
+                <Box marginRight={"10%"} width={"80%"} display={"flex"} flexDirection={"column"}
+                     justifyContent={"center"}
+                     paddingLeft={"20%"}>
+                  <Box display={"flex"} alignItems={"center"} justifyContent={"start"}>
                   <Box width={15} height={15} borderRadius={"50px"} bgcolor={"#b7e4c7"} marginRight={"10px"}></Box>
                   <h2>{this.state.tasemevastus[0][1]}: {(this.state.tasemevastus[0][0] * 100).toFixed(0)}%</h2>
                 </Box>
@@ -383,10 +388,7 @@ class Correction extends Component {
                 osakaal),
                 sõnavara tihedus (sisusõnade osakaal) ja nimisõnade abstraktsus.</Box>
             </Box>
-
-
-            {/*this.renderTasemed()*/}
-          </Box>) : <div>Tekst liiga lühike</div>) : ""}</Box> : "Tekst on liiga lühike"}</Box>
+            </Box>) : <div></div>) : ""}</Box> : "Tekst on liiga lühike"}</Box></Box>
   }
 
   kerimine() {
@@ -404,7 +406,65 @@ class Correction extends Component {
       ots++;
     }
     let sona = this.state.alasisu.substring(algus + 1, ots);
-    this.vali(sona, this.ala1.selectionStart);
+    if (this.state.paringlopetatud) {
+    }
+
+    if (this.state.selectedError !== "" && this.state.kordab && this.state.paringlopetatud) {
+      if (this.state.colorChanged === "true") {
+        console.log("tere")
+        document.getElementById(this.state.selectedError).style.backgroundColor = "white";
+      }
+      document.getElementById(sona).style.backgroundColor = "#e8f4f8";
+      this.setState({colorChanged: "true"})
+    }
+
+    this.setState({selectedError: sona})
+  }
+
+  deleteAllErrors() {
+
+  }
+
+  loadErrors() {
+    let errorList = [];
+    for (let i = 0; i < this.state.sisusonad.length; i++) {
+      if (this.state.sisusonad[i] !== this.state.vastussonad[i]) {
+        errorList.push([this.state.sisusonad[i], this.state.vastussonad[i], this.state.sisukohad[i]]);
+      }
+    }
+    return (<Box>
+      {errorList.map((error) => {
+        return (
+          <Box display="flex" justifyContent="center">
+            <Box id={error[0]} display="inline-flex" borderRadius="10px" maxWidth="min-content" justifyContent="center">
+              <Box id={error[0]}
+                   style={{
+                     padding: "15px",
+                     borderRadius: "10px",
+                     display: "inline-flex",
+                     gap: "10px"
+                   }}>
+      <span
+        style={{
+          'backgroundColor': 'lightpink',
+          fontSize: "20px",
+          paddingLeft: "5px",
+          paddingRight: "5px",
+          borderRadius: "5px"
+        }}>{this.puhasta(error[0])}</span> <EastIcon/> <span style={{
+                'backgroundColor': 'lightgreen',
+                fontSize: "20px",
+                paddingLeft: "5px",
+                paddingRight: "5px",
+                borderRadius: "5px"
+              }}>{this.puhasta(error[1])}</span> <span style={{fontSize: "20px", fontWeight: "bold"}}>|</span>
+                <Box>
+                  <Button size="small" variant="contained"
+                          onClick={() => this.asenda(error[2] - error[0].length, error[0], error[1])}>asenda</Button>
+                </Box>
+              </Box></Box></Box>)
+      })}
+    </Box>)
   }
 
   vali(sona, koht) {
@@ -505,7 +565,7 @@ class Correction extends Component {
               <TextUpload sendTextFromFile={this.sendTextFromFile}/>
               <div id="highlights"
                    ref={(e) => this.taust1 = e}>{this.state.taustakood}</div>
-              <textarea id="textarea"
+              <textarea id="corrector-textarea"
                         onScroll={() => this.kerimine()}
                         ref={(e) => this.ala1 = e}
                         onChange={(event) => this.alaMuutus(event)}
@@ -524,12 +584,12 @@ class Correction extends Component {
             </Box>
 
           </div>
-          <div className="tab-container">
+          <div className="corrector-tab-container">
             <TabContext value={this.state.avatudkaart}>
               <TabList centered={true} onChange={this.handleTabChange}>
                 <Tab
                   value="korrektuur"
-                  label="Korrektuur"
+                  label="korrektuur"
                 />
                 <Tab
                   value="hindamine"
@@ -551,7 +611,8 @@ class Correction extends Component {
                     <Alert severity="info">Rakenduse abil saad parandada oma teksti õigekirja ja vaadata,
                       mis keeleoskustasemele see vastab (A2–C1).
                       Loe lähemalt <a
-                        href={"https://github.com/centre-for-educational-technology/evkk/wiki/Demos"}>siit</a>.</Alert>
+                        href={"https://github.com/centre-for-educational-technology/evkk/wiki/Demos"}
+                        target="_blank">siit</a>.</Alert>
                   </Box>
                 </div>
               }
@@ -571,47 +632,74 @@ class Correction extends Component {
                </span>
                   :
                   <span>
-             {this.state.kordab && this.state.alasisu !== this.state.korrektorivastus[1] && this.ketas()}<br/>
+             {this.state.kordab && !this.state.paringlopetatud && this.state.alasisu !== this.state.korrektorivastus[1] &&
+               <Box display={"flex"} height={"200px"} alignItems={"center"} justifyContent={"center"}
+                    width={"100%"}><CircularProgress/> </Box>}<br/>
                     {(this.state.yksikmuutus) ? this.state.yksikmuutus : ""
                     }<br/>
-                    {this.state.vastusnahtav && <span>{this.state.tasemevastus ? this.state.vastuskood : "algus"}</span>}
+                    {this.state.vastusnahtav &&
+                      <span>{this.state.tasemevastus ? this.state.vastuskood : "algus"}</span>}
+                    {this.state.kordab && this.state.paringlopetatud ? this.loadErrors() : ""};
              </span>
                 }
               </TabPanel>
               <TabPanel value="hindamine">
                 {this.state.kordab && <div>
-                  {(this.state.alasisu !== this.state.tasemetekst) ? this.ketas() : ""} <br/>
                   <span>{this.renderTase()}</span></div>}
               </TabPanel>
               <TabPanel value="keerukus">
-                {this.state.kordab && this.state.keerukusvastus[0] > 0 &&
-                  <div style={{marginLeft: "10%", width: "100%"}}><h3>Keerukuse andmed</h3>
-                    <table width={"80%"}>
-                      <tbody>
-                      <tr className="border-bottom">
-                        <td style={{width: "90%"}}>Lauseid</td>
-                        <td style={{width: "10%"}}>{this.state.keerukusvastus[0]}</td>
-                      </tr>
-                      <tr className="border-bottom">
-                        <td>Sõnu</td>
-                        <td>{this.state.keerukusvastus[1]}</td>
-                      </tr>
-                      <tr className="border-bottom">
-                        <td>Paljusilbilisi sõnu</td>
-                        <td>{this.state.keerukusvastus[2]}</td>
-                      </tr>
-                      <tr className="border-bottom">
-                        <td>Silpe</td>
-                        <td>{this.state.keerukusvastus[3]}</td>
-                      </tr>
-                      <tr className="border-bottom">
-                        <td>Pikki sõnu</td>
-                        <td>{this.state.keerukusvastus[4]}</td>
-                      </tr>
-                      </tbody>
-                    </table>
-                    <br/><br/>
-                    <Typography alignContent={"center"} fontSize={"20px"} marginBottom={"20px"} marginTop={"20px"}
+                <div>
+                  {this.state.kordab && <div>
+                    {(!this.state.keerukusvastus[0] > 0) ?
+                      <Box display={"flex"} height={"200px"} alignItems={"center"} justifyContent={"center"}
+                           width={"100%"}><CircularProgress/> </Box> : ""}</div>}
+                  {this.state.kordab && this.state.keerukusvastus[0] > 0 &&
+                    <div style={{marginLeft: "10%", width: "100%"}}><h3>Keerukuse andmed</h3>
+                      <table width={"80%"}>
+                        <tbody>
+                        <tr className="corrector-border-bottom">
+                          <td style={{width: "90%"}}>Lauseid</td>
+                          <td style={{width: "10%"}}>{this.state.keerukusvastus[0]}</td>
+                        </tr>
+                        <tr className="corrector-border-bottom">
+                          <td>Sõnu</td>
+                          <td>{this.state.keerukusvastus[1]}</td>
+                        </tr>
+                        <tr className="corrector-border-bottom">
+                          <td>Paljusilbilisi sõnu</td>
+                          <td>{this.state.keerukusvastus[2]}</td>
+                        </tr>
+                        <tr className="corrector-border-bottom">
+                          <td>Silpe</td>
+                          <td>{this.state.keerukusvastus[3]}</td>
+                        </tr>
+                        <tr className="corrector-border-bottom">
+                          <td>Pikki sõnu</td>
+                          <td>{this.state.keerukusvastus[4]}</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                      <br/><br/>
+                      <Box><Typography alignContent={"center"} fontSize={"20px"} marginBottom={"20px"}
+                                       marginTop={"20px"}
+                                       gutterBottom>
+                        SMOG INDEX: {parseFloat(this.state.keerukusvastus[5]).toFixed()}
+                      </Typography>
+                      </Box>
+                      <Box>
+                        <Typography alignContent={"center"} fontSize={"20px"} marginBottom={"20px"} marginTop={"20px"}
+                                    gutterBottom>
+                          Flesch-Kincaidi indeks: {parseFloat(this.state.keerukusvastus[6]).toFixed()}
+                        </Typography>
+                      </Box>
+                      <Box>
+                        <Typography alignContent={"center"} fontSize={"20px"} marginBottom={"20px"} marginTop={"20px"}
+                                    gutterBottom>
+                          LIX INDEX: {this.state.keerukusvastus[7]}
+                        </Typography>
+                      </Box>
+
+                      {/*  TODO      <Typography alignContent={"center"} fontSize={"20px"} marginBottom={"20px"} marginTop={"20px"}
                                 gutterBottom>
                       SMOG INDEX
                     </Typography>
@@ -688,77 +776,61 @@ class Correction extends Component {
                            alignItems={"center"}>
                         <Typography fontSize={"25px"}>60</Typography>
                       </Box>
-                    </Box>
-                    {/*<table width={"80%"}>
-                      <tbody>
-                      <tr>
-                        <td
-                          title="1,0430*√((vähemalt kolmesilbilisi sonu*30)/lausete arv)+3,1291  (McLaughlin, 1969)">SMOG
-                        </td>
-                        <td>{parseFloat(this.state.keerukusvastus[5]).toFixed(2)}</td>
-                      </tr>
-                      <tr>
-                        <td
-                          title="0.39 * (sõnade arv/lausete arv) + 11.8 * (silpide arv/sõnade arv) - 15.59  (Kincaid et al., 1975)">Flesch-Kincaidi
-                          indeks
-                        </td>
-                        <td>{parseFloat(this.state.keerukusvastus[6]).toFixed()}</td>
-                      </tr>
-                      <tr>
-                        <td
-                          title="sõnade arv/lausete arv + ((pikkade sõnade arv * 100)/sõnade arv)  (Björnsson, 1968)">LIX
-                        </td>
-                        <td>{this.state.keerukusvastus[7]}</td>
-                      </tr>
-                      </tbody>
-                    </table>*/}
-                    <div style={{fontSize: "20px", marginTop: "20px"}}>Pakutav
-                      keerukustase: {this.state.keerukusvastus[11]}</div>
-                  </div>}
+                    </Box>*/}
+                      <div style={{fontSize: "20px", marginTop: "20px"}}>Pakutav
+                        keerukustase: {this.state.keerukusvastus[11]}</div>
+                    </div>
+                  }
+                </div>
               </TabPanel>
               <TabPanel value="mitmekesisus">
-                {this.state.kordab && this.state.mitmekesisusvastus[10] > 0 &&
-                  <div style={{marginLeft: "10%", width: "100%"}}><h3>Sõnavara mitmekesisuse andmed</h3>
-                    <table width={"80%"}>
-                      <tbody>
-                      <tr className="border-bottom">
-                        <td style={{width: "90%"}}>Sõnu</td>
-                        <td style={{width: "10%"}}>{this.state.mitmekesisusvastus[10]}</td>
-                      </tr>
-                      <tr className="border-bottom">
-                        <td>Lemmasid ehk erinevaid sõnu</td>
-                        <td>{this.state.mitmekesisusvastus[11]}</td>
-                      </tr>
-                      <tr className="border-bottom">
-                        <td title="lemmade arv / √(2 * sõnade arv)  (Carroll, 1964)">Korrigeeritud lemmade-sõnade
-                          suhtarv -
-                          KLSS <br/>(ingl Corrected Type-Token Ratio)
-                        </td>
-                        <td>{this.state.mitmekesisusvastus[0]}</td>
-                      </tr>
-                      <tr className="border-bottom">
-                        <td title="lemmade arv /  √(sõnade arv)  (Guiraud, 1960)">Juuritud lemmade-sõnade suhtarv -
-                          JLSS <br/>(ingl Root Type-Token Ratio)
-                        </td>
-                        <td>{this.state.mitmekesisusvastus[1]}</td>
-                      </tr>
-                      <tr className="border-bottom">
-                        <td
-                          title="Indeks mõõdab lemmade ja sõnade suhtarvu järjestikustes tekstiosades. Algul on suhtarv 1. Iga sõna juures arvutatakse see uuesti, kuni väärtus langeb alla piirarvu 0,72. Tsükkel kordub, kuni teksti lõpus jagatakse sõnade arv selliste tsüklite arvuga. Seejärel korratakse sama, liikudes tekstis tagantpoolt ettepoole. MTLD on nende kahe teksti keskväärtus. (McCarthy &amp; Jarvis, 2010)">MTLD
-                          indeks <br/>(ingl Measure of Textual Lexical Diversity)
-                        </td>
-                        <td>{this.state.mitmekesisusvastus[4]}</td>
-                      </tr>
-                      <tr className="border-bottom">
-                        <td
-                          title="Indeksi arvutamiseks leitakse iga tekstis sisalduva lemma esinemistõenäosus juhuslikus 42-sõnalises tekstiosas. Kuna kõigi võimalike tekstikatkete arv on enamasti väga suur, arvutatakse tõenäosused hüpergeomeetrilise jaotuse funktsiooni abil. Kõigi lemmade esinemistõenäosused summeeritakse. (McCarthy &amp; Jarvis, 2007)">HDD
-                          indeks <br/>(ingl Hypergeometric Distribution D)
-                        </td>
-                        <td>{this.state.mitmekesisusvastus[5]}</td>
-                      </tr>
-                      </tbody>
-                    </table>
-                  </div>}
+                <div>
+                  {this.state.kordab && this.state.mitmekesisusvastus[10] === 0 ?
+                    <Box display={"flex"} height={"200px"} alignItems={"center"} justifyContent={"center"}
+                         width={"100%"}><CircularProgress/> </Box> : ""}
+                  {this.state.mitmekesisusvastus[10] > 0 &&
+                    <div style={{marginLeft: "10%", width: "100%"}}><h3>Sõnavara mitmekesisuse andmed</h3>
+                      <table width={"80%"}>
+                        <tbody>
+                        <tr className="corrector-border-bottom">
+                          <td style={{width: "90%"}}>Sõnu</td>
+                          <td style={{width: "10%"}}>{this.state.mitmekesisusvastus[10]}</td>
+                        </tr>
+                        <tr className="corrector-border-bottom">
+                          <td>Lemmasid ehk erinevaid sõnu</td>
+                          <td>{this.state.mitmekesisusvastus[11]}</td>
+                        </tr>
+                        <tr className="corrector-border-bottom">
+                          <td title="lemmade arv / √(2 * sõnade arv)  (Carroll, 1964)">Korrigeeritud lemmade-sõnade
+                            suhtarv -
+                            KLSS <br/>(ingl Corrected Type-Token Ratio)
+                          </td>
+                          <td>{this.state.mitmekesisusvastus[0]}</td>
+                        </tr>
+                        <tr className="corrector-border-bottom">
+                          <td title="lemmade arv /  √(sõnade arv)  (Guiraud, 1960)">Juuritud lemmade-sõnade suhtarv -
+                            JLSS <br/>(ingl Root Type-Token Ratio)
+                          </td>
+                          <td>{this.state.mitmekesisusvastus[1]}</td>
+                        </tr>
+                        <tr className="corrector-border-bottom">
+                          <td
+                            title="Indeks mõõdab lemmade ja sõnade suhtarvu järjestikustes tekstiosades. Algul on suhtarv 1. Iga sõna juures arvutatakse see uuesti, kuni väärtus langeb alla piirarvu 0,72. Tsükkel kordub, kuni teksti lõpus jagatakse sõnade arv selliste tsüklite arvuga. Seejärel korratakse sama, liikudes tekstis tagantpoolt ettepoole. MTLD on nende kahe teksti keskväärtus. (McCarthy &amp; Jarvis, 2010)">MTLD
+                            indeks <br/>(ingl Measure of Textual Lexical Diversity)
+                          </td>
+                          <td>{this.state.mitmekesisusvastus[4]}</td>
+                        </tr>
+                        <tr className="corrector-border-bottom">
+                          <td
+                            title="Indeksi arvutamiseks leitakse iga tekstis sisalduva lemma esinemistõenäosus juhuslikus 42-sõnalises tekstiosas. Kuna kõigi võimalike tekstikatkete arv on enamasti väga suur, arvutatakse tõenäosused hüpergeomeetrilise jaotuse funktsiooni abil. Kõigi lemmade esinemistõenäosused summeeritakse. (McCarthy &amp; Jarvis, 2007)">HDD
+                            indeks <br/>(ingl Hypergeometric Distribution D)
+                          </td>
+                          <td>{this.state.mitmekesisusvastus[5]}</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>}
+                </div>
               </TabPanel>
             </TabContext>
           </div>

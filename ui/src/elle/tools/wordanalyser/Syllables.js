@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { useFilters, usePagination, useSortBy, useTable } from 'react-table';
+import React, {useContext, useEffect, useMemo, useState} from 'react';
+import {useFilters, usePagination, useSortBy, useTable} from 'react-table';
 import './styles/Syllables.css';
 import TablePagination from '../../components/table/TablePagination';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import '../../translations/i18n';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
-import { AnalyseContext, SetSyllableContext, SetSyllableWordContext } from './Contexts';
-import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import {AnalyseContext, SetSyllableContext, SetSyllableWordContext} from './Contexts';
+import {Box, Button, Chip, FormControl, InputLabel, MenuItem, Select} from '@mui/material';
 import ToggleCell from './ToggleCell';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Popover from '@mui/material/Popover';
@@ -177,8 +177,8 @@ function Syllables() {
         col6: 0,
         col7: 0
       };
-      
-      info.col1 = row[0];
+
+        info.col1 = row[0];
       info.col2 = row[1];
       info.col3 = row[2];
       info.col4 = row[3];
@@ -246,7 +246,6 @@ function Syllables() {
   const COLUMNS = [
     {
       Header: t('syllables_header_syllable'),
-
       id: 'silp',
       accessor: 'silp',
       width: 200

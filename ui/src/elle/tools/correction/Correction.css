@@ -12,21 +12,17 @@
   margin-bottom: 400px;
 }
 
-.tab-container {
+.corrector-tab-container {
   width: 100%;
   padding-right: 50px;
   padding-left: 50px;
 }
 
-.border-bottom {
+.corrector-border-bottom {
   border-bottom: solid 1px;
 }
 
-.level-list {
-  list-style: none;
-}
-
-.pointer-hover:hover {
+.corrector-pointer-hover:hover {
   cursor: pointer;
 }
 
@@ -38,31 +34,6 @@
   background-color: #ffb3c1;
 }
 
-
-.level-list li:nth-child(1):before {
-  content: "\2022"; /* Add content: \2022 is the CSS Code/unicode for a bullet */
-  color: blue; /* Change the color */
-  font-weight: bold; /* If you want it to be bold */
-  display: inline-block; /* Needed to add space between the bullet and the text */
-  width: 1em; /* Also needed for space (tweak if needed) */
-}
-
-.level-list li:nth-child(2):before {
-  content: "\2022"; /* Add content: \2022 is the CSS Code/unicode for a bullet */
-  color: yellow; /* Change the color */
-  font-weight: bold; /* If you want it to be bold */
-  display: inline-block; /* Needed to add space between the bullet and the text */
-  width: 1em; /* Also needed for space (tweak if needed) */
-}
-
-.level-list li:nth-child(3):before {
-  content: "\2022"; /* Add content: \2022 is the CSS Code/unicode for a bullet */
-  color: green; /* Change the color */
-  font-weight: bold; /* If you want it to be bold */
-  display: inline-block; /* Needed to add space between the bullet and the text */
-  width: 1em; /* Also needed for space (tweak if needed) */
-}
-
 .correction-text-input {
   width: 30vw;
   height: 200px;
@@ -72,14 +43,14 @@
   overflow-y: auto;
 }
 
-.wrapper {
+.corrector-wrapper {
   width: 100%;
   height: auto;
   text-align: center;
   position: relative;
 }
 
-#highlights, #textarea {
+#highlights, #corrector-textarea {
   width: 30vw;
   height: 200px;
   border: solid 1px black;
@@ -87,12 +58,9 @@
   overflow-y: auto;
 }
 
-#textarea {
+#corrector-textarea {
   position: relative;
   top: -200px;
-}
-
-#textarea {
   color: #444;
   background-color: transparent;
   z-index: 100;
@@ -113,7 +81,7 @@ textarea:hover {
   overflow-y: auto;
 }
 
-.borderbox {
+.corrector-borderbox {
   width: 104%;
   height: 104%;
   position: absolute;
@@ -125,10 +93,9 @@ textarea:hover {
   padding: 0;
 }
 
-.margitud {
+.corrector-margitud {
   background-color: lightpink;
 }
-
 
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0,
