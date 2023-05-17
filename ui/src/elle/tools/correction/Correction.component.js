@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import EastIcon from '@mui/icons-material/East';
 import "./Correction.css";
-import {Alert, Box, Button, Card, CircularProgress, Slider, styled, Tab, Typography} from "@mui/material";
+import {Alert, Box, Button, Card, CircularProgress, IconButton, Slider, styled, Tab, Typography} from "@mui/material";
+import DoneIcon from '@mui/icons-material/Done';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import TextUpload from "../../components/textupload/TextUpload";
 import {TabContext, TabList, TabPanel} from "@mui/lab";
+import CloseIcon from "@mui/icons-material/Close";
 //history to keep all changes step-by-step made to alasisu
 let history = [
   "",
@@ -256,7 +259,7 @@ class Correction extends Component {
             let kpl = this.puhasta2(sm[i]);
             taustatekst[i] =
               <span key={"t" + i}><span>{kpl[1]}</span><span className="corrector-margitud corrector-pointer-hover"
-                                                             title={vm[i]}>{kpl[2]}</span><span>{kpl[3]}</span><span> </span></span>;
+                                                             title={vm[i]}>{kpl[2]}</span><span>{kpl[3]}</span><span> </span></span>
             vastustekst[i] = <span key={"s" + i}><span title={vm[i]}
                                                        onClick={() => {
                                                          this.margi(algus, sisu)
@@ -264,7 +267,7 @@ class Correction extends Component {
                                                        style={{
                                                          'backgroundColor': 'lightgray',
                                                          cursor: "pointer"
-                                                       }}>{sm[i]}</span><span> </span></span>;
+                                                       }}>{sm[i]}</span><span> </span></span>
           }
           sisutekst += sm[i] + " ";
           sisukohad[i] = sisutekst.length;
@@ -410,12 +413,16 @@ class Correction extends Component {
     }
 
     if (this.state.selectedError !== "" && this.state.kordab && this.state.paringlopetatud) {
-      if (this.state.colorChanged === "true") {
+      if (this.state.colorChanged === "true" && !this.state.korrektorivastus[0].includes(sona)) {
         console.log("tere")
         document.getElementById(this.state.selectedError).style.backgroundColor = "white";
       }
-      document.getElementById(sona).style.backgroundColor = "#e8f4f8";
-      this.setState({colorChanged: "true"})
+      if (!this.state.korrektorivastus[0].includes(sona)) {
+        console.log(sona)
+        document.getElementById(sona).style.backgroundColor = "#e8f4f8";
+        this.setState({colorChanged: "true"})
+      }
+
     }
 
     this.setState({selectedError: sona})
@@ -458,9 +465,16 @@ class Correction extends Component {
                 paddingRight: "5px",
                 borderRadius: "5px"
               }}>{this.puhasta(error[1])}</span> <span style={{fontSize: "20px", fontWeight: "bold"}}>|</span>
-                <Box>
-                  <Button size="small" variant="contained"
-                          onClick={() => this.asenda(error[2] - error[0].length, error[0], error[1])}>asenda</Button>
+                <Box display="flex" gap="15px">
+
+                  <Button size="30px" color="success" sx={{borderRadius: 30, padding: 0, minHeight: 30, minWidth: 30}}
+                          variant="contained"
+                          onClick={() => this.asenda(error[2] - error[0].length, error[0], error[1])}><DoneIcon
+                    fontSize="medium"/></Button>
+                  <Button size="30px" color="error" sx={{borderRadius: 30, padding: 0, minHeight: 30, minWidth: 30}}
+                          variant="contained"
+                          onClick={() => this.asenda(error[2] - error[0].length, error[0], error[1])}><CloseIcon
+                    fontSize="medium"/></Button>
                 </Box>
               </Box></Box></Box>)
       })}
@@ -500,8 +514,9 @@ class Correction extends Component {
         paddingRight: "5px",
         borderRadius: "5px"
       }}>{this.puhasta(this.state.vastussonad[v])}</span> <span style={{fontSize: "20px", fontWeight: "bold"}}>|</span>
-        <Button size="small" variant="contained"
-                onClick={() => this.asenda(this.state.sisukohad[v] - this.state.sisusonad[v].length, this.state.sisusonad[v], this.state.vastussonad[v])}>asenda</Button><br/>
+        <IconButton size="small" variant="contained"
+                    onClick={() => this.asenda(this.state.sisukohad[v] - this.state.sisusonad[v].length, this.state.sisusonad[v], this.state.vastussonad[v])}><CheckCircleIcon
+          fontSize="large"/></IconButton><br/>
       </Box>
       this.setState({yksikmuutus: vahetus});
     } else {
@@ -639,7 +654,7 @@ class Correction extends Component {
                     }<br/>
                     {this.state.vastusnahtav &&
                       <span>{this.state.tasemevastus ? this.state.vastuskood : "algus"}</span>}
-                    {this.state.kordab && this.state.paringlopetatud ? this.loadErrors() : ""};
+                    {this.state.kordab && this.state.paringlopetatud ? this.loadErrors() : ""}
              </span>
                 }
               </TabPanel>
