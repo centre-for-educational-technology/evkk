@@ -23,10 +23,22 @@ import '../styles/Query.css';
 import {
   AccordionStyle,
   addedYearOptions,
+  ageOptions,
   charactersOptions,
+  countryOptions,
+  degreeOptions,
+  domainOptions,
+  educationOptions,
+  genderOptions,
+  languageOptions,
   MenuProps,
+  nationalityOptions,
   sentencesOptions,
+  studyLevelOptions,
+  textLanguageOptions,
+  textLevelOptions,
   textTypesOptions,
+  usedMaterialsMultiOptions,
   usedMaterialsOptions,
   useStyles,
   wordsOptions
@@ -40,10 +52,10 @@ import { queryStore } from '../../store/QueryStore';
 import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
 
-function Query() {
+export default function Query() {
 
   const {t} = useTranslation();
-  const selectWidth = 290;
+  const selectWidth = 300;
   const classes = useStyles();
   const currentYear = new Date().getFullYear();
   const location = useLocation();
@@ -236,21 +248,22 @@ function Query() {
   }
 
   function simplifyDropdowns(data) {
-    let simplified = [];
-    data.forEach((entry) => {
-      let local;
+    let results = [];
+    data.forEach((e) => {
+      const entry = t(e);
+      let parsed;
       if (entry.includes('...')) {
-        local = [parseInt(entry.split('...')[0]), currentYear];
-      } else if (entry.includes('kuni')) {
-        local = [1, parseInt(entry.split('kuni ')[1])];
-      } else if (entry.includes('üle')) {
-        local = [parseInt(entry.split('üle ')[1]), 2147483647]; //java int max value
+        parsed = [parseInt(entry.split('...')[0]), currentYear];
+      } else if (entry.includes(t('query_text_data_up_to'))) {
+        parsed = [1, parseInt(entry.split(`${t('query_text_data_up_to')} `)[1])];
+      } else if (entry.includes(t('query_text_data_over'))) {
+        parsed = [parseInt(entry.split(`${t('query_text_data_over')} `)[1]), 2147483647]; //java int max value
       } else {
-        local = [parseInt(entry.split('—')[0]), parseInt(entry.split('—')[1])];
+        parsed = [parseInt(entry.split('—')[0]), parseInt(entry.split('—')[1])];
       }
-      simplified.push(local);
+      results.push(parsed);
     });
-    return simplified;
+    return results;
   }
 
   const findNestedKeys = (object, key) => key in object
@@ -341,7 +354,7 @@ function Query() {
         setUsedMultiMaterials([...usedMultiMaterials, id]);
       }
     } else {
-      let childrenArray = Array.from(Object.keys(usedMaterialsOptions[id]));
+      let childrenArray = Array.from(Object.keys(usedMaterialsMultiOptions[id]));
       let filteredUsedMaterials = usedMultiMaterials.filter(material => !childrenArray.includes(material));
       if (childrenArray.every(child => usedMultiMaterials.includes(child))) {
         setUsedMultiMaterials(filteredUsedMaterials);
@@ -363,7 +376,7 @@ function Query() {
 
   const checkUsedMaterialsHierarchyCheckboxStatus = (name) => {
     let checked = true;
-    Object.keys(usedMaterialsOptions[name]).forEach(material => {
+    Object.keys(usedMaterialsMultiOptions[name]).forEach(material => {
       if (!usedMultiMaterials.includes(material)) {
         checked = false;
       }
@@ -401,7 +414,7 @@ function Query() {
     <div>
       <Alert severity="info">{t('tools_infobox')}</Alert>
       <br/>
-      {alert && <><Alert severity="error">Vali vähemalt üks alamkorpus!</Alert><br/></>}
+      {alert && <><Alert severity="error">{t('error_query_no_subcorpus_picked')}</Alert><br/></>}
       <div className="buttonBox">
         <Button variant="contained"
                 onClick={() => {
@@ -440,7 +453,7 @@ function Query() {
           id="filters-header"
         >
           <Typography>
-            Otsingu filtrid
+            {t('query_filters')}
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -451,23 +464,23 @@ function Query() {
                 id="vorm">
             <div className="queryContainer">
               <div>
-                <b>Alamkorpus</b>
+                <b>{t('query_subcorpus')}</b>
                 <br/><br/>
                 <Checkbox
                   checked={corpusCheckboxStatus.all}
                   onChange={alterAllCorpusCheckboxes}
                 />
-                <label>kõik</label>
+                <label>{t('query_subcorpus_all')}</label>
                 <br/>
                 <Checkbox
                   id="clWmOIrLa"
                   checked={corpusCheckboxStatus.clWmOIrLa}
                   onChange={alterCorpusCheckbox}
                 />
-                <Tooltip title="Sisaldab riiklikke eksami- ja tasemetöid"
+                <Tooltip title={t('query_subcorpus_L2_proficiency_examinations_hover')}
                          followCursor>
                   <label className="corpustitle">
-                    K2 riiklikud eksamitööd
+                    {t('query_subcorpus_L2_proficiency_examinations')}
                   </label>
                 </Tooltip>
                 <br/>
@@ -476,10 +489,10 @@ function Query() {
                   checked={corpusCheckboxStatus.cFqPphvYi}
                   onChange={alterCorpusCheckbox}
                 />
-                <Tooltip title="Sisaldab eri emakeelega õpilaste eesti keele olümpiaadi esseid"
+                <Tooltip title={t('query_subcoprus_L2_olympiade_hover')}
                          followCursor>
                   <label className="corpustitle">
-                    K2 olümpiaaditööd
+                    {t('query_subcoprus_L2_olympiade')}
                   </label>
                 </Tooltip>
                 <br/>
@@ -489,10 +502,10 @@ function Query() {
                   onChange={alterCorpusCheckbox}
                 />
                 <Tooltip
-                  title="Sisaldab eksamiväliselt kirjutatud A2-, B1-, B2- ja C1-taseme tekste, mille tase on määratud kolme tunnustatud hindamise spetsialisti ühise arvamuse põhjal"
+                  title={t('query_subcorpus_L2_estonian_hover')}
                   followCursor>
                   <label className="corpustitle">
-                    K2 keeleõpe
+                    {t('query_subcorpus_L2_estonian')}
                   </label>
                 </Tooltip>
                 <br/>
@@ -501,10 +514,10 @@ function Query() {
                   checked={corpusCheckboxStatus.cYDRkpymb}
                   onChange={alterCorpusCheckbox}
                 />
-                <Tooltip title="Võrdluskorpus, sisaldab emakeelekõnelejate arvamuslugusid ajalehtedest"
+                <Tooltip title={t('query_subcorpus_L1_estonian_hover')}
                          followCursor>
                   <label className="corpustitle">
-                    K1 eesti keel
+                    {t('query_subcorpus_L1_estonian')}
                   </label>
                 </Tooltip>
                 <br/>
@@ -513,10 +526,10 @@ function Query() {
                   checked={corpusCheckboxStatus.cgSRJPKTr}
                   onChange={alterCorpusCheckbox}
                 />
-                <Tooltip title="Sisaldab põhikooli ja gümnaasiumi vene emakeelega õpilaste loomingulist laadi tekste"
+                <Tooltip title={t('query_subcorpus_L1_russian_hover')}
                          followCursor>
                   <label className="corpustitle">
-                    K1 vene keel
+                    {t('query_subcorpus_L1_russian')}
                   </label>
                 </Tooltip>
                 <br/>
@@ -526,10 +539,10 @@ function Query() {
                   onChange={alterCorpusCheckbox}
                 />
                 <Tooltip
-                  title="Sisaldab tekste eesti emakeelega õpilastelt, kes õpivad koolis vene keelt kolmanda keelena"
+                  title={t('query_subcorpus_L3_russian_hover')}
                   followCursor>
                   <label className="corpustitle">
-                    K3 vene keel
+                    {t('query_subcorpus_L3_russian')}
                   </label>
                 </Tooltip>
                 <br/>
@@ -539,27 +552,27 @@ function Query() {
                   onChange={alterCorpusCheckbox}
                 />
                 <Tooltip
-                  title="Sisaldab emakeelekõneleja ja eesti keelt teise keelena kasutava üliõpilase akadeemilise keelekasutuse näiteid (referaadid, seminaritööd, lõputööd jm)"
+                  title={t('query_subcorpus_academic_estonian_hover')}
                   followCursor>
                   <label className="corpustitle">
-                    Akadeemiline eesti keel
+                    {t('query_subcorpus_academic_estonian')}
                   </label>
                 </Tooltip>
                 <br/>
               </div>
               <div>
-                <b>Teksti andmed</b>
+                <b>{t('query_text_data')}</b>
                 <br/><br/>
                 <FormControl className={classes.formControl}
                              size="small">
-                  <InputLabel id="types-label">Liik</InputLabel>
+                  <InputLabel id="types-label">{t('query_text_data_type')}</InputLabel>
                   <Select
                     labelId="types-label"
-                    label="Liik"
+                    label={t('query_text_data_type')}
                     multiple
                     value={textTypes}
                     name="types"
-                    renderValue={(textType) => `Valitud ${textType.length} ${textType.length === 1 ? 'liik' : 'liiki'}`}
+                    renderValue={(textType) => textType.length > 1 ? t('query_text_data_type_selected_plural', {amount: textType.length}) : t('query_text_data_type_selected')}
                     disabled={getSelectedCorpusList().length === 0}
                     MenuProps={MenuProps}
                   >
@@ -575,7 +588,7 @@ function Query() {
                                         checked={textTypes.indexOf(textType) > -1}/>
                             </ListItemIcon>
                             <ListItemText id={textType}
-                                          primary={textTypesOptions[corpus][textType]}/>
+                                          primary={t(textTypesOptions[corpus][textType])}/>
                           </MenuItem>
                           : <span key={`${textType}_span`}>
                             <MenuItem key={textType}
@@ -587,7 +600,7 @@ function Query() {
                                           checked={checkTextTypeHierarchyCheckboxStatus(textType, corpus)}/>
                               </ListItemIcon>
                               <ListItemText id={textType}
-                                            primary={textType}/>
+                                            primary={t(textType)}/>
                             </MenuItem>
                             {Object.keys(textTypesOptions[corpus][textType]).map((specificTextType) => (
                               <MenuItem key={specificTextType}
@@ -600,7 +613,7 @@ function Query() {
                                             checked={textTypes.indexOf(specificTextType) > -1}/>
                                 </ListItemIcon>
                                 <ListItemText id={specificTextType}
-                                              primary={textTypesOptions[corpus][textType][specificTextType]}/>
+                                              primary={t(textTypesOptions[corpus][textType][specificTextType])}/>
                               </MenuItem>
                             ))}
                           </span>
@@ -610,53 +623,54 @@ function Query() {
                 </FormControl>
                 <br/><br/>
                 <FormControl size="small">
-                  <InputLabel id="language-label">Keel</InputLabel>
+                  <InputLabel id="language-label">{t('query_text_data_language')}</InputLabel>
                   <Select
                     sx={{minWidth: selectWidth}}
                     labelId="language-label"
                     name="language"
                     value={singlePropertyData.language}
-                    label="Keel"
+                    label={t('query_text_data_language')}
                     onClick={(e) => alterSinglePropertyData(e, 'language')}
                   >
-                    <MenuItem value="eesti">eesti</MenuItem>
-                    <MenuItem value="vene">vene</MenuItem>
+                    {Object.keys(textLanguageOptions).map((lang) => (
+                      <MenuItem key={lang} value={lang}>{t(textLanguageOptions[lang])}</MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
                 <br/><br/>
                 {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
                   ? <>
                     <FormControl size="small">
-                      <InputLabel id="domain-label">Valdkond</InputLabel>
+                      <InputLabel id="domain-label">{t('query_text_data_field_of_research')}</InputLabel>
                       <Select
                         sx={{minWidth: selectWidth}}
                         labelId="domain-label"
                         name="domain"
                         value={singlePropertyData.domain}
-                        label="Valdkond"
+                        label={t('query_text_data_field_of_research')}
                         onClick={(e) => alterSinglePropertyData(e, 'domain')}
                       >
-                        <MenuItem value="biojakeskkonnateadused">Bio- ja keskkonnateadused</MenuItem>
-                        <MenuItem value="yhiskondjakultuur">Ühiskonnateadused ja kultuur</MenuItem>
-                        <MenuItem value="terviseuuringud">Terviseuuringud</MenuItem>
-                        <MenuItem value="loodustehnika">Loodusteadused ja tehnika</MenuItem>
+                        {Object.keys(domainOptions).map((domain) => (
+                          <MenuItem key={domain} value={domain}>{t(domainOptions[domain])}</MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                     <br/><br/>
                     <FormControl className={classes.formControl}
                                  size="small">
-                      <InputLabel id="usedMultiMaterials-label">Kasutatud õppe- või abimaterjale</InputLabel>
+                      <InputLabel
+                        id="usedMultiMaterials-label">{t('query_text_data_used_study_or_supporting_materials')}</InputLabel>
                       <Select
                         labelId="usedMultiMaterials-label"
-                        label="Kasutatud õppe- või abimaterjale"
+                        label={t('query_text_data_used_study_or_supporting_materials')}
                         multiple
                         value={usedMultiMaterials}
                         name="usedMultiMaterials"
-                        renderValue={(material) => `Valitud ${material.length} ${material.length === 1 ? 'materjal' : 'materjali'}`}
+                        renderValue={(material) => material.length > 1 ? t('query_text_data_material_selected_plural', {amount: material.length}) : t('query_text_data_material_selected')}
                         MenuProps={MenuProps}
                       >
-                        {Object.keys(usedMaterialsOptions).map((material) => (
-                          typeof usedMaterialsOptions[material] === 'string'
+                        {Object.keys(usedMaterialsMultiOptions).map((material) => (
+                          typeof usedMaterialsMultiOptions[material] === 'string'
                             ? <MenuItem key={material}
                                         id={material}
                                         onClick={(e) => alterUsedMaterialsHierarchyDropdown(e, true)}
@@ -666,7 +680,7 @@ function Query() {
                                           checked={usedMultiMaterials.indexOf(material) > -1}/>
                               </ListItemIcon>
                               <ListItemText id={material}
-                                            primary={usedMaterialsOptions[material]}/>
+                                            primary={t(usedMaterialsMultiOptions[material])}/>
                             </MenuItem>
                             : <span key={`${material}_span`}>
                                 <MenuItem key={material}
@@ -678,9 +692,9 @@ function Query() {
                                               checked={checkUsedMaterialsHierarchyCheckboxStatus(material)}/>
                                   </ListItemIcon>
                                   <ListItemText id={material}
-                                                primary={material}/>
+                                                primary={t(material)}/>
                                 </MenuItem>
-                              {Object.keys(usedMaterialsOptions[material]).map((subMaterial) => (
+                              {Object.keys(usedMaterialsMultiOptions[material]).map((subMaterial) => (
                                 <MenuItem key={subMaterial}
                                           id={subMaterial}
                                           onClick={(e) => alterUsedMaterialsHierarchyDropdown(e, true)}
@@ -691,7 +705,7 @@ function Query() {
                                               checked={usedMultiMaterials.indexOf(subMaterial) > -1}/>
                                   </ListItemIcon>
                                   <ListItemText id={subMaterial}
-                                                primary={usedMaterialsOptions[material][subMaterial]}/>
+                                                primary={t(usedMaterialsMultiOptions[material][subMaterial])}/>
                                 </MenuItem>
                               ))}
                               </span>
@@ -701,39 +715,34 @@ function Query() {
                   </>
                   : <>
                     <FormControl size="small">
-                      <InputLabel id="level-label">Tase</InputLabel>
+                      <InputLabel id="level-label">{t('query_text_data_level')}</InputLabel>
                       <Select
                         sx={{minWidth: selectWidth}}
                         labelId="level-label"
                         name="level"
                         value={singlePropertyData.level}
-                        label="Tase"
+                        label={t('query_text_data_level')}
                         onClick={(e) => alterSinglePropertyData(e, 'level')}
                       >
-                        <MenuItem value="A">A</MenuItem>
-                        <MenuItem value="B">B</MenuItem>
-                        <MenuItem value="C">C</MenuItem>
-                        <MenuItem value="A1">A1</MenuItem>
-                        <MenuItem value="A2">A2</MenuItem>
-                        <MenuItem value="B1">B1</MenuItem>
-                        <MenuItem value="B2">B2</MenuItem>
-                        <MenuItem value="C1">C1</MenuItem>
-                        <MenuItem value="C2">C2</MenuItem>
+                        {textLevelOptions.map((level) => (
+                          <MenuItem key={level} value={level}>{level}</MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                     <br/><br/>
                     <FormControl size="small">
-                      <InputLabel id="usedMaterials-label">Kasutatud õppematerjale</InputLabel>
+                      <InputLabel id="usedMaterials-label">{t('query_text_data_used_supporting_materials')}</InputLabel>
                       <Select
                         sx={{minWidth: selectWidth}}
                         labelId="usedMaterials-label"
                         name="usedMaterials"
                         value={singlePropertyData.usedMaterials}
-                        label="Kasutatud õppematerjale"
+                        label={t('query_text_data_used_supporting_materials')}
                         onClick={(e) => alterSinglePropertyData(e, 'usedMaterials')}
                       >
-                        <MenuItem value="jah">jah</MenuItem>
-                        <MenuItem value="ei">ei</MenuItem>
+                        {Object.keys(usedMaterialsOptions).map((material) => (
+                          <MenuItem key={material} value={material}>{t(usedMaterialsOptions[material])}</MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   </>
@@ -741,10 +750,10 @@ function Query() {
                 <br/><br/>
                 <FormControl className={classes.formControl}
                              size="small">
-                  <InputLabel id="addedYears-label">Lisamise aasta</InputLabel>
+                  <InputLabel id="addedYears-label">{t('query_text_data_year_of_publication')}</InputLabel>
                   <Select
                     labelId="addedYears-label"
-                    label="Lisamise aasta"
+                    label={t('query_text_data_year_of_publication')}
                     multiple
                     value={addedYears}
                     name="addedYears"
@@ -754,9 +763,9 @@ function Query() {
                   >
                     {addedYearOptions.map((year) => (
                       <MenuItem key={year}
-                                value={year}>
+                                value={t(year)}>
                         <ListItemIcon>
-                          <Checkbox checked={addedYears.indexOf(year) > -1}/>
+                          <Checkbox checked={addedYears.indexOf(t(year)) > -1}/>
                         </ListItemIcon>
                         <ListItemText primary={year}/>
                       </MenuItem>
@@ -766,10 +775,10 @@ function Query() {
                 <br/><br/>
                 <FormControl className={classes.formControl}
                              size="small">
-                  <InputLabel id="characters-label">Tähemärke</InputLabel>
+                  <InputLabel id="characters-label">{t('query_text_data_characters')}</InputLabel>
                   <Select
                     labelId="characters-label"
-                    label="Tähemärke"
+                    label={t('query_text_data_characters')}
                     multiple
                     value={characters}
                     name="characters"
@@ -779,11 +788,11 @@ function Query() {
                   >
                     {charactersOptions.map((item) => (
                       <MenuItem key={item}
-                                value={item}>
+                                value={t(item)}>
                         <ListItemIcon>
-                          <Checkbox checked={characters.indexOf(item) > -1}/>
+                          <Checkbox checked={characters.indexOf(t(item)) > -1}/>
                         </ListItemIcon>
-                        <ListItemText primary={item}/>
+                        <ListItemText primary={t(item)}/>
                       </MenuItem>
                     ))}
                   </Select>
@@ -791,10 +800,10 @@ function Query() {
                 <br/><br/>
                 <FormControl className={classes.formControl}
                              size="small">
-                  <InputLabel id="words-label">Sõnu</InputLabel>
+                  <InputLabel id="words-label">{t('common_words')}</InputLabel>
                   <Select
                     labelId="words-label"
-                    label="Sõnu"
+                    label={t('common_words')}
                     multiple
                     value={words}
                     name="words"
@@ -804,11 +813,11 @@ function Query() {
                   >
                     {wordsOptions.map((item) => (
                       <MenuItem key={item}
-                                value={item}>
+                                value={t(item)}>
                         <ListItemIcon>
-                          <Checkbox checked={words.indexOf(item) > -1}/>
+                          <Checkbox checked={words.indexOf(t(item)) > -1}/>
                         </ListItemIcon>
-                        <ListItemText primary={item}/>
+                        <ListItemText primary={t(item)}/>
                       </MenuItem>
                     ))}
                   </Select>
@@ -816,10 +825,10 @@ function Query() {
                 <br/><br/>
                 <FormControl className={classes.formControl}
                              size="small">
-                  <InputLabel id="sentences-label">Lauseid</InputLabel>
+                  <InputLabel id="sentences-label">{t('common_sentences')}</InputLabel>
                   <Select
                     labelId="sentences-label"
-                    label="Lauseid"
+                    label={t('common_sentences')}
                     multiple
                     value={sentences}
                     name="sentences"
@@ -829,173 +838,130 @@ function Query() {
                   >
                     {sentencesOptions.map((item) => (
                       <MenuItem key={item}
-                                value={item}>
+                                value={t(item)}>
                         <ListItemIcon>
-                          <Checkbox checked={sentences.indexOf(item) > -1}/>
+                          <Checkbox checked={sentences.indexOf(t(item)) > -1}/>
                         </ListItemIcon>
-                        <ListItemText primary={item}/>
+                        <ListItemText primary={t(item)}/>
                       </MenuItem>
                     ))}
                   </Select>
                 </FormControl>
               </div>
               <div>
-                <b>Autori andmed</b>
+                <b>{t('query_common_author_data')}</b>
                 <br/><br/>
                 <FormControl size="small">
-                  <InputLabel id="age-label">Vanus</InputLabel>
+                  <InputLabel id="age-label">{t('query_author_data_age')}</InputLabel>
                   <Select
                     sx={{minWidth: selectWidth}}
                     labelId="age-label"
                     name="age"
                     value={singlePropertyData.age}
-                    label="Vanus"
+                    label={t('query_author_data_age')}
                     onClick={(e) => alterSinglePropertyData(e, 'age')}
                   >
-                    <MenuItem value="kuni18">- 18</MenuItem>
-                    <MenuItem value="kuni26">18 - 26</MenuItem>
-                    <MenuItem value="kuni40">27 - 40</MenuItem>
-                    <MenuItem value="41plus">41 +</MenuItem>
+                    {Object.keys(ageOptions).map((age) => (
+                      <MenuItem key={age} value={age}>{t(ageOptions[age])}</MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
                 <br/><br/>
                 <FormControl size="small">
-                  <InputLabel id="gender-label">Sugu</InputLabel>
+                  <InputLabel id="gender-label">{t('query_author_data_gender')}</InputLabel>
                   <Select
                     sx={{minWidth: selectWidth}}
                     labelId="gender-label"
                     name="gender"
                     value={singlePropertyData.gender}
-                    label="Sugu"
+                    label={t('query_author_data_gender')}
                     onClick={(e) => alterSinglePropertyData(e, 'gender')}
                   >
-                    <MenuItem value="mees">mees</MenuItem>
-                    <MenuItem value="naine">naine</MenuItem>
+                    {Object.keys(genderOptions).map((gender) => (
+                      <MenuItem key={gender} value={gender}>{t(genderOptions[gender])}</MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
                 <br/><br/>
                 {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
                   ? <>
                     <FormControl size="small">
-                      <InputLabel id="studyLevel-label">Õppeaste</InputLabel>
+                      <InputLabel id="studyLevel-label">{t('query_author_data_level_of_study')}</InputLabel>
                       <Select
                         sx={{minWidth: selectWidth}}
                         labelId="studyLevel-label"
                         name="studyLevel"
                         value={singlePropertyData.studyLevel}
-                        label="Õppeaste"
+                        label={t('query_author_data_level_of_study')}
                         onClick={(e) => alterSinglePropertyData(e, 'studyLevel')}
                       >
-                        <MenuItem value="bakalaureuseope">Bakalaureuseõpe</MenuItem>
-                        <MenuItem value="magistriope">Magistriõpe</MenuItem>
-                        <MenuItem value="doktoriope">Doktoriõpe</MenuItem>
+                        {Object.keys(studyLevelOptions).map((level) => (
+                          <MenuItem key={level} value={level}>{t(studyLevelOptions[level])}</MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                     <br/><br/>
                     <FormControl size="small">
-                      <InputLabel id="degree-label">Teaduskraad</InputLabel>
+                      <InputLabel id="degree-label">{t('query_author_data_degree')}</InputLabel>
                       <Select
                         sx={{minWidth: selectWidth}}
                         labelId="degree-label"
                         name="degree"
                         value={singlePropertyData.degree}
-                        label="Teaduskraad"
+                        label={t('query_author_data_degree')}
                         onClick={(e) => alterSinglePropertyData(e, 'degree')}
                       >
-                        <MenuItem value="ba">Bakalaureusekraad</MenuItem>
-                        <MenuItem value="ma">Magistrikraad</MenuItem>
-                        <MenuItem value="phd">Doktorikraad</MenuItem>
+                        {Object.keys(degreeOptions).map((degree) => (
+                          <MenuItem key={degree} value={degree}>{t(degreeOptions[degree])}</MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   </>
                   : <FormControl size="small">
-                    <InputLabel id="education-label">Haridus</InputLabel>
+                    <InputLabel id="education-label">{t('query_author_data_education')}</InputLabel>
                     <Select
                       sx={{minWidth: selectWidth}}
                       labelId="education-label"
                       name="education"
                       value={singlePropertyData.education}
-                      label="Haridus"
+                      label={t('query_author_data_education')}
                       onClick={(e) => alterSinglePropertyData(e, 'education')}
                     >
-                      <MenuItem value="Alg-/põhiharidus,alg,pohi">algharidus/põhiharidus</MenuItem>
-                      <MenuItem value="Keskharidus,kesk">keskharidus</MenuItem>
-                      <MenuItem value="Keskeriharidus/kutseharidus,keskeri,kutse">keskeriharidus/kutseharidus</MenuItem>
-                      <MenuItem value="Kõrgharidus,korg">kõrgharidus</MenuItem>
+                      {Object.keys(educationOptions).map((education) => (
+                        <MenuItem key={education} value={education}>{t(educationOptions[education])}</MenuItem>
+                      ))}
                     </Select>
                   </FormControl>}
                 <br/><br/>
                 {checkIfOnlySpecificCorpusIsChecked('clWmOIrLa')
                   ? <FormControl size="small">
-                    <InputLabel id="nationality-label">Kodakondsus</InputLabel>
+                    <InputLabel id="nationality-label">{t('query_author_data_nationality')}</InputLabel>
                     <Select
                       sx={{minWidth: selectWidth}}
                       labelId="nationality-label"
                       name="nationality"
                       value={singlePropertyData.nationality}
-                      label="Kodakondsus"
+                      label={t('query_author_data_nationality')}
                       onClick={(e) => alterSinglePropertyData(e, 'nationality')}
                     >
-                      <MenuItem value="Eesti">Eesti</MenuItem>
-                      <MenuItem value="Ameerika Ühendriigid">Ameerika Ühendriigid</MenuItem>
-                      <MenuItem value="Brasiilia">Brasiilia</MenuItem>
-                      <MenuItem value="Bulgaaria">Bulgaaria</MenuItem>
-                      <MenuItem value="Egiptus">Egiptus</MenuItem>
-                      <MenuItem value="Filipiinid">Filipiinid</MenuItem>
-                      <MenuItem value="Hiina">Hiina</MenuItem>
-                      <MenuItem value="Hispaania">Hispaania</MenuItem>
-                      <MenuItem value="Holland">Holland</MenuItem>
-                      <MenuItem value="Iirimaa">Iirimaa</MenuItem>
-                      <MenuItem value="India">India</MenuItem>
-                      <MenuItem value="Kreeka">Kreeka</MenuItem>
-                      <MenuItem value="Leedu">Leedu</MenuItem>
-                      <MenuItem value="Läti">Läti</MenuItem>
-                      <MenuItem value="Makedoonia">Makedoonia</MenuItem>
-                      <MenuItem value="Määramata">Määramata</MenuItem>
-                      <MenuItem value="Poola">Poola</MenuItem>
-                      <MenuItem value="Prantsusmaa">Prantsusmaa</MenuItem>
-                      <MenuItem value="Rumeenia">Rumeenia</MenuItem>
-                      <MenuItem value="Saksamaa">Saksamaa</MenuItem>
-                      <MenuItem value="Soome">Soome</MenuItem>
-                      <MenuItem value="Suurbritannia">Suurbritannia</MenuItem>
-                      <MenuItem value="Türgi">Türgi</MenuItem>
-                      <MenuItem value="Ukraina">Ukraina</MenuItem>
-                      <MenuItem value="Valgevene">Valgevene</MenuItem>
-                      <MenuItem value="Venemaa">Venemaa</MenuItem>
-                      <MenuItem value="Venezuela">Venezuela</MenuItem>
+                      {Object.keys(nationalityOptions).map((nationality) => (
+                        <MenuItem key={nationality} value={nationality}>{t(nationalityOptions[nationality])}</MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                   : <FormControl size="small">
-                    <InputLabel id="nativeLang-label">Emakeel</InputLabel>
+                    <InputLabel id="nativeLang-label">{t('query_author_data_native_language')}</InputLabel>
                     <Select
                       sx={{minWidth: selectWidth}}
                       labelId="nativeLang-label"
                       name="nativeLang"
                       value={singlePropertyData.nativeLang}
-                      label="Emakeel"
+                      label={t('query_author_data_native_language')}
                       onClick={(e) => alterSinglePropertyData(e, 'nativeLang')}
                     >
-                      <MenuItem value="eesti">eesti</MenuItem>
-                      <MenuItem value="vene">vene</MenuItem>
-                      <MenuItem value="soome">soome</MenuItem>
-                      <MenuItem value="saksa">saksa</MenuItem>
-                      <MenuItem value="ukraina">ukraina</MenuItem>
-                      <MenuItem value="valgevene">valgevene</MenuItem>
-                      <MenuItem value="lati">läti</MenuItem>
-                      <MenuItem value="leedu">leedu</MenuItem>
-                      <MenuItem value="rootsi">rootsi</MenuItem>
-                      <MenuItem value="inglise">inglise</MenuItem>
-                      <MenuItem value="jidis">jidiš</MenuItem>
-                      <MenuItem value="itaalia">itaalia</MenuItem>
-                      <MenuItem value="jaapani">jaapani</MenuItem>
-                      <MenuItem value="poola">poola</MenuItem>
-                      <MenuItem value="hollandi">hollandi</MenuItem>
-                      <MenuItem value="sloveenia">sloveenia</MenuItem>
-                      <MenuItem value="heebrea">heebrea</MenuItem>
-                      <MenuItem value="prantsuse">prantsuse</MenuItem>
-                      <MenuItem value="katalaani">katalaani</MenuItem>
-                      <MenuItem value="ungari">ungari</MenuItem>
-                      <MenuItem value="tsehhi">tšehhi</MenuItem>
+                      {Object.keys(languageOptions).map((lang) => (
+                        <MenuItem key={lang} value={lang}>{t(languageOptions[lang])}</MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 }
@@ -1003,69 +969,47 @@ function Query() {
                 {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
                   ? <>
                     <FormControl size="small">
-                      <InputLabel id="otherLang-label">Muu õppe-, töö- või suhtluskeel</InputLabel>
+                      <InputLabel id="otherLang-label">{t('query_author_data_other_languages')}</InputLabel>
                       <Select
                         sx={{minWidth: selectWidth}}
                         labelId="otherLang-label"
                         name="otherLang"
                         value={singlePropertyData.otherLang}
-                        label="Muu õppe-, töö- või suhtluskeel"
+                        label={t('query_author_data_other_languages')}
                         onClick={(e) => alterSinglePropertyData(e, 'otherLang')}
                       >
-                        <MenuItem value="eesti">eesti</MenuItem>
-                        <MenuItem value="vene">vene</MenuItem>
-                        <MenuItem value="soome">soome</MenuItem>
-                        <MenuItem value="saksa">saksa</MenuItem>
-                        <MenuItem value="ukraina">ukraina</MenuItem>
-                        <MenuItem value="valgevene">valgevene</MenuItem>
-                        <MenuItem value="lati">läti</MenuItem>
-                        <MenuItem value="leedu">leedu</MenuItem>
-                        <MenuItem value="rootsi">rootsi</MenuItem>
-                        <MenuItem value="inglise">inglise</MenuItem>
-                        <MenuItem value="jidis">jidiš</MenuItem>
-                        <MenuItem value="itaalia">itaalia</MenuItem>
-                        <MenuItem value="jaapani">jaapani</MenuItem>
-                        <MenuItem value="poola">poola</MenuItem>
-                        <MenuItem value="hollandi">hollandi</MenuItem>
-                        <MenuItem value="sloveenia">sloveenia</MenuItem>
-                        <MenuItem value="heebrea">heebrea</MenuItem>
-                        <MenuItem value="prantsuse">prantsuse</MenuItem>
-                        <MenuItem value="katalaani">katalaani</MenuItem>
-                        <MenuItem value="ungari">ungari</MenuItem>
-                        <MenuItem value="tsehhi">tšehhi</MenuItem>
+                        {Object.keys(languageOptions).map((lang) => (
+                          <MenuItem key={lang} value={lang}>{t(languageOptions[lang])}</MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                     <br/><br/>
                   </>
                   : <></>}
                 <FormControl size="small">
-                  <InputLabel id="country-label">Elukohariik</InputLabel>
+                  <InputLabel id="country-label">{t('query_author_data_country')}</InputLabel>
                   <Select
                     sx={{minWidth: selectWidth}}
                     labelId="country-label"
                     name="country"
                     value={singlePropertyData.country}
-                    label="Elukohariik"
+                    label={t('query_author_data_country')}
                     onClick={(e) => alterSinglePropertyData(e, 'country')}
                   >
-                    <MenuItem value="eesti">Eesti</MenuItem>
-                    <MenuItem value="soome">Soome</MenuItem>
-                    <MenuItem value="rootsi">Rootsi</MenuItem>
-                    <MenuItem value="venemaa">Venemaa</MenuItem>
-                    <MenuItem value="lati">Läti</MenuItem>
-                    <MenuItem value="leedu">Leedu</MenuItem>
-                    <MenuItem value="saksamaa">Saksamaa</MenuItem>
+                    {Object.keys(countryOptions).map((country) => (
+                      <MenuItem key={country} value={country}>{t(countryOptions[country])}</MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </div>
             </div>
             <br/><br/>
             <Button onClick={submitted}
-                    variant="contained">Saada päring</Button>
+                    variant="contained">{t('send_request_button')}</Button>
           </form>
         </AccordionDetails>
       </Accordion>
-        {noResultsError && <div><br/><Alert severity="error">Ei leitud ühtegi teksti!</Alert><br/></div>}
+        {noResultsError && <div><br/><Alert severity="error">{t('query_results_no_texts_found')}</Alert><br/></div>}
         <QueryResults key={resultsKey}
                       data={results}/>
         </span>
@@ -1110,5 +1054,3 @@ function Query() {
     </div>
   );
 }
-
-export default Query;

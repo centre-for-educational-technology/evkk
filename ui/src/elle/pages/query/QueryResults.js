@@ -22,7 +22,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { queryStore } from '../../store/QueryStore';
 import { loadFetch } from '../../service/LoadFetch';
 
-function QueryResults(props) {
+export default function QueryResults(props) {
 
   const response = props.data;
   const [modalOpen, setModalOpen] = useState(false);
@@ -406,5 +406,3 @@ function QueryResults(props) {
     </Accordion>
   );
 }
-
-export default QueryResults;
