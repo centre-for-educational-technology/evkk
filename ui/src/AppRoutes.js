@@ -18,13 +18,16 @@ import Adding from './elle/pages/Adding.component';
 import Wordlist from './elle/tools/wordlist/Wordlist';
 import WordContext from './elle/tools/wordcontext/WordContext';
 import Collocates from './elle/tools/collocates/Collocates';
+import { withTranslation } from 'react-i18next';
 
 class AppRoutes extends Component {
 
   render404 = () => {
+    const {t} = this.props;
+
     return (
       <div className={'text-center pb-4'}>
-        <p className={'lead'}>404: lehte ei leitud</p>
+        <p className={'lead'}>{t('error_404_page_not_found')}</p>
       </div>
     );
   };
@@ -93,4 +96,4 @@ class AppRoutes extends Component {
   }
 }
 
-export default AppRoutes;
+export default withTranslation()(AppRoutes);

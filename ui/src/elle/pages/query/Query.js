@@ -561,7 +561,7 @@ export default function Query() {
                 <br/>
               </div>
               <div>
-                <b>{t('query_text_data')}</b>
+                <b>{t('query_common_text_data')}</b>
                 <br/><br/>
                 <FormControl className={classes.formControl}
                              size="small">

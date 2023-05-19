@@ -15,15 +15,28 @@ import { usePagination, useTable } from 'react-table';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CloseIcon from '@mui/icons-material/Close';
 import '../styles/QueryResults.css';
-import { AccordionStyle, ages, corpuses, educations, genders, locations, textTypes } from '../../utils/constants';
+import {
+  AccordionStyle,
+  ageOptions,
+  corpuses,
+  countryOptions,
+  educationOptions,
+  genderOptions,
+  languageOptions,
+  textLanguageOptions,
+  textTypes,
+  usedMaterialsOptions
+} from '../../utils/constants';
 import TablePagination from '../../components/table/TablePagination';
 import QueryDownloadButton from './QueryDownloadButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { queryStore } from '../../store/QueryStore';
 import { loadFetch } from '../../service/LoadFetch';
+import { useTranslation } from 'react-i18next';
 
 export default function QueryResults(props) {
 
+  const {t} = useTranslation();
   const response = props.data;
   const [modalOpen, setModalOpen] = useState(false);
   const [modalAccordionExpanded, setModalAccordionExpanded] = useState(false);
@@ -32,7 +45,7 @@ export default function QueryResults(props) {
   const [isLoadingSelectAllTexts, setIsLoadingSelectAllTexts] = useState(false);
   const checkboxStatuses = useRef(new Set());
   const [update, forceUpdate] = useReducer(x => x + 1, 0);
-
+  const data = useMemo(() => response, [response]);
   let paragraphCount = 0;
 
   const [metadata, setMetadata] = useState({
@@ -49,8 +62,6 @@ export default function QueryResults(props) {
     emakeel: '',
     elukohariik: ''
   });
-
-  const basicMetadataFields = ['title', 'tekstikeel', 'keeletase', 'abivahendid', 'aasta', 'emakeel'];
 
   const columns = useMemo(() => [
       {
@@ -75,11 +86,6 @@ export default function QueryResults(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
-
-  const data = useMemo(() => response, [response]);
-  const allTextIds = data.map(item => {
-    return item.text_id;
-  });
 
   const {
     getTableProps,
@@ -113,6 +119,10 @@ export default function QueryResults(props) {
     overflow: 'auto'
   };
 
+  const allTextIds = data.map(item => {
+    return item.text_id;
+  });
+
   const changeModalAccordion = () => {
     setModalAccordionExpanded(!modalAccordionExpanded);
   };
@@ -140,54 +150,10 @@ export default function QueryResults(props) {
       .then(res => res.json())
       .then((result) => {
         result.forEach(param => {
-          if (basicMetadataFields.includes(param.property_name)) {
-            setIndividualMetadata(param.property_name, param.property_value);
-          }
-          if (param.property_name === 'korpus') {
-            setIndividualMetadata('korpus', corpuses[param.property_value]);
-          }
-          if (param.property_name === 'tekstityyp') {
-            if (textTypes[param.property_value] !== undefined) {
-              setIndividualMetadata('tekstityyp', textTypes[param.property_value]);
-            }
-          }
-          if (param.property_name === 'vanus') {
-            if (ages[param.property_value] !== undefined) {
-              setIndividualMetadata('vanus', ages[param.property_value]);
-            } else {
-              if (param.property_value <= 18) {
-                setIndividualMetadata('vanus', ages['kuni18']);
-              } else if (param.property_value > 18 && param.property_value < 27) {
-                setIndividualMetadata('vanus', ages['kuni26']);
-              } else if (param.property_value > 26 && param.property_value < 41) {
-                setIndividualMetadata('vanus', ages['kuni40']);
-              } else if (param.property_value > 40) {
-                setIndividualMetadata('vanus', ages['41plus']);
-              }
-            }
-          }
-          if (param.property_name === 'sugu') {
-            setIndividualMetadata('sugu', genders[param.property_value]);
-          }
-          if (param.property_name === 'haridus') {
-            setIndividualMetadata('haridus', educations[param.property_value]);
-          }
-          if (param.property_name === 'elukoht') {
-            if ('riik' in result) {
-              const countryPropertyValue = result['riik'].property_value;
-              const startingLetter = countryPropertyValue.charAt(0).toUpperCase();
-              setIndividualMetadata('elukohariik', startingLetter + countryPropertyValue.slice(1));
-            } else {
-              if (locations.includes(param.property_value)) {
-                setIndividualMetadata('elukohariik', 'Eesti');
-              } else {
-                const startingLetter = param.property_value.charAt(0).toUpperCase();
-                setIndividualMetadata('elukohariik', startingLetter + param.property_value.slice(1));
-              }
-            }
-          }
+          setIndividualMetadata(param.property_name, param.property_value);
         });
       });
+
     loadFetch('/api/texts/kysitekst?id=' + id, {
       method: 'GET',
       headers: {
@@ -198,12 +164,6 @@ export default function QueryResults(props) {
       .then((result) => {
         setText(result);
       });
-
-    Object.entries(metadata).forEach((entry) => {
-      if (entry[1] === '') {
-        setIndividualMetadata(entry[0], '-');
-      }
-    });
 
     setModalOpen(true);
   }
@@ -270,11 +230,11 @@ export default function QueryResults(props) {
       <AccordionSummary expandIcon={<ExpandMoreIcon/>}
                         id="results-header">
         <Typography>
-          Otsingu tulemused
+          {t('query_results_accordion_title')}
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
-        {response.length > 0 ? <h4><strong>Leitud tekste:</strong> {response.length}</h4> : <></>}
+        {response.length > 0 ? <h4><strong>{t('query_results_found_texts')}</strong> {response.length}</h4> : <></>}
         {response.length > 0 &&
           <>
             <LoadingButton variant="outlined"
@@ -285,12 +245,12 @@ export default function QueryResults(props) {
                            disabled={isLoadingSelectAllTexts}
                            className="selectAllButton"
                            onClick={() => setIsLoadingSelectAllTexts(true)}>
-              {allTextsSelected() ? 'Eemalda kõik' : 'Vali kõik'}
+              {allTextsSelected() ? t('query_results_unselect_all') : t('query_results_select_all')}
             </LoadingButton>
             <Button variant="contained"
                     disabled={checkboxStatuses.current.size === 0}
                     onClick={saveTexts}
-                    className="saveTextsButton">Salvesta tekstid analüüsiks</Button>
+                    className="saveTextsButton">{t('query_results_save_texts_for_analysis')}</Button>
             <QueryDownloadButton selected={checkboxStatuses.current}/>
             <table className="resultTable"
                    {...getTableProps()}>
@@ -370,24 +330,24 @@ export default function QueryResults(props) {
                   id="filters-header"
                 >
                   <Typography>
-                    Teksti metainfo
+                    {t('query_results_preview_metadata_modal_title')}
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <div className="metainfoSubtitle">Teksti andmed</div>
-                  <strong>Alamkorpus:</strong> {metadata.korpus}<br/>
-                  <strong>Liik:</strong> {metadata.tekstityyp}<br/>
-                  <strong>Keel:</strong> {metadata.tekstikeel}<br/>
-                  <strong>Tase:</strong> {metadata.keeletase}<br/>
-                  <strong>Kasutatud õppematerjale:</strong> {metadata.abivahendid}<br/>
-                  <strong>Lisamise aasta:</strong> {metadata.aasta}<br/>
+                  <div className="metainfoSubtitle">{t('query_common_text_data')}</div>
+                  <strong>{t('query_subcorpus')}:</strong> {t(corpuses[metadata.korpus]) || '-'}<br/>
+                  <strong>{t('query_text_data_type')}:</strong> {t(textTypes[metadata.tekstityyp]) || '-'}<br/>
+                  <strong>{t('query_text_data_language')}:</strong> {t(textLanguageOptions[metadata.tekstikeel]) || '-'}<br/>
+                  <strong>{t('query_text_data_level')}:</strong> {metadata.keeletase || '-'}<br/>
+                  <strong>{t('query_text_data_used_supporting_materials')}:</strong> {t(usedMaterialsOptions[metadata.abivahendid]) || '-'}<br/>
+                  <strong>{t('query_text_data_year_of_publication')}:</strong> {metadata.aasta || '-'}<br/>
                   <br/>
-                  <div className="metainfoSubtitle">Autori andmed</div>
-                  <strong>Vanus:</strong> {metadata.vanus}<br/>
-                  <strong>Sugu:</strong> {metadata.sugu}<br/>
-                  <strong>Haridus:</strong> {metadata.haridus}<br/>
-                  <strong>Emakeel:</strong> {metadata.emakeel}<br/>
-                  <strong>Elukohariik:</strong> {metadata.elukohariik}<br/>
+                  <div className="metainfoSubtitle">{t('query_common_author_data')}</div>
+                  <strong>{t('query_author_data_age')}:</strong> {t(ageOptions[metadata.vanus]) || '-'}<br/>
+                  <strong>{t('query_author_data_gender')}:</strong> {t(genderOptions[metadata.sugu]) || '-'}<br/>
+                  <strong>{t('query_author_data_education')}:</strong> {t(educationOptions[metadata.haridus]) || '-'}<br/>
+                  <strong>{t('query_author_data_native_language')}:</strong> {t(languageOptions[metadata.emakeel]) || '-'}<br/>
+                  <strong>{t('query_author_data_country')}:</strong> {t(countryOptions[metadata.elukohariik]) || '-'}<br/>
                 </AccordionDetails>
               </Accordion>
               <br/>

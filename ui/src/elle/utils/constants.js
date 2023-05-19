@@ -1,5 +1,4 @@
 import { makeStyles } from '@mui/styles';
-import React from 'react';
 
 export const useStyles = makeStyles((_theme) => ({
   formControl: {
@@ -95,58 +94,58 @@ export const textLevelOptions = [
 ];
 
 export const corpuses = {
-  'cFqPphvYi': 'K2 olümpiaaditööd',
-  'clWmOIrLa': 'K2 riiklikud eksamitööd',
-  'cFOoRQekA': 'K2 keeleõpe',
-  'cYDRkpymb': 'K1 eesti keel',
-  'cgSRJPKTr': 'K1 vene keel',
-  'cZjHWUPtD': 'K3 vene keel',
-  'cwUSEqQLt': 'Akadeemiline eesti keel'
+  'cFqPphvYi': 'query_subcoprus_L2_olympiade',
+  'clWmOIrLa': 'query_subcorpus_L2_proficiency_examinations',
+  'cFOoRQekA': 'query_subcorpus_L2_estonian',
+  'cYDRkpymb': 'query_subcorpus_L1_estonian',
+  'cgSRJPKTr': 'query_subcorpus_L1_russian',
+  'cZjHWUPtD': 'query_subcorpus_L3_russian',
+  'cwUSEqQLt': 'query_subcorpus_academic_estonian'
 };
 
 export const textTypes = {
-  'k2eesti_riiklik_eksamitoo': 'K2 riiklik eksamitöö',
-  'k2eesti_ol_loovkirjutis': 'K2 OT loovkirjutis',
-  'k2eesti_kiri_isiklik': 'K2 kiri: isiklik',
-  'k2eesti_kiri_poolametlik': 'K2 kiri: (pool)ametlik',
-  'k2eesti_loovkirjutis': 'K2 loovkirjutis',
-  'k2eesti_harjutus_dialoog': 'K2 harjutus: dialoog',
-  'k2eesti_harjutus_etteutlus': 'K2 harjutus: etteütlus',
-  'k2eesti_harjutus_juhend': 'K2 harjutus: juhend',
-  'k2eesti_harjutus_kirjeldus': 'K2 harjutus: kirjeldus',
-  'k2eesti_harjutus_kuulutus': 'K2 harjutus: kuulutus',
-  'k2eesti_harjutus_kone': 'K2 harjutus: kõne',
-  'k2eesti_harjutus_laused': 'K2 harjutus: laused',
-  'k2eesti_harjutus_leping': 'K2 harjutus: leping',
-  'k2eesti_harjutus_lunktekst': 'K2 harjutus: lünktekst',
-  'k2eesti_harjutus_menuu': 'K2 harjutus: menüü',
-  'k2eesti_harjutus_reklaam': 'K2 harjutus: reklaam',
-  'k2eesti_harjutus_retsept': 'K2 harjutus: retsept',
-  'k2eesti_harjutus_teejuht': 'K2 harjutus: teejuht',
-  'k2eesti_harjutus_vastused': 'K2 harjutus: vastused küsimustele',
-  'k2eesti_harjutus_umberjutustus': 'K2 harjutus: ümberjutustus',
-  'k2eesti_eksamitoo': 'K2 eksamitöö',
-  'k2eesti_kontrolltoo_test': 'K2 kontrolltöö/test',
-  'k2eesti_tolge': 'K2 tõlge',
-  'k1eesti_arvamuslugu': 'K1 arvamuslugu',
-  'k1eesti_eksamitoo': 'K1 eksamitöö',
-  'k1eesti_harjutus': 'K1 harjutus',
-  'k1vene_loovkirjutis': 'K1 vene loovkirjutis',
-  'k1vene_eksamitoo': 'K1 vene eksamitöö',
-  'ak_eriala_analuus': 'AK erialaõpingud: analüüs',
-  'ak_eriala_essee': 'AK erialaõpingud: essee',
-  'ak_eriala_kursusetoo': 'AK erialaõpingud: kursusetöö',
-  'ak_eriala_referaat': 'AK erialaõpingud: referaat',
-  'ak_eriala_retsensioon': 'AK erialaõpingud: retsensioon',
-  'ak_eriala_seminaritoo': 'AK erialaõpingud: seminaritöö',
-  'ak_eriala_ulevaade': 'AK erialaõpingud: ülevaade',
-  'ak_uurimus_artikkel': 'AK uurimused: artikkel',
-  'ak_uurimus_ettekanne': 'AK uurimused: ettekanne',
-  'ak_uurimus_kokkuvote': 'AK uurimused: kokkuvõte',
-  'ak_uurimus_batoo': 'AK uurimused: bakalaureusetöö',
-  'ak_uurimus_diplomitoo': 'AK uurimused: diplomitöö',
-  'ak_uurimus_matoo': 'AK uurimused: magistritöö',
-  'ak_uurimus_phdtoo': 'AK uurimused: doktoritöö'
+  'k2eesti_riiklik_eksamitoo': 'query_text_data_type_L2_proficiency_examination',
+  'k2eesti_ol_loovkirjutis': 'query_text_data_type_L2_olympiade_creative_writing',
+  'k2eesti_kiri_isiklik': 'query_text_data_type_L2_letter_informal_full',
+  'k2eesti_kiri_poolametlik': 'query_text_data_type_L2_letter_semi_formal_full',
+  'k2eesti_loovkirjutis': 'query_text_data_type_L2_creative_writing',
+  'k2eesti_harjutus_dialoog': 'query_text_data_type_L2_exercise_dialogue_full',
+  'k2eesti_harjutus_etteutlus': 'query_text_data_type_L2_exercise_dictation_full',
+  'k2eesti_harjutus_juhend': 'query_text_data_type_L2_exercise_instruction_full',
+  'k2eesti_harjutus_kirjeldus': 'query_text_data_type_L2_exercise_description_full',
+  'k2eesti_harjutus_kuulutus': 'query_text_data_type_L2_exercise_announcement_full',
+  'k2eesti_harjutus_kone': 'query_text_data_type_L2_exercise_speech_full',
+  'k2eesti_harjutus_laused': 'query_text_data_type_L2_exercise_sentence_construction_full',
+  'k2eesti_harjutus_leping': 'query_text_data_type_L2_exercise_contract_full',
+  'k2eesti_harjutus_lunktekst': 'query_text_data_type_L2_exercise_fill_in_the_blanks_full',
+  'k2eesti_harjutus_menuu': 'query_text_data_type_L2_exercise_menu_full',
+  'k2eesti_harjutus_reklaam': 'query_text_data_type_L2_exercise_ad_full',
+  'k2eesti_harjutus_retsept': 'query_text_data_type_L2_exercise_recipe_full',
+  'k2eesti_harjutus_teejuht': 'query_text_data_type_L2_exercise_guide_full',
+  'k2eesti_harjutus_vastused': 'query_text_data_type_L2_exercise_answering_questions_full',
+  'k2eesti_harjutus_umberjutustus': 'query_text_data_type_L2_exercise_retelling_full',
+  'k2eesti_eksamitoo': 'query_text_data_type_L2_examination',
+  'k2eesti_kontrolltoo_test': 'query_text_data_type_L2_test',
+  'k2eesti_tolge': 'query_text_data_type_L2_translation',
+  'k1eesti_arvamuslugu': 'query_text_data_type_L1_opinion_piece',
+  'k1eesti_eksamitoo': 'query_text_data_type_L1_examination',
+  'k1eesti_harjutus': 'query_text_data_type_L1_exercise',
+  'k1vene_loovkirjutis': 'query_text_data_type_L1_russian_creative_writing',
+  'k1vene_eksamitoo': 'query_text_data_type_L1_russian_examination',
+  'ak_eriala_analuus': 'query_text_data_type_academic_studies_analysis_full',
+  'ak_eriala_essee': 'query_text_data_type_academic_studies_essay_full',
+  'ak_eriala_kursusetoo': 'query_text_data_type_academic_studies_course_paper_full',
+  'ak_eriala_referaat': 'query_text_data_type_academic_studies_report_full',
+  'ak_eriala_retsensioon': 'query_text_data_type_academic_studies_review_full',
+  'ak_eriala_seminaritoo': 'query_text_data_type_academic_studies_seminar_paper_full',
+  'ak_eriala_ulevaade': 'query_text_data_type_academic_studies_overview_full',
+  'ak_uurimus_artikkel': 'query_text_data_type_academic_research_research_article_full',
+  'ak_uurimus_ettekanne': 'query_text_data_type_academic_research_presentation_full',
+  'ak_uurimus_kokkuvote': 'query_text_data_type_academic_research_summary_full',
+  'ak_uurimus_batoo': 'query_text_data_type_academic_research_bachelors_thesis_full',
+  'ak_uurimus_diplomitoo': 'query_text_data_type_academic_research_thesis_full',
+  'ak_uurimus_matoo': 'query_text_data_type_academic_research_masters_thesis_full',
+  'ak_uurimus_phdtoo': 'query_text_data_type_academic_research_doctoral_thesis_full'
 };
 
 export const textTypesOptions = {
@@ -230,33 +229,6 @@ export const usedMaterialsMultiOptions = {
   'ei': 'query_text_data_used_study_or_supporting_materials_no'
 };
 
-export const ages = {
-  'kuni18': 'kuni 18',
-  'kuni26': '18 - 26',
-  'kuni40': '27 - 40',
-  '41plus': '41 +'
-};
-
-export const genders = {
-  'N': 'naine',
-  'M': 'mees',
-  'mees': 'mees',
-  'naine': 'naine'
-};
-
-export const educations = {
-  'Alg-/põhiharidus': 'algharidus/põhiharidus',
-  'Keskharidus': 'keskharidus',
-  'Keskeriharidus/kutseharidus': 'keskeriharidus/kutseharidus',
-  'Kõrgharidus': 'kõrgharidus',
-  'pohi': 'põhiharidus',
-  'kesk': 'keskharidus',
-  'alg': 'algharidus',
-  'korg': 'kõrgharidus',
-  'keskeri': 'keskeriharidus',
-  'kutse': 'kutseharidus'
-};
-
 export const textLanguageOptions = {
   'eesti': 'query_common_language_et',
   'vene': 'query_common_language_ru'
@@ -275,7 +247,7 @@ export const usedMaterialsOptions = {
 };
 
 export const ageOptions = {
-  'kuni18': '- 18',
+  'kuni18': 'query_author_data_age_up_to_18',
   'kuni26': '18 - 26',
   'kuni40': '27 - 40',
   '41plus': '41 +'
@@ -368,5 +340,3 @@ export const countryOptions = {
   'leedu': 'query_common_country_lt',
   'saksamaa': 'query_common_country_de'
 };
-
-export const locations = 'idaviru,tallinn,tartu';

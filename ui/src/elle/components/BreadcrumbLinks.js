@@ -62,7 +62,7 @@ export default function BreadcrumbLinks() {
             </MenuLink>
             <MenuLink style={{paddingRight: '15px', paddingLeft: '15px'}}
                       component={RouterLink}>
-              Lehte ei leitud
+              {t('error_page_not_found')}
             </MenuLink>
           </Breadcrumbs>
         </Box>
