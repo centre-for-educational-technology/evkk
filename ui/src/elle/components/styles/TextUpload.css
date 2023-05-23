@@ -41,3 +41,8 @@
   cursor: pointer;
   margin: 0 0 1rem -.25rem
 }
+
+.text-upload-modal {
+  width: 40em !important;
+  height: 28em !important;
+}

@@ -32,6 +32,7 @@ import {
   genderOptions,
   languageOptions,
   MenuProps,
+  modalStyle,
   nationalityOptions,
   sentencesOptions,
   studyLevelOptions,
@@ -151,20 +152,6 @@ export default function Query() {
       : 0
     );
     setOwnTextsSelected(storeState.ownTexts !== null);
-  };
-
-  const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '55em',
-    bgcolor: '#FCFCFC',
-    boxShadow: 24,
-    borderRadius: '12px',
-    p: 4,
-    maxHeight: '37.5em',
-    overflow: 'auto'
   };
 
   const submitted = () => {
@@ -423,10 +410,10 @@ export default function Query() {
                 }}>{t('query_choose_texts')}</Button>
         <Button variant="contained"
                 onClick={() => setModalOpen(true)}
-                className="buttonSecondLeft">{t('query_own_text')}</Button>
+                className="buttonSecondLeft">{t('query_own_texts')}</Button>
         <Button variant="contained"
                 onClick={() => navigate('adding')}
-                className="buttonRight">{t('common_upload_own_texts')}</Button>
+                className="buttonRight">{t('common_publish_your_text')}</Button>
       </div>
       {(corpusTextsSelected > 0 || ownTextsSelected) && <>
         <br/>
@@ -561,7 +548,7 @@ export default function Query() {
                 <br/>
               </div>
               <div>
-                <b>{t('query_common_text_data')}</b>
+                <b>{t('common_text_data')}</b>
                 <br/><br/>
                 <FormControl className={classes.formControl}
                              size="small">
@@ -641,13 +628,13 @@ export default function Query() {
                 {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
                   ? <>
                     <FormControl size="small">
-                      <InputLabel id="domain-label">{t('query_text_data_field_of_research')}</InputLabel>
+                      <InputLabel id="domain-label">{t('common_text_data_field_of_research')}</InputLabel>
                       <Select
                         sx={{minWidth: selectWidth}}
                         labelId="domain-label"
                         name="domain"
                         value={singlePropertyData.domain}
-                        label={t('query_text_data_field_of_research')}
+                        label={t('common_text_data_field_of_research')}
                         onClick={(e) => alterSinglePropertyData(e, 'domain')}
                       >
                         {Object.keys(domainOptions).map((domain) => (
@@ -849,7 +836,7 @@ export default function Query() {
                 </FormControl>
               </div>
               <div>
-                <b>{t('query_common_author_data')}</b>
+                <b>{t('common_author_data')}</b>
                 <br/><br/>
                 <FormControl size="small">
                   <InputLabel id="age-label">{t('query_author_data_age')}</InputLabel>
@@ -1020,7 +1007,7 @@ export default function Query() {
           setModalOpen(false);
         }}
       >
-        <Box sx={modalStyle}>
+        <Box sx={modalStyle} className="query-own-texts-modal">
           <div className="modal-head">
             {t('textupload_primary_modal_title')}
           </div>

@@ -45,6 +45,20 @@ export const MenuProps = {
   variant: 'menu'
 };
 
+export const modalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '60vw',
+  bgcolor: '#FCFCFC',
+  boxShadow: 24,
+  borderRadius: '12px',
+  p: 4,
+  maxHeight: '80vh',
+  overflow: 'auto'
+};
+
 export const addedYearOptions = [
   '2000—2005',
   '2006—2010',
@@ -104,8 +118,8 @@ export const corpuses = {
 };
 
 export const textTypes = {
-  'k2eesti_riiklik_eksamitoo': 'query_text_data_type_L2_proficiency_examination',
-  'k2eesti_ol_loovkirjutis': 'query_text_data_type_L2_olympiade_creative_writing',
+  'k2eesti_riiklik_eksamitoo': 'common_text_data_type_L2_proficiency_examination',
+  'k2eesti_ol_loovkirjutis': 'common_text_data_type_L2_olympiade_creative_writing',
   'k2eesti_kiri_isiklik': 'query_text_data_type_L2_letter_informal_full',
   'k2eesti_kiri_poolametlik': 'query_text_data_type_L2_letter_semi_formal_full',
   'k2eesti_loovkirjutis': 'query_text_data_type_L2_creative_writing',
@@ -150,10 +164,10 @@ export const textTypes = {
 
 export const textTypesOptions = {
   'clWmOIrLa': {
-    'k2eesti_riiklik_eksamitoo': 'query_text_data_type_L2_proficiency_examination'
+    'k2eesti_riiklik_eksamitoo': 'common_text_data_type_L2_proficiency_examination'
   },
   'cFqPphvYi': {
-    'k2eesti_ol_loovkirjutis': 'query_text_data_type_L2_olympiade_creative_writing'
+    'k2eesti_ol_loovkirjutis': 'common_text_data_type_L2_olympiade_creative_writing'
   },
   'cFOoRQekA': {
     'query_text_data_type_L2_letter': {
@@ -217,6 +231,39 @@ export const textTypesOptions = {
   }
 };
 
+export const textPublishSubTextTypesOptions = {
+  'k2eesti_riiklik_eksamitoo': 'common_text_data_type_L2_proficiency_examination',
+  'k2eesti_ol_loovkirjutis': 'common_text_data_type_L2_olympiade_creative_writing',
+  'k2eesti_keeleope_disabled': 'query_subcorpus_L2_estonian',
+  'k2eesti_tolge': 'common_text_data_type_translation',
+  'k2eesti_eksamitoo': 'common_text_data_type_examination',
+  'k2eesti_kontrolltoo_test': 'common_text_data_type_test',
+  'k2eesti_loovkirjutis': 'common_text_data_type_creative_writing',
+  'k2eesti_kiri_disabled': 'query_text_data_type_L2_letter',
+  'k2eesti_kiri_isiklik': 'query_text_data_type_L2_letter_informal',
+  'k2eesti_kiri_poolametlik': 'query_text_data_type_L2_letter_semi_formal',
+  'k2eesti_harjutus_disabled': 'query_text_data_type_L2_exercise',
+  'k2eesti_harjutus_dialoog': 'query_text_data_type_L2_exercise_dialogue',
+  'k2eesti_harjutus_etteutlus': 'query_text_data_type_L2_exercise_dictation',
+  'k2eesti_harjutus_juhend': 'query_text_data_type_L2_exercise_instruction',
+  'k2eesti_harjutus_kirjeldus': 'query_text_data_type_L2_exercise_description',
+  'k2eesti_harjutus_kuulutus': 'query_text_data_type_L2_exercise_announcement',
+  'k2eesti_harjutus_kone': 'query_text_data_type_L2_exercise_speech',
+  'k2eesti_harjutus_laused': 'query_text_data_type_L2_exercise_sentence_construction',
+  'k2eesti_harjutus_leping': 'query_text_data_type_L2_exercise_contract',
+  'k2eesti_harjutus_lunktekst': 'query_text_data_type_L2_exercise_fill_in_the_blanks',
+  'k2eesti_harjutus_menuu': 'query_text_data_type_L2_exercise_menu',
+  'k2eesti_harjutus_reklaam': 'query_text_data_type_L2_exercise_ad',
+  'k2eesti_harjutus_retsept': 'query_text_data_type_L2_exercise_recipe',
+  'k2eesti_harjutus_teejuht': 'query_text_data_type_L2_exercise_guide',
+  'k2eesti_harjutus_vastused': 'query_text_data_type_L2_exercise_answering_questions',
+  'k2eesti_harjutus_umberjutustus': 'query_text_data_type_L2_exercise_retelling',
+  'k1eesti_disabled': 'query_subcorpus_L1_estonian',
+  'k1eesti_arvamuslugu': 'common_text_data_type_opinion_piece',
+  'k1eesti_eksamitoo': 'common_text_data_type_examination',
+  'k1eesti_harjutus': 'common_text_data_type_exercise'
+};
+
 export const usedMaterialsMultiOptions = {
   'query_text_data_used_study_or_supporting_materials_yes': {
     'tolkesonastik': 'query_text_data_used_study_or_supporting_materials_translation_dictionary_or_machine_translation',
@@ -224,7 +271,7 @@ export const usedMaterialsMultiOptions = {
     'terminisonastik': 'query_text_data_used_study_or_supporting_materials_term_glossary_or_base',
     'kasiraamat': 'query_text_data_used_study_or_supporting_materials_professional_handbook',
     'automaatkontroll': 'query_text_data_used_study_or_supporting_materials_automated_correction',
-    'muu': 'query_text_data_used_study_or_supporting_materials_other'
+    'muu': 'common_other'
   },
   'ei': 'query_text_data_used_study_or_supporting_materials_no'
 };
@@ -235,10 +282,10 @@ export const textLanguageOptions = {
 };
 
 export const domainOptions = {
-  'biojakeskkonnateadused': 'query_text_data_field_of_research_biosciences_and_environment',
-  'yhiskondjakultuur': 'query_text_data_field_of_research_culture_and_society',
-  'terviseuuringud': 'query_text_data_field_of_research_health',
-  'loodustehnika': 'query_text_data_field_of_research_natural_sciences_and_engineering'
+  'biojakeskkonnateadused': 'common_text_data_field_of_research_biosciences_and_environment',
+  'yhiskondjakultuur': 'common_text_data_field_of_research_culture_and_society',
+  'terviseuuringud': 'common_text_data_field_of_research_health',
+  'loodustehnika': 'common_text_data_field_of_research_natural_sciences_and_engineering'
 };
 
 export const usedMaterialsOptions = {
@@ -275,6 +322,11 @@ export const educationOptions = {
   'Keskharidus': 'query_author_data_education_secondary',
   'Keskeriharidus/kutseharidus': 'query_author_data_education_vocational',
   'Kõrgharidus': 'query_author_data_education_higher'
+};
+
+export const textPublishMainTextTypesOptions = {
+  'akadeemiline': 'publish_your_text_text_data_main_text_type_academic',
+  'mitteakadeemiline': 'publish_your_text_text_data_main_text_type_non_academic'
 };
 
 export const nationalityOptions = {
@@ -338,5 +390,6 @@ export const countryOptions = {
   'venemaa': 'query_common_country_ru',
   'lati': 'query_common_country_lv',
   'leedu': 'query_common_country_lt',
-  'saksamaa': 'query_common_country_de'
+  'saksamaa': 'query_common_country_de',
+  'muu': 'common_other'
 };

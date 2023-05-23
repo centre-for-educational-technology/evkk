@@ -23,6 +23,7 @@ import {
   educationOptions,
   genderOptions,
   languageOptions,
+  modalStyle,
   textLanguageOptions,
   textTypes,
   usedMaterialsOptions
@@ -104,20 +105,6 @@ export default function QueryResults(props) {
     state: {pageIndex, pageSize}
   } =
     useTable({columns, data}, usePagination);
-
-  const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '60vw',
-    bgcolor: '#FCFCFC',
-    boxShadow: 24,
-    borderRadius: '12px',
-    p: 4,
-    maxHeight: '80vh',
-    overflow: 'auto'
-  };
 
   const allTextIds = data.map(item => {
     return item.text_id;
@@ -334,7 +321,7 @@ export default function QueryResults(props) {
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <div className="metainfoSubtitle">{t('query_common_text_data')}</div>
+                  <div className="metainfoSubtitle">{t('common_text_data')}</div>
                   <strong>{t('query_subcorpus')}:</strong> {t(corpuses[metadata.korpus]) || '-'}<br/>
                   <strong>{t('query_text_data_type')}:</strong> {t(textTypes[metadata.tekstityyp]) || '-'}<br/>
                   <strong>{t('query_text_data_language')}:</strong> {t(textLanguageOptions[metadata.tekstikeel]) || '-'}<br/>
@@ -342,7 +329,7 @@ export default function QueryResults(props) {
                   <strong>{t('query_text_data_used_supporting_materials')}:</strong> {t(usedMaterialsOptions[metadata.abivahendid]) || '-'}<br/>
                   <strong>{t('query_text_data_year_of_publication')}:</strong> {metadata.aasta || '-'}<br/>
                   <br/>
-                  <div className="metainfoSubtitle">{t('query_common_author_data')}</div>
+                  <div className="metainfoSubtitle">{t('common_author_data')}</div>
                   <strong>{t('query_author_data_age')}:</strong> {t(ageOptions[metadata.vanus]) || '-'}<br/>
                   <strong>{t('query_author_data_gender')}:</strong> {t(genderOptions[metadata.sugu]) || '-'}<br/>
                   <strong>{t('query_author_data_education')}:</strong> {t(educationOptions[metadata.haridus]) || '-'}<br/>

@@ -14,7 +14,7 @@ const breadcrumbNameMap = {
   '/about/people': 'common_people',
   '/about/grants': 'common_grants',
   '/about/publications': 'common_publications',
-  '/tools/adding': 'common_upload_own_texts',
+  '/tools/adding': 'common_publish_your_text',
   '/tools/clusterfinder': 'common_clusters',
   '/tools/wordanalyser': 'common_word_analysis',
   '/tools/wordlist': 'common_wordlist',

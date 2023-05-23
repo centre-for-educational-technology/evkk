@@ -13,3 +13,7 @@
   min-width: 240px;
   max-width: 360px;
 }
+
+.terms-of-service-modal {
+  max-width: 30em !important;
+}
