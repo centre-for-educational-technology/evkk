@@ -1,0 +1,8 @@
+.error-alert {
+  background-color: #d32f2f !important;
+  color: white !important;
+}
+
+.error-alert svg {
+  color: white;
+}

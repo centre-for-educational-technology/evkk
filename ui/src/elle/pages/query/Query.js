@@ -139,7 +139,7 @@ export default function Query() {
       setQueryVisible(true);
       navigate('', {replace: true});
     }
-  }, [urlParams]);
+  }, [urlParams, navigate]);
 
   queryStore.subscribe(() => {
     refreshChips();

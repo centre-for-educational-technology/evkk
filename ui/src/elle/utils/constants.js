@@ -324,9 +324,52 @@ export const educationOptions = {
   'Kõrgharidus': 'query_author_data_education_higher'
 };
 
+export const textPublishEducationOptions = {
+  'alusharidus': 'publish_your_text_author_data_education_elementary',
+  'pohiharidus': 'publish_your_text_author_data_education_basic',
+  'keskharidus': 'publish_your_text_author_data_education_secondary',
+  'keskeriharidus': 'publish_your_text_author_data_education_secondary_special',
+  'rakenduskorgharidus': 'publish_your_text_author_data_education_higher_applied',
+  'korgharidus': 'publish_your_text_author_data_education_higher'
+};
+
 export const textPublishMainTextTypesOptions = {
   'akadeemiline': 'publish_your_text_text_data_main_text_type_academic',
   'mitteakadeemiline': 'publish_your_text_text_data_main_text_type_non_academic'
+};
+
+export const textPublishAcademicCategoryOptions = {
+  'ak_erialaopingud': 'publish_your_text_text_data_academic_category_academic_studies',
+  'ak_uurimused': 'publish_your_text_text_data_academic_category_research'
+};
+
+export const textPublishAcademicStudiesSubtypeOptions = {
+  'ak_analuus': 'query_text_data_type_academic_studies_analysis',
+  'ak_eriala_essee': 'query_text_data_type_academic_studies_essay',
+  'ak_eriala_kursusetoo': 'query_text_data_type_academic_studies_course_paper',
+  'ak_eriala_referaat': 'query_text_data_type_academic_studies_report',
+  'ak_eriala_retsensioon': 'query_text_data_type_academic_studies_review',
+  'ak_eriala_seminaritoo': 'query_text_data_type_academic_studies_seminar_paper',
+  'ak_eriala_ulevaade': 'query_text_data_type_academic_studies_overview'
+};
+
+export const textPublishAcademicResearchSubtypeOptions = {
+  'ak_uurimus_artikkel': 'query_text_data_type_academic_research_research_article',
+  'ak_uurimus_ettekanne': 'query_text_data_type_academic_research_presentation',
+  'ak_uurimus_kokkuvote': 'query_text_data_type_academic_research_summary',
+  'ak_uurimus_batoo': 'query_text_data_type_academic_research_bachelors_thesis',
+  'ak_uurimus_diplomitoo': 'query_text_data_type_academic_research_thesis',
+  'ak_uurimus_matoo': 'query_text_data_type_academic_research_masters_thesis',
+  'ak_uurimus_phdtoo': 'query_text_data_type_academic_research_doctoral_thesis'
+};
+
+export const textPublishUsedMaterialsOptions = {
+  'tolkesonastik': 'query_text_data_used_study_or_supporting_materials_translation_dictionary_or_machine_translation',
+  'ykskeelnesonastik': 'query_text_data_used_study_or_supporting_materials_monolingual_dictionary',
+  'terminisonastik': 'query_text_data_used_study_or_supporting_materials_term_glossary_or_base',
+  'kasiraamat': 'query_text_data_used_study_or_supporting_materials_professional_handbook',
+  'automaatkontroll': 'query_text_data_used_study_or_supporting_materials_automated_correction',
+  'muu': 'common_other'
 };
 
 export const nationalityOptions = {

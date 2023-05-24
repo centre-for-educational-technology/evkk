@@ -20,11 +20,22 @@ import { loadFetch } from '../service/LoadFetch';
 import { withTranslation } from 'react-i18next';
 import CloseIcon from '@mui/icons-material/Close';
 import {
+  countryOptions,
+  degreeOptions,
   domainOptions,
+  genderOptions,
   modalStyle,
+  studyLevelOptions,
+  textPublishAcademicCategoryOptions,
+  textPublishAcademicResearchSubtypeOptions,
+  textPublishAcademicStudiesSubtypeOptions,
+  textPublishEducationOptions,
   textPublishMainTextTypesOptions,
-  textPublishSubTextTypesOptions
+  textPublishSubTextTypesOptions,
+  textPublishUsedMaterialsOptions,
+  usedMaterialsOptions
 } from '../utils/constants';
+import { successEmitter } from '../../App';
 
 class Adding extends Component {
 
@@ -89,7 +100,7 @@ class Adding extends Component {
     };
     this.setState(this.startingstate);
     this.setState({ennistusnupp: true});
-    loadFetch('/api/texts/lisatekst', request_test).then(() => alert('salvestatud'));
+    loadFetch('/api/texts/lisatekst', request_test).then(() => successEmitter.emit('generic-success'));
   }
 
   taastaVormiSisu() {
@@ -235,153 +246,137 @@ class Adding extends Component {
                     {this.state.liik === 'akadeemiline' && <Grid>
                       <FormControl className="form-control"
                                    size="small">
-                        <InputLabel id="akad-kategooria-select-label">Kategooria</InputLabel>
+                        <InputLabel
+                          id="akad-kategooria-select-label">{t('publish_your_text_text_data_academic_category')}</InputLabel>
                         <Select
                           labelId="akad-kategooria-select-label"
                           name="akadKategooria"
                           value={this.state.akadKategooria}
-                          label="Kategooria"
+                          label={t('publish_your_text_text_data_academic_category')}
                           onChange={this.handleChange}
                         >
-                          <MenuItem value={'ak_erialaopingud'}>Erialaõpingud</MenuItem>
-                          <MenuItem value={'ak_uurimused'}>Uurimused</MenuItem>
+                          {Object.keys(textPublishAcademicCategoryOptions).map((category) => (
+                            <MenuItem key={category}
+                                      value={category}>{t(textPublishAcademicCategoryOptions[category])}</MenuItem>
+                          ))}
                         </Select>
                       </FormControl>
                     </Grid>}
-                    {this.state.liik === 'akadeemiline' && this.state.akadKategooria === 'ak_erialaopingud' && <Grid>
+                    {this.state.liik === 'akadeemiline' && this.state.akadKategooria !== '' && <Grid>
                       <FormControl className="form-control"
                                    size="small">
-                        <InputLabel id="akad-alamliik-select-label">Tekstiliik</InputLabel>
+                        <InputLabel
+                          id="akad-alamliik-select-label">{t('publish_your_text_text_data_sub_text_type')}</InputLabel>
                         <Select
                           labelId="akad-alamliik-select-label"
                           name="akadAlamliik"
                           value={this.state.akadAlamliik}
-                          label="Alamliik"
+                          label={t('publish_your_text_text_data_sub_text_type')}
                           onChange={this.handleChange}
                         >
-                          <MenuItem value={'ak_analuus'}>Analüüs</MenuItem>
-                          <MenuItem value={'ak_eriala_essee'}>Essee</MenuItem>
-                          <MenuItem value={'ak_eriala_kursusetoo'}>Kursusetöö</MenuItem>
-                          <MenuItem value={'ak_eriala_referaat'}>Referaat</MenuItem>
-                          <MenuItem value={'ak_eriala_retsensioon'}>Retsensioon</MenuItem>
-                          <MenuItem value={'ak_eriala_seminaritoo'}>Seminaritöö</MenuItem>
-                          <MenuItem value={'ak_eriala_ulevaade'}>Ülevaade</MenuItem>
+                          {this.state.akadKategooria === 'ak_erialaopingud' &&
+                            Object.keys(textPublishAcademicStudiesSubtypeOptions).map((type) => (
+                              <MenuItem key={type}
+                                        value={type}>{t(textPublishAcademicStudiesSubtypeOptions[type])}</MenuItem>
+                            ))}
+                          {this.state.akadKategooria === 'ak_uurimused' &&
+                            Object.keys(textPublishAcademicResearchSubtypeOptions).map((type) => (
+                              <MenuItem key={type}
+                                        value={type}>{t(textPublishAcademicResearchSubtypeOptions[type])}</MenuItem>
+                            ))}
                         </Select>
                       </FormControl>
                     </Grid>}
-                    {this.state.liik === 'akadeemiline' && this.state.akadKategooria === 'ak_uurimused' && <><Grid>
-                      <FormControl className="form-control"
-                                   size="small">
-                        <InputLabel id="akad-alamliik-select-label">Tekstiliik</InputLabel>
-                        <Select
-                          labelId="akad-alamliik-select-label"
-                          name="akadAlamliik"
-                          value={this.state.akadAlamliik}
-                          label="Alamliik"
-                          onChange={this.handleChange}
-                        >
-                          <MenuItem value={'ak_uurimus_artikkel'}>Artikkel</MenuItem>
-                          <MenuItem value={'ak_uurimus_ettekanne'}>Ettekanne</MenuItem>
-                          <MenuItem value={'ak_uurimus_kokkuvote'}>Kokkuvõte</MenuItem>
-                          <MenuItem value={'ak_uurimus_batoo'}>Bakalaureusetöö</MenuItem>
-                          <MenuItem value={'ak_uurimus_diplomitoo'}>Diplomitöö</MenuItem>
-                          <MenuItem value={'ak_uurimus_matoo'}>Magistritöö</MenuItem>
-                          <MenuItem value={'ak_uurimus_phdtoo'}>Doktoritöö</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                      {this.state.akadAlamliik === 'ak_uurimus_artikkel' && <>
-                        <Grid>
-                          <FormControl className="form-control"
-                                       size="small">
-                            <TextField
-                              multiline
-                              required
-                              label="Väljaanne "
-                              variant="outlined"
-                              name="artikkelValjaanne"
-                              value={this.state.artikkelValjaanne}
-                              onChange={this.handleChange}
-                              style={{width: '75%'}}></TextField>
-                          </FormControl>
-                        </Grid>
-                        <Grid>
-                          <FormControl className="form-control"
-                                       size="small">
-                            <TextField
-                              multiline
-                              required
-                              label="Aasta "
-                              variant="outlined"
-                              name="artikkelAasta"
-                              value={this.state.artikkelAasta}
-                              onChange={this.handleChange}
-                              style={{width: '75%'}}></TextField>
-                          </FormControl>
-                        </Grid>
-                        <Grid>
-                          <FormControl className="form-control"
-                                       size="small">
-                            <TextField
-                              multiline
-                              label="Number"
-                              variant="outlined"
-                              name="artikkelNumber"
-                              value={this.state.artikkelNumber}
-                              onChange={this.handleChange}
-                              style={{width: '75%'}}></TextField>
-                          </FormControl>
-                        </Grid>
-                        <Grid>
-                          <FormControl className="form-control"
-                                       size="small">
-                            <TextField
-                              multiline
-                              label="Leheküljed"
-                              variant="outlined"
-                              name="artikkelLehekyljed"
-                              value={this.state.artikkelLehekyljed}
-                              onChange={this.handleChange}
-                              style={{width: '75%'}}></TextField>
-                          </FormControl>
-                        </Grid>
-
-                      </>
-                      }
+                    {this.state.akadAlamliik === 'ak_uurimus_artikkel' && <>
+                      <Grid>
+                        <FormControl className="form-control"
+                                     size="small">
+                          <TextField
+                            multiline
+                            required
+                            size="small"
+                            label={t('publish_your_text_text_data_publication')}
+                            variant="outlined"
+                            name="artikkelValjaanne"
+                            value={this.state.artikkelValjaanne}
+                            onChange={this.handleChange}></TextField>
+                        </FormControl>
+                      </Grid>
+                      <Grid>
+                        <FormControl className="form-control"
+                                     size="small">
+                          <TextField
+                            multiline
+                            required
+                            size="small"
+                            type="number"
+                            label={t('publish_your_text_text_data_year')}
+                            variant="outlined"
+                            name="artikkelAasta"
+                            value={this.state.artikkelAasta}
+                            onChange={this.handleChange}></TextField>
+                        </FormControl>
+                      </Grid>
+                      <Grid>
+                        <FormControl className="form-control"
+                                     size="small">
+                          <TextField
+                            multiline
+                            size="small"
+                            label={t('publish_your_text_text_data_number')}
+                            variant="outlined"
+                            name="artikkelNumber"
+                            value={this.state.artikkelNumber}
+                            onChange={this.handleChange}></TextField>
+                        </FormControl>
+                      </Grid>
+                      <Grid>
+                        <FormControl className="form-control"
+                                     size="small">
+                          <TextField
+                            multiline
+                            size="small"
+                            label={t('publish_your_text_text_data_pages')}
+                            variant="outlined"
+                            name="artikkelLehekyljed"
+                            value={this.state.artikkelLehekyljed}
+                            onChange={this.handleChange}></TextField>
+                        </FormControl>
+                      </Grid>
                     </>
                     }
                     <Grid>
                       <FormControl className="form-control"
                                    size="small">
-                        <InputLabel id="sugu-materjalid-label">Kasutatud õppe- või abimaterjale</InputLabel>
+                        <InputLabel
+                          id="sugu-materjalid-label">{t('query_text_data_used_study_or_supporting_materials')}</InputLabel>
                         <Select
                           labelId="sugu-materjalid-label"
                           name="oppematerjal"
                           value={this.state.oppematerjal}
-                          label="Kasutatud õppe- või abimaterjale"
+                          label={t('query_text_data_used_study_or_supporting_materials')}
                           onChange={this.handleChange}
                         >
-                          <MenuItem value={true}>jah</MenuItem>
-                          <MenuItem value={false}>ei</MenuItem>
+                          {Object.keys(usedMaterialsOptions).map((material) => (
+                            <MenuItem key={material} value={material}>{t(usedMaterialsOptions[material])}</MenuItem>
+                          ))}
                         </Select>
                       </FormControl>
                       {this.state.oppematerjal === 'jah' && this.state.liik === 'akadeemiline' && <><Grid>
                         <FormControl className="form-control"
                                      size="small">
-                          <InputLabel>Abimaterjal</InputLabel>
+                          <InputLabel>{t('publish_your_text_text_data_supporting_material')}</InputLabel>
                           <Select multiple
                                   labelId="akad-materjalid-label"
                                   name="akadOppematerjal"
                                   value={this.state.akadOppematerjal}
-                                  label="Abimaterjal"
+                                  label={t('publish_your_text_text_data_supporting_material')}
                                   onChange={this.handleChange}
                           >
-                            <MenuItem value={'tolkesonastik'}>Tõlkesõnastik/masintõlge</MenuItem>
-                            <MenuItem value={'ykskeelnesonastik'}>Ükskeelne sõnastik (k.a. veebisõnastikud)</MenuItem>
-                            <MenuItem value={'terminisonastik'}>Erialane terminisõnastik või -baas</MenuItem>
-                            <MenuItem value={'kasiraamat'}>Erialane käsiraamat või teatmik</MenuItem>
-                            <MenuItem value={'automaatkontroll'}>Automaatkontroll</MenuItem>
-                            <MenuItem value={'muu'}>Muu</MenuItem>
+                            {Object.keys(textPublishUsedMaterialsOptions).map((material) => (
+                              <MenuItem key={material}
+                                        value={material}>{t(textPublishUsedMaterialsOptions[material])}</MenuItem>
+                            ))}
                           </Select>
                         </FormControl>
                       </Grid>
@@ -391,7 +386,7 @@ class Adding extends Component {
                                          size="small">
                               <TextField
                                 multiline
-                                label="Muu õppematerjal"
+                                label={t('publish_your_text_text_data_supporting_material_other')}
                                 variant="outlined"
                                 size="small"
                                 name="akadOppematerjalMuu"
@@ -414,35 +409,35 @@ class Adding extends Component {
                       <TextField className="form-control"
                                  size="small"
                                  type="number"
-                                 label="Vanus:"
+                                 label={t('query_author_data_age')}
                                  variant="outlined"
                                  name="autoriVanus"
                                  value={this.state.autoriVanus}
                                  onChange={this.handleChange}></TextField><br/>
                       <FormControl className="form-control"
                                    size="small">
-                        <InputLabel id="sugu-select-label">Sugu</InputLabel>
+                        <InputLabel id="sugu-select-label">{t('query_author_data_gender')}</InputLabel>
                         <Select
                           labelId="sugu-select-label"
                           name="autoriSugu"
                           value={this.state.autoriSugu}
-                          label="Sugu"
+                          label={t('query_author_data_gender')}
                           onChange={this.handleChange}
                         >
-                          <MenuItem value={'m'}>mees</MenuItem>
-                          <MenuItem value={'n'}>naine</MenuItem>
+                          {Object.keys(genderOptions).map((gender) => (
+                            <MenuItem key={gender} value={gender}>{t(genderOptions[gender])}</MenuItem>
+                          ))}
                         </Select>
                       </FormControl>
                     </Grid>
                     <Grid>
                       <FormControl className="form-control"
                                    size="small">
-
                         <TextField
                           size="small"
                           multiline
                           required
-                          label="Emakeel"
+                          label={t('query_author_data_native_language')}
                           variant="outlined"
                           name="autoriEmakeel"
                           value={this.state.autoriEmakeel}
@@ -453,14 +448,13 @@ class Adding extends Component {
                     <Grid>
                       <FormControl className="form-control"
                                    size="small">
-
                         <Tooltip
-                          title={'Sisesta keeled komaga eraldatult, märkides esimesena keele, mida kõige paremini oskad'}
+                          title={t('publish_your_text_author_data_other_languages_tooltip')}
                           placement={'top-start'}>
                           <TextField
                             size="small"
                             multiline
-                            label="Muud õppe-, töö- või suhtluskeeled"
+                            label={t('query_author_data_other_languages_plural')}
                             variant="outlined"
                             name="autoriMuudKeeled"
                             value={this.state.autoriMuudKeeled}
@@ -471,19 +465,15 @@ class Adding extends Component {
                     <Grid>
                       <FormControl className="form-control"
                                    size="small">
-                        <InputLabel id="elukohariik">Elukohariik:</InputLabel>
+                        <InputLabel id="elukohariik">{t('query_author_data_country')}</InputLabel>
                         <Select value={this.state.autoriElukohariik}
                                 onChange={this.handleChange}
                                 name="autoriElukohariik"
-                                label="Elukohariik:"
+                                label={t('query_author_data_country')}
                                 labelId="elukohariik">
-                          <MenuItem value={'eesti'}>Eesti</MenuItem>
-                          <MenuItem value={'leedu'}>Leedu</MenuItem>
-                          <MenuItem value={'läti'}>Läti</MenuItem>
-                          <MenuItem value={'rootsi'}>Rootsi</MenuItem>
-                          <MenuItem value={'soome'}>Soome</MenuItem>
-                          <MenuItem value={'venemaa'}>Venemaa</MenuItem>
-                          <MenuItem value={'muu'}>Muu</MenuItem>
+                          {Object.keys(countryOptions).map((country) => (
+                            <MenuItem key={country} value={country}>{t(countryOptions[country])}</MenuItem>
+                          ))}
                         </Select>
                       </FormControl>
                     </Grid>
@@ -493,65 +483,64 @@ class Adding extends Component {
                                      size="small">
                           <TextField
                             multiline
-                            label="Elukohariik"
+                            size="small"
+                            label={t('query_author_data_country_other')}
                             variant="outlined"
                             name="elukohariikMuu"
                             value={this.state.elukohariikMuu}
                             onChange={this.handleChange}
-                            style={{width: '75%'}}></TextField>
+                          ></TextField>
                         </FormControl>
                       </Grid>}
                     {this.state.liik === 'akadeemiline' && <Grid>
                       <FormControl className="form-control"
                                    size="small">
-                        <InputLabel id="oppeaste-select-label">Õppeaste</InputLabel>
+                        <InputLabel id="oppeaste-select-label">{t('query_author_data_level_of_study')}</InputLabel>
                         <Select
                           labelId="oppeaste-select-label"
                           name="autoriOppeaste"
                           value={this.state.autoriOppeaste}
-                          label="Õppeaste"
+                          label={t('query_author_data_level_of_study')}
                           onChange={this.handleChange}
                         >
-                          <MenuItem value={'bakalaureuseope'}>Bakalaureuseõpe</MenuItem>
-                          <MenuItem value={'magistriope'}>Magistriõpe</MenuItem>
-                          <MenuItem value={'doktoriope'}>Doktoriõpe</MenuItem>
+                          {Object.keys(studyLevelOptions).map((level) => (
+                            <MenuItem key={level} value={level}>{t(studyLevelOptions[level])}</MenuItem>
+                          ))}
                         </Select>
                       </FormControl>
                     </Grid>}
                     {this.state.liik === 'akadeemiline' && <Grid>
                       <FormControl className="form-control"
                                    size="small">
-                        <InputLabel id="teaduskraad-select-label">Teaduskraad</InputLabel>
+                        <InputLabel id="teaduskraad-select-label">{t('query_author_data_degree')}</InputLabel>
                         <Select
                           labelId="teaduskraad-select-label"
                           name="autoriTeaduskraad"
                           value={this.state.autoriTeaduskraad}
-                          label="Teaduskraad"
+                          label={t('query_author_data_degree')}
                           onChange={this.handleChange}
                         >
-                          <MenuItem value={'ba'}>Bakalaureusekraad</MenuItem>
-                          <MenuItem value={'ma'}>Magistrikraad</MenuItem>
-                          <MenuItem value={'phd'}>Doktorikraad</MenuItem>
+                          {Object.keys(degreeOptions).map((degree) => (
+                            <MenuItem key={degree} value={degree}>{t(degreeOptions[degree])}</MenuItem>
+                          ))}
                         </Select>
                       </FormControl>
                     </Grid>}
                     {this.state.liik === 'mitteakadeemiline' && <Grid>
                       <FormControl className="form-control"
                                    size="small">
-                        <InputLabel id="haridus-select-label">Autori haridus</InputLabel>
+                        <InputLabel id="haridus-select-label">{t('query_author_data_education')}</InputLabel>
                         <Select
                           labelId="haridus-select-label"
                           name="autoriHaridus"
                           value={this.state.autoriHaridus}
-                          label="Haridus"
+                          label={t('query_author_data_education')}
                           onChange={this.handleChange}
                         >
-                          <MenuItem value={'alusharidus'}>alusharidus</MenuItem>
-                          <MenuItem value={'pohiharidus'}>põhiharidus</MenuItem>
-                          <MenuItem value={'keskharidus'}>keskharidus</MenuItem>
-                          <MenuItem value={'keskeriharidus'}>keskeriharidus</MenuItem>
-                          <MenuItem value={'rakenduskorgharidus'}>rakenduskõrgharidus</MenuItem>
-                          <MenuItem value={'korgharidus'}>kõrgharidus</MenuItem>
+                          {Object.keys(textPublishEducationOptions).map((education) => (
+                            <MenuItem key={education}
+                                      value={education}>{t(textPublishEducationOptions[education])}</MenuItem>
+                          ))}
                         </Select>
                       </FormControl>
                     </Grid>}
@@ -599,7 +588,7 @@ class Adding extends Component {
                                                     width: 160,
                                                     color: 'white',
                                                     fontSize: 16
-                                                  }}>Ennista andmed</Button>}
+                                                  }}>{t('restore_data_button')}</Button>}
             </div>
           </div>
         </form>
