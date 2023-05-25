@@ -26,9 +26,11 @@ import TableDownloadButton from '../../components/table/TableDownloadButton';
 import GenericTable from '../../components/GenericTable';
 import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
 import { loadFetch } from '../../service/LoadFetch';
+import { useTranslation } from 'react-i18next';
 
 export default function Wordlist() {
 
+  const {t} = useTranslation();
   const navigate = useNavigate();
   const [paramsExpanded, setParamsExpanded] = useState(true);
   const [typeValue, setTypeValue] = useState('');
@@ -45,9 +47,9 @@ export default function Wordlist() {
   const data = useMemo(() => response, [response]);
 
   useEffect(() => {
-    const type = typeValueToDisplay === 'WORDS' ? 'Sõnavorm' : 'Algvorm';
-    setTableToDownload([type, 'Sagedus', 'Osakaal']);
-  }, [typeValueToDisplay]);
+    const type = typeValueToDisplay === 'WORDS' ? t('wordlist_word_column') : t('wordlist_lemma_column');
+    setTableToDownload([type, t('common_header_frequency'), t('common_header_percentage')]);
+  }, [typeValueToDisplay, t]);
 
   useEffect(() => {
     const queryStoreState = queryStore.getState();
@@ -97,7 +99,7 @@ export default function Wordlist() {
 
   const columns = useMemo(() => [
     {
-      Header: 'Jrk',
+      Header: t('common_header_number'),
       accessor: 'id',
       disableSortBy: true,
       Cell: (cellProps) => {
@@ -106,7 +108,7 @@ export default function Wordlist() {
     },
     {
       Header: () => {
-        return typeValueToDisplay === 'WORDS' ? 'Sõnavorm' : 'Algvorm';
+        return typeValueToDisplay === 'WORDS' ? t('wordlist_word_column') : t('wordlist_lemma_column');
       },
       accessor: 'word',
       Cell: (cellProps) => {
@@ -114,14 +116,14 @@ export default function Wordlist() {
       }
     },
     {
-      Header: 'Sagedus',
+      Header: t('common_header_frequency'),
       accessor: 'frequencyCount',
       Cell: (cellProps) => {
         return cellProps.value;
       }
     },
     {
-      Header: 'Osakaal',
+      Header: t('common_header_percentage'),
       accessor: 'frequencyPercentage',
       Cell: (cellProps) => {
         return `${cellProps.value}%`;
@@ -136,7 +138,7 @@ export default function Wordlist() {
                              keepCapitalization={capitalizationChecked} showCollocatesButton={true}/>;
       }
     }
-  ], [typeValue, typeValueToDisplay, capitalizationChecked]);
+  ], [typeValue, typeValueToDisplay, capitalizationChecked, t]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -191,7 +193,7 @@ export default function Wordlist() {
 
   return (
     <div className="tool-wrapper">
-      <h2 className="tool-title">Sõnaloend</h2>
+      <h2 className="tool-title">{t('common_wordlist')}</h2>
       <Accordion sx={AccordionStyle}
                  expanded={paramsExpanded}
                  onChange={() => setParamsExpanded(!paramsExpanded)}>
@@ -200,7 +202,7 @@ export default function Wordlist() {
           id="wordlist-filters-header"
         >
           <Typography>
-            Analüüsi valikud
+            {t('common_analysis_options')}
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -210,7 +212,7 @@ export default function Wordlist() {
                 <FormControl sx={{m: 3}}
                              error={typeError}
                              variant="standard">
-                  <FormLabel id="type-radios">Otsi</FormLabel>
+                  <FormLabel id="type-radios">{t('common_search')}</FormLabel>
                   <RadioGroup
                     aria-labelledby="type-radios"
                     name="type"
@@ -219,24 +221,24 @@ export default function Wordlist() {
                   >
                     <FormControlLabel value="WORDS"
                                       control={<Radio/>}
-                                      label="sõnavormid"/>
+                                      label={t('wordlist_search_word_forms')}/>
                     <FormControlLabel value="LEMMAS"
                                       control={<Radio/>}
-                                      label="algvormid"/>
+                                      label={t('wordlist_search_base_forms')}/>
                   </RadioGroup>
-                  {typeError && <FormHelperText>Väli on kohustuslik!</FormHelperText>}
+                  {typeError && <FormHelperText>{t('error_mandatory_field')}</FormHelperText>}
                   <Button sx={{width: 130}}
                           className="wordlist-analyse-button"
                           type="submit"
                           variant="contained">
-                    Analüüsi
+                    {t('analyse_button')}
                   </Button>
                 </FormControl>
               </div>
               <div>
                 <FormControl sx={{m: 3}}
                              variant="standard">
-                  <FormLabel id="stopwords">Välista stoppsõnad</FormLabel>
+                  <FormLabel id="stopwords">{t('wordlist_exclude_stopwords')}</FormLabel>
                   <FormControlLabel control={
                     <Checkbox
                       checked={stopwordsChecked}
@@ -244,18 +246,20 @@ export default function Wordlist() {
                     ></Checkbox>
                   }
                                     label={<>
-                                      vaikimisi loendist
-                                      <Tooltip title={<>Eesti keele stoppsõnade loendi on koostanud Kristel Uiboaed. See
-                                        sisaldab sidesõnu, asesõnu, sisutühje tegusõnu ja määrsõnu. Nimekiri on
-                                        kättesaadav Tartu Ülikooli andmerepositooriumis (vaata <a
+                                      {t('wordlist_stopwords_from_the_default_list')}
+                                      <Tooltip title={<>{t('wordlist_stopwords_textbox_hover_1')}
+                                        <a
                                           href={'https://datadoi.ee/handle/33/78'}
                                           target="_blank"
-                                          rel="noopener noreferrer">siit</a>).</>}
+                                          rel="noopener noreferrer">
+                                          {t('wordlist_stopwords_textbox_hover_2')}
+                                        </a>
+                                        {t('wordlist_stopwords_textbox_hover_3')}</>}
                                                placement="right">
                                         <QuestionMark className="tooltip-icon"/>
                                       </Tooltip></>}
                   />
-                  <TextField label="Kirjuta siia oma stoppsõnad (nt koer, kodu)"
+                  <TextField label={t('wordlist_stopwords_textbox')}
                              variant="outlined"
                              size="small"
                              value={customStopwords}
@@ -273,17 +277,17 @@ export default function Wordlist() {
                     ></Checkbox>
                   }
                                     label={<>
-                                      säilita suurtähed
+                                      {t('wordlist_retain_uppercase_letters')}
                                       <Tooltip
-                                        title='Sõnad muudetakse vaikimisi väiketäheliseks, näiteks "kool" ja "Kool" loetakse samaks sõnaks. Märgi kasti linnuke, kui soovid, et suur- ja väiketähelisi sõnu arvestataks eraldi (nt "Eesti" ja "eesti").'
+                                        title={t('wordlist_retain_uppercase_letters_hover')}
                                         placement="right">
                                         <QuestionMark className="tooltip-icon"/>
                                       </Tooltip></>}
                   />
                   <TextField label={<>
-                    Määra sõna minimaalne sagedus
+                    {t('wordlist_set_minimum_word_frequency')}
                     <Tooltip
-                      title="Kui soovid näiteks välistada sõnad, mida esineb tekstis vaid üks kord, siis määra sageduse alampiiriks 2. Mahukamaid tekstikogusid analüüsides jäetakse sageli kõrvale alla 5 korra esinevad sõnad."
+                      title={t('wordlist_set_minimum_word_frequency_hover')}
                       placement="right">
                       <QuestionMark className="tooltip-icon"/>
                     </Tooltip></>}

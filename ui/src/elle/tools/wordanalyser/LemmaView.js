@@ -95,7 +95,7 @@ function LemmaView() {
       info.col5 = element.wordtype;
       info.col3 = element.count;
       info.col2[1][info.col2[1].length - 1] = info.col2[1][info.col2[1].length - 1].slice(0, -2);
-      info.col4 = (element.count * 100 / words.length).toFixed(2);
+      info.col4 = (element.count * 100 / words.length).toFixed(2) + '%';
       tableVal.push(info);
     }
     return tableVal;

@@ -11,5 +11,9 @@
   width: 100%;
   margin-top: 20px !important;
   min-width: 240px;
-  max-width: 360px;
+  max-width: 270px;
+}
+
+.terms-of-service-modal {
+  max-width: 30em !important;
 }

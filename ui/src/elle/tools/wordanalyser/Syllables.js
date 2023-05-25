@@ -222,7 +222,7 @@ function Syllables() {
                       onClick={(e) => setSyllable(e.target.textContent)}>{row[0]}</span>,
         'algus': row[1], 'keskel': row[2], 'l6pp': row[3], 'sagedus': row[1] + row[2] + row[3],
         'sonadtekstis': syllableWords(),
-        'osakaal': ((row[1] + row[2] + row[3]) * 100 / syllables.length).toFixed(2)
+        'osakaal': ((row[1] + row[2] + row[3]) * 100 / syllables.length).toFixed(2) + '%'
       };
     });
 

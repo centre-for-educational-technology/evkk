@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import '../translations/i18n';
 import CloseIcon from '@mui/icons-material/Close';
 import { loadFetch } from '../service/LoadFetch';
+import { modalStyle } from '../utils/constants';
 
 function TextUpload({sendTextFromFile}) {
 
@@ -42,7 +43,7 @@ function TextUpload({sendTextFromFile}) {
     let br = document.createElement('br');
     let b = document.createElement('b');
     let div = document.createElement('div');
-    let fileNameDataContent = document.createTextNode(t('textupload_chosen_files'));
+    let fileNameDataContent = document.createTextNode(t('textupload_secondary_modal_chosen_files'));
     b.appendChild(fileNameDataContent);
     div.appendChild(b);
     div.appendChild(br);
@@ -59,24 +60,10 @@ function TextUpload({sendTextFromFile}) {
     fileNameElement.current.appendChild(div);
   }
 
-  const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '40em',
-    bgcolor: '#FCFCFC',
-    boxShadow: 24,
-    borderRadius: '12px',
-    p: 4,
-    height: '28em',
-    overflow: 'auto'
-  };
-
   return (
     <>
       <div className="container">
-        <Tooltip title={t('textupload_tooltip')} placement={'top-start'}>
+        <Tooltip title={t('textupload_secondary_modal_tooltip')} placement={'top-start'}>
           <FileUploadIcon id="upload_button"
                           className="button-file"
                           onClick={() => {
@@ -90,7 +77,7 @@ function TextUpload({sendTextFromFile}) {
             setModalOpen(false);
           }}
         >
-          <Box sx={modalStyle}>
+          <Box sx={modalStyle} className="text-upload-modal">
             <IconButton
               aria-label="close"
               onClick={() => {
@@ -113,13 +100,13 @@ function TextUpload({sendTextFromFile}) {
                       direction="column">
                   <Grid item
                         xs={12}>
-                    <h1 id="pop_title">{t('textupload_title')}</h1>
+                    <h1 id="pop_title">{t('textupload_secondary_modal_title')}</h1>
                   </Grid>
                   <Grid item
                         xs={12}>
                     <Button component="label"
                             htmlFor="text_1"
-                            variant="contained">{t('textupload_choose_files')}</Button>
+                            variant="contained">{t('textupload_secondary_modal_choose_files')}</Button>
                   </Grid>
                   <Grid item
                         xs={12}>
@@ -135,7 +122,7 @@ function TextUpload({sendTextFromFile}) {
                               setModalOpen(false);
                             }}
                             disabled={uploadButtonDisabled}
-                            onMouseDown={fileUpload}>{t('textupload_upload')}</Button>
+                            onMouseDown={fileUpload}>{t('textupload_secondary_modal_upload')}</Button>
                   </Grid>
                   <input style={{visibility: 'hidden'}}
                          type="file"
