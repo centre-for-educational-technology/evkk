@@ -39,9 +39,9 @@ function Tools() {
       action: () => toolSelect('wordcontext')
     },
     {
-      title: 'common_neighboring_words',
+      title: 'common_neighbouring_words',
       img: require('../resources/images/tools/naabersonad.png').default,
-      description: 'tools_accordion_neighboring_words_explainer',
+      description: 'tools_accordion_neighbouring_words_explainer',
       route: 'collocates',
       action: () => toolSelect('collocates')
     },

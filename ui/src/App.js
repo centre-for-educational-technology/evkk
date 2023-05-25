@@ -16,9 +16,11 @@ import { EventEmitter } from 'events';
 import ErrorSnackbar from './elle/components/ErrorSnackbar';
 import LoadingSpinner from './elle/components/LoadingSpinner';
 import ServerOfflinePage from './elle/components/ServerOfflinePage';
+import SuccessSnackbar from './elle/components/SuccessSnackbar';
 
 export const errorEmitter = new EventEmitter();
 export const loadingEmitter = new EventEmitter();
+export const successEmitter = new EventEmitter();
 
 const store = createStore(
   rootReducer,
@@ -83,6 +85,7 @@ class AppWithStatus extends Component {
     return (
       <>
         <ErrorSnackbar/>
+        <SuccessSnackbar/>
         <LoadingSpinner/>
         <Navbar/>
         <AppRoutes/>

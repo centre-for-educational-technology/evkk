@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import '../translations/i18n';
 import CloseIcon from '@mui/icons-material/Close';
 import { loadFetch } from '../service/LoadFetch';
+import { modalStyle } from '../utils/constants';
 
 function TextUpload({sendTextFromFile}) {
 
@@ -59,20 +60,6 @@ function TextUpload({sendTextFromFile}) {
     fileNameElement.current.appendChild(div);
   }
 
-  const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '40em',
-    bgcolor: '#FCFCFC',
-    boxShadow: 24,
-    borderRadius: '12px',
-    p: 4,
-    height: '28em',
-    overflow: 'auto'
-  };
-
   return (
     <>
       <div className="container">
@@ -90,7 +77,7 @@ function TextUpload({sendTextFromFile}) {
             setModalOpen(false);
           }}
         >
-          <Box sx={modalStyle}>
+          <Box sx={modalStyle} className="text-upload-modal">
             <IconButton
               aria-label="close"
               onClick={() => {
