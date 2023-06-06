@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import EastIcon from '@mui/icons-material/East';
 import "./Correction.css";
-import {Alert, Box, Button, Card, CircularProgress, IconButton, Slider, styled, Tab, Typography} from "@mui/material";
+import {Alert, Box, Button, Card, CircularProgress, Slider, styled, Tab, Typography} from "@mui/material";
 import DoneIcon from '@mui/icons-material/Done';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import TextUpload from "../../components/textupload/TextUpload";
 import {TabContext, TabList, TabPanel} from "@mui/lab";
 import CloseIcon from "@mui/icons-material/Close";
@@ -14,7 +13,10 @@ let history = [
 //integer for indexing history with undo and redo
 let currentHistory = 0
 
+
 class Correction extends Component {
+  state;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -29,6 +31,8 @@ class Correction extends Component {
       korrektuur: "",
       selectedError: "",
       colorChanged: false,
+      anchorEl: null,
+      clickedWord: null
     };
     this.handleRedo = this.handleRedo.bind(this)
     this.handleUndo = this.handleUndo.bind(this)
@@ -38,6 +42,8 @@ class Correction extends Component {
     this.taust1 = React.createRef();
     this.kysi3 = this.kysi3.bind(this);
     this.korda = this.korda.bind(this);
+    this.handleWordClick = this.handleWordClick.bind(this);
+    this.handleClose = this.handleClose.bind(this);
 
     this.customSlider = styled(Slider)({
       color: '#9cff7e',
@@ -174,6 +180,14 @@ class Correction extends Component {
     })
   }
 
+  handleWordClick = (e) => {
+    if (this.state.clickedWord !== null) {
+      document.getElementById(this.state.clickedWord).style.display = "none";
+    }
+    document.getElementById(e.target.title).style.display = "inherit";
+    this.setState({"clickedWord": e.target.title});
+  }
+
   kysi6 = () => {
     let obj = {};
     obj["tekst"] = this.state.alasisu;
@@ -193,27 +207,8 @@ class Correction extends Component {
     this.setState({"avatudkaart": newValue});
   };
 
-
-  korrektuuriVajutus = () => {
-    this.setState({avatudkaart: "korrektuur"})
-    if (this.state.kordab) {
-      this.kysi3();
-    }
-  }
-
-  hindajaVajutus = () => {
-    this.setState({avatudkaart: "hindamine"})
-    if (this.state.kordab) {
-      this.kysi4();
-    }
-  }
-
-  keerukusVajutus = () => {
-    this.setState({avatudkaart: "keerukus"})
-  }
-
-  mitmekesisusVajutus = () => {
-    this.setState({avatudkaart: "mitmekesisus"})
+  handleClose = () => {
+    this.setState({"anchorEl": null})
   }
 
   kysi3 = () => {
@@ -258,26 +253,66 @@ class Correction extends Component {
              </span>
             let kpl = this.puhasta2(sm[i]);
             taustatekst[i] =
-              <span key={"t" + i}><span>{kpl[1]}</span><span className="corrector-margitud corrector-pointer-hover"
+              <span key={"t" + i}><span>{kpl[1]}</span><span class="corrector-margitud"
                                                              title={vm[i]}>{kpl[2]}</span><span>{kpl[3]}</span><span> </span></span>
-            vastustekst[i] = <span key={"s" + i}><span title={vm[i]}
-                                                       onClick={() => {
-                                                         this.margi(algus, sisu)
-                                                       }}
-                                                       style={{
-                                                         'backgroundColor': 'lightgray',
-                                                         cursor: "pointer"
-                                                       }}>{sm[i]}</span><span> </span></span>
+            vastustekst[i] = <span className="margitud-container" key={"s" + i}><span
+            >
+              <span id={vm[i]} style={{display: "none"}} className="correction-popup">
+                <Box display="flex" justifyContent="center">
+            <Box id={sm[i]} display="inline-flex" borderRadius="10px" maxWidth="min-content" justifyContent="center">
+              <Box id={sm[i]}
+                   style={{
+                     padding: "15px",
+                     borderRadius: "10px",
+                     display: "inline-flex",
+                     gap: "10px"
+                   }}>
+      <span
+        style={{
+          'backgroundColor': 'lightpink',
+          paddingLeft: "5px",
+          paddingRight: "5px",
+          borderRadius: "5px"
+        }}>{sm[i]}</span> <EastIcon/> <span style={{
+                'backgroundColor': 'lightgreen',
+                paddingLeft: "5px",
+                paddingRight: "5px",
+                borderRadius: "5px"
+              }}>{vm[i]}</span> <span style={{fontWeight: "bold"}}>|</span>
+                <Box display="flex" gap="15px">
+
+                  <Button size="20px" color="success" sx={{borderRadius: 30, padding: 0, minHeight: 25, minWidth: 25}}
+                          variant="contained"
+                          onClick={() => {
+                            this.asenda(algus, sisu, vm[i])
+                            this.setState({"clickedWord": null})
+                          }}><DoneIcon
+                    fontSize="small"/></Button>
+                  <Button size="20px" color="error" sx={{borderRadius: 30, padding: 0, minHeight: 25, minWidth: 25}}
+                          variant="contained"
+                          onClick={() => this.asenda(algus, sisu, vm[i])}><CloseIcon
+                    fontSize="small"/></Button>
+                </Box>
+              </Box></Box></Box>
+
+              </span><span className="corrector-margitud" title={vm[i]}
+                           onClick={(event) => {
+                             this.handleWordClick(event)
+                             console.log(vm[i])
+
+                           }}>{sm[i]}</span></span><span> </span></span>
           }
           sisutekst += sm[i] + " ";
           sisukohad[i] = sisutekst.length;
         }
       }
-      this.setState({"muutuskood": <div>{muutused.length > 0 ? muutused : "puuduvad"}</div>})
-      this.setState({"vastuskood": <div>{vastustekst}</div>})
-      this.setState({"taustakood": <div>{taustatekst}</div>}, () => {
-        this.kerimine()
-      });
+
+
+      console.log(vastustekst);
+      console.log(<h1>Tere</h1>);
+      this.setState({"muutuskood": <div>{muutused.length > 0 ? muutused : "puuduvad"}</div>});
+      this.setState({"vastuskood": <div className="flex-div">{vastustekst}</div>});
+      this.setState({"taustakood": <div className="flex-div">{taustatekst}</div>});
       this.setState({"sisukohad": sisukohad});
       this.setState({"sisusonad": sm});
       this.setState({"vastussonad": vm});
@@ -313,17 +348,6 @@ class Correction extends Component {
     return <div className={"corrector-pointer-hover"} onClick={() => this.setState({taselisa: true})}>Loe täpsemalt
       ...</div>
   }
-  state;
-
-
-  ketas() {
-    return <div
-      style={{
-        borderStyle: "solid", borderRadius: "50%", width: "10px", height: "10px",
-        borderTopColor: "transparent", animation: "spin .8s linear infinite",
-        float: "left", content: "  "
-      }}></div>
-  }
 
   renderTase() {
     let degreeValue
@@ -347,55 +371,54 @@ class Correction extends Component {
                      justifyContent={"center"}
                      paddingLeft={"20%"}>
                   <Box display={"flex"} alignItems={"center"} justifyContent={"start"}>
-                  <Box width={15} height={15} borderRadius={"50px"} bgcolor={"#b7e4c7"} marginRight={"10px"}></Box>
-                  <h2>{this.state.tasemevastus[0][1]}: {(this.state.tasemevastus[0][0] * 100).toFixed(0)}%</h2>
-                </Box>
-                <Box className="other-percentage-values">
+                    <Box width={15} height={15} borderRadius={"50px"} bgcolor={"#b7e4c7"} marginRight={"10px"}></Box>
+                    <h2>{this.state.tasemevastus[0][1]}: {(this.state.tasemevastus[0][0] * 100).toFixed(0)}%</h2>
+                  </Box>
+                  <Box className="other-percentage-values">
 
-                  {this.state.tasemevastus.slice(1, 4).map((vastus) => {
-                      if ((vastus[0] * 100).toFixed(0) > 0) {
-                        return <Box display={"flex"} alignItems={"center"} justifyContent={"start"}> <Box width={15}
-                                                                                                          height={15}
-                                                                                                          borderRadius={"50px"}
-                                                                                                          marginRight={"10px"}></Box>
-                          <h2>{vastus[1]}: {(vastus[0] * 100).toFixed(0)}%</h2></Box>
+                    {this.state.tasemevastus.slice(1, 4).map((vastus) => {
+                        if ((vastus[0] * 100).toFixed(0) > 0) {
+                          return <Box display={"flex"} alignItems={"center"} justifyContent={"start"}> <Box width={15}
+                                                                                                            height={15}
+                                                                                                            borderRadius={"50px"}
+                                                                                                            marginRight={"10px"}></Box>
+                            <h2>{vastus[1]}: {(vastus[0] * 100).toFixed(0)}%</h2></Box>
+                        }
                       }
-                    }
-                  )}
-                </Box>
-              </Box>
-              {(this.state.tasemevastus[1][0] * 100).toFixed(0) > 0 ?
-                <Box display={"flex"} width={"40%"} justifyContent={"center"}>
-                  <Box height={150} width={150} borderRadius={50} paddingRight={"50px"}
-                       style={{background: degreeValue}}>
+                    )}
                   </Box>
                 </Box>
-                :
-                null
-              }
-            </Box>
-            <Box paddingLeft={"50px"} marginTop={"30px"} width={"100%"}>
-              <Box marginBottom={"20px"}><Typography><h2>Lisainfo</h2></Typography></Box>
-              <Box marginBottom={"20px"}><b>Teksti üldine keerukus: <br/> {this.state.tasemevastus[4][1]} </b>
-                (tõenäosus {(this.state.tasemevastus[4][0] * 100).toFixed(0)}
-                %)<br/>Arvesse on võetud teksti, sõnade ja lausete pikkus.</Box>
-              <Box marginBottom={"20px"}><b>Morfoloogia ehk vormikasutus: <br/>{this.state.tasemevastus[8][1]} </b>
-                (tõenäosus {(this.state.tasemevastus[8][0] * 100).toFixed(0)}%)<br/>Arvesse on võetud sõnaliikide ja
-                muutevormide osakaalud ning sõnade vormirohkus.)</Box>
+                {(this.state.tasemevastus[1][0] * 100).toFixed(0) > 0 ?
+                  <Box display={"flex"} width={"40%"} justifyContent={"center"}>
+                    <Box height={150} width={150} borderRadius={50} paddingRight={"50px"}
+                         style={{background: degreeValue}}>
+                    </Box>
+                  </Box>
+                  :
+                  null
+                }
+              </Box>
+              <Box paddingLeft={"50px"} marginTop={"30px"} width={"100%"}>
+                <Box marginBottom={"20px"}><Typography><h2>Lisainfo</h2></Typography></Box>
+                <Box marginBottom={"20px"}><b>Teksti üldine keerukus: <br/> {this.state.tasemevastus[4][1]} </b>
+                  (tõenäosus {(this.state.tasemevastus[4][0] * 100).toFixed(0)}
+                  %)<br/>Arvesse on võetud teksti, sõnade ja lausete pikkus.</Box>
+                <Box marginBottom={"20px"}><b>Morfoloogia ehk vormikasutus: <br/>{this.state.tasemevastus[8][1]} </b>
+                  (tõenäosus {(this.state.tasemevastus[8][0] * 100).toFixed(0)}%)<br/>Arvesse on võetud sõnaliikide ja
+                  muutevormide osakaalud ning sõnade vormirohkus.)</Box>
 
-              <Box marginBottom={"20px"}><b>Sõnavara: <br/>{this.state.tasemevastus[12][1]} </b>
-                {this.state.tasemevastus[12][0] > 0 &&
-                  <span>(tõenäosus {(this.state.tasemevastus[12][0] * 100).toFixed(0)} %)<br/></span>}
+                <Box marginBottom={"20px"}><b>Sõnavara: <br/>{this.state.tasemevastus[12][1]} </b>
+                  {this.state.tasemevastus[12][0] > 0 &&
+                    <span>(tõenäosus {(this.state.tasemevastus[12][0] * 100).toFixed(0)} %)<br/></span>}
 
-                Arvesse on võetud sõnavaliku mitmekesisus ja ulatus (unikaalsete sõnade hulk, harvem esineva sõnavara
-                osakaal),
-                sõnavara tihedus (sisusõnade osakaal) ja nimisõnade abstraktsus.</Box>
-            </Box>
+                  Arvesse on võetud sõnavaliku mitmekesisus ja ulatus (unikaalsete sõnade hulk, harvem esineva sõnavara
+                  osakaal),
+                  sõnavara tihedus (sisusõnade osakaal) ja nimisõnade abstraktsus.</Box>
+              </Box>
             </Box>) : <div></div>) : ""}</Box> : "Tekst on liiga lühike"}</Box></Box>
   }
 
   kerimine() {
-    this.taust1.scrollTop = this.ala1.scrollTop;
   }
 
   tekstialaHiir() {
@@ -426,10 +449,6 @@ class Correction extends Component {
     }
 
     this.setState({selectedError: sona})
-  }
-
-  deleteAllErrors() {
-
   }
 
   loadErrors() {
@@ -479,49 +498,6 @@ class Correction extends Component {
               </Box></Box></Box>)
       })}
     </Box>)
-  }
-
-  vali(sona, koht) {
-    let k = 0, v = -1;
-    while (this.state.sisukohad[k] < koht) {
-      k++;
-    }
-    if (this.state.sisusonad[k] === sona) {
-      v = k;
-    }
-    for (let i = 0; i < 3; i++) {
-      if (this.state.sisusonad[k + i] === sona) {
-        v = k + i;
-      }
-      if (this.state.sisusonad[k - i] === sona) {
-        v = k - i;
-      }
-    }
-    if (this.state.sisusonad[v] !== this.state.vastussonad[v]) {
-      let vahetus = <Box key={"sm" + v}
-                         style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "10px"}}>
-      <span
-        style={{
-          'backgroundColor': 'lightpink',
-          fontSize: "20px",
-          paddingLeft: "5px",
-          paddingRight: "5px",
-          borderRadius: "5px"
-        }}>{this.puhasta(this.state.sisusonad[v])}</span> <EastIcon/> <span style={{
-        'backgroundColor': 'lightgreen',
-        fontSize: "20px",
-        paddingLeft: "5px",
-        paddingRight: "5px",
-        borderRadius: "5px"
-      }}>{this.puhasta(this.state.vastussonad[v])}</span> <span style={{fontSize: "20px", fontWeight: "bold"}}>|</span>
-        <IconButton size="small" variant="contained"
-                    onClick={() => this.asenda(this.state.sisukohad[v] - this.state.sisusonad[v].length, this.state.sisusonad[v], this.state.vastussonad[v])}><CheckCircleIcon
-          fontSize="large"/></IconButton><br/>
-      </Box>
-      this.setState({yksikmuutus: vahetus});
-    } else {
-      this.setState({yksikmuutus: false});
-    }
   }
 
   //upload text to alasisu
@@ -578,20 +554,22 @@ class Correction extends Component {
             <br/><br/>
             <Box>
               <TextUpload sendTextFromFile={this.sendTextFromFile}/>
-              <div id="highlights"
-                   ref={(e) => this.taust1 = e}>{this.state.taustakood}</div>
-              <textarea id="corrector-textarea"
-                        onScroll={() => this.kerimine()}
+              {!this.state.paringlopetatud ? <textarea id="corrector-textarea"
+                                                       ref={(e) => this.ala1 = e}
+                                                       onChange={(event) => this.alaMuutus(event)}
+                                                       value={this.state.alasisu}
+                                                       spellCheck={false}
+                                                       placeholder={"Kopeeri või kirjuta siia analüüsitav tekst"}
+
+              /> : <div contentEditable="true" className="editable-div-container" id="corrector-textarea-div"
                         ref={(e) => this.ala1 = e}
                         onChange={(event) => this.alaMuutus(event)}
-                        value={this.state.alasisu}
                         spellCheck={false}
-                        onMouseUp={(event) => this.tekstialaHiir(event)}
                         placeholder={"Kopeeri või kirjuta siia analüüsitav tekst"}
 
-              />
+              >{this.state.vastuskood}</div>}
             </Box>
-            <Box marginTop="-200px">
+            <Box>
               <Button
                 variant="contained"
                 onClick={() => this.kordama()}>Analüüsi
