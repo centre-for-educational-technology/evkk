@@ -36,6 +36,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+//import java.util.Arrays;
+//import java.util.List;
+
 import static java.util.Arrays.asList;
 import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
 import static org.springframework.http.ResponseEntity.ok;
@@ -163,6 +166,18 @@ public class TextController {
   public ResponseEntity<String> detailneparing(@RequestBody CorpusRequestDto vaartused) {
     return ok(textService.detailneparing(vaartused));
   }
+
+  @GetMapping("/uusparing")
+  public List <String> uusparing(String id){
+    return (textDao.uusparing());
+    //return Arrays.asList("tere", "tore");
+    //return textDao.findTextsByCorpusId(id);
+  }
+
+  /*@PostMapping("/detailneparing2")
+  public ResponseEntity<String> detailneparing2() {
+    return ok(textDao.uusparing2().toString());
+  }*/
 
   @PostMapping("/tekstidfailina")
   public HttpEntity<byte[]> tekstidfailina(@RequestBody CorpusDownloadDto corpusDownloadDto, HttpServletResponse response) throws IOException {

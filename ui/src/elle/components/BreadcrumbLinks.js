@@ -10,6 +10,7 @@ const breadcrumbNameMap = {
   '/tools': 'common_tools',
   '/links': 'common_links',
   '/about': 'common_about',
+  '/statistics': 'common_statistics',
   '/about/us': 'common_us',
   '/about/people': 'common_people',
   '/about/grants': 'common_grants',

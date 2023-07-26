@@ -28,7 +28,8 @@ const pages = [
   {id: 1, title: 'common_corrector', target: '/corrector'},
   {id: 2, title: 'common_tools', target: '/tools'},
   {id: 3, title: 'common_links', target: '/links'},
-  {id: 4, title: 'common_about', target: '/about'}
+  {id: 4, title: 'common_about', target: '/about'},
+  {id: 5, title: 'common_statistics', target: '/statistics'}
 ];
 
 const MenuLink = styled(Link)({

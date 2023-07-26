@@ -13,6 +13,7 @@ import ClusterFinder from './elle/tools/ClusterFinder';
 import WordAnalyserParent from './elle/tools/wordanalyser/WordAnalyserParent';
 import BreadcrumbLinks from './elle/components/BreadcrumbLinks';
 import AboutUs from './elle/pages/AboutUs';
+import Statistics from './elle/pages/Statistics';
 import Publications from './elle/pages/Publications';
 import Adding from './elle/pages/Adding.component';
 import Wordlist from './elle/tools/wordlist/Wordlist';
@@ -63,6 +64,9 @@ class AppRoutes extends Component {
             <Route path="publications"
                    element={<Publications/>}/>
           </Route>
+          <Route exact
+                 path='/statistics'
+                 element={<Statistics/>}/>
           <Route path="/tools/minitorn-pikkus"
                  element={<MinitornPikkus/>}/>
           <Route path="/tools/masinoppe-ennustus"

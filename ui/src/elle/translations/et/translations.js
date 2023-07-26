@@ -5,6 +5,7 @@ export const TRANSLATIONS_ET = {
   beginning: 'algus',
   collocates_filename: 'naabersõnad',
   common_about: 'Keskkonnast',
+  common_statistics: 'Statistika',
   common_analysis_options: 'Analüüsi valikud',
   common_articles: 'Publikatsioonid',
   common_author_data: 'Autori andmed',
