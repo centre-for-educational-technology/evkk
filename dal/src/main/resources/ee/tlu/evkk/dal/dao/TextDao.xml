@@ -50,7 +50,6 @@
            AS tabel1 GROUP BY text_id;
   </select>
 
-
   <select id="detailedTextQueryByParameters" resultType="java.lang.String">
     select array_to_json(array_agg(row_to_json(t)))
     from (

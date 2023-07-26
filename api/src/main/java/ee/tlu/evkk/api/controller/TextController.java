@@ -168,16 +168,9 @@ public class TextController {
   }
 
   @GetMapping("/uusparing")
-  public List <String> uusparing(String id){
+  public List <String> uusparing(){
     return (textDao.uusparing());
-    //return Arrays.asList("tere", "tore");
-    //return textDao.findTextsByCorpusId(id);
   }
-
-  /*@PostMapping("/detailneparing2")
-  public ResponseEntity<String> detailneparing2() {
-    return ok(textDao.uusparing2().toString());
-  }*/
 
   @PostMapping("/tekstidfailina")
   public HttpEntity<byte[]> tekstidfailina(@RequestBody CorpusDownloadDto corpusDownloadDto, HttpServletResponse response) throws IOException {
