@@ -15,7 +15,7 @@ let history = [
 //integer for indexing history with undo and redo
 let currentHistory = 0
 
-const Correction = (props) => {
+const Correction = () => {
     const [alasisu, setAlasisu] = useState('');
     const [tasemevastus, setTasemevastus] = useState(['algusväärtus']);
     const [tasemetekst, setTasemetekst] = useState('');
@@ -34,9 +34,6 @@ const Correction = (props) => {
     const [keerukusvastus, setKeerukusvastus] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     const [mitmekesisusvastus, setMitmekesisusvastus] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     const [korrektuur, setKorrektuur] = useState('');
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [clickedWord, setClickedWord] = useState(null);
-    const [popupOpen, setPopupOpen] = useState(null);
 
     const puhasta = (sona) => {
         if (sona !== undefined && sona !== "") {
@@ -234,7 +231,6 @@ const Correction = (props) => {
               <br/>
             </span>
                     );
-                    const kpl = puhasta2(sisu[i]);
                     vastustekst[i] = (
                         <WordClick sisu={sisu} vastus={vastus} jrk={i} asenda={asenda}
                                    eiAsenda={eiAsenda}/>

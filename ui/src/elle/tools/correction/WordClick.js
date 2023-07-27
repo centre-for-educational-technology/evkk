@@ -140,7 +140,7 @@ const WordClick = (props) => {
         )
     }
 
-    const handleClickAway = (parent) => {
+    const handleClickAway = () => {
         setOpen(false);
     };
 
