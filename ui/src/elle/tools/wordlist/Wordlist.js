@@ -6,10 +6,8 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Backdrop,
   Button,
   Checkbox,
-  CircularProgress,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -23,32 +21,86 @@ import {
 import { AccordionStyle } from '../../utils/constants';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { QuestionMark } from '@mui/icons-material';
-import { usePagination, useSortBy, useTable } from 'react-table';
-import TablePagination from '../../components/table/TablePagination';
 import WordlistMenu from './menu/WordlistMenu';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
+import GenericTable from '../../components/GenericTable';
+import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
+import { loadFetch } from '../../service/LoadFetch';
+import { useTranslation } from 'react-i18next';
 
 export default function Wordlist() {
 
+  const {t} = useTranslation();
   const navigate = useNavigate();
   const [paramsExpanded, setParamsExpanded] = useState(true);
   const [typeValue, setTypeValue] = useState('');
+  const [typeValueToDisplay, setTypeValueToDisplay] = useState('');
   const [typeError, setTypeError] = useState(false);
   const [stopwordsChecked, setStopwordsChecked] = useState(false);
   const [customStopwords, setCustomStopwords] = useState('');
   const [capitalizationChecked, setCapitalizationChecked] = useState(false);
   const [minimumFrequency, setMinimumFrequency] = useState('');
   const [tableToDownload, setTableToDownload] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState([]);
   const [showTable, setShowTable] = useState(false);
   const accessors = ['word', 'frequencyCount', 'frequencyPercentage'];
+  const data = useMemo(() => response, [response]);
+
+  useEffect(() => {
+    const type = typeValueToDisplay === 'WORDS' ? t('wordlist_word_column') : t('wordlist_lemma_column');
+    setTableToDownload([type, t('common_header_frequency'), t('common_header_percentage')]);
+  }, [typeValueToDisplay, t]);
+
+  useEffect(() => {
+    const queryStoreState = queryStore.getState();
+    const wordlistState = toolAnalysisStore.getState().wordlist;
+    if (wordlistState !== null && wordlistState.analysis.length > 0) {
+      const params = wordlistState.parameters;
+      setTypeValue(params.typeValue);
+      setTypeValueToDisplay(params.typeValue);
+      setStopwordsChecked(params.stopwordsChecked);
+      setCustomStopwords(params.customStopwords);
+      setCapitalizationChecked(params.capitalizationChecked);
+      setMinimumFrequency(params.minimumFrequency);
+      setResponse(wordlistState.analysis);
+      setParamsExpanded(false);
+      setShowTable(true);
+    } else if (queryStoreState.corpusTextIds === null && queryStoreState.ownTexts === null) {
+      navigate('..');
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    toolAnalysisStore.dispatch({
+      type: 'CHANGE_WORDLIST_RESULT',
+      value: {
+        parameters: {
+          typeValue: typeValue,
+          stopwordsChecked: stopwordsChecked,
+          customStopwords: customStopwords,
+          capitalizationChecked: capitalizationChecked,
+          minimumFrequency: minimumFrequency
+        },
+        analysis: response
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [response]);
+
+  queryStore.subscribe(() => {
+    const storeState = queryStore.getState();
+    setResponse([]);
+    setParamsExpanded(true);
+    setShowTable(false);
+    if (storeState.corpusTextIds === null && storeState.ownTexts === null) {
+      navigate('..');
+    }
+  });
 
   const columns = useMemo(() => [
     {
-      Header: 'Jrk',
+      Header: t('common_header_number'),
       accessor: 'id',
-      width: 40,
       disableSortBy: true,
       Cell: (cellProps) => {
         return cellProps.sortedFlatRows.findIndex(item => item.id === cellProps.row.id) + 1;
@@ -56,26 +108,23 @@ export default function Wordlist() {
     },
     {
       Header: () => {
-        return typeValue === 'sonad' ? 'Sõnavorm' : 'Algvorm';
+        return typeValueToDisplay === 'WORDS' ? t('wordlist_word_column') : t('wordlist_lemma_column');
       },
       accessor: 'word',
-      width: 200,
       Cell: (cellProps) => {
         return cellProps.value;
       }
     },
     {
-      Header: 'Kasutuste arv',
+      Header: t('common_header_frequency'),
       accessor: 'frequencyCount',
-      width: 40,
       Cell: (cellProps) => {
         return cellProps.value;
       }
     },
     {
-      Header: 'Osakaal',
+      Header: t('common_header_percentage'),
       accessor: 'frequencyPercentage',
-      width: 40,
       Cell: (cellProps) => {
         return `${cellProps.value}%`;
       }
@@ -83,67 +132,20 @@ export default function Wordlist() {
     {
       Header: '',
       accessor: 'menu',
-      width: 1,
       disableSortBy: true,
       Cell: (cellProps) => {
-        return <WordlistMenu cellProps={cellProps} type={typeValue} keepCapitalization={capitalizationChecked}/>;
+        return <WordlistMenu word={cellProps.row.original.word} type={typeValue}
+                             keepCapitalization={capitalizationChecked} showCollocatesButton={true}/>;
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  ], [typeValue, capitalizationChecked]);
-
-  const data = useMemo(() => response, [response]);
-
-  useEffect(() => {
-    const type = typeValue === 'sonad' ? 'Sõnavorm' : 'Algvorm';
-    setTableToDownload([type, 'Kasutuste arv', 'Osakaal']);
-  }, [typeValue]);
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    page,
-    prepareRow,
-    canPreviousPage,
-    canNextPage,
-    pageOptions,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    state: {pageIndex, pageSize}
-  } = useTable({
-    columns, data, initialState: {
-      sortBy: [
-        {
-          id: 'frequencyCount',
-          desc: true
-        }
-      ]
-    }
-  }, useSortBy, usePagination);
-
-  useEffect(() => {
-    if (!queryStore.getState()) {
-      navigate('..');
-    }
-  }, [navigate]);
-
-  const handleTypeChange = (event) => {
-    setTypeValue(event.target.value);
-    setTypeError(false);
-  };
+  ], [typeValue, typeValueToDisplay, capitalizationChecked, t]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setTypeError(!typeValue);
     if (typeValue) {
-      setParamsExpanded(false);
-      setLoading(true);
       setShowTable(false);
-      fetch('/api/tools/wordlist', {
+      loadFetch('/api/tools/wordlist', {
         method: 'POST',
         body: generateRequestData(),
         headers: {
@@ -151,17 +153,28 @@ export default function Wordlist() {
         }
       })
         .then(res => res.json())
-        .then((result) => {
+        .then(result => {
           setResponse(result);
           setShowTable(true);
-          setLoading(false);
+          setTypeValueToDisplay(typeValue);
         });
     }
   };
 
+  const handleTypeChange = (event) => {
+    setTypeValue(event.target.value);
+    setTypeError(false);
+  };
+
   const generateRequestData = () => {
+    const storeState = queryStore.getState();
     return JSON.stringify({
-      corpusTextIds: queryStore.getState().split(','),
+      corpusTextIds: storeState.corpusTextIds
+        ? storeState.corpusTextIds
+        : null,
+      ownTexts: storeState.ownTexts
+        ? storeState.ownTexts
+        : null,
       type: typeValue,
       excludeStopwords: stopwordsChecked,
       customStopwords: customStopwords === ''
@@ -180,7 +193,7 @@ export default function Wordlist() {
 
   return (
     <div className="tool-wrapper">
-      <h2 className="tool-title">Sõnaloend</h2>
+      <h2 className="tool-title">{t('common_wordlist')}</h2>
       <Accordion sx={AccordionStyle}
                  expanded={paramsExpanded}
                  onChange={() => setParamsExpanded(!paramsExpanded)}>
@@ -189,7 +202,7 @@ export default function Wordlist() {
           id="wordlist-filters-header"
         >
           <Typography>
-            Analüüsi valikud
+            {t('common_analysis_options')}
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -199,7 +212,7 @@ export default function Wordlist() {
                 <FormControl sx={{m: 3}}
                              error={typeError}
                              variant="standard">
-                  <FormLabel id="type-radios">Otsi</FormLabel>
+                  <FormLabel id="type-radios">{t('common_search')}</FormLabel>
                   <RadioGroup
                     aria-labelledby="type-radios"
                     name="type"
@@ -208,24 +221,24 @@ export default function Wordlist() {
                   >
                     <FormControlLabel value="WORDS"
                                       control={<Radio/>}
-                                      label="sõnavormid"/>
+                                      label={t('wordlist_search_word_forms')}/>
                     <FormControlLabel value="LEMMAS"
                                       control={<Radio/>}
-                                      label="algvormid"/>
+                                      label={t('wordlist_search_base_forms')}/>
                   </RadioGroup>
-                  {typeError && <FormHelperText>Väli on kohustuslik!</FormHelperText>}
+                  {typeError && <FormHelperText>{t('error_mandatory_field')}</FormHelperText>}
                   <Button sx={{width: 130}}
                           className="wordlist-analyse-button"
                           type="submit"
                           variant="contained">
-                    Analüüsi
+                    {t('analyse_button')}
                   </Button>
                 </FormControl>
               </div>
               <div>
                 <FormControl sx={{m: 3}}
                              variant="standard">
-                  <FormLabel id="stopwords">Välista stoppsõnad</FormLabel>
+                  <FormLabel id="stopwords">{t('wordlist_exclude_stopwords')}</FormLabel>
                   <FormControlLabel control={
                     <Checkbox
                       checked={stopwordsChecked}
@@ -233,18 +246,20 @@ export default function Wordlist() {
                     ></Checkbox>
                   }
                                     label={<>
-                                      vaikimisi loendist
-                                      <Tooltip title={<>Eesti keele stoppsõnade loendi on koostanud Kristel Uiboaed. See
-                                        sisaldab sidesõnu, asesõnu, sisutühje tegusõnu ja määrsõnu. Nimekiri on
-                                        kättesaadav Tartu Ülikooli andmerepositooriumis (vaata <a
+                                      {t('wordlist_stopwords_from_the_default_list')}
+                                      <Tooltip title={<>{t('wordlist_stopwords_textbox_hover_1')}
+                                        <a
                                           href={'https://datadoi.ee/handle/33/78'}
                                           target="_blank"
-                                          rel="noopener noreferrer">siit</a>).</>}
+                                          rel="noopener noreferrer">
+                                          {t('wordlist_stopwords_textbox_hover_2')}
+                                        </a>
+                                        {t('wordlist_stopwords_textbox_hover_3')}</>}
                                                placement="right">
-                                        <QuestionMark className="stopwords-tooltip-icon"/>
+                                        <QuestionMark className="tooltip-icon"/>
                                       </Tooltip></>}
                   />
-                  <TextField label="Kirjuta siia oma stoppsõnad (nt koer, kodu)"
+                  <TextField label={t('wordlist_stopwords_textbox')}
                              variant="outlined"
                              size="small"
                              value={customStopwords}
@@ -262,19 +277,19 @@ export default function Wordlist() {
                     ></Checkbox>
                   }
                                     label={<>
-                                      säilita suurtähed
+                                      {t('wordlist_retain_uppercase_letters')}
                                       <Tooltip
-                                        title='Sõnad muudetakse vaikimisi väiketäheliseks, näiteks "kool" ja "Kool" loetakse samaks sõnaks. Märgi kasti linnuke, kui soovid, et suur- ja väiketähelisi sõnu arvestataks eraldi (nt "Eesti" ja "eesti").'
+                                        title={t('wordlist_retain_uppercase_letters_hover')}
                                         placement="right">
-                                        <QuestionMark className="stopwords-tooltip-icon"/>
+                                        <QuestionMark className="tooltip-icon"/>
                                       </Tooltip></>}
                   />
                   <TextField label={<>
-                    Määra sõna minimaalne sagedus
+                    {t('wordlist_set_minimum_word_frequency')}
                     <Tooltip
-                      title="Kui soovid näiteks välistada sõnad, mida esineb tekstis vaid üks kord, siis määra sageduse alampiiriks 2. Mahukamaid tekstikogusid analüüsides jäetakse sageli kõrvale alla 5 korra esinevad sõnad."
+                      title={t('wordlist_set_minimum_word_frequency_hover')}
                       placement="right">
-                      <QuestionMark className="stopwords-tooltip-icon"/>
+                      <QuestionMark className="tooltip-icon"/>
                     </Tooltip></>}
                              type="number"
                              inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: '1'}}
@@ -295,71 +310,10 @@ export default function Wordlist() {
                              tableType={'Wordlist'}
                              headers={tableToDownload}
                              accessors={accessors}
-                             marginTop={'2vh'}
-                             marginRight={'18vw'}/>
-        <table className="wordlist-table"
-               {...getTableProps()}>
-          <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>
-                  {column.render('Header')}
-                  {column.canSort &&
-                    <span className="sortIcon"
-                          {...column.getHeaderProps(column.getSortByToggleProps({title: ''}))}>
-                        {column.isSorted
-                          ? column.isSortedDesc
-                            ? ' ▼'
-                            : ' ▲'
-                          : ' ▼▲'}
-                    </span>
-                  }
-                </th>
-              ))}
-            </tr>
-          ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-          {page.map((row, _i) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return (
-                    <td {...cell.getCellProps()}
-                        style={{
-                          width: cell.column.width
-                        }}>
-                      {cell.render('Cell')}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-          </tbody>
-        </table>
-        <br/>
-        <TablePagination
-          gotoPage={gotoPage}
-          previousPage={previousPage}
-          canPreviousPage={canPreviousPage}
-          nextPage={nextPage}
-          canNextPage={canNextPage}
-          pageIndex={pageIndex}
-          pageOptions={pageOptions}
-          pageSize={pageSize}
-          setPageSize={setPageSize}
-          pageCount={pageCount}
-        />
+                             marginTop={'2vh'}/>
+        <GenericTable tableClassname={'wordlist-table'} columns={columns} data={data}
+                      sortByColAccessor={'frequencyCount'}/>
       </>}
-      <Backdrop
-        open={loading}
-      >
-        <CircularProgress thickness={4}
-                          size="8rem"/>
-      </Backdrop>
     </div>
   );
 }

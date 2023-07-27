@@ -30,22 +30,22 @@ function TablePagination({
                      fullWidth
                      variant="contained"
                      aria-label="outlined primary button group">
-          <Button variant='contained'
+          <Button variant="contained"
                   onClick={() => gotoPage(0)}
                   disabled={!canPreviousPage}>
             {<FirstPageIcon/>}
-          </Button>{' '}
-          <Button variant='contained'
+          </Button>
+          <Button variant="contained"
                   onClick={() => previousPage()}
                   disabled={!canPreviousPage}>
             {<NavigateBeforeIcon/>}
-          </Button>{' '}
-          <Button variant='contained'
+          </Button>
+          <Button variant="contained"
                   onClick={() => nextPage()}
                   disabled={!canNextPage}>
             {<NavigateNextIcon/>}
-          </Button>{' '}
-          <Button variant='contained'
+          </Button>
+          <Button variant="contained"
                   onClick={() => gotoPage(pageCount - 1)}
                   disabled={!canNextPage}>
             {<LastPageIcon/>}
@@ -56,7 +56,7 @@ function TablePagination({
           {t("pagination_page")}{' '}
         <strong>
             {pageIndex + 1} / {pageOptions.length}
-          </strong>{' '}
+          </strong>
         </span>
       <TextField
         size='small'
@@ -64,9 +64,9 @@ function TablePagination({
         label={t("pagination_go_to_page")}
         type="number"
         defaultValue={pageIndex + 1}
+        className="pagination-textarea"
         onChange={e => {
-          const page = e.target.value ? Number(e.target.value) - 1 : 0
-          gotoPage(page)
+          gotoPage(e.target.value ? Number(e.target.value) - 1 : 0);
         }}
         InputLabelProps={{
           shrink: true,

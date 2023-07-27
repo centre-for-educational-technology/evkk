@@ -1,4 +1,4 @@
-import { useContext, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import './styles/LemmaView.css';
 import { useFilters, usePagination, useSortBy, useTable } from 'react-table';
 import TablePagination from '../../components/table/TablePagination';
@@ -6,8 +6,10 @@ import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
 import { AnalyseContext, SetLemmaContext, SetWordContext } from './Contexts';
-import { Box } from '@mui/material';
+import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import ToggleCell from './ToggleCell';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import Popover from '@mui/material/Popover';
 
 function LemmaView() {
 
@@ -15,8 +17,15 @@ function LemmaView() {
   const setLemma = useContext(SetLemmaContext);
   const setWord = useContext(SetWordContext);
   const lemmas = analyse.lemmas;
+  const wordtypes = analyse.wordtypes;
   const words = analyse.words;
   const ids = analyse.ids;
+  const [col1, setCol1] = useState([]);
+  const [filterValue, setFilterValue] = useState([]);
+  const [appliedFilters, setAppliedFilters] = useState([]);
+  const [lemmaFilterPopoverAnchor, setLemmaFilterPopoverAnchor] = useState(null);
+  const lemmaFilterPopoverToggle = Boolean(lemmaFilterPopoverAnchor);
+  const lemmaFilterPopoverID = lemmaFilterPopoverToggle ? 'lemma-filter-popover' : undefined;
   let lemmaArray = [];
 
   const {t} = useTranslation();
@@ -33,7 +42,8 @@ function LemmaView() {
             form: words[i],
             ids: [ids[i]]
           }],
-          count: 1
+          count: 1,
+          wordtype: wordtypes[i]
 
         };
         lemmaArray.push(newLemma);
@@ -72,7 +82,8 @@ function LemmaView() {
         col1: '',
         col2: [[], [], [], []],
         col3: 0,
-        col4: 0
+        col4: 0,
+        col5: ''
       };
       info.col1 = <span className="word"
                         onClick={() => setLemma(element.lemma)}>{element.lemma}</span>;
@@ -81,12 +92,61 @@ function LemmaView() {
         info.col2[1].push(`(${value.ids.length}), `);
         info.col2[3].push(value.ids[0]);
       }
+      info.col5 = element.wordtype;
       info.col3 = element.count;
       info.col2[1][info.col2[1].length - 1] = info.col2[1][info.col2[1].length - 1].slice(0, -2);
-      info.col4 = (element.count * 100 / words.length).toFixed(2);
+      info.col4 = (element.count * 100 / words.length).toFixed(2) + '%';
       tableVal.push(info);
     }
     return tableVal;
+  }
+
+  const handlePopoverOpen = (event) => {
+    setLemmaFilterPopoverAnchor(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setLemmaFilterPopoverAnchor(null);
+  };
+
+  function multiSelectFilter(rows, columnIds, filterValue) {
+    return filterValue.length === 0
+      ? rows
+      : rows.filter((row) =>
+        filterValue.some(substring => row.values[columnIds].includes(substring))
+      );
+  }
+
+  function multiSelect(values, label) {
+    const handleChange = (event) => {
+      let value = event.target.value;
+      setFilterValue(value);
+      setAppliedFilters(value);
+      setFilter('col5', value);
+    };
+
+    return (
+      <Box marginY={'5px'}>
+        <FormControl className="filter-class" size={'small'}>
+          <InputLabel>{label}</InputLabel>
+          <Select
+            label={label}
+            multiple
+            value={filterValue}
+            onChange={handleChange}
+          >
+            {values.map((value) => (
+              <MenuItem
+                key={value}
+                value={value}
+              >
+                {value}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+    );
   }
 
   const columns = useMemo(() => [
@@ -130,13 +190,32 @@ function LemmaView() {
         id: 'protsent',
         accessor: 'col4',
         width: 300
+      },
+      {
+        Header: t('common_header_percentage'),
+        id: 'col5',
+        accessor: 'col5',
+        width: 300,
+        filter: multiSelectFilter,
+        show: false
       }
+
     ],
     [t, setWord]
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const data = useMemo(() => fillData(), []);
+
+  useEffect(() => {
+    let list = [];
+    for (const element of data) {
+      if (!list.includes(element.col5)) {
+        list.push(element.col5);
+      }
+    }
+    setCol1(list);
+  }, [data]);
 
   const {
     getTableProps,
@@ -152,9 +231,11 @@ function LemmaView() {
     nextPage,
     previousPage,
     setPageSize,
+    setFilter,
     state: {pageIndex, pageSize}
   } = useTable({
     columns, data, initialState: {
+      hiddenColumns: ['col5'],
       sortBy: [
         {
           id: 'sagedus',
@@ -164,13 +245,45 @@ function LemmaView() {
     }
   }, useFilters, useSortBy, usePagination);
 
+  function AppliedFilters() {
+    if (appliedFilters !== []) {
+      return (
+        appliedFilters.map((value) => (<Chip sx={{marginBottom: '5px'}} key={value} label={value}/>))
+      );
+    }
+  }
 
   return (
     <>
-      <Box>
+      <Box> <Box className="filter-container">
+        <Box>{appliedFilters !== [] ?
+          <Box className="applied-filters-box">{t('applied_filters')}: {AppliedFilters()} </Box> : null}</Box>
+        <Box>
+          <Button className="Popover-button" aria-describedby={lemmaFilterPopoverID} variant="contained"
+                  onClick={handlePopoverOpen}><FilterAltIcon fontSize="large"/></Button>
+          <Popover
+            id={lemmaFilterPopoverID}
+            open={lemmaFilterPopoverToggle}
+            anchorEl={lemmaFilterPopoverAnchor}
+            onClose={handlePopoverClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left'
+            }}
+            transformOrigin={{
+              horizontal: 'center',
+              vertical: 'top'
+            }}
+          >
+            <Box className="popover-box">
+              {multiSelect(col1.sort(), t('filter_by_word_type'))}
+            </Box>
+          </Popover>
+        </Box>
         <TableDownloadButton data={data}
                              tableType={'LemmaView'}
                              headers={tableToDownload}/>
+      </Box>
         <table className="analyserTable"
                {...getTableProps()}
                style={{

@@ -1,7 +1,7 @@
 package ee.evkk.dto;
 
 import ee.evkk.dto.enums.CorpusDownloadFileType;
-import ee.evkk.dto.enums.CorpusDownloadFormType;
+import ee.evkk.dto.enums.CorpusDownloadForm;
 
 import java.util.List;
 import java.util.UUID;
@@ -9,7 +9,7 @@ import java.util.UUID;
 public class CorpusDownloadDto {
 
   private List<UUID> fileList;
-  private CorpusDownloadFormType form;
+  private CorpusDownloadForm form;
   private CorpusDownloadFileType fileType;
 
   public List<UUID> getFileList() {
@@ -20,11 +20,11 @@ public class CorpusDownloadDto {
     this.fileList = fileList;
   }
 
-  public CorpusDownloadFormType getForm() {
+  public CorpusDownloadForm getForm() {
     return form;
   }
 
-  public void setForm(CorpusDownloadFormType form) {
+  public void setForm(CorpusDownloadForm form) {
     this.form = form;
   }
 

@@ -1,7 +1,3 @@
-.buttongroup {
-  width: 40%;
-}
-
 .pagination {
   margin-top: 20px;
   display: flex;
@@ -12,4 +8,12 @@
 
 .fontStyle {
   font-size: large;
+}
+
+.pagination-textarea {
+  width: 100px;
+}
+
+.buttongroup {
+  width: 25%;
 }

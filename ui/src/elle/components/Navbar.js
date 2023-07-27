@@ -21,12 +21,14 @@ import { NavLink, useLocation } from 'react-router-dom';
 import '@fontsource/exo-2/600.css';
 import React, { useState } from 'react';
 import './styles/Navbar.css';
+import i18n from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 const pages = [
-  {id: 1, title: 'Tekstihindaja', target: '/corrector'},
-  {id: 2, title: 'Tekstid & tööriistad', target: '/tools'},
-  {id: 3, title: 'Lingikogud', target: '/links'},
-  {id: 4, title: 'Keskkonnast', target: '/about'}
+  {id: 1, title: 'common_corrector', target: '/corrector'},
+  {id: 2, title: 'common_tools', target: '/tools'},
+  {id: 3, title: 'common_links', target: '/links'},
+  {id: 4, title: 'common_about', target: '/about'}
 ];
 
 const MenuLink = styled(Link)({
@@ -62,6 +64,7 @@ const BurgerLink = styled(Link)({
 });
 
 function Navbar() {
+  const {t} = useTranslation();
   const [open, setOpen] = useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -77,6 +80,7 @@ function Navbar() {
     setLangAnchorEl(false);
   };
   const handleLangSelect = (lang) => {
+    i18n.changeLanguage(lang).then(r => r);
     localStorage.setItem('language', lang);
     if (location.pathname === '/tools/wordanalyser') {
       window.location.reload();
@@ -156,7 +160,7 @@ function Navbar() {
                   <Box sx={{my: 0, mx: 4}}>
                     <MenuLink to={page.target}
                               component={NavLink}>
-                      {page.title}
+                      {t(page.title)}
                     </MenuLink>
                   </Box>
                     {elements[index + 1] &&
@@ -212,7 +216,7 @@ function Navbar() {
                     <BurgerLink to={page.target}
                                 component={NavLink}
                                 onClick={toggleDrawer}>
-                      {page.title}
+                      {t(page.title)}
                     </BurgerLink>
                   </ListItem>
                 );

@@ -59,7 +59,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 4G
+          memory: 8G
 
   corrector-server:
     image: evkk-corrector-server

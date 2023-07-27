@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 import '../../tools/wordanalyser/styles/DownloadButton.css';
 
-export default function TableDownloadButton({data, headers, accessors, marginTop, marginRight, tableType}) {
+export default function TableDownloadButton({data, headers, accessors, marginTop, tableType}) {
 
   const {t} = useTranslation();
   const ExcelFile = ReactExport.ExcelFile;
@@ -16,10 +16,10 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
   const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
   const [fileType, setFileType] = useState(false);
   const fileDownloadElement = createRef();
+  const [anchorEl, setAnchorEl] = useState(null);
   const [buttonType, setButtonType] = useState(<Button variant="contained"
                                                        onClick={showButton}>{t('common_download')}</Button>);
   let csvData = '';
-  const [anchorEl, setAnchorEl] = useState(null);
   let tableHeaders = [];
 
   const handleClick = (event) => {
@@ -92,7 +92,7 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
       for (let i = 0; i < data.length; i++) {
         csvData[i].col5.splice(0, 2);
       }
-    } else if (tableType === 'Wordlist' || tableType === 'WordContext') {
+    } else if (tableType === 'Wordlist' || tableType === 'WordContext' || tableType === 'Collocates') {
       csvData = JSON.parse(JSON.stringify(data));
     }
   }
@@ -208,6 +208,27 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
           </ExcelSheet>
         </ExcelFile>);
       }
+    } else if (tableType === 'Collocates') {
+      if (fileType) {
+        setButtonType(csvButton('collocates_filename'));
+      } else {
+        setButtonType(<ExcelFile filename={t('collocates_filename')}
+                                 element={<Button variant="contained">{t('common_download')}</Button>}>
+          <ExcelSheet data={data}
+                      name={t('common_excel_sheet_name')}>
+            <ExcelColumn label={headers[0]}
+                         value="collocate"/>
+            <ExcelColumn label={headers[1]}
+                         value="score"/>
+            <ExcelColumn label={headers[2]}
+                         value="coOccurrences"/>
+            <ExcelColumn label={headers[3]}
+                         value="frequencyCount"/>
+            <ExcelColumn label={headers[4]}
+                         value="frequencyPercentage"/>
+          </ExcelSheet>
+        </ExcelFile>);
+      }
     }
   }
 
@@ -227,7 +248,7 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
 
   return (
     <Box className="download-button-section"
-         style={{marginTop: marginTop ? marginTop : '', marginRight: marginRight ? marginRight : ''}}>
+         style={{marginTop: marginTop ? marginTop : ''}}>
       <Tooltip title={t('common_download')}
                placement="top">
         <Button aria-describedby={id}

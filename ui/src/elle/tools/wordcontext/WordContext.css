@@ -54,3 +54,7 @@
   text-align: center;
   color: red;
 }
+
+.wordcontext-table td, .wordcontext-table th {
+  width: 1%;
+}

@@ -7,10 +7,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import {
   Alert,
-  Backdrop,
   Button,
   Checkbox,
-  CircularProgress,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -26,13 +24,16 @@ import {
 } from '@mui/material';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import './WordContext.css';
-import { usePagination, useSortBy, useTable } from 'react-table';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
-import TablePagination from '../../components/table/TablePagination';
 import { QuestionMark } from '@mui/icons-material';
+import GenericTable from '../../components/GenericTable';
+import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
+import { loadFetch } from '../../service/LoadFetch';
+import { useTranslation } from 'react-i18next';
 
 export default function WordContext() {
 
+  const {t} = useTranslation();
   const navigate = useNavigate();
   const [urlParams] = useSearchParams();
   const [paramsExpanded, setParamsExpanded] = useState(true);
@@ -42,20 +43,76 @@ export default function WordContext() {
   const [displayCount, setDisplayCount] = useState(5);
   const [displayType, setDisplayType] = useState('WORD');
   const [capitalizationChecked, setCapitalizationChecked] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState([]);
   const [showTable, setShowTable] = useState(false);
   const [showNoResultsError, setShowNoResultsError] = useState(false);
   const [lemmatizedKeywordResult, setLemmatizedKeywordResult] = useState(null);
   const [initialKeywordResult, setInitialKeywordResult] = useState(null);
-  const tableToDownload = ['Eelnev kontekst', 'Otsisõna', 'Järgnev kontekst'];
+  const tableToDownload = [t('concordances_preceding_context'), t('concordances_search_word'), t('concordances_following_context')];
   const accessors = ['contextBefore', 'keyword', 'contextAfter'];
+  const data = useMemo(() => response, [response]);
+
+  useEffect(() => {
+    if (urlParams.get('word') && urlParams.get('type') && urlParams.get('keepCapitalization')) {
+      setKeyword(urlParams.get('word'));
+      setTypeValue(urlParams.get('type'));
+      if (urlParams.get('type') !== 'LEMMAS') {
+        setCapitalizationChecked(urlParams.get('keepCapitalization') === 'true');
+      }
+      sendRequest();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlParams, keyword, typeValue, capitalizationChecked]);
+
+  useEffect(() => {
+    const queryStoreState = queryStore.getState();
+    const wordContextState = toolAnalysisStore.getState().wordContext;
+    if (wordContextState !== null && wordContextState.analysis.length > 0) {
+      const params = wordContextState.parameters;
+      setTypeValue(params.typeValue);
+      setKeyword(params.keyword);
+      setDisplayCount(params.displayCount);
+      setDisplayType(params.displayType);
+      setCapitalizationChecked(params.capitalizationChecked);
+      setResponse(wordContextState.analysis);
+      setParamsExpanded(false);
+      setShowTable(true);
+    } else if (queryStoreState.corpusTextIds === null && queryStoreState.ownTexts === null) {
+      navigate('..');
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    toolAnalysisStore.dispatch({
+      type: 'CHANGE_WORDCONTEXT_RESULT',
+      value: {
+        parameters: {
+          typeValue: typeValue,
+          keyword: keyword,
+          displayCount: displayCount,
+          displayType: displayType,
+          capitalizationChecked: capitalizationChecked
+        },
+        analysis: response
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [response]);
+
+  queryStore.subscribe(() => {
+    const storeState = queryStore.getState();
+    setResponse([]);
+    setParamsExpanded(true);
+    setShowTable(false);
+    if (storeState.corpusTextIds === null && storeState.ownTexts === null) {
+      navigate('..');
+    }
+  });
 
   const columns = useMemo(() => [
     {
-      Header: 'Jrk',
+      Header: t('common_header_number'),
       accessor: 'id',
-      width: 30,
       disableSortBy: true,
       Cell: (cellProps) => {
         return cellProps.sortedFlatRows.findIndex(item => item.id === cellProps.row.id) + 1;
@@ -63,60 +120,35 @@ export default function WordContext() {
       className: 'text-center'
     },
     {
-      Header: 'Eelnev kontekst',
+      Header: t('concordances_preceding_context'),
       accessor: 'contextBefore',
-      width: 100,
       Cell: (cellProps) => {
         return cellProps.value;
       },
       className: 'text-right'
     },
     {
-      Header: 'Otsisõna',
+      Header: t('concordances_search_word'),
       accessor: 'keyword',
-      width: 30,
       Cell: (cellProps) => {
         return cellProps.value;
       },
       className: 'wordcontext-keyword'
     },
     {
-      Header: 'Järgnev kontekst',
+      Header: t('concordances_following_context'),
       accessor: 'contextAfter',
-      width: 100,
       Cell: (cellProps) => {
         return cellProps.value;
       },
       className: 'text-left'
     }
-  ], []);
+  ], [t]);
 
-  const data = useMemo(() => response, [response]);
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    page,
-    prepareRow,
-    canPreviousPage,
-    canNextPage,
-    pageOptions,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    state: {pageIndex, pageSize}
-  } = useTable({
-    columns, data
-  }, useSortBy, usePagination);
-
-  useEffect(() => {
-    if (!queryStore.getState()) {
-      navigate('..');
-    }
-  }, [navigate]);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    sendRequest();
+  };
 
   const handleTypeChange = (event) => {
     setTypeValue(event.target.value);
@@ -126,17 +158,11 @@ export default function WordContext() {
     }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    sendRequest();
-  };
-
   const sendRequest = () => {
     setTypeError(!typeValue);
     if (typeValue) {
-      setLoading(true);
       setShowTable(false);
-      fetch('/api/tools/wordcontext', {
+      loadFetch('/api/tools/wordcontext', {
         method: 'POST',
         body: generateRequestData(),
         headers: {
@@ -144,9 +170,8 @@ export default function WordContext() {
         }
       })
         .then(res => res.json())
-        .then((result) => {
+        .then(result => {
           removeUrlParams();
-          setLoading(false);
           setLemmatizedKeywordResult(null);
           setResponse(result.contextList);
           if (result.contextList.length === 0) {
@@ -167,8 +192,14 @@ export default function WordContext() {
   };
 
   const generateRequestData = () => {
+    const storeState = queryStore.getState();
     return JSON.stringify({
-      corpusTextIds: queryStore.getState().split(','),
+      corpusTextIds: storeState.corpusTextIds
+        ? storeState.corpusTextIds
+        : null,
+      ownTexts: storeState.ownTexts
+        ? storeState.ownTexts
+        : null,
       type: typeValue,
       keyword: keyword,
       displayCount: displayCount,
@@ -181,21 +212,9 @@ export default function WordContext() {
     navigate('', {replace: true});
   };
 
-  useEffect(() => {
-    if (urlParams.get('word') && urlParams.get('type') && urlParams.get('keepCapitalization')) {
-      setKeyword(urlParams.get('word'));
-      setTypeValue(urlParams.get('type'));
-      if (urlParams.get('type') !== 'LEMMAS') {
-        setCapitalizationChecked(urlParams.get('keepCapitalization') === 'true');
-      }
-      sendRequest();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [urlParams, keyword, typeValue, capitalizationChecked]);
-
   return (
     <div className="tool-wrapper">
-      <h2 className="tool-title">Sõna kontekstis</h2>
+      <h2 className="tool-title">{t('common_word_in_context')}</h2>
       <Accordion sx={AccordionStyle}
                  expanded={paramsExpanded}
                  onChange={() => setParamsExpanded(!paramsExpanded)}>
@@ -204,7 +223,7 @@ export default function WordContext() {
           id="wordcontext-filters-header"
         >
           <Typography>
-            Analüüsi valikud
+            {t('common_analysis_options')}
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -214,7 +233,7 @@ export default function WordContext() {
                 <FormControl sx={{m: 3}}
                              error={typeError}
                              variant="standard">
-                  <FormLabel id="type-radios">Otsi</FormLabel>
+                  <FormLabel id="type-radios">{t('common_search')}</FormLabel>
                   <RadioGroup
                     aria-labelledby="type-radios"
                     name="type"
@@ -223,25 +242,25 @@ export default function WordContext() {
                   >
                     <FormControlLabel value="WORDS"
                                       control={<Radio/>}
-                                      label="sõnavormi alusel"/>
+                                      label={t('common_by_word_form')}/>
                     <FormControlLabel value="LEMMAS"
                                       control={<Radio/>}
-                                      label="algvormi alusel"/>
+                                      label={t('common_by_base_form')}/>
                   </RadioGroup>
-                  {typeError && <FormHelperText>Väli on kohustuslik!</FormHelperText>}
+                  {typeError && <FormHelperText>{t('error_mandatory_field')}</FormHelperText>}
                   <Button sx={{width: 130}}
                           style={{marginTop: '10vh !important'}}
                           className="wordcontext-analyse-button"
                           type="submit"
                           variant="contained">
-                    Analüüsi
+                    {t('analyse_button')}
                   </Button>
                 </FormControl>
               </div>
               <div>
                 <FormControl sx={{m: 3}}
                              variant="standard">
-                  <FormLabel id="keyword">Sisesta otsisõna</FormLabel>
+                  <FormLabel id="keyword">{t('common_enter_search_word')}</FormLabel>
                   <TextField variant="outlined"
                              size="small"
                              required
@@ -253,7 +272,7 @@ export default function WordContext() {
                 <FormControl sx={{m: 3}}
                              style={{marginTop: '-1vh'}}
                              variant="standard">
-                  <FormLabel id="display">Kuva</FormLabel>
+                  <FormLabel id="display">{t('common_view')}</FormLabel>
                   <Grid container>
                     <Grid item>
                       <TextField variant="outlined"
@@ -273,8 +292,8 @@ export default function WordContext() {
                           value={displayType}
                           onChange={(e) => setDisplayType(e.target.value)}
                         >
-                          <MenuItem value="WORD">sõna</MenuItem>
-                          <MenuItem value="SENTENCE">lauset</MenuItem>
+                          <MenuItem value="WORD">{t('concordances_words')}</MenuItem>
+                          <MenuItem value="SENTENCE">{t('concordances_sentences')}</MenuItem>
                         </Select>
                       </FormControl>
                     </Grid>
@@ -282,7 +301,7 @@ export default function WordContext() {
                       item
                       className="wordcontext-display-explanation"
                     >
-                      enne ja pärast valitud sõna
+                      {t('concordances_before_and_after_selected_word')}
                     </Grid>
                   </Grid>
                 </FormControl>
@@ -298,11 +317,11 @@ export default function WordContext() {
                     ></Checkbox>
                   }
                                     label={<>
-                                      tõstutundlik
+                                      {t('common_case_sensitive')}
                                       <Tooltip
-                                        title='Vaikimisi ei arvestata otsisõna suurt või väikest algustähte, nt "eesti" võimaldab leida nii "eesti" kui ka "Eesti" kasutuskontekstid. Märgi kasti linnuke, kui soovid ainult väike- või suurtähega algavaid vasteid.'
+                                        title={t('concordances_case_sensitive_hover')}
                                         placement="right">
-                                        <QuestionMark className="stopwords-tooltip-icon"/>
+                                        <QuestionMark className="tooltip-icon"/>
                                       </Tooltip></>}
                   />
                 </FormControl>
@@ -313,84 +332,23 @@ export default function WordContext() {
       </Accordion>
       {lemmatizedKeywordResult && <>
         <br/>
-        <Alert severity="warning">Otsisõna "{initialKeywordResult}" vasteid ei leitud. Kasutasime automaatset algvormi
-          tuvastust ja
-          otsisime sõna "{lemmatizedKeywordResult}" vormide kasutusnäiteid.</Alert>
+        <Alert severity="warning">
+          {t('concordances_keyword_lemmatization_warning', {
+            initialKeywordResult: initialKeywordResult,
+            lemmatizedKeywordResult: lemmatizedKeywordResult
+          })}
+        </Alert>
       </>}
       {showTable && <>
         <TableDownloadButton data={data}
                              tableType={'WordContext'}
                              headers={tableToDownload}
                              accessors={accessors}
-                             marginTop={'2vh'}
-                             marginRight={'11.5vw'}/>
-        <table className="wordcontext-table"
-               {...getTableProps()}>
-          <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>
-                  {column.render('Header')}
-                  {column.canSort &&
-                    <span className="sortIcon"
-                          {...column.getHeaderProps(column.getSortByToggleProps({title: ''}))}>
-                        {column.isSorted
-                          ? column.isSortedDesc
-                            ? ' ▼'
-                            : ' ▲'
-                          : ' ▼▲'}
-                    </span>
-                  }
-                </th>
-              ))}
-            </tr>
-          ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-          {page.map((row, _i) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return (
-                    <td {...cell.getCellProps({
-                      className: cell.column.className
-                    })}
-                        style={{
-                          width: cell.column.width
-                        }}>
-                      {cell.render('Cell')}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-          </tbody>
-        </table>
-        <br/>
-        <TablePagination
-          gotoPage={gotoPage}
-          previousPage={previousPage}
-          canPreviousPage={canPreviousPage}
-          nextPage={nextPage}
-          canNextPage={canNextPage}
-          pageIndex={pageIndex}
-          pageOptions={pageOptions}
-          pageSize={pageSize}
-          setPageSize={setPageSize}
-          pageCount={pageCount}
-        />
+                             marginTop={'2vh'}/>
+        <GenericTable tableClassname={'wordcontext-table'} columns={columns} data={data}/>
       </>}
-      <Backdrop
-        open={loading}
-      >
-        <CircularProgress thickness={4}
-                          size="8rem"/>
-      </Backdrop>
       {showNoResultsError &&
-        <Alert severity="error">Tekstist ei leitud otsisõna. Muuda analüüsi valikuid ja proovi uuesti!</Alert>}
+        <Alert severity="error">{t('error_no_matching_keywords')}</Alert>}
     </div>
   );
 }

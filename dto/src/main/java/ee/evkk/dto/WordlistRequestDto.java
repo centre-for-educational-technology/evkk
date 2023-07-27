@@ -9,8 +9,9 @@ import java.util.UUID;
 
 public class WordlistRequestDto {
 
-  @NotNull
   private Set<UUID> corpusTextIds;
+
+  private String ownTexts;
 
   @NotNull
   private WordType type;
@@ -31,6 +32,14 @@ public class WordlistRequestDto {
 
   public void setCorpusTextIds(Set<UUID> corpusTextIds) {
     this.corpusTextIds = corpusTextIds;
+  }
+
+  public String getOwnTexts() {
+    return ownTexts;
+  }
+
+  public void setOwnTexts(String ownTexts) {
+    this.ownTexts = ownTexts;
   }
 
   public WordType getType() {

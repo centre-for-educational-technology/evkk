@@ -2,9 +2,9 @@ package ee.tlu.evkk.api.service;
 
 import ee.evkk.dto.WordContextDto;
 import ee.evkk.dto.WordContextRequestDto;
-import ee.evkk.dto.integration.WordContextResponseDto;
+import ee.evkk.dto.WordContextResponseDto;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
-import ee.tlu.evkk.dal.dao.TextDao;
+import ee.tlu.evkk.core.service.TextService;
 import ee.tlu.evkk.dal.dto.WordAndPosInfoDto;
 import org.springframework.stereotype.Service;
 
@@ -28,16 +28,16 @@ import static java.util.Arrays.asList;
 @Service
 public class WordContextService {
 
-  private final TextDao textDao;
   private final StanzaServerClient stanzaServerClient;
+  private final TextService textService;
 
-  public WordContextService(TextDao textDao, StanzaServerClient stanzaServerClient) {
-    this.textDao = textDao;
+  public WordContextService(StanzaServerClient stanzaServerClient, TextService textService) {
+    this.textService = textService;
     this.stanzaServerClient = stanzaServerClient;
   }
 
   public WordContextResponseDto getWordContextResponse(WordContextRequestDto dto) {
-    String sanitizedTextContent = sanitizeText(textDao.findTextsByIds(dto.getCorpusTextIds()));
+    String sanitizedTextContent = sanitizeText(textService.combineCorpusTextIdsAndOwnText(dto.getCorpusTextIds(), dto.getOwnTexts()));
     if (SENTENCE.equals(dto.getDisplayType())) {
       List<List<WordAndPosInfoDto>> sentencelist = WORDS.equals(dto.getType())
         ? removeCapitalizationInList(sentenceArrayToList(stanzaServerClient.getSonadLausetenaJaPosInfo(sanitizedTextContent)), dto.isKeepCapitalization())
@@ -56,7 +56,7 @@ public class WordContextService {
     if (initialList.isEmpty() && LEMMAS.equals(dto.getType())) {
       String initialKeyword = dto.getKeyword();
       String sanitizedLemmatizedKeyword = sanitizeLemmaStrings(asList(stanzaServerClient.getLemmad(initialKeyword))).get(0);
-      if (!sanitizedLemmatizedKeyword.equalsIgnoreCase(dto.getKeyword())) {
+      if (!sanitizedLemmatizedKeyword.equalsIgnoreCase(initialKeyword)) {
         dto.setKeyword(sanitizedLemmatizedKeyword.toLowerCase());
         List<WordContextDto> newList = generateContextListForSentences(sentencelist, dto, sanitizedTextContent);
         return new WordContextResponseDto(newList, initialKeyword, sanitizedLemmatizedKeyword);
@@ -116,6 +116,9 @@ public class WordContextService {
         int contextBeforeEnd = wordlist.get(i).getStartChar();
         int contextAfterStart = wordlist.get(i).getEndChar();
         int contextAfterEnd = getWordAndPosInfoByIndexFromWordlist(wordlist, i, dto.getDisplayCount(), true).getEndChar() + 1;
+        contextAfterEnd = contextAfterEnd <= sanitizedTextContent.length()
+          ? contextAfterEnd
+          : contextAfterEnd - 1;
 
         result.add(new WordContextDto(
           sanitizedTextContent.substring(contextBeforeEnd, contextAfterStart),

@@ -3,34 +3,37 @@ import { Box, Breadcrumbs, Link, styled } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
 import { Link as RouterLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const breadcrumbNameMap = {
-  '/corrector': 'Tekstihindaja',
-  '/links': 'Lingikogud',
-  '/tools': 'Tekstid & tööriistad',
-  '/about': 'Keskkonnast',
-  '/about/us': 'Meist',
-  '/about/people': 'Töötajad',
-  '/about/grants': 'Grandid',
-  '/about/publications': 'Üllitised',
-  '/tools/adding': 'Loovuta tekst',
-  '/tools/clusterfinder': 'Mustrid',
-  '/tools/wordanalyser': 'Sõnaanalüüs',
-  '/tools/wordlist': 'Sõnaloend',
-  '/tools/wordcontext': 'Sõna kontekstis'
+  '/corrector': 'common_corrector',
+  '/tools': 'common_tools',
+  '/links': 'common_links',
+  '/about': 'common_about',
+  '/about/us': 'common_us',
+  '/about/people': 'common_people',
+  '/about/grants': 'common_grants',
+  '/about/publications': 'common_publications',
+  '/tools/adding': 'common_publish_your_text',
+  '/tools/clusterfinder': 'common_clusters',
+  '/tools/wordanalyser': 'common_word_analysis',
+  '/tools/wordlist': 'common_wordlist',
+  '/tools/wordcontext': 'common_word_in_context',
+  '/tools/collocates': 'common_neighbouring_words'
 };
 
 const MenuLink = styled(Link)({
-  color: "#1B1B1B",
-  textDecoration: "none",
-  fontFamily: ["'Exo 2'", 'sans-serif',].join(','),
+  color: '#1B1B1B',
+  textDecoration: 'none',
+  fontFamily: ['\'Exo 2\'', 'sans-serif'].join(','),
   '&:hover': {
-    color: "#9C27B0",
-    textDecoration: "none",
+    color: '#9C27B0',
+    textDecoration: 'none'
   }
 });
 
 export default function BreadcrumbLinks() {
+  const {t} = useTranslation();
   const breadcrumbs = useBreadcrumbs();
   let noMatch = false;
 
@@ -46,10 +49,10 @@ export default function BreadcrumbLinks() {
   if (noMatch) {
     return (
       <React.Fragment>
-        <Box display={"flex"}
-             width={"80vw"}
-             padding={"25px"}
-             alignItems={"flex-end"}>
+        <Box display={'flex'}
+             width={'80vw'}
+             padding={'25px'}
+             alignItems={'flex-end'}>
           <Breadcrumbs aria-label="breadcrumb">
             <MenuLink to="/"
                       key="/"
@@ -59,19 +62,19 @@ export default function BreadcrumbLinks() {
             </MenuLink>
             <MenuLink style={{paddingRight: '15px', paddingLeft: '15px'}}
                       component={RouterLink}>
-              Lehte ei leitud
+              {t('error_page_not_found')}
             </MenuLink>
           </Breadcrumbs>
         </Box>
       </React.Fragment>
-    )
+    );
   } else if (breadcrumbs.length > 1) {
     return (
       <React.Fragment>
-        <Box display={"flex"}
-             width={"80vw"}
-             padding={"25px"}
-             alignItems={"flex-end"}>
+        <Box display={'flex'}
+             width={'80vw'}
+             padding={'25px'}
+             alignItems={'flex-end'}>
           <Breadcrumbs aria-label="breadcrumb">
             {breadcrumbs.map((value, index) => {
               return index === 0 ? (
@@ -86,7 +89,7 @@ export default function BreadcrumbLinks() {
                           key={value.key}
                           style={{paddingRight: '15px', paddingLeft: '15px'}}
                           component={RouterLink}>
-                  {breadcrumbNameMap[value.key]}
+                  {t(breadcrumbNameMap[value.key])}
                 </MenuLink>
               );
             })}
@@ -95,6 +98,6 @@ export default function BreadcrumbLinks() {
       </React.Fragment>
     );
   }
-  return <></>
+  return <></>;
 }
 

@@ -56,7 +56,7 @@ function GrammaticalAnalysis() {
       );
   }
 
-  function multiSelect(values, label) {
+  function multiSelect(values, label, disableValue) {
     const handleChange = (event) => {
       let value = event.target.value;
       setFilterValue(value);
@@ -72,6 +72,8 @@ function GrammaticalAnalysis() {
             multiple
             value={filterValue}
             onChange={handleChange}
+            disabled={disableValue}
+            onClose={changeFilterOptions}
           >
             {values.map((value) => (
               <MenuItem
@@ -149,7 +151,7 @@ function GrammaticalAnalysis() {
       }
       info.col3[1][info.col3[1].length - 1] = info.col3[1][info.col3[1].length - 1].slice(0, -2);
       info.col4 = element.count;
-      info.col5 = (element.count * 100 / words.length).toFixed(1);
+      info.col5 = (element.count * 100 / words.length).toFixed(1) + '%';
       tableVal.push(info);
     }
     return tableVal;
@@ -171,6 +173,16 @@ function GrammaticalAnalysis() {
     setCol1(list);
     setCol2(list2);
   }, [data]);
+
+  function changeFilterOptions() {
+    let list = [];
+    for (const element of data) {
+      if (filtersInUse.includes(element.col1)) {
+        list.push(element.col2);
+      }
+    }
+    setCol2(list);
+  }
 
   function handleTypeClick(e) {
     setType(e);
@@ -323,12 +335,13 @@ function GrammaticalAnalysis() {
               horizontal: 'left'
             }}
             transformOrigin={{
-              horizontal: 'center'
+              horizontal: 'center',
+              vertical: 'top'
             }}
           >
             <Box className="popover-box">
-              {multiSelect(col1, t('filter_by_word_type'))}
-              {multiSelect(col2, t('filter_by_word_form'))}
+              {multiSelect(col1.sort(), t('filter_by_word_type'), false)}
+              {multiSelect(col2.sort(), t('filter_by_word_form'), filtersInUse.length === 0)}
             </Box>
           </Popover>
         </Box>

@@ -3,7 +3,7 @@ package ee.tlu.evkk.core.service;
 import ee.evkk.dto.AddingRequestDto;
 import ee.evkk.dto.CorpusDownloadDto;
 import ee.evkk.dto.CorpusRequestDto;
-import ee.evkk.dto.enums.CorpusDownloadFormType;
+import ee.evkk.dto.enums.CorpusDownloadForm;
 import ee.evkk.dto.enums.Language;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.core.service.maps.TranslationMappings;
@@ -41,9 +41,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import static ee.evkk.dto.enums.CorpusDownloadFileType.ZIP;
-import static ee.evkk.dto.enums.CorpusDownloadFormType.BASIC_TEXT;
-import static ee.evkk.dto.enums.CorpusDownloadFormType.CONLLU;
-import static ee.evkk.dto.enums.CorpusDownloadFormType.VISLCG3;
+import static ee.evkk.dto.enums.CorpusDownloadForm.BASIC_TEXT;
+import static ee.evkk.dto.enums.CorpusDownloadForm.CONLLU;
+import static ee.evkk.dto.enums.CorpusDownloadForm.VISLCG3;
 import static ee.evkk.dto.enums.Language.EN;
 import static ee.evkk.dto.enums.Language.ET;
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.caseTranslationsEn;
@@ -66,6 +66,7 @@ import static java.lang.System.lineSeparator;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
+import static java.util.Objects.nonNull;
 import static java.util.UUID.randomUUID;
 import static java.util.regex.Pattern.compile;
 import static org.apache.logging.log4j.util.Strings.isBlank;
@@ -255,6 +256,18 @@ public class TextService {
       contentsCombined.append(lineSeparator()).append(lineSeparator());
     }
     return contentsCombined.toString().getBytes(UTF_8);
+  }
+
+  public String combineCorpusTextIdsAndOwnText(Set<UUID> corpusTextIds, String ownTexts) {
+    StringBuilder result = new StringBuilder();
+    if (nonNull(corpusTextIds) && !corpusTextIds.isEmpty()) {
+      result.append(textDao.findTextsByIds(corpusTextIds));
+    }
+    result.append(" ");
+    if (ownTexts != null && ownTexts.length() > 0) {
+      result.append(ownTexts);
+    }
+    return result.toString();
   }
 
   public String lisatekst(AddingRequestDto andmed) {
@@ -544,7 +557,7 @@ public class TextService {
     return stringBuilder.toString();
   }
 
-  private String replaceNewLinesAndTabs(CorpusDownloadFormType formType, String content) {
+  private String replaceNewLinesAndTabs(CorpusDownloadForm formType, String content) {
     return !BASIC_TEXT.equals(formType)
       ? content
       : content

@@ -3,7 +3,7 @@ package ee.tlu.evkk.api.service;
 import ee.evkk.dto.WordlistRequestDto;
 import ee.evkk.dto.WordlistResponseDto;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
-import ee.tlu.evkk.dal.dao.TextDao;
+import ee.tlu.evkk.core.service.TextService;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -26,16 +26,16 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class WordlistService {
 
-  private final TextDao textDao;
   private final StanzaServerClient stanzaServerClient;
+  private final TextService textService;
 
-  public WordlistService(TextDao textDao, StanzaServerClient stanzaServerClient) {
-    this.textDao = textDao;
+  public WordlistService(StanzaServerClient stanzaServerClient, TextService textService) {
+    this.textService = textService;
     this.stanzaServerClient = stanzaServerClient;
   }
 
   public List<WordlistResponseDto> getWordlistResponse(WordlistRequestDto dto) throws IOException {
-    String sanitizedTextContent = sanitizeText(textDao.findTextsByIds(dto.getCorpusTextIds()));
+    String sanitizedTextContent = sanitizeText(textService.combineCorpusTextIdsAndOwnText(dto.getCorpusTextIds(), dto.getOwnTexts()));
     List<String> wordlist = WORDS.equals(dto.getType())
       ? asList(stanzaServerClient.getSonad(sanitizedTextContent))
       : sanitizeLemmaStrings(asList(stanzaServerClient.getLemmad(sanitizedTextContent)));
