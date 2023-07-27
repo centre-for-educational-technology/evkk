@@ -123,29 +123,34 @@ $$
     temprow  record;
     newvalue varchar;
   begin
+    delete from core.text_property where property_name = 'ajavahemik' and property_value not like '%-%';
     for temprow in
       select *
       from core.text_property
       where property_name = 'aasta'
       loop
-        if cast(temprow.property_value as integer) between 2000 and 2005 then
-          newvalue := '2000-2005';
+        if not exists(select 1
+                      from core.text_property
+                      where property_name = 'ajavahemik'
+                        and text_id = temprow.text_id) then
+          if cast(temprow.property_value as integer) between 2000 and 2005 then
+            newvalue := '2000-2005';
+          end if;
+          if cast(temprow.property_value as integer) between 2006 and 2010 then
+            newvalue := '2006-2010';
+          end if;
+          if cast(temprow.property_value as integer) between 2011 and 2015 then
+            newvalue := '2011-2015';
+          end if;
+          if cast(temprow.property_value as integer) between 2016 and 2020 then
+            newvalue := '2016-2020';
+          end if;
+          if cast(temprow.property_value as integer) between 2021 and 9999 then
+            newvalue := '2021-';
+          end if;
+          insert into core.text_property
+          values (gen_random_uuid(), temprow.text_id, 'ajavahemik', newvalue);
         end if;
-        if cast(temprow.property_value as integer) between 2006 and 2010 then
-          newvalue := '2006-2010';
-        end if;
-        if cast(temprow.property_value as integer) between 2011 and 2015 then
-          newvalue := '2011-2015';
-        end if;
-        if cast(temprow.property_value as integer) between 2016 and 2020 then
-          newvalue := '2016-2020';
-        end if;
-        if cast(temprow.property_value as integer) between 2021 and 9999 then
-          newvalue := '2021-';
-        end if;
-        delete from core.text_property where property_name = 'ajavahemik' and text_id = temprow.text_id;
-        insert into core.text_property
-        values (gen_random_uuid(), temprow.text_id, 'ajavahemik', newvalue);
       end loop;
   end
 $$;
