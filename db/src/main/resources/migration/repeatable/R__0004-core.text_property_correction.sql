@@ -123,7 +123,6 @@ $$
     temprow  record;
     newvalue varchar;
   begin
-    delete from core.text_property where property_name = 'ajavahemik' and property_value not like '%-%';
     for temprow in
       select *
       from core.text_property
@@ -150,6 +149,16 @@ $$
           end if;
           insert into core.text_property
           values (gen_random_uuid(), temprow.text_id, 'ajavahemik', newvalue);
+        elsif exists(select 1
+                     from core.text_property
+                     where property_name = 'ajavahemik'
+                       and text_id = temprow.text_id
+                       and property_value = '2014') then
+          update core.text_property
+          set property_value = '2011-2015'
+          where property_name = 'ajavahemik'
+            and text_id = temprow.text_id
+            and property_value = '2014';
         end if;
       end loop;
   end
