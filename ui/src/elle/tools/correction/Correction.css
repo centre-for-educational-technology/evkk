@@ -1,10 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 @import "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200";
 
-.punataust {
-    background-color: red;
-}
-
 .correction-container {
     display: flex;
     gap: 20px;
@@ -65,15 +61,6 @@
     z-index: 100;
 }
 
-input:focus,
-textarea:active,
-textarea:focus,
-textarea:hover {
-    outline: 0 !important;
-    -webkit-appearance: none !important;
-    box-shadow: none !important;
-}
-
 #highlights {
     word-wrap: break-word;
     color: transparent;
@@ -92,15 +79,12 @@ textarea:hover {
     padding: 0;
 }
 
-.corrector-margitud {
+.corrector-marked-text {
     position: relative;
     padding: 3px;
     border-radius: 5px;
     cursor: pointer;
     background-color: lightpink;
-}
-
-.margitud-container {
 }
 
 .material-symbols-outlined {
@@ -171,7 +155,7 @@ textarea:hover {
     position: relative;
 }
 
-.tase-box-1 {
+.language-level-box-top {
     display: flex;
     padding: 0 50px;
     width: 100%;
@@ -208,4 +192,32 @@ textarea:hover {
     border-radius: 10px;
     display: inline-flex;
     gap: 10px;
+}
+
+.replacement-popup-main {
+    display: inline-flex;
+    border-radius: 10px;
+    max-width: min-content;
+    justify-content: center;
+}
+
+.popup-icon-button {
+    border-radius: 50px !important;
+    padding: 0 !important;
+    min-width: 25px !important;
+    min-height: 25px !important;
+}
+
+.popup-icon-button-big {
+    border-radius: 50px !important;
+    padding: 0 !important;
+    min-height: 30px !important;
+    min-width: 30px !important;
+}
+
+.error-container-outer {
+    display: inline-flex;
+    border-radius: 10px;
+    max-width: min-content;
+    justify-content: center;
 }

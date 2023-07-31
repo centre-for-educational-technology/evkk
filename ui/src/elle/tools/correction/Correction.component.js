@@ -8,189 +8,177 @@ import {TabContext, TabList, TabPanel} from "@mui/lab";
 import CloseIcon from "@mui/icons-material/Close";
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import WordClick from "./WordClick";
+
 //history to keep all changes step-by-step made to alasisu
-let history = [
-    "",
-]
+let history = ["",]
 //integer for indexing history with undo and redo
 let currentHistory = 0
 
 const Correction = () => {
-    const [alasisu, setAlasisu] = useState('');
-    const [tasemevastus, setTasemevastus] = useState(['algusväärtus']);
-    const [tasemetekst, setTasemetekst] = useState('');
-    const [korrektorivastus, setKorrektorivastus] = useState(['', '']);
-    const [vastuskood, setVastuskood] = useState([]);
-    const [vastusnahtav, setVastusnahtav] = useState(false);
-    const [muutuskood, setMuutuskood] = useState('');
-    const [yksikmuutus, setYksikmuutus] = useState(false);
-    const [taselisa, setTaselisa] = useState(false);
-    const [avatudkaart, setAvatudkaart] = useState('korrektuur');
-    const [kordab, setKordab] = useState(false);
-    const [sisukohad, setSisukohad] = useState([]);
-    const [sisusonad, setSisusonad] = useState([]);
-    const [vastussonad, setVastussonad] = useState([]);
-    const [paringlopetatud, setParinglopetatud] = useState(false);
-    const [keerukusvastus, setKeerukusvastus] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-    const [mitmekesisusvastus, setMitmekesisusvastus] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-    const [korrektuur, setKorrektuur] = useState('');
+    const [content, setContent] = useState('');
+    const [levelAnswer, setLevelAnswer] = useState(['algusväärtus']);
+    const [levelText, setLevelText] = useState('');
+    const [correctorAnswer, setCorrectorAnswer] = useState(['', '']);
+    const [replyCode, setReplyCode] = useState([]);
+    const [answerVisible, setAnswerVisible] = useState(false);
+    const [changesCode, setChangesCode] = useState('');
+    const [singleChange, setSingleChange] = useState(false);
+    const [addLevel, setAddLevel] = useState(false);
+    const [openCard, setOpenCard] = useState('korrektuur');
+    const [repeats, setRepeats] = useState(false);
+    const [contentPlacement, setContentPlacement] = useState([]);
+    const [contentWords, setContentWords] = useState([]);
+    const [responseWords, setResponseWords] = useState([]);
+    const [queryFinished, setQueryFinished] = useState(false);
+    const [complexityAnswer, setComplexityAnswer] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    const [diversityAnswer, setDiversityAnswer] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    const [correction, setCorrection] = useState('');
 
-    const puhasta = (sona) => {
-        if (sona !== undefined && sona !== "") {
-            return sona.replace(/^[^0-9a-zA-ZõäöüÕÄÖÜ]+/, '').replace(/[^0-9a-zA-ZõäöüÕÄÖÜ]+$/, '');
+    const clean = (word) => {
+        if (word !== undefined && word !== "") {
+            return word.replace(/^[^0-9a-zA-ZõäöüÕÄÖÜ]+/, '').replace(/[^0-9a-zA-ZõäöüÕÄÖÜ]+$/, '');
         }
     };
 
-    const puhasta2 = (sona) => {
+    const clean2 = (word) => {
         let re = /(^[^0-9a-zA-ZõäöüÕÄÖÜ]*)(.*[0-9a-zA-ZõäöüÕÄÖÜ]+)([^0-9a-zA-ZõäöüÕÄÖÜ]*)/;
-        return re.exec(sona);
+        return re.exec(word);
     };
 
-    const kordama = () => {
-        setKordab(true);
-        korda();
+    const repeating = () => {
+        setRepeats(true);
+        repeat();
     };
 
-    const korda = () => {
-        if (alasisu.replace(/(\r\n|\n|\r)/gm, "") === tasemetekst.replace(/(\r\n|\n|\r)/gm, "")) {
+    const repeat = () => {
+        if (content.replace(/(\r\n|\n|\r)/gm, "") === levelText.replace(/(\r\n|\n|\r)/gm, "")) {
             return;
         }
-        kysi3();
-        kysi4();
-        kysi5();
-        kysi6();
+        getCorrections();
+        getLanguageLevel();
+        getLanguageComplexity();
+        getLanguageDiversity();
     };
 
     const alaMuutus = (event) => {
-        setAlasisu(event.target.value.replace(/(\r\n|\n|\r)/gm, ""));
+        setContent(event.target.value.replace(/(\r\n|\n|\r)/gm, ""));
         keepHistory();
     };
 
-    const asenda = async (sisu, vastus, kohanr) => {
-        sisu[kohanr] = vastus[kohanr];
+    const replace = async (content, answer, index) => {
+        content[index] = answer[index];
         let tempString = "";
-        for (let i = 0; i < sisu.length; i++) {
-            if (i !== sisu.length - 1) {
-                tempString += sisu[i] + " ";
+        for (let i = 0; i < content.length; i++) {
+            if (i !== content.length - 1) {
+                tempString += content[i] + " ";
             } else {
-                tempString += sisu[i];
+                tempString += content[i];
             }
         }
-        setAlasisu(tempString);
-        setSisusonad(sisu);
-        setVastussonad(vastus);
-        let tempArray = vastuskood.map((value) => {
-            if (value.key === "s" + kohanr) {
-                return <span key={`s${kohanr}`}>{sisu[kohanr] + " "}</span>
+        setContent(tempString);
+        setContentWords(content);
+        setResponseWords(answer);
+        let tempArray = replyCode.map((value) => {
+            if (value.key === "s" + index) {
+                return <span key={`s${index}`}>{content[index] + " "}</span>
             } else {
                 return value
             }
         })
-        setVastuskood(tempArray);
+        setReplyCode(tempArray);
         loadErrors();
-        fillData(sisu, vastus);
-        kysi4();
-        kysi5();
-        kysi6();
+        fillData(content, answer);
+        getLanguageLevel();
+        getLanguageComplexity();
+        getLanguageDiversity();
     };
 
-    const eiAsenda = (sisu, vastus, kohanr) => {
-        vastus[kohanr] = sisu[kohanr];
+    const noReplace = (content, answer, index) => {
+        answer[index] = content[index];
         let tempString = "";
-        for (let i = 0; i < sisu.length; i++) {
-            if (i !== sisu.length - 1) {
-                tempString += sisu[i] + " ";
+        for (let i = 0; i < content.length; i++) {
+            if (i !== content.length - 1) {
+                tempString += content[i] + " ";
             } else {
-                tempString += sisu[i];
+                tempString += content[i];
             }
         }
-        setAlasisu(tempString);
-        setSisusonad(sisu);
-        setVastussonad(vastus);
-        let tempArray = vastuskood.map((value) => {
-            if (value.key === "s" + kohanr) {
-                return <span key={`s${kohanr}`}>{sisu[kohanr] + " "}</span>
+        setContent(tempString);
+        setContentWords(content);
+        setResponseWords(answer);
+        let tempArray = replyCode.map((value) => {
+            if (value.key === "s" + index) {
+                return <span key={`s${index}`}>{content[index] + " "}</span>
             } else {
                 return value
             }
         })
-        setVastuskood(tempArray);
+        setReplyCode(tempArray);
         loadErrors();
-        fillData(sisu, vastus);
-        kysi4();
-        kysi5();
-        kysi6();
+        fillData(content, answer);
+        getLanguageLevel();
+        getLanguageComplexity();
+        getLanguageDiversity();
     };
 
-    const kysi4 = () => {
-        if (alasisu === tasemetekst) {
+    const getLanguageLevel = () => {
+        if (content === levelText) {
             return;
         }
         let obj = {};
-        obj["tekst"] = alasisu;
-        const asisu = alasisu;
+        obj["tekst"] = content;
+        const newContent = content;
         fetch("/api/texts/keeletase", {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(obj)
+            method: "POST", headers: {
+                'Accept': 'application/json', 'Content-Type': 'application/json'
+            }, body: JSON.stringify(obj)
         }).then(v => v.json()).then(t => {
-            setTasemevastus(t);
-            setTasemetekst(asisu);
+            setLevelAnswer(t);
+            setLevelText(newContent);
         });
     };
 
-    const kysi5 = () => {
+    const getLanguageComplexity = () => {
         let obj = {};
-        obj["tekst"] = alasisu;
+        obj["tekst"] = content;
         fetch("/api/texts/keerukus", {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(obj)
+            method: "POST", headers: {
+                'Accept': 'application/json', 'Content-Type': 'application/json'
+            }, body: JSON.stringify(obj)
         }).then(v => v.json()).then(t => {
-            setKeerukusvastus(t);
+            console.log(t)
+            setComplexityAnswer(t);
         });
     };
 
-    const kysi6 = () => {
+    const getLanguageDiversity = () => {
         let obj = {};
-        obj["tekst"] = alasisu;
+        obj["tekst"] = content;
         fetch("/api/texts/mitmekesisus", {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(obj)
+            method: "POST", headers: {
+                'Accept': 'application/json', 'Content-Type': 'application/json'
+            }, body: JSON.stringify(obj)
         }).then(v => v.json()).then(t => {
-            setMitmekesisusvastus(t);
+            setDiversityAnswer(t);
         });
     };
 
     const handleTabChange = (event, newValue) => {
-        setAvatudkaart(newValue);
+        setOpenCard(newValue);
     };
 
-    const kysi3 = async () => {
-        if (alasisu === korrektorivastus[1]) {
+    const getCorrections = async () => {
+        if (content === correctorAnswer[1]) {
             return;
         }
         const obj = {
-            tekst: alasisu
+            tekst: content
         };
         try {
             const response = await fetch("/api/texts/korrektuur", {
-                method: "POST",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(obj)
+                method: "POST", headers: {
+                    'Accept': 'application/json', 'Content-Type': 'application/json'
+                }, body: JSON.stringify(obj)
             });
 
             if (!response.ok) {
@@ -200,233 +188,207 @@ const Correction = () => {
             const data = await response.json();
             let sm = data[1].split(" ");
             let vm = data[0].split(" ");
-            await setSisusonad(sm);
-            await setVastussonad(vm);
+            await setContentWords(sm);
+            await setResponseWords(vm);
             await fillData(sm, vm);
         } catch (error) {
-            console.error(error);
+            throw new Error('Request failed');
         }
     };
 
-    const fillData = (sisu, vastus) => {
-        const vastustekst = vastuskood;
-        let sisutekst = "";
-        const muutused = [];
-        const sisukohad = [];
-        if (sisu === vastus) {
-            setKorrektuur("Kõik korras");
+    const fillData = (content, answer) => {
+        const answerText = replyCode;
+        let contentText = "";
+        const changes = [];
+        const contentPlacement = [];
+        if (content === answer) {
+            setCorrection("Kõik korras");
         } else {
-            for (let i = 0; i < vastus.length; i++) {
-                if (sisu[i] === vastus[i]) {
-                    vastustekst[i] = <span key={"s" + i}>{vastus[i] + " "}</span>;
+            for (let i = 0; i < answer.length; i++) {
+                if (content[i] === answer[i]) {
+                    answerText[i] = <span key={"s" + i}>{answer[i] + " "}</span>;
                 } else {
-                    muutused[i] = (
-                        <span key={"sm" + i}>
-              <span style={{backgroundColor: 'lightpink'}}>
-                {sisu[i]}
-              </span> - <span>{vastus[i]}</span>{" "}
-                            <button onClick={() => asenda(sisu, vastus, i)}>
-                Asenda
-              </button>
-              <br/>
-            </span>
-                    );
-                    vastustekst[i] = (
-                        <WordClick sisu={sisu} vastus={vastus} jrk={i} asenda={asenda}
-                                   eiAsenda={eiAsenda}/>
-                    );
+                    changes[i] = (<span key={"sm" + i}>
+                        <span style={{backgroundColor: 'lightpink'}}>
+                            {content[i]}
+                        </span> - <span>{answer[i]}</span>{" "}
+                        <button onClick={() => replace(content, answer, i)}>
+                            Asenda
+                        </button>
+                        <br/>
+                    </span>);
+                    answerText[i] = (<WordClick content={content} answer={answer} index={i} replace={replace}
+                                                noReplace={noReplace}/>);
                 }
-                sisutekst += sisu[i] + " ";
-                sisukohad[i] = sisutekst.length;
+                contentText += content[i] + " ";
+                contentPlacement[i] = contentText.length;
             }
         }
-        setMuutuskood(<div>{muutused.length > 0 ? muutused : "puuduvad"}</div>);
-        setVastuskood(vastustekst);
-        setSisukohad(sisukohad);
-        setYksikmuutus(false);
-        setParinglopetatud(true);
+        setChangesCode(<div>{changes.length > 0 ? changes : "puuduvad"}</div>);
+        setReplyCode(answerText);
+        setContentPlacement(contentPlacement);
+        setSingleChange(false);
+        setQueryFinished(true);
     }
 
-    const renderTase = () => {
+    const generatePieChart = (value) => {
+        return parseInt((value * 100 * 3.6).toFixed(0), 10);
+    }
+
+    const renderLevel = () => {
         let degreeValue;
-        if (tasemevastus.length !== 1 && tasemevastus[0] !== undefined) {
-            let val1 = parseInt((tasemevastus[0][0] * 100 * 3.6).toFixed(0), 10);
-            let val2 = parseInt((tasemevastus[1][0] * 100 * 3.6).toFixed(0), 10);
-            let val3 = parseInt((tasemevastus[2][0] * 100 * 3.6).toFixed(0), 10);
-            let val4 = parseInt((tasemevastus[3][0] * 100 * 3.6).toFixed(0), 10);
+        if (levelAnswer.length !== 1 && levelAnswer[0]) {
+
+            let val1 = generatePieChart(levelAnswer[0][0]);
+            let val2 = generatePieChart(levelAnswer[1][0]);
+            let val3 = generatePieChart(levelAnswer[2][0]);
+            let val4 = generatePieChart(levelAnswer[3][0]);
             degreeValue = `conic-gradient(#b7e4c7 ${val1}deg,  #90e0ef ${val1}deg ${val2 + val1}deg, #ffb3c1 ${val2 + val1}deg ${val2 + val1 + val3}deg, #90e0ef ${val2 + val1 + val3}deg ${val2 + val1 + val3 + val4}deg)`;
         }
-        return (
-            <Box>
-                <Box component="span" width="auto">
-                    {kordab && parseInt(mitmekesisusvastus[10]) > 14 ? (
-                        <Box component="span" width="auto">
-                            {alasisu.length > 0 ? (
-                                tasemevastus.length > 0 ? (
-                                    tasemevastus.length === 1 ? (
-                                        ""
-                                    ) : (
-                                        <Box width="100%">
-                                            <Box className="tase-box-1">
-                                                <Box marginRight="10%" width="80%" display="flex" flexDirection="column"
-                                                     justifyContent="center"
-                                                     paddingLeft="20%">
-                                                    <Box display="flex" alignItems="center" justifyContent="start">
-                                                        <Box width={15} height={15} borderRadius="50px"
-                                                             bgcolor="#b7e4c7" marginRight="10px"></Box>
-                                                        <h2>{tasemevastus[0][1]}: {(tasemevastus[0][0] * 100).toFixed(0)}%</h2>
-                                                    </Box>
-                                                    <Box className="other-percentage-values">
-                                                        {tasemevastus.slice(1, 4).map((vastus) => {
-                                                            if ((vastus[0] * 100).toFixed(0) > 0) {
-                                                                return (
-                                                                    <Box display="flex" alignItems="center"
-                                                                         justifyContent="start">
-                                                                        {" "}
-                                                                        <Box width={15} height={15} borderRadius="50px"
-                                                                             marginRight="10px"></Box>
-                                                                        <h2>{vastus[1]}: {(vastus[0] * 100).toFixed(0)}%</h2>
-                                                                    </Box>
-                                                                );
-                                                            }
-                                                        })}
-                                                    </Box>
-                                                </Box>
-                                                {tasemevastus[1][0] * 100 > 0 ? (
-                                                    <Box display="flex" width="40%" justifyContent="center">
-                                                        <Box height={150} width={150} borderRadius={50}
-                                                             paddingRight="50px"
-                                                             style={{background: degreeValue}}></Box>
-                                                    </Box>
-                                                ) : null}
-                                            </Box>
-                                            <Box paddingLeft="50px" marginTop="30px" width="100%">
-                                                <Box marginBottom="20px">
-                                                    <Typography>
-                                                        <h2>Lisainfo</h2>
-                                                    </Typography>
-                                                </Box>
-                                                <Box marginBottom="20px">
-                                                    <b>Teksti üldine keerukus: <br/> {tasemevastus[4][1]} </b>
-                                                    (tõenäosus {(tasemevastus[4][0] * 100).toFixed(0)}%)<br/>
-                                                    Arvesse on võetud teksti, sõnade ja lausete pikkus.
-                                                </Box>
-                                                <Box marginBottom="20px">
-                                                    <b>Morfoloogia ehk vormikasutus: <br/>{tasemevastus[8][1]} </b>
-                                                    (tõenäosus {(tasemevastus[8][0] * 100).toFixed(0)}%)<br/>
-                                                    Arvesse on võetud sõnaliikide ja muutevormide osakaalud ning sõnade
-                                                    vormirohkus.
-                                                </Box>
-                                                <Box marginBottom="20px">
-                                                    <b>Sõnavara: <br/>{tasemevastus[12][1]} </b>
-                                                    {tasemevastus[12][0] > 0 && (
-                                                        <span>(tõenäosus {(tasemevastus[12][0] * 100).toFixed(0)} %)<br/></span>
-                                                    )}
-                                                    Arvesse on võetud sõnavaliku mitmekesisus ja ulatus (unikaalsete
-                                                    sõnade hulk, harvem esineva
-                                                    sõnavara osakaal),
-                                                    sõnavara tihedus (sisusõnade osakaal) ja nimisõnade abstraktsus.
-                                                </Box>
-                                            </Box>
-                                        </Box>
-                                    )
-                                ) : (
-                                    <div></div>
-                                )
-                            ) : (
-                                ""
-                            )}
-                        </Box>
-                    ) : (
-                        "Tekst on liiga lühike"
-                    )}
-                </Box>
+        return (<Box>
+            <Box component="span" width="auto">
+                {repeats && parseInt(diversityAnswer[10]) > 14 ? (<Box component="span" width="auto">
+                    {content.length > 0 ? (levelAnswer.length > 0 ? (levelAnswer.length === 1 ? ("") : (
+                        <Box width="100%">
+                            <Box className="language-level-box-top">
+                                <Box marginRight="10%" width="80%" display="flex" flexDirection="column"
+                                     justifyContent="center"
+                                     paddingLeft="20%">
+                                    <Box display="flex" alignItems="center" justifyContent="start">
+                                        <Box width={15} height={15} borderRadius="50px"
+                                             bgcolor="#b7e4c7" marginRight="10px"></Box>
+                                        <h2>{levelAnswer[0][1]}: {(levelAnswer[0][0] * 100).toFixed(0)}%</h2>
+                                    </Box>
+                                    <Box className="other-percentage-values">
+                                        {levelAnswer.slice(1, 4).map((vastus) => {
+                                            if ((vastus[0] * 100).toFixed(0) > 0) {
+                                                return (<Box display="flex" alignItems="center"
+                                                             justifyContent="start">
+                                                    {" "}
+                                                    <Box width={15} height={15} borderRadius="50px"
+                                                         marginRight="10px"></Box>
+                                                    <h2>{vastus[1]}: {(vastus[0] * 100).toFixed(0)}%</h2>
+                                                </Box>);
+                                            }
+                                        })}
+                                    </Box>
+                                </Box>
+                                {levelAnswer[1][0] * 100 > 0 ? (
+                                    <Box display="flex" width="40%" justifyContent="center">
+                                        <Box height={150} width={150} borderRadius={50}
+                                             paddingRight="50px"
+                                             style={{background: degreeValue}}></Box>
+                                    </Box>) : null}
+                            </Box>
+                            <Box paddingLeft="50px" marginTop="30px" width="100%">
+                                <Box marginBottom="20px">
+                                    <Typography>
+                                        <h2>Lisainfo</h2>
+                                    </Typography>
+                                </Box>
+                                <Box marginBottom="20px">
+                                    <b>Teksti üldine keerukus: <br/> {levelAnswer[4][1]} </b>
+                                    (tõenäosus {(levelAnswer[4][0] * 100).toFixed(0)}%)<br/>
+                                    Arvesse on võetud teksti, sõnade ja lausete pikkus.
+                                </Box>
+                                <Box marginBottom="20px">
+                                    <b>Morfoloogia ehk vormikasutus: <br/>{levelAnswer[8][1]} </b>
+                                    (tõenäosus {(levelAnswer[8][0] * 100).toFixed(0)}%)<br/>
+                                    Arvesse on võetud sõnaliikide ja muutevormide osakaalud ning sõnade
+                                    vormirohkus.
+                                </Box>
+                                <Box marginBottom="20px">
+                                    <b>Sõnavara: <br/>{levelAnswer[12][1]} </b>
+                                    {levelAnswer[12][0] > 0 && (
+                                        <span>(tõenäosus {(levelAnswer[12][0] * 100).toFixed(0)} %)<br/></span>)}
+                                    Arvesse on võetud sõnavaliku mitmekesisus ja ulatus (unikaalsete
+                                    sõnade hulk, harvem esineva
+                                    sõnavara osakaal),
+                                    sõnavara tihedus (sisusõnade osakaal) ja nimisõnade abstraktsus.
+                                </Box>
+                            </Box>
+                        </Box>)) : (<div></div>)) : ("")}
+                </Box>) : ("Tekst on liiga lühike")}
             </Box>
-        );
+        </Box>);
     }
 
     const loadErrors = () => {
         let errorList = [];
-        for (let i = 0; i < sisusonad.length; i++) {
-            if (sisusonad[i] !== vastussonad[i]) {
-                errorList.push([sisusonad[i], vastussonad[i], sisukohad[i], i]);
+        for (let i = 0; i < contentWords.length; i++) {
+            if (contentWords[i] !== responseWords[i]) {
+                errorList.push([contentWords[i], responseWords[i], contentPlacement[i], i]);
             }
         }
-        return (
-            <Box>
-                {errorList.map((error) => {
-                    return (
-                        <Box display="flex" justifyContent="center">
-                            <Box id={error[0]} display="inline-flex" borderRadius="10px" maxWidth="min-content"
-                                 justifyContent="center">
-                                <Box
-                                    id={error[0]}
-                                    className="error-list-box-1"
+        return (<Box>
+            {errorList.map((error) => {
+                return (<Box display="flex" justifyContent="center">
+                    <Box id={error[0]}
+                         className="error-conteinar-outer">
+                        <Box
+                            id={error[0]}
+                            className="error-list-box-1"
+                        >
+                            <span
+                                style={{
+                                    backgroundColor: "lightpink"
+                                }}
+                                className="error-word-container"
+                            >
+                                {clean(error[0])}
+                            </span>{" "}
+                            <EastIcon/>{" "}
+                            <span
+                                style={{
+                                    backgroundColor: "lightgreen",
+                                }}
+                                className="error-word-container"
+                            >
+                                {clean(error[1])}
+                            </span>{" "}
+                            <span style={{fontSize: "20px", fontWeight: "bold"}}>|</span>
+                            <Box display="flex" gap="15px">
+                                <Button
+                                    size="30px"
+                                    color="success"
+                                    className="popup-icon-button-big"
+                                    variant="contained"
+                                    onClick={() => {
+                                        replace(contentWords, responseWords, error[3])
+                                    }}
                                 >
-                  <span
-                      style={{
-                          backgroundColor: "lightpink"
-                      }}
-                      className="error-word-container"
-                  >
-                    {puhasta(error[0])}
-                  </span>{" "}
-                                    <EastIcon/>{" "}
-                                    <span
-                                        style={{
-                                            backgroundColor: "lightgreen",
-                                        }}
-                                        className="error-word-container"
-                                    >
-                    {puhasta(error[1])}
-                  </span>{" "}
-                                    <span style={{fontSize: "20px", fontWeight: "bold"}}>|</span>
-                                    <Box display="flex" gap="15px">
-                                        <Button
-                                            size="30px"
-                                            color="success"
-                                            sx={{borderRadius: 30, padding: 0, minHeight: 30, minWidth: 30}}
-                                            variant="contained"
-                                            onClick={() => {
-                                                asenda(sisusonad, vastussonad, error[3])
-                                            }}
-                                        >
-                                            <DoneIcon fontSize="medium"/>
-                                        </Button>
-                                        <Button
-                                            size="30px"
-                                            color="error"
-                                            sx={{borderRadius: 30, padding: 0, minHeight: 30, minWidth: 30}}
-                                            variant="contained"
-                                            onClick={() => {
-                                                eiAsenda(sisusonad, vastussonad, error[3])
-                                            }}
-                                        >
-                                            <CloseIcon fontSize="medium"/>
-                                        </Button>
-                                    </Box>
-                                </Box>
+                                    <DoneIcon fontSize="medium"/>
+                                </Button>
+                                <Button
+                                    size="30px"
+                                    color="error"
+                                    className="popup-icon-button-big"
+                                    variant="contained"
+                                    onClick={() => {
+                                        noReplace(contentWords, responseWords, error[3])
+                                    }}
+                                >
+                                    <CloseIcon fontSize="medium"/>
+                                </Button>
                             </Box>
                         </Box>
-                    );
-                })}
-            </Box>
-        );
+                    </Box>
+                </Box>);
+            })}
+        </Box>);
     }
 
     const customTooltip = (data) => {
-        return (
-            <Tooltip
-                placement="top"
-                title={data}>
-                <QuestionMarkIcon fontSize="small"/>
-            </Tooltip>
-        )
+        return (<Tooltip
+            placement="top"
+            title={data}>
+            <QuestionMarkIcon fontSize="small"/>
+        </Tooltip>)
     }
 
     //upload text to alasisu
     const sendTextFromFile = (data) => {
-        setAlasisu(data, () => {
+        setContent(data, () => {
             keepHistory();
         });
     }
@@ -435,7 +397,7 @@ const Correction = () => {
     //called by alaMuutus when a change is made
     const keepHistory = () => {
         currentHistory += 1;
-        history.push(alasisu);
+        history.push(content);
     }
 
     //undo and redo
@@ -444,9 +406,9 @@ const Correction = () => {
         if (currentHistory === 0) {
             return;
         }
-        currentHistory -= 1
-        const previousFromHistory = history[currentHistory]
-        setAlasisu(previousFromHistory)
+        currentHistory -= 1;
+        const previousFromHistory = history[currentHistory];
+        setContent(previousFromHistory);
     }
 
     const handleRedo = () => {
@@ -455,16 +417,15 @@ const Correction = () => {
             return;
         }
         currentHistory += 1
-        const nextFromHistory = history[currentHistory]
-        setAlasisu(nextFromHistory)
+        const nextFromHistory = history[currentHistory];
+        setContent(nextFromHistory);
     }
 
-    return (
-        <Card raised={true}
-              square={true}
-              elevation={2}>
-            <p/>
-            {/*<Box display="flex">
+    return (<Card raised={true}
+                  square={true}
+                  elevation={2}>
+        <p/>
+        {/*<Box display="flex">
                 <div>
             <span className="material-symbols-outlined"
                   onClick={this.handleUndo}>undo</span>
@@ -472,161 +433,147 @@ const Correction = () => {
                           onClick={this.handleRedo}>redo</span>
                 </div>
             </Box>*/}
-            <div className="correction-container">
-                <div>
-                    <br/><br/>
-                    <Box>
-                        <TextUpload sendTextFromFile={sendTextFromFile}/>
-                        {!paringlopetatud ? <textarea id="corrector-textarea"
-                                                      onChange={(event) => alaMuutus(event)}
-                                                      value={alasisu}
-                                                      spellCheck={false}
-                                                      placeholder={"Kopeeri või kirjuta siia analüüsitav tekst"}
+        <div className="correction-container">
+            <div>
+                <br/><br/>
+                <Box>
+                    <TextUpload sendTextFromFile={sendTextFromFile}/>
+                    {!queryFinished ? <textarea id="corrector-textarea"
+                                                onChange={(event) => alaMuutus(event)}
+                                                value={content}
+                                                spellCheck={false}
+                                                placeholder={"Kopeeri või kirjuta siia analüüsitav tekst"}
 
-                            /> :
-                            <Box contentEditable="true" className="editable-div-container" id="corrector-textarea-div"
-                                 suppressContentEditableWarning={true}
-                                 onInput={event => setAlasisu(event.currentTarget.textContent.replace(/(\r\n|\n|\r)/gm, ""))}
-                                 spellCheck={false}
-                                 placeholder={"Kopeeri või kirjuta siia analüüsitav tekst"}
-                            >
-                                <Box className="input-container" id="input-container">
-                                    {vastuskood.map((vaste) => {
-                                        return (vaste)
-                                    })}
-                                </Box>
-                            </Box>}
-                    </Box>
-                    <Box>
-                        {!paringlopetatud ?
-                            <Button
-                                variant="contained"
-                                onClick={() => kordama()}>Analüüsi
-                            </Button>
-                            :
-                            <Button
-                                variant="contained"
-                                onClick={() => kordama()}>Analüüsi
-                            </Button>
-                        }
-                    </Box>
-                </div>
-                <div className="corrector-tab-container">
-                    <TabContext value={avatudkaart}>
-                        <TabList centered={true} onChange={handleTabChange}>
-                            <Tab
-                                value="korrektuur"
-                                label="korrektuur"
-                            />
-                            <Tab
-                                value="hindamine"
-                                label="hindamine"
-                            />
-                            <Tab
-                                value="keerukus"
-                                label="keerukus"
-                            />
-                            <Tab
-                                value="mitmekesisus"
-                                label="mitmekesisus"
-                            />
-                        </TabList>
-                        {!kordab &&
-                            <div>
-                                <Box marginTop="50px">
-                                    <Alert severity="info">Rakenduse abil saad parandada oma teksti õigekirja ja
-                                        vaadata,
-                                        mis keeleoskustasemele see vastab (A2–C1).
-                                        Loe lähemalt <a
-                                            href={"https://github.com/centre-for-educational-technology/evkk/wiki/Demos"}
-                                            target="_blank"
-                                            rel="noreferrer">siit</a>.</Alert>
-                                </Box>
+                    /> : <Box contentEditable="true" className="editable-div-container" id="corrector-textarea-div"
+                              suppressContentEditableWarning={true}
+                              onInput={event => setContent(event.currentTarget.textContent.replace(/(\r\n|\n|\r)/gm, ""))}
+                              spellCheck={false}
+                              placeholder={"Kopeeri või kirjuta siia analüüsitav tekst"}
+                    >
+                        <Box className="input-container" id="input-container">
+                            {replyCode.map((vaste) => {
+                                return (vaste)
+                            })}
+                        </Box>
+                    </Box>}
+                </Box>
+                <Box>
+                    {!queryFinished ? <Button
+                        variant="contained"
+                        onClick={() => repeating()}>Analüüsi
+                    </Button> : <Button
+                        variant="contained"
+                        onClick={() => repeating()}>Analüüsi
+                    </Button>}
+                </Box>
+            </div>
+            <div className="corrector-tab-container">
+                <TabContext value={openCard}>
+                    <TabList centered={true} onChange={handleTabChange}>
+                        <Tab
+                            value="korrektuur"
+                            label="korrektuur"
+                        />
+                        <Tab
+                            value="hindamine"
+                            label="hindamine"
+                        />
+                        <Tab
+                            value="keerukus"
+                            label="keerukus"
+                        />
+                        <Tab
+                            value="mitmekesisus"
+                            label="mitmekesisus"
+                        />
+                    </TabList>
+                    {!repeats && <div>
+                        <Box marginTop="50px">
+                            <Alert severity="info">Rakenduse abil saad parandada oma teksti õigekirja ja
+                                vaadata,
+                                mis keeleoskustasemele see vastab (A2–C1).
+                                Loe lähemalt <a
+                                    href={"https://github.com/centre-for-educational-technology/evkk/wiki/Demos"}
+                                    target="_blank"
+                                    rel="noreferrer">siit</a>.</Alert>
+                        </Box>
+                    </div>}
+                    <TabPanel value="korrektuur">
+                        {repeats && queryFinished && changesCode.props.children === "puuduvad" ? <span>
+                            <div className="no-error-text-div">
+                                <h3>Vigu ei leitud!</h3>
                             </div>
-                        }
-                        <TabPanel value="korrektuur">
-                            {kordab && paringlopetatud &&
-                            muutuskood.props.children === "puuduvad" ?
-                                <span>
-                  <div className="no-error-text-div">
-                    <h3>Vigu ei leitud!</h3>
-                  </div>
-                </span>
-                                :
-                                <span>
-                  {kordab && !paringlopetatud && alasisu !== korrektorivastus[1] &&
-                      <Box display={"flex"} height={"200px"} alignItems={"center"} justifyContent={"center"}
-                           width={"100%"}><CircularProgress/> </Box>}<br/>
-                                    {(yksikmuutus) ? yksikmuutus : ""
-                                    }<br/>
-                                    {vastusnahtav &&
-                                        <span>{tasemevastus ? vastuskood : "algus"}</span>}
-                                    {kordab && paringlopetatud ? loadErrors() : ""}
-                </span>
-                            }
-                        </TabPanel>
-                        <TabPanel value="hindamine">
-                            {kordab && <div>
-                                <span>{renderTase()}</span></div>}
-                        </TabPanel>
-                        <TabPanel value="keerukus">
-                            <div>
-                                {kordab && <div>
-                                    {(!keerukusvastus[0] > 0) ?
-                                        <Box display={"flex"} height={"200px"} alignItems={"center"}
-                                             justifyContent={"center"}
-                                             width={"100%"}><CircularProgress/> </Box> : ""}</div>}
-                                {kordab && keerukusvastus[0] > 0 &&
-                                    <div style={{marginLeft: "10%", width: "100%"}}><h3>Keerukuse andmed</h3>
-                                        <table width={"80%"}>
-                                            <tbody>
-                                            <tr className="corrector-border-bottom">
-                                                <td style={{width: "90%"}}>Lauseid</td>
-                                                <td style={{width: "10%"}}>{keerukusvastus[0]}</td>
-                                            </tr>
-                                            <tr className="corrector-border-bottom">
-                                                <td>Sõnu</td>
-                                                <td>{keerukusvastus[1]}</td>
-                                            </tr>
-                                            <tr className="corrector-border-bottom">
-                                                <td>Paljusilbilisi
-                                                    sõnu {customTooltip("Paljusilbiliseks loetake sõnad, mis sisaldavad vähemalt kolme silpi.")}</td>
-                                                <td>{keerukusvastus[2]}</td>
-                                            </tr>
-                                            <tr className="corrector-border-bottom">
-                                                <td>Silpe</td>
-                                                <td>{keerukusvastus[3]}</td>
-                                            </tr>
-                                            <tr className="corrector-border-bottom">
-                                                <td>Pikki
-                                                    sõnu {customTooltip("Pikaks loetakse sõnad, milles on vähemalt seitse tähte.")}</td>
-                                                <td>{keerukusvastus[4]}</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                        <br/><br/>
-                                        <Box><Typography alignContent={"center"} fontSize={"20px"} marginBottom={"20px"}
-                                                         marginTop={"20px"}
-                                                         gutterBottom>
-                                            SMOG indeks: {parseFloat(keerukusvastus[5]).toFixed()}
+                        </span> : <span>
+                            {repeats && !queryFinished && content !== correctorAnswer[1] &&
+                                <Box display={"flex"} height={"200px"} alignItems={"center"} justifyContent={"center"}
+                                     width={"100%"}><CircularProgress/> </Box>}<br/>
+                            {(singleChange) ? singleChange : ""}<br/>
+                            {answerVisible && <span>{levelAnswer ? replyCode : "algus"}</span>}
+                            {repeats && queryFinished ? loadErrors() : ""}
+                        </span>}
+                    </TabPanel>
+                    <TabPanel value="hindamine">
+                        {repeats && <div>
+                            <span>{renderLevel()}</span></div>}
+                    </TabPanel>
+                    <TabPanel value="keerukus">
+                        <div>
+                            {repeats && <div>
+                                {(!complexityAnswer[0] > 0) ?
+                                    <Box display={"flex"} height={"200px"} alignItems={"center"}
+                                         justifyContent={"center"}
+                                         width={"100%"}><CircularProgress/> </Box> : ""}</div>}
+                            {repeats && complexityAnswer[0] > 0 &&
+                                <div style={{marginLeft: "10%", width: "100%"}}><h3>Keerukuse andmed</h3>
+                                    <table width={"80%"}>
+                                        <tbody>
+                                        <tr className="corrector-border-bottom">
+                                            <td style={{width: "90%"}}>Lauseid</td>
+                                            <td style={{width: "10%"}}>{complexityAnswer[0]}</td>
+                                        </tr>
+                                        <tr className="corrector-border-bottom">
+                                            <td>Sõnu</td>
+                                            <td>{complexityAnswer[1]}</td>
+                                        </tr>
+                                        <tr className="corrector-border-bottom">
+                                            <td>Paljusilbilisi
+                                                sõnu {customTooltip("Paljusilbiliseks loetake sõnad, mis sisaldavad vähemalt kolme silpi.")}</td>
+                                            <td>{complexityAnswer[2]}</td>
+                                        </tr>
+                                        <tr className="corrector-border-bottom">
+                                            <td>Silpe</td>
+                                            <td>{complexityAnswer[3]}</td>
+                                        </tr>
+                                        <tr className="corrector-border-bottom">
+                                            <td>Pikki
+                                                sõnu {customTooltip("Pikaks loetakse sõnad, milles on vähemalt seitse tähte.")}</td>
+                                            <td>{complexityAnswer[4]}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <br/><br/>
+                                    <Box><Typography alignContent={"center"} fontSize={"20px"} marginBottom={"20px"}
+                                                     marginTop={"20px"}
+                                                     gutterBottom>
+                                        SMOG indeks: {parseFloat(complexityAnswer[5]).toFixed()}
+                                    </Typography>
+                                    </Box>
+                                    <Box>
+                                        <Typography alignContent={"center"} fontSize={"20px"} marginBottom={"20px"}
+                                                    marginTop={"20px"}
+                                                    gutterBottom>
+                                            Flesch-Kincaidi indeks: {parseFloat(complexityAnswer[6]).toFixed()}
                                         </Typography>
-                                        </Box>
-                                        <Box>
-                                            <Typography alignContent={"center"} fontSize={"20px"} marginBottom={"20px"}
-                                                        marginTop={"20px"}
-                                                        gutterBottom>
-                                                Flesch-Kincaidi indeks: {parseFloat(keerukusvastus[6]).toFixed()}
-                                            </Typography>
-                                        </Box>
-                                        <Box>
-                                            <Typography alignContent={"center"} fontSize={"20px"} marginBottom={"20px"}
-                                                        marginTop={"20px"}
-                                                        gutterBottom>
-                                                LIX indeks: {keerukusvastus[7]}
-                                            </Typography>
-                                        </Box>
+                                    </Box>
+                                    <Box>
+                                        <Typography alignContent={"center"} fontSize={"20px"} marginBottom={"20px"}
+                                                    marginTop={"20px"}
+                                                    gutterBottom>
+                                            LIX indeks: {complexityAnswer[7]}
+                                        </Typography>
+                                    </Box>
 
-                                        {/*  TODO      <Typography alignContent={"center"} fontSize={"20px"} marginBottom={"20px"} marginTop={"20px"}
+                                    {/*  TODO      <Typography alignContent={"center"} fontSize={"20px"} marginBottom={"20px"} marginTop={"20px"}
                                 gutterBottom>
                       SMOG INDEX
                     </Typography>
@@ -704,73 +651,71 @@ const Correction = () => {
                         <Typography fontSize={"25px"}>60</Typography>
                       </Box>
                     </Box>*/}
-                                        <div style={{fontSize: "20px", marginTop: "20px"}}>Pakutav
-                                            keerukustase: {keerukusvastus[11]}</div>
-                                    </div>
-                                }
-                            </div>
-                        </TabPanel>
-                        <TabPanel value="mitmekesisus">
-                            <div>
-                                {kordab && mitmekesisusvastus[10] === 0 ?
-                                    <Box display={"flex"} height={"200px"} alignItems={"center"}
-                                         justifyContent={"center"}
-                                         width={"100%"}><CircularProgress/> </Box> : ""}
-                                {mitmekesisusvastus[10] > 0 &&
-                                    <div style={{marginLeft: "10%", width: "100%"}}><h3>Sõnavara mitmekesisuse
-                                        andmed</h3>
-                                        <table width={"80%"}>
-                                            <tbody>
-                                            <tr className="corrector-border-bottom">
-                                                <td style={{width: "90%"}}>Arvestatud
-                                                    sõnu {customTooltip("Sõnavara rikkust mõõtes jäetakse kõrvale nimed ja numbritega kirjutatud arvud.")}
-                                                </td>
-                                                <td style={{width: "10%"}}>{mitmekesisusvastus[10]}</td>
-                                            </tr>
-                                            <tr className="corrector-border-bottom">
-                                                <td>Lemmasid ehk erinevaid sõnu</td>
-                                                <td>{mitmekesisusvastus[11]}</td>
-                                            </tr>
-                                            <tr className="corrector-border-bottom">
-                                                <td>Erinevate ja kõigi sõnade
-                                                    korrigeeritud suhtarv -
-                                                    KLSS <br/>(ingl Corrected Type-Token
-                                                    Ratio) {customTooltip("lemmade arv / √(2 * sõnade arv) \n(Carroll, 1964)")}
-                                                </td>
-                                                <td>{mitmekesisusvastus[0]}</td>
-                                            </tr>
-                                            <tr className="corrector-border-bottom">
-                                                <td>Erinevate ja kõigi sõnade juuritud
-                                                    suhtarv -
-                                                    JLSS <br/>(ingl Root Type-Token
-                                                    Ratio) {customTooltip("lemmade arv / √(sõnade arv) \n(Guiraud, 1960)")}
-                                                </td>
-                                                <td>{mitmekesisusvastus[1]}</td>
-                                            </tr>
-                                            <tr className="corrector-border-bottom">
-                                                <td>
-                                                    MTLD indeks <br/>(ingl Measure of Textual Lexical
-                                                    Diversity) {customTooltip("MTLD indeks (ingl Measure of Textual Lexical Diversity) mõõdab lemmade ja sõnade suhtarvu järjestikustes tekstiosades. Algul on suhtarv 1. Iga sõna juures arvutatakse see uuesti, kuni väärtus langeb alla piirarvu 0,72. Tsükkel kordub, kuni teksti lõpus jagatakse sõnade arv selliste tsüklite arvuga. Seejärel korratakse sama, liikudes tekstis tagantpoolt ettepoole. MTLD on nende kahe teksti keskväärtus. (McCarthy & Jarvis, 2010)")}
-                                                </td>
-                                                <td>{mitmekesisusvastus[4]}</td>
-                                            </tr>
-                                            <tr className="corrector-border-bottom">
-                                                <td>
-                                                    HDD indeks <br/>(ingl Hypergeometric Distribution
-                                                    D) {customTooltip("HDD indeksi (ingl Hypergeometric Distribution D) arvutamiseks leitakse iga tekstis sisalduva lemma esinemistõenäosus juhuslikus 42-sõnalises tekstiosas. Kuna kõigi võimalike tekstikatkete arv on enamasti väga suur, arvutatakse tõenäosused hüpergeomeetrilise jaotuse funktsiooni abil. Kõigi lemmade esinemistõenäosused summeeritakse. (McCarthy & Jarvis, 2007)")}
-                                                </td>
-                                                <td>{mitmekesisusvastus[5]}</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>}
-                            </div>
-                        </TabPanel>
-                    </TabContext>
-                </div>
+                                    <div style={{fontSize: "20px", marginTop: "20px"}}>Pakutav
+                                        keerukustase: {complexityAnswer[11]}</div>
+                                </div>}
+                        </div>
+                    </TabPanel>
+                    <TabPanel value="mitmekesisus">
+                        <div>
+                            {repeats && diversityAnswer[10] === 0 ?
+                                <Box display={"flex"} height={"200px"} alignItems={"center"}
+                                     justifyContent={"center"}
+                                     width={"100%"}><CircularProgress/> </Box> : ""}
+                            {diversityAnswer[10] > 0 &&
+                                <div style={{marginLeft: "10%", width: "100%"}}><h3>Sõnavara mitmekesisuse
+                                    andmed</h3>
+                                    <table width={"80%"}>
+                                        <tbody>
+                                        <tr className="corrector-border-bottom">
+                                            <td style={{width: "90%"}}>Arvestatud
+                                                sõnu {customTooltip("Sõnavara rikkust mõõtes jäetakse kõrvale nimed ja numbritega kirjutatud arvud.")}
+                                            </td>
+                                            <td style={{width: "10%"}}>{diversityAnswer[10]}</td>
+                                        </tr>
+                                        <tr className="corrector-border-bottom">
+                                            <td>Lemmasid ehk erinevaid sõnu</td>
+                                            <td>{diversityAnswer[11]}</td>
+                                        </tr>
+                                        <tr className="corrector-border-bottom">
+                                            <td>Erinevate ja kõigi sõnade
+                                                korrigeeritud suhtarv -
+                                                KLSS <br/>(ingl Corrected Type-Token
+                                                Ratio) {customTooltip("lemmade arv / √(2 * sõnade arv) \n(Carroll, 1964)")}
+                                            </td>
+                                            <td>{diversityAnswer[0]}</td>
+                                        </tr>
+                                        <tr className="corrector-border-bottom">
+                                            <td>Erinevate ja kõigi sõnade juuritud
+                                                suhtarv -
+                                                JLSS <br/>(ingl Root Type-Token
+                                                Ratio) {customTooltip("lemmade arv / √(sõnade arv) \n(Guiraud, 1960)")}
+                                            </td>
+                                            <td>{diversityAnswer[1]}</td>
+                                        </tr>
+                                        <tr className="corrector-border-bottom">
+                                            <td>
+                                                MTLD indeks <br/>(ingl Measure of Textual Lexical
+                                                Diversity) {customTooltip("MTLD indeks (ingl Measure of Textual Lexical Diversity) mõõdab lemmade ja sõnade suhtarvu järjestikustes tekstiosades. Algul on suhtarv 1. Iga sõna juures arvutatakse see uuesti, kuni väärtus langeb alla piirarvu 0,72. Tsükkel kordub, kuni teksti lõpus jagatakse sõnade arv selliste tsüklite arvuga. Seejärel korratakse sama, liikudes tekstis tagantpoolt ettepoole. MTLD on nende kahe teksti keskväärtus. (McCarthy & Jarvis, 2010)")}
+                                            </td>
+                                            <td>{diversityAnswer[4]}</td>
+                                        </tr>
+                                        <tr className="corrector-border-bottom">
+                                            <td>
+                                                HDD indeks <br/>(ingl Hypergeometric Distribution
+                                                D) {customTooltip("HDD indeksi (ingl Hypergeometric Distribution D) arvutamiseks leitakse iga tekstis sisalduva lemma esinemistõenäosus juhuslikus 42-sõnalises tekstiosas. Kuna kõigi võimalike tekstikatkete arv on enamasti väga suur, arvutatakse tõenäosused hüpergeomeetrilise jaotuse funktsiooni abil. Kõigi lemmade esinemistõenäosused summeeritakse. (McCarthy & Jarvis, 2007)")}
+                                            </td>
+                                            <td>{diversityAnswer[5]}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>}
+                        </div>
+                    </TabPanel>
+                </TabContext>
             </div>
-        </Card>
-    );
+        </div>
+    </Card>);
 }
 
 export default Correction;

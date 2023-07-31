@@ -5,7 +5,6 @@ import DoneIcon from "@mui/icons-material/Done";
 import CloseIcon from "@mui/icons-material/Close";
 import "./Correction.css"
 
-
 const customSlider = styled(Slider)({
     color: '#9cff7e',
     height: 20,
@@ -47,16 +46,21 @@ const customSlider = styled(Slider)({
         },
     },
 });
-const WordClick = (props) => {
 
-    const [sisu, setSisu] = useState(props.sisu);
-    const [vastus, setVastus] = useState(props.vastus);
-    const [jrk, setJrk] = useState(props.jrk);
+export default function WordClick(props) {
+
+    const [content, setContent] = useState(props.content);
+    const [answer, setAnswer] = useState(props.answer);
+    const [wordIndex, setWordIndex] = useState(props.index);
     const [parentElementRef, setParentElementRef] = useState(null);
     const [open, setOpen] = useState(false);
     const [topOffset, setTopOffset] = useState();
     const [widthOffset, setWidthOffset] = useState(0);
     const Yref = useRef();
+
+    const changePunctuationMarks = (word) => {
+        return word.replace(/[^0-9a-zA-ZõäöüÕÄÖÜ]+$/, '');
+    }
 
     const correctionPopup = (vm, sm, i) => {
         const Yoffset = topOffset;
@@ -74,10 +78,7 @@ const WordClick = (props) => {
                     <Box
                         id={sm[i]}
                         key={vm[i]}
-                        display="inline-flex"
-                        borderRadius="10px"
-                        maxWidth="min-content"
-                        justifyContent="center"
+                        className="replacement-popup-main"
                     >
                         <Box
                             id={sm[i]}
@@ -89,7 +90,7 @@ const WordClick = (props) => {
                                     }}
                                     className="small-error-word-container"
                                 >
-                                  {sm[i].replace(/^[^0-9a-zA-ZõäöüÕÄÖÜ]+/, '').replace(/[^0-9a-zA-ZõäöüÕÄÖÜ]+$/, '')}
+                                  {changePunctuationMarks(sm[i])}
                                 </span>{" "}
                             <EastIcon/>{" "}
                             <span
@@ -98,22 +99,17 @@ const WordClick = (props) => {
                                 }}
                                 className="small-error-word-container"
                             >
-                                  {vm[i].replace(/^[^0-9a-zA-ZõäöüÕÄÖÜ]+/, '').replace(/[^0-9a-zA-ZõäöüÕÄÖÜ]+$/, '')}
+                                  {changePunctuationMarks(vm[i])}
                                 </span>{" "}
                             <span style={{fontWeight: "bold"}}>|</span>
                             <Box display="flex" gap="15px">
                                 <Button
                                     size="20px"
                                     color="success"
-                                    sx={{
-                                        borderRadius: 30,
-                                        padding: 0,
-                                        minHeight: 25,
-                                        minWidth: 25
-                                    }}
+                                    className="popup-icon-button"
                                     variant="contained"
                                     onClick={() => {
-                                        props.asenda(sm, vm, i);
+                                        props.replace(sm, vm, i);
                                     }}
                                 >
                                     <DoneIcon fontSize="small"/>
@@ -121,14 +117,9 @@ const WordClick = (props) => {
                                 <Button
                                     size="20px"
                                     color="error"
-                                    sx={{
-                                        borderRadius: 30,
-                                        padding: 0,
-                                        minHeight: 25,
-                                        minWidth: 25
-                                    }}
+                                    className="popup-icon-button"
                                     variant="contained"
-                                    onClick={() => props.eiAsenda(sm, vm, i)}
+                                    onClick={() => props.noReplace(sm, vm, i)}
                                 >
                                     <CloseIcon fontSize="small"/>
                                 </Button>
@@ -145,7 +136,7 @@ const WordClick = (props) => {
     };
 
     useEffect(() => {
-        const newId = document.getElementById(`s${jrk}`).parentElement.id;
+        const newId = document.getElementById(`s${wordIndex}`).parentElement.id;
         setParentElementRef(document.getElementById(newId));
     }, []);
 
@@ -168,25 +159,23 @@ const WordClick = (props) => {
 
     return (
         <ClickAwayListener onClickAway={() => handleClickAway()}>
-            <span className="margitud-container" id={"s" + jrk} key={"s" + jrk}>
-                <Box className="flex-case" key={jrk}>
+            <span className="margitud-container" id={"s" + wordIndex} key={"s" + wordIndex}>
+                <Box className="flex-case" key={wordIndex}>
                   <span
-                      id={jrk.toString()}
-                      key={jrk.toString()}
+                      id={wordIndex.toString()}
+                      key={wordIndex.toString()}
                       ref={Yref}
-                      className="corrector-margitud"
+                      className="corrector-marked-text"
                       onClick={(event) => {
                           handleWordClick(event);
                       }}
                   >
-                    {sisu[jrk]}
+                    {content[wordIndex]}
                   </span>
                 </Box>
-                {open ? (correctionPopup(vastus, sisu, jrk)) : null}
+                {open ? (correctionPopup(answer, content, wordIndex)) : null}
                 <span> </span>
             </span>
         </ClickAwayListener>
     )
 }
-
-export default WordClick;
