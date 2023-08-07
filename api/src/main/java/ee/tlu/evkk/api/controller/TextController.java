@@ -167,9 +167,9 @@ public class TextController {
     return ok(textService.detailneparing(vaartused));
   }
 
-  @GetMapping("/uusparing")
-  public List <String> uusparing(){
-    return (textDao.uusparing());
+  @GetMapping("/getAllData")
+  public List <String> getAllData(){
+    return (textDao.getAllData());
   }
 
   @PostMapping("/tekstidfailina")
