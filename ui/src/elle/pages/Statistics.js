@@ -3,13 +3,6 @@ import { loadFetch } from "../service/LoadFetch";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import ChartComponent from "../components/ChartComponent.js";
 
-/*const yearRanges = {
-  "2000-2005": [2000, 2001, 2002, 2003, 2004, 2005],
-  "2006-2010": [2006, 2007, 2008, 2009, 2010],
-  "2011-2015": [2011, 2012, 2013, 2014, 2015],
-  "2016-2020": [2016, 2017, 2018, 2019, 2020],
-  "2021...": [2021, 2022, 2023, 2024],
-};*/
 function Statistics() {
   const [noResultsError, setNoResultsError] = useState(false);
   const [results, setResults] = useState([]);
@@ -78,17 +71,19 @@ function Statistics() {
 
   //gender
   const filterByGender = (item, selectedGenders) => {
-    if (selectedGenders.includes("male")) {
-      return item.includes("sugu: mees");
+    if (selectedGenders.includes("male") && selectedGenders.includes("female")) {
+      return item.includes("sugu: mees") || item.includes("sugu: naine");
     }
     if (selectedGenders.includes("female")) {
       return item.includes("sugu: naine");
+    }
+    if (selectedGenders.includes("male")) {
+      return item.includes("sugu: mees");
     }
     return false;
   };
 
   const allGendersSelected = selectedGenders.includes("male") && selectedGenders.includes("female");
-
 
   //year
   const yearRanges = {
@@ -116,14 +111,30 @@ function Statistics() {
   useEffect(() => {
     let count = 0;
 
-    if ((selectedGenders.length === 0 && selectedYears.length === 0) || allGendersSelected || allYearsSelected) {
+    if (
+      selectedGenders.length === 0 &&
+      selectedYears.length === 0
+    ) {
+      count = results.length;
+    } else if (allGendersSelected && allYearsSelected) {
+      count = results.length;
+    } else if (selectedYears.length === 0 && allGendersSelected) {
       count = results.length;
     } else {
-      count = results.filter(item => filterByGender(item, selectedGenders) || filterByYear(item, selectedYears)).length;
+      if (selectedGenders.length > 0 && selectedYears.length > 0) {
+        count = results.filter(
+          (item) =>
+            filterByGender(item, selectedGenders) && filterByYear(item, selectedYears)
+        ).length;
+      } else if (selectedGenders.length > 0) {
+        count = results.filter((item) => filterByGender(item, selectedGenders)).length;
+      } else if (selectedYears.length > 0) {
+        count = results.filter((item) => filterByYear(item, selectedYears)).length;
+      }
     }
 
     setDataCount(count);
-  }, [selectedYears, selectedGenders, results]);
+  }, [selectedYears, selectedGenders, results, allGendersSelected, allYearsSelected]);
 
 
   // Chart
