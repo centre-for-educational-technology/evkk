@@ -5,238 +5,238 @@
 <!DOCTYPE html>
 <html lang="et">
 <head>
-  <title>Klastrileidja</title>
-  <meta http-equiv="Content-Type"
-        content="text/html; charset=UTF-8"/>
-  <!-- Bootstrap -->
-  <link rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-        crossorigin="anonymous">
-  <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"
-          integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-          crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-          crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-          crossorigin="anonymous"></script>
-  <!-- jQuery Datatable -->
-  <link rel="stylesheet"
-        type="text/css"
-        href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/datatables.min.css"/>
-  <script type="text/javascript"
-          src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/datatables.min.js"></script>
-  <!-- jQuery validation -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
-          integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
-          crossorigin="anonymous"
-          referrerpolicy="no-referrer"></script>
-  <script defer>
-    function handleChange(input) {
-      document.getElementById("file_name").textContent = input.files[0].name
-    }
-  </script>
+    <title>Klastrileidja</title>
+    <meta http-equiv="Content-Type"
+          content="text/html; charset=UTF-8"/>
+    <!-- Bootstrap -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+            integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <!-- jQuery Datatable -->
+    <link rel="stylesheet"
+          type="text/css"
+          href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/datatables.min.css"/>
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/datatables.min.js"></script>
+    <!-- jQuery validation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
+            integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+    <script defer>
+      function handleChange(input) {
+        document.getElementById("file_name").textContent = input.files[0].name
+      }
+    </script>
 
-  <!-- TODO: Separate global styles to a separate CSS file -->
-  <!-- TODO: Add support for other devices (tablets) -->
-  <style>
-    html, body {
-      background: transparent;
-    }
+    <!-- TODO: Separate global styles to a separate CSS file -->
+    <!-- TODO: Add support for other devices (tablets) -->
+    <style>
+        html, body {
+            background: transparent;
+        }
 
-    .hidden {
-      display: none;
-    }
+        .hidden {
+            display: none;
+        }
 
-    h5 {
-      margin-bottom: 5px;
-      margin-top: 5px;
-    }
+        h5 {
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
 
-    .btn-primary {
-      margin-top: 10px;
-    }
+        .btn-primary {
+            margin-top: 10px;
+        }
 
-    .spinner-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: darkgray;
-      opacity: .5;
-    }
+        .spinner-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: darkgray;
+            opacity: .5;
+        }
 
-    .centered-spinner {
-      position: fixed;
-      top: 45%;
-      left: 45%;
-    }
+        .centered-spinner {
+            position: fixed;
+            top: 45%;
+            left: 45%;
+        }
 
-    .w-top-margin {
-      margin-top: 25px;
-    }
+        .w-top-margin {
+            margin-top: 25px;
+        }
 
-    .w-separation {
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
+        .w-separation {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
 
-    .large-spinner {
-      width: 3rem;
-      height: 3rem;
-    }
+        .large-spinner {
+            width: 3rem;
+            height: 3rem;
+        }
 
-    label.error {
-      color: red;
-    }
+        label.error {
+            color: red;
+        }
 
-    .partial-results, .all-results {
-      white-space: pre;
-    }
+        .partial-results, .all-results {
+            white-space: pre;
+        }
 
-    .show-more, .show-less {
-      cursor: pointer;
-      color: blue !important;
-    }
+        .show-more, .show-less {
+            cursor: pointer;
+            color: blue !important;
+        }
 
-    .show-more:after {
-      content: ' > ';
-    }
+        .show-more:after {
+            content: ' > ';
+        }
 
-    .show-less:after {
-      content: ' < ';
-    }
+        .show-less:after {
+            content: ' < ';
+        }
 
-    .smallspacer {
-      margin-bottom: 20px;
-    }
-  </style>
+        .smallspacer {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
 
-  <div class="row">
-    <div class="col-12">
-      <h2>[@translations.retrieveTranslation "clusterfinder.app.title" /]</h2>
-      <p class="lead">[@translations.retrieveTranslation "clusterfinder.app.short.description" /]</p>
-    </div>
-  </div>
-
-  <form id="cluster-form">
-    <input type="hidden"
-           name="formId"
-           id="formId"
-           value="${formId!}">
-    <input type="hidden"
-           name="fileName"
-           id="fileName"
-           value="">
-    <input type="hidden"
-           name="inputType"
-           id="inputType"
-           value="FREE_TEXT">
-
-    <div class="form-group">
-      <label for="analysisLength">[@translations.retrieveTranslation "common.analysis.length.label" /]</label>
-      <select id="analysisLength"
-              name="analysisLength"
-              class="form-control">
-        <option value="">[@translations.retrieveTranslation "common.select.one.analysis.length" /]</option>
-          [#list 1..5 as length]
-            <option value="${length!}">${length!}</option>
-          [/#list]
-      </select>
+    <div class="row">
+        <div class="col-12">
+            <h2>[@translations.retrieveTranslation "clusterfinder.app.title" /]</h2>
+            <p class="lead">[@translations.retrieveTranslation "clusterfinder.app.short.description" /]</p>
+        </div>
     </div>
 
-    <!-- Input type selection -->
-    <h5>[@translations.retrieveTranslation "common.input.type.header" /]</h5>
-    <div class="form-group">
-      <label for="userText">[@translations.retrieveTranslation "common.text.input.label" /]</label>
-      <textarea class="form-control"
-                rows="5"
-                name="userText"
-                id="userText"></textarea>
-    </div>
-    <div id="fileText"
-         class="custom-file w-separation"
-         style="z-index: 0">
-      <input type="file"
-             class="custom-file-input"
-             id="userFile"
-             onchange="handleChange(this)"
-             accept=".txt,.pdf,.docx,.doc,.odt">
-      <label id="file_name" class="custom-file-label"
-             for="userFile">[@translations.retrieveTranslation "common.choose.file" /]</label>
-    </div>
+    <form id="cluster-form">
+        <input type="hidden"
+               name="formId"
+               id="formId"
+               value="${formId!}">
+        <input type="hidden"
+               name="fileName"
+               id="fileName"
+               value="">
+        <input type="hidden"
+               name="inputType"
+               id="inputType"
+               value="FREE_TEXT">
 
-    <!-- Basic search checkboxes -->
-    <h5>[@translations.retrieveTranslation "common.analysis.header" /]</h5>
-    <div class="form-check">
-        [@input.createCheckboxWithTooltip
-        id="wordtypeAnalysis"
-        name="wordtype"
-        labelKey="wordtype.analysis.label"
-        tooltipKey="wordtype.analysis.tooltip"/]
-    </div>
-    <div class="form-check">
-        [@input.createCheckboxWithTooltip
-        id="syntacticAnalysis"
-        name="syntactic"
-        labelKey="syntactic.analysis.label"
-        tooltipKey="syntactic.analysis.tooltip" /]
-    </div>
-    <div class="form-check">
-        [@input.createCheckboxWithTooltip
-        id="morfoAnalysis"
-        name="morfological"
-        labelKey="morfological.analysis.label"
-        tooltipKey="morfological.analysis.tooltip" /]
-    </div>
-    <h5>[@translations.retrieveTranslation "common.punctuation.header" /]</h5>
-    <div class="form-check">
-        [@input.createCheckboxWithTooltip
-        id="punctuationAnalysis"
-        name="punctuation"
-        labelKey="punctuation.analysis.label"
-        tooltipKey="punctuation.analysis.tooltip" /]
-    </div>
+        <div class="form-group">
+            <label for="analysisLength">[@translations.retrieveTranslation "common.analysis.length.label" /]</label>
+            <select id="analysisLength"
+                    name="analysisLength"
+                    class="form-control">
+                <option value="">[@translations.retrieveTranslation "common.select.one.analysis.length" /]</option>
+                [#list 1..5 as length]
+                    <option value="${length!}">${length!}</option>
+                [/#list]
+            </select>
+        </div>
 
-    <!-- Sorting checkboxes -->
+        <!-- Input type selection -->
+        <h5>[@translations.retrieveTranslation "common.input.type.header" /]</h5>
+        <div class="form-group">
+            <label for="userText">[@translations.retrieveTranslation "common.text.input.label" /]</label>
+            <textarea class="form-control"
+                      rows="5"
+                      name="userText"
+                      id="userText"></textarea>
+        </div>
+        <div id="fileText"
+             class="custom-file w-separation"
+             style="z-index: 0">
+            <input type="file"
+                   class="custom-file-input"
+                   id="userFile"
+                   onchange="handleChange(this)"
+                   accept=".txt,.pdf,.docx,.doc,.odt">
+            <label id="file_name" class="custom-file-label"
+                   for="userFile">[@translations.retrieveTranslation "common.choose.file" /]</label>
+        </div>
 
-    <div class="form-check hidden"
-         data-word-sort="1">
-      <h5 style="margin-left: -20px">[@translations.retrieveTranslation "common.sorting.header" /]</h5>
-        [@input.createCheckbox id="sortByFirstWord" name="sorting" labelKey="sorting.by.first.word" value="fwrd" /]
-    </div>
-    <div class="form-check hidden"
-         data-word-sort="2">
-        [@input.createCheckbox id="sortBySecondWord" name="sorting" labelKey="sorting.by.second.word" value="swrd" /]
-    </div>
-    <div class="form-check hidden"
-         data-word-sort="3">
-        [@input.createCheckbox id="sortByThirdWord" name="sorting" labelKey="sorting.by.third.word" value="twrd" /]
-    </div>
-    <div class="form-check hidden"
-         data-word-sort="4">
-        [@input.createCheckbox id="sortByFourthWord" name="sorting" labelKey="sorting.by.fourth.word" value="fowrd" /]
-    </div>
-    <div class="form-check hidden"
-         data-word-sort="5">
-        [@input.createCheckbox id="sortByFifthWord" name="sorting" labelKey="sorting.by.fifth.word" value="fiwrd" /]
-    </div>
+        <!-- Basic search checkboxes -->
+        <h5>[@translations.retrieveTranslation "common.analysis.header" /]</h5>
+        <div class="form-check">
+            [@input.createCheckboxWithTooltip
+            id="wordtypeAnalysis"
+            name="wordtype"
+            labelKey="wordtype.analysis.label"
+            tooltipKey="wordtype.analysis.tooltip"/]
+        </div>
+        <div class="form-check">
+            [@input.createCheckboxWithTooltip
+            id="syntacticAnalysis"
+            name="syntactic"
+            labelKey="syntactic.analysis.label"
+            tooltipKey="syntactic.analysis.tooltip" /]
+        </div>
+        <div class="form-check">
+            [@input.createCheckboxWithTooltip
+            id="morfoAnalysis"
+            name="morfological"
+            labelKey="morfological.analysis.label"
+            tooltipKey="morfological.analysis.tooltip" /]
+        </div>
+        <h5>[@translations.retrieveTranslation "common.punctuation.header" /]</h5>
+        <div class="form-check">
+            [@input.createCheckboxWithTooltip
+            id="punctuationAnalysis"
+            name="punctuation"
+            labelKey="punctuation.analysis.label"
+            tooltipKey="punctuation.analysis.tooltip" /]
+        </div>
 
-      [#include "form/clauseTypeFragment.ftl" ]
+        <!-- Sorting checkboxes -->
 
-      [#include "form/wordTypeFragment.ftl" ]
+        <div class="form-check hidden"
+             data-word-sort="1">
+            <h5 style="margin-left: -20px">[@translations.retrieveTranslation "common.sorting.header" /]</h5>
+            [@input.createCheckbox id="sortByFirstWord" name="sorting" labelKey="sorting.by.first.word" value="fwrd" /]
+        </div>
+        <div class="form-check hidden"
+             data-word-sort="2">
+            [@input.createCheckbox id="sortBySecondWord" name="sorting" labelKey="sorting.by.second.word" value="swrd" /]
+        </div>
+        <div class="form-check hidden"
+             data-word-sort="3">
+            [@input.createCheckbox id="sortByThirdWord" name="sorting" labelKey="sorting.by.third.word" value="twrd" /]
+        </div>
+        <div class="form-check hidden"
+             data-word-sort="4">
+            [@input.createCheckbox id="sortByFourthWord" name="sorting" labelKey="sorting.by.fourth.word" value="fowrd" /]
+        </div>
+        <div class="form-check hidden"
+             data-word-sort="5">
+            [@input.createCheckbox id="sortByFifthWord" name="sorting" labelKey="sorting.by.fifth.word" value="fiwrd" /]
+        </div>
 
-    <button id="submitBtn"
-            type="submit"
-            class="btn btn-primary">[@translations.retrieveTranslation "common.search" /]</button>
-  </form>
+        [#include "form/clauseTypeFragment.ftl" ]
+
+        [#include "form/wordTypeFragment.ftl" ]
+
+        <button id="submitBtn"
+                type="submit"
+                class="btn btn-primary">[@translations.retrieveTranslation "common.search" /]</button>
+    </form>
 </div>
 
 <div class="smallspacer"></div>
@@ -244,26 +244,27 @@
 <!-- Results section -->
 <div id="clusters"
      class="container hidden">
-  <table class="table table-bordered w-top-margin"
-         id="clustersTable">
-    <thead>
-    <tr>
-      <th>[@translations.retrieveTranslation "common.sorting.header.markups"/]</th>
-      <th>[@translations.retrieveTranslation "common.sorting.header.description" /]</th>
-      <th>[@translations.retrieveTranslation "common.sorting.header.frequency" /]</th>
-      <th>[@translations.retrieveTranslation "common.sorting.header.usages" /]</th>
-    </tr>
-    </thead>
-  </table>
+    <table class="table table-bordered w-top-margin"
+           id="clustersTable">
+        <thead>
+        <tr>
+            <th>[@translations.retrieveTranslation "common.sorting.header.markups"/]</th>
+            <th>[@translations.retrieveTranslation "common.sorting.header.description" /]</th>
+            <th>[@translations.retrieveTranslation "common.sorting.header.frequency" /]</th>
+            <th>[@translations.retrieveTranslation "common.sorting.header.percentage" /]</th>
+            <th>[@translations.retrieveTranslation "common.sorting.header.usages" /]</th>
+        </tr>
+        </thead>
+    </table>
 </div>
 
 <!-- Loading spinner -->
 <div id="loadingSpinner"
      class="spinner-overlay hidden text-center">
-  <div class="spinner-border centered-spinner text-primary large-spinner"
-       role="status">
-    <span class="sr-only">[@translations.retrieveTranslation "common.loading.text" /]</span>
-  </div>
+    <div class="spinner-border centered-spinner text-primary large-spinner"
+         role="status">
+        <span class="sr-only">[@translations.retrieveTranslation "common.loading.text" /]</span>
+    </div>
 </div>
 </body>
 <script>
@@ -317,6 +318,7 @@
           {data: 'markups'},
           {data: 'description'},
           {data: 'frequency'},
+          {data: 'percentage'},
           {
             data: 'usages', render: function (data, type, row, meta) {
               return type === 'display' ? ClusterSearchForm.util.renderUsagesColumn(data) : data.split("<br>").map(u => u).join(",");
@@ -655,9 +657,17 @@
 
       showResults: function (data, separator) {
         const clusters = [];
+        const totalFreqency = () => {
+          let tempNo = 0;
+          for (let i = 0; i < data.length; i++) {
+            tempNo += data[i].frequency;
+          }
+          return tempNo;
+        }
         for (let i = 0; i < data.length; i++) {
           const cluster = {
             frequency: data[i].frequency,
+            percentage: (data[i].frequency * 100 / totalFreqency()).toFixed(2) + "%",
             description: data[i].descriptions.join(" + "),
             markups: data[i].markups.map(ClusterSearchForm.util.escapeValueAndReplace).join(" + "),
             usages: data[i].usages.join("<br>")
