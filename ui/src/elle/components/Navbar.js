@@ -1,5 +1,4 @@
 import Logo from '../resources/images/header/elle_logo.png';
-import CoverImage from '../resources/images/header/header.svg';
 import {
   AppBar,
   Box,
@@ -16,13 +15,13 @@ import {
   styled,
   Toolbar
 } from '@mui/material';
-import { Close, Help, Language, Menu as MenuIcon, Search } from '@mui/icons-material';
-import { NavLink, useLocation } from 'react-router-dom';
+import {Close, Help, Language, Menu as MenuIcon, Search} from '@mui/icons-material';
+import {NavLink, useLocation} from 'react-router-dom';
 import '@fontsource/exo-2/600.css';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './styles/Navbar.css';
 import i18n from 'i18next';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 const pages = [
   {id: 1, title: 'common_corrector', target: '/corrector'},
@@ -66,6 +65,8 @@ const BurgerLink = styled(Link)({
 function Navbar() {
   const {t} = useTranslation();
   const [open, setOpen] = useState(false);
+  const [navColor, setNavColor] = useState("sticking");
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -88,23 +89,42 @@ function Navbar() {
     setLangAnchorEl(false);
   };
 
+  const handleScroll = () => {
+    const position = window.scrollY;
+    console.log(position)
+    if (position > 20) {
+      setNavColor("not-sticking")
+      console.log("sticking")
+
+    } else if (position <= 20) {
+      setNavColor("sticking")
+
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, {passive: true});
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <>
       <AppBar elevation={0}
               sx={{
-                position: 'static',
-                zIndex: 'auto',
-                background: '#FFD0FD',
-                backgroundImage: `url(${CoverImage})`,
-                backgroundSize: '100% 100%',
-                backgroundPosition: 'center bottom'
-              }}>
+                position: "sticky",
+                top: 0,
+              }}
+              className={navColor}>
         <Toolbar>
           <Grid container>
             <Grid item
-                  xs={6}
-                  sx={{mt: 1, pl: {xs: 0, sm: 4, md: 6}}}
-                  display="flex">
+                  xs={3}
+                  sx={{pl: {xs: 0, sm: 4, md: 6}}}
+                  display="flex"
+                  alignItems="center">
               <IconButton
                 onClick={() => toggleDrawer()}
                 sx={{mr: 2, mb: 2, display: {md: 'flex', lg: 'none'}}}
@@ -120,12 +140,41 @@ function Navbar() {
                 />
               </NavLink>
             </Grid>
+            <Grid
+              item
+              xs={6}
+              justifyContent="center"
+              alignItems="center"
+              sx={{display: {xs: 'none', sm: 'none', md: 'none', lg: 'flex'}}}>
+              {pages.map((page, index, elements) => {
+                return (
+                  <span style={{height: "100%"}} key={page.id}>
+                  <Box className="nav-menu-item" sx={{my: 0, mx: 4}}>
+                    <MenuLink to={page.target}
+                              component={NavLink}>
+                      {t(page.title)}
+                    </MenuLink>
+                  </Box>
+                    {elements[index + 1] &&
+                      <Divider
+                        orientation="vertical"
+                        sx={{borderRightWidth: 2, background: 'rgba(156,39,176,0.4)'}}
+                        flexItem
+                      />
+                    }
+                </span>);
+              })}
+            </Grid>
             <Grid item
-                  xs={6}
-                  sx={{mt: 1}}>
-              <Box display="flex">
-                <Search sx={{marginLeft: 'auto'}}/>
-                <Language sx={{marginLeft: 2}}
+                  xs={3}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="end">
+              <Box display="flex"
+                   alignItems="center"
+                   justifyContent="end">
+                <Search sx={{marginLeft: 'auto', color: "black"}}/>
+                <Language sx={{marginLeft: 2, color: "black"}}
                           className="hover"
                           onClick={handleLangClick}/>
                 <Menu
@@ -146,32 +195,8 @@ function Navbar() {
                     ENG
                   </MenuItem>
                 </Menu>
-                <Help sx={{marginLeft: 2}}/>
+                <Help sx={{marginLeft: 2, color: "black"}}/>
               </Box>
-            </Grid>
-            <Grid container
-                  item
-                  xs={12}
-                  justifyContent="center"
-                  sx={{mb: 2, display: {xs: 'none', sm: 'none', md: 'none', lg: 'flex'}}}>
-              {pages.map((page, index, elements) => {
-                return (
-                  <span key={page.id}>
-                  <Box sx={{my: 0, mx: 4}}>
-                    <MenuLink to={page.target}
-                              component={NavLink}>
-                      {t(page.title)}
-                    </MenuLink>
-                  </Box>
-                    {elements[index + 1] &&
-                      <Divider
-                        orientation="vertical"
-                        sx={{borderRightWidth: 2, background: 'rgba(156,39,176,0.4)', my: .6}}
-                        flexItem
-                      />
-                    }
-                </span>);
-              })}
             </Grid>
           </Grid>
         </Toolbar>

@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import { MasinoppeEnnustus, MinitornPikkus } from './views/tools';
+import React, {Component} from 'react';
+import {Navigate, Route, Routes} from 'react-router-dom';
+import {MasinoppeEnnustus, MinitornPikkus} from './views/tools';
 import Correction from './elle/tools/correction/Correction.component';
 import Tools from './elle/pages/Tools';
-import { Container } from '@mui/material';
+import {Container} from '@mui/material';
 import Home from './elle/pages/Home';
 import Links from './elle/pages/Links';
 import Contacts from './elle/pages/Contacts';
@@ -18,7 +18,7 @@ import Adding from './elle/pages/Adding.component';
 import Wordlist from './elle/tools/wordlist/Wordlist';
 import WordContext from './elle/tools/wordcontext/WordContext';
 import Collocates from './elle/tools/collocates/Collocates';
-import { withTranslation } from 'react-i18next';
+import {withTranslation} from 'react-i18next';
 
 class AppRoutes extends Component {
 
@@ -35,12 +35,8 @@ class AppRoutes extends Component {
   render() {
     return (
       <Container sx={{
-        mb: 10,
-        marginBottom: '20px',
         width: '80vw',
-        boxShadow: "0px 0px 20px -5px #CCA8FD",
         marginTop: '20px',
-        backgroundColor: 'white'
       }}
                  disableGutters
                  maxWidth={false}>

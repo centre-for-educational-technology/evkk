@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Navbar from './elle/components/Navbar';
-import { Provider } from 'react-redux';
-import { applyMiddleware, createStore } from 'redux';
+import {Provider} from 'react-redux';
+import {applyMiddleware, createStore} from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { compose, connectedComponent } from './util/redux-utils';
+import {compose, connectedComponent} from './util/redux-utils';
 import rootReducer from './rootReducer';
-import { getStatusIfNeeded } from './rootActions';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { selectStatusLoaded } from './rootSelectors';
-import Footer from './elle/components/Footer';
-import { createTheme } from '@mui/material/styles';
+import {getStatusIfNeeded} from './rootActions';
+import {BrowserRouter as Router} from 'react-router-dom';
+import {selectStatusLoaded} from './rootSelectors';
+import {createTheme} from '@mui/material/styles';
 import AppRoutes from './AppRoutes';
-import { ThemeProvider } from '@mui/material';
-import { EventEmitter } from 'events';
+import {ThemeProvider} from '@mui/material';
+import {EventEmitter} from 'events';
 import ErrorSnackbar from './elle/components/ErrorSnackbar';
 import LoadingSpinner from './elle/components/LoadingSpinner';
 import ServerOfflinePage from './elle/components/ServerOfflinePage';
 import SuccessSnackbar from './elle/components/SuccessSnackbar';
+import FooterElement from "./elle/components/FooterElement";
 
 export const errorEmitter = new EventEmitter();
 export const loadingEmitter = new EventEmitter();
@@ -89,7 +89,7 @@ class AppWithStatus extends Component {
         <LoadingSpinner/>
         <Navbar/>
         <AppRoutes/>
-        <Footer/>
+        <FooterElement/>
       </>
     );
   }
