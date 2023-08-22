@@ -657,17 +657,14 @@
 
       showResults: function (data, separator) {
         const clusters = [];
-        const totalFreqency = () => {
-          let tempNo = 0;
-          for (let i = 0; i < data.length; i++) {
-            tempNo += data[i].frequency;
-          }
-          return tempNo;
+        const totalFrequency = () => {
+          let initialValue = 0;
+          return data.reduce((accumulator, currentValue) => accumulator + currentValue.frequency, initialValue);
         }
         for (let i = 0; i < data.length; i++) {
           const cluster = {
             frequency: data[i].frequency,
-            percentage: (data[i].frequency * 100 / totalFreqency()).toFixed(2) + "%",
+            percentage: (data[i].frequency * 100 / totalFrequency()).toFixed(2) + "%",
             description: data[i].descriptions.join(" + "),
             markups: data[i].markups.map(ClusterSearchForm.util.escapeValueAndReplace).join(" + "),
             usages: data[i].usages.join("<br>")
