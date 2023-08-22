@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import { MasinoppeEnnustus, MinitornPikkus } from './views/tools';
-import Correction from './elle/tools/correction/Correction.component';
+import React, {Component} from 'react';
+import {Navigate, Route, Routes} from 'react-router-dom';
+import {MasinoppeEnnustus, MinitornPikkus} from './views/tools';
+import Correction from './elle/tools/correction/Correction';
 import Tools from './elle/pages/Tools';
-import { Container } from '@mui/material';
+import {Container} from '@mui/material';
 import Home from './elle/pages/Home';
 import Links from './elle/pages/Links';
 import Contacts from './elle/pages/Contacts';
@@ -18,7 +18,7 @@ import Adding from './elle/pages/Adding.component';
 import Wordlist from './elle/tools/wordlist/Wordlist';
 import WordContext from './elle/tools/wordcontext/WordContext';
 import Collocates from './elle/tools/collocates/Collocates';
-import { withTranslation } from 'react-i18next';
+import {withTranslation} from 'react-i18next';
 
 class AppRoutes extends Component {
 
