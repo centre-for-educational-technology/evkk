@@ -17,7 +17,10 @@ const HeroElement = () => {
             style={{color: "#9C27B0"}}>keele õppe ja analüüsi keskkond</span> õppijale,
             õpetajale ja
             teadlasele.</h1>
-          <Button sx={{bgcolor: "#2196F3"}} size={"large"} variant={"contained"}>Tutvu tööriistadega</Button>
+          <Button className="button-design" sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "15px"}}
+                  size={"large"}
+                  variant={"contained"}>Tutvu
+            tööriistadega</Button>
         </Box>
       </Box>
       <Box className="hero-image-box">

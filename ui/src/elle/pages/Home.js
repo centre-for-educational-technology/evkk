@@ -15,6 +15,7 @@ import i18n from 'i18next';
 import HeroElement from "../components/HeroElement";
 import ServicesElement from "../components/ServicesElement";
 import InfoElement from "../components/InfoElement";
+import StatisticsElement from "../components/StatisticsElement";
 
 function Home() {
   const {t} = useTranslation();
@@ -45,6 +46,7 @@ function Home() {
         <HeroElement/>
         <ServicesElement/>
         <InfoElement/>
+        <StatisticsElement/>
       </Box>
       {/*<h2 className="home-title">{t('homepage_title')}</h2>
 

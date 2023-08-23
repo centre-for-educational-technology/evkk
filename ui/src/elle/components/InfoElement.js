@@ -3,6 +3,7 @@ import './styles/InfoElement.css'
 import {Box, Button} from "@mui/material";
 import word_analyzer_video from '../resources/videos/word_analyzer_full.webm'
 import {useTranslation} from "react-i18next";
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
 const InfoElement = () => {
   const {t} = useTranslation();
@@ -51,17 +52,22 @@ const InfoElement = () => {
         <Box className="info-tool-title">
           <h2>ELLE tööriistad</h2>
         </Box>
-        <Box className="tool-description">
+        {/*  <Box className="tool-description">
           {descriptionText[summaryKey]}
-          <Button variant={"contained"} size={"small"}>Uuri lähemalt</Button>
-        </Box>
+          <Button variant={"contained"} sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "10px"}}
+                  size={"small"}>Uuri lähemalt</Button>
+        </Box>*/}
         <Box className="elle-tools">
           <Box id="tekstihindaja-btn" onMouseEnter={(e) => toggleBtnClass(e, 1)}
                className="btn-visible">
             <p className="tool-button-text">Tekstihindaja</p>
             <Box id="tekstihindaja-btn-box" className="info-box-slide-visible" style={{top: "5%"}}>
               <Box className="btn-box-inner">
-                <Box className="btn-box-inner-inner"></Box>
+                <Box className="btn-box-inner-inner">
+                  {descriptionText[summaryKey]}
+                  <Button variant={"contained"} sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "10px"}}
+                          size={"small"}>Uuri lähemalt</Button>
+                </Box>
               </Box>
             </Box>
           </Box>
@@ -70,7 +76,11 @@ const InfoElement = () => {
             <p className="tool-button-text">Tekstipäring</p>
             <Box id="tekstiparing-btn-box" className="info-box-slide-invisible">
               <Box className="btn-box-inner">
-                <Box className="btn-box-inner-inner"></Box>
+                <Box className="btn-box-inner-inner">
+                  {descriptionText[summaryKey]}
+                  <Button variant={"contained"} sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "10px"}}
+                          size={"small"}>Uuri lähemalt</Button>
+                </Box>
               </Box>
             </Box>
           </Box>
@@ -79,7 +89,11 @@ const InfoElement = () => {
             <p className="tool-button-text">Sõnaloend</p>
             <Box id="sonaloend-btn-box" className="info-box-slide-invisible">
               <Box className="btn-box-inner">
-                <Box className="btn-box-inner-inner"></Box>
+                <Box className="btn-box-inner-inner">
+                  {descriptionText[summaryKey]}
+                  <Button variant={"contained"} sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "10px"}}
+                          size={"small"}>Uuri lähemalt</Button>
+                </Box>
               </Box>
             </Box>
           </Box>
@@ -87,7 +101,11 @@ const InfoElement = () => {
             <p className="tool-button-text">Sõna kontekstis</p>
             <Box id="word-context-btn-box" className="info-box-slide-invisible">
               <Box className="btn-box-inner">
-                <Box className="btn-box-inner-inner"></Box>
+                <Box className="btn-box-inner-inner">
+                  {descriptionText[summaryKey]}
+                  <Button variant={"contained"} sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "10px"}}
+                          size={"small"}>Uuri lähemalt</Button>
+                </Box>
               </Box>
             </Box>
           </Box>
@@ -95,7 +113,11 @@ const InfoElement = () => {
             <p className="tool-button-text">Naabersõnad</p>
             <Box id="neighbour-word-btn-box" className="info-box-slide-invisible">
               <Box className="btn-box-inner">
-                <Box className="btn-box-inner-inner"></Box>
+                <Box className="btn-box-inner-inner">
+                  {descriptionText[summaryKey]}
+                  <Button variant={"contained"} sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "10px"}}
+                          size={"small"}>Uuri lähemalt</Button>
+                </Box>
               </Box>
             </Box>
           </Box>
@@ -103,7 +125,11 @@ const InfoElement = () => {
             <p className="tool-button-text">Mustrileidja</p>
             <Box id="cluster-finder-btn-box" className="info-box-slide-invisible">
               <Box className="btn-box-inner">
-                <Box className="btn-box-inner-inner"></Box>
+                <Box className="btn-box-inner-inner">
+                  {descriptionText[summaryKey]}
+                  <Button variant={"contained"} sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "10px"}}
+                          size={"small"}>Uuri lähemalt</Button>
+                </Box>
               </Box>
             </Box>
           </Box>
@@ -112,7 +138,11 @@ const InfoElement = () => {
             <Box id="word-analyser-btn-box" className="info-box-slide-invisible"
                  style={{top: "-150%"}}>
               <Box className="btn-box-inner">
-                <Box className="btn-box-inner-inner"></Box>
+                <Box className="btn-box-inner-inner">
+                  {descriptionText[summaryKey]}
+                  <Button variant={"contained"} sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "10px"}}
+                          size={"small"}>Uuri lähemalt</Button>
+                </Box>
               </Box>
             </Box>
           </Box>
@@ -143,6 +173,11 @@ const InfoElement = () => {
         <Box className="info-video">
           <video className={"info-video-styling"} controls src={word_analyzer_video} autoPlay width={"100%"}
                  preload></video>
+          <Box className="video-overlay"><PlayCircleIcon className="play-button-info"/>
+            <Box fontSize={"x-large"} position={"relative"} top={"20%"} fontWeight={"bold"}
+                 color={"rgb(204, 168, 253)"}><p>VAATA TUTVUSTAVAT
+              VIDEOT</p>
+            </Box></Box>
         </Box>
 
       </Box>
