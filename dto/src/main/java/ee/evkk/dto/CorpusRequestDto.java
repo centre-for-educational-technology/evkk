@@ -21,7 +21,7 @@ public class CorpusRequestDto {
   private String otherLang;
   private String nationality;
   private String country;
-  private List<List<Integer>> addedYears;
+  private Set<String> addedYears;
   private List<List<Integer>> characters;
   private List<List<Integer>> words;
   private List<List<Integer>> sentences;
@@ -106,11 +106,11 @@ public class CorpusRequestDto {
     this.country = country;
   }
 
-  public List<List<Integer>> getAddedYears() {
+  public Set<String> getAddedYears() {
     return addedYears;
   }
 
-  public void setAddedYears(List<List<Integer>> addedYears) {
+  public void setAddedYears(Set<String> addedYears) {
     this.addedYears = addedYears;
   }
 
