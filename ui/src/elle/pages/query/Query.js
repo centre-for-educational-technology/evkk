@@ -58,7 +58,6 @@ export default function Query() {
   const {t} = useTranslation();
   const selectWidth = 300;
   const classes = useStyles();
-  const currentYear = new Date().getFullYear();
   const location = useLocation();
   const navigate = useNavigate();
   const [urlParams] = useSearchParams();
@@ -182,7 +181,7 @@ export default function Query() {
       }
 
       if (addedYears.length > 0) {
-        params.addedYears = simplifyDropdowns(addedYears);
+        params.addedYears = replaceDashes(addedYears);
       }
 
       if (characters.length > 0) {
@@ -234,14 +233,25 @@ export default function Query() {
     return selectedCorpuses.length === 1 && selectedCorpuses[0] === corpus;
   }
 
+  function replaceDashes(data) {
+    return data.map(function (item) {
+      let parsed;
+      if (item.includes('...')) {
+        const splitValue = item.split('...')[0];
+        parsed = splitValue + '-' + (parseInt(splitValue) + 4);
+      } else {
+        parsed = item.replace('—', '-');
+      }
+      return parsed;
+    });
+  }
+
   function simplifyDropdowns(data) {
     let results = [];
     data.forEach((e) => {
       const entry = t(e);
       let parsed;
-      if (entry.includes('...')) {
-        parsed = [parseInt(entry.split('...')[0]), currentYear];
-      } else if (entry.includes(t('query_text_data_up_to'))) {
+      if (entry.includes(t('query_text_data_up_to'))) {
         parsed = [1, parseInt(entry.split(`${t('query_text_data_up_to')} `)[1])];
       } else if (entry.includes(t('query_text_data_over'))) {
         parsed = [parseInt(entry.split(`${t('query_text_data_over')} `)[1]), 2147483647]; //java int max value
