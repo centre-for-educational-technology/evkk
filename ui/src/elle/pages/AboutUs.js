@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
-import { EVKK_VERS1_PATH } from '../utils/constants';
+import { EVKK_VERS1_PATH } from '../const/Constants';
 
 export default function AboutUs() {
 

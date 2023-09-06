@@ -43,7 +43,7 @@ import {
   usedMaterialsOptions,
   useStyles,
   wordsOptions
-} from '../../utils/constants';
+} from '../../const/Constants';
 import QueryResults from './QueryResults';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
