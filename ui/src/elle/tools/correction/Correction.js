@@ -10,11 +10,6 @@ import WordClick from "./WordClick";
 import TextUpload from "../../components/TextUpload";
 import {loadFetch} from "../../service/LoadFetch";
 
-//history to keep all changes step-by-step made to alasisu
-let history = ["",]
-//integer for indexing history with undo and redo
-let currentHistory = 0
-
 const Correction = () => {
   const [history, setHistory] = useState(["",])
   const [currentHistory, setCurrentHistory] = useState(0)
@@ -26,10 +21,8 @@ const Correction = () => {
   const [answerVisible, setAnswerVisible] = useState(false);
   const [changesCode, setChangesCode] = useState(false);
   const [singleChange, setSingleChange] = useState(false);
-  const [addLevel, setAddLevel] = useState(false);
   const [openCard, setOpenCard] = useState('correction');
   const [repeats, setRepeats] = useState(false);
-  const [contentPlacement, setContentPlacement] = useState([]);
   const [contentWords, setContentWords] = useState([]);
   const [responseWords, setResponseWords] = useState([]);
   const [queryFinished, setQueryFinished] = useState(false);
@@ -64,12 +57,8 @@ const Correction = () => {
   };
 
   const replacerLogic = (content, answer, index) => {
-    let tempString = "";
-    content.forEach((cont) => {
-      tempString += cont + " ";
-    });
-
-    setContent(tempString.trimEnd());
+    const joinedContent = content.join(' ');
+    setContent(joinedContent);
     setContentWords(content);
     setResponseWords(answer);
     const tempArray = replyCode.map((value) => {
@@ -102,9 +91,12 @@ const Correction = () => {
       return;
     }
     fetch("/api/texts/keeletase", {
-      method: "POST", headers: {
-        'Accept': 'application/json', 'Content-Type': 'application/json'
-      }, body: JSON.stringify({tekst: content})
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({tekst: content})
     }).then(v => v.json()).then(t => {
       setLevelAnswer(t);
       setLevelText(content);
@@ -113,9 +105,12 @@ const Correction = () => {
 
   const getLanguageComplexity = () => {
     fetch("/api/texts/keerukus", {
-      method: "POST", headers: {
-        'Accept': 'application/json', 'Content-Type': 'application/json'
-      }, body: JSON.stringify({tekst: content})
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({tekst: content})
     }).then(v => v.json()).then(t => {
       setComplexityAnswer(t);
     });
@@ -123,9 +118,12 @@ const Correction = () => {
 
   const getLanguageDiversity = () => {
     fetch("/api/texts/mitmekesisus", {
-      method: "POST", headers: {
-        'Accept': 'application/json', 'Content-Type': 'application/json'
-      }, body: JSON.stringify({tekst: content})
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({tekst: content})
     }).then(v => v.json()).then(t => {
       setDiversityAnswer(t);
     });
@@ -140,9 +138,12 @@ const Correction = () => {
       return;
     }
     loadFetch("/api/texts/korrektuur", {
-      method: "POST", headers: {
-        'Accept': 'application/json', 'Content-Type': 'application/json'
-      }, body: JSON.stringify({
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
         tekst: content
       })
     }).then(v => v.json()).then(t => {
@@ -156,9 +157,7 @@ const Correction = () => {
 
   const fillData = (content, answer) => {
     const answerText = replyCode;
-    let contentText = "";
     const changes = [];
-    const contentPlacement = [];
     if (content === answer) {
       setCorrection("Kõik korras");
     } else {
@@ -178,13 +177,10 @@ const Correction = () => {
           answerText[i] = (<WordClick content={content} answer={answer} index={i} replace={replace}
                                       noReplace={noReplace}/>);
         }
-        contentText += content[i] + " ";
-        contentPlacement[i] = contentText.length;
       }
     }
     setChangesCode(<div>{changes.length > 0 ? changes : false}</div>);
     setReplyCode(answerText);
-    setContentPlacement(contentPlacement);
     setSingleChange(false);
     setQueryFinished(true);
   }
@@ -196,13 +192,13 @@ const Correction = () => {
   const renderLevel = () => {
     let degreeValue;
     if (levelAnswer.length !== 1 && levelAnswer[0]) {
-
-      let val1 = generatePieChart(levelAnswer[0][0]);
-      let val2 = generatePieChart(levelAnswer[1][0]);
-      let val3 = generatePieChart(levelAnswer[2][0]);
-      let val4 = generatePieChart(levelAnswer[3][0]);
+      const val1 = generatePieChart(levelAnswer[0][0]);
+      const val2 = generatePieChart(levelAnswer[1][0]);
+      const val3 = generatePieChart(levelAnswer[2][0]);
+      const val4 = generatePieChart(levelAnswer[3][0]);
       degreeValue = `conic-gradient(#b7e4c7 ${val1}deg,  #90e0ef ${val1}deg ${val2 + val1}deg, #ffb3c1 ${val2 + val1}deg ${val2 + val1 + val3}deg, #90e0ef ${val2 + val1 + val3}deg ${val2 + val1 + val3 + val4}deg)`;
     }
+
     return (<Box>
       <Box component="span" width="auto">
         {repeats && parseInt(diversityAnswer[10]) > 14 ? (<Box component="span" width="auto">
@@ -270,7 +266,7 @@ const Correction = () => {
     let errorList = [];
     contentWords.forEach((word, index) => {
       if (word !== responseWords[index]) {
-        errorList.push([word, responseWords[index], contentPlacement[index], index])
+        errorList.push([word, responseWords[index], index])
       }
     });
     return (<Box>
@@ -282,14 +278,14 @@ const Correction = () => {
               id={error[0]}
               className="popup-container"
             >
-                            <span
-                              style={{
-                                backgroundColor: "lightpink"
-                              }}
-                              className="error-word-container"
-                            >
-                                {clean(error[0])}
-                            </span>{" "}
+              <span
+                style={{
+                  backgroundColor: "lightpink"
+                }}
+                className="error-word-container"
+              >
+                {clean(error[0])}
+              </span>{" "}
               <EastIcon/>{" "}
               <span
                 style={{
@@ -299,7 +295,7 @@ const Correction = () => {
               >
                                 {clean(error[1])}
                             </span>{" "}
-              <span className="bold-font-20">|</span>
+              <span className="bold-font-20-corrector-bubble">|</span>
               <Box display="flex" gap="15px">
                 <Button
                   size="30px"
@@ -378,14 +374,6 @@ const Correction = () => {
                 square={true}
                 elevation={2}>
     <p/>
-    {/*<Box display="flex">
-                <div>
-            <span className="material-symbols-outlined"
-                  onClick={this.handleUndo}>undo</span>
-                    <span className="material-symbols-outlined"
-                          onClick={this.handleRedo}>redo</span>
-                </div>
-            </Box>*/}
     <div className="correction-container">
       <div>
         <br/><br/>
@@ -459,7 +447,7 @@ const Correction = () => {
                         </span> : <span>
                             {repeats && !queryFinished && content !== correctorAnswer[1] &&
                               <Box
-                                className="d-flex align-items-center justify-content-center w-100 height-200px"><CircularProgress/>
+                                className="d-flex align-items-center justify-content-center w-100 loading-animation-height-200px"><CircularProgress/>
                               </Box>}<br/>
               {(singleChange) ? singleChange : ""}<br/>
               {answerVisible && <span>{levelAnswer ? replyCode : "algus"}</span>}
