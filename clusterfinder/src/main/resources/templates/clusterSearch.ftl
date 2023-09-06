@@ -680,14 +680,13 @@
               description: null,
               markups: null,
               usages: null
-            }
+            };
             cluster.frequency = element.frequency;
             cluster.percentage = (element.frequency * 100 / totalFrequency()).toFixed(2) + "%";
             cluster.description = element.descriptions.join(" + ");
             cluster.markups = element.markups.map(ClusterSearchForm.util.escapeValueAndReplace).join(" + ");
             cluster.usages = element.usages.join("<br>");
-            console.log(cluster)
-            clusters.push(cluster)
+            clusters.push(cluster);
           })
 
           ClusterSearchForm.CLUSTERS_DATA_TABLE.rows.add(clusters);
