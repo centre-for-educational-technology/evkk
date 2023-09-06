@@ -15,7 +15,7 @@ import {
   styled,
   Toolbar
 } from '@mui/material';
-import {Close, Help, Language, Menu as MenuIcon, Search} from '@mui/icons-material';
+import {Close, Language, Menu as MenuIcon} from '@mui/icons-material';
 import {NavLink, useLocation} from 'react-router-dom';
 import '@fontsource/exo-2/600.css';
 import React, {useEffect, useState} from 'react';
@@ -173,7 +173,7 @@ function Navbar() {
               <Box display="flex"
                    alignItems="center"
                    justifyContent="end">
-                <Search sx={{marginLeft: 'auto', color: "black"}}/>
+                { /*<Search sx={{marginLeft: 'auto', color: "black"}}/>*/}
                 <Language sx={{marginLeft: 2, color: "black"}}
                           className="hover"
                           onClick={handleLangClick}/>
@@ -195,7 +195,7 @@ function Navbar() {
                     ENG
                   </MenuItem>
                 </Menu>
-                <Help sx={{marginLeft: 2, color: "black"}}/>
+                {/*<Help sx={{marginLeft: 2, color: "black"}}/>*/}
               </Box>
             </Grid>
           </Grid>

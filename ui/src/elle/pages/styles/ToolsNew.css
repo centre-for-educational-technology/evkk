@@ -1,0 +1,49 @@
+.tool-page-container-outer {
+    position: relative;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    min-height: 700px;
+    background-color: white;
+    border-radius: 45px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.outer-container-tools {
+    height: auto;
+    background: linear-gradient(315deg, rgba(156, 39, 176, 1) 0%, rgba(156, 39, 176, 1) 33%, rgba(204, 168, 253, 1) 33%, rgba(204, 168, 253, 1) 67%, rgba(255, 208, 253, 1) 67%, rgba(255, 208, 253, 1) 100%);
+    border-radius: 50px;
+    padding: 7px;
+    margin-bottom: 50px;
+}
+
+.query-container {
+    height: auto;
+    z-index: 10;
+}
+
+.outer-outer {
+    width: auto;
+    z-index: 10;
+}
+
+.tools-box-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 50px;
+    width: 100%;
+    height: auto;
+}
+
+.alert-max-width {
+    max-width: 700px;
+}
+
+.cluster-tools-container {
+    height: auto;
+    width: 1000px;
+    display: flex;
+    justify-content: center;
+}

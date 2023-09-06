@@ -17,6 +17,7 @@ import LoadingSpinner from './elle/components/LoadingSpinner';
 import ServerOfflinePage from './elle/components/ServerOfflinePage';
 import SuccessSnackbar from './elle/components/SuccessSnackbar';
 import FooterElement from "./elle/components/FooterElement";
+import DonateText from "./elle/components/DonateText";
 
 export const errorEmitter = new EventEmitter();
 export const loadingEmitter = new EventEmitter();
@@ -88,6 +89,7 @@ class AppWithStatus extends Component {
         <SuccessSnackbar/>
         <LoadingSpinner/>
         <Navbar/>
+        <DonateText/>
         <AppRoutes/>
         <FooterElement/>
       </>

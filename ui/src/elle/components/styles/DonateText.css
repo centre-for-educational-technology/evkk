@@ -1,0 +1,29 @@
+.donate-text-button {
+    cursor: pointer;
+    width: 400px;
+    border-radius: 20px !important;
+    background-color: #9C27B0 !important;
+    z-index: 100;
+    height: 60px !important;
+    display: flex !important;
+    justify-content: start !important;
+    align-items: center !important;
+    padding-left: 15px !important;
+    position: fixed !important;
+    left: calc(100vw - 80px);
+    top: 150px;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    transition: 0.5s !important;
+}
+
+
+.donate-text-button:hover {
+    left: calc(100vw - 310px);
+    transition: 0.5s !important;
+}
+
+.donate-text-font {
+    font-weight: bold;
+    font-size: 1rem;
+}

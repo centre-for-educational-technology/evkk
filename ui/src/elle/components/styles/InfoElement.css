@@ -294,7 +294,7 @@
 .play-button-info {
     scale: 7;
     color: rgb(204, 168, 253);
-    outline: 5px rgb(204, 168, 253) solid;
+    outline: 2px rgb(204, 168, 253) solid;
     border-radius: 100px;
     background-color: rgb(15, 14, 17, 0.5);
     transition: 0.3s ease-in-out;

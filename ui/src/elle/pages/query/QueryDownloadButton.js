@@ -12,12 +12,12 @@ import {
 } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import Popover from '@mui/material/Popover';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import '../styles/QueryDownloadButton.css';
-import { useState } from 'react';
+import {useState} from 'react';
 import i18n from 'i18next';
 import FileSaver from 'file-saver';
-import { loadFetch } from '../../service/LoadFetch';
+import {loadFetch} from '../../service/LoadFetch';
 
 export default function QueryDownloadButton({selected}) {
 
@@ -65,7 +65,7 @@ export default function QueryDownloadButton({selected}) {
     <span className="query-download-button-span">
       <Tooltip title={t('common_download')}
                placement="top">
-        <Button variant="contained"
+        <Button sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "15px"}} variant="contained"
                 disabled={selected.size === 0}
                 className="query-download-modal-button"
                 onClick={handleOptionsDialogOpenButtonClick}>

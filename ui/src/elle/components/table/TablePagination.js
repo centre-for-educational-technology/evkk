@@ -1,10 +1,10 @@
-import { Button, ButtonGroup, MenuItem, Select, TextField } from '@mui/material';
+import {Button, ButtonGroup, MenuItem, Select, TextField} from '@mui/material';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import '../../translations/i18n';
 import '../styles/TablePagination.css';
 
@@ -26,26 +26,26 @@ function TablePagination({
   return (
     <div className="pagination">
       <div className='buttongroup'>
-        <ButtonGroup size='medium'
+        <ButtonGroup sx={{borderRadius: "15px"}} size='medium'
                      fullWidth
                      variant="contained"
                      aria-label="outlined primary button group">
-          <Button variant="contained"
+          <Button sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "15px"}} variant="contained"
                   onClick={() => gotoPage(0)}
                   disabled={!canPreviousPage}>
             {<FirstPageIcon/>}
           </Button>
-          <Button variant="contained"
+          <Button sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "15px"}} variant="contained"
                   onClick={() => previousPage()}
                   disabled={!canPreviousPage}>
             {<NavigateBeforeIcon/>}
           </Button>
-          <Button variant="contained"
+          <Button sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "15px"}} variant="contained"
                   onClick={() => nextPage()}
                   disabled={!canNextPage}>
             {<NavigateNextIcon/>}
           </Button>
-          <Button variant="contained"
+          <Button sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "15px"}} variant="contained"
                   onClick={() => gotoPage(pageCount - 1)}
                   disabled={!canNextPage}>
             {<LastPageIcon/>}
