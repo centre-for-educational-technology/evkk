@@ -1,6 +1,6 @@
 import './Collocates.css';
 import React, { useEffect, useMemo, useState } from 'react';
-import { AccordionStyle } from '../../utils/constants';
+import { AccordionStyle } from '../../const/Constants';
 import Accordion from '@mui/material/Accordion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
