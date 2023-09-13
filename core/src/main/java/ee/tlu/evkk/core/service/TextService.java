@@ -194,16 +194,16 @@ public class TextService {
       singleParamHelpers.add(new TextQuerySingleParamHelper("p17", "elukoht", corpusRequestDto.getCountry()));
     }
     if (corpusRequestDto.getAddedYears() != null) {
-      rangeParamBaseHelpers.add(createRangeBaseHelper("p18", "aasta", false, corpusRequestDto.getAddedYears()));
+      multiParamHelpers.add(new TextQueryMultiParamHelper("p18", "ajavahemik", corpusRequestDto.getAddedYears()));
     }
     if (corpusRequestDto.getCharacters() != null) {
-      rangeParamBaseHelpers.add(createRangeBaseHelper("p19", "charCount", true, corpusRequestDto.getCharacters()));
+      rangeParamBaseHelpers.add(createRangeBaseHelper("p19", "charCount", corpusRequestDto.getCharacters()));
     }
     if (corpusRequestDto.getWords() != null) {
-      rangeParamBaseHelpers.add(createRangeBaseHelper("p20", "wordCount", true, corpusRequestDto.getWords()));
+      rangeParamBaseHelpers.add(createRangeBaseHelper("p20", "wordCount", corpusRequestDto.getWords()));
     }
     if (corpusRequestDto.getSentences() != null) {
-      rangeParamBaseHelpers.add(createRangeBaseHelper("p21", "sentenceCount", true, corpusRequestDto.getSentences()));
+      rangeParamBaseHelpers.add(createRangeBaseHelper("p21", "sentenceCount", corpusRequestDto.getSentences()));
     }
 
     String daoResponse = textDao.detailedTextQueryByParameters(multiParamHelpers, singleParamHelpers, rangeParamBaseHelpers, studyLevelAndDegreeHelper, otherLangHelper, usedMultiMaterialsHelper);
@@ -264,7 +264,7 @@ public class TextService {
       result.append(textDao.findTextsByIds(corpusTextIds));
     }
     result.append(" ");
-    if (ownTexts != null && ownTexts.length() > 0) {
+    if (isNotBlank(ownTexts)) {
       result.append(ownTexts);
     }
     return result.toString();
@@ -532,7 +532,7 @@ public class TextService {
     }
   }
 
-  private TextQueryRangeParamBaseHelper createRangeBaseHelper(String table, String parameter, boolean castable, List<List<Integer>> values) {
+  private TextQueryRangeParamBaseHelper createRangeBaseHelper(String table, String parameter, List<List<Integer>> values) {
     List<TextQueryRangeParamHelper> rangeHelpers = new ArrayList<>();
     for (List<Integer> value : values) {
       TextQueryRangeParamHelper helper = new TextQueryRangeParamHelper();
@@ -543,7 +543,6 @@ public class TextService {
     return new TextQueryRangeParamBaseHelper(
       table,
       parameter,
-      castable,
       rangeHelpers.toArray(new TextQueryRangeParamHelper[0])
     );
   }
@@ -592,7 +591,7 @@ public class TextService {
   }
 
   private void lisaTekstiOmadus(UUID kood, String tunnus, String omadus) {
-    if (omadus != null && omadus.length() > 0) {
+    if (isNotBlank(omadus)) {
       textDao.insertAddingProperty(kood, tunnus, omadus);
     }
   }

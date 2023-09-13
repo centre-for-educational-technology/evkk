@@ -27,7 +27,7 @@ import {
   textLanguageOptions,
   textTypes,
   usedMaterialsOptions
-} from '../../utils/constants';
+} from '../../const/Constants';
 import TablePagination from '../../components/table/TablePagination';
 import QueryDownloadButton from './QueryDownloadButton';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -56,7 +56,7 @@ export default function QueryResults(props) {
     tekstikeel: '',
     keeletase: '',
     abivahendid: '',
-    aasta: '',
+    ajavahemik: '',
     vanus: '',
     sugu: '',
     haridus: '',
@@ -327,7 +327,7 @@ export default function QueryResults(props) {
                   <strong>{t('query_text_data_language')}:</strong> {t(textLanguageOptions[metadata.tekstikeel]) || '-'}<br/>
                   <strong>{t('query_text_data_level')}:</strong> {metadata.keeletase || '-'}<br/>
                   <strong>{t('query_text_data_used_supporting_materials')}:</strong> {t(usedMaterialsOptions[metadata.abivahendid]) || '-'}<br/>
-                  <strong>{t('query_text_data_year_of_publication')}:</strong> {metadata.aasta || '-'}<br/>
+                  <strong>{t('query_text_data_year_of_publication')}:</strong> {metadata.ajavahemik || '-'}<br/>
                   <br/>
                   <div className="metainfoSubtitle">{t('common_author_data')}</div>
                   <strong>{t('query_author_data_age')}:</strong> {t(ageOptions[metadata.vanus]) || '-'}<br/>

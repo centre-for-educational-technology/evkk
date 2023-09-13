@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import '../translations/i18n';
 import CloseIcon from '@mui/icons-material/Close';
 import { loadFetch } from '../service/LoadFetch';
-import { modalStyle } from '../utils/constants';
+import { modalStyle } from '../const/Constants';
 
 function TextUpload({sendTextFromFile}) {
 

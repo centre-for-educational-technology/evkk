@@ -4,13 +4,11 @@ public class TextQueryRangeParamBaseHelper {
 
   private String table;
   private String parameter;
-  private boolean castable;
   private TextQueryRangeParamHelper[] values;
 
-  public TextQueryRangeParamBaseHelper(String table, String parameter, boolean castable, TextQueryRangeParamHelper[] values) {
+  public TextQueryRangeParamBaseHelper(String table, String parameter, TextQueryRangeParamHelper[] values) {
     this.table = table;
     this.parameter = parameter;
-    this.castable = castable;
     this.values = values;
   }
 
@@ -28,14 +26,6 @@ public class TextQueryRangeParamBaseHelper {
 
   public void setParameter(String parameter) {
     this.parameter = parameter;
-  }
-
-  public boolean isCastable() {
-    return castable;
-  }
-
-  public void setCastable(boolean castable) {
-    this.castable = castable;
   }
 
   public TextQueryRangeParamHelper[] getValues() {
