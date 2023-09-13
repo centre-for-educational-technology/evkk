@@ -1,5 +1,6 @@
 const IMAGES = {
   alpakids: require('./alpakids.png').default,
+  arkaader: require('./arkaader_logo.jpg').default,
   delfi: require('./delfi.png').default,
   digar: require('./digar.png').default,
   digiraamat: require('./digiraamat.png').default,
