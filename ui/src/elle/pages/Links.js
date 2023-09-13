@@ -531,6 +531,13 @@ function Links() {
             tags={["tasuta", "saated", "sarjad", "filmid", "arhiiv"]}/>
 
           <SingleLink
+            siteLink={"https://arkaader.ee/landing/br/rHczO7kKnl"}
+            name={"Arkaader - Eesti filmi kodu"}
+            tekst={"Eesti Filmi Instituudi ja Rahvusarhiivi loodud keskkond, kus saab vaadata nii uusi kui ka vanu Eesti filme ning tutvuda Eesti filmiajalooga. Valikust leiab nii mängu-, dokumentaal- kui ka animafilme. Suur osa sisust on tasuta ja selle vaatamiseks pole vaja sisse logida."}
+            image={IMAGES.arkaader}
+            tags={["filmid", "tasuta", "arhiiv"]}/>
+
+          <SingleLink
             siteLink={"https://kanal2.postimees.ee/pluss/avaleht"}
             name={"Kanal 2 veebi TV"}
             tekst={"Kanal 2 veebikeskkond, kust on võimalik vaadata filme, saateid ja sarju. Lisaks on võimalik vaadata otse Kanal 2 telekanaleid. Tasuta on keskkonnas vaid mõningad eestimaised saated, kuid filmide, sarjade ja otsetelevisiooni vaatamine on tasuline."}
