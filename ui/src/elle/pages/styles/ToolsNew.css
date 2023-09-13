@@ -47,3 +47,36 @@
     display: flex;
     justify-content: center;
 }
+
+.tool-card-container {
+    width: 600px;
+    height: 200px;
+    margin: auto;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    border: solid 2px rgba(156, 39, 176, 1);
+}
+
+.tool-card-icon {
+    padding: 10px;
+    height: 100%;
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tool-card-text {
+    padding: 10px;
+    height: 100%;
+    width: 60%;
+    display: flex;
+    align-items: center;
+    font-size: 1.2em
+}
+
+.tool-icon-img {
+    height: 80%;
+}
+

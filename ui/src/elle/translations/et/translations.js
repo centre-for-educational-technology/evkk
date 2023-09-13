@@ -181,7 +181,7 @@ export const TRANSLATIONS_ET = {
   query_author_data_native_language: 'Emakeel',
   query_author_data_other_languages: 'Muu õppe-, töö- või suhtluskeel',
   query_author_data_other_languages_plural: 'Muud õppe-, töö- või suhtluskeeled',
-  query_choose_texts: 'Vali tekstid',
+  query_choose_texts: 'Otsi tekste',
   query_common_country_bg: 'Bulgaaria',
   query_common_country_br: 'Brasiilia',
   query_common_country_by: 'Valgevene',

@@ -6,6 +6,11 @@ import {useTranslation} from 'react-i18next';
 import './styles/ToolsNew.css'
 import {TabContext, TabList, TabPanel} from "@mui/lab";
 import {queryStore} from "../store/QueryStore";
+import WordlistImg from '../resources/images/tools/sonaloend.png';
+import WordContext from '../resources/images/tools/sona_kontekstis.png';
+import NeighbourWord from '../resources/images/tools/naabersonad.png';
+import WordPattern from '../resources/images/tools/mustrileidja.png';
+
 
 function Tools() {
 
@@ -69,6 +74,25 @@ function Tools() {
       action: () => toolSelect('clusterfinder')
     }
   ];
+
+  const ToolIconCard = (props) => {
+    return (
+      <>
+        <Box
+          className="tool-card-container"
+          sx={{boxShadow: 3}}>
+          <Box className="tool-card-icon">
+            <img className="tool-icon-img" src={props.image} loading="lazy"/>
+          </Box>
+          <Box className="tool-card-text">
+            {t(props.text)}
+
+          </Box>
+        </Box>
+      </>
+    )
+
+  }
 
   function toolSelect(tool) {
     navigate(tool);
@@ -140,31 +164,31 @@ function Tools() {
                 <Tab label="Sõna kontekstis" onClick={() => toolSelect('wordcontext')} value="2"/>
                 <Tab label="Naabersõnad" onClick={() => toolSelect('collocates')} value="3"/>
                 <Tab label="Sõnaanalüsaator" onClick={() => toolSelect('wordanalyser')} value="4"/>
-                <Tab label="Mustrid" onClick={() => toolSelect('clusterfinder')} value="5"/>
+                <Tab label="Mustrileidja" onClick={() => toolSelect('clusterfinder')} value="5"/>
               </TabList>
             </Box>
             <TabPanel value="1">{textsSelected ? <Outlet/> :
               <Box>
-                <Alert severity="info">{t('tools_accordion_wordlist_explainer')}</Alert> <br/>
+                <ToolIconCard image={WordlistImg} text={'tools_accordion_wordlist_explainer'}/>
                 <Alert severity="warning">Tööriista kasutamiseks tuleb vasakult menüüst valida analüüsitav tekst või
                   tekstid!</Alert>
               </Box>}</TabPanel>
             <TabPanel value="2">{textsSelected ? <Outlet/> :
               <Box>
-                <Alert severity="info">{t('tools_accordion_word_in_context_explainer')}</Alert> <br/>
+                <ToolIconCard image={WordContext} text={'tools_accordion_word_in_context_explainer'}/>
                 <Alert severity="warning">Tööriista kasutamiseks tuleb vasakult menüüst valida analüüsitav tekst või
                   tekstid!</Alert>
               </Box>}</TabPanel>
             <TabPanel value="3">{textsSelected ? <Outlet/> :
               <Box>
-                <Alert severity="info">{t('tools_accordion_neighbouring_words_explainer')}</Alert> <br/>
+                <ToolIconCard image={NeighbourWord} text={'tools_accordion_neighbouring_words_explainer'}/>
                 <Alert severity="warning">Tööriista kasutamiseks tuleb vasakult menüüst valida analüüsitav tekst või
                   tekstid!</Alert>
               </Box>}</TabPanel>
             <TabPanel value="4"><Outlet/></TabPanel>
             <TabPanel value="5"><Box className="cluster-tools-container">{textsSelected ? <Outlet/> :
               <Box>
-                <Alert severity="info">{t('tools_accordion_clusters_explainer')}</Alert> <br/>
+                <ToolIconCard image={WordPattern} text={'tools_accordion_clusters_explainer'}/>
                 <Alert severity="warning">Tööriista kasutamiseks tuleb vasakult menüüst valida analüüsitav tekst või
                   tekstid!</Alert>
               </Box>}</Box></TabPanel>

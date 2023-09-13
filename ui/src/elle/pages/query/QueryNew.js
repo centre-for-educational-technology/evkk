@@ -409,6 +409,14 @@ export default function Query() {
     }
   }
 
+  const closeInputHidden = () => {
+    if (inputOpen) {
+      setInputHidden()
+    } else if (filterOpen) {
+      setFilterBoxClass()
+    }
+  }
+
   const setInputHidden = () => {
     if (inputOpen) {
       setFilterOpen(true)
@@ -429,7 +437,7 @@ export default function Query() {
       <div className="buttonBox">
         <Button variant="contained"
                 id="choose-text-button"
-                className={"button-query-hover"}
+                className={"button-query-hover button-box-open"}
                 onClick={(e) => {
                   setQueryVisible(true);
                   setExpanded(true);
@@ -1016,7 +1024,7 @@ export default function Query() {
         </span>}
         </Box>
         <Button id="choose-input-button" variant="contained"
-                className={"button-query-hover"}
+                className={"button-query-hover button-box-open"}
                 onClick={() => setInputHidden()}
         >
           <div className="button-text-query"><ReadMoreIcon
