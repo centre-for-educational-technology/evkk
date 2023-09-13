@@ -4,6 +4,27 @@ import './styles/SingleLink.css'
 
 function SingleLink({name, siteLink, tekst, image, tags}) {
 
+  fetch()
+
+  fetch('https://cors-anywhere.herokuapp.com/' + siteLink, {
+    method: 'GET',
+    headers: {
+      'Origin': 'null'
+    }
+  })
+    .then(response => {
+      if (response.ok) {
+        console.log("status code 200 returned");
+      } else if (response.status === 404) {
+        console.log("status code 404 returned");
+      } else {
+        console.log("Error");
+      }
+    })
+    .catch(error => {
+      console.error("Error:", error);
+    });
+
   const MenuLink = styled(Link)({
     fontWeight: "bold",
     fontSize: "1.5rem",

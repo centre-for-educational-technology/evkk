@@ -1,5 +1,5 @@
 import {Box, styled, Typography} from "@mui/material";
-import React from "react";
+import React, {useState} from "react";
 import {TreeItem, TreeView} from "@mui/lab";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -9,6 +9,7 @@ import "@fontsource/exo-2/600.css";
 import IMAGES from '../resources/images/link-images/index.js'
 
 function Links() {
+  const [linkBroken, setLinkBroken] = useState([]);
 
   const classes = {
     focused: {
