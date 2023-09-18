@@ -216,7 +216,7 @@ function Navbar() {
                     <BurgerLink to={page.target}
                                 component={NavLink}
                                 onClick={toggleDrawer}>
-                      {page.title}
+                      {t(page.title)}
                     </BurgerLink>
                   </ListItem>
                 );

@@ -1,5 +1,7 @@
 import { makeStyles } from '@mui/styles';
 
+export const EVKK_VERS1_PATH = 'https://evkk.tlu.ee/vers1/';
+
 export const useStyles = makeStyles((_theme) => ({
   formControl: {
     margin: 1,
@@ -26,7 +28,9 @@ export const AccordionStyle = {
 };
 
 export const ITEM_HEIGHT = 48;
+
 export const ITEM_PADDING_TOP = 8;
+
 export const MenuProps = {
   PaperProps: {
     style: {

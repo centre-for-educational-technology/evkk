@@ -6,7 +6,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { AccordionStyle } from '../utils/constants';
+import { AccordionStyle } from '../const/Constants';
 import Query from './query/Query';
 import { useTranslation } from 'react-i18next';
 
