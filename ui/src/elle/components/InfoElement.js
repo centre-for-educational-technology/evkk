@@ -9,7 +9,6 @@ const InfoElement = () => {
   const {t} = useTranslation();
   const [visibleButton, setVisibleButton] = useState("tekstihindaja-btn")
   const [visibleBox, setVisibleBox] = useState("tekstihindaja-btn-box")
-  const summaryTexts = ['homepage_summary_text_1', 'homepage_summary_text_2', 'homepage_summary_text_3', 'homepage_summary_text_4'];
   const [summaryKey, setSummaryKey] = useState(1)
   const descriptionText = {
     1: <p><b>Tekstihindajaga</b> {t('homepage_box_corrector_content')}</p>,
@@ -47,7 +46,7 @@ const InfoElement = () => {
   }
 
   return (
-    <Box className="info-element-container">
+    <Box id="elle-tools" className="info-element-container">
       <Box className="info-element-inner">
         <Box className="info-tool-title">
           <h2>ELLE tööriistad</h2>

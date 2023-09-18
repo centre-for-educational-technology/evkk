@@ -1,4 +1,4 @@
-import { makeStyles } from '@mui/styles';
+import {makeStyles} from '@mui/styles';
 
 export const EVKK_VERS1_PATH = 'https://evkk.tlu.ee/vers1/';
 
@@ -26,6 +26,31 @@ export const AccordionStyle = {
     backgroundColor: 'transparent !important'
   }
 };
+
+export const ButtonStyle = {
+  backgroundColor: '#9C27B0',
+  fontWeight: 'bold',
+  borderRadius: '15px',
+  '&:hover': {
+    backgroundColor: '#852197'
+  }
+}
+
+export const ButtonStyleSmall = {
+  backgroundColor: '#9C27B0',
+  fontWeight: 'bold',
+  borderRadius: '10px',
+  '&:hover': {
+    backgroundColor: '#852197'
+  }
+}
+
+export const ElleOuterDivStyle = {
+  background: 'linear-gradient(315deg, rgba(156, 39, 176, 1) 0%, rgba(156, 39, 176, 1) 33%, rgba(204, 168, 253, 1) 33%, rgba(204, 168, 253, 1) 67%, rgba(255, 208, 253, 1) 67%, rgba(255, 208, 253, 1) 100%)',
+  height: '100%',
+  width: '100%',
+  padding: '7px',
+}
 
 export const ITEM_HEIGHT = 48;
 

@@ -59,6 +59,8 @@ class AppRoutes extends Component {
             <Route path="publications"
                    element={<Publications/>}/>
           </Route>
+          <Route path="/adding"
+                 element={<Adding/>}/>
           <Route path="/tools/minitorn-pikkus"
                  element={<MinitornPikkus/>}/>
           <Route path="/tools/masinoppe-ennustus"
@@ -67,8 +69,6 @@ class AppRoutes extends Component {
                  element={<Correction/>}/>
           <Route path="/tools"
                  element={<ToolsNew/>}>
-            <Route path="adding"
-                   element={<Adding/>}/>
             <Route path="wordlist"
                    element={<Wordlist/>}/>
             <Route path="wordcontext"
@@ -82,8 +82,6 @@ class AppRoutes extends Component {
           </Route>
           <Route path="/links"
                  element={<Links/>}/>
-          <Route path="/adding"
-                 element={<Navigate to="/tools/adding"/>}/>
           <Route path="*"
                  element={this.render404()}/>
         </Routes>
