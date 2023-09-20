@@ -10,7 +10,6 @@ import {ButtonStyle} from '../utils/constants';
 const HeroElement = () => {
 
   const {t} = useTranslation();
-
   const ToolsLink = styled(HashLink)({
     fontWeight: 600,
     fontSize: 16,
@@ -19,38 +18,45 @@ const HeroElement = () => {
     fontFamily: ["'Exo 2'", 'sans-serif',].join(','),
     '&:hover': {
       color: "white",
-
       textDecoration: "none",
     },
     '&.active': {
       color: "white",
-
       textDecoration: "none",
     },
   });
 
-
   return (
     <Box className="hero-container">
-      <Box width={"40%"} height={"100%"} position={"relative"}>
+      <Box className="h-100 position-relative" width={"40%"}>
         <Box className="hero-text-container">
           <h1 className="hero-text"><span
-            style={{color: "#9C27B0"}}>
+            className="elle-dark-text">
             {t('hero_main_text_highlighted')}
           </span>
             {t('hero_main_text_not_highlighted')}
           </h1>
-          <Button className="button-design" sx={ButtonStyle}
-                  size={"large"}
-                  variant={"contained"}>
-            <ToolsLink key={"1"}
-                       smooth
-                       to="#scroll-anchor">{t('hero_tools_button')}</ToolsLink></Button>
+          <Button
+            className="button-design" sx={ButtonStyle}
+            size={"large"}
+            variant={"contained"}
+          >
+            <ToolsLink
+              key={"1"}
+              smooth
+              to="#scroll-anchor"
+            >
+              {t('hero_tools_button')}
+            </ToolsLink>
+          </Button>
         </Box>
       </Box>
       <Box className="hero-image-box">
-        <img className="hero-img" src={heroImage} alt="geroimage"/>
-
+        <img
+          className="hero-img"
+          src={heroImage}
+          alt="Heroimage"
+        />
       </Box>
     </Box>
   );
