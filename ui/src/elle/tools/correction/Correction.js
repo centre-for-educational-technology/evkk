@@ -303,7 +303,7 @@ const Correction = () => {
                   className="popup-icon-button-big"
                   variant="contained"
                   onClick={() => {
-                    replace(contentWords, responseWords, error[3])
+                    replace(contentWords, responseWords, error[2])
                   }}
                 >
                   <DoneIcon fontSize="medium"/>
@@ -314,7 +314,7 @@ const Correction = () => {
                   className="popup-icon-button-big"
                   variant="contained"
                   onClick={() => {
-                    noReplace(contentWords, responseWords, error[3])
+                    noReplace(contentWords, responseWords, error[2])
                   }}
                 >
                   <CloseIcon fontSize="medium"/>
