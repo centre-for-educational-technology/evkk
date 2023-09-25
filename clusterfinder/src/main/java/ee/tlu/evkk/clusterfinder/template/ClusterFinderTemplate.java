@@ -48,7 +48,6 @@ public class ClusterFinderTemplate {
 
     @ModelAttribute("wordTypes")
     public Map<String, String> getWordTypes() {
-        Object LinkedHashMap;
         return Arrays.stream(WordType.values())
                 .collect(Collectors.toMap(WordType::getValue, WordType::getLabelKey, (existing, replacement) -> existing, LinkedHashMap::new));
     }
