@@ -5,6 +5,7 @@ import ee.tlu.evkk.clusterfinder.constants.AjaxConsts;
 import ee.tlu.evkk.clusterfinder.constants.ClauseType;
 import ee.tlu.evkk.clusterfinder.constants.TemplateConstants;
 import ee.tlu.evkk.clusterfinder.constants.WordType;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
 @Controller
+@RequiredArgsConstructor
 public class ClusterFinderTemplate {
 
     private static final Map<String, String> AJAX_URLS = Map.ofEntries(
@@ -25,10 +26,6 @@ public class ClusterFinderTemplate {
     );
 
     private final EvkkClient evkkClient;
-
-    public ClusterFinderTemplate(EvkkClient evkkClient) {
-        this.evkkClient = evkkClient;
-    }
 
     @GetMapping("/")
     public String render(Model model,
@@ -47,6 +44,7 @@ public class ClusterFinderTemplate {
 
     @ModelAttribute("wordTypes")
     public Map<String, String> getWordTypes() {
+        Object LinkedHashMap;
         return Arrays.stream(WordType.values())
                 .collect(Collectors.toMap(WordType::getValue, WordType::getLabelKey, (existing, replacement) -> existing, LinkedHashMap::new));
     }

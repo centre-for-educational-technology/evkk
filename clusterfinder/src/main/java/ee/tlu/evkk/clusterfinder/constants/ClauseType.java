@@ -20,11 +20,10 @@ public enum ClauseType {
     QUANTIFIER_MODIFIER("QM", "clause.type.quantifier.modifier"),
     ADPOSITION_APPURTENANT("AP", "clause.type.adposition.appurtenant");
 
-
-    private static final Map<String, ClauseType> VALUE_TO_CLAUSE_MAP = Arrays.stream(ClauseType.values())
-            .collect(Collectors.toMap(ClauseType::getValue, c -> c));
     private final String value;
     private final String labelKey;
+    private static final Map<String, ClauseType> VALUE_TO_CLAUSE_MAP = Arrays.stream(ClauseType.values())
+            .collect(Collectors.toMap(ClauseType::getValue, c -> c));
 
     ClauseType(String value, String labelKey) {
         this.value = value;
