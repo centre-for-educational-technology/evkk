@@ -91,14 +91,10 @@ function Navbar() {
 
   const handleScroll = () => {
     const position = window.scrollY;
-    console.log(position)
     if (position > 20) {
       setNavColor("not-sticking")
-      console.log("sticking")
-
     } else if (position <= 20) {
       setNavColor("sticking")
-
     }
   };
 
@@ -117,14 +113,16 @@ function Navbar() {
                 position: "sticky",
                 top: 0,
               }}
-              className={navColor}>
+              className={navColor}
+      >
         <Toolbar>
           <Grid container>
             <Grid item
                   xs={3}
                   sx={{pl: {xs: 0, sm: 4, md: 6}}}
                   display="flex"
-                  alignItems="center">
+                  alignItems="center"
+            >
               <IconButton
                 onClick={() => toggleDrawer()}
                 sx={{mr: 2, mb: 2, display: {md: 'flex', lg: 'none'}}}
@@ -145,13 +143,15 @@ function Navbar() {
               xs={6}
               justifyContent="center"
               alignItems="center"
-              sx={{display: {xs: 'none', sm: 'none', md: 'none', lg: 'flex'}}}>
+              sx={{display: {xs: 'none', sm: 'none', md: 'none', lg: 'flex'}}}
+            >
               {pages.map((page, index, elements) => {
                 return (
                   <span style={{height: "100%"}} key={page.id}>
-                  <Box className="nav-menu-item" sx={{my: 0, mx: 4}}>
+                  <Box className="nav-menu-item my-0 mx-4">
                     <MenuLink to={page.target}
-                              component={NavLink}>
+                              component={NavLink}
+                    >
                       {t(page.title)}
                     </MenuLink>
                   </Box>
@@ -169,29 +169,36 @@ function Navbar() {
                   xs={3}
                   display="flex"
                   alignItems="center"
-                  justifyContent="end">
+                  justifyContent="end"
+            >
               <Box display="flex"
                    alignItems="center"
-                   justifyContent="end">
+                   justifyContent="end"
+              >
                 { /*<Search sx={{marginLeft: 'auto', color: "black"}}/>*/}
                 <Language sx={{marginLeft: 2, color: "black"}}
                           className="hover"
-                          onClick={handleLangClick}/>
+                          onClick={handleLangClick}
+                />
                 <Menu
                   anchorEl={langAnchorEl}
                   open={langOpen}
                   onClose={handleLangClose}
                 >
                   <MenuItem onClick={() => handleLangSelect('ET')}>
-                    <img src={require('../resources/images/flags/est.png').default}
-                         className="lang-icon"
-                         alt="EST"/>
+                    <img
+                      src={require('../resources/images/flags/est.png').default}
+                      className="lang-icon"
+                      alt="EST"
+                    />
                     EST
                   </MenuItem>
                   <MenuItem onClick={() => handleLangSelect('EN')}>
-                    <img src={require('../resources/images/flags/eng.png').default}
-                         className="lang-icon"
-                         alt="ENG"/>
+                    <img
+                      src={require('../resources/images/flags/eng.png').default}
+                      className="lang-icon"
+                      alt="ENG"
+                    />
                     ENG
                   </MenuItem>
                 </Menu>
@@ -209,12 +216,16 @@ function Navbar() {
           }}
         >
           <Grid container
-                sx={{pt: 1.5, px: 4}}>
+                sx={{pt: 1.5, px: 4}}
+          >
             <Grid item
                   xs={12}
-                  sm={12}>
-              <Stack direction="row"
-                     justifyContent="space-between">
+                  sm={12}
+            >
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+              >
                 <NavLink to="/">
                   <Box
                     component="img"
@@ -224,10 +235,7 @@ function Navbar() {
                   />
                 </NavLink>
                 <Box>
-                  <IconButton
-                    onClick={() => toggleDrawer()}
-                    sx={{mt: 0}}
-                  >
+                  <IconButton onClick={() => toggleDrawer()} sx={{mt: 0}}>
                     <Close sx={{color: 'black', fontSize: 45}}/>
                   </IconButton>
                 </Box>

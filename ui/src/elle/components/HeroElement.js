@@ -10,7 +10,6 @@ import {ButtonStyle} from '../utils/constants';
 const HeroElement = () => {
 
   const {t} = useTranslation();
-
   const ToolsLink = styled(HashLink)({
     fontWeight: 600,
     fontSize: 16,
@@ -29,17 +28,16 @@ const HeroElement = () => {
 
   return (
     <Box className="hero-container">
-      <Box width={"40%"} height={"100%"} position={"relative"}>
+      <Box className="h-100 position-relative" width={"40%"}>
         <Box className="hero-text-container">
           <h1 className="hero-text"><span
-            style={{color: "#9C27B0"}}>
+            className="elle-dark-text">
             {t('hero_main_text_highlighted')}
           </span>
             {t('hero_main_text_not_highlighted')}
           </h1>
           <Button
-            className="button-design"
-            sx={ButtonStyle}
+            className="button-design" sx={ButtonStyle}
             size={"large"}
             variant={"contained"}
           >
@@ -54,7 +52,11 @@ const HeroElement = () => {
         </Box>
       </Box>
       <Box className="hero-image-box">
-        <img className="hero-img" src={heroImage} alt="heroimage"/>
+        <img
+          className="hero-img"
+          src={heroImage}
+          alt="Heroimage"
+        />
       </Box>
     </Box>
   );

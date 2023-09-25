@@ -1,15 +1,18 @@
 import React, {useState} from 'react';
 import './styles/InfoElement.css'
-import {Box, Button} from "@mui/material";
+import {Box} from "@mui/material";
 import word_analyzer_video from '../resources/videos/word_analyzer_full.webm'
 import {useTranslation} from "react-i18next";
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import InfoElementTabCard from "./InfoElementTabCard";
 
 const InfoElement = () => {
+
   const {t} = useTranslation();
   const [visibleButton, setVisibleButton] = useState("tekstihindaja-btn")
   const [visibleBox, setVisibleBox] = useState("tekstihindaja-btn-box")
   const [summaryKey, setSummaryKey] = useState(1)
+
   const descriptionText = {
     1: <p><b>Tekstihindajaga</b> {t('homepage_box_corrector_content')}</p>,
     2: <p><b>Tekstipäringu</b> {t('homepage_box_query_content')}</p>,
@@ -51,100 +54,28 @@ const InfoElement = () => {
         <Box className="info-tool-title">
           <h2>ELLE tööriistad</h2>
         </Box>
-        {/*  <Box className="tool-description">
-          {descriptionText[summaryKey]}
-          <Button variant={"contained"} sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "10px"}}
-                  size={"small"}>Uuri lähemalt</Button>
-        </Box>*/}
         <Box className="elle-tools">
-          <Box id="tekstihindaja-btn" onMouseEnter={(e) => toggleBtnClass(e, 1)}
-               className="btn-visible">
-            <p className="tool-button-text">Tekstihindaja</p>
-            <Box id="tekstihindaja-btn-box" className="info-box-slide-visible" style={{top: "5%"}}>
-              <Box className="btn-box-inner">
-                <Box className="btn-box-inner-inner">
-                  {descriptionText[summaryKey]}
-                  <Button variant={"contained"} sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "10px"}}
-                          size={"small"}>Uuri lähemalt</Button>
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-          <Box id="tekstiparing-btn" onMouseEnter={(e) => toggleBtnClass(e, 2)} className="btn-invisible"
-          >
-            <p className="tool-button-text">Tekstipäring</p>
-            <Box id="tekstiparing-btn-box" className="info-box-slide-invisible">
-              <Box className="btn-box-inner">
-                <Box className="btn-box-inner-inner">
-                  {descriptionText[summaryKey]}
-                  <Button variant={"contained"} sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "10px"}}
-                          size={"small"}>Uuri lähemalt</Button>
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-          <Box id="sonaloend-btn" onMouseEnter={(e) => toggleBtnClass(e, 3)} className="btn-invisible"
-          >
-            <p className="tool-button-text">Sõnaloend</p>
-            <Box id="sonaloend-btn-box" className="info-box-slide-invisible">
-              <Box className="btn-box-inner">
-                <Box className="btn-box-inner-inner">
-                  {descriptionText[summaryKey]}
-                  <Button variant={"contained"} sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "10px"}}
-                          size={"small"}>Uuri lähemalt</Button>
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-          <Box id="word-context-btn" onMouseEnter={(e) => toggleBtnClass(e, 4)} className="btn-invisible">
-            <p className="tool-button-text">Sõna kontekstis</p>
-            <Box id="word-context-btn-box" className="info-box-slide-invisible">
-              <Box className="btn-box-inner">
-                <Box className="btn-box-inner-inner">
-                  {descriptionText[summaryKey]}
-                  <Button variant={"contained"} sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "10px"}}
-                          size={"small"}>Uuri lähemalt</Button>
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-          <Box id="neighbour-word-btn" onMouseEnter={(e) => toggleBtnClass(e, 5)} className="btn-invisible">
-            <p className="tool-button-text">Naabersõnad</p>
-            <Box id="neighbour-word-btn-box" className="info-box-slide-invisible">
-              <Box className="btn-box-inner">
-                <Box className="btn-box-inner-inner">
-                  {descriptionText[summaryKey]}
-                  <Button variant={"contained"} sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "10px"}}
-                          size={"small"}>Uuri lähemalt</Button>
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-          <Box id="cluster-finder-btn" onMouseEnter={(e) => toggleBtnClass(e, 6)} className="btn-invisible">
-            <p className="tool-button-text">Mustrileidja</p>
-            <Box id="cluster-finder-btn-box" className="info-box-slide-invisible">
-              <Box className="btn-box-inner">
-                <Box className="btn-box-inner-inner">
-                  {descriptionText[summaryKey]}
-                  <Button variant={"contained"} sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "10px"}}
-                          size={"small"}>Uuri lähemalt</Button>
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-          <Box id="word-analyser-btn" onMouseEnter={(e) => toggleBtnClass(e, 7)} className="btn-invisible">
-            <p className="tool-button-text">Sõnaanalüsaator</p>
-            <Box id="word-analyser-btn-box" className="info-box-slide-invisible"
-                 style={{top: "-150%"}}>
-              <Box className="btn-box-inner">
-                <Box className="btn-box-inner-inner">
-                  {descriptionText[summaryKey]}
-                  <Button variant={"contained"} sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "10px"}}
-                          size={"small"}>Uuri lähemalt</Button>
-                </Box>
-              </Box>
-            </Box>
-          </Box>
+          <InfoElementTabCard toolID={"tekstihindaja-btn"} toolTitile={"Tekstihindaja"}
+                              toolInnerId={"tekstihindaja-btn-box"} toolKey={1}
+                              description={descriptionText[summaryKey]} toggleBtnClass={toggleBtnClass()}/>
+          <InfoElementTabCard toolID={"tekstiparing-btn"} toolTitile={"Tekstipäring"}
+                              toolInnerId={"tekstiparing-btn-box"} toolKey={2}
+                              description={descriptionText[summaryKey]} toggleBtnClass={toggleBtnClass()}/>
+          <InfoElementTabCard toolID={"sonaloend-btn"} toolTitile={"Sõnaloend"} toolInnerId={"sonaloend-btn-box"}
+                              toolKey={3}
+                              description={descriptionText[summaryKey]} toggleBtnClass={toggleBtnClass()}/>
+          <InfoElementTabCard toolID={"word-context-btn"} toolTitile={"Sõna kontekstis"}
+                              toolInnerId={"word-context-btn-box"} toolKey={4}
+                              description={descriptionText[summaryKey]} toggleBtnClass={toggleBtnClass()}/>
+          <InfoElementTabCard toolID={"neighbour-word-btn"} toolTitile={"Naabersõnad"}
+                              toolInnerId={"neighbour-word-btn-box"} toolKey={5}
+                              description={descriptionText[summaryKey]} toggleBtnClass={toggleBtnClass()}/>
+          <InfoElementTabCard toolID={"cluster-finder-btn"} toolTitile={"Mustrileidja"}
+                              toolInnerId={"cluster-finder-btn-box"} toolKey={6}
+                              description={descriptionText[summaryKey]} toggleBtnClass={toggleBtnClass()}/>
+          <InfoElementTabCard toolID={"word-analyser-btn"} toolTitile={"Sõnaanalüsaator"}
+                              toolInnerId={"word-analyser-btn-box"} toolKey={7}
+                              description={descriptionText[summaryKey]} toggleBtnClass={toggleBtnClass()}/>
         </Box>
         {/*<Box className="tool-buttons">
           <Box className="tool-button" bgcolor={"#ff758f80"} width={"13%"}>
