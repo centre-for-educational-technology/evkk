@@ -42,6 +42,14 @@
             and tp1.property_name = 'korpus') t
   </select>
 
+  <select id="getAllData" resultType="java.lang.String">
+    SELECT array_agg(property_name || ': ' || property_value) AS properties
+    FROM (SELECT text_id, 'text_id' AS property_name, text_id::varchar AS property_value
+          FROM core.text_property GROUP BY text_id
+          UNION SELECT text_id, property_name, property_value FROM core.text_property)
+           AS tabel1 GROUP BY text_id;
+  </select>
+
   <select id="detailedTextQueryByParameters" resultType="java.lang.String">
     select array_to_json(array_agg(row_to_json(t)))
     from (

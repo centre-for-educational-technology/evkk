@@ -164,6 +164,11 @@ public class TextController {
     return ok(textService.detailneparing(vaartused));
   }
 
+  @GetMapping("/getAllData")
+  public List <String> getAllData(){
+    return (textDao.getAllData());
+  }
+
   @PostMapping("/tekstidfailina")
   public HttpEntity<byte[]> tekstidfailina(@RequestBody CorpusDownloadDto corpusDownloadDto, HttpServletResponse response) throws IOException {
     byte[] file = textService.tekstidfailina(corpusDownloadDto);

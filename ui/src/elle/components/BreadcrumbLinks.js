@@ -19,7 +19,8 @@ const breadcrumbNameMap = {
   '/tools/wordanalyser': 'common_word_analysis',
   '/tools/wordlist': 'common_wordlist',
   '/tools/wordcontext': 'common_word_in_context',
-  '/tools/collocates': 'common_neighbouring_words'
+  '/tools/collocates': 'common_neighbouring_words',
+  '/statistics': 'common_statistics'
 };
 
 const MenuLink = styled(Link)({

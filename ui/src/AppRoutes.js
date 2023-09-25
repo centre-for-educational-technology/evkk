@@ -9,6 +9,7 @@ import Links from './elle/pages/Links';
 import Contacts from './elle/pages/Contacts';
 import FilledContacts from './elle/pages/FilledContacts';
 import Grants from './elle/pages/Grants';
+import Statistics from './elle/pages/Statistics';
 import ClusterFinder from './elle/tools/ClusterFinder';
 import WordAnalyserParent from './elle/tools/wordanalyser/WordAnalyserParent';
 import BreadcrumbLinks from './elle/components/BreadcrumbLinks';
@@ -63,6 +64,9 @@ class AppRoutes extends Component {
             <Route path="publications"
                    element={<Publications/>}/>
           </Route>
+          <Route exact
+                 path='/statistics'
+                 element={<Statistics/>}/>
           <Route path="/tools/minitorn-pikkus"
                  element={<MinitornPikkus/>}/>
           <Route path="/tools/masinoppe-ennustus"

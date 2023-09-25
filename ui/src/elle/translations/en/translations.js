@@ -5,6 +5,7 @@ export const TRANSLATIONS_EN = {
   beginning: 'beginning',
   collocates_filename: 'collocates',
   common_about: 'About',
+  common_statistics: 'Statistics',
   common_analysis_options: 'Analysis options',
   common_articles: 'Articles',
   common_author_data: 'Author data',
