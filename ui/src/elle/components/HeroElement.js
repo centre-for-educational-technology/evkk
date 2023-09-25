@@ -19,16 +19,13 @@ const HeroElement = () => {
     fontFamily: ["'Exo 2'", 'sans-serif',].join(','),
     '&:hover': {
       color: "white",
-
       textDecoration: "none",
     },
     '&.active': {
       color: "white",
-
       textDecoration: "none",
     },
   });
-
 
   return (
     <Box className="hero-container">
@@ -40,17 +37,24 @@ const HeroElement = () => {
           </span>
             {t('hero_main_text_not_highlighted')}
           </h1>
-          <Button className="button-design" sx={ButtonStyle}
-                  size={"large"}
-                  variant={"contained"}>
-            <ToolsLink key={"1"}
-                       smooth
-                       to="#scroll-anchor">{t('hero_tools_button')}</ToolsLink></Button>
+          <Button
+            className="button-design"
+            sx={ButtonStyle}
+            size={"large"}
+            variant={"contained"}
+          >
+            <ToolsLink
+              key={"1"}
+              smooth
+              to="#scroll-anchor"
+            >
+              {t('hero_tools_button')}
+            </ToolsLink>
+          </Button>
         </Box>
       </Box>
       <Box className="hero-image-box">
-        <img className="hero-img" src={heroImage} alt="geroimage"/>
-
+        <img className="hero-img" src={heroImage} alt="heroimage"/>
       </Box>
     </Box>
   );
