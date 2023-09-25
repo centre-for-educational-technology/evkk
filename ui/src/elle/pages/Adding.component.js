@@ -129,10 +129,8 @@ class Adding extends Component {
               item
               xs={6}
               direction="column">
-              <Grid item>
-                <TextUpload sendTextFromFile={this.sendTextFromFile}/>
-              </Grid>
               <Grid item
+                    style={{paddingTop: '4.5em'}}
                     xs={2}>
                 <div>
                   <TextField required
@@ -165,9 +163,55 @@ class Adding extends Component {
                              name="sisu"
                              value={this.state.sisu}
                              onChange={this.handleChange}
-                             style={{width: '90%', marginTop: 20}}></TextField>
+                             style={{width: '90%', marginTop: 20}}
+                             InputProps={{
+                               endAdornment: <TextUpload sendTextFromFile={this.sendTextFromFile}
+                                                         outerClassName="adding-text-upload-component"/>
+                             }}></TextField>
                 </div>
               </Grid>
+              <div>
+                <Grid style={{paddingTop: '40px'}}
+                      container
+                      spacing={1}>
+                  <Grid item>
+                    <Alert severity="info">
+                      <Typography fontSize={12}>
+                        {t('publish_your_text_terms_of_service_infobox_1')}
+                        <u style={{cursor: 'pointer'}}
+                           onClick={() => this.setState({modalOpen: true})}>
+                          {t('publish_your_text_terms_of_service_infobox_2')}
+                        </u>.
+                      </Typography>
+                    </Alert>
+                  </Grid>
+                </Grid>
+                <div style={{paddingTop: '10px', paddingBottom: '50px'}}>
+                  <Button type="submit"
+                          variant="text"
+                          style={{
+                            background: '#3898ec',
+                            border: 0,
+                            borderRadius: 4,
+                            height: 48,
+                            width: 160,
+                            color: 'white',
+                            fontSize: 16
+                          }}>{t('publish_your_text_submit_button')}</Button> &nbsp;
+                  {this.state.ennistusnupp && <Button type="button"
+                                                      onClick={() => this.taastaVormiSisu()}
+                                                      variant="text"
+                                                      style={{
+                                                        background: '#3898ec',
+                                                        border: 0,
+                                                        borderRadius: 4,
+                                                        height: 48,
+                                                        width: 160,
+                                                        color: 'white',
+                                                        fontSize: 16
+                                                      }}>{t('restore_data_button')}</Button>}
+                </div>
+              </div>
             </Grid>
             <Grid container
                   item
@@ -552,48 +596,6 @@ class Adding extends Component {
               </div>
             </Grid>
           </Grid>
-          <div className="buttonHolder">
-            <Grid style={{paddingTop: '40px'}}
-                  container
-                  spacing={1}>
-              <Grid item>
-                <Alert severity="info">
-                  <Typography fontSize={12}>
-                    {t('publish_your_text_terms_of_service_infobox_1')}
-                    <u style={{cursor: 'pointer'}}
-                       onClick={() => this.setState({modalOpen: true})}>
-                      {t('publish_your_text_terms_of_service_infobox_2')}
-                    </u>.
-                  </Typography>
-                </Alert>
-              </Grid>
-            </Grid>
-            <div style={{paddingTop: '10px', paddingBottom: '50px'}}>
-              <Button type="submit"
-                      variant="text"
-                      style={{
-                        background: '#3898ec',
-                        border: 0,
-                        borderRadius: 4,
-                        height: 48,
-                        width: 160,
-                        color: 'white',
-                        fontSize: 16
-                      }}>{t('upload_button')}</Button> &nbsp;
-              {this.state.ennistusnupp && <Button type="button"
-                                                  onClick={() => this.taastaVormiSisu()}
-                                                  variant="text"
-                                                  style={{
-                                                    background: '#3898ec',
-                                                    border: 0,
-                                                    borderRadius: 4,
-                                                    height: 48,
-                                                    width: 160,
-                                                    color: 'white',
-                                                    fontSize: 16
-                                                  }}>{t('restore_data_button')}</Button>}
-            </div>
-          </div>
         </form>
         <Modal
           open={this.state.modalOpen}
