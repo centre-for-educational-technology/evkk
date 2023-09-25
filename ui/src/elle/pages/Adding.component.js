@@ -188,11 +188,12 @@ class Adding extends Component {
                       <div><h5>{t('common_text_data')}</h5></div>
                       <FormControl size="small"
                                    className="form-control">
-                        <InputLabel>{t('publish_your_text_text_data_main_text_type')}</InputLabel>
+                        <InputLabel>{`${t('publish_your_text_text_data_main_text_type')} *`}</InputLabel>
                         <Select
                           name="liik"
                           value={this.state.liik}
-                          label={t('publish_your_text_text_data_main_text_type')}
+                          label={`${t('publish_your_text_text_data_main_text_type')} *`}
+                          required
                           onChange={this.handleChange}
                         >
                           {Object.keys(textPublishMainTextTypesOptions).map((type) => (
@@ -205,14 +206,15 @@ class Adding extends Component {
                       <Grid>
                         <FormControl size="small"
                                      className="form-control">
-                          <InputLabel id="valdkond-select-label">{t('common_text_data_field_of_research')}</InputLabel>
+                          <InputLabel
+                            id="valdkond-select-label">{`${t('common_text_data_field_of_research')} *`}</InputLabel>
                           <Select
-                            label={t('common_text_data_field_of_research')}
+                            label={`${t('common_text_data_field_of_research')} *`}
                             labelId="valdkond-select-label"
                             name="autoriEriala"
                             value={this.state.autoriEriala}
-                            onChange={this.handleChange}
                             required
+                            onChange={this.handleChange}
                           >
                             {Object.keys(domainOptions).map((domain) => (
                               <MenuItem key={domain} value={domain}>{t(domainOptions[domain])}</MenuItem>
@@ -247,12 +249,13 @@ class Adding extends Component {
                       <FormControl className="form-control"
                                    size="small">
                         <InputLabel
-                          id="akad-kategooria-select-label">{t('publish_your_text_text_data_academic_category')}</InputLabel>
+                          id="akad-kategooria-select-label">{`${t('publish_your_text_text_data_academic_category')} *`}</InputLabel>
                         <Select
                           labelId="akad-kategooria-select-label"
                           name="akadKategooria"
                           value={this.state.akadKategooria}
-                          label={t('publish_your_text_text_data_academic_category')}
+                          label={`${t('publish_your_text_text_data_academic_category')} *`}
+                          required
                           onChange={this.handleChange}
                         >
                           {Object.keys(textPublishAcademicCategoryOptions).map((category) => (
