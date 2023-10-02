@@ -23,13 +23,13 @@ import {
   countryOptions,
   degreeOptions,
   domainOptions,
+  educationOptions,
   genderOptions,
   modalStyle,
   studyLevelOptions,
   textPublishAcademicCategoryOptions,
   textPublishAcademicResearchSubtypeOptions,
   textPublishAcademicStudiesSubtypeOptions,
-  textPublishEducationOptions,
   textPublishMainTextTypesOptions,
   textPublishSubTextTypesOptions,
   textPublishUsedMaterialsOptions,
@@ -539,9 +539,9 @@ class Adding extends Component {
                             label={t('query_author_data_education')}
                             onChange={this.handleChange}
                           >
-                            {Object.keys(textPublishEducationOptions).map((education) => (
+                            {Object.keys(educationOptions).map((education) => (
                               <MenuItem key={education}
-                                        value={education}>{t(textPublishEducationOptions[education])}</MenuItem>
+                                        value={education}>{t(educationOptions[education])}</MenuItem>
                             ))}
                           </Select>
                         </FormControl>
