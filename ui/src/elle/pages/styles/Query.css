@@ -1,47 +1,127 @@
+
 .queryContainer {
-  display: flex;
+    display: flex;
 }
 
 .queryContainer > div {
-  flex: 1;
+    flex: 1;
 }
 
 .corpustitle {
-  position: relative;
-  border-bottom: 1px dotted black;
+    position: relative;
+    border-bottom: 1px dotted black;
 }
 
 .queryAccordion {
-  margin-top: 1em !important;
-  border-radius: 4px 4px 0 0 !important;
+    margin-top: 1em !important;
+    border-radius: 4px 4px 0 0 !important;
 }
 
 .buttonBox {
-  display: flex;
+    background-color: black;
+    top: 50px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: auto;
+    max-width: 0px;
+    margin-left: 50px;
 }
 
 .buttonRight {
-  margin-left: auto !important;
+    margin-left: auto !important;
 }
 
 .buttonSecondLeft {
-  margin-left: 1em !important;
+    margin-left: 1em !important;
 }
 
 .query-textinput {
-  width: 100%;
-  height: 250px;
-  padding: 10px;
-  border: solid 1px black;
-  resize: none;
-  overflow-y: auto;
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    border: solid 1px black;
+    resize: none;
+    overflow-y: auto;
 }
 
 .selected-text-chip {
-  margin-left: 0.5em !important;
+    margin-left: 0.5em !important;
 }
 
 .query-own-texts-modal {
-  width: 55em !important;
-  max-height: 37.5em !important;
+    width: 700px !important;
+    height: auto !important;
+    background-color: white;
+    border: solid #9C27B0 4px;
+    border-radius: 25px;
+    padding: 20px;
+}
+
+.button-text-query {
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    position: absolute;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+.manage-search-icon {
+    font-size: 40px !important;
+    margin-left: 15px !important;
+    margin-right: 10px !important;
+}
+
+.manage-serach-incon-text {
+    font-size: 15px !important;
+    font-weight: bold !important;
+}
+
+.button-query-hover {
+    width: 50px !important;
+    height: 60px !important;
+    border-radius: 25px !important;
+    overflow: hidden;
+    background-color: #9C27B0 !important;
+    transition: 0.3s !important;
+}
+
+.button-query-hover:hover,
+.button-query-hover:focus {
+    width: 180px !important;
+    background-color: #AA2AC1 !important;
+    transition: 0.3s;
+}
+
+.elle-dark {
+    background-color: #9C27B0 !important;
+}
+
+.button-box-open {
+    width: 180px !important;
+}
+
+.menu-box-choose-text {
+    height: 100%;
+    width: 1000px;
+    padding: 20px;
+    margin-top: 10px;
+    border: solid #9C27B0 4px;
+    overflow: hidden;
+    border-radius: 25px;
+    background-color: white;
+}
+
+.filter-box-size {
+    height: 100%;
+    width: 80%;
+    padding: 20px;
+    border: solid #9C27B0 4px;
+    overflow: hidden;
+    border-radius: 25px;
+    background-color: white;
 }

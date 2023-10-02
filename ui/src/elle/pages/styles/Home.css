@@ -129,9 +129,6 @@
     margin: 50px 10% 0;
 }
 
-.tab-container {
-}
-
 .tab-button {
     height: 50px;
     display: flex;
@@ -186,39 +183,6 @@
     animation-duration: 0.3s;
     animation-name: Overlay-slide;
     animation-timing-function: ease-out;
-}
-
-.bold-text {
-    font-weight: bold;
-}
-
-.sonaloend {
-    height: 70%;
-    margin-top: 5%;
-}
-
-.kontekst {
-    height: 60%;
-    margin-top: 5%;
-}
-
-.naabersonad {
-    height: 70%;
-    margin-top: 5%;
-}
-
-.mustrileidja {
-    height: 70%;
-    margin-top: 5%;
-}
-
-.sonaanalysaator {
-    height: 70%;
-    margin-top: 5%;
-}
-
-.quote-text {
-    text-align: center;
 }
 
 

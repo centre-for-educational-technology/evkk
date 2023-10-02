@@ -17,7 +17,7 @@
     gap: 15px;
     flex-direction: column;
     justify-content: center;
-    align-items: start;
+    align-items: flex-start;
     transform: translate(15%);
 }
 

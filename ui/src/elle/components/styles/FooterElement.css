@@ -9,16 +9,16 @@
     height: 100%;
     width: 100%;
     display: flex;
-    align-items: start;
+    align-items: flex-start;
 }
 
-.logo-box {
+.footer-logo-box {
     height: 100%;
     width: 34%;
     padding-left: 5%;
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     gap: 10%;
 }
@@ -27,19 +27,19 @@
     height: 50%;
 }
 
-.middle-box {
+.footer-middle-box {
     width: 33%;
     height: 100%;
     display: flex;
-    align-items: end;
+    align-items: flex-end;
     justify-content: center;
 }
 
-.box-right {
+.footer-box-right {
     width: 33%;
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: flex-end;
     padding-right: 20%;
 }

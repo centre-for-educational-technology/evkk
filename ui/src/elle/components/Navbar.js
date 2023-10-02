@@ -244,11 +244,12 @@ function Navbar() {
             <List>
               {pages.map((page) => {
                 return (
-                  <ListItem sx={{pl: 0}}
-                            key={page.id}>
-                    <BurgerLink to={page.target}
-                                component={NavLink}
-                                onClick={toggleDrawer}>
+                  <ListItem sx={{pl: 0}} key={page.id}>
+                    <BurgerLink
+                      to={page.target}
+                      component={NavLink}
+                      onClick={toggleDrawer}
+                    >
                       {t(page.title)}
                     </BurgerLink>
                   </ListItem>
