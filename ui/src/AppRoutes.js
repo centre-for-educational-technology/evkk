@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Navigate, Route, Routes} from 'react-router-dom';
 import {MasinoppeEnnustus, MinitornPikkus} from './views/tools';
-import Correction from './elle/tools/correction/Correction.component';
+import Correction from './elle/tools/correction/Correction';
 import {Container} from '@mui/material';
 import Home from './elle/pages/Home';
 import Links from './elle/pages/Links';

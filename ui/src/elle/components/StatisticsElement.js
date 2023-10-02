@@ -3,7 +3,7 @@ import {Box, Button} from "@mui/material";
 import './styles/StatisticsElement.css'
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
-import {ButtonStyle, ElleOuterDivStyle} from "../utils/constants";
+import {ButtonStyle, ElleOuterDivStyle} from "../const/Constants";
 import {useTranslation} from "react-i18next";
 import {useNavigate} from "react-router-dom";
 

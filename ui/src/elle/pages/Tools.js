@@ -11,7 +11,7 @@ import WordContext from '../resources/images/tools/sona_kontekstis.png';
 import NeighbourWord from '../resources/images/tools/naabersonad.png';
 import WordPattern from '../resources/images/tools/mustrileidja.png';
 import WordAnalyser from '../resources/images/tools/sonaanalyys.png'
-import {TabStyle} from "../utils/constants";
+import {TabStyle} from "../const/Constants";
 
 function Tools() {
   const {state} = useLocation();

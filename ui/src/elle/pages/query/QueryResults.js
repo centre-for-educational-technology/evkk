@@ -26,7 +26,7 @@ import {
   textLanguageOptions,
   textTypes,
   usedMaterialsOptions
-} from '../../utils/constants';
+} from '../../const/Constants';
 import TablePagination from '../../components/table/TablePagination';
 import QueryDownloadButton from './QueryDownloadButton';
 import LoadingButton from '@mui/lab/LoadingButton';

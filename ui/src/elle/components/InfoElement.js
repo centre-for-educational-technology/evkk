@@ -3,7 +3,7 @@ import './styles/InfoElement.css'
 import {Box} from "@mui/material";
 import {useTranslation} from "react-i18next";
 import InfoElementTabCard from "./InfoElementTabCard";
-import {ElleOuterDivStyle} from "../utils/constants";
+import {ElleOuterDivStyle} from "../const/Constants";
 import i18n from "i18next";
 import wordlistImgEt from "../resources/images/home/sonaloend_et.png";
 import wordlistImgEn from "../resources/images/home/sonaloend_en.png";

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   Alert,
   Box,
@@ -34,7 +34,7 @@ import {
   textPublishSubTextTypesOptions,
   textPublishUsedMaterialsOptions,
   usedMaterialsOptions
-} from '../utils/constants';
+} from '../const/Constants';
 import {successEmitter} from '../../App';
 
 class Adding extends Component {

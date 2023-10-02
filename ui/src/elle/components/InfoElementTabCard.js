@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Button} from "@mui/material";
 import './styles/InfoElementTabCard.css'
-import {ButtonStyleSmall} from "../utils/constants";
+import {ButtonStyleSmall} from "../const/Constants";
 import {useTranslation} from "react-i18next";
 import {useNavigate} from "react-router-dom";
 

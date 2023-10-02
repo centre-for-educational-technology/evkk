@@ -4,7 +4,7 @@ import './styles/HeroElement.css'
 import heroImage from '../resources/images/home/girl_with_laptop.png'
 import {useTranslation} from 'react-i18next';
 import {HashLink} from "react-router-hash-link";
-import {ButtonStyle} from '../utils/constants';
+import {ButtonStyle} from '../const/Constants';
 
 
 const HeroElement = () => {
