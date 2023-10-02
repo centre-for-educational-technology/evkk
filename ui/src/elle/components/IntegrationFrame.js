@@ -1,22 +1,22 @@
-import React, {Component} from 'react';
-import {connectedComponent} from "../../util/redux-utils";
+import React, {useState} from 'react';
 import {selectIntegrationPath} from "../../rootSelectors";
+import {useSelector} from "react-redux";
+import {Box} from "@mui/material";
 
-class IntegrationFrame extends Component {
+const IntegrationFrame = ({integrationName}) => {
 
-  render() {
+    const path = useSelector(state => selectIntegrationPath(integrationName)(state), []);
+    const [height, setHeight] = useState("");
+
+    window.addEventListener('message', function (event) {
+        setHeight((event.data + 100) + "px");
+    });
+
     return (
-      <div className="embed-responsive embed-responsive-21by9">
-        <iframe src={this.props.path}
-                title={this.props.integrationName}/>
-      </div>
+        <Box className="embed-responsive embed-responsive-21by9 overflow-hidden" height={height}>
+            <iframe src={path} title={integrationName}/>
+        </Box>
     );
-  }
+};
 
-}
-
-const mapStateToProps = (state, ownProps) => ({
-  path: selectIntegrationPath(ownProps.integrationName)(state)
-});
-
-export default connectedComponent(IntegrationFrame, mapStateToProps);
+export default IntegrationFrame;

@@ -397,15 +397,6 @@ export const educationOptions = {
   'Kõrgharidus': 'query_author_data_education_higher'
 };
 
-export const textPublishEducationOptions = {
-  'alusharidus': 'publish_your_text_author_data_education_elementary',
-  'pohiharidus': 'publish_your_text_author_data_education_basic',
-  'keskharidus': 'publish_your_text_author_data_education_secondary',
-  'keskeriharidus': 'publish_your_text_author_data_education_secondary_special',
-  'rakenduskorgharidus': 'publish_your_text_author_data_education_higher_applied',
-  'korgharidus': 'publish_your_text_author_data_education_higher'
-};
-
 export const textPublishMainTextTypesOptions = {
   'akadeemiline': 'publish_your_text_text_data_main_text_type_academic',
   'mitteakadeemiline': 'publish_your_text_text_data_main_text_type_non_academic'

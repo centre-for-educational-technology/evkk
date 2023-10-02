@@ -156,7 +156,6 @@ function GrammaticalAnalysis() {
     }
     return tableVal;
   }
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   let data = useMemo(() => fillData(), []);
 

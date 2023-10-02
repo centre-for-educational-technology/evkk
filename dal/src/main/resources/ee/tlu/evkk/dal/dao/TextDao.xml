@@ -120,20 +120,12 @@
       and ${singleParamHelper.table}.property_value = #{singleParamHelper.value}
     </foreach>
     <foreach item="rangeParamHelper" collection="rangeParamHelpers" separator=" ">
-      <if test="rangeParamHelper.castable == true">
-        and ${rangeParamHelper.table + 1}.type = 'CHARS_WORDS_SENTENCES' and
-        <foreach item="baseValues" collection="rangeParamHelper.values" separator=" or " open="(" close=")">
-          (cast(cast(${rangeParamHelper.table + 1}.result::json->#{rangeParamHelper.parameter} as TEXT) as INTEGER)
-          between #{baseValues.startValue} and #{baseValues.endValue})
-        </foreach>
-      </if>
-      <if test="rangeParamHelper.castable == false">
-        and ${rangeParamHelper.table}.property_name = #{rangeParamHelper.parameter} and
-        <foreach item="baseValues" collection="rangeParamHelper.values" separator=" or " open="(" close=")">
-          (${rangeParamHelper.table}.property_value::integer between #{baseValues.startValue} and
-          #{baseValues.endValue})
-        </foreach>
-      </if>
+      and ${rangeParamHelper.table + 1}.type = 'CHARS_WORDS_SENTENCES' and
+      <foreach item="baseValues" collection="rangeParamHelper.values" separator=" or " open="(" close=")">
+        (cast(cast(${rangeParamHelper.table + 1}.result::json->#{rangeParamHelper.parameter} as TEXT) as
+        INTEGER)
+        between #{baseValues.startValue} and #{baseValues.endValue})
+      </foreach>
     </foreach>
     ) t
   </select>

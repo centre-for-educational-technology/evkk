@@ -18,7 +18,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { AccordionStyle } from '../../utils/constants';
+import { AccordionStyle } from '../../const/Constants';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { QuestionMark } from '@mui/icons-material';
 import WordlistMenu from './menu/WordlistMenu';
