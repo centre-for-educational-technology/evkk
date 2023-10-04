@@ -1,42 +1,126 @@
+@media (max-width: 925px) {
+  .navBar-icon-button {
+    display: flex !important;
+  }
+
+  .nav-menu-link-container {
+    display: none;
+  }
+
+  .language-menu-desktop {
+    display: none;
+  }
+}
+
+@media (min-width: 926px) {
+  .navBar-icon-button {
+    display: none !important;
+  }
+
+  .navbar-container {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+
+  .nav-menu-link-container {
+    display: flex;
+  }
+
+  .language-menu-desktop {
+    display: flex;
+  }
+}
+
+@media (max-width: 1334px) {
+  .navbar-container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.language-menu-desktop {
+  align-items: center;
+  justify-content: end;
+}
+
+.language-icon {
+  color: black;
+  cursor: pointer;
+}
+
+.nav-logo-container {
+  width: 5%;
+}
+
+.nav-menu-link-container {
+  width: 85%;
+  justify-content: center;
+}
+
+.nav-icons-container {
+  width: 5%;
+  display: flex;
+  justify-content: end;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+
+.burger-menu-icon {
+  color: black;
+  font-size: 45px !important;
+}
+
 .hover:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .lang-icon {
-    padding-right: 0.5em;
+  padding-right: 0.5em;
+}
+
+.sticking,
+.not-sticking {
+  position: sticky !important;
+  top: 0 !important;
 }
 
 .sticking {
-    background: transparent !important;
+  background: transparent !important;
 }
 
 .not-sticking {
-    background: linear-gradient(315deg, rgba(204, 168, 253, 1) 0%, rgba(204, 168, 253, 1) 9%, rgba(255, 208, 253, 1) 9%, rgba(255, 208, 253, 1) 22%, rgba(255, 255, 255, 1) 22%, rgba(255, 255, 255, 1) 100%);
-    box-shadow: 0px 0px 5px 0px rgba(156, 39, 176, 0.5) !important;
+  background: linear-gradient(315deg, rgba(204, 168, 253, 1) 0%, rgba(204, 168, 253, 1) 9%, rgba(255, 208, 253, 1) 9%, rgba(255, 208, 253, 1) 22%, rgba(255, 255, 255, 1) 22%, rgba(255, 255, 255, 1) 100%);
+  box-shadow: 0px 0px 5px 0px rgba(156, 39, 176, 0.5) !important;
 }
 
 .nav-menu-item {
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  height: 100%;
 }
 
 .nav-menu-item::after {
-    content: "";
-    position: absolute;
-    top: 70%;
-    left: 0;
-    height: 5%;
-    width: 100%;
-    background-color: #9C27B0 !important;
-    transform-origin: right;
-    transition: 0.3s ease-in-out;
-    scale: 0 1;
+  content: "";
+  position: absolute;
+  top: 70%;
+  left: 0;
+  height: 5%;
+  width: 100%;
+  background-color: #9C27B0 !important;
+  transform-origin: right;
+  transition: 0.3s ease-in-out;
+  scale: 0 1;
 }
 
 .nav-menu-item:hover::after {
-    scale: 1 1;
+  scale: 1 1;
 }
 

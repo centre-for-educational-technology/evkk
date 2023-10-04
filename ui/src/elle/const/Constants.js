@@ -27,21 +27,27 @@ export const AccordionStyle = {
   }
 };
 
-export const ButtonStyle = {
+export const DefaultButtonStyle = {
   backgroundColor: '#9C27B0',
   fontWeight: 'bold',
   borderRadius: '15px',
   '&:hover': {
     backgroundColor: '#852197'
+  },
+  '&:disabled': {
+    backgroundColor: 'lightgray'
   }
 }
 
-export const ButtonStyleSmall = {
+export const DefaultButtonStyleSmall = {
   backgroundColor: '#9C27B0',
   fontWeight: 'bold',
   borderRadius: '10px',
   '&:hover': {
     backgroundColor: '#852197'
+  },
+  '&:disabled': {
+    backgroundColor: 'lightgray'
   }
 }
 
@@ -55,13 +61,18 @@ export const TabStyle = {
   "& button:active": {backgroundColor: "#9C27B0"},
   "& button": {
     backgroundColor: "rgba(255, 208, 253, 1)",
+    lineHeight: "60px",
+    display: "inline-block",
     color: "black",
     fontWeight: "bold",
     height: "60px",
     borderBottom: "4px solid #9C27B0",
     borderTop: "4px solid #9C27B0",
-    textTransform: "capitalize",
+    textTransform: "lowercase",
     transition: "0.5s",
+  },
+  "& button::first-letter": {
+    textTransform: "uppercase",
   },
   "& button:first-child": {
     borderRadius: "25px 0 0 25px",

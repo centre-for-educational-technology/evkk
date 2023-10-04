@@ -49,3 +49,18 @@ a:hover {
   color: #CCA8FD;
 }
 
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #9C27B0 !important;
+}
+
+.MuiInputLabel-root.Mui-focused,
+.MuiCheckbox-colorPrimary.Mui-checked,
+.MuiRadio-root.Mui-checked {
+  color: #9C27B0 !important;
+}
+
+
+.MuiMenuItem-root.Mui-selected {
+  background-color: rgba(255, 208, 253, .5) !important;
+}
+

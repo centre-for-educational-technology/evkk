@@ -3,9 +3,9 @@ import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CardMedia from '@mui/material/CardMedia';
-import { Grid } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import {Grid} from '@mui/material';
+import {Link} from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
 
 function HomeCard({title, image, text, linkTo, order}) {
   const {t} = useTranslation();

@@ -13,12 +13,12 @@ import WordPattern from '../resources/images/tools/mustrileidja.png';
 import WordAnalyser from '../resources/images/tools/sonaanalyys.png'
 import {TabStyle} from "../const/Constants";
 
-function Tools() {
+export default function Tools() {
   const {state} = useLocation();
   const page = state ? state.pageNo : '1';
   const {t} = useTranslation();
   const navigate = useNavigate();
-  const [tabPage, setTabPage] = React.useState(page);
+  const [tabPage, setTabPage] = useState(page);
   const [textsSelected, setTextsSelected] = useState(false);
 
   const handleChange = (event, newValue) => {
@@ -54,7 +54,7 @@ function Tools() {
           <Box>
             <ToolIconCard image={props.image} text={props.text}/>
             <Alert severity="warning">
-              Tööriista kasutamiseks tuleb vasakult menüüst valida analüüsitav tekst või tekstid!
+              {t('tools_warning_text')}
             </Alert>
           </Box>}
       </TabPanel>
@@ -102,5 +102,3 @@ function Tools() {
     </Box>
   );
 }
-
-export default Tools;

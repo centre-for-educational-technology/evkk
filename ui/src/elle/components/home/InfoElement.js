@@ -1,23 +1,23 @@
 import React, {useState} from 'react';
-import './styles/InfoElement.css'
+import '../styles/InfoElement.css'
 import {Box} from "@mui/material";
 import {useTranslation} from "react-i18next";
 import InfoElementTabCard from "./InfoElementTabCard";
-import {ElleOuterDivStyle} from "../const/Constants";
+import {ElleOuterDivStyle} from "../../const/Constants";
 import i18n from "i18next";
-import wordlistImgEt from "../resources/images/home/sonaloend_et.png";
-import wordlistImgEn from "../resources/images/home/sonaloend_en.png";
-import wordcontextImgEt from "../resources/images/home/sonakontekstis_et.png";
-import wordcontextImgEn from "../resources/images/home/sonakontekstis_en.png";
-import collocateImgEt from "../resources/images/home/naabersonad_et.png";
-import collocateImgEn from "../resources/images/home/naabersonad_en.png";
-import analyserImgEt from "../resources/images/home/sonaanalyys_et.png";
-import analyserImgEn from "../resources/images/home/sonaanalyys_en.png";
-import textRaterImg from "../resources/images/home/tekstihindaja.png"
-import textQueryImg from "../resources/images/home/paring.png"
-import wordPatternImg from "../resources/images/home/mustrileidja.png"
+import wordlistImgEt from "../../resources/images/home/sonaloend_et.png";
+import wordlistImgEn from "../../resources/images/home/sonaloend_en.png";
+import wordcontextImgEt from "../../resources/images/home/sonakontekstis_et.png";
+import wordcontextImgEn from "../../resources/images/home/sonakontekstis_en.png";
+import collocateImgEt from "../../resources/images/home/naabersonad_et.png";
+import collocateImgEn from "../../resources/images/home/naabersonad_en.png";
+import analyserImgEt from "../../resources/images/home/sonaanalyys_et.png";
+import analyserImgEn from "../../resources/images/home/sonaanalyys_en.png";
+import textRaterImg from "../../resources/images/home/tekstihindaja.png"
+import textQueryImg from "../../resources/images/home/paring.png"
+import wordPatternImg from "../../resources/images/home/mustrileidja.png"
 
-const InfoElement = () => {
+export default function InfoElement() {
 
   const {t} = useTranslation();
   const [openTab, setOpentab] = useState("corrector-tab-card");
@@ -61,7 +61,7 @@ const InfoElement = () => {
         <Box className="elle-tools">
           <InfoElementTabCard
             toolID={"corrector-tab-card"}
-            toolTitile={t('common_corrector')}
+            toolTitle={t('common_corrector')}
             tabOpen={openTab}
             toolInnerId={"corrector-info-popup"}
             description={descriptionText[1]}
@@ -73,7 +73,7 @@ const InfoElement = () => {
           />
           <InfoElementTabCard
             toolID={"text-query-btn"}
-            toolTitile={t('common_query')}
+            toolTitle={t('common_query')}
             tabOpen={openTab}
             toolInnerId={"text-query-btn-box"}
             description={descriptionText[2]}
@@ -85,7 +85,7 @@ const InfoElement = () => {
           />
           <InfoElementTabCard
             toolID={"wordlist-tab-card"}
-            toolTitile={t('common_wordlist')}
+            toolTitle={t('common_wordlist')}
             toolInnerId={"wordlist-info-popup"}
             tabOpen={openTab}
             description={descriptionText[3]}
@@ -97,7 +97,7 @@ const InfoElement = () => {
           />
           <InfoElementTabCard
             toolID={"word-context-tab-card"}
-            toolTitile={t('common_word_in_context')}
+            toolTitle={t('common_word_in_context')}
             tabOpen={openTab}
             toolInnerId={"word-context-info-popup"}
             description={descriptionText[4]}
@@ -109,7 +109,7 @@ const InfoElement = () => {
           />
           <InfoElementTabCard
             toolID={"neighbour-word-tab-card"}
-            toolTitile={t('common_neighbouring_words')}
+            toolTitle={t('common_neighbouring_words')}
             tabOpen={openTab}
             toolInnerId={"neighbour-word-info-popup"}
             description={descriptionText[5]}
@@ -121,7 +121,7 @@ const InfoElement = () => {
           />
           <InfoElementTabCard
             toolID={"cluster-finder-tab-card"}
-            toolTitile={t('common_clusters')}
+            toolTitle={t('common_clusters')}
             tabOpen={openTab}
             toolInnerId={"cluster-finder-info-popup"}
             description={descriptionText[6]}
@@ -133,7 +133,7 @@ const InfoElement = () => {
           />
           <InfoElementTabCard
             toolID={"word-analyser-tab-card"}
-            toolTitile={t('common_word_analyser')}
+            toolTitle={t('common_word_analyser')}
             tabOpen={openTab}
             toolInnerId={"word-analyser-info-popup"}
             description={descriptionText[7]}
@@ -165,5 +165,3 @@ const InfoElement = () => {
     </Box>
   );
 };
-
-export default InfoElement;

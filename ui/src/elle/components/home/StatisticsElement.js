@@ -1,9 +1,9 @@
 import React from 'react';
 import {Box, Button} from "@mui/material";
-import './styles/StatisticsElement.css'
+import '../styles/StatisticsElement.css'
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
-import {ButtonStyle, ElleOuterDivStyle} from "../const/Constants";
+import {DefaultButtonStyle, ElleOuterDivStyle} from "../../const/Constants";
 import {useTranslation} from "react-i18next";
 import {useNavigate} from "react-router-dom";
 
@@ -19,7 +19,7 @@ const StatisticsIconContainer = (props) => {
   )
 }
 
-const StatisticsElement = () => {
+export default function StatisticsElement() {
   const navigate = useNavigate();
   const {t} = useTranslation();
 
@@ -27,21 +27,19 @@ const StatisticsElement = () => {
     <Box className="statistics-container">
       <StatisticsIconContainer
         text={t('corpus_texts')}
-        amount={"100 000+"}
+        amount={t('corpus_text_count')}
         icon={<CollectionsBookmarkIcon className="statistics-icon"/>}
       />
       <StatisticsIconContainer
-        text={t('corpus_authors')}
-        amount={"10 000+"}
+        text={t('corpus_words')}
+        amount={t('corpus_word_count')}
         icon={<LibraryBooksIcon className="statistics-icon"/>}
       />
       <Box sx={ElleOuterDivStyle} className="statistics-inner-container">
         <Box className="statistics-box-inner">
-          <p style={{fontSize: "20px"}}>
-            {t('corpus_donation_text')}
-          </p>
+          <p>{t('corpus_donation_text')}</p>
           <Button
-            sx={ButtonStyle}
+            sx={DefaultButtonStyle}
             className="align-self-start"
             variant={"contained"}
             onClick={() => {
@@ -55,5 +53,3 @@ const StatisticsElement = () => {
     </Box>
   );
 };
-
-export default StatisticsElement;

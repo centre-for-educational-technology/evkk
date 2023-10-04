@@ -1,13 +1,12 @@
 import React from 'react';
 import {Box, Button, styled} from "@mui/material";
-import './styles/HeroElement.css'
-import heroImage from '../resources/images/home/girl_with_laptop.png'
+import '../styles/HeroElement.css'
+import heroImage from '../../resources/images/home/girl_with_laptop.png'
 import {useTranslation} from 'react-i18next';
 import {HashLink} from "react-router-hash-link";
-import {ButtonStyle} from '../const/Constants';
+import {DefaultButtonStyle} from '../../const/Constants';
 
-
-const HeroElement = () => {
+export default function HeroElement() {
 
   const {t} = useTranslation();
   const ToolsLink = styled(HashLink)({
@@ -37,7 +36,7 @@ const HeroElement = () => {
             {t('hero_main_text_not_highlighted')}
           </h1>
           <Button
-            className="button-design" sx={ButtonStyle}
+            className="button-design" sx={DefaultButtonStyle}
             size={"large"}
             variant={"contained"}
           >
@@ -61,5 +60,3 @@ const HeroElement = () => {
     </Box>
   );
 };
-
-export default HeroElement;

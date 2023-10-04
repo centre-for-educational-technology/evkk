@@ -62,7 +62,7 @@ const BurgerLink = styled(Link)({
   }
 });
 
-function Navbar() {
+export default function Navbar() {
   const {t} = useTranslation();
   const [open, setOpen] = useState(false);
   const [navColor, setNavColor] = useState("sticking");
@@ -89,6 +89,36 @@ function Navbar() {
     setLangAnchorEl(false);
   };
 
+  const languageMenu = () => {
+    return (
+      <div>
+        <Language className="language-icon" onClick={handleLangClick}/>
+        <Menu
+          anchorEl={langAnchorEl}
+          open={langOpen}
+          onClose={handleLangClose}
+        >
+          <MenuItem onClick={() => handleLangSelect('ET')}>
+            <img
+              src={require('../resources/images/flags/est.png').default}
+              className="lang-icon"
+              alt="EST"
+            />
+            EST
+          </MenuItem>
+          <MenuItem onClick={() => handleLangSelect('EN')}>
+            <img
+              src={require('../resources/images/flags/eng.png').default}
+              className="lang-icon"
+              alt="ENG"
+            />
+            ENG
+          </MenuItem>
+        </Menu>
+      </div>
+    )
+  }
+
   const handleScroll = () => {
     const position = window.scrollY;
     if (position > 20) {
@@ -109,26 +139,11 @@ function Navbar() {
   return (
     <>
       <AppBar elevation={0}
-              sx={{
-                position: "sticky",
-                top: 0,
-              }}
               className={navColor}
       >
         <Toolbar>
-          <Grid container>
-            <Grid item
-                  xs={3}
-                  sx={{pl: {xs: 0, sm: 4, md: 6}}}
-                  display="flex"
-                  alignItems="center"
-            >
-              <IconButton
-                onClick={() => toggleDrawer()}
-                sx={{mr: 2, mb: 2, display: {md: 'flex', lg: 'none'}}}
-              >
-                <MenuIcon sx={{color: 'black', fontSize: 45}}/>
-              </IconButton>
+          <div className="navbar-container">
+            <div className="nav-logo-container">
               <NavLink to="/">
                 <Box
                   component="img"
@@ -137,14 +152,8 @@ function Navbar() {
                   src={Logo}
                 />
               </NavLink>
-            </Grid>
-            <Grid
-              item
-              xs={6}
-              justifyContent="center"
-              alignItems="center"
-              sx={{display: {xs: 'none', sm: 'none', md: 'none', lg: 'flex'}}}
-            >
+            </div>
+            <div className="nav-menu-link-container">
               {pages.map((page, index, elements) => {
                 return (
                   <span style={{height: "100%"}} key={page.id}>
@@ -164,48 +173,19 @@ function Navbar() {
                     }
                 </span>);
               })}
-            </Grid>
-            <Grid item
-                  xs={3}
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="end"
-            >
-              <Box display="flex"
-                   alignItems="center"
-                   justifyContent="end"
-              >
-                { /*<Search sx={{marginLeft: 'auto', color: "black"}}/>*/}
-                <Language sx={{marginLeft: 2, color: "black"}}
-                          className="hover"
-                          onClick={handleLangClick}
-                />
-                <Menu
-                  anchorEl={langAnchorEl}
-                  open={langOpen}
-                  onClose={handleLangClose}
-                >
-                  <MenuItem onClick={() => handleLangSelect('ET')}>
-                    <img
-                      src={require('../resources/images/flags/est.png').default}
-                      className="lang-icon"
-                      alt="EST"
-                    />
-                    EST
-                  </MenuItem>
-                  <MenuItem onClick={() => handleLangSelect('EN')}>
-                    <img
-                      src={require('../resources/images/flags/eng.png').default}
-                      className="lang-icon"
-                      alt="ENG"
-                    />
-                    ENG
-                  </MenuItem>
-                </Menu>
-                {/*<Help sx={{marginLeft: 2, color: "black"}}/>*/}
+            </div>
+            <div className="nav-icons-container">
+              <Box className="language-menu-desktop">
+                {languageMenu()}
               </Box>
-            </Grid>
-          </Grid>
+              <IconButton
+                onClick={() => toggleDrawer()}
+                className="navBar-icon-button mr-2"
+              >
+                <MenuIcon className="burger-menu-icon"/>
+              </IconButton>
+            </div>
+          </div>
         </Toolbar>
         <Drawer
           open={open}
@@ -235,6 +215,7 @@ function Navbar() {
                   />
                 </NavLink>
                 <Box>
+                  {languageMenu()}
                   <IconButton onClick={() => toggleDrawer()} sx={{mt: 0}}>
                     <Close sx={{color: 'black', fontSize: 45}}/>
                   </IconButton>
@@ -262,5 +243,3 @@ function Navbar() {
     </>
   );
 }
-
-export default Navbar;

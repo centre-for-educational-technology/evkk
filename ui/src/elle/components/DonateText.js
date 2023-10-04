@@ -5,7 +5,7 @@ import BackupIcon from '@mui/icons-material/Backup';
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 
-const DonateText = () => {
+export default function DonateText() {
   const navigate = useNavigate();
   const {t} = useTranslation();
 
@@ -25,5 +25,3 @@ const DonateText = () => {
     </Button>
   );
 };
-
-export default DonateText;

@@ -18,9 +18,9 @@ import {useState} from 'react';
 import i18n from 'i18next';
 import FileSaver from 'file-saver';
 import {loadFetch} from '../../service/LoadFetch';
+import {DefaultButtonStyle} from "../../const/Constants";
 
 export default function QueryDownloadButton({selected}) {
-
   const [downloadForm, setDownloadForm] = useState('BASIC_TEXT');
   const [downloadFileType, setDownloadFileType] = useState('TXT');
   const [anchorEl, setAnchorEl] = useState(null);
@@ -63,12 +63,14 @@ export default function QueryDownloadButton({selected}) {
 
   return (
     <span className="query-download-button-span">
-      <Tooltip title={t('common_download')}
-               placement="top">
-        <Button sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "15px"}} variant="contained"
-                disabled={selected.size === 0}
-                className="query-download-modal-button"
-                onClick={handleOptionsDialogOpenButtonClick}>
+      <Tooltip title={t('common_download')} placement="top">
+        <Button
+          sx={DefaultButtonStyle}
+          variant="contained"
+          disabled={selected.size === 0}
+          className="query-download-modal-button"
+          onClick={handleOptionsDialogOpenButtonClick}
+        >
           <DownloadIcon fontSize="medium"/>
         </Button>
       </Tooltip>
@@ -82,8 +84,7 @@ export default function QueryDownloadButton({selected}) {
         }}
       >
         <Box className="query-download-dialog">
-          <Box className="download-dialog-inner"
-               id="fileDownload">
+          <Box className="download-dialog-inner" id="fileDownload">
             <FormControl fullWidth>
               <InputLabel>{t('query_download_form')}</InputLabel>
               <Select
@@ -100,21 +101,25 @@ export default function QueryDownloadButton({selected}) {
               </Select>
             </FormControl>
             <FormControl className="query-download-modal-radio-group">
-              <RadioGroup
-                defaultValue="TXT"
-                onChange={changeDownloadFileType}
-              >
-                <FormControlLabel value="TXT"
-                                  control={<Radio/>}
-                                  label={t('query_download_txt')}/>
-                <FormControlLabel value="ZIP"
-                                  control={<Radio/>}
-                                  label={t('query_download_zip')}/>
+              <RadioGroup defaultValue="TXT" onChange={changeDownloadFileType}>
+                <FormControlLabel
+                  value="TXT"
+                  control={<Radio/>}
+                  label={t('query_download_txt')}
+                />
+                <FormControlLabel
+                  value="ZIP"
+                  control={<Radio/>}
+                  label={t('query_download_zip')}
+                />
               </RadioGroup>
             </FormControl>
             <div className="download-button">
-              <Button onClick={downloadTexts}
-                      variant="contained">
+              <Button
+                onClick={downloadTexts}
+                sx={DefaultButtonStyle}
+                variant="contained"
+              >
                 {t('common_download')}
               </Button>
             </div>

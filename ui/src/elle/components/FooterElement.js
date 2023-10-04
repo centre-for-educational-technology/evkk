@@ -1,11 +1,11 @@
 import React from 'react';
 import {Box} from "@mui/material";
 import './styles/FooterElement.css'
-import DTILogo from '../resources/images/footer/DTI-est_2.svg'
-import TLULogo from '../resources/images/footer/Universität_Tallinn_Logo.svg'
+import DTILogo from '../resources/images/footer/DTI-logo.svg'
+import TLULogo from '../resources/images/footer/TLU-logo.svg'
 import {useTranslation} from "react-i18next";
 
-const FooterElement = () => {
+export default function FooterElement() {
   const year = new Date().getFullYear();
   const {t} = useTranslation();
 
@@ -26,5 +26,3 @@ const FooterElement = () => {
     </Box>
   );
 };
-
-export default FooterElement;

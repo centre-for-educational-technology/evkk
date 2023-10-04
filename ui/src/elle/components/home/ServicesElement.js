@@ -1,11 +1,10 @@
 import React from 'react';
-import './styles/ServicesElement.css'
+import '../styles/ServicesElement.css'
 import {Box} from "@mui/material";
 import {useTranslation} from 'react-i18next';
-import {ElleOuterDivStyle} from "../const/Constants";
+import {ElleOuterDivStyle} from "../../const/Constants";
 
-const ServicesElement = () => {
-
+export default function ServicesElement() {
   const {t} = useTranslation();
 
   const ServiceContainer = (text) => {
@@ -26,5 +25,3 @@ const ServicesElement = () => {
       {ServiceContainer(t('homepage_summary_text_4'))}
     </Box>);
 };
-
-export default ServicesElement;

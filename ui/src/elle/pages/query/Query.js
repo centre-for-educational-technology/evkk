@@ -18,6 +18,7 @@ import {
   ageOptions,
   charactersOptions,
   countryOptions,
+  DefaultButtonStyle,
   degreeOptions,
   domainOptions,
   educationOptions,
@@ -78,9 +79,9 @@ export default function Query() {
     cZjHWUPtD: false,
     cwUSEqQLt: false
   });
-  const [filterOpen, setFilterOpen] = React.useState(true);
-  const [inputOpen, setInputOpen] = React.useState(true);
-  const [queryAnswer, setQueryAnswer] = React.useState(false);
+  const [filterOpen, setFilterOpen] = useState(true);
+  const [inputOpen, setInputOpen] = useState(true);
+  const [queryAnswer, setQueryAnswer] = useState(false);
   const [singlePropertyData, setSinglePropertyData] = useState({
     language: 'eesti',
     level: '',
@@ -405,22 +406,22 @@ export default function Query() {
   }
   const setFilterBoxClass = () => {
     if (filterOpen) {
-      setInputOpen(true)
-      setFilterOpen(false)
-      document.getElementById("choose-input-button").classList.remove("button-box-open")
-      document.getElementById("choose-text-button").classList.add("button-box-open")
+      setInputOpen(true);
+      setFilterOpen(false);
+      document.getElementById("choose-input-button").classList.remove("button-box-open");
+      document.getElementById("choose-text-button").classList.add("button-box-open");
     } else if (!filterOpen) {
-      setFilterOpen(true)
-      document.activeElement.blur()
-      document.getElementById("choose-text-button").classList.remove("button-box-open")
+      setFilterOpen(true);
+      document.activeElement.blur();
+      document.getElementById("choose-text-button").classList.remove("button-box-open");
     }
   }
 
   const closeInputHidden = () => {
     if (inputOpen) {
-      setInputHidden()
+      setInputHidden();
     } else if (filterOpen) {
-      setFilterBoxClass()
+      setFilterBoxClass();
     }
   }
 
@@ -428,20 +429,19 @@ export default function Query() {
   }
   const setInputHidden = () => {
     if (inputOpen) {
-      setFilterOpen(true)
-      setInputOpen(false)
-      document.getElementById("choose-text-button").classList.remove("button-box-open")
-      document.getElementById("choose-input-button").classList.add("button-box-open")
+      setFilterOpen(true);
+      setInputOpen(false);
+      document.getElementById("choose-text-button").classList.remove("button-box-open");
+      document.getElementById("choose-input-button").classList.add("button-box-open");
     } else if (!inputOpen) {
-      setInputOpen(true)
-      document.activeElement.blur()
-      document.getElementById("choose-input-button").classList.remove("button-box-open")
+      setInputOpen(true);
+      document.activeElement.blur();
+      document.getElementById("choose-input-button").classList.remove("button-box-open");
     }
   }
 
   return (
-    <div>
-      {/*<Alert severity="info">{t('tools_infobox')}</Alert>*/}
+    <div className="query-main-container">
       {alert && <><Alert severity="error">{t('error_query_no_subcorpus_picked')}</Alert><br/></>}
       <div className="buttonBox">
         <Button variant="contained"
@@ -454,7 +454,7 @@ export default function Query() {
                 }}>
           <div className="button-text-query">
             <ManageSearchIcon className="manage-search-icon"/>
-            <span className="manage-serach-incon-text">
+            <span className="manage-search-icon-text">
               {t('query_choose_texts')}
             </span>
           </div>
@@ -475,14 +475,12 @@ export default function Query() {
                   <b>{t('query_subcorpus')}</b>
                   <br/><br/>
                   <Checkbox
-                    style={{color: "#9C27B0"}}
                     checked={corpusCheckboxStatus.all}
                     onChange={alterAllCorpusCheckboxes}
                   />
                   <label>{t('query_subcorpus_all')}</label>
                   <br/>
                   <Checkbox
-                    style={{color: "#9C27B0"}}
                     id="clWmOIrLa"
                     checked={corpusCheckboxStatus.clWmOIrLa}
                     onChange={alterCorpusCheckbox}
@@ -495,7 +493,6 @@ export default function Query() {
                   </Tooltip>
                   <br/>
                   <Checkbox
-                    style={{color: "#9C27B0"}}
                     id="cFqPphvYi"
                     checked={corpusCheckboxStatus.cFqPphvYi}
                     onChange={alterCorpusCheckbox}
@@ -508,7 +505,6 @@ export default function Query() {
                   </Tooltip>
                   <br/>
                   <Checkbox
-                    style={{color: "#9C27B0"}}
                     id="cFOoRQekA"
                     checked={corpusCheckboxStatus.cFOoRQekA}
                     onChange={alterCorpusCheckbox}
@@ -522,7 +518,6 @@ export default function Query() {
                   </Tooltip>
                   <br/>
                   <Checkbox
-                    style={{color: "#9C27B0"}}
                     id="cYDRkpymb"
                     checked={corpusCheckboxStatus.cYDRkpymb}
                     onChange={alterCorpusCheckbox}
@@ -535,7 +530,6 @@ export default function Query() {
                   </Tooltip>
                   <br/>
                   <Checkbox
-                    style={{color: "#9C27B0"}}
                     id="cgSRJPKTr"
                     checked={corpusCheckboxStatus.cgSRJPKTr}
                     onChange={alterCorpusCheckbox}
@@ -548,7 +542,6 @@ export default function Query() {
                   </Tooltip>
                   <br/>
                   <Checkbox
-                    style={{color: "#9C27B0"}}
                     id="cZjHWUPtD"
                     checked={corpusCheckboxStatus.cZjHWUPtD}
                     onChange={alterCorpusCheckbox}
@@ -562,7 +555,6 @@ export default function Query() {
                   </Tooltip>
                   <br/>
                   <Checkbox
-                    style={{color: "#9C27B0"}}
                     id="cwUSEqQLt"
                     checked={corpusCheckboxStatus.cwUSEqQLt}
                     onChange={alterCorpusCheckbox}
@@ -601,7 +593,6 @@ export default function Query() {
                                         value={textType}>
                               <ListItemIcon>
                                 <Checkbox id={textType}
-                                          style={{color: "#9C27B0"}}
                                           checked={textTypes.indexOf(textType) > -1}/>
                               </ListItemIcon>
                               <ListItemText id={textType}
@@ -614,7 +605,6 @@ export default function Query() {
                                       value={textType}>
                               <ListItemIcon>
                                 <Checkbox id={textType}
-                                          style={{color: "#9C27B0"}}
                                           checked={checkTextTypeHierarchyCheckboxStatus(textType, corpus)}/>
                               </ListItemIcon>
                               <ListItemText id={textType}
@@ -628,7 +618,6 @@ export default function Query() {
                                           sx={{paddingLeft: '2rem'}}>
                                   <ListItemIcon>
                                     <Checkbox id={specificTextType}
-                                              style={{color: "#9C27B0"}}
                                               checked={textTypes.indexOf(specificTextType) > -1}/>
                                   </ListItemIcon>
                                   <ListItemText id={specificTextType}
@@ -699,7 +688,6 @@ export default function Query() {
                                           value={material}>
                                 <ListItemIcon>
                                   <Checkbox id={material}
-                                            style={{color: "#9C27B0"}}
                                             checked={usedMultiMaterials.indexOf(material) > -1}/>
                                 </ListItemIcon>
                                 <ListItemText id={material}
@@ -712,7 +700,6 @@ export default function Query() {
                                           value={material}>
                                   <ListItemIcon>
                                     <Checkbox id={material}
-                                              style={{color: "#9C27B0"}}
                                               checked={checkUsedMaterialsHierarchyCheckboxStatus(material)}/>
                                   </ListItemIcon>
                                   <ListItemText id={material}
@@ -791,7 +778,7 @@ export default function Query() {
                         <MenuItem key={year}
                                   value={t(year)}>
                           <ListItemIcon>
-                            <Checkbox style={{color: "#9C27B0"}} checked={addedYears.indexOf(t(year)) > -1}/>
+                            <Checkbox checked={addedYears.indexOf(t(year)) > -1}/>
                           </ListItemIcon>
                           <ListItemText primary={year}/>
                         </MenuItem>
@@ -816,7 +803,7 @@ export default function Query() {
                         <MenuItem key={item}
                                   value={t(item)}>
                           <ListItemIcon>
-                            <Checkbox style={{color: "#9C27B0"}} checked={characters.indexOf(t(item)) > -1}/>
+                            <Checkbox checked={characters.indexOf(t(item)) > -1}/>
                           </ListItemIcon>
                           <ListItemText primary={t(item)}/>
                         </MenuItem>
@@ -841,7 +828,7 @@ export default function Query() {
                         <MenuItem key={item}
                                   value={t(item)}>
                           <ListItemIcon>
-                            <Checkbox style={{color: "#9C27B0"}} checked={words.indexOf(t(item)) > -1}/>
+                            <Checkbox checked={words.indexOf(t(item)) > -1}/>
                           </ListItemIcon>
                           <ListItemText primary={t(item)}/>
                         </MenuItem>
@@ -866,7 +853,7 @@ export default function Query() {
                         <MenuItem key={item}
                                   value={t(item)}>
                           <ListItemIcon>
-                            <Checkbox style={{color: "#9C27B0"}} checked={sentences.indexOf(t(item)) > -1}/>
+                            <Checkbox checked={sentences.indexOf(t(item)) > -1}/>
                           </ListItemIcon>
                           <ListItemText primary={t(item)}/>
                         </MenuItem>
@@ -1031,24 +1018,44 @@ export default function Query() {
                 </div>
               </div>
               <br/><br/>
-              <Button onClick={submitted}
-                      sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "15px"}}
-                      variant="contained">{t('send_request_button')}</Button>
-            </form> : <span>
+              <Button
+                onClick={submitted}
+                sx={DefaultButtonStyle}
+                variant="contained"
+              >
+                {t('send_request_button')}
+              </Button>
+            </form>
+            :
+            <span>
               {noResultsError &&
-                <div><br/><Alert severity="error">{t('query_results_no_texts_found')}</Alert><br/></div>}
-              <QueryResults key={resultsKey}
-                            data={results}
-                            setFilterBoxClass={() => setFilterBoxClass()}/>
+                <div>
+                  <br/>
+                  <Alert severity="error">
+                    {t('query_results_no_texts_found')}
+                  </Alert>
+                  <br/>
+                </div>
+              }
+              <QueryResults
+                key={resultsKey}
+                data={results}
+                setFilterBoxClass={() => setFilterBoxClass()}
+              />
         </span>}
         </Box>
-        <Button id="choose-input-button" variant="contained"
-                className={"button-query-hover button-box-open"}
-                onClick={() => setInputHidden()}
+        <Button
+          id="choose-input-button"
+          variant="contained"
+          className={"button-query-hover button-box-open"}
+          onClick={() => setInputHidden()}
         >
-          <div className="button-text-query"><ReadMoreIcon
-            style={{fontSize: "40px", marginLeft: "10px", marginRight: "15px"}}/><span
-            style={{fontSize: "15px", fontWeight: "bold"}}>{t('query_own_texts')}</span></div>
+          <div className="button-text-query">
+            <ReadMoreIcon className="query-find-texts-icon"/>
+            <span className="query-find-texts-text">
+              {t('query_own_texts')}
+            </span>
+          </div>
         </Button>
         <Box hidden={inputOpen} className="query-own-texts-modal">
           <div>
@@ -1063,13 +1070,15 @@ export default function Query() {
               value={textInputValue}
               onChange={(e) => setTextInputValue(e.target.value)}
             ></textarea>
-            <Button variant="contained"
-                    sx={{bgcolor: "#9C27B0", fontWeight: "bold", borderRadius: "15px"}}
-                    disabled={textInputValue === ''}
-                    onClick={() => {
-                      handleSubmitOwnTexts();
-                      setInputHidden()
-                    }}>
+            <Button
+              variant="contained"
+              sx={DefaultButtonStyle}
+              disabled={textInputValue === ''}
+              onClick={() => {
+                handleSubmitOwnTexts();
+                setInputHidden()
+              }}
+            >
               {t('textupload_primary_modal_save')}
             </Button>
           </div>

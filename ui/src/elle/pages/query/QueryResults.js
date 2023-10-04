@@ -35,7 +35,6 @@ import {loadFetch} from '../../service/LoadFetch';
 import {useTranslation} from 'react-i18next';
 
 export default function QueryResults(props) {
-
   const {t} = useTranslation();
   const response = props.data;
   const [modalOpen, setModalOpen] = useState(false);
@@ -68,10 +67,14 @@ export default function QueryResults(props) {
         Header: '',
         accessor: 'text_id',
         Cell: (cellProps) => {
-          return <Checkbox style={{color: "#9C27B0"}}
-                           checked={checkboxStatuses.current.has(cellProps.value)}
-                           id={cellProps.value}
-                           onChange={() => alterCheckbox(cellProps.value)}/>;
+          return (
+            <Checkbox
+              style={{color: "#9C27B0"}}
+              checked={checkboxStatuses.current.has(cellProps.value)}
+              id={cellProps.value}
+              onChange={() => alterCheckbox(cellProps.value)}
+            />
+          );
         },
         className: 'checkbox-row'
       },
@@ -257,9 +260,10 @@ export default function QueryResults(props) {
                   id={row.values.text_id}>
                   {row.cells.map(cell => {
                     return (
-                      <td {...cell.getCellProps({
+                      <td{...cell.getCellProps({
                         className: cell.column.className
                       })}>
+
                         {cell.render('Cell')}
                       </td>
                     );

@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {Box} from '@mui/material';
 import './styles/Home.css';
-import HeroElement from "../components/HeroElement";
-import ServicesElement from "../components/ServicesElement";
-import InfoElement from "../components/InfoElement";
-import StatisticsElement from "../components/StatisticsElement";
+import HeroElement from "../components/home/HeroElement";
+import ServicesElement from "../components/home/ServicesElement";
+import InfoElement from "../components/home/InfoElement";
+import StatisticsElement from "../components/home/StatisticsElement";
 
-function Home() {
+export default function Home() {
   return (
     <div>
       <Box marginBottom="100px">
@@ -19,5 +19,3 @@ function Home() {
     </div>
   );
 }
-
-export default Home;

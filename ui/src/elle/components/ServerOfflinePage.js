@@ -1,26 +1,30 @@
-import { Alert, Button } from '@mui/material';
+import {Alert, Button} from '@mui/material';
 import './styles/ServerErrorPage.css';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import Navbar from './Navbar';
-import Footer from './Footer';
+import FooterElement from "./FooterElement";
+import {DefaultButtonStyle} from "../const/Constants";
 
 export default function ServerOfflinePage() {
 
   const {t} = useTranslation();
 
   return (
-    <>
-      <Navbar/>
-      <span className="server-error-page">
-        <Alert severity="error">
-          {t('server_offline_page_error')}
-        </Alert>
-        <Button variant="contained"
-                onClick={() => window.location.reload()}>
-          {t('try_again')}
-        </Button>
-      </span>
-      <Footer/>
-    </>
+    <div className="server-error-container">
+      <div>
+        <Navbar/>
+        <span className="server-error-page">
+          <Alert severity="error">
+            {t('server_offline_page_error')}
+          </Alert>
+          <Button variant="contained"
+                  sx={DefaultButtonStyle}
+                  onClick={() => window.location.reload()}>
+            {t('try_again')}
+          </Button>
+        </span>
+      </div>
+      <FooterElement/>
+    </div>
   );
 }
