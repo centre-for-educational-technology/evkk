@@ -1,7 +1,7 @@
-import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import {List, ListItem, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import React from 'react';
-import './styles/PublicationList.css';
+import '../styles/PublicationList.css';
 
 export default function SinglePublicationList({list}) {
 

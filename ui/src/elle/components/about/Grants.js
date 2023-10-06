@@ -1,5 +1,5 @@
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { Box, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import {Box, List, ListItem, ListItemIcon, ListItemText} from '@mui/material';
 import React from 'react';
 
 export default function Grants() {

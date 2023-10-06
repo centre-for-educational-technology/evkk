@@ -1,5 +1,5 @@
 import React from 'react';
-import ContactCard from '../components/ContactCard';
+import ContactCard from './ContactCard';
 
 export default function FilledContacts() {
   return (

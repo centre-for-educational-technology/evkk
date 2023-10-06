@@ -1,8 +1,8 @@
-import { Box, Typography } from '@mui/material';
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import SinglePublicationList from '../components/SinglePublicationList';
-import { conferences_workshops, publications, theses } from '../const/PublicationsConstants';
+import {Box, Typography} from '@mui/material';
+import React, {useEffect} from 'react';
+import {useLocation} from 'react-router-dom';
+import SinglePublicationList from './SinglePublicationList';
+import {conferences_workshops, publications, theses} from '../../const/PublicationsConstants';
 
 export default function Publications() {
   const location = useLocation();

@@ -66,7 +66,9 @@ export default function Tools() {
   }
 
   useEffect(() => {
-    toolSelect('wordlist')
+    if (!state) {
+      toolSelect('wordlist')
+    }
   }, []);
 
   return (

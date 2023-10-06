@@ -1,20 +1,5 @@
 import Logo from '../resources/images/header/elle_logo.png';
-import {
-  AppBar,
-  Box,
-  Divider,
-  Drawer,
-  Grid,
-  IconButton,
-  Link,
-  List,
-  ListItem,
-  Menu,
-  MenuItem,
-  Stack,
-  styled,
-  Toolbar
-} from '@mui/material';
+import {AppBar, Box, Drawer, IconButton, Link, List, ListItem, Menu, MenuItem, styled, Toolbar} from '@mui/material';
 import {Close, Language, Menu as MenuIcon} from '@mui/icons-material';
 import {NavLink, useLocation} from 'react-router-dom';
 import '@fontsource/exo-2/600.css';
@@ -130,7 +115,6 @@ export default function Navbar() {
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, {passive: true});
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -138,8 +122,9 @@ export default function Navbar() {
 
   return (
     <>
-      <AppBar elevation={0}
-              className={navColor}
+      <AppBar
+        elevation={0}
+        className={navColor}
       >
         <Toolbar>
           <div className="navbar-container">
@@ -147,7 +132,7 @@ export default function Navbar() {
               <NavLink to="/">
                 <Box
                   component="img"
-                  sx={{height: 35, mt: 1.5, mb: 1.5}}
+                  className="elle-nav-logo"
                   alt="Logo"
                   src={Logo}
                 />
@@ -158,19 +143,13 @@ export default function Navbar() {
                 return (
                   <span style={{height: "100%"}} key={page.id}>
                   <Box className="nav-menu-item my-0 mx-4">
-                    <MenuLink to={page.target}
-                              component={NavLink}
+                    <MenuLink
+                      to={page.target}
+                      component={NavLink}
                     >
                       {t(page.title)}
                     </MenuLink>
                   </Box>
-                    {elements[index + 1] &&
-                      <Divider
-                        orientation="vertical"
-                        sx={{borderRightWidth: 2, background: 'rgba(156,39,176,0.4)'}}
-                        flexItem
-                      />
-                    }
                 </span>);
               })}
             </div>
@@ -192,52 +171,44 @@ export default function Navbar() {
           anchor="left"
           onClose={toggleDrawer}
           PaperProps={{
-            sx: {width: {md: '50%', sm: '100%', xs: '100%'}}
+            sx: {width: "100%"}
           }}
         >
-          <Grid container
-                sx={{pt: 1.5, px: 4}}
-          >
-            <Grid item
-                  xs={12}
-                  sm={12}
-            >
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-              >
+          <div className="nav-drawer-container">
+            <div className="d-flex flex-column w-50">
+              <div className="d-flex align-items-center w-100 nav-50px-height">
                 <NavLink to="/">
                   <Box
                     component="img"
-                    sx={{height: 35, mt: 1.5, mb: 1.5}}
+                    className="elle-nav-logo"
                     alt="Logo"
                     src={Logo}
                   />
                 </NavLink>
-                <Box>
-                  {languageMenu()}
-                  <IconButton onClick={() => toggleDrawer()} sx={{mt: 0}}>
-                    <Close sx={{color: 'black', fontSize: 45}}/>
-                  </IconButton>
-                </Box>
-              </Stack>
-            </Grid>
-            <List>
-              {pages.map((page) => {
-                return (
-                  <ListItem sx={{pl: 0}} key={page.id}>
-                    <BurgerLink
-                      to={page.target}
-                      component={NavLink}
-                      onClick={toggleDrawer}
-                    >
-                      {t(page.title)}
-                    </BurgerLink>
-                  </ListItem>
-                );
-              })}
-            </List>
-          </Grid>
+              </div>
+              <List>
+                {pages.map((page) => {
+                  return (
+                    <ListItem sx={{pl: 0}} key={page.id}>
+                      <BurgerLink
+                        to={page.target}
+                        component={NavLink}
+                        onClick={toggleDrawer}
+                      >
+                        {t(page.title)}
+                      </BurgerLink>
+                    </ListItem>
+                  );
+                })}
+              </List>
+            </div>
+            <div className="d-flex justify-content-end align-items-center nav-50px-height">
+              {languageMenu()}
+              <IconButton onClick={() => toggleDrawer()}>
+                <Close className="nav-close-icon"/>
+              </IconButton>
+            </div>
+          </div>
         </Drawer>
       </AppBar>
     </>

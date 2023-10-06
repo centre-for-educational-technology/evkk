@@ -5,14 +5,14 @@ import Correction from './elle/tools/correction/Correction';
 import {Container} from '@mui/material';
 import Home from './elle/pages/Home';
 import Links from './elle/pages/Links';
-import Contacts from './elle/pages/Contacts';
-import FilledContacts from './elle/pages/FilledContacts';
-import Grants from './elle/pages/Grants';
+import AboutUs from './elle/pages/AboutUs';
+import FilledContacts from './elle/components/about/FilledContacts';
+import Grants from './elle/components/about/Grants';
 import ClusterFinder from './elle/tools/ClusterFinder';
 import WordAnalyserParent from './elle/tools/wordanalyser/WordAnalyserParent';
 import BreadcrumbLinks from './elle/components/BreadcrumbLinks';
-import AboutUs from './elle/pages/AboutUs';
-import Publications from './elle/pages/Publications';
+import AboutUsText from './elle/components/about/AboutUsText';
+import Publications from './elle/components/about/Publications';
 import Adding from './elle/pages/Adding.component';
 import Wordlist from './elle/tools/wordlist/Wordlist';
 import WordContext from './elle/tools/wordcontext/WordContext';
@@ -46,12 +46,12 @@ class AppRoutes extends Component {
                  path='/'
                  element={<Home/>}/>
           <Route path="/about"
-                 element={<Contacts/>}>
+                 element={<AboutUs/>}>
             <Route index
                    element={<Navigate to="us"
                                       replace/>}/>
             <Route path="us"
-                   element={<AboutUs/>}/>
+                   element={<AboutUsText/>}/>
             <Route path="people"
                    element={<FilledContacts/>}/>
             <Route path="grants"

@@ -93,7 +93,7 @@ export default function InfoElement() {
             setImageSelected={setImageSelected}
             imageNo={3}
             tabReference={'1'}
-            linkTo={'/tools'}
+            linkTo={'/tools/wordlist'}
           />
           <InfoElementTabCard
             toolID={"word-context-tab-card"}
@@ -105,7 +105,7 @@ export default function InfoElement() {
             setImageSelected={setImageSelected}
             imageNo={4}
             tabReference={'2'}
-            linkTo={'/tools'}
+            linkTo={'/tools/wordcontext'}
           />
           <InfoElementTabCard
             toolID={"neighbour-word-tab-card"}
@@ -117,7 +117,7 @@ export default function InfoElement() {
             setImageSelected={setImageSelected}
             imageNo={5}
             tabReference={'3'}
-            linkTo={'/tools'}
+            linkTo={'/tools/collocates'}
           />
           <InfoElementTabCard
             toolID={"cluster-finder-tab-card"}
@@ -129,7 +129,7 @@ export default function InfoElement() {
             setImageSelected={setImageSelected}
             imageNo={6}
             tabReference={'5'}
-            linkTo={'/tools'}
+            linkTo={'/tools/clusterfinder'}
           />
           <InfoElementTabCard
             toolID={"word-analyser-tab-card"}
@@ -141,7 +141,7 @@ export default function InfoElement() {
             setImageSelected={setImageSelected}
             imageNo={7}
             tabReference={'4'}
-            linkTo={'/tools'}
+            linkTo={'/tools/wordanalyser'}
           />
         </Box>
         {/*TODO videod tööle panna, kui videod valmis*/}

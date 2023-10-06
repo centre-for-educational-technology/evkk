@@ -10,6 +10,10 @@
   .language-menu-desktop {
     display: none;
   }
+
+  .elle-nav-logo {
+    height: 30px !important;
+  }
 }
 
 @media (min-width: 926px) {
@@ -28,6 +32,10 @@
 
   .language-menu-desktop {
     display: flex;
+  }
+
+  .elle-nav-logo {
+    height: 35px !important;
   }
 }
 
@@ -48,8 +56,18 @@
   cursor: pointer;
 }
 
+.nav-drawer-container {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
 .nav-logo-container {
   width: 5%;
+}
+
+.nav-50px-height {
+  height: 50px !important;
 }
 
 .nav-menu-link-container {
@@ -60,7 +78,7 @@
 .nav-icons-container {
   width: 5%;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .navbar-container {
@@ -105,14 +123,15 @@
   align-items: center;
   padding: 0 10px;
   height: 100%;
+  line-height: 100%;
 }
 
 .nav-menu-item::after {
   content: "";
   position: absolute;
-  top: 70%;
+  top: 100%;
   left: 0;
-  height: 5%;
+  height: 10%;
   width: 100%;
   background-color: #9C27B0 !important;
   transform-origin: right;
@@ -122,5 +141,10 @@
 
 .nav-menu-item:hover::after {
   scale: 1 1;
+}
+
+.nav-close-icon {
+  color: black !important;
+  font-size: 45px !important;
 }
 
