@@ -17,3 +17,14 @@
 .terms-of-service-modal {
   max-width: 30em !important;
 }
+
+.adding-text-upload-component {
+  display: grid;
+  justify-content: end;
+  padding: 0;
+  margin-top: 10em;
+
+  & svg {
+    margin: 0;
+  }
+}
