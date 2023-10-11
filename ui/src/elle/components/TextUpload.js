@@ -8,7 +8,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import {loadFetch} from '../service/LoadFetch';
 import {DefaultButtonStyle, modalStyle} from '../const/Constants';
 
-export default function TextUpload({sendTextFromFile}) {
+export default function TextUpload({sendTextFromFile, outerClassName = ''}) {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [uploadButtonDisabled, setUploadButtonDisabled] = useState(true);
@@ -62,7 +62,7 @@ export default function TextUpload({sendTextFromFile}) {
 
   return (
     <>
-      <div className="container">
+      <div className={`container ${outerClassName}`}>
         <Tooltip
           title={t('textupload_secondary_modal_tooltip')}
           placement={'top-start'}
