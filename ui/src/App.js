@@ -84,7 +84,7 @@ class AppWithStatus extends Component {
   render() {
     if (!this.props.statusLoaded) return <ServerOfflinePage/>;
     return (
-      <div className="vh-100 d-flex flex-column justify-content-between">
+      <div className="min-vh-100 d-flex flex-column justify-content-between">
         <div>
           <ErrorSnackbar/>
           <SuccessSnackbar/>
