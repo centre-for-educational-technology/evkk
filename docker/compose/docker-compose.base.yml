@@ -59,7 +59,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 8G
+          memory: 45G
 
   corrector-server:
     image: evkk-corrector-server
@@ -68,7 +68,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 4G
+          memory: 15G
 
   klasterdaja:
     image: evkk-klasterdaja
