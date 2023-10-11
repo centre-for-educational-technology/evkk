@@ -8,7 +8,7 @@ import i18n from "i18next";
 import wordlistImgEt from "../../resources/images/home/sonaloend_et.png";
 import wordlistImgEn from "../../resources/images/home/sonaloend_en.png";
 import wordcontextImgEt from "../../resources/images/home/sonakontekstis_et.png";
-import wordcontextImgEn from "../../resources/images/home/sonakontekstis_en.png";
+import wordcontextImgEn from "../../resources/images/home/sonakontekstis_et.png";
 import collocateImgEt from "../../resources/images/home/naabersonad_et.png";
 import collocateImgEn from "../../resources/images/home/naabersonad_en.png";
 import analyserImgEt from "../../resources/images/home/sonaanalyys_et.png";
@@ -80,7 +80,7 @@ export default function InfoElement() {
             setOpenTab={setOpentab}
             setImageSelected={setImageSelected}
             imageNo={2}
-            tabReference={null}
+            tabReference={"queryOpen"}
             linkTo={'/tools'}
           />
           <InfoElementTabCard

@@ -45,7 +45,7 @@ import {useTranslation} from 'react-i18next';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 
-export default function Query() {
+export default function Query(props) {
 
   const {t} = useTranslation();
   const selectWidth = 300;
@@ -79,7 +79,7 @@ export default function Query() {
     cZjHWUPtD: false,
     cwUSEqQLt: false
   });
-  const [filterOpen, setFilterOpen] = useState(true);
+  const [filterHidden, setFilterHidden] = useState(true);
   const [inputOpen, setInputOpen] = useState(true);
   const [queryAnswer, setQueryAnswer] = useState(false);
   const [singlePropertyData, setSinglePropertyData] = useState({
@@ -405,22 +405,28 @@ export default function Query() {
   {/*TODO Query buttons need to be redone*/
   }
   const setFilterBoxClass = () => {
-    if (filterOpen) {
+    if (filterHidden) {
       setInputOpen(true);
-      setFilterOpen(false);
+      setFilterHidden(false);
       document.getElementById("choose-input-button").classList.remove("button-box-open");
       document.getElementById("choose-text-button").classList.add("button-box-open");
-    } else if (!filterOpen) {
-      setFilterOpen(true);
+    } else if (!filterHidden) {
+      setFilterHidden(true);
       document.activeElement.blur();
       document.getElementById("choose-text-button").classList.remove("button-box-open");
     }
   }
 
+  useEffect(() => {
+    if (props.queryOpen === 'queryOpen') {
+      setFilterHidden(false);
+    }
+  }, []);
+
   const closeInputHidden = () => {
     if (inputOpen) {
       setInputHidden();
-    } else if (filterOpen) {
+    } else if (filterHidden) {
       setFilterBoxClass();
     }
   }
@@ -429,7 +435,7 @@ export default function Query() {
   }
   const setInputHidden = () => {
     if (inputOpen) {
-      setFilterOpen(true);
+      setFilterHidden(true);
       setInputOpen(false);
       document.getElementById("choose-text-button").classList.remove("button-box-open");
       document.getElementById("choose-input-button").classList.add("button-box-open");
@@ -461,7 +467,7 @@ export default function Query() {
         </Button>
         <Box
           id="menu-box-choose-text"
-          hidden={filterOpen}
+          hidden={filterHidden}
           className="menu-box-choose-text"
         >
           {!queryAnswer ?

@@ -15,7 +15,8 @@ import {TabStyle} from "../const/Constants";
 
 export default function Tools() {
   const {state} = useLocation();
-  const page = state ? state.pageNo : '1';
+  const page = state && state.pageNo !== 'queryOpen' ? state.pageNo : '1';
+  const queryOpen = state && state.pageNo === 'queryOpen' ? state.pageNo : null;
   const {t} = useTranslation();
   const navigate = useNavigate();
   const [tabPage, setTabPage] = useState(page);
@@ -75,7 +76,7 @@ export default function Tools() {
     <Box className="outer-container-tools">
       <Box className="tool-page-container-outer">
         <Box className="outer-outer">
-          <Query/>
+          <Query queryOpen={queryOpen}/>
         </Box>
         <Box className="tools-box-right">
           <TabContext value={tabPage} className="tab-context-class">
