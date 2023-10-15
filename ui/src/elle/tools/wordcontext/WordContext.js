@@ -101,6 +101,10 @@ export default function WordContext() {
 
   queryStore.subscribe(() => {
     const storeState = queryStore.getState();
+    toolAnalysisStore.dispatch({
+      type: 'CHANGE_WORDCONTEXT_RESULT',
+      value: null
+    });
     setResponse([]);
     setParamsExpanded(true);
     setShowTable(false);
