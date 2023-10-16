@@ -1,7 +1,7 @@
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import React, { useEffect, useMemo, useState } from 'react';
-import { queryStore } from '../../store/QueryStore';
-import { AccordionStyle } from '../../const/Constants';
+import {useNavigate, useSearchParams} from 'react-router-dom';
+import React, {useEffect, useMemo, useState} from 'react';
+import {queryStore} from '../../store/QueryStore';
+import {AccordionStyle} from '../../const/Constants';
 import Accordion from '@mui/material/Accordion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -25,11 +25,11 @@ import {
 import AccordionDetails from '@mui/material/AccordionDetails';
 import './WordContext.css';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
-import { QuestionMark } from '@mui/icons-material';
+import {QuestionMark} from '@mui/icons-material';
 import GenericTable from '../../components/GenericTable';
-import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
-import { loadFetch } from '../../service/LoadFetch';
-import { useTranslation } from 'react-i18next';
+import {toolAnalysisStore} from '../../store/ToolAnalysisStore';
+import {loadFetch} from '../../service/LoadFetch';
+import {useTranslation} from 'react-i18next';
 
 export default function WordContext() {
 
