@@ -102,6 +102,10 @@ export default function Collocates() {
 
   queryStore.subscribe(() => {
     const storeState = queryStore.getState();
+    toolAnalysisStore.dispatch({
+      type: 'CHANGE_COLLOCATES_RESULT',
+      value: null
+    });
     setResponse([]);
     setParamsExpanded(true);
     setShowTable(false);
