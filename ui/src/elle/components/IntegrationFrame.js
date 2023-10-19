@@ -9,53 +9,44 @@ const IntegrationFrame = ({integrationName}) => {
 
   const path = useSelector(state => selectIntegrationPath(integrationName)(state), []);
   const [height, setHeight] = useState("");
-  const iframeRef = useRef()
+  const iframeRef = useRef();
   const [storeData, setStoreData] = useState("");
 
   useEffect(() => {
-    const queryStoreState = queryStore.getState();
-    if (queryStoreState.corpusTextIds) {
-      const storeData = {};
-      storeData.ids = queryStoreState.corpusTextIds;
-      console.log(storeData)
-      loadFetch('/api/texts/kysitekstid', {
-        method: 'GET',
-        body: storeData,
-        headers: {
-          Accept: 'application/json'
-        }
-      }).then(res => res.json()).then(result => console.log(result))
-    } else if (queryStoreState.ownTexts) {
-      setStoreData(queryStoreState.ownTexts)
-    }
-  }, []);
+    const iframe = iframeRef.current;
+    iframe.contentWindow.postMessage(storeData, '*');
+  }, [storeData, height]);
 
   useEffect(() => {
-    const iframe = iframeRef.current
-    iframe.contentWindow.postMessage(storeData, '*')
-  }, [storeData]);
+    postRequest();
+  }, []);
 
   queryStore.subscribe(() => {
-    const queryStoreState = queryStore.getState();
-    if (queryStoreState.corpusTextIds) {
-      const storeData = {};
-      storeData.ids = queryStoreState.corpusTextIds;
-      console.log(storeData)
-      loadFetch('/api/texts/kysitekstid', {
-        method: 'GET',
-        body: storeData,
-        headers: {
-          Accept: 'application/json'
-        }
-      })
-    } else if (queryStoreState.ownTexts) {
-      setStoreData(queryStoreState.ownTexts)
-    }
+    postRequest();
   });
 
   window.addEventListener('message', function (event) {
     setHeight((event.data + 100) + "px");
   });
+
+  const postRequest = () => {
+    const queryStoreState = queryStore.getState();
+    if (queryStoreState.corpusTextIds) {
+      loadFetch('/api/texts/kysitekstid', {
+        method: 'POST',
+        body: JSON.stringify({ids: queryStoreState.corpusTextIds}),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(res => res.text())
+        .then(result => {
+          if (queryStoreState.ownTexts) {
+            result = result.concat(" ", queryStoreState.ownTexts)
+          }
+          setStoreData(result.replaceAll('\\n\\n', ' ').replaceAll('\\n', ' ').replaceAll('&quot;', '"'))
+        });
+    }
+  };
 
   return (
     <Box className="embed-responsive embed-responsive-21by9 overflow-hidden" height={height}>

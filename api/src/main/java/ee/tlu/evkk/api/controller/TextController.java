@@ -63,7 +63,7 @@ public class TextController {
         return textDao.findTextById(UUID.fromString(id));
     }
 
-    @GetMapping("/kysitekstid")
+    @PostMapping("/kysitekstid")
     public String kysiTekstid(@RequestBody CorpusTextContentsDto dto) {
         return textDao.findTextsByIds(dto.getIds());
     }
