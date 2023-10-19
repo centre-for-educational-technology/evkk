@@ -41,21 +41,7 @@ function WordAnalyser() {
   const inputRef = useRef()
 
   useEffect(() => {
-    const queryStoreState = queryStore.getState();
-    if (queryStoreState.corpusTextIds) {
-      const storeData = {};
-      storeData.ids = queryStoreState.corpusTextIds;
-      console.log(storeData)
-      loadFetch('/api/texts/kysitekstid', {
-        method: 'GET',
-        body: storeData,
-        headers: {
-          Accept: 'application/json'
-        }
-      }).then(res => res.json()).then(result => console.log(result))
-    } else if (queryStoreState.ownTexts) {
-      setStoreData(queryStoreState.ownTexts)
-    }
+    postRequest();
   }, []);
 
   useEffect(() => {
@@ -63,22 +49,27 @@ function WordAnalyser() {
   }, [storeData]);
 
   queryStore.subscribe(() => {
+    postRequest();
+  });
+
+  const postRequest = () => {
     const queryStoreState = queryStore.getState();
     if (queryStoreState.corpusTextIds) {
-      const storeData = {};
-      storeData.ids = queryStoreState.corpusTextIds;
-      console.log(storeData)
       loadFetch('/api/texts/kysitekstid', {
-        method: 'GET',
-        body: storeData,
+        method: 'POST',
+        body: JSON.stringify({ids: queryStoreState.corpusTextIds}),
         headers: {
-          Accept: 'application/json'
+          'Content-Type': 'application/json'
         }
-      })
-    } else if (queryStoreState.ownTexts) {
-      setStoreData(queryStoreState.ownTexts)
+      }).then(res => res.text())
+        .then(result => {
+          if (queryStoreState.ownTexts) {
+            result = result.concat(" ", queryStoreState.ownTexts)
+          }
+          setStoreData(result.replaceAll('\\n\\n', ' ').replaceAll('\\n', ' ').replaceAll('&quot;', '"'))
+        });
     }
-  });
+  };
 
   // get words
   const getWords = async (input) => {
