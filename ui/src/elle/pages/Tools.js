@@ -87,11 +87,11 @@ export default function Tools() {
                 sx={TabStyle}
                 aria-label="lab API tabs example"
               >
-                <Tab label="Sõnaloend" onClick={() => toolSelect('wordlist')} value="1"/>
-                <Tab label="Sõna kontekstis" onClick={() => toolSelect('wordcontext')} value="2"/>
-                <Tab label="Naabersõnad" onClick={() => toolSelect('collocates')} value="3"/>
-                <Tab label="Sõnaanalüsaator" onClick={() => toolSelect('wordanalyser')} value="4"/>
-                <Tab label="Mustrileidja" onClick={() => toolSelect('clusterfinder')} value="5"/>
+                <Tab label={t('wordlist_filename')} onClick={() => toolSelect('wordlist')} value="1"/>
+                <Tab label={t('common_word_in_context')} onClick={() => toolSelect('wordcontext')} value="2"/>
+                <Tab label={t('common_neighbouring_words')} onClick={() => toolSelect('collocates')} value="3"/>
+                <Tab label={t('common_word_analyser')} onClick={() => toolSelect('wordanalyser')} value="4"/>
+                <Tab label={t('common_clusters')} onClick={() => toolSelect('clusterfinder')} value="5"/>
               </TabList>
             </Box>
             <TabOutlet image={WordlistImg} text={'tools_accordion_wordlist_explainer'} value="1"/>

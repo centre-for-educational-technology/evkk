@@ -18,6 +18,11 @@
     max-width: 30em !important;
 }
 
+.adding-rounded-corners {
+    border-radius: 50px;
+    margin-bottom: 100px;
+}
+
 .elle-outer-border {
     padding: 7px;
     background: linear-gradient(315deg, rgba(156, 39, 176, 1) 0%, rgba(156, 39, 176, 1) 33%, rgba(204, 168, 253, 1) 33%, rgba(204, 168, 253, 1) 67%, rgba(255, 208, 253, 1) 67%, rgba(255, 208, 253, 1) 100%);
@@ -32,12 +37,12 @@
 }
 
 .adding-text-upload-component {
-  display: grid;
-  justify-content: end;
-  padding: 0;
-  margin-top: 10em;
+    display: grid;
+    justify-content: end;
+    padding: 0;
+    margin-top: 10em;
 
-  & svg {
-    margin: 0;
-  }
+    & svg {
+        margin: 0;
+    }
 }

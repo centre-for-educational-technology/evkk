@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {
   Alert,
+  Avatar,
   Box,
   Button,
   Checkbox,
+  Chip,
   FormControl,
   InputLabel,
   ListItemIcon,
@@ -22,6 +24,7 @@ import {
   degreeOptions,
   domainOptions,
   educationOptions,
+  ElleDefaultChip,
   genderOptions,
   languageOptions,
   MenuProps,
@@ -1089,25 +1092,36 @@ export default function Query(props) {
             </Button>
           </div>
         </Box>
-        {/*<Button variant="contained"
-                 onClick={() => navigate('adding')}
-                 className="buttonRight">{t('common_publish_your_text')}</Button>*/}
+        {(corpusTextsSelected > 0 || ownTextsSelected) &&
+          <div className="query-chip-button shadow-sm">
+            <div className="tools-chips">
+              <div className="query-chip-header">{t('query_results_saved_for_analysis')}</div>
+              {corpusTextsSelected > 0 &&
+                <div>
+                  <Chip
+                    sx={ElleDefaultChip}
+                    avatar={<Avatar sx={{
+                      bgcolor: "#9C27B0",
+                      color: "white !important"
+                    }}>{corpusTextsSelected > 1 ? corpusTextsSelected : 1}</Avatar>}
+                    label={corpusTextsSelected > 1 ? t('query_results_saved_for_analysis_corpus_plural', {amount: corpusTextsSelected}) : t('query_results_saved_for_analysis_corpus')}
+                    className="my-1"
+                    variant="outlined"
+                    onDelete={() => handleChipDelete('CORPUS_TEXTS')}
+                  />
+                </div>
+              }
+              {ownTextsSelected > 0 &&
+                <Chip
+                  sx={ElleDefaultChip}
+                  label={t('query_results_saved_for_analysis_own_texts')}
+                  variant="outlined"
+                  onDelete={() => handleChipDelete('OWN_TEXTS')}
+                />
+              }
+            </div>
+          </div>}
       </div>
-      {/*{(corpusTextsSelected > 0 || ownTextsSelected) && <>
-        <br/>
-        {t('query_results_saved_for_analysis')}
-        {corpusTextsSelected > 0 &&
-          <Chip
-            label={corpusTextsSelected > 1 ? t('query_results_saved_for_analysis_corpus_plural', {amount: corpusTextsSelected}) : t('query_results_saved_for_analysis_corpus')}
-            className="selected-text-chip" variant="outlined" onDelete={() => handleChipDelete('CORPUS_TEXTS')}/>
-        }
-        {ownTextsSelected > 0 &&
-          <Chip label={t('query_results_saved_for_analysis_own_texts')}
-                className="selected-text-chip"
-                variant="outlined"
-                onDelete={() => handleChipDelete('OWN_TEXTS')}/>
-        }
-      </>}*/}
     </div>
   );
 }

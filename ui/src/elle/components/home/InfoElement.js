@@ -8,13 +8,14 @@ import i18n from "i18next";
 import wordlistImgEt from "../../resources/images/home/sonaloend_et.png";
 import wordlistImgEn from "../../resources/images/home/sonaloend_en.png";
 import wordcontextImgEt from "../../resources/images/home/sonakontekstis_et.png";
-import wordcontextImgEn from "../../resources/images/home/sonakontekstis_et.png";
+import wordcontextImgEn from "../../resources/images/home/sonakontekstis_en.png";
 import collocateImgEt from "../../resources/images/home/naabersonad_et.png";
 import collocateImgEn from "../../resources/images/home/naabersonad_en.png";
 import analyserImgEt from "../../resources/images/home/sonaanalyys_et.png";
 import analyserImgEn from "../../resources/images/home/sonaanalyys_en.png";
 import textRaterImg from "../../resources/images/home/tekstihindaja.png"
-import textQueryImg from "../../resources/images/home/paring.png"
+import textQueryImgEt from "../../resources/images/home/paring_et.png"
+import textQueryImgEn from "../../resources/images/home/paring_en.png"
 import wordPatternImg from "../../resources/images/home/mustrileidja.png"
 
 export default function InfoElement() {
@@ -25,6 +26,7 @@ export default function InfoElement() {
   const [wordcontextImg, setWordcontextImg] = useState(i18n.language === 'ET' ? wordcontextImgEt : wordcontextImgEn);
   const [collocateImg, setCollocateImg] = useState(i18n.language === 'ET' ? collocateImgEt : collocateImgEn);
   const [analyserImg, setAnalyserImg] = useState(i18n.language === 'ET' ? analyserImgEt : analyserImgEn);
+  const [textQueryImg, setTextQueryImg] = useState(i18n.language === 'ET' ? textQueryImgEt : textQueryImgEn);
   const [imageSelected, setImageSelected] = useState(1);
   const images = [textRaterImg, textQueryImg, wordlistImg, wordcontextImg, collocateImg, wordPatternImg, analyserImg];
 
@@ -34,11 +36,14 @@ export default function InfoElement() {
       setWordcontextImg(wordcontextImgEt);
       setCollocateImg(collocateImgEt);
       setAnalyserImg(analyserImgEt);
+      setTextQueryImg(textQueryImgEt)
     } else {
       setWordlistImg(wordlistImgEn);
       setWordcontextImg(wordcontextImgEn);
       setCollocateImg(collocateImgEn);
       setAnalyserImg(analyserImgEn);
+      setTextQueryImg(textQueryImgEn)
+
     }
   });
 

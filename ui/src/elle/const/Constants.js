@@ -129,6 +129,13 @@ export const MenuProps = {
   variant: 'menu'
 };
 
+export const ElleDefaultChip = {
+  borderColor: "#9C27B0",
+  '& .MuiChip-deleteIcon:hover': {
+    color: '#EB0014'
+  }
+}
+
 export const modalStyle = {
   position: 'absolute',
   top: '50%',

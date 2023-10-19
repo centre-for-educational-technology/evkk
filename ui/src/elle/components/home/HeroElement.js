@@ -27,14 +27,15 @@ export default function HeroElement() {
 
   return (
     <Box className="hero-container">
-      <Box className="h-100 position-relative" width={"40%"}>
+      <Box className="d-flex align-items-center justify-content-center"
+           width={"40%"}>
         <Box className="hero-text-container">
-          <h1 className="hero-text"><span
+          <p className="hero-text"><span
             className="elle-dark-text">
             {t('hero_main_text_highlighted')}
           </span>
             {t('hero_main_text_not_highlighted')}
-          </h1>
+          </p>
           <Button
             className="button-design" sx={DefaultButtonStyle}
             size={"large"}
