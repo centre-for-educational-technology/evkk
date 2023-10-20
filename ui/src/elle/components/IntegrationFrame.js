@@ -6,7 +6,6 @@ import {queryStore} from "../store/QueryStore";
 import {loadFetch} from "../service/LoadFetch";
 
 const IntegrationFrame = ({integrationName}) => {
-
   const path = useSelector(state => selectIntegrationPath(integrationName)(state), []);
   const [height, setHeight] = useState("");
   const iframeRef = useRef();
