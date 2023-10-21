@@ -1,0 +1,128 @@
+@keyframes bg-slide-in-info {
+    from {
+        left: -100%;
+    }
+    to {
+        left: 0;
+    }
+}
+
+.info-element-container {
+    margin-top: 100px;
+    height: 700px !important;
+    border-radius: 50px;
+}
+
+.info-element-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 45px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+}
+
+.info-element-inner::after {
+    height: 15%;
+    width: 31%;
+    left: -10.5%;
+    top: 0;
+    background-color: #FFD0FD;
+    position: absolute;
+    content: "";
+    transform: skew(-45deg);
+    z-index: 2;
+}
+
+.info-tool-title {
+    display: flex;
+    padding: 1%;
+    align-items: center;
+    justify-content: center;
+    height: 15%;
+    width: 20%;
+    background-color: transparent;
+    position: absolute;
+    z-index: 3;
+}
+
+.elle-tools {
+    width: 17%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.btn-visible:nth-child(7)::after {
+    border-radius: 0 5px 0 0;
+}
+
+.info-video {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 83%;
+    height: 100%;
+}
+
+.info-image {
+    width: 100%;
+}
+
+.info-video-styling {
+    position: relative;
+    width: 100%;
+}
+
+.info-video::after {
+    content: "";
+    top: 0;
+    width: 85%;
+    height: 100%;
+    background-color: #0F0411;
+    opacity: 5%;
+    position: absolute;
+}
+
+.btn-visible:nth-child(1) .info-box-slide-visible {
+    top: 5%;
+}
+
+.btn-visible:nth-child(7) .info-box-slide-visible {
+    bottom: 5%;
+}
+
+.video-overlay {
+    position: absolute;
+    z-index: 1;
+    height: 100%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.play-button-info {
+    scale: 7;
+    color: rgb(204, 168, 253);
+    outline: 2px rgb(204, 168, 253) solid;
+    border-radius: 100px;
+    background-color: rgb(15, 14, 17, 0.5);
+    transition: 0.3s ease-in-out;
+}
+
+.play-button-info:hover {
+    cursor: pointer;
+    scale: 8
+}
+
+.tools-video-text {
+    font-size: 2em !important;
+    top: 20%;
+}
+
+
+

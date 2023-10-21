@@ -1,28 +1,12 @@
 import Logo from '../resources/images/header/elle_logo.png';
-import CoverImage from '../resources/images/header/header.svg';
-import {
-  AppBar,
-  Box,
-  Divider,
-  Drawer,
-  Grid,
-  IconButton,
-  Link,
-  List,
-  ListItem,
-  Menu,
-  MenuItem,
-  Stack,
-  styled,
-  Toolbar
-} from '@mui/material';
-import { Close, Help, Language, Menu as MenuIcon, Search } from '@mui/icons-material';
-import { NavLink, useLocation } from 'react-router-dom';
+import {AppBar, Box, Drawer, IconButton, Link, List, ListItem, Menu, MenuItem, styled, Toolbar} from '@mui/material';
+import {Close, Language, Menu as MenuIcon} from '@mui/icons-material';
+import {NavLink, useLocation} from 'react-router-dom';
 import '@fontsource/exo-2/600.css';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './styles/Navbar.css';
 import i18n from 'i18next';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 const pages = [
   {id: 1, title: 'common_corrector', target: '/corrector'},
@@ -63,9 +47,11 @@ const BurgerLink = styled(Link)({
   }
 });
 
-function Navbar() {
+export default function Navbar() {
   const {t} = useTranslation();
   const [open, setOpen] = useState(false);
+  const [navColor, setNavColor] = useState("sticking");
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -88,145 +74,143 @@ function Navbar() {
     setLangAnchorEl(false);
   };
 
+  const languageMenu = () => {
+    return (
+      <div>
+        <Language className="language-icon" onClick={handleLangClick}/>
+        <Menu
+          anchorEl={langAnchorEl}
+          open={langOpen}
+          onClose={handleLangClose}
+        >
+          <MenuItem onClick={() => handleLangSelect('ET')}>
+            <img
+              src={require('../resources/images/flags/est.png').default}
+              className="lang-icon"
+              alt="EST"
+            />
+            EST
+          </MenuItem>
+          <MenuItem onClick={() => handleLangSelect('EN')}>
+            <img
+              src={require('../resources/images/flags/eng.png').default}
+              className="lang-icon"
+              alt="ENG"
+            />
+            ENG
+          </MenuItem>
+        </Menu>
+      </div>
+    )
+  }
+
+  const handleScroll = () => {
+    const position = window.scrollY;
+    if (position > 20) {
+      setNavColor("not-sticking")
+    } else if (position <= 20) {
+      setNavColor("sticking")
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, {passive: true});
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <>
-      <AppBar elevation={0}
-              sx={{
-                position: 'static',
-                zIndex: 'auto',
-                background: '#FFD0FD',
-                backgroundImage: `url(${CoverImage})`,
-                backgroundSize: '100% 100%',
-                backgroundPosition: 'center bottom'
-              }}>
+      <AppBar
+        elevation={0}
+        className={navColor}
+      >
         <Toolbar>
-          <Grid container>
-            <Grid item
-                  xs={6}
-                  sx={{mt: 1, pl: {xs: 0, sm: 4, md: 6}}}
-                  display="flex">
-              <IconButton
-                onClick={() => toggleDrawer()}
-                sx={{mr: 2, mb: 2, display: {md: 'flex', lg: 'none'}}}
-              >
-                <MenuIcon sx={{color: 'black', fontSize: 45}}/>
-              </IconButton>
+          <div className="navbar-container">
+            <div className="nav-logo-container">
               <NavLink to="/">
                 <Box
                   component="img"
-                  sx={{height: 35, mt: 1.5, mb: 1.5}}
+                  className="elle-nav-logo"
                   alt="Logo"
                   src={Logo}
                 />
               </NavLink>
-            </Grid>
-            <Grid item
-                  xs={6}
-                  sx={{mt: 1}}>
-              <Box display="flex">
-                <Search sx={{marginLeft: 'auto'}}/>
-                <Language sx={{marginLeft: 2}}
-                          className="hover"
-                          onClick={handleLangClick}/>
-                <Menu
-                  anchorEl={langAnchorEl}
-                  open={langOpen}
-                  onClose={handleLangClose}
-                >
-                  <MenuItem onClick={() => handleLangSelect('ET')}>
-                    <img src={require('../resources/images/flags/est.png').default}
-                         className="lang-icon"
-                         alt="EST"/>
-                    EST
-                  </MenuItem>
-                  <MenuItem onClick={() => handleLangSelect('EN')}>
-                    <img src={require('../resources/images/flags/eng.png').default}
-                         className="lang-icon"
-                         alt="ENG"/>
-                    ENG
-                  </MenuItem>
-                </Menu>
-                <Help sx={{marginLeft: 2}}/>
-              </Box>
-            </Grid>
-            <Grid container
-                  item
-                  xs={12}
-                  justifyContent="center"
-                  sx={{mb: 2, display: {xs: 'none', sm: 'none', md: 'none', lg: 'flex'}}}>
+            </div>
+            <div className="nav-menu-link-container">
               {pages.map((page, index, elements) => {
                 return (
-                  <span key={page.id}>
-                  <Box sx={{my: 0, mx: 4}}>
-                    <MenuLink to={page.target}
-                              component={NavLink}>
+                  <span style={{height: "100%"}} key={page.id}>
+                  <Box className="nav-menu-item my-0 mx-4">
+                    <MenuLink
+                      to={page.target}
+                      component={NavLink}
+                    >
                       {t(page.title)}
                     </MenuLink>
                   </Box>
-                    {elements[index + 1] &&
-                      <Divider
-                        orientation="vertical"
-                        sx={{borderRightWidth: 2, background: 'rgba(156,39,176,0.4)', my: .6}}
-                        flexItem
-                      />
-                    }
                 </span>);
               })}
-            </Grid>
-          </Grid>
+            </div>
+            <div className="nav-icons-container">
+              <Box className="language-menu-desktop">
+                {languageMenu()}
+              </Box>
+              <IconButton
+                onClick={() => toggleDrawer()}
+                className="navBar-icon-button mr-2"
+              >
+                <MenuIcon className="burger-menu-icon"/>
+              </IconButton>
+            </div>
+          </div>
         </Toolbar>
         <Drawer
           open={open}
           anchor="left"
           onClose={toggleDrawer}
           PaperProps={{
-            sx: {width: {md: '50%', sm: '100%', xs: '100%'}}
+            sx: {width: "100%"}
           }}
         >
-          <Grid container
-                sx={{pt: 1.5, px: 4}}>
-            <Grid item
-                  xs={12}
-                  sm={12}>
-              <Stack direction="row"
-                     justifyContent="space-between">
+          <div className="nav-drawer-container">
+            <div className="d-flex flex-column w-50">
+              <div className="d-flex align-items-center w-100 nav-50px-height">
                 <NavLink to="/">
                   <Box
                     component="img"
-                    sx={{height: 35, mt: 1.5, mb: 1.5}}
+                    className="elle-nav-logo"
                     alt="Logo"
                     src={Logo}
                   />
                 </NavLink>
-                <Box>
-                  <IconButton
-                    onClick={() => toggleDrawer()}
-                    sx={{mt: 0}}
-                  >
-                    <Close sx={{color: 'black', fontSize: 45}}/>
-                  </IconButton>
-                </Box>
-              </Stack>
-            </Grid>
-            <List>
-              {pages.map((page) => {
-                return (
-                  <ListItem sx={{pl: 0}}
-                            key={page.id}>
-                    <BurgerLink to={page.target}
-                                component={NavLink}
-                                onClick={toggleDrawer}>
-                      {t(page.title)}
-                    </BurgerLink>
-                  </ListItem>
-                );
-              })}
-            </List>
-          </Grid>
+              </div>
+              <List>
+                {pages.map((page) => {
+                  return (
+                    <ListItem sx={{pl: 0}} key={page.id}>
+                      <BurgerLink
+                        to={page.target}
+                        component={NavLink}
+                        onClick={toggleDrawer}
+                      >
+                        {t(page.title)}
+                      </BurgerLink>
+                    </ListItem>
+                  );
+                })}
+              </List>
+            </div>
+            <div className="d-flex justify-content-end align-items-center nav-50px-height">
+              {languageMenu()}
+              <IconButton onClick={() => toggleDrawer()}>
+                <Close className="nav-close-icon"/>
+              </IconButton>
+            </div>
+          </div>
         </Drawer>
       </AppBar>
     </>
   );
 }
-
-export default Navbar;

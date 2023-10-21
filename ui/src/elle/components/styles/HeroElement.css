@@ -1,0 +1,47 @@
+.hero-container {
+    position: relative;
+    display: flex;
+    height: 35vw;
+    margin-top: 150px;
+    border-radius: 50px;
+    background: rgb(204, 168, 253);
+    background: linear-gradient(315deg, rgba(204, 168, 253, 1) 0%, rgba(204, 168, 253, 1) 21%, rgba(255, 208, 253, 1) 21%, rgba(255, 208, 253, 1) 44%, rgba(255, 255, 255, 1) 44%, rgba(255, 255, 255, 1) 100%);
+}
+
+.hero-text-container {
+    margin-left: 10%;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    font-size: 2vw;
+}
+
+.hero-image-box {
+    border-radius: 0 0 0 100px;
+    transform-origin: bottom;
+    width: 60%;
+    height: 120%;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transform: scaleX(-1);
+    overflow: hidden;
+}
+
+.hero-container::after {
+    position: absolute;
+    transform-origin: bottom right;
+    border-radius: 50px;
+    content: " ";
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(315deg, rgba(204, 168, 253, 1) 0%, rgba(204, 168, 253, 1) 21%, rgba(255, 208, 253, 0) 21%, rgba(255, 208, 253, 0) 44%, rgba(255, 255, 255, 0) 44%, rgba(255, 255, 255, 0) 100%);
+}
+
+.hero-img {
+    width: 100%;
+    object-fit: cover;
+}
+

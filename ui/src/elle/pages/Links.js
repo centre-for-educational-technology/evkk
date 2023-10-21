@@ -6,7 +6,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import SingleLink from "../components/SingleLink";
 import {HashLink} from "react-router-hash-link";
 import "@fontsource/exo-2/600.css";
-import IMAGES from '../resources/images/link-images/index.js'
+import IMAGES from '../resources/images/link-images'
 
 function Links() {
 

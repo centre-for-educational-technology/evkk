@@ -1,15 +1,16 @@
-import React, {Component} from 'react';
+import React from 'react';
 import IntegrationFrame from "../components/IntegrationFrame";
+import {Box} from "@mui/material";
 
-class ClusterFinder extends Component {
+export default function ClusterFinder() {
 
-  render() {
-    return (
-      <div style={{marginTop: "5vh"}}>
-        <IntegrationFrame integrationName={'clusterFinder'}/>
-      </div>
-    )
-  }
+  return (
+    <Box style={{marginTop: "5vh", width: window.innerWidth / 1.8}}>
+      <IntegrationFrame integrationName={'clusterFinder'}/>
+    </Box>
+
+  )
+
 }
 
-export default ClusterFinder;
+

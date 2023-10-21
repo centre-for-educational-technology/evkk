@@ -1,9 +1,9 @@
 import React from 'react';
-import { Box, Breadcrumbs, Link, styled } from '@mui/material';
+import {Box, Breadcrumbs, Link, styled} from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
-import { Link as RouterLink } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import {Link as RouterLink} from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
 
 const breadcrumbNameMap = {
   '/corrector': 'common_corrector',
@@ -14,7 +14,7 @@ const breadcrumbNameMap = {
   '/about/people': 'common_people',
   '/about/grants': 'common_grants',
   '/about/publications': 'common_publications',
-  '/tools/adding': 'common_publish_your_text',
+  '/adding': 'common_publish_your_text',
   '/tools/clusterfinder': 'common_clusters',
   '/tools/wordanalyser': 'common_word_analysis',
   '/tools/wordlist': 'common_wordlist',

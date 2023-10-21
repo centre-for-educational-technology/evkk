@@ -89,6 +89,10 @@ export default function Wordlist() {
 
   queryStore.subscribe(() => {
     const storeState = queryStore.getState();
+    toolAnalysisStore.dispatch({
+      type: 'CHANGE_WORDLIST_RESULT',
+      value: null
+    });
     setResponse([]);
     setParamsExpanded(true);
     setShowTable(false);

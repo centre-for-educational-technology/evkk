@@ -101,6 +101,10 @@ export default function WordContext() {
 
   queryStore.subscribe(() => {
     const storeState = queryStore.getState();
+    toolAnalysisStore.dispatch({
+      type: 'CHANGE_WORDCONTEXT_RESULT',
+      value: null
+    });
     setResponse([]);
     setParamsExpanded(true);
     setShowTable(false);
@@ -171,7 +175,6 @@ export default function WordContext() {
       })
         .then(res => res.json())
         .then(result => {
-          removeUrlParams();
           setLemmatizedKeywordResult(null);
           setResponse(result.contextList);
           if (result.contextList.length === 0) {
@@ -187,7 +190,7 @@ export default function WordContext() {
               setInitialKeywordResult(result.initialKeyword);
             }
           }
-        });
+        }).then(() => navigate('', {replace: true}));
     }
   };
 
@@ -206,10 +209,6 @@ export default function WordContext() {
       displayType: displayType,
       keepCapitalization: capitalizationChecked
     });
-  };
-
-  const removeUrlParams = () => {
-    navigate('', {replace: true});
   };
 
   return (
