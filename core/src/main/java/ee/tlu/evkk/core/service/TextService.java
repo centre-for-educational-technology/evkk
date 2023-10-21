@@ -153,7 +153,7 @@ public class TextService {
       usedMultiMaterialsHelper.setValues(corpusRequestDto.getUsedMultiMaterials());
     }
     if (isNotBlank(corpusRequestDto.getAge())) {
-      singleParamHelpers.add(new TextQuerySingleParamHelper("p10", "vanus", corpusRequestDto.getAge()));
+      singleParamHelpers.add(new TextQuerySingleParamHelper("p10", "vanusevahemik", corpusRequestDto.getAge()));
     }
     if (isNotBlank(corpusRequestDto.getGender())) {
       singleParamHelpers.add(new TextQuerySingleParamHelper("p11", "sugu", corpusRequestDto.getGender()));

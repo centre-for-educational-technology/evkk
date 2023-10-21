@@ -56,14 +56,9 @@
       join core.text_property as ${singleParamHelper.table} on p2.text_id = ${singleParamHelper.table}.text_id
     </foreach>
     <foreach item="rangeParamHelper" collection="rangeParamHelpers" separator=" ">
-      <if test="rangeParamHelper.castable == true">
-        join core.text as ${rangeParamHelper.table} on p2.text_id = ${rangeParamHelper.table}.id
-        join core.text_processor_result as ${rangeParamHelper.table + 1} on ${rangeParamHelper.table}.hash =
-        ${rangeParamHelper.table + 1}.text_hash
-      </if>
-      <if test="rangeParamHelper.castable == false">
-        join core.text_property as ${rangeParamHelper.table} on p2.text_id = ${rangeParamHelper.table}.text_id
-      </if>
+      join core.text as ${rangeParamHelper.table} on p2.text_id = ${rangeParamHelper.table}.id
+      join core.text_processor_result as ${rangeParamHelper.table + 1} on ${rangeParamHelper.table}.hash =
+      ${rangeParamHelper.table + 1}.text_hash
     </foreach>
     <if test="studyLevelAndDegreeHelper.firstValue != null or studyLevelAndDegreeHelper.secondValue != null">
       join core.text_property as ${studyLevelAndDegreeHelper.table} on p2.text_id =
