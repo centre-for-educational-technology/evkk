@@ -1,10 +1,10 @@
-import { memo, useContext, useEffect, useState } from 'react';
-import { Input } from './textinput/Input';
-import { WordInfo } from './WordInfo';
+import {memo, useContext, useEffect, useRef, useState} from 'react';
+import {Input} from './textinput/Input';
+import {WordInfo} from './WordInfo';
 import './styles/WordAnalyser.css';
 import TextUpload from '../../components/TextUpload';
-import { Alert, Box, Fade, Grid, IconButton, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+import {Alert, Box, Fade, Grid, IconButton, Typography} from '@mui/material';
+import {useTranslation} from 'react-i18next';
 import '../../translations/i18n';
 import i18n from 'i18next';
 import {
@@ -18,6 +18,8 @@ import {
   WordContext
 } from './Contexts';
 import CloseIcon from '@mui/icons-material/Close';
+import {queryStore} from "../../store/QueryStore";
+import {loadFetch} from "../../service/LoadFetch";
 
 function WordAnalyser() {
   const [analysedInput, setAnalysedInput] = useContext(AnalyseContext);
@@ -35,6 +37,39 @@ function WordAnalyser() {
   const {t} = useTranslation();
   const [open, setOpen] = useState(false);
   const [border, setBorder] = useState(0);
+  const [storeData, setStoreData] = useState()
+  const inputRef = useRef()
+
+  useEffect(() => {
+    postRequest();
+  }, []);
+
+  useEffect(() => {
+    setTextFromFile(storeData)
+  }, [storeData]);
+
+  queryStore.subscribe(() => {
+    postRequest();
+  });
+
+  const postRequest = () => {
+    const queryStoreState = queryStore.getState();
+    if (queryStoreState.corpusTextIds) {
+      loadFetch('/api/texts/kysitekstid', {
+        method: 'POST',
+        body: JSON.stringify({ids: queryStoreState.corpusTextIds}),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(res => res.text())
+        .then(result => {
+          if (queryStoreState.ownTexts) {
+            result = result.concat(" ", queryStoreState.ownTexts)
+          }
+          setStoreData(result.replaceAll('\\n\\n', ' ').replaceAll('\\n', ' ').replaceAll('&quot;', '"'))
+        });
+    }
+  };
 
   // get words
   const getWords = async (input) => {
@@ -485,7 +520,9 @@ function WordAnalyser() {
                  onMarkWords={selectedWords}
                  onWordSelect={showThisWord}
                  onWordInfo={showInfo}
-                 onReset={resetAnalyser}/>
+                 onReset={resetAnalyser}
+                 ref={inputRef}
+          />
         </Grid>
         <Grid item
               xs={12}
