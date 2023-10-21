@@ -253,7 +253,7 @@ export const TRANSLATIONS_ET = {
   query_results_preview_metadata_modal_title: 'Teksti metainfo',
   query_results_save_texts_for_analysis: 'Salvesta tekstid analüüsiks',
   query_results_saved_for_analysis: 'Analüüsiks salvestatud tekstid:',
-  query_results_saved_for_analysis_corpus: ' korpuse tekst',
+  query_results_saved_for_analysis_corpus: 'korpuse tekst',
   query_results_saved_for_analysis_corpus_plural: 'korpuse teksti',
   query_results_saved_for_analysis_own_texts: 'oma tekstid',
   query_results_select_all: 'Vali kõik',

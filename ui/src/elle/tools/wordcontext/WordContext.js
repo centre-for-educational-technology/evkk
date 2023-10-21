@@ -186,7 +186,7 @@ export default function WordContext() {
               setInitialKeywordResult(result.initialKeyword);
             }
           }
-        });
+        }).then(() => navigate('', {replace: true}));
     }
   };
 

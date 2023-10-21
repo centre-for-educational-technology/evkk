@@ -43,7 +43,6 @@ export default function InfoElement() {
       setCollocateImg(collocateImgEn);
       setAnalyserImg(analyserImgEn);
       setTextQueryImg(textQueryImgEn)
-
     }
   });
 

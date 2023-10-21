@@ -591,18 +591,19 @@ class Adding extends Component {
             }}
           >
             <Box sx={modalStyle} className="terms-of-service-modal">
-              <div className="modal-head">
-                {t('publish_your_text_terms_of_service_title')}
+              <div className="w-100 d-flex justify-content-end">
+                <IconButton
+                  aria-label="close"
+                  onClick={() => {
+                    this.setState({modalOpen: false});
+                  }}
+                  className="closeButton"
+                >
+                  <CloseIcon/>
+                </IconButton>
               </div>
-              <IconButton
-                aria-label="close"
-                onClick={() => {
-                  this.setState({modalOpen: false});
-                }}
-                className="closeButton"
-              >
-                <CloseIcon/>
-              </IconButton>
+              <div className="modal-head">
+                {t('publish_your_text_terms_of_service_title')}</div>
               <br/>
               <div>
                 {t('publish_your_text_terms_of_service_1')}
