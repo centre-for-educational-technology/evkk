@@ -1,40 +1,167 @@
-import { Box, Typography } from '@mui/material';
 import React from 'react';
-import { EVKK_VERS1_PATH } from '../const/Constants';
+import {Box, styled, Typography} from '@mui/material';
+import {Link, Outlet} from 'react-router-dom';
+import {TreeItem, TreeView} from '@mui/lab';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import {useTranslation} from 'react-i18next';
 
-export default function AboutUs() {
+function AboutUs() {
+  const {t} = useTranslation();
+
+  const classes = {
+    focused: {
+      bgcolor: "transparent",
+    },
+    selected: {
+      bgcolor: "transparent",
+    },
+    hover: {
+      bgcolor: "transparent",
+    }
+  };
+
+  const MenuLink = styled(Link)({
+    fontWeight: 600,
+    fontSize: 16,
+    color: "#1B1B1B",
+    textDecoration: "none",
+    fontFamily: ["'Exo 2'", 'sans-serif',].join(','),
+    '&:hover': {
+      color: "#9C27B0",
+      textDecoration: "none",
+    },
+    '&.active': {
+      color: "#9C27B0",
+      textDecoration: "none",
+    },
+  });
 
   return (
     <Box sx={{
-      padding: '50px',
-      paddingTop: '10px',
-      paddingBottom: '0',
-      width: '75%',
-      height: 'auto'
+      height: "auto",
+      position: "center",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexDirection: "column",
+      paddingBottom: "100px"
     }}>
-      <Box id={'tutvustus'}>
-        <Typography padding={'50px'}
-                    paddingTop={'25px'}>
-          <h3>Mis on ELLE?</h3>
-          <br/>
-          ELLE on Tallinna Ülikoolis arendatav keskkond eesti keele õpetamiseks, õppimiseks ja keeleanalüüsiks.
-          Keskkonna aluseks on eesti vahekeele ehk õppijakeele korpus EVKK, mis on eesti keele kui teise keele ja
-          võõrkeele õppijate kirjalike tekstide kogu.<br/><br/>
-          ELLE keskkond võimaldab EVKK korpust pidevalt täiendada. Nimelt saab ELLE-s kirjutatud ja analüüsitud tekste
-          EVKK-le loovutada. Järjest täienev keelematerjal annab ülevaate õppijate oskustest ja raskustest erinevatel
-          keeletasemetel ning aitab seeläbi arendada keeleõpperakendusi ja -materjale.<br/><br/>
-          Keskkond pakub tekstianalüüsi tuge ka eesti keele kui emakeele õppes, uurimistöös ja tekstidega töötades.
-          Keeleõppijate kirjutiste kõrval kogume eesti ja muu emakeelega üliõpilaste akadeemilisi tekste, et luua
-          edaspidi erialakeele omandamist toetavat õppevara.<br/><br/>
-          Kõik EVKK ressursid ei ole veel ELLE-sse üle kantud. Korpuse vana lehekülge on võimalik
-          külastada <a href={EVKK_VERS1_PATH}
-                       target="_blank"
-                       rel="noopener noreferrer">siin</a>. ELLE arendusega saab ennast kurssi viia
-          meie <a href="https://github.com/centre-for-educational-technology/evkk/wiki"
-                  target="_blank"
-                  rel="noopener noreferrer">Wikis</a>.
-        </Typography>
+      <Box sx={{
+        display: "flex",
+        backgroundColor: "white",
+        width: "80vw",
+        height: "auto",
+      }}>
+        <Box sx={{position: "sticky", height: "100%", width: "25%", marginTop: "110px", top: "50px"}}>
+          <Box sx={{
+            width: "100%",
+            height: "auto",
+            marginLeft: "20px",
+            borderRight: "solid",
+            borderColor: "#FFD0FD",
+            marginBottom: "100px",
+            borderWidth: "thin"
+          }}>
+            <TreeView aria-label="file system navigator"
+                      defaultCollapseIcon={<ExpandMoreIcon style={{paddingTop: '12px', fontSize: '2rem'}}/>}
+                      defaultExpandIcon={<ChevronRightIcon style={{paddingTop: '12px', fontSize: '2rem'}}/>}
+                      sx={{
+                        height: 280, flexGrow: 1, maxWidth: 400, overflowY: 'auto', ".MuiTreeItem-root": {
+                          "	.MuiTreeItem-content:hover": classes.hover,
+                          ".Mui-focused:not(.Mui-selected)": classes.focused,
+                          ".Mui-selected, .Mui-focused.Mui-selected, .Mui-selected:hover":
+                          classes.selected
+                        }
+                      }}>
+              <TreeItem nodeId={"1"}
+                        label={<Typography fontSize={"1rem"}
+                                           marginTop={"10px"}>
+                          <MenuLink to="us"
+                                    key={'1'}
+                                    onClick={() => window.scrollTo(0, 0)}>{t('common_us')}</MenuLink>
+                        </Typography>}>
+
+              </TreeItem>
+              <TreeItem nodeId={"2"}
+                        label={<Typography fontSize={"1rem"}
+                                           marginTop={"10px"}>
+                          <MenuLink to="people"
+                                    key={'2'}
+                                    onClick={() => window.scrollTo(0, 0)}>{t('common_people')}</MenuLink>
+                        </Typography>}>
+
+              </TreeItem>
+              <TreeItem nodeId={"3"}
+                        label={<Typography fontSize={"1rem"}
+                                           marginTop={"10px"}>
+                          <MenuLink to="grants"
+                                    key={'3'}
+                                    onClick={() => window.scrollTo(0, 0)}>{t('common_grants')}</MenuLink>
+                        </Typography>}>
+
+              </TreeItem>
+              <TreeItem nodeId={"4"}
+                        label={<Typography style={{
+                          fontWeight: 600,
+                          fontSize: 16,
+                          color: "#1B1B1B",
+                          textDecoration: "none",
+                          fontFamily: ["'Exo 2'", 'sans-serif',].join(','),
+                          '&:hover': {
+                            color: "#9C27B0",
+                            textDecoration: "none",
+                          },
+                          '&.active': {
+                            color: "#9C27B0",
+                            textDecoration: "none",
+                          },
+                        }}
+                                           marginTop={"10px"}>
+                          <MenuLink to="publications"
+                                    key={'4'}
+                                    onClick={() => window.scrollTo(0, 0)}>{t('common_publications')}</MenuLink>
+                        </Typography>}>
+                <TreeItem nodeId={"5"}
+                          label={<Typography fontSize={"1rem"}
+                                             marginTop={"10px"}>
+                            <MenuLink to="publications#loputood">{t('common_graduation_papers')}</MenuLink>
+                          </Typography>}>
+
+                </TreeItem>
+                <TreeItem nodeId={"6"}
+                          label={<Typography fontSize={"1rem"}
+                                             marginTop={"10px"}>
+                            <MenuLink to="publications#konverentsid">{t('common_conferences_and_workshops')}</MenuLink>
+                          </Typography>}>
+
+                </TreeItem>
+                <TreeItem nodeId={"7"}
+                          label={<Typography fontSize={"1rem"}
+                                             marginTop={"10px"}>
+                            <MenuLink to="publications#publikatsioonid">{t('common_articles')}</MenuLink>
+                          </Typography>}>
+
+                </TreeItem>
+              </TreeItem>
+            </TreeView>
+          </Box>
+        </Box>
+
+        <Box sx={{
+          width: "75%",
+          height: "auto",
+          marginTop: "70px",
+          marginLeft: "50px",
+          marginBottom: "100px",
+          overflow: "auto"
+        }}>
+          <Outlet/>
+        </Box>
       </Box>
     </Box>
-  );
+  )
 }
+
+
+export default AboutUs;

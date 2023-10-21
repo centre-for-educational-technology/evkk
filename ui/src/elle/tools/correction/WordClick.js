@@ -49,9 +49,9 @@ const customSlider = styled(Slider)({
 
 export default function WordClick(props) {
 
-  const [content, setContent] = useState(props.content);
-  const [answer, setAnswer] = useState(props.answer);
-  const [wordIndex, setWordIndex] = useState(props.index);
+  const content = props.content;
+  const answer = props.answer;
+  const wordIndex = props.index;
   const [parentElementRef, setParentElementRef] = useState(null);
   const [open, setOpen] = useState(false);
   const [topOffset, setTopOffset] = useState();

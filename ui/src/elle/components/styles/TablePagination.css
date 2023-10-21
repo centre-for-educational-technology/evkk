@@ -6,6 +6,12 @@
   align-items: baseline;
 }
 
+.pagination-button-group {
+  display: flex;
+  gap: 10px;
+  box-shadow: none !important;
+}
+
 .fontStyle {
   font-size: large;
 }
@@ -16,4 +22,10 @@
 
 .buttongroup {
   width: 25%;
+}
+
+.table-pagination-button {
+  background-color: #9C27B0 !important;
+  font-weight: bold !important;
+  border-radius: 15px !important;
 }

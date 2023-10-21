@@ -4,3 +4,10 @@
   gap: 2rem;
   padding-top: 2rem;
 }
+
+.server-error-container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100vh;
+}

@@ -372,7 +372,9 @@ const Correction = () => {
 
   return (<Card raised={true}
                 square={true}
-                elevation={2}>
+                elevation={2}
+                style={{marginBottom: "100px"}}
+  >
     <p/>
     <div className="correction-container">
       <div>

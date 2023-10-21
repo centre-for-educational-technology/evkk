@@ -1,7 +1,7 @@
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import React, { useEffect, useMemo, useState } from 'react';
-import { queryStore } from '../../store/QueryStore';
-import { AccordionStyle } from '../../const/Constants';
+import {useNavigate, useSearchParams} from 'react-router-dom';
+import React, {useEffect, useMemo, useState} from 'react';
+import {queryStore} from '../../store/QueryStore';
+import {AccordionStyle} from '../../const/Constants';
 import Accordion from '@mui/material/Accordion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -25,11 +25,11 @@ import {
 import AccordionDetails from '@mui/material/AccordionDetails';
 import './WordContext.css';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
-import { QuestionMark } from '@mui/icons-material';
+import {QuestionMark} from '@mui/icons-material';
 import GenericTable from '../../components/GenericTable';
-import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
-import { loadFetch } from '../../service/LoadFetch';
-import { useTranslation } from 'react-i18next';
+import {toolAnalysisStore} from '../../store/ToolAnalysisStore';
+import {loadFetch} from '../../service/LoadFetch';
+import {useTranslation} from 'react-i18next';
 
 export default function WordContext() {
 
@@ -175,7 +175,6 @@ export default function WordContext() {
       })
         .then(res => res.json())
         .then(result => {
-          removeUrlParams();
           setLemmatizedKeywordResult(null);
           setResponse(result.contextList);
           if (result.contextList.length === 0) {
@@ -191,7 +190,7 @@ export default function WordContext() {
               setInitialKeywordResult(result.initialKeyword);
             }
           }
-        });
+        }).then(() => navigate('', {replace: true}));
     }
   };
 
@@ -210,10 +209,6 @@ export default function WordContext() {
       displayType: displayType,
       keepCapitalization: capitalizationChecked
     });
-  };
-
-  const removeUrlParams = () => {
-    navigate('', {replace: true});
   };
 
   return (
