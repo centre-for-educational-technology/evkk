@@ -24,7 +24,7 @@ export default function FilledContacts() {
                    role={'magistrant, analüütik-programmeerija, keeletehnoloog'}/>
       <ContactCard name={"Taavi Kamarik"}
                    email={"taavik@tlu.ee"}
-                   role={"programmeerija"}/>
+                   role={'analüütik-programmeerija, keeletehnoloog'}/>
     </>
   )
 }

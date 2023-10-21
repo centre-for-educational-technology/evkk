@@ -1,23 +1,23 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Navbar from './elle/components/Navbar';
-import {Provider} from 'react-redux';
-import {applyMiddleware, createStore} from 'redux';
+import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import {compose, connectedComponent} from './util/redux-utils';
+import { compose, connectedComponent } from './util/redux-utils';
 import rootReducer from './rootReducer';
-import {getStatusIfNeeded} from './rootActions';
-import {BrowserRouter as Router} from 'react-router-dom';
-import {selectStatusLoaded} from './rootSelectors';
-import {createTheme} from '@mui/material/styles';
+import { getStatusIfNeeded } from './rootActions';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { selectStatus, selectStatusLoaded } from './rootSelectors';
+import { createTheme } from '@mui/material/styles';
 import AppRoutes from './AppRoutes';
-import {ThemeProvider} from '@mui/material';
-import {EventEmitter} from 'events';
+import { ThemeProvider } from '@mui/material';
+import { EventEmitter } from 'events';
 import ErrorSnackbar from './elle/components/ErrorSnackbar';
 import LoadingSpinner from './elle/components/LoadingSpinner';
 import ServerOfflinePage from './elle/components/ServerOfflinePage';
 import SuccessSnackbar from './elle/components/SuccessSnackbar';
-import FooterElement from "./elle/components/FooterElement";
-import DonateText from "./elle/components/DonateText";
+import FooterElement from './elle/components/FooterElement';
+import DonateText from './elle/components/DonateText';
 
 export const errorEmitter = new EventEmitter();
 export const loadingEmitter = new EventEmitter();
@@ -82,7 +82,7 @@ class AppWithStatus extends Component {
   }
 
   render() {
-    if (!this.props.statusLoaded) return <ServerOfflinePage/>;
+    if (this.props.status instanceof Response) return <ServerOfflinePage/>;
     return (
       <div className="min-vh-100 d-flex flex-column justify-content-between">
         <div>
@@ -100,7 +100,8 @@ class AppWithStatus extends Component {
 }
 
 const mapStateToProps = state => ({
-  statusLoaded: selectStatusLoaded()(state)
+  statusLoaded: selectStatusLoaded()(state),
+  status: selectStatus()(state)
 });
 
 const mapDispatchToProps = {getStatusIfNeeded};
