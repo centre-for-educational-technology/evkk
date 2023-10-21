@@ -1,4 +1,4 @@
-import {makeStyles} from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
 export const EVKK_VERS1_PATH = 'https://evkk.tlu.ee/vers1/';
 
@@ -379,9 +379,14 @@ export const domainOptions = {
   'loodustehnika': 'common_text_data_field_of_research_natural_sciences_and_engineering'
 };
 
-export const usedMaterialsOptions = {
+export const usedMaterialsDisplayOptions = {
   'jah': 'query_text_data_used_supporting_materials_yes',
   'ei': 'query_text_data_used_supporting_materials_no'
+};
+
+export const usedMaterialsSaveOptions = {
+  true: 'query_text_data_used_supporting_materials_yes',
+  false: 'query_text_data_used_supporting_materials_no'
 };
 
 export const ageOptions = {

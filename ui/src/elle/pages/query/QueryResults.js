@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useReducer, useRef, useState} from 'react';
+import React, { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import {
   Accordion,
   AccordionDetails,
@@ -11,7 +11,7 @@ import {
   Modal,
   Typography
 } from '@mui/material';
-import {usePagination, useTable} from 'react-table';
+import { usePagination, useTable } from 'react-table';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CloseIcon from '@mui/icons-material/Close';
 import '../styles/QueryResults.css';
@@ -25,21 +25,20 @@ import {
   modalStyle,
   textLanguageOptions,
   textTypes,
-  usedMaterialsOptions
+  usedMaterialsDisplayOptions
 } from '../../const/Constants';
 import TablePagination from '../../components/table/TablePagination';
 import QueryDownloadButton from './QueryDownloadButton';
 import LoadingButton from '@mui/lab/LoadingButton';
-import {queryStore} from '../../store/QueryStore';
-import {loadFetch} from '../../service/LoadFetch';
-import {useTranslation} from 'react-i18next';
+import { queryStore } from '../../store/QueryStore';
+import { loadFetch } from '../../service/LoadFetch';
+import { useTranslation } from 'react-i18next';
 
 export default function QueryResults(props) {
   const {t} = useTranslation();
   const response = props.data;
   const [modalOpen, setModalOpen] = useState(false);
   const [modalAccordionExpanded, setModalAccordionExpanded] = useState(false);
-  const [resultAccordionExpanded, setResultAccordionExpanded] = useState(false);
   const [text, setText] = useState('');
   const [isLoadingSelectAllTexts, setIsLoadingSelectAllTexts] = useState(false);
   const checkboxStatuses = useRef(new Set());
@@ -117,10 +116,6 @@ export default function QueryResults(props) {
     setModalAccordionExpanded(!modalAccordionExpanded);
   };
 
-  const changeResultAccordion = () => {
-    setResultAccordionExpanded(!resultAccordionExpanded);
-  };
-
   const alterCheckbox = (id) => {
     if (checkboxStatuses.current.has(id)) {
       checkboxStatuses.current.delete(id);
@@ -186,10 +181,6 @@ export default function QueryResults(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoadingSelectAllTexts]);
 
-  useEffect(() => {
-    setResultAccordionExpanded(response.length > 0);
-  }, [response]);
-
   function allTextsSelected() {
     return allTextIds.every(v => Array.from(checkboxStatuses.current).includes(v));
   }
@@ -199,7 +190,6 @@ export default function QueryResults(props) {
       type: 'CHANGE_CORPUS_TEXTS',
       value: Array.from(checkboxStatuses.current).join(',')
     });
-    setResultAccordionExpanded(false);
   };
 
   const getParagraphKey = (item) => {
@@ -328,7 +318,7 @@ export default function QueryResults(props) {
                 <strong>{t('query_text_data_type')}:</strong> {t(textTypes[metadata.tekstityyp]) || '-'}<br/>
                 <strong>{t('query_text_data_language')}:</strong> {t(textLanguageOptions[metadata.tekstikeel]) || '-'}<br/>
                 <strong>{t('query_text_data_level')}:</strong> {metadata.keeletase || '-'}<br/>
-                <strong>{t('query_text_data_used_supporting_materials')}:</strong> {t(usedMaterialsOptions[metadata.abivahendid]) || '-'}<br/>
+                <strong>{t('query_text_data_used_supporting_materials')}:</strong> {t(usedMaterialsDisplayOptions[metadata.abivahendid]) || '-'}<br/>
                 <strong>{t('query_text_data_year_of_publication')}:</strong> {metadata.aasta || '-'}<br/>
                 <br/>
                 <div className="metainfoSubtitle">{t('common_author_data')}</div>

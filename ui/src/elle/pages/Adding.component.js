@@ -35,7 +35,7 @@ import {
   textPublishMainTextTypesOptions,
   textPublishSubTextTypesOptions,
   textPublishUsedMaterialsOptions,
-  usedMaterialsOptions
+  usedMaterialsSaveOptions
 } from '../const/Constants';
 import { successEmitter } from '../../App';
 
@@ -383,16 +383,17 @@ class Adding extends Component {
                         <FormControl className="form-control"
                                      size="small">
                           <InputLabel
-                            id="sugu-materjalid-label">{t('query_text_data_used_study_or_supporting_materials')}</InputLabel>
+                            id="oppematerjal-label">{t('query_text_data_used_study_or_supporting_materials')}</InputLabel>
                           <Select
-                            labelId="sugu-materjalid-label"
+                            labelId="oppematerjal-label"
                             name="oppematerjal"
                             value={this.state.oppematerjal}
                             label={t('query_text_data_used_study_or_supporting_materials')}
                             onChange={this.handleChange}
                           >
-                            {Object.keys(usedMaterialsOptions).map((material) => (
-                              <MenuItem key={material} value={material}>{t(usedMaterialsOptions[material])}</MenuItem>
+                            {Object.keys(usedMaterialsSaveOptions).map((material) => (
+                              <MenuItem key={material}
+                                        value={material}>{t(usedMaterialsSaveOptions[material])}</MenuItem>
                             ))}
                           </Select>
                         </FormControl>
