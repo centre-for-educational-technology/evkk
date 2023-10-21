@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Alert,
   Avatar,
@@ -34,17 +34,17 @@ import {
   textLanguageOptions,
   textLevelOptions,
   textTypesOptions,
+  usedMaterialsDisplayOptions,
   usedMaterialsMultiOptions,
-  usedMaterialsOptions,
   useStyles,
   wordsOptions
 } from '../../const/Constants';
 import QueryResults from './QueryResults';
-import {useLocation, useNavigate, useSearchParams} from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import TextUpload from '../../components/TextUpload';
-import {queryStore} from '../../store/QueryStore';
-import {loadFetch} from '../../service/LoadFetch';
-import {useTranslation} from 'react-i18next';
+import { queryStore } from '../../store/QueryStore';
+import { loadFetch } from '../../service/LoadFetch';
+import { useTranslation } from 'react-i18next';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 
@@ -53,10 +53,8 @@ export default function Query(props) {
   const {t} = useTranslation();
   const selectWidth = 300;
   const classes = useStyles();
-  const location = useLocation();
   const navigate = useNavigate();
   const [urlParams] = useSearchParams();
-  const [expanded, setExpanded] = useState(location.pathname === '/tools');
   const [results, setResults] = useState([]);
   const [addedYears, setAddedYears] = useState([]);
   const [characters, setCharacters] = useState([]);
@@ -67,8 +65,6 @@ export default function Query(props) {
   const [alert, setAlert] = useState(false);
   const [noResultsError, setNoResultsError] = useState(false);
   const [resultsKey, setResultsKey] = useState(1);
-  const [queryVisible, setQueryVisible] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
   const [textInputValue, setTextInputValue] = useState('');
   const [corpusTextsSelected, setCorpusTextsSelected] = useState(0);
   const [ownTextsSelected, setOwnTextsSelected] = useState(false);
@@ -133,7 +129,6 @@ export default function Query(props) {
 
   useEffect(() => {
     if (urlParams.get('openQuery')) {
-      setQueryVisible(true);
       navigate('', {replace: true});
     }
   }, [urlParams, navigate]);
@@ -210,7 +205,6 @@ export default function Query(props) {
             setNoResultsError(true);
             setResults([]);
           }
-          setExpanded(false);
         }).then(setQueryAnswer(true));
     }
   };
@@ -311,10 +305,6 @@ export default function Query(props) {
     setSinglePropertyData(newSinglePropertyData);
   };
 
-  const changeAccordion = () => {
-    setExpanded(!expanded);
-  };
-
   const alterTextTypeHierarchyDropdown = (e, hierarchyLevel, corpus) => {
     // hierarchyLevel: true - standalone or hierarchy child, false - hierarchy parent
     let id = e.target.localName === 'span'
@@ -388,7 +378,6 @@ export default function Query(props) {
       type: 'CHANGE_OWN_TEXTS',
       value: textInputValue
     });
-    setModalOpen(false);
   };
 
   const handleChipDelete = (type) => {
@@ -426,14 +415,6 @@ export default function Query(props) {
     }
   }, []);
 
-  const closeInputHidden = () => {
-    if (inputOpen) {
-      setInputHidden();
-    } else if (filterHidden) {
-      setFilterBoxClass();
-    }
-  }
-
   {/*TODO Query buttons need to be redone*/
   }
   const setInputHidden = () => {
@@ -456,9 +437,7 @@ export default function Query(props) {
         <Button variant="contained"
                 id="choose-text-button"
                 className={"button-query-hover button-box-open"}
-                onClick={(e) => {
-                  setQueryVisible(true);
-                  setExpanded(true);
+                onClick={() => {
                   setFilterBoxClass();
                 }}>
           <div className="button-text-query">
@@ -762,8 +741,9 @@ export default function Query(props) {
                           label={t('query_text_data_used_supporting_materials')}
                           onClick={(e) => alterSinglePropertyData(e, 'usedMaterials')}
                         >
-                          {Object.keys(usedMaterialsOptions).map((material) => (
-                            <MenuItem key={material} value={material}>{t(usedMaterialsOptions[material])}</MenuItem>
+                          {Object.keys(usedMaterialsDisplayOptions).map((material) => (
+                            <MenuItem key={material}
+                                      value={material}>{t(usedMaterialsDisplayOptions[material])}</MenuItem>
                           ))}
                         </Select>
                       </FormControl>
