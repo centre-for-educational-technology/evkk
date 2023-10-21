@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Alert,
   Box,
@@ -16,8 +16,8 @@ import {
 } from '@mui/material';
 import TextUpload from '../components/TextUpload';
 import './styles/Adding.css';
-import {loadFetch} from '../service/LoadFetch';
-import {withTranslation} from 'react-i18next';
+import { loadFetch } from '../service/LoadFetch';
+import { withTranslation } from 'react-i18next';
 import CloseIcon from '@mui/icons-material/Close';
 import {
   countryOptions,
@@ -37,7 +37,7 @@ import {
   textPublishUsedMaterialsOptions,
   usedMaterialsOptions
 } from '../const/Constants';
-import {successEmitter} from '../../App';
+import { successEmitter } from '../../App';
 
 class Adding extends Component {
 
@@ -591,19 +591,20 @@ class Adding extends Component {
             }}
           >
             <Box sx={modalStyle} className="terms-of-service-modal">
-              <div className="w-100 d-flex justify-content-end">
+              <div className="modal-head">
+                {t('publish_your_text_terms_of_service_title')}
+              </div>
+              <div>
                 <IconButton
                   aria-label="close"
                   onClick={() => {
                     this.setState({modalOpen: false});
                   }}
-                  className="closeButton"
+                  className="close-button"
                 >
                   <CloseIcon/>
                 </IconButton>
               </div>
-              <div className="modal-head">
-                {t('publish_your_text_terms_of_service_title')}</div>
               <br/>
               <div>
                 {t('publish_your_text_terms_of_service_1')}
