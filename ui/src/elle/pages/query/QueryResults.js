@@ -231,7 +231,8 @@ export default function QueryResults(props) {
             disabled={checkboxStatuses.current.size === 0}
             onClick={() => {
               saveTexts();
-              props.setFilterBoxClass()
+              props.setFilterBoxClass();
+              props.setQueryAnswer(false);
             }}
             className="save-texts-button"
           >

@@ -1049,6 +1049,7 @@ export default function Query(props) {
               <QueryResults
                 key={resultsKey}
                 data={results}
+                setQueryAnswer={setQueryAnswer}
                 setFilterBoxClass={() => setFilterBoxClass()}
               />
         </span>}
