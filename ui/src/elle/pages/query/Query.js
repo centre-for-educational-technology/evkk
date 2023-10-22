@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Alert,
   Avatar,
@@ -40,11 +40,11 @@ import {
   wordsOptions
 } from '../../const/Constants';
 import QueryResults from './QueryResults';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import {useNavigate, useSearchParams} from 'react-router-dom';
 import TextUpload from '../../components/TextUpload';
-import { queryStore } from '../../store/QueryStore';
-import { loadFetch } from '../../service/LoadFetch';
-import { useTranslation } from 'react-i18next';
+import {queryStore} from '../../store/QueryStore';
+import {loadFetch} from '../../service/LoadFetch';
+import {useTranslation} from 'react-i18next';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 
@@ -80,7 +80,8 @@ export default function Query(props) {
   });
   const [filterHidden, setFilterHidden] = useState(true);
   const [inputOpen, setInputOpen] = useState(true);
-  const [queryAnswer, setQueryAnswer] = useState(false);
+  const [isQueryAnswerPage, setIsQueryAnswerPage] = useState(false)
+  const [previousSelectedIds, setPreviousSelectedIds] = useState({})
   const [singlePropertyData, setSinglePropertyData] = useState({
     language: 'eesti',
     level: '',
@@ -201,11 +202,12 @@ export default function Query(props) {
           if (result.length > 0) {
             setNoResultsError(false);
             setResults(result);
+            setIsQueryAnswerPage(true)
           } else {
             setNoResultsError(true);
             setResults([]);
           }
-        }).then(setQueryAnswer(true));
+        })
     }
   };
 
@@ -432,7 +434,6 @@ export default function Query(props) {
 
   return (
     <div className="query-main-container">
-      {alert && <><Alert severity="error">{t('error_query_no_subcorpus_picked')}</Alert><br/></>}
       <div className="buttonBox">
         <Button variant="contained"
                 id="choose-text-button"
@@ -452,7 +453,7 @@ export default function Query(props) {
           hidden={filterHidden}
           className="menu-box-choose-text"
         >
-          {!queryAnswer ?
+          {!isQueryAnswerPage ?
             <form action=""
                   onSubmit={(e) => {
                     e.preventDefault();
@@ -1007,6 +1008,22 @@ export default function Query(props) {
                 </div>
               </div>
               <br/><br/>
+              {alert &&
+                <>
+                  <Alert style={{width: "30%"}} severity="error">
+                    {t('error_query_no_subcorpus_picked')}
+                  </Alert>
+                  <br/>
+                </>}
+              {noResultsError &&
+                <div>
+                  <br/>
+                  <Alert style={{width: "30%"}} severity="error">
+                    {t('query_results_no_texts_found')}
+                  </Alert>
+                  <br/>
+                </div>
+              }
               <Button
                 onClick={submitted}
                 sx={DefaultButtonStyle}
@@ -1017,20 +1034,13 @@ export default function Query(props) {
             </form>
             :
             <span>
-              {noResultsError &&
-                <div>
-                  <br/>
-                  <Alert severity="error">
-                    {t('query_results_no_texts_found')}
-                  </Alert>
-                  <br/>
-                </div>
-              }
               <QueryResults
                 key={resultsKey}
                 data={results}
-                setQueryAnswer={setQueryAnswer}
                 setFilterBoxClass={() => setFilterBoxClass()}
+                setIsQueryAnswerPage={setIsQueryAnswerPage}
+                setPreviousSelectedIds={setPreviousSelectedIds}
+                previousSelectedIds={previousSelectedIds}
               />
         </span>}
         </Box>

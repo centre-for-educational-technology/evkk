@@ -63,11 +63,14 @@ function WordAnalyser() {
         }
       }).then(res => res.text())
         .then(result => {
+          console.log(result)
           if (queryStoreState.ownTexts) {
             result = result.concat(" ", queryStoreState.ownTexts)
           }
           setStoreData(result.replaceAll('\\n\\n', ' ').replaceAll('\\n', ' ').replaceAll('&quot;', '"'))
         });
+    } else if (queryStoreState.ownTexts) {
+      setStoreData(queryStoreState.ownTexts);
     }
   };
 
