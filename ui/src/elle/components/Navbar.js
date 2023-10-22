@@ -3,10 +3,13 @@ import {AppBar, Box, Drawer, IconButton, Link, List, ListItem, Menu, MenuItem, s
 import {Close, Language, Menu as MenuIcon} from '@mui/icons-material';
 import {NavLink, useLocation} from 'react-router-dom';
 import '@fontsource/exo-2/600.css';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import './styles/Navbar.css';
 import i18n from 'i18next';
 import {useTranslation} from 'react-i18next';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import {TextSelectionContext} from "../tools/TextSelectionContext";
+
 
 const pages = [
   {id: 1, title: 'common_corrector', target: '/corrector'},
@@ -51,6 +54,56 @@ export default function Navbar() {
   const {t} = useTranslation();
   const [open, setOpen] = useState(false);
   const [navColor, setNavColor] = useState("sticking");
+  const selectedText = useContext(TextSelectionContext);
+
+  const TextToSpeech = () => {
+    if (selectedText) {
+      // Set the loading state to true
+      let loading = true;
+      document.body.style.cursor = 'wait';
+
+      const url = 'http://localhost:3000/api/texts/neorokone';
+      const jsonRequestBody = {
+        tekst: selectedText
+      };
+
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(jsonRequestBody),
+      })
+        .then((response) => response.text())
+        .then((base64String) => {
+          const audioElement = document.createElement('audio');
+          audioElement.src = 'data:audio/wav;base64,' + base64String;
+          audioElement.preload = 'auto';
+
+          // Play the audio automatically when it's ready
+          audioElement.oncanplay = () => {
+            audioElement.play()
+              .then(_ => {
+              })
+              .catch(error => {
+                console.error("playback error:", error);
+              })
+              .finally(() => {
+                // Update the loading state to false when playback is complete
+                loading = false;
+                document.body.style.cursor = 'auto';
+              });
+          };
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+
+          loading = false;
+          document.body.style.cursor = 'auto';
+        });
+    }
+  }
+
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -163,6 +216,7 @@ export default function Navbar() {
               >
                 <MenuIcon className="burger-menu-icon"/>
               </IconButton>
+              <VolumeUpIcon sx={{marginLeft: 2, cursor: "pointer", color: "black"}} onClick={TextToSpeech} />
             </div>
           </div>
         </Toolbar>

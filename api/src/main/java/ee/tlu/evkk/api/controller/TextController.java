@@ -40,6 +40,25 @@ import static java.util.Arrays.asList;
 import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
 import static org.springframework.http.ResponseEntity.ok;
 
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
+import javax.sound.sampled.*;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.ByteArrayOutputStream;
+import org.springframework.http.HttpHeaders;
+import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Base64;
+
 @RestController
 @RequestMapping("/texts")
 public class TextController {
@@ -81,6 +100,60 @@ public class TextController {
     @GetMapping("/kysikorpusetekstiIDjapealkiri")
     public List<String> kysikorpusetekstiIDjapealkiri(String korpusekood) {
         return textDao.findTextIdAndTitleByCorpusId(korpusekood);
+    }
+    @PostMapping("/neorokone")
+    public ResponseEntity<String> TextToSpeechRequest(@RequestBody LemmadRequestEntity request) throws Exception {
+      String text = request.getTekst();
+      String speaker = "Mari";
+      double speed = 1;
+      try {
+        String url = "https://api.tartunlp.ai/text-to-speech/v2";
+        HttpClient httpClient = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost(url);
+
+        // Set the request body
+        String requestBody = "{\n" +
+          "  \"text\": \"" + text + "\",\n" +
+          "  \"speaker\": \"" + speaker + "\",\n" +
+          "  \"speed\": " + speed + "\n" +
+          "}";
+        StringEntity entity = new StringEntity(requestBody, ContentType.APPLICATION_JSON);
+        httpPost.setEntity(entity);
+
+        // Execute the request
+        HttpResponse response = httpClient.execute(httpPost);
+        int statusCode = response.getStatusLine().getStatusCode();
+
+        if (statusCode == 200) {
+          org.apache.http.HttpEntity responseEntity = response.getEntity();
+
+          if (responseEntity != null) {
+            try (InputStream inputStream = responseEntity.getContent()) {
+              ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+              int nRead;
+              byte[] data = new byte[4];
+
+              while ((nRead = inputStream.readNBytes(data, 0, data.length)) != 0) {
+                buffer.write(data, 0, nRead);
+              }
+
+              byte[] targetArray = buffer.toByteArray();
+              String encodedString = Base64.getEncoder().encodeToString(targetArray);
+
+              if (!encodedString.isEmpty()) {
+                return ResponseEntity.ok(encodedString);
+              } else {
+                return ResponseEntity.ok("string is empty.");
+              }
+            }
+          }
+        } else {
+          return ResponseEntity.status(statusCode).body("API returned a non-200 status code: " + statusCode);
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      return ResponseEntity.ok("Failed to generate speech.");
     }
 
     @PostMapping("/sonaliik")
@@ -165,14 +238,14 @@ public class TextController {
     }
 
     @PostMapping("/tekstidfailina")
-    public HttpEntity<byte[]> tekstidfailina(@RequestBody CorpusDownloadDto corpusDownloadDto, HttpServletResponse response) throws IOException {
+    public org.springframework.http.HttpEntity<byte[]> tekstidfailina(@RequestBody CorpusDownloadDto corpusDownloadDto, HttpServletResponse response) throws IOException {
         byte[] file = textService.tekstidfailina(corpusDownloadDto);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(APPLICATION_OCTET_STREAM);
         response.setHeader("Content-Disposition", "attachment");
 
-        return new HttpEntity<>(file, headers);
+        return new org.springframework.http.HttpEntity<>(file, headers);
     }
 
     @GetMapping("/asukoht")
