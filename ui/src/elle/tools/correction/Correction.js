@@ -257,7 +257,7 @@ const Correction = () => {
                 </Box>
               </Box>
             </Box>)) : (<div></div>)) : ("")}
-        </Box>) : ("Tekst on liiga lühike")}
+        </Box>) : queryFinished && levelAnswer[1] ? "Tekst on liiga lühike" : ""}
       </Box>
     </Box>);
   }
@@ -619,7 +619,7 @@ const Correction = () => {
                         KLSS <br/>(ingl Corrected Type-Token
                         Ratio) {customTooltip("lemmade arv / √(2 * sõnade arv) \n(Carroll, 1964)")}
                       </td>
-                      <td>{diversityAnswer[0]}</td>
+                      <td>{(diversityAnswer[11] / Math.sqrt(2 * diversityAnswer[10])).toFixed(4)}</td>
                     </tr>
                     <tr className="corrector-border-bottom">
                       <td>Erinevate ja kõigi sõnade juuritud
@@ -627,7 +627,7 @@ const Correction = () => {
                         JLSS <br/>(ingl Root Type-Token
                         Ratio) {customTooltip("lemmade arv / √(sõnade arv) \n(Guiraud, 1960)")}
                       </td>
-                      <td>{diversityAnswer[1]}</td>
+                      <td>{(diversityAnswer[11] / Math.sqrt(diversityAnswer[10])).toFixed(4)}</td>
                     </tr>
                     <tr className="corrector-border-bottom">
                       <td>
