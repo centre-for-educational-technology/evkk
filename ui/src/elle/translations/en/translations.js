@@ -188,7 +188,7 @@ export const TRANSLATIONS_EN = {
   query_author_data_native_language: 'Native language',
   query_author_data_other_languages: 'Other language of study or work',
   query_author_data_other_languages_plural: 'Other languages of study or work',
-  query_change_chosen_corpuses: 'Change chosen corpuses',
+  query_change_chosen_corpuses: 'Change search',
   query_choose_texts: 'Choose texts',
   query_common_country_bg: 'Bulgaria',
   query_common_country_br: 'Brazil',

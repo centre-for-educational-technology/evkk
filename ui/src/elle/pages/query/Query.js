@@ -80,8 +80,8 @@ export default function Query(props) {
   });
   const [filterHidden, setFilterHidden] = useState(true);
   const [inputOpen, setInputOpen] = useState(true);
-  const [isQueryAnswerPage, setIsQueryAnswerPage] = useState(false)
-  const [previousSelectedIds, setPreviousSelectedIds] = useState({})
+  const [isQueryAnswerPage, setIsQueryAnswerPage] = useState(false);
+  const [previousSelectedIds, setPreviousSelectedIds] = useState({});
   const [singlePropertyData, setSinglePropertyData] = useState({
     language: 'eesti',
     level: '',
@@ -440,6 +440,8 @@ export default function Query(props) {
                 className={"button-query-hover button-box-open"}
                 onClick={() => {
                   setFilterBoxClass();
+                  setAlert(false);
+                  setNoResultsError(false);
                 }}>
           <div className="button-text-query">
             <ManageSearchIcon className="manage-search-icon"/>
@@ -1008,21 +1010,13 @@ export default function Query(props) {
                 </div>
               </div>
               <br/><br/>
-              {alert &&
+              {alert || noResultsError ?
                 <>
                   <Alert style={{width: "30%"}} severity="error">
-                    {t('error_query_no_subcorpus_picked')}
+                    {alert ? t('error_query_no_subcorpus_picked') : t('query_results_no_texts_found')}
                   </Alert>
                   <br/>
-                </>}
-              {noResultsError &&
-                <div>
-                  <br/>
-                  <Alert style={{width: "30%"}} severity="error">
-                    {t('query_results_no_texts_found')}
-                  </Alert>
-                  <br/>
-                </div>
+                </> : ""
               }
               <Button
                 onClick={submitted}
