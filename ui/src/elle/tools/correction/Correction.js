@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import EastIcon from '@mui/icons-material/East';
 import "./Correction.css";
-import {Alert, Box, Button, Card, CircularProgress, Tab, Tooltip, Typography} from "@mui/material";
+import {Alert, Box, Button, Card, CircularProgress, Slider, Tab, Tooltip, Typography} from "@mui/material";
 import DoneIcon from '@mui/icons-material/Done';
 import {TabContext, TabList, TabPanel} from "@mui/lab";
 import CloseIcon from "@mui/icons-material/Close";
@@ -9,6 +9,7 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import WordClick from "./WordClick";
 import TextUpload from "../../components/TextUpload";
 import {loadFetch} from "../../service/LoadFetch";
+import {CorrectorCustomSlider} from "../../const/Constants";
 
 const Correction = () => {
   const [history, setHistory] = useState(["",])
@@ -29,6 +30,31 @@ const Correction = () => {
   const [complexityAnswer, setComplexityAnswer] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const [diversityAnswer, setDiversityAnswer] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const [correction, setCorrection] = useState('');
+
+  const sliderElement = (name, startValue, endValue, currentValue) => {
+    return (
+      <Box className="mb-4">
+        <h4>{name}</h4>
+        <Box className="w-100 h-auto d-flex justify-content-center align-items-center">
+          <div style={{width: "10%", fontSize: "25px"}}
+               className="h-100 d-flex justify-content-center">{startValue}</div>
+          <Box style={{width: "80%"}} className="h-100 d-flex justify-content-center align-items-end">
+            <Slider
+              sx={CorrectorCustomSlider}
+              valueLabelDisplay="on"
+              track={false}
+              disabled={true}
+              min={startValue}
+              max={endValue}
+              step={1}
+              defaultValue={currentValue}
+            />
+          </Box>
+          <div style={{width: "10%", fontSize: "25px"}} className="h-100 d-flex justify-content-center">{endValue}</div>
+        </Box>
+      </Box>
+    )
+  }
 
   const clean = (word) => {
     if (!!word) {
@@ -495,99 +521,23 @@ const Correction = () => {
                     </tbody>
                   </table>
                   <br/><br/>
-                  <Box><h5>
+                  {/*<Box><h5>
                     SMOG indeks: {parseFloat(complexityAnswer[5]).toFixed()}
                   </h5>
                   </Box>
-                  <Box>
+                    <Box>
                     <h5>
-                      Flesch-Kincaidi indeks: {parseFloat(complexityAnswer[6]).toFixed()}
-                    </h5>
-                  </Box>
-                  <Box>
-                    <h5>
-                      LIX indeks: {complexityAnswer[7]}
-                    </h5>
-                  </Box>
-
-                  {/*  TODO      <Typography alignContent={"center"} fontSize={"20px"} marginBottom={"20px"} marginTop={"20px"}
-                                gutterBottom>
-                      SMOG INDEX
-                    </Typography>
-                    <Box width={"80%"} height={"50px"} display={"flex"} justifyContent={"center"}>
-                      <Box width={"10%"} height={"100%"} display={"flex"} justifyContent={"center"}
-                           alignItems={"center"}>
-                        <Typography fontSize={"25px"}>0</Typography>
-                      </Box>
-                      <Box width={"80%"} height={"100%"} display={"flex"} justifyContent={"center"}
-                           alignItems={"center"}>
-                        <this.customSlider
-                          valueLabelDisplay="on"
-                          track={false}
-                          disabled={true}
-                          min={0}
-                          max={25}
-                          step={1}
-                          defaultValue={parseFloat(this.state.keerukusvastus[5]).toFixed()}
-                        />
-                      </Box>
-                      <Box width={"10%"} height={"100%"} display={"flex"} justifyContent={"center"}
-                           alignItems={"center"}>
-                        <Typography fontSize={"25px"}>20</Typography>
-                      </Box>
-                    </Box>
-                    <Typography alignContent={"center"} fontSize={"20px"} marginBottom={"20px"} marginTop={"20px"}
-                                gutterBottom>
-                      Flesch-Kincaidi indeks
-                    </Typography>
-                    <Box width={"80%"} height={"50px"} display={"flex"} justifyContent={"center"}>
-                      <Box width={"10%"} height={"100%"} display={"flex"} justifyContent={"center"}
-                           alignItems={"center"}>
-                        <Typography fontSize={"25px"}>0</Typography>
-                      </Box>
-                      <Box width={"80%"} height={"100%"} display={"flex"} justifyContent={"center"}
-                           alignItems={"center"}>
-                        <this.customSlider
-                          valueLabelDisplay="on"
-                          track={false}
-                          disabled={true}
-                          min={0}
-                          max={30}
-                          step={1}
-                          defaultValue={parseFloat(this.state.keerukusvastus[6]).toFixed()}
-                        />
-                      </Box>
-                      <Box width={"10%"} height={"100%"} display={"flex"} justifyContent={"center"}
-                           alignItems={"center"}>
-                        <Typography fontSize={"25px"}>100</Typography>
-                      </Box>
-                    </Box>
-                    <Typography alignContent={"center"} fontSize={"20px"} marginBottom={"20px"} marginTop={"20px"}
-                                gutterBottom>
-                      LIX INDEX
-                    </Typography>
-                    <Box width={"80%"} height={"50px"} display={"flex"} justifyContent={"center"}>
-                      <Box width={"10%"} height={"100%"} display={"flex"} justifyContent={"center"}
-                           alignItems={"center"}>
-                        <Typography fontSize={"25px"}>20</Typography>
-                      </Box>
-                      <Box width={"80%"} height={"100%"} display={"flex"} justifyContent={"center"}
-                           alignItems={"center"}>
-                        <this.customSlider
-                          valueLabelDisplay="on"
-                          track={false}
-                          disabled={true}
-                          min={0}
-                          max={80}
-                          step={1}
-                          defaultValue={this.state.keerukusvastus[7]}
-                        />
-                      </Box>
-                      <Box width={"10%"} height={"100%"} display={"flex"} justifyContent={"center"}
-                           alignItems={"center"}>
-                        <Typography fontSize={"25px"}>60</Typography>
-                      </Box>
-                    </Box>*/}
+                    Flesch-Kincaidi indeks: {parseFloat(complexityAnswer[6]).toFixed()}
+                </h5>
+                </Box>
+                <Box>
+                <h5>
+                LIX indeks: {complexityAnswer[7]}
+            </h5>
+          </Box>*/}
+                  {sliderElement("SMOG index", 0, 25, parseFloat(complexityAnswer[5]).toFixed())}
+                  {sliderElement("Flesch-Kincaidi indeks", 0, 30, parseFloat(complexityAnswer[6]).toFixed())}
+                  {sliderElement("LIX index", 20, 80, complexityAnswer[7])}
                   <div className="complexity-font">Pakutav
                     keerukustase: {complexityAnswer[11]}</div>
                 </div>}

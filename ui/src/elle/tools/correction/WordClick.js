@@ -1,51 +1,9 @@
-import {Box, Button, ClickAwayListener, Slider, styled} from "@mui/material";
+import {Box, Button, ClickAwayListener} from "@mui/material";
 import React, {useEffect, useRef, useState} from "react";
 import EastIcon from "@mui/icons-material/East";
 import DoneIcon from "@mui/icons-material/Done";
 import CloseIcon from "@mui/icons-material/Close";
 import "./Correction.css"
-
-const customSlider = styled(Slider)({
-  color: '#9cff7e',
-  height: 20,
-  '& .MuiSlider-track': {
-    border: 'none',
-  },
-  '& .MuiSlider-thumb': {
-    height: 0,
-    width: 0,
-    backgroundColor: '#9cff7e',
-    border: '2px solid currentColor',
-    '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {
-      boxShadow: 'inherit',
-    },
-    '&:before': {
-      display: 'none',
-    },
-  },
-  '.Mui-disabled': {
-    color: '#9cff7e',
-  },
-  '.MuiSlider-valueLabel': {
-    lineHeight: 2,
-    fontSize: 24,
-    background: 'unset',
-    padding: 0,
-    width: 54,
-    height: 54,
-    borderRadius: '50% 50% 50% 0',
-    backgroundColor: '#52af77',
-    transformOrigin: 'bottom left',
-    transform: 'translate(0%, -100%) rotate(-45deg) scale(0)',
-    '&:before': {display: 'none'},
-    '&.MuiSlider-valueLabelOpen': {
-      transform: 'translate(50%, -50%) rotate(-45deg) scale(1)',
-    },
-    '& > *': {
-      transform: 'rotate(45deg)',
-    },
-  },
-});
 
 export default function WordClick(props) {
 

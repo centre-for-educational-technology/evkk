@@ -1,4 +1,4 @@
-import { makeStyles } from '@mui/styles';
+import {makeStyles} from '@mui/styles';
 
 export const EVKK_VERS1_PATH = 'https://evkk.tlu.ee/vers1/';
 
@@ -106,6 +106,37 @@ export const ElleOuterDivStyle = {
   width: '100%',
   padding: '7px',
 }
+
+export const CorrectorCustomSlider = {
+  height: 10,
+  '& .MuiSlider-thumb': {
+    height: 0,
+    width: 0,
+  },
+  '.MuiSlider-rail': {
+    borderRadius: "3px",
+    opacity: 0.8,
+    background: "linear-gradient(270deg, rgba(78,205,196,1) 0%, rgba(255,230,109,1) 50%, rgba(255,107,107,1) 100%)"
+  },
+  '.MuiSlider-valueLabel': {
+    lineHeight: 25,
+    fontSize: 25,
+    textAlign: 'center',
+    width: 50,
+    height: 50,
+    borderRadius: '25px 25px 25px 3px',
+    backgroundColor: '#9C27B0',
+    transformOrigin: 'bottom',
+    transform: 'rotate(-45deg)',
+    '&:before': {display: 'none'},
+    '&.MuiSlider-valueLabelOpen': {
+      transform: 'translate(40%, -90%) rotate(-45deg)',
+    },
+    '& > *': {
+      transform: 'rotate(45deg)',
+    },
+  },
+};
 
 export const ITEM_HEIGHT = 48;
 
