@@ -1,24 +1,22 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import EastIcon from '@mui/icons-material/East';
-import "./Correction.css";
-import {Alert, Box, Button, Card, CircularProgress, Tab, Tooltip, Typography} from "@mui/material";
+import './Correction.css';
+import { Alert, Box, Button, Card, CircularProgress, Tab, Tooltip, Typography } from '@mui/material';
 import DoneIcon from '@mui/icons-material/Done';
-import {TabContext, TabList, TabPanel} from "@mui/lab";
-import CloseIcon from "@mui/icons-material/Close";
+import { TabContext, TabList, TabPanel } from '@mui/lab';
+import CloseIcon from '@mui/icons-material/Close';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import WordClick from "./WordClick";
-import TextUpload from "../../components/TextUpload";
-import {loadFetch} from "../../service/LoadFetch";
+import WordClick from './WordClick';
+import TextUpload from '../../components/TextUpload';
+import { loadFetch } from '../../service/LoadFetch';
 
 const Correction = () => {
-  const [history, setHistory] = useState(["",])
-  const [currentHistory, setCurrentHistory] = useState(0)
+  const [history, setHistory] = useState(['']);
+  const [currentHistory, setCurrentHistory] = useState(0);
   const [content, setContent] = useState('');
   const [levelAnswer, setLevelAnswer] = useState([]);
   const [levelText, setLevelText] = useState('');
-  const [correctorAnswer, setCorrectorAnswer] = useState(['', '']);
   const [replyCode, setReplyCode] = useState([]);
-  const [answerVisible, setAnswerVisible] = useState(false);
   const [changesCode, setChangesCode] = useState(false);
   const [singleChange, setSingleChange] = useState(false);
   const [openCard, setOpenCard] = useState('correction');
@@ -28,10 +26,9 @@ const Correction = () => {
   const [queryFinished, setQueryFinished] = useState(false);
   const [complexityAnswer, setComplexityAnswer] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const [diversityAnswer, setDiversityAnswer] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-  const [correction, setCorrection] = useState('');
 
   const clean = (word) => {
-    if (!!word) {
+    if (word) {
       return word.replace(/[^0-9a-zA-ZõäöüÕÄÖÜ]+$/, '');
     }
   };
@@ -42,7 +39,7 @@ const Correction = () => {
   };
 
   const repeat = () => {
-    if (content.replace(/(\r\n|\n|\r)/gm, "") === levelText.replace(/(\r\n|\n|\r)/gm, "")) {
+    if (content.replace(/(\r\n|\n|\r)/gm, '') === levelText.replace(/(\r\n|\n|\r)/gm, '')) {
       return;
     }
     getCorrections();
@@ -52,7 +49,7 @@ const Correction = () => {
   };
 
   const subChange = (event) => {
-    setContent(event.target.value.replace(/(\r\n|\n|\r)/gm, ""));
+    setContent(event.target.value.replace(/(\r\n|\n|\r)/gm, ''));
     keepHistory();
   };
 
@@ -62,21 +59,21 @@ const Correction = () => {
     setContentWords(content);
     setResponseWords(answer);
     const tempArray = replyCode.map((value) => {
-      if (value.key === "s" + index) {
-        return <span key={`s${index}`}>{content[index] + " "}</span>
+      if (value.key === 's' + index) {
+        return <span key={`s${index}`}>{content[index] + ' '}</span>;
       } else {
-        return value
+        return value;
       }
-    })
+    });
     setReplyCode(tempArray);
     loadErrors();
     fillData(content, answer);
     getLanguageLevel();
     getLanguageComplexity();
     getLanguageDiversity();
-  }
+  };
 
-  const replace = async (content, answer, index) => {
+  const replace = (content, answer, index) => {
     content[index] = answer[index];
     replacerLogic(content, answer, index);
   };
@@ -90,8 +87,8 @@ const Correction = () => {
     if (content === levelText) {
       return;
     }
-    fetch("/api/texts/keeletase", {
-      method: "POST",
+    fetch('/api/texts/keeletase', {
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -104,8 +101,8 @@ const Correction = () => {
   };
 
   const getLanguageComplexity = () => {
-    fetch("/api/texts/keerukus", {
-      method: "POST",
+    fetch('/api/texts/keerukus', {
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -117,8 +114,8 @@ const Correction = () => {
   };
 
   const getLanguageDiversity = () => {
-    fetch("/api/texts/mitmekesisus", {
-      method: "POST",
+    fetch('/api/texts/mitmekesisus', {
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -133,12 +130,9 @@ const Correction = () => {
     setOpenCard(newValue);
   };
 
-  const getCorrections = async () => {
-    if (content === correctorAnswer[1]) {
-      return;
-    }
-    loadFetch("/api/texts/korrektuur", {
-      method: "POST",
+  const getCorrections = () => {
+    loadFetch('/api/texts/korrektuur', {
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -147,8 +141,8 @@ const Correction = () => {
         tekst: content
       })
     }).then(v => v.json()).then(t => {
-      const sm = t[1].split(" ");
-      const vm = t[0].split(" ");
+      const sm = t[1].split(' ');
+      const vm = t[0].split(' ');
       setContentWords(sm);
       setResponseWords(vm);
       fillData(sm, vm);
@@ -158,17 +152,15 @@ const Correction = () => {
   const fillData = (content, answer) => {
     const answerText = replyCode;
     const changes = [];
-    if (content === answer) {
-      setCorrection("Kõik korras");
-    } else {
+    if (content !== answer) {
       for (let i = 0; i < answer.length; i++) {
         if (content[i] === answer[i]) {
-          answerText[i] = <span key={"s" + i}>{answer[i] + " "}</span>;
+          answerText[i] = <span key={'s' + i}>{answer[i] + ' '}</span>;
         } else {
-          changes[i] = (<span key={"sm" + i}>
+          changes[i] = (<span key={'sm' + i}>
                         <span style={{backgroundColor: 'lightpink'}}>
                             {content[i]}
-                        </span> - <span>{answer[i]}</span>{" "}
+                        </span> - <span>{answer[i]}</span>{' '}
             <button onClick={() => replace(content, answer, i)}>
                             Asenda
                         </button>
@@ -183,11 +175,11 @@ const Correction = () => {
     setReplyCode(answerText);
     setSingleChange(false);
     setQueryFinished(true);
-  }
+  };
 
   const generatePieChart = (value) => {
     return parseInt((value * 100 * 3.6).toFixed(0), 10);
-  }
+  };
 
   const renderLevel = () => {
     let degreeValue;
@@ -202,20 +194,20 @@ const Correction = () => {
     return (<Box>
       <Box component="span" width="auto">
         {repeats && parseInt(diversityAnswer[10]) > 14 ? (<Box component="span" width="auto">
-          {content.length > 0 ? (levelAnswer.length > 0 ? (levelAnswer.length === 1 ? ("") : (
+          {content.length > 0 ? (levelAnswer.length > 0 ? (levelAnswer.length === 1 ? ('') : (
             <Box className="w-100">
               <Box className="d-flex w-100 h-100 align-items-center justify-content-center px-sm-5">
                 <Box
                   className="fd-flex flex-column justify-content-center align-items-start language-level-box-inner">
-                  <Box className="d-flex justify-content-start align-items-center" width={"100%"}>
+                  <Box className="d-flex justify-content-start align-items-center" width={'100%'}>
                     <Box className="sector-dot"></Box>
                     <h2>{levelAnswer[0][1]}: {(levelAnswer[0][0] * 100).toFixed(0)}%</h2>
                   </Box>
                   <Box className="other-percentage-values">
                     {levelAnswer.slice(1, 4).map((vastus) => {
                       if ((vastus[0] * 100).toFixed(0) > 0) {
-                        return (<Box className="d-flex align-items-center justify-content-start">
-                          {" "}
+                        return (<Box className="d-flex align-items-center justify-content-start" key={vastus[0]}>
+                          {' '}
                           <Box className="sector-dot"></Box>
                           <h2>{vastus[1]}: {(vastus[0] * 100).toFixed(0)}%</h2>
                         </Box>);
@@ -250,28 +242,30 @@ const Correction = () => {
                   <b>Sõnavara: <br/>{levelAnswer[12][1]} </b>
                   {levelAnswer[12][0] > 0 && (
                     <span>(tõenäosus {(levelAnswer[12][0] * 100).toFixed(0)} %)<br/></span>)}
-                  Arvesse on võetud sõnavaliku mitmekesisus ja ulatus (unikaalsete
-                  sõnade hulk, harvem esineva
-                  sõnavara osakaal),
-                  sõnavara tihedus (sisusõnade osakaal) ja nimisõnade abstraktsus.
-                </Box>
+                    Arvesse on võetud sõnavaliku mitmekesisus ja ulatus (unikaalsete
+                    sõnade hulk, harvem esineva
+                    sõnavara osakaal),
+                    sõnavara tihedus (sisusõnade osakaal) ja nimisõnade abstraktsus.
+                    </Box>
+                    </Box>
+                    </Box>)) : (<div></div>)) : ('')}
+                </Box>) : queryFinished && levelAnswer[1] ? 'Tekst on liiga lühike' :
+                <div className="w-100 mt-5 d-flex justify-content-center"><CircularProgress/></div>
+                }
               </Box>
-            </Box>)) : (<div></div>)) : ("")}
-        </Box>) : ("Tekst on liiga lühike")}
-      </Box>
-    </Box>);
-  }
+            </Box>);
+          }
 
   const loadErrors = () => {
     let errorList = [];
     contentWords.forEach((word, index) => {
       if (word !== responseWords[index]) {
-        errorList.push([word, responseWords[index], index])
+        errorList.push([word, responseWords[index], index]);
       }
     });
     return (<Box>
       {errorList.map((error) => {
-        return (<Box className="d-flex justify-content-center">
+        return (<Box className="d-flex justify-content-center" key={error[0]}>
           <Box id={error[0]}
                className="replacement-popup">
             <Box
@@ -280,21 +274,21 @@ const Correction = () => {
             >
               <span
                 style={{
-                  backgroundColor: "lightpink"
+                  backgroundColor: 'lightpink'
                 }}
                 className="error-word-container"
               >
                 {clean(error[0])}
-              </span>{" "}
-              <EastIcon/>{" "}
+              </span>{' '}
+              <EastIcon/>{' '}
               <span
                 style={{
-                  backgroundColor: "lightgreen",
+                  backgroundColor: 'lightgreen'
                 }}
                 className="error-word-container"
               >
                                 {clean(error[1])}
-                            </span>{" "}
+                            </span>{' '}
               <span className="bold-font-20-corrector-bubble">|</span>
               <Box display="flex" gap="15px">
                 <Button
@@ -303,7 +297,7 @@ const Correction = () => {
                   className="popup-icon-button-big"
                   variant="contained"
                   onClick={() => {
-                    replace(contentWords, responseWords, error[2])
+                    replace(contentWords, responseWords, error[2]);
                   }}
                 >
                   <DoneIcon fontSize="medium"/>
@@ -314,7 +308,7 @@ const Correction = () => {
                   className="popup-icon-button-big"
                   variant="contained"
                   onClick={() => {
-                    noReplace(contentWords, responseWords, error[2])
+                    noReplace(contentWords, responseWords, error[2]);
                   }}
                 >
                   <CloseIcon fontSize="medium"/>
@@ -325,29 +319,29 @@ const Correction = () => {
         </Box>);
       })}
     </Box>);
-  }
+  };
 
   const customTooltip = (data) => {
     return (<Tooltip
       placement="top"
       title={data}>
       <QuestionMarkIcon fontSize="small"/>
-    </Tooltip>)
-  }
+    </Tooltip>);
+  };
 
   //upload text to alasisu
   const sendTextFromFile = (data) => {
     setContent(data, () => {
       keepHistory();
     });
-  }
+  };
 
   //history for undo and redo
   //called by subChange when a change is made
   const keepHistory = () => {
     setCurrentHistory(currentHistory + 1);
     setHistory(oldHistory => [...oldHistory, content]);
-  }
+  };
 
   //undo and redo
   //TODO: panna handle undo ja redo uuesti tööle?
@@ -358,7 +352,7 @@ const Correction = () => {
     setCurrentHistory(currentHistory + 1);
     const previousFromHistory = history[currentHistory];
     setContent(previousFromHistory);
-  }
+  };
 
   const handleRedo = () => {
     //if on last change then nothing to redo
@@ -368,12 +362,12 @@ const Correction = () => {
     setCurrentHistory(currentHistory + 1);
     const nextFromHistory = history[currentHistory];
     setContent(nextFromHistory);
-  }
+  };
 
   return (<Card raised={true}
                 square={true}
                 elevation={2}
-                style={{marginBottom: "100px"}}
+                style={{marginBottom: '100px'}}
   >
     <p/>
     <div className="correction-container">
@@ -385,29 +379,26 @@ const Correction = () => {
                                       onChange={(event) => subChange(event)}
                                       value={content}
                                       spellCheck={false}
-                                      placeholder={"Kopeeri või kirjuta siia analüüsitav tekst"}
+                                      placeholder={'Kopeeri või kirjuta siia analüüsitav tekst'}
 
           /> : <Box contentEditable="true" className="editable-div-container" id="corrector-textarea-div"
                     suppressContentEditableWarning={true}
-                    onInput={event => setContent(event.currentTarget.textContent.replace(/(\r\n|\n|\r)/gm, ""))}
+                    onInput={event => setContent(event.currentTarget.textContent.replace(/(\r\n|\n|\r)/gm, ''))}
                     spellCheck={false}
-                    placeholder={"Kopeeri või kirjuta siia analüüsitav tekst"}
+                    placeholder={'Kopeeri või kirjuta siia analüüsitav tekst'}
           >
             <Box className="input-container" id="input-container">
               {replyCode.map((vaste) => {
-                return (vaste)
+                return (vaste);
               })}
             </Box>
           </Box>}
         </Box>
         <Box>
-          {!queryFinished ? <Button
+          <Button
             variant="contained"
             onClick={() => repeating()}>Analüüsi
-          </Button> : <Button
-            variant="contained"
-            onClick={() => repeating()}>Analüüsi
-          </Button>}
+          </Button>
         </Box>
       </div>
       <div className="corrector-tab-container">
@@ -436,7 +427,7 @@ const Correction = () => {
                 vaadata,
                 mis keeleoskustasemele see vastab (A2–C1).
                 Loe lähemalt <a
-                  href={"https://github.com/centre-for-educational-technology/evkk/wiki/Demos"}
+                  href={'https://github.com/centre-for-educational-technology/evkk/wiki/Demos'}
                   target="_blank"
                   rel="noreferrer">siit</a>.</Alert>
             </Box>
@@ -447,13 +438,12 @@ const Correction = () => {
                                 <h3>Vigu ei leitud!</h3>
                             </div>
                         </span> : <span>
-                            {repeats && !queryFinished && content !== correctorAnswer[1] &&
+                            {repeats && !queryFinished &&
                               <Box
                                 className="d-flex align-items-center justify-content-center w-100 loading-animation-height-200px"><CircularProgress/>
                               </Box>}<br/>
-              {(singleChange) ? singleChange : ""}<br/>
-              {answerVisible && <span>{levelAnswer ? replyCode : "algus"}</span>}
-              {repeats && queryFinished ? loadErrors() : ""}
+              {(singleChange) || ''}<br/>
+              {repeats && queryFinished ? loadErrors() : ''}
                         </span>}
           </TabPanel>
           <TabPanel value="evaluation">
@@ -465,7 +455,7 @@ const Correction = () => {
               {repeats && <div>
                 {(!complexityAnswer[0] > 0) ?
                   <Box className="d-flex align-items-center justify-content-center w-100 height-200px"
-                  ><CircularProgress/> </Box> : ""}</div>}
+                  ><CircularProgress/> </Box> : ''}</div>}
               {repeats && complexityAnswer[0] > 0 &&
                 <div className="w-100"><h3>Keerukuse andmed</h3>
                   <table className="w-100">
@@ -480,7 +470,7 @@ const Correction = () => {
                     </tr>
                     <tr className="complexity-table-values">
                       <td>Paljusilbilisi
-                        sõnu {customTooltip("Paljusilbiliseks loetake sõnad, mis sisaldavad vähemalt kolme silpi.")}</td>
+                        sõnu {customTooltip('Paljusilbiliseks loetake sõnad, mis sisaldavad vähemalt kolme silpi.')}</td>
                       <td>{complexityAnswer[2]}</td>
                     </tr>
                     <tr className="complexity-table-values">
@@ -489,7 +479,7 @@ const Correction = () => {
                     </tr>
                     <tr className="complexity-table-values">
                       <td>Pikki
-                        sõnu {customTooltip("Pikaks loetakse sõnad, milles on vähemalt seitse tähte.")}</td>
+                        sõnu {customTooltip('Pikaks loetakse sõnad, milles on vähemalt seitse tähte.')}</td>
                       <td>{complexityAnswer[4]}</td>
                     </tr>
                     </tbody>
@@ -597,17 +587,17 @@ const Correction = () => {
             <div>
               {repeats && diversityAnswer[10] === 0 ?
                 <Box className="d-flex align-items-center justify-content-center w-100"
-                     height={"200px"}><CircularProgress/> </Box> : ""}
+                     height={'200px'}><CircularProgress/> </Box> : ''}
               {diversityAnswer[10] > 0 &&
                 <div className="diversity-font-box"><h3>Sõnavara mitmekesisuse
                   andmed</h3>
-                  <table width={"80%"}>
+                  <table width={'80%'}>
                     <tbody>
                     <tr className="corrector-border-bottom">
-                      <td style={{width: "90%"}}>Arvestatud
-                        sõnu {customTooltip("Sõnavara rikkust mõõtes jäetakse kõrvale nimed ja numbritega kirjutatud arvud.")}
+                      <td style={{width: '90%'}}>Arvestatud
+                        sõnu {customTooltip('Sõnavara rikkust mõõtes jäetakse kõrvale nimed ja numbritega kirjutatud arvud.')}
                       </td>
-                      <td style={{width: "10%"}}>{diversityAnswer[10]}</td>
+                      <td style={{width: '10%'}}>{diversityAnswer[10]}</td>
                     </tr>
                     <tr className="corrector-border-bottom">
                       <td>Lemmasid ehk erinevaid sõnu</td>
@@ -617,7 +607,7 @@ const Correction = () => {
                       <td>Erinevate ja kõigi sõnade
                         korrigeeritud suhtarv -
                         KLSS <br/>(ingl Corrected Type-Token
-                        Ratio) {customTooltip("lemmade arv / √(2 * sõnade arv) \n(Carroll, 1964)")}
+                        Ratio) {customTooltip('lemmade arv / √(2 * sõnade arv) \n(Carroll, 1964)')}
                       </td>
                       <td>{diversityAnswer[0]}</td>
                     </tr>
@@ -625,24 +615,28 @@ const Correction = () => {
                       <td>Erinevate ja kõigi sõnade juuritud
                         suhtarv -
                         JLSS <br/>(ingl Root Type-Token
-                        Ratio) {customTooltip("lemmade arv / √(sõnade arv) \n(Guiraud, 1960)")}
+                        Ratio) {customTooltip('lemmade arv / √(sõnade arv) \n(Guiraud, 1960)')}
                       </td>
                       <td>{diversityAnswer[1]}</td>
                     </tr>
-                    <tr className="corrector-border-bottom">
-                      <td>
-                        MTLD indeks <br/>(ingl Measure of Textual Lexical
-                        Diversity) {customTooltip("MTLD indeks (ingl Measure of Textual Lexical Diversity) mõõdab lemmade ja sõnade suhtarvu järjestikustes tekstiosades. Algul on suhtarv 1. Iga sõna juures arvutatakse see uuesti, kuni väärtus langeb alla piirarvu 0,72. Tsükkel kordub, kuni teksti lõpus jagatakse sõnade arv selliste tsüklite arvuga. Seejärel korratakse sama, liikudes tekstis tagantpoolt ettepoole. MTLD on nende kahe teksti keskväärtus. (McCarthy & Jarvis, 2010)")}
-                      </td>
-                      <td>{diversityAnswer[4]}</td>
-                    </tr>
-                    <tr className="corrector-border-bottom">
-                      <td>
-                        HDD indeks <br/>(ingl Hypergeometric Distribution
-                        D) {customTooltip("HDD indeksi (ingl Hypergeometric Distribution D) arvutamiseks leitakse iga tekstis sisalduva lemma esinemistõenäosus juhuslikus 42-sõnalises tekstiosas. Kuna kõigi võimalike tekstikatkete arv on enamasti väga suur, arvutatakse tõenäosused hüpergeomeetrilise jaotuse funktsiooni abil. Kõigi lemmade esinemistõenäosused summeeritakse. (McCarthy & Jarvis, 2007)")}
-                      </td>
-                      <td>{diversityAnswer[5]}</td>
-                    </tr>
+                    {diversityAnswer[4] !== -1 &&
+                      <tr className="corrector-border-bottom">
+                        <td>
+                          MTLD indeks <br/>(ingl Measure of Textual Lexical
+                          Diversity) {customTooltip('MTLD indeks (ingl Measure of Textual Lexical Diversity) mõõdab lemmade ja sõnade suhtarvu järjestikustes tekstiosades. Algul on suhtarv 1. Iga sõna juures arvutatakse see uuesti, kuni väärtus langeb alla piirarvu 0,72. Tsükkel kordub, kuni teksti lõpus jagatakse sõnade arv selliste tsüklite arvuga. Seejärel korratakse sama, liikudes tekstis tagantpoolt ettepoole. MTLD on nende kahe teksti keskväärtus. (McCarthy & Jarvis, 2010)')}
+                        </td>
+                        <td>{diversityAnswer[4]}</td>
+                      </tr>
+                    }
+                    {diversityAnswer[5] > 0 &&
+                      <tr className="corrector-border-bottom">
+                        <td>
+                          HDD indeks <br/>(ingl Hypergeometric Distribution
+                          D) {customTooltip('HDD indeksi (ingl Hypergeometric Distribution D) arvutamiseks leitakse iga tekstis sisalduva lemma esinemistõenäosus juhuslikus 42-sõnalises tekstiosas. Kuna kõigi võimalike tekstikatkete arv on enamasti väga suur, arvutatakse tõenäosused hüpergeomeetrilise jaotuse funktsiooni abil. Kõigi lemmade esinemistõenäosused summeeritakse. (McCarthy & Jarvis, 2007)')}
+                        </td>
+                        <td>{diversityAnswer[5]}</td>
+                      </tr>
+                    }
                     </tbody>
                   </table>
                 </div>}
@@ -652,6 +646,6 @@ const Correction = () => {
       </div>
     </div>
   </Card>);
-}
+};
 
 export default Correction;
