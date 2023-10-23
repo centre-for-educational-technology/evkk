@@ -1,7 +1,7 @@
-import {useNavigate, useSearchParams} from 'react-router-dom';
-import React, {useEffect, useMemo, useState} from 'react';
-import {queryStore} from '../../store/QueryStore';
-import {AccordionStyle} from '../../const/Constants';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
+import { queryStore } from '../../store/QueryStore';
+import { AccordionStyle } from '../../const/Constants';
 import Accordion from '@mui/material/Accordion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -25,11 +25,11 @@ import {
 import AccordionDetails from '@mui/material/AccordionDetails';
 import './WordContext.css';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
-import {QuestionMark} from '@mui/icons-material';
+import { QuestionMark } from '@mui/icons-material';
 import GenericTable from '../../components/GenericTable';
-import {toolAnalysisStore} from '../../store/ToolAnalysisStore';
-import {loadFetch} from '../../service/LoadFetch';
-import {useTranslation} from 'react-i18next';
+import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
+import { loadFetch } from '../../service/LoadFetch';
+import { useTranslation } from 'react-i18next';
 
 export default function WordContext() {
 
@@ -65,7 +65,6 @@ export default function WordContext() {
   }, [urlParams, keyword, typeValue, capitalizationChecked]);
 
   useEffect(() => {
-    const queryStoreState = queryStore.getState();
     const wordContextState = toolAnalysisStore.getState().wordContext;
     if (wordContextState !== null && wordContextState.analysis.length > 0) {
       const params = wordContextState.parameters;
@@ -77,8 +76,6 @@ export default function WordContext() {
       setResponse(wordContextState.analysis);
       setParamsExpanded(false);
       setShowTable(true);
-    } else if (queryStoreState.corpusTextIds === null && queryStoreState.ownTexts === null) {
-      navigate('..');
     }
   }, [navigate]);
 
@@ -100,7 +97,6 @@ export default function WordContext() {
   }, [response]);
 
   queryStore.subscribe(() => {
-    const storeState = queryStore.getState();
     toolAnalysisStore.dispatch({
       type: 'CHANGE_WORDCONTEXT_RESULT',
       value: null
@@ -108,9 +104,6 @@ export default function WordContext() {
     setResponse([]);
     setParamsExpanded(true);
     setShowTable(false);
-    if (storeState.corpusTextIds === null && storeState.ownTexts === null) {
-      navigate('..');
-    }
   });
 
   const columns = useMemo(() => [

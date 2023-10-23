@@ -1,32 +1,30 @@
-import React, {useEffect, useState} from 'react';
-import {Alert, Box, Tab} from '@mui/material';
-import {Outlet, useLocation, useNavigate} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Alert, Box, Tab } from '@mui/material';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Query from './query/Query';
-import {useTranslation} from 'react-i18next';
-import './styles/Tools.css'
-import {TabContext, TabList, TabPanel} from "@mui/lab";
-import {queryStore} from "../store/QueryStore";
+import { useTranslation } from 'react-i18next';
+import './styles/Tools.css';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
+import { queryStore } from '../store/QueryStore';
 import WordlistImg from '../resources/images/tools/sonaloend.png';
 import WordContext from '../resources/images/tools/sona_kontekstis.png';
 import NeighbourWord from '../resources/images/tools/naabersonad.png';
 import WordPattern from '../resources/images/tools/mustrileidja.png';
-import WordAnalyser from '../resources/images/tools/sonaanalyys.png'
-import {TabStyle} from "../const/Constants";
+import WordAnalyser from '../resources/images/tools/sonaanalyys.png';
+import { TabStyle } from '../const/Constants';
 
 export default function Tools() {
-  const {state} = useLocation();
   const current = useLocation();
-  const queryOpen = state && state.pageNo === 'queryOpen' ? state.pageNo : null;
+  const queryOpen = current.state && current.state.pageNo === 'queryOpen' ? current.state.pageNo : null;
   const {t} = useTranslation();
   const navigate = useNavigate();
   const [tabPage, setTabPage] = useState(current.pathname);
   const [textsSelected, setTextsSelected] = useState(false);
 
   useEffect(() => {
+    setTabPage(current.pathname);
     if (current.pathname === '/tools') {
-      setTabPage('/tools/wordlist');
-    } else {
-      setTabPage(current.pathname);
+      navigate('wordlist', {replace: true});
     }
   }, [current.pathname]);
 
@@ -57,8 +55,8 @@ export default function Tools() {
           </Box>
         </Box>
       </>
-    )
-  }
+    );
+  };
 
   const TabOutlet = (props) => {
     return (
@@ -71,18 +69,8 @@ export default function Tools() {
             </Alert>
           </Box>}
       </TabPanel>
-    )
-  }
-
-  function toolSelect(tool) {
-    navigate(tool);
-  }
-
-  useEffect(() => {
-    if (!state) {
-      toolSelect('wordlist')
-    }
-  }, []);
+    );
+  };
 
   return (
     <Box className="outer-container-tools">
@@ -92,37 +80,36 @@ export default function Tools() {
         </Box>
         <Box className="tools-box-right">
           <TabContext value={tabPage} className="tab-context-class">
-            <Box boxShadow={3} borderRadius={"25px"}>
+            <Box boxShadow={3} borderRadius={'25px'}>
               <TabList
                 onChange={handleChange}
-                TabIndicatorProps={{sx: {display: "none"}}}
+                TabIndicatorProps={{sx: {display: 'none'}}}
                 sx={TabStyle}
-                aria-label="lab API tabs example"
               >
                 <Tab
                   label={t('wordlist_filename')}
-                  onClick={() => navigate("/tools/wordlist")}
+                  onClick={() => navigate('/tools/wordlist')}
                   value="/tools/wordlist"
                 />
                 <Tab
                   label={t('common_word_in_context')}
                   onClick={() => navigate('/tools/wordcontext')}
-                  value='/tools/wordcontext'
+                  value="/tools/wordcontext"
                 />
                 <Tab
                   label={t('common_neighbouring_words')}
                   onClick={() => navigate('/tools/collocates')}
-                  value='/tools/collocates'
+                  value="/tools/collocates"
                 />
                 <Tab
                   label={t('common_word_analyser')}
                   onClick={() => navigate('/tools/wordanalyser')}
-                  value='/tools/wordanalyser'
+                  value="/tools/wordanalyser"
                 />
                 <Tab
                   label={t('common_clusters')}
                   onClick={() => navigate('/tools/clusterfinder')}
-                  value='/tools/clusterfinder'
+                  value="/tools/clusterfinder"
                 />
               </TabList>
             </Box>
@@ -134,22 +121,22 @@ export default function Tools() {
             <TabOutlet
               image={WordContext}
               text={'tools_accordion_word_in_context_explainer'}
-              value='/tools/wordcontext'
+              value="/tools/wordcontext"
             />
             <TabOutlet
               image={NeighbourWord}
               text={'tools_accordion_neighbouring_words_explainer'}
-              value='/tools/collocates'
+              value="/tools/collocates"
             />
             <TabOutlet
               image={WordAnalyser}
               text={'tools_accordion_word_analysis_explainer'}
-              value='/tools/wordanalyser'
+              value="/tools/wordanalyser"
             />
             <TabOutlet
               image={WordPattern}
               text={'tools_accordion_clusters_explainer'}
-              value='/tools/clusterfinder'
+              value="/tools/clusterfinder"
             />
           </TabContext>
         </Box>
