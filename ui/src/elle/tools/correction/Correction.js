@@ -257,7 +257,8 @@ const Correction = () => {
                 </Box>
               </Box>
             </Box>)) : (<div></div>)) : ("")}
-        </Box>) : queryFinished && levelAnswer[1] ? "Tekst on liiga lühike" : ""}
+        </Box>) : queryFinished && levelAnswer[1] ? "Tekst on liiga lühike" :
+          <div className="w-100 mt-5 d-flex justify-content-center"><CircularProgress/></div>}
       </Box>
     </Box>);
   }
@@ -619,7 +620,7 @@ const Correction = () => {
                         KLSS <br/>(ingl Corrected Type-Token
                         Ratio) {customTooltip("lemmade arv / √(2 * sõnade arv) \n(Carroll, 1964)")}
                       </td>
-                      <td>{(diversityAnswer[11] / Math.sqrt(2 * diversityAnswer[10])).toFixed(4)}</td>
+                      <td>{diversityAnswer[0]}</td>
                     </tr>
                     <tr className="corrector-border-bottom">
                       <td>Erinevate ja kõigi sõnade juuritud
@@ -627,22 +628,26 @@ const Correction = () => {
                         JLSS <br/>(ingl Root Type-Token
                         Ratio) {customTooltip("lemmade arv / √(sõnade arv) \n(Guiraud, 1960)")}
                       </td>
-                      <td>{(diversityAnswer[11] / Math.sqrt(diversityAnswer[10])).toFixed(4)}</td>
+                      <td>{diversityAnswer[1]}</td>
                     </tr>
-                    <tr className="corrector-border-bottom">
-                      <td>
-                        MTLD indeks <br/>(ingl Measure of Textual Lexical
-                        Diversity) {customTooltip("MTLD indeks (ingl Measure of Textual Lexical Diversity) mõõdab lemmade ja sõnade suhtarvu järjestikustes tekstiosades. Algul on suhtarv 1. Iga sõna juures arvutatakse see uuesti, kuni väärtus langeb alla piirarvu 0,72. Tsükkel kordub, kuni teksti lõpus jagatakse sõnade arv selliste tsüklite arvuga. Seejärel korratakse sama, liikudes tekstis tagantpoolt ettepoole. MTLD on nende kahe teksti keskväärtus. (McCarthy & Jarvis, 2010)")}
-                      </td>
-                      <td>{diversityAnswer[4]}</td>
-                    </tr>
-                    <tr className="corrector-border-bottom">
-                      <td>
-                        HDD indeks <br/>(ingl Hypergeometric Distribution
-                        D) {customTooltip("HDD indeksi (ingl Hypergeometric Distribution D) arvutamiseks leitakse iga tekstis sisalduva lemma esinemistõenäosus juhuslikus 42-sõnalises tekstiosas. Kuna kõigi võimalike tekstikatkete arv on enamasti väga suur, arvutatakse tõenäosused hüpergeomeetrilise jaotuse funktsiooni abil. Kõigi lemmade esinemistõenäosused summeeritakse. (McCarthy & Jarvis, 2007)")}
-                      </td>
-                      <td>{diversityAnswer[5]}</td>
-                    </tr>
+                    {diversityAnswer[4] != -1 &&
+                      <tr className="corrector-border-bottom">
+                        <td>
+                          MTLD indeks <br/>(ingl Measure of Textual Lexical
+                          Diversity) {customTooltip("MTLD indeks (ingl Measure of Textual Lexical Diversity) mõõdab lemmade ja sõnade suhtarvu järjestikustes tekstiosades. Algul on suhtarv 1. Iga sõna juures arvutatakse see uuesti, kuni väärtus langeb alla piirarvu 0,72. Tsükkel kordub, kuni teksti lõpus jagatakse sõnade arv selliste tsüklite arvuga. Seejärel korratakse sama, liikudes tekstis tagantpoolt ettepoole. MTLD on nende kahe teksti keskväärtus. (McCarthy & Jarvis, 2010)")}
+                        </td>
+                        <td>{diversityAnswer[4]}</td>
+                      </tr>
+                    }
+                    {diversityAnswer[5] > 0 &&
+                      <tr className="corrector-border-bottom">
+                        <td>
+                          HDD indeks <br/>(ingl Hypergeometric Distribution
+                          D) {customTooltip("HDD indeksi (ingl Hypergeometric Distribution D) arvutamiseks leitakse iga tekstis sisalduva lemma esinemistõenäosus juhuslikus 42-sõnalises tekstiosas. Kuna kõigi võimalike tekstikatkete arv on enamasti väga suur, arvutatakse tõenäosused hüpergeomeetrilise jaotuse funktsiooni abil. Kõigi lemmade esinemistõenäosused summeeritakse. (McCarthy & Jarvis, 2007)")}
+                        </td>
+                        <td>{diversityAnswer[5]}</td>
+                      </tr>
+                    }
                     </tbody>
                   </table>
                 </div>}
