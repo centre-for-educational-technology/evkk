@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {Navigate, Route, Routes} from 'react-router-dom';
-import {MasinoppeEnnustus, MinitornPikkus} from './views/tools';
+import React, { Component } from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { MasinoppeEnnustus, MinitornPikkus } from './views/tools';
 import Correction from './elle/tools/correction/Correction';
-import {Container} from '@mui/material';
+import { Container } from '@mui/material';
 import Home from './elle/pages/Home';
 import Links from './elle/pages/Links';
 import AboutUs from './elle/pages/AboutUs';
@@ -17,8 +17,8 @@ import Adding from './elle/pages/Adding.component';
 import Wordlist from './elle/tools/wordlist/Wordlist';
 import WordContext from './elle/tools/wordcontext/WordContext';
 import Collocates from './elle/tools/collocates/Collocates';
-import {withTranslation} from 'react-i18next';
-import Tools from "./elle/pages/Tools";
+import { withTranslation } from 'react-i18next';
+import Tools from './elle/pages/Tools';
 
 class AppRoutes extends Component {
 
@@ -36,14 +36,14 @@ class AppRoutes extends Component {
     return (
       <Container sx={{
         width: '80vw',
-        marginTop: '20px',
+        marginTop: '20px'
       }}
                  disableGutters
                  maxWidth={false}>
         <BreadcrumbLinks/>
         <Routes>
           <Route exact
-                 path='/'
+                 path="/"
                  element={<Home/>}/>
           <Route path="/about"
                  element={<AboutUs/>}>
@@ -61,14 +61,13 @@ class AppRoutes extends Component {
           </Route>
           <Route path="/adding"
                  element={<Adding/>}/>
-          <Route path="/tools/minitorn-pikkus"
-                 element={<MinitornPikkus/>}/>
-          <Route path="/tools/masinoppe-ennustus"
-                 element={<MasinoppeEnnustus/>}/>
           <Route path="/corrector"
                  element={<Correction/>}/>
           <Route path="/tools"
                  element={<Tools/>}>
+            <Route index
+                   element={<Navigate to="wordlist"
+                                      replace/>}/>
             <Route path="wordlist"
                    element={<Wordlist/>}/>
             <Route path="wordcontext"
@@ -79,6 +78,10 @@ class AppRoutes extends Component {
                    element={<ClusterFinder/>}/>
             <Route path="wordanalyser"
                    element={<WordAnalyserParent/>}/>
+            <Route path="minitorn-pikkus"
+                   element={<MinitornPikkus/>}/>
+            <Route path="masinoppe-ennustus"
+                   element={<MasinoppeEnnustus/>}/>
           </Route>
           <Route path="/links"
                  element={<Links/>}/>

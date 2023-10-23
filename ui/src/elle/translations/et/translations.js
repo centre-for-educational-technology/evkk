@@ -113,6 +113,7 @@ export const TRANSLATIONS_ET = {
   homepage_box_word_analysis_title: 'Sõnaanalüsaatoriga',
   homepage_box_wordlist_content: 'abil saad vaadata, millised sõnad tekstis sagedamini esinevad.',
   homepage_box_wordlist_title: 'Sõnaloendi',
+  homepage_services_title: 'Mida ELLE keskkond võimaldab?',
   homepage_summary_text_1: 'Andmepõhist keeleõppimist, kus õppija saab keelematerjali põhjal ise keelereegleid tuletada või õpitud reegleid kinnitada.',
   homepage_summary_text_2: 'Tekstide koostamist nii õpingutes kui ka töös, näiteks kodutööde korrigeerimist ja ametitekstide lihtsustamist.',
   homepage_summary_text_3: 'Õpilaste kirjalike tööde kontrollimist, õppevara valikut ja koostamist lähtudes eri taseme õppijate tüüpilisest keelekasutusest.',

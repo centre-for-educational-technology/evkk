@@ -18,10 +18,13 @@ export default function ServicesElement() {
   }
 
   return (
-    <Box className="services-container">
-      {ServiceContainer(t('homepage_summary_text_1'))}
-      {ServiceContainer(t('homepage_summary_text_2'))}
-      {ServiceContainer(t('homepage_summary_text_3'))}
-      {ServiceContainer(t('homepage_summary_text_4'))}
+    <Box className="service-container-outer">
+      <h3 className="mb-4">{t('homepage_services_title')}</h3>
+      <Box className="services-container">
+        {ServiceContainer(t('homepage_summary_text_1'))}
+        {ServiceContainer(t('homepage_summary_text_2'))}
+        {ServiceContainer(t('homepage_summary_text_3'))}
+        {ServiceContainer(t('homepage_summary_text_4'))}
+      </Box>
     </Box>);
 };

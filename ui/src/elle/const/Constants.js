@@ -1,4 +1,4 @@
-import { makeStyles } from '@mui/styles';
+import {makeStyles} from '@mui/styles';
 
 export const EVKK_VERS1_PATH = 'https://evkk.tlu.ee/vers1/';
 
@@ -53,11 +53,6 @@ export const DefaultButtonStyleSmall = {
 
 export const TabStyle = {
   "& button:hover": {backgroundColor: "rgba(204, 168, 253, 1)", transition: "0.5s"},
-  "& button:focus": {
-    backgroundColor: "#9C27B0",
-    color: "black",
-    borderColor: "#9C27B0"
-  },
   "& button:active": {backgroundColor: "#9C27B0"},
   "& button": {
     backgroundColor: "rgba(255, 208, 253, 1)",

@@ -52,7 +52,6 @@ export default function Wordlist() {
   }, [typeValueToDisplay, t]);
 
   useEffect(() => {
-    const queryStoreState = queryStore.getState();
     const wordlistState = toolAnalysisStore.getState().wordlist;
     if (wordlistState !== null && wordlistState.analysis.length > 0) {
       const params = wordlistState.parameters;
@@ -65,8 +64,6 @@ export default function Wordlist() {
       setResponse(wordlistState.analysis);
       setParamsExpanded(false);
       setShowTable(true);
-    } else if (queryStoreState.corpusTextIds === null && queryStoreState.ownTexts === null) {
-      navigate('..');
     }
   }, [navigate]);
 
@@ -88,7 +85,6 @@ export default function Wordlist() {
   }, [response]);
 
   queryStore.subscribe(() => {
-    const storeState = queryStore.getState();
     toolAnalysisStore.dispatch({
       type: 'CHANGE_WORDLIST_RESULT',
       value: null
@@ -96,9 +92,6 @@ export default function Wordlist() {
     setResponse([]);
     setParamsExpanded(true);
     setShowTable(false);
-    if (storeState.corpusTextIds === null && storeState.ownTexts === null) {
-      navigate('..');
-    }
   });
 
   const columns = useMemo(() => [

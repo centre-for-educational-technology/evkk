@@ -113,6 +113,7 @@ export const TRANSLATIONS_EN = {
   homepage_box_word_analysis_title: 'Word Analyser',
   homepage_box_wordlist_content: 'allows you to see which words occur most frequently in the text.',
   homepage_box_wordlist_title: 'Wordlist',
+  homepage_services_title: 'What are the possibilities if ELLE?',
   homepage_summary_text_1: 'Data-driven language learning where the learner can derive or affirm language rules on their own based on authentic language material.',
   homepage_summary_text_2: 'Writing texts in educational and work settings, e.g. correcting written assignments and simplifying official texts.',
   homepage_summary_text_3: 'Checking student writings, choosing and compiling tutoring materials based on typical language use of learners with various proficiency levels.',
