@@ -311,17 +311,20 @@ def hinda_mitmekesisust(tekst):
 
     KLSS = round(lemmas_count / math.sqrt(2 * words_count), 4)
     JLSS = round(lemmas_count /  math.sqrt(words_count), 4)
-    MAAS = round((math.log(words_count) - math.log(lemmas_count)) / math.ldexp(math.log(words_count), 2), 4)
-    if words_count < 50:
-        UBER = 0
-    else:
-        UBER = round(math.ldexp(math.log(words_count), 2) / (math.log(words_count) - math.log(lemmas_count)), 4)
+#     MAAS = round((math.log(words_count) - math.log(lemmas_count)) / math.ldexp(math.log(words_count), 2), 4)
+    MAAS = 0
+#     if words_count < 50:
+#         UBER = 0
+#     else:
+#         UBER = round(math.ldexp(math.log(words_count), 2) / (math.log(words_count) - math.log(lemmas_count)), 4)
+    UBER = 0
     MTLD = round(valemid_mitmekesisus.mtld_calc(words_array, ttr_threshold = 0.72), 4)
     if words_count < 42:
         HDD = 0
     else:
         HDD = round(valemid_mitmekesisus.hdd(words_array, sample_size = 42.0), 4)
-    MSTTR = round(valemid_mitmekesisus.msttr(new_text, window_length = 30), 4)
+#     MSTTR = round(valemid_mitmekesisus.msttr(new_text, window_length = 30), 4)
+    MSTTR = 0
     return [KLSS, JLSS, MAAS, UBER, MTLD, HDD, MSTTR]+valemid_mitmekesisus.mitmekesisus_kaugused(KLSS, JLSS, MAAS, UBER, MTLD, HDD, MSTTR)+[words_count, lemmas_count]
 
 app.run(host="0.0.0.0", threaded=True, port=5300)
