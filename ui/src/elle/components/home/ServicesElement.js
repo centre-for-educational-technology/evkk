@@ -19,7 +19,7 @@ export default function ServicesElement() {
 
   return (
     <Box className="service-container-outer">
-      <h3 className="mb-4">Mida ELLE keskkond võimaldab?</h3>
+      <h3 className="mb-4">{t('homepage_services_title')}</h3>
       <Box className="services-container">
         {ServiceContainer(t('homepage_summary_text_1'))}
         {ServiceContainer(t('homepage_summary_text_2'))}

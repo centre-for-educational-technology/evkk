@@ -21,7 +21,6 @@ export default function Tools() {
   const navigate = useNavigate();
   const [tabPage, setTabPage] = useState(current.pathname);
   const [textsSelected, setTextsSelected] = useState(false);
-  console.log(current.pathname)
 
   useEffect(() => {
     if (current.pathname === '/tools') {
@@ -100,26 +99,58 @@ export default function Tools() {
                 sx={TabStyle}
                 aria-label="lab API tabs example"
               >
-                <Tab label={t('wordlist_filename')} onClick={() => navigate("/tools/wordlist")}
-                     value="/tools/wordlist"/>
-                <Tab label={t('common_word_in_context')}
-                     onClick={() => navigate('/tools/wordcontext')} value='/tools/wordcontext'/>
-                <Tab label={t('common_neighbouring_words')} onClick={() => navigate('/tools/collocates')}
-                     value='/tools/collocates'/>
-                <Tab label={t('common_word_analyser')} onClick={() => navigate('/tools/wordanalyser')}
-                     value='/tools/wordanalyser'/>
-                <Tab label={t('common_clusters')} onClick={() => navigate('/tools/clusterfinder')}
-                     value='/tools/clusterfinder'/>
+                <Tab
+                  label={t('wordlist_filename')}
+                  onClick={() => navigate("/tools/wordlist")}
+                  value="/tools/wordlist"
+                />
+                <Tab
+                  label={t('common_word_in_context')}
+                  onClick={() => navigate('/tools/wordcontext')}
+                  value='/tools/wordcontext'
+                />
+                <Tab
+                  label={t('common_neighbouring_words')}
+                  onClick={() => navigate('/tools/collocates')}
+                  value='/tools/collocates'
+                />
+                <Tab
+                  label={t('common_word_analyser')}
+                  onClick={() => navigate('/tools/wordanalyser')}
+                  value='/tools/wordanalyser'
+                />
+                <Tab
+                  label={t('common_clusters')}
+                  onClick={() => navigate('/tools/clusterfinder')}
+                  value='/tools/clusterfinder'
+                />
               </TabList>
             </Box>
-            <TabOutlet image={WordlistImg} text={'tools_accordion_wordlist_explainer'} value="/tools/wordlist"/>
-            <TabOutlet image={WordContext} text={'tools_accordion_word_in_context_explainer'}
-                       value='/tools/wordcontext'/>
-            <TabOutlet image={NeighbourWord} text={'tools_accordion_neighbouring_words_explainer'}
-                       value='/tools/collocates'/>
-            <TabOutlet image={WordAnalyser} text={'tools_accordion_word_analysis_explainer'}
-                       value='/tools/wordanalyser'/>
-            <TabOutlet image={WordPattern} text={'tools_accordion_clusters_explainer'} value='/tools/clusterfinder'/>
+            <TabOutlet
+              image={WordlistImg}
+              text={'tools_accordion_wordlist_explainer'}
+              value="/tools/wordlist"
+            />
+            <TabOutlet
+              image={WordContext}
+              text={'tools_accordion_word_in_context_explainer'}
+              value='/tools/wordcontext'
+            />
+            <TabOutlet
+              image={NeighbourWord}
+              text={'tools_accordion_neighbouring_words_explainer'}
+              value='/tools/collocates'
+            />
+            <TabOutlet
+              image={WordAnalyser}
+              text={'tools_accordion_word_analysis_explainer'}
+              value='/tools/wordanalyser'
+            />
+            <TabOutlet
+              image={WordPattern}
+              text={'tools_accordion_clusters_explainer'}
+              value='/tools/clusterfinder'
+            />
           </TabContext>
         </Box>
       </Box>

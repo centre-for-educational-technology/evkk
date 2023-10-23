@@ -18,7 +18,6 @@ import Wordlist from './elle/tools/wordlist/Wordlist';
 import WordContext from './elle/tools/wordcontext/WordContext';
 import Collocates from './elle/tools/collocates/Collocates';
 import {withTranslation} from 'react-i18next';
-import Tools from "./elle/pages/Tools";
 
 class AppRoutes extends Component {
 
@@ -68,7 +67,7 @@ class AppRoutes extends Component {
           <Route path="/corrector"
                  element={<Correction/>}/>
           <Route path="/tools"
-                 element={<Tools/>}>
+                 element={<Navigate to="/tools/wordlist"/>}>
             <Route path="wordlist"
                    element={<Wordlist/>}/>
             <Route path="wordcontext"
