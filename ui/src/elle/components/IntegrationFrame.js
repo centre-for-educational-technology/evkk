@@ -44,6 +44,8 @@ const IntegrationFrame = ({integrationName}) => {
           }
           setStoreData(result.replaceAll('\\n\\n', ' ').replaceAll('\\n', ' ').replaceAll('&quot;', '"'))
         });
+    } else if (queryStoreState.ownTexts) {
+      setStoreData(queryStoreState.ownTexts);
     }
   };
 

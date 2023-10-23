@@ -7,6 +7,7 @@ import React from 'react';
 import {useTranslation} from 'react-i18next';
 import '../../translations/i18n';
 import '../styles/TablePagination.css';
+import {DefaultButtonStyle} from "../../const/Constants";
 
 export default function TablePagination(props) {
   const {t} = useTranslation();
@@ -22,6 +23,7 @@ export default function TablePagination(props) {
           aria-label="outlined primary button group"
         >
           <Button
+            sx={DefaultButtonStyle}
             className="table-pagination-button"
             variant="contained"
             onClick={() => props.gotoPage(0)}
@@ -30,6 +32,7 @@ export default function TablePagination(props) {
             {<FirstPageIcon/>}
           </Button>
           <Button
+            sx={DefaultButtonStyle}
             className="table-pagination-button"
             variant="contained"
             onClick={() => props.previousPage()}
@@ -38,6 +41,7 @@ export default function TablePagination(props) {
             {<NavigateBeforeIcon/>}
           </Button>
           <Button
+            sx={DefaultButtonStyle}
             className="table-pagination-button"
             variant="contained"
             onClick={() => props.nextPage()}
@@ -46,7 +50,7 @@ export default function TablePagination(props) {
             {<NavigateNextIcon/>}
           </Button>
           <Button
-            className="table-pagination-button"
+            sx={DefaultButtonStyle}
             variant="contained"
             onClick={() => props.gotoPage(props.pageCount - 1)}
             disabled={!props.canNextPage}

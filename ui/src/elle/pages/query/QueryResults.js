@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import React, {useEffect, useMemo, useReducer, useRef, useState} from 'react';
 import {
   Accordion,
   AccordionDetails,
@@ -11,14 +11,16 @@ import {
   Modal,
   Typography
 } from '@mui/material';
-import { usePagination, useTable } from 'react-table';
+import {usePagination, useTable} from 'react-table';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CloseIcon from '@mui/icons-material/Close';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import '../styles/QueryResults.css';
 import {
   ageOptions,
   corpuses,
   countryOptions,
+  DefaultButtonStyle,
   educationOptions,
   genderOptions,
   languageOptions,
@@ -30,9 +32,9 @@ import {
 import TablePagination from '../../components/table/TablePagination';
 import QueryDownloadButton from './QueryDownloadButton';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { queryStore } from '../../store/QueryStore';
-import { loadFetch } from '../../service/LoadFetch';
-import { useTranslation } from 'react-i18next';
+import {queryStore} from '../../store/QueryStore';
+import {loadFetch} from '../../service/LoadFetch';
+import {useTranslation} from 'react-i18next';
 
 export default function QueryResults(props) {
   const {t} = useTranslation();
@@ -60,6 +62,17 @@ export default function QueryResults(props) {
     emakeel: '',
     elukohariik: ''
   });
+
+  useEffect(() => {
+    if (props.previousSelectedIds.size > 0) {
+      props.data.forEach((d) => {
+        if (props.previousSelectedIds.has(d.text_id)) {
+          checkboxStatuses.current.add(d.text_id)
+        }
+      })
+    }
+    forceUpdate()
+  }, []);
 
   const columns = useMemo(() => [
       {
@@ -206,6 +219,13 @@ export default function QueryResults(props) {
       {response.length > 0 ? <h4><strong>{t('query_results_found_texts')}</strong> {response.length}</h4> : <></>}
       {response.length > 0 &&
         <>
+          <div>
+            <Button style={{color: "white"}} startIcon={<ArrowBackIcon/>} sx={DefaultButtonStyle}
+                    onClick={() => {
+                      props.setIsQueryAnswerPage(prevState => !prevState)
+                      props.setPreviousSelectedIds(checkboxStatuses.current)
+                    }}>{t('query_change_chosen_corpuses')}</Button>
+          </div>
           <LoadingButton
             variant="outlined"
             loadingIndicator={<CircularProgress disableShrink color="inherit" size={16}/>}
@@ -217,12 +237,12 @@ export default function QueryResults(props) {
             {allTextsSelected() ? t('query_results_unselect_all') : t('query_results_select_all')}
           </LoadingButton>
           <Button
+            sx={DefaultButtonStyle}
             variant="contained"
             disabled={checkboxStatuses.current.size === 0}
             onClick={() => {
               saveTexts();
               props.setFilterBoxClass();
-              props.setQueryAnswer(false);
             }}
             className="save-texts-button"
           >

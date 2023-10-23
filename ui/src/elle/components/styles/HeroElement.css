@@ -45,3 +45,7 @@
     object-fit: cover;
 }
 
+.button-design {
+    z-index: 1;
+}
+
