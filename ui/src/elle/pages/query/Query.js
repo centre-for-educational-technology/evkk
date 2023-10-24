@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Alert,
   Avatar,
@@ -40,11 +40,11 @@ import {
   wordsOptions
 } from '../../const/Constants';
 import QueryResults from './QueryResults';
-import {useNavigate, useSearchParams} from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import TextUpload from '../../components/TextUpload';
-import {queryStore} from '../../store/QueryStore';
-import {loadFetch} from '../../service/LoadFetch';
-import {useTranslation} from 'react-i18next';
+import { queryStore } from '../../store/QueryStore';
+import { loadFetch } from '../../service/LoadFetch';
+import { useTranslation } from 'react-i18next';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 
@@ -202,12 +202,12 @@ export default function Query(props) {
           if (result.length > 0) {
             setNoResultsError(false);
             setResults(result);
-            setIsQueryAnswerPage(true)
+            setIsQueryAnswerPage(true);
           } else {
             setNoResultsError(true);
             setResults([]);
           }
-        })
+        });
     }
   };
 
@@ -402,14 +402,14 @@ export default function Query(props) {
     if (filterHidden) {
       setInputOpen(true);
       setFilterHidden(false);
-      document.getElementById("choose-input-button").classList.remove("button-box-open");
-      document.getElementById("choose-text-button").classList.add("button-box-open");
+      document.getElementById('choose-input-button').classList.remove('button-box-open');
+      document.getElementById('choose-text-button').classList.add('button-box-open');
     } else if (!filterHidden) {
       setFilterHidden(true);
       document.activeElement.blur();
-      document.getElementById("choose-text-button").classList.remove("button-box-open");
+      document.getElementById('choose-text-button').classList.remove('button-box-open');
     }
-  }
+  };
 
   useEffect(() => {
     if (props.queryOpen === 'queryOpen') {
@@ -423,21 +423,21 @@ export default function Query(props) {
     if (inputOpen) {
       setFilterHidden(true);
       setInputOpen(false);
-      document.getElementById("choose-text-button").classList.remove("button-box-open");
-      document.getElementById("choose-input-button").classList.add("button-box-open");
+      document.getElementById('choose-text-button').classList.remove('button-box-open');
+      document.getElementById('choose-input-button').classList.add('button-box-open');
     } else if (!inputOpen) {
       setInputOpen(true);
       document.activeElement.blur();
-      document.getElementById("choose-input-button").classList.remove("button-box-open");
+      document.getElementById('choose-input-button').classList.remove('button-box-open');
     }
-  }
+  };
 
   return (
     <div className="query-main-container">
       <div className="buttonBox">
         <Button variant="contained"
                 id="choose-text-button"
-                className={"button-query-hover button-box-open"}
+                className={'button-query-hover button-box-open'}
                 onClick={() => {
                   setFilterBoxClass();
                   setAlert(false);
@@ -632,7 +632,8 @@ export default function Query(props) {
                       onClick={(e) => alterSinglePropertyData(e, 'language')}
                     >
                       {Object.keys(textLanguageOptions).map((lang) => (
-                        <MenuItem key={lang} value={lang}>{t(textLanguageOptions[lang])}</MenuItem>
+                        <MenuItem key={lang}
+                                  value={lang}>{t(textLanguageOptions[lang])}</MenuItem>
                       ))}
                     </Select>
                   </FormControl>
@@ -640,7 +641,8 @@ export default function Query(props) {
                   {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
                     ? <>
                       <FormControl size="small">
-                        <InputLabel id="domain-label">{t('common_text_data_field_of_research')}</InputLabel>
+                        <InputLabel
+                          id="domain-label">{t('common_text_data_field_of_research')}</InputLabel>
                         <Select
                           sx={{minWidth: selectWidth}}
                           labelId="domain-label"
@@ -650,7 +652,8 @@ export default function Query(props) {
                           onClick={(e) => alterSinglePropertyData(e, 'domain')}
                         >
                           {Object.keys(domainOptions).map((domain) => (
-                            <MenuItem key={domain} value={domain}>{t(domainOptions[domain])}</MenuItem>
+                            <MenuItem key={domain}
+                                      value={domain}>{t(domainOptions[domain])}</MenuItem>
                           ))}
                         </Select>
                       </FormControl>
@@ -704,7 +707,7 @@ export default function Query(props) {
                                             sx={{paddingLeft: '2rem'}}>
                                     <ListItemIcon>
                                       <Checkbox id={subMaterial}
-                                                style={{color: "#9C27B0"}}
+                                                style={{color: '#9C27B0'}}
                                                 checked={usedMultiMaterials.indexOf(subMaterial) > -1}/>
                                     </ListItemIcon>
                                     <ListItemText id={subMaterial}
@@ -755,7 +758,8 @@ export default function Query(props) {
                   <br/><br/>
                   <FormControl className={classes.formControl}
                                size="small">
-                    <InputLabel id="addedYears-label">{t('query_text_data_year_of_publication')}</InputLabel>
+                    <InputLabel
+                      id="addedYears-label">{t('query_text_data_year_of_publication')}</InputLabel>
                     <Select
                       labelId="addedYears-label"
                       label={t('query_text_data_year_of_publication')}
@@ -883,7 +887,8 @@ export default function Query(props) {
                       onClick={(e) => alterSinglePropertyData(e, 'gender')}
                     >
                       {Object.keys(genderOptions).map((gender) => (
-                        <MenuItem key={gender} value={gender}>{t(genderOptions[gender])}</MenuItem>
+                        <MenuItem key={gender}
+                                  value={gender}>{t(genderOptions[gender])}</MenuItem>
                       ))}
                     </Select>
                   </FormControl>
@@ -891,7 +896,8 @@ export default function Query(props) {
                   {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
                     ? <>
                       <FormControl size="small">
-                        <InputLabel id="studyLevel-label">{t('query_author_data_level_of_study')}</InputLabel>
+                        <InputLabel
+                          id="studyLevel-label">{t('query_author_data_level_of_study')}</InputLabel>
                         <Select
                           sx={{minWidth: selectWidth}}
                           labelId="studyLevel-label"
@@ -901,13 +907,15 @@ export default function Query(props) {
                           onClick={(e) => alterSinglePropertyData(e, 'studyLevel')}
                         >
                           {Object.keys(studyLevelOptions).map((level) => (
-                            <MenuItem key={level} value={level}>{t(studyLevelOptions[level])}</MenuItem>
+                            <MenuItem key={level}
+                                      value={level}>{t(studyLevelOptions[level])}</MenuItem>
                           ))}
                         </Select>
                       </FormControl>
                       <br/><br/>
                       <FormControl size="small">
-                        <InputLabel id="degree-label">{t('query_author_data_degree')}</InputLabel>
+                        <InputLabel
+                          id="degree-label">{t('query_author_data_degree')}</InputLabel>
                         <Select
                           sx={{minWidth: selectWidth}}
                           labelId="degree-label"
@@ -917,13 +925,15 @@ export default function Query(props) {
                           onClick={(e) => alterSinglePropertyData(e, 'degree')}
                         >
                           {Object.keys(degreeOptions).map((degree) => (
-                            <MenuItem key={degree} value={degree}>{t(degreeOptions[degree])}</MenuItem>
+                            <MenuItem key={degree}
+                                      value={degree}>{t(degreeOptions[degree])}</MenuItem>
                           ))}
                         </Select>
                       </FormControl>
                     </>
                     : <FormControl size="small">
-                      <InputLabel id="education-label">{t('query_author_data_education')}</InputLabel>
+                      <InputLabel
+                        id="education-label">{t('query_author_data_education')}</InputLabel>
                       <Select
                         sx={{minWidth: selectWidth}}
                         labelId="education-label"
@@ -933,14 +943,16 @@ export default function Query(props) {
                         onClick={(e) => alterSinglePropertyData(e, 'education')}
                       >
                         {Object.keys(educationOptions).map((education) => (
-                          <MenuItem key={education} value={education}>{t(educationOptions[education])}</MenuItem>
+                          <MenuItem key={education}
+                                    value={education}>{t(educationOptions[education])}</MenuItem>
                         ))}
                       </Select>
                     </FormControl>}
                   <br/><br/>
                   {checkIfOnlySpecificCorpusIsChecked('clWmOIrLa')
                     ? <FormControl size="small">
-                      <InputLabel id="nationality-label">{t('query_author_data_nationality')}</InputLabel>
+                      <InputLabel
+                        id="nationality-label">{t('query_author_data_nationality')}</InputLabel>
                       <Select
                         sx={{minWidth: selectWidth}}
                         labelId="nationality-label"
@@ -956,7 +968,8 @@ export default function Query(props) {
                       </Select>
                     </FormControl>
                     : <FormControl size="small">
-                      <InputLabel id="nativeLang-label">{t('query_author_data_native_language')}</InputLabel>
+                      <InputLabel
+                        id="nativeLang-label">{t('query_author_data_native_language')}</InputLabel>
                       <Select
                         sx={{minWidth: selectWidth}}
                         labelId="nativeLang-label"
@@ -966,7 +979,8 @@ export default function Query(props) {
                         onClick={(e) => alterSinglePropertyData(e, 'nativeLang')}
                       >
                         {Object.keys(languageOptions).map((lang) => (
-                          <MenuItem key={lang} value={lang}>{t(languageOptions[lang])}</MenuItem>
+                          <MenuItem key={lang}
+                                    value={lang}>{t(languageOptions[lang])}</MenuItem>
                         ))}
                       </Select>
                     </FormControl>
@@ -975,7 +989,8 @@ export default function Query(props) {
                   {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
                     ? <>
                       <FormControl size="small">
-                        <InputLabel id="otherLang-label">{t('query_author_data_other_languages')}</InputLabel>
+                        <InputLabel
+                          id="otherLang-label">{t('query_author_data_other_languages')}</InputLabel>
                         <Select
                           sx={{minWidth: selectWidth}}
                           labelId="otherLang-label"
@@ -985,7 +1000,8 @@ export default function Query(props) {
                           onClick={(e) => alterSinglePropertyData(e, 'otherLang')}
                         >
                           {Object.keys(languageOptions).map((lang) => (
-                            <MenuItem key={lang} value={lang}>{t(languageOptions[lang])}</MenuItem>
+                            <MenuItem key={lang}
+                                      value={lang}>{t(languageOptions[lang])}</MenuItem>
                           ))}
                         </Select>
                       </FormControl>
@@ -1003,7 +1019,8 @@ export default function Query(props) {
                       onClick={(e) => alterSinglePropertyData(e, 'country')}
                     >
                       {Object.keys(countryOptions).map((country) => (
-                        <MenuItem key={country} value={country}>{t(countryOptions[country])}</MenuItem>
+                        <MenuItem key={country}
+                                  value={country}>{t(countryOptions[country])}</MenuItem>
                       ))}
                     </Select>
                   </FormControl>
@@ -1012,11 +1029,11 @@ export default function Query(props) {
               <br/><br/>
               {alert || noResultsError ?
                 <>
-                  <Alert style={{width: "30%"}} severity="error">
+                  <Alert style={{width: '30%'}} severity="error">
                     {alert ? t('error_query_no_subcorpus_picked') : t('query_results_no_texts_found')}
                   </Alert>
                   <br/>
-                </> : ""
+                </> : ''
               }
               <Button
                 onClick={submitted}
@@ -1041,7 +1058,7 @@ export default function Query(props) {
         <Button
           id="choose-input-button"
           variant="contained"
-          className={"button-query-hover button-box-open"}
+          className={'button-query-hover button-box-open'}
           onClick={() => setInputHidden()}
         >
           <div className="button-text-query">
@@ -1070,7 +1087,7 @@ export default function Query(props) {
               disabled={textInputValue === ''}
               onClick={() => {
                 handleSubmitOwnTexts();
-                setInputHidden()
+                setInputHidden();
               }}
             >
               {t('textupload_primary_modal_save')}
@@ -1086,8 +1103,8 @@ export default function Query(props) {
                   <Chip
                     sx={ElleDefaultChip}
                     avatar={<Avatar sx={{
-                      bgcolor: "#9C27B0",
-                      color: "white !important"
+                      bgcolor: '#9C27B0',
+                      color: 'white !important'
                     }}>{corpusTextsSelected > 1 ? corpusTextsSelected : 1}</Avatar>}
                     label={corpusTextsSelected > 1 ? t('query_results_saved_for_analysis_corpus_plural', {amount: corpusTextsSelected}) : t('query_results_saved_for_analysis_corpus')}
                     className="my-1"

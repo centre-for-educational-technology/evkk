@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import EastIcon from '@mui/icons-material/East';
 import './Correction.css';
 import { Alert, Box, Button, Card, CircularProgress, Slider, Tab, Tooltip, Typography } from '@mui/material';
@@ -54,6 +54,10 @@ const Correction = () => {
     );
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const clean = (word) => {
     if (word) {
       return word.replace(/[^0-9a-zA-ZõäöüÕÄÖÜ]+$/, '');
@@ -66,7 +70,7 @@ const Correction = () => {
   };
 
   const repeat = () => {
-    if (content.replace(/(\r\n|\n|\r)/gm, '') === levelText.replace(/(\r\n|\n|\r)/gm, '')) {
+    if (content.replace(/(\r\n|\n|\r)/gm, ' ') === levelText.replace(/(\r\n|\n|\r)/gm, ' ')) {
       return;
     }
     getCorrections();
@@ -76,7 +80,7 @@ const Correction = () => {
   };
 
   const subChange = (event) => {
-    setContent(event.target.value.replace(/(\r\n|\n|\r)/gm, ''));
+    setContent(event.target.value.replace(/(\r\n|\n|\r)/gm, ' '));
     keepHistory();
   };
 
@@ -412,7 +416,7 @@ const Correction = () => {
 
           /> : <Box contentEditable="true" className="editable-div-container" id="corrector-textarea-div"
                     suppressContentEditableWarning={true}
-                    onInput={event => setContent(event.currentTarget.textContent.replace(/(\r\n|\n|\r)/gm, ''))}
+                    onInput={event => setContent(event.currentTarget.textContent.replace(/(\r\n|\n|\r)/gm, ' '))}
                     spellCheck={false}
                     placeholder={'Kopeeri või kirjuta siia analüüsitav tekst'}
           >
@@ -543,17 +547,15 @@ const Correction = () => {
                       <td>{diversityAnswer[11]}</td>
                     </tr>
                     <tr className="corrector-border-bottom">
-                      <td>Erinevate ja kõigi sõnade
-                        korrigeeritud suhtarv -
-                        KLSS <br/>(ingl Corrected Type-Token
+                      <td>Erinevate ja kõigi sõnade korrigeeritud suhtarv
+                        <br/>(ingl Corrected Type-Token
                         Ratio) {customTooltip('lemmade arv / √(2 * sõnade arv) \n(Carroll, 1964)')}
                       </td>
                       <td>{diversityAnswer[0]}</td>
                     </tr>
                     <tr className="corrector-border-bottom">
                       <td>Erinevate ja kõigi sõnade juuritud
-                        suhtarv -
-                        JLSS <br/>(ingl Root Type-Token
+                        suhtarv<br/>(ingl Root Type-Token
                         Ratio) {customTooltip('lemmade arv / √(sõnade arv) \n(Guiraud, 1960)')}
                       </td>
                       <td>{diversityAnswer[1]}</td>

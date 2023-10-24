@@ -13,6 +13,39 @@ import WordPattern from '../resources/images/tools/mustrileidja.png';
 import WordAnalyser from '../resources/images/tools/sonaanalyys.png';
 import { TabStyle } from '../const/Constants';
 
+const ToolIconCard = (props) => {
+  const {t} = useTranslation();
+  return (
+    <>
+      <Box
+        className="tool-card-container"
+        sx={{boxShadow: 3}}>
+        <Box className="tool-card-icon">
+          <img className="tool-icon-img" src={props.image} loading="lazy" alt="Tool logo"/>
+        </Box>
+        <Box className="tool-card-text">
+          {t(props.text)}
+        </Box>
+      </Box>
+    </>
+  );
+};
+
+const TabOutlet = (props) => {
+  const {t} = useTranslation();
+  return (
+    <TabPanel value={props.value}>
+      {props.textsSelected ? <Outlet/> :
+        <Box>
+          <ToolIconCard image={props.image} text={props.text}/>
+          <Alert severity="warning">
+            {t('tools_warning_text')}
+          </Alert>
+        </Box>}
+    </TabPanel>
+  );
+};
+
 export default function Tools() {
   const current = useLocation();
   const queryOpen = current.state && current.state.pageNo === 'queryOpen' ? current.state.pageNo : null;
@@ -30,6 +63,8 @@ export default function Tools() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    const storeState = queryStore.getState();
+    setTextsSelected(storeState.corpusTextIds !== null || storeState.ownTexts !== null);
   }, []);
 
   const handleChange = (event, newValue) => {
@@ -40,37 +75,6 @@ export default function Tools() {
     const storeState = queryStore.getState();
     setTextsSelected(storeState.corpusTextIds !== null || storeState.ownTexts !== null);
   });
-
-  const ToolIconCard = (props) => {
-    return (
-      <>
-        <Box
-          className="tool-card-container"
-          sx={{boxShadow: 3}}>
-          <Box className="tool-card-icon">
-            <img className="tool-icon-img" src={props.image} loading="lazy" alt="Tool logo"/>
-          </Box>
-          <Box className="tool-card-text">
-            {t(props.text)}
-          </Box>
-        </Box>
-      </>
-    );
-  };
-
-  const TabOutlet = (props) => {
-    return (
-      <TabPanel value={props.value}>
-        {textsSelected ? <Outlet/> :
-          <Box>
-            <ToolIconCard image={props.image} text={props.text}/>
-            <Alert severity="warning">
-              {t('tools_warning_text')}
-            </Alert>
-          </Box>}
-      </TabPanel>
-    );
-  };
 
   return (
     <Box className="outer-container-tools">
@@ -114,26 +118,31 @@ export default function Tools() {
               </TabList>
             </Box>
             <TabOutlet
+              textsSelected={textsSelected}
               image={WordlistImg}
               text={'tools_accordion_wordlist_explainer'}
               value="/tools/wordlist"
             />
             <TabOutlet
+              textsSelected={textsSelected}
               image={WordContext}
               text={'tools_accordion_word_in_context_explainer'}
               value="/tools/wordcontext"
             />
             <TabOutlet
+              textsSelected={textsSelected}
               image={NeighbourWord}
               text={'tools_accordion_neighbouring_words_explainer'}
               value="/tools/collocates"
             />
             <TabOutlet
+              textsSelected={textsSelected}
               image={WordAnalyser}
               text={'tools_accordion_word_analysis_explainer'}
               value="/tools/wordanalyser"
             />
             <TabOutlet
+              textsSelected={textsSelected}
               image={WordPattern}
               text={'tools_accordion_clusters_explainer'}
               value="/tools/clusterfinder"

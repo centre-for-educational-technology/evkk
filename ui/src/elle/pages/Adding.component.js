@@ -82,6 +82,10 @@ class Adding extends Component {
     this.formDataElement = React.createRef();
   }
 
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
   handleChange(event) {
     if (event.target.type === 'checkbox') {
       this.setState({[event.target.name]: event.target.checked});
@@ -168,8 +172,9 @@ class Adding extends Component {
                                onChange={this.handleChange}
                                style={{width: '90%', marginTop: 20}}
                                InputProps={{
-                                 endAdornment: <TextUpload sendTextFromFile={this.sendTextFromFile}
-                                                           outerClassName="adding-text-upload-component"/>
+                                 endAdornment: <TextUpload
+                                   sendTextFromFile={this.sendTextFromFile}
+                                   outerClassName="adding-text-upload-component"/>
                                }}></TextField>
                   </div>
                 </Grid>
@@ -228,7 +233,8 @@ class Adding extends Component {
                             onChange={this.handleChange}
                           >
                             {Object.keys(textPublishMainTextTypesOptions).map((type) => (
-                              <MenuItem key={type} value={type}>{t(textPublishMainTextTypesOptions[type])}</MenuItem>
+                              <MenuItem key={type}
+                                        value={type}>{t(textPublishMainTextTypesOptions[type])}</MenuItem>
                             ))}
                           </Select>
                         </FormControl>
@@ -248,7 +254,8 @@ class Adding extends Component {
                               onChange={this.handleChange}
                             >
                               {Object.keys(domainOptions).map((domain) => (
-                                <MenuItem key={domain} value={domain}>{t(domainOptions[domain])}</MenuItem>
+                                <MenuItem key={domain}
+                                          value={domain}>{t(domainOptions[domain])}</MenuItem>
                               ))}
                             </Select>
                           </FormControl>
@@ -296,31 +303,32 @@ class Adding extends Component {
                           </Select>
                         </FormControl>
                       </Grid>}
-                      {this.state.liik === 'akadeemiline' && this.state.akadKategooria !== '' && <Grid>
-                        <FormControl className="form-control"
-                                     size="small">
-                          <InputLabel
-                            id="akad-alamliik-select-label">{t('publish_your_text_text_data_sub_text_type')}</InputLabel>
-                          <Select
-                            labelId="akad-alamliik-select-label"
-                            name="akadAlamliik"
-                            value={this.state.akadAlamliik}
-                            label={t('publish_your_text_text_data_sub_text_type')}
-                            onChange={this.handleChange}
-                          >
-                            {this.state.akadKategooria === 'ak_erialaopingud' &&
-                              Object.keys(textPublishAcademicStudiesSubtypeOptions).map((type) => (
-                                <MenuItem key={type}
-                                          value={type}>{t(textPublishAcademicStudiesSubtypeOptions[type])}</MenuItem>
-                              ))}
-                            {this.state.akadKategooria === 'ak_uurimused' &&
-                              Object.keys(textPublishAcademicResearchSubtypeOptions).map((type) => (
-                                <MenuItem key={type}
-                                          value={type}>{t(textPublishAcademicResearchSubtypeOptions[type])}</MenuItem>
-                              ))}
-                          </Select>
-                        </FormControl>
-                      </Grid>}
+                      {this.state.liik === 'akadeemiline' && this.state.akadKategooria !== '' &&
+                        <Grid>
+                          <FormControl className="form-control"
+                                       size="small">
+                            <InputLabel
+                              id="akad-alamliik-select-label">{t('publish_your_text_text_data_sub_text_type')}</InputLabel>
+                            <Select
+                              labelId="akad-alamliik-select-label"
+                              name="akadAlamliik"
+                              value={this.state.akadAlamliik}
+                              label={t('publish_your_text_text_data_sub_text_type')}
+                              onChange={this.handleChange}
+                            >
+                              {this.state.akadKategooria === 'ak_erialaopingud' &&
+                                Object.keys(textPublishAcademicStudiesSubtypeOptions).map((type) => (
+                                  <MenuItem key={type}
+                                            value={type}>{t(textPublishAcademicStudiesSubtypeOptions[type])}</MenuItem>
+                                ))}
+                              {this.state.akadKategooria === 'ak_uurimused' &&
+                                Object.keys(textPublishAcademicResearchSubtypeOptions).map((type) => (
+                                  <MenuItem key={type}
+                                            value={type}>{t(textPublishAcademicResearchSubtypeOptions[type])}</MenuItem>
+                                ))}
+                            </Select>
+                          </FormControl>
+                        </Grid>}
                       {this.state.akadAlamliik === 'ak_uurimus_artikkel' && <>
                         <Grid>
                           <FormControl className="form-control"
@@ -397,24 +405,25 @@ class Adding extends Component {
                             ))}
                           </Select>
                         </FormControl>
-                        {this.state.oppematerjal === 'jah' && this.state.liik === 'akadeemiline' && <><Grid>
-                          <FormControl className="form-control"
-                                       size="small">
-                            <InputLabel>{t('publish_your_text_text_data_supporting_material')}</InputLabel>
-                            <Select multiple
-                                    labelId="akad-materjalid-label"
-                                    name="akadOppematerjal"
-                                    value={this.state.akadOppematerjal}
-                                    label={t('publish_your_text_text_data_supporting_material')}
-                                    onChange={this.handleChange}
-                            >
-                              {Object.keys(textPublishUsedMaterialsOptions).map((material) => (
-                                <MenuItem key={material}
-                                          value={material}>{t(textPublishUsedMaterialsOptions[material])}</MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl>
-                        </Grid>
+                        {this.state.oppematerjal === 'jah' && this.state.liik === 'akadeemiline' && <>
+                          <Grid>
+                            <FormControl className="form-control"
+                                         size="small">
+                              <InputLabel>{t('publish_your_text_text_data_supporting_material')}</InputLabel>
+                              <Select multiple
+                                      labelId="akad-materjalid-label"
+                                      name="akadOppematerjal"
+                                      value={this.state.akadOppematerjal}
+                                      label={t('publish_your_text_text_data_supporting_material')}
+                                      onChange={this.handleChange}
+                              >
+                                {Object.keys(textPublishUsedMaterialsOptions).map((material) => (
+                                  <MenuItem key={material}
+                                            value={material}>{t(textPublishUsedMaterialsOptions[material])}</MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                          </Grid>
                           {this.state.akadOppematerjal.indexOf('muu') !== -1 &&
                             <Grid>
                               <FormControl className="form-control"
@@ -451,7 +460,8 @@ class Adding extends Component {
                                    onChange={this.handleChange}></TextField><br/>
                         <FormControl className="form-control"
                                      size="small">
-                          <InputLabel id="sugu-select-label">{t('query_author_data_gender')}</InputLabel>
+                          <InputLabel
+                            id="sugu-select-label">{t('query_author_data_gender')}</InputLabel>
                           <Select
                             labelId="sugu-select-label"
                             name="autoriSugu"
@@ -460,7 +470,8 @@ class Adding extends Component {
                             onChange={this.handleChange}
                           >
                             {Object.keys(genderOptions).map((gender) => (
-                              <MenuItem key={gender} value={gender}>{t(genderOptions[gender])}</MenuItem>
+                              <MenuItem key={gender}
+                                        value={gender}>{t(genderOptions[gender])}</MenuItem>
                             ))}
                           </Select>
                         </FormControl>
@@ -500,14 +511,16 @@ class Adding extends Component {
                       <Grid>
                         <FormControl className="form-control"
                                      size="small">
-                          <InputLabel id="elukohariik">{t('query_author_data_country')}</InputLabel>
+                          <InputLabel
+                            id="elukohariik">{t('query_author_data_country')}</InputLabel>
                           <Select value={this.state.autoriElukohariik}
                                   onChange={this.handleChange}
                                   name="autoriElukohariik"
                                   label={t('query_author_data_country')}
                                   labelId="elukohariik">
                             {Object.keys(countryOptions).map((country) => (
-                              <MenuItem key={country} value={country}>{t(countryOptions[country])}</MenuItem>
+                              <MenuItem key={country}
+                                        value={country}>{t(countryOptions[country])}</MenuItem>
                             ))}
                           </Select>
                         </FormControl>
@@ -530,7 +543,8 @@ class Adding extends Component {
                       {this.state.liik === 'akadeemiline' && <Grid>
                         <FormControl className="form-control"
                                      size="small">
-                          <InputLabel id="oppeaste-select-label">{t('query_author_data_level_of_study')}</InputLabel>
+                          <InputLabel
+                            id="oppeaste-select-label">{t('query_author_data_level_of_study')}</InputLabel>
                           <Select
                             labelId="oppeaste-select-label"
                             name="autoriOppeaste"
@@ -539,7 +553,8 @@ class Adding extends Component {
                             onChange={this.handleChange}
                           >
                             {Object.keys(studyLevelOptions).map((level) => (
-                              <MenuItem key={level} value={level}>{t(studyLevelOptions[level])}</MenuItem>
+                              <MenuItem key={level}
+                                        value={level}>{t(studyLevelOptions[level])}</MenuItem>
                             ))}
                           </Select>
                         </FormControl>
@@ -547,7 +562,8 @@ class Adding extends Component {
                       {this.state.liik === 'akadeemiline' && <Grid>
                         <FormControl className="form-control"
                                      size="small">
-                          <InputLabel id="teaduskraad-select-label">{t('query_author_data_degree')}</InputLabel>
+                          <InputLabel
+                            id="teaduskraad-select-label">{t('query_author_data_degree')}</InputLabel>
                           <Select
                             labelId="teaduskraad-select-label"
                             name="autoriTeaduskraad"
@@ -556,7 +572,8 @@ class Adding extends Component {
                             onChange={this.handleChange}
                           >
                             {Object.keys(degreeOptions).map((degree) => (
-                              <MenuItem key={degree} value={degree}>{t(degreeOptions[degree])}</MenuItem>
+                              <MenuItem key={degree}
+                                        value={degree}>{t(degreeOptions[degree])}</MenuItem>
                             ))}
                           </Select>
                         </FormControl>
@@ -564,7 +581,8 @@ class Adding extends Component {
                       {this.state.liik === 'mitteakadeemiline' && <Grid>
                         <FormControl className="form-control"
                                      size="small">
-                          <InputLabel id="haridus-select-label">{t('query_author_data_education')}</InputLabel>
+                          <InputLabel
+                            id="haridus-select-label">{t('query_author_data_education')}</InputLabel>
                           <Select
                             labelId="haridus-select-label"
                             name="autoriHaridus"
