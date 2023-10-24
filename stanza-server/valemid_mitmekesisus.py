@@ -52,7 +52,7 @@ def hypergeometric(population, population_successes, sample, sample_successes):
 
 
 # HD-D implementation
-def hdd(word_array, sample_size=42):
+def hdd(word_array, sample_size = 42):
     if isinstance(word_array, str):
         raise ValueError("Input should be a list of strings, rather than a string. Try using string.split()")
     # if len(word_array) < 50:
@@ -61,7 +61,7 @@ def hdd(word_array, sample_size=42):
     # Create a dictionary of counts for each type
     type_counts = {}
     for token in word_array:
-        token = token.text.lower()  # make lowercase
+        token = token.text.lower() # make lowercase
         if token in type_counts:
             type_counts[token] = type_counts[token] + 1
         else:
