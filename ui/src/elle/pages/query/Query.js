@@ -147,8 +147,6 @@ export default function Query(props) {
     setOwnTextsSelected(storeState.ownTexts !== null);
   };
 
-  console.log(corpusTextsSelected, ownTextsSelected);
-
   const submitted = () => {
     setResultsKey(Math.random());
     const selectedCorpuses = getSelectedCorpusList();
