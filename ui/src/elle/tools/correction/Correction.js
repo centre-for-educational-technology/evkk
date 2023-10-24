@@ -242,7 +242,7 @@ const Correction = () => {
                 <Box className="mt-4">
                   <b>Sõnavara: <br/>{levelAnswer[12][1]} </b>
                   {levelAnswer[12][0] > 0 && (
-                    <span> (tõenäosus {(levelAnswer[12][0] * 100).toFixed(0)} %)<br/></span>)}
+                    <span>(tõenäosus {(levelAnswer[12][0] * 100).toFixed(0)} %)<br/></span>)}
                     Arvesse on võetud sõnavaliku mitmekesisus ja ulatus (unikaalsete
                     sõnade hulk, harvem esineva
                     sõnavara osakaal),
