@@ -30,6 +30,8 @@ export default function Tools() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    const storeState = queryStore.getState();
+    setTextsSelected(storeState.corpusTextIds !== null || storeState.ownTexts !== null);
   }, []);
 
   const handleChange = (event, newValue) => {
