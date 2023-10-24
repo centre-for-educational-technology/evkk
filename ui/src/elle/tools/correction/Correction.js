@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import EastIcon from '@mui/icons-material/East';
 import './Correction.css';
-import { Alert, Box, Button, Card, CircularProgress, Tab, Tooltip, Typography } from '@mui/material';
+import { Alert, Box, Button, Card, CircularProgress, Slider, Tab, Tooltip, Typography } from '@mui/material';
 import DoneIcon from '@mui/icons-material/Done';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import CloseIcon from '@mui/icons-material/Close';
@@ -9,6 +9,7 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import WordClick from './WordClick';
 import TextUpload from '../../components/TextUpload';
 import { loadFetch } from '../../service/LoadFetch';
+import { CorrectorCustomSlider } from '../../const/Constants';
 
 const Correction = () => {
   const [history, setHistory] = useState(['']);
@@ -26,6 +27,32 @@ const Correction = () => {
   const [queryFinished, setQueryFinished] = useState(false);
   const [complexityAnswer, setComplexityAnswer] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const [diversityAnswer, setDiversityAnswer] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
+  const sliderElement = (name, startValue, endValue, currentValue, step) => {
+    return (
+      <Box className="corrector-slider-container">
+        <h4>{name}</h4>
+        <Box className="w-100 h-auto d-flex justify-content-center align-items-center mt-5">
+          <div style={{width: '10%', fontSize: '25px'}}
+               className="h-100 d-flex justify-content-center">{startValue}</div>
+          <Box style={{width: '80%'}} className="h-100 d-flex justify-content-center align-items-end">
+            <Slider
+              sx={CorrectorCustomSlider}
+              valueLabelDisplay="on"
+              track={false}
+              disabled={true}
+              min={startValue}
+              max={endValue}
+              step={step}
+              defaultValue={currentValue}
+            />
+          </Box>
+          <div style={{width: '10%', fontSize: '25px'}}
+               className="h-100 d-flex justify-content-center">{endValue}</div>
+        </Box>
+      </Box>
+    );
+  };
 
   const clean = (word) => {
     if (word) {
@@ -157,17 +184,25 @@ const Correction = () => {
         if (content[i] === answer[i]) {
           answerText[i] = <span key={'s' + i}>{answer[i] + ' '}</span>;
         } else {
-          changes[i] = (<span key={'sm' + i}>
-                        <span style={{backgroundColor: 'lightpink'}}>
-                            {content[i]}
-                        </span> - <span>{answer[i]}</span>{' '}
-            <button onClick={() => replace(content, answer, i)}>
-                            Asenda
-                        </button>
-                        <br/>
-                    </span>);
-          answerText[i] = (<WordClick content={content} answer={answer} index={i} replace={replace}
-                                      noReplace={noReplace}/>);
+          changes[i] = (
+            <span key={'sm' + i}>
+              <span style={{backgroundColor: 'lightpink'}}>
+                {content[i]}
+              </span> - <span>{answer[i]}</span>{' '}
+              <button onClick={() => replace(content, answer, i)}>
+                Asenda
+              </button>
+              <br/>
+            </span>);
+          answerText[i] = (
+            <WordClick
+              content={content}
+              answer={answer}
+              index={i}
+              replace={replace}
+              noReplace={noReplace}
+            />
+          );
         }
       }
     }
@@ -206,7 +241,8 @@ const Correction = () => {
                   <Box className="other-percentage-values">
                     {levelAnswer.slice(1, 4).map((vastus) => {
                       if ((vastus[0] * 100).toFixed(0) > 0) {
-                        return (<Box className="d-flex align-items-center justify-content-start" key={vastus[0]}>
+                        return (<Box className="d-flex align-items-center justify-content-start"
+                                     key={vastus[0]}>
                           {' '}
                           <Box className="sector-dot"></Box>
                           <h2>{vastus[1]}: {(vastus[0] * 100).toFixed(0)}%</h2>
@@ -242,19 +278,19 @@ const Correction = () => {
                   <b>Sõnavara: <br/>{levelAnswer[12][1]} </b>
                   {levelAnswer[12][0] > 0 && (
                     <span>(tõenäosus {(levelAnswer[12][0] * 100).toFixed(0)} %)<br/></span>)}
-                    Arvesse on võetud sõnavaliku mitmekesisus ja ulatus (unikaalsete
-                    sõnade hulk, harvem esineva
-                    sõnavara osakaal),
-                    sõnavara tihedus (sisusõnade osakaal) ja nimisõnade abstraktsus.
-                    </Box>
-                    </Box>
-                    </Box>)) : (<div></div>)) : ('')}
-                </Box>) : queryFinished && levelAnswer[1] ? 'Tekst on liiga lühike' :
-                <div className="w-100 mt-5 d-flex justify-content-center"><CircularProgress/></div>
-                }
+                  Arvesse on võetud sõnavaliku mitmekesisus ja ulatus (unikaalsete
+                  sõnade hulk, harvem esineva
+                  sõnavara osakaal),
+                  sõnavara tihedus (sisusõnade osakaal) ja nimisõnade abstraktsus.
+                </Box>
               </Box>
-            </Box>);
-          }
+            </Box>)) : (<div></div>)) : ('')}
+        </Box>) : queryFinished && levelAnswer[1] ? 'Tekst on liiga lühike' :
+          <div className="w-100 mt-5 d-flex justify-content-center"><CircularProgress/></div>
+        }
+      </Box>
+    </Box>);
+  };
 
   const loadErrors = () => {
     let errorList = [];
@@ -263,62 +299,55 @@ const Correction = () => {
         errorList.push([word, responseWords[index], index]);
       }
     });
-    return (<Box>
-      {errorList.map((error) => {
-        return (<Box className="d-flex justify-content-center" key={error[0]}>
-          <Box id={error[0]}
-               className="replacement-popup">
-            <Box
-              id={error[0]}
-              className="popup-container"
-            >
-              <span
-                style={{
-                  backgroundColor: 'lightpink'
-                }}
-                className="error-word-container"
-              >
-                {clean(error[0])}
-              </span>{' '}
-              <EastIcon/>{' '}
-              <span
-                style={{
-                  backgroundColor: 'lightgreen'
-                }}
-                className="error-word-container"
-              >
-                                {clean(error[1])}
-                            </span>{' '}
-              <span className="bold-font-20-corrector-bubble">|</span>
-              <Box display="flex" gap="15px">
-                <Button
-                  size="30px"
-                  color="success"
-                  className="popup-icon-button-big"
-                  variant="contained"
-                  onClick={() => {
-                    replace(contentWords, responseWords, error[2]);
-                  }}
-                >
-                  <DoneIcon fontSize="medium"/>
-                </Button>
-                <Button
-                  size="30px"
-                  color="error"
-                  className="popup-icon-button-big"
-                  variant="contained"
-                  onClick={() => {
-                    noReplace(contentWords, responseWords, error[2]);
-                  }}
-                >
-                  <CloseIcon fontSize="medium"/>
-                </Button>
+    return (
+      <Box>
+        {errorList.map((error) => {
+          return (
+            <Box className="d-flex justify-content-center" key={error[0]}>
+              <Box id={error[0]} className="replacement-popup">
+                <Box id={error[0]} className="popup-container">
+                  <span style={{backgroundColor: 'lightpink'}} className="error-word-container">
+                    {clean(error[0])}
+                  </span>
+                  {' '}
+                  <EastIcon/>
+                  {' '}
+                  <span style={{backgroundColor: 'lightgreen'}} className="error-word-container">
+                    {clean(error[1])}
+                  </span>
+                  {' '}
+                  <span className="bold-font-20-corrector-bubble">|</span>
+                  <Box display="flex" gap="15px">
+                    <Button
+                      size="30px"
+                      color="success"
+                      className="popup-icon-button-big"
+                      variant="contained"
+                      onClick={() => {
+                        replace(contentWords, responseWords, error[2]);
+                      }}
+                    >
+                      <DoneIcon fontSize="medium"/>
+                    </Button>
+                    <Button
+                      size="30px"
+                      color="error"
+                      className="popup-icon-button-big"
+                      variant="contained"
+                      onClick={() => {
+                        noReplace(contentWords, responseWords, error[2]);
+                      }}
+                    >
+                      <CloseIcon fontSize="medium"/>
+                    </Button>
+                  </Box>
+                </Box>
               </Box>
             </Box>
-          </Box>
-        </Box>);
-      })}
-    </Box>);
+          );
+        })}
+      </Box>
+    );
   };
 
   const customTooltip = (data) => {
@@ -485,113 +514,23 @@ const Correction = () => {
                     </tbody>
                   </table>
                   <br/><br/>
-                  <Box><h5>
-                    SMOG indeks: {parseFloat(complexityAnswer[5]).toFixed()}
-                  </h5>
-                  </Box>
-                  <Box>
-                    <h5>
-                      Flesch-Kincaidi indeks: {parseFloat(complexityAnswer[6]).toFixed()}
-                    </h5>
-                  </Box>
-                  <Box>
-                    <h5>
-                      LIX indeks: {complexityAnswer[7]}
-                    </h5>
-                  </Box>
-
-                  {/*  TODO      <Typography alignContent={"center"} fontSize={"20px"} marginBottom={"20px"} marginTop={"20px"}
-                                gutterBottom>
-                      SMOG INDEX
-                    </Typography>
-                    <Box width={"80%"} height={"50px"} display={"flex"} justifyContent={"center"}>
-                      <Box width={"10%"} height={"100%"} display={"flex"} justifyContent={"center"}
-                           alignItems={"center"}>
-                        <Typography fontSize={"25px"}>0</Typography>
-                      </Box>
-                      <Box width={"80%"} height={"100%"} display={"flex"} justifyContent={"center"}
-                           alignItems={"center"}>
-                        <this.customSlider
-                          valueLabelDisplay="on"
-                          track={false}
-                          disabled={true}
-                          min={0}
-                          max={25}
-                          step={1}
-                          defaultValue={parseFloat(this.state.keerukusvastus[5]).toFixed()}
-                        />
-                      </Box>
-                      <Box width={"10%"} height={"100%"} display={"flex"} justifyContent={"center"}
-                           alignItems={"center"}>
-                        <Typography fontSize={"25px"}>20</Typography>
-                      </Box>
-                    </Box>
-                    <Typography alignContent={"center"} fontSize={"20px"} marginBottom={"20px"} marginTop={"20px"}
-                                gutterBottom>
-                      Flesch-Kincaidi indeks
-                    </Typography>
-                    <Box width={"80%"} height={"50px"} display={"flex"} justifyContent={"center"}>
-                      <Box width={"10%"} height={"100%"} display={"flex"} justifyContent={"center"}
-                           alignItems={"center"}>
-                        <Typography fontSize={"25px"}>0</Typography>
-                      </Box>
-                      <Box width={"80%"} height={"100%"} display={"flex"} justifyContent={"center"}
-                           alignItems={"center"}>
-                        <this.customSlider
-                          valueLabelDisplay="on"
-                          track={false}
-                          disabled={true}
-                          min={0}
-                          max={30}
-                          step={1}
-                          defaultValue={parseFloat(this.state.keerukusvastus[6]).toFixed()}
-                        />
-                      </Box>
-                      <Box width={"10%"} height={"100%"} display={"flex"} justifyContent={"center"}
-                           alignItems={"center"}>
-                        <Typography fontSize={"25px"}>100</Typography>
-                      </Box>
-                    </Box>
-                    <Typography alignContent={"center"} fontSize={"20px"} marginBottom={"20px"} marginTop={"20px"}
-                                gutterBottom>
-                      LIX INDEX
-                    </Typography>
-                    <Box width={"80%"} height={"50px"} display={"flex"} justifyContent={"center"}>
-                      <Box width={"10%"} height={"100%"} display={"flex"} justifyContent={"center"}
-                           alignItems={"center"}>
-                        <Typography fontSize={"25px"}>20</Typography>
-                      </Box>
-                      <Box width={"80%"} height={"100%"} display={"flex"} justifyContent={"center"}
-                           alignItems={"center"}>
-                        <this.customSlider
-                          valueLabelDisplay="on"
-                          track={false}
-                          disabled={true}
-                          min={0}
-                          max={80}
-                          step={1}
-                          defaultValue={this.state.keerukusvastus[7]}
-                        />
-                      </Box>
-                      <Box width={"10%"} height={"100%"} display={"flex"} justifyContent={"center"}
-                           alignItems={"center"}>
-                        <Typography fontSize={"25px"}>60</Typography>
-                      </Box>
-                    </Box>*/}
+                  {sliderElement('SMOG index', 0, 25, parseFloat(complexityAnswer[5]).toFixed(), 1)}
+                  {sliderElement('Flesch-Kincaidi indeks', 0, 30, parseFloat(complexityAnswer[6]).toFixed(), 1)}
+                  {sliderElement('LIX index', 20, 80, complexityAnswer[7], 1)}
                   <div className="complexity-font">Pakutav
                     keerukustase: {complexityAnswer[11]}</div>
                 </div>}
             </div>
           </TabPanel>
           <TabPanel value="diversity">
-            <div>
+            <div className="pr-5">
               {repeats && diversityAnswer[10] === 0 ?
                 <Box className="d-flex align-items-center justify-content-center w-100"
                      height={'200px'}><CircularProgress/> </Box> : ''}
               {diversityAnswer[10] > 0 &&
                 <div className="diversity-font-box"><h3>Sõnavara mitmekesisuse
                   andmed</h3>
-                  <table width={'80%'}>
+                  <table className="w-100">
                     <tbody>
                     <tr className="corrector-border-bottom">
                       <td style={{width: '90%'}}>Arvestatud
@@ -619,7 +558,7 @@ const Correction = () => {
                       </td>
                       <td>{diversityAnswer[1]}</td>
                     </tr>
-                    {diversityAnswer[4] !== -1 &&
+                    {diversityAnswer[4] > -1 &&
                       <tr className="corrector-border-bottom">
                         <td>
                           MTLD indeks <br/>(ingl Measure of Textual Lexical
@@ -639,6 +578,11 @@ const Correction = () => {
                     }
                     </tbody>
                   </table>
+                  <br/>
+                  {sliderElement('Erinevate ja kõigi sõnade korrigeeritud suhtarv:', 0, 10, parseFloat(diversityAnswer[0]).toFixed(), 1)}
+                  {sliderElement('Erinevate ja kõigi sõnade juuritud suhtarv:', 0, 15, parseFloat(diversityAnswer[1]).toFixed(), 1)}
+                  {diversityAnswer[4] > -1 && sliderElement('MTLD', 0, 400, parseFloat(diversityAnswer[4]).toFixed(), 0.01)}
+                  {diversityAnswer[5] > 0 && sliderElement('HDD', 0, 1, parseFloat(diversityAnswer[5]).toFixed(1), 0.01)}
                 </div>}
             </div>
           </TabPanel>
