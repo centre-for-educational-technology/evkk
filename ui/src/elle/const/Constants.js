@@ -1,4 +1,4 @@
-import {makeStyles} from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
 export const EVKK_VERS1_PATH = 'https://evkk.tlu.ee/vers1/';
 
@@ -37,7 +37,7 @@ export const DefaultButtonStyle = {
   '&:disabled': {
     backgroundColor: 'lightgray'
   }
-}
+};
 
 export const DefaultButtonStyleSmall = {
   backgroundColor: '#9C27B0',
@@ -49,58 +49,89 @@ export const DefaultButtonStyleSmall = {
   '&:disabled': {
     backgroundColor: 'lightgray'
   }
-}
+};
+
+export const CorrectorCustomSlider = {
+  height: 10,
+  '& .MuiSlider-thumb': {
+    height: 0,
+    width: 0
+  },
+  '.MuiSlider-rail': {
+    borderRadius: '3px',
+    opacity: 0.8,
+    background: 'linear-gradient(270deg, rgba(78,205,196,1) 0%, rgba(255,230,109,1) 50%, rgba(255,107,107,1) 100%)'
+  },
+  '.MuiSlider-valueLabel': {
+    lineHeight: 25,
+    fontSize: 25,
+    textAlign: 'center',
+    width: 50,
+    height: 50,
+    borderRadius: '25px 25px 25px 3px',
+    backgroundColor: '#9C27B0',
+    transformOrigin: 'bottom',
+    transform: 'rotate(-45deg)',
+    '&:before': {display: 'none'},
+    '&.MuiSlider-valueLabelOpen': {
+      transform: 'translate(40%, -90%) rotate(-45deg)'
+    },
+    '& > *': {
+      transform: 'rotate(45deg)'
+    }
+  }
+};
 
 export const TabStyle = {
-  "& button:hover": {backgroundColor: "rgba(204, 168, 253, 1)", transition: "0.5s"},
-  "& button:active": {backgroundColor: "#9C27B0"},
-  "& button": {
-    backgroundColor: "rgba(255, 208, 253, 1)",
-    lineHeight: "60px",
-    display: "inline-block",
-    color: "black",
-    fontWeight: "bold",
-    height: "60px",
-    borderBottom: "4px solid #9C27B0",
-    borderTop: "4px solid #9C27B0",
-    textTransform: "lowercase",
-    transition: "0.5s",
+  '& button:hover': {backgroundColor: 'rgba(204, 168, 253, 1)', transition: '0.5s'},
+  '& button:active': {backgroundColor: '#9C27B0'},
+  '& button': {
+    backgroundColor: 'rgba(255, 208, 253, 1)',
+    lineHeight: '60px',
+    display: 'inline-block',
+    color: 'black',
+    fontWeight: 'bold',
+    height: '60px',
+    borderBottom: '4px solid #9C27B0',
+    borderTop: '4px solid #9C27B0',
+    textTransform: 'lowercase',
+    transition: '0.5s'
   },
-  "& button::first-letter": {
-    textTransform: "uppercase",
+  '& button::first-letter': {
+    textTransform: 'uppercase'
   },
-  "& button:first-child": {
-    borderRadius: "25px 0 0 25px",
-    paddingLeft: "25px",
-    borderLeft: "4px solid #9C27B0"
+  '& button:first-child': {
+    borderRadius: '25px 0 0 25px',
+    paddingLeft: '25px',
+    borderLeft: '4px solid #9C27B0'
   },
-  "& button:last-child": {
-    borderRadius: "0 25px 25px 0",
-    paddingRight: "25px",
-    borderRight: "4px solid #9C27B0"
+  '& button:last-child': {
+    borderRadius: '0 25px 25px 0',
+    paddingRight: '25px',
+    borderRight: '4px solid #9C27B0'
   },
-  "& button.Mui-selected": {
-    backgroundColor: "#9C27B0",
-    color: "white",
-    borderColor: "rgba(204, 168, 253, 1)",
-    transition: "0.5s"
+  '& button.Mui-selected': {
+    backgroundColor: '#9C27B0',
+    color: 'white',
+    borderColor: 'rgba(204, 168, 253, 1)',
+    transition: '0.5s'
   },
-  "& .MuiTabs-flexContainer": {
-    border: "none",
-    borderBottom: "none",
+  '& .MuiTabs-flexContainer': {
+    border: 'none',
+    borderBottom: 'none'
   },
-  "& .MuiTabs-root": {
-    border: "none",
-    borderBottom: "none",
+  '& .MuiTabs-root': {
+    border: 'none',
+    borderBottom: 'none'
   }
-}
+};
 
 export const ElleOuterDivStyle = {
   background: 'linear-gradient(315deg, rgba(156, 39, 176, 1) 0%, rgba(156, 39, 176, 1) 33%, rgba(204, 168, 253, 1) 33%, rgba(204, 168, 253, 1) 67%, rgba(255, 208, 253, 1) 67%, rgba(255, 208, 253, 1) 100%)',
   height: '100%',
   width: '100%',
-  padding: '7px',
-}
+  padding: '7px'
+};
 
 export const ITEM_HEIGHT = 48;
 
@@ -125,11 +156,11 @@ export const MenuProps = {
 };
 
 export const ElleDefaultChip = {
-  borderColor: "#9C27B0",
+  borderColor: '#9C27B0',
   '& .MuiChip-deleteIcon:hover': {
     color: '#EB0014'
   }
-}
+};
 
 export const modalStyle = {
   position: 'absolute',
