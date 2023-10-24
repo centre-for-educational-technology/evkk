@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import EastIcon from '@mui/icons-material/East';
 import './Correction.css';
 import { Alert, Box, Button, Card, CircularProgress, Tab, Tooltip, Typography } from '@mui/material';
@@ -26,6 +26,10 @@ const Correction = () => {
   const [queryFinished, setQueryFinished] = useState(false);
   const [complexityAnswer, setComplexityAnswer] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const [diversityAnswer, setDiversityAnswer] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const clean = (word) => {
     if (word) {
