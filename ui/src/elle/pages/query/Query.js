@@ -1,67 +1,60 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Alert,
+  Avatar,
   Box,
   Button,
   Checkbox,
   Chip,
   FormControl,
-  IconButton,
   InputLabel,
   ListItemIcon,
   ListItemText,
   MenuItem,
-  Modal,
   Select,
-  Tooltip,
-  Typography
+  Tooltip
 } from '@mui/material';
 import '../styles/Query.css';
 import {
-  AccordionStyle,
   addedYearOptions,
   ageOptions,
   charactersOptions,
   countryOptions,
+  DefaultButtonStyle,
   degreeOptions,
   domainOptions,
   educationOptions,
+  ElleDefaultChip,
   genderOptions,
   languageOptions,
   MenuProps,
-  modalStyle,
   nationalityOptions,
   sentencesOptions,
   studyLevelOptions,
   textLanguageOptions,
   textLevelOptions,
   textTypesOptions,
+  usedMaterialsDisplayOptions,
   usedMaterialsMultiOptions,
-  usedMaterialsOptions,
   useStyles,
   wordsOptions
 } from '../../const/Constants';
 import QueryResults from './QueryResults';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import TextUpload from '../../components/TextUpload';
-import CloseIcon from '@mui/icons-material/Close';
 import { queryStore } from '../../store/QueryStore';
 import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import ReadMoreIcon from '@mui/icons-material/ReadMore';
 
-export default function Query() {
+export default function Query(props) {
 
   const {t} = useTranslation();
   const selectWidth = 300;
   const classes = useStyles();
-  const location = useLocation();
   const navigate = useNavigate();
   const [urlParams] = useSearchParams();
-  const [expanded, setExpanded] = useState(location.pathname === '/tools');
   const [results, setResults] = useState([]);
   const [addedYears, setAddedYears] = useState([]);
   const [characters, setCharacters] = useState([]);
@@ -72,8 +65,6 @@ export default function Query() {
   const [alert, setAlert] = useState(false);
   const [noResultsError, setNoResultsError] = useState(false);
   const [resultsKey, setResultsKey] = useState(1);
-  const [queryVisible, setQueryVisible] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
   const [textInputValue, setTextInputValue] = useState('');
   const [corpusTextsSelected, setCorpusTextsSelected] = useState(0);
   const [ownTextsSelected, setOwnTextsSelected] = useState(false);
@@ -87,6 +78,10 @@ export default function Query() {
     cZjHWUPtD: false,
     cwUSEqQLt: false
   });
+  const [filterHidden, setFilterHidden] = useState(true);
+  const [inputOpen, setInputOpen] = useState(true);
+  const [isQueryAnswerPage, setIsQueryAnswerPage] = useState(false);
+  const [previousSelectedIds, setPreviousSelectedIds] = useState({});
   const [singlePropertyData, setSinglePropertyData] = useState({
     language: 'eesti',
     level: '',
@@ -135,7 +130,6 @@ export default function Query() {
 
   useEffect(() => {
     if (urlParams.get('openQuery')) {
-      setQueryVisible(true);
       navigate('', {replace: true});
     }
   }, [urlParams, navigate]);
@@ -208,11 +202,11 @@ export default function Query() {
           if (result.length > 0) {
             setNoResultsError(false);
             setResults(result);
+            setIsQueryAnswerPage(true);
           } else {
             setNoResultsError(true);
             setResults([]);
           }
-          setExpanded(false);
         });
     }
   };
@@ -313,10 +307,6 @@ export default function Query() {
     setSinglePropertyData(newSinglePropertyData);
   };
 
-  const changeAccordion = () => {
-    setExpanded(!expanded);
-  };
-
   const alterTextTypeHierarchyDropdown = (e, hierarchyLevel, corpus) => {
     // hierarchyLevel: true - standalone or hierarchy child, false - hierarchy parent
     let id = e.target.localName === 'span'
@@ -390,7 +380,6 @@ export default function Query() {
       type: 'CHANGE_OWN_TEXTS',
       value: textInputValue
     });
-    setModalOpen(false);
   };
 
   const handleChipDelete = (type) => {
@@ -407,187 +396,200 @@ export default function Query() {
     }
   };
 
+  {/*TODO Query buttons need to be redone*/
+  }
+  const setFilterBoxClass = () => {
+    if (filterHidden) {
+      setInputOpen(true);
+      setFilterHidden(false);
+      document.getElementById('choose-input-button').classList.remove('button-box-open');
+      document.getElementById('choose-text-button').classList.add('button-box-open');
+    } else if (!filterHidden) {
+      setFilterHidden(true);
+      document.activeElement.blur();
+      document.getElementById('choose-text-button').classList.remove('button-box-open');
+    }
+  };
+
+  useEffect(() => {
+    if (props.queryOpen === 'queryOpen') {
+      setFilterHidden(false);
+    }
+  }, []);
+
+  {/*TODO Query buttons need to be redone*/
+  }
+  const setInputHidden = () => {
+    if (inputOpen) {
+      setFilterHidden(true);
+      setInputOpen(false);
+      document.getElementById('choose-text-button').classList.remove('button-box-open');
+      document.getElementById('choose-input-button').classList.add('button-box-open');
+    } else if (!inputOpen) {
+      setInputOpen(true);
+      document.activeElement.blur();
+      document.getElementById('choose-input-button').classList.remove('button-box-open');
+    }
+  };
+
   return (
-    <div>
-      <Alert severity="info">{t('tools_infobox')}</Alert>
-      <br/>
-      {alert && <><Alert severity="error">{t('error_query_no_subcorpus_picked')}</Alert><br/></>}
+    <div className="query-main-container">
       <div className="buttonBox">
         <Button variant="contained"
+                id="choose-text-button"
+                className={'button-query-hover button-box-open'}
                 onClick={() => {
-                  setQueryVisible(true);
-                  setExpanded(true);
-                }}>{t('query_choose_texts')}</Button>
-        <Button variant="contained"
-                onClick={() => setModalOpen(true)}
-                className="buttonSecondLeft">{t('query_own_texts')}</Button>
-        <Button variant="contained"
-                onClick={() => navigate('adding')}
-                className="buttonRight">{t('common_publish_your_text')}</Button>
-      </div>
-      {(corpusTextsSelected > 0 || ownTextsSelected) && <>
-        <br/>
-        {t('query_results_saved_for_analysis')}
-        {corpusTextsSelected > 0 &&
-          <Chip
-            label={corpusTextsSelected > 1 ? t('query_results_saved_for_analysis_corpus_plural', {amount: corpusTextsSelected}) : t('query_results_saved_for_analysis_corpus')}
-            className="selected-text-chip" variant="outlined" onDelete={() => handleChipDelete('CORPUS_TEXTS')}/>
-        }
-        {ownTextsSelected > 0 &&
-          <Chip label={t('query_results_saved_for_analysis_own_texts')}
-                className="selected-text-chip"
-                variant="outlined"
-                onDelete={() => handleChipDelete('OWN_TEXTS')}/>
-        }
-      </>}
-      {queryVisible && <span>
-        <Accordion sx={AccordionStyle}
-                   className="queryAccordion"
-                   expanded={expanded}
-                   onChange={changeAccordion}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon/>}
-          id="filters-header"
+                  setFilterBoxClass();
+                  setAlert(false);
+                  setNoResultsError(false);
+                }}>
+          <div className="button-text-query">
+            <ManageSearchIcon className="manage-search-icon"/>
+            <span className="manage-search-icon-text">
+              {t('query_choose_texts')}
+            </span>
+          </div>
+        </Button>
+        <Box
+          id="menu-box-choose-text"
+          hidden={filterHidden}
+          className="menu-box-choose-text"
         >
-          <Typography>
-            {t('query_filters')}
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <form action=""
-                onSubmit={(e) => {
-                  e.preventDefault();
-                }}
-                id="vorm">
-            <div className="queryContainer">
-              <div>
-                <b>{t('query_subcorpus')}</b>
-                <br/><br/>
-                <Checkbox
-                  checked={corpusCheckboxStatus.all}
-                  onChange={alterAllCorpusCheckboxes}
-                />
-                <label>{t('query_subcorpus_all')}</label>
-                <br/>
-                <Checkbox
-                  id="clWmOIrLa"
-                  checked={corpusCheckboxStatus.clWmOIrLa}
-                  onChange={alterCorpusCheckbox}
-                />
-                <Tooltip title={t('query_subcorpus_L2_proficiency_examinations_hover')}
-                         followCursor>
-                  <label className="corpustitle">
-                    {t('query_subcorpus_L2_proficiency_examinations')}
-                  </label>
-                </Tooltip>
-                <br/>
-                <Checkbox
-                  id="cFqPphvYi"
-                  checked={corpusCheckboxStatus.cFqPphvYi}
-                  onChange={alterCorpusCheckbox}
-                />
-                <Tooltip title={t('query_subcoprus_L2_olympiade_hover')}
-                         followCursor>
-                  <label className="corpustitle">
-                    {t('query_subcoprus_L2_olympiade')}
-                  </label>
-                </Tooltip>
-                <br/>
-                <Checkbox
-                  id="cFOoRQekA"
-                  checked={corpusCheckboxStatus.cFOoRQekA}
-                  onChange={alterCorpusCheckbox}
-                />
-                <Tooltip
-                  title={t('query_subcorpus_L2_estonian_hover')}
-                  followCursor>
-                  <label className="corpustitle">
-                    {t('query_subcorpus_L2_estonian')}
-                  </label>
-                </Tooltip>
-                <br/>
-                <Checkbox
-                  id="cYDRkpymb"
-                  checked={corpusCheckboxStatus.cYDRkpymb}
-                  onChange={alterCorpusCheckbox}
-                />
-                <Tooltip title={t('query_subcorpus_L1_estonian_hover')}
-                         followCursor>
-                  <label className="corpustitle">
-                    {t('query_subcorpus_L1_estonian')}
-                  </label>
-                </Tooltip>
-                <br/>
-                <Checkbox
-                  id="cgSRJPKTr"
-                  checked={corpusCheckboxStatus.cgSRJPKTr}
-                  onChange={alterCorpusCheckbox}
-                />
-                <Tooltip title={t('query_subcorpus_L1_russian_hover')}
-                         followCursor>
-                  <label className="corpustitle">
-                    {t('query_subcorpus_L1_russian')}
-                  </label>
-                </Tooltip>
-                <br/>
-                <Checkbox
-                  id="cZjHWUPtD"
-                  checked={corpusCheckboxStatus.cZjHWUPtD}
-                  onChange={alterCorpusCheckbox}
-                />
-                <Tooltip
-                  title={t('query_subcorpus_L3_russian_hover')}
-                  followCursor>
-                  <label className="corpustitle">
-                    {t('query_subcorpus_L3_russian')}
-                  </label>
-                </Tooltip>
-                <br/>
-                <Checkbox
-                  id="cwUSEqQLt"
-                  checked={corpusCheckboxStatus.cwUSEqQLt}
-                  onChange={alterCorpusCheckbox}
-                />
-                <Tooltip
-                  title={t('query_subcorpus_academic_estonian_hover')}
-                  followCursor>
-                  <label className="corpustitle">
-                    {t('query_subcorpus_academic_estonian')}
-                  </label>
-                </Tooltip>
-                <br/>
-              </div>
-              <div>
-                <b>{t('common_text_data')}</b>
-                <br/><br/>
-                <FormControl className={classes.formControl}
-                             size="small">
-                  <InputLabel id="types-label">{t('query_text_data_type')}</InputLabel>
-                  <Select
-                    labelId="types-label"
-                    label={t('query_text_data_type')}
-                    multiple
-                    value={textTypes}
-                    name="types"
-                    renderValue={(textType) => textType.length > 1 ? t('query_text_data_type_selected_plural', {amount: textType.length}) : t('query_text_data_type_selected')}
-                    disabled={getSelectedCorpusList().length === 0}
-                    MenuProps={MenuProps}
-                  >
-                    {Object.keys(textTypesOptions).map((corpus) => (
-                      corpusCheckboxStatus[corpus] && Object.keys(textTypesOptions[corpus]).map((textType) => (
-                        typeof textTypesOptions[corpus][textType] === 'string'
-                          ? <MenuItem key={textType}
-                                      id={textType}
-                                      onClick={(e) => alterTextTypeHierarchyDropdown(e, true, null)}
-                                      value={textType}>
-                            <ListItemIcon>
-                              <Checkbox id={textType}
-                                        checked={textTypes.indexOf(textType) > -1}/>
-                            </ListItemIcon>
-                            <ListItemText id={textType}
-                                          primary={t(textTypesOptions[corpus][textType])}/>
-                          </MenuItem>
-                          : <span key={`${textType}_span`}>
+          {!isQueryAnswerPage ?
+            <form action=""
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                  }}
+                  id="vorm">
+              <div className="queryContainer">
+                <div>
+                  <b>{t('query_subcorpus')}</b>
+                  <br/><br/>
+                  <Checkbox
+                    checked={corpusCheckboxStatus.all}
+                    onChange={alterAllCorpusCheckboxes}
+                  />
+                  <label>{t('query_subcorpus_all')}</label>
+                  <br/>
+                  <Checkbox
+                    id="clWmOIrLa"
+                    checked={corpusCheckboxStatus.clWmOIrLa}
+                    onChange={alterCorpusCheckbox}
+                  />
+                  <Tooltip title={t('query_subcorpus_L2_proficiency_examinations_hover')}
+                           followCursor>
+                    <label className="corpustitle">
+                      {t('query_subcorpus_L2_proficiency_examinations')}
+                    </label>
+                  </Tooltip>
+                  <br/>
+                  <Checkbox
+                    id="cFqPphvYi"
+                    checked={corpusCheckboxStatus.cFqPphvYi}
+                    onChange={alterCorpusCheckbox}
+                  />
+                  <Tooltip title={t('query_subcoprus_L2_olympiade_hover')}
+                           followCursor>
+                    <label className="corpustitle">
+                      {t('query_subcoprus_L2_olympiade')}
+                    </label>
+                  </Tooltip>
+                  <br/>
+                  <Checkbox
+                    id="cFOoRQekA"
+                    checked={corpusCheckboxStatus.cFOoRQekA}
+                    onChange={alterCorpusCheckbox}
+                  />
+                  <Tooltip
+                    title={t('query_subcorpus_L2_estonian_hover')}
+                    followCursor>
+                    <label className="corpustitle">
+                      {t('query_subcorpus_L2_estonian')}
+                    </label>
+                  </Tooltip>
+                  <br/>
+                  <Checkbox
+                    id="cYDRkpymb"
+                    checked={corpusCheckboxStatus.cYDRkpymb}
+                    onChange={alterCorpusCheckbox}
+                  />
+                  <Tooltip title={t('query_subcorpus_L1_estonian_hover')}
+                           followCursor>
+                    <label className="corpustitle">
+                      {t('query_subcorpus_L1_estonian')}
+                    </label>
+                  </Tooltip>
+                  <br/>
+                  <Checkbox
+                    id="cgSRJPKTr"
+                    checked={corpusCheckboxStatus.cgSRJPKTr}
+                    onChange={alterCorpusCheckbox}
+                  />
+                  <Tooltip title={t('query_subcorpus_L1_russian_hover')}
+                           followCursor>
+                    <label className="corpustitle">
+                      {t('query_subcorpus_L1_russian')}
+                    </label>
+                  </Tooltip>
+                  <br/>
+                  <Checkbox
+                    id="cZjHWUPtD"
+                    checked={corpusCheckboxStatus.cZjHWUPtD}
+                    onChange={alterCorpusCheckbox}
+                  />
+                  <Tooltip
+                    title={t('query_subcorpus_L3_russian_hover')}
+                    followCursor>
+                    <label className="corpustitle">
+                      {t('query_subcorpus_L3_russian')}
+                    </label>
+                  </Tooltip>
+                  <br/>
+                  <Checkbox
+                    id="cwUSEqQLt"
+                    checked={corpusCheckboxStatus.cwUSEqQLt}
+                    onChange={alterCorpusCheckbox}
+                  />
+                  <Tooltip
+                    title={t('query_subcorpus_academic_estonian_hover')}
+                    followCursor>
+                    <label className="corpustitle">
+                      {t('query_subcorpus_academic_estonian')}
+                    </label>
+                  </Tooltip>
+                  <br/>
+                </div>
+                <div>
+                  <b>{t('common_text_data')}</b>
+                  <br/><br/>
+                  <FormControl className={classes.formControl}
+                               size="small">
+                    <InputLabel id="types-label">{t('query_text_data_type')}</InputLabel>
+                    <Select
+                      labelId="types-label"
+                      label={t('query_text_data_type')}
+                      multiple
+                      value={textTypes}
+                      name="types"
+                      renderValue={(textType) => textType.length > 1 ? t('query_text_data_type_selected_plural', {amount: textType.length}) : t('query_text_data_type_selected')}
+                      disabled={getSelectedCorpusList().length === 0}
+                      MenuProps={MenuProps}
+                    >
+                      {Object.keys(textTypesOptions).map((corpus) => (
+                        corpusCheckboxStatus[corpus] && Object.keys(textTypesOptions[corpus]).map((textType) => (
+                          typeof textTypesOptions[corpus][textType] === 'string'
+                            ? <MenuItem key={textType}
+                                        id={textType}
+                                        onClick={(e) => alterTextTypeHierarchyDropdown(e, true, null)}
+                                        value={textType}>
+                              <ListItemIcon>
+                                <Checkbox id={textType}
+                                          checked={textTypes.indexOf(textType) > -1}/>
+                              </ListItemIcon>
+                              <ListItemText id={textType}
+                                            primary={t(textTypesOptions[corpus][textType])}/>
+                            </MenuItem>
+                            : <span key={`${textType}_span`}>
                             <MenuItem key={textType}
                                       id={textType}
                                       onClick={(e) => alterTextTypeHierarchyDropdown(e, false, corpus)}
@@ -599,87 +601,93 @@ export default function Query() {
                               <ListItemText id={textType}
                                             primary={t(textType)}/>
                             </MenuItem>
-                            {Object.keys(textTypesOptions[corpus][textType]).map((specificTextType) => (
-                              <MenuItem key={specificTextType}
-                                        id={specificTextType}
-                                        onClick={(e) => alterTextTypeHierarchyDropdown(e, true, null)}
-                                        value={specificTextType}
-                                        sx={{paddingLeft: '2rem'}}>
-                                <ListItemIcon>
-                                  <Checkbox id={specificTextType}
-                                            checked={textTypes.indexOf(specificTextType) > -1}/>
-                                </ListItemIcon>
-                                <ListItemText id={specificTextType}
-                                              primary={t(textTypesOptions[corpus][textType][specificTextType])}/>
-                              </MenuItem>
-                            ))}
+                              {Object.keys(textTypesOptions[corpus][textType]).map((specificTextType) => (
+                                <MenuItem key={specificTextType}
+                                          id={specificTextType}
+                                          onClick={(e) => alterTextTypeHierarchyDropdown(e, true, null)}
+                                          value={specificTextType}
+                                          sx={{paddingLeft: '2rem'}}>
+                                  <ListItemIcon>
+                                    <Checkbox id={specificTextType}
+                                              checked={textTypes.indexOf(specificTextType) > -1}/>
+                                  </ListItemIcon>
+                                  <ListItemText id={specificTextType}
+                                                primary={t(textTypesOptions[corpus][textType][specificTextType])}/>
+                                </MenuItem>
+                              ))}
                           </span>
-                      ))
-                    ))}
-                  </Select>
-                </FormControl>
-                <br/><br/>
-                <FormControl size="small">
-                  <InputLabel id="language-label">{t('query_text_data_language')}</InputLabel>
-                  <Select
-                    sx={{minWidth: selectWidth}}
-                    labelId="language-label"
-                    name="language"
-                    value={singlePropertyData.language}
-                    label={t('query_text_data_language')}
-                    onClick={(e) => alterSinglePropertyData(e, 'language')}
-                  >
-                    {Object.keys(textLanguageOptions).map((lang) => (
-                      <MenuItem key={lang} value={lang}>{t(textLanguageOptions[lang])}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <br/><br/>
-                {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
-                  ? <>
-                    <FormControl size="small">
-                      <InputLabel id="domain-label">{t('common_text_data_field_of_research')}</InputLabel>
-                      <Select
-                        sx={{minWidth: selectWidth}}
-                        labelId="domain-label"
-                        name="domain"
-                        value={singlePropertyData.domain}
-                        label={t('common_text_data_field_of_research')}
-                        onClick={(e) => alterSinglePropertyData(e, 'domain')}
+                        ))
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <br/><br/>
+                  <FormControl size="small">
+                    <InputLabel id="language-label">{t('query_text_data_language')}</InputLabel>
+                    <Select
+                      sx={{minWidth: selectWidth}}
+                      labelId="language-label"
+                      name="language"
+                      value={singlePropertyData.language}
+                      label={t('query_text_data_language')}
+                      onClick={(e) => alterSinglePropertyData(e, 'language')}
+                    >
+                      {Object.keys(textLanguageOptions).map((lang) => (
+                        <MenuItem key={lang}
+                                  value={lang}>{t(textLanguageOptions[lang])}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <br/><br/>
+                  {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
+                    ? <>
+                      <FormControl size="small">
+                        <InputLabel
+                          id="domain-label">{t('common_text_data_field_of_research')}</InputLabel>
+                        <Select
+                          sx={{minWidth: selectWidth}}
+                          labelId="domain-label"
+                          name="domain"
+                          value={singlePropertyData.domain}
+                          label={t('common_text_data_field_of_research')}
+                          onClick={(e) => alterSinglePropertyData(e, 'domain')}
+                        >
+                          {Object.keys(domainOptions).map((domain) => (
+                            <MenuItem key={domain}
+                                      value={domain}>{t(domainOptions[domain])}</MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                      <br/><br/>
+                      <FormControl
+                        className={classes.formControl}
+                        size="small"
                       >
-                        {Object.keys(domainOptions).map((domain) => (
-                          <MenuItem key={domain} value={domain}>{t(domainOptions[domain])}</MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    <br/><br/>
-                    <FormControl className={classes.formControl}
-                                 size="small">
-                      <InputLabel
-                        id="usedMultiMaterials-label">{t('query_text_data_used_study_or_supporting_materials')}</InputLabel>
-                      <Select
-                        labelId="usedMultiMaterials-label"
-                        label={t('query_text_data_used_study_or_supporting_materials')}
-                        multiple
-                        value={usedMultiMaterials}
-                        name="usedMultiMaterials"
-                        renderValue={(material) => material.length > 1 ? t('query_text_data_material_selected_plural', {amount: material.length}) : t('query_text_data_material_selected')}
-                        MenuProps={MenuProps}
-                      >
-                        {Object.keys(usedMaterialsMultiOptions).map((material) => (
-                          typeof usedMaterialsMultiOptions[material] === 'string'
-                            ? <MenuItem key={material}
-                                        id={material}
-                                        onClick={(e) => alterUsedMaterialsHierarchyDropdown(e, true)}
-                                        value={material}>
-                              <ListItemIcon>
-                                <Checkbox id={material}
-                                          checked={usedMultiMaterials.indexOf(material) > -1}/>
-                              </ListItemIcon>
-                              <ListItemText id={material}
-                                            primary={t(usedMaterialsMultiOptions[material])}/>
-                            </MenuItem>
-                            : <span key={`${material}_span`}>
+                        <InputLabel id="usedMultiMaterials-label">
+                          {t('query_text_data_used_study_or_supporting_materials')}
+                        </InputLabel>
+                        <Select
+                          labelId="usedMultiMaterials-label"
+                          label={t('query_text_data_used_study_or_supporting_materials')}
+                          multiple
+                          value={usedMultiMaterials}
+                          name="usedMultiMaterials"
+                          renderValue={(material) => material.length > 1 ? t('query_text_data_material_selected_plural', {amount: material.length}) : t('query_text_data_material_selected')}
+                          MenuProps={MenuProps}
+                        >
+                          {Object.keys(usedMaterialsMultiOptions).map((material) => (
+                            typeof usedMaterialsMultiOptions[material] === 'string'
+                              ? <MenuItem key={material}
+                                          id={material}
+                                          onClick={(e) => alterUsedMaterialsHierarchyDropdown(e, true)}
+                                          value={material}>
+                                <ListItemIcon>
+                                  <Checkbox id={material}
+                                            checked={usedMultiMaterials.indexOf(material) > -1}/>
+                                </ListItemIcon>
+                                <ListItemText id={material}
+                                              primary={t(usedMaterialsMultiOptions[material])}/>
+                              </MenuItem>
+                              : <span key={`${material}_span`}>
                                 <MenuItem key={material}
                                           id={material}
                                           onClick={(e) => alterUsedMaterialsHierarchyDropdown(e, false)}
@@ -691,346 +699,380 @@ export default function Query() {
                                   <ListItemText id={material}
                                                 primary={t(material)}/>
                                 </MenuItem>
-                              {Object.keys(usedMaterialsMultiOptions[material]).map((subMaterial) => (
-                                <MenuItem key={subMaterial}
-                                          id={subMaterial}
-                                          onClick={(e) => alterUsedMaterialsHierarchyDropdown(e, true)}
-                                          value={subMaterial}
-                                          sx={{paddingLeft: '2rem'}}>
-                                  <ListItemIcon>
-                                    <Checkbox id={subMaterial}
-                                              checked={usedMultiMaterials.indexOf(subMaterial) > -1}/>
-                                  </ListItemIcon>
-                                  <ListItemText id={subMaterial}
-                                                primary={t(usedMaterialsMultiOptions[material][subMaterial])}/>
-                                </MenuItem>
-                              ))}
+                                {Object.keys(usedMaterialsMultiOptions[material]).map((subMaterial) => (
+                                  <MenuItem key={subMaterial}
+                                            id={subMaterial}
+                                            onClick={(e) => alterUsedMaterialsHierarchyDropdown(e, true)}
+                                            value={subMaterial}
+                                            sx={{paddingLeft: '2rem'}}>
+                                    <ListItemIcon>
+                                      <Checkbox id={subMaterial}
+                                                style={{color: '#9C27B0'}}
+                                                checked={usedMultiMaterials.indexOf(subMaterial) > -1}/>
+                                    </ListItemIcon>
+                                    <ListItemText id={subMaterial}
+                                                  primary={t(usedMaterialsMultiOptions[material][subMaterial])}/>
+                                  </MenuItem>
+                                ))}
                               </span>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </>
-                  : <>
-                    <FormControl size="small">
-                      <InputLabel id="level-label">{t('query_text_data_level')}</InputLabel>
-                      <Select
-                        sx={{minWidth: selectWidth}}
-                        labelId="level-label"
-                        name="level"
-                        value={singlePropertyData.level}
-                        label={t('query_text_data_level')}
-                        onClick={(e) => alterSinglePropertyData(e, 'level')}
-                      >
-                        {textLevelOptions.map((level) => (
-                          <MenuItem key={level} value={level}>{level}</MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    <br/><br/>
-                    <FormControl size="small">
-                      <InputLabel id="usedMaterials-label">{t('query_text_data_used_supporting_materials')}</InputLabel>
-                      <Select
-                        sx={{minWidth: selectWidth}}
-                        labelId="usedMaterials-label"
-                        name="usedMaterials"
-                        value={singlePropertyData.usedMaterials}
-                        label={t('query_text_data_used_supporting_materials')}
-                        onClick={(e) => alterSinglePropertyData(e, 'usedMaterials')}
-                      >
-                        {Object.keys(usedMaterialsOptions).map((material) => (
-                          <MenuItem key={material} value={material}>{t(usedMaterialsOptions[material])}</MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </>
-                }
-                <br/><br/>
-                <FormControl className={classes.formControl}
-                             size="small">
-                  <InputLabel id="addedYears-label">{t('query_text_data_year_of_publication')}</InputLabel>
-                  <Select
-                    labelId="addedYears-label"
-                    label={t('query_text_data_year_of_publication')}
-                    multiple
-                    value={addedYears}
-                    name="addedYears"
-                    onChange={(e) => setAddedYears(e.target.value)}
-                    renderValue={(addedYear) => addedYear.join(', ')}
-                    MenuProps={MenuProps}
-                  >
-                    {addedYearOptions.map((year) => (
-                      <MenuItem key={year}
-                                value={t(year)}>
-                        <ListItemIcon>
-                          <Checkbox checked={addedYears.indexOf(t(year)) > -1}/>
-                        </ListItemIcon>
-                        <ListItemText primary={year}/>
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <br/><br/>
-                <FormControl className={classes.formControl}
-                             size="small">
-                  <InputLabel id="characters-label">{t('query_text_data_characters')}</InputLabel>
-                  <Select
-                    labelId="characters-label"
-                    label={t('query_text_data_characters')}
-                    multiple
-                    value={characters}
-                    name="characters"
-                    onChange={(e) => setCharacters(e.target.value)}
-                    renderValue={(character) => character.join(', ')}
-                    MenuProps={MenuProps}
-                  >
-                    {charactersOptions.map((item) => (
-                      <MenuItem key={item}
-                                value={t(item)}>
-                        <ListItemIcon>
-                          <Checkbox checked={characters.indexOf(t(item)) > -1}/>
-                        </ListItemIcon>
-                        <ListItemText primary={t(item)}/>
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <br/><br/>
-                <FormControl className={classes.formControl}
-                             size="small">
-                  <InputLabel id="words-label">{t('common_words')}</InputLabel>
-                  <Select
-                    labelId="words-label"
-                    label={t('common_words')}
-                    multiple
-                    value={words}
-                    name="words"
-                    onChange={(e) => setWords(e.target.value)}
-                    renderValue={(word) => word.join(', ')}
-                    MenuProps={MenuProps}
-                  >
-                    {wordsOptions.map((item) => (
-                      <MenuItem key={item}
-                                value={t(item)}>
-                        <ListItemIcon>
-                          <Checkbox checked={words.indexOf(t(item)) > -1}/>
-                        </ListItemIcon>
-                        <ListItemText primary={t(item)}/>
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <br/><br/>
-                <FormControl className={classes.formControl}
-                             size="small">
-                  <InputLabel id="sentences-label">{t('common_sentences')}</InputLabel>
-                  <Select
-                    labelId="sentences-label"
-                    label={t('common_sentences')}
-                    multiple
-                    value={sentences}
-                    name="sentences"
-                    onChange={(e) => setSentences(e.target.value)}
-                    renderValue={(sentence) => sentence.join(', ')}
-                    MenuProps={MenuProps}
-                  >
-                    {sentencesOptions.map((item) => (
-                      <MenuItem key={item}
-                                value={t(item)}>
-                        <ListItemIcon>
-                          <Checkbox checked={sentences.indexOf(t(item)) > -1}/>
-                        </ListItemIcon>
-                        <ListItemText primary={t(item)}/>
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </div>
-              <div>
-                <b>{t('common_author_data')}</b>
-                <br/><br/>
-                <FormControl size="small">
-                  <InputLabel id="age-label">{t('query_author_data_age')}</InputLabel>
-                  <Select
-                    sx={{minWidth: selectWidth}}
-                    labelId="age-label"
-                    name="age"
-                    value={singlePropertyData.age}
-                    label={t('query_author_data_age')}
-                    onClick={(e) => alterSinglePropertyData(e, 'age')}
-                  >
-                    {Object.keys(ageOptions).map((age) => (
-                      <MenuItem key={age} value={age}>{t(ageOptions[age])}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <br/><br/>
-                <FormControl size="small">
-                  <InputLabel id="gender-label">{t('query_author_data_gender')}</InputLabel>
-                  <Select
-                    sx={{minWidth: selectWidth}}
-                    labelId="gender-label"
-                    name="gender"
-                    value={singlePropertyData.gender}
-                    label={t('query_author_data_gender')}
-                    onClick={(e) => alterSinglePropertyData(e, 'gender')}
-                  >
-                    {Object.keys(genderOptions).map((gender) => (
-                      <MenuItem key={gender} value={gender}>{t(genderOptions[gender])}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <br/><br/>
-                {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
-                  ? <>
-                    <FormControl size="small">
-                      <InputLabel id="studyLevel-label">{t('query_author_data_level_of_study')}</InputLabel>
-                      <Select
-                        sx={{minWidth: selectWidth}}
-                        labelId="studyLevel-label"
-                        name="studyLevel"
-                        value={singlePropertyData.studyLevel}
-                        label={t('query_author_data_level_of_study')}
-                        onClick={(e) => alterSinglePropertyData(e, 'studyLevel')}
-                      >
-                        {Object.keys(studyLevelOptions).map((level) => (
-                          <MenuItem key={level} value={level}>{t(studyLevelOptions[level])}</MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    <br/><br/>
-                    <FormControl size="small">
-                      <InputLabel id="degree-label">{t('query_author_data_degree')}</InputLabel>
-                      <Select
-                        sx={{minWidth: selectWidth}}
-                        labelId="degree-label"
-                        name="degree"
-                        value={singlePropertyData.degree}
-                        label={t('query_author_data_degree')}
-                        onClick={(e) => alterSinglePropertyData(e, 'degree')}
-                      >
-                        {Object.keys(degreeOptions).map((degree) => (
-                          <MenuItem key={degree} value={degree}>{t(degreeOptions[degree])}</MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </>
-                  : <FormControl size="small">
-                    <InputLabel id="education-label">{t('query_author_data_education')}</InputLabel>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </>
+                    : <>
+                      <FormControl size="small">
+                        <InputLabel id="level-label">{t('query_text_data_level')}</InputLabel>
+                        <Select
+                          sx={{minWidth: selectWidth}}
+                          labelId="level-label"
+                          name="level"
+                          value={singlePropertyData.level}
+                          label={t('query_text_data_level')}
+                          onClick={(e) => alterSinglePropertyData(e, 'level')}
+                        >
+                          {textLevelOptions.map((level) => (
+                            <MenuItem key={level} value={level}>{level}</MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                      <br/><br/>
+                      <FormControl size="small">
+                        <InputLabel
+                          id="usedMaterials-label">{t('query_text_data_used_supporting_materials')}</InputLabel>
+                        <Select
+                          sx={{minWidth: selectWidth}}
+                          labelId="usedMaterials-label"
+                          name="usedMaterials"
+                          value={singlePropertyData.usedMaterials}
+                          label={t('query_text_data_used_supporting_materials')}
+                          onClick={(e) => alterSinglePropertyData(e, 'usedMaterials')}
+                        >
+                          {Object.keys(usedMaterialsDisplayOptions).map((material) => (
+                            <MenuItem key={material}
+                                      value={material}>{t(usedMaterialsDisplayOptions[material])}</MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </>
+                  }
+                  <br/><br/>
+                  <FormControl className={classes.formControl}
+                               size="small">
+                    <InputLabel
+                      id="addedYears-label">{t('query_text_data_year_of_publication')}</InputLabel>
                     <Select
-                      sx={{minWidth: selectWidth}}
-                      labelId="education-label"
-                      name="education"
-                      value={singlePropertyData.education}
-                      label={t('query_author_data_education')}
-                      onClick={(e) => alterSinglePropertyData(e, 'education')}
+                      labelId="addedYears-label"
+                      label={t('query_text_data_year_of_publication')}
+                      multiple
+                      value={addedYears}
+                      name="addedYears"
+                      onChange={(e) => setAddedYears(e.target.value)}
+                      renderValue={(addedYear) => addedYear.join(', ')}
+                      MenuProps={MenuProps}
                     >
-                      {Object.keys(educationOptions).map((education) => (
-                        <MenuItem key={education} value={education}>{t(educationOptions[education])}</MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>}
-                <br/><br/>
-                {checkIfOnlySpecificCorpusIsChecked('clWmOIrLa')
-                  ? <FormControl size="small">
-                    <InputLabel id="nationality-label">{t('query_author_data_nationality')}</InputLabel>
-                    <Select
-                      sx={{minWidth: selectWidth}}
-                      labelId="nationality-label"
-                      name="nationality"
-                      value={singlePropertyData.nationality}
-                      label={t('query_author_data_nationality')}
-                      onClick={(e) => alterSinglePropertyData(e, 'nationality')}
-                    >
-                      {Object.keys(nationalityOptions).map((nationality) => (
-                        <MenuItem key={nationality} value={nationality}>{t(nationalityOptions[nationality])}</MenuItem>
+                      {addedYearOptions.map((year) => (
+                        <MenuItem key={year}
+                                  value={t(year)}>
+                          <ListItemIcon>
+                            <Checkbox checked={addedYears.indexOf(t(year)) > -1}/>
+                          </ListItemIcon>
+                          <ListItemText primary={year}/>
+                        </MenuItem>
                       ))}
                     </Select>
                   </FormControl>
-                  : <FormControl size="small">
-                    <InputLabel id="nativeLang-label">{t('query_author_data_native_language')}</InputLabel>
+                  <br/><br/>
+                  <FormControl className={classes.formControl}
+                               size="small">
+                    <InputLabel id="characters-label">{t('query_text_data_characters')}</InputLabel>
                     <Select
-                      sx={{minWidth: selectWidth}}
-                      labelId="nativeLang-label"
-                      name="nativeLang"
-                      value={singlePropertyData.nativeLang}
-                      label={t('query_author_data_native_language')}
-                      onClick={(e) => alterSinglePropertyData(e, 'nativeLang')}
+                      labelId="characters-label"
+                      label={t('query_text_data_characters')}
+                      multiple
+                      value={characters}
+                      name="characters"
+                      onChange={(e) => setCharacters(e.target.value)}
+                      renderValue={(character) => character.join(', ')}
+                      MenuProps={MenuProps}
                     >
-                      {Object.keys(languageOptions).map((lang) => (
-                        <MenuItem key={lang} value={lang}>{t(languageOptions[lang])}</MenuItem>
+                      {charactersOptions.map((item) => (
+                        <MenuItem key={item}
+                                  value={t(item)}>
+                          <ListItemIcon>
+                            <Checkbox checked={characters.indexOf(t(item)) > -1}/>
+                          </ListItemIcon>
+                          <ListItemText primary={t(item)}/>
+                        </MenuItem>
                       ))}
                     </Select>
                   </FormControl>
-                }
-                <br/><br/>
-                {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
-                  ? <>
-                    <FormControl size="small">
-                      <InputLabel id="otherLang-label">{t('query_author_data_other_languages')}</InputLabel>
+                  <br/><br/>
+                  <FormControl className={classes.formControl}
+                               size="small">
+                    <InputLabel id="words-label">{t('common_words')}</InputLabel>
+                    <Select
+                      labelId="words-label"
+                      label={t('common_words')}
+                      multiple
+                      value={words}
+                      name="words"
+                      onChange={(e) => setWords(e.target.value)}
+                      renderValue={(word) => word.join(', ')}
+                      MenuProps={MenuProps}
+                    >
+                      {wordsOptions.map((item) => (
+                        <MenuItem key={item}
+                                  value={t(item)}>
+                          <ListItemIcon>
+                            <Checkbox checked={words.indexOf(t(item)) > -1}/>
+                          </ListItemIcon>
+                          <ListItemText primary={t(item)}/>
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <br/><br/>
+                  <FormControl className={classes.formControl}
+                               size="small">
+                    <InputLabel id="sentences-label">{t('common_sentences')}</InputLabel>
+                    <Select
+                      labelId="sentences-label"
+                      label={t('common_sentences')}
+                      multiple
+                      value={sentences}
+                      name="sentences"
+                      onChange={(e) => setSentences(e.target.value)}
+                      renderValue={(sentence) => sentence.join(', ')}
+                      MenuProps={MenuProps}
+                    >
+                      {sentencesOptions.map((item) => (
+                        <MenuItem key={item}
+                                  value={t(item)}>
+                          <ListItemIcon>
+                            <Checkbox checked={sentences.indexOf(t(item)) > -1}/>
+                          </ListItemIcon>
+                          <ListItemText primary={t(item)}/>
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </div>
+                <div>
+                  <b>{t('common_author_data')}</b>
+                  <br/><br/>
+                  <FormControl size="small">
+                    <InputLabel id="age-label">{t('query_author_data_age')}</InputLabel>
+                    <Select
+                      sx={{minWidth: selectWidth}}
+                      labelId="age-label"
+                      name="age"
+                      value={singlePropertyData.age}
+                      label={t('query_author_data_age')}
+                      onClick={(e) => alterSinglePropertyData(e, 'age')}
+                    >
+                      {Object.keys(ageOptions).map((age) => (
+                        <MenuItem key={age} value={age}>{t(ageOptions[age])}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <br/><br/>
+                  <FormControl size="small">
+                    <InputLabel id="gender-label">{t('query_author_data_gender')}</InputLabel>
+                    <Select
+                      sx={{minWidth: selectWidth}}
+                      labelId="gender-label"
+                      name="gender"
+                      value={singlePropertyData.gender}
+                      label={t('query_author_data_gender')}
+                      onClick={(e) => alterSinglePropertyData(e, 'gender')}
+                    >
+                      {Object.keys(genderOptions).map((gender) => (
+                        <MenuItem key={gender}
+                                  value={gender}>{t(genderOptions[gender])}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <br/><br/>
+                  {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
+                    ? <>
+                      <FormControl size="small">
+                        <InputLabel
+                          id="studyLevel-label">{t('query_author_data_level_of_study')}</InputLabel>
+                        <Select
+                          sx={{minWidth: selectWidth}}
+                          labelId="studyLevel-label"
+                          name="studyLevel"
+                          value={singlePropertyData.studyLevel}
+                          label={t('query_author_data_level_of_study')}
+                          onClick={(e) => alterSinglePropertyData(e, 'studyLevel')}
+                        >
+                          {Object.keys(studyLevelOptions).map((level) => (
+                            <MenuItem key={level}
+                                      value={level}>{t(studyLevelOptions[level])}</MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                      <br/><br/>
+                      <FormControl size="small">
+                        <InputLabel
+                          id="degree-label">{t('query_author_data_degree')}</InputLabel>
+                        <Select
+                          sx={{minWidth: selectWidth}}
+                          labelId="degree-label"
+                          name="degree"
+                          value={singlePropertyData.degree}
+                          label={t('query_author_data_degree')}
+                          onClick={(e) => alterSinglePropertyData(e, 'degree')}
+                        >
+                          {Object.keys(degreeOptions).map((degree) => (
+                            <MenuItem key={degree}
+                                      value={degree}>{t(degreeOptions[degree])}</MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </>
+                    : <FormControl size="small">
+                      <InputLabel
+                        id="education-label">{t('query_author_data_education')}</InputLabel>
                       <Select
                         sx={{minWidth: selectWidth}}
-                        labelId="otherLang-label"
-                        name="otherLang"
-                        value={singlePropertyData.otherLang}
-                        label={t('query_author_data_other_languages')}
-                        onClick={(e) => alterSinglePropertyData(e, 'otherLang')}
+                        labelId="education-label"
+                        name="education"
+                        value={singlePropertyData.education}
+                        label={t('query_author_data_education')}
+                        onClick={(e) => alterSinglePropertyData(e, 'education')}
+                      >
+                        {Object.keys(educationOptions).map((education) => (
+                          <MenuItem key={education}
+                                    value={education}>{t(educationOptions[education])}</MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>}
+                  <br/><br/>
+                  {checkIfOnlySpecificCorpusIsChecked('clWmOIrLa')
+                    ? <FormControl size="small">
+                      <InputLabel
+                        id="nationality-label">{t('query_author_data_nationality')}</InputLabel>
+                      <Select
+                        sx={{minWidth: selectWidth}}
+                        labelId="nationality-label"
+                        name="nationality"
+                        value={singlePropertyData.nationality}
+                        label={t('query_author_data_nationality')}
+                        onClick={(e) => alterSinglePropertyData(e, 'nationality')}
+                      >
+                        {Object.keys(nationalityOptions).map((nationality) => (
+                          <MenuItem key={nationality}
+                                    value={nationality}>{t(nationalityOptions[nationality])}</MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    : <FormControl size="small">
+                      <InputLabel
+                        id="nativeLang-label">{t('query_author_data_native_language')}</InputLabel>
+                      <Select
+                        sx={{minWidth: selectWidth}}
+                        labelId="nativeLang-label"
+                        name="nativeLang"
+                        value={singlePropertyData.nativeLang}
+                        label={t('query_author_data_native_language')}
+                        onClick={(e) => alterSinglePropertyData(e, 'nativeLang')}
                       >
                         {Object.keys(languageOptions).map((lang) => (
-                          <MenuItem key={lang} value={lang}>{t(languageOptions[lang])}</MenuItem>
+                          <MenuItem key={lang}
+                                    value={lang}>{t(languageOptions[lang])}</MenuItem>
                         ))}
                       </Select>
                     </FormControl>
-                    <br/><br/>
-                  </>
-                  : <></>}
-                <FormControl size="small">
-                  <InputLabel id="country-label">{t('query_author_data_country')}</InputLabel>
-                  <Select
-                    sx={{minWidth: selectWidth}}
-                    labelId="country-label"
-                    name="country"
-                    value={singlePropertyData.country}
-                    label={t('query_author_data_country')}
-                    onClick={(e) => alterSinglePropertyData(e, 'country')}
-                  >
-                    {Object.keys(countryOptions).map((country) => (
-                      <MenuItem key={country} value={country}>{t(countryOptions[country])}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                  }
+                  <br/><br/>
+                  {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
+                    ? <>
+                      <FormControl size="small">
+                        <InputLabel
+                          id="otherLang-label">{t('query_author_data_other_languages')}</InputLabel>
+                        <Select
+                          sx={{minWidth: selectWidth}}
+                          labelId="otherLang-label"
+                          name="otherLang"
+                          value={singlePropertyData.otherLang}
+                          label={t('query_author_data_other_languages')}
+                          onClick={(e) => alterSinglePropertyData(e, 'otherLang')}
+                        >
+                          {Object.keys(languageOptions).map((lang) => (
+                            <MenuItem key={lang}
+                                      value={lang}>{t(languageOptions[lang])}</MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                      <br/><br/>
+                    </>
+                    : <></>}
+                  <FormControl size="small">
+                    <InputLabel id="country-label">{t('query_author_data_country')}</InputLabel>
+                    <Select
+                      sx={{minWidth: selectWidth}}
+                      labelId="country-label"
+                      name="country"
+                      value={singlePropertyData.country}
+                      label={t('query_author_data_country')}
+                      onClick={(e) => alterSinglePropertyData(e, 'country')}
+                    >
+                      {Object.keys(countryOptions).map((country) => (
+                        <MenuItem key={country}
+                                  value={country}>{t(countryOptions[country])}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </div>
               </div>
-            </div>
-            <br/><br/>
-            <Button onClick={submitted}
-                    variant="contained">{t('send_request_button')}</Button>
-          </form>
-        </AccordionDetails>
-      </Accordion>
-        {noResultsError && <div><br/><Alert severity="error">{t('query_results_no_texts_found')}</Alert><br/></div>}
-        <QueryResults key={resultsKey}
-                      data={results}/>
-        </span>
-      }
-      <Modal
-        open={modalOpen}
-        onClose={() => {
-          setModalOpen(false);
-        }}
-      >
-        <Box sx={modalStyle} className="query-own-texts-modal">
-          <div className="modal-head">
+              <br/><br/>
+              {alert || noResultsError ?
+                <>
+                  <Alert style={{width: '30%'}} severity="error">
+                    {alert ? t('error_query_no_subcorpus_picked') : t('query_results_no_texts_found')}
+                  </Alert>
+                  <br/>
+                </> : ''
+              }
+              <Button
+                onClick={submitted}
+                sx={DefaultButtonStyle}
+                variant="contained"
+              >
+                {t('send_request_button')}
+              </Button>
+            </form>
+            :
+            <span>
+              <QueryResults
+                key={resultsKey}
+                data={results}
+                setFilterBoxClass={() => setFilterBoxClass()}
+                setIsQueryAnswerPage={setIsQueryAnswerPage}
+                setPreviousSelectedIds={setPreviousSelectedIds}
+                previousSelectedIds={previousSelectedIds}
+              />
+        </span>}
+        </Box>
+        <Button
+          id="choose-input-button"
+          variant="contained"
+          className={'button-query-hover button-box-open'}
+          onClick={() => setInputHidden()}
+        >
+          <div className="button-text-query">
+            <ReadMoreIcon className="query-find-texts-icon"/>
+            <span className="query-find-texts-text">
+              {t('query_own_texts')}
+            </span>
+          </div>
+        </Button>
+        <Box hidden={inputOpen} className="query-own-texts-modal">
+          <div>
             {t('textupload_primary_modal_title')}
           </div>
-          <IconButton
-            aria-label="close"
-            onClick={() => {
-              setModalOpen(false);
-            }}
-            className="closeButton"
-          >
-            <CloseIcon/>
-          </IconButton>
-          <br/><br/>
+          <br/>
           <div>
             <TextUpload sendTextFromFile={sendTextFromFile}/>
             <textarea
@@ -1039,15 +1081,49 @@ export default function Query() {
               value={textInputValue}
               onChange={(e) => setTextInputValue(e.target.value)}
             ></textarea>
-            <Button variant="contained"
-                    style={{marginTop: '2.5em'}}
-                    disabled={textInputValue === ''}
-                    onClick={() => handleSubmitOwnTexts()}>
+            <Button
+              variant="contained"
+              sx={DefaultButtonStyle}
+              disabled={textInputValue === ''}
+              onClick={() => {
+                handleSubmitOwnTexts();
+                setInputHidden();
+              }}
+            >
               {t('textupload_primary_modal_save')}
             </Button>
           </div>
         </Box>
-      </Modal>
+        {(corpusTextsSelected > 0 || ownTextsSelected) &&
+          <div className="query-chip-button shadow-sm">
+            <div className="tools-chips">
+              <div className="query-chip-header">{t('query_results_saved_for_analysis')}</div>
+              {corpusTextsSelected > 0 &&
+                <div>
+                  <Chip
+                    sx={ElleDefaultChip}
+                    avatar={<Avatar sx={{
+                      bgcolor: '#9C27B0',
+                      color: 'white !important'
+                    }}>{corpusTextsSelected > 1 ? corpusTextsSelected : 1}</Avatar>}
+                    label={corpusTextsSelected > 1 ? t('query_results_saved_for_analysis_corpus_plural', {amount: corpusTextsSelected}) : t('query_results_saved_for_analysis_corpus')}
+                    className="my-1"
+                    variant="outlined"
+                    onDelete={() => handleChipDelete('CORPUS_TEXTS')}
+                  />
+                </div>
+              }
+              {ownTextsSelected > 0 &&
+                <Chip
+                  sx={ElleDefaultChip}
+                  label={t('query_results_saved_for_analysis_own_texts')}
+                  variant="outlined"
+                  onDelete={() => handleChipDelete('OWN_TEXTS')}
+                />
+              }
+            </div>
+          </div>}
+      </div>
     </div>
   );
 }

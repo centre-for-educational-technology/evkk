@@ -1,120 +1,155 @@
-import ToolCard from '../components/ToolCard';
 import React, { useEffect, useState } from 'react';
-import { Alert, Box, Card, CardContent, Grid } from '@mui/material';
-import Accordion from '@mui/material/Accordion';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
+import { Alert, Box, Tab } from '@mui/material';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { AccordionStyle } from '../const/Constants';
 import Query from './query/Query';
 import { useTranslation } from 'react-i18next';
+import './styles/Tools.css';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
+import { queryStore } from '../store/QueryStore';
+import WordlistImg from '../resources/images/tools/sonaloend.png';
+import WordContext from '../resources/images/tools/sona_kontekstis.png';
+import NeighbourWord from '../resources/images/tools/naabersonad.png';
+import WordPattern from '../resources/images/tools/mustrileidja.png';
+import WordAnalyser from '../resources/images/tools/sonaanalyys.png';
+import { TabStyle } from '../const/Constants';
 
-function Tools() {
-
+const ToolIconCard = (props) => {
   const {t} = useTranslation();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [expanded, setExpanded] = useState(true);
-  const [onlyOutletVisible, setOnlyOutletVisible] = useState(true);
-
-  useEffect(() => {
-    setExpanded(location.pathname === '/tools');
-    setOnlyOutletVisible(!location.pathname.includes('adding'));
-  }, [location]);
-
-  const tools = [
-    {
-      title: 'common_wordlist',
-      img: require('../resources/images/tools/sonaloend.png').default,
-      description: 'tools_accordion_wordlist_explainer',
-      route: 'wordlist',
-      action: () => toolSelect('wordlist')
-    },
-    {
-      title: 'common_word_in_context',
-      img: require('../resources/images/tools/sona_kontekstis.png').default,
-      description: 'tools_accordion_word_in_context_explainer',
-      route: 'wordcontext',
-      action: () => toolSelect('wordcontext')
-    },
-    {
-      title: 'common_neighbouring_words',
-      img: require('../resources/images/tools/naabersonad.png').default,
-      description: 'tools_accordion_neighbouring_words_explainer',
-      route: 'collocates',
-      action: () => toolSelect('collocates')
-    },
-    {
-      title: 'common_word_analysis',
-      img: require('../resources/images/tools/sonaanalyys.png').default,
-      description: 'tools_accordion_word_analysis_explainer',
-      route: 'wordanalyser',
-      action: () => toolSelect('wordanalyser')
-    },
-    {
-      title: 'common_clusters',
-      img: require('../resources/images/tools/mustrileidja.png').default,
-      description: 'tools_accordion_clusters_explainer',
-      route: 'clusterfinder',
-      action: () => toolSelect('clusterfinder')
-    }
-  ];
-
-  function toolSelect(tool) {
-    navigate(tool);
-  }
-
   return (
     <>
-      {onlyOutletVisible ?
-        <Card raised={true}
-              square={true}
-              elevation={2}>
-          <CardContent sx={{p: 3}}>
-            <Grid container
-                  spacing={2}>
-              <Grid item
-                    xs={12}
-                    sm={12}
-                    md={12}>
-                <Query/>
-                <Accordion
-                  sx={AccordionStyle}
-                  expanded={expanded}
-                  style={{marginTop: '1em'}}
-                >
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon/>}
-                    onClick={() =>
-                      setExpanded(!expanded)
-                    }
-                  >
-                    {t('tools_accordion_analysis')}
-                  </AccordionSummary>
-                  <AccordionDetails style={{minWidth: '350px'}}>
-                    <Alert severity="info"
-                           style={{marginBottom: '1em'}}>{t('tools_accordion_analysis_infobox')}</Alert>
-                    <Box sx={{display: 'flex', flexWrap: 'wrap'}}>
-                      {tools.map(tool => {
-                        return [
-                          <ToolCard
-                            key={tool.route}
-                            tool={tool}
-                          />
-                        ];
-                      })}
-                    </Box>
-                  </AccordionDetails>
-                </Accordion>
-              </Grid>
-            </Grid>
-            <Outlet/>
-          </CardContent>
-        </Card>
-        : <Outlet/>}
+      <Box
+        className="tool-card-container"
+        sx={{boxShadow: 3}}>
+        <Box className="tool-card-icon">
+          <img className="tool-icon-img" src={props.image} loading="lazy" alt="Tool logo"/>
+        </Box>
+        <Box className="tool-card-text">
+          {t(props.text)}
+        </Box>
+      </Box>
     </>
   );
-}
+};
 
-export default Tools;
+const TabOutlet = (props) => {
+  const {t} = useTranslation();
+  return (
+    <TabPanel value={props.value}>
+      {props.textsSelected ? <Outlet/> :
+        <Box>
+          <ToolIconCard image={props.image} text={props.text}/>
+          <Alert severity="warning">
+            {t('tools_warning_text')}
+          </Alert>
+        </Box>}
+    </TabPanel>
+  );
+};
+
+export default function Tools() {
+  const current = useLocation();
+  const queryOpen = current.state && current.state.pageNo === 'queryOpen' ? current.state.pageNo : null;
+  const {t} = useTranslation();
+  const navigate = useNavigate();
+  const [tabPage, setTabPage] = useState(current.pathname);
+  const [textsSelected, setTextsSelected] = useState(false);
+
+  useEffect(() => {
+    setTabPage(current.pathname);
+    if (current.pathname === '/tools') {
+      navigate('wordlist', {replace: true});
+    }
+  }, [current.pathname]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const storeState = queryStore.getState();
+    setTextsSelected(storeState.corpusTextIds !== null || storeState.ownTexts !== null);
+  }, []);
+
+  const handleChange = (event, newValue) => {
+    setTabPage(newValue);
+  };
+
+  queryStore.subscribe(() => {
+    const storeState = queryStore.getState();
+    setTextsSelected(storeState.corpusTextIds !== null || storeState.ownTexts !== null);
+  });
+
+  return (
+    <Box className="outer-container-tools">
+      <Box className="tool-page-container-outer">
+        <Box className="outer-outer">
+          <Query queryOpen={queryOpen}/>
+        </Box>
+        <Box className="tools-box-right">
+          <TabContext value={tabPage} className="tab-context-class">
+            <Box boxShadow={3} borderRadius={'25px'}>
+              <TabList
+                onChange={handleChange}
+                TabIndicatorProps={{sx: {display: 'none'}}}
+                sx={TabStyle}
+              >
+                <Tab
+                  label={t('wordlist_filename')}
+                  onClick={() => navigate('/tools/wordlist')}
+                  value="/tools/wordlist"
+                />
+                <Tab
+                  label={t('common_word_in_context')}
+                  onClick={() => navigate('/tools/wordcontext')}
+                  value="/tools/wordcontext"
+                />
+                <Tab
+                  label={t('common_neighbouring_words')}
+                  onClick={() => navigate('/tools/collocates')}
+                  value="/tools/collocates"
+                />
+                <Tab
+                  label={t('common_word_analyser')}
+                  onClick={() => navigate('/tools/wordanalyser')}
+                  value="/tools/wordanalyser"
+                />
+                <Tab
+                  label={t('common_clusters')}
+                  onClick={() => navigate('/tools/clusterfinder')}
+                  value="/tools/clusterfinder"
+                />
+              </TabList>
+            </Box>
+            <TabOutlet
+              textsSelected={textsSelected}
+              image={WordlistImg}
+              text={'tools_accordion_wordlist_explainer'}
+              value="/tools/wordlist"
+            />
+            <TabOutlet
+              textsSelected={textsSelected}
+              image={WordContext}
+              text={'tools_accordion_word_in_context_explainer'}
+              value="/tools/wordcontext"
+            />
+            <TabOutlet
+              textsSelected={textsSelected}
+              image={NeighbourWord}
+              text={'tools_accordion_neighbouring_words_explainer'}
+              value="/tools/collocates"
+            />
+            <TabOutlet
+              textsSelected={textsSelected}
+              image={WordAnalyser}
+              text={'tools_accordion_word_analysis_explainer'}
+              value="/tools/wordanalyser"
+            />
+            <TabOutlet
+              textsSelected={textsSelected}
+              image={WordPattern}
+              text={'tools_accordion_clusters_explainer'}
+              value="/tools/clusterfinder"
+            />
+          </TabContext>
+        </Box>
+      </Box>
+    </Box>
+  );
+}

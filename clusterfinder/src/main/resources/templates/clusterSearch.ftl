@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="et">
 <head>
-    <title>Klastrileidja</title>
+  <title>Mustrileidja</title>
     <meta http-equiv="Content-Type"
           content="text/html; charset=UTF-8"/>
     <!-- Bootstrap -->
@@ -38,6 +38,12 @@
       function handleChange(input) {
         document.getElementById("file_name").textContent = input.files[0].name
       }
+
+      function logMessage(event) {
+        document.getElementById('userText').innerText = event.data;
+      }
+
+      window.addEventListener("message", logMessage);
 
       function sendValueToParent() {
         const divHeight = document.getElementById('iFrame-container-id').offsetHeight

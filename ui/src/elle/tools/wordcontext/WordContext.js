@@ -65,7 +65,6 @@ export default function WordContext() {
   }, [urlParams, keyword, typeValue, capitalizationChecked]);
 
   useEffect(() => {
-    const queryStoreState = queryStore.getState();
     const wordContextState = toolAnalysisStore.getState().wordContext;
     if (wordContextState !== null && wordContextState.analysis.length > 0) {
       const params = wordContextState.parameters;
@@ -77,8 +76,6 @@ export default function WordContext() {
       setResponse(wordContextState.analysis);
       setParamsExpanded(false);
       setShowTable(true);
-    } else if (queryStoreState.corpusTextIds === null && queryStoreState.ownTexts === null) {
-      navigate('..');
     }
   }, [navigate]);
 
@@ -100,13 +97,13 @@ export default function WordContext() {
   }, [response]);
 
   queryStore.subscribe(() => {
-    const storeState = queryStore.getState();
+    toolAnalysisStore.dispatch({
+      type: 'CHANGE_WORDCONTEXT_RESULT',
+      value: null
+    });
     setResponse([]);
     setParamsExpanded(true);
     setShowTable(false);
-    if (storeState.corpusTextIds === null && storeState.ownTexts === null) {
-      navigate('..');
-    }
   });
 
   const columns = useMemo(() => [
@@ -171,7 +168,6 @@ export default function WordContext() {
       })
         .then(res => res.json())
         .then(result => {
-          removeUrlParams();
           setLemmatizedKeywordResult(null);
           setResponse(result.contextList);
           if (result.contextList.length === 0) {
@@ -187,7 +183,7 @@ export default function WordContext() {
               setInitialKeywordResult(result.initialKeyword);
             }
           }
-        });
+        }).then(() => navigate('', {replace: true}));
     }
   };
 
@@ -206,10 +202,6 @@ export default function WordContext() {
       displayType: displayType,
       keepCapitalization: capitalizationChecked
     });
-  };
-
-  const removeUrlParams = () => {
-    navigate('', {replace: true});
   };
 
   return (

@@ -7,8 +7,7 @@ import { compose, connectedComponent } from './util/redux-utils';
 import rootReducer from './rootReducer';
 import { getStatusIfNeeded } from './rootActions';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { selectStatusLoaded } from './rootSelectors';
-import Footer from './elle/components/Footer';
+import { selectStatus, selectStatusLoaded } from './rootSelectors';
 import { createTheme } from '@mui/material/styles';
 import AppRoutes from './AppRoutes';
 import { ThemeProvider } from '@mui/material';
@@ -17,6 +16,8 @@ import ErrorSnackbar from './elle/components/ErrorSnackbar';
 import LoadingSpinner from './elle/components/LoadingSpinner';
 import ServerOfflinePage from './elle/components/ServerOfflinePage';
 import SuccessSnackbar from './elle/components/SuccessSnackbar';
+import FooterElement from './elle/components/FooterElement';
+import DonateText from './elle/components/DonateText';
 
 export const errorEmitter = new EventEmitter();
 export const loadingEmitter = new EventEmitter();
@@ -81,22 +82,26 @@ class AppWithStatus extends Component {
   }
 
   render() {
-    if (!this.props.statusLoaded) return <ServerOfflinePage/>;
+    if (this.props.status instanceof Response) return <ServerOfflinePage/>;
     return (
-      <>
-        <ErrorSnackbar/>
-        <SuccessSnackbar/>
-        <LoadingSpinner/>
-        <Navbar/>
-        <AppRoutes/>
-        <Footer/>
-      </>
+      <div className="min-vh-100 d-flex flex-column justify-content-between">
+        <div>
+          <ErrorSnackbar/>
+          <SuccessSnackbar/>
+          <LoadingSpinner/>
+          <Navbar/>
+          <DonateText/>
+          <AppRoutes/>
+        </div>
+        <FooterElement/>
+      </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  statusLoaded: selectStatusLoaded()(state)
+  statusLoaded: selectStatusLoaded()(state),
+  status: selectStatus()(state)
 });
 
 const mapDispatchToProps = {getStatusIfNeeded};

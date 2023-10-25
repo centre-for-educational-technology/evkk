@@ -1,14 +1,14 @@
-import React, { createRef, useState } from 'react';
+import React, {createRef, useState} from 'react';
 import './styles/TextUpload.css';
-import { Box, Button, Grid, IconButton, Modal, Tooltip } from '@mui/material';
+import {Box, Button, IconButton, Modal, Tooltip} from '@mui/material';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import '../translations/i18n';
 import CloseIcon from '@mui/icons-material/Close';
-import { loadFetch } from '../service/LoadFetch';
-import { modalStyle } from '../const/Constants';
+import {loadFetch} from '../service/LoadFetch';
+import {DefaultButtonStyle, modalStyle} from '../const/Constants';
 
-function TextUpload({sendTextFromFile, outerClassName = ''}) {
+export default function TextUpload({sendTextFromFile, outerClassName = ''}) {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [uploadButtonDisabled, setUploadButtonDisabled] = useState(true);
@@ -63,12 +63,16 @@ function TextUpload({sendTextFromFile, outerClassName = ''}) {
   return (
     <>
       <div className={`container ${outerClassName}`}>
-        <Tooltip title={t('textupload_secondary_modal_tooltip')} placement={'top-start'}>
-          <FileUploadIcon id="upload_button"
-                          className="button-file"
-                          onClick={() => {
-                            setModalOpen(true);
-                          }}
+        <Tooltip
+          title={t('textupload_secondary_modal_tooltip')}
+          placement={'top-start'}
+        >
+          <FileUploadIcon
+            id="upload_button"
+            className="button-file"
+            onClick={() => {
+              setModalOpen(true);
+            }}
           />
         </Tooltip>
         <Modal
@@ -78,61 +82,66 @@ function TextUpload({sendTextFromFile, outerClassName = ''}) {
           }}
         >
           <Box sx={modalStyle} className="text-upload-modal">
-            <IconButton
-              aria-label="close"
-              onClick={() => {
-                setModalOpen(false);
-              }}
-              className="closeButton"
+            <div className="d-flex justify-content-end">
+              <IconButton
+                aria-label="close"
+                onClick={() => {
+                  setModalOpen(false);
+                }}
+              >
+                <CloseIcon/>
+              </IconButton>
+            </div>
+            <form
+              encType="multipart/form-data"
+              method="post"
+              id="form_data"
+              ref={formDataElement}
             >
-              <CloseIcon/>
-            </IconButton>
-            <br/>
-            <form encType="multipart/form-data"
-                  method="post"
-                  id="form_data"
-                  ref={formDataElement}>
               <div id="popup_1">
-                <Grid container
-                      spacing={2}
-                      alignItems="center"
-                      justifyContent="space-between"
-                      direction="column">
-                  <Grid item
-                        xs={12}>
-                    <h1 id="pop_title">{t('textupload_secondary_modal_title')}</h1>
-                  </Grid>
-                  <Grid item
-                        xs={12}>
-                    <Button component="label"
-                            htmlFor="text_1"
-                            variant="contained">{t('textupload_secondary_modal_choose_files')}</Button>
-                  </Grid>
-                  <Grid item
-                        xs={12}>
-                    <div id="file_name"
-                         style={{height: '150px', width: '500px', textAlign: 'center'}}
-                         ref={fileNameElement}></div>
-                  </Grid>
-                  <Grid item
-                        xs={12}>
-                    <Button type="button"
-                            variant="contained"
-                            onClick={() => {
-                              setModalOpen(false);
-                            }}
-                            disabled={uploadButtonDisabled}
-                            onMouseDown={fileUpload}>{t('textupload_secondary_modal_upload')}</Button>
-                  </Grid>
-                  <input style={{visibility: 'hidden'}}
-                         type="file"
-                         name="file"
-                         id="text_1"
-                         onChange={fileChange}
-                         multiple={true}
-                         accept=".txt,.pdf,.docx,.doc,.odt"
-                         ref={text1Element}></input>
-                </Grid>
+                <div className="d-flex flex-column align-items-center justify-content-between">
+                  <div>
+                    <h1 id="pop_title">
+                      {t('textupload_secondary_modal_title')}
+                    </h1>
+                  </div>
+                  <div>
+                    <Button
+                      sx={DefaultButtonStyle}
+                      component="label"
+                      htmlFor="text_1"
+                      variant="contained"
+                    >
+                      {t('textupload_secondary_modal_choose_files')}
+                    </Button>
+                  </div>
+                  <div
+                    id="file_name"
+                    style={{height: '150px', width: '500px', textAlign: 'center'}}
+                    ref={fileNameElement}
+                  />
+                  <Button
+                    sx={DefaultButtonStyle}
+                    type="button"
+                    variant="contained"
+                    onClick={() => {
+                      setModalOpen(false);
+                    }}
+                    disabled={uploadButtonDisabled}
+                    onMouseDown={fileUpload}>
+                    {t('textupload_secondary_modal_upload')}
+                  </Button>
+                  <input
+                    style={{visibility: 'hidden'}}
+                    type="file"
+                    name="file"
+                    id="text_1"
+                    onChange={fileChange}
+                    multiple={true}
+                    accept=".txt,.pdf,.docx,.doc,.odt"
+                    ref={text1Element}
+                  />
+                </div>
               </div>
             </form>
           </Box>
@@ -141,5 +150,3 @@ function TextUpload({sendTextFromFile, outerClassName = ''}) {
     </>
   );
 }
-
-export default TextUpload;

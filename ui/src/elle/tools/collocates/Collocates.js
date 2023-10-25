@@ -66,7 +66,6 @@ export default function Collocates() {
   }, [urlParams, keyword, typeValue, capitalizationChecked]);
 
   useEffect(() => {
-    const queryStoreState = queryStore.getState();
     const collocateState = toolAnalysisStore.getState().collocates;
     if (collocateState !== null && collocateState.analysis.length > 0) {
       const params = collocateState.parameters;
@@ -78,8 +77,6 @@ export default function Collocates() {
       setResponse(collocateState.analysis);
       setParamsExpanded(false);
       setShowTable(true);
-    } else if (queryStoreState.corpusTextIds === null && queryStoreState.ownTexts === null) {
-      navigate('..');
     }
   }, [navigate]);
 
@@ -101,13 +98,13 @@ export default function Collocates() {
   }, [response]);
 
   queryStore.subscribe(() => {
-    const storeState = queryStore.getState();
+    toolAnalysisStore.dispatch({
+      type: 'CHANGE_COLLOCATES_RESULT',
+      value: null
+    });
     setResponse([]);
     setParamsExpanded(true);
     setShowTable(false);
-    if (storeState.corpusTextIds === null && storeState.ownTexts === null) {
-      navigate('..');
-    }
   });
 
   const columns = useMemo(() => [
