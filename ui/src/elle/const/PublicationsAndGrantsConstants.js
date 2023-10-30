@@ -59,7 +59,7 @@ export const conferences_workshops = [
       '                               <a\n' +
       '                                 href="https://www.youtube.com/watch?v=0j063ihI9EE"\n' +
       '                                 target="_blank"\n' +
-      '                                 rel="noopener noreferrer">Video</a><br/>\n' +
+      '                                 rel="noopener noreferrer">Video</a>\n' +
       '                               <a\n' +
       '                                 href="https://www.rakenduslingvistika.ee/wp-content/uploads/2023/05/02_Allkivi-Metsoja_jt_Veamargendusega_korpus_grammatikakontrollija.pdf"\n' +
       '                                 target="_blank"\n' +
@@ -71,7 +71,7 @@ export const conferences_workshops = [
       '                               <a\n' +
       '                                 href="https://www.youtube.com/watch?v=DbP9ivIYrVY"\n' +
       '                                 target="_blank"\n' +
-      '                                 rel="noopener noreferrer">Video</a><br/>\n' +
+      '                                 rel="noopener noreferrer">Video</a>\n' +
       '                               <a\n' +
       '                                 href="https://www.rakenduslingvistika.ee/wp-content/uploads/2023/05/03_Eslon_Kippar_Keelekasutusmustrid_kontekstid1.pdf"\n' +
       '                                 target="_blank"\n' +
@@ -83,7 +83,7 @@ export const conferences_workshops = [
       '                               <a\n' +
       '                                 href="https://www.youtube.com/watch?v=-cYqnaIooRQ"\n' +
       '                                 target="_blank"\n' +
-      '                                 rel="noopener noreferrer">Video</a><br/>\n' +
+      '                                 rel="noopener noreferrer">Video</a>\n' +
       '                               <a\n' +
       '                                 href="https://www.rakenduslingvistika.ee/wp-content/uploads/2023/05/05_Luhtaru_Allkivi-Metsoja_Eesti_keele_oigekirja-grammatikakontroll.pdf"\n' +
       '                                 target="_blank"\n' +
@@ -157,6 +157,10 @@ export const publications = [
     href: 'https://opleht.ee/2023/06/uued-tuuled-eesti-keele-oppimisel/'
   },
   {
+    content: 'Petrov, H. (2023). Rakendus võtmesõnade leidmiseks eestikeelsetest tekstidest. E. Stern (Toim.). <i>Tallinna Ülikooli üliõpilaste 2021/2022. õppeaasta parimad teadustööd. Artiklite kogumik.</i> Tallinna Ülikool, 158-161.',
+    href: 'https://www.tlu.ee/sites/default/files/TUKO/Tallinna%20Ülikooli%20üliõpilaste%202021-2022%20õppeaasta%20parimate%20teadustööde%20kogumik.pdf'
+  },
+  {
     content: 'Allkivi-Metsoja, K. (2022). A2–C1-taseme eksamitekstide käändsõnakasutus. <i>Eesti Rakenduslingvistika Ühingu aastaraamat = Estonian papers in applied linguistics</i>, 18, 33−53. DOI: 10.5128/ERYa18.00.',
     href: 'http://arhiiv.rakenduslingvistika.ee/ajakirjad/index.php/aastaraamat/article/view/ERYa18.03'
   },
@@ -165,7 +169,7 @@ export const publications = [
     href: 'http://arhiiv.rakenduslingvistika.ee/ajakirjad/index.php/lahivordlusi/article/view/LV32.01'
   },
   {
-    content: 'Norak, K. (2022). Õppijakeele korpuse virtuaalse õpikeskkonna prototüübi disain. <i>Tallinna Ülikooli üliõpilaste 2020/2021. Õppeaasta parimad teadustööd. Artiklite kogumik.</i> Tallinna Ülikool, 15-18.',
+    content: 'Norak, K. (2022). Õppijakeele korpuse virtuaalse õpikeskkonna prototüübi disain. <i>Tallinna Ülikooli üliõpilaste 2020/2021. õppeaasta parimad teadustööd. Artiklite kogumik.</i> Tallinna Ülikool, 15-18.',
     href: 'https://www.tlu.ee/sites/default/files/TUKO/veeb/TLÜ_artiklikogumik_2022_par2.pdf'
   },
   {
@@ -203,5 +207,56 @@ export const publications = [
   {
     content: 'Allkivi, K. (2016). C1-tasemega eesti keele õppijate ja emakeelekõnelejate kirjaliku keelekasutuse võrdlus verbialguliste tetragrammide näitel. <i>Lähivõrdlusi. Lähivertailuja</i>, 26, 54−83. DOI: 10.5128/LV26.02.',
     href: 'http://arhiiv.rakenduslingvistika.ee/ajakirjad/index.php/lahivordlusi/article/view/LV26.02'
+  }
+];
+
+export const grants = [
+  {
+    content: 'TF1023 ELLE keeleõppekeskkonna tekstianalüüsi vahendite täiustamine (2023–2024)',
+    href: 'https://www.etis.ee/Portal/Projects/Display/6f1a2704-5257-4bab-84ec-9ffa396dc18c'
+  },
+  {
+    content: 'EKTB Eestikeelse teksti automaatkorrektuur (2021−2023, koostöös Tartu Ülikooliga)',
+    href: 'https://www.etis.ee/Portal/Projects/Display/c6e04122-cbb1-484d-89c4-2971af87f5fd'
+  },
+  {
+    content: 'TF2621 ELLE: eesti keele õpet toetav keeletehnoloogiline ressurss (2021−2023)',
+    href: 'https://www.etis.ee/Portal/Projects/Display/c426c335-6e69-4caa-a8f5-9f3f748c64e5'
+  },
+  {
+    content: 'TF2019 Tallinna Ülikooli eesti vahekeele korpuse uue platvormi prototüübi arendamine õppijakorpuseks (2019−2021)',
+    href: 'https://www.etis.ee/Portal/Projects/Display/0d33326d-95b1-4c8d-bc4c-a3903c93a566'
+  },
+  {
+    content: 'EKKM15-419 Eesti õppijakeele tervikkäsitlus (2015−2018)',
+    href: 'https://www.etis.ee/Portal/Projects/Display/8ea80037-7f47-4786-b3cc-3d9754f2229e'
+  },
+  {
+    content: 'ETF8222 Ülekantud tähenduses fraasid eesti keele korpustes (2010–2013)',
+    href: 'https://www.etis.ee/Portal/Projects/Display/1b1c5ee8-e43b-4460-985a-8e2a01432256'
+  },
+  {
+    content: 'ETF8240 Keeltevaheline mõju ja teise keele omandamine (korpuspõhine uurimus) (2010–2013)',
+    href: 'https://www.etis.ee/Portal/Projects/Display/e56d4fb4-b737-4456-b45b-b168687a65d8'
+  },
+  {
+    content: 'EKKM09-98 REKKi käsikirjaliste materjalide digiteerimine, Eesti vahekeele korpuse alamkorpuste loomine ja korpuse kasutusvõimaluste populariseerimine (2009–2013)',
+    href: 'https://www.etis.ee/Portal/Projects/Display/4a13daab-69f2-498d-940f-c9c491189020'
+  },
+  {
+    content: 'EKKTT08-26 VAKO - Eesti vahekeele korpuse keeletarkvara ja keeletehnoloogilise ressursi arendamine (2006–2010)',
+    href: 'https://www.etis.ee/Portal/Projects/Display/ad3383f6-287c-44de-985f-53a07177b7c4'
+  },
+  {
+    content: 'EKRM05-51 Koodivahetuse, vahe- ning lastekeele korpuste töötlemine ja haldamine (2004–2008)',
+    href: 'https://www.etis.ee/Portal/Projects/Display/8abc7581-3828-4b6d-b303-6d59e4653b47'
+  },
+  {
+    content: 'ETF6151 Koodivahetuse, eesti vahekeele ning lastekeele andmekorpuse koostamine ja üldkirjeldus (2005–2008)',
+    href: 'https://www.etis.ee/Portal/Projects/Display/3b98bbc6-707d-4724-9695-8f3b34fe9ae0'
+  },
+  {
+    content: 'SF 0132493s03 Eesti keelekeskkonna arengu analüüs, modelleerimine ja juhtimine (2003–2007)',
+    href: 'https://www.etis.ee/Portal/Projects/Display/b0b019e4-0a1d-405e-a292-458ac482091b'
   }
 ];
