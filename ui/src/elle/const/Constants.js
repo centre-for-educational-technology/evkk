@@ -411,8 +411,8 @@ export const usedMaterialsDisplayOptions = {
 };
 
 export const usedMaterialsSaveOptions = {
-  true: 'query_text_data_used_supporting_materials_yes',
-  false: 'query_text_data_used_supporting_materials_no'
+  'true': 'query_text_data_used_supporting_materials_yes',
+  'false': 'query_text_data_used_supporting_materials_no'
 };
 
 export const ageOptions = {
