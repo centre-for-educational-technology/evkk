@@ -8,11 +8,13 @@ export default function ContactCard({name, role, email, etisUrl, icon}) {
   return (
     <Box className="contact-box">
       <Box className="icon-box">
-        {icon
-          ? <img src={require(`../../resources/images/contact-icons/${icon}`).default}
-                 alt={icon}/>
-          : <AccountBoxIcon className="icon"/>
-        }
+        {/*todo uncomment when profile icons are added*/}
+        {/*{icon*/}
+        {/*  ? <img src={require(`../../resources/images/contact-icons/${icon}`).default}*/}
+        {/*         alt={icon}/>*/}
+        {/*  : <AccountBoxIcon className="icon"/>*/}
+        {/*}*/}
+        <AccountBoxIcon className="icon"/>
       </Box>
       <Box className="text-box">
         <Box className="name-box">{name}</Box>
