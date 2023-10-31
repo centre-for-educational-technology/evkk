@@ -48,7 +48,7 @@ class Adding extends Component {
       kirjeldus: '',
       sisu: '',
       liik: 'akadeemiline',
-      oppematerjal: '',
+      oppematerjal: null,
       akadOppematerjal: [],
       akadOppematerjalMuu: '',
       mitteakadAlamliik: '',
@@ -405,7 +405,7 @@ class Adding extends Component {
                             ))}
                           </Select>
                         </FormControl>
-                        {this.state.oppematerjal === 'jah' && this.state.liik === 'akadeemiline' && <>
+                        {this.state.oppematerjal === 'true' && <>
                           <Grid>
                             <FormControl className="form-control"
                                          size="small">
