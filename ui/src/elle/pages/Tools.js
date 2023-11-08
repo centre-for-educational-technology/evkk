@@ -59,7 +59,7 @@ export default function Tools() {
     if (current.pathname === '/tools') {
       navigate('wordlist', {replace: true});
     }
-  }, [current.pathname]);
+  }, [current.pathname, navigate]);
 
   useEffect(() => {
     window.scrollTo(0, 0);

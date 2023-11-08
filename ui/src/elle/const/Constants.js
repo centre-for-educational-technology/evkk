@@ -100,7 +100,7 @@ export const TabStyle = {
   '& button::first-letter': {
     textTransform: 'uppercase'
   },
-  '& button:first-child': {
+  '& button:first-of-type': {
     borderRadius: '25px 0 0 25px',
     paddingLeft: '25px',
     borderLeft: '4px solid #9C27B0'
