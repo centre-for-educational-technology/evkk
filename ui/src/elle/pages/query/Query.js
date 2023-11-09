@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Alert,
   Avatar,
@@ -54,6 +54,8 @@ export default function Query(props) {
   const selectWidth = 300;
   const classes = useStyles();
   const navigate = useNavigate();
+  const inputButtonRef = useRef();
+  const filterButtonRef = useRef();
   const [urlParams] = useSearchParams();
   const [results, setResults] = useState([]);
   const [addedYears, setAddedYears] = useState([]);
@@ -78,8 +80,10 @@ export default function Query(props) {
     cZjHWUPtD: false,
     cwUSEqQLt: false
   });
-  const [filterHidden, setFilterHidden] = useState(true);
-  const [inputOpen, setInputOpen] = useState(true);
+  const [inputButtonOpen, setInputButtonOpen] = useState('button-query-hover button-box-open');
+  const [filterButtonOpen, setFilterButtonOpen] = useState('button-query-hover button-box-open');
+  const [filterQueryOpen, setFilterQueryOpen] = useState('menu-box-choose-text-closed');
+  const [inputQueryOpen, setInputQueryOpen] = useState('query-own-texts-modal-closed');
   const [isQueryAnswerPage, setIsQueryAnswerPage] = useState(false);
   const [previousSelectedIds, setPreviousSelectedIds] = useState({});
   const [singlePropertyData, setSinglePropertyData] = useState({
@@ -396,39 +400,31 @@ export default function Query(props) {
     }
   };
 
-  {/*TODO Query buttons need to be redone*/
-  }
-  const setFilterBoxClass = () => {
-    if (filterHidden) {
-      setInputOpen(true);
-      setFilterHidden(false);
-      document.getElementById('choose-input-button').classList.remove('button-box-open');
-      document.getElementById('choose-text-button').classList.add('button-box-open');
-    } else if (!filterHidden) {
-      setFilterHidden(true);
-      document.activeElement.blur();
-      document.getElementById('choose-text-button').classList.remove('button-box-open');
-    }
-  };
-
   useEffect(() => {
     if (props.queryOpen === 'queryOpen') {
-      setFilterHidden(false);
+      setFilterQueryOpen('menu-box-choose-text');
     }
   }, []);
 
-  {/*TODO Query buttons need to be redone*/
-  }
-  const setInputHidden = () => {
-    if (inputOpen) {
-      setFilterHidden(true);
-      setInputOpen(false);
-      document.getElementById('choose-text-button').classList.remove('button-box-open');
-      document.getElementById('choose-input-button').classList.add('button-box-open');
-    } else if (!inputOpen) {
-      setInputOpen(true);
-      document.activeElement.blur();
-      document.getElementById('choose-input-button').classList.remove('button-box-open');
+  const setFilterBoxClass = (e) => {
+    if (filterQueryOpen === 'menu-box-choose-text-closed') {
+      setFilterQueryOpen('menu-box-choose-text');
+      setFilterButtonOpen('button-query-hover button-box-open');
+    } else {
+      e.currentTarget.blur();
+      setFilterQueryOpen('menu-box-choose-text-closed');
+      setFilterButtonOpen('button-query-hover');
+    }
+  };
+
+  const setInputBoxClass = (e) => {
+    if (inputQueryOpen === 'query-own-texts-modal-closed') {
+      setInputQueryOpen('query-own-texts-modal');
+      setInputButtonOpen('button-query-hover button-box-open');
+    } else {
+      e.currentTarget.blur();
+      setInputQueryOpen('query-own-texts-modal-closed');
+      setInputButtonOpen('button-query-hover');
     }
   };
 
@@ -436,10 +432,11 @@ export default function Query(props) {
     <div className="query-main-container">
       <div className="buttonBox">
         <Button variant="contained"
+                ref={filterButtonRef}
                 id="choose-text-button"
-                className={'button-query-hover button-box-open'}
-                onClick={() => {
-                  setFilterBoxClass();
+                className={filterButtonOpen}
+                onClick={(e) => {
+                  setFilterBoxClass(e);
                   setAlert(false);
                   setNoResultsError(false);
                 }}>
@@ -452,8 +449,7 @@ export default function Query(props) {
         </Button>
         <Box
           id="menu-box-choose-text"
-          hidden={filterHidden}
-          className="menu-box-choose-text"
+          className={filterQueryOpen}
         >
           {!isQueryAnswerPage ?
             <form action=""
@@ -1056,10 +1052,11 @@ export default function Query(props) {
         </span>}
         </Box>
         <Button
+          ref={inputButtonRef}
           id="choose-input-button"
           variant="contained"
-          className={'button-query-hover button-box-open'}
-          onClick={() => setInputHidden()}
+          className={inputButtonOpen}
+          onClick={(e) => setInputBoxClass(e)}
         >
           <div className="button-text-query">
             <ReadMoreIcon className="query-find-texts-icon"/>
@@ -1068,7 +1065,7 @@ export default function Query(props) {
             </span>
           </div>
         </Button>
-        <Box hidden={inputOpen} className="query-own-texts-modal">
+        <Box className={inputQueryOpen}>
           <div>
             {t('textupload_primary_modal_title')}
           </div>
@@ -1085,9 +1082,9 @@ export default function Query(props) {
               variant="contained"
               sx={DefaultButtonStyle}
               disabled={textInputValue === ''}
-              onClick={() => {
+              onClick={(e) => {
                 handleSubmitOwnTexts();
-                setInputHidden();
+                setInputBoxClass(e);
               }}
             >
               {t('textupload_primary_modal_save')}
