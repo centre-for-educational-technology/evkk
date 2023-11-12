@@ -130,6 +130,11 @@ export default function WordContext() {
       Cell: (cellProps) => {
         return cellProps.value;
       },
+      sortType: (rowA, rowB) => {
+        const valueA = rowA.original.keyword;
+        const valueB = rowB.original.keyword;
+        return valueA.localeCompare(valueB, 'et', {sensitivity: 'case'});
+      },
       className: 'wordcontext-keyword'
     },
     {
@@ -337,7 +342,9 @@ export default function WordContext() {
                              headers={tableToDownload}
                              accessors={accessors}
                              marginTop={'2vh'}/>
-        <GenericTable tableClassname={'wordcontext-table'} columns={columns} data={data}/>
+        <GenericTable tableClassname={'wordcontext-table'}
+                      columns={columns}
+                      data={data}/>
       </>}
       {showNoResultsError &&
         <Alert severity="error">{t('error_no_matching_keywords')}</Alert>}

@@ -11,7 +11,7 @@ import ToggleCell from './ToggleCell';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
 import Popover from '@mui/material/Popover';
 
-function GrammaticalAnalysis() {
+export default function GrammaticalAnalysis() {
   const {t} = useTranslation();
   const setType = useContext(SetTypeContext);
   const setForm = useContext(SetFormContext);
@@ -156,6 +156,7 @@ function GrammaticalAnalysis() {
     }
     return tableVal;
   }
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   let data = useMemo(() => fillData(), []);
 
@@ -347,7 +348,8 @@ function GrammaticalAnalysis() {
         </Box>
         <TableDownloadButton data={data}
                              tableType={'GrammaticalAnalysis'}
-                             headers={tableToDownload}/>
+                             headers={tableToDownload}
+                             sortByColAccessor={'col4'}/>
       </Box>
       <table className="analyserTable" {...getTableProps()}>
         <thead>
@@ -356,7 +358,7 @@ function GrammaticalAnalysis() {
             {headerGroup.headers.map(column => (
               <th className="tableHead" key={column.id}>
                 {<span>{column.render('Header')}</span>}
-                <span className="sortIcon"  {...column.getHeaderProps(column.getSortByToggleProps({title: ''}))}>
+                <span className="sortIcon" {...column.getHeaderProps(column.getSortByToggleProps({title: ''}))}>
                     {column.isSorted
                       ? column.isSortedDesc
                         ? ' ▼'
@@ -407,5 +409,3 @@ function GrammaticalAnalysis() {
     </Box>
   );
 }
-
-export default GrammaticalAnalysis;
