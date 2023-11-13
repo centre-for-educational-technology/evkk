@@ -23,7 +23,7 @@
   z-index: 10;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
   width: auto;
   max-width: 0px;
   margin-left: 50px;
@@ -63,7 +63,6 @@
 .query-own-texts-modal-closed {
   width: 0 !important;
   height: 0 !important;
-  padding: 20px;
   color: white;
   overflow: hidden;
   background-color: white;
@@ -117,7 +116,7 @@
 }
 
 .menu-box-choose-text {
-  height: 100%;
+  height: 700px;
   width: 1000px;
   padding: 20px;
   margin-top: 10px;

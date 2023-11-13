@@ -406,25 +406,31 @@ export default function Query(props) {
     }
   }, []);
 
-  const setFilterBoxClass = (e) => {
+  const setFilterBoxClass = () => {
     if (filterQueryOpen === 'menu-box-choose-text-closed') {
       setFilterQueryOpen('menu-box-choose-text');
       setFilterButtonOpen('button-query-hover button-box-open');
     } else {
-      e.currentTarget.blur();
+      filterButtonRef.current.blur();
       setFilterQueryOpen('menu-box-choose-text-closed');
       setFilterButtonOpen('button-query-hover');
+      if (inputQueryOpen !== 'query-own-texts-modal') {
+        setInputButtonOpen('button-query-hover');
+      }
     }
   };
 
-  const setInputBoxClass = (e) => {
+  const setInputBoxClass = () => {
     if (inputQueryOpen === 'query-own-texts-modal-closed') {
       setInputQueryOpen('query-own-texts-modal');
       setInputButtonOpen('button-query-hover button-box-open');
     } else {
-      e.currentTarget.blur();
+      inputButtonRef.current.blur();
       setInputQueryOpen('query-own-texts-modal-closed');
       setInputButtonOpen('button-query-hover');
+      if (filterQueryOpen !== 'menu-box-choose-text') {
+        setFilterButtonOpen('button-query-hover');
+      }
     }
   };
 
@@ -436,7 +442,7 @@ export default function Query(props) {
                 id="choose-text-button"
                 className={filterButtonOpen}
                 onClick={(e) => {
-                  setFilterBoxClass(e);
+                  setFilterBoxClass();
                   setAlert(false);
                   setNoResultsError(false);
                 }}>
@@ -1056,7 +1062,7 @@ export default function Query(props) {
           id="choose-input-button"
           variant="contained"
           className={inputButtonOpen}
-          onClick={(e) => setInputBoxClass(e)}
+          onClick={(e) => setInputBoxClass()}
         >
           <div className="button-text-query">
             <ReadMoreIcon className="query-find-texts-icon"/>
@@ -1084,7 +1090,7 @@ export default function Query(props) {
               disabled={textInputValue === ''}
               onClick={(e) => {
                 handleSubmitOwnTexts();
-                setInputBoxClass(e);
+                setInputBoxClass();
               }}
             >
               {t('textupload_primary_modal_save')}
