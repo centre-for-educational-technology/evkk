@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Chip, Grid, Link, styled, Typography } from '@mui/material';
 import './styles/SingleLink.css';
 
-function SingleLink({name, siteLink, tekst, image, tags}) {
+export default function SingleLink({name, siteLink, tekst, image, tags}) {
 
   const MenuLink = styled(Link)({
     fontWeight: 'bold',
@@ -35,9 +35,12 @@ function SingleLink({name, siteLink, tekst, image, tags}) {
         </Grid>
         <Grid item
               xs={10}>
-          <Box><MenuLink rel={'noopener noreferrer'}
-                         target={'_blank'}
-                         href={siteLink}>{name}</MenuLink></Box>
+          <Box>
+            <MenuLink rel={'noopener noreferrer'}
+                      target={'_blank'}
+                      href={siteLink}>{name}
+            </MenuLink>
+          </Box>
           <Box>
             <div><Typography>{tekst}</Typography></div>
           </Box>
@@ -48,15 +51,12 @@ function SingleLink({name, siteLink, tekst, image, tags}) {
               xs={10}>
           {tags.map((tag, i) => {
             return (
-              <Chip key={tag + i} label={tag}
+              <Chip key={tag} label={tag}
                     style={{marginRight: '0.5vw', marginTop: '0.5vw'}}/>
             );
           })}
-
         </Grid>
       </Grid>
     </Box>
   );
 }
-
-export default SingleLink;
