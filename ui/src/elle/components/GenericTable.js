@@ -2,7 +2,14 @@ import TablePagination from './table/TablePagination';
 import React from 'react';
 import { usePagination, useSortBy, useTable } from 'react-table';
 
-export default function GenericTable({tableClassname, columns, data, sortByColAccessor}) {
+export default function GenericTable({
+                                       tableClassname,
+                                       columns,
+                                       data,
+                                       hiddenCols,
+                                       sortByColAccessor,
+                                       sortByDesc = true
+                                     }) {
 
   const {
     getTableProps,
@@ -24,9 +31,10 @@ export default function GenericTable({tableClassname, columns, data, sortByColAc
       sortBy: [
         {
           id: sortByColAccessor,
-          desc: true
+          desc: sortByDesc
         }
-      ]
+      ],
+      hiddenColumns: hiddenCols || []
     }
   }, useSortBy, usePagination);
 

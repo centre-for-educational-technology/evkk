@@ -10,6 +10,7 @@ import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select } from '@m
 import ToggleCell from './ToggleCell';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Popover from '@mui/material/Popover';
+import { compareTableColValuesForSortType } from '../../util/TableUtils';
 
 export default function LemmaView() {
 
@@ -154,7 +155,10 @@ export default function LemmaView() {
         Header: t('common_lemma'),
         id: 'algvorm',
         accessor: 'col1',
-        width: 400
+        width: 400,
+        sortType: (rowA, rowB) => {
+          return compareTableColValuesForSortType(rowA, rowB, 'col1');
+        }
       },
       {
         Header: t('lemmas_header_wordforms'),
