@@ -11,7 +11,7 @@ import ToggleCell from './ToggleCell';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Popover from '@mui/material/Popover';
 
-function LemmaView() {
+export default function LemmaView() {
 
   const analyse = useContext(AnalyseContext)[0];
   const setLemma = useContext(SetLemmaContext);
@@ -282,7 +282,8 @@ function LemmaView() {
         </Box>
         <TableDownloadButton data={data}
                              tableType={'LemmaView'}
-                             headers={tableToDownload}/>
+                             headers={tableToDownload}
+                             sortByColAccessor={'col3'}/>
       </Box>
         <table className="analyserTable"
                {...getTableProps()}
@@ -360,5 +361,3 @@ function LemmaView() {
     </>
   );
 }
-
-export default LemmaView;

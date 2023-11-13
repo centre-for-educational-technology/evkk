@@ -7,8 +7,9 @@ import { Box, Button, FormControl, InputLabel, MenuItem, Select, Tooltip } from 
 import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 import '../../tools/wordanalyser/styles/DownloadButton.css';
+import sortTableDataByCol from '../../util/Utils';
 
-export default function TableDownloadButton({data, headers, accessors, marginTop, tableType}) {
+export default function TableDownloadButton({data, headers, accessors, marginTop, tableType, sortByColAccessor}) {
 
   const {t} = useTranslation();
   const ExcelFile = ReactExport.ExcelFile;
@@ -47,10 +48,10 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
   }
 
   useEffect(() => {
+    sortByColAccessor && sortTableDataByCol(data, sortByColAccessor); // if sortBy column is given, data is sorted accordingly
     setFirstRow();
     setData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [data]);
 
   function setData() {
     if (tableType === 'GrammaticalAnalysis') {
@@ -109,128 +110,159 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
   }
 
   function showButton() {
-    if (tableType === 'GrammaticalAnalysis') {
-      if (fileType) {
-        setButtonType(csvButton('gram_anal_filename'));
-      } else {
-        setButtonType(<ExcelFile filename={t('gram_anal_filename')}
-                                 element={<Button variant="contained">{t('common_download')}</Button>}>
-          <ExcelSheet data={data}
-                      name={t('common_excel_sheet_name')}>
-            <ExcelColumn label={headers[0]}
-                         value="col1"/>
-            <ExcelColumn label={headers[1]}
-                         value="col2"/>
-            <ExcelColumn label={headers[2]}
-                         value={(col) => col.col3[2]}/>
-            <ExcelColumn label={headers[3]}
-                         value="col4"/>
-            <ExcelColumn label={headers[4]}
-                         value="col5"/>
-          </ExcelSheet>
-        </ExcelFile>);
-      }
-    } else if (tableType === 'LemmaView') {
-      if (fileType) {
-        setButtonType(csvButton('lemmas_filename'));
-      } else {
-        setButtonType(<ExcelFile filename={t('lemmas_filename')}
-                                 element={<Button variant="contained">{t('common_download')}</Button>}>
-          <ExcelSheet data={data}
-                      name={t('common_excel_sheet_name')}>
-            <ExcelColumn label={headers[0]}
-                         value="col1"/>
-            <ExcelColumn label={headers[1]}
-                         value={(col) => col.col2[2]}/>
-            <ExcelColumn label={headers[2]}
-                         value="col3"/>
-            <ExcelColumn label={headers[3]}
-                         value="col4"/>
-          </ExcelSheet>
-        </ExcelFile>);
-      }
-    } else if (tableType === 'Syllables') {
-      if (fileType) {
-        setButtonType(csvButton('syllables_filename'));
-      } else {
-        setButtonType(<ExcelFile filename={t('syllables_filename')}
-                                 element={<Button variant="contained">{t('common_download')}</Button>}>
-          <ExcelSheet data={data}
-                      name={t('common_excel_sheet_name')}>
-            <ExcelColumn label={headers[0]}
-                         value="col1"/>
-            <ExcelColumn label={headers[1]}
-                         value="col2"/>
-            <ExcelColumn label={headers[2]}
-                         value="col3"/>
-            <ExcelColumn label={headers[3]}
-                         value="col4"/>
-            <ExcelColumn label={headers[4]}
-                         value={(col) => col.col5[2]}/>
-            <ExcelColumn label={headers[5]}
-                         value="col6"/>
-            <ExcelColumn label={headers[6]}
-                         value="col7"/>
-          </ExcelSheet>
-        </ExcelFile>);
-      }
-    } else if (tableType === 'Wordlist') {
-      if (fileType) {
-        setButtonType(csvButton('wordlist_filename'));
-      } else {
-        setButtonType(<ExcelFile filename={t('wordlist_filename')}
-                                 element={<Button variant="contained">{t('common_download')}</Button>}>
-          <ExcelSheet data={data}
-                      name={t('common_excel_sheet_name')}>
-            <ExcelColumn label={headers[0]}
-                         value="word"/>
-            <ExcelColumn label={headers[1]}
-                         value="frequencyCount"/>
-            <ExcelColumn label={headers[2]}
-                         value="frequencyPercentage"/>
-          </ExcelSheet>
-        </ExcelFile>);
-      }
-    } else if (tableType === 'WordContext') {
-      if (fileType) {
-        setButtonType(csvButton('wordcontext_filename'));
-      } else {
-        setButtonType(<ExcelFile filename={t('wordcontext_filename')}
-                                 element={<Button variant="contained">{t('common_download')}</Button>}>
-          <ExcelSheet data={data}
-                      name={t('common_excel_sheet_name')}>
-            <ExcelColumn label={headers[0]}
-                         value="contextBefore"/>
-            <ExcelColumn label={headers[1]}
-                         value="keyword"/>
-            <ExcelColumn label={headers[2]}
-                         value="contextAfter"/>
-          </ExcelSheet>
-        </ExcelFile>);
-      }
-    } else if (tableType === 'Collocates') {
-      if (fileType) {
-        setButtonType(csvButton('collocates_filename'));
-      } else {
-        setButtonType(<ExcelFile filename={t('collocates_filename')}
-                                 element={<Button variant="contained">{t('common_download')}</Button>}>
-          <ExcelSheet data={data}
-                      name={t('common_excel_sheet_name')}>
-            <ExcelColumn label={headers[0]}
-                         value="collocate"/>
-            <ExcelColumn label={headers[1]}
-                         value="score"/>
-            <ExcelColumn label={headers[2]}
-                         value="coOccurrences"/>
-            <ExcelColumn label={headers[3]}
-                         value="frequencyCount"/>
-            <ExcelColumn label={headers[4]}
-                         value="frequencyPercentage"/>
-          </ExcelSheet>
-        </ExcelFile>);
-      }
+    switch (tableType) {
+      case 'GrammaticalAnalysis':
+        grammaticalAnalysisButton();
+        break;
+      case 'LemmaView':
+        lemmaViewButton();
+        break;
+      case 'Syllables':
+        syllablesButton();
+        break;
+      case 'Wordlist':
+        wordlistButton();
+        break;
+      case 'WordContext':
+        wordContextButton();
+        break;
+      case 'Collocates':
+        collocatesButton();
+        break;
     }
   }
+
+  const grammaticalAnalysisButton = () => {
+    if (fileType) {
+      setButtonType(csvButton('gram_anal_filename'));
+    } else {
+      setButtonType(<ExcelFile filename={t('gram_anal_filename')}
+                               element={<Button variant="contained">{t('common_download')}</Button>}>
+        <ExcelSheet data={data}
+                    name={t('common_excel_sheet_name')}>
+          <ExcelColumn label={headers[0]}
+                       value="col1"/>
+          <ExcelColumn label={headers[1]}
+                       value="col2"/>
+          <ExcelColumn label={headers[2]}
+                       value={(col) => col.col3[2]}/>
+          <ExcelColumn label={headers[3]}
+                       value="col4"/>
+          <ExcelColumn label={headers[4]}
+                       value="col5"/>
+        </ExcelSheet>
+      </ExcelFile>);
+    }
+  };
+
+  const lemmaViewButton = () => {
+    if (fileType) {
+      setButtonType(csvButton('lemmas_filename'));
+    } else {
+      setButtonType(<ExcelFile filename={t('lemmas_filename')}
+                               element={<Button variant="contained">{t('common_download')}</Button>}>
+        <ExcelSheet data={data}
+                    name={t('common_excel_sheet_name')}>
+          <ExcelColumn label={headers[0]}
+                       value="col1"/>
+          <ExcelColumn label={headers[1]}
+                       value={(col) => col.col2[2]}/>
+          <ExcelColumn label={headers[2]}
+                       value="col3"/>
+          <ExcelColumn label={headers[3]}
+                       value="col4"/>
+        </ExcelSheet>
+      </ExcelFile>);
+    }
+  };
+
+  const syllablesButton = () => {
+    if (fileType) {
+      setButtonType(csvButton('syllables_filename'));
+    } else {
+      setButtonType(<ExcelFile filename={t('syllables_filename')}
+                               element={<Button variant="contained">{t('common_download')}</Button>}>
+        <ExcelSheet data={data}
+                    name={t('common_excel_sheet_name')}>
+          <ExcelColumn label={headers[0]}
+                       value="col1"/>
+          <ExcelColumn label={headers[1]}
+                       value="col2"/>
+          <ExcelColumn label={headers[2]}
+                       value="col3"/>
+          <ExcelColumn label={headers[3]}
+                       value="col4"/>
+          <ExcelColumn label={headers[4]}
+                       value={(col) => col.col5[2]}/>
+          <ExcelColumn label={headers[5]}
+                       value="col6"/>
+          <ExcelColumn label={headers[6]}
+                       value="col7"/>
+        </ExcelSheet>
+      </ExcelFile>);
+    }
+  };
+
+  const wordlistButton = () => {
+    if (fileType) {
+      setButtonType(csvButton('wordlist_filename'));
+    } else {
+      setButtonType(<ExcelFile filename={t('wordlist_filename')}
+                               element={<Button variant="contained">{t('common_download')}</Button>}>
+        <ExcelSheet data={data}
+                    name={t('common_excel_sheet_name')}>
+          <ExcelColumn label={headers[0]}
+                       value="word"/>
+          <ExcelColumn label={headers[1]}
+                       value="frequencyCount"/>
+          <ExcelColumn label={headers[2]}
+                       value="frequencyPercentage"/>
+        </ExcelSheet>
+      </ExcelFile>);
+    }
+  };
+
+  const wordContextButton = () => {
+    if (fileType) {
+      setButtonType(csvButton('wordcontext_filename'));
+    } else {
+      setButtonType(<ExcelFile filename={t('wordcontext_filename')}
+                               element={<Button variant="contained">{t('common_download')}</Button>}>
+        <ExcelSheet data={data}
+                    name={t('common_excel_sheet_name')}>
+          <ExcelColumn label={headers[0]}
+                       value="contextBefore"/>
+          <ExcelColumn label={headers[1]}
+                       value="keyword"/>
+          <ExcelColumn label={headers[2]}
+                       value="contextAfter"/>
+        </ExcelSheet>
+      </ExcelFile>);
+    }
+  };
+
+  const collocatesButton = () => {
+    if (fileType) {
+      setButtonType(csvButton('collocates_filename'));
+    } else {
+      setButtonType(<ExcelFile filename={t('collocates_filename')}
+                               element={<Button variant="contained">{t('common_download')}</Button>}>
+        <ExcelSheet data={data}
+                    name={t('common_excel_sheet_name')}>
+          <ExcelColumn label={headers[0]}
+                       value="collocate"/>
+          <ExcelColumn label={headers[1]}
+                       value="score"/>
+          <ExcelColumn label={headers[2]}
+                       value="coOccurrences"/>
+          <ExcelColumn label={headers[3]}
+                       value="frequencyCount"/>
+          <ExcelColumn label={headers[4]}
+                       value="frequencyPercentage"/>
+        </ExcelSheet>
+      </ExcelFile>);
+    }
+  };
 
   useEffect(() => {
     setData();
@@ -248,7 +280,7 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
 
   return (
     <Box className="download-button-section"
-         style={{marginTop: marginTop ? marginTop : ''}}>
+         style={{marginTop: marginTop || ''}}>
       <Tooltip title={t('common_download')}
                placement="top">
         <Button aria-describedby={id}
