@@ -396,8 +396,7 @@ export default function Query(props) {
     }
   };
 
-  {/*TODO Query buttons need to be redone*/
-  }
+  /*TODO Query buttons need to be redone*/
   const setFilterBoxClass = () => {
     if (filterHidden) {
       setInputOpen(true);
@@ -415,10 +414,9 @@ export default function Query(props) {
     if (props.queryOpen === 'queryOpen') {
       setFilterHidden(false);
     }
-  }, []);
+  }, [props.queryOpen]);
 
-  {/*TODO Query buttons need to be redone*/
-  }
+  /*TODO Query buttons need to be redone*/
   const setInputHidden = () => {
     if (inputOpen) {
       setFilterHidden(true);
