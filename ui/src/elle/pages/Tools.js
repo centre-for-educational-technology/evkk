@@ -35,13 +35,15 @@ const TabOutlet = (props) => {
   const {t} = useTranslation();
   return (
     <TabPanel value={props.value}>
-      {props.textsSelected ? <Outlet/> :
-        <Box>
-          <ToolIconCard image={props.image} text={props.text}/>
-          <Alert severity="warning">
-            {t('tools_warning_text')}
-          </Alert>
-        </Box>}
+      <Box className="tools-tab-overlay">
+        {props.textsSelected ? <Outlet/> :
+          <Box>
+            <ToolIconCard image={props.image} text={props.text}/>
+            <Alert severity="warning">
+              {t('tools_warning_text')}
+            </Alert>
+          </Box>}
+      </Box>
     </TabPanel>
   );
 };
@@ -53,6 +55,8 @@ export default function Tools() {
   const navigate = useNavigate();
   const [tabPage, setTabPage] = useState(current.pathname);
   const [textsSelected, setTextsSelected] = useState(false);
+  const [queryFilterOpen, setQueryFilterOpen] = useState(false);
+  const [queryInputOpen, setQueryInputOpen] = useState(false);
 
   useEffect(() => {
     setTabPage(current.pathname);
@@ -80,7 +84,7 @@ export default function Tools() {
     <Box className="outer-container-tools">
       <Box className="tool-page-container-outer">
         <Box className="outer-outer">
-          <Query queryOpen={queryOpen}/>
+          <Query queryOpen={queryOpen} setQueryFilterOpen={setQueryFilterOpen} setQueryInputOpen={setQueryInputOpen}/>
         </Box>
         <Box className="tools-box-right">
           <TabContext value={tabPage} className="tab-context-class">
