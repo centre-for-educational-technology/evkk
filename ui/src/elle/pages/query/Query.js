@@ -441,7 +441,7 @@ export default function Query(props) {
                 ref={filterButtonRef}
                 id="choose-text-button"
                 className={filterButtonOpen}
-                onClick={(e) => {
+                onClick={() => {
                   setFilterBoxClass();
                   setAlert(false);
                   setNoResultsError(false);
@@ -1062,7 +1062,7 @@ export default function Query(props) {
           id="choose-input-button"
           variant="contained"
           className={inputButtonOpen}
-          onClick={(e) => setInputBoxClass()}
+          onClick={setInputBoxClass}
         >
           <div className="button-text-query">
             <ReadMoreIcon className="query-find-texts-icon"/>
@@ -1088,7 +1088,7 @@ export default function Query(props) {
               variant="contained"
               sx={DefaultButtonStyle}
               disabled={textInputValue === ''}
-              onClick={(e) => {
+              onClick={() => {
                 handleSubmitOwnTexts();
                 setInputBoxClass();
               }}

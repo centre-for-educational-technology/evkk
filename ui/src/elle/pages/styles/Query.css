@@ -57,6 +57,7 @@
   border: solid #9C27B0 4px;
   border-radius: 25px;
   padding: 20px;
+  overflow: hidden;
   transition: 0.2s;
 }
 
@@ -116,7 +117,7 @@
 }
 
 .menu-box-choose-text {
-  height: 700px;
+  height: auto;
   width: 1000px;
   padding: 20px;
   margin-top: 10px;
