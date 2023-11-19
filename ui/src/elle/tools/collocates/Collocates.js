@@ -52,6 +52,7 @@ export default function Collocates() {
   const [response, setResponse] = useState([]);
   const data = useMemo(() => response, [response]);
   const [showNoResultsError, setShowNoResultsError] = useState(false);
+  const sortByColAccessor = 'score';
 
   useEffect(() => {
     if (urlParams.get('word') && urlParams.get('type') && urlParams.get('keepCapitalization')) {
@@ -371,8 +372,12 @@ export default function Collocates() {
                              tableType={'Collocates'}
                              headers={tableToDownload}
                              accessors={accessors}
+                             sortByColAccessor={sortByColAccessor}
                              marginTop={'2vh'}/>
-        <GenericTable tableClassname={'wordlist-table'} columns={columns} data={data} sortByColAccessor={'score'}/>
+        <GenericTable tableClassname={'wordlist-table'}
+                      columns={columns}
+                      data={data}
+                      sortByColAccessor={sortByColAccessor}/>
       </>}
       {showNoResultsError &&
         <Alert severity="error">{t('error_no_matching_keywords')}</Alert>}

@@ -399,12 +399,11 @@ export default function Query(props) {
       });
     }
   };
-
   useEffect(() => {
     if (props.queryOpen === 'queryOpen') {
       setFilterQueryOpen('menu-box-choose-text');
     }
-  }, []);
+  }, [props.queryOpen]);
 
   const setFilterBoxClass = () => {
     if (filterQueryOpen === 'menu-box-choose-text-closed') {

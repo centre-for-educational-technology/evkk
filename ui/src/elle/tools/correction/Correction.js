@@ -251,6 +251,8 @@ const Correction = () => {
                           <Box className="sector-dot"></Box>
                           <h2>{vastus[1]}: {(vastus[0] * 100).toFixed(0)}%</h2>
                         </Box>);
+                      } else {
+                        return '';
                       }
                     })}
                   </Box>
@@ -378,24 +380,24 @@ const Correction = () => {
 
   //undo and redo
   //TODO: panna handle undo ja redo uuesti tööle?
-  const handleUndo = () => {
-    if (currentHistory === 0) {
-      return;
-    }
-    setCurrentHistory(currentHistory + 1);
-    const previousFromHistory = history[currentHistory];
-    setContent(previousFromHistory);
-  };
+  /*  const handleUndo = () => {
+      if (currentHistory === 0) {
+        return;
+      }
+      setCurrentHistory(currentHistory + 1);
+      const previousFromHistory = history[currentHistory];
+      setContent(previousFromHistory);
+    };
 
-  const handleRedo = () => {
-    //if on last change then nothing to redo
-    if (currentHistory === history.length - 1) {
-      return;
-    }
-    setCurrentHistory(currentHistory + 1);
-    const nextFromHistory = history[currentHistory];
-    setContent(nextFromHistory);
-  };
+    const handleRedo = () => {
+      //if on last change then nothing to redo
+      if (currentHistory === history.length - 1) {
+        return;
+      }
+      setCurrentHistory(currentHistory + 1);
+      const nextFromHistory = history[currentHistory];
+      setContent(nextFromHistory);
+    };*/
 
   return (<Card raised={true}
                 square={true}
