@@ -121,9 +121,9 @@ public class WordContextService {
           : contextAfterEnd - 1;
 
         result.add(new WordContextDto(
-          sanitizedTextContent.substring(contextBeforeEnd, contextAfterStart),
-          sanitizedTextContent.substring(contextBeforeStart, contextBeforeEnd),
-          sanitizedTextContent.substring(contextAfterStart, contextAfterEnd)
+          sanitizedTextContent.substring(contextBeforeEnd, contextAfterStart).trim(),
+          sanitizedTextContent.substring(contextBeforeStart, contextBeforeEnd).trim(),
+          sanitizedTextContent.substring(contextAfterStart, contextAfterEnd).trim()
         ));
       }
     }

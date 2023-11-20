@@ -7,7 +7,7 @@ import { Box, Button, FormControl, InputLabel, MenuItem, Select, Tooltip } from 
 import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 import '../../tools/wordanalyser/styles/DownloadButton.css';
-import sortTableDataByCol from '../../util/Utils';
+import { sortTableDataByCol } from '../../util/TableUtils';
 
 export default function TableDownloadButton({data, headers, accessors, marginTop, tableType, sortByColAccessor}) {
 
@@ -51,7 +51,8 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
     sortByColAccessor && sortTableDataByCol(data, sortByColAccessor); // if sortBy column is given, data is sorted accordingly
     setFirstRow();
     setData();
-  }, [data]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, sortByColAccessor]);
 
   function setData() {
     if (tableType === 'GrammaticalAnalysis') {
@@ -129,6 +130,8 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
       case 'Collocates':
         collocatesButton();
         break;
+      default:
+        console.error('Unrecognized table type for downloading!');
     }
   }
 

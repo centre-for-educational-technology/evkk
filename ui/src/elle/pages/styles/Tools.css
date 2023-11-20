@@ -28,7 +28,7 @@
 
 .outer-container-tools {
   height: auto;
-  background: linear-gradient(315deg, rgba(156, 39, 176, 1) 0%, rgba(156, 39, 176, 1) 33%, rgba(204, 168, 253, 1) 33%, rgba(204, 168, 253, 1) 67%, rgba(255, 208, 253, 1) 67%, rgba(255, 208, 253, 1) 100%);
+  background: fixed linear-gradient(315deg, rgba(156, 39, 176, 1) 0%, rgba(156, 39, 176, 1) 33%, rgba(204, 168, 253, 1) 33%, rgba(204, 168, 253, 1) 67%, rgba(255, 208, 253, 1) 67%, rgba(255, 208, 253, 1) 100%);
   border-radius: 50px;
   padding: 7px;
   margin-bottom: 50px;
