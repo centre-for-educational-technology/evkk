@@ -35,7 +35,7 @@ const TabOutlet = (props) => {
   const {t} = useTranslation();
   return (
     <TabPanel value={props.value}>
-      <Box className="tools-tab-overlay">
+      <Box className={props.hideBackground ? 'tools-tab-overlay' : ''}>
         {props.textsSelected ? <Outlet/> :
           <Box>
             <ToolIconCard image={props.image} text={props.text}/>
@@ -55,8 +55,7 @@ export default function Tools() {
   const navigate = useNavigate();
   const [tabPage, setTabPage] = useState(current.pathname);
   const [textsSelected, setTextsSelected] = useState(false);
-  const [queryFilterOpen, setQueryFilterOpen] = useState(false);
-  const [queryInputOpen, setQueryInputOpen] = useState(false);
+  const [hideBackground, setHideBackground] = useState(false);
 
   useEffect(() => {
     setTabPage(current.pathname);
@@ -84,7 +83,7 @@ export default function Tools() {
     <Box className="outer-container-tools">
       <Box className="tool-page-container-outer">
         <Box className="outer-outer">
-          <Query queryOpen={queryOpen} setQueryFilterOpen={setQueryFilterOpen} setQueryInputOpen={setQueryInputOpen}/>
+          <Query queryOpen={queryOpen} setHideBackground={setHideBackground}/>
         </Box>
         <Box className="tools-box-right">
           <TabContext value={tabPage} className="tab-context-class">
@@ -126,30 +125,35 @@ export default function Tools() {
               image={WordlistImg}
               text={'tools_accordion_wordlist_explainer'}
               value="/tools/wordlist"
+              hideBackground={hideBackground}
             />
             <TabOutlet
               textsSelected={textsSelected}
               image={WordContext}
               text={'tools_accordion_word_in_context_explainer'}
               value="/tools/wordcontext"
+              hideBackground={hideBackground}
             />
             <TabOutlet
               textsSelected={textsSelected}
               image={NeighbourWord}
               text={'tools_accordion_neighbouring_words_explainer'}
               value="/tools/collocates"
+              hideBackground={hideBackground}
             />
             <TabOutlet
               textsSelected={textsSelected}
               image={WordAnalyser}
               text={'tools_accordion_word_analysis_explainer'}
               value="/tools/wordanalyser"
+              hideBackground={hideBackground}
             />
             <TabOutlet
               textsSelected={textsSelected}
               image={WordPattern}
               text={'tools_accordion_clusters_explainer'}
               value="/tools/clusterfinder"
+              hideBackground={hideBackground}
             />
           </TabContext>
         </Box>
