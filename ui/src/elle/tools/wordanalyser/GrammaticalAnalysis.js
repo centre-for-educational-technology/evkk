@@ -305,7 +305,7 @@ export default function GrammaticalAnalysis() {
   }, useFilters, useSortBy, usePagination);
 
   function AppliedFilters() {
-    if (filtersInUse.length() !== 0) {
+    if (filtersInUse.length !== 0) {
       return (
         filtersInUse.map((value) => (<Chip sx={{marginBottom: '5px'}} key={value} label={value}/>))
       );
@@ -316,7 +316,7 @@ export default function GrammaticalAnalysis() {
     <Box>
       <Box className="d-flex justify-content-between w-100">
         <Box className="w-75">
-          {filtersInUse.length() !== 0 ?
+          {filtersInUse.length !== 0 ?
             <Box className="applied-filters-box">{t('applied_filters')}: {AppliedFilters()} </Box> : null}</Box>
         <Box className="d-flex" style={{gap: '10px'}}>
           <Box>

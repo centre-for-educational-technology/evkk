@@ -138,7 +138,7 @@ export default function Query(props) {
     } else {
       props.setHideBackground(false);
     }
-  }, [filterQueryOpen, inputQueryOpen]);
+  }, [filterQueryOpen, inputQueryOpen, props]);
 
   useEffect(() => {
     if (urlParams.get('openQuery')) {

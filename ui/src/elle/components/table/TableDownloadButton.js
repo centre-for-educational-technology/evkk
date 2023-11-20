@@ -19,7 +19,8 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
   const [fileType, setFileType] = useState(false);
   const fileDownloadElement = createRef();
   const [anchorEl, setAnchorEl] = useState(null);
-  const [buttonType, setButtonType] = useState(<Button style={DefaultButtonStyle} variant="contained"
+  const [buttonType, setButtonType] = useState(<Button style={DefaultButtonStyle}
+                                                       variant="contained"
                                                        onClick={showButton}>{t('common_download')}</Button>);
   let csvData = '';
   let tableHeaders = [];
