@@ -13,22 +13,22 @@ import {
   TabContext,
   TypeContext,
   WordContext
-} from "./Contexts";
-import {useState} from "react";
-import WordAnalyser from "./WordAnalyser";
-import GrammaticalAnalysis from "./GrammaticalAnalysis";
-import TableComponent from "./TableComponent";
-import Syllables from "./Syllables";
-import LemmaView from "./LemmaView";
-import {Alert, Box, Fade, IconButton, Typography} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+} from './Contexts';
+import { useState } from 'react';
+import WordAnalyser from './WordAnalyser';
+import GrammaticalAnalysis from './GrammaticalAnalysis';
+import TableComponent from './TableComponent';
+import Syllables from './Syllables';
+import LemmaView from './LemmaView';
+import { Alert, Box, Fade, IconButton, Typography } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import './styles/WordAnalyserParent.css';
 
 export default function WordAnalyserParent() {
 
-  const [wordValue, setWordValue] = useState("");
-  const [formValue, setFormValue] = useState("");
-  const [typeValue, setTypeValue] = useState("");
+  const [wordValue, setWordValue] = useState('');
+  const [formValue, setFormValue] = useState('');
+  const [typeValue, setTypeValue] = useState('');
   const [border, setBorder] = useState(0);
   const [open, setOpen] = useState(false);
   const [analyseValue, setAnalyseValue] = useState({
@@ -42,13 +42,13 @@ export default function WordAnalyserParent() {
     wordtypes: [''],
     wordforms: ['']
   });
-  const [syllableValue, setSyllableValue] = useState("");
-  const [syllableWordValue, setSyllableWordValue] = useState("");
-  const [lemmaValue, setLemmaValue] = useState("");
+  const [syllableValue, setSyllableValue] = useState('');
+  const [syllableWordValue, setSyllableWordValue] = useState('');
+  const [lemmaValue, setLemmaValue] = useState('');
   const [tabValue, setTabValue] = useState(0);
 
   return (
-    <div style={{marginTop: "5vh"}}>
+    <div style={{marginTop: '5vh'}}>
       <SetWordContext.Provider value={setWordValue}>
         <WordContext.Provider value={wordValue}>
           <FormContext.Provider value={formValue}>
@@ -65,24 +65,24 @@ export default function WordAnalyserParent() {
                                 <TabContext.Provider value={[tabValue, setTabValue]}>
                                   <Box
                                     border={border}
-                                    borderColor={"#E1F5FE"}
+                                    borderColor={'#E1F5FE'}
                                     borderRadius={10}
                                   >
                                     <WordAnalyser/>
                                   </Box>
-                                  <Box component={"span"}>
+                                  <Box component={'span'}>
                                     {tabValue === 1 || tabValue === 2 || tabValue === 3 ? <TableComponent/> : null}
                                   </Box>
                                   <Box
-                                    padding={"20px"}
+                                    padding={'20px'}
                                     border={border}
-                                    borderColor={"#E1F5FE"}
+                                    borderColor={'#E1F5FE'}
                                     borderRadius={10}
                                   >
                                     <Fade in={open}>
                                       <Box className="alertBox">
                                         <Alert
-                                          severity={"info"}
+                                          severity={'info'}
                                           action={
                                             <IconButton
                                               aria-label="close"
@@ -90,15 +90,16 @@ export default function WordAnalyserParent() {
                                               size="small"
                                               onClick={() => {
                                                 setOpen(false);
-                                                setBorder(0)
+                                                setBorder(0);
                                               }}
                                             >
-                                              <CloseIcon fontSize="inherit" />
+                                              <CloseIcon fontSize="inherit"/>
                                             </IconButton>
                                           }
-                                          sx={{ mb: 2 }}
+                                          sx={{mb: 2}}
                                         >
-                                          <Typography color={"#1A237E"} ><strong>Tabelis olevatel väärtustel klõpsides märgitakse väärtused ära ülaoleva kasti tekstis</strong></Typography>
+                                          <Typography color={'#1A237E'}><strong>Tabelis olevatel väärtustel klõpsides
+                                            märgitakse väärtused ära ülaoleva kasti tekstis</strong></Typography>
                                         </Alert>
                                       </Box>
                                     </Fade>
