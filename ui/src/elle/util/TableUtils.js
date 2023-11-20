@@ -7,8 +7,14 @@ export const sortTableDataByCol = (data, sortByColAccessor) => {
   });
 }
 
-export const compareTableColValuesForSortType = (rowA, rowB, colName) => {
+export const sortTableCol = (rowA, rowB, colName) => {
   const valueA = rowA.original[colName];
   const valueB = rowB.original[colName];
+  return valueA.localeCompare(valueB, 'et', {sensitivity: 'case'});
+};
+
+export const sortColByLastWord = (rowA, rowB, colName) => {
+  const valueA = rowA.original[colName].split(' ').at(-1);
+  const valueB = rowB.original[colName].split(' ').at(-1);
   return valueA.localeCompare(valueB, 'et', {sensitivity: 'case'});
 };
