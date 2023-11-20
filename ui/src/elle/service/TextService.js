@@ -1,8 +1,8 @@
 import { queryStore } from '../store/QueryStore';
 import { loadFetch } from './LoadFetch';
-import { regExpReplaceAll } from '../util/TextUtils';
+import { sanitizeTexts } from '../util/TextUtils';
 
-export const toolsPopulatePostQuery = async (setStoreData) => {
+export const getSelectedTexts = (setStoreData) => {
   const queryStoreState = queryStore.getState();
   if (queryStoreState.corpusTextIds) {
     loadFetch('/api/texts/kysitekstid', {
@@ -16,7 +16,7 @@ export const toolsPopulatePostQuery = async (setStoreData) => {
         if (queryStoreState.ownTexts) {
           result = result.concat(' ', queryStoreState.ownTexts);
         }
-        setStoreData(regExpReplaceAll(result));
+        setStoreData(sanitizeTexts(result));
       });
   } else if (queryStoreState.ownTexts) {
     setStoreData(queryStoreState.ownTexts);

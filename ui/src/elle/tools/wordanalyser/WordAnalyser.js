@@ -19,7 +19,7 @@ import {
 } from './Contexts';
 import CloseIcon from '@mui/icons-material/Close';
 import { queryStore } from '../../store/QueryStore';
-import { toolsPopulatePostQuery } from '../../service/TextService';
+import { getSelectedTexts } from '../../service/TextService';
 
 function WordAnalyser() {
   const [analysedInput, setAnalysedInput] = useContext(AnalyseContext);
@@ -41,7 +41,7 @@ function WordAnalyser() {
   const inputRef = useRef();
 
   useEffect(() => {
-    toolsPopulatePostQuery(setStoreData);
+    getSelectedTexts(setStoreData);
   }, []);
 
   useEffect(() => {
@@ -49,7 +49,7 @@ function WordAnalyser() {
   }, [storeData]);
 
   queryStore.subscribe(() => {
-    toolsPopulatePostQuery(setStoreData);
+    getSelectedTexts(setStoreData);
   });
 
   // get words

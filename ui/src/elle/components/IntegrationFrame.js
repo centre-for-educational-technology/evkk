@@ -3,7 +3,7 @@ import { selectIntegrationPath } from '../../rootSelectors';
 import { useSelector } from 'react-redux';
 import { Box } from '@mui/material';
 import { queryStore } from '../store/QueryStore';
-import { toolsPopulatePostQuery } from '../service/TextService';
+import { getSelectedTexts } from '../service/TextService';
 
 const IntegrationFrame = ({integrationName}) => {
   const path = useSelector(state => selectIntegrationPath(integrationName)(state), []);
@@ -17,11 +17,11 @@ const IntegrationFrame = ({integrationName}) => {
   }, [storeData, height]);
 
   useEffect(() => {
-    toolsPopulatePostQuery(setStoreData);
+    getSelectedTexts(setStoreData);
   }, []);
 
   queryStore.subscribe(() => {
-    toolsPopulatePostQuery(setStoreData);
+    getSelectedTexts(setStoreData);
   });
 
   window.addEventListener('message', function (event) {
