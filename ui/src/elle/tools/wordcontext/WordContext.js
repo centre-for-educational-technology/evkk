@@ -30,7 +30,7 @@ import GenericTable from '../../components/GenericTable';
 import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
 import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
-import { compareTableColValuesForSortType } from '../../util/TableUtils';
+import { sortColByLastWord, sortTableCol } from '../../util/TableUtils';
 
 export default function WordContext() {
 
@@ -130,7 +130,7 @@ export default function WordContext() {
         return cellProps.value;
       },
       sortType: (rowA, rowB) => {
-        return compareTableColValuesForSortType(rowA, rowB, 'contextBefore');
+        return sortColByLastWord(rowA, rowB, 'contextBefore');
       },
       className: 'text-right'
     },
@@ -141,7 +141,7 @@ export default function WordContext() {
         return cellProps.value;
       },
       sortType: (rowA, rowB) => {
-        return compareTableColValuesForSortType(rowA, rowB, 'keyword');
+        return sortTableCol(rowA, rowB, 'keyword');
       },
       className: 'wordcontext-keyword'
     },
@@ -152,7 +152,7 @@ export default function WordContext() {
         return cellProps.value;
       },
       sortType: (rowA, rowB) => {
-        return compareTableColValuesForSortType(rowA, rowB, 'contextAfter');
+        return sortTableCol(rowA, rowB, 'contextAfter');
       },
       className: 'text-left'
     }
