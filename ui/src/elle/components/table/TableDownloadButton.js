@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 import '../../tools/wordanalyser/styles/DownloadButton.css';
 import { sortTableDataByCol } from '../../util/TableUtils';
+import { DefaultButtonStyle } from '../../const/Constants';
 
 export default function TableDownloadButton({data, headers, accessors, marginTop, tableType, sortByColAccessor}) {
 
@@ -18,7 +19,7 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
   const [fileType, setFileType] = useState(false);
   const fileDownloadElement = createRef();
   const [anchorEl, setAnchorEl] = useState(null);
-  const [buttonType, setButtonType] = useState(<Button variant="contained"
+  const [buttonType, setButtonType] = useState(<Button style={DefaultButtonStyle} variant="contained"
                                                        onClick={showButton}>{t('common_download')}</Button>);
   let csvData = '';
   let tableHeaders = [];
@@ -47,6 +48,51 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
     }
   }
 
+  const setGrammaticalAnalysisData = () => {
+    for (const element of data) {
+      let a = '';
+      for (let j = 0; j < element.col3[0].length; j++) {
+        a += element.col3[0][j] + ' ';
+        a += element.col3[1][j];
+      }
+      element.col3[2] = a;
+    }
+    csvData = JSON.parse(JSON.stringify(data));
+    for (let i = 0; i < data.length; i++) {
+      csvData[i].col3.splice(0, 2);
+    }
+  };
+
+  const setLemmaViewData = () => {
+    for (const element of data) {
+      let a = '';
+      for (let j = 0; j < element.col2[0].length; j++) {
+        a += element.col2[0][j] + ' ';
+        a += element.col2[1][j];
+      }
+      element.col2[2] = a;
+    }
+    csvData = JSON.parse(JSON.stringify(data));
+    for (let i = 0; i < data.length; i++) {
+      csvData[i].col2.splice(0, 2);
+    }
+  };
+
+  const setSyllablesData = () => {
+    for (const element of data) {
+      let a = '';
+      for (let j = 0; j < element.col5[0].length; j++) {
+        a += element.col5[0][j] + ' ';
+        a += element.col5[1][j];
+      }
+      element.col5[2] = a;
+    }
+    csvData = JSON.parse(JSON.stringify(data));
+    for (let i = 0; i < data.length; i++) {
+      csvData[i].col5.splice(0, 2);
+    }
+  };
+
   useEffect(() => {
     sortByColAccessor && sortTableDataByCol(data, sortByColAccessor); // if sortBy column is given, data is sorted accordingly
     setFirstRow();
@@ -56,51 +102,18 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
 
   function setData() {
     if (tableType === 'GrammaticalAnalysis') {
-      for (const element of data) {
-        let a = '';
-        for (let j = 0; j < element.col3[0].length; j++) {
-          a += element.col3[0][j] + ' ';
-          a += element.col3[1][j];
-        }
-        element.col3[2] = a;
-      }
-      csvData = JSON.parse(JSON.stringify(data));
-      for (let i = 0; i < data.length; i++) {
-        csvData[i].col3.splice(0, 2);
-      }
+      setGrammaticalAnalysisData();
     } else if (tableType === 'LemmaView') {
-      for (const element of data) {
-        let a = '';
-        for (let j = 0; j < element.col2[0].length; j++) {
-          a += element.col2[0][j] + ' ';
-          a += element.col2[1][j];
-        }
-        element.col2[2] = a;
-      }
-      csvData = JSON.parse(JSON.stringify(data));
-      for (let i = 0; i < data.length; i++) {
-        csvData[i].col2.splice(0, 2);
-      }
+      setLemmaViewData();
     } else if (tableType === 'Syllables') {
-      for (const element of data) {
-        let a = '';
-        for (let j = 0; j < element.col5[0].length; j++) {
-          a += element.col5[0][j] + ' ';
-          a += element.col5[1][j];
-        }
-        element.col5[2] = a;
-      }
-      csvData = JSON.parse(JSON.stringify(data));
-      for (let i = 0; i < data.length; i++) {
-        csvData[i].col5.splice(0, 2);
-      }
+      setSyllablesData();
     } else if (tableType === 'Wordlist' || tableType === 'WordContext' || tableType === 'Collocates') {
       csvData = JSON.parse(JSON.stringify(data));
     }
   }
 
   function csvButton(filename) {
-    return <Button className="CSVBtn"
+    return <Button style={DefaultButtonStyle}
                    variant="contained"
                    color="primary">
       <CSVLink filename={t(filename)}
@@ -286,9 +299,12 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
          style={{marginTop: marginTop || ''}}>
       <Tooltip title={t('common_download')}
                placement="top">
-        <Button aria-describedby={id}
-                variant="contained"
-                onClick={handleClick}>
+        <Button
+          style={DefaultButtonStyle}
+          aria-describedby={id}
+          variant="contained"
+          onClick={handleClick}
+        >
           <DownloadIcon fontSize="large"/>
         </Button>
       </Tooltip>

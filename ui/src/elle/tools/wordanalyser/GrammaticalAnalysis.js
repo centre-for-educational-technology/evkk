@@ -10,6 +10,7 @@ import { AnalyseContext, SetFormContext, SetTypeContext, SetWordContext } from '
 import ToggleCell from './ToggleCell';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
 import Popover from '@mui/material/Popover';
+import { DefaultButtonStyle } from '../../const/Constants';
 
 export default function GrammaticalAnalysis() {
   const {t} = useTranslation();
@@ -304,7 +305,7 @@ export default function GrammaticalAnalysis() {
   }, useFilters, useSortBy, usePagination);
 
   function AppliedFilters() {
-    if (filtersInUse !== []) {
+    if (filtersInUse.length() !== 0) {
       return (
         filtersInUse.map((value) => (<Chip sx={{marginBottom: '5px'}} key={value} label={value}/>))
       );
@@ -313,43 +314,45 @@ export default function GrammaticalAnalysis() {
 
   return (
     <Box>
-      <Box className="filter-container">
-        <Box component={'span'}>
-          {filtersInUse !== [] ?
+      <Box className="d-flex justify-content-between w-100">
+        <Box className="w-75">
+          {filtersInUse.length() !== 0 ?
             <Box className="applied-filters-box">{t('applied_filters')}: {AppliedFilters()} </Box> : null}</Box>
-        <Box>
-          <Button
-            className="popover-button"
-            aria-describedby={analyzerFilterPopoverID}
-            variant="contained"
-            onClick={handlePopoverOpen}
-          >
-            <FilterAltIcon fontSize="large"/>
-          </Button>
-          <Popover
-            id={analyzerFilterPopoverID}
-            open={analyzerFilterPopoverToggle}
-            anchorEl={analyzerFilterPopoverAnchorEl}
-            onClose={handlePopoverClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left'
-            }}
-            transformOrigin={{
-              horizontal: 'center',
-              vertical: 'top'
-            }}
-          >
-            <Box className="popover-box">
-              {multiSelect(col1.sort(), t('filter_by_word_type'), false)}
-              {multiSelect(col2.sort(), t('filter_by_word_form'), filtersInUse.length === 0)}
-            </Box>
-          </Popover>
+        <Box className="d-flex" style={{gap: '10px'}}>
+          <Box>
+            <Button
+              style={DefaultButtonStyle}
+              aria-describedby={analyzerFilterPopoverID}
+              variant="contained"
+              onClick={handlePopoverOpen}
+            >
+              <FilterAltIcon fontSize="large"/>
+            </Button>
+            <Popover
+              id={analyzerFilterPopoverID}
+              open={analyzerFilterPopoverToggle}
+              anchorEl={analyzerFilterPopoverAnchorEl}
+              onClose={handlePopoverClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left'
+              }}
+              transformOrigin={{
+                horizontal: 'center',
+                vertical: 'top'
+              }}
+            >
+              <Box className="popover-box">
+                {multiSelect(col1.sort(), t('filter_by_word_type'), false)}
+                {multiSelect(col2.sort(), t('filter_by_word_form'), filtersInUse.length === 0)}
+              </Box>
+            </Popover>
+          </Box>
+          <TableDownloadButton data={data}
+                               tableType={'GrammaticalAnalysis'}
+                               headers={tableToDownload}
+                               sortByColAccessor={'col4'}/>
         </Box>
-        <TableDownloadButton data={data}
-                             tableType={'GrammaticalAnalysis'}
-                             headers={tableToDownload}
-                             sortByColAccessor={'col4'}/>
       </Box>
       <table className="analyserTable" {...getTableProps()}>
         <thead>
