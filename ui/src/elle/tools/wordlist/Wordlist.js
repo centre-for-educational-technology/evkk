@@ -27,7 +27,7 @@ import GenericTable from '../../components/GenericTable';
 import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
 import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
-import { compareTableColValuesForSortType } from '../../util/TableUtils';
+import { sortTableCol } from '../../util/TableUtils';
 
 export default function Wordlist() {
 
@@ -114,7 +114,7 @@ export default function Wordlist() {
         return cellProps.value;
       },
       sortType: (rowA, rowB) => {
-        return compareTableColValuesForSortType(rowA, rowB, 'word');
+        return sortTableCol(rowA, rowB, 'word');
       }
     },
     {

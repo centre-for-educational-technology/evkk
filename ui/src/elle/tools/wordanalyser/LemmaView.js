@@ -10,7 +10,7 @@ import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select } from '@m
 import ToggleCell from './ToggleCell';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Popover from '@mui/material/Popover';
-import { compareTableColValuesForSortType } from '../../util/TableUtils';
+import { sortTableCol } from '../../util/TableUtils';
 import { DefaultButtonStyle } from '../../const/Constants';
 
 export default function LemmaView() {
@@ -158,7 +158,7 @@ export default function LemmaView() {
         accessor: 'col1',
         width: 400,
         sortType: (rowA, rowB) => {
-          return compareTableColValuesForSortType(rowA, rowB, 'col1');
+          return sortTableCol(rowA, rowB, 'col1');
         }
       },
       {

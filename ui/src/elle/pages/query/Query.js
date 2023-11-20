@@ -133,6 +133,14 @@ export default function Query(props) {
   }, []);
 
   useEffect(() => {
+    if (inputQueryOpen === 'query-own-texts-modal' || filterQueryOpen === 'menu-box-choose-text') {
+      props.setHideBackground(true);
+    } else {
+      props.setHideBackground(false);
+    }
+  }, [filterQueryOpen, inputQueryOpen]);
+
+  useEffect(() => {
     if (urlParams.get('openQuery')) {
       navigate('', {replace: true});
     }
