@@ -35,6 +35,10 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.HashMap;
+import com.google.gson.Gson;
+
 
 import static java.util.Arrays.asList;
 import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
@@ -102,22 +106,28 @@ public class TextController {
         return textDao.findTextIdAndTitleByCorpusId(korpusekood);
     }
     @PostMapping("/neorokone")
-    public ResponseEntity<String> TextToSpeechRequest(@RequestBody LemmadRequestEntity request) throws Exception {
-      String text = request.getTekst();
-      String speaker = "Mari";
-      double speed = 1;
+    public ResponseEntity<String> TextToSpeechRequest(@RequestBody Map<String, Object> requestMap) {
+      String text = (String) requestMap.get("tekst");
+      String speaker = (String) requestMap.get("speaker");
+      String speed = (String) (requestMap.get("speed"));
+
+      Double speedDouble = Double.parseDouble(speed);
+
+
       try {
         String url = "https://api.tartunlp.ai/text-to-speech/v2";
         HttpClient httpClient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);
 
         // Set the request body
-        String requestBody = "{\n" +
-          "  \"text\": \"" + text + "\",\n" +
-          "  \"speaker\": \"" + speaker + "\",\n" +
-          "  \"speed\": " + speed + "\n" +
-          "}";
-        StringEntity entity = new StringEntity(requestBody, ContentType.APPLICATION_JSON);
+        Map<String, Object> requestBodyMap = new HashMap<>();
+        requestBodyMap.put("text", text);
+        requestBodyMap.put("speaker", speaker);
+        requestBodyMap.put("speed", speedDouble);
+
+
+
+        StringEntity entity = new StringEntity(new Gson().toJson(requestBodyMap), ContentType.APPLICATION_JSON);
         httpPost.setEntity(entity);
 
         // Execute the request
