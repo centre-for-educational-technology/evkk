@@ -520,9 +520,9 @@ const Correction = () => {
                     </tbody>
                   </table>
                   <br/><br/>
-                  {sliderElement('SMOG index', 0, 25, parseFloat(complexityAnswer[5]).toFixed(), 1)}
-                  {sliderElement('Flesch-Kincaidi indeks', 0, 30, parseFloat(complexityAnswer[6]).toFixed(), 1)}
-                  {sliderElement('LIX index', 20, 80, complexityAnswer[7], 1)}
+                  {sliderElement('SMOG index', 0, 25, parseFloat(complexityAnswer[5]).toFixed(2), 1)}
+                  {sliderElement('Flesch-Kincaidi indeks', 0, 30, parseFloat(complexityAnswer[6]).toFixed(2), 1)}
+                  {sliderElement('LIX index', 20, 80, parseFloat(complexityAnswer[7]).toFixed(2), 1)}
                   <div className="complexity-font">Pakutav
                     keerukustase: {complexityAnswer[11]}</div>
                 </div>}
@@ -585,8 +585,8 @@ const Correction = () => {
                   <br/>
                   {sliderElement('Erinevate ja kõigi sõnade korrigeeritud suhtarv:', 0, 10, parseFloat(diversityAnswer[0]).toFixed(), 1)}
                   {sliderElement('Erinevate ja kõigi sõnade juuritud suhtarv:', 0, 15, parseFloat(diversityAnswer[1]).toFixed(), 1)}
-                  {diversityAnswer[4] > -1 && sliderElement('MTLD', 0, 400, parseFloat(diversityAnswer[4]).toFixed(), 0.01)}
-                  {diversityAnswer[5] > 0 && sliderElement('HDD', 0, 1, parseFloat(diversityAnswer[5]).toFixed(1), 0.01)}
+                  {diversityAnswer[4] > -1 && sliderElement('MTLD', 0, 400, parseFloat(diversityAnswer[4]).toFixed(2), 0.01)}
+                  {diversityAnswer[5] > 0 && sliderElement('HDD', 0.5, 1, parseFloat(diversityAnswer[5]).toFixed(2), 0.01)}
                 </div>}
             </div>
           </TabPanel>
