@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import EastIcon from '@mui/icons-material/East';
 import './Correction.css';
 import { Alert, Box, Button, Card, CircularProgress, Slider, Tab, Tooltip, Typography } from '@mui/material';
@@ -13,6 +13,7 @@ import { CorrectorCustomSlider } from '../../const/Constants';
 
 const Correction = () => {
   const [history, setHistory] = useState(['']);
+  const inputRef = useRef();
   const [currentHistory, setCurrentHistory] = useState(0);
   const [content, setContent] = useState('');
   const [levelAnswer, setLevelAnswer] = useState([]);
@@ -96,6 +97,7 @@ const Correction = () => {
         return value;
       }
     });
+    console.log(tempArray);
     setReplyCode(tempArray);
     loadErrors();
     fillData(content, answer);
@@ -378,6 +380,13 @@ const Correction = () => {
     setHistory(oldHistory => [...oldHistory, content]);
   };
 
+  const contentChange = () => {
+    if (inputRef.current) {
+      console.log(inputRef.current.innerHTML.replace(/(<([^>]+)>)/ig, '').replace(/(\r\n|\n|\r)/gm, ' '));
+      setContent(inputRef.current.innerHTML.replace(/(<([^>]+)>)/ig, '').replace(/(\r\n|\n|\r)/gm, ' '));
+    }
+  };
+
   //undo and redo
   //TODO: panna handle undo ja redo uuesti tööle?
   /*  const handleUndo = () => {
@@ -418,11 +427,11 @@ const Correction = () => {
 
           /> : <Box contentEditable="true" className="editable-div-container" id="corrector-textarea-div"
                     suppressContentEditableWarning={true}
-                    onInput={event => setContent(event.currentTarget.textContent.replace(/(\r\n|\n|\r)/gm, ' '))}
+                    onInput={() => contentChange()}
                     spellCheck={false}
                     placeholder={'Kopeeri või kirjuta siia analüüsitav tekst'}
           >
-            <Box className="input-container" id="input-container">
+            <Box ref={inputRef} className="input-container" id="input-container">
               {replyCode.map((vaste) => {
                 return (vaste);
               })}
