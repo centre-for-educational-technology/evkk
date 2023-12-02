@@ -192,7 +192,7 @@ public class TextService {
       singleParamHelpers.add(new TextQuerySingleParamHelper("p16", "kodakondsus", corpusRequestDto.getNationality()));
     }
     if (isNotBlank(corpusRequestDto.getCountry())) {
-      singleParamHelpers.add(new TextQuerySingleParamHelper("p17", "elukoht", corpusRequestDto.getCountry()));
+      singleParamHelpers.add(new TextQuerySingleParamHelper("p17", "riik", corpusRequestDto.getCountry()));
     }
     if (corpusRequestDto.getAddedYears() != null) {
       multiParamHelpers.add(new TextQueryMultiParamHelper("p18", "ajavahemik", corpusRequestDto.getAddedYears()));
