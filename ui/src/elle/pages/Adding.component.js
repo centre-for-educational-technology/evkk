@@ -68,7 +68,7 @@ class Adding extends Component {
       autorKakskeelne: false,
       autoriMuudKeeled: '',
       muukeel: '',
-      autoriElukohariik: 'eesti',
+      autoriElukohariik: 'Eesti',
       elukohariikMuu: '',
       nousOlek: false,
       ennistusNupp: false,
@@ -525,7 +525,7 @@ class Adding extends Component {
                           </Select>
                         </FormControl>
                       </Grid>
-                      {this.state.autoriElukohariik === 'muu' &&
+                      {this.state.autoriElukohariik === 'Muu' &&
                         <Grid>
                           <FormControl className="form-control"
                                        size="small">

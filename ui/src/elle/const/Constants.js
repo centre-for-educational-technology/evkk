@@ -540,12 +540,14 @@ export const languageOptions = {
 };
 
 export const countryOptions = {
-  'eesti': 'query_common_country_et',
-  'soome': 'query_common_country_fi',
-  'rootsi': 'query_common_country_se',
-  'venemaa': 'query_common_country_ru',
-  'lati': 'query_common_country_lv',
-  'leedu': 'query_common_country_lt',
-  'saksamaa': 'query_common_country_de',
-  'muu': 'common_other'
+  'Eesti': 'query_common_country_et',
+  'Soome': 'query_common_country_fi',
+  'Rootsi': 'query_common_country_se',
+  'Venemaa': 'query_common_country_ru',
+  'Läti': 'query_common_country_lv',
+  'Leedu': 'query_common_country_lt',
+  'Saksamaa': 'query_common_country_de',
+  'Inglismaa': 'query_common_country_en',
+  'Ungari': 'query_common_country_hu',
+  'Muu': 'common_other'
 };
