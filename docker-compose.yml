@@ -2,6 +2,20 @@ version: "3.7"
 
 services:
 
+  local_ui_builder:
+    container_name: evkk-local-ui-builder
+    profiles: [ "all", "ui" ]
+    restart: always
+    build:
+      context: .
+      dockerfile: docker/local/evkk-local-ui-builder.Dockerfile
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      - ./ui:/app
+    ports:
+      - "3000:3000"
+
   postgres:
     image: postgres:13-alpine
     container_name: evkk-postgres
