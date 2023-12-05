@@ -1,6 +1,6 @@
 import React from 'react';
 import ContactCard from './ContactCard';
-import WORKER_IMAGES from '../../resources/images/workers';
+import { WORKER_IMAGES } from '../../resources/images/workers';
 
 export default function FilledContacts() {
   return (

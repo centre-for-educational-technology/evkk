@@ -1,57 +1,56 @@
 .contact-box {
-    display: flex;
-    flex-direction: row;
-    width: 700px;
-    margin-bottom: 20px;
-    border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  width: 700px;
+  margin-bottom: 20px;
+  border-radius: 10px;
 }
 
 .icon {
-    width: 100%;
-    height: 100%;
-    margin: auto;
-    padding: 10px;
-    font-size: large;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  padding: 10px;
+  font-size: large;
 }
 
-
 .text-box {
-    width: 70%;
-    height: 50%;
+  width: 70%;
+  height: 50%;
 }
 
 .name-box {
-    height: 35%;
-    width: 100%;
-    padding-left: 20px;
-    font-weight: bold;
-    font-size: 1.5rem;
-    padding-top: 6%;
+  height: 35%;
+  width: 100%;
+  padding-left: 20px;
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding-top: 6%;
 }
 
 .info-box {
-    padding-left: 20px;
-    padding-top: 5%;
+  padding-left: 20px;
+  padding-top: 5%;
 }
 
 .etis-container {
-    display: flex;
-    align-items: center;
-    padding-top: 5px;
+  display: flex;
+  align-items: center;
+  padding-top: 5px;
 }
 
 .etis-link {
-    color: inherit;
+  color: inherit;
 }
 
 
 .contact-image {
-    width: 200px;
-    border-radius: 10px;
-    margin-right: 20px;
+  width: 200px;
+  border-radius: 10px;
+  margin-right: 20px;
 }
 
 .icon-box {
-    width: 30%;
-    height: 100%;
+  width: 30%;
+  height: 100%;
 }

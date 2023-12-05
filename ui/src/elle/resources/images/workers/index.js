@@ -1,4 +1,4 @@
-const WORKER_IMAGES = {
+export const WORKER_IMAGES = {
   pille: require('./pille.png').default,
   harli: require('./harli.png').default,
   jaagup: require('./jaagup.png').default,
@@ -9,5 +9,3 @@ const WORKER_IMAGES = {
   silvia: require('./silvia.png').default,
   taavi: require('./taavi.png').default
 };
-
-export default WORKER_IMAGES;
