@@ -1,53 +1,56 @@
 .contact-box {
   display: flex;
   flex-direction: row;
-  width: 500px;
-  margin: 10px;
+  width: 700px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
 
-  .icon-box {
-    width: 30%;
-    height: 100%;
+.icon {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  padding: 10px;
+  font-size: large;
+}
 
-    & img {
-      margin-top: 0.6rem;
-      margin-left: 1rem;
-    }
+.text-box {
+  width: 70%;
+  height: 50%;
+}
 
-    .icon {
-      width: 100%;
-      height: 100%;
-      margin: auto;
-      padding: 10px;
-      font-size: large;
-    }
-  }
+.name-box {
+  height: 35%;
+  width: 100%;
+  padding-left: 20px;
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding-top: 6%;
+}
 
-  .text-box {
-    width: 70%;
-    height: 100%;
+.info-box {
+  padding-left: 20px;
+  padding-top: 5%;
+}
 
-    .name-box {
-      height: 35%;
-      width: 100%;
-      padding-left: 20px;
-      font-weight: bold;
-      font-size: 1.5rem;
-      padding-top: 6%;
-    }
+.etis-container {
+  display: flex;
+  align-items: center;
+  padding-top: 5px;
+}
 
-    .info-box {
-      padding-left: 20px;
-      padding-top: 5%;
+.etis-link {
+  color: inherit;
+}
 
-      .etis-container {
-        display: flex;
-        padding-top: 5px;
 
-        .etis-link {
-          padding-left: 5px;
-          color: inherit;
-        }
-      }
-    }
-  }
+.contact-image {
+  width: 200px;
+  border-radius: 10px;
+  margin-right: 20px;
+}
+
+.icon-box {
+  width: 30%;
+  height: 100%;
 }
