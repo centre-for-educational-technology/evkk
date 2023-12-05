@@ -26,7 +26,7 @@ export const TRANSLATIONS_ET = {
   common_header_percentage: 'Osakaal',
   common_lemma: 'Algvorm',
   common_lemmas: 'Algvormid',
-  common_links: 'Lingikogud',
+  common_links: 'Lingikogu',
   common_neighbouring_words: 'Naabersõnad',
   common_other: 'Muu',
   common_people: 'Töötajad',

@@ -43,136 +43,149 @@ function Links() {
                         }}
               >
                 <TreeItem
-                  className="mb-1"
                   nodeId={'1'}
                   label={
-                    <Typography>
+                    <Typography className="treeitem-label">
                       <MenuLink key={'1'} smooth to="#tutvustus">Tutvustus</MenuLink>
-                    </Typography>}
-                >
-                </TreeItem>
+                    </Typography>
+                  }
+                />
                 <TreeItem
-                  className="mb-1"
                   nodeId={'2'}
                   label={
-                    <Typography>
+                    <Typography className="treeitem-label">
                       <MenuLink key={'2'} smooth to="#sõnastikud">Sõnastikud</MenuLink>
-                    </Typography>}>
-                </TreeItem>
+                    </Typography>
+                  }
+                />
                 <TreeItem
-                  className="mb-1"
                   nodeId={'3'}
                   label={
-                    <Typography>
+                    <Typography className="treeitem-label">
                       <MenuLink key={'3'} smooth to="#tõlkerakendused">Tõlkerakendused</MenuLink>
-                    </Typography>}>
-                </TreeItem>
+                    </Typography>
+                  }
+                />
                 <TreeItem
                   nodeId={'4'}
                   label={
                     <Typography className="treeitem-label">
                       <MenuLink to="#eestikeelsed" smooth>Eestikeelsed tekstid</MenuLink>
-                    </Typography>}>
+                    </Typography>
+                  }>
                   <TreeItem
                     nodeId={'5'}
                     label={
-                      <Typography>
+                      <Typography className="treeitem-label">
                         <MenuLink key={'4'} smooth to="#meediatekstid">Meediatekstid</MenuLink>
-                      </Typography>}>
-                  </TreeItem>
+                      </Typography>
+                    }
+                  />
                   <TreeItem
                     nodeId={'6'}
                     label={
-                      <Typography>
+                      <Typography className="treeitem-label">
                         <MenuLink key={'4'} smooth to="#kirjandus">Kirjandus</MenuLink>
-                      </Typography>}>
-                  </TreeItem>
+                      </Typography>
+                    }
+                  />
                   <TreeItem
                     nodeId={'7'}
                     label={
-                      <Typography>
+                      <Typography className="treeitem-label">
                         <MenuLink key={'5'} smooth to="#teadustekstid">Teadustekstid</MenuLink>
-                      </Typography>}>
-                  </TreeItem>
+                      </Typography>
+                    }
+                  />
                 </TreeItem>
                 <TreeItem
                   nodeId={'8'}
                   label={
                     <Typography className="treeitem-label">
                       <MenuLink to="#audiovisuaalne" smooth>Audiovisuaalne meedia</MenuLink>
-                    </Typography>}>
+                    </Typography>
+                  }>
                   <TreeItem
                     nodeId={'9'}
                     label={
-                      <Typography>
+                      <Typography className="treeitem-label">
                         <MenuLink key={'6'} smooth to="#visuaalne">Sarjad, filmid ja videod</MenuLink>
-                      </Typography>}>
-                  </TreeItem>
+                      </Typography>
+                    }
+                  />
                   <TreeItem
                     nodeId={'10'}
                     label={
-                      <Typography>
+                      <Typography className="treeitem-label">
                         <MenuLink key={'7'} smooth to="#audio">Raadio, audio, taskuhäälingud</MenuLink>
-                      </Typography>}>
-                  </TreeItem>
+                      </Typography>
+                    }
+                  />
                 </TreeItem>
                 <TreeItem
                   nodeId={'11'}
                   label={
                     <Typography className="treeitem-label">
                       <MenuLink to="#keeleõppevara" smooth>Keeleõppevara</MenuLink>
-                    </Typography>}>
+                    </Typography>
+                  }>
                   <TreeItem
                     nodeId={'12'}
                     label={
-                      <Typography>
+                      <Typography className="treeitem-label">
                         <MenuLink key={'8'} smooth to="#õppematerjalid">Õppematerjalid ja harjutused</MenuLink>
-                      </Typography>}>
-                  </TreeItem>
+                      </Typography>
+                    }
+                  />
                   <TreeItem
                     nodeId={'13'}
                     label={
-                      <Typography><MenuLink key={'9'} smooth to="#õppemängud">Keeleõppemängud</MenuLink>
-                      </Typography>}>
-                  </TreeItem>
+                      <Typography className="treeitem-label">
+                        <MenuLink key={'9'} smooth to="#õppemängud">Keeleõppemängud</MenuLink>
+                      </Typography>
+                    }
+                  />
                 </TreeItem>
                 <TreeItem
-                  className="mb-1"
                   nodeId={'14'}
                   label={
                     <Typography className="treeitem-label">
                       <MenuLink to="#keskkonnadkursused" smooth>Keeleõppekeskkonnad ja kursused</MenuLink>
-                    </Typography>}>
+                    </Typography>
+                  }>
                   <TreeItem
                     nodeId={'15'}
                     label={
-                      <Typography><MenuLink key={'10'} smooth to="#keeleõppekeskkonnad">Keeleõppekeskkonnad</MenuLink>
-                      </Typography>}>
-                  </TreeItem>
+                      <Typography className="treeitem-label">
+                        <MenuLink key={'10'} smooth to="#keeleõppekeskkonnad">Keeleõppekeskkonnad</MenuLink>
+                      </Typography>
+                    }
+                  />
                   <TreeItem
                     nodeId={'16'}
                     label={
-                      <Typography>
+                      <Typography className="treeitem-label">
                         <MenuLink key={'11'} smooth to="#kursused">Kursused</MenuLink>
-                      </Typography>}>
-                  </TreeItem>
+                      </Typography>
+                    }
+                  />
                 </TreeItem>
                 <TreeItem
-                  className="mb-1"
                   nodeId={'17'}
                   label={
-                    <Typography>
+                    <Typography className="treeitem-label">
                       <MenuLink key={'12'} smooth to="#abiksõpetajale">Abiks õpetajale</MenuLink>
-                    </Typography>}>
-                </TreeItem>
+                    </Typography>
+                  }
+                />
                 <TreeItem
-                  className="mb-1"
                   nodeId={'18'}
                   label={
-                    <Typography>
+                    <Typography className="treeitem-label">
                       <MenuLink key={'13'} smooth to="#keelekorpused">Eesti keele korpused</MenuLink>
-                    </Typography>}>
-                </TreeItem>
+                    </Typography>
+                  }
+                />
               </TreeView>
             </Box>
           </Box>

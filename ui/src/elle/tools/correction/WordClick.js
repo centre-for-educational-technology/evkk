@@ -117,23 +117,22 @@ export default function WordClick(props) {
 
   return (
     <ClickAwayListener onClickAway={() => handleClickAway()}>
-            <span className="margitud-container" id={'s' + wordIndex} key={'s' + wordIndex}>
-                <Box className="flex-case" key={wordIndex}>
-                  <span
-                    id={wordIndex.toString()}
-                    key={wordIndex.toString()}
-                    ref={Yref}
-                    className="corrector-marked-text"
-                    onClick={(event) => {
-                      handleWordClick(event);
-                    }}
-                  >
-                    {content[wordIndex]}
-                  </span>
-                </Box>
-              {open ? (correctionPopup(answer, content, wordIndex)) : null}
-              <span> </span>
-            </span>
+      <span id={'s' + wordIndex}
+            key={'s' + wordIndex}>
+        <Box className="flex-case" key={wordIndex}>
+          <button
+            id={wordIndex.toString()}
+            key={wordIndex.toString()}
+            ref={Yref}
+            className="corrector-marked-text"
+            onClick={handleWordClick}
+          >
+            {content[wordIndex]}
+          </button>
+        </Box>
+        {open ? (correctionPopup(answer, content, wordIndex)) : null}
+        <span> </span>
+      </span>
     </ClickAwayListener>
   );
 }
