@@ -1,4 +1,4 @@
-const IMAGES = {
+export const IMAGES = {
   alpakids: require('./alpakids.png').default,
   arkaader: require('./arkaader_logo.jpg').default,
   delfi: require('./delfi.png').default,
@@ -62,6 +62,4 @@ const IMAGES = {
   walktalk: require('./walktalk.png').default,
   yleilmakool: require('./yleilmakool.png').default
 
-}
-
-export default IMAGES;
+};

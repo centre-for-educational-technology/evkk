@@ -12,9 +12,8 @@ const IntegrationFrame = ({integrationName}) => {
   const [storeData, setStoreData] = useState('');
 
   useEffect(() => {
-    const iframe = iframeRef.current;
-    iframe.contentWindow.postMessage(storeData, '*');
-  }, [storeData, height]);
+    iframeRef.current.contentWindow.postMessage(storeData, path);
+  }, [storeData, height, path]);
 
   useEffect(() => {
     getSelectedTexts(setStoreData);
@@ -25,7 +24,9 @@ const IntegrationFrame = ({integrationName}) => {
   });
 
   window.addEventListener('message', function (event) {
-    setHeight((event.data + 100) + 'px');
+    if (path.includes(event.origin)) {
+      setHeight((event.data + 100) + 'px');
+    }
   });
 
   return (

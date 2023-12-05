@@ -1,4 +1,6 @@
 import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/material';
+import { HashLink } from 'react-router-hash-link';
 
 export const EVKK_VERS1_PATH = 'https://evkk.tlu.ee/vers1/';
 
@@ -81,6 +83,22 @@ export const CorrectorCustomSlider = {
     }
   }
 };
+
+export const MenuLink = styled(HashLink)({
+  fontWeight: 600,
+  fontSize: 16,
+  color: '#1B1B1B',
+  textDecoration: 'none',
+  fontFamily: ['\'Exo 2\'', 'sans-serif'].join(','),
+  '&:hover': {
+    color: '#9C27B0',
+    textDecoration: 'none'
+  },
+  '&.active': {
+    color: '#9C27B0',
+    textDecoration: 'none'
+  }
+});
 
 export const TabStyle = {
   '& button:hover': {backgroundColor: 'rgba(204, 168, 253, 1)', transition: '0.5s'},
