@@ -5,7 +5,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import SingleLink from '../components/SingleLink';
 import '@fontsource/exo-2/600.css';
-import IMAGES from '../resources/images/link-images';
+import { IMAGES } from '../resources/images/link-images';
 import { MenuLink } from '../const/Constants';
 import './styles/Links.css';
 
@@ -43,96 +43,142 @@ function Links() {
                         }}
               >
                 <TreeItem
+                  className="mb-1"
                   nodeId={'1'}
-                  label={<Typography><MenuLink key={'1'} smooth to="#tutvustus">Tutvustus</MenuLink></Typography>}>
+                  label={
+                    <Typography>
+                      <MenuLink key={'1'} smooth to="#tutvustus">Tutvustus</MenuLink>
+                    </Typography>}
+                >
                 </TreeItem>
                 <TreeItem
+                  className="mb-1"
                   nodeId={'2'}
-                  label={<Typography><MenuLink key={'2'} smooth to="#sõnastikud">Sõnastikud</MenuLink></Typography>}>
+                  label={
+                    <Typography>
+                      <MenuLink key={'2'} smooth to="#sõnastikud">Sõnastikud</MenuLink>
+                    </Typography>}>
                 </TreeItem>
                 <TreeItem
+                  className="mb-1"
                   nodeId={'3'}
-                  label={<Typography><MenuLink key={'3'} smooth
-                                               to="#tõlkerakendused">Tõlkerakendused</MenuLink></Typography>}>
+                  label={
+                    <Typography>
+                      <MenuLink key={'3'} smooth to="#tõlkerakendused">Tõlkerakendused</MenuLink>
+                    </Typography>}>
                 </TreeItem>
                 <TreeItem
                   nodeId={'4'}
-                  label={<Typography className="treeitem-label"><MenuLink to="#eestikeelsed" smooth>Eestikeelsed
-                    tekstid</MenuLink></Typography>}>
+                  label={
+                    <Typography className="treeitem-label">
+                      <MenuLink to="#eestikeelsed" smooth>Eestikeelsed tekstid</MenuLink>
+                    </Typography>}>
                   <TreeItem
                     nodeId={'5'}
-                    label={<Typography><MenuLink key={'4'} smooth
-                                                 to="#meediatekstid">Meediatekstid</MenuLink></Typography>}>
+                    label={
+                      <Typography>
+                        <MenuLink key={'4'} smooth to="#meediatekstid">Meediatekstid</MenuLink>
+                      </Typography>}>
                   </TreeItem>
                   <TreeItem
                     nodeId={'6'}
-                    label={<Typography><MenuLink key={'4'} smooth to="#kirjandus">Kirjandus</MenuLink></Typography>}>
+                    label={
+                      <Typography>
+                        <MenuLink key={'4'} smooth to="#kirjandus">Kirjandus</MenuLink>
+                      </Typography>}>
                   </TreeItem>
                   <TreeItem
                     nodeId={'7'}
-                    label={<Typography><MenuLink key={'5'} smooth
-                                                 to="#teadustekstid">Teadustekstid</MenuLink></Typography>}>
+                    label={
+                      <Typography>
+                        <MenuLink key={'5'} smooth to="#teadustekstid">Teadustekstid</MenuLink>
+                      </Typography>}>
                   </TreeItem>
                 </TreeItem>
                 <TreeItem
                   nodeId={'8'}
-                  label={<Typography className="treeitem-label"><MenuLink to="#audiovisuaalne" smooth>Audiovisuaalne
-                    meedia</MenuLink></Typography>}>
+                  label={
+                    <Typography className="treeitem-label">
+                      <MenuLink to="#audiovisuaalne" smooth>Audiovisuaalne meedia</MenuLink>
+                    </Typography>}>
                   <TreeItem
                     nodeId={'9'}
-                    label={<Typography><MenuLink key={'6'} smooth to="#visuaalne">Sarjad, filmid ja
-                      videod</MenuLink></Typography>}>
+                    label={
+                      <Typography>
+                        <MenuLink key={'6'} smooth to="#visuaalne">Sarjad, filmid ja videod</MenuLink>
+                      </Typography>}>
                   </TreeItem>
                   <TreeItem
-                    nodeId={'10'} label={<Typography><MenuLink key={'7'} smooth to="#audio">Raadio, audio,
-                    taskuhäälingud</MenuLink></Typography>}>
+                    nodeId={'10'}
+                    label={
+                      <Typography>
+                        <MenuLink key={'7'} smooth to="#audio">Raadio, audio, taskuhäälingud</MenuLink>
+                      </Typography>}>
                   </TreeItem>
                 </TreeItem>
                 <TreeItem
                   nodeId={'11'}
-                  label={<Typography className="treeitem-label"><MenuLink to="#keeleõppevara"
-                                                                          smooth>Keeleõppevara</MenuLink></Typography>}>
+                  label={
+                    <Typography className="treeitem-label">
+                      <MenuLink to="#keeleõppevara" smooth>Keeleõppevara</MenuLink>
+                    </Typography>}>
                   <TreeItem
                     nodeId={'12'}
-                    label={<Typography><MenuLink key={'8'} smooth to="#õppematerjalid">Õppematerjalid ja
-                      harjutused</MenuLink></Typography>}>
+                    label={
+                      <Typography>
+                        <MenuLink key={'8'} smooth to="#õppematerjalid">Õppematerjalid ja harjutused</MenuLink>
+                      </Typography>}>
                   </TreeItem>
                   <TreeItem
                     nodeId={'13'}
-                    label={<Typography><MenuLink key={'9'} smooth
-                                                 to="#õppemängud">Keeleõppemängud</MenuLink></Typography>}>
+                    label={
+                      <Typography><MenuLink key={'9'} smooth to="#õppemängud">Keeleõppemängud</MenuLink>
+                      </Typography>}>
                   </TreeItem>
                 </TreeItem>
                 <TreeItem
+                  className="mb-1"
                   nodeId={'14'}
-                  label={<Typography className="treeitem-label">
-                    <MenuLink to="#keskkonnadkursused" smooth>Keeleõppekeskkonnad ja kursused</MenuLink></Typography>}>
+                  label={
+                    <Typography className="treeitem-label">
+                      <MenuLink to="#keskkonnadkursused" smooth>Keeleõppekeskkonnad ja kursused</MenuLink>
+                    </Typography>}>
                   <TreeItem
                     nodeId={'15'}
-                    label={<Typography><MenuLink key={'10'} smooth
-                                                 to="#keeleõppekeskkonnad">Keeleõppekeskkonnad</MenuLink></Typography>}>
+                    label={
+                      <Typography><MenuLink key={'10'} smooth to="#keeleõppekeskkonnad">Keeleõppekeskkonnad</MenuLink>
+                      </Typography>}>
                   </TreeItem>
                   <TreeItem
                     nodeId={'16'}
-                    label={<Typography><MenuLink key={'11'} smooth to="#kursused">Kursused</MenuLink></Typography>}>
+                    label={
+                      <Typography>
+                        <MenuLink key={'11'} smooth to="#kursused">Kursused</MenuLink>
+                      </Typography>}>
                   </TreeItem>
                 </TreeItem>
                 <TreeItem
+                  className="mb-1"
                   nodeId={'17'}
-                  label={<Typography><MenuLink key={'12'} smooth to="#abiksõpetajale">Abiks
-                    õpetajale</MenuLink></Typography>}>
+                  label={
+                    <Typography>
+                      <MenuLink key={'12'} smooth to="#abiksõpetajale">Abiks õpetajale</MenuLink>
+                    </Typography>}>
                 </TreeItem>
                 <TreeItem
+                  className="mb-1"
                   nodeId={'18'}
-                  label={<Typography><MenuLink key={'13'} smooth to="#keelekorpused">Eesti keele
-                    korpused</MenuLink></Typography>}>
+                  label={
+                    <Typography>
+                      <MenuLink key={'13'} smooth to="#keelekorpused">Eesti keele korpused</MenuLink>
+                    </Typography>}>
                 </TreeItem>
               </TreeView>
             </Box>
           </Box>
 
           <Box className="link-container-right">
-            <div id="tutvustus" style={{height: '70px'}}></div>
+            <div id="tutvustus" className="link-anchor-gap"></div>
             <Box>
               <Typography className="px-5 text-center">
                 ELLE eesmärk on eesti keele õpet igati toetada, mistõttu oleme
@@ -144,7 +190,7 @@ function Links() {
             </Box>
 
             <Box>
-              <div id="sõnastikud" style={{height: '70px'}}></div>
+              <div id="sõnastikud" className="link-anchor-gap"></div>
               <Typography id={'sõnastikud'} variant={'h3'}>
                 Sõnastikud
               </Typography>
@@ -179,7 +225,7 @@ function Links() {
               tags={['tõlkesõnastik']}/>
 
             <Box>
-              <div id="tõlkerakendused" style={{height: '70px'}}></div>
+              <div id="tõlkerakendused" className="link-anchor-gap"></div>
               <Typography variant={'h3'}>Tõlkerakendused</Typography>
             </Box>
 
@@ -213,7 +259,7 @@ function Links() {
 
 
             <Box>
-              <div id="eestikeelsed" style={{height: '70px'}}></div>
+              <div id="eestikeelsed" className="link-anchor-gap"></div>
               <Typography id={'meediatekstid'} variant={'h3'}>
                 Eestikeelsed tekstid
               </Typography>
@@ -261,7 +307,7 @@ function Links() {
               tags={['uudised', 'tasuline', 'taskuhääling']}/>
 
             <Box>
-              <div id="kirjandus" style={{height: '70px'}}></div>
+              <div id="kirjandus" className="link-anchor-gap"></div>
               <Typography variant={'h4'}>
                 Kirjandus
               </Typography>
@@ -317,7 +363,7 @@ function Links() {
               tags={['raamatud', 'e-raamatud', 'tasuta', 'arhiiv']}/>
 
             <Box>
-              <div id="teadustekstid" style={{height: '70px'}}></div>
+              <div id="teadustekstid" className="link-anchor-gap"></div>
               <Typography variant={'h4'}>
                 Teadustekstid
               </Typography>
@@ -345,7 +391,7 @@ function Links() {
               tags={['lõputööd', 'õpikud', 'raamatud', 'ajakirjad', 'tasuta', 'arhiiv']}/>
 
             <Box>
-              <div id="audiovisuaalne" style={{height: '70px'}}></div>
+              <div id="audiovisuaalne" className="link-anchor-gap"></div>
               <Typography id={'visuaalne'} variant={'h3'}>
                 Audiovisuaalne meedia
               </Typography>
@@ -407,7 +453,7 @@ function Links() {
               tags={['sarjad', 'saated', 'filmid', 'videolaenutus', 'tasuline', 'televisioon']}/>
 
             <Box>
-              <div id="audio" style={{height: '70px'}}></div>
+              <div id="audio" className="link-anchor-gap"></div>
               <Typography variant={'h4'}>
                 Raadio, audio, taskuhäälingud
               </Typography>
@@ -463,7 +509,7 @@ function Links() {
               tags={['kuuldemäng', 'järjejutt']}/>
 
             <Box>
-              <div id="keeleõppevara" style={{height: '70px'}}></div>
+              <div id="keeleõppevara" className="link-anchor-gap"></div>
               <Typography id={'õppematerjalid'} variant={'h3'}>
                 Keeleõppevara
               </Typography>
@@ -539,7 +585,7 @@ function Links() {
               tags={['harjutus', 'õppematerjal', 'eksam', 'tasuta']}/>
 
             <Box>
-              <div id="õppemängud" style={{height: '70px'}}></div>
+              <div id="õppemängud" className="link-anchor-gap"></div>
               <Typography variant={'h4'}>
                 Keeleõppemängud
               </Typography>
@@ -581,7 +627,7 @@ function Links() {
               tags={['tasuta', 'mäng', 'arvuti']}/>
 
             <Box>
-              <div id="keskkonnadkursused" style={{height: '70px'}}></div>
+              <div id="keskkonnadkursused" className="link-anchor-gap"></div>
               <Typography id={'keeleõppekeskkonnad'} variant={'h3'}>
                 Keeleõppekeskkonnad ja kursused
               </Typography>
@@ -629,7 +675,7 @@ function Links() {
               tags={['tasuta', 'tasuline', 'nutiseade', 'arvuti', 'keeleõppekeskkond']}/>
 
             <Box>
-              <div id="kursused" style={{height: '70px'}}></div>
+              <div id="kursused" className="link-anchor-gap"></div>
               <Typography variant={'h4'}>
                 Kursused
               </Typography>
@@ -671,7 +717,7 @@ function Links() {
               tags={['e-kursus', 'suhtlus', 'tasuline', 'tasuta', 'õppematerjal', 'harjutus']}/>
 
             <Box>
-              <div id="abiksõpetajale" style={{height: '70px'}}></div>
+              <div id="abiksõpetajale" className="link-anchor-gap"></div>
               <Typography variant={'h3'}>
                 Abiks õpetajale
               </Typography>
@@ -706,7 +752,7 @@ function Links() {
               tags={['keeletasemed', 'tasemehinnang', 'eesti keel teise keelena', 'EKI']}/>
 
             <Box>
-              <div id="keelekorpused" style={{height: '70px'}}></div>
+              <div id="keelekorpused" className="link-anchor-gap"></div>
               <Typography variant={'h3'}>
                 Eesti keele korpused
               </Typography>

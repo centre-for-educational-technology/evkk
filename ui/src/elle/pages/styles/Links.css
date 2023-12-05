@@ -10,6 +10,10 @@
   margin-bottom: 50px;
 }
 
+.link-anchor-gap {
+  height: 70px;
+}
+
 .links-treeview-container {
   display: flex;
   background-color: white;
