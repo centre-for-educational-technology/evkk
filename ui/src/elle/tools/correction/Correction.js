@@ -29,6 +29,15 @@ const Correction = () => {
   const [diversityAnswer, setDiversityAnswer] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
   const sliderElement = (name, startValue, endValue, currentValue, step) => {
+    if (currentValue > endValue) {
+      if (endValue === 400) {
+        endValue = Math.ceil(currentValue / 100) * 100;
+      } else {
+        endValue = Math.ceil(currentValue / 10) * 10;
+      }
+    }
+    ;
+
     return (
       <Box className="corrector-slider-container">
         <h4>{name}</h4>
