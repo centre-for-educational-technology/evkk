@@ -417,6 +417,7 @@ export default function Query(props) {
     if (filterQueryOpen === 'menu-box-choose-text-closed') {
       setFilterQueryOpen('menu-box-choose-text');
       setFilterButtonOpen('button-query-hover button-box-open');
+      setInputQueryOpen('query-own-texts-modal-closed');
     } else {
       filterButtonRef.current.blur();
       setFilterQueryOpen('menu-box-choose-text-closed');
@@ -431,6 +432,7 @@ export default function Query(props) {
     if (inputQueryOpen === 'query-own-texts-modal-closed') {
       setInputQueryOpen('query-own-texts-modal');
       setInputButtonOpen('button-query-hover button-box-open');
+      setFilterQueryOpen('menu-box-choose-text-closed');
     } else {
       inputButtonRef.current.blur();
       setInputQueryOpen('query-own-texts-modal-closed');
