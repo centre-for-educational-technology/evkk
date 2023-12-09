@@ -62,11 +62,11 @@ export const CorrectorCustomSlider = {
   '.MuiSlider-rail': {
     borderRadius: '3px',
     opacity: 0.8,
-    background: 'linear-gradient(270deg, rgba(78,205,196,1) 0%, rgba(255,230,109,1) 50%, rgba(255,107,107,1) 100%)'
+    background: '#e5e6e4'
   },
   '.MuiSlider-valueLabel': {
-    lineHeight: 25,
-    fontSize: 25,
+    lineHeight: 15,
+    fontSize: 15,
     textAlign: 'center',
     width: 50,
     height: 50,
