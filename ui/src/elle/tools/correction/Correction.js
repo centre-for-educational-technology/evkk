@@ -30,20 +30,17 @@ const Correction = () => {
 
   const sliderElement = (name, startValue, endValue, currentValue, step) => {
     if (currentValue > endValue) {
-      if (endValue === 400) {
-        endValue = Math.ceil(currentValue / 100) * 100;
-      } else {
-        endValue = Math.ceil(currentValue / 10) * 10;
-      }
+      endValue = endValue === 400
+        ? Math.ceil(currentValue / 100) * 100
+        : Math.ceil(currentValue / 10) * 10;
     }
-    ;
 
     return (
       <Box className="corrector-slider-container">
         <h4>{name}</h4>
         <Box className="w-100 h-auto d-flex justify-content-center align-items-center mt-5">
           <div style={{width: '10%', fontSize: '25px'}}
-               className="h-100 d-flex justify-content-center">{startValue}</div>
+               className="h-100 d-flex mr-sm-4 justify-content-center">{startValue}</div>
           <Box style={{width: '80%'}} className="h-100 d-flex justify-content-center align-items-end">
             <Slider
               sx={CorrectorCustomSlider}
@@ -57,7 +54,7 @@ const Correction = () => {
             />
           </Box>
           <div style={{width: '10%', fontSize: '25px'}}
-               className="h-100 d-flex justify-content-center">{endValue}</div>
+               className="h-100 d-flex ml-sm-4 justify-content-center">{endValue}</div>
         </Box>
       </Box>
     );
