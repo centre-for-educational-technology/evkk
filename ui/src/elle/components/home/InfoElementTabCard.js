@@ -15,10 +15,12 @@ export default function InfoElementTabCard(props) {
   };
 
   return (
-    <Box id={props.toolID} onMouseEnter={(e) => changeTab()}
+    <Box id={props.toolID}
+         onMouseEnter={(e) => changeTab()}
          className={props.tabOpen === props.toolID ? 'btn-visible' : 'btn-invisible'}>
       <p className="tool-button-text">{props.toolTitle}</p>
-      <Box style={{opacity: props.opacity}} id={props.toolInnerId}
+      <Box style={{opacity: props.opacity}}
+           id={props.toolInnerId}
            className={props.tabOpen === props.toolID ? 'info-box-slide-visible' : 'info-box-slide-invisible'}>
         <Box className="btn-box-inner">
           <Box className="btn-box-inner-inner">

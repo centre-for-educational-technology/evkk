@@ -72,7 +72,8 @@ export const Input = ({onInsert, onMarkWords, onWordSelect, onWordInfo, onReset,
                       value={input}
                       onChange={(e) => setInput(e.target.value)}/>
           </label>
-          <Button sx={DefaultButtonStyle} variant="contained"
+          <Button sx={DefaultButtonStyle}
+                  variant="contained"
                   onClick={onSubmit}>{t('analyse_button')}</Button>
           {showAlert &&
             <span>
@@ -94,9 +95,11 @@ export const Input = ({onInsert, onMarkWords, onWordSelect, onWordInfo, onReset,
                    onWordSelect={onWordSelect}
                    onWordInfo={onWordInfo}/>
       }
-      {showLoading && <LoadingButton sx={DefaultButtonStyle} loading
+      {showLoading && <LoadingButton sx={DefaultButtonStyle}
+                                     loading
                                      variant="outlined">{t('analyse_button')}</LoadingButton>}
-      {showResetBtn && <Button sx={DefaultButtonStyle} variant="contained"
+      {showResetBtn && <Button sx={DefaultButtonStyle}
+                               variant="contained"
                                className="mainBtn"
                                onClick={resetAnalyser}>{t('reset_button')}</Button>}
     </div>

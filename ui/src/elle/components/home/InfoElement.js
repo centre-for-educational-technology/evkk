@@ -21,7 +21,7 @@ import wordPatternImg from '../../resources/images/home/mustrileidja.png';
 export default function InfoElement() {
 
   const {t} = useTranslation();
-  const [openTab, setOpentab] = useState('corrector-tab-card');
+  const [openTab, setOpenTab] = useState('corrector-tab-card');
   const [wordlistImg, setWordlistImg] = useState(i18n.language === 'ET' ? wordlistImgEt : wordlistImgEn);
   const [wordcontextImg, setWordcontextImg] = useState(i18n.language === 'ET' ? wordcontextImgEt : wordcontextImgEn);
   const [collocateImg, setCollocateImg] = useState(i18n.language === 'ET' ? collocateImgEt : collocateImgEn);
@@ -71,7 +71,7 @@ export default function InfoElement() {
             tabOpen={openTab}
             toolInnerId={'corrector-info-popup'}
             description={descriptionText[1]}
-            setOpenTab={setOpentab}
+            setOpenTab={setOpenTab}
             setImageSelected={setImageSelected}
             imageNo={1}
             tabReference={null}
@@ -84,7 +84,7 @@ export default function InfoElement() {
             tabOpen={openTab}
             toolInnerId={'text-query-btn-box'}
             description={descriptionText[2]}
-            setOpenTab={setOpentab}
+            setOpenTab={setOpenTab}
             setImageSelected={setImageSelected}
             imageNo={2}
             tabReference={'queryOpen'}
@@ -97,7 +97,7 @@ export default function InfoElement() {
             toolInnerId={'wordlist-info-popup'}
             tabOpen={openTab}
             description={descriptionText[3]}
-            setOpenTab={setOpentab}
+            setOpenTab={setOpenTab}
             setImageSelected={setImageSelected}
             imageNo={3}
             tabReference={'1'}
@@ -110,7 +110,7 @@ export default function InfoElement() {
             tabOpen={openTab}
             toolInnerId={'word-context-info-popup'}
             description={descriptionText[4]}
-            setOpenTab={setOpentab}
+            setOpenTab={setOpenTab}
             setImageSelected={setImageSelected}
             imageNo={4}
             tabReference={'2'}
@@ -118,12 +118,12 @@ export default function InfoElement() {
           />
           <InfoElementTabCard
             opacity={infoOpacity}
-            toolID={'neighbour-word-tab-card'}
+            toolID={'neighbouring-word-tab-card'}
             toolTitle={t('common_neighbouring_words')}
             tabOpen={openTab}
-            toolInnerId={'neighbour-word-info-popup'}
+            toolInnerId={'neighbouring-word-info-popup'}
             description={descriptionText[5]}
-            setOpenTab={setOpentab}
+            setOpenTab={setOpenTab}
             setImageSelected={setImageSelected}
             imageNo={5}
             tabReference={'3'}
@@ -136,7 +136,7 @@ export default function InfoElement() {
             tabOpen={openTab}
             toolInnerId={'cluster-finder-info-popup'}
             description={descriptionText[6]}
-            setOpenTab={setOpentab}
+            setOpenTab={setOpenTab}
             setImageSelected={setImageSelected}
             imageNo={6}
             tabReference={'5'}
@@ -149,7 +149,7 @@ export default function InfoElement() {
             tabOpen={openTab}
             toolInnerId={'word-analyser-info-popup'}
             description={descriptionText[7]}
-            setOpenTab={setOpentab}
+            setOpenTab={setOpenTab}
             setImageSelected={setImageSelected}
             imageNo={7}
             tabReference={'4'}
@@ -157,7 +157,9 @@ export default function InfoElement() {
           />
         </Box>
         {/*TODO videod tööle panna, kui videod valmis*/}
-        <Box className="info-video" onMouseEnter={() => setInfoOpacity(0)} onMouseLeave={() => setInfoOpacity(1)}>
+        <Box className="info-video"
+             onMouseEnter={() => setInfoOpacity(0)}
+             onMouseLeave={() => setInfoOpacity(1)}>
           <img className="info-image" src={images[imageSelected - 1]} alt="Tööriista pilt"/>
           {/*  <video
             className={"info-video-styling w-100"}
