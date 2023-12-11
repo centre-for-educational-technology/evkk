@@ -76,7 +76,7 @@
 .info-box-slide-invisible {
   left: 90%;
   width: 0;
-  opacity: 0;
+  opacity: 0 !important;
   transition: 0.2s;
 }
 

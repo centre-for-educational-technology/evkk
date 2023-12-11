@@ -1,10 +1,11 @@
-import {InputText} from './InputText';
-import {useContext, useEffect, useState} from 'react';
-import {Alert, Button, Grid} from '@mui/material';
+import { InputText } from './InputText';
+import { useContext, useEffect, useState } from 'react';
+import { Alert, Button, Grid } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-import {useTranslation} from "react-i18next";
-import "../../../translations/i18n";
-import {AnalyseContext, TabContext} from "../Contexts";
+import { useTranslation } from 'react-i18next';
+import '../../../translations/i18n';
+import { AnalyseContext, TabContext } from '../Contexts';
+import { DefaultButtonStyle } from '../../../const/Constants';
 
 export const Input = ({onInsert, onMarkWords, onWordSelect, onWordInfo, onReset, textFromFile}) => {
   const [input, setInput] = useState('');
@@ -31,7 +32,7 @@ export const Input = ({onInsert, onMarkWords, onWordSelect, onWordInfo, onReset,
     } else {
       setShowAlert(true);
     }
-  }
+  };
 
   useEffect(() => {
     if (JSON.stringify(selectedWords) !== JSON.stringify(onMarkWords)) {
@@ -52,7 +53,7 @@ export const Input = ({onInsert, onMarkWords, onWordSelect, onWordInfo, onReset,
     setShowResetBtn(false);
     setInput('');
     onReset();
-  }
+  };
 
   useEffect(() => {
     setInput(textFromFile);
@@ -66,17 +67,17 @@ export const Input = ({onInsert, onMarkWords, onWordSelect, onWordInfo, onReset,
         <form>
           <label className="textInputContainer">
             <textarea spellCheck="false"
-                      className='textInput'
-                      name='textInput'
+                      className="textInput"
+                      name="textInput"
                       value={input}
                       onChange={(e) => setInput(e.target.value)}/>
           </label>
-          <Button variant="contained"
-                  onClick={onSubmit}>{t("analyse_button")}</Button>
+          <Button sx={DefaultButtonStyle} variant="contained"
+                  onClick={onSubmit}>{t('analyse_button')}</Button>
           {showAlert &&
             <span>
               <br/><br/>
-              <Alert severity="warning">{t("error_no_text")}</Alert>
+              <Alert severity="warning">{t('error_no_text')}</Alert>
             </span>
           }
           {textTooLong &&
@@ -84,7 +85,7 @@ export const Input = ({onInsert, onMarkWords, onWordSelect, onWordInfo, onReset,
                   xs={12}
                   md={12}>
               <br/>
-              <Alert severity="warning">{t("error_text_too_long")}</Alert>
+              <Alert severity="warning">{t('error_text_too_long')}</Alert>
             </Grid>
           }
         </form>
@@ -93,11 +94,11 @@ export const Input = ({onInsert, onMarkWords, onWordSelect, onWordInfo, onReset,
                    onWordSelect={onWordSelect}
                    onWordInfo={onWordInfo}/>
       }
-      {showLoading && <LoadingButton loading
-                                     variant="outlined">{t("analyse_button")}</LoadingButton>}
-      {showResetBtn && <Button variant="contained"
+      {showLoading && <LoadingButton sx={DefaultButtonStyle} loading
+                                     variant="outlined">{t('analyse_button')}</LoadingButton>}
+      {showResetBtn && <Button sx={DefaultButtonStyle} variant="contained"
                                className="mainBtn"
-                               onClick={resetAnalyser}>{t("reset_button")}</Button>}
+                               onClick={resetAnalyser}>{t('reset_button')}</Button>}
     </div>
-  )
-}
+  );
+};
