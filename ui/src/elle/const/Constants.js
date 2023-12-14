@@ -1,4 +1,6 @@
 import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/material';
+import { HashLink } from 'react-router-hash-link';
 
 export const EVKK_VERS1_PATH = 'https://evkk.tlu.ee/vers1/';
 
@@ -60,11 +62,11 @@ export const CorrectorCustomSlider = {
   '.MuiSlider-rail': {
     borderRadius: '3px',
     opacity: 0.8,
-    background: 'linear-gradient(270deg, rgba(78,205,196,1) 0%, rgba(255,230,109,1) 50%, rgba(255,107,107,1) 100%)'
+    background: '#e5e6e4'
   },
   '.MuiSlider-valueLabel': {
-    lineHeight: 25,
-    fontSize: 25,
+    lineHeight: 15,
+    fontSize: 15,
     textAlign: 'center',
     width: 50,
     height: 50,
@@ -81,6 +83,22 @@ export const CorrectorCustomSlider = {
     }
   }
 };
+
+export const MenuLink = styled(HashLink)({
+  fontWeight: 600,
+  fontSize: 16,
+  color: '#1B1B1B',
+  textDecoration: 'none',
+  fontFamily: ['\'Exo 2\'', 'sans-serif'].join(','),
+  '&:hover': {
+    color: '#9C27B0',
+    textDecoration: 'none'
+  },
+  '&.active': {
+    color: '#9C27B0',
+    textDecoration: 'none'
+  }
+});
 
 export const TabStyle = {
   '& button:hover': {backgroundColor: 'rgba(204, 168, 253, 1)', transition: '0.5s'},
@@ -100,7 +118,7 @@ export const TabStyle = {
   '& button::first-letter': {
     textTransform: 'uppercase'
   },
-  '& button:first-child': {
+  '& button:first-of-type': {
     borderRadius: '25px 0 0 25px',
     paddingLeft: '25px',
     borderLeft: '4px solid #9C27B0'
@@ -411,8 +429,8 @@ export const usedMaterialsDisplayOptions = {
 };
 
 export const usedMaterialsSaveOptions = {
-  true: 'query_text_data_used_supporting_materials_yes',
-  false: 'query_text_data_used_supporting_materials_no'
+  'true': 'query_text_data_used_supporting_materials_yes',
+  'false': 'query_text_data_used_supporting_materials_no'
 };
 
 export const ageOptions = {
@@ -540,12 +558,14 @@ export const languageOptions = {
 };
 
 export const countryOptions = {
-  'eesti': 'query_common_country_et',
-  'soome': 'query_common_country_fi',
-  'rootsi': 'query_common_country_se',
-  'venemaa': 'query_common_country_ru',
-  'lati': 'query_common_country_lv',
-  'leedu': 'query_common_country_lt',
-  'saksamaa': 'query_common_country_de',
-  'muu': 'common_other'
+  'Eesti': 'query_common_country_et',
+  'Soome': 'query_common_country_fi',
+  'Rootsi': 'query_common_country_se',
+  'Venemaa': 'query_common_country_ru',
+  'Läti': 'query_common_country_lv',
+  'Leedu': 'query_common_country_lt',
+  'Saksamaa': 'query_common_country_de',
+  'Inglismaa': 'query_common_country_en',
+  'Ungari': 'query_common_country_hu',
+  'Muu': 'common_other'
 };

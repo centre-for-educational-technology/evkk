@@ -30,6 +30,7 @@ import GenericTable from '../../components/GenericTable';
 import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
 import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
+import { sortColByLastWord, sortTableCol } from '../../util/TableUtils';
 
 export default function WordContext() {
 
@@ -108,6 +109,12 @@ export default function WordContext() {
 
   const columns = useMemo(() => [
     {
+      accessor: 'originalId',
+      Cell: (cellProps) => {
+        return cellProps.row.id;
+      }
+    },
+    {
       Header: t('common_header_number'),
       accessor: 'id',
       disableSortBy: true,
@@ -122,6 +129,9 @@ export default function WordContext() {
       Cell: (cellProps) => {
         return cellProps.value;
       },
+      sortType: (rowA, rowB) => {
+        return sortColByLastWord(rowA, rowB, 'contextBefore');
+      },
       className: 'text-right'
     },
     {
@@ -130,6 +140,9 @@ export default function WordContext() {
       Cell: (cellProps) => {
         return cellProps.value;
       },
+      sortType: (rowA, rowB) => {
+        return sortTableCol(rowA, rowB, 'keyword');
+      },
       className: 'wordcontext-keyword'
     },
     {
@@ -137,6 +150,9 @@ export default function WordContext() {
       accessor: 'contextAfter',
       Cell: (cellProps) => {
         return cellProps.value;
+      },
+      sortType: (rowA, rowB) => {
+        return sortTableCol(rowA, rowB, 'contextAfter');
       },
       className: 'text-left'
     }
@@ -337,7 +353,12 @@ export default function WordContext() {
                              headers={tableToDownload}
                              accessors={accessors}
                              marginTop={'2vh'}/>
-        <GenericTable tableClassname={'wordcontext-table'} columns={columns} data={data}/>
+        <GenericTable tableClassname={'wordcontext-table'}
+                      columns={columns}
+                      data={data}
+                      sortByColAccessor={'originalId'}
+                      sortByDesc={false}
+                      hiddenCols={'originalId'}/>
       </>}
       {showNoResultsError &&
         <Alert severity="error">{t('error_no_matching_keywords')}</Alert>}

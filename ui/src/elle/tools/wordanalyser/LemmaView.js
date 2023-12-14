@@ -10,8 +10,10 @@ import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select } from '@m
 import ToggleCell from './ToggleCell';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Popover from '@mui/material/Popover';
+import { sortTableCol } from '../../util/TableUtils';
+import { DefaultButtonStyle } from '../../const/Constants';
 
-function LemmaView() {
+export default function LemmaView() {
 
   const analyse = useContext(AnalyseContext)[0];
   const setLemma = useContext(SetLemmaContext);
@@ -154,7 +156,10 @@ function LemmaView() {
         Header: t('common_lemma'),
         id: 'algvorm',
         accessor: 'col1',
-        width: 400
+        width: 400,
+        sortType: (rowA, rowB) => {
+          return sortTableCol(rowA, rowB, 'col1');
+        }
       },
       {
         Header: t('lemmas_header_wordforms'),
@@ -255,35 +260,40 @@ function LemmaView() {
 
   return (
     <>
-      <Box> <Box className="filter-container">
-        <Box>{appliedFilters !== [] ?
-          <Box className="applied-filters-box">{t('applied_filters')}: {AppliedFilters()} </Box> : null}</Box>
-        <Box>
-          <Button className="Popover-button" aria-describedby={lemmaFilterPopoverID} variant="contained"
-                  onClick={handlePopoverOpen}><FilterAltIcon fontSize="large"/></Button>
-          <Popover
-            id={lemmaFilterPopoverID}
-            open={lemmaFilterPopoverToggle}
-            anchorEl={lemmaFilterPopoverAnchor}
-            onClose={handlePopoverClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left'
-            }}
-            transformOrigin={{
-              horizontal: 'center',
-              vertical: 'top'
-            }}
-          >
-            <Box className="popover-box">
-              {multiSelect(col1.sort(), t('filter_by_word_type'))}
+      <Box>
+        <Box className="d-flex justify-content-between w-100">
+          <Box className="w-75">{appliedFilters !== [] ?
+            <Box className="applied-filters-box">{t('applied_filters')}: {AppliedFilters()}</Box> : null}
+          </Box>
+          <Box className="d-flex" style={{gap: '10px'}}>
+            <Box>
+              <Button style={DefaultButtonStyle} aria-describedby={lemmaFilterPopoverID} variant="contained"
+                      onClick={handlePopoverOpen}><FilterAltIcon fontSize="large"/></Button>
+              <Popover
+                id={lemmaFilterPopoverID}
+                open={lemmaFilterPopoverToggle}
+                anchorEl={lemmaFilterPopoverAnchor}
+                onClose={handlePopoverClose}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left'
+                }}
+                transformOrigin={{
+                  horizontal: 'center',
+                  vertical: 'top'
+                }}
+              >
+                <Box className="popover-box">
+                  {multiSelect(col1.sort(), t('filter_by_word_type'))}
+                </Box>
+              </Popover>
             </Box>
-          </Popover>
+            <TableDownloadButton data={data}
+                                 tableType={'LemmaView'}
+                                 headers={tableToDownload}
+                                 sortByColAccessor={'col3'}/>
+          </Box>
         </Box>
-        <TableDownloadButton data={data}
-                             tableType={'LemmaView'}
-                             headers={tableToDownload}/>
-      </Box>
         <table className="analyserTable"
                {...getTableProps()}
                style={{
@@ -360,5 +370,3 @@ function LemmaView() {
     </>
   );
 }
-
-export default LemmaView;

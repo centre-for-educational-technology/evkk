@@ -10,8 +10,9 @@ import { AnalyseContext, SetFormContext, SetTypeContext, SetWordContext } from '
 import ToggleCell from './ToggleCell';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
 import Popover from '@mui/material/Popover';
+import { DefaultButtonStyle } from '../../const/Constants';
 
-function GrammaticalAnalysis() {
+export default function GrammaticalAnalysis() {
   const {t} = useTranslation();
   const setType = useContext(SetTypeContext);
   const setForm = useContext(SetFormContext);
@@ -156,6 +157,7 @@ function GrammaticalAnalysis() {
     }
     return tableVal;
   }
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   let data = useMemo(() => fillData(), []);
 
@@ -303,7 +305,7 @@ function GrammaticalAnalysis() {
   }, useFilters, useSortBy, usePagination);
 
   function AppliedFilters() {
-    if (filtersInUse !== []) {
+    if (filtersInUse.length !== 0) {
       return (
         filtersInUse.map((value) => (<Chip sx={{marginBottom: '5px'}} key={value} label={value}/>))
       );
@@ -312,42 +314,45 @@ function GrammaticalAnalysis() {
 
   return (
     <Box>
-      <Box className="filter-container">
-        <Box component={'span'}>
-          {filtersInUse !== [] ?
+      <Box className="d-flex justify-content-between w-100">
+        <Box className="w-75">
+          {filtersInUse.length !== 0 ?
             <Box className="applied-filters-box">{t('applied_filters')}: {AppliedFilters()} </Box> : null}</Box>
-        <Box>
-          <Button
-            className="popover-button"
-            aria-describedby={analyzerFilterPopoverID}
-            variant="contained"
-            onClick={handlePopoverOpen}
-          >
-            <FilterAltIcon fontSize="large"/>
-          </Button>
-          <Popover
-            id={analyzerFilterPopoverID}
-            open={analyzerFilterPopoverToggle}
-            anchorEl={analyzerFilterPopoverAnchorEl}
-            onClose={handlePopoverClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left'
-            }}
-            transformOrigin={{
-              horizontal: 'center',
-              vertical: 'top'
-            }}
-          >
-            <Box className="popover-box">
-              {multiSelect(col1.sort(), t('filter_by_word_type'), false)}
-              {multiSelect(col2.sort(), t('filter_by_word_form'), filtersInUse.length === 0)}
-            </Box>
-          </Popover>
+        <Box className="d-flex" style={{gap: '10px'}}>
+          <Box>
+            <Button
+              style={DefaultButtonStyle}
+              aria-describedby={analyzerFilterPopoverID}
+              variant="contained"
+              onClick={handlePopoverOpen}
+            >
+              <FilterAltIcon fontSize="large"/>
+            </Button>
+            <Popover
+              id={analyzerFilterPopoverID}
+              open={analyzerFilterPopoverToggle}
+              anchorEl={analyzerFilterPopoverAnchorEl}
+              onClose={handlePopoverClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left'
+              }}
+              transformOrigin={{
+                horizontal: 'center',
+                vertical: 'top'
+              }}
+            >
+              <Box className="popover-box">
+                {multiSelect(col1.sort(), t('filter_by_word_type'), false)}
+                {multiSelect(col2.sort(), t('filter_by_word_form'), filtersInUse.length === 0)}
+              </Box>
+            </Popover>
+          </Box>
+          <TableDownloadButton data={data}
+                               tableType={'GrammaticalAnalysis'}
+                               headers={tableToDownload}
+                               sortByColAccessor={'col4'}/>
         </Box>
-        <TableDownloadButton data={data}
-                             tableType={'GrammaticalAnalysis'}
-                             headers={tableToDownload}/>
       </Box>
       <table className="analyserTable" {...getTableProps()}>
         <thead>
@@ -356,7 +361,7 @@ function GrammaticalAnalysis() {
             {headerGroup.headers.map(column => (
               <th className="tableHead" key={column.id}>
                 {<span>{column.render('Header')}</span>}
-                <span className="sortIcon"  {...column.getHeaderProps(column.getSortByToggleProps({title: ''}))}>
+                <span className="sortIcon" {...column.getHeaderProps(column.getSortByToggleProps({title: ''}))}>
                     {column.isSorted
                       ? column.isSortedDesc
                         ? ' ▼'
@@ -407,5 +412,3 @@ function GrammaticalAnalysis() {
     </Box>
   );
 }
-
-export default GrammaticalAnalysis;

@@ -48,7 +48,7 @@ class Adding extends Component {
       kirjeldus: '',
       sisu: '',
       liik: 'akadeemiline',
-      oppematerjal: '',
+      oppematerjal: null,
       akadOppematerjal: [],
       akadOppematerjalMuu: '',
       mitteakadAlamliik: '',
@@ -68,7 +68,7 @@ class Adding extends Component {
       autorKakskeelne: false,
       autoriMuudKeeled: '',
       muukeel: '',
-      autoriElukohariik: 'eesti',
+      autoriElukohariik: 'Eesti',
       elukohariikMuu: '',
       nousOlek: false,
       ennistusNupp: false,
@@ -405,7 +405,7 @@ class Adding extends Component {
                             ))}
                           </Select>
                         </FormControl>
-                        {this.state.oppematerjal === 'jah' && this.state.liik === 'akadeemiline' && <>
+                        {this.state.oppematerjal === 'true' && <>
                           <Grid>
                             <FormControl className="form-control"
                                          size="small">
@@ -525,7 +525,7 @@ class Adding extends Component {
                           </Select>
                         </FormControl>
                       </Grid>
-                      {this.state.autoriElukohariik === 'muu' &&
+                      {this.state.autoriElukohariik === 'Muu' &&
                         <Grid>
                           <FormControl className="form-control"
                                        size="small">

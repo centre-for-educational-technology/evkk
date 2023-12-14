@@ -1,32 +1,31 @@
-import React from "react";
-import {Box} from "@mui/material";
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import React from 'react';
+import { Box } from '@mui/material';
+import './styles/ContactCard.css';
+import { ReactComponent as EtisLogo } from '../../resources/images/misc/etis_logo.svg';
 
-function ContactCard({name, role, email}) {
+export default function ContactCard({name, role, email, etisUrl, icon}) {
   return (
-    <Box display="flex"
-         flexDirection="row"
-         sx={{width: "500px", height: "150px", margin: "10px"}}>
-      <Box sx={{width: "30%", height: "100%"}}>
-        <AccountBoxIcon sx={{width: "100%", height: "100%", margin: "auto", padding: "10px"}}
-                        fontSize="large"/>
+    <Box className="contact-box">
+      <Box className="icon-box">
+        <img className="contact-image"
+             src={icon}
+             alt={icon}/>
       </Box>
-      <Box sx={{width: "70%", height: "100%"}}>
-        <Box sx={{
-          height: "35%",
-          width: "100%",
-          paddingLeft: "20px",
-          fontWeight: "bold",
-          fontSize: "1.5rem",
-          paddingTop: "6%"
-        }}>{name}</Box>
-        <Box sx={{paddingLeft: "20px", paddingTop: "5%"}}>
-          <div><b>Roll:</b> {role}</div>
-          <div><b>E-mail:</b> {email}</div>
+      <Box className="text-box">
+        <Box className="name-box">{name}</Box>
+        <Box className="info-box">
+          <div><b>Amet:</b> {role}</div>
+          <div><b>E-post:</b> {email}</div>
+          {etisUrl &&
+            <div className="etis-container">
+              <a className="etis-link"
+                 href={etisUrl}
+                 target="_blank"
+                 rel="noopener noreferrer"><EtisLogo/></a>
+            </div>
+          }
         </Box>
       </Box>
     </Box>
-  )
+  );
 }
-
-export default ContactCard;

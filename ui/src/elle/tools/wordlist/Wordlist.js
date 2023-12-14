@@ -27,6 +27,7 @@ import GenericTable from '../../components/GenericTable';
 import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
 import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
+import { sortTableCol } from '../../util/TableUtils';
 
 export default function Wordlist() {
 
@@ -45,6 +46,7 @@ export default function Wordlist() {
   const [showTable, setShowTable] = useState(false);
   const accessors = ['word', 'frequencyCount', 'frequencyPercentage'];
   const data = useMemo(() => response, [response]);
+  const sortByColAccessor = 'frequencyCount';
 
   useEffect(() => {
     const type = typeValueToDisplay === 'WORDS' ? t('wordlist_word_column') : t('wordlist_lemma_column');
@@ -110,6 +112,9 @@ export default function Wordlist() {
       accessor: 'word',
       Cell: (cellProps) => {
         return cellProps.value;
+      },
+      sortType: (rowA, rowB) => {
+        return sortTableCol(rowA, rowB, 'word');
       }
     },
     {
@@ -307,9 +312,12 @@ export default function Wordlist() {
                              tableType={'Wordlist'}
                              headers={tableToDownload}
                              accessors={accessors}
+                             sortByColAccessor={sortByColAccessor}
                              marginTop={'2vh'}/>
-        <GenericTable tableClassname={'wordlist-table'} columns={columns} data={data}
-                      sortByColAccessor={'frequencyCount'}/>
+        <GenericTable tableClassname={'wordlist-table'}
+                      columns={columns}
+                      data={data}
+                      sortByColAccessor={sortByColAccessor}/>
       </>}
     </div>
   );

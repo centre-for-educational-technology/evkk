@@ -61,6 +61,7 @@ import static ee.tlu.evkk.core.service.maps.TranslationMappings.verbFormTranslat
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.wordTypesEn;
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.wordTypesEt;
 import static java.io.File.createTempFile;
+import static java.lang.Boolean.TRUE;
 import static java.lang.String.format;
 import static java.lang.System.lineSeparator;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -191,7 +192,7 @@ public class TextService {
       singleParamHelpers.add(new TextQuerySingleParamHelper("p16", "kodakondsus", corpusRequestDto.getNationality()));
     }
     if (isNotBlank(corpusRequestDto.getCountry())) {
-      singleParamHelpers.add(new TextQuerySingleParamHelper("p17", "elukoht", corpusRequestDto.getCountry()));
+      singleParamHelpers.add(new TextQuerySingleParamHelper("p17", "riik", corpusRequestDto.getCountry()));
     }
     if (corpusRequestDto.getAddedYears() != null) {
       multiParamHelpers.add(new TextQueryMultiParamHelper("p18", "ajavahemik", corpusRequestDto.getAddedYears()));
@@ -276,7 +277,7 @@ public class TextService {
     lisaTekstiOmadus(kood, "title", andmed.getPealkiri());
     lisaTekstiOmadus(kood, "kirjeldus", andmed.getKirjeldus());
     lisaTekstiOmadus(kood, "tekstityyp", andmed.getLiik());
-    if (andmed.getOppematerjal() != null && andmed.getOppematerjal()) {
+    if (TRUE.equals(andmed.getOppematerjal())) {
       String[] m = andmed.getAkadOppematerjal();
       if (m != null) {
         for (String s : m) {

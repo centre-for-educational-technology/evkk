@@ -1,51 +1,9 @@
-import {Box, Button, ClickAwayListener, Slider, styled} from "@mui/material";
-import React, {useEffect, useRef, useState} from "react";
-import EastIcon from "@mui/icons-material/East";
-import DoneIcon from "@mui/icons-material/Done";
-import CloseIcon from "@mui/icons-material/Close";
-import "./Correction.css"
-
-const customSlider = styled(Slider)({
-  color: '#9cff7e',
-  height: 20,
-  '& .MuiSlider-track': {
-    border: 'none',
-  },
-  '& .MuiSlider-thumb': {
-    height: 0,
-    width: 0,
-    backgroundColor: '#9cff7e',
-    border: '2px solid currentColor',
-    '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {
-      boxShadow: 'inherit',
-    },
-    '&:before': {
-      display: 'none',
-    },
-  },
-  '.Mui-disabled': {
-    color: '#9cff7e',
-  },
-  '.MuiSlider-valueLabel': {
-    lineHeight: 2,
-    fontSize: 24,
-    background: 'unset',
-    padding: 0,
-    width: 54,
-    height: 54,
-    borderRadius: '50% 50% 50% 0',
-    backgroundColor: '#52af77',
-    transformOrigin: 'bottom left',
-    transform: 'translate(0%, -100%) rotate(-45deg) scale(0)',
-    '&:before': {display: 'none'},
-    '&.MuiSlider-valueLabelOpen': {
-      transform: 'translate(50%, -50%) rotate(-45deg) scale(1)',
-    },
-    '& > *': {
-      transform: 'rotate(45deg)',
-    },
-  },
-});
+import { Box, Button, ClickAwayListener } from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react';
+import EastIcon from '@mui/icons-material/East';
+import DoneIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
+import './Correction.css';
 
 export default function WordClick(props) {
 
@@ -60,7 +18,7 @@ export default function WordClick(props) {
 
   const changePunctuationMarks = (word) => {
     return word.replace(/[^0-9a-zA-ZõäöüÕÄÖÜ]+$/, '');
-  }
+  };
 
   const correctionPopup = (vm, sm, i) => {
     const Yoffset = topOffset;
@@ -69,7 +27,7 @@ export default function WordClick(props) {
     }
     return (
       <Box
-        id={vm[i] + "id"}
+        id={vm[i] + 'id'}
         key={vm[i]}
         className="correction-popup"
         style={{transform: `translate(${widthOffset}px) translate(-50%)`, top: `${Yoffset}px`}}
@@ -86,22 +44,22 @@ export default function WordClick(props) {
             >
                                 <span
                                   style={{
-                                    backgroundColor: "lightpink",
+                                    backgroundColor: 'lightpink'
                                   }}
                                   className="small-error-word-container"
                                 >
                                   {changePunctuationMarks(sm[i])}
-                                </span>{" "}
-              <EastIcon/>{" "}
+                                </span>{' '}
+              <EastIcon/>{' '}
               <span
                 style={{
-                  backgroundColor: "lightgreen",
+                  backgroundColor: 'lightgreen'
                 }}
                 className="small-error-word-container"
               >
                                   {changePunctuationMarks(vm[i])}
-                                </span>{" "}
-              <span style={{fontWeight: "bold"}}>|</span>
+                                </span>{' '}
+              <span style={{fontWeight: 'bold'}}>|</span>
               <Box display="flex" gap="15px">
                 <Button
                   size="20px"
@@ -128,8 +86,8 @@ export default function WordClick(props) {
           </Box>
         </Box>
       </Box>
-    )
-  }
+    );
+  };
 
   const handleClickAway = () => {
     setOpen(false);
@@ -138,7 +96,7 @@ export default function WordClick(props) {
   useEffect(() => {
     const newId = document.getElementById(`s${wordIndex}`).parentElement.id;
     setParentElementRef(document.getElementById(newId));
-  }, []);
+  }, [wordIndex]);
 
   const handleWordClick = (e) => {
     const parentElement = parentElementRef.getBoundingClientRect();
@@ -149,33 +107,32 @@ export default function WordClick(props) {
       const offset = documentOffset - document.documentElement.scrollTop;
       const h = e.target.getBoundingClientRect();
       setTopOffset(h.top - parentElement.top - 50 - offset);
-    }
+    };
 
     parentElementRef.addEventListener('scroll', changeSomething);
     setWidthOffset(w / 2);
     setTopOffset(h.top - parentElement.top - 50);
     setOpen((prev) => !prev);
-  }
+  };
 
   return (
     <ClickAwayListener onClickAway={() => handleClickAway()}>
-            <span className="margitud-container" id={"s" + wordIndex} key={"s" + wordIndex}>
-                <Box className="flex-case" key={wordIndex}>
-                  <span
-                    id={wordIndex.toString()}
-                    key={wordIndex.toString()}
-                    ref={Yref}
-                    className="corrector-marked-text"
-                    onClick={(event) => {
-                      handleWordClick(event);
-                    }}
-                  >
-                    {content[wordIndex]}
-                  </span>
-                </Box>
-              {open ? (correctionPopup(answer, content, wordIndex)) : null}
-              <span> </span>
-            </span>
+      <span id={'s' + wordIndex}
+            key={'s' + wordIndex}>
+        <Box className="flex-case" key={wordIndex}>
+          <button
+            id={wordIndex.toString()}
+            key={wordIndex.toString()}
+            ref={Yref}
+            className="corrector-marked-text"
+            onClick={handleWordClick}
+          >
+            {content[wordIndex]}
+          </button>
+        </Box>
+        {open ? (correctionPopup(answer, content, wordIndex)) : null}
+        <span> </span>
+      </span>
     </ClickAwayListener>
-  )
+  );
 }

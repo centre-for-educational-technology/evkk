@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useReducer, useRef, useState} from 'react';
+import React, { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import {
   Accordion,
   AccordionDetails,
@@ -11,7 +11,7 @@ import {
   Modal,
   Typography
 } from '@mui/material';
-import {usePagination, useTable} from 'react-table';
+import { usePagination, useTable } from 'react-table';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -32,9 +32,9 @@ import {
 import TablePagination from '../../components/table/TablePagination';
 import QueryDownloadButton from './QueryDownloadButton';
 import LoadingButton from '@mui/lab/LoadingButton';
-import {queryStore} from '../../store/QueryStore';
-import {loadFetch} from '../../service/LoadFetch';
-import {useTranslation} from 'react-i18next';
+import { queryStore } from '../../store/QueryStore';
+import { loadFetch } from '../../service/LoadFetch';
+import { useTranslation } from 'react-i18next';
 
 export default function QueryResults(props) {
   const {t} = useTranslation();
@@ -60,19 +60,19 @@ export default function QueryResults(props) {
     sugu: '',
     haridus: '',
     emakeel: '',
-    elukohariik: ''
+    riik: ''
   });
 
   useEffect(() => {
     if (props.previousSelectedIds.size > 0) {
       props.data.forEach((d) => {
         if (props.previousSelectedIds.has(d.text_id)) {
-          checkboxStatuses.current.add(d.text_id)
+          checkboxStatuses.current.add(d.text_id);
         }
-      })
+      });
     }
-    forceUpdate()
-  }, []);
+    forceUpdate();
+  }, [props.data, props.previousSelectedIds]);
 
   const columns = useMemo(() => [
       {
@@ -81,7 +81,7 @@ export default function QueryResults(props) {
         Cell: (cellProps) => {
           return (
             <Checkbox
-              style={{color: "#9C27B0"}}
+              style={{color: '#9C27B0'}}
               checked={checkboxStatuses.current.has(cellProps.value)}
               id={cellProps.value}
               onChange={() => alterCheckbox(cellProps.value)}
@@ -220,10 +220,10 @@ export default function QueryResults(props) {
       {response.length > 0 &&
         <>
           <div>
-            <Button style={{color: "white"}} startIcon={<ArrowBackIcon/>} sx={DefaultButtonStyle}
+            <Button style={{color: 'white'}} startIcon={<ArrowBackIcon/>} sx={DefaultButtonStyle}
                     onClick={() => {
-                      props.setIsQueryAnswerPage(prevState => !prevState)
-                      props.setPreviousSelectedIds(checkboxStatuses.current)
+                      props.setIsQueryAnswerPage(prevState => !prevState);
+                      props.setPreviousSelectedIds(checkboxStatuses.current);
                     }}>{t('query_change_chosen_corpuses')}</Button>
           </div>
           <LoadingButton
@@ -346,7 +346,7 @@ export default function QueryResults(props) {
                 <strong>{t('query_author_data_gender')}:</strong> {t(genderOptions[metadata.sugu]) || '-'}<br/>
                 <strong>{t('query_author_data_education')}:</strong> {t(educationOptions[metadata.haridus]) || '-'}<br/>
                 <strong>{t('query_author_data_native_language')}:</strong> {t(languageOptions[metadata.emakeel]) || '-'}<br/>
-                <strong>{t('query_author_data_country')}:</strong> {t(countryOptions[metadata.elukohariik]) || '-'}<br/>
+                <strong>{t('query_author_data_country')}:</strong> {t(countryOptions[metadata.riik]) || '-'}<br/>
               </AccordionDetails>
             </Accordion>
             <br/>

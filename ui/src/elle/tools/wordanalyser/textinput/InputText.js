@@ -32,6 +32,7 @@ export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
     if (markedIds.length > 0) {
       onWordInfo(markedIds[0]);
     }
+    // eslint-disable-next-line
   }, [onMarkWords]);
 
   const handleIsMarked = (ids, i, analysedWords, markedIds, idNumber) => {
@@ -110,6 +111,7 @@ export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
     }
     content.push(text);
     return <>{content}</>;
+    // eslint-disable-next-line
   }, [analyse, onMarkWords, handleWord, markedIds, idNumber]);
 
   return (
