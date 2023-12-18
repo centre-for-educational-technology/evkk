@@ -26,7 +26,7 @@ function SingleLink({name, siteLink, tekst, image, tags}) {
 
   useEffect(() => {
     if (urlStatus === 'INTERNAL_SERVER_ERROR') {
-      fetch('https://hooks.slack.com/services/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', {
+      fetch('', {
         method: 'POST',
         headers: {},
         body: JSON.stringify({
