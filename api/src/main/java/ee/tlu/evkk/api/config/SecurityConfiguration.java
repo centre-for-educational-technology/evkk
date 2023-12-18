@@ -56,6 +56,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .csrf().disable() //TODO: use repo
       .authorizeRequests()
       .mvcMatchers(GET, "/status").permitAll()
+      .mvcMatchers(POST, "/check-status").permitAll()
       .mvcMatchers(POST, "/login").permitAll()
       .mvcMatchers(POST, "/tools/minitorn-pikkus").permitAll()
       .mvcMatchers(POST, "/tools/masinoppe-ennustus").permitAll()

@@ -28,4 +28,7 @@ dependencies {
   implementation "org.apache.poi:poi-ooxml:5.1.0"
   implementation "org.apache.poi:poi:5.1.0"
 
+  implementation("com.slack.api:slack-api-client:1.36.1")
+
+
 }
