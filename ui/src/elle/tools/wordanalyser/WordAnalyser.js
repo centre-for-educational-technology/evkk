@@ -179,6 +179,19 @@ function WordAnalyser() {
     let analysedSyllablesLowerCase = [...analysedSyllables];
     for (let i = 0; i < analysedSyllablesLowerCase.length; i++) {
       if (analysedWordTypes[i] === 'nimisõna (pärisnimi)') {
+        if (analysedWordsLowerCase[i].includes('-')) {
+          let result = '';
+          let hyphenCounter = 0;
+          let nameWithoutHyphens = analysedWordsLowerCase[i].replaceAll('-', '');
+          for (let j = 0; j < nameWithoutHyphens.length; j++) {
+            if (analysedSyllablesLowerCase[i][j + hyphenCounter] === '-') {
+              result += '-';
+              hyphenCounter++;
+            }
+            result += nameWithoutHyphens[j];
+          }
+          analysedSyllablesLowerCase[i] = result;
+        }
         analysedSyllablesLowerCase[i] = analysedSyllablesLowerCase[i][0].toUpperCase() + analysedSyllablesLowerCase[i].slice(1);
       }
     }
