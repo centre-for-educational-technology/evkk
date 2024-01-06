@@ -23,10 +23,6 @@ const TextToSpeechMenu = () => {
   const handlePopoverClose = () => {
     setAnchorEl(null);
   };
-  const handleSpeakerChange = (event, newSpeaker) => {
-    setSpeaker(newSpeaker);
-    TextToSpeech(newSpeaker);
-  }
 
   const open = Boolean(anchorEl);
 
@@ -36,10 +32,9 @@ const TextToSpeechMenu = () => {
       document.body.style.cursor = 'wait';
 
       // should change the url to 'http://localhost:3000/api/texts/neorokone'; when testing
-      const url = 'http://evkk.tlu.ee/api/texts/neorokone';
-      if(currentSpeaker === undefined) {
-        currentSpeaker = speaker;
-      }
+      const url = 'http://localhost:3000/api/texts/neorokone';
+      //const url = 'http://evkk.tlu.ee/api/texts/neorokone'
+
       const jsonRequestBody = {
         tekst: selectedText,
         speaker: currentSpeaker,
@@ -63,7 +58,8 @@ const TextToSpeechMenu = () => {
           audioElement.oncanplay = () => {
             audioElement
               .play()
-              .then(() => {})
+              .then(() => {
+              })
               .catch((error) => {
                 console.error('playback error:', error);
               })
@@ -125,15 +121,15 @@ const TextToSpeechMenu = () => {
             <ToggleButtonGroup
               aria-labelledby="toggle-buttons-group-label"
               value={speaker}
-              exclusive
-              onChange={(event, newSpeaker) => handleSpeakerChange(event, newSpeaker)}>
-              <ToggleButton value="Mari" aria-label="Mari">
+              onChange={(event, newSpeaker) => setSpeaker(newSpeaker)}
+              exclusive>
+              <ToggleButton value="Mari" aria-label="Mari" onClick={() => TextToSpeech('Mari')}>
                 Mari
               </ToggleButton>
-              <ToggleButton value="Albert" aria-label="Albert">
+              <ToggleButton value="Albert" aria-label="Albert" onClick={() => TextToSpeech('Albert')}>
                 Albert
               </ToggleButton>
-              <ToggleButton value="Kalev" aria-label="Kalev">
+              <ToggleButton value="Kalev" aria-label="Kalev" onClick={() => TextToSpeech('Kalev')}>
                 Kalev
               </ToggleButton>
             </ToggleButtonGroup>

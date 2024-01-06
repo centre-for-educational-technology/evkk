@@ -3,7 +3,7 @@ import React, { createContext, useEffect, useState } from 'react';
 export const TextSelectionContext = createContext();
 
 export const TextSelectionProvider = ({ children }) => {
-  const [selectedText, setSelectedText] = useState(' ');
+  const [selectedText, setSelectedText] = useState('teksti häälduse kuulamiseks aktiveeri tekst');
 
   useEffect(() => {
     const handleSelectionChange = () => {
