@@ -1,7 +1,7 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import React, { useEffect, useMemo, useState } from 'react';
 import { queryStore } from '../../store/QueryStore';
-import { AccordionStyle } from '../../const/Constants';
+import { AccordionStyle, DefaultButtonStyle } from '../../const/Constants';
 import Accordion from '@mui/material/Accordion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -256,7 +256,7 @@ export default function WordContext() {
                                       label={t('common_by_base_form')}/>
                   </RadioGroup>
                   {typeError && <FormHelperText>{t('error_mandatory_field')}</FormHelperText>}
-                  <Button sx={{width: 130}}
+                  <Button sx={DefaultButtonStyle}
                           style={{marginTop: '10vh !important'}}
                           className="wordcontext-analyse-button"
                           type="submit"
@@ -348,7 +348,7 @@ export default function WordContext() {
         </Alert>
       </>}
       {showTable && <>
-        <TableDownloadButton data={data}
+        <TableDownloadButton sx={DefaultButtonStyle} data={data}
                              tableType={'WordContext'}
                              headers={tableToDownload}
                              accessors={accessors}

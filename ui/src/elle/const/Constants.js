@@ -32,6 +32,7 @@ export const AccordionStyle = {
 export const DefaultButtonStyle = {
   backgroundColor: '#9C27B0',
   fontWeight: 'bold',
+  lineHeight: '30px',
   borderRadius: '15px',
   '&:hover': {
     backgroundColor: '#852197'

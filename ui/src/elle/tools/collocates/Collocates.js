@@ -1,6 +1,6 @@
 import './Collocates.css';
 import React, { useEffect, useMemo, useState } from 'react';
-import { AccordionStyle } from '../../const/Constants';
+import { AccordionStyle, DefaultButtonStyle } from '../../const/Constants';
 import Accordion from '@mui/material/Accordion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
@@ -261,7 +261,7 @@ export default function Collocates() {
                                       label={t('common_by_base_form')}/>
                   </RadioGroup>
                   {typeError && <FormHelperText>{t('error_mandatory_field')}</FormHelperText>}
-                  <Button sx={{width: 130}}
+                  <Button sx={DefaultButtonStyle}
                           style={{marginTop: '10vh !important'}}
                           className="collocates-analyse-button"
                           type="submit"
@@ -368,7 +368,8 @@ export default function Collocates() {
         </Alert>
       </>}
       {showTable && <>
-        <TableDownloadButton data={data}
+        <TableDownloadButton sx={DefaultButtonStyle}
+                             data={data}
                              tableType={'Collocates'}
                              headers={tableToDownload}
                              accessors={accessors}
