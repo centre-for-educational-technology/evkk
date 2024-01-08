@@ -66,7 +66,7 @@ function WordAnalyser() {
         data.silbid = processSyllablesResponse(data.silbid);
         analyseInput(input, data);
       });
-  }
+  };
 
   const processWordsResponse = (data) => {
     let newData = [];
@@ -402,7 +402,7 @@ function WordAnalyser() {
                   setBorder(0);
                 }}
               >
-                <CloseIcon fontSize="inherit"/>
+                <CloseIcon fontSize="inherit" />
               </IconButton>
             }
             sx={{mb: 2}}
@@ -419,7 +419,7 @@ function WordAnalyser() {
               md={12}>
           <Box display={'flex'}
                justifyContent={'flex-start'}>
-            <Box><TextUpload sendTextFromFile={sendTextFromFile}/></Box>
+            <Box><TextUpload sendTextFromFile={sendTextFromFile} /></Box>
           </Box>
         </Grid>
         <Grid item
@@ -438,9 +438,9 @@ function WordAnalyser() {
               xs={12}
               md={6}>
           {showResults ?
-            <WordInfo onWordInfo={wordInfo}/> :
+            <WordInfo onWordInfo={wordInfo} /> :
             <Alert severity="info">
-              {t('word_analysis_infobox_1')}<br/>
+              {t('word_analysis_infobox_1')}<br />
               {t('word_analysis_infobox_2')}
             </Alert>}
         </Grid>

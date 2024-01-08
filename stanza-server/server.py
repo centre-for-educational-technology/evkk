@@ -3,6 +3,7 @@ import math
 import os
 import re
 import subprocess
+
 from flask import Flask
 from flask import Response
 from flask import request
@@ -55,6 +56,7 @@ def sonad_lemmad_silbid_laused_sonaliigid_vormimargendid():
         "sonaliigid": sonaliigid,
         "vormimargendid": vormimargendid
     }), mimetype=mimetype)
+
 
 @app.route('/sonaliik', methods=post)
 def silbid():
