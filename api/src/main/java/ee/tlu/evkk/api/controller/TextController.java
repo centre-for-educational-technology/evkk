@@ -1,18 +1,18 @@
 package ee.tlu.evkk.api.controller;
 
 import ee.evkk.dto.AddingRequestDto;
+import ee.evkk.dto.CommonTextRequestDto;
 import ee.evkk.dto.CorpusDownloadDto;
 import ee.evkk.dto.CorpusRequestDto;
 import ee.evkk.dto.CorpusTextContentsDto;
-import ee.evkk.dto.WordFeatsRequestDto;
 import ee.tlu.evkk.api.ApiMapper;
-import ee.tlu.evkk.api.controller.dto.LemmadRequestEntity;
 import ee.tlu.evkk.api.controller.dto.TextSearchRequest;
 import ee.tlu.evkk.api.controller.dto.TextSearchResponse;
 import ee.tlu.evkk.common.env.ServiceLocator;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.service.TextService;
+import ee.tlu.evkk.core.service.dto.TextResponseDto;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.Pageable;
@@ -83,77 +83,81 @@ public class TextController {
         return textDao.findTextIdAndTitleByCorpusId(korpusekood);
     }
 
+  @PostMapping("/sonad-lemmad-silbid-laused-sonaliigid-vormimargendid")
+  public ResponseEntity<TextResponseDto> sonadLemmadSilbidLausedSonaliigidVormimargendid(@RequestBody CommonTextRequestDto request) {
+    return ok(textService.sonadLemmadSilbidLausedSonaliigidVormimargendid(request));
+  }
+
     @PostMapping("/sonaliik")
-    public ResponseEntity<List<String>> sonaliik(@RequestBody WordFeatsRequestDto request) {
-        String[] sonaliik = stanzaServerClient.getSonaliik(request.getTekst());
-        List<String> body = asList(textService.translateWordType(sonaliik, request.getLanguage()));
+    public ResponseEntity<List<String>> sonaliik(@RequestBody CommonTextRequestDto request) {
+      List<String> sonaliik = stanzaServerClient.getSonaliik(request.getTekst());
+      List<String> body = textService.translateWordType(sonaliik, request.getLanguage());
         return ok(body);
     }
 
     @PostMapping("/silbid")
-    public ResponseEntity<List<String>> silbid(@RequestBody LemmadRequestEntity request) {
+    public ResponseEntity<List<String>> silbid(@RequestBody CommonTextRequestDto request) {
         String[] silbid = stanzaServerClient.getSilbid(request.getTekst());
         List<String> body = asList(silbid);
         return ok(body);
     }
 
     @PostMapping("/raw/vormimargendid")
-    public ResponseEntity<List<String[]>> rawVormimargendid(@RequestBody LemmadRequestEntity request) {
-        String[][] vormimargendid = stanzaServerClient.getVormimargendid(request.getTekst());
-        List<String[]> body = asList(vormimargendid);
-        return ok(body);
+    public ResponseEntity<List<List<String>>> rawVormimargendid(@RequestBody CommonTextRequestDto request) {
+      List<List<String>> vormimargendid = stanzaServerClient.getVormimargendid(request.getTekst());
+      return ok(vormimargendid);
     }
 
     @PostMapping("/vormimargendid")
-    public ResponseEntity<List<String>> vormimargendid(@RequestBody WordFeatsRequestDto request) {
-        String[][] vormimargendid = stanzaServerClient.getVormimargendid(request.getTekst());
+    public ResponseEntity<List<String>> vormimargendid(@RequestBody CommonTextRequestDto request) {
+      List<List<String>> vormimargendid = stanzaServerClient.getVormimargendid(request.getTekst());
         return ok(textService.translateFeats(vormimargendid, request.getLanguage()));
     }
 
     @PostMapping("/lemmad")
-    public ResponseEntity<List<String>> lemmad(@RequestBody LemmadRequestEntity request) {
+    public ResponseEntity<List<String>> lemmad(@RequestBody CommonTextRequestDto request) {
         String[] lemmad = stanzaServerClient.getLemmad(request.getTekst());
         List<String> body = asList(lemmad);
         return ok(body);
     }
 
     @PostMapping("/sonad")
-    public ResponseEntity<List<String>> sonad(@RequestBody LemmadRequestEntity request) {
+    public ResponseEntity<List<String>> sonad(@RequestBody CommonTextRequestDto request) {
         String[] sonad = stanzaServerClient.getSonad(request.getTekst());
         List<String> body = asList(sonad);
         return ok(body);
     }
 
     @PostMapping("/laused")
-    public ResponseEntity<List<String[]>> laused(@RequestBody LemmadRequestEntity request) {
+    public ResponseEntity<List<String[]>> laused(@RequestBody CommonTextRequestDto request) {
         String[][] laused = stanzaServerClient.getLaused(request.getTekst());
         List<String[]> body = asList(laused);
         return ok(body);
     }
 
     @PostMapping("/korrektuur")
-    public ResponseEntity<List<String>> korrektuur(@RequestBody LemmadRequestEntity request) {
+    public ResponseEntity<List<String>> korrektuur(@RequestBody CommonTextRequestDto request) {
         String[] vastus = correctorServerClient.getKorrektuur(request.getTekst());
         List<String> body = asList(vastus);
         return ok(body);
     }
 
     @PostMapping("/keeletase")
-    public ResponseEntity<List<String[]>> keeletase(@RequestBody LemmadRequestEntity request) {
+    public ResponseEntity<List<String[]>> keeletase(@RequestBody CommonTextRequestDto request) {
         String[][] tasemed = stanzaServerClient.getKeeletase(request.getTekst());
         List<String[]> body = asList(tasemed);
         return ok(body);
     }
 
     @PostMapping("/keerukus")
-    public ResponseEntity<List<String>> keerukus(@RequestBody LemmadRequestEntity request) {
+    public ResponseEntity<List<String>> keerukus(@RequestBody CommonTextRequestDto request) {
         String[] m = stanzaServerClient.getKeerukus(request.getTekst());
         List<String> body = asList(m);
         return ok(body);
     }
 
     @PostMapping("/mitmekesisus")
-    public ResponseEntity<List<String>> mitmekesisus(@RequestBody LemmadRequestEntity request) {
+    public ResponseEntity<List<String>> mitmekesisus(@RequestBody CommonTextRequestDto request) {
         String[] m = stanzaServerClient.getMitmekesisus(request.getTekst());
         List<String> body = asList(m);
         return ok(body);

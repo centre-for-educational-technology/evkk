@@ -2,7 +2,7 @@ package ee.evkk.dto;
 
 import ee.evkk.dto.enums.Language;
 
-public class WordFeatsRequestDto {
+public class CommonTextRequestDto {
 
   private String tekst;
   private Language language;

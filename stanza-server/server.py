@@ -3,7 +3,6 @@ import math
 import os
 import re
 import subprocess
-
 from flask import Flask
 from flask import Response
 from flask import request
@@ -20,6 +19,42 @@ mimetype = "application/json"
 post = ['POST']
 app = Flask(__name__)
 
+
+@app.route('/sonad-lemmad-silbid-laused-sonaliigid-vormimargendid', methods=post)
+def sonad_lemmad_silbid_laused_sonaliigid_vormimargendid():
+    nlp = nlp_tpl
+    tekst = request.json["tekst"]
+    doc = nlp(tekst)
+
+    sonad = []
+    lemmad = []
+    laused = []
+    sonaliigid = []
+    vormimargendid = []
+
+    for sentence in doc.sentences:
+        laused.append(sentence.text)
+        for word in sentence.words:
+            if word._upos != "PUNCT":
+                sonad.append(word.text)
+                lemmad.append(word.lemma)
+                sonaliigid.append(word.pos)
+                if word._upos not in ["ADP", "ADV", "CCONJ", "SCONJ", "INTJ", "X"]:
+                    vormimargendid.append([word.pos, word.feats, word.text])
+                else:
+                    vormimargendid.append([word.pos, "–", word.text])
+
+    # todo kontrollida, kas silbitamine töötab normaalselt peale uue silbitaja kasutuselevõttu
+    # kasutades nt esimest lõiku siit:
+    # https://kultuur.err.ee/1609214713/riigi-toetuseta-jaanud-paide-teater-jatkab-originaalloomingu-valja-toomist
+    return Response(json.dumps({
+        "sonad": sonad,
+        "lemmad": lemmad,
+        "silbid": silbita_sisemine(tekst),
+        "laused": laused,
+        "sonaliigid": sonaliigid,
+        "vormimargendid": vormimargendid
+    }), mimetype=mimetype)
 
 @app.route('/sonaliik', methods=post)
 def silbid():

@@ -14,8 +14,6 @@ import java.util.List;
 import static ee.evkk.dto.enums.WordContextType.SENTENCE;
 import static ee.evkk.dto.enums.WordType.LEMMAS;
 import static ee.evkk.dto.enums.WordType.WORDS;
-import static ee.tlu.evkk.api.util.TextUtils.sanitizeLemmaStrings;
-import static ee.tlu.evkk.api.util.TextUtils.sanitizeText;
 import static ee.tlu.evkk.api.util.WordContextUtils.getWordAndPosInfoByIndexFromSentencelist;
 import static ee.tlu.evkk.api.util.WordContextUtils.getWordAndPosInfoByIndexFromWordlist;
 import static ee.tlu.evkk.api.util.WordContextUtils.removeCapitalization;
@@ -23,6 +21,8 @@ import static ee.tlu.evkk.api.util.WordContextUtils.removeCapitalizationInList;
 import static ee.tlu.evkk.api.util.WordContextUtils.sanitizeLemmaList;
 import static ee.tlu.evkk.api.util.WordContextUtils.sanitizeLemmas;
 import static ee.tlu.evkk.api.util.WordContextUtils.sentenceArrayToList;
+import static ee.tlu.evkk.common.util.TextUtils.sanitizeLemmaStrings;
+import static ee.tlu.evkk.common.util.TextUtils.sanitizeText;
 import static java.util.Arrays.asList;
 
 @Service

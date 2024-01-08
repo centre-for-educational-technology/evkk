@@ -16,8 +16,8 @@ import java.util.Map;
 
 import static ee.evkk.dto.enums.WordType.WORDS;
 import static ee.tlu.evkk.api.util.FileUtils.readResourceAsString;
-import static ee.tlu.evkk.api.util.TextUtils.sanitizeLemmaStrings;
-import static ee.tlu.evkk.api.util.TextUtils.sanitizeText;
+import static ee.tlu.evkk.common.util.TextUtils.sanitizeLemmaStrings;
+import static ee.tlu.evkk.common.util.TextUtils.sanitizeText;
 import static java.math.BigDecimal.valueOf;
 import static java.math.RoundingMode.UP;
 import static java.util.Arrays.asList;

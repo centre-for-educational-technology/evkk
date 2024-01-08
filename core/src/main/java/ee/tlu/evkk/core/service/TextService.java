@@ -1,10 +1,14 @@
 package ee.tlu.evkk.core.service;
 
 import ee.evkk.dto.AddingRequestDto;
+import ee.evkk.dto.CommonTextRequestDto;
 import ee.evkk.dto.CorpusDownloadDto;
 import ee.evkk.dto.CorpusRequestDto;
 import ee.evkk.dto.enums.CorpusDownloadForm;
 import ee.evkk.dto.enums.Language;
+import ee.tlu.evkk.core.integration.StanzaServerClient;
+import ee.tlu.evkk.core.service.dto.StanzaResponseDto;
+import ee.tlu.evkk.core.service.dto.TextResponseDto;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.core.service.maps.TranslationMappings;
 import ee.tlu.evkk.dal.dao.TextDao;
@@ -46,6 +50,7 @@ import static ee.evkk.dto.enums.CorpusDownloadForm.CONLLU;
 import static ee.evkk.dto.enums.CorpusDownloadForm.VISLCG3;
 import static ee.evkk.dto.enums.Language.EN;
 import static ee.evkk.dto.enums.Language.ET;
+import static ee.tlu.evkk.common.util.TextUtils.sanitizeLemmaStrings;
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.caseTranslationsEn;
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.caseTranslationsEt;
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.degreeTranslationsEn;
@@ -66,10 +71,10 @@ import static java.lang.String.format;
 import static java.lang.System.lineSeparator;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
-import static java.util.Arrays.stream;
 import static java.util.Objects.nonNull;
 import static java.util.UUID.randomUUID;
 import static java.util.regex.Pattern.compile;
+import static java.util.stream.Collectors.toList;
 import static org.apache.logging.log4j.util.Strings.isBlank;
 import static org.apache.logging.log4j.util.Strings.isNotBlank;
 
@@ -83,6 +88,7 @@ public class TextService {
   private final TextRepository textRepository;
   private final TextPropertyRepository textPropertyRepository;
   private final TextDao textDao;
+  private final StanzaServerClient stanzaServerClient;
 
   private static final Set<String> firstType = TranslationMappings.firstType;
   private static final Set<String> secondType = TranslationMappings.secondType;
@@ -108,10 +114,11 @@ public class TextService {
 
   private static final Pattern fileNameCharacterWhitelist = compile("[\\p{L}0-9& ._()!-]");
 
-  public TextService(TextRepository textRepository, TextPropertyRepository textPropertyRepository, TextDao textDao) {
+  public TextService(TextRepository textRepository, TextPropertyRepository textPropertyRepository, TextDao textDao, StanzaServerClient stanzaServerClient) {
     this.textRepository = textRepository;
     this.textPropertyRepository = textPropertyRepository;
     this.textDao = textDao;
+    this.stanzaServerClient = stanzaServerClient;
   }
 
   public List<TextWithProperties> search(Pageable pageable, String[] korpus, String tekstityyp, String tekstikeel, String keeletase, Boolean abivahendid, Integer aasta, String sugu) {
@@ -209,6 +216,18 @@ public class TextService {
 
     String daoResponse = textDao.detailedTextQueryByParameters(multiParamHelpers, singleParamHelpers, rangeParamBaseHelpers, studyLevelAndDegreeHelper, otherLangHelper, usedMultiMaterialsHelper);
     return isNotBlank(daoResponse) ? daoResponse : new ArrayList<>().toString();
+  }
+
+  public TextResponseDto sonadLemmadSilbidLausedSonaliigidVormimargendid(CommonTextRequestDto request) {
+    StanzaResponseDto stanzaResponse = stanzaServerClient.getSonadLemmadSilbidLausedSonaliigidVormimargendid(request.getTekst());
+    return new TextResponseDto(
+      stanzaResponse.getSonad(),
+      sanitizeLemmaStrings(stanzaResponse.getLemmad()),
+      stanzaResponse.getSilbid(),
+      stanzaResponse.getLaused(),
+      translateWordType(stanzaResponse.getSonaliigid(), request.getLanguage()),
+      translateFeats(stanzaResponse.getVormimargendid(), request.getLanguage())
+    );
   }
 
   public byte[] tekstidfailina(CorpusDownloadDto corpusDownloadDto) throws IOException {
@@ -310,35 +329,39 @@ public class TextService {
     return kood.toString();
   }
 
-  public String[] translateWordType(String[] tekst, Language language) {
+  public List<String> translateWordType(List<String> tekst, Language language) {
     Map<String, String> wordTypes;
     if (ET.equals(language)) {
       wordTypes = wordTypesEt;
     } else {
       wordTypes = wordTypesEn;
     }
-    return stream(tekst).map(wordTypes::get).toArray(String[]::new);
+    return tekst.stream()
+      .map(wordTypes::get)
+      .collect(toList());
   }
 
-  public List<String> translateFeats(String[][] tekst, Language language) {
+  public List<String> translateFeats(List<List<String>> tekst, Language language) {
     getLanguageMappings(language);
     List<String> result = new ArrayList<>();
 
-    for (String[] word : tekst) {
+    for (List<String> wordData : tekst) {
       // muutumatud sõnad (Abbr=Yes ehk lühendid; NumForm=Digit ehk arvud jne)
-      if (word[1] == null || word[1].equals("–") || word[1].equals("Abbr=Yes") || word[1].contains("NumForm=Digit")) {
+      String pos = wordData.get(0);
+      String feats = wordData.get(1);
+      if (feats == null || feats.equals("–") || feats.equals("Abbr=Yes") || feats.contains("NumForm=Digit")) {
         result.add("–");
       }
 
       // käändsõnad
-      else if (firstType.contains(word[0])) {
-        String[] feats = word[1].split("\\|");
+      else if (firstType.contains(pos)) {
+        String[] featsSplit = feats.split("\\|");
         String numberLabel = "";
         String caseLabel = "";
         String degreeLabel = "";
         StringBuilder tenseLabel = new StringBuilder();
 
-        for (String feat : feats) {
+        for (String feat : featsSplit) {
           if (feat.contains("Number")) {
             numberLabel = numberTranslations.get(feat.split("=")[1]);
           }
@@ -390,8 +413,8 @@ public class TextService {
       }
 
       // tegusõnad
-      else if (secondType.contains(word[0])) {
-        String[] feats = word[1].split("\\|");
+      else if (secondType.contains(pos)) {
+        List<String> featsSplit = asList(feats.split("\\|"));
         String moodLabel = "";
         String tenseLabel = "";
         String numberLabel = "";
@@ -400,13 +423,13 @@ public class TextService {
         String verbFormLabel = "";
 
         // Polarity=Neg only
-        if (word[1].equals("Polarity=Neg")) {
+        if (feats.equals("Polarity=Neg")) {
           result.add(negPolarity);
         }
 
         // pöördelised vormid
-        else if (asList(feats).contains("VerbForm=Fin")) {
-          for (String feat : feats) {
+        else if (feats.contains("VerbForm=Fin")) {
+          for (String feat : featsSplit) {
             if (feat.contains("Mood")) {
               moodLabel = moodTranslations.get(feat.split("=")[1]);
             }
@@ -421,7 +444,7 @@ public class TextService {
               negativityLabel = negation;
             }
           }
-          for (String feat : feats) {
+          for (String feat : featsSplit) {
             if (feat.contains("Tense")) {
               if (feat.split("=")[1].equals("Pres")) {
                 tenseLabel = present;
@@ -469,14 +492,14 @@ public class TextService {
 
         // käändelised vormid (inflected form)
         else {
-          if (asList(feats).contains("VerbForm=Part") && asList(feats).contains("Tense=Past")) {
-            if (asList(feats).contains("Voice=Act")) {
+          if (featsSplit.contains("VerbForm=Part") && featsSplit.contains("Tense=Past")) {
+            if (featsSplit.contains("Voice=Act")) {
               verbFormLabel = inflectedFormNudParticiple;
-            } else if (asList(feats).contains("Voice=Pass")) {
+            } else if (featsSplit.contains("Voice=Pass")) {
               verbFormLabel = inflectedFormTudParticiple;
             }
           } else {
-            for (String feat : feats) {
+            for (String feat : featsSplit) {
               if (feat.split("=")[0].equals("VerbForm")) {
                 verbFormLabel = verbFormTranslations.get(feat.split("=")[1]);
               }

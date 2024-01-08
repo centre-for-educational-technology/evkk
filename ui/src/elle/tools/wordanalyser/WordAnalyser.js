@@ -52,17 +52,23 @@ function WordAnalyser() {
     getSelectedTexts(setStoreData);
   });
 
-  // get words
-  const getWords = async (input) => {
-    const response = await fetch('/api/texts/sonad', {
+  const getResponse = (input) => {
+    fetch('/api/texts/sonad-lemmad-silbid-laused-sonaliigid-vormimargendid', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({tekst: input})
-    });
+      body: JSON.stringify({tekst: input, language: i18n.language})
+    })
+      .then(data => data.json())
+      .then(data => {
+        data.sonad = processWordsResponse(data.sonad);
+        data.silbid = processSyllablesResponse(data.silbid);
+        analyseInput(input, data);
+      });
+  }
 
-    const data = await response.json();
+  const processWordsResponse = (data) => {
     let newData = [];
 
     for (const element of data) {
@@ -74,53 +80,7 @@ function WordAnalyser() {
     return newData;
   };
 
-  // get lemmas
-  const getLemmas = async (input) => {
-    const response = await fetch('/api/texts/lemmad', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({tekst: input})
-    });
-    return await response.json();
-  };
-
-  // get sentences
-  const getSentences = async (input) => {
-    const response = await fetch('/api/texts/laused', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({tekst: input})
-    });
-    return await response.json();
-  };
-
-  // get word type
-  const getWordTypes = async (input) => {
-    const response = await fetch('/api/texts/sonaliik', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({tekst: input, language: i18n.language})
-    });
-    return await response.json();
-  };
-
-  // get syllables
-  const getSyllables = async (input) => {
-    const response = await fetch('/api/texts/silbid', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({tekst: input})
-    });
-    const data = await response.json();
-
+  const processSyllablesResponse = (data) => {
     let newData = [];
     for (const element of data) {
       if (element) {
@@ -131,18 +91,6 @@ function WordAnalyser() {
       }
     }
     return newData;
-  };
-
-  // get word form
-  const getWordForm = async (input) => {
-    const response = await fetch('/api/texts/vormimargendid', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({tekst: input, language: i18n.language})
-    });
-    return await response.json();
   };
 
   // create ids
@@ -161,57 +109,38 @@ function WordAnalyser() {
   };
 
   // analyse text
-  const analyseInput = async (input) => {
-    const wordsAndLemmas = await Promise.all([getLemmas(input), getWords(input)]);
-    const rawLemmas = wordsAndLemmas[0];
-    const analysedWordsOrig = wordsAndLemmas[1];
+  const analyseInput = (input, data) => {
+    const words = data.sonad;
+    const lemmas = data.lemmad;
+    const syllables = data.silbid;
+    // todo kas on vaja?
+    const sentences = data.laused;
+    const wordTypes = data.sonaliigid;
+    const wordForms = data.vormimargendid;
 
-    const beautifiedLemmas = [];
-    let syllableReadyWords = '';
-    for (const element of rawLemmas) {
-      if (element) {
-        beautifiedLemmas.push(element.replace(/['*_=]+/g, ''));
-      }
-    }
+    const createdIds = createIds(words);
 
-    for (let i = 0; i < rawLemmas.length; i++) {
-      let word = analysedWordsOrig[i];
-      if (rawLemmas[i].includes('_')) {
-        let index = rawLemmas[i].indexOf('_');
-        syllableReadyWords += [word.slice(0, index), '-', word.slice(index)].join('').replaceAll('–', '') + ' ';
-      } else {
-        syllableReadyWords += word + ' ';
-      }
-    }
-
-    const results = await Promise.all([getSyllables(syllableReadyWords), getSentences(input), getWordTypes(input), getWordForm(input)]);
-    const analysedSyllables = results[0];
-    const analysedSentences = results[1];
-    const analysedWordTypes = results[2];
-    const analysedWordForms = results[3];
-    const createdIds = createIds(analysedWordsOrig);
-
-    for (let i = 0; i < analysedSyllables.length; i++) {
-      let word = analysedSyllables[i];
+    for (let i = 0; i < syllables.length; i++) {
+      let word = syllables[i];
       if (word.charAt(0) === '-') {
-        analysedSyllables[i] = word.slice(1);
-        word = analysedSyllables[i];
+        syllables[i] = word.slice(1);
+        word = syllables[i];
       }
       if (word.charAt(word.length - 1) === '-') {
-        analysedSyllables[i] = word.slice(0, word.length - 1);
+        syllables[i] = word.slice(0, word.length - 1);
       }
     }
 
-    let analysedWordsLowerCase = [...analysedWordsOrig];
+    let analysedWordsLowerCase = [...words];
     for (let i = 0; i < analysedWordsLowerCase.length; i++) {
-      if (analysedWordTypes[i] !== 'nimisõna (pärisnimi)') {
+      if (wordTypes[i] !== 'nimisõna (pärisnimi)') {
         analysedWordsLowerCase[i] = analysedWordsLowerCase[i].toLowerCase();
       }
     }
 
-    let analysedSyllablesLowerCase = [...analysedSyllables];
+    let analysedSyllablesLowerCase = [...syllables];
     for (let i = 0; i < analysedSyllablesLowerCase.length; i++) {
-      if (analysedWordTypes[i] !== 'nimisõna (pärisnimi)') {
+      if (wordTypes[i] !== 'nimisõna (pärisnimi)') {
         analysedSyllablesLowerCase[i] = analysedSyllablesLowerCase[i].toLowerCase();
       }
     }
@@ -219,13 +148,13 @@ function WordAnalyser() {
     const inputObj = {
       ids: createdIds,
       text: input,
-      sentences: analysedSentences,
-      wordsOrig: analysedWordsOrig,
+      sentences: sentences,
+      wordsOrig: words,
       words: analysedWordsLowerCase,
-      lemmas: beautifiedLemmas,
+      lemmas: lemmas,
       syllables: analysedSyllablesLowerCase,
-      wordtypes: analysedWordTypes,
-      wordforms: analysedWordForms
+      wordtypes: wordTypes,
+      wordforms: wordForms
     };
 
     setShowResults(true);
@@ -497,7 +426,7 @@ function WordAnalyser() {
               xs={12}
               md={6}>
           <Input textFromFile={textFromFile}
-                 onInsert={analyseInput}
+                 onInsert={getResponse}
                  onMarkWords={selectedWords}
                  onWordSelect={showThisWord}
                  onWordInfo={showInfo}

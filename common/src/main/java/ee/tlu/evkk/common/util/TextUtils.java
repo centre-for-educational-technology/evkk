@@ -1,4 +1,4 @@
-package ee.tlu.evkk.api.util;
+package ee.tlu.evkk.common.util;
 
 import org.springframework.stereotype.Component;
 
@@ -20,6 +20,8 @@ public class TextUtils {
   public static List<String> sanitizeLemmaStrings(List<String> lemmas) {
     return lemmas.stream()
       .map(lemma -> lemma
+        .replace("'", "")
+        .replace("*", "")
         .replace("_", "")
         .replace("=", ""))
       .collect(toList());
