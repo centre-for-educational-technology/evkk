@@ -2872,3 +2872,1091 @@ INSERT INTO core.text_property(text_id, property_name, property_value)
 VALUES ('44331e82-3dac-4dc9-bbd4-696d964f604d', 'riik', 'eesti');
 INSERT INTO core.text_property(text_id, property_name, property_value)
 VALUES ('44331e82-3dac-4dc9-bbd4-696d964f604d', 'oppeaste', 'bakalaureusekraad');
+
+
+
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'failinimi', 'Infoteaduse_vajalikkus_distantsoppes.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'aasta', '2021');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'title', 'Infoteaduse vajalikkus distantsõppes');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'valdkond', 'yhiskondjakultuur');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'liik', 'ak_eriala_essee');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'abimaterjalid', 'ükskeelne sõnastik (k.a veebisõnastikud)');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'abimaterjalid', 'erialane terminisõnastik või -baas');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'abimaterjalid', 'erialane käsiraamat või teatmik');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'abimaterjalid', 'automaatkontroll');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'vanus', '41');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'vanusevahemik', '41+');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'sugu', 'naine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'muudkeeled', 'vene');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a4130203-690c-4820-88ee-6ab4dbac527d', 'failinimi', 'Videomangimine_kui_hobi.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a4130203-690c-4820-88ee-6ab4dbac527d', 'aasta', '2021');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a4130203-690c-4820-88ee-6ab4dbac527d', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a4130203-690c-4820-88ee-6ab4dbac527d', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a4130203-690c-4820-88ee-6ab4dbac527d', 'title', 'Videomängimine kui hobi - kasu ja kahju');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a4130203-690c-4820-88ee-6ab4dbac527d', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a4130203-690c-4820-88ee-6ab4dbac527d', 'liik', 'ak_eriala_essee');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a4130203-690c-4820-88ee-6ab4dbac527d', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a4130203-690c-4820-88ee-6ab4dbac527d', 'abimaterjalid', 'tõlkesõnastik või masintõlge');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a4130203-690c-4820-88ee-6ab4dbac527d', 'abimaterjalid', 'ükskeelne sõnastik (k.a veebisõnastikud)');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a4130203-690c-4820-88ee-6ab4dbac527d', 'abimaterjalid', 'automaatkontroll');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a4130203-690c-4820-88ee-6ab4dbac527d', 'vanus', '19');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a4130203-690c-4820-88ee-6ab4dbac527d', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a4130203-690c-4820-88ee-6ab4dbac527d', 'sugu', 'mees');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a4130203-690c-4820-88ee-6ab4dbac527d', 'emakeel', 'vene');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a4130203-690c-4820-88ee-6ab4dbac527d', 'muudkeeled', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a4130203-690c-4820-88ee-6ab4dbac527d', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a4130203-690c-4820-88ee-6ab4dbac527d', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a4130203-690c-4820-88ee-6ab4dbac527d', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('937948a8-f7bf-49f7-b86d-f6e327ee287f', 'failinimi', 'Oppimine_labi_videomangude.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('937948a8-f7bf-49f7-b86d-f6e327ee287f', 'aasta', '2021');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('937948a8-f7bf-49f7-b86d-f6e327ee287f', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('937948a8-f7bf-49f7-b86d-f6e327ee287f', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('937948a8-f7bf-49f7-b86d-f6e327ee287f', 'title', 'Õppimine videomängude abil');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('937948a8-f7bf-49f7-b86d-f6e327ee287f', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('937948a8-f7bf-49f7-b86d-f6e327ee287f', 'liik', 'ak_eriala_essee');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('937948a8-f7bf-49f7-b86d-f6e327ee287f', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('937948a8-f7bf-49f7-b86d-f6e327ee287f', 'abimaterjalid', 'automaatkontroll');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('937948a8-f7bf-49f7-b86d-f6e327ee287f', 'vanus', '35');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('937948a8-f7bf-49f7-b86d-f6e327ee287f', 'vanusevahemik', 'kuni40');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('937948a8-f7bf-49f7-b86d-f6e327ee287f', 'sugu', 'mees');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('937948a8-f7bf-49f7-b86d-f6e327ee287f', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('937948a8-f7bf-49f7-b86d-f6e327ee287f', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('937948a8-f7bf-49f7-b86d-f6e327ee287f', 'muudkeeled', 'saksa');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('937948a8-f7bf-49f7-b86d-f6e327ee287f', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('937948a8-f7bf-49f7-b86d-f6e327ee287f', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5e738149-013c-4b6e-bf45-020c4a2620c7', 'failinimi', 'Inimtegevuse_moju_maailmale.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5e738149-013c-4b6e-bf45-020c4a2620c7', 'aasta', '2021');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5e738149-013c-4b6e-bf45-020c4a2620c7', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5e738149-013c-4b6e-bf45-020c4a2620c7', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5e738149-013c-4b6e-bf45-020c4a2620c7', 'title', 'Inimtegevuse mõju maailmale');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5e738149-013c-4b6e-bf45-020c4a2620c7', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5e738149-013c-4b6e-bf45-020c4a2620c7', 'liik', 'ak_eriala_essee');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5e738149-013c-4b6e-bf45-020c4a2620c7', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5e738149-013c-4b6e-bf45-020c4a2620c7', 'abimaterjalid', 'tõlkesõnastik või masintõlge');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5e738149-013c-4b6e-bf45-020c4a2620c7', 'abimaterjalid', 'ükskeelne sõnastik (k.a veebisõnastikud)');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5e738149-013c-4b6e-bf45-020c4a2620c7', 'vanus', '21');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5e738149-013c-4b6e-bf45-020c4a2620c7', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5e738149-013c-4b6e-bf45-020c4a2620c7', 'sugu', 'naine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5e738149-013c-4b6e-bf45-020c4a2620c7', 'emakeel', 'vene');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5e738149-013c-4b6e-bf45-020c4a2620c7', 'muudkeeled', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5e738149-013c-4b6e-bf45-020c4a2620c7', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5e738149-013c-4b6e-bf45-020c4a2620c7', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('151ee388-2fb1-40fb-b8f0-30f9e7c13ff5', 'failinimi', 'Eesti_keele_muutumine_digikultuuri_mojul.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('151ee388-2fb1-40fb-b8f0-30f9e7c13ff5', 'aasta', '2021');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('151ee388-2fb1-40fb-b8f0-30f9e7c13ff5', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('151ee388-2fb1-40fb-b8f0-30f9e7c13ff5', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('151ee388-2fb1-40fb-b8f0-30f9e7c13ff5', 'title', 'Eesti keele muutumine digikultuuri mõjul');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('151ee388-2fb1-40fb-b8f0-30f9e7c13ff5', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('151ee388-2fb1-40fb-b8f0-30f9e7c13ff5', 'liik', 'ak_eriala_essee');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('151ee388-2fb1-40fb-b8f0-30f9e7c13ff5', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('151ee388-2fb1-40fb-b8f0-30f9e7c13ff5', 'abimaterjalid', 'tõlkesõnastik või masintõlge');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('151ee388-2fb1-40fb-b8f0-30f9e7c13ff5', 'vanus', '19');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('151ee388-2fb1-40fb-b8f0-30f9e7c13ff5', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('151ee388-2fb1-40fb-b8f0-30f9e7c13ff5', 'sugu', 'mees');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('151ee388-2fb1-40fb-b8f0-30f9e7c13ff5', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('151ee388-2fb1-40fb-b8f0-30f9e7c13ff5', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('151ee388-2fb1-40fb-b8f0-30f9e7c13ff5', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('151ee388-2fb1-40fb-b8f0-30f9e7c13ff5', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('cc684a2e-1d16-48a3-b3bf-ab1ff5aa675f', 'failinimi', 'IT_roll_haridusuuenduses.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('cc684a2e-1d16-48a3-b3bf-ab1ff5aa675f', 'aasta', '2021');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('cc684a2e-1d16-48a3-b3bf-ab1ff5aa675f', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('cc684a2e-1d16-48a3-b3bf-ab1ff5aa675f', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('cc684a2e-1d16-48a3-b3bf-ab1ff5aa675f', 'title', 'Haridusuuendused antiikajast kaasajani');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('cc684a2e-1d16-48a3-b3bf-ab1ff5aa675f', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('cc684a2e-1d16-48a3-b3bf-ab1ff5aa675f', 'liik', 'ak_eriala_essee');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('cc684a2e-1d16-48a3-b3bf-ab1ff5aa675f', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('cc684a2e-1d16-48a3-b3bf-ab1ff5aa675f', 'abimaterjalid', 'tõlkesõnastik või masintõlge');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('cc684a2e-1d16-48a3-b3bf-ab1ff5aa675f', 'abimaterjalid', 'ükskeelne sõnastik (k.a veebisõnastikud)');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('cc684a2e-1d16-48a3-b3bf-ab1ff5aa675f', 'abimaterjalid', 'automaatkontroll');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('cc684a2e-1d16-48a3-b3bf-ab1ff5aa675f', 'vanus', '26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('cc684a2e-1d16-48a3-b3bf-ab1ff5aa675f', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('cc684a2e-1d16-48a3-b3bf-ab1ff5aa675f', 'sugu', 'mees');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('cc684a2e-1d16-48a3-b3bf-ab1ff5aa675f', 'emakeel', 'vene');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('cc684a2e-1d16-48a3-b3bf-ab1ff5aa675f', 'muudkeeled', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('cc684a2e-1d16-48a3-b3bf-ab1ff5aa675f', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('cc684a2e-1d16-48a3-b3bf-ab1ff5aa675f', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('cc684a2e-1d16-48a3-b3bf-ab1ff5aa675f', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('fabd8c4e-53a1-4bdc-a79d-17f4778e5e14', 'failinimi', 'Tavakasutaja_digitaalne_jalajalg.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('fabd8c4e-53a1-4bdc-a79d-17f4778e5e14', 'aasta', '2021');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('fabd8c4e-53a1-4bdc-a79d-17f4778e5e14', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('fabd8c4e-53a1-4bdc-a79d-17f4778e5e14', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('fabd8c4e-53a1-4bdc-a79d-17f4778e5e14', 'title', 'Tavakasutaja digitaalne jalajälg');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('fabd8c4e-53a1-4bdc-a79d-17f4778e5e14', 'valdkond', 'yhiskondjakultuur');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('fabd8c4e-53a1-4bdc-a79d-17f4778e5e14', 'liik', 'ak_eriala_essee');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('fabd8c4e-53a1-4bdc-a79d-17f4778e5e14', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('fabd8c4e-53a1-4bdc-a79d-17f4778e5e14', 'abimaterjalid', 'ükskeelne sõnastik (k.a veebisõnastikud)');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('fabd8c4e-53a1-4bdc-a79d-17f4778e5e14', 'abimaterjalid', 'automaatkontroll');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('fabd8c4e-53a1-4bdc-a79d-17f4778e5e14', 'vanus', '30');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('fabd8c4e-53a1-4bdc-a79d-17f4778e5e14', 'vanusevahemik', 'kuni40');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('fabd8c4e-53a1-4bdc-a79d-17f4778e5e14', 'sugu', 'naine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('fabd8c4e-53a1-4bdc-a79d-17f4778e5e14', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('fabd8c4e-53a1-4bdc-a79d-17f4778e5e14', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('fabd8c4e-53a1-4bdc-a79d-17f4778e5e14', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('fabd8c4e-53a1-4bdc-a79d-17f4778e5e14', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bb571757-8935-4876-9b06-a30dcb618fe5', 'failinimi', 'Maailm_havib_ning_vajab_muutust.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bb571757-8935-4876-9b06-a30dcb618fe5', 'aasta', '2021');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bb571757-8935-4876-9b06-a30dcb618fe5', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bb571757-8935-4876-9b06-a30dcb618fe5', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bb571757-8935-4876-9b06-a30dcb618fe5', 'title',
+        'Maailm hävib ning vajab muutust inimkonna käitumisharjumustes');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bb571757-8935-4876-9b06-a30dcb618fe5', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bb571757-8935-4876-9b06-a30dcb618fe5', 'liik', 'ak_eriala_essee');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bb571757-8935-4876-9b06-a30dcb618fe5', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bb571757-8935-4876-9b06-a30dcb618fe5', 'abimaterjalid', 'tõlkesõnastik või masintõlge');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bb571757-8935-4876-9b06-a30dcb618fe5', 'abimaterjalid', 'sünonüümisõnastik');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bb571757-8935-4876-9b06-a30dcb618fe5', 'vanus', '20');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bb571757-8935-4876-9b06-a30dcb618fe5', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bb571757-8935-4876-9b06-a30dcb618fe5', 'sugu', 'naine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bb571757-8935-4876-9b06-a30dcb618fe5', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bb571757-8935-4876-9b06-a30dcb618fe5', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bb571757-8935-4876-9b06-a30dcb618fe5', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bb571757-8935-4876-9b06-a30dcb618fe5', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('f65ebb18-9694-4f8c-9e6d-4c1c59dfc8e2', 'failinimi', 'Kuidas_mojutavad_meie toitumisharjumused_keskkonda.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('f65ebb18-9694-4f8c-9e6d-4c1c59dfc8e2', 'aasta', '2021');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('f65ebb18-9694-4f8c-9e6d-4c1c59dfc8e2', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('f65ebb18-9694-4f8c-9e6d-4c1c59dfc8e2', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('f65ebb18-9694-4f8c-9e6d-4c1c59dfc8e2', 'title', 'Kuidas mõjutavad meie toitumisharjumused keskkonda?');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('f65ebb18-9694-4f8c-9e6d-4c1c59dfc8e2', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('f65ebb18-9694-4f8c-9e6d-4c1c59dfc8e2', 'liik', 'ak_eriala_essee');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('f65ebb18-9694-4f8c-9e6d-4c1c59dfc8e2', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('f65ebb18-9694-4f8c-9e6d-4c1c59dfc8e2', 'abimaterjalid', 'tõlkesõnastik või masintõlge');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('f65ebb18-9694-4f8c-9e6d-4c1c59dfc8e2', 'abimaterjalid', 'ükskeelne sõnastik (k.a veebisõnastikud)');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('f65ebb18-9694-4f8c-9e6d-4c1c59dfc8e2', 'vanus', '21');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('f65ebb18-9694-4f8c-9e6d-4c1c59dfc8e2', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('f65ebb18-9694-4f8c-9e6d-4c1c59dfc8e2', 'sugu', 'naine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('f65ebb18-9694-4f8c-9e6d-4c1c59dfc8e2', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('f65ebb18-9694-4f8c-9e6d-4c1c59dfc8e2', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('f65ebb18-9694-4f8c-9e6d-4c1c59dfc8e2', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('94b6c1c4-16e0-4758-9fe5-f8b3771b49f7', 'failinimi', 'Digitaalne_jalajalg.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('94b6c1c4-16e0-4758-9fe5-f8b3771b49f7', 'aasta', '2021');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('94b6c1c4-16e0-4758-9fe5-f8b3771b49f7', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('94b6c1c4-16e0-4758-9fe5-f8b3771b49f7', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('94b6c1c4-16e0-4758-9fe5-f8b3771b49f7', 'title', 'Digitaalne jalajälg');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('94b6c1c4-16e0-4758-9fe5-f8b3771b49f7', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('94b6c1c4-16e0-4758-9fe5-f8b3771b49f7', 'liik', 'ak_eriala_essee');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('94b6c1c4-16e0-4758-9fe5-f8b3771b49f7', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('94b6c1c4-16e0-4758-9fe5-f8b3771b49f7', 'vanus', '20');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('94b6c1c4-16e0-4758-9fe5-f8b3771b49f7', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('94b6c1c4-16e0-4758-9fe5-f8b3771b49f7', 'sugu', 'mees');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('94b6c1c4-16e0-4758-9fe5-f8b3771b49f7', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('94b6c1c4-16e0-4758-9fe5-f8b3771b49f7', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('94b6c1c4-16e0-4758-9fe5-f8b3771b49f7', 'muudkeeled', 'saksa');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('94b6c1c4-16e0-4758-9fe5-f8b3771b49f7', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('94b6c1c4-16e0-4758-9fe5-f8b3771b49f7', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b701977e-e2d1-4db7-b247-b47a6c70b3dd', 'failinimi', 'Robotite_kaasamine_oppetoosse.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b701977e-e2d1-4db7-b247-b47a6c70b3dd', 'aasta', '2021');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b701977e-e2d1-4db7-b247-b47a6c70b3dd', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b701977e-e2d1-4db7-b247-b47a6c70b3dd', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b701977e-e2d1-4db7-b247-b47a6c70b3dd', 'title', 'Robotite kaasamine õppetöösse');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b701977e-e2d1-4db7-b247-b47a6c70b3dd', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b701977e-e2d1-4db7-b247-b47a6c70b3dd', 'liik', 'ak_eriala_essee');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b701977e-e2d1-4db7-b247-b47a6c70b3dd', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b701977e-e2d1-4db7-b247-b47a6c70b3dd', 'abimaterjalid', 'tõlkesõnastik või masintõlge');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b701977e-e2d1-4db7-b247-b47a6c70b3dd', 'abimaterjalid', 'ükskeelne sõnastik (k.a veebisõnastikud)');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b701977e-e2d1-4db7-b247-b47a6c70b3dd', 'abimaterjalid', 'automaatkontroll');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b701977e-e2d1-4db7-b247-b47a6c70b3dd', 'vanus', '20');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b701977e-e2d1-4db7-b247-b47a6c70b3dd', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b701977e-e2d1-4db7-b247-b47a6c70b3dd', 'sugu', 'naine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b701977e-e2d1-4db7-b247-b47a6c70b3dd', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b701977e-e2d1-4db7-b247-b47a6c70b3dd', 'muudkeeled', 'vene');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b701977e-e2d1-4db7-b247-b47a6c70b3dd', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b701977e-e2d1-4db7-b247-b47a6c70b3dd', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b701977e-e2d1-4db7-b247-b47a6c70b3dd', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('664e2a48-5e02-487b-866c-9707ffef01d7', 'failinimi', 'Digihumanitaaria_Eestis.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('664e2a48-5e02-487b-866c-9707ffef01d7', 'aasta', '2022');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('664e2a48-5e02-487b-866c-9707ffef01d7', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('664e2a48-5e02-487b-866c-9707ffef01d7', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('664e2a48-5e02-487b-866c-9707ffef01d7', 'title', 'Digihumanitaaria Eestis');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('664e2a48-5e02-487b-866c-9707ffef01d7', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('664e2a48-5e02-487b-866c-9707ffef01d7', 'liik', 'ak_eriala_referaat');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('664e2a48-5e02-487b-866c-9707ffef01d7', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('664e2a48-5e02-487b-866c-9707ffef01d7', 'abimaterjalid', 'ükskeelne sõnastik (k.a veebisõnastikud)');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('664e2a48-5e02-487b-866c-9707ffef01d7', 'abimaterjalid', 'automaatkontroll');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('664e2a48-5e02-487b-866c-9707ffef01d7', 'vanus', '20');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('664e2a48-5e02-487b-866c-9707ffef01d7', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('664e2a48-5e02-487b-866c-9707ffef01d7', 'sugu', 'naine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('664e2a48-5e02-487b-866c-9707ffef01d7', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('664e2a48-5e02-487b-866c-9707ffef01d7', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('664e2a48-5e02-487b-866c-9707ffef01d7', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('695a394e-b7b7-425e-bbc4-dda8fde24412', 'failinimi', 'Nutiseadmete_kasutamise_profiilid.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('695a394e-b7b7-425e-bbc4-dda8fde24412', 'aasta', '2022');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('695a394e-b7b7-425e-bbc4-dda8fde24412', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('695a394e-b7b7-425e-bbc4-dda8fde24412', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('695a394e-b7b7-425e-bbc4-dda8fde24412', 'title',
+        'Nutiseadmete kasutamise profiilid loodusainete ja matemaatika õppimise kontekstis');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('695a394e-b7b7-425e-bbc4-dda8fde24412', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('695a394e-b7b7-425e-bbc4-dda8fde24412', 'liik', 'ak_eriala_referaat');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('695a394e-b7b7-425e-bbc4-dda8fde24412', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('695a394e-b7b7-425e-bbc4-dda8fde24412', 'abimaterjalid', 'automaatkontroll');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('695a394e-b7b7-425e-bbc4-dda8fde24412', 'vanus', '19');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('695a394e-b7b7-425e-bbc4-dda8fde24412', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('695a394e-b7b7-425e-bbc4-dda8fde24412', 'sugu', 'naine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('695a394e-b7b7-425e-bbc4-dda8fde24412', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('695a394e-b7b7-425e-bbc4-dda8fde24412', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('695a394e-b7b7-425e-bbc4-dda8fde24412', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('695a394e-b7b7-425e-bbc4-dda8fde24412', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('8f809029-03cd-4630-9764-7528bc7b929e', 'failinimi', 'Digitehnoloogia_roll_jatkusuutlikkuses.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('8f809029-03cd-4630-9764-7528bc7b929e', 'aasta', '2022');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('8f809029-03cd-4630-9764-7528bc7b929e', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('8f809029-03cd-4630-9764-7528bc7b929e', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('8f809029-03cd-4630-9764-7528bc7b929e', 'title', 'Digitehnoloogia roll jätkusuutlikuses');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('8f809029-03cd-4630-9764-7528bc7b929e', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('8f809029-03cd-4630-9764-7528bc7b929e', 'liik', 'ak_eriala_referaat');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('8f809029-03cd-4630-9764-7528bc7b929e', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('8f809029-03cd-4630-9764-7528bc7b929e', 'abimaterjalid', 'tõlkesõnastik või masintõlge');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('8f809029-03cd-4630-9764-7528bc7b929e', 'abimaterjalid', 'erialane terminisõnastik või -baas');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('8f809029-03cd-4630-9764-7528bc7b929e', 'vanus', '21');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('8f809029-03cd-4630-9764-7528bc7b929e', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('8f809029-03cd-4630-9764-7528bc7b929e', 'sugu', 'naine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('8f809029-03cd-4630-9764-7528bc7b929e', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('8f809029-03cd-4630-9764-7528bc7b929e', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('8f809029-03cd-4630-9764-7528bc7b929e', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('8f809029-03cd-4630-9764-7528bc7b929e', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3f404aa2-cf00-4a12-b1a5-990bebae4947', 'failinimi', 'Digitehnoloogiate_efektiivsus_hariduses.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3f404aa2-cf00-4a12-b1a5-990bebae4947', 'aasta', '2022');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3f404aa2-cf00-4a12-b1a5-990bebae4947', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3f404aa2-cf00-4a12-b1a5-990bebae4947', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3f404aa2-cf00-4a12-b1a5-990bebae4947', 'title',
+        'DIGITEHNOLOOGIATE EFEKTIIVSUS HARIDUSES COVID-19 PANDEEMIA AJAL. BIBLIOMEETRILINE ANALÜÜS');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3f404aa2-cf00-4a12-b1a5-990bebae4947', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3f404aa2-cf00-4a12-b1a5-990bebae4947', 'liik', 'ak_eriala_referaat');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3f404aa2-cf00-4a12-b1a5-990bebae4947', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3f404aa2-cf00-4a12-b1a5-990bebae4947', 'abimaterjalid', 'tõlkesõnastik või masintõlge');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3f404aa2-cf00-4a12-b1a5-990bebae4947', 'abimaterjalid', 'ükskeelne sõnastik (k.a veebisõnastikud)');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3f404aa2-cf00-4a12-b1a5-990bebae4947', 'abimaterjalid', 'erialane terminisõnastik või -baas');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3f404aa2-cf00-4a12-b1a5-990bebae4947', 'vanus', '20');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3f404aa2-cf00-4a12-b1a5-990bebae4947', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3f404aa2-cf00-4a12-b1a5-990bebae4947', 'sugu', 'mees');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3f404aa2-cf00-4a12-b1a5-990bebae4947', 'emakeel', 'vene');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3f404aa2-cf00-4a12-b1a5-990bebae4947', 'muudkeeled', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3f404aa2-cf00-4a12-b1a5-990bebae4947', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3f404aa2-cf00-4a12-b1a5-990bebae4947', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3f404aa2-cf00-4a12-b1a5-990bebae4947', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('ddada590-712f-41f1-9c09-14908b021e0c', 'failinimi', 'Nutikad_tehnoloogiad.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('ddada590-712f-41f1-9c09-14908b021e0c', 'aasta', '2022');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('ddada590-712f-41f1-9c09-14908b021e0c', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('ddada590-712f-41f1-9c09-14908b021e0c', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('ddada590-712f-41f1-9c09-14908b021e0c', 'title', 'Nutikad tehnoloogiad');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('ddada590-712f-41f1-9c09-14908b021e0c', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('ddada590-712f-41f1-9c09-14908b021e0c', 'liik', 'ak_eriala_referaat');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('ddada590-712f-41f1-9c09-14908b021e0c', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('ddada590-712f-41f1-9c09-14908b021e0c', 'abimaterjalid', 'tõlkesõnastik või masintõlge');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('ddada590-712f-41f1-9c09-14908b021e0c', 'abimaterjalid', 'ükskeelne sõnastik (k.a veebisõnastikud)');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('ddada590-712f-41f1-9c09-14908b021e0c', 'vanus', '20');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('ddada590-712f-41f1-9c09-14908b021e0c', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('ddada590-712f-41f1-9c09-14908b021e0c', 'sugu', 'mees');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('ddada590-712f-41f1-9c09-14908b021e0c', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('ddada590-712f-41f1-9c09-14908b021e0c', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('ddada590-712f-41f1-9c09-14908b021e0c', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('ddada590-712f-41f1-9c09-14908b021e0c', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a1983cab-8989-42da-b3d0-ddee39325527', 'failinimi', 'Digitehnoloogiad_ja_haridusuuendus.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a1983cab-8989-42da-b3d0-ddee39325527', 'aasta', '2022');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a1983cab-8989-42da-b3d0-ddee39325527', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a1983cab-8989-42da-b3d0-ddee39325527', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a1983cab-8989-42da-b3d0-ddee39325527', 'title', 'Digitehnoloogiad ja haridusuuendus');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a1983cab-8989-42da-b3d0-ddee39325527', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a1983cab-8989-42da-b3d0-ddee39325527', 'liik', 'ak_eriala_referaat');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a1983cab-8989-42da-b3d0-ddee39325527', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a1983cab-8989-42da-b3d0-ddee39325527', 'abimaterjalid', 'ükskeelne sõnastik (k.a veebisõnastikud)');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a1983cab-8989-42da-b3d0-ddee39325527', 'vanus', '19');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a1983cab-8989-42da-b3d0-ddee39325527', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a1983cab-8989-42da-b3d0-ddee39325527', 'sugu', 'naine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a1983cab-8989-42da-b3d0-ddee39325527', 'emakeel', 'vene');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a1983cab-8989-42da-b3d0-ddee39325527', 'muudkeeled', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a1983cab-8989-42da-b3d0-ddee39325527', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a1983cab-8989-42da-b3d0-ddee39325527', 'muudkeeled', 'saksa');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a1983cab-8989-42da-b3d0-ddee39325527', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a1983cab-8989-42da-b3d0-ddee39325527', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('69db76f9-ae6d-4df6-9dfc-74a2a15cfb1f', 'failinimi', 'Tehisintellekti kasutamine õpingutes.pdf');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('69db76f9-ae6d-4df6-9dfc-74a2a15cfb1f', 'aasta', '2022');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('69db76f9-ae6d-4df6-9dfc-74a2a15cfb1f', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('69db76f9-ae6d-4df6-9dfc-74a2a15cfb1f', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('69db76f9-ae6d-4df6-9dfc-74a2a15cfb1f', 'title', 'Tehisintellekti kasutamine õpingutes');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('69db76f9-ae6d-4df6-9dfc-74a2a15cfb1f', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('69db76f9-ae6d-4df6-9dfc-74a2a15cfb1f', 'liik', 'ak_eriala_referaat');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('69db76f9-ae6d-4df6-9dfc-74a2a15cfb1f', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('69db76f9-ae6d-4df6-9dfc-74a2a15cfb1f', 'abimaterjalid', 'tõlkesõnastik või masintõlge');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('69db76f9-ae6d-4df6-9dfc-74a2a15cfb1f', 'vanus', '19');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('69db76f9-ae6d-4df6-9dfc-74a2a15cfb1f', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('69db76f9-ae6d-4df6-9dfc-74a2a15cfb1f', 'sugu', 'mees');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('69db76f9-ae6d-4df6-9dfc-74a2a15cfb1f', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('69db76f9-ae6d-4df6-9dfc-74a2a15cfb1f', 'muudkeeled', 'vene');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('69db76f9-ae6d-4df6-9dfc-74a2a15cfb1f', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('69db76f9-ae6d-4df6-9dfc-74a2a15cfb1f', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('69db76f9-ae6d-4df6-9dfc-74a2a15cfb1f', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('d8c4caf9-95e3-4842-9352-001b34fe2373', 'failinimi', 'Digi_ja_haridus.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('d8c4caf9-95e3-4842-9352-001b34fe2373', 'aasta', '2022');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('d8c4caf9-95e3-4842-9352-001b34fe2373', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('d8c4caf9-95e3-4842-9352-001b34fe2373', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('d8c4caf9-95e3-4842-9352-001b34fe2373', 'title', 'Digi ja haridusuuendus');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('d8c4caf9-95e3-4842-9352-001b34fe2373', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('d8c4caf9-95e3-4842-9352-001b34fe2373', 'liik', 'ak_eriala_referaat');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('d8c4caf9-95e3-4842-9352-001b34fe2373', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('d8c4caf9-95e3-4842-9352-001b34fe2373', 'abimaterjalid', 'tõlkesõnastik või masintõlge');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('d8c4caf9-95e3-4842-9352-001b34fe2373', 'abimaterjalid', 'ükskeelne sõnastik (k.a veebisõnastikud)');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('d8c4caf9-95e3-4842-9352-001b34fe2373', 'abimaterjalid', 'automaatkontroll');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('d8c4caf9-95e3-4842-9352-001b34fe2373', 'vanus', '19');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('d8c4caf9-95e3-4842-9352-001b34fe2373', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('d8c4caf9-95e3-4842-9352-001b34fe2373', 'sugu', 'mees');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('d8c4caf9-95e3-4842-9352-001b34fe2373', 'emakeel', 'eesti, vene');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('d8c4caf9-95e3-4842-9352-001b34fe2373', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('d8c4caf9-95e3-4842-9352-001b34fe2373', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('d8c4caf9-95e3-4842-9352-001b34fe2373', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3a9cdbe9-ae99-45d1-b6c1-0b0e74fb6084', 'failinimi', 'ProgeTiiger.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3a9cdbe9-ae99-45d1-b6c1-0b0e74fb6084', 'aasta', '2022');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3a9cdbe9-ae99-45d1-b6c1-0b0e74fb6084', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3a9cdbe9-ae99-45d1-b6c1-0b0e74fb6084', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3a9cdbe9-ae99-45d1-b6c1-0b0e74fb6084', 'title', 'Programm ProgeTiiger');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3a9cdbe9-ae99-45d1-b6c1-0b0e74fb6084', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3a9cdbe9-ae99-45d1-b6c1-0b0e74fb6084', 'liik', 'ak_eriala_referaat');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3a9cdbe9-ae99-45d1-b6c1-0b0e74fb6084', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3a9cdbe9-ae99-45d1-b6c1-0b0e74fb6084', 'abimaterjalid', 'tõlkesõnastik või masintõlge');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3a9cdbe9-ae99-45d1-b6c1-0b0e74fb6084', 'abimaterjalid', 'ükskeelne sõnastik (k.a veebisõnastikud)');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3a9cdbe9-ae99-45d1-b6c1-0b0e74fb6084', 'abimaterjalid', 'automaatkontroll');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3a9cdbe9-ae99-45d1-b6c1-0b0e74fb6084', 'vanus', '19');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3a9cdbe9-ae99-45d1-b6c1-0b0e74fb6084', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3a9cdbe9-ae99-45d1-b6c1-0b0e74fb6084', 'sugu', 'naine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3a9cdbe9-ae99-45d1-b6c1-0b0e74fb6084', 'emakeel', 'vene');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3a9cdbe9-ae99-45d1-b6c1-0b0e74fb6084', 'muudkeeled', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3a9cdbe9-ae99-45d1-b6c1-0b0e74fb6084', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('3a9cdbe9-ae99-45d1-b6c1-0b0e74fb6084', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a02e5b1b-34e6-47b9-ae9f-ce67ae301af3', 'failinimi', 'Tehisintellekti_kasutamine_opingutes.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a02e5b1b-34e6-47b9-ae9f-ce67ae301af3', 'aasta', '2022');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a02e5b1b-34e6-47b9-ae9f-ce67ae301af3', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a02e5b1b-34e6-47b9-ae9f-ce67ae301af3', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a02e5b1b-34e6-47b9-ae9f-ce67ae301af3', 'title', 'Tehisintellekti kasutamine õpingutes');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a02e5b1b-34e6-47b9-ae9f-ce67ae301af3', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a02e5b1b-34e6-47b9-ae9f-ce67ae301af3', 'liik', 'ak_eriala_referaat');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a02e5b1b-34e6-47b9-ae9f-ce67ae301af3', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a02e5b1b-34e6-47b9-ae9f-ce67ae301af3', 'abimaterjalid', 'tõlkesõnastik või masintõlge');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a02e5b1b-34e6-47b9-ae9f-ce67ae301af3', 'abimaterjalid', 'ükskeelne sõnastik (k.a veebisõnastikud)');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a02e5b1b-34e6-47b9-ae9f-ce67ae301af3', 'abimaterjalid', 'automaatkontroll');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a02e5b1b-34e6-47b9-ae9f-ce67ae301af3', 'vanus', '19');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a02e5b1b-34e6-47b9-ae9f-ce67ae301af3', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a02e5b1b-34e6-47b9-ae9f-ce67ae301af3', 'sugu', 'mees');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a02e5b1b-34e6-47b9-ae9f-ce67ae301af3', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a02e5b1b-34e6-47b9-ae9f-ce67ae301af3', 'muudkeeled', 'vene');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a02e5b1b-34e6-47b9-ae9f-ce67ae301af3', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a02e5b1b-34e6-47b9-ae9f-ce67ae301af3', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a02e5b1b-34e6-47b9-ae9f-ce67ae301af3', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6eedbeff-d16c-4272-aec1-d9ee8b21d188', 'failinimi', 'Sisejulgeoleku_hubriidohtude_tuvastamine.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6eedbeff-d16c-4272-aec1-d9ee8b21d188', 'aasta', '2022');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6eedbeff-d16c-4272-aec1-d9ee8b21d188', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6eedbeff-d16c-4272-aec1-d9ee8b21d188', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6eedbeff-d16c-4272-aec1-d9ee8b21d188', 'title', 'Sisejulgeoleku hübriidohtude tuvastamine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6eedbeff-d16c-4272-aec1-d9ee8b21d188', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6eedbeff-d16c-4272-aec1-d9ee8b21d188', 'liik', 'ak_eriala_referaat');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6eedbeff-d16c-4272-aec1-d9ee8b21d188', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6eedbeff-d16c-4272-aec1-d9ee8b21d188', 'vanus', '19');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6eedbeff-d16c-4272-aec1-d9ee8b21d188', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6eedbeff-d16c-4272-aec1-d9ee8b21d188', 'sugu', 'mees');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6eedbeff-d16c-4272-aec1-d9ee8b21d188', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6eedbeff-d16c-4272-aec1-d9ee8b21d188', 'muudkeeled', 'vene');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6eedbeff-d16c-4272-aec1-d9ee8b21d188', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6eedbeff-d16c-4272-aec1-d9ee8b21d188', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6eedbeff-d16c-4272-aec1-d9ee8b21d188', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('47293550-1660-4edb-a799-a94e408eadec', 'failinimi', 'Ninaga_nutiseade.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('47293550-1660-4edb-a799-a94e408eadec', 'aasta', '2022');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('47293550-1660-4edb-a799-a94e408eadec', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('47293550-1660-4edb-a799-a94e408eadec', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('47293550-1660-4edb-a799-a94e408eadec', 'title', 'Ninaga nutiseade');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('47293550-1660-4edb-a799-a94e408eadec', 'valdkond', 'loodustehnika');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('47293550-1660-4edb-a799-a94e408eadec', 'liik', 'ak_eriala_referaat');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('47293550-1660-4edb-a799-a94e408eadec', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('47293550-1660-4edb-a799-a94e408eadec', 'abimaterjalid', 'ükskeelne sõnastik (k.a veebisõnastikud)');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('47293550-1660-4edb-a799-a94e408eadec', 'abimaterjalid', 'automaatkontroll');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('47293550-1660-4edb-a799-a94e408eadec', 'vanus', '21');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('47293550-1660-4edb-a799-a94e408eadec', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('47293550-1660-4edb-a799-a94e408eadec', 'sugu', 'naine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('47293550-1660-4edb-a799-a94e408eadec', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('47293550-1660-4edb-a799-a94e408eadec', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('47293550-1660-4edb-a799-a94e408eadec', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('214e98b1-d051-4ff0-b56d-55916cd79017', 'failinimi', 'SDE_EKRE_vordlus.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('214e98b1-d051-4ff0-b56d-55916cd79017', 'aasta', '2021');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('214e98b1-d051-4ff0-b56d-55916cd79017', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('214e98b1-d051-4ff0-b56d-55916cd79017', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('214e98b1-d051-4ff0-b56d-55916cd79017', 'title',
+        'SOTSIAALDEMOKRAATLIKU ERAKONNA JA EESTI KONSERVATIIVSE RAHVAERAKONNA 2019. AASTA VALIMISPROGRAMMIDE VÕRDLUS');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('214e98b1-d051-4ff0-b56d-55916cd79017', 'valdkond', 'yhiskondjakultuur');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('214e98b1-d051-4ff0-b56d-55916cd79017', 'liik', 'ak_eriala_kursusetoo');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('214e98b1-d051-4ff0-b56d-55916cd79017', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('214e98b1-d051-4ff0-b56d-55916cd79017', 'abimaterjalid', 'tõlkesõnastik või masintõlge');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('214e98b1-d051-4ff0-b56d-55916cd79017', 'abimaterjalid', 'automaatkontroll');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('214e98b1-d051-4ff0-b56d-55916cd79017', 'vanus', '23');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('214e98b1-d051-4ff0-b56d-55916cd79017', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('214e98b1-d051-4ff0-b56d-55916cd79017', 'sugu', 'naine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('214e98b1-d051-4ff0-b56d-55916cd79017', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('214e98b1-d051-4ff0-b56d-55916cd79017', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('214e98b1-d051-4ff0-b56d-55916cd79017', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('214e98b1-d051-4ff0-b56d-55916cd79017', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7c3bd738-ec0d-4382-acd5-6ac50ea123f8', 'failinimi', 'Apellatsioonijuhtumite_uuring.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7c3bd738-ec0d-4382-acd5-6ac50ea123f8', 'aasta', '2021');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7c3bd738-ec0d-4382-acd5-6ac50ea123f8', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7c3bd738-ec0d-4382-acd5-6ac50ea123f8', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7c3bd738-ec0d-4382-acd5-6ac50ea123f8', 'title',
+        'Apellatsioonijuhtumite uuring 19. sajandi vallakohtuprotokollides');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7c3bd738-ec0d-4382-acd5-6ac50ea123f8', 'valdkond', 'yhiskondjakultuur');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7c3bd738-ec0d-4382-acd5-6ac50ea123f8', 'liik', 'ak_eriala_kursusetoo');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7c3bd738-ec0d-4382-acd5-6ac50ea123f8', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7c3bd738-ec0d-4382-acd5-6ac50ea123f8', 'abimaterjalid', 'ükskeelne sõnastik (k.a veebisõnastikud)');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7c3bd738-ec0d-4382-acd5-6ac50ea123f8', 'abimaterjalid', 'automaatkontroll');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7c3bd738-ec0d-4382-acd5-6ac50ea123f8', 'vanus', '21');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7c3bd738-ec0d-4382-acd5-6ac50ea123f8', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7c3bd738-ec0d-4382-acd5-6ac50ea123f8', 'sugu', 'naine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7c3bd738-ec0d-4382-acd5-6ac50ea123f8', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7c3bd738-ec0d-4382-acd5-6ac50ea123f8', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7c3bd738-ec0d-4382-acd5-6ac50ea123f8', 'muudkeeled', 'saksa');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7c3bd738-ec0d-4382-acd5-6ac50ea123f8', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7c3bd738-ec0d-4382-acd5-6ac50ea123f8', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5cea593e-7121-43a8-b2bb-17243d5e6e6f', 'failinimi', 'Parasiitsonade_esinemine_vabas_vestluses.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5cea593e-7121-43a8-b2bb-17243d5e6e6f', 'aasta', '2022');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5cea593e-7121-43a8-b2bb-17243d5e6e6f', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5cea593e-7121-43a8-b2bb-17243d5e6e6f', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5cea593e-7121-43a8-b2bb-17243d5e6e6f', 'title', 'Parasiitsõnade esinemine vabas vestluses');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5cea593e-7121-43a8-b2bb-17243d5e6e6f', 'valdkond', 'yhiskondjakultuur');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5cea593e-7121-43a8-b2bb-17243d5e6e6f', 'liik', 'ak_eriala_kursusetoo');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5cea593e-7121-43a8-b2bb-17243d5e6e6f', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5cea593e-7121-43a8-b2bb-17243d5e6e6f', 'abimaterjalid', 'erialane käsiraamat või teatmik');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5cea593e-7121-43a8-b2bb-17243d5e6e6f', 'abimaterjalid', 'automaatkontroll');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5cea593e-7121-43a8-b2bb-17243d5e6e6f', 'vanus', '22');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5cea593e-7121-43a8-b2bb-17243d5e6e6f', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5cea593e-7121-43a8-b2bb-17243d5e6e6f', 'sugu', 'naine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5cea593e-7121-43a8-b2bb-17243d5e6e6f', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5cea593e-7121-43a8-b2bb-17243d5e6e6f', 'muudkeeled', 'vene');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5cea593e-7121-43a8-b2bb-17243d5e6e6f', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5cea593e-7121-43a8-b2bb-17243d5e6e6f', 'muudkeeled', 'läti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5cea593e-7121-43a8-b2bb-17243d5e6e6f', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('5cea593e-7121-43a8-b2bb-17243d5e6e6f', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a6ae2bf2-2013-4db2-b107-4883894d754c', 'failinimi', 'Korduvad_laused_Netflixi_sarjas.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a6ae2bf2-2013-4db2-b107-4883894d754c', 'aasta', '2022');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a6ae2bf2-2013-4db2-b107-4883894d754c', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a6ae2bf2-2013-4db2-b107-4883894d754c', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a6ae2bf2-2013-4db2-b107-4883894d754c', 'title', 'Korduvad laused Netflixi sarjas "BoJack Horseman" ');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a6ae2bf2-2013-4db2-b107-4883894d754c', 'valdkond', 'yhiskondjakultuur');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a6ae2bf2-2013-4db2-b107-4883894d754c', 'liik', 'ak_eriala_kursusetoo');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a6ae2bf2-2013-4db2-b107-4883894d754c', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a6ae2bf2-2013-4db2-b107-4883894d754c', 'vanus', '22');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a6ae2bf2-2013-4db2-b107-4883894d754c', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a6ae2bf2-2013-4db2-b107-4883894d754c', 'sugu', 'naine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a6ae2bf2-2013-4db2-b107-4883894d754c', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a6ae2bf2-2013-4db2-b107-4883894d754c', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a6ae2bf2-2013-4db2-b107-4883894d754c', 'muudkeeled', 'jaapani');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a6ae2bf2-2013-4db2-b107-4883894d754c', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a6ae2bf2-2013-4db2-b107-4883894d754c', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0cf70895-eb1d-4d9f-ae19-e84474cbfe85', 'failinimi', 'Romaani_Gargantua_tolkeanaluus.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0cf70895-eb1d-4d9f-ae19-e84474cbfe85', 'aasta', '2022');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0cf70895-eb1d-4d9f-ae19-e84474cbfe85', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0cf70895-eb1d-4d9f-ae19-e84474cbfe85', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0cf70895-eb1d-4d9f-ae19-e84474cbfe85', 'title', 'Romaani Gargantua tõlkeanalüüs valitud tegusõnade näitel');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0cf70895-eb1d-4d9f-ae19-e84474cbfe85', 'valdkond', 'yhiskondjakultuur');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0cf70895-eb1d-4d9f-ae19-e84474cbfe85', 'liik', 'ak_eriala_kursusetoo');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0cf70895-eb1d-4d9f-ae19-e84474cbfe85', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0cf70895-eb1d-4d9f-ae19-e84474cbfe85', 'abimaterjalid', 'tõlkesõnastik või masintõlge');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0cf70895-eb1d-4d9f-ae19-e84474cbfe85', 'abimaterjalid', 'erialane terminisõnastik või -baas');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0cf70895-eb1d-4d9f-ae19-e84474cbfe85', 'abimaterjalid', 'automaatkontroll');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0cf70895-eb1d-4d9f-ae19-e84474cbfe85', 'vanus', '21');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0cf70895-eb1d-4d9f-ae19-e84474cbfe85', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0cf70895-eb1d-4d9f-ae19-e84474cbfe85', 'sugu', 'naine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0cf70895-eb1d-4d9f-ae19-e84474cbfe85', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0cf70895-eb1d-4d9f-ae19-e84474cbfe85', 'muudkeeled', 'vene');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0cf70895-eb1d-4d9f-ae19-e84474cbfe85', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0cf70895-eb1d-4d9f-ae19-e84474cbfe85', 'muudkeeled', 'prantsuse');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0cf70895-eb1d-4d9f-ae19-e84474cbfe85', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0cf70895-eb1d-4d9f-ae19-e84474cbfe85', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6ae9a38b-5a12-4253-9cda-e63a212f8c3b', 'failinimi', 'Imestushuuatuse_issand_jumal_kasutusfunktsioone.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6ae9a38b-5a12-4253-9cda-e63a212f8c3b', 'aasta', '2023');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6ae9a38b-5a12-4253-9cda-e63a212f8c3b', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6ae9a38b-5a12-4253-9cda-e63a212f8c3b', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6ae9a38b-5a12-4253-9cda-e63a212f8c3b', 'title',
+        'Imestushüüatuse "issand jumal" kasutusfunktsioone raadiosaadete näitel');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6ae9a38b-5a12-4253-9cda-e63a212f8c3b', 'valdkond', 'yhiskondjakultuur');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6ae9a38b-5a12-4253-9cda-e63a212f8c3b', 'liik', 'ak_eriala_kursusetoo');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6ae9a38b-5a12-4253-9cda-e63a212f8c3b', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6ae9a38b-5a12-4253-9cda-e63a212f8c3b', 'abimaterjalid', 'erialane käsiraamat või teatmik');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6ae9a38b-5a12-4253-9cda-e63a212f8c3b', 'abimaterjalid', 'automaatkontroll');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6ae9a38b-5a12-4253-9cda-e63a212f8c3b', 'vanus', '22');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6ae9a38b-5a12-4253-9cda-e63a212f8c3b', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6ae9a38b-5a12-4253-9cda-e63a212f8c3b', 'sugu', 'naine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6ae9a38b-5a12-4253-9cda-e63a212f8c3b', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6ae9a38b-5a12-4253-9cda-e63a212f8c3b', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6ae9a38b-5a12-4253-9cda-e63a212f8c3b', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('e1f6a37a-4738-4cc1-b90d-a85e5f41ded4', 'failinimi', 'Triin_Paja_loomingu_analuus.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('e1f6a37a-4738-4cc1-b90d-a85e5f41ded4', 'aasta', '2023');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('e1f6a37a-4738-4cc1-b90d-a85e5f41ded4', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('e1f6a37a-4738-4cc1-b90d-a85e5f41ded4', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('e1f6a37a-4738-4cc1-b90d-a85e5f41ded4', 'title',
+        'Triin Paja loomingu sõnakorduste analüüs rakendusega Sketch Engine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('e1f6a37a-4738-4cc1-b90d-a85e5f41ded4', 'valdkond', 'yhiskondjakultuur');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('e1f6a37a-4738-4cc1-b90d-a85e5f41ded4', 'liik', 'ak_eriala_kursusetoo');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('e1f6a37a-4738-4cc1-b90d-a85e5f41ded4', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('e1f6a37a-4738-4cc1-b90d-a85e5f41ded4', 'abimaterjalid', 'automaatkontroll');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('e1f6a37a-4738-4cc1-b90d-a85e5f41ded4', 'vanus', '32');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('e1f6a37a-4738-4cc1-b90d-a85e5f41ded4', 'vanusevahemik', 'kuni40');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('e1f6a37a-4738-4cc1-b90d-a85e5f41ded4', 'sugu', 'naine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('e1f6a37a-4738-4cc1-b90d-a85e5f41ded4', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('e1f6a37a-4738-4cc1-b90d-a85e5f41ded4', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('e1f6a37a-4738-4cc1-b90d-a85e5f41ded4', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('e1f6a37a-4738-4cc1-b90d-a85e5f41ded4', 'oppeaste', 'bakalaureuseõpe');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('aa229963-da5b-4ce0-b627-b4ca0907ace2', 'failinimi', 'Ketsimuugitekstide_analuus.docx');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('aa229963-da5b-4ce0-b627-b4ca0907ace2', 'aasta', '2023');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('aa229963-da5b-4ce0-b627-b4ca0907ace2', 'ajavahemik', '2021-2025');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('aa229963-da5b-4ce0-b627-b4ca0907ace2', 'korpus', 'cwUSEqQLt');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('aa229963-da5b-4ce0-b627-b4ca0907ace2', 'title', 'Ketsimüügitekstide analüüs');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('aa229963-da5b-4ce0-b627-b4ca0907ace2', 'valdkond', 'yhiskondjakultuur');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('aa229963-da5b-4ce0-b627-b4ca0907ace2', 'liik', 'ak_eriala_kursusetoo');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('aa229963-da5b-4ce0-b627-b4ca0907ace2', 'tekstityyp', 'ak_erialaopingud');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('aa229963-da5b-4ce0-b627-b4ca0907ace2', 'abimaterjalid', 'tõlkesõnastik või masintõlge');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('aa229963-da5b-4ce0-b627-b4ca0907ace2', 'vanus', '23');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('aa229963-da5b-4ce0-b627-b4ca0907ace2', 'vanusevahemik', 'kuni26');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('aa229963-da5b-4ce0-b627-b4ca0907ace2', 'sugu', 'naine');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('aa229963-da5b-4ce0-b627-b4ca0907ace2', 'emakeel', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('aa229963-da5b-4ce0-b627-b4ca0907ace2', 'muudkeeled', 'inglise');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('aa229963-da5b-4ce0-b627-b4ca0907ace2', 'muudkeeled', 'jaapani');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('aa229963-da5b-4ce0-b627-b4ca0907ace2', 'riik', 'eesti');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('aa229963-da5b-4ce0-b627-b4ca0907ace2', 'oppeaste', 'bakalaureuseõpe');
