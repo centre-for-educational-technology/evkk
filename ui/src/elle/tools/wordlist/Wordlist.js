@@ -18,7 +18,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { AccordionStyle } from '../../const/Constants';
+import { AccordionStyle, DefaultButtonStyle } from '../../const/Constants';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { QuestionMark } from '@mui/icons-material';
 import WordlistMenu from './menu/WordlistMenu';
@@ -229,7 +229,7 @@ export default function Wordlist() {
                                       label={t('wordlist_search_base_forms')}/>
                   </RadioGroup>
                   {typeError && <FormHelperText>{t('error_mandatory_field')}</FormHelperText>}
-                  <Button sx={{width: 130}}
+                  <Button sx={DefaultButtonStyle}
                           className="wordlist-analyse-button"
                           type="submit"
                           variant="contained">
