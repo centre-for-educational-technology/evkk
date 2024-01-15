@@ -6,289 +6,318 @@
 <html lang="et">
 <head>
   <title>Mustrileidja</title>
-    <meta http-equiv="Content-Type"
-          content="text/html; charset=UTF-8"/>
-    <!-- Bootstrap -->
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-          crossorigin="anonymous">
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
-            integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
-    <!-- jQuery Datatable -->
-    <link rel="stylesheet"
-          type="text/css"
-          href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/datatables.min.css"/>
-    <script type="text/javascript"
-            src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/datatables.min.js"></script>
-    <!-- jQuery validation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
-            integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"></script>
-    <script defer>
-      function handleChange(input) {
-        document.getElementById("file_name").textContent = input.files[0].name
-      }
+  <meta http-equiv="Content-Type"
+        content="text/html; charset=UTF-8"/>
+  <!-- Bootstrap -->
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+        crossorigin="anonymous">
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+          integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+          crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+          crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+          crossorigin="anonymous"></script>
+  <!-- jQuery Datatable -->
+  <link rel="stylesheet"
+        type="text/css"
+        href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/datatables.min.css"/>
+  <script type="text/javascript"
+          src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/datatables.min.js"></script>
+  <!-- jQuery validation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
+          integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"></script>
+  <script defer>
+    function handleChange(input) {
+      document.getElementById('file_name').textContent = input.files[0].name;
+    }
 
-      function logMessage(event) {
-        document.getElementById('userText').innerText = event.data;
-      }
+    function logMessage(event) {
+      document.getElementById('userText').innerText = event.data;
+    }
 
-      window.addEventListener("message", logMessage);
+    window.addEventListener('message', logMessage);
 
-      function sendValueToParent() {
-        const divHeight = document.getElementById('iFrame-container-id').offsetHeight
-        window.parent.postMessage(divHeight, "*");
-      }
-    </script>
+    function sendValueToParent() {
+      const divHeight = document.getElementById('iFrame-container-id').offsetHeight;
+      window.parent.postMessage(divHeight, '*');
+    }
+  </script>
 
-    <!-- TODO: Separate global styles to a separate CSS file -->
-    <!-- TODO: Add support for other devices (tablets) -->
-    <style>
-        html, body {
-            background: transparent;
-            overflow: hidden;
-        }
+  <!-- TODO: Separate global styles to a separate CSS file -->
+  <!-- TODO: Add support for other devices (tablets) -->
+  <style>
+    html, body {
+      background: transparent;
+      overflow: hidden;
+    }
 
-        .hidden {
-            display: none;
-        }
+    .hidden {
+      display: none;
+    }
 
-        h5 {
-            margin-bottom: 5px;
-            margin-top: 5px;
-        }
+    h5 {
+      margin-bottom: 5px;
+      margin-top: 5px;
+    }
 
-        .btn-primary {
-            margin-top: 10px;
-        }
+    .btn-primary {
+      margin-top: 10px;
+      border-radius: 15px;
+      background-color: #9C27B0;
+      font-weight: bold;
+      border: none;
+    }
 
-        .spinner-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: darkgray;
-            opacity: .5;
-        }
+    .btn-primary:hover,
+    .btn-primary:focus,
+    .btn-primary:active {
+      background-color: #852197;
+    }
 
-        .centered-spinner {
-            position: fixed;
-            top: 45%;
-            left: 45%;
-        }
+    input[type='checkbox'] {
+      accent-color: #9C27B0;
+    }
 
-        .w-top-margin {
-            margin-top: 25px;
-        }
+    .form-control:focus {
+      color: #495057;
+      background-color: #fff;
+      border-color: #9C27B0;
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem #852197;
+    }
 
-        .w-separation {
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
+    option:hover {
+      background-color: yellow;
+    }
 
-        .large-spinner {
-            width: 3rem;
-            height: 3rem;
-        }
 
-        label.error {
-            color: red;
-        }
+    .spinner-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: darkgray;
+      opacity: .5;
+    }
 
-        .partial-results, .all-results {
-            white-space: pre;
-        }
+    .centered-spinner {
+      position: fixed;
+      top: 45%;
+      left: 45%;
+    }
 
-        .show-more, .show-less {
-            cursor: pointer;
-            color: blue !important;
-        }
+    .w-top-margin {
+      margin-top: 25px;
+    }
 
-        .show-more:after {
-            content: ' > ';
-        }
+    .w-separation {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
 
-        .show-less:after {
-            content: ' < ';
-        }
+    .large-spinner {
+      width: 3rem;
+      height: 3rem;
+    }
 
-        .smallspacer {
-            margin-bottom: 20px;
-        }
-    </style>
+    label.error {
+      color: red;
+    }
+
+    .partial-results, .all-results {
+      white-space: pre;
+    }
+
+    .show-more, .show-less {
+      cursor: pointer;
+      color: blue !important;
+    }
+
+    .show-more:after {
+      content: ' > ';
+    }
+
+    .show-less:after {
+      content: ' < ';
+    }
+
+    .smallspacer {
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body id="iFrame-container-id">
 <div class="container">
 
-    <div class="row">
-        <div class="col-12">
-            <h2>[@translations.retrieveTranslation "clusterfinder.app.title" /]</h2>
-            <p class="lead">[@translations.retrieveTranslation "clusterfinder.app.short.description" /]</p>
-        </div>
+  <div class="row">
+    <div class="col-12">
+      <h2>[@translations.retrieveTranslation "clusterfinder.app.title" /]</h2>
+      <p class="lead">[@translations.retrieveTranslation "clusterfinder.app.short.description" /]</p>
+    </div>
+  </div>
+
+  <form id="cluster-form">
+    <input type="hidden"
+           name="formId"
+           id="formId"
+           value="${formId!}">
+    <input type="hidden"
+           name="fileName"
+           id="fileName"
+           value="">
+    <input type="hidden"
+           name="inputType"
+           id="inputType"
+           value="FREE_TEXT">
+
+    <div class="form-group">
+      <label for="analysisLength"><h5>[@translations.retrieveTranslation "common.analysis.length.label" /]</h5></label>
+      <select id="analysisLength"
+              name="analysisLength"
+              class="form-control">
+        <option class="option-class"
+                value="">[@translations.retrieveTranslation "common.select.one.analysis.length" /]</option>
+        [#list 1..5 as length]
+          <option class="option-class" value="${length!}">${length!}</option>
+        [/#list]
+      </select>
     </div>
 
-    <form id="cluster-form">
-        <input type="hidden"
-               name="formId"
-               id="formId"
-               value="${formId!}">
-        <input type="hidden"
-               name="fileName"
-               id="fileName"
-               value="">
-        <input type="hidden"
-               name="inputType"
-               id="inputType"
-               value="FREE_TEXT">
+    <!-- Input type selection -->
+    <!--<h5>[@translations.retrieveTranslation "common.input.type.header" /]</h5>-->
+    <div class="form-group">
+      <!--<label for="userText">[@translations.retrieveTranslation "common.text.input.label" /]</label>-->
+      <textarea hidden
+                class="form-control"
+                rows="5"
+                name="userText"
+                id="userText"></textarea>
+    </div>
+    <!--<div id="fileText"
+         class="custom-file w-separation"
+         style="z-index: 0">
+      <input type="file"
+             class="custom-file-input"
+             id="userFile"
+             onchange="handleChange(this)"
+             accept=".txt,.pdf,.docx,.doc,.odt">
+      <label id="file_name" class="custom-file-label"
+             for="userFile">[@translations.retrieveTranslation "common.choose.file" /]</label>
+    </div>-->
 
-        <div class="form-group">
-            <label for="analysisLength">[@translations.retrieveTranslation "common.analysis.length.label" /]</label>
-            <select id="analysisLength"
-                    name="analysisLength"
-                    class="form-control">
-                <option value="">[@translations.retrieveTranslation "common.select.one.analysis.length" /]</option>
-                [#list 1..5 as length]
-                    <option value="${length!}">${length!}</option>
-                [/#list]
-            </select>
-        </div>
+    <!-- Basic search checkboxes -->
+    <h5>[@translations.retrieveTranslation "common.analysis.header" /]</h5>
+    <div class="form-check">
+      [@input.createCheckboxWithTooltip
+      id="wordtypeAnalysis"
+      name="wordtype"
+      labelKey="wordtype.analysis.label"
+      tooltipKey="wordtype.analysis.tooltip"/]
+    </div>
+    <div class="form-check">
+      [@input.createCheckboxWithTooltip
+      id="syntacticAnalysis"
+      name="syntactic"
+      labelKey="syntactic.analysis.label"
+      tooltipKey="syntactic.analysis.tooltip" /]
+    </div>
+    <div class="form-check">
+      [@input.createCheckboxWithTooltip
+      id="morfoAnalysis"
+      name="morfological"
+      labelKey="morfological.analysis.label"
+      tooltipKey="morfological.analysis.tooltip" /]
+    </div>
+    <h5>[@translations.retrieveTranslation "common.punctuation.header" /]</h5>
+    <div class="form-check">
+      [@input.createCheckboxWithTooltip
+      id="punctuationAnalysis"
+      name="punctuation"
+      labelKey="punctuation.analysis.label"
+      tooltipKey="punctuation.analysis.tooltip" /]
+    </div>
 
-        <!-- Input type selection -->
-        <h5>[@translations.retrieveTranslation "common.input.type.header" /]</h5>
-        <div class="form-group">
-            <label for="userText">[@translations.retrieveTranslation "common.text.input.label" /]</label>
-            <textarea class="form-control"
-                      rows="5"
-                      name="userText"
-                      id="userText"></textarea>
-        </div>
-        <div id="fileText"
-             class="custom-file w-separation"
-             style="z-index: 0">
-            <input type="file"
-                   class="custom-file-input"
-                   id="userFile"
-                   onchange="handleChange(this)"
-                   accept=".txt,.pdf,.docx,.doc,.odt">
-            <label id="file_name" class="custom-file-label"
-                   for="userFile">[@translations.retrieveTranslation "common.choose.file" /]</label>
-        </div>
+    <!-- Sorting checkboxes -->
 
-        <!-- Basic search checkboxes -->
-        <h5>[@translations.retrieveTranslation "common.analysis.header" /]</h5>
-        <div class="form-check">
-            [@input.createCheckboxWithTooltip
-            id="wordtypeAnalysis"
-            name="wordtype"
-            labelKey="wordtype.analysis.label"
-            tooltipKey="wordtype.analysis.tooltip"/]
-        </div>
-        <div class="form-check">
-            [@input.createCheckboxWithTooltip
-            id="syntacticAnalysis"
-            name="syntactic"
-            labelKey="syntactic.analysis.label"
-            tooltipKey="syntactic.analysis.tooltip" /]
-        </div>
-        <div class="form-check">
-            [@input.createCheckboxWithTooltip
-            id="morfoAnalysis"
-            name="morfological"
-            labelKey="morfological.analysis.label"
-            tooltipKey="morfological.analysis.tooltip" /]
-        </div>
-        <h5>[@translations.retrieveTranslation "common.punctuation.header" /]</h5>
-        <div class="form-check">
-            [@input.createCheckboxWithTooltip
-            id="punctuationAnalysis"
-            name="punctuation"
-            labelKey="punctuation.analysis.label"
-            tooltipKey="punctuation.analysis.tooltip" /]
-        </div>
+    <div class="form-check hidden"
+         data-word-sort="1">
+      <h5 style="margin-left: -20px">[@translations.retrieveTranslation "common.sorting.header" /]</h5>
+      [@input.createCheckbox id="sortByFirstWord" name="sorting" labelKey="sorting.by.first.word" value="fwrd" /]
+    </div>
+    <div class="form-check hidden"
+         data-word-sort="2">
+      [@input.createCheckbox id="sortBySecondWord" name="sorting" labelKey="sorting.by.second.word" value="swrd" /]
+    </div>
+    <div class="form-check hidden"
+         data-word-sort="3">
+      [@input.createCheckbox id="sortByThirdWord" name="sorting" labelKey="sorting.by.third.word" value="twrd" /]
+    </div>
+    <div class="form-check hidden"
+         data-word-sort="4">
+      [@input.createCheckbox id="sortByFourthWord" name="sorting" labelKey="sorting.by.fourth.word" value="fowrd" /]
+    </div>
+    <div class="form-check hidden"
+         data-word-sort="5">
+      [@input.createCheckbox id="sortByFifthWord" name="sorting" labelKey="sorting.by.fifth.word" value="fiwrd" /]
+    </div>
 
-        <!-- Sorting checkboxes -->
+    [#include "form/clauseTypeFragment.ftl" ]
 
-        <div class="form-check hidden"
-             data-word-sort="1">
-            <h5 style="margin-left: -20px">[@translations.retrieveTranslation "common.sorting.header" /]</h5>
-            [@input.createCheckbox id="sortByFirstWord" name="sorting" labelKey="sorting.by.first.word" value="fwrd" /]
-        </div>
-        <div class="form-check hidden"
-             data-word-sort="2">
-            [@input.createCheckbox id="sortBySecondWord" name="sorting" labelKey="sorting.by.second.word" value="swrd" /]
-        </div>
-        <div class="form-check hidden"
-             data-word-sort="3">
-            [@input.createCheckbox id="sortByThirdWord" name="sorting" labelKey="sorting.by.third.word" value="twrd" /]
-        </div>
-        <div class="form-check hidden"
-             data-word-sort="4">
-            [@input.createCheckbox id="sortByFourthWord" name="sorting" labelKey="sorting.by.fourth.word" value="fowrd" /]
-        </div>
-        <div class="form-check hidden"
-             data-word-sort="5">
-            [@input.createCheckbox id="sortByFifthWord" name="sorting" labelKey="sorting.by.fifth.word" value="fiwrd" /]
-        </div>
+    [#include "form/wordTypeFragment.ftl" ]
 
-        [#include "form/clauseTypeFragment.ftl" ]
-
-        [#include "form/wordTypeFragment.ftl" ]
-
-        <button id="submitBtn"
-                type="submit"
-                class="btn btn-primary"
-                onclick="sendValueToParent()">[@translations.retrieveTranslation "common.search" /]</button>
-    </form>
+    <button id="submitBtn"
+            type="submit"
+            class="btn btn-primary"
+            onclick="sendValueToParent()">[@translations.retrieveTranslation "common.search" /]</button>
+  </form>
 </div>
 <div class="smallspacer"></div>
 
 <!-- Results section -->
 <div id="clusters"
      class="container hidden">
-    <table class="table table-bordered w-top-margin"
-           id="clustersTable">
-        <thead>
-        <tr>
-            <th>[@translations.retrieveTranslation "common.sorting.header.markups"/]</th>
-            <th>[@translations.retrieveTranslation "common.sorting.header.description" /]</th>
-            <th>[@translations.retrieveTranslation "common.sorting.header.frequency" /]</th>
-            <th>[@translations.retrieveTranslation "common.sorting.header.percentage" /]</th>
-            <th>[@translations.retrieveTranslation "common.sorting.header.usages" /]</th>
-        </tr>
-        </thead>
-    </table>
+  <table class="table table-bordered w-top-margin"
+         id="clustersTable">
+    <thead>
+    <tr>
+      <th>[@translations.retrieveTranslation "common.sorting.header.markups"/]</th>
+      <th>[@translations.retrieveTranslation "common.sorting.header.description" /]</th>
+      <th>[@translations.retrieveTranslation "common.sorting.header.frequency" /]</th>
+      <th>[@translations.retrieveTranslation "common.sorting.header.percentage" /]</th>
+      <th>[@translations.retrieveTranslation "common.sorting.header.usages" /]</th>
+    </tr>
+    </thead>
+  </table>
 </div>
 
 <!-- Loading spinner -->
 <div id="loadingSpinner"
      class="spinner-overlay hidden text-center">
-    <div class="spinner-border centered-spinner text-primary large-spinner"
-         role="status">
-        <span class="sr-only">[@translations.retrieveTranslation "common.loading.text" /]</span>
-    </div>
+  <div class="spinner-border centered-spinner text-primary large-spinner"
+       role="status">
+    <span class="sr-only">[@translations.retrieveTranslation "common.loading.text" /]</span>
+  </div>
 </div>
 </body>
 <script>
   const div = document.getElementById('iFrame-container-id');
 
-  new ResizeObserver(sendValueToParent).observe(div)
+  new ResizeObserver(sendValueToParent).observe(div);
 
   const ClusterSearchForm = {
 
       SORTING_OPTIONS: undefined,
       CLUSTERS_DATA_TABLE: undefined,
-      CLUSTER_SEARCH_FORM: $("#cluster-form"),
+      CLUSTER_SEARCH_FORM: $('#cluster-form'),
 
       init: function () {
         ClusterSearchForm.clauseType.init();
@@ -297,36 +326,36 @@
         ClusterSearchForm.initSortingCheckboxes();
         ClusterSearchForm.validation.setupValidation();
 
-        $("#analysisLength").change(ClusterSearchForm.handleAnalysisLengthChange);
+        $('#analysisLength').change(ClusterSearchForm.handleAnalysisLengthChange);
 
         // Initialize tooltips
-        $('[data-toggle="tooltip"]').tooltip()
+        $('[data-toggle="tooltip"]').tooltip();
 
         // Initially hide all the additional option containers
-        $(".additionals-container").hide();
+        $('.additionals-container').hide();
 
         // File upload initialization
-        $("#userFile").change(ClusterSearchForm.ajax.uploadFile);
+        //$('#userFile').change(ClusterSearchForm.ajax.uploadFile);
 
         // Initialize the results table
-        ClusterSearchForm.CLUSTERS_DATA_TABLE = $("#clustersTable").DataTable({
+        ClusterSearchForm.CLUSTERS_DATA_TABLE = $('#clustersTable').DataTable({
           dom: 'Bfrtip',
-          "paging": true,
-          "pageLength": 100,
-          "pagingType": "full_numbers",
+          'paging': true,
+          'pageLength': 100,
+          'pagingType': 'full_numbers',
           language: {
-            "processing": "[@translations.retrieveTranslation "cluster.result.table.processing" /]",
-            "lengthMenu": "[@translations.retrieveTranslation "cluster.result.table.length.menu" /]",
-            "zeroRecords": "[@translations.retrieveTranslation "cluster.result.table.no.records" /]",
-            "info": "[@translations.retrieveTranslation "cluster.result.table.info" /]",
-            "infoEmpty": "", // Needs to be an empty string in order to hide it from the UI (defaults to "Showing 0 of 0 entries" if the key is not provided)
-            "infoFiltered": "[@translations.retrieveTranslation "cluster.result.table.filtered.info" /]",
-            "search": "[@translations.retrieveTranslation "cluster.result.table.search" /]",
-            "paginate": {
-              "first": "[@translations.retrieveTranslation "cluster.result.table.pagination.first" /]",
-              "previous": "[@translations.retrieveTranslation "cluster.result.table.pagination.previous" /]",
-              "next": "[@translations.retrieveTranslation "cluster.result.table.pagination.next" /]",
-              "last": "[@translations.retrieveTranslation "cluster.result.table.pagination.last" /]"
+            'processing': "[@translations.retrieveTranslation "cluster.result.table.processing" /]",
+            'lengthMenu': "[@translations.retrieveTranslation "cluster.result.table.length.menu" /]",
+            'zeroRecords': "[@translations.retrieveTranslation "cluster.result.table.no.records" /]",
+            'info': "[@translations.retrieveTranslation "cluster.result.table.info" /]",
+            'infoEmpty': '', // Needs to be an empty string in order to hide it from the UI (defaults to "Showing 0 of 0 entries" if the key is not provided)
+            'infoFiltered': "[@translations.retrieveTranslation "cluster.result.table.filtered.info" /]",
+            'search': "[@translations.retrieveTranslation "cluster.result.table.search" /]",
+            'paginate': {
+              'first': "[@translations.retrieveTranslation "cluster.result.table.pagination.first" /]",
+              'previous': "[@translations.retrieveTranslation "cluster.result.table.pagination.previous" /]",
+              'next': "[@translations.retrieveTranslation "cluster.result.table.pagination.next" /]",
+              'last': "[@translations.retrieveTranslation "cluster.result.table.pagination.last" /]"
             }
           },
           order: [[2, 'desc']],
@@ -337,7 +366,7 @@
             {data: 'percentage'},
             {
               data: 'usages', render: function (data, type, row, meta) {
-                return type === 'display' ? ClusterSearchForm.util.renderUsagesColumn(data) : data.split("<br>").map(u => u).join(",");
+                return type === 'display' ? ClusterSearchForm.util.renderUsagesColumn(data) : data.split('<br>').map(u => u).join(',');
               }
             }
           ],
@@ -356,23 +385,23 @@
               text: "[@translations.retrieveTranslation "common.export.clusters.excel" /]",
               exportOptions: {orthogonal: 'export'}
             }
-          ],
+          ]
         });
 
         // Need to bind these events on the whole document, since these elements do not exist yet during initial load
         $(document).on('click', 'a.show-more', function () {
-          const parentDiv = $(this).closest("div.truncated-results");
-          parentDiv.find("span.all-results").removeClass("hidden");
-          parentDiv.find("span.partial-results").addClass("hidden");
+          const parentDiv = $(this).closest('div.truncated-results');
+          parentDiv.find('span.all-results').removeClass('hidden');
+          parentDiv.find('span.partial-results').addClass('hidden');
         });
 
         $(document).on('click', 'a.show-less', function () {
-          const parentDiv = $(this).closest("div.truncated-results");
-          parentDiv.find("span.all-results").addClass("hidden");
-          parentDiv.find("span.partial-results").removeClass("hidden");
+          const parentDiv = $(this).closest('div.truncated-results');
+          parentDiv.find('span.all-results').addClass('hidden');
+          parentDiv.find('span.partial-results').removeClass('hidden');
         });
 
-        $("#morfoAnalysis, #syntacticAnalysis").change(function () {
+        $('#morfoAnalysis, #syntacticAnalysis').change(function () {
           ClusterSearchForm.helpers.hideAndResetDropdowns();
           ClusterSearchForm.helpers.resetWordTypeAnalysis();
           if (ClusterSearchForm.helpers.isComponentSortingSelected()) {
@@ -380,45 +409,45 @@
           }
         });
 
-        $("#syntacticAnalysis").change(function () {
-          if (!$("#morfoAnalysis").is(":checked")) {
-            $("#punctuationAnalysis").prop("checked", false);
+        $('#syntacticAnalysis').change(function () {
+          if (!$('#morfoAnalysis').is(':checked')) {
+            $('#punctuationAnalysis').prop('checked', false);
           }
         });
 
-        $("#punctuationAnalysis").change(function () {
-          if ($("#syntacticAnalysis").is(":checked") && !$("#morfoAnalysis").is(":checked")) {
-            $("#syntacticAnalysis").prop("checked", false);
+        $('#punctuationAnalysis').change(function () {
+          if ($('#syntacticAnalysis').is(':checked') && !$('#morfoAnalysis').is(':checked')) {
+            $('#syntacticAnalysis').prop('checked', false);
           }
         });
 
-        $("#wordtypeAnalysis").change(ClusterSearchForm.handleWordTypeAnalysisChange);
+        $('#wordtypeAnalysis').change(ClusterSearchForm.handleWordTypeAnalysisChange);
 
-        $("#submitBtn").click(ClusterSearchForm.ajax.clusterText);
+        $('#submitBtn').click(ClusterSearchForm.ajax.clusterText);
 
       },
 
       prepareSortingOptions: function () {
-        const $sortingByFirst = $("div[data-word-sort='1']");
-        const $sortingBySecond = $("div[data-word-sort='2']");
-        const $sortingByThird = $("div[data-word-sort='3']");
-        const $sortingByFourth = $("div[data-word-sort='4']");
-        const $sortingByFifth = $("div[data-word-sort='5']");
+        const $sortingByFirst = $('div[data-word-sort=\'1\']');
+        const $sortingBySecond = $('div[data-word-sort=\'2\']');
+        const $sortingByThird = $('div[data-word-sort=\'3\']');
+        const $sortingByFourth = $('div[data-word-sort=\'4\']');
+        const $sortingByFifth = $('div[data-word-sort=\'5\']');
 
         // Constructing an object containing references to different option selectors for better accessibility
         ClusterSearchForm.SORTING_OPTIONS = {
-          "1": [$sortingByFirst],
-          "2": [$sortingByFirst, $sortingBySecond],
-          "3": [$sortingByFirst, $sortingBySecond, $sortingByThird],
-          "4": [$sortingByFirst, $sortingBySecond, $sortingByThird, $sortingByFourth],
-          "5": [$sortingByFirst, $sortingBySecond, $sortingByThird, $sortingByFourth, $sortingByFifth]
+          '1': [$sortingByFirst],
+          '2': [$sortingByFirst, $sortingBySecond],
+          '3': [$sortingByFirst, $sortingBySecond, $sortingByThird],
+          '4': [$sortingByFirst, $sortingBySecond, $sortingByThird, $sortingByFourth],
+          '5': [$sortingByFirst, $sortingBySecond, $sortingByThird, $sortingByFourth, $sortingByFifth]
         };
       },
 
       initSortingCheckboxes: function () {
-        $("input[name='sorting']").change(function () {
+        $('input[name=\'sorting\']').change(function () {
           // Uncheck other options
-          $("input[name='sorting']").not(this).prop("checked", false);
+          $('input[name=\'sorting\']').not(this).prop('checked', false);
 
           if (ClusterSearchForm.helpers.isComponentSortingSelected()) {
             ClusterSearchForm.handleComponentSortingSelection();
@@ -428,44 +457,44 @@
         });
 
         // Sorting by frequency should be checked by default
-        $("#sortByFreq").prop("checked", true).change();
-        $("#wordtypeAnalysis").prop("checked", true);
+        $('#sortByFreq').prop('checked', true).change();
+        $('#wordtypeAnalysis').prop('checked', true);
       },
 
       handleComponentSortingSelection: function () {
-        const isMorfo = $("#morfoAnalysis").is(":checked");
-        const isSyntactic = $("#syntacticAnalysis").is(":checked");
-        const isWordType = $("#wordtypeAnalysis").is(":checked");
+        const isMorfo = $('#morfoAnalysis').is(':checked');
+        const isSyntactic = $('#syntacticAnalysis').is(':checked');
+        const isWordType = $('#wordtypeAnalysis').is(':checked');
         const isMorfoSyntatctic = isMorfo && isSyntactic;
 
         if (isMorfoSyntatctic) {
-          $("#wordTypeSelectContainer").show();
-          $("#clauseTypeSelectContainer").show();
+          $('#wordTypeSelectContainer').show();
+          $('#clauseTypeSelectContainer').show();
         } else if (isMorfo) {
-          $("#clauseTypeSelectContainer").hide();
-          $("#wordTypeSelectContainer").show();
+          $('#clauseTypeSelectContainer').hide();
+          $('#wordTypeSelectContainer').show();
         } else if (isSyntactic) {
-          $("#wordTypeSelectContainer").hide();
-          $("#clauseTypeSelectContainer").show();
+          $('#wordTypeSelectContainer').hide();
+          $('#clauseTypeSelectContainer').show();
         } else if (isWordType) {
-          $("#wordTypeSelectContainer").show();
-          $("#clauseTypeSelectContainer").hide();
+          $('#wordTypeSelectContainer').show();
+          $('#clauseTypeSelectContainer').hide();
         } else {
-          $("#clauseTypeSelectContainer").hide();
-          $("#wordTypeSelectContainer").hide();
+          $('#clauseTypeSelectContainer').hide();
+          $('#wordTypeSelectContainer').hide();
         }
       },
 
       handleAnalysisLengthChange: function () {
         ClusterSearchForm.helpers.hideAndResetWordSortingCheckboxes();
-        if ($(this).val() !== "") {
-          ClusterSearchForm.SORTING_OPTIONS[$(this).val()].forEach(element => element.show())
+        if ($(this).val() !== '') {
+          ClusterSearchForm.SORTING_OPTIONS[$(this).val()].forEach(element => element.show());
         }
       },
 
       handleWordTypeAnalysisChange: function () {
-        $("#morfoAnalysis").prop("checked", false);
-        $("#syntacticAnalysis").prop("checked", false);
+        $('#morfoAnalysis').prop('checked', false);
+        $('#syntacticAnalysis').prop('checked', false);
 
         ClusterSearchForm.helpers.hideAndResetDropdowns();
         if (ClusterSearchForm.helpers.isComponentSortingSelected()) {
@@ -474,62 +503,62 @@
       },
 
       clauseType: {
-        QUANTIFIER_ADDITIONAL_OPTIONS: $("#quantifier"),
-        PREDICATE_ADDITIONAL_OPTIONS: $("#predicate"),
-        PREPOSITION_ADDITIONAL_OPTIONS: $("#preposition"),
-        ATTRIBUTE_ADDITIONAL_OPTIONS: $("#attribute"),
+        QUANTIFIER_ADDITIONAL_OPTIONS: $('#quantifier'),
+        PREDICATE_ADDITIONAL_OPTIONS: $('#predicate'),
+        PREPOSITION_ADDITIONAL_OPTIONS: $('#preposition'),
+        ATTRIBUTE_ADDITIONAL_OPTIONS: $('#attribute'),
 
         init: function () {
-          $("#clauseTypeDropdown option[value='ALL']").click();
-          $(".clause-additionals-container").hide();
-          $("#clauseTypeDropdown").change(ClusterSearchForm.clauseType.toggleAdditionalOptions);
+          $('#clauseTypeDropdown option[value=\'ALL\']').click();
+          $('.clause-additionals-container').hide();
+          $('#clauseTypeDropdown').change(ClusterSearchForm.clauseType.toggleAdditionalOptions);
         },
 
         toggleAdditionalOptions: function () {
-          const selectedValue = $("#clauseTypeDropdown").val();
-          if (selectedValue === "ALL") {
-            $("div.clause-additionals-container").hide();
-            $("div.clause-additionals-container").find("input[type='checkbox']").prop("checked", false);
+          const selectedValue = $('#clauseTypeDropdown').val();
+          if (selectedValue === 'ALL') {
+            $('div.clause-additionals-container').hide();
+            $('div.clause-additionals-container').find('input[type=\'checkbox\']').prop('checked', false);
           } else {
-            $("div.clause-additionals-container:not([data-clause-group='" + selectedValue + "'])").hide();
-            $("div.clause-additionals-container:not([data-clause-group='" + selectedValue + "'])").find("input[type='checkbox']").prop("checked", false);
-            $("div.clause-additionals-container[data-clause-group='" + selectedValue + "']").show();
+            $('div.clause-additionals-container:not([data-clause-group=\'' + selectedValue + '\'])').hide();
+            $('div.clause-additionals-container:not([data-clause-group=\'' + selectedValue + '\'])').find('input[type=\'checkbox\']').prop('checked', false);
+            $('div.clause-additionals-container[data-clause-group=\'' + selectedValue + '\']').show();
           }
         }
       },
 
       wordType: {
         init: function () {
-          $("#wordTypeDropdown option[value='ALL']").click();
+          $('#wordTypeDropdown option[value=\'ALL\']').click();
           ClusterSearchForm.wordType.verb.init();
           ClusterSearchForm.wordType.adjective.init();
           ClusterSearchForm.wordType.pronoun.init();
           ClusterSearchForm.wordType.numeral.init();
-          $("#wordTypeDropdown").change(ClusterSearchForm.wordType.toggleAdditionalFields);
+          $('#wordTypeDropdown').change(ClusterSearchForm.wordType.toggleAdditionalFields);
         },
 
 
         toggleAdditionalFields: function () {
           // Additional options can only be shown when the word type analysis is not selected
-          const selectedValue = $("#wordTypeDropdown").val();
-          const wordTypeAnalysisSelected = $("#wordtypeAnalysis").is(":checked");
+          const selectedValue = $('#wordTypeDropdown').val();
+          const wordTypeAnalysisSelected = $('#wordtypeAnalysis').is(':checked');
 
           // Hide other additional option checkboxes and show the correct ones
-          if (selectedValue === "ALL" || wordTypeAnalysisSelected) {
-            $("div.additionals-container").hide();
-            $("div.additionals-container").find("input[type='checkbox']").prop("checked", false);
+          if (selectedValue === 'ALL' || wordTypeAnalysisSelected) {
+            $('div.additionals-container').hide();
+            $('div.additionals-container').find('input[type=\'checkbox\']').prop('checked', false);
           } else {
-            $("div.additionals-container:not([data-group='" + selectedValue + "'])").hide();
-            $("div.additionals-container:not([data-group='" + selectedValue + "'])").find("input[type='checkbox']").prop("checked", false);
-            $("div[data-group='" + selectedValue + "']").show();
+            $('div.additionals-container:not([data-group=\'' + selectedValue + '\'])').hide();
+            $('div.additionals-container:not([data-group=\'' + selectedValue + '\'])').find('input[type=\'checkbox\']').prop('checked', false);
+            $('div[data-group=\'' + selectedValue + '\']').show();
           }
         },
 
         verb: {
-          VERB_FINITE_TYPE_ADDITIONAL_FIELDS: $("div[data-subgroup='VP']"),
-          VERB_NON_FINITE_TYPE_ADDITIONAL_FIELDS: $("div[data-subgroup='VK']"),
-          VERB_NON_FINITE_TYPE_PARTIC_ADDITIONAL_FIELDS: $("#verbSubTypeVKParticAdditionals"),
-          VERB_NON_FINITE_TYPE_SUP_ADDITIONAL_FIELDS: $("#verbSubTypeVKSupAdditionals"),
+          VERB_FINITE_TYPE_ADDITIONAL_FIELDS: $('div[data-subgroup=\'VP\']'),
+          VERB_NON_FINITE_TYPE_ADDITIONAL_FIELDS: $('div[data-subgroup=\'VK\']'),
+          VERB_NON_FINITE_TYPE_PARTIC_ADDITIONAL_FIELDS: $('#verbSubTypeVKParticAdditionals'),
+          VERB_NON_FINITE_TYPE_SUP_ADDITIONAL_FIELDS: $('#verbSubTypeVKSupAdditionals'),
 
           init: function () {
             ClusterSearchForm.wordType.verb.VERB_NON_FINITE_TYPE_ADDITIONAL_FIELDS.hide();
@@ -539,21 +568,21 @@
           },
 
           initFiniteTypeHandlers: function () {
-            $("#verbFiniteTypeP").change(function () {
-              if ($(this).is(":checked")) {
+            $('#verbFiniteTypeP').change(function () {
+              if ($(this).is(':checked')) {
                 ClusterSearchForm.wordType.verb.VERB_FINITE_TYPE_ADDITIONAL_FIELDS.show();
                 ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.verb.VERB_NON_FINITE_TYPE_ADDITIONAL_FIELDS);
-                $("#verbFiniteTypeK").prop("checked", false).change();
+                $('#verbFiniteTypeK').prop('checked', false).change();
               } else {
                 ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.verb.VERB_FINITE_TYPE_ADDITIONAL_FIELDS);
               }
             });
 
-            $("#verbFiniteTypeK").change(function () {
-              if ($(this).is(":checked")) {
+            $('#verbFiniteTypeK').change(function () {
+              if ($(this).is(':checked')) {
                 ClusterSearchForm.wordType.verb.VERB_NON_FINITE_TYPE_ADDITIONAL_FIELDS.show();
                 ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.verb.VERB_FINITE_TYPE_ADDITIONAL_FIELDS);
-                $("#verbFiniteTypeP").prop("checked", false).change();
+                $('#verbFiniteTypeP').prop('checked', false).change();
               } else {
                 ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.verb.VERB_NON_FINITE_TYPE_ADDITIONAL_FIELDS);
               }
@@ -561,16 +590,16 @@
           },
 
           initSubTypeHandlers: function () {
-            $("#verbSubTypeVKPartic").change(function () {
-              if ($(this).is(":checked")) {
+            $('#verbSubTypeVKPartic').change(function () {
+              if ($(this).is(':checked')) {
                 ClusterSearchForm.wordType.verb.VERB_NON_FINITE_TYPE_PARTIC_ADDITIONAL_FIELDS.show();
               } else {
                 ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.verb.VERB_NON_FINITE_TYPE_PARTIC_ADDITIONAL_FIELDS);
               }
             });
 
-            $("#verbSubTypeVKSup").change(function () {
-              if ($(this).is(":checked")) {
+            $('#verbSubTypeVKSup').change(function () {
+              if ($(this).is(':checked')) {
                 ClusterSearchForm.wordType.verb.VERB_NON_FINITE_TYPE_SUP_ADDITIONAL_FIELDS.show();
               } else {
                 ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.verb.VERB_NON_FINITE_TYPE_SUP_ADDITIONAL_FIELDS);
@@ -580,37 +609,37 @@
         },
 
         adjective: {
-          SUB_TYPE_ADDITIONAL_FIELDS: $("#adjectiveSubTypeAdditionals"),
+          SUB_TYPE_ADDITIONAL_FIELDS: $('#adjectiveSubTypeAdditionals'),
 
           init: function () {
             ClusterSearchForm.wordType.adjective.SUB_TYPE_ADDITIONAL_FIELDS.hide();
 
-            $("#adjectiveSubTypeA").change(function () {
-              if ($(this).is(":checked")) {
+            $('#adjectiveSubTypeA').change(function () {
+              if ($(this).is(':checked')) {
                 ClusterSearchForm.wordType.adjective.SUB_TYPE_ADDITIONAL_FIELDS.show();
-                $("#adjectiveSubTypeG").prop("checked", false);
+                $('#adjectiveSubTypeG').prop('checked', false);
               } else {
                 ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.adjective.SUB_TYPE_ADDITIONAL_FIELDS);
               }
             });
 
-            $("#adjectiveSubTypeG").change(function () {
-              if ($(this).is(":checked")) {
+            $('#adjectiveSubTypeG').change(function () {
+              if ($(this).is(':checked')) {
                 ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.adjective.SUB_TYPE_ADDITIONAL_FIELDS);
-                $("#adjectiveSubTypeA").prop("checked", false);
+                $('#adjectiveSubTypeA').prop('checked', false);
               }
-            })
-          },
+            });
+          }
         },
 
         pronoun: {
-          SUB_TYPE_ADDITIONAL_FIELDS: $("#pronounSubTypeAdditionals"),
+          SUB_TYPE_ADDITIONAL_FIELDS: $('#pronounSubTypeAdditionals'),
 
           init: function () {
             ClusterSearchForm.wordType.pronoun.SUB_TYPE_ADDITIONAL_FIELDS.hide();
 
-            $("#pronounSubTypePers").change(function () {
-              if ($(this).is(":checked")) {
+            $('#pronounSubTypePers').change(function () {
+              if ($(this).is(':checked')) {
                 ClusterSearchForm.wordType.pronoun.SUB_TYPE_ADDITIONAL_FIELDS.show();
               } else {
                 ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.pronoun.SUB_TYPE_ADDITIONAL_FIELDS);
@@ -620,13 +649,13 @@
         },
 
         numeral: {
-          SUB_TYPE_ADDITIONAL_FIELDS: $("#numeralSubTypeAdditionals"),
+          SUB_TYPE_ADDITIONAL_FIELDS: $('#numeralSubTypeAdditionals'),
 
           init: function () {
             ClusterSearchForm.wordType.numeral.SUB_TYPE_ADDITIONAL_FIELDS.hide();
 
-            $("#numeralSubTypeCard, #numeralSubTypeOrd").change(function () {
-              if ($(this).is(":checked")) {
+            $('#numeralSubTypeCard, #numeralSubTypeOrd').change(function () {
+              if ($(this).is(':checked')) {
                 ClusterSearchForm.wordType.numeral.SUB_TYPE_ADDITIONAL_FIELDS.show();
               } else {
                 ClusterSearchForm.helpers.resetAndHideWordTypeAdditionalOptions(ClusterSearchForm.wordType.numeral.SUB_TYPE_ADDITIONAL_FIELDS);
@@ -642,16 +671,16 @@
 
           // Only execute the search when the form is valid
           if (ClusterSearchForm.CLUSTER_SEARCH_FORM.valid()) {
-            const data = $("#cluster-form").serializeArray();
-            data.push({name: "partialFilters", value: ClusterSearchForm.helpers.hasPartialFilters()})
+            const data = $('#cluster-form').serializeArray();
+            data.push({name: 'partialFilters', value: ClusterSearchForm.helpers.hasPartialFilters()});
 
             $.ajax({
-              method: "POST",
+              method: 'POST',
               url: "${ajaxUrls.clusterText}",
               data: data,
               beforeSend: function () {
                 ClusterSearchForm.CLUSTERS_DATA_TABLE.clear();
-                $("#clusters").hide();
+                $('#clusters').hide();
                 ClusterSearchForm.loader.showLoadingSpinner();
               },
               success: function (response) {
@@ -676,7 +705,7 @@
           const totalFrequency = () => {
             let initialValue = 0;
             return data.reduce((accumulator, currentValue) => accumulator + currentValue.frequency, initialValue);
-          }
+          };
 
 
           data.forEach((element) => {
@@ -688,58 +717,58 @@
               usages: null
             };
             cluster.frequency = element.frequency;
-            cluster.percentage = (element.frequency * 100 / totalFrequency()).toFixed(2) + "%";
-            cluster.description = element.descriptions.join(" + ");
-            cluster.markups = element.markups.map(ClusterSearchForm.util.escapeValueAndReplace).join(" + ");
-            cluster.usages = element.usages.join("<br>");
+            cluster.percentage = (element.frequency * 100 / totalFrequency()).toFixed(2) + '%';
+            cluster.description = element.descriptions.join(' + ');
+            cluster.markups = element.markups.map(ClusterSearchForm.util.escapeValueAndReplace).join(' + ');
+            cluster.usages = element.usages.join('<br>');
             clusters.push(cluster);
-          })
+          });
 
           ClusterSearchForm.CLUSTERS_DATA_TABLE.rows.add(clusters);
           ClusterSearchForm.CLUSTERS_DATA_TABLE.draw();
-          $("#clusters").show();
+          $('#clusters').show();
         },
 
         showNoResults: function () {
           ClusterSearchForm.CLUSTERS_DATA_TABLE.clear();
           ClusterSearchForm.CLUSTERS_DATA_TABLE.draw();
-          $("#clusters").show();
-        },
+          $('#clusters').show();
+        }
 
-        uploadFile: function (event) {
+        /*uploadFile: function (event) {
           const file = event.target.files[0];
           const formData = new FormData();
-          formData.append("file", file);
+          formData.append('file', file);
 
           const slashIndexes = [...document.referrer.matchAll(new RegExp('/', 'gi'))].map(a => a.index);
           const urlBase = document.referrer.includes('localhost') ? document.referrer : (document.referrer.slice(0, slashIndexes[2]) + '/');
 
           $.ajax({
-            type: "POST",
+            type: 'POST',
             enctype: 'multipart/form-data',
-            url: urlBase + "api/textfromfile",
+            url: urlBase + 'api/textfromfile',
             data: formData,
             processData: false,
             contentType: false,
             cache: false,
             success: function (data) {
-              document.getElementById("userText").value = data;
+              document.getElementById('userText').value = data;
             },
             error: function (e) {
-              console.log("ERROR: ", e);
-              alert("Tekkis viga faili üleslaadimisel! Kontrolli, et valisid lubatud formaadis faili või proovi hiljem uuesti.")
+              console.log('ERROR: ', e);
+              alert('Tekkis viga faili üleslaadimisel! Kontrolli, et valisid lubatud formaadis faili või proovi hiljem uuesti.');
             }
           });
-        }
+        }*/
       },
 
       loader: {
         showLoadingSpinner: function () {
-          $("#loadingSpinner").show();
+          $('#loadingSpinner').show();
         },
 
         hideLoadingSpinner: function () {
-          $("#loadingSpinner").hide();
+          $('#loadingSpinner').hide();
         }
       },
 
@@ -747,16 +776,16 @@
         setupValidation: function () {
           ClusterSearchForm.CLUSTER_SEARCH_FORM.validate({
             rules: {
-              analysisLength: "required",
+              analysisLength: 'required',
               userText: {
                 required: function () {
-                  return $("#inputType").val() === "FREE_TEXT";
+                  return $('#inputType').val() === 'FREE_TEXT';
                 }
-              },
+              }
             },
             messages: {
               analysisLength: "[@translations.retrieveTranslation "validation.analysis.length.error" /]",
-              userText: "[@translations.retrieveTranslation "validation.user.text.error" /]",
+              userText: "[@translations.retrieveTranslation "validation.user.text.error" /]"
             }
           });
         }
@@ -764,47 +793,47 @@
 
       helpers: {
         isComponentSortingSelected: function () {
-          const selectedValue = $("input[name='sorting']:checked").val();
-          return selectedValue === "fwrd" ||
-            selectedValue === "swrd" ||
-            selectedValue === "twrd" ||
-            selectedValue === "fowrd" ||
-            selectedValue === "fiwrd";
+          const selectedValue = $('input[name=\'sorting\']:checked').val();
+          return selectedValue === 'fwrd' ||
+            selectedValue === 'swrd' ||
+            selectedValue === 'twrd' ||
+            selectedValue === 'fowrd' ||
+            selectedValue === 'fiwrd';
         },
 
         hideAndResetWordSortingCheckboxes: function () {
-          ClusterSearchForm.SORTING_OPTIONS["5"].forEach(element => element.hide().find("input[type='checkbox']").prop("checked", false).change());
+          ClusterSearchForm.SORTING_OPTIONS['5'].forEach(element => element.hide().find('input[type=\'checkbox\']').prop('checked', false).change());
 
           // Need to re-check the frequency checkbox here to ensure that at least one sorting option is selected by default
-          $("#sortByFreq").prop("checked", true).change();
+          $('#sortByFreq').prop('checked', true).change();
         },
 
         hideAndResetDropdowns: function () {
           // Word type
-          $("#wordTypeSelectContainer").hide();
-          $("#wordTypeDropdown").val("ALL").trigger("change");
+          $('#wordTypeSelectContainer').hide();
+          $('#wordTypeDropdown').val('ALL').trigger('change');
 
           // Clause type
-          $("#clauseTypeSelectContainer").hide();
-          $("#clauseTypeDropdown").val("ALL").trigger("change");
+          $('#clauseTypeSelectContainer').hide();
+          $('#clauseTypeDropdown').val('ALL').trigger('change');
         },
 
         resetAndHideWordTypeAdditionalOptions: function (additionalsSelector) {
-          $(additionalsSelector).find("input[type='checkbox']").prop("checked", false);
+          $(additionalsSelector).find('input[type=\'checkbox\']').prop('checked', false);
           $(additionalsSelector).hide();
         },
 
         resetWordTypeAnalysis: function () {
-          $("#wordtypeAnalysis").prop("checked", false);
+          $('#wordtypeAnalysis').prop('checked', false);
         },
 
         hasPartialFilters: function () {
-          const isMorfo = $("#morfoAnalysis").is(":checked");
-          const isSyntactic = $("#syntacticAnalysis").is(":checked");
+          const isMorfo = $('#morfoAnalysis').is(':checked');
+          const isSyntactic = $('#syntacticAnalysis').is(':checked');
           const isMorfoSyntatctic = isMorfo && isSyntactic;
 
           if (isMorfoSyntatctic || isMorfo) {
-            const selectedWordType = $("#wordTypeDropdown").val();
+            const selectedWordType = $('#wordTypeDropdown').val();
             return ClusterSearchForm.helpers.hasPartialWordTypeFilters(selectedWordType);
           }
 
@@ -812,11 +841,11 @@
         },
 
         hasPartialWordTypeFilters: function (wordType) {
-          if (wordType === "ALL") {
+          if (wordType === 'ALL') {
             return false;
           }
 
-          const wordTypeCheckboxes = $("div.additionals-container[data-group='" + wordType + "']").find("input[type='checkbox']:visible:not(:disabled)");
+          const wordTypeCheckboxes = $('div.additionals-container[data-group=\'' + wordType + '\']').find('input[type=\'checkbox\']:visible:not(:disabled)');
           return ClusterSearchForm.util.hasPartialFilters(wordTypeCheckboxes);
         }
       },
@@ -824,9 +853,9 @@
       util: {
         escapeValueAndReplace: function (unsafeValue) {
           return unsafeValue
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/_/g, "");
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/_/g, '');
         },
 
         hasPartialFilters: function (checkboxes) {
@@ -834,14 +863,14 @@
           const groupNames = [];
 
           checkboxes.each(function () {
-            let groupName = $(this).attr("name");
+            let groupName = $(this).attr('name');
             if ($.inArray(groupName, groupNames) === -1) {
               groupNames.push(groupName);
             }
           });
 
           $.each(groupNames, function (index, name) {
-            if (checkboxes.filter("[name='" + name + "']:checked").length === 0) {
+            if (checkboxes.filter('[name=\'' + name + '\']:checked').length === 0) {
               hasPartialFilters = true;
               return false;
             }
@@ -852,7 +881,7 @@
         ,
 
         renderUsagesColumn: function (data) {
-          const usages = data.split("<br>");
+          const usages = data.split('<br>');
           if (usages.length > 10) {
             return ClusterSearchForm.util.createUsagesColumn(usages);
           }
@@ -863,32 +892,32 @@
 
         createUsagesColumn: function (data) {
           // Container for usages displaying
-          const truncatedResultsContainer = $("<div>", {class: "truncated-results"});
+          const truncatedResultsContainer = $('<div>', {class: 'truncated-results'});
 
           // Partial results span and it's link
-          const partialResultsSpan = $("<span>", {
-            class: "partial-results",
+          const partialResultsSpan = $('<span>', {
+            class: 'partial-results',
             title: "[@translations.retrieveTranslation "common.truncated.results" /]",
-            "data-toggle": "tooltip",
-            "data-placement": "right",
+            'data-toggle': 'tooltip',
+            'data-placement': 'right'
           });
 
           // jQuery cannot create text nodes the same way as other elements, so using regular JS here
-          const partialResultsContent = document.createTextNode(data.slice(0, 10).map(u => u).join("\n"));
-          const partialResultsLink = $("<a>", {class: "show-more"});
+          const partialResultsContent = document.createTextNode(data.slice(0, 10).map(u => u).join('\n'));
+          const partialResultsLink = $('<a>', {class: 'show-more'});
 
           partialResultsSpan.append(partialResultsContent);
           partialResultsSpan.append(partialResultsLink);
 
           // All results span
-          const allResultsSpan = $("<span>", {
-            class: "all-results hidden",
+          const allResultsSpan = $('<span>', {
+            class: 'all-results hidden',
             title: "[@translations.retrieveTranslation "common.truncated.results" /]",
-            "data-toggle": "tooltip",
-            "data-placement": "right",
+            'data-toggle': 'tooltip',
+            'data-placement': 'right'
           });
-          const allResultsContent = document.createTextNode(data.map(u => u).join("\n"));
-          const allResultsLink = $("<a>", {class: "show-less"});
+          const allResultsContent = document.createTextNode(data.map(u => u).join('\n'));
+          const allResultsLink = $('<a>', {class: 'show-less'});
 
           // jQuery cannot create text nodes the same way as other elements, so using regular JS here
           allResultsSpan.append(allResultsContent);
@@ -901,7 +930,7 @@
           // Datatables expects a string as a returnable so need to convert it to an HTML string here
           // NB! Extra warpping is done due to jQuery behaviour (.html() returns children nodes only)
           return truncatedResultsContainer
-            .wrap("<div></div>")
+            .wrap('<div></div>')
             .parent()
             .html();
         }
