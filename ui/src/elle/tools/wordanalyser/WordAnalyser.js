@@ -483,14 +483,14 @@ function WordAnalyser() {
           </Alert>
         </Box>
       </Fade>
-      <Grid container
+      <Grid className="position-relative" container
             columnSpacing={{xs: 0, md: 4}}>
         <Grid item
               xs={12}
               md={12}>
           <Box display={'flex'}
                justifyContent={'flex-start'}>
-            <Box><TextUpload sendTextFromFile={sendTextFromFile}/></Box>
+            <Box hidden><TextUpload sendTextFromFile={sendTextFromFile}/></Box>
           </Box>
         </Grid>
         <Grid item
@@ -510,7 +510,7 @@ function WordAnalyser() {
               md={6}>
           {showResults ?
             <WordInfo onWordInfo={wordInfo}/> :
-            <Alert severity="info">
+            <Alert hidden severity="info">
               {t('word_analysis_infobox_1')}<br/>
               {t('word_analysis_infobox_2')}
             </Alert>}
