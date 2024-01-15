@@ -2,9 +2,7 @@ import { memo, useContext, useEffect, useRef, useState } from 'react';
 import { Input } from './textinput/Input';
 import { WordInfo } from './WordInfo';
 import './styles/WordAnalyser.css';
-import TextUpload from '../../components/TextUpload';
 import { Alert, Box, Fade, Grid, IconButton, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 import i18n from 'i18next';
 import {
@@ -26,7 +24,7 @@ function WordAnalyser() {
   const [showResults, setShowResults] = useState(false);
   const [selectedWords, setSelectedWords] = useState(['']);
   const [wordInfo, setWordInfo] = useState('');
-  const [textFromFile, setTextFromFile] = useState('');
+  const [inputText, setInputText] = useState('');
   const setTableValue = useContext(TabContext)[1];
   const type = useContext(TypeContext);
   const form = useContext(FormContext);
@@ -34,7 +32,6 @@ function WordAnalyser() {
   const syllable = useContext(SyllableContext);
   const syllableWord = useContext(SyllableWordContext);
   const lemma = useContext(LemmaContext);
-  const {t} = useTranslation();
   const [open, setOpen] = useState(false);
   const [border, setBorder] = useState(0);
   const [storeData, setStoreData] = useState();
@@ -45,7 +42,7 @@ function WordAnalyser() {
   }, []);
 
   useEffect(() => {
-    setTextFromFile(storeData);
+    setInputText(storeData);
   }, [storeData]);
 
   queryStore.subscribe(() => {
@@ -422,10 +419,6 @@ function WordAnalyser() {
     setWordInfo(wordInfoObj);
   }
 
-  const sendTextFromFile = (data) => {
-    setTextFromFile(data);
-  };
-
   // resetting
   const resetAnalyser = () => {
     let newInputObj = {
@@ -473,7 +466,7 @@ function WordAnalyser() {
                   setBorder(0);
                 }}
               >
-                <CloseIcon fontSize="inherit"/>
+                <CloseIcon fontSize="inherit" />
               </IconButton>
             }
             sx={{mb: 2}}
@@ -483,20 +476,19 @@ function WordAnalyser() {
           </Alert>
         </Box>
       </Fade>
-      <Grid container
+      <Grid className="position-relative" container
             columnSpacing={{xs: 0, md: 4}}>
         <Grid item
               xs={12}
               md={12}>
           <Box display={'flex'}
                justifyContent={'flex-start'}>
-            <Box><TextUpload sendTextFromFile={sendTextFromFile}/></Box>
           </Box>
         </Grid>
         <Grid item
               xs={12}
               md={6}>
-          <Input textFromFile={textFromFile}
+          <Input inputText={inputText}
                  onInsert={analyseInput}
                  onMarkWords={selectedWords}
                  onWordSelect={showThisWord}
@@ -508,12 +500,9 @@ function WordAnalyser() {
         <Grid item
               xs={12}
               md={6}>
-          {showResults ?
-            <WordInfo onWordInfo={wordInfo}/> :
-            <Alert severity="info">
-              {t('word_analysis_infobox_1')}<br/>
-              {t('word_analysis_infobox_2')}
-            </Alert>}
+          {showResults &&
+            <WordInfo onWordInfo={wordInfo} />
+          }
         </Grid>
       </Grid>
     </Box>

@@ -85,6 +85,10 @@ export const CorrectorCustomSlider = {
   }
 };
 
+export const DefaultCircularProgressStyle = {
+  color: '#9C27B0'
+};
+
 export const MenuLink = styled(HashLink)({
   fontWeight: 600,
   fontSize: 16,
