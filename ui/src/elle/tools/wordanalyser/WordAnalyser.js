@@ -114,6 +114,9 @@ function WordAnalyser() {
     const lemmas = data.lemmad;
     const syllables = data.silbid;
     // todo kas on vaja?
+
+    // todo sõnaanalüsaatoris võtta maha 1000 sõna piirang, kaotada klõpsamise kast kui > 1001 ning kuvada infokast "Teksti analüüsimine sõna kaupa on võimalik kuni 1000-sõnalise teksti puhul."
+
     const sentences = data.laused;
     const wordTypes = data.sonaliigid;
     const wordForms = data.vormimargendid;
