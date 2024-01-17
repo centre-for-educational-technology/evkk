@@ -39,7 +39,7 @@ def sonad_lemmad_silbid_sonaliigid_vormimargendid():
 
     for sentence in doc.sentences:
         for word in sentence.words:
-            if word._upos != "PUNCT":
+            if word._upos not in ["PUNCT", "SYM"]:
                 sonad.append(word.text)
                 lemmad.append(word.lemma)
                 sonaliigid.append(word.pos)

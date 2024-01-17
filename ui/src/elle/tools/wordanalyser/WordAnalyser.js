@@ -20,6 +20,7 @@ import { queryStore } from '../../store/QueryStore';
 import { getSelectedTexts } from '../../service/TextService';
 import { WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO } from '../../const/Constants';
 import { useTranslation } from 'react-i18next';
+import { loadFetch } from '../../service/LoadFetch';
 
 function WordAnalyser() {
   const [analysedInput, setAnalysedInput] = useContext(AnalyseContext);
@@ -28,6 +29,7 @@ function WordAnalyser() {
   const [wordInfo, setWordInfo] = useState('');
   const [inputText, setInputText] = useState('');
   const [isTextTooLong, setIsTextTooLong] = useState(false);
+  const [isFinishedLoading, setIsFinishedLoading] = useState(false);
   const setTableValue = useContext(TabContext)[1];
   const type = useContext(TypeContext);
   const form = useContext(FormContext);
@@ -54,7 +56,8 @@ function WordAnalyser() {
   });
 
   const getResponse = (input) => {
-    fetch('/api/texts/sonad-lemmad-silbid-sonaliigid-vormimargendid', {
+    setIsFinishedLoading(false);
+    loadFetch('/api/texts/sonad-lemmad-silbid-sonaliigid-vormimargendid', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -63,6 +66,7 @@ function WordAnalyser() {
     })
       .then(data => data.json())
       .then(data => {
+        setIsFinishedLoading(true);
         analyseInput(input, data);
       });
   };
@@ -412,7 +416,8 @@ function WordAnalyser() {
               md={6}>
           <Input inputText={inputText}
                  isTextTooLong={isTextTooLong}
-                 onInsert={getResponse}
+                 isFinishedLoading={isFinishedLoading}
+                 onSubmit={getResponse}
                  onMarkWords={selectedWords}
                  onWordSelect={showThisWord}
                  onWordInfo={showInfo}
