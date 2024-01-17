@@ -90,7 +90,8 @@ function WordAnalyser() {
     const wordTypes = data.sonaliigid;
     const wordForms = data.vormimargendid;
 
-    setIsTextTooLong(words.length > WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO);
+    const textTooLong = words.length > WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO;
+    setIsTextTooLong(textTooLong);
 
     const createdIds = createIds(words);
     const analysedWordsLowerCase = processWordsLowerCase([...words], wordTypes);
@@ -111,17 +112,19 @@ function WordAnalyser() {
     setAnalysedInput(inputObj);
     setTableValue(1);
 
-    // select first word and show wordInfo after loading
-    setSelectedWords([inputObj.ids[0]]);
+    // select first word and show wordInfo after loading, if the wordcount limit has not been exceeded
+    if (!textTooLong) {
+      setSelectedWords([inputObj.ids[0]]);
 
-    let wordInfoObj = {
-      word: inputObj.words[0],
-      lemma: inputObj.lemmas[0],
-      syllables: inputObj.syllables[0],
-      type: inputObj.wordtypes[0],
-      form: inputObj.wordforms[0]
-    };
-    setWordInfo(wordInfoObj);
+      let wordInfoObj = {
+        word: inputObj.words[0],
+        lemma: inputObj.lemmas[0],
+        syllables: inputObj.syllables[0],
+        type: inputObj.wordtypes[0],
+        form: inputObj.wordforms[0]
+      };
+      setWordInfo(wordInfoObj);
+    }
   };
 
   const processWordsLowerCase = (analysedWordsLowerCase, wordTypes) => {
