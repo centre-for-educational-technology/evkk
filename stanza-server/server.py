@@ -55,17 +55,11 @@ def silbita():
 
 
 def silbita_sisemine(tekst):
-    mitmekaupa = 4
-    sonad = tekst.split()
-    sonad = [" ".join(sonad[i:i + mitmekaupa]) for i in range(0, len(sonad), mitmekaupa)]
-    response = []
-
-    for sonahulk in sonad:
-        process = subprocess.Popen("/app/silbitaja.bin", cwd="/app", shell=True, stderr=subprocess.PIPE,
-                                   stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-        stdo, _ = process.communicate(sonahulk.encode("iso-8859-13"))
-        response.extend(stdo.decode("iso-8859-13").rstrip().split())
-        process.terminate()
+    process = subprocess.Popen(["bash", "/app/poolita-ja-silbita.sh"], cwd="/app", stderr=subprocess.PIPE,
+                               stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    stdo, _ = process.communicate(tekst.encode())
+    response = stdo.decode().rstrip().split()
+    process.terminate()
 
     return response
 

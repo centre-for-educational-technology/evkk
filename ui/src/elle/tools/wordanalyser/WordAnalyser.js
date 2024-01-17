@@ -116,18 +116,7 @@ function WordAnalyser() {
       },
       body: JSON.stringify({tekst: input})
     });
-    const data = await response.json();
-
-    let newData = [];
-    for (const element of data) {
-      if (element) {
-        let item = element.replace(/[()'",.]+/g, '');
-        if (item) {
-          newData.push(item);
-        }
-      }
-    }
-    return newData;
+    return await response.json();
   };
 
   // get word form
@@ -164,40 +153,18 @@ function WordAnalyser() {
     const analysedWordsOrig = wordsAndLemmas[1];
 
     const beautifiedLemmas = [];
-    let syllableReadyWords = '';
     for (const element of rawLemmas) {
       if (element) {
         beautifiedLemmas.push(element.replace(/['*_=]+/g, ''));
       }
     }
 
-    for (let i = 0; i < rawLemmas.length; i++) {
-      let word = analysedWordsOrig[i];
-      if (rawLemmas[i].includes('_')) {
-        let index = rawLemmas[i].indexOf('_');
-        syllableReadyWords += [word.slice(0, index), '-', word.slice(index)].join('').replaceAll('–', '') + ' ';
-      } else {
-        syllableReadyWords += word + ' ';
-      }
-    }
-
-    const results = await Promise.all([getSyllables(syllableReadyWords), getSentences(input), getWordTypes(input), getWordForm(input)]);
+    const results = await Promise.all([getSyllables(input), getSentences(input), getWordTypes(input), getWordForm(input)]);
     const analysedSyllables = results[0];
     const analysedSentences = results[1];
     const analysedWordTypes = results[2];
     const analysedWordForms = results[3];
     const createdIds = createIds(analysedWordsOrig);
-
-    for (let i = 0; i < analysedSyllables.length; i++) {
-      let word = analysedSyllables[i];
-      if (word.charAt(0) === '-') {
-        analysedSyllables[i] = word.slice(1);
-        word = analysedSyllables[i];
-      }
-      if (word.charAt(word.length - 1) === '-') {
-        analysedSyllables[i] = word.slice(0, word.length - 1);
-      }
-    }
 
     let analysedWordsLowerCase = [...analysedWordsOrig];
     for (let i = 0; i < analysedWordsLowerCase.length; i++) {
@@ -208,8 +175,21 @@ function WordAnalyser() {
 
     let analysedSyllablesLowerCase = [...analysedSyllables];
     for (let i = 0; i < analysedSyllablesLowerCase.length; i++) {
-      if (analysedWordTypes[i] !== 'nimisõna (pärisnimi)') {
-        analysedSyllablesLowerCase[i] = analysedSyllablesLowerCase[i].toLowerCase();
+      if (analysedWordTypes[i] === 'nimisõna (pärisnimi)') {
+        if (analysedWordsLowerCase[i].includes('-')) {
+          let result = '';
+          let hyphenCounter = 0;
+          let nameWithoutHyphens = analysedWordsLowerCase[i].replaceAll('-', '');
+          for (let j = 0; j < nameWithoutHyphens.length; j++) {
+            if (analysedSyllablesLowerCase[i][j + hyphenCounter] === '-') {
+              result += '-';
+              hyphenCounter++;
+            }
+            result += nameWithoutHyphens[j];
+          }
+          analysedSyllablesLowerCase[i] = result;
+        }
+        analysedSyllablesLowerCase[i] = analysedSyllablesLowerCase[i][0].toUpperCase() + analysedSyllablesLowerCase[i].slice(1);
       }
     }
 
