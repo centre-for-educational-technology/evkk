@@ -51,6 +51,7 @@ import static ee.evkk.dto.enums.CorpusDownloadForm.VISLCG3;
 import static ee.evkk.dto.enums.Language.EN;
 import static ee.evkk.dto.enums.Language.ET;
 import static ee.tlu.evkk.common.util.TextUtils.sanitizeLemmaStrings;
+import static ee.tlu.evkk.common.util.TextUtils.sanitizeWordStrings;
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.caseTranslationsEn;
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.caseTranslationsEt;
 import static ee.tlu.evkk.core.service.maps.TranslationMappings.degreeTranslationsEn;
@@ -218,13 +219,13 @@ public class TextService {
     return isNotBlank(daoResponse) ? daoResponse : new ArrayList<>().toString();
   }
 
-  public TextResponseDto sonadLemmadSilbidLausedSonaliigidVormimargendid(CommonTextRequestDto request) {
-    StanzaResponseDto stanzaResponse = stanzaServerClient.getSonadLemmadSilbidLausedSonaliigidVormimargendid(request.getTekst());
+  public TextResponseDto sonadLemmadSilbidSonaliigidVormimargendid(CommonTextRequestDto request) {
+    StanzaResponseDto stanzaResponse = stanzaServerClient.getSonadLemmadSilbidSonaliigidVormimargendid(request.getTekst());
     return new TextResponseDto(
-      stanzaResponse.getSonad(),
+      sanitizeWordStrings(stanzaResponse.getSonad()),
       sanitizeLemmaStrings(stanzaResponse.getLemmad()),
       stanzaResponse.getSilbid(),
-      stanzaResponse.getLaused(),
+      null,
       translateWordType(stanzaResponse.getSonaliigid(), request.getLanguage()),
       translateFeats(stanzaResponse.getVormimargendid(), request.getLanguage())
     );

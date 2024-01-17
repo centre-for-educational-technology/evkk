@@ -26,4 +26,12 @@ public class TextUtils {
         .replace("=", ""))
       .collect(toList());
   }
+
+  public static List<String> sanitizeWordStrings(List<String> words) {
+    return words.stream()
+      .map(word -> word
+        .replace("'", "")
+        .replace("*", ""))
+      .collect(toList());
+  }
 }

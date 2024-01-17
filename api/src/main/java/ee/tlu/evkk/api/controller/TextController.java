@@ -83,9 +83,9 @@ public class TextController {
     return textDao.findTextIdAndTitleByCorpusId(korpusekood);
   }
 
-  @PostMapping("/sonad-lemmad-silbid-laused-sonaliigid-vormimargendid")
-  public ResponseEntity<TextResponseDto> sonadLemmadSilbidLausedSonaliigidVormimargendid(@RequestBody CommonTextRequestDto request) {
-    return ok(textService.sonadLemmadSilbidLausedSonaliigidVormimargendid(request));
+  @PostMapping("/sonad-lemmad-silbid-sonaliigid-vormimargendid")
+  public ResponseEntity<TextResponseDto> sonadLemmadSilbidSonaliigidVormimargendid(@RequestBody CommonTextRequestDto request) {
+    return ok(textService.sonadLemmadSilbidSonaliigidVormimargendid(request));
   }
 
   @PostMapping("/sonaliik")

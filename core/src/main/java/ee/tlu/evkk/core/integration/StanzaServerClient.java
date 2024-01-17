@@ -27,10 +27,10 @@ public class StanzaServerClient extends AbstractRestOperationsClient {
     this.rest = restOperations;
   }
 
-  public StanzaResponseDto getSonadLemmadSilbidLausedSonaliigidVormimargendid(String tekst) {
+  public StanzaResponseDto getSonadLemmadSilbidSonaliigidVormimargendid(String tekst) {
     Map<String, String> map = Map.of(MAP_PARAMETER, tekst);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
-    ResponseEntity<StanzaResponseDto> forEntity = retry().execute(context -> rest.postForEntity("/sonad-lemmad-silbid-laused-sonaliigid-vormimargendid", requestEntity, StanzaResponseDto.class));
+    ResponseEntity<StanzaResponseDto> forEntity = retry().execute(context -> rest.postForEntity("/sonad-lemmad-silbid-sonaliigid-vormimargendid", requestEntity, StanzaResponseDto.class));
     return forEntity.getBody();
   }
 

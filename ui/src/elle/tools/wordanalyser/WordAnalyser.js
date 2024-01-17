@@ -18,6 +18,8 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { queryStore } from '../../store/QueryStore';
 import { getSelectedTexts } from '../../service/TextService';
+import { WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO } from '../../const/Constants';
+import { useTranslation } from 'react-i18next';
 
 function WordAnalyser() {
   const [analysedInput, setAnalysedInput] = useContext(AnalyseContext);
@@ -25,6 +27,7 @@ function WordAnalyser() {
   const [selectedWords, setSelectedWords] = useState(['']);
   const [wordInfo, setWordInfo] = useState('');
   const [inputText, setInputText] = useState('');
+  const [isTextTooLong, setIsTextTooLong] = useState(false);
   const setTableValue = useContext(TabContext)[1];
   const type = useContext(TypeContext);
   const form = useContext(FormContext);
@@ -36,6 +39,7 @@ function WordAnalyser() {
   const [border, setBorder] = useState(0);
   const [storeData, setStoreData] = useState();
   const inputRef = useRef();
+  const {t} = useTranslation();
 
   useEffect(() => {
     getSelectedTexts(setStoreData);
@@ -50,7 +54,7 @@ function WordAnalyser() {
   });
 
   const getResponse = (input) => {
-    fetch('/api/texts/sonad-lemmad-silbid-laused-sonaliigid-vormimargendid', {
+    fetch('/api/texts/sonad-lemmad-silbid-sonaliigid-vormimargendid', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -59,35 +63,8 @@ function WordAnalyser() {
     })
       .then(data => data.json())
       .then(data => {
-        data.sonad = processWordsResponse(data.sonad);
-        data.silbid = processSyllablesResponse(data.silbid);
         analyseInput(input, data);
       });
-  };
-
-  const processWordsResponse = (data) => {
-    let newData = [];
-
-    for (const element of data) {
-      if (element) {
-        let item = element.replace(/['*]+/g, '');
-        newData.push(item);
-      }
-    }
-    return newData;
-  };
-
-  const processSyllablesResponse = (data) => {
-    let newData = [];
-    for (const element of data) {
-      if (element) {
-        let item = element.replace(/[()'",.]+/g, '');
-        if (item) {
-          newData.push(item);
-        }
-      }
-    }
-    return newData;
   };
 
   // create ids
@@ -110,47 +87,18 @@ function WordAnalyser() {
     const words = data.sonad;
     const lemmas = data.lemmad;
     const syllables = data.silbid;
-    // todo kas on vaja?
-
-    // todo sõnaanalüsaatoris võtta maha 1000 sõna piirang, kaotada klõpsamise kast kui > 1001 ning kuvada infokast "Teksti analüüsimine sõna kaupa on võimalik kuni 1000-sõnalise teksti puhul."
-
-    const sentences = data.laused;
     const wordTypes = data.sonaliigid;
     const wordForms = data.vormimargendid;
 
+    setIsTextTooLong(words.length > WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO);
+
     const createdIds = createIds(words);
-
-    let analysedWordsLowerCase = [...words];
-    for (let i = 0; i < analysedWordsLowerCase.length; i++) {
-      if (wordTypes[i] !== 'nimisõna (pärisnimi)') {
-        analysedWordsLowerCase[i] = analysedWordsLowerCase[i].toLowerCase();
-      }
-    }
-
-    let analysedSyllablesLowerCase = [...syllables];
-    for (let i = 0; i < analysedSyllablesLowerCase.length; i++) {
-      if (wordTypes[i] === 'nimisõna (pärisnimi)') {
-        if (analysedWordsLowerCase[i].includes('-')) {
-          let result = '';
-          let hyphenCounter = 0;
-          let nameWithoutHyphens = analysedWordsLowerCase[i].replaceAll('-', '');
-          for (let j = 0; j < nameWithoutHyphens.length; j++) {
-            if (analysedSyllablesLowerCase[i][j + hyphenCounter] === '-') {
-              result += '-';
-              hyphenCounter++;
-            }
-            result += nameWithoutHyphens[j];
-          }
-          analysedSyllablesLowerCase[i] = result;
-        }
-        analysedSyllablesLowerCase[i] = analysedSyllablesLowerCase[i][0].toUpperCase() + analysedSyllablesLowerCase[i].slice(1);
-      }
-    }
+    const analysedWordsLowerCase = processWordsLowerCase([...words], wordTypes);
+    const analysedSyllablesLowerCase = processSyllableLowerCase([...syllables], analysedWordsLowerCase, wordTypes);
 
     const inputObj = {
       ids: createdIds,
       text: input,
-      sentences: sentences,
       wordsOrig: words,
       words: analysedWordsLowerCase,
       lemmas: lemmas,
@@ -176,6 +124,37 @@ function WordAnalyser() {
     setWordInfo(wordInfoObj);
   };
 
+  const processWordsLowerCase = (analysedWordsLowerCase, wordTypes) => {
+    for (let i = 0; i < analysedWordsLowerCase.length; i++) {
+      if (wordTypes[i] !== 'nimisõna (pärisnimi)') {
+        analysedWordsLowerCase[i] = analysedWordsLowerCase[i].toLowerCase();
+      }
+    }
+    return analysedWordsLowerCase;
+  };
+
+  const processSyllableLowerCase = (analysedSyllablesLowerCase, analysedWordsLowerCase, wordTypes) => {
+    for (let i = 0; i < analysedSyllablesLowerCase.length; i++) {
+      if (wordTypes[i] === 'nimisõna (pärisnimi)') {
+        if (analysedWordsLowerCase[i].includes('-')) {
+          let result = '';
+          let hyphenCounter = 0;
+          const nameWithoutHyphens = analysedWordsLowerCase[i].replaceAll('-', '');
+          for (let j = 0; j < nameWithoutHyphens.length; j++) {
+            if (analysedSyllablesLowerCase[i][j + hyphenCounter] === '-') {
+              result += '-';
+              hyphenCounter++;
+            }
+            result += nameWithoutHyphens[j];
+          }
+          analysedSyllablesLowerCase[i] = result;
+        }
+        analysedSyllablesLowerCase[i] = analysedSyllablesLowerCase[i][0].toUpperCase() + analysedSyllablesLowerCase[i].slice(1);
+      }
+    }
+    return analysedSyllablesLowerCase;
+  };
+
   // highlight selected word from input
   const showThisWord = (id) => {
     let content = [id];
@@ -187,13 +166,13 @@ function WordAnalyser() {
     let content = [];
     for (let i = 0; i < analysedInput.words.length; i++) {
       let analysedWord = analysedInput.words[i];
-      let analysedSillable = analysedInput.syllables[i];
+      let analysedSyllable = analysedInput.syllables[i];
       let id = analysedInput.ids[i];
       if (analysedWord.indexOf(syllable) >= 0
-        && (syllable === analysedSillable
-          || analysedSillable.endsWith(`-${syllable}`)
-          || analysedSillable.startsWith(`${syllable}-`)
-          || analysedSillable.includes(`-${syllable}-`))) {
+        && (syllable === analysedSyllable
+          || analysedSyllable.endsWith(`-${syllable}`)
+          || analysedSyllable.startsWith(`${syllable}-`)
+          || analysedSyllable.includes(`-${syllable}-`))) {
         content.push(id);
       }
     }
@@ -358,7 +337,6 @@ function WordAnalyser() {
     let newInputObj = {
       ids: [''],
       text: '',
-      sentences: [''],
       words: [''],
       lemmas: [''],
       syllables: [''],
@@ -412,6 +390,13 @@ function WordAnalyser() {
       </Fade>
       <Grid className="position-relative" container
             columnSpacing={{xs: 0, md: 4}}>
+        {isTextTooLong &&
+          <Alert severity="info"
+                 className="textTooLongInfobox"
+          >
+            {t('word_analyser_text_too_long_infobox')}
+          </Alert>
+        }
         <Grid item
               xs={12}
               md={12}>
@@ -423,6 +408,7 @@ function WordAnalyser() {
               xs={12}
               md={6}>
           <Input inputText={inputText}
+                 isTextTooLong={isTextTooLong}
                  onInsert={getResponse}
                  onMarkWords={selectedWords}
                  onWordSelect={showThisWord}
@@ -434,7 +420,7 @@ function WordAnalyser() {
         <Grid item
               xs={12}
               md={6}>
-          {showResults &&
+          {showResults && !isTextTooLong &&
             <WordInfo onWordInfo={wordInfo} />
           }
         </Grid>

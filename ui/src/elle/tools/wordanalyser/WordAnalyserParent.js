@@ -64,6 +64,7 @@ export default function WordAnalyserParent() {
                               <SetLemmaContext.Provider value={setLemmaValue}>
                                 <TabContext.Provider value={[tabValue, setTabValue]}>
                                   <Box
+                                    className="wordAnalyserBox"
                                     border={border}
                                     borderColor={'#E1F5FE'}
                                     borderRadius={10}

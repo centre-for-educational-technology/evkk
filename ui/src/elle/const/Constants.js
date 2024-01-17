@@ -4,6 +4,8 @@ import { HashLink } from 'react-router-hash-link';
 
 export const EVKK_VERS1_PATH = 'https://evkk.tlu.ee/vers1/';
 
+export const WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO = 1000;
+
 export const useStyles = makeStyles((_theme) => ({
   formControl: {
     margin: 1,

@@ -20,21 +20,24 @@ mimetype = "application/json"
 post = ['POST']
 app = Flask(__name__)
 
+piirid = {"lix": [25, 35, 45, 55],
+          "smog": [5, 10, 15, 20],
+          "fk": [5, 10, 20, 25]}
+vasted = ["väga kerge", "kerge", "keskmine", "raske", "väga raske"]
 
-@app.route('/sonad-lemmad-silbid-laused-sonaliigid-vormimargendid', methods=post)
-def sonad_lemmad_silbid_laused_sonaliigid_vormimargendid():
+
+@app.route('/sonad-lemmad-silbid-sonaliigid-vormimargendid', methods=post)
+def sonad_lemmad_silbid_sonaliigid_vormimargendid():
     nlp = nlp_tpl
     tekst = request.json["tekst"]
     doc = nlp(tekst)
 
     sonad = []
     lemmad = []
-    laused = []
     sonaliigid = []
     vormimargendid = []
 
     for sentence in doc.sentences:
-        laused.append(sentence.text)
         for word in sentence.words:
             if word._upos != "PUNCT":
                 sonad.append(word.text)
@@ -45,14 +48,10 @@ def sonad_lemmad_silbid_laused_sonaliigid_vormimargendid():
                 else:
                     vormimargendid.append([word.pos, "–", word.text])
 
-    # todo kontrollida, kas silbitamine töötab normaalselt peale uue silbitaja kasutuselevõttu
-    # kasutades nt esimest lõiku siit:
-    # https://kultuur.err.ee/1609214713/riigi-toetuseta-jaanud-paide-teater-jatkab-originaalloomingu-valja-toomist
     return Response(json.dumps({
         "sonad": sonad,
         "lemmad": lemmad,
-        "silbid": silbita_sisemine(tekst),
-        "laused": laused,
+        "silbid": silbita_sisemine(" ".join(puhasta_sonad(sonad))),
         "sonaliigid": sonaliigid,
         "vormimargendid": vormimargendid
     }), mimetype=mimetype)
@@ -89,16 +88,6 @@ def vormimargendid():
 def silbita():
     tekst = request.json["tekst"]
     return Response(json.dumps(silbita_sisemine(tekst)), mimetype=mimetype)
-
-
-def silbita_sisemine(tekst):
-    process = subprocess.Popen(["bash", "/app/poolita-ja-silbita.sh"], cwd="/app", stderr=subprocess.PIPE,
-                               stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-    stdo, _ = process.communicate(tekst.encode())
-    response = stdo.decode().rstrip().split()
-    process.terminate()
-
-    return response
 
 
 @app.route('/lemmad', methods=post)
@@ -211,6 +200,43 @@ def tervitus():
     return "abc " + __file__ + " " + os.getcwd()
 
 
+@app.route('/tahedsonadlaused', methods=post)
+def tahedsonadlaused():
+    tekst = request.json["tekst"]
+    keel = 'et'
+    if request.json["keel"]:
+        keel = request.json["keel"]
+    nlp = nlp_tp
+    if keel == "ru":
+        nlp = nlp_ru_tp
+    doc = nlp(tekst)
+    v = [len(tekst), len([sona for lause in doc.sentences for sona in lause.words if sona.xpos != "Z"]),
+         len(doc.sentences)]
+    return Response(json.dumps(v), mimetype=mimetype)
+
+
+@app.route('/keerukus', methods=post)
+def keerukus():
+    tekst = request.json["tekst"]
+    return Response(json.dumps(hinda_keerukust(tekst)), mimetype=mimetype)
+
+
+@app.route('/mitmekesisus', methods=post)
+def mitmekesisus():
+    tekst = request.json["tekst"]
+    return Response(json.dumps(hinda_mitmekesisust(tekst)), mimetype=mimetype)
+
+
+def silbita_sisemine(tekst):
+    process = subprocess.Popen(["bash", "/app/poolita-ja-silbita.sh"], cwd="/app", stderr=subprocess.PIPE,
+                               stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    stdo, _ = process.communicate(tekst.encode())
+    response = stdo.decode().rstrip().split()
+    process.terminate()
+
+    return response
+
+
 def margenda_stanza(tekst, comments=True, filename="document", language='et'):
     v = []
     nlp = nlp_all
@@ -249,38 +275,11 @@ def margenda_stanza(tekst, comments=True, filename="document", language='et'):
     return "".join(v)
 
 
-@app.route('/tahedsonadlaused', methods=post)
-def tahedsonadlaused():
-    tekst = request.json["tekst"]
-    keel = 'et'
-    if request.json["keel"]:
-        keel = request.json["keel"]
-    nlp = nlp_tp
-    if keel == "ru":
-        nlp = nlp_ru_tp
-    doc = nlp(tekst)
-    v = [len(tekst), len([sona for lause in doc.sentences for sona in lause.words if sona.xpos != "Z"]),
-         len(doc.sentences)]
-    return Response(json.dumps(v), mimetype=mimetype)
-
-
 def asenda(t):
     for a in asendused:
         t = re.sub("([,-?!\"' ()])(" + a[0] + ")([,-?!\"' ()])", "\\1" + a[1] + "\\3", t)
         t = re.sub("([,-?!\"' ()])(" + a[0] + ")([,-?!\"' ()])", "\\1" + a[1] + "\\3", t)
     return t
-
-
-@app.route('/keerukus', methods=post)
-def keerukus():
-    tekst = request.json["tekst"]
-    return Response(json.dumps(hinda_keerukust(tekst)), mimetype=mimetype)
-
-
-piirid = {"lix": [25, 35, 45, 55],
-          "smog": [5, 10, 15, 20],
-          "fk": [5, 10, 20, 25]}
-vasted = ["väga kerge", "kerge", "keskmine", "raske", "väga raske"]
 
 
 def hinnang(indeks, arv):
@@ -321,10 +320,8 @@ def hinda_keerukust(tekst):
     return [lausetearv, sonadearv, poly, silpide_arv, pikad_sonad, SMOG_hinnang, FK_hinnang, int(LIX_hinnang)] + v
 
 
-@app.route('/mitmekesisus', methods=post)
-def mitmekesisus():
-    tekst = request.json["tekst"]
-    return Response(json.dumps(hinda_mitmekesisust(tekst)), mimetype=mimetype)
+def puhasta_sonad(words):
+    return [word.replace("'", "").replace("*", "") for word in words]
 
 
 def hinda_mitmekesisust(tekst):

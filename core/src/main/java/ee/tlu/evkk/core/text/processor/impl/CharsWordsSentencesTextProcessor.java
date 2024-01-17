@@ -1,12 +1,18 @@
 package ee.tlu.evkk.core.text.processor.impl;
-import javax.annotation.Nonnull;
+
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import org.springframework.stereotype.Component;
-import java.util.*;
+
+import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
+
+import static ee.tlu.evkk.core.text.processor.TextProcessor.Type.CHARS_WORDS_SENTENCES;
+import static java.lang.Integer.parseInt;
 
 @Component
-public class CharsWordsSentencesTextProcessor  extends AbstractTextProcessor {
-    
+public class CharsWordsSentencesTextProcessor extends AbstractTextProcessor {
+
   private final StanzaServerClient stanzaServerClient;
 
   public CharsWordsSentencesTextProcessor(StanzaServerClient stanzaServerClient) {
@@ -21,7 +27,7 @@ public class CharsWordsSentencesTextProcessor  extends AbstractTextProcessor {
   @Nonnull
   @Override
   public Type getType() {
-    return Type.CHARS_WORDS_SENTENCES;
+    return CHARS_WORDS_SENTENCES;
   }
 
   @Nonnull
@@ -29,11 +35,11 @@ public class CharsWordsSentencesTextProcessor  extends AbstractTextProcessor {
   protected Object doProcess(@Nonnull String input, @Nonnull Context context) {
     String languageCode = context.getLanguageCode().orElseThrow(() -> new RuntimeException("No language code provided"));
     String languageIsoCode = languageCodeToIso(languageCode);
-    String[] triple= stanzaServerClient.getTahedSonadLaused(input, languageIsoCode);
-    Map<String, Integer> answer=new HashMap<String, Integer>();
-    answer.put("charCount", Integer.parseInt(triple[0]));
-    answer.put("wordCount", Integer.parseInt(triple[1]));
-    answer.put("sentenceCount", Integer.parseInt(triple[2]));
+    String[] triple = stanzaServerClient.getTahedSonadLaused(input, languageIsoCode);
+    Map<String, Integer> answer = new HashMap<>();
+    answer.put("charCount", parseInt(triple[0]));
+    answer.put("wordCount", parseInt(triple[1]));
+    answer.put("sentenceCount", parseInt(triple[2]));
     return answer;
   }
 
