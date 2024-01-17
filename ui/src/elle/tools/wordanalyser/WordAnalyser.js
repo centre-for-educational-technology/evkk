@@ -120,17 +120,6 @@ function WordAnalyser() {
 
     const createdIds = createIds(words);
 
-    for (let i = 0; i < syllables.length; i++) {
-      let word = syllables[i];
-      if (word.charAt(0) === '-') {
-        syllables[i] = word.slice(1);
-        word = syllables[i];
-      }
-      if (word.charAt(word.length - 1) === '-') {
-        syllables[i] = word.slice(0, word.length - 1);
-      }
-    }
-
     let analysedWordsLowerCase = [...words];
     for (let i = 0; i < analysedWordsLowerCase.length; i++) {
       if (wordTypes[i] !== 'nimisõna (pärisnimi)') {
@@ -140,8 +129,21 @@ function WordAnalyser() {
 
     let analysedSyllablesLowerCase = [...syllables];
     for (let i = 0; i < analysedSyllablesLowerCase.length; i++) {
-      if (wordTypes[i] !== 'nimisõna (pärisnimi)') {
-        analysedSyllablesLowerCase[i] = analysedSyllablesLowerCase[i].toLowerCase();
+      if (wordTypes[i] === 'nimisõna (pärisnimi)') {
+        if (analysedWordsLowerCase[i].includes('-')) {
+          let result = '';
+          let hyphenCounter = 0;
+          let nameWithoutHyphens = analysedWordsLowerCase[i].replaceAll('-', '');
+          for (let j = 0; j < nameWithoutHyphens.length; j++) {
+            if (analysedSyllablesLowerCase[i][j + hyphenCounter] === '-') {
+              result += '-';
+              hyphenCounter++;
+            }
+            result += nameWithoutHyphens[j];
+          }
+          analysedSyllablesLowerCase[i] = result;
+        }
+        analysedSyllablesLowerCase[i] = analysedSyllablesLowerCase[i][0].toUpperCase() + analysedSyllablesLowerCase[i].slice(1);
       }
     }
 
