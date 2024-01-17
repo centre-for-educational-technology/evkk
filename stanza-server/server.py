@@ -25,6 +25,10 @@ piirid = {"lix": [25, 35, 45, 55],
           "fk": [5, 10, 20, 25]}
 vasted = ["väga kerge", "kerge", "keskmine", "raske", "väga raske"]
 
+sona_upos_piirang = ["PUNCT", "SYM"]
+sona_upos_piirang_mitmekesisus = ["PUNCT", "SYM", "NUM", "PROPN"]
+vormimargend_upos_piirang = ["ADP", "ADV", "CCONJ", "SCONJ", "INTJ", "X"]
+
 
 @app.route('/sonad-lemmad-silbid-sonaliigid-vormimargendid', methods=post)
 def sonad_lemmad_silbid_sonaliigid_vormimargendid():
@@ -39,11 +43,11 @@ def sonad_lemmad_silbid_sonaliigid_vormimargendid():
 
     for sentence in doc.sentences:
         for word in sentence.words:
-            if word._upos not in ["PUNCT", "SYM"]:
+            if word._upos not in sona_upos_piirang:
                 sonad.append(word.text)
                 lemmad.append(word.lemma)
                 sonaliigid.append(word.pos)
-                if word._upos not in ["ADP", "ADV", "CCONJ", "SCONJ", "INTJ", "X"]:
+                if word._upos not in vormimargend_upos_piirang:
                     vormimargendid.append([word.pos, word.feats, word.text])
                 else:
                     vormimargendid.append([word.pos, "–", word.text])
@@ -332,7 +336,7 @@ def hinda_mitmekesisust(tekst):
     words_array = []
     for s_sentence in doc.sentences:
         for w_word in s_sentence.words:
-            if w_word.upos != "PUNCT" and w_word.upos != "NUM" and w_word.upos != "SYM" and w_word.upos != "PROPN" \
+            if w_word.upos not in sona_upos_piirang_mitmekesisus \
                 and not (
                 w_word._feats is not None and (
                 w_word._feats.find("NumForm=Digit") > 0 or w_word._feats.find("Abbr=Yes") >= 0)):
