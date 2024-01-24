@@ -2,8 +2,9 @@ package ee.tlu.evkk.taskscheduler;
 
 import ee.tlu.evkk.core.CoreConfiguration;
 import ee.tlu.evkk.taskscheduler.task.TextProcessingTask;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -21,9 +22,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 @Import(CoreConfiguration.class)
 @EnableScheduling
 @EnableConfigurationProperties(TaskSchedulerConfiguration.Properties.class)
+@Slf4j
 public class TaskSchedulerConfiguration {
-
-  private static final Logger log = LoggerFactory.getLogger(TaskSchedulerConfiguration.class);
 
   private final Properties properties;
   private final TextProcessingTask textProcessingTask;
@@ -43,18 +43,11 @@ public class TaskSchedulerConfiguration {
   }
 
   @ConfigurationProperties("evkk.task-scheduler")
+  @Getter
+  @Setter
   public static class Properties {
 
     private Boolean textProcessingEnabled;
-
-    public Boolean getTextProcessingEnabled() {
-      return textProcessingEnabled;
-    }
-
-    public void setTextProcessingEnabled(Boolean textProcessingEnabled) {
-      this.textProcessingEnabled = textProcessingEnabled;
-    }
-
   }
 
 }

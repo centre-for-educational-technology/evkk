@@ -23,6 +23,7 @@ import ee.tlu.evkk.dal.dto.TextQueryRangeParamHelper;
 import ee.tlu.evkk.dal.dto.TextQuerySingleParamHelper;
 import ee.tlu.evkk.dal.repository.TextPropertyRepository;
 import ee.tlu.evkk.dal.repository.TextRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -70,6 +71,7 @@ import static org.apache.logging.log4j.util.Strings.isNotBlank;
  * Date: 10.02.2022
  */
 @Service
+@AllArgsConstructor
 public class TextService {
 
   private final TextRepository textRepository;
@@ -100,13 +102,6 @@ public class TextService {
   private static String imperativeMood;
 
   private static final Pattern fileNameCharacterWhitelist = compile("[\\p{L}0-9& ._()!-]");
-
-  public TextService(TextRepository textRepository, TextPropertyRepository textPropertyRepository, TextDao textDao, StanzaServerClient stanzaServerClient) {
-    this.textRepository = textRepository;
-    this.textPropertyRepository = textPropertyRepository;
-    this.textDao = textDao;
-    this.stanzaServerClient = stanzaServerClient;
-  }
 
   public List<TextWithProperties> search(Pageable pageable, String[] korpus, String tekstityyp, String tekstikeel, String keeletase, Boolean abivahendid, Integer aasta, String sugu) {
     Map<String, Collection<String>> filters = buildFilters(korpus, tekstityyp, tekstikeel, keeletase, abivahendid, aasta, sugu);
