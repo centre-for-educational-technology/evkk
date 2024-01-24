@@ -137,7 +137,7 @@ export default function Wordlist() {
       disableSortBy: true,
       Cell: (cellProps) => {
         return <WordlistMenu word={cellProps.row.original.word} type={typeValue}
-                             keepCapitalization={capitalizationChecked} showCollocatesButton={true}/>;
+                             keepCapitalization={capitalizationChecked} showCollocatesButton={true} />;
       }
     }
   ], [typeValue, typeValueToDisplay, capitalizationChecked, t]);
@@ -156,7 +156,7 @@ export default function Wordlist() {
       })
         .then(res => res.json())
         .then(result => {
-          setResponse(result);
+          setResponse(result.resultList);
           setShowTable(true);
           setTypeValueToDisplay(typeValue);
         });
@@ -200,7 +200,7 @@ export default function Wordlist() {
                  expanded={paramsExpanded}
                  onChange={() => setParamsExpanded(!paramsExpanded)}>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon/>}
+          expandIcon={<ExpandMoreIcon />}
           id="wordlist-filters-header"
         >
           <Typography>
@@ -222,11 +222,11 @@ export default function Wordlist() {
                     onChange={handleTypeChange}
                   >
                     <FormControlLabel value="WORDS"
-                                      control={<Radio/>}
-                                      label={t('wordlist_search_word_forms')}/>
+                                      control={<Radio />}
+                                      label={t('wordlist_search_word_forms')} />
                     <FormControlLabel value="LEMMAS"
-                                      control={<Radio/>}
-                                      label={t('wordlist_search_base_forms')}/>
+                                      control={<Radio />}
+                                      label={t('wordlist_search_base_forms')} />
                   </RadioGroup>
                   {typeError && <FormHelperText>{t('error_mandatory_field')}</FormHelperText>}
                   <Button sx={DefaultButtonStyle}
@@ -258,7 +258,7 @@ export default function Wordlist() {
                                         </a>
                                         {t('wordlist_stopwords_textbox_hover_3')}</>}
                                                placement="right">
-                                        <QuestionMark className="tooltip-icon"/>
+                                        <QuestionMark className="tooltip-icon" />
                                       </Tooltip></>}
                   />
                   <TextField label={t('wordlist_stopwords_textbox')}
@@ -266,7 +266,7 @@ export default function Wordlist() {
                              size="small"
                              value={customStopwords}
                              onChange={(e) => setCustomStopwords(e.target.value)}
-                             style={{width: '350px'}}/>
+                             style={{width: '350px'}} />
                 </FormControl>
               </div>
               <div>
@@ -283,7 +283,7 @@ export default function Wordlist() {
                                       <Tooltip
                                         title={t('wordlist_retain_uppercase_letters_hover')}
                                         placement="right">
-                                        <QuestionMark className="tooltip-icon"/>
+                                        <QuestionMark className="tooltip-icon" />
                                       </Tooltip></>}
                   />
                   <TextField label={<>
@@ -291,7 +291,7 @@ export default function Wordlist() {
                     <Tooltip
                       title={t('wordlist_set_minimum_word_frequency_hover')}
                       placement="right">
-                      <QuestionMark className="tooltip-icon"/>
+                      <QuestionMark className="tooltip-icon" />
                     </Tooltip></>}
                              type="number"
                              inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: '1'}}
@@ -300,7 +300,7 @@ export default function Wordlist() {
                              size="small"
                              value={minimumFrequency}
                              onChange={(e) => setMinimumFrequency(e.target.value)}
-                             style={{width: '310px'}}/>
+                             style={{width: '310px'}} />
                 </FormControl>
               </div>
             </div>
@@ -313,11 +313,11 @@ export default function Wordlist() {
                              headers={tableToDownload}
                              accessors={accessors}
                              sortByColAccessor={sortByColAccessor}
-                             marginTop={'2vh'}/>
+                             marginTop={'2vh'} />
         <GenericTable tableClassname={'wordlist-table'}
                       columns={columns}
                       data={data}
-                      sortByColAccessor={sortByColAccessor}/>
+                      sortByColAccessor={sortByColAccessor} />
       </>}
     </div>
   );

@@ -17,6 +17,14 @@ public class TextUtils {
       .replace("\\t", " ");
   }
 
+  public static String sanitizeTextDeep(String text) {
+    return text
+      .replace("\\n", " ")
+      .replace("\\t", " ")
+      .replace("'", "")
+      .replace("*", "");
+  }
+
   public static List<String> sanitizeLemmaStrings(List<String> lemmas) {
     return lemmas.stream()
       .map(lemma -> lemma

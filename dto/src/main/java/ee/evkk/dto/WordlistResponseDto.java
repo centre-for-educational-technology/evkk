@@ -4,14 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 public class WordlistResponseDto {
 
-  private String word;
-  private Long frequencyCount;
-  private BigDecimal frequencyPercentage;
+  private List<WordlistResponseEntryDto> resultList;
+  private List<String> wordlist;
 }

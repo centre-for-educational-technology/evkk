@@ -34,9 +34,8 @@ eesti_tahestik = r'[a-zA-ZõÕäÄöÖüÜŽžŠš]+'
 
 @app.route('/sonad-lemmad-silbid-sonaliigid-vormimargendid', methods=post)
 def sonad_lemmad_silbid_sonaliigid_vormimargendid():
-    nlp = nlp_tpl
     tekst = request.json["tekst"]
-    doc = nlp(tekst)
+    doc = nlp_tpl(tekst)
 
     sonad = []
     eestikeelsed_sonad = []
@@ -73,29 +72,27 @@ def sonad_lemmad_silbid_sonaliigid_vormimargendid():
 
 @app.route('/sonaliik', methods=post)
 def sonaliik():
-    nlp = nlp_tp
-    doc = nlp(request.json["tekst"])
-    v1 = []
+    doc = nlp_tp(request.json["tekst"])
+    result = []
     for sentence in doc.sentences:
         for word in sentence.words:
             if word.upos != "PUNCT":
-                v1.append(word.pos)
-    return Response(json.dumps(v1), mimetype=mimetype)
+                result.append(word.pos)
+    return Response(json.dumps(result), mimetype=mimetype)
 
 
 @app.route('/vormimargendid', methods=post)
 def vormimargendid():
-    nlp = nlp_tp
-    doc = nlp(request.json["tekst"])
-    v1 = []
+    doc = nlp_tp(request.json["tekst"])
+    result = []
     for sentence in doc.sentences:
         for word in sentence.words:
             if word.upos != "PUNCT":
                 if word.upos not in ["ADP", "ADV", "CCONJ", "SCONJ", "INTJ", "X"]:
-                    v1.append([word.pos, word.feats, word.text])
+                    result.append([word.pos, word.feats, word.text])
                 else:
-                    v1.append([word.pos, "–", word.text])
-    return Response(json.dumps(v1), mimetype=mimetype)
+                    result.append([word.pos, "–", word.text])
+    return Response(json.dumps(result), mimetype=mimetype)
 
 
 @app.route('/silbid', methods=post)
@@ -106,89 +103,81 @@ def silbid():
 
 @app.route('/lemmad', methods=post)
 def lemmad():
-    nlp = nlp_tpl
-    doc = nlp(request.json["tekst"])
-    v1 = []
+    doc = nlp_tpl(request.json["tekst"])
+    result = []
     for sentence in doc.sentences:
         for word in sentence.words:
-            if word.upos != "PUNCT":
-                v1.append(word.lemma)
-    return Response(json.dumps(v1), mimetype=mimetype)
+            if word.upos not in sona_upos_piirang:
+                result.append(word.lemma)
+    return Response(json.dumps(result), mimetype=mimetype)
 
 
 @app.route('/lemmadjaposinfo', methods=post)
 def lemmadjaposinfo():
-    nlp = nlp_tpl
-    doc = nlp(request.json["tekst"])
-    v1 = []
+    doc = nlp_tpl(request.json["tekst"])
+    result = []
     for sentence in doc.sentences:
         for word in sentence.words:
-            if word.upos != "PUNCT":
-                v1.append({"word": word.lemma, "startChar": word.start_char, "endChar": word.end_char})
-    return Response(json.dumps(v1), mimetype=mimetype)
+            if word.upos not in sona_upos_piirang:
+                result.append({"word": word.lemma, "startChar": word.start_char, "endChar": word.end_char})
+    return Response(json.dumps(result), mimetype=mimetype)
 
 
 @app.route('/laused', methods=post)
 def laused():
-    nlp = nlp_t
-    doc = nlp(request.json["tekst"])
-    v1 = []
+    doc = nlp_t(request.json["tekst"])
+    result = []
     for sentence in doc.sentences:
-        v2 = [sentence.text]
-        v1.append(v2)
-    return Response(json.dumps(v1), mimetype=mimetype)
+        result.append(sentence.text)
+    return Response(json.dumps(result), mimetype=mimetype)
 
 
 @app.route('/sonadlausetenajaposinfo', methods=post)
 def sonadlausetenajaposinfo():
-    nlp = nlp_tp
-    doc = nlp(request.json["tekst"])
-    v1 = []
+    doc = nlp_tp(request.json["tekst"])
+    result = []
     for sentence in doc.sentences:
-        v2 = []
+        sentence_result = []
         for word in sentence.words:
-            if word.upos != "PUNCT":
-                v2.append({"word": word.text, "startChar": word.start_char, "endChar": word.end_char})
-        v1.append(v2)
-    return Response(json.dumps(v1), mimetype=mimetype)
+            if word.upos not in sona_upos_piirang:
+                sentence_result.append({"word": word.text, "startChar": word.start_char, "endChar": word.end_char})
+        result.append(sentence_result)
+    return Response(json.dumps(result), mimetype=mimetype)
 
 
 @app.route('/lemmadlausetenajaposinfo', methods=post)
 def lemmadlausetenajaposinfo():
-    nlp = nlp_tpl
-    doc = nlp(request.json["tekst"])
-    v1 = []
+    doc = nlp_tpl(request.json["tekst"])
+    result = []
     for sentence in doc.sentences:
-        v2 = []
+        sentence_result = []
         for word in sentence.words:
-            if word.upos != "PUNCT":
-                v2.append({"word": word.lemma, "startChar": word.start_char, "endChar": word.end_char})
-        v1.append(v2)
-    return Response(json.dumps(v1), mimetype=mimetype)
+            if word.upos not in sona_upos_piirang:
+                sentence_result.append({"word": word.lemma, "startChar": word.start_char, "endChar": word.end_char})
+        result.append(sentence_result)
+    return Response(json.dumps(result), mimetype=mimetype)
 
 
 @app.route('/sonad', methods=post)
 def sonad():
-    nlp = nlp_tp
-    doc = nlp(request.json["tekst"])
-    v1 = []
+    doc = nlp_tp(request.json["tekst"])
+    result = []
     for sentence in doc.sentences:
         for word in sentence.words:
-            if word.upos != "PUNCT":
-                v1.append(word.text)
-    return Response(json.dumps(v1), mimetype=mimetype)
+            if word.upos not in sona_upos_piirang:
+                result.append(word.text)
+    return Response(json.dumps(result), mimetype=mimetype)
 
 
 @app.route('/sonadjaposinfo', methods=post)
 def sonadjaposinfo():
-    nlp = nlp_tp
-    doc = nlp(request.json["tekst"])
-    v1 = []
+    doc = nlp_tp(request.json["tekst"])
+    result = []
     for sentence in doc.sentences:
         for word in sentence.words:
-            if word.upos != "PUNCT":
-                v1.append({"word": word.text, "startChar": word.start_char, "endChar": word.end_char})
-    return Response(json.dumps(v1), mimetype=mimetype)
+            if word.upos not in sona_upos_piirang:
+                result.append({"word": word.text, "startChar": word.start_char, "endChar": word.end_char})
+    return Response(json.dumps(result), mimetype=mimetype)
 
 
 @app.route('/keeletase', methods=post)
@@ -307,8 +296,7 @@ def hinda_keerukust(tekst):
     poly = 0
     silpide_arv = 0
     pikad_sonad = 0
-    nlp = nlp_tp
-    doc = nlp(tekst)
+    doc = nlp_tp(tekst)
     eestikeelsed_sonad = []
 
     for sentence in doc.sentences:
@@ -348,8 +336,7 @@ def sona_on_eestikeelne(sona):
 
 def hinda_mitmekesisust(tekst):
     import valemid_mitmekesisus
-    nlp = nlp_tpl
-    doc = nlp(tekst)
+    doc = nlp_tpl(tekst)
 
     words_array = []
     for s_sentence in doc.sentences:

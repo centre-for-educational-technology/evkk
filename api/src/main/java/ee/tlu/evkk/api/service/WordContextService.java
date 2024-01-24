@@ -6,6 +6,7 @@ import ee.evkk.dto.WordContextResponseDto;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.service.TextService;
 import ee.tlu.evkk.dal.dto.WordAndPosInfoDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,15 +27,11 @@ import static ee.tlu.evkk.common.util.TextUtils.sanitizeText;
 import static java.util.Arrays.asList;
 
 @Service
+@RequiredArgsConstructor
 public class WordContextService {
 
   private final StanzaServerClient stanzaServerClient;
   private final TextService textService;
-
-  public WordContextService(StanzaServerClient stanzaServerClient, TextService textService) {
-    this.textService = textService;
-    this.stanzaServerClient = stanzaServerClient;
-  }
 
   public WordContextResponseDto getWordContextResponse(WordContextRequestDto dto) {
     String sanitizedTextContent = sanitizeText(textService.combineCorpusTextIdsAndOwnText(dto.getCorpusTextIds(), dto.getOwnTexts()));
