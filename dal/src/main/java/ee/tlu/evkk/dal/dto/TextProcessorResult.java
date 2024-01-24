@@ -1,6 +1,8 @@
 package ee.tlu.evkk.dal.dto;
 
 import ee.tlu.evkk.dal.json.Json;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
@@ -8,6 +10,8 @@ import java.util.UUID;
  * @author Mikk Tarvas
  * Date: 22.01.2022
  */
+@Getter
+@Setter
 public class TextProcessorResult {
 
   private UUID textProcessorResultId;
@@ -15,45 +19,4 @@ public class TextProcessorResult {
   private String type;
   private Long version;
   private Json result;
-
-  public UUID getTextProcessorResultId() {
-    return textProcessorResultId;
-  }
-
-  public void setTextProcessorResultId(UUID textProcessorResultId) {
-    this.textProcessorResultId = textProcessorResultId;
-  }
-
-  public String getTextHash() {
-    return textHash;
-  }
-
-  public void setTextHash(String textHash) {
-    this.textHash = textHash;
-  }
-
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
-
-  public Long getVersion() {
-    return version;
-  }
-
-  public void setVersion(Long version) {
-    this.version = version;
-  }
-
-  public Json getResult() {
-    return result;
-  }
-
-  public void setResult(Json result) {
-    this.result = result;
-  }
-
 }

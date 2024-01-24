@@ -29,6 +29,8 @@ sona_upos_piirang = ["PUNCT", "SYM"]
 sona_upos_piirang_mitmekesisus = ["PUNCT", "SYM", "NUM", "PROPN"]
 vormimargend_upos_piirang = ["ADP", "ADV", "CCONJ", "SCONJ", "INTJ", "X"]
 
+eesti_tahestik = r'[a-zA-ZõÕäÄöÖüÜŽžŠš]+'
+
 
 @app.route('/sonad-lemmad-silbid-sonaliigid-vormimargendid', methods=post)
 def sonad_lemmad_silbid_sonaliigid_vormimargendid():
@@ -37,6 +39,7 @@ def sonad_lemmad_silbid_sonaliigid_vormimargendid():
     doc = nlp(tekst)
 
     sonad = []
+    eestikeelsed_sonad = []
     lemmad = []
     sonaliigid = []
     vormimargendid = []
@@ -45,24 +48,31 @@ def sonad_lemmad_silbid_sonaliigid_vormimargendid():
         for word in sentence.words:
             if word._upos not in sona_upos_piirang:
                 sonad.append(word.text)
-                lemmad.append(word.lemma)
-                sonaliigid.append(word.pos)
-                if word._upos not in vormimargend_upos_piirang:
-                    vormimargendid.append([word.pos, word.feats, word.text])
+                if sona_on_eestikeelne(word.text):
+                    eestikeelsed_sonad.append(word.text)
+                    lemmad.append(word.lemma)
+                    sonaliigid.append(word.pos)
+                    if word._upos not in vormimargend_upos_piirang:
+                        vormimargendid.append([word.pos, word.feats])
+                    else:
+                        vormimargendid.append([word.pos, "–"])
                 else:
-                    vormimargendid.append([word.pos, "–", word.text])
+                    eestikeelsed_sonad.append("–")
+                    lemmad.append("–")
+                    sonaliigid.append("–")
+                    vormimargendid.append(["–", "–"])
 
     return Response(json.dumps({
         "sonad": sonad,
         "lemmad": lemmad,
-        "silbid": silbita_sisemine(" ".join(puhasta_sonad(sonad))),
+        "silbid": silbita_sisemine(" ".join(puhasta_sonad(eestikeelsed_sonad))),
         "sonaliigid": sonaliigid,
         "vormimargendid": vormimargendid
     }), mimetype=mimetype)
 
 
 @app.route('/sonaliik', methods=post)
-def silbid():
+def sonaliik():
     nlp = nlp_tp
     doc = nlp(request.json["tekst"])
     v1 = []
@@ -89,7 +99,7 @@ def vormimargendid():
 
 
 @app.route('/silbid', methods=post)
-def silbita():
+def silbid():
     tekst = request.json["tekst"]
     return Response(json.dumps(silbita_sisemine(tekst)), mimetype=mimetype)
 
@@ -238,7 +248,7 @@ def silbita_sisemine(tekst):
     response = stdo.decode().rstrip().split()
     process.terminate()
 
-    return response
+    return [sona.replace("-", "–") if sona == "-" else sona for sona in response]
 
 
 def margenda_stanza(tekst, comments=True, filename="document", language='et'):
@@ -326,6 +336,10 @@ def hinda_keerukust(tekst):
 
 def puhasta_sonad(words):
     return [word.replace("'", "").replace("*", "") for word in words]
+
+
+def sona_on_eestikeelne(sona):
+    return bool(re.fullmatch(eesti_tahestik, sona))
 
 
 def hinda_mitmekesisust(tekst):

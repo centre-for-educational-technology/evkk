@@ -52,20 +52,6 @@ import static ee.evkk.dto.enums.Language.EN;
 import static ee.evkk.dto.enums.Language.ET;
 import static ee.tlu.evkk.common.util.TextUtils.sanitizeLemmaStrings;
 import static ee.tlu.evkk.common.util.TextUtils.sanitizeWordStrings;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.caseTranslationsEn;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.caseTranslationsEt;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.degreeTranslationsEn;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.degreeTranslationsEt;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.moodTranslationsEn;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.moodTranslationsEt;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.numberTranslationsEn;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.numberTranslationsEt;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.personTranslationsEn;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.personTranslationsEt;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.verbFormTranslationsEn;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.verbFormTranslationsEt;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.wordTypesEn;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.wordTypesEt;
 import static java.io.File.createTempFile;
 import static java.lang.Boolean.TRUE;
 import static java.lang.String.format;
@@ -91,8 +77,8 @@ public class TextService {
   private final TextDao textDao;
   private final StanzaServerClient stanzaServerClient;
 
-  private static final Set<String> firstType = TranslationMappings.firstType;
-  private static final Set<String> secondType = TranslationMappings.secondType;
+  private static final Set<String> firstType = TranslationMappings.getFirstType();
+  private static final Set<String> secondType = TranslationMappings.getSecondType();
   private static Map<String, String> numberTranslations;
   private static Map<String, String> caseTranslations;
   private static Map<String, String> degreeTranslations;
@@ -330,16 +316,47 @@ public class TextService {
     return kood.toString();
   }
 
-  public List<String> translateWordType(List<String> tekst, Language language) {
-    Map<String, String> wordTypes;
+  private static void getLanguageMappings(Language language) {
     if (ET.equals(language)) {
-      wordTypes = wordTypesEt;
+      numberTranslations = TranslationMappings.getNumberEt();
+      caseTranslations = TranslationMappings.getCaseEt();
+      degreeTranslations = TranslationMappings.getDegreeEt();
+      moodTranslations = TranslationMappings.getMoodEt();
+      personTranslations = TranslationMappings.getPersonEt();
+      verbFormTranslations = TranslationMappings.getVerbEt();
+      tensePrefixPresent = new StringBuilder("oleviku kesksõna");
+      tensePrefixPast = new StringBuilder("mineviku kesksõna");
+      tensePostfixNud = " nud-vorm";
+      tensePostfixTud = " tud-vorm";
+      negPolarity = "eitussõna";
+      negation = "eitus";
+      impersonal = "umbisikuline tegumood";
+      present = "olevik";
+      simplePast = "lihtminevik";
+      past = "minevik";
+      inflectedFormNudParticiple = "mineviku kesksõna nud-vorm";
+      inflectedFormTudParticiple = "mineviku kesksõna tud-vorm";
+      imperativeMood = "käskiv kõneviis,";
     } else {
-      wordTypes = wordTypesEn;
+      numberTranslations = TranslationMappings.getNumberEn();
+      caseTranslations = TranslationMappings.getCaseEn();
+      degreeTranslations = TranslationMappings.getDegreeEn();
+      moodTranslations = TranslationMappings.getMoodEn();
+      personTranslations = TranslationMappings.getPersonEn();
+      verbFormTranslations = TranslationMappings.getVerbFormEn();
+      tensePrefixPresent = new StringBuilder("present participle");
+      tensePrefixPast = new StringBuilder("personal past participle");
+      tensePostfixNud = " (-nud)";
+      tensePostfixTud = " (-tud)";
+      negPolarity = "negative particle";
+      negation = "negation";
+      impersonal = "impersonal";
+      present = "present";
+      past = "past";
+      inflectedFormNudParticiple = "personal past participle (-nud)";
+      inflectedFormTudParticiple = "impersonal past participle (-tud)";
+      imperativeMood = "imperative,";
     }
-    return tekst.stream()
-      .map(wordTypes::get)
-      .collect(toList());
   }
 
   public List<String> translateFeats(List<List<String>> tekst, Language language) {
@@ -514,47 +531,16 @@ public class TextService {
     return result;
   }
 
-  private static void getLanguageMappings(Language language) {
+  public List<String> translateWordType(List<String> tekst, Language language) {
+    Map<String, String> wordTypes;
     if (ET.equals(language)) {
-      numberTranslations = numberTranslationsEt;
-      caseTranslations = caseTranslationsEt;
-      degreeTranslations = degreeTranslationsEt;
-      moodTranslations = moodTranslationsEt;
-      personTranslations = personTranslationsEt;
-      verbFormTranslations = verbFormTranslationsEt;
-      tensePrefixPresent = new StringBuilder("oleviku kesksõna");
-      tensePrefixPast = new StringBuilder("mineviku kesksõna");
-      tensePostfixNud = " nud-vorm";
-      tensePostfixTud = " tud-vorm";
-      negPolarity = "eitussõna";
-      negation = "eitus";
-      impersonal = "umbisikuline tegumood";
-      present = "olevik";
-      simplePast = "lihtminevik";
-      past = "minevik";
-      inflectedFormNudParticiple = "mineviku kesksõna nud-vorm";
-      inflectedFormTudParticiple = "mineviku kesksõna tud-vorm";
-      imperativeMood = "käskiv kõneviis,";
+      wordTypes = TranslationMappings.getWordTypesEt();
     } else {
-      numberTranslations = numberTranslationsEn;
-      caseTranslations = caseTranslationsEn;
-      degreeTranslations = degreeTranslationsEn;
-      moodTranslations = moodTranslationsEn;
-      personTranslations = personTranslationsEn;
-      verbFormTranslations = verbFormTranslationsEn;
-      tensePrefixPresent = new StringBuilder("present participle");
-      tensePrefixPast = new StringBuilder("personal past participle");
-      tensePostfixNud = " (-nud)";
-      tensePostfixTud = " (-tud)";
-      negPolarity = "negative particle";
-      negation = "negation";
-      impersonal = "impersonal";
-      present = "present";
-      past = "past";
-      inflectedFormNudParticiple = "personal past participle (-nud)";
-      inflectedFormTudParticiple = "impersonal past participle (-tud)";
-      imperativeMood = "imperative,";
+      wordTypes = TranslationMappings.getWordTypesEn();
     }
+    return tekst.stream()
+      .map(wordTypes::get)
+      .collect(toList());
   }
 
   private TextQueryRangeParamBaseHelper createRangeBaseHelper(String table, String parameter, List<List<Integer>> values) {

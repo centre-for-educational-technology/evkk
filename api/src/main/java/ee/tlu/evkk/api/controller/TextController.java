@@ -5,7 +5,6 @@ import ee.evkk.dto.CommonTextRequestDto;
 import ee.evkk.dto.CorpusDownloadDto;
 import ee.evkk.dto.CorpusRequestDto;
 import ee.evkk.dto.CorpusTextContentsDto;
-import ee.tlu.evkk.api.ApiMapper;
 import ee.tlu.evkk.api.controller.dto.TextSearchRequest;
 import ee.tlu.evkk.api.controller.dto.TextSearchResponse;
 import ee.tlu.evkk.common.env.ServiceLocator;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -34,11 +32,13 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
+import static ee.tlu.evkk.api.ApiMapper.INSTANCE;
 import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toUnmodifiableList;
 import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
 import static org.springframework.http.ResponseEntity.ok;
+import static org.springframework.web.util.UriComponentsBuilder.fromUri;
 
 @RestController
 @RequestMapping("/texts")
@@ -225,13 +225,13 @@ public class TextController {
     List<TextWithProperties> texts = textService.search(pageable, request.getKorpus(), request.getTekstityyp(), request.getTekstikeel(),
       request.getKeeletase(), request.getAbivahendid(), request.getAasta(), request.getSugu());
     URI publicApiUri = serviceLocator.locate(ServiceLocator.ServiceName.EVKK_PUBLIC_API);
-    return texts.stream().map(textWithProperties -> toTextSearchResponse(textWithProperties, publicApiUri)).collect(Collectors.toUnmodifiableList());
+    return texts.stream().map(textWithProperties -> toTextSearchResponse(textWithProperties, publicApiUri)).collect(toUnmodifiableList());
   }
 
   private TextSearchResponse toTextSearchResponse(TextWithProperties textWithProperties, URI publicApiUri) {
     UUID textId = textWithProperties.getText().getId();
-    String downloadUrl = UriComponentsBuilder.fromUri(publicApiUri).pathSegment("texts", "download", "{textId}").encode().build(textId.toString()).toString();
-    return ApiMapper.INSTANCE.toTextSearchResponse(textWithProperties, downloadUrl);
+    String downloadUrl = fromUri(publicApiUri).pathSegment("texts", "download", "{textId}").encode().build(textId.toString()).toString();
+    return INSTANCE.toTextSearchResponse(textWithProperties, downloadUrl);
   }
 
 }
