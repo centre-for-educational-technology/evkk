@@ -316,49 +316,6 @@ public class TextService {
     return kood.toString();
   }
 
-  private static void getLanguageMappings(Language language) {
-    if (ET.equals(language)) {
-      numberTranslations = TranslationMappings.getNumberEt();
-      caseTranslations = TranslationMappings.getCaseEt();
-      degreeTranslations = TranslationMappings.getDegreeEt();
-      moodTranslations = TranslationMappings.getMoodEt();
-      personTranslations = TranslationMappings.getPersonEt();
-      verbFormTranslations = TranslationMappings.getVerbEt();
-      tensePrefixPresent = new StringBuilder("oleviku kesksõna");
-      tensePrefixPast = new StringBuilder("mineviku kesksõna");
-      tensePostfixNud = " nud-vorm";
-      tensePostfixTud = " tud-vorm";
-      negPolarity = "eitussõna";
-      negation = "eitus";
-      impersonal = "umbisikuline tegumood";
-      present = "olevik";
-      simplePast = "lihtminevik";
-      past = "minevik";
-      inflectedFormNudParticiple = "mineviku kesksõna nud-vorm";
-      inflectedFormTudParticiple = "mineviku kesksõna tud-vorm";
-      imperativeMood = "käskiv kõneviis,";
-    } else {
-      numberTranslations = TranslationMappings.getNumberEn();
-      caseTranslations = TranslationMappings.getCaseEn();
-      degreeTranslations = TranslationMappings.getDegreeEn();
-      moodTranslations = TranslationMappings.getMoodEn();
-      personTranslations = TranslationMappings.getPersonEn();
-      verbFormTranslations = TranslationMappings.getVerbFormEn();
-      tensePrefixPresent = new StringBuilder("present participle");
-      tensePrefixPast = new StringBuilder("personal past participle");
-      tensePostfixNud = " (-nud)";
-      tensePostfixTud = " (-tud)";
-      negPolarity = "negative particle";
-      negation = "negation";
-      impersonal = "impersonal";
-      present = "present";
-      past = "past";
-      inflectedFormNudParticiple = "personal past participle (-nud)";
-      inflectedFormTudParticiple = "impersonal past participle (-tud)";
-      imperativeMood = "imperative,";
-    }
-  }
-
   public List<String> translateFeats(List<List<String>> tekst, Language language) {
     getLanguageMappings(language);
     List<String> result = new ArrayList<>();
@@ -604,6 +561,49 @@ public class TextService {
   private void lisaTekstiOmadus(UUID kood, String tunnus, String omadus) {
     if (isNotBlank(omadus)) {
       textDao.insertAddingProperty(kood, tunnus, omadus);
+    }
+  }
+
+  private static void getLanguageMappings(Language language) {
+    if (ET.equals(language)) {
+      numberTranslations = TranslationMappings.getNumberEt();
+      caseTranslations = TranslationMappings.getCaseEt();
+      degreeTranslations = TranslationMappings.getDegreeEt();
+      moodTranslations = TranslationMappings.getMoodEt();
+      personTranslations = TranslationMappings.getPersonEt();
+      verbFormTranslations = TranslationMappings.getVerbEt();
+      tensePrefixPresent = new StringBuilder("oleviku kesksõna");
+      tensePrefixPast = new StringBuilder("mineviku kesksõna");
+      tensePostfixNud = " nud-vorm";
+      tensePostfixTud = " tud-vorm";
+      negPolarity = "eitussõna";
+      negation = "eitus";
+      impersonal = "umbisikuline tegumood";
+      present = "olevik";
+      simplePast = "lihtminevik";
+      past = "minevik";
+      inflectedFormNudParticiple = "mineviku kesksõna nud-vorm";
+      inflectedFormTudParticiple = "mineviku kesksõna tud-vorm";
+      imperativeMood = "käskiv kõneviis,";
+    } else {
+      numberTranslations = TranslationMappings.getNumberEn();
+      caseTranslations = TranslationMappings.getCaseEn();
+      degreeTranslations = TranslationMappings.getDegreeEn();
+      moodTranslations = TranslationMappings.getMoodEn();
+      personTranslations = TranslationMappings.getPersonEn();
+      verbFormTranslations = TranslationMappings.getVerbFormEn();
+      tensePrefixPresent = new StringBuilder("present participle");
+      tensePrefixPast = new StringBuilder("personal past participle");
+      tensePostfixNud = " (-nud)";
+      tensePostfixTud = " (-tud)";
+      negPolarity = "negative particle";
+      negation = "negation";
+      impersonal = "impersonal";
+      present = "present";
+      past = "past";
+      inflectedFormNudParticiple = "personal past participle (-nud)";
+      inflectedFormTudParticiple = "impersonal past participle (-tud)";
+      imperativeMood = "imperative,";
     }
   }
 
