@@ -46,13 +46,13 @@ def sonad_lemmad_silbid_sonaliigid_vormimargendid():
 
     for sentence in doc.sentences:
         for word in sentence.words:
-            if word._upos not in sona_upos_piirang:
+            if word.upos not in sona_upos_piirang:
                 sonad.append(word.text)
                 if sona_on_eestikeelne(word.text):
                     eestikeelsed_sonad.append(word.text)
                     lemmad.append(word.lemma)
                     sonaliigid.append(word.pos)
-                    if word._upos not in vormimargend_upos_piirang:
+                    if word.upos not in vormimargend_upos_piirang:
                         vormimargendid.append([word.pos, word.feats])
                     else:
                         vormimargendid.append([word.pos, "–"])
@@ -78,7 +78,7 @@ def sonaliik():
     v1 = []
     for sentence in doc.sentences:
         for word in sentence.words:
-            if word._upos != "PUNCT":
+            if word.upos != "PUNCT":
                 v1.append(word.pos)
     return Response(json.dumps(v1), mimetype=mimetype)
 
@@ -90,8 +90,8 @@ def vormimargendid():
     v1 = []
     for sentence in doc.sentences:
         for word in sentence.words:
-            if word._upos != "PUNCT":
-                if word._upos not in ["ADP", "ADV", "CCONJ", "SCONJ", "INTJ", "X"]:
+            if word.upos != "PUNCT":
+                if word.upos not in ["ADP", "ADV", "CCONJ", "SCONJ", "INTJ", "X"]:
                     v1.append([word.pos, word.feats, word.text])
                 else:
                     v1.append([word.pos, "–", word.text])
@@ -111,7 +111,7 @@ def lemmad():
     v1 = []
     for sentence in doc.sentences:
         for word in sentence.words:
-            if word._upos != "PUNCT":
+            if word.upos != "PUNCT":
                 v1.append(word.lemma)
     return Response(json.dumps(v1), mimetype=mimetype)
 
@@ -123,7 +123,7 @@ def lemmadjaposinfo():
     v1 = []
     for sentence in doc.sentences:
         for word in sentence.words:
-            if word._upos != "PUNCT":
+            if word.upos != "PUNCT":
                 v1.append({"word": word.lemma, "startChar": word.start_char, "endChar": word.end_char})
     return Response(json.dumps(v1), mimetype=mimetype)
 
@@ -147,7 +147,7 @@ def sonadlausetenajaposinfo():
     for sentence in doc.sentences:
         v2 = []
         for word in sentence.words:
-            if word._upos != "PUNCT":
+            if word.upos != "PUNCT":
                 v2.append({"word": word.text, "startChar": word.start_char, "endChar": word.end_char})
         v1.append(v2)
     return Response(json.dumps(v1), mimetype=mimetype)
@@ -161,7 +161,7 @@ def lemmadlausetenajaposinfo():
     for sentence in doc.sentences:
         v2 = []
         for word in sentence.words:
-            if word._upos != "PUNCT":
+            if word.upos != "PUNCT":
                 v2.append({"word": word.lemma, "startChar": word.start_char, "endChar": word.end_char})
         v1.append(v2)
     return Response(json.dumps(v1), mimetype=mimetype)
@@ -174,7 +174,7 @@ def sonad():
     v1 = []
     for sentence in doc.sentences:
         for word in sentence.words:
-            if word._upos != "PUNCT":
+            if word.upos != "PUNCT":
                 v1.append(word.text)
     return Response(json.dumps(v1), mimetype=mimetype)
 
@@ -186,7 +186,7 @@ def sonadjaposinfo():
     v1 = []
     for sentence in doc.sentences:
         for word in sentence.words:
-            if word._upos != "PUNCT":
+            if word.upos != "PUNCT":
                 v1.append({"word": word.text, "startChar": word.start_char, "endChar": word.end_char})
     return Response(json.dumps(v1), mimetype=mimetype)
 
@@ -309,16 +309,21 @@ def hinda_keerukust(tekst):
     pikad_sonad = 0
     nlp = nlp_tp
     doc = nlp(tekst)
-    sonad = [sona.text for lause in doc.sentences for sona in lause.words if sona.xpos != "Z"]
+    sonad = []
+    eestikeelsed_sonad = []
+
+    for sentence in doc.sentences:
+        for word in sentence.words:
+            if word.upos not in sona_upos_piirang and word.xpos != "Z":
+                sonad.append(word.text)
+                if len(word.text) >= 7: pikad_sonad += 1
+                if sona_on_eestikeelne(word.text):
+                    eestikeelsed_sonad.append(word.text)
     lausetearv = len(doc.sentences)
     sonadearv = len(sonad)
     if sonadearv == 0:
         return [0] * 8
-    for sona in sonad:
-        sona = sona.replace('Š', 'S').replace('š', 's').replace('Ž', 'z').replace('ž', 'z')
-        sona = re.sub('[^0-9a-zA-ZõäöüšžÕÄÖÜŠŽ]+', '', sona)
-        if len(sona) >= 7: pikad_sonad += 1
-    silbitatud = silbita_sisemine(" ".join(sonad).replace('\n', ''))
+    silbitatud = silbita_sisemine(" ".join(puhasta_sonad(eestikeelsed_sonad)))
     for sona in silbitatud:
         silp = sona.count('-')
         silpide_arv += silp + 1
@@ -335,7 +340,7 @@ def hinda_keerukust(tekst):
 
 
 def puhasta_sonad(words):
-    return [word.replace("'", "").replace("*", "") for word in words]
+    return [word.replace("'", "").replace("*", "").replace("\n", "") for word in words]
 
 
 def sona_on_eestikeelne(sona):
@@ -352,8 +357,8 @@ def hinda_mitmekesisust(tekst):
         for w_word in s_sentence.words:
             if w_word.upos not in sona_upos_piirang_mitmekesisus \
                 and not (
-                w_word._feats is not None and (
-                w_word._feats.find("NumForm=Digit") > 0 or w_word._feats.find("Abbr=Yes") >= 0)):
+                w_word.feats is not None and (
+                w_word.feats.find("NumForm=Digit") > 0 or w_word.feats.find("Abbr=Yes") >= 0)):
                 words_array.append(w_word)
 
     # sõnade arv kokku
