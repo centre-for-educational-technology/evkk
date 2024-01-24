@@ -5,7 +5,7 @@ import TablePagination from '../../components/table/TablePagination';
 import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
-import { AnalyseContext, SetLemmaContext, SetWordContext } from './Contexts';
+import { AnalyseContextWithoutMissingData, SetLemmaContext, SetWordContext } from './Contexts';
 import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import ToggleCell from './ToggleCell';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
@@ -15,7 +15,7 @@ import { DefaultButtonStyle } from '../../const/Constants';
 
 export default function LemmaView() {
 
-  const analyse = useContext(AnalyseContext)[0];
+  const analyse = useContext(AnalyseContextWithoutMissingData)[0];
   const setLemma = useContext(SetLemmaContext);
   const setWord = useContext(SetWordContext);
   const lemmas = analyse.lemmas;
@@ -181,7 +181,7 @@ export default function LemmaView() {
             );
             cellContent.push(content);
           }
-          return <ToggleCell onCellContent={cellContent}/>;
+          return <ToggleCell onCellContent={cellContent} />;
         }
       },
       {
@@ -253,120 +253,118 @@ export default function LemmaView() {
   function AppliedFilters() {
     if (appliedFilters !== []) {
       return (
-        appliedFilters.map((value) => (<Chip sx={{marginBottom: '5px'}} key={value} label={value}/>))
+        appliedFilters.map((value) => (<Chip sx={{marginBottom: '5px'}} key={value} label={value} />))
       );
     }
   }
 
   return (
-    <>
-      <Box>
-        <Box className="d-flex justify-content-between w-100">
-          <Box className="w-75">{appliedFilters !== [] ?
-            <Box className="applied-filters-box">{t('applied_filters')}: {AppliedFilters()}</Box> : null}
-          </Box>
-          <Box className="d-flex" style={{gap: '10px'}}>
-            <Box>
-              <Button style={DefaultButtonStyle} aria-describedby={lemmaFilterPopoverID} variant="contained"
-                      onClick={handlePopoverOpen}><FilterAltIcon fontSize="large"/></Button>
-              <Popover
-                id={lemmaFilterPopoverID}
-                open={lemmaFilterPopoverToggle}
-                anchorEl={lemmaFilterPopoverAnchor}
-                onClose={handlePopoverClose}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left'
-                }}
-                transformOrigin={{
-                  horizontal: 'center',
-                  vertical: 'top'
-                }}
-              >
-                <Box className="popover-box">
-                  {multiSelect(col1.sort(), t('filter_by_word_type'))}
-                </Box>
-              </Popover>
-            </Box>
-            <TableDownloadButton data={data}
-                                 tableType={'LemmaView'}
-                                 headers={tableToDownload}
-                                 sortByColAccessor={'col3'}/>
-          </Box>
+    <Box>
+      <Box className="d-flex justify-content-between w-100">
+        <Box className="w-75">{appliedFilters !== [] ?
+          <Box className="applied-filters-box">{t('applied_filters')}: {AppliedFilters()}</Box> : null}
         </Box>
-        <table className="analyserTable"
-               {...getTableProps()}
-               style={{
-                 marginRight: 'auto',
-                 marginLeft: 'auto',
-                 borderBottom: 'solid 1px',
-                 width: '100%'
-               }}
-        >
-          <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th className="tableHeader"
-                    key={column.id}
-                    style={{
-                      borderBottom: 'solid 1px',
-                      color: 'black',
-                      fontWeight: 'bold'
-                    }}
-                >
-                  {column.render('Header')}
-                  <span className="sort" {...column.getHeaderProps(column.getSortByToggleProps())}>
+        <Box className="d-flex" style={{gap: '10px'}}>
+          <Box>
+            <Button style={DefaultButtonStyle} aria-describedby={lemmaFilterPopoverID} variant="contained"
+                    onClick={handlePopoverOpen}><FilterAltIcon fontSize="large" /></Button>
+            <Popover
+              id={lemmaFilterPopoverID}
+              open={lemmaFilterPopoverToggle}
+              anchorEl={lemmaFilterPopoverAnchor}
+              onClose={handlePopoverClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left'
+              }}
+              transformOrigin={{
+                horizontal: 'center',
+                vertical: 'top'
+              }}
+            >
+              <Box className="popover-box">
+                {multiSelect(col1.sort(), t('filter_by_word_type'))}
+              </Box>
+            </Popover>
+          </Box>
+          <TableDownloadButton data={data}
+                               tableType={'LemmaView'}
+                               headers={tableToDownload}
+                               sortByColAccessor={'col3'} />
+        </Box>
+      </Box>
+      <table className="analyserTable"
+             {...getTableProps()}
+             style={{
+               marginRight: 'auto',
+               marginLeft: 'auto',
+               borderBottom: 'solid 1px',
+               width: '100%'
+             }}
+      >
+        <thead>
+        {headerGroups.map((headerGroup) => (
+          <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map((column) => (
+              <th className="tableHeader"
+                  key={column.id}
+                  style={{
+                    borderBottom: 'solid 1px',
+                    color: 'black',
+                    fontWeight: 'bold'
+                  }}
+              >
+                {column.render('Header')}
+                <span className="sort" {...column.getHeaderProps(column.getSortByToggleProps())}>
                 {column.isSorted
                   ? column.isSortedDesc
                     ? ' ▼'
                     : ' ▲'
                   : '▼▲'}
               </span>
-                </th>
-              ))}
+              </th>
+            ))}
+          </tr>
+        ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+        {page.map((row) => {
+          prepareRow(row);
+          return (
+            <tr className="tableRow" {...row.getRowProps()}
+                key={row.id}>
+              {row.cells.map((cell) => {
+                return (
+                  <td
+                    {...cell.getCellProps()}
+                    style={{
+                      padding: '10px',
+                      width: cell.column.width
+                    }}
+                    className="border tableData"
+                  >
+                    {cell.render('Cell')}
+                  </td>
+                );
+              })}
             </tr>
-          ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-          {page.map((row) => {
-            prepareRow(row);
-            return (
-              <tr className="tableRow" {...row.getRowProps()}
-                  key={row.id}>
-                {row.cells.map((cell) => {
-                  return (
-                    <td
-                      {...cell.getCellProps()}
-                      style={{
-                        padding: '10px',
-                        width: cell.column.width
-                      }}
-                      className="border tableData"
-                    >
-                      {cell.render('Cell')}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-          </tbody>
-        </table>
+          );
+        })}
+        </tbody>
+      </table>
 
-        <TablePagination
-          gotoPage={gotoPage}
-          previousPage={previousPage}
-          canPreviousPage={canPreviousPage}
-          nextPage={nextPage}
-          canNextPage={canNextPage}
-          pageIndex={pageIndex}
-          pageOptions={pageOptions}
-          pageSize={pageSize}
-          setPageSize={setPageSize}
-          pageCount={pageCount}
-        />
-      </Box>
-    </>
+      <TablePagination
+        gotoPage={gotoPage}
+        previousPage={previousPage}
+        canPreviousPage={canPreviousPage}
+        nextPage={nextPage}
+        canNextPage={canNextPage}
+        pageIndex={pageIndex}
+        pageOptions={pageOptions}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+        pageCount={pageCount}
+      />
+    </Box>
   );
 }

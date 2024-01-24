@@ -7,6 +7,7 @@ import '../../translations/i18n';
 import i18n from 'i18next';
 import {
   AnalyseContext,
+  AnalyseContextWithoutMissingData,
   FormContext,
   LemmaContext,
   SyllableContext,
@@ -24,6 +25,7 @@ import { loadFetch } from '../../service/LoadFetch';
 
 function WordAnalyser() {
   const [analysedInput, setAnalysedInput] = useContext(AnalyseContext);
+  const [, setModifiedAnalysedInput] = useContext(AnalyseContextWithoutMissingData);
   const [showResults, setShowResults] = useState(false);
   const [selectedWords, setSelectedWords] = useState(['']);
   const [wordInfo, setWordInfo] = useState('');
@@ -114,6 +116,7 @@ function WordAnalyser() {
 
     setShowResults(true);
     setAnalysedInput(inputObj);
+    setModifiedAnalysedInput(createModifiedInputObj(inputObj));
     setTableValue(1);
 
     // select first word and show wordInfo after loading, if the wordcount limit has not been exceeded
@@ -131,35 +134,49 @@ function WordAnalyser() {
     }
   };
 
-  const processWordsLowerCase = (analysedWordsLowerCase, wordTypes) => {
-    for (let i = 0; i < analysedWordsLowerCase.length; i++) {
-      if (wordTypes[i] !== 'nimisõna (pärisnimi)') {
-        analysedWordsLowerCase[i] = analysedWordsLowerCase[i].toLowerCase();
-      }
-    }
-    return analysedWordsLowerCase;
+  const createModifiedInputObj = (inputObj) => {
+    const filteredIndices = inputObj.syllables.map((element, index) => element === '–' ? index : null).filter(index => index !== null);
+    filteredIndices.forEach((index, offset) => {
+      inputObj.ids.splice(index - offset, 1);
+      inputObj.wordsOrig.splice(index - offset, 1);
+      inputObj.words.splice(index - offset, 1);
+      inputObj.lemmas.splice(index - offset, 1);
+      inputObj.syllables.splice(index - offset, 1);
+      inputObj.wordtypes.splice(index - offset, 1);
+      inputObj.wordforms.splice(index - offset, 1);
+    });
+    return inputObj;
   };
 
-  const processSyllableLowerCase = (analysedSyllablesLowerCase, analysedWordsLowerCase, wordTypes) => {
-    for (let i = 0; i < analysedSyllablesLowerCase.length; i++) {
+  const processWordsLowerCase = (words, wordTypes) => {
+    for (let i = 0; i < words.length; i++) {
+      if (wordTypes[i] !== 'nimisõna (pärisnimi)') {
+        words[i] = words[i].toLowerCase();
+      }
+    }
+    return words;
+  };
+
+  const processSyllableLowerCase = (syllables, analysedWordsLowerCase, wordTypes) => {
+    for (let i = 0; i < syllables.length; i++) {
       if (wordTypes[i] === 'nimisõna (pärisnimi)') {
         if (analysedWordsLowerCase[i].includes('-')) {
           let result = '';
           let hyphenCounter = 0;
           const nameWithoutHyphens = analysedWordsLowerCase[i].replaceAll('-', '');
           for (let j = 0; j < nameWithoutHyphens.length; j++) {
-            if (analysedSyllablesLowerCase[i][j + hyphenCounter] === '-') {
+            if (syllables[i][j + hyphenCounter] === '-') {
               result += '-';
               hyphenCounter++;
             }
             result += nameWithoutHyphens[j];
           }
-          analysedSyllablesLowerCase[i] = result;
+          syllables[i] = result;
         }
-        analysedSyllablesLowerCase[i] = analysedSyllablesLowerCase[i][0].toUpperCase() + analysedSyllablesLowerCase[i].slice(1);
+        syllables[i] = syllables[i][0].toUpperCase() + syllables[i].slice(1);
       }
     }
-    return analysedSyllablesLowerCase;
+    return syllables;
   };
 
   // highlight selected word from input
@@ -351,6 +368,7 @@ function WordAnalyser() {
       wordforms: ['']
     };
     setAnalysedInput(newInputObj);
+    setModifiedAnalysedInput(newInputObj);
     setTableValue(0);
     setShowResults(false);
   };
