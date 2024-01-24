@@ -309,24 +309,23 @@ def hinda_keerukust(tekst):
     pikad_sonad = 0
     nlp = nlp_tp
     doc = nlp(tekst)
-    sonad = []
     eestikeelsed_sonad = []
 
     for sentence in doc.sentences:
         for word in sentence.words:
             if word.upos not in sona_upos_piirang and word.xpos != "Z":
-                sonad.append(word.text)
-                if len(word.text) >= 7: pikad_sonad += 1
                 if sona_on_eestikeelne(word.text):
                     eestikeelsed_sonad.append(word.text)
+                    if len(word.text) >= 7:
+                        pikad_sonad += 1
     lausetearv = len(doc.sentences)
-    sonadearv = len(sonad)
+    sonadearv = len(eestikeelsed_sonad)
     if sonadearv == 0:
         return [0] * 8
     silbitatud = silbita_sisemine(" ".join(puhasta_sonad(eestikeelsed_sonad)))
     for sona in silbitatud:
         silp = sona.count('-')
-        silpide_arv += silp + 1
+        if silp > 0: silpide_arv += silp + 1
         if silp > 2: poly += 1
     SMOG_hinnang = 1.0430 * math.sqrt(poly * (30 / lausetearv)) + 3.1291
     FK_hinnang = 0.39 * (sonadearv / lausetearv) + 11.8 * (silpide_arv / sonadearv) - 15.59
