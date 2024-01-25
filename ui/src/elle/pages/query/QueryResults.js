@@ -19,7 +19,7 @@ import '../styles/QueryResults.css';
 import {
   ageOptions,
   corpuses,
-  countryOptions,
+  countryOptionsForQuery,
   DefaultButtonStyle,
   educationOptions,
   genderOptions,
@@ -346,7 +346,7 @@ export default function QueryResults(props) {
                 <strong>{t('query_author_data_gender')}:</strong> {t(genderOptions[metadata.sugu]) || '-'}<br/>
                 <strong>{t('query_author_data_education')}:</strong> {t(educationOptions[metadata.haridus]) || '-'}<br/>
                 <strong>{t('query_author_data_native_language')}:</strong> {t(languageOptions[metadata.emakeel]) || '-'}<br/>
-                <strong>{t('query_author_data_country')}:</strong> {t(countryOptions[metadata.riik]) || '-'}<br/>
+                <strong>{t('query_author_data_country')}:</strong> {t(countryOptionsForQuery[metadata.riik]) || '-'}<br />
               </AccordionDetails>
             </Accordion>
             <br/>

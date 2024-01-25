@@ -562,7 +562,17 @@ export const languageOptions = {
   'tsehhi': 'query_common_language_cz'
 };
 
-export const countryOptions = {
+export const countryOptionsForQuery = {
+  'Eesti': 'query_common_country_et',
+  'Soome': 'query_common_country_fi',
+  'Leedu': 'query_common_country_lt',
+  'Saksamaa': 'query_common_country_de',
+  'Inglismaa': 'query_common_country_en',
+  'Ungari': 'query_common_country_hu',
+  'Muu': 'common_other'
+};
+
+export const countryOptionsForAddingText = {
   'Eesti': 'query_common_country_et',
   'Soome': 'query_common_country_fi',
   'Rootsi': 'query_common_country_se',
