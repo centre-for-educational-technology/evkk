@@ -550,16 +550,9 @@ export const languageOptions = {
   'rootsi': 'query_common_language_se',
   'inglise': 'query_common_language_en',
   'jidis': 'query_common_language_ji',
-  'itaalia': 'query_common_language_it',
-  'jaapani': 'query_common_language_jp',
   'poola': 'query_common_language_pl',
-  'hollandi': 'query_common_language_nl',
-  'sloveenia': 'query_common_language_sl',
-  'heebrea': 'query_common_language_he',
-  'prantsuse': 'query_common_language_fr',
-  'katalaani': 'query_common_language_ca',
   'ungari': 'query_common_language_hu',
-  'tsehhi': 'query_common_language_cz'
+  'muud': 'common_other'
 };
 
 export const countryOptionsForQuery = {
