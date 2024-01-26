@@ -20,7 +20,7 @@ import { loadFetch } from '../service/LoadFetch';
 import { withTranslation } from 'react-i18next';
 import CloseIcon from '@mui/icons-material/Close';
 import {
-  countryOptions,
+  countryOptionsForAddingText,
   DefaultButtonStyle,
   degreeOptions,
   domainOptions,
@@ -518,9 +518,9 @@ class Adding extends Component {
                                   name="autoriElukohariik"
                                   label={t('query_author_data_country')}
                                   labelId="elukohariik">
-                            {Object.keys(countryOptions).map((country) => (
+                            {Object.keys(countryOptionsForAddingText).map((country) => (
                               <MenuItem key={country}
-                                        value={country}>{t(countryOptions[country])}</MenuItem>
+                                        value={country}>{t(countryOptionsForAddingText[country])}</MenuItem>
                             ))}
                           </Select>
                         </FormControl>

@@ -19,7 +19,7 @@ import '../styles/QueryResults.css';
 import {
   ageOptions,
   corpuses,
-  countryOptions,
+  countryOptionsForQuery,
   DefaultButtonStyle,
   educationOptions,
   genderOptions,
@@ -56,7 +56,7 @@ export default function QueryResults(props) {
     keeletase: '',
     abivahendid: '',
     aasta: '',
-    vanus: '',
+    vanusevahemik: '',
     sugu: '',
     haridus: '',
     emakeel: '',
@@ -341,12 +341,12 @@ export default function QueryResults(props) {
                 <strong>{t('query_text_data_used_supporting_materials')}:</strong> {t(usedMaterialsDisplayOptions[metadata.abivahendid]) || '-'}<br/>
                 <strong>{t('query_text_data_year_of_publication')}:</strong> {metadata.aasta || '-'}<br/>
                 <br/>
-                <div className="metainfoSubtitle">{t('common_author_data')}</div>
-                <strong>{t('query_author_data_age')}:</strong> {t(ageOptions[metadata.vanus]) || '-'}<br/>
+                <div className="metainfo-subtitle">{t('common_author_data')}</div>
+                <strong>{t('query_author_data_age')}:</strong> {t(ageOptions[metadata.vanusevahemik]) || '-'}<br />
                 <strong>{t('query_author_data_gender')}:</strong> {t(genderOptions[metadata.sugu]) || '-'}<br/>
                 <strong>{t('query_author_data_education')}:</strong> {t(educationOptions[metadata.haridus]) || '-'}<br/>
                 <strong>{t('query_author_data_native_language')}:</strong> {t(languageOptions[metadata.emakeel]) || '-'}<br/>
-                <strong>{t('query_author_data_country')}:</strong> {t(countryOptions[metadata.riik]) || '-'}<br/>
+                <strong>{t('query_author_data_country')}:</strong> {t(countryOptionsForQuery[metadata.riik]) || '-'}<br />
               </AccordionDetails>
             </Accordion>
             <br/>
