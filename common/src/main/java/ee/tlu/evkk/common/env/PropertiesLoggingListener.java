@@ -1,8 +1,7 @@
 package ee.tlu.evkk.common.env;
 
 import ee.tlu.evkk.common.text.TablePrinter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationPreparedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -12,7 +11,12 @@ import org.springframework.lang.NonNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static ee.tlu.evkk.common.text.TablePrinter.Alignment.LEFT;
+import static ee.tlu.evkk.common.text.TablePrinter.column;
+import static java.lang.String.CASE_INSENSITIVE_ORDER;
+import static java.lang.System.lineSeparator;
+import static java.util.stream.Collectors.toUnmodifiableList;
 
 /**
  * Prints all known application environment properties for debugging purposes.<br>
@@ -24,14 +28,13 @@ import java.util.stream.Collectors;
  * @author Mikk Tarvas
  * Date: 25.08.2021
  */
+@Slf4j
 public class PropertiesLoggingListener implements ApplicationListener<ApplicationPreparedEvent> {
 
-  private static final Logger log = LoggerFactory.getLogger(PropertiesLoggingListener.class);
-
-  private static final String LINE_SEPARATOR = System.lineSeparator();
+  private static final String LINE_SEPARATOR = lineSeparator();
   private static final TablePrinter TABLE_PRINTER = new TablePrinter(
-    TablePrinter.column("PROPERTY NAME", TablePrinter.Alignment.LEFT),
-    TablePrinter.column("PROPERTY VALUE", TablePrinter.Alignment.LEFT, 80)
+    column("PROPERTY NAME", LEFT),
+    column("PROPERTY VALUE", LEFT, 80)
   );
 
   @Override
@@ -65,8 +68,8 @@ public class PropertiesLoggingListener implements ApplicationListener<Applicatio
     return environment.getPropertySources().stream()
       .filter(EnumerablePropertySource.class::isInstance).map(EnumerablePropertySource.class::cast)
       .map(EnumerablePropertySource::getPropertyNames).flatMap(Arrays::stream)
-      .distinct().sorted(String.CASE_INSENSITIVE_ORDER)
-      .collect(Collectors.toUnmodifiableList());
+      .distinct().sorted(CASE_INSENSITIVE_ORDER)
+      .collect(toUnmodifiableList());
   }
 
 }

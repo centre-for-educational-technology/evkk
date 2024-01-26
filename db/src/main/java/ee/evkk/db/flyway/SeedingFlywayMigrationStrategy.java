@@ -1,9 +1,8 @@
 package ee.evkk.db.flyway;
 
 import ee.tlu.evkk.common.jdbc.ConnectionPoller;
+import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.Flyway;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
 
 import java.util.HashMap;
@@ -15,18 +14,20 @@ import java.util.function.Consumer;
  * @author Mikk Tarvas
  * Date: 01/10/2019
  */
+@Slf4j
 public class SeedingFlywayMigrationStrategy implements FlywayMigrationStrategy {
 
-  private static final Logger log = LoggerFactory.getLogger(SeedingFlywayMigrationStrategy.class);
-  private static final Map<String, Consumer<Flyway>> COMMAND_MAP = new HashMap<>() {{
-    put("migrate", Flyway::migrate);
-    put("clean", Flyway::clean);
-    put("info", Flyway::info);
-    put("validate", Flyway::validate);
-    put("baseline", Flyway::baseline);
-    put("undo", Flyway::baseline);
-    put("repair", Flyway::repair);
-  }};
+  private static final Map<String, Consumer<Flyway>> COMMAND_MAP = new HashMap<>();
+
+  static {
+    COMMAND_MAP.put("migrate", Flyway::migrate);
+    COMMAND_MAP.put("clean", Flyway::clean);
+    COMMAND_MAP.put("info", Flyway::info);
+    COMMAND_MAP.put("validate", Flyway::validate);
+    COMMAND_MAP.put("baseline", Flyway::baseline);
+    COMMAND_MAP.put("undo", Flyway::baseline);
+    COMMAND_MAP.put("repair", Flyway::repair);
+  }
 
   private final List<String> commands;
   private final FlywayDatabaseSeeder flywayDatabaseSeeder;
@@ -43,7 +44,6 @@ public class SeedingFlywayMigrationStrategy implements FlywayMigrationStrategy {
   @Override
   public void migrate(Flyway flyway) {
     connectionPoller.poll();
-    List<String> commands = this.commands;
     boolean hasCommands = !(commands == null || commands.isEmpty());
     if (!hasCommands) throw new IllegalStateException("No commands provided for flyway");
     else for (String commandName : commands) executeCommandByName(commandName, flyway);

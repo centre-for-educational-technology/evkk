@@ -1,5 +1,6 @@
 import {
   AnalyseContext,
+  AnalyseContextWithoutMissingData,
   FormContext,
   LemmaContext,
   SetFormContext,
@@ -42,6 +43,17 @@ export default function WordAnalyserParent() {
     wordtypes: [''],
     wordforms: ['']
   });
+  const [modifiedAnalyseValue, setModifiedAnalyseValue] = useState({
+    ids: [''],
+    text: '',
+    sentences: [''],
+    words: [''],
+    wordsOrig: [''],
+    lemmas: [''],
+    syllables: [''],
+    wordtypes: [''],
+    wordforms: ['']
+  });
   const [syllableValue, setSyllableValue] = useState('');
   const [syllableWordValue, setSyllableWordValue] = useState('');
   const [lemmaValue, setLemmaValue] = useState('');
@@ -55,68 +67,71 @@ export default function WordAnalyserParent() {
             <SetFormContext.Provider value={setFormValue}>
               <TypeContext.Provider value={typeValue}>
                 <SetTypeContext.Provider value={setTypeValue}>
-                  <AnalyseContext.Provider value={[analyseValue, setAnalyseValue]}>
-                    <SyllableContext.Provider value={syllableValue}>
-                      <SetSyllableContext.Provider value={setSyllableValue}>
-                        <SyllableWordContext.Provider value={syllableWordValue}>
-                          <SetSyllableWordContext.Provider value={setSyllableWordValue}>
-                            <LemmaContext.Provider value={lemmaValue}>
-                              <SetLemmaContext.Provider value={setLemmaValue}>
-                                <TabContext.Provider value={[tabValue, setTabValue]}>
-                                  <Box
-                                    border={border}
-                                    borderColor={'#E1F5FE'}
-                                    borderRadius={10}
-                                  >
-                                    <WordAnalyser/>
-                                  </Box>
-                                  <Box component={'span'}>
-                                    {tabValue === 1 || tabValue === 2 || tabValue === 3 ? <TableComponent/> : null}
-                                  </Box>
-                                  <Box
-                                    padding={'20px'}
-                                    border={border}
-                                    borderColor={'#E1F5FE'}
-                                    borderRadius={10}
-                                  >
-                                    <Fade in={open}>
-                                      <Box className="alertBox">
-                                        <Alert
-                                          severity={'info'}
-                                          action={
-                                            <IconButton
-                                              aria-label="close"
-                                              color="inherit"
-                                              size="small"
-                                              onClick={() => {
-                                                setOpen(false);
-                                                setBorder(0);
-                                              }}
-                                            >
-                                              <CloseIcon fontSize="inherit"/>
-                                            </IconButton>
-                                          }
-                                          sx={{mb: 2}}
-                                        >
-                                          <Typography color={'#1A237E'}><strong>Tabelis olevatel väärtustel klõpsides
-                                            märgitakse väärtused ära ülaoleva kasti tekstis</strong></Typography>
-                                        </Alert>
-                                      </Box>
-                                    </Fade>
-                                    {tabValue === 1 ? <Syllables/> : null}
-                                    {tabValue === 2 ? <LemmaView/> : null}
-                                    {tabValue === 3 ? <GrammaticalAnalysis/> : null}
-                                  </Box>
-                                  {/*TODO fix usage tutorial*/}
-                                  {/*{tabValue !== 0 ? <Tutorial/> : null}*/}
-                                </TabContext.Provider>
-                              </SetLemmaContext.Provider>
-                            </LemmaContext.Provider>
-                          </SetSyllableWordContext.Provider>
-                        </SyllableWordContext.Provider>
-                      </SetSyllableContext.Provider>
-                    </SyllableContext.Provider>
-                  </AnalyseContext.Provider>
+                  <AnalyseContextWithoutMissingData.Provider value={[modifiedAnalyseValue, setModifiedAnalyseValue]}>
+                    <AnalyseContext.Provider value={[analyseValue, setAnalyseValue]}>
+                      <SyllableContext.Provider value={syllableValue}>
+                        <SetSyllableContext.Provider value={setSyllableValue}>
+                          <SyllableWordContext.Provider value={syllableWordValue}>
+                            <SetSyllableWordContext.Provider value={setSyllableWordValue}>
+                              <LemmaContext.Provider value={lemmaValue}>
+                                <SetLemmaContext.Provider value={setLemmaValue}>
+                                  <TabContext.Provider value={[tabValue, setTabValue]}>
+                                    <Box
+                                      className="wordAnalyserBox"
+                                      border={border}
+                                      borderColor={'#E1F5FE'}
+                                      borderRadius={10}
+                                    >
+                                      <WordAnalyser />
+                                    </Box>
+                                    <Box component={'span'}>
+                                      {tabValue === 1 || tabValue === 2 || tabValue === 3 ? <TableComponent /> : null}
+                                    </Box>
+                                    <Box
+                                      padding={'20px'}
+                                      border={border}
+                                      borderColor={'#E1F5FE'}
+                                      borderRadius={10}
+                                    >
+                                      <Fade in={open}>
+                                        <Box className="alertBox">
+                                          <Alert
+                                            severity={'info'}
+                                            action={
+                                              <IconButton
+                                                aria-label="close"
+                                                color="inherit"
+                                                size="small"
+                                                onClick={() => {
+                                                  setOpen(false);
+                                                  setBorder(0);
+                                                }}
+                                              >
+                                                <CloseIcon fontSize="inherit" />
+                                              </IconButton>
+                                            }
+                                            sx={{mb: 2}}
+                                          >
+                                            <Typography color={'#1A237E'}><strong>Tabelis olevatel väärtustel klõpsides
+                                              märgitakse väärtused ära ülaoleva kasti tekstis</strong></Typography>
+                                          </Alert>
+                                        </Box>
+                                      </Fade>
+                                      {tabValue === 1 ? <Syllables /> : null}
+                                      {tabValue === 2 ? <LemmaView /> : null}
+                                      {tabValue === 3 ? <GrammaticalAnalysis /> : null}
+                                    </Box>
+                                    {/*TODO fix usage tutorial*/}
+                                    {/*{tabValue !== 0 ? <Tutorial/> : null}*/}
+                                  </TabContext.Provider>
+                                </SetLemmaContext.Provider>
+                              </LemmaContext.Provider>
+                            </SetSyllableWordContext.Provider>
+                          </SyllableWordContext.Provider>
+                        </SetSyllableContext.Provider>
+                      </SyllableContext.Provider>
+                    </AnalyseContext.Provider>
+                  </AnalyseContextWithoutMissingData.Provider>
                 </SetTypeContext.Provider>
               </TypeContext.Provider>
             </SetFormContext.Provider>

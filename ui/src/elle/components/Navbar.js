@@ -1,7 +1,7 @@
 import Logo from '../resources/images/header/elle_logo.png';
 import { AppBar, Box, Drawer, IconButton, Link, List, ListItem, Menu, MenuItem, styled, Toolbar } from '@mui/material';
 import { Close, Language, Menu as MenuIcon } from '@mui/icons-material';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import '@fontsource/exo-2/600.css';
 import React, { useEffect, useState } from 'react';
 import './styles/Navbar.css';
@@ -58,7 +58,6 @@ export default function Navbar() {
 
   const [langAnchorEl, setLangAnchorEl] = useState(false);
   const langOpen = Boolean(langAnchorEl);
-  const location = useLocation();
   const handleLangClick = (event) => {
     setLangAnchorEl(event.currentTarget);
   };
@@ -68,9 +67,6 @@ export default function Navbar() {
   const handleLangSelect = (lang) => {
     i18n.changeLanguage(lang).then(r => r);
     localStorage.setItem('language', lang);
-    if (location.pathname === '/tools/wordanalyser') {
-      window.location.reload();
-    }
     setLangAnchorEl(false);
   };
 

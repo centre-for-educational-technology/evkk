@@ -1,11 +1,8 @@
 package ee.tlu.evkk.taskscheduler.task;
 
-import com.spotify.futures.CompletableFutures;
 import ee.tlu.evkk.core.service.TextProcessorService;
-import ee.tlu.evkk.core.text.processor.TextProcessor;
 import ee.tlu.evkk.dal.dto.MissingTextProcessorResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionOperations;
@@ -15,13 +12,15 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
+import static com.spotify.futures.CompletableFutures.joinList;
+import static ee.tlu.evkk.core.text.processor.TextProcessor.Type.valueOf;
+
 /**
  * @author Mikk Tarvas
  * Date: 21.01.2022
  */
+@Slf4j
 public class TextProcessingTask {
-
-  private static final Logger log = LoggerFactory.getLogger(TextProcessingTask.class);
 
   private final AsyncListenableTaskExecutor executor;
   private final TransactionOperations transactionOperations;
@@ -38,7 +37,7 @@ public class TextProcessingTask {
     try (Stream<MissingTextProcessorResult> missingTextProcessorResults = textProcessorService.findMissingTextProcessorResults()) {
       return missingTextProcessorResults
         .map(missingTextProcessorResult -> processText(missingTextProcessorResult.getProcessorType(), missingTextProcessorResult.getTextId()))
-        .collect(CompletableFutures.joinList()).thenApply(ignore -> null);
+        .collect(joinList()).thenApply(ignore -> null);
     }
   }
 
@@ -49,7 +48,7 @@ public class TextProcessingTask {
 
   private void doProcessText(String processorType, UUID textId) {
     try {
-      textProcessorService.processText(TextProcessor.Type.valueOf(processorType), textId);
+      textProcessorService.processText(valueOf(processorType), textId);
     } catch (Exception ex) {
       log.error("Unable to process text", ex);
     }

@@ -5,7 +5,7 @@ import TablePagination from '../../components/table/TablePagination';
 import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
-import { AnalyseContext, SetSyllableContext, SetSyllableWordContext } from './Contexts';
+import { AnalyseContextWithoutMissingData, SetSyllableContext, SetSyllableWordContext } from './Contexts';
 import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import ToggleCell from './ToggleCell';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
@@ -14,7 +14,7 @@ import { DefaultButtonStyle } from '../../const/Constants';
 
 export default function Syllables() {
 
-  const analyse = useContext(AnalyseContext)[0];
+  const analyse = useContext(AnalyseContextWithoutMissingData)[0];
   const setSyllable = useContext(SetSyllableContext);
   const setSyllableWord = useContext(SetSyllableWordContext);
   const data = analyse.syllables;
@@ -85,8 +85,8 @@ export default function Syllables() {
   }
 
   function createList(value) {
-    let cleanValue = value.toLowerCase();
-    let tempSyllables = cleanValue.split('-');
+    const cleanValue = value.toLowerCase();
+    const tempSyllables = cleanValue.split('-');
     baseSyllables.push(tempSyllables);
   }
 
@@ -215,7 +215,7 @@ export default function Syllables() {
               </span>);
           }
         }
-        return <ToggleCell onCellContent={cellContent}/>;
+        return <ToggleCell onCellContent={cellContent} />;
       };
 
       infoList.push(info);
@@ -331,111 +331,109 @@ export default function Syllables() {
   function AppliedFilters() {
     if (appliedFilters !== []) {
       return (
-        appliedFilters.map((value) => (<Chip sx={{marginBottom: '5px'}} key={value} label={value}/>))
+        appliedFilters.map((value) => (<Chip sx={{marginBottom: '5px'}} key={value} label={value} />))
       );
     }
   }
 
   return (
-    <>
-      <Box>
-        {data.map((value, _i) => {
-          return createList(value);
-        })}
-        {createSyllableList()}
-        {findDuplicates()}
-        {useEffect(() => {
-          formating();
-          // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [])}
-        <Box className="d-flex justify-content-between w-100">
-          <Box className="w-75">{appliedFilters !== [] ?
-            <Box
-              className="applied-filters-box">{t('applied_filters')}: {AppliedFilters()} </Box> : null}</Box>
-          <Box className="d-flex" style={{gap: '10px'}}>
-            <Box>
-              <Button style={DefaultButtonStyle} aria-describedby={syllableFilterPopoverID}
-                      variant="contained"
-                      onClick={handlePopoverOpen}><FilterAltIcon fontSize="large"/></Button>
-              <Popover
-                id={syllableFilterPopoverID}
-                open={syllableFilterPopoverToggle}
-                anchorEl={syllableFilterPopoverAnchor}
-                onClose={handlePopoverClose}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left'
-                }}
-                transformOrigin={{
-                  horizontal: 'center'
-                }}
-              >
-                <Box className="popover-box">
-                  {multiSelect(col2, t('filter_by_word_form'))}
-                </Box>
-              </Popover>
-            </Box>
-            <TableDownloadButton data={infoListNew}
-                                 tableType={'Syllables'}
-                                 headers={tableToDownload}
-                                 sortByColAccessor={'col6'}/>
+    <Box>
+      {data.map((value, _i) => {
+        return createList(value);
+      })}
+      {createSyllableList()}
+      {findDuplicates()}
+      {useEffect(() => {
+        formating();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [])}
+      <Box className="d-flex justify-content-between w-100">
+        <Box className="w-75">{appliedFilters !== [] ?
+          <Box
+            className="applied-filters-box">{t('applied_filters')}: {AppliedFilters()} </Box> : null}</Box>
+        <Box className="d-flex" style={{gap: '10px'}}>
+          <Box>
+            <Button style={DefaultButtonStyle} aria-describedby={syllableFilterPopoverID}
+                    variant="contained"
+                    onClick={handlePopoverOpen}><FilterAltIcon fontSize="large" /></Button>
+            <Popover
+              id={syllableFilterPopoverID}
+              open={syllableFilterPopoverToggle}
+              anchorEl={syllableFilterPopoverAnchor}
+              onClose={handlePopoverClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left'
+              }}
+              transformOrigin={{
+                horizontal: 'center'
+              }}
+            >
+              <Box className="popover-box">
+                {multiSelect(col2, t('filter_by_word_form'))}
+              </Box>
+            </Popover>
           </Box>
+          <TableDownloadButton data={infoListNew}
+                               tableType={'Syllables'}
+                               headers={tableToDownload}
+                               sortByColAccessor={'col6'} />
         </Box>
-        <table className="analyserTable" {...getTableProps()}>
-          <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th
-                  key={column.id}
-                  style={{
-                    borderBottom: '1px solid',
-                    color: 'black',
-                    fontWeight: 'bold'
-                  }}
-                  className="tableHdr headerbox">{column.render('Header')}
-                  <span className="sort" {...column.getHeaderProps(column.getSortByToggleProps())}>
+      </Box>
+      <table className="analyserTable" {...getTableProps()}>
+        <thead>
+        {headerGroups.map((headerGroup) => (
+          <tr className="tableRow" {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map((column) => (
+              <th
+                key={column.id}
+                style={{
+                  borderBottom: '1px solid',
+                  color: 'black',
+                  fontWeight: 'bold'
+                }}
+                className="tableHdr headerbox">{column.render('Header')}
+                <span className="sort" {...column.getHeaderProps(column.getSortByToggleProps())}>
                                         {column.isSorted ? (column.isSortedDesc ? ' ▼' : ' ▲') : ' ▼▲'}
                                     </span>
-                </th>
-              ))}
-            </tr>
-          ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-          {
-            page.map((row) => {
-              prepareRow(row);
-              return (
-                <tr className="tableRow" {...row.getRowProps()}>
-                  {
-                    row.cells.map(cell => {
-                      return <td className="tableData" {...cell.getCellProps()}
-                                 style={{
-                                   padding: '10px',
-                                   width: cell.column.width
-                                 }}>{cell.render('Cell')}</td>;
-                    })
-                  }
-                </tr>
-              );
-            })
-          }
-          </tbody>
-        </table>
-        <TablePagination
-          gotoPage={gotoPage}
-          previousPage={previousPage}
-          canPreviousPage={canPreviousPage}
-          nextPage={nextPage}
-          canNextPage={canNextPage}
-          pageIndex={pageIndex}
-          pageOptions={pageOptions}
-          pageSize={pageSize}
-          setPageSize={setPageSize}
-          pageCount={pageCount}
-        />
-      </Box>
-    </>
+              </th>
+            ))}
+          </tr>
+        ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+        {
+          page.map((row) => {
+            prepareRow(row);
+            return (
+              <tr className="tableRow" {...row.getRowProps()}>
+                {
+                  row.cells.map(cell => {
+                    return <td className="tableData" {...cell.getCellProps()}
+                               style={{
+                                 padding: '10px',
+                                 width: cell.column.width
+                               }}>{cell.render('Cell')}</td>;
+                  })
+                }
+              </tr>
+            );
+          })
+        }
+        </tbody>
+      </table>
+      <TablePagination
+        gotoPage={gotoPage}
+        previousPage={previousPage}
+        canPreviousPage={canPreviousPage}
+        nextPage={nextPage}
+        canNextPage={canNextPage}
+        pageIndex={pageIndex}
+        pageOptions={pageOptions}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+        pageCount={pageCount}
+      />
+    </Box>
   );
 }

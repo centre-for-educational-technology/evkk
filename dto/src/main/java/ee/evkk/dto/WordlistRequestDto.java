@@ -1,12 +1,16 @@
 package ee.evkk.dto;
 
 import ee.evkk.dto.enums.WordType;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 import java.util.UUID;
 
+@Getter
+@Setter
 public class WordlistRequestDto {
 
   private Set<UUID> corpusTextIds;
@@ -24,61 +28,4 @@ public class WordlistRequestDto {
 
   @Min(value = 1)
   private Integer minFrequency;
-
-
-  public Set<UUID> getCorpusTextIds() {
-    return corpusTextIds;
-  }
-
-  public void setCorpusTextIds(Set<UUID> corpusTextIds) {
-    this.corpusTextIds = corpusTextIds;
-  }
-
-  public String getOwnTexts() {
-    return ownTexts;
-  }
-
-  public void setOwnTexts(String ownTexts) {
-    this.ownTexts = ownTexts;
-  }
-
-  public WordType getType() {
-    return type;
-  }
-
-  public void setType(WordType type) {
-    this.type = type;
-  }
-
-  public boolean isExcludeStopwords() {
-    return excludeStopwords;
-  }
-
-  public void setExcludeStopwords(boolean excludeStopwords) {
-    this.excludeStopwords = excludeStopwords;
-  }
-
-  public Set<String> getCustomStopwords() {
-    return customStopwords;
-  }
-
-  public void setCustomStopwords(Set<String> customStopwords) {
-    this.customStopwords = customStopwords;
-  }
-
-  public boolean isKeepCapitalization() {
-    return keepCapitalization;
-  }
-
-  public void setKeepCapitalization(boolean keepCapitalization) {
-    this.keepCapitalization = keepCapitalization;
-  }
-
-  public Integer getMinFrequency() {
-    return minFrequency;
-  }
-
-  public void setMinFrequency(Integer minFrequency) {
-    this.minFrequency = minFrequency;
-  }
 }

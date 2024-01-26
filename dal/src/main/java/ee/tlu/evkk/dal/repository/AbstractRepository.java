@@ -2,9 +2,8 @@ package ee.tlu.evkk.dal.repository;
 
 import ee.tlu.evkk.dal.jdbc.SqlArray;
 import ee.tlu.evkk.dal.jdbc.SqlObjectFactory;
+import lombok.NoArgsConstructor;
 import org.apache.ibatis.cursor.Cursor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 
@@ -16,25 +15,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import static lombok.AccessLevel.PROTECTED;
+
 /**
  * @author Mikk Tarvas
  * Date: 29.09.2021
  */
+@NoArgsConstructor(access = PROTECTED)
 public abstract class AbstractRepository {
-
-  private final Logger logger;
 
   @Autowired
   private SqlObjectFactory sqlObjectFactory;
-
-  protected AbstractRepository() {
-    this.logger = LoggerFactory.getLogger(getClass());
-  }
-
-  @NonNull
-  protected Logger log() {
-    return logger;
-  }
 
   @Nonnull
   protected <T> SqlArray<T> createSqlArray(@Nonnull String typeName, @Nonnull Iterable<T> elements, boolean distinct) {

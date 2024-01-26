@@ -1,6 +1,7 @@
 import { Backdrop, CircularProgress } from '@mui/material';
 import React, { useState } from 'react';
 import { loadingEmitter } from '../../App';
+import { DefaultCircularProgressStyle } from '../const/Constants';
 
 export default function LoadingSpinner() {
 
@@ -13,8 +14,9 @@ export default function LoadingSpinner() {
       style={{zIndex: '9999'}}
       open={loading}
     >
-      <CircularProgress thickness={4}
-                        size="8rem"/>
+      <CircularProgress style={DefaultCircularProgressStyle}
+                        thickness={4}
+                        size="8rem" />
     </Backdrop>
   );
 }

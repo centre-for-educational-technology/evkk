@@ -6,7 +6,7 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import TablePagination from '../../components/table/TablePagination';
 import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
-import { AnalyseContext, SetFormContext, SetTypeContext, SetWordContext } from './Contexts';
+import { AnalyseContextWithoutMissingData, SetFormContext, SetTypeContext, SetWordContext } from './Contexts';
 import ToggleCell from './ToggleCell';
 import TableDownloadButton from '../../components/table/TableDownloadButton';
 import Popover from '@mui/material/Popover';
@@ -17,7 +17,7 @@ export default function GrammaticalAnalysis() {
   const setType = useContext(SetTypeContext);
   const setForm = useContext(SetFormContext);
   const setWord = useContext(SetWordContext);
-  const analysedInput = useContext(AnalyseContext)[0];
+  const analysedInput = useContext(AnalyseContextWithoutMissingData)[0];
   const [filterValue, setFilterValue] = useState([]);
   const types = analysedInput.wordtypes;
   const forms = analysedInput.wordforms;
@@ -251,7 +251,7 @@ export default function GrammaticalAnalysis() {
             );
             cellContent.push(content);
           }
-          return <ToggleCell onCellContent={cellContent}/>;
+          return <ToggleCell onCellContent={cellContent} />;
         },
         width: 700,
         disableFilters: true,
@@ -307,7 +307,7 @@ export default function GrammaticalAnalysis() {
   function AppliedFilters() {
     if (filtersInUse.length !== 0) {
       return (
-        filtersInUse.map((value) => (<Chip sx={{marginBottom: '5px'}} key={value} label={value}/>))
+        filtersInUse.map((value) => (<Chip sx={{marginBottom: '5px'}} key={value} label={value} />))
       );
     }
   }
@@ -326,7 +326,7 @@ export default function GrammaticalAnalysis() {
               variant="contained"
               onClick={handlePopoverOpen}
             >
-              <FilterAltIcon fontSize="large"/>
+              <FilterAltIcon fontSize="large" />
             </Button>
             <Popover
               id={analyzerFilterPopoverID}
@@ -351,7 +351,7 @@ export default function GrammaticalAnalysis() {
           <TableDownloadButton data={data}
                                tableType={'GrammaticalAnalysis'}
                                headers={tableToDownload}
-                               sortByColAccessor={'col4'}/>
+                               sortByColAccessor={'col4'} />
         </Box>
       </Box>
       <table className="analyserTable" {...getTableProps()}>
