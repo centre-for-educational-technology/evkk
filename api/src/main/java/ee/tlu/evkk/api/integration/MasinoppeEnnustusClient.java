@@ -1,7 +1,6 @@
 package ee.tlu.evkk.api.integration;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,9 +11,8 @@ import java.nio.file.Path;
  * @author Mikk Tarvas
  * Date: 09.02.2020
  */
+@Slf4j
 public class MasinoppeEnnustusClient {
-
-  private static final Logger log = LoggerFactory.getLogger(MasinoppeEnnustusClient.class);
 
   private final Path workingDirectory;
 

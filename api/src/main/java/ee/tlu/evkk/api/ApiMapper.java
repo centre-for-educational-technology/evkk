@@ -8,29 +8,33 @@ import ee.tlu.evkk.api.controller.tools.dto.MasinoppeEnustusResponseEntity;
 import ee.tlu.evkk.api.controller.tools.dto.MinitornPikkusResponseEntity;
 import ee.tlu.evkk.api.security.AuthenticatedUser;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
-import ee.tlu.evkk.dal.dto.*;
+import ee.tlu.evkk.dal.dto.Text;
+import ee.tlu.evkk.dal.dto.TextProperty;
+import ee.tlu.evkk.dal.dto.User;
+import ee.tlu.evkk.dal.dto.UserFileView;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.NullValueMappingStrategy;
-import org.mapstruct.ReportingPolicy;
-import org.mapstruct.factory.Mappers;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.StreamSupport.stream;
+import static org.mapstruct.NullValueMappingStrategy.RETURN_DEFAULT;
+import static org.mapstruct.ReportingPolicy.ERROR;
+import static org.mapstruct.factory.Mappers.getMapper;
 
 /**
  * @author Mikk Tarvas
  * Date: 11.02.2020
  */
-@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR, typeConversionPolicy = ReportingPolicy.ERROR, nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
+@Mapper(unmappedTargetPolicy = ERROR, typeConversionPolicy = ERROR, nullValueMappingStrategy = RETURN_DEFAULT)
 public abstract class ApiMapper {
 
-  public static final ApiMapper INSTANCE = Mappers.getMapper(ApiMapper.class);
+  public static final ApiMapper INSTANCE = getMapper(ApiMapper.class);
 
   public abstract StatusResponseEntity toStatusResponseEntity(String loggedInEmailAddress, Map<String, String> integrationPaths);
 
@@ -38,13 +42,13 @@ public abstract class ApiMapper {
 
   public abstract MasinoppeEnustusResponseEntity toMasinoppeEnustusResponseEntity(String result);
 
-  @Mapping(source = "aPublic", target = "public")
+  @Mapping(source = "aPublic", target = "isPublic")
   public abstract FileResponseEntity toFileResponseEntity(UserFileView userFileView, String url, Boolean aPublic);
 
   public abstract UserFileResponseEntity toUserFileResponseEntity(UserFileView userFileView);
 
   public AuthenticatedUser toAuthenticatedUser(User user, Iterable<String> permissionNames) {
-    List<SimpleGrantedAuthority> authorities = StreamSupport.stream(permissionNames.spliterator(), false).map(permissionName -> new SimpleGrantedAuthority("ROLE_" + permissionName)).collect(Collectors.toList());
+    List<SimpleGrantedAuthority> authorities = stream(permissionNames.spliterator(), false).map(permissionName -> new SimpleGrantedAuthority("ROLE_" + permissionName)).collect(toList());
     return new AuthenticatedUser(user.getUserId(), user.getEmailAddress(), user.getPasswordHash(), true, true, true, true, authorities);
   }
 

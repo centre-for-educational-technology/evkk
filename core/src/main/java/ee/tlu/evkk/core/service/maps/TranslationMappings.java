@@ -1,29 +1,51 @@
 package ee.tlu.evkk.core.service.maps;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static lombok.AccessLevel.PRIVATE;
+
+@NoArgsConstructor(access = PRIVATE)
 public class TranslationMappings {
 
-  public static Map<String, String> wordTypesEt = new HashMap<>();
-  public static Set<String> firstType = new HashSet<>();
-  public static Set<String> secondType = new HashSet<>();
-  public static Map<String, String> numberTranslationsEt = new HashMap<>();
-  public static Map<String, String> caseTranslationsEt = new HashMap<>();
-  public static Map<String, String> degreeTranslationsEt = new HashMap<>();
-  public static Map<String, String> moodTranslationsEt = new HashMap<>();
-  public static Map<String, String> personTranslationsEt = new HashMap<>();
-  public static Map<String, String> verbFormTranslationsEt = new HashMap<>();
+  @Getter
+  private static final Map<String, String> wordTypesEt = new HashMap<>();
+  @Getter
+  private static final Set<String> firstType = new HashSet<>();
+  @Getter
+  private static final Set<String> secondType = new HashSet<>();
+  @Getter
+  private static final Map<String, String> numberEt = new HashMap<>();
+  @Getter
+  private static final Map<String, String> caseEt = new HashMap<>();
+  @Getter
+  private static final Map<String, String> degreeEt = new HashMap<>();
+  @Getter
+  private static final Map<String, String> moodEt = new HashMap<>();
+  @Getter
+  private static final Map<String, String> personEt = new HashMap<>();
+  @Getter
+  private static final Map<String, String> verbEt = new HashMap<>();
 
-  public static Map<String, String> wordTypesEn = new HashMap<>();
-  public static Map<String, String> numberTranslationsEn = new HashMap<>();
-  public static Map<String, String> caseTranslationsEn = new HashMap<>();
-  public static Map<String, String> degreeTranslationsEn = new HashMap<>();
-  public static Map<String, String> moodTranslationsEn = new HashMap<>();
-  public static Map<String, String> personTranslationsEn = new HashMap<>();
-  public static Map<String, String> verbFormTranslationsEn = new HashMap<>();
+  @Getter
+  private static final Map<String, String> wordTypesEn = new HashMap<>();
+  @Getter
+  private static final Map<String, String> numberEn = new HashMap<>();
+  @Getter
+  private static final Map<String, String> caseEn = new HashMap<>();
+  @Getter
+  private static final Map<String, String> degreeEn = new HashMap<>();
+  @Getter
+  private static final Map<String, String> moodEn = new HashMap<>();
+  @Getter
+  private static final Map<String, String> personEn = new HashMap<>();
+  @Getter
+  private static final Map<String, String> verbFormEn = new HashMap<>();
 
 
   static {
@@ -44,6 +66,7 @@ public class TranslationMappings {
     wordTypesEt.put("SYM", "–");
     wordTypesEt.put("PUNCT", "–");
     wordTypesEt.put("PART", "–");
+    wordTypesEt.put("–", "–");
 
     firstType.add("NOUN");
     firstType.add("PROPN");
@@ -55,41 +78,41 @@ public class TranslationMappings {
     secondType.add("AUX");
     secondType.add("VERB");
 
-    numberTranslationsEt.put("Sing", "ainsuse");
-    numberTranslationsEt.put("Plur", "mitmuse");
+    numberEt.put("Sing", "ainsuse");
+    numberEt.put("Plur", "mitmuse");
 
-    caseTranslationsEt.put("Nom", "nimetav kääne");
-    caseTranslationsEt.put("Gen", "omastav kääne");
-    caseTranslationsEt.put("Par", "osastav kääne");
-    caseTranslationsEt.put("Add", "lühike sisseütlev kääne");
-    caseTranslationsEt.put("Ill", "sisseütlev kääne");
-    caseTranslationsEt.put("Ine", "seesütlev kääne");
-    caseTranslationsEt.put("Ela", "seestütlev kääne");
-    caseTranslationsEt.put("All", "alaleütlev kääne");
-    caseTranslationsEt.put("Ade", "alalütlev kääne");
-    caseTranslationsEt.put("Abl", "alaltütlev kääne");
-    caseTranslationsEt.put("Tra", "saav kääne");
-    caseTranslationsEt.put("Ter", "rajav kääne");
-    caseTranslationsEt.put("Ess", "olev kääne");
-    caseTranslationsEt.put("Abe", "ilmaütlev kääne");
-    caseTranslationsEt.put("Com", "kaasaütlev kääne");
+    caseEt.put("Nom", "nimetav kääne");
+    caseEt.put("Gen", "omastav kääne");
+    caseEt.put("Par", "osastav kääne");
+    caseEt.put("Add", "lühike sisseütlev kääne");
+    caseEt.put("Ill", "sisseütlev kääne");
+    caseEt.put("Ine", "seesütlev kääne");
+    caseEt.put("Ela", "seestütlev kääne");
+    caseEt.put("All", "alaleütlev kääne");
+    caseEt.put("Ade", "alalütlev kääne");
+    caseEt.put("Abl", "alaltütlev kääne");
+    caseEt.put("Tra", "saav kääne");
+    caseEt.put("Ter", "rajav kääne");
+    caseEt.put("Ess", "olev kääne");
+    caseEt.put("Abe", "ilmaütlev kääne");
+    caseEt.put("Com", "kaasaütlev kääne");
 
-    degreeTranslationsEt.put("Pos", "algvõrre");
-    degreeTranslationsEt.put("Cmp", "keskvõrre");
-    degreeTranslationsEt.put("Sup", "ülivõrre");
+    degreeEt.put("Pos", "algvõrre");
+    degreeEt.put("Cmp", "keskvõrre");
+    degreeEt.put("Sup", "ülivõrre");
 
-    moodTranslationsEt.put("Ind", "kindla kõneviisi");
-    moodTranslationsEt.put("Cnd", "tingiva kõneviisi");
-    moodTranslationsEt.put("Imp", "käskiv kõneviis,");
-    moodTranslationsEt.put("Qot", "kaudse kõneviisi");
+    moodEt.put("Ind", "kindla kõneviisi");
+    moodEt.put("Cnd", "tingiva kõneviisi");
+    moodEt.put("Imp", "käskiv kõneviis,");
+    moodEt.put("Qot", "kaudse kõneviisi");
 
-    personTranslationsEt.put("1", "1. pööre");
-    personTranslationsEt.put("2", "2. pööre");
-    personTranslationsEt.put("3", "3. pööre");
+    personEt.put("1", "1. pööre");
+    personEt.put("2", "2. pööre");
+    personEt.put("3", "3. pööre");
 
-    verbFormTranslationsEt.put("Inf", "da-tegevusnimi");
-    verbFormTranslationsEt.put("Sup", "ma-tegevusnimi");
-    verbFormTranslationsEt.put("Conv", "des-vorm");
+    verbEt.put("Inf", "da-tegevusnimi");
+    verbEt.put("Sup", "ma-tegevusnimi");
+    verbEt.put("Conv", "des-vorm");
 
 
     wordTypesEn.put("ADJ", "adjective");
@@ -109,42 +132,43 @@ public class TranslationMappings {
     wordTypesEn.put("SYM", "–");
     wordTypesEn.put("PUNCT", "–");
     wordTypesEn.put("PART", "–");
+    wordTypesEn.put("–", "–");
 
-    numberTranslationsEn.put("Sing", "singular");
-    numberTranslationsEn.put("Plur", "plural");
+    numberEn.put("Sing", "singular");
+    numberEn.put("Plur", "plural");
 
-    caseTranslationsEn.put("Nom", "nominative");
-    caseTranslationsEn.put("Gen", "genitive");
-    caseTranslationsEn.put("Par", "partitive");
-    caseTranslationsEn.put("Add", "additive");
-    caseTranslationsEn.put("Ill", "illative");
-    caseTranslationsEn.put("Ine", "inessive");
-    caseTranslationsEn.put("Ela", "elative");
-    caseTranslationsEn.put("All", "allative");
-    caseTranslationsEn.put("Ade", "adessive");
-    caseTranslationsEn.put("Abl", "ablative");
-    caseTranslationsEn.put("Tra", "translative");
-    caseTranslationsEn.put("Ter", "terminative");
-    caseTranslationsEn.put("Ess", "essive");
-    caseTranslationsEn.put("Abe", "abessive");
-    caseTranslationsEn.put("Com", "comitative");
+    caseEn.put("Nom", "nominative");
+    caseEn.put("Gen", "genitive");
+    caseEn.put("Par", "partitive");
+    caseEn.put("Add", "additive");
+    caseEn.put("Ill", "illative");
+    caseEn.put("Ine", "inessive");
+    caseEn.put("Ela", "elative");
+    caseEn.put("All", "allative");
+    caseEn.put("Ade", "adessive");
+    caseEn.put("Abl", "ablative");
+    caseEn.put("Tra", "translative");
+    caseEn.put("Ter", "terminative");
+    caseEn.put("Ess", "essive");
+    caseEn.put("Abe", "abessive");
+    caseEn.put("Com", "comitative");
 
-    degreeTranslationsEn.put("Pos", "positive");
-    degreeTranslationsEn.put("Cmp", "comparative");
-    degreeTranslationsEn.put("Sup", "superlative");
+    degreeEn.put("Pos", "positive");
+    degreeEn.put("Cmp", "comparative");
+    degreeEn.put("Sup", "superlative");
 
-    moodTranslationsEn.put("Ind", "indicative");
-    moodTranslationsEn.put("Cnd", "conditional");
-    moodTranslationsEn.put("Imp", "imperative");
-    moodTranslationsEn.put("Qot", "quotative");
+    moodEn.put("Ind", "indicative");
+    moodEn.put("Cnd", "conditional");
+    moodEn.put("Imp", "imperative");
+    moodEn.put("Qot", "quotative");
 
-    personTranslationsEn.put("1", "1st person");
-    personTranslationsEn.put("2", "2nd person");
-    personTranslationsEn.put("3", "3rd person");
+    personEn.put("1", "1st person");
+    personEn.put("2", "2nd person");
+    personEn.put("3", "3rd person");
 
-    verbFormTranslationsEn.put("Inf", "-da infinitive");
-    verbFormTranslationsEn.put("Sup", "-ma infinitive");
-    verbFormTranslationsEn.put("Conv", "gerund (-des form)");
+    verbFormEn.put("Inf", "-da infinitive");
+    verbFormEn.put("Sup", "-ma infinitive");
+    verbFormEn.put("Conv", "gerund (-des form)");
   }
 
 }

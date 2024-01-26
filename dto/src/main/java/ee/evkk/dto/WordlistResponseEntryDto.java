@@ -9,11 +9,9 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CollocateDto {
+public class WordlistResponseEntryDto {
 
-  private String collocate;
-  private BigDecimal score;
-  private Long coOccurrences;
+  private String word;
   private Long frequencyCount;
   private BigDecimal frequencyPercentage;
 }

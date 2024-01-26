@@ -7,6 +7,7 @@ import '../../translations/i18n';
 import i18n from 'i18next';
 import {
   AnalyseContext,
+  AnalyseContextWithoutMissingData,
   FormContext,
   LemmaContext,
   SyllableContext,
@@ -18,13 +19,19 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { queryStore } from '../../store/QueryStore';
 import { getSelectedTexts } from '../../service/TextService';
+import { WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO } from '../../const/Constants';
+import { useTranslation } from 'react-i18next';
+import { loadFetch } from '../../service/LoadFetch';
 
 function WordAnalyser() {
   const [analysedInput, setAnalysedInput] = useContext(AnalyseContext);
+  const [, setModifiedAnalysedInput] = useContext(AnalyseContextWithoutMissingData);
   const [showResults, setShowResults] = useState(false);
   const [selectedWords, setSelectedWords] = useState(['']);
   const [wordInfo, setWordInfo] = useState('');
   const [inputText, setInputText] = useState('');
+  const [isTextTooLong, setIsTextTooLong] = useState(false);
+  const [isFinishedLoading, setIsFinishedLoading] = useState(false);
   const setTableValue = useContext(TabContext)[1];
   const type = useContext(TypeContext);
   const form = useContext(FormContext);
@@ -36,6 +43,7 @@ function WordAnalyser() {
   const [border, setBorder] = useState(0);
   const [storeData, setStoreData] = useState();
   const inputRef = useRef();
+  const {t} = useTranslation();
 
   useEffect(() => {
     getSelectedTexts(setStoreData);
@@ -49,86 +57,20 @@ function WordAnalyser() {
     getSelectedTexts(setStoreData);
   });
 
-  // get words
-  const getWords = async (input) => {
-    const response = await fetch('/api/texts/sonad', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({tekst: input})
-    });
-
-    const data = await response.json();
-    let newData = [];
-
-    for (const element of data) {
-      if (element) {
-        let item = element.replace(/['*]+/g, '');
-        newData.push(item);
-      }
-    }
-    return newData;
-  };
-
-  // get lemmas
-  const getLemmas = async (input) => {
-    const response = await fetch('/api/texts/lemmad', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({tekst: input})
-    });
-    return await response.json();
-  };
-
-  // get sentences
-  const getSentences = async (input) => {
-    const response = await fetch('/api/texts/laused', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({tekst: input})
-    });
-    return await response.json();
-  };
-
-  // get word type
-  const getWordTypes = async (input) => {
-    const response = await fetch('/api/texts/sonaliik', {
+  const getResponse = (input) => {
+    setIsFinishedLoading(false);
+    loadFetch('/api/texts/sonad-lemmad-silbid-sonaliigid-vormimargendid', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({tekst: input, language: i18n.language})
-    });
-    return await response.json();
-  };
-
-  // get syllables
-  const getSyllables = async (input) => {
-    const response = await fetch('/api/texts/silbid', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({tekst: input})
-    });
-    return await response.json();
-  };
-
-  // get word form
-  const getWordForm = async (input) => {
-    const response = await fetch('/api/texts/vormimargendid', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({tekst: input, language: i18n.language})
-    });
-    return await response.json();
+    })
+      .then(data => data.json())
+      .then(data => {
+        setIsFinishedLoading(true);
+        analyseInput(input, data);
+      });
   };
 
   // create ids
@@ -147,79 +89,94 @@ function WordAnalyser() {
   };
 
   // analyse text
-  const analyseInput = async (input) => {
-    const wordsAndLemmas = await Promise.all([getLemmas(input), getWords(input)]);
-    const rawLemmas = wordsAndLemmas[0];
-    const analysedWordsOrig = wordsAndLemmas[1];
+  const analyseInput = (input, data) => {
+    const words = data.sonad;
+    const lemmas = data.lemmad;
+    const syllables = data.silbid;
+    const wordTypes = data.sonaliigid;
+    const wordForms = data.vormimargendid;
 
-    const beautifiedLemmas = [];
-    for (const element of rawLemmas) {
-      if (element) {
-        beautifiedLemmas.push(element.replace(/['*_=]+/g, ''));
+    const textTooLong = words.length > WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO;
+    setIsTextTooLong(textTooLong);
+
+    const createdIds = createIds(words);
+    const analysedWordsLowerCase = processWordsLowerCase([...words], wordTypes);
+    const analysedSyllablesLowerCase = processSyllableLowerCase([...syllables], analysedWordsLowerCase, wordTypes);
+
+    const inputObj = {
+      ids: createdIds,
+      text: input,
+      wordsOrig: words,
+      words: analysedWordsLowerCase,
+      lemmas: lemmas,
+      syllables: analysedSyllablesLowerCase,
+      wordtypes: wordTypes,
+      wordforms: wordForms
+    };
+
+    setShowResults(true);
+    setAnalysedInput(inputObj);
+    setModifiedAnalysedInput(createModifiedInputObj(inputObj));
+    setTableValue(1);
+
+    // select first word and show wordInfo after loading, if the wordcount limit has not been exceeded
+    if (!textTooLong) {
+      setSelectedWords([inputObj.ids[0]]);
+
+      let wordInfoObj = {
+        word: inputObj.words[0],
+        lemma: inputObj.lemmas[0],
+        syllables: inputObj.syllables[0],
+        type: inputObj.wordtypes[0],
+        form: inputObj.wordforms[0]
+      };
+      setWordInfo(wordInfoObj);
+    }
+  };
+
+  const createModifiedInputObj = (inputObj) => {
+    const filteredIndices = inputObj.syllables.map((element, index) => element === '–' ? index : null).filter(index => index !== null);
+    filteredIndices.forEach((index, offset) => {
+      inputObj.ids.splice(index - offset, 1);
+      inputObj.wordsOrig.splice(index - offset, 1);
+      inputObj.words.splice(index - offset, 1);
+      inputObj.lemmas.splice(index - offset, 1);
+      inputObj.syllables.splice(index - offset, 1);
+      inputObj.wordtypes.splice(index - offset, 1);
+      inputObj.wordforms.splice(index - offset, 1);
+    });
+    return inputObj;
+  };
+
+  const processWordsLowerCase = (words, wordTypes) => {
+    for (let i = 0; i < words.length; i++) {
+      if (wordTypes[i] !== 'nimisõna (pärisnimi)') {
+        words[i] = words[i].toLowerCase();
       }
     }
+    return words;
+  };
 
-    const results = await Promise.all([getSyllables(input), getSentences(input), getWordTypes(input), getWordForm(input)]);
-    const analysedSyllables = results[0];
-    const analysedSentences = results[1];
-    const analysedWordTypes = results[2];
-    const analysedWordForms = results[3];
-    const createdIds = createIds(analysedWordsOrig);
-
-    let analysedWordsLowerCase = [...analysedWordsOrig];
-    for (let i = 0; i < analysedWordsLowerCase.length; i++) {
-      if (analysedWordTypes[i] !== 'nimisõna (pärisnimi)') {
-        analysedWordsLowerCase[i] = analysedWordsLowerCase[i].toLowerCase();
-      }
-    }
-
-    let analysedSyllablesLowerCase = [...analysedSyllables];
-    for (let i = 0; i < analysedSyllablesLowerCase.length; i++) {
-      if (analysedWordTypes[i] === 'nimisõna (pärisnimi)') {
+  const processSyllableLowerCase = (syllables, analysedWordsLowerCase, wordTypes) => {
+    for (let i = 0; i < syllables.length; i++) {
+      if (wordTypes[i] === 'nimisõna (pärisnimi)') {
         if (analysedWordsLowerCase[i].includes('-')) {
           let result = '';
           let hyphenCounter = 0;
-          let nameWithoutHyphens = analysedWordsLowerCase[i].replaceAll('-', '');
+          const nameWithoutHyphens = analysedWordsLowerCase[i].replaceAll('-', '');
           for (let j = 0; j < nameWithoutHyphens.length; j++) {
-            if (analysedSyllablesLowerCase[i][j + hyphenCounter] === '-') {
+            if (syllables[i][j + hyphenCounter] === '-') {
               result += '-';
               hyphenCounter++;
             }
             result += nameWithoutHyphens[j];
           }
-          analysedSyllablesLowerCase[i] = result;
+          syllables[i] = result;
         }
-        analysedSyllablesLowerCase[i] = analysedSyllablesLowerCase[i][0].toUpperCase() + analysedSyllablesLowerCase[i].slice(1);
+        syllables[i] = syllables[i][0].toUpperCase() + syllables[i].slice(1);
       }
     }
-
-    const inputObj = {
-      ids: createdIds,
-      text: input,
-      sentences: analysedSentences,
-      wordsOrig: analysedWordsOrig,
-      words: analysedWordsLowerCase,
-      lemmas: beautifiedLemmas,
-      syllables: analysedSyllablesLowerCase,
-      wordtypes: analysedWordTypes,
-      wordforms: analysedWordForms
-    };
-
-    setShowResults(true);
-    setAnalysedInput(inputObj);
-    setTableValue(1);
-
-    // select first word and show wordInfo after loading
-    setSelectedWords([inputObj.ids[0]]);
-
-    let wordInfoObj = {
-      word: inputObj.words[0],
-      lemma: inputObj.lemmas[0],
-      syllables: inputObj.syllables[0],
-      type: inputObj.wordtypes[0],
-      form: inputObj.wordforms[0]
-    };
-    setWordInfo(wordInfoObj);
+    return syllables;
   };
 
   // highlight selected word from input
@@ -233,13 +190,13 @@ function WordAnalyser() {
     let content = [];
     for (let i = 0; i < analysedInput.words.length; i++) {
       let analysedWord = analysedInput.words[i];
-      let analysedSillable = analysedInput.syllables[i];
+      let analysedSyllable = analysedInput.syllables[i];
       let id = analysedInput.ids[i];
       if (analysedWord.indexOf(syllable) >= 0
-        && (syllable === analysedSillable
-          || analysedSillable.endsWith(`-${syllable}`)
-          || analysedSillable.startsWith(`${syllable}-`)
-          || analysedSillable.includes(`-${syllable}-`))) {
+        && (syllable === analysedSyllable
+          || analysedSyllable.endsWith(`-${syllable}`)
+          || analysedSyllable.startsWith(`${syllable}-`)
+          || analysedSyllable.includes(`-${syllable}-`))) {
         content.push(id);
       }
     }
@@ -404,7 +361,6 @@ function WordAnalyser() {
     let newInputObj = {
       ids: [''],
       text: '',
-      sentences: [''],
       words: [''],
       lemmas: [''],
       syllables: [''],
@@ -412,6 +368,7 @@ function WordAnalyser() {
       wordforms: ['']
     };
     setAnalysedInput(newInputObj);
+    setModifiedAnalysedInput(newInputObj);
     setTableValue(0);
     setShowResults(false);
   };
@@ -458,6 +415,13 @@ function WordAnalyser() {
       </Fade>
       <Grid className="position-relative" container
             columnSpacing={{xs: 0, md: 4}}>
+        {isTextTooLong &&
+          <Alert severity="info"
+                 className="textTooLongInfobox"
+          >
+            {t('word_analyser_text_too_long_infobox')}
+          </Alert>
+        }
         <Grid item
               xs={12}
               md={12}>
@@ -469,7 +433,9 @@ function WordAnalyser() {
               xs={12}
               md={6}>
           <Input inputText={inputText}
-                 onInsert={analyseInput}
+                 isTextTooLong={isTextTooLong}
+                 isFinishedLoading={isFinishedLoading}
+                 onSubmit={getResponse}
                  onMarkWords={selectedWords}
                  onWordSelect={showThisWord}
                  onWordInfo={showInfo}
@@ -480,7 +446,7 @@ function WordAnalyser() {
         <Grid item
               xs={12}
               md={6}>
-          {showResults &&
+          {showResults && !isTextTooLong &&
             <WordInfo onWordInfo={wordInfo} />
           }
         </Grid>

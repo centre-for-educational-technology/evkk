@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.UUID;
 
+import static java.lang.Boolean.TRUE;
+
 /**
  * @author Mikk Tarvas
  * Date: 18.11.2019
@@ -46,8 +48,8 @@ public class TokenService {
 
     TokenView tokenView = tokenDao.findViewById(tokenId);
     if (tokenView == null || tokenView.getType() != tokenType) throw new TokenNotFoundException();
-    if (tokenView.getExpired()) throw new TokenExpiredException();
-    if (tokenView.getConsumed()) throw new TokenConsumedException();
+    if (TRUE.equals(tokenView.getIsExpired())) throw new TokenExpiredException();
+    if (TRUE.equals(tokenView.getIsConsumed())) throw new TokenConsumedException();
 
     int affectedRowCount = tokenDao.consume(tokenId);
     DaoUtils.ensureSingleAffectedRow(affectedRowCount);
