@@ -553,8 +553,7 @@ export const languageOptions = {
   'inglise': 'query_common_language_en',
   'jidis': 'query_common_language_ji',
   'poola': 'query_common_language_pl',
-  'ungari': 'query_common_language_hu',
-  'muud': 'common_other'
+  'ungari': 'query_common_language_hu'
 };
 
 export const countryOptionsForQuery = {
@@ -563,8 +562,7 @@ export const countryOptionsForQuery = {
   'Leedu': 'query_common_country_lt',
   'Saksamaa': 'query_common_country_de',
   'Inglismaa': 'query_common_country_en',
-  'Ungari': 'query_common_country_hu',
-  'Muu': 'common_other'
+  'Ungari': 'query_common_country_hu'
 };
 
 export const countryOptionsForAddingText = {
@@ -576,6 +574,5 @@ export const countryOptionsForAddingText = {
   'Leedu': 'query_common_country_lt',
   'Saksamaa': 'query_common_country_de',
   'Inglismaa': 'query_common_country_en',
-  'Ungari': 'query_common_country_hu',
-  'Muu': 'common_other'
+  'Ungari': 'query_common_country_hu'
 };
