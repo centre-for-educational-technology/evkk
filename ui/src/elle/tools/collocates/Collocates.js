@@ -1,6 +1,6 @@
 import './Collocates.css';
 import React, { useEffect, useMemo, useState } from 'react';
-import { AccordionStyle } from '../../const/Constants';
+import { AccordionStyle, DefaultButtonStyle } from '../../const/Constants';
 import Accordion from '@mui/material/Accordion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
@@ -158,7 +158,7 @@ export default function Collocates() {
       disableSortBy: true,
       Cell: (cellProps) => {
         return <WordlistMenu word={cellProps.row.original.collocate} type={typeValue}
-                             keepCapitalization={capitalizationChecked}/>;
+                             keepCapitalization={capitalizationChecked} />;
       }
     }
   ], [typeValue, capitalizationChecked, t]);
@@ -232,7 +232,7 @@ export default function Collocates() {
                  expanded={paramsExpanded}
                  onChange={() => setParamsExpanded(!paramsExpanded)}>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon/>}
+          expandIcon={<ExpandMoreIcon />}
           id="collocates-filters-header"
         >
           <Typography>
@@ -254,14 +254,14 @@ export default function Collocates() {
                     onChange={handleTypeChange}
                   >
                     <FormControlLabel value="WORDS"
-                                      control={<Radio/>}
-                                      label={t('common_by_word_form')}/>
+                                      control={<Radio />}
+                                      label={t('common_by_word_form')} />
                     <FormControlLabel value="LEMMAS"
-                                      control={<Radio/>}
-                                      label={t('common_by_base_form')}/>
+                                      control={<Radio />}
+                                      label={t('common_by_base_form')} />
                   </RadioGroup>
                   {typeError && <FormHelperText>{t('error_mandatory_field')}</FormHelperText>}
-                  <Button sx={{width: 130}}
+                  <Button sx={DefaultButtonStyle}
                           style={{marginTop: '10vh !important'}}
                           className="collocates-analyse-button"
                           type="submit"
@@ -279,9 +279,9 @@ export default function Collocates() {
                              required
                              value={keyword}
                              onChange={(e) => setKeyword(e.target.value)}
-                             style={{width: '250px'}}/>
+                             style={{width: '250px'}} />
                 </FormControl>
-                <br/>
+                <br />
                 <FormControl sx={{m: 3}}
                              style={{marginTop: '-1vh'}}
                              variant="standard">
@@ -295,7 +295,7 @@ export default function Collocates() {
                                  required
                                  value={searchCount}
                                  onChange={(e) => setSearchCount(e.target.value)}
-                                 className="collocates-search-count-textfield"/>
+                                 className="collocates-search-count-textfield" />
                     </Grid>
                     <Grid
                       item
@@ -329,12 +329,12 @@ export default function Collocates() {
                       <Tooltip
                         title={t('neighbouring_words_statistic_measure_hover')}
                         placement="right">
-                        <QuestionMark className="tooltip-icon"/>
+                        <QuestionMark className="tooltip-icon" />
                       </Tooltip>
                     </Grid>
                   </Grid>
                 </FormControl>
-                <br/>
+                <br />
                 <FormControl sx={{m: 3}}
                              variant="standard">
                   <FormControlLabel control={
@@ -349,7 +349,7 @@ export default function Collocates() {
                                       <Tooltip
                                         title={t('neighbouring_words_case_sensitive_hover')}
                                         placement="right">
-                                        <QuestionMark className="tooltip-icon"/>
+                                        <QuestionMark className="tooltip-icon" />
                                       </Tooltip></>}
                   />
                 </FormControl>
@@ -359,7 +359,7 @@ export default function Collocates() {
         </AccordionDetails>
       </Accordion>
       {lemmatizedKeywordResult && <>
-        <br/>
+        <br />
         <Alert severity="warning">
           {t('neighbouring_words_keyword_lemmatization_warning', {
             initialKeywordResult: initialKeywordResult,
@@ -368,16 +368,17 @@ export default function Collocates() {
         </Alert>
       </>}
       {showTable && <>
-        <TableDownloadButton data={data}
+        <TableDownloadButton sx={DefaultButtonStyle}
+                             data={data}
                              tableType={'Collocates'}
                              headers={tableToDownload}
                              accessors={accessors}
                              sortByColAccessor={sortByColAccessor}
-                             marginTop={'2vh'}/>
+                             marginTop={'2vh'} />
         <GenericTable tableClassname={'wordlist-table'}
                       columns={columns}
                       data={data}
-                      sortByColAccessor={sortByColAccessor}/>
+                      sortByColAccessor={sortByColAccessor} />
       </>}
       {showNoResultsError &&
         <Alert severity="error">{t('error_no_matching_keywords')}</Alert>}

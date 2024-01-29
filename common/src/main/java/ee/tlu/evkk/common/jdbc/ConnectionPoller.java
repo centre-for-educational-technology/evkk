@@ -1,6 +1,7 @@
 package ee.tlu.evkk.common.jdbc;
 
 import ch.qos.logback.classic.Level;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
@@ -13,16 +14,17 @@ import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
-import java.util.Map;
+
+import static ch.qos.logback.classic.Level.OFF;
+import static java.util.Map.of;
 
 /**
  * @author Mikk Tarvas
  * Date: 18.09.2021
  */
 @Component
+@Slf4j
 public class ConnectionPoller {
-
-  private static final Logger log = LoggerFactory.getLogger(ConnectionPoller.class);
 
   private final RetryOperations retry;
   private final DataSource dataSource;
@@ -41,7 +43,7 @@ public class ConnectionPoller {
     if (logger == null) return tryConnection();
 
     Level level = logger.getLevel();
-    logger.setLevel(Level.OFF);
+    logger.setLevel(OFF);
     try {
       return tryConnection();
     } finally {
@@ -76,16 +78,16 @@ public class ConnectionPoller {
   }
 
   private RetryOperations createRetry() {
-    RetryTemplate retry = new RetryTemplate();
+    RetryTemplate retryTemplate = new RetryTemplate();
 
-    SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy(10, Map.of(CannotGetJdbcConnectionException.class, true));
-    retry.setRetryPolicy(retryPolicy);
+    SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy(10, of(CannotGetJdbcConnectionException.class, true));
+    retryTemplate.setRetryPolicy(retryPolicy);
 
     FixedBackOffPolicy backOffPolicy = new FixedBackOffPolicy();
     backOffPolicy.setBackOffPeriod(3000L);
-    retry.setBackOffPolicy(backOffPolicy);
+    retryTemplate.setBackOffPolicy(backOffPolicy);
 
-    return retry;
+    return retryTemplate;
   }
 
 }

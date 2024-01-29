@@ -19,7 +19,7 @@ import {
   addedYearOptions,
   ageOptions,
   charactersOptions,
-  countryOptions,
+  countryOptionsForQuery,
   DefaultButtonStyle,
   degreeOptions,
   domainOptions,
@@ -1029,9 +1029,9 @@ export default function Query(props) {
                       label={t('query_author_data_country')}
                       onClick={(e) => alterSinglePropertyData(e, 'country')}
                     >
-                      {Object.keys(countryOptions).map((country) => (
+                      {Object.keys(countryOptionsForQuery).map((country) => (
                         <MenuItem key={country}
-                                  value={country}>{t(countryOptions[country])}</MenuItem>
+                                  value={country}>{t(countryOptionsForQuery[country])}</MenuItem>
                       ))}
                     </Select>
                   </FormControl>

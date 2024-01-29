@@ -6,7 +6,7 @@ export const WordInfo = ({_onShowWordInfo, onWordInfo}) => {
   const {t} = useTranslation();
 
   return (
-    <div className="containerItem wordInfo">
+    <div className="wordInfo">
       <h2>{t('common_word_analysis')}</h2><br/>
       <p>{t('wordinfo_word')}: {onWordInfo.word}</p>
       <p>{t('common_lemma')}: {onWordInfo.lemma}</p>
