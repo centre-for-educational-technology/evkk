@@ -63,6 +63,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .mvcMatchers("/textfromfile/**").permitAll()
       .mvcMatchers("/integration/**").permitAll()
       .mvcMatchers("/tools/**").permitAll()
+      .mvcMatchers("/errors/**").permitAll()
       .anyRequest().authenticated().and()
       .formLogin().successHandler(successHandler()).and()
       .logout().logoutSuccessHandler(logoutSuccessHandler())
