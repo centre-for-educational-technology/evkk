@@ -139,28 +139,18 @@ export default function QueryResults(props) {
   };
 
   function previewText(id) {
-    loadFetch('/api/texts/kysitekstimetainfo?id=' + id, {
+    loadFetch('/api/texts/kysitekstjametainfo?id=' + id, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
       .then(res => res.json())
-      .then((result) => {
-        result.forEach(param => {
-          setIndividualMetadata(param.property_name, param.property_value);
+      .then(res => {
+        setText(res.text);
+        res.properties.forEach(param => {
+          setIndividualMetadata(param.propertyName, param.propertyValue);
         });
-      });
-
-    loadFetch('/api/texts/kysitekst?id=' + id, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => res.text())
-      .then((result) => {
-        setText(result);
       });
 
     setModalOpen(true);
