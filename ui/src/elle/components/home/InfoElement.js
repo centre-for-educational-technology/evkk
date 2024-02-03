@@ -22,6 +22,7 @@ export default function InfoElement() {
 
   const {t} = useTranslation();
   const [openTab, setOpenTab] = useState('corrector-tab-card');
+  {/*const [openTab, setOpenTab] = useState('');*/}
   const [wordlistImg, setWordlistImg] = useState(i18n.language === 'ET' ? wordlistImgEt : wordlistImgEn);
   const [wordcontextImg, setWordcontextImg] = useState(i18n.language === 'ET' ? wordcontextImgEt : wordcontextImgEn);
   const [collocateImg, setCollocateImg] = useState(i18n.language === 'ET' ? collocateImgEt : collocateImgEn);

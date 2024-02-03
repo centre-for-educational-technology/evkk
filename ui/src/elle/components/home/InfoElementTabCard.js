@@ -16,7 +16,9 @@ export default function InfoElementTabCard(props) {
 
   return (
     <Box id={props.toolID}
+         sx={{background: 'red'}}
          onMouseEnter={(e) => changeTab()}
+         onMouseLeave={() => {props.setOpenTab('');}}
          className={props.tabOpen === props.toolID ? 'btn-visible' : 'btn-invisible'}>
       <p className="tool-button-text">{props.toolTitle}</p>
       <Box style={{opacity: props.opacity}}
