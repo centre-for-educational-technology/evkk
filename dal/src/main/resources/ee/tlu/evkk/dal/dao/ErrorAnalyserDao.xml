@@ -26,10 +26,6 @@
   </select>
 
   <select id="findAnnotationByErrorType" resultType="java.lang.String">
--- leia kõik annotatsioonid, milles esineb see viga
--- jäta meelde sentence_id ja  annotator_id, rühmita
--- leia kõik annotatsioonid where sentence_id ja annotator_id
-
     select array_to_json(array_agg(row_to_json(t2)))
     from (
       select seg2.sentence_id, seg2.annotator_id, seg2.scope_start, seg2.scope_end, seg2.error_type, seg2.correction
@@ -44,4 +40,52 @@
     ) t2
   </select>
 
+  <resultMap id="errorResultMap" type="ee.tlu.evkk.dal.dto.ErrorAnalyserSentence">
+      <id property="sentenceId" column="sentence_id" />
+      <result property="sentence" column="sentence"/>
+      <result property="textId" column="text_id"/>
+      <result property="languageLevel" column="language_level" />
+    <collection property="annotations" column="sentence_id" ofType="ee.tlu.evkk.dal.dto.ErrorAnalyserAnnotation" >
+      <id property="annotationId" column="annotation_id" />
+      <result property="annotatorId" column="annotator_id" />
+      <result property="scopeStart" column="scope_start" />
+      <result property="scopeEnd" column="scope_end" />
+      <result property="errorType" column="error_type" />
+      <result property="correction" column="correction" />
+    </collection>
+  </resultMap>
+
+  <select id="findErrors" resultMap="errorResultMap">
+    select sentences.id as sentence_id,
+           sentences.sentence,
+           sentences.text_id,
+           properties.property_value as language_level,
+           seg2.id as annotation_id,
+           seg2.annotator_id,
+           seg2.scope_start,
+           seg2.scope_end,
+           seg2.error_type,
+           seg2.correction
+    from (
+      select t.annotator_id, t.sentence_id from (
+      <foreach collection="errors" item="error" separator="UNION ALL">
+        select seg1.sentence_id, seg1.annotator_id
+        from core.text_error_analysis_segments seg1
+        where seg1.error_type LIKE CONCAT('%', #{error}, '%')
+        group by seg1.sentence_id, seg1.annotator_id
+      </foreach>) as t
+      group by t.annotator_id, t.sentence_id
+    ) t1
+    join core.text_error_analysis_segments seg2 on t1.sentence_id= seg2.sentence_id
+    join core.text_error_analysis_sentences sentences on seg2.sentence_id = sentences.id
+    join core.text_property properties on sentences.text_id = properties.text_id
+    where t1.sentence_id = seg2.sentence_id and t1.annotator_id = seg2.annotator_id
+    and properties.property_name = 'keeletase'
+    and properties.property_value in
+    <foreach item="level" index="index" collection="levels" open="(" separator="," close=")">
+      '${level}'
+    </foreach>
+  </select>
+
 </mapper>
+
