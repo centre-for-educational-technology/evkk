@@ -3,48 +3,11 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ee.tlu.evkk.dal.dao.ErrorAnalyserDao">
 
-  <select id="getAll" resultType="java.lang.String">
-    select content
-    from core.text
-    where id = #{textId}
-  </select>
-
-  <select id="findSentenceById" resultType="java.lang.String">
-    select sentence
-    from core.text_error_analysis_sentences
-    where id = #{sentenceId}
-  </select>
-
-  <select id="findAnnotationBySentenceId" resultType="java.lang.String">
-    select array_to_json(array_agg(row_to_json(t)))
-    from (select segments.id, segments.sentence_id, segments.scope_start,
-                 segments.scope_end, segments.error_type, segments.correction,
-                 segments.annotator_id
-          from core.text_error_analysis_sentences sentences
-                 join core.text_error_analysis_segments segments on sentences.id = segments.sentence_id
-          where sentences.id = #{sentenceId}) t
-  </select>
-
-  <select id="findAnnotationByErrorType" resultType="java.lang.String">
-    select array_to_json(array_agg(row_to_json(t2)))
-    from (
-      select seg2.sentence_id, seg2.annotator_id, seg2.scope_start, seg2.scope_end, seg2.error_type, seg2.correction
-      from (
-        select seg1.sentence_id, seg1.annotator_id
-        from core.text_error_analysis_segments seg1
-        where seg1.error_type LIKE CONCAT('%', #{errorType}, '%')
-        group by seg1.sentence_id, seg1.annotator_id
-      ) t1
-    join core.text_error_analysis_segments seg2 on t1.sentence_id= seg2.sentence_id
-    where t1.sentence_id= seg2.sentence_id and t1.annotator_id= seg2.annotator_id
-    ) t2
-  </select>
-
   <resultMap id="errorResultMap" type="ee.tlu.evkk.dal.dto.ErrorAnalyserSentence">
-      <id property="sentenceId" column="sentence_id" />
-      <result property="sentence" column="sentence"/>
-      <result property="textId" column="text_id"/>
-      <result property="languageLevel" column="language_level" />
+    <id property="sentenceId" column="sentence_id" />
+    <result property="sentence" column="sentence"/>
+    <result property="textId" column="text_id"/>
+    <result property="languageLevel" column="language_level" />
     <collection property="annotations" column="sentence_id" ofType="ee.tlu.evkk.dal.dto.ErrorAnalyserAnnotation" >
       <id property="annotationId" column="annotation_id" />
       <result property="annotatorId" column="annotator_id" />
