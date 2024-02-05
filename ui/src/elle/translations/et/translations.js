@@ -164,6 +164,7 @@ export const TRANSLATIONS_ET = {
   publish_your_text_text_data_year: 'Aasta',
   publish_your_text_title: 'Pealkiri',
   query_author_data_age: 'Vanus',
+  query_author_data_age_over_40: 'üle 40',
   query_author_data_age_up_to_18: 'kuni 18',
   query_author_data_country: 'Elukohariik',
   query_author_data_country_other: 'Muu elukohariik',
