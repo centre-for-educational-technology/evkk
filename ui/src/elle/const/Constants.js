@@ -202,38 +202,38 @@ export const modalStyle = {
 };
 
 export const addedYearOptions = [
-  '2000—2005',
-  '2006—2010',
-  '2011—2015',
-  '2016—2020',
+  '2000–2005',
+  '2006–2010',
+  '2011–2015',
+  '2016–2020',
   '2021...'
 ];
 
 export const charactersOptions = [
   'query_text_data_char_up_to_500',
-  '501—1000',
-  '1001—1500',
-  '1501—2500',
-  '2501—5000',
+  '501–1000',
+  '1001–1500',
+  '1501–2500',
+  '2501–5000',
   'query_text_data_char_over_5000'
 ];
 
 export const wordsOptions = [
   'query_text_data_words_up_to_100',
-  '101—200',
-  '201—300',
-  '301—400',
-  '401—600',
-  '601—800',
+  '101–200',
+  '201–300',
+  '301–400',
+  '401–600',
+  '601–800',
   'query_text_data_words_over_800'
 ];
 
 export const sentencesOptions = [
   'query_text_data_sentences_up_to_10',
-  '11—20',
-  '21—30',
-  '31—60',
-  '61—100',
+  '11–20',
+  '21–30',
+  '31–60',
+  '61–100',
   'query_text_data_sentences_over_100'
 ];
 
@@ -442,9 +442,9 @@ export const usedMaterialsSaveOptions = {
 
 export const ageOptions = {
   'kuni18': 'query_author_data_age_up_to_18',
-  'kuni26': '18 - 26',
-  'kuni40': '27 - 40',
-  '41plus': '41 +'
+  'kuni26': '19–26',
+  'kuni40': '27–40',
+  '41plus': 'query_author_data_age_over_40'
 };
 
 export const genderOptions = {

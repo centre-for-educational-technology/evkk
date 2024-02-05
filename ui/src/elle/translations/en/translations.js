@@ -164,6 +164,7 @@ export const TRANSLATIONS_EN = {
   publish_your_text_text_data_year: 'Year',
   publish_your_text_title: 'Title',
   query_author_data_age: 'Age',
+  query_author_data_age_over_40: 'over 40',
   query_author_data_age_up_to_18: 'up to 18',
   query_author_data_country: 'Country of residence',
   query_author_data_country_other: 'Other country of residence',
