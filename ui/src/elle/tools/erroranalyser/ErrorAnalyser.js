@@ -1,29 +1,40 @@
-import { useState, useEffect } from 'react';
-import {languageErrors, languageLevels} from "./ErrorEnums";
-import MultiLevelSelect from "./MultiLevelSelect";
+import { useState } from "react";
+import { Typography } from "@mui/material";
+import FilterAccordion from "./FilterAccordion";
+import ErrorTable from "./ErrorTable";
 
 //TODO translation
-//TODO layout
 
 function ErrorAnalyser() {
-  const [errorDetails, setErrorDetails] = useState(null);
+  const [errorData, setErrorData] = useState(null);
 
-  async function getErrors(){
-    fetch('http://localhost:9090/api/errors/getErrors?error=LEX&level=B1')
-      .then(response => response.json())
-      .then(data => setErrorDetails(data))
-      .catch(error => console.error('Error:', error));
-    console.log(errorDetails)
+  async function getErrors(errorTypeFilter, languageLevelFilter) {
+    let query = "http://localhost:9090/api/errors/getErrors?";
+
+    errorTypeFilter.forEach((element) => {
+      query += "error=" + element + "&";
+    });
+
+    languageLevelFilter.forEach((element) => {
+      query += "level=" + element + "&";
+    });
+
+    query = query.slice(0, -1);
+
+    fetch(query)
+      .then((response) => response.json())
+      .then((data) => setErrorData(data))
+      .catch((error) => console.error("Error:", error));
   }
-  useEffect(() => {
-    //
-  }, []);
 
   return (
-  <div>
-    {/*{errorDetails ? <pre>{JSON.stringify(errorDetails, null, 2)}</pre> : 'Loading...'}*/}
-    <MultiLevelSelect/>
-  </div>
+    <>
+      <Typography variant="h3">Veastatistika</Typography>
+
+      <FilterAccordion getErrors={getErrors} />
+
+      {errorData && <ErrorTable errorData={errorData} />}
+    </>
   );
 }
 
