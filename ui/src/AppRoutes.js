@@ -83,9 +83,9 @@ class AppRoutes extends Component {
                    element={<MinitornPikkus/>}/>
             <Route path="masinoppe-ennustus"
                    element={<MasinoppeEnnustus/>}/>
-            <Route path="error-analyser"
-                   element={<ErrorAnalyser/>}/>
           </Route>
+          <Route path="error-analyser"
+                 element={<ErrorAnalyser/>}/>
           <Route path="/links"
                  element={<Links/>}/>
           <Route path="*"
