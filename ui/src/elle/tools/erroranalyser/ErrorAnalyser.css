@@ -1,0 +1,36 @@
+.error-filter {
+  padding: 30px;
+}
+
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  /* padding: 0 50px !important; */
+}
+
+.filter-item {
+  flex: 1;
+}
+
+.checkbox-container {
+  display: flex;
+  padding: 20px;
+}
+
+.checkbox-container.checkbox-container-error {
+  border-color: red;
+}
+
+.checkbox-group {
+  flex: 1;
+  display: flex;
+  margin-bottom: 10px;
+  padding-left: 10px;
+}
+
+.checkbox-item {
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+}
