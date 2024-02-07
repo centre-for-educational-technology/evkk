@@ -526,9 +526,9 @@ const Correction = () => {
                     </tbody>
                   </table>
                   <br/><br/>
-                  {sliderElement('SMOG index', 0, 25, parseFloat(complexityAnswer[5]).toFixed(2), 1)}
+                  {sliderElement('SMOG indeks', 0, 25, parseFloat(complexityAnswer[5]).toFixed(2), 1)}
                   {sliderElement('Flesch-Kincaidi indeks', 0, 30, parseFloat(complexityAnswer[6]).toFixed(2), 1)}
-                  {sliderElement('LIX index', 20, 80, parseFloat(complexityAnswer[7]).toFixed(2), 1)}
+                  {sliderElement('LIX indeks', 20, 80, parseFloat(complexityAnswer[7]).toFixed(2), 1)}
                   <div className="complexity-font">Pakutav
                     keerukustase: {complexityAnswer[11]}</div>
                 </div>}

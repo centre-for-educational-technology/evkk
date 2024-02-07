@@ -6,6 +6,7 @@ import ee.evkk.dto.WordContextResponseDto;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.service.TextService;
 import ee.tlu.evkk.dal.dto.WordAndPosInfoDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,8 +15,6 @@ import java.util.List;
 import static ee.evkk.dto.enums.WordContextType.SENTENCE;
 import static ee.evkk.dto.enums.WordType.LEMMAS;
 import static ee.evkk.dto.enums.WordType.WORDS;
-import static ee.tlu.evkk.api.util.TextUtils.sanitizeLemmaStrings;
-import static ee.tlu.evkk.api.util.TextUtils.sanitizeText;
 import static ee.tlu.evkk.api.util.WordContextUtils.getWordAndPosInfoByIndexFromSentencelist;
 import static ee.tlu.evkk.api.util.WordContextUtils.getWordAndPosInfoByIndexFromWordlist;
 import static ee.tlu.evkk.api.util.WordContextUtils.removeCapitalization;
@@ -23,18 +22,16 @@ import static ee.tlu.evkk.api.util.WordContextUtils.removeCapitalizationInList;
 import static ee.tlu.evkk.api.util.WordContextUtils.sanitizeLemmaList;
 import static ee.tlu.evkk.api.util.WordContextUtils.sanitizeLemmas;
 import static ee.tlu.evkk.api.util.WordContextUtils.sentenceArrayToList;
+import static ee.tlu.evkk.common.util.TextUtils.sanitizeLemmaStrings;
+import static ee.tlu.evkk.common.util.TextUtils.sanitizeText;
 import static java.util.Arrays.asList;
 
 @Service
+@RequiredArgsConstructor
 public class WordContextService {
 
   private final StanzaServerClient stanzaServerClient;
   private final TextService textService;
-
-  public WordContextService(StanzaServerClient stanzaServerClient, TextService textService) {
-    this.textService = textService;
-    this.stanzaServerClient = stanzaServerClient;
-  }
 
   public WordContextResponseDto getWordContextResponse(WordContextRequestDto dto) {
     String sanitizedTextContent = sanitizeText(textService.combineCorpusTextIdsAndOwnText(dto.getCorpusTextIds(), dto.getOwnTexts()));

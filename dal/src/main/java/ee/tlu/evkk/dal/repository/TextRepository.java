@@ -5,7 +5,7 @@ import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.Pageable;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.jdbc.SqlArray;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -20,14 +20,10 @@ import static java.util.stream.Collectors.toUnmodifiableMap;
  * Date: 15.11.2021
  */
 @Repository
+@AllArgsConstructor
 public class TextRepository extends AbstractRepository {
 
   private final TextDao textDao;
-
-  @Autowired
-  public TextRepository(TextDao textDao) {
-    this.textDao = textDao;
-  }
 
   public List<Text> search(Map<String, ? extends Collection<String>> filterMap, Pageable pageable) {
     int pageSize = pageable.getPageSize();

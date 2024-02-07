@@ -1,5 +1,6 @@
 package ee.tlu.evkk.api.util;
 
+import lombok.NoArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -8,12 +9,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static lombok.AccessLevel.PRIVATE;
 import static org.springframework.util.StreamUtils.copyToString;
 
 @Component
+@NoArgsConstructor(access = PRIVATE)
 public class FileUtils {
-
-  private FileUtils() {}
 
   public static String readResourceAsString(@NotNull String path) throws IOException {
     ClassPathResource resource = new ClassPathResource(path);

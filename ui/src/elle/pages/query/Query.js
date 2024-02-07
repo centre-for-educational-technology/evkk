@@ -19,7 +19,7 @@ import {
   addedYearOptions,
   ageOptions,
   charactersOptions,
-  countryOptions,
+  countryOptionsForQuery,
   DefaultButtonStyle,
   degreeOptions,
   domainOptions,
@@ -235,7 +235,7 @@ export default function Query(props) {
   }
 
   function checkIfOnlySpecificCorpusIsChecked(corpus) {
-    let selectedCorpuses = getSelectedCorpusList();
+    const selectedCorpuses = getSelectedCorpusList();
     return selectedCorpuses.length === 1 && selectedCorpuses[0] === corpus;
   }
 
@@ -246,7 +246,7 @@ export default function Query(props) {
         const splitValue = item.split('...')[0];
         parsed = splitValue + '-' + (parseInt(splitValue) + 4);
       } else {
-        parsed = item.replace('—', '-');
+        parsed = item.replace('–', '-');
       }
       return parsed;
     });
@@ -260,9 +260,9 @@ export default function Query(props) {
       if (entry.includes(t('query_text_data_up_to'))) {
         parsed = [1, parseInt(entry.split(`${t('query_text_data_up_to')} `)[1])];
       } else if (entry.includes(t('query_text_data_over'))) {
-        parsed = [parseInt(entry.split(`${t('query_text_data_over')} `)[1]), 2147483647]; //java int max value
+        parsed = [parseInt(entry.split(`${t('query_text_data_over')} `)[1]) + 1, 2147483647]; // java int max value
       } else {
-        parsed = [parseInt(entry.split('—')[0]), parseInt(entry.split('—')[1])];
+        parsed = [parseInt(entry.split('–')[0]), parseInt(entry.split('–')[1])];
       }
       results.push(parsed);
     });
@@ -1029,9 +1029,9 @@ export default function Query(props) {
                       label={t('query_author_data_country')}
                       onClick={(e) => alterSinglePropertyData(e, 'country')}
                     >
-                      {Object.keys(countryOptions).map((country) => (
+                      {Object.keys(countryOptionsForQuery).map((country) => (
                         <MenuItem key={country}
-                                  value={country}>{t(countryOptions[country])}</MenuItem>
+                                  value={country}>{t(countryOptionsForQuery[country])}</MenuItem>
                       ))}
                     </Select>
                   </FormControl>

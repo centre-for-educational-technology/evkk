@@ -4,6 +4,8 @@ import { HashLink } from 'react-router-hash-link';
 
 export const EVKK_VERS1_PATH = 'https://evkk.tlu.ee/vers1/';
 
+export const WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO = 1000;
+
 export const useStyles = makeStyles((_theme) => ({
   formControl: {
     margin: 1,
@@ -83,6 +85,10 @@ export const CorrectorCustomSlider = {
       transform: 'rotate(45deg)'
     }
   }
+};
+
+export const DefaultCircularProgressStyle = {
+  color: '#9C27B0'
 };
 
 export const MenuLink = styled(HashLink)({
@@ -196,38 +202,38 @@ export const modalStyle = {
 };
 
 export const addedYearOptions = [
-  '2000—2005',
-  '2006—2010',
-  '2011—2015',
-  '2016—2020',
+  '2000–2005',
+  '2006–2010',
+  '2011–2015',
+  '2016–2020',
   '2021...'
 ];
 
 export const charactersOptions = [
   'query_text_data_char_up_to_500',
-  '501—1000',
-  '1001—1500',
-  '1501—2500',
-  '2501—5000',
+  '501–1000',
+  '1001–1500',
+  '1501–2500',
+  '2501–5000',
   'query_text_data_char_over_5000'
 ];
 
 export const wordsOptions = [
   'query_text_data_words_up_to_100',
-  '101—200',
-  '201—300',
-  '301—400',
-  '401—600',
-  '601—800',
+  '101–200',
+  '201–300',
+  '301–400',
+  '401–600',
+  '601–800',
   'query_text_data_words_over_800'
 ];
 
 export const sentencesOptions = [
   'query_text_data_sentences_up_to_10',
-  '11—20',
-  '21—30',
-  '31—60',
-  '61—100',
+  '11–20',
+  '21–30',
+  '31–60',
+  '61–100',
   'query_text_data_sentences_over_100'
 ];
 
@@ -436,9 +442,9 @@ export const usedMaterialsSaveOptions = {
 
 export const ageOptions = {
   'kuni18': 'query_author_data_age_up_to_18',
-  'kuni26': '18 - 26',
-  'kuni40': '27 - 40',
-  '41plus': '41 +'
+  'kuni26': '19–26',
+  'kuni40': '27–40',
+  '41plus': 'query_author_data_age_over_40'
 };
 
 export const genderOptions = {
@@ -546,19 +552,20 @@ export const languageOptions = {
   'rootsi': 'query_common_language_se',
   'inglise': 'query_common_language_en',
   'jidis': 'query_common_language_ji',
-  'itaalia': 'query_common_language_it',
-  'jaapani': 'query_common_language_jp',
   'poola': 'query_common_language_pl',
-  'hollandi': 'query_common_language_nl',
-  'sloveenia': 'query_common_language_sl',
-  'heebrea': 'query_common_language_he',
-  'prantsuse': 'query_common_language_fr',
-  'katalaani': 'query_common_language_ca',
-  'ungari': 'query_common_language_hu',
-  'tsehhi': 'query_common_language_cz'
+  'ungari': 'query_common_language_hu'
 };
 
-export const countryOptions = {
+export const countryOptionsForQuery = {
+  'Eesti': 'query_common_country_et',
+  'Soome': 'query_common_country_fi',
+  'Leedu': 'query_common_country_lt',
+  'Saksamaa': 'query_common_country_de',
+  'Inglismaa': 'query_common_country_en',
+  'Ungari': 'query_common_country_hu'
+};
+
+export const countryOptionsForAddingText = {
   'Eesti': 'query_common_country_et',
   'Soome': 'query_common_country_fi',
   'Rootsi': 'query_common_country_se',
@@ -567,6 +574,5 @@ export const countryOptions = {
   'Leedu': 'query_common_country_lt',
   'Saksamaa': 'query_common_country_de',
   'Inglismaa': 'query_common_country_en',
-  'Ungari': 'query_common_country_hu',
-  'Muu': 'common_other'
+  'Ungari': 'query_common_country_hu'
 };

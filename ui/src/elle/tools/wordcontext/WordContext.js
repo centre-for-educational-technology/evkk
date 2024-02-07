@@ -227,7 +227,7 @@ export default function WordContext() {
                  expanded={paramsExpanded}
                  onChange={() => setParamsExpanded(!paramsExpanded)}>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon/>}
+          expandIcon={<ExpandMoreIcon />}
           id="wordcontext-filters-header"
         >
           <Typography>
@@ -249,11 +249,11 @@ export default function WordContext() {
                     onChange={handleTypeChange}
                   >
                     <FormControlLabel value="WORDS"
-                                      control={<Radio/>}
-                                      label={t('common_by_word_form')}/>
+                                      control={<Radio />}
+                                      label={t('common_by_word_form')} />
                     <FormControlLabel value="LEMMAS"
-                                      control={<Radio/>}
-                                      label={t('common_by_base_form')}/>
+                                      control={<Radio />}
+                                      label={t('common_by_base_form')} />
                   </RadioGroup>
                   {typeError && <FormHelperText>{t('error_mandatory_field')}</FormHelperText>}
                   <Button sx={DefaultButtonStyle}
@@ -274,9 +274,9 @@ export default function WordContext() {
                              required
                              value={keyword}
                              onChange={(e) => setKeyword(e.target.value)}
-                             style={{width: '250px'}}/>
+                             style={{width: '250px'}} />
                 </FormControl>
-                <br/>
+                <br />
                 <FormControl sx={{m: 3}}
                              style={{marginTop: '-1vh'}}
                              variant="standard">
@@ -290,7 +290,7 @@ export default function WordContext() {
                                  required
                                  value={displayCount}
                                  onChange={(e) => setDisplayCount(e.target.value)}
-                                 className="wordcontext-display-count-textfield"/>
+                                 className="wordcontext-display-count-textfield" />
                     </Grid>
                     <Grid item>
                       <FormControl size="small">
@@ -329,7 +329,7 @@ export default function WordContext() {
                                       <Tooltip
                                         title={t('concordances_case_sensitive_hover')}
                                         placement="right">
-                                        <QuestionMark className="tooltip-icon"/>
+                                        <QuestionMark className="tooltip-icon" />
                                       </Tooltip></>}
                   />
                 </FormControl>
@@ -339,7 +339,7 @@ export default function WordContext() {
         </AccordionDetails>
       </Accordion>
       {lemmatizedKeywordResult && <>
-        <br/>
+        <br />
         <Alert severity="warning">
           {t('concordances_keyword_lemmatization_warning', {
             initialKeywordResult: initialKeywordResult,
@@ -352,13 +352,13 @@ export default function WordContext() {
                              tableType={'WordContext'}
                              headers={tableToDownload}
                              accessors={accessors}
-                             marginTop={'2vh'}/>
+                             marginTop={'2vh'} />
         <GenericTable tableClassname={'wordcontext-table'}
                       columns={columns}
                       data={data}
                       sortByColAccessor={'originalId'}
                       sortByDesc={false}
-                      hiddenCols={'originalId'}/>
+                      hiddenCols={'originalId'} />
       </>}
       {showNoResultsError &&
         <Alert severity="error">{t('error_no_matching_keywords')}</Alert>}

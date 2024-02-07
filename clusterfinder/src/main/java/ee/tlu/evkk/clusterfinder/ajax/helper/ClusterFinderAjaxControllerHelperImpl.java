@@ -5,14 +5,13 @@ import ee.tlu.evkk.clusterfinder.constants.SortingType;
 import ee.tlu.evkk.clusterfinder.exception.InvalidInputException;
 import ee.tlu.evkk.clusterfinder.filters.FilterMarshaller;
 import ee.tlu.evkk.clusterfinder.model.ClusterSearchForm;
+import ee.tlu.evkk.clusterfinder.model.ClusterSearchForm.ClusterSearchFormBuilder;
 import ee.tlu.evkk.clusterfinder.model.ValidationErrors;
 import ee.tlu.evkk.clusterfinder.service.ClusterService;
 import ee.tlu.evkk.clusterfinder.service.model.ClusterResult;
-import ee.tlu.evkk.clusterfinder.util.FileUtil;
 import ee.tlu.evkk.clusterfinder.validation.ClusterSearchFormValidator;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -20,44 +19,37 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 import static ee.tlu.evkk.clusterfinder.constants.SystemConstants.TEMP_DIR_WITH_SEPARATOR;
+import static ee.tlu.evkk.clusterfinder.util.FileUtil.saveTextToFile;
+import static java.lang.Integer.parseInt;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static org.springframework.http.ResponseEntity.badRequest;
+import static org.springframework.http.ResponseEntity.ok;
 
 @Component
-class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControllerHelper
-{
-  private static final Logger log = LoggerFactory.getLogger( ClusterFinderAjaxControllerHelperImpl.class );
+@AllArgsConstructor
+@Slf4j
+class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControllerHelper {
 
   private static final int DEFAULT_CLUSTERING_LENGTH = 0;
 
   private final ClusterService clusterService;
-
   private final ClusterSearchFormValidator validator;
-
   private final FilterMarshaller filterMarshaller;
 
-  ClusterFinderAjaxControllerHelperImpl(ClusterService clusterService, ClusterSearchFormValidator validator, FilterMarshaller filterMarshaller)
-  {
-    this.clusterService = clusterService;
-    this.validator = validator;
-    this.filterMarshaller = filterMarshaller;
-  }
-
   @Override
-  public ResponseEntity<ClusterResult> clusterText(HttpServletRequest request) throws IOException, InvalidInputException
-  {
+  public ResponseEntity<ClusterResult> clusterText(HttpServletRequest request) throws IOException, InvalidInputException {
     ClusterSearchForm assembledForm = assembleClusterSearchForm(request);
-    ValidationErrors errors = validator.validate( assembledForm );
-    if ( errors.hasErrors() )
-    {
-      log.error( "Search form contains validation errors: {}", errors );
-      return ResponseEntity.badRequest().build();
+    ValidationErrors errors = validator.validate(assembledForm);
+    if (errors.hasErrors()) {
+      log.error("Search form contains validation errors: {}", errors);
+      return badRequest().build();
     }
 
     ClusterResult clusteringResult = clusterService.clusterText(assembledForm);
-    return ResponseEntity.ok( clusteringResult );
+    return ok(clusteringResult);
   }
 
-  private ClusterSearchForm assembleClusterSearchForm(HttpServletRequest request) throws IOException, InvalidInputException
-  {
+  private ClusterSearchForm assembleClusterSearchForm(HttpServletRequest request) throws IOException, InvalidInputException {
     ClusterSearchForm.ClusterSearchFormBuilder formBuilder = ClusterSearchForm.builder();
     addAnalysisTypeParams(formBuilder, request);
     handleTextInputMethod(formBuilder, request);
@@ -66,8 +58,7 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
     return formBuilder.build();
   }
 
-  private void addAnalysisTypeParams(ClusterSearchForm.ClusterSearchFormBuilder formBuilder, HttpServletRequest request)
-  {
+  private void addAnalysisTypeParams(ClusterSearchFormBuilder formBuilder, HttpServletRequest request) {
     formBuilder
       .analysisLength(asNumber(request.getParameter("analysisLength")))
       .morfoAnalysis(asBoolean(request.getParameter("morfological")))
@@ -76,8 +67,7 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
       .includePunctuation(asBoolean(request.getParameter("punctuation")));
   }
 
-  private void addSpecificParams(ClusterSearchForm.ClusterSearchFormBuilder formBuilder, HttpServletRequest request)
-  {
+  private void addSpecificParams(ClusterSearchFormBuilder formBuilder, HttpServletRequest request) {
     SortingType sortingType = SortingType.getByValue(request.getParameter("sorting"));
 
     formBuilder
@@ -86,9 +76,8 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
       .partialFilters(asBoolean(request.getParameter("partialFilters")));
   }
 
-  private void handleTextInputMethod(ClusterSearchForm.ClusterSearchFormBuilder formBuilder, HttpServletRequest request)
-      throws IOException, InvalidInputException
-  {
+  private void handleTextInputMethod(ClusterSearchFormBuilder formBuilder, HttpServletRequest request)
+    throws IOException, InvalidInputException {
     // TODO: Simplify form building (a lot of unnecessary things are done in this class)
     InputType inputType = InputType.valueOf(request.getParameter("inputType"));
     String formId = request.getParameter("formId");
@@ -96,7 +85,7 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
 
     switch (inputType) {
       case FREE_TEXT:
-        FileUtil.saveTextToFile(userText, formId);
+        saveTextToFile(userText, formId);
         formBuilder.formId(formId);
         formBuilder.fileName(TEMP_DIR_WITH_SEPARATOR + formId + ".txt");
         break;
@@ -108,14 +97,12 @@ class ClusterFinderAjaxControllerHelperImpl implements ClusterFinderAjaxControll
     }
   }
 
-  private boolean asBoolean(String value)
-  {
+  private boolean asBoolean(String value) {
     return Boolean.parseBoolean(value);
   }
 
-  private int asNumber(String value)
-  {
+  private int asNumber(String value) {
     // Default clustering length is 0 in order to ensure validation functionality
-    return StringUtils.isNotEmpty( value ) ? Integer.parseInt(value) : DEFAULT_CLUSTERING_LENGTH;
+    return isNotEmpty(value) ? parseInt(value) : DEFAULT_CLUSTERING_LENGTH;
   }
 }

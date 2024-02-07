@@ -29,16 +29,25 @@ subprojects {
 
   dependencies {
 
-    // mapsstruct
+    // mapstruct
     implementation "org.mapstruct:mapstruct:${mapStructVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+
+    // lombok
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.30'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+    testAnnotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     //developmentOnly "org.springframework.boot:spring-boot-devtools"
     testImplementation project(":test")
   }
 
-  tasks.withType(BootJar) {
+  tasks.withType(BootJar).configureEach {
     archiveFileName = "${project.name}.jar"
     destinationDirectory = file("${rootProject.projectDir}/dist/")
   }

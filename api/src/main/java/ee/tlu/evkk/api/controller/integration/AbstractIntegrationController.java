@@ -1,10 +1,9 @@
 package ee.tlu.evkk.api.controller.integration;
 
-import ee.tlu.evkk.dal.dto.SessionToken;
 import ee.tlu.evkk.api.exception.InvalidSessionException;
 import ee.tlu.evkk.api.service.SessionTokenService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ee.tlu.evkk.dal.dto.SessionToken;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,9 +13,8 @@ import java.util.UUID;
  * @author Mikk Tarvas
  * Date: 12.02.2020
  */
+@Slf4j
 public abstract class AbstractIntegrationController {
-
-  private static final Logger log = LoggerFactory.getLogger(AbstractIntegrationController.class);
 
   private final SessionTokenService sessionTokenService;
 
