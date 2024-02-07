@@ -63,7 +63,7 @@ class Adding extends Component {
       autoriOppeaste: '',
       autoriTeaduskraad: '',
       autoriHaridus: '',
-      autoriEriala: '',
+      autoriValdkond: '',
       autoriEmakeel: '',
       autorKakskeelne: false,
       autoriMuudKeeled: '',
@@ -248,8 +248,8 @@ class Adding extends Component {
                             <Select
                               label={`${t('common_text_data_field_of_research')} *`}
                               labelId="valdkond-select-label"
-                              name="autoriEriala"
-                              value={this.state.autoriEriala}
+                              name="autoriValdkond"
+                              value={this.state.autoriValdkond}
                               required
                               onChange={this.handleChange}
                             >

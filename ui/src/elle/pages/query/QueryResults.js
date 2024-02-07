@@ -23,10 +23,10 @@ import {
   DefaultButtonStyle,
   educationOptions,
   genderOptions,
-  languageOptions,
+  languageOptionsForNativeLangs,
   modalStyle,
   textLanguageOptions,
-  textTypes,
+  textTypeList,
   usedMaterialsDisplayOptions
 } from '../../const/Constants';
 import TablePagination from '../../components/table/TablePagination';
@@ -325,7 +325,7 @@ export default function QueryResults(props) {
               <AccordionDetails>
                 <div className="metainfo-subtitle">{t('common_text_data')}</div>
                 <strong>{t('query_subcorpus')}:</strong> {t(corpuses[metadata.korpus]) || '-'}<br/>
-                <strong>{t('query_text_data_type')}:</strong> {t(textTypes[metadata.tekstityyp]) || '-'}<br/>
+                <strong>{t('query_text_data_type')}:</strong> {t(textTypeList[metadata.tekstityyp]) || '-'}<br />
                 <strong>{t('query_text_data_language')}:</strong> {t(textLanguageOptions[metadata.tekstikeel]) || '-'}<br/>
                 <strong>{t('query_text_data_level')}:</strong> {metadata.keeletase || '-'}<br/>
                 <strong>{t('query_text_data_used_supporting_materials')}:</strong> {t(usedMaterialsDisplayOptions[metadata.abivahendid]) || '-'}<br/>
@@ -335,7 +335,7 @@ export default function QueryResults(props) {
                 <strong>{t('query_author_data_age')}:</strong> {t(ageOptions[metadata.vanusevahemik]) || '-'}<br />
                 <strong>{t('query_author_data_gender')}:</strong> {t(genderOptions[metadata.sugu]) || '-'}<br/>
                 <strong>{t('query_author_data_education')}:</strong> {t(educationOptions[metadata.haridus]) || '-'}<br/>
-                <strong>{t('query_author_data_native_language')}:</strong> {t(languageOptions[metadata.emakeel]) || '-'}<br/>
+                <strong>{t('query_author_data_native_language')}:</strong> {t(languageOptionsForNativeLangs[metadata.emakeel]) || '-'}<br />
                 <strong>{t('query_author_data_country')}:</strong> {t(countryOptionsForQuery[metadata.riik]) || '-'}<br />
               </AccordionDetails>
             </Accordion>
