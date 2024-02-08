@@ -4,7 +4,7 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
   function transformSentence(sentence) {
     const transformedSentence = new Map();
     sentence.split(" ").forEach((element, index) => {
-      const key = [index, index + 1, -1];
+      const key = [index, index + 1, -1].join("::");
       const value = {
         content: element,
         status: "initial",
@@ -19,8 +19,14 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
       parseInt(annotation.scopeStart),
       parseInt(annotation.scopeEnd),
       parseInt(annotation.annotatorId),
-    ];
-    const value = annotation;
+    ].join("::");
+    const value = {
+      content: annotation.correction,
+      errorType: annotation.errorType,
+      annotatorId: parseInt(annotation.annotatorId),
+      scopeStart: parseInt(annotation.scopeStart),
+      scopeEnd: parseInt(annotation.scopeEnd),
+    };
     return { key, value };
   };
 
@@ -40,7 +46,7 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
   const groupedAnnotations = groupAnnotations(annotations);
 
   return (
-    <span>
+    <>
       {groupedAnnotations.map((annotationGroup, index) => (
         <CorrectedSentence
           key={index}
@@ -48,6 +54,6 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
           sentence={transformedSentence}
         />
       ))}
-    </span>
+    </>
   );
 }

@@ -1,83 +1,91 @@
 import { Box } from "@mui/material";
-import { useEffect } from "react";
+import { Fragment } from "react";
+import "./../ErrorAnalyser.css";
 
 export default function CorrectedSentence({ annotations, sentence }) {
   const applyAnnotations = (annotations, sentence) => {
-    let modiefiedSentence = sentence;
+    const modifiedSentence = structuredClone(sentence);
     annotations.forEach((annotation, key) => {
       const errorType = annotation.errorType;
 
       switch (errorType[0]) {
-        case "M":
-          return modiefiedSentence.set(key, annotation);
-        case "U":
-          return modiefiedSentence.set(key, annotation);
-        case "R":
-          return modiefiedSentence.set(key, annotation);
+        case "M": //missing => added
+          const addedItem = { ...annotation, status: "added" };
+          modifiedSentence.set(key, addedItem);
+          break;
+        case "U": //unnecessary => deleted
+          const deletedItemKey = [
+            annotation.scopeStart,
+            annotation.scopeEnd,
+            -1,
+          ].join("::");
+
+          const sourceDeletedItem = sentence.get(deletedItemKey);
+          if (sourceDeletedItem) {
+            const deletedItem = {
+              ...sourceDeletedItem,
+              status: "deleted",
+            };
+            modifiedSentence.set(deletedItemKey, deletedItem);
+          }
+          break;
+        default: //"R" => replaced
+          for (let i = annotation.scopeStart; i < annotation.scopeEnd; i++) {
+            const replacedItemKey = [i, i + 1, -1].join("::");
+            const sourceReplacedItem = sentence.get(replacedItemKey);
+            if (sourceReplacedItem) {
+              const replacedDeletedItem = {
+                ...sourceReplacedItem,
+                status: "replaced-deleted",
+              };
+              modifiedSentence.set(replacedItemKey, replacedDeletedItem);
+            }
+          }
+          const replacedAddedItem = { ...annotation, status: "replaced-added" };
+          modifiedSentence.set(key, replacedAddedItem);
       }
-
-      //   let start = annotation.scopeStart;
-      //   const end = annotation.scopeEnd;
-      //   //   for (start; end; start++) {
-      //   //     //TODO
-      //   //   }
-
-      //   modiefiedSentence.set(key, annotation);
     });
-    console.log(modiefiedSentence);
-    return sentence;
+    return modifiedSentence;
   };
 
   const sortSentence = (sentence) => {
-    return Array.from(sentence.values());
+    const sortedSentences = Array.from(sentence.entries())
+      .map(([key, value]) => {
+        const intKey = key.split("::").map(Number);
+        return [intKey, value];
+      })
+      .sort((a, b) => {
+        for (let i = 0; i < 3; i++) {
+          if (a[0][i] !== b[0][i]) {
+            return a[0][i] - b[0][i];
+          }
+        }
+        return 0;
+      })
+      .map((entry) => entry[1]);
 
-    // const compiledItems = sentence.concat(annotations).sort((a, b) => {
-    //       const keyA = a.key;
-    //       const keyB = b.key;
-
-    //       for (let i = 0; i < 3; i++) {
-    //         if (keyA[i] !== keyB[i]) {
-    //           return keyA[i] - keyB[i];
-    //         }
-    //       }
-
-    //       return 0; // The keys are equal
-    //     });
+    return sortedSentences;
   };
 
-  const compileSentence = (sentence) => {
-    const sortedSentence = sortSentence(sentence);
+  const compileSentence = (annotations, sentence) => {
+    const modifiedSentence = applyAnnotations(annotations, sentence);
+    const sortedSentence = sortSentence(modifiedSentence);
     return (
-      <span>
+      <>
         {sortedSentence.map((value, index) => {
-          return <span key={index}>{value.content + " "} </span>;
+          return (
+            <Fragment key={index}>
+              <span className={value.status}>{value.content}</span>{" "}
+            </Fragment>
+          );
         })}
-      </span>
+      </>
     );
   };
 
-  useEffect(() => {
-    //const temp = applyAnnotationsToSentence(annotations, sentence);
-    // console.log(compileSentence(sentence));
-    // console.log(sentence);
-  }, [annotations, sentence]);
-
-  //     const compileCorrectedSentence = (annotations, sentence) => {
-  //     const compiledItems = sentence.concat(annotations).sort((a, b) => {
-  //       const keyA = a.key;
-  //       const keyB = b.key;
-
-  //       for (let i = 0; i < 3; i++) {
-  //         if (keyA[i] !== keyB[i]) {
-  //           return keyA[i] - keyB[i];
-  //         }
-  //       }
-
-  //       return 0; // The keys are equal
-  //     });
-  //     console.log(compiledItems);
-  //   };
-
-  //   compileCorrectedSentence(annotations, sentence);
-  return <Box>{compileSentence(sentence)}</Box>;
+  return (
+    <Box className="corrected-sentence">
+      {compileSentence(annotations, sentence)}
+    </Box>
+  );
 }

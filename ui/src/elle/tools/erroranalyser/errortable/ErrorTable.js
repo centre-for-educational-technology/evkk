@@ -9,6 +9,7 @@ import TablePaginationActions from "./TablePaginationActions";
 import { TableFooter, TablePagination } from "@mui/material";
 import { usePagination } from "./usePagination";
 import CorrectedSentenceCell from "./CorrectedSentenceCell";
+import "./../ErrorAnalyser.css";
 
 export default function ErrorTable({ errorData: rows }) {
   const {
@@ -20,8 +21,8 @@ export default function ErrorTable({ errorData: rows }) {
   } = usePagination(rows);
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <TableContainer component={Paper} className="result-table-container">
+      <Table className="result-table" aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Algne lause</TableCell>

@@ -1,12 +1,12 @@
-.error-filter {
+div.error-filter {
   padding: 30px;
+  margin-bottom: 30px !important;
 }
 
 .filter-container {
   display: flex;
   flex-wrap: wrap;
   gap: 50px;
-  /* padding: 0 50px !important; */
 }
 
 .filter-item {
@@ -33,4 +33,51 @@
   display: flex;
   flex-direction: column;
   min-width: 150px;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+}
+
+.result-table-container {
+  margin: 25px 0;
+}
+
+.result-table {
+  min-width: 650px;
+}
+
+.result-table tbody tr th {
+  vertical-align: top;
+}
+
+.corrected-sentence {
+  padding-bottom: 15px;
+}
+
+.corrected-sentence:last-of-type {
+  padding-bottom: initial;
+}
+
+.corrected-sentence .added {
+  color: red;
+}
+
+.corrected-sentence .deleted {
+  text-decoration: line-through;
+  font-weight: bold;
+  font-size: smaller;
+}
+
+.corrected-sentence .replaced-added {
+  color: blue;
+}
+
+.corrected-sentence .replaced-deleted {
+  text-decoration: line-through;
+  color: gray;
+  font-size: smaller;
 }
