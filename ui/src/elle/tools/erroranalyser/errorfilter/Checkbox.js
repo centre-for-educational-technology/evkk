@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { cloneDeep } from "lodash";
 import CheckboxHelper from "./CheckboxHelper";
 import { FormGroup } from "@mui/material";
-import "./ErrorAnalyser.css";
+import "./../ErrorAnalyser.css";
 
 //https://medium.com/sltc-sean-learns-to-code/how-i-build-a-nested-checkbox-react-component-7eef982d1ea9
 //https://playcode.io/1193701E

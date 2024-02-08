@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import "./ErrorAnalyser.css";
+import "./../ErrorAnalyser.css";
 import { errorTypes, languageLevels } from "./CheckboxData";
 import Checkbox from "./Checkbox";
 
@@ -23,7 +23,7 @@ export default function FilterAccordion({ getErrors }) {
   const [selectedErrorTypes, setSelectedErrorTypes] = useState(null);
   const [selectedLanguageLevels, setSelectedLanguageLevels] = useState(null);
 
-  function mapFilterInput(input) {
+  const mapFilterInput = (input) => {
     return input.flatMap((item) => {
       return item.checked
         ? [item.type]
@@ -31,9 +31,9 @@ export default function FilterAccordion({ getErrors }) {
             .filter((child) => child.checked)
             .map((child) => child.type);
     });
-  }
+  };
 
-  function handleSubmit() {
+  const handleSubmit = () => {
     const errorTypeFilter = mapFilterInput(selectedErrorTypes);
     let languageLevelFilter = mapFilterInput(selectedLanguageLevels);
     if (errorTypeFilter.length === 0) {
@@ -59,7 +59,7 @@ export default function FilterAccordion({ getErrors }) {
       getErrors(errorTypeFilter, languageLevelFilter);
       setIsFilterExpanded(false);
     }
-  }
+  };
 
   return (
     <Accordion

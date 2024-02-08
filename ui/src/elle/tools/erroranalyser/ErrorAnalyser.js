@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
-import FilterAccordion from "./FilterAccordion";
-import ErrorTable from "./ErrorTable";
+import FilterAccordion from "./errorfilter/FilterAccordion";
+import ErrorTable from "./errortable/ErrorTable";
 
 //TODO translation
+//TODO päringusse lisada emakeel - peaks automaatselt võtma väärtused andmebaasist
 
-function ErrorAnalyser() {
+export default function ErrorAnalyser() {
   const [errorData, setErrorData] = useState(null);
 
-  async function getErrors(errorTypeFilter, languageLevelFilter) {
+  const getErrors = async (errorTypeFilter, languageLevelFilter) => {
     let query = "http://localhost:9090/api/errors/getErrors?";
 
     errorTypeFilter.forEach((element) => {
@@ -25,17 +26,23 @@ function ErrorAnalyser() {
       .then((response) => response.json())
       .then((data) => setErrorData(data))
       .catch((error) => console.error("Error:", error));
-  }
+  };
+
+  useEffect(() => {
+    getErrors(["LEX"], ["B1"]);
+  }, []);
+
+  // useEffect(() => {
+  //   console.log(errorData);
+  // }, [errorData]);
 
   return (
     <>
       <Typography variant="h3">Veastatistika</Typography>
 
-      <FilterAccordion getErrors={getErrors} />
+      {/* <FilterAccordion getErrors={getErrors} /> */}
 
       {errorData && <ErrorTable errorData={errorData} />}
     </>
   );
 }
-
-export default ErrorAnalyser;
