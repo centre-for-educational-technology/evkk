@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import FilterAccordion from "./errorfilter/FilterAccordion";
 import ErrorTable from "./errortable/ErrorTable";
 
@@ -8,6 +8,7 @@ import ErrorTable from "./errortable/ErrorTable";
 
 export default function ErrorAnalyser() {
   const [errorData, setErrorData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getErrors = async (errorTypeFilter, languageLevelFilter) => {
     let query = "http://localhost:9090/api/errors/getErrors?";
@@ -22,25 +23,33 @@ export default function ErrorAnalyser() {
 
     query = query.slice(0, -1);
 
-    fetch(query)
-      .then((response) => response.json())
-      .then((data) => setErrorData(data))
-      .catch((error) => console.error("Error:", error));
+    try {
+      setIsLoading(true);
+      const response = await fetch(query);
+      const data = await response.json();
+      setErrorData(data);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  useEffect(() => {
-    getErrors(["LEX"], ["B1"]);
-  }, []);
-
   // useEffect(() => {
-  //   console.log(errorData);
-  // }, [errorData]);
+  //   getErrors(["LEX"], ["B1"]);
+  // }, []);
 
   return (
     <>
       <Typography variant="h3">Veastatistika</Typography>
 
-      {/* <FilterAccordion getErrors={getErrors} /> */}
+      <FilterAccordion getErrors={getErrors} setErrorData={setErrorData} />
+
+      {isLoading && (
+        <Box className="spinner-container">
+          <CircularProgress />
+        </Box>
+      )}
 
       {errorData && <ErrorTable errorData={errorData} />}
     </>

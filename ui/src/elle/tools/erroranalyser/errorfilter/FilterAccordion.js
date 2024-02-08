@@ -14,7 +14,7 @@ import "./../ErrorAnalyser.css";
 import { errorTypes, languageLevels } from "./CheckboxData";
 import Checkbox from "./Checkbox";
 
-export default function FilterAccordion({ getErrors }) {
+export default function FilterAccordion({ getErrors, setErrorData }) {
   const [filterError, setFilterError] = useState({
     typeError: false,
     levelError: false,
@@ -34,6 +34,7 @@ export default function FilterAccordion({ getErrors }) {
   };
 
   const handleSubmit = () => {
+    setErrorData(null);
     const errorTypeFilter = mapFilterInput(selectedErrorTypes);
     let languageLevelFilter = mapFilterInput(selectedLanguageLevels);
     if (errorTypeFilter.length === 0) {
