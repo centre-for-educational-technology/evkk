@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Box, Checkbox, FormControlLabel } from "@mui/material";
-import "./ErrorAnalyser.css";
+import "./../ErrorAnalyser.css";
 
 export default function CheckboxHelper({ nodes, ancestors, onBoxChecked }) {
   return (
