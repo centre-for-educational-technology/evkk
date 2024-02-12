@@ -1,11 +1,15 @@
 package ee.tlu.evkk.api.util;
 
 import ee.tlu.evkk.api.exception.IncorrectAffectedRowCountException;
+import lombok.NoArgsConstructor;
+
+import static lombok.AccessLevel.PRIVATE;
 
 /**
  * @author Mikk Tarvas
  * Date: 2019-11-01
  */
+@NoArgsConstructor(access = PRIVATE)
 public class DaoUtils {
 
   public static void ensureSingleAffectedRow(int affectedRowCount) {

@@ -9,6 +9,7 @@ import ee.evkk.dto.WordlistResponseDto;
 import ee.tlu.evkk.api.service.CollocateService;
 import ee.tlu.evkk.api.service.WordContextService;
 import ee.tlu.evkk.api.service.WordlistService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,33 +17,31 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.List;
+
+import static ee.tlu.evkk.api.controller.paths.ToolsControllerPaths.COLLOCATES;
+import static ee.tlu.evkk.api.controller.paths.ToolsControllerPaths.WORDCONTEXT;
+import static ee.tlu.evkk.api.controller.paths.ToolsControllerPaths.WORDLIST;
 
 @RestController
 @RequestMapping("/tools")
+@RequiredArgsConstructor
 public class ToolsController {
 
   private final WordlistService wordlistService;
   private final WordContextService wordContextService;
   private final CollocateService collocateService;
 
-  public ToolsController(WordlistService wordlistService, WordContextService wordContextService, CollocateService collocateService) {
-    this.wordlistService = wordlistService;
-    this.wordContextService = wordContextService;
-    this.collocateService = collocateService;
-  }
-
-  @PostMapping("wordlist")
-  public List<WordlistResponseDto> getWordlistResponse(@RequestBody @Valid WordlistRequestDto dto) throws IOException {
+  @PostMapping(WORDLIST)
+  public WordlistResponseDto getWordlistResponse(@RequestBody @Valid WordlistRequestDto dto) throws IOException {
     return wordlistService.getWordlistResponse(dto);
   }
 
-  @PostMapping("wordcontext")
+  @PostMapping(WORDCONTEXT)
   public WordContextResponseDto getWordContextResponse(@RequestBody @Valid WordContextRequestDto dto) {
     return wordContextService.getWordContextResponse(dto);
   }
 
-  @PostMapping("collocates")
+  @PostMapping(COLLOCATES)
   public CollocateResponseDto getCollocateResponse(@RequestBody @Valid CollocateRequestDto dto) throws IOException {
     return collocateService.getCollocateResponse(dto);
   }

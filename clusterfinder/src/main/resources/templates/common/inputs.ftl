@@ -9,19 +9,19 @@
     * tooltipKey - optional, when present adds a tooltip, which is displayed when hovering over the element
 --]
 [#macro createCheckbox id name labelKey value tooltipKey=""]
-    <input class="form-check-input" type="checkbox" id="${id!}" name="${name!}" value="${value!true?c}">
-    <label class="form-check-label"
-           for="${id!}"
-            [#if tooltipKey?has_content]
-                data-toggle="tooltip"
-                data-placement="right"
-                title="[@translations.retrieveTranslation tooltipKey /]"
-            [/#if]
-    >[@translations.retrieveTranslation labelKey /]</label>
+  <input class="form-check-input" type="checkbox" id="${id!}" name="${name!}" value="${value!true?c}">
+  <label class="form-check-label"
+         for="${id!}"
+    [#if tooltipKey?has_content]
+      data-toggle="tooltip"
+      data-placement="right"
+      title="[@translations.retrieveTranslation tooltipKey /]"
+    [/#if]
+  >[@translations.retrieveTranslation labelKey /]</label>
 [/#macro]
 
 [#macro createCheckboxWithTooltip id name labelKey tooltipKey value="true"]
-    [@createCheckbox id name labelKey value tooltipKey /]
+  [@createCheckbox id name labelKey value tooltipKey /]
 [/#macro]
 
 [#-- Creates a radio input element with the following parameters:
@@ -31,8 +31,8 @@
     * value - value of the input element
 --]
 [#macro createRadio id name labelKey value]
-    <input class="form-check-input" type="radio" id="${id!}" name="${name!}" value="${value!true?c}">
-    <label class="form-check-label" for="${id!}">[@translations.retrieveTranslation labelKey /]</label>
+  <input class="form-check-input" type="radio" id="${id!}" name="${name!}" value="${value!true?c}">
+  <label class="form-check-label" for="${id!}">[@translations.retrieveTranslation labelKey /]</label>
 [/#macro]
 
 [#-- Creates a dropdown input element with the following parameters:
@@ -42,12 +42,12 @@
     * valuesMap - a map of elements (mandatory parameter)
 --]
 [#macro createDropdown id name valuesMap labelKey]
-    [#if valuesMap?has_content]
-        <label class="label-w-top-margin" for="${id!}">[@translations.retrieveTranslation labelKey /]</label>
-        <select class="form-control" id="${id!}" name="${name!}">
-            [#list valuesMap as value, valueLabel]
-                <option value="${value}">[@translations.retrieveTranslationNoEsc "${valueLabel}" /]</option>
-            [/#list]
-        </select>
-    [/#if]
+  [#if valuesMap?has_content]
+    <label class="label-w-top-margin" for="${id!}">[@translations.retrieveTranslation labelKey /]</label>
+    <select class="form-control" id="${id!}" name="${name!}">
+      [#list valuesMap as value, valueLabel]
+        <option value="${value}">[@translations.retrieveTranslationNoEsc "${valueLabel}" /]</option>
+      [/#list]
+    </select>
+  [/#if]
 [/#macro]

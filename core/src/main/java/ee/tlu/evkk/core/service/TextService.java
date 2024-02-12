@@ -1,10 +1,14 @@
 package ee.tlu.evkk.core.service;
 
 import ee.evkk.dto.AddingRequestDto;
+import ee.evkk.dto.CommonTextRequestDto;
 import ee.evkk.dto.CorpusDownloadDto;
 import ee.evkk.dto.CorpusRequestDto;
 import ee.evkk.dto.enums.CorpusDownloadForm;
 import ee.evkk.dto.enums.Language;
+import ee.tlu.evkk.core.integration.StanzaServerClient;
+import ee.tlu.evkk.core.service.dto.StanzaResponseDto;
+import ee.tlu.evkk.core.service.dto.TextResponseDto;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.core.service.maps.TranslationMappings;
 import ee.tlu.evkk.dal.dao.TextDao;
@@ -19,6 +23,7 @@ import ee.tlu.evkk.dal.dto.TextQueryRangeParamHelper;
 import ee.tlu.evkk.dal.dto.TextQuerySingleParamHelper;
 import ee.tlu.evkk.dal.repository.TextPropertyRepository;
 import ee.tlu.evkk.dal.repository.TextRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -46,30 +51,18 @@ import static ee.evkk.dto.enums.CorpusDownloadForm.CONLLU;
 import static ee.evkk.dto.enums.CorpusDownloadForm.VISLCG3;
 import static ee.evkk.dto.enums.Language.EN;
 import static ee.evkk.dto.enums.Language.ET;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.caseTranslationsEn;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.caseTranslationsEt;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.degreeTranslationsEn;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.degreeTranslationsEt;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.moodTranslationsEn;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.moodTranslationsEt;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.numberTranslationsEn;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.numberTranslationsEt;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.personTranslationsEn;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.personTranslationsEt;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.verbFormTranslationsEn;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.verbFormTranslationsEt;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.wordTypesEn;
-import static ee.tlu.evkk.core.service.maps.TranslationMappings.wordTypesEt;
+import static ee.tlu.evkk.common.util.TextUtils.sanitizeLemmaStrings;
+import static ee.tlu.evkk.common.util.TextUtils.sanitizeWordStrings;
 import static java.io.File.createTempFile;
 import static java.lang.Boolean.TRUE;
 import static java.lang.String.format;
 import static java.lang.System.lineSeparator;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
-import static java.util.Arrays.stream;
 import static java.util.Objects.nonNull;
 import static java.util.UUID.randomUUID;
 import static java.util.regex.Pattern.compile;
+import static java.util.stream.Collectors.toList;
 import static org.apache.logging.log4j.util.Strings.isBlank;
 import static org.apache.logging.log4j.util.Strings.isNotBlank;
 
@@ -78,14 +71,16 @@ import static org.apache.logging.log4j.util.Strings.isNotBlank;
  * Date: 10.02.2022
  */
 @Service
+@AllArgsConstructor
 public class TextService {
 
   private final TextRepository textRepository;
   private final TextPropertyRepository textPropertyRepository;
   private final TextDao textDao;
+  private final StanzaServerClient stanzaServerClient;
 
-  private static final Set<String> firstType = TranslationMappings.firstType;
-  private static final Set<String> secondType = TranslationMappings.secondType;
+  private static final Set<String> firstType = TranslationMappings.getFirstType();
+  private static final Set<String> secondType = TranslationMappings.getSecondType();
   private static Map<String, String> numberTranslations;
   private static Map<String, String> caseTranslations;
   private static Map<String, String> degreeTranslations;
@@ -107,12 +102,6 @@ public class TextService {
   private static String imperativeMood;
 
   private static final Pattern fileNameCharacterWhitelist = compile("[\\p{L}0-9& ._()!-]");
-
-  public TextService(TextRepository textRepository, TextPropertyRepository textPropertyRepository, TextDao textDao) {
-    this.textRepository = textRepository;
-    this.textPropertyRepository = textPropertyRepository;
-    this.textDao = textDao;
-  }
 
   public List<TextWithProperties> search(Pageable pageable, String[] korpus, String tekstityyp, String tekstikeel, String keeletase, Boolean abivahendid, Integer aasta, String sugu) {
     Map<String, Collection<String>> filters = buildFilters(korpus, tekstityyp, tekstikeel, keeletase, abivahendid, aasta, sugu);
@@ -209,6 +198,18 @@ public class TextService {
 
     String daoResponse = textDao.detailedTextQueryByParameters(multiParamHelpers, singleParamHelpers, rangeParamBaseHelpers, studyLevelAndDegreeHelper, otherLangHelper, usedMultiMaterialsHelper);
     return isNotBlank(daoResponse) ? daoResponse : new ArrayList<>().toString();
+  }
+
+  public TextResponseDto sonadLemmadSilbidSonaliigidVormimargendid(CommonTextRequestDto request) {
+    StanzaResponseDto stanzaResponse = stanzaServerClient.getSonadLemmadSilbidSonaliigidVormimargendid(request.getTekst());
+    return new TextResponseDto(
+      sanitizeWordStrings(stanzaResponse.getSonad()),
+      sanitizeLemmaStrings(stanzaResponse.getLemmad()),
+      stanzaResponse.getSilbid(),
+      null,
+      translateWordType(stanzaResponse.getSonaliigid(), request.getLanguage()),
+      translateFeats(stanzaResponse.getVormimargendid(), request.getLanguage())
+    );
   }
 
   public byte[] tekstidfailina(CorpusDownloadDto corpusDownloadDto) throws IOException {
@@ -310,35 +311,27 @@ public class TextService {
     return kood.toString();
   }
 
-  public String[] translateWordType(String[] tekst, Language language) {
-    Map<String, String> wordTypes;
-    if (ET.equals(language)) {
-      wordTypes = wordTypesEt;
-    } else {
-      wordTypes = wordTypesEn;
-    }
-    return stream(tekst).map(wordTypes::get).toArray(String[]::new);
-  }
-
-  public List<String> translateFeats(String[][] tekst, Language language) {
+  public List<String> translateFeats(List<List<String>> tekst, Language language) {
     getLanguageMappings(language);
     List<String> result = new ArrayList<>();
 
-    for (String[] word : tekst) {
+    for (List<String> wordData : tekst) {
       // muutumatud sõnad (Abbr=Yes ehk lühendid; NumForm=Digit ehk arvud jne)
-      if (word[1] == null || word[1].equals("–") || word[1].equals("Abbr=Yes") || word[1].contains("NumForm=Digit")) {
+      String pos = wordData.get(0);
+      String feats = wordData.get(1);
+      if (feats == null || feats.equals("–") || feats.equals("Abbr=Yes") || feats.contains("NumForm=Digit")) {
         result.add("–");
       }
 
       // käändsõnad
-      else if (firstType.contains(word[0])) {
-        String[] feats = word[1].split("\\|");
+      else if (firstType.contains(pos)) {
+        String[] featsSplit = feats.split("\\|");
         String numberLabel = "";
         String caseLabel = "";
         String degreeLabel = "";
         StringBuilder tenseLabel = new StringBuilder();
 
-        for (String feat : feats) {
+        for (String feat : featsSplit) {
           if (feat.contains("Number")) {
             numberLabel = numberTranslations.get(feat.split("=")[1]);
           }
@@ -390,8 +383,8 @@ public class TextService {
       }
 
       // tegusõnad
-      else if (secondType.contains(word[0])) {
-        String[] feats = word[1].split("\\|");
+      else if (secondType.contains(pos)) {
+        List<String> featsSplit = asList(feats.split("\\|"));
         String moodLabel = "";
         String tenseLabel = "";
         String numberLabel = "";
@@ -400,13 +393,13 @@ public class TextService {
         String verbFormLabel = "";
 
         // Polarity=Neg only
-        if (word[1].equals("Polarity=Neg")) {
+        if (feats.equals("Polarity=Neg")) {
           result.add(negPolarity);
         }
 
         // pöördelised vormid
-        else if (asList(feats).contains("VerbForm=Fin")) {
-          for (String feat : feats) {
+        else if (feats.contains("VerbForm=Fin")) {
+          for (String feat : featsSplit) {
             if (feat.contains("Mood")) {
               moodLabel = moodTranslations.get(feat.split("=")[1]);
             }
@@ -421,7 +414,7 @@ public class TextService {
               negativityLabel = negation;
             }
           }
-          for (String feat : feats) {
+          for (String feat : featsSplit) {
             if (feat.contains("Tense")) {
               if (feat.split("=")[1].equals("Pres")) {
                 tenseLabel = present;
@@ -469,14 +462,14 @@ public class TextService {
 
         // käändelised vormid (inflected form)
         else {
-          if (asList(feats).contains("VerbForm=Part") && asList(feats).contains("Tense=Past")) {
-            if (asList(feats).contains("Voice=Act")) {
+          if (featsSplit.contains("VerbForm=Part") && featsSplit.contains("Tense=Past")) {
+            if (featsSplit.contains("Voice=Act")) {
               verbFormLabel = inflectedFormNudParticiple;
-            } else if (asList(feats).contains("Voice=Pass")) {
+            } else if (featsSplit.contains("Voice=Pass")) {
               verbFormLabel = inflectedFormTudParticiple;
             }
           } else {
-            for (String feat : feats) {
+            for (String feat : featsSplit) {
               if (feat.split("=")[0].equals("VerbForm")) {
                 verbFormLabel = verbFormTranslations.get(feat.split("=")[1]);
               }
@@ -490,47 +483,16 @@ public class TextService {
     return result;
   }
 
-  private static void getLanguageMappings(Language language) {
+  public List<String> translateWordType(List<String> tekst, Language language) {
+    Map<String, String> wordTypes;
     if (ET.equals(language)) {
-      numberTranslations = numberTranslationsEt;
-      caseTranslations = caseTranslationsEt;
-      degreeTranslations = degreeTranslationsEt;
-      moodTranslations = moodTranslationsEt;
-      personTranslations = personTranslationsEt;
-      verbFormTranslations = verbFormTranslationsEt;
-      tensePrefixPresent = new StringBuilder("oleviku kesksõna");
-      tensePrefixPast = new StringBuilder("mineviku kesksõna");
-      tensePostfixNud = " nud-vorm";
-      tensePostfixTud = " tud-vorm";
-      negPolarity = "eitussõna";
-      negation = "eitus";
-      impersonal = "umbisikuline tegumood";
-      present = "olevik";
-      simplePast = "lihtminevik";
-      past = "minevik";
-      inflectedFormNudParticiple = "mineviku kesksõna nud-vorm";
-      inflectedFormTudParticiple = "mineviku kesksõna tud-vorm";
-      imperativeMood = "käskiv kõneviis,";
+      wordTypes = TranslationMappings.getWordTypesEt();
     } else {
-      numberTranslations = numberTranslationsEn;
-      caseTranslations = caseTranslationsEn;
-      degreeTranslations = degreeTranslationsEn;
-      moodTranslations = moodTranslationsEn;
-      personTranslations = personTranslationsEn;
-      verbFormTranslations = verbFormTranslationsEn;
-      tensePrefixPresent = new StringBuilder("present participle");
-      tensePrefixPast = new StringBuilder("personal past participle");
-      tensePostfixNud = " (-nud)";
-      tensePostfixTud = " (-tud)";
-      negPolarity = "negative particle";
-      negation = "negation";
-      impersonal = "impersonal";
-      present = "present";
-      past = "past";
-      inflectedFormNudParticiple = "personal past participle (-nud)";
-      inflectedFormTudParticiple = "impersonal past participle (-tud)";
-      imperativeMood = "imperative,";
+      wordTypes = TranslationMappings.getWordTypesEn();
     }
+    return tekst.stream()
+      .map(wordTypes::get)
+      .collect(toList());
   }
 
   private TextQueryRangeParamBaseHelper createRangeBaseHelper(String table, String parameter, List<List<Integer>> values) {
@@ -594,6 +556,49 @@ public class TextService {
   private void lisaTekstiOmadus(UUID kood, String tunnus, String omadus) {
     if (isNotBlank(omadus)) {
       textDao.insertAddingProperty(kood, tunnus, omadus);
+    }
+  }
+
+  private static void getLanguageMappings(Language language) {
+    if (ET.equals(language)) {
+      numberTranslations = TranslationMappings.getNumberEt();
+      caseTranslations = TranslationMappings.getCaseEt();
+      degreeTranslations = TranslationMappings.getDegreeEt();
+      moodTranslations = TranslationMappings.getMoodEt();
+      personTranslations = TranslationMappings.getPersonEt();
+      verbFormTranslations = TranslationMappings.getVerbEt();
+      tensePrefixPresent = new StringBuilder("oleviku kesksõna");
+      tensePrefixPast = new StringBuilder("mineviku kesksõna");
+      tensePostfixNud = " nud-vorm";
+      tensePostfixTud = " tud-vorm";
+      negPolarity = "eitussõna";
+      negation = "eitus";
+      impersonal = "umbisikuline tegumood";
+      present = "olevik";
+      simplePast = "lihtminevik";
+      past = "minevik";
+      inflectedFormNudParticiple = "mineviku kesksõna nud-vorm";
+      inflectedFormTudParticiple = "mineviku kesksõna tud-vorm";
+      imperativeMood = "käskiv kõneviis,";
+    } else {
+      numberTranslations = TranslationMappings.getNumberEn();
+      caseTranslations = TranslationMappings.getCaseEn();
+      degreeTranslations = TranslationMappings.getDegreeEn();
+      moodTranslations = TranslationMappings.getMoodEn();
+      personTranslations = TranslationMappings.getPersonEn();
+      verbFormTranslations = TranslationMappings.getVerbFormEn();
+      tensePrefixPresent = new StringBuilder("present participle");
+      tensePrefixPast = new StringBuilder("personal past participle");
+      tensePostfixNud = " (-nud)";
+      tensePostfixTud = " (-tud)";
+      negPolarity = "negative particle";
+      negation = "negation";
+      impersonal = "impersonal";
+      present = "present";
+      past = "past";
+      inflectedFormNudParticiple = "personal past participle (-nud)";
+      inflectedFormTudParticiple = "impersonal past participle (-tud)";
+      imperativeMood = "imperative,";
     }
   }
 

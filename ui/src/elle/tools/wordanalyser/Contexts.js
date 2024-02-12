@@ -1,6 +1,7 @@
-import {createContext} from "react";
+import { createContext } from 'react';
 
 export const AnalyseContext = createContext(null);
+export const AnalyseContextWithoutMissingData = createContext(null);
 export const FormContext = createContext(null);
 export const LemmaContext = createContext(null);
 export const SyllableContext = createContext(null);

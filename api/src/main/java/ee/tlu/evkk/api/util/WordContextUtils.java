@@ -1,6 +1,7 @@
 package ee.tlu.evkk.api.util;
 
 import ee.tlu.evkk.dal.dto.WordAndPosInfoDto;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -8,11 +9,11 @@ import java.util.List;
 
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
+import static lombok.AccessLevel.PRIVATE;
 
 @Component
+@NoArgsConstructor(access = PRIVATE)
 public class WordContextUtils {
-
-  private WordContextUtils() {}
 
   public static List<WordAndPosInfoDto> removeCapitalization(List<WordAndPosInfoDto> words, boolean keepCapitalization) {
     return keepCapitalization

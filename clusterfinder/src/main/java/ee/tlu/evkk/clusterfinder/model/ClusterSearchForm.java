@@ -8,47 +8,36 @@ import lombok.Getter;
 
 import java.util.List;
 
+import static ee.tlu.evkk.clusterfinder.constants.WordType.ADPOSITION;
+import static ee.tlu.evkk.clusterfinder.constants.WordType.VERB;
+
 @Getter
 @Builder
-public class ClusterSearchForm
-{
+public class ClusterSearchForm {
+
   private final String formId;
-
   private final String fileName;
-
   private final int analysisLength;
-
   private final boolean morfoAnalysis;
-
   private final boolean syntacticAnalysis;
-
   private final boolean includePunctuation;
-
   private final boolean wordtypeAnalysis;
-
   private final boolean partialFilters;
-
   private final SortingType sortingType;
-
   private final WordType wordType;
-
   private final ClauseType clauseType;
+  private final List<String> filters;
 
-  private final List< String > filters;
-
-  public boolean isMorfoSyntacticAnalysis()
-  {
+  public boolean isMorfoSyntacticAnalysis() {
     return isMorfoAnalysis() && isSyntacticAnalysis();
   }
 
-  public boolean isMorfoOrMorfoSyntacticAnalysis()
-  {
+  public boolean isMorfoOrMorfoSyntacticAnalysis() {
     return isMorfoAnalysis() || isMorfoSyntacticAnalysis();
   }
 
-  public boolean shouldReplaceOptionalMarkups()
-  {
-    boolean isVerbOrAdposition = wordType == WordType.VERB || wordType == WordType.ADPOSITION;
+  public boolean shouldReplaceOptionalMarkups() {
+    boolean isVerbOrAdposition = wordType == VERB || wordType == ADPOSITION;
     return isVerbOrAdposition && isMorfoOrMorfoSyntacticAnalysis();
   }
 }

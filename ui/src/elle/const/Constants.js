@@ -4,6 +4,8 @@ import { HashLink } from 'react-router-hash-link';
 
 export const EVKK_VERS1_PATH = 'https://evkk.tlu.ee/vers1/';
 
+export const WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO = 1000;
+
 export const useStyles = makeStyles((_theme) => ({
   formControl: {
     margin: 1,
@@ -63,11 +65,11 @@ export const CorrectorCustomSlider = {
   '.MuiSlider-rail': {
     borderRadius: '3px',
     opacity: 0.8,
-    background: 'linear-gradient(270deg, rgba(78,205,196,1) 0%, rgba(255,230,109,1) 50%, rgba(255,107,107,1) 100%)'
+    background: '#e5e6e4'
   },
   '.MuiSlider-valueLabel': {
-    lineHeight: 25,
-    fontSize: 25,
+    lineHeight: 15,
+    fontSize: 15,
     textAlign: 'center',
     width: 50,
     height: 50,
@@ -83,6 +85,10 @@ export const CorrectorCustomSlider = {
       transform: 'rotate(45deg)'
     }
   }
+};
+
+export const DefaultCircularProgressStyle = {
+  color: '#9C27B0'
 };
 
 export const MenuLink = styled(HashLink)({
@@ -546,19 +552,20 @@ export const languageOptions = {
   'rootsi': 'query_common_language_se',
   'inglise': 'query_common_language_en',
   'jidis': 'query_common_language_ji',
-  'itaalia': 'query_common_language_it',
-  'jaapani': 'query_common_language_jp',
   'poola': 'query_common_language_pl',
-  'hollandi': 'query_common_language_nl',
-  'sloveenia': 'query_common_language_sl',
-  'heebrea': 'query_common_language_he',
-  'prantsuse': 'query_common_language_fr',
-  'katalaani': 'query_common_language_ca',
-  'ungari': 'query_common_language_hu',
-  'tsehhi': 'query_common_language_cz'
+  'ungari': 'query_common_language_hu'
 };
 
-export const countryOptions = {
+export const countryOptionsForQuery = {
+  'Eesti': 'query_common_country_et',
+  'Soome': 'query_common_country_fi',
+  'Leedu': 'query_common_country_lt',
+  'Saksamaa': 'query_common_country_de',
+  'Inglismaa': 'query_common_country_en',
+  'Ungari': 'query_common_country_hu'
+};
+
+export const countryOptionsForAddingText = {
   'Eesti': 'query_common_country_et',
   'Soome': 'query_common_country_fi',
   'Rootsi': 'query_common_country_se',
@@ -567,6 +574,5 @@ export const countryOptions = {
   'Leedu': 'query_common_country_lt',
   'Saksamaa': 'query_common_country_de',
   'Inglismaa': 'query_common_country_en',
-  'Ungari': 'query_common_country_hu',
-  'Muu': 'common_other'
+  'Ungari': 'query_common_country_hu'
 };

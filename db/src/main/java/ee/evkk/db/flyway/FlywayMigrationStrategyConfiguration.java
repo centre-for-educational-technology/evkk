@@ -1,8 +1,7 @@
 package ee.evkk.db.flyway;
 
 import ee.tlu.evkk.common.jdbc.ConnectionPoller;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -16,9 +15,10 @@ import org.springframework.transaction.support.TransactionTemplate;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+
+import static java.util.Arrays.asList;
 
 /**
  * @author Mikk Tarvas
@@ -26,9 +26,8 @@ import java.util.List;
  */
 @Configuration
 @EnableConfigurationProperties(FlywayMigrationStrategyProperties.class)
+@Slf4j
 public class FlywayMigrationStrategyConfiguration {
-
-  private static final Logger log = LoggerFactory.getLogger(FlywayMigrationStrategyConfiguration.class);
 
   private final FlywayMigrationStrategyProperties properties;
   private final ResourcePatternResolver resourcePatternResolver;
@@ -70,7 +69,7 @@ public class FlywayMigrationStrategyConfiguration {
     log.debug("Search seeds from: {}", seedLocations);
     for (String seedLocation : seedLocations) {
       try {
-        result.addAll(Arrays.asList(resourcePatternResolver.getResources(seedLocation)));
+        result.addAll(asList(resourcePatternResolver.getResources(seedLocation)));
       } catch (IOException ex) {
         log.debug("Unable to read seeds from {}: {}", seedLocation, ex.getMessage());
       }
