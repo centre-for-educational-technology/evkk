@@ -68,5 +68,17 @@
       </foreach>
     </if>
   </select>
+  
+  <resultMap id="nativeLanguageResultMap" type="ee.tlu.evkk.dal.dto.ErrorAnalyserNativeLanguages">
+    <result property="nativeLanguage" column="native_language"/>
+  </resultMap>
+
+  <select id="findNativeLanguages" resultMap="nativeLanguageResultMap">
+    select distinct prop2.property_value as native_language
+    from core.text_error_analysis_sentences sen1
+    left join core.text_property prop2 on sen1.text_id = prop2.text_id and prop2.property_name = 'emakeel'
+    where prop2.property_value is not null
+  </select>
+  
 </mapper>
 

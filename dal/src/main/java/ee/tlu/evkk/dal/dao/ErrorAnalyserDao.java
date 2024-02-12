@@ -1,5 +1,6 @@
 package ee.tlu.evkk.dal.dao;
 
+import ee.tlu.evkk.dal.dto.ErrorAnalyserNativeLanguages;
 import ee.tlu.evkk.dal.dto.ErrorAnalyserSentence;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -14,4 +15,6 @@ public interface ErrorAnalyserDao {
       @Param("errors") List<String> errors,
       @Param("levels") List<String> levels,
       @Param("languages") List<String> languages);
+
+  List<ErrorAnalyserNativeLanguages> findNativeLanguages();
 }
