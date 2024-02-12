@@ -38,11 +38,11 @@
         <if test="errors != null and errors.size() > 0">
         <foreach collection="errors" item="error" separator=" and ">
             <choose>
-              <when test='error=="R" or error=="M" or error=="U"'>
+              <!-- <when test='error=="R" or error=="M" or error=="U"'>
                 seg1.error_type LIKE CONCAT(#{error}, '%')
-              </when>
+              </when> -->
               <otherwise>
-                seg1.error_type LIKE CONCAT('%', #{error}, '%')
+                seg1.error_type LIKE CONCAT(#{error}, '%')
               </otherwise>
             </choose>
           </foreach>
@@ -68,15 +68,11 @@
       </foreach>
     </if>
   </select>
-  
-  <resultMap id="nativeLanguageResultMap" type="ee.tlu.evkk.dal.dto.ErrorAnalyserNativeLanguages">
-    <result property="nativeLanguage" column="native_language"/>
-  </resultMap>
 
-  <select id="findNativeLanguages" resultMap="nativeLanguageResultMap">
+  <select id="findFilterEnums" resultType="java.lang.String">
     select distinct prop2.property_value as native_language
     from core.text_error_analysis_sentences sen1
-    left join core.text_property prop2 on sen1.text_id = prop2.text_id and prop2.property_name = 'emakeel'
+    left join core.text_property prop2 on sen1.text_id = prop2.text_id and prop2.property_name = #{name}
     where prop2.property_value is not null
   </select>
   
