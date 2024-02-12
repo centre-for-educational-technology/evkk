@@ -10,5 +10,8 @@ import java.util.List;
 @Mapper
 @Repository
 public interface ErrorAnalyserDao {
-  List<ErrorAnalyserSentence> findErrors(@Param("errors") List<String> errors, @Param("levels") List<String> levels);
+  List<ErrorAnalyserSentence> findErrors(
+      @Param("errors") List<String> errors,
+      @Param("levels") List<String> levels,
+      @Param("languages") List<String> languages);
 }

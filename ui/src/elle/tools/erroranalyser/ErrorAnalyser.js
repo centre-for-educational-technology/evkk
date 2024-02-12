@@ -39,6 +39,10 @@ export default function ErrorAnalyser() {
   //   getErrors(["LEX"], ["B1"]);
   // }, []);
 
+  useEffect(() => {
+    console.log(errorData);
+  }, [errorData]);
+
   return (
     <>
       <Typography variant="h3">Veastatistika</Typography>
