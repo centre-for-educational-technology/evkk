@@ -10,7 +10,7 @@ div.error-filter {
 }
 
 .filter-item {
-  flex: 1;
+  /* flex: 1; */
 }
 
 .checkbox-container {

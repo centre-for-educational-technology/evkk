@@ -7,25 +7,25 @@ import ErrorTable from "./errortable/ErrorTable";
 //TODO päringusse lisada emakeel - peaks automaatselt võtma väärtused andmebaasist
 
 export default function ErrorAnalyser() {
-  const [filterEnums, setFilterEnums] = useState(null);
+  // const [filterEnums, setFilterEnums] = useState(null);
   const [errorData, setErrorData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getFilterEnums = async () => {
-    try {
-      // setIsLoading(true);
-      const response = await fetch(
-        "http://localhost:9090/api/errors/getFilterEnums"
-      );
-      const data = await response.json();
-      setFilterEnums(data);
-      console.log(data);
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      // setIsLoading(false);
-    }
-  };
+  // const getFilterEnums = async () => {
+  //   try {
+  //     // setIsLoading(true);
+  //     const response = await fetch(
+  //       "http://localhost:9090/api/errors/getFilterEnums"
+  //     );
+  //     const data = await response.json();
+  //     setFilterEnums(data);
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   } finally {
+  //     // setIsLoading(false);
+  //   }
+  // };
 
   const getErrors = async (errorTypeFilter, languageLevelFilter) => {
     let query = "http://localhost:9090/api/errors/getErrors?";
@@ -52,10 +52,10 @@ export default function ErrorAnalyser() {
     }
   };
 
-  useEffect(() => {
-    // getErrors(["LEX"], ["B1"]);
-    getFilterEnums();
-  }, []);
+  // useEffect(() => {
+  //   // getErrors(["LEX"], ["B1"]);
+  //   getFilterEnums();
+  // }, []);
 
   // useEffect(() => {
   //   console.log(errorData);

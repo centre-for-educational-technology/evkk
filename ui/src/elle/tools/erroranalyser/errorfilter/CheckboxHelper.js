@@ -36,7 +36,7 @@ export default function CheckboxHelper({ nodes, ancestors, onBoxChecked }) {
               // <Paper variant="outlined" className="checkbox-group">
               <Box className="checkbox-group">
                 <Box className="checkbox-item">{checkbox}</Box>
-                <Box className="checkbox-item">{children}</Box>
+                {children && <Box className="checkbox-item">{children}</Box>}
               </Box>
             ) : (
               // </Paper>
