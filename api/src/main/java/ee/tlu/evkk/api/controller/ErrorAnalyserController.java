@@ -23,8 +23,9 @@ public class ErrorAnalyserController {
   @GetMapping("/getErrors")
   public ResponseEntity<List<ErrorAnalyserSentence>> getErrors(
       @RequestParam(name = "error", required = false) List<String> errors,
-      @RequestParam(name = "level", required = false) List<String> levels) {
-    List<ErrorAnalyserSentence> body = errorAnalyserDao.findErrors(errors, levels);
+      @RequestParam(name = "level", required = false) List<String> levels,
+      @RequestParam(name = "language", required = false) List<String> languages) {
+    List<ErrorAnalyserSentence> body = errorAnalyserDao.findErrors(errors, levels, languages);
     return ResponseEntity.ok(body);
   }
 }

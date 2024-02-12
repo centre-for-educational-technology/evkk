@@ -8,6 +8,7 @@
     <result property="sentence" column="sentence"/>
     <result property="textId" column="text_id"/>
     <result property="languageLevel" column="language_level" />
+    <result property="nativeLanguage" column="native_language" />
     <collection property="annotations" column="sentence_id" ofType="ee.tlu.evkk.dal.dto.ErrorAnalyserAnnotation" >
       <id property="annotationId" column="annotation_id" />
       <result property="annotatorId" column="annotator_id" />
@@ -23,6 +24,7 @@
            sen1.sentence,
            sen1.text_id,
            prop1.property_value as language_level,
+           prop2.property_value as native_language,
            seg2.id as annotation_id,
            seg2.annotator_id,
            seg2.scope_start,
@@ -30,12 +32,19 @@
            seg2.error_type,
            seg2.correction
     from (
-      select seg1.annotator_id, seg1.sentence_id 
-      from core.text_error_analysis_segments seg1  
+      select seg1.annotator_id, seg1.sentence_id
+      from core.text_error_analysis_segments seg1
       <where>
         <if test="errors != null and errors.size() > 0">
-          <foreach collection="errors" item="error" open="(" separator=" and " close=")">
-            seg1.error_type LIKE CONCAT('%', #{error}, '%')
+        <foreach collection="errors" item="error" separator=" and ">
+            <choose>
+              <when test='error=="R" or error=="M" or error=="U"'>
+                seg1.error_type LIKE CONCAT(#{error}, '%')
+              </when>
+              <otherwise>
+                seg1.error_type LIKE CONCAT('%', #{error}, '%')
+              </otherwise>
+            </choose>
           </foreach>
         </if>
       </where>
@@ -43,13 +52,19 @@
     ) t1
     join core.text_error_analysis_segments seg2 on t1.sentence_id= seg2.sentence_id
     join core.text_error_analysis_sentences sen1 on seg2.sentence_id = sen1.id
-    join core.text_property prop1 on sen1.text_id = prop1.text_id
+    left join core.text_property prop1 on sen1.text_id = prop1.text_id and prop1.property_name = 'keeletase' 
+    left join core.text_property prop2 on sen1.text_id = prop2.text_id and prop2.property_name = 'emakeel'
     where t1.sentence_id = seg2.sentence_id and t1.annotator_id = seg2.annotator_id
-    and prop1.property_name = 'keeletase'
     <if test="levels != null and levels.size() > 0">
       and prop1.property_value in
       <foreach item="level" index="index" collection="levels" open="(" separator="," close=")">
         '${level}'
+      </foreach>
+    </if>
+    <if test="languages != null and languages.size() > 0">
+      and prop2.property_value in
+      <foreach item="language" index="index" collection="languages" open="(" separator="," close=")">
+        '${language}'
       </foreach>
     </if>
   </select>
