@@ -28,7 +28,7 @@ export default function InfoElement() {
   const [analyserImg, setAnalyserImg] = useState(i18n.language === 'ET' ? analyserImgEt : analyserImgEn);
   const [textQueryImg, setTextQueryImg] = useState(i18n.language === 'ET' ? textQueryImgEt : textQueryImgEn);
   const [imageSelected, setImageSelected] = useState(1);
-  const [infoOpacity, setInfoOpacity] = useState(1);
+  const [infoOpacity, setInfoOpacity] = useState(0);
   const images = [textRaterImg, textQueryImg, wordlistImg, wordcontextImg, collocateImg, wordPatternImg, analyserImg];
 
   i18n.on('languageChanged', () => {

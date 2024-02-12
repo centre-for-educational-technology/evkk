@@ -74,6 +74,7 @@
 }
 
 .info-box-slide-invisible {
+  display: none;
   opacity: 0 !important;
   transition: 0.2s;
 }
