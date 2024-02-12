@@ -19,10 +19,10 @@
   </resultMap>
 
   <select id="findErrors" resultMap="errorResultMap">
-    select sentences.id as sentence_id,
-           sentences.sentence,
-           sentences.text_id,
-           properties.property_value as language_level,
+    select sen1.id as sentence_id,
+           sen1.sentence,
+           sen1.text_id,
+           prop1.property_value as language_level,
            seg2.id as annotation_id,
            seg2.annotator_id,
            seg2.scope_start,
@@ -30,25 +30,28 @@
            seg2.error_type,
            seg2.correction
     from (
-      select t.annotator_id, t.sentence_id from (
-      <foreach collection="errors" item="error" separator="UNION ALL">
-        select seg1.sentence_id, seg1.annotator_id
-        from core.text_error_analysis_segments seg1
-        where seg1.error_type LIKE CONCAT('%', #{error}, '%')
-        group by seg1.sentence_id, seg1.annotator_id
-      </foreach>) as t
-      group by t.annotator_id, t.sentence_id
+      select seg1.annotator_id, seg1.sentence_id 
+      from core.text_error_analysis_segments seg1  
+      <where>
+        <if test="errors != null and errors.size() > 0">
+          <foreach collection="errors" item="error" open="(" separator=" and " close=")">
+            seg1.error_type LIKE CONCAT('%', #{error}, '%')
+          </foreach>
+        </if>
+      </where>
+      group by seg1.annotator_id, seg1.sentence_id
     ) t1
     join core.text_error_analysis_segments seg2 on t1.sentence_id= seg2.sentence_id
-    join core.text_error_analysis_sentences sentences on seg2.sentence_id = sentences.id
-    join core.text_property properties on sentences.text_id = properties.text_id
+    join core.text_error_analysis_sentences sen1 on seg2.sentence_id = sen1.id
+    join core.text_property prop1 on sen1.text_id = prop1.text_id
     where t1.sentence_id = seg2.sentence_id and t1.annotator_id = seg2.annotator_id
-    and properties.property_name = 'keeletase'
-    and properties.property_value in
-    <foreach item="level" index="index" collection="levels" open="(" separator="," close=")">
-      '${level}'
-    </foreach>
+    and prop1.property_name = 'keeletase'
+    <if test="levels != null and levels.size() > 0">
+      and prop1.property_value in
+      <foreach item="level" index="index" collection="levels" open="(" separator="," close=")">
+        '${level}'
+      </foreach>
+    </if>
   </select>
-
 </mapper>
 
