@@ -1,16 +1,16 @@
-import React, { useEffect, useMemo, useReducer, useRef, useState } from "react";
-import { Button, Checkbox, CircularProgress } from "@mui/material";
-import { usePagination, useTable } from "react-table";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import "../styles/QueryResults.css";
-import { DefaultButtonStyle } from "../../const/Constants";
-import TablePagination from "../../components/table/TablePagination";
-import QueryDownloadButton from "./QueryDownloadButton";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { queryStore } from "../../store/QueryStore";
-import { useTranslation } from "react-i18next";
-import QueryResultDetails from "./QueryResultDetails";
-import useQueryResultDetails from "./useQueryResultDetails";
+import React, { useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import { Button, Checkbox, CircularProgress } from '@mui/material';
+import { usePagination, useTable } from 'react-table';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import '../styles/QueryResults.css';
+import { DefaultButtonStyle } from '../../const/Constants';
+import TablePagination from '../../components/table/TablePagination';
+import QueryDownloadButton from './QueryDownloadButton';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { queryStore } from '../../store/QueryStore';
+import { useTranslation } from 'react-i18next';
+import QueryResultDetails from './QueryResultDetails';
+import useQueryResultDetails from './useQueryResultDetails';
 
 export default function QueryResults(props) {
   const { t } = useTranslation();
@@ -37,23 +37,23 @@ export default function QueryResults(props) {
   const columns = useMemo(
     () => [
       {
-        Header: "",
-        accessor: "text_id",
+        Header: '',
+        accessor: 'text_id',
         Cell: (cellProps) => {
           return (
             <Checkbox
-              style={{ color: "#9C27B0" }}
+              style={{ color: '#9C27B0' }}
               checked={checkboxStatuses.current.has(cellProps.value)}
               id={cellProps.value}
               onChange={() => alterCheckbox(cellProps.value)}
             />
           );
         },
-        className: "checkbox-row",
+        className: 'checkbox-row',
       },
       {
-        Header: "",
-        accessor: "property_value",
+        Header: '',
+        accessor: 'property_value',
         Cell: (cellProps) => {
           return (
             <span
@@ -127,8 +127,8 @@ export default function QueryResults(props) {
 
   const saveTexts = () => {
     queryStore.dispatch({
-      type: "CHANGE_CORPUS_TEXTS",
-      value: Array.from(checkboxStatuses.current).join(","),
+      type: 'CHANGE_CORPUS_TEXTS',
+      value: Array.from(checkboxStatuses.current).join(','),
     });
   };
 
@@ -136,7 +136,7 @@ export default function QueryResults(props) {
     <>
       {response.length > 0 ? (
         <h4>
-          <strong>{t("query_results_found_texts")}</strong> {response.length}
+          <strong>{t('query_results_found_texts')}</strong> {response.length}
         </h4>
       ) : (
         <></>
@@ -145,7 +145,7 @@ export default function QueryResults(props) {
         <>
           <div>
             <Button
-              style={{ color: "white" }}
+              style={{ color: 'white' }}
               startIcon={<ArrowBackIcon />}
               sx={DefaultButtonStyle}
               onClick={() => {
@@ -153,7 +153,7 @@ export default function QueryResults(props) {
                 props.setPreviousSelectedIds(checkboxStatuses.current);
               }}
             >
-              {t("query_change_chosen_corpuses")}
+              {t('query_change_chosen_corpuses')}
             </Button>
           </div>
           <LoadingButton
@@ -167,8 +167,8 @@ export default function QueryResults(props) {
             onClick={() => setIsLoadingSelectAllTexts(true)}
           >
             {allTextsSelected()
-              ? t("query_results_unselect_all")
-              : t("query_results_select_all")}
+              ? t('query_results_unselect_all')
+              : t('query_results_select_all')}
           </LoadingButton>
           <Button
             sx={DefaultButtonStyle}
@@ -180,7 +180,7 @@ export default function QueryResults(props) {
             }}
             className="save-texts-button"
           >
-            {t("query_results_save_texts_for_analysis")}
+            {t('query_results_save_texts_for_analysis')}
           </Button>
           <QueryDownloadButton selected={checkboxStatuses.current} />
           <table className="result-table" {...getTableProps()}>
@@ -189,7 +189,7 @@ export default function QueryResults(props) {
                 <tr {...headerGroup.getHeaderGroupProps()}>
                   {headerGroup.headers.map((column) => (
                     <th {...column.getHeaderProps()}>
-                      {column.render("Header")}
+                      {column.render('Header')}
                     </th>
                   ))}
                 </tr>
@@ -212,7 +212,7 @@ export default function QueryResults(props) {
                             className: cell.column.className,
                           })}
                         >
-                          {cell.render("Cell")}
+                          {cell.render('Cell')}
                         </td>
                       );
                     })}

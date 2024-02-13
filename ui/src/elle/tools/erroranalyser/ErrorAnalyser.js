@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { Box, CircularProgress, Typography } from "@mui/material";
-import FilterAccordion from "./errorfilter/FilterAccordion";
-import ErrorTable from "./errortable/ErrorTable";
+import { useEffect, useState } from 'react';
+import { Box, CircularProgress, Typography } from '@mui/material';
+import FilterAccordion from './errorfilter/FilterAccordion';
+import ErrorTable from './errortable/ErrorTable';
 
 //TODO translation
 //TODO päringusse lisada emakeel - peaks automaatselt võtma väärtused andmebaasist
@@ -28,14 +28,14 @@ export default function ErrorAnalyser() {
   // };
 
   const getErrors = async (errorTypeFilter, languageLevelFilter) => {
-    let query = "http://localhost:9090/api/errors/getErrors?";
+    let query = 'http://localhost:9090/api/errors/getErrors?';
 
     errorTypeFilter.forEach((element) => {
-      query += "error=" + element + "&";
+      query += 'error=' + element + '&';
     });
 
     languageLevelFilter.forEach((element) => {
-      query += "level=" + element + "&";
+      query += 'level=' + element + '&';
     });
 
     query = query.slice(0, -1);
@@ -46,7 +46,7 @@ export default function ErrorAnalyser() {
       const data = await response.json();
       setErrorData(data);
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error);
     } finally {
       setIsLoading(false);
     }
@@ -57,9 +57,9 @@ export default function ErrorAnalyser() {
   //   getFilterEnums();
   // }, []);
 
-  // useEffect(() => {
-  //   console.log(errorData);
-  // }, [errorData]);
+  useEffect(() => {
+    console.log(errorData);
+  }, [errorData]);
 
   return (
     <>

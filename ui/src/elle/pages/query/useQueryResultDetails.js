@@ -1,30 +1,32 @@
-import { useState } from "react";
-import { loadFetch } from "../../service/LoadFetch";
+import { useState } from 'react';
+import { loadFetch } from '../../service/LoadFetch';
 
 export default function useQueryResultDetails(id) {
   const [modalOpen, setModalOpen] = useState(false);
   const [metadata, setMetadata] = useState({
-    title: "",
-    korpus: "",
-    tekstityyp: "",
-    tekstikeel: "",
-    keeletase: "",
-    abivahendid: "",
-    aasta: "",
-    vanus: "",
-    sugu: "",
-    haridus: "",
-    emakeel: "",
-    riik: "",
+    title: '',
+    korpus: '',
+    tekstityyp: '',
+    tekstikeel: '',
+    keeletase: '',
+    abivahendid: '',
+    aasta: '',
+    vanus: '',
+    sugu: '',
+    haridus: '',
+    emakeel: '',
+    riik: '',
   });
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
+  const [sentence, setSentence] = useState('');
 
-  const previewText = (id) => {
-    console.log(id);
-    loadFetch("/api/texts/kysitekstimetainfo?id=" + id, {
-      method: "GET",
+  const previewText = async (id, localSentence) => {
+    console.log(id, localSentence);
+
+    await loadFetch('/api/texts/kysitekstimetainfo?id=' + id, {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     })
       .then((res) => res.json())
@@ -40,20 +42,19 @@ export default function useQueryResultDetails(id) {
         setMetadata(tempMetaData);
       });
 
-    loadFetch("/api/texts/kysitekst?id=" + id, {
-      method: "GET",
+    await loadFetch('/api/texts/kysitekst?id=' + id, {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     })
       .then((res) => res.text())
       .then((result) => {
-        console.log(result);
         setText(result);
       });
-
+    setSentence(localSentence);
     setModalOpen(true);
   };
 
-  return { previewText, metadata, text, modalOpen, setModalOpen };
+  return { previewText, metadata, text, sentence, modalOpen, setModalOpen };
 }

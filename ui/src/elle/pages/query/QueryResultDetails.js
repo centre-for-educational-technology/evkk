@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   Accordion,
   AccordionDetails,
@@ -7,9 +7,9 @@ import {
   IconButton,
   Modal,
   Typography,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   ageOptions,
   corpuses,
@@ -21,12 +21,13 @@ import {
   textLanguageOptions,
   textTypes,
   usedMaterialsDisplayOptions,
-} from "../../const/Constants";
-import { useTranslation } from "react-i18next";
+} from '../../const/Constants';
+import { useTranslation } from 'react-i18next';
 
 export default function QueryResultDetails({
   metadata,
   text,
+  sentence,
   modalOpen,
   setModalOpen,
 }) {
@@ -45,6 +46,38 @@ export default function QueryResultDetails({
       paragraphCount++;
       return `empty_paragraph_${paragraphCount}`;
     }
+  };
+
+  const transformSentence = () => {
+    const punctuationPattern = /\s+([.,!?:;])/g;
+    let transformedSentence = sentence.replace(punctuationPattern, '$1');
+    const quotesPattern = /"(.*?)"/g;
+    transformedSentence = transformedSentence.replace(
+      quotesPattern,
+      (match, capturedGroup) => `"${capturedGroup.slice(1, -1)}"`
+    );
+    // console.log(transformedSentence);
+    return transformedSentence;
+  };
+
+  const TransformText = () => {
+    console.log(text);
+    const transformedSentence = sentence ? transformSentence() : null;
+    return text.split(/\\n/g).map(function (item) {
+      let transformedItem = item.replace(/&quot;/g, '"').trim();
+      // &quot;
+      return (
+        <span
+          key={getParagraphKey(item)}
+          style={{
+            color: transformedItem === transformedSentence ? 'blue' : undefined,
+          }}
+        >
+          {transformedItem}
+          <br />
+        </span>
+      );
+    });
   };
 
   return (
@@ -76,59 +109,52 @@ export default function QueryResultDetails({
               id="filters-header"
             >
               <Typography>
-                {t("query_results_preview_metadata_modal_title")}
+                {t('query_results_preview_metadata_modal_title')}
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <div className="metainfo-subtitle">{t("common_text_data")}</div>
-              <strong>{t("query_subcorpus")}:</strong>{" "}
-              {t(corpuses[metadata.korpus]) || "-"}
+              <div className="metainfo-subtitle">{t('common_text_data')}</div>
+              <strong>{t('query_subcorpus')}:</strong>{' '}
+              {t(corpuses[metadata.korpus]) || '-'}
               <br />
-              <strong>{t("query_text_data_type")}:</strong>{" "}
-              {t(textTypes[metadata.tekstityyp]) || "-"}
+              <strong>{t('query_text_data_type')}:</strong>{' '}
+              {t(textTypes[metadata.tekstityyp]) || '-'}
               <br />
-              <strong>{t("query_text_data_language")}:</strong>{" "}
-              {t(textLanguageOptions[metadata.tekstikeel]) || "-"}
+              <strong>{t('query_text_data_language')}:</strong>{' '}
+              {t(textLanguageOptions[metadata.tekstikeel]) || '-'}
               <br />
-              <strong>{t("query_text_data_level")}:</strong>{" "}
-              {metadata.keeletase || "-"}
+              <strong>{t('query_text_data_level')}:</strong>{' '}
+              {metadata.keeletase || '-'}
               <br />
               <strong>
-                {t("query_text_data_used_supporting_materials")}:
-              </strong>{" "}
-              {t(usedMaterialsDisplayOptions[metadata.abivahendid]) || "-"}
+                {t('query_text_data_used_supporting_materials')}:
+              </strong>{' '}
+              {t(usedMaterialsDisplayOptions[metadata.abivahendid]) || '-'}
               <br />
-              <strong>{t("query_text_data_year_of_publication")}:</strong>{" "}
-              {metadata.aasta || "-"}
+              <strong>{t('query_text_data_year_of_publication')}:</strong>{' '}
+              {metadata.aasta || '-'}
               <br />
               <br />
-              <div className="metainfoSubtitle">{t("common_author_data")}</div>
-              <strong>{t("query_author_data_age")}:</strong>{" "}
-              {t(ageOptions[metadata.vanus]) || "-"}
+              <div className="metainfoSubtitle">{t('common_author_data')}</div>
+              <strong>{t('query_author_data_age')}:</strong>{' '}
+              {t(ageOptions[metadata.vanus]) || '-'}
               <br />
-              <strong>{t("query_author_data_gender")}:</strong>{" "}
-              {t(genderOptions[metadata.sugu]) || "-"}
+              <strong>{t('query_author_data_gender')}:</strong>{' '}
+              {t(genderOptions[metadata.sugu]) || '-'}
               <br />
-              <strong>{t("query_author_data_education")}:</strong>{" "}
-              {t(educationOptions[metadata.haridus]) || "-"}
+              <strong>{t('query_author_data_education')}:</strong>{' '}
+              {t(educationOptions[metadata.haridus]) || '-'}
               <br />
-              <strong>{t("query_author_data_native_language")}:</strong>{" "}
-              {t(languageOptions[metadata.emakeel]) || "-"}
+              <strong>{t('query_author_data_native_language')}:</strong>{' '}
+              {t(languageOptions[metadata.emakeel]) || '-'}
               <br />
-              <strong>{t("query_author_data_country")}:</strong>{" "}
-              {t(countryOptions[metadata.riik]) || "-"}
+              <strong>{t('query_author_data_country')}:</strong>{' '}
+              {t(countryOptions[metadata.riik]) || '-'}
               <br />
             </AccordionDetails>
           </Accordion>
           <br />
-          {text.split(/\\n/g).map(function (item) {
-            return (
-              <span key={getParagraphKey(item)}>
-                {item}
-                <br />
-              </span>
-            );
-          })}
+          {<TransformText />}
         </div>
       </Box>
     </Modal>

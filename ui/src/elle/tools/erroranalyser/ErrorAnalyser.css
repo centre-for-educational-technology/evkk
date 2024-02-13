@@ -81,3 +81,7 @@ div.error-filter {
   color: gray;
   font-size: smaller;
 }
+
+.clickable {
+  cursor: pointer;
+}
