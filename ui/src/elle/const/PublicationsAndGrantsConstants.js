@@ -56,52 +56,44 @@ export const theses = [
 export const conferences_workshops = [
   {
     content: 'Allkivi-Metsoja, K.; Liin, K.; Kert, K.; Maine, S. (2023). Veamärgendusega korpus grammatikakontrollija arenduseks ja testimiseks. <i>20. rakenduslingvistika kevadkonverents KEEL JA KEELEKASUTAJAD, 27.-28. aprill 2023, Tallinn.</i> Eesti Rakenduslingvistika Ühing, 11-12.<br/>\n' +
-      '                               <a\n' +
-      '                                 href="https://www.youtube.com/watch?v=0j063ihI9EE"\n' +
+      '                               <a href="https://www.youtube.com/watch?v=0j063ihI9EE"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Video</a>\n' +
-      '                               <a\n' +
-      '                                 href="https://www.rakenduslingvistika.ee/wp-content/uploads/2023/05/02_Allkivi-Metsoja_jt_Veamargendusega_korpus_grammatikakontrollija.pdf"\n' +
+      '                               <a href="https://www.rakenduslingvistika.ee/wp-content/uploads/2023/05/02_Allkivi-Metsoja_jt_Veamargendusega_korpus_grammatikakontrollija.pdf"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Slaidid</a>',
     href: 'https://www.rakenduslingvistika.ee/wp-content/uploads/2023/04/ERY2023-teesid.pdf'
   },
   {
     content: 'Eslon, P.; Kippar, J. (2023). Keelekasutusmustrid & kontekstid. <i>20. rakenduslingvistika kevadkonverents KEEL JA KEELEKASUTAJAD, 27.-28. aprill 2023, Tallinn.</i> Eesti Rakenduslingvistika Ühing, 12-13.<br/>\n' +
-      '                               <a\n' +
-      '                                 href="https://www.youtube.com/watch?v=DbP9ivIYrVY"\n' +
+      '                               <a href="https://www.youtube.com/watch?v=DbP9ivIYrVY"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Video</a>\n' +
-      '                               <a\n' +
-      '                                 href="https://www.rakenduslingvistika.ee/wp-content/uploads/2023/05/03_Eslon_Kippar_Keelekasutusmustrid_kontekstid1.pdf"\n' +
+      '                               <a href="https://www.rakenduslingvistika.ee/wp-content/uploads/2023/05/03_Eslon_Kippar_Keelekasutusmustrid_kontekstid1.pdf"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Slaidid</a>',
     href: 'https://www.rakenduslingvistika.ee/wp-content/uploads/2023/04/ERY2023-teesid.pdf'
   },
   {
     content: 'Luhtaru, A.; Fišel, M.; Liin, K.; Allkivi-Metsoja, K.; Kippar, J. (2023). Eesti keele õigekirja- ja grammatikakontroll: mudelite võrdlus ja kombineerimine. <i>20. rakenduslingvistika kevadkonverents KEEL JA KEELEKASUTAJAD, 27.-28. aprill 2023, Tallinn.</i> Eesti Rakenduslingvistika Ühing, 16-18.<br/>\n' +
-      '                               <a\n' +
-      '                                 href="https://www.youtube.com/watch?v=-cYqnaIooRQ"\n' +
+      '                               <a href="https://www.youtube.com/watch?v=-cYqnaIooRQ"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Video</a>\n' +
-      '                               <a\n' +
-      '                                 href="https://www.rakenduslingvistika.ee/wp-content/uploads/2023/05/05_Luhtaru_Allkivi-Metsoja_Eesti_keele_oigekirja-grammatikakontroll.pdf"\n' +
+      '                               <a href="https://www.rakenduslingvistika.ee/wp-content/uploads/2023/05/05_Luhtaru_Allkivi-Metsoja_Eesti_keele_oigekirja-grammatikakontroll.pdf"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Slaidid</a>',
     href: 'https://www.rakenduslingvistika.ee/wp-content/uploads/2023/04/ERY2023-teesid.pdf'
   },
   {
     content: 'Allkivi-Metsoja, K. (2022). Towards Interpretable Models for Text Classification: The case of Automated Writing Assessment. <i>2nd International Conference \'Language in the Human-Machine Era\', June 30-July 1, 2022, Jyväskylä.</i><br/>\n' +
-      '                               <a\n' +
-      '                                 href="https://m3.jyu.fi/jyumv/ohjelmat/hum/kivi/lithme/2nd-international-conference-language-in-the-human-machine-era/thursday-b348-part-4/view"\n' +
+      '                               <a href="https://m3.jyu.fi/jyumv/ohjelmat/hum/kivi/lithme/2nd-international-conference-language-in-the-human-machine-era/thursday-b348-part-4/view"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Video</a> (salasõna "LITHME-wac")',
     href: ''
   },
   {
     content: 'Allkivi-Metsoja, K.; Norak, K.; Kert, K.; Maine, S.; Eslon, P. (2022). Error Classification and Annotation of Learner Language for Developing Estonian Grammar Correction. <i>Shifts in language and culture: computational approaches to variation and change: 8th Estonian Digital Humanities Conference, October 5-7, 2022, Tallinn University.</i><br/>\n' +
-      '                               <a\n' +
-      '                                 href="https://dh.org.ee/wp-content/uploads/sites/3/2022/10/Allkivi_Metsoja_et_al_slides_DH2022.pdf"\n' +
+      '                               <a href="https://dh.org.ee/wp-content/uploads/sites/3/2022/10/Allkivi_Metsoja_et_al_slides_DH2022.pdf"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Slaidid</a>',
     href: 'https://dh.org.ee/events/dhe2022/abstracts/presentations/allkivi-metsoja-norak-kert-maine-eslon/'
@@ -112,8 +104,7 @@ export const conferences_workshops = [
   },
   {
     content: 'Mõtus, M.; Allkivi-Metsoja, K. (2022). Vigaste ja korrektsete lausete paralleelkorpuse loomine edasi-tagasi masintõlke abil. <i>19. rakenduslingvistika kevadkonverents KEELE MÕJU: ANDMETEST TÕENDATUD TEADMUSENI, 16.-17. juuni 2022, Tallinn.</i> Eesti Rakenduslingvistika Ühing, 11.<br/>\n' +
-      '                               <a\n' +
-      '                                 href="https://www.rakenduslingvistika.ee/wp-content/uploads/2022/07/Martin-Motus_Kais-Allkivi_Metsoja_masintolke_paralleelkorpus.pdf"\n' +
+      '                               <a href="https://www.rakenduslingvistika.ee/wp-content/uploads/2022/07/Martin-Motus_Kais-Allkivi_Metsoja_masintolke_paralleelkorpus.pdf"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Slaidid</a>',
     href: 'https://www.rakenduslingvistika.ee/wp-content/uploads/2022/06/Teesid-2022.pdf'

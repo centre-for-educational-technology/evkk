@@ -1,3 +1,9 @@
+.download-license {
+  padding-top: 1em;
+  display: flex;
+  justify-content: center;
+}
+
 .download-button {
   padding-top: 1em;
   display: flex;

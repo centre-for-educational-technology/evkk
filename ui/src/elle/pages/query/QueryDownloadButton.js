@@ -12,13 +12,14 @@ import {
 } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import Popover from '@mui/material/Popover';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import '../styles/QueryDownloadButton.css';
-import {useState} from 'react';
+import { useState } from 'react';
 import i18n from 'i18next';
 import FileSaver from 'file-saver';
-import {loadFetch} from '../../service/LoadFetch';
-import {DefaultButtonStyle} from "../../const/Constants";
+import { loadFetch } from '../../service/LoadFetch';
+import { CC_BY_4_0_LICENSE_PATH, DefaultButtonStyle } from '../../const/Constants';
+import NewTabHyperlink from '../../components/NewTabHyperlink';
 
 export default function QueryDownloadButton({selected}) {
   const [downloadForm, setDownloadForm] = useState('BASIC_TEXT');
@@ -71,7 +72,7 @@ export default function QueryDownloadButton({selected}) {
           className="query-download-modal-button"
           onClick={handleOptionsDialogOpenButtonClick}
         >
-          <DownloadIcon fontSize="medium"/>
+          <DownloadIcon fontSize="medium" />
         </Button>
       </Tooltip>
       <Popover
@@ -104,16 +105,21 @@ export default function QueryDownloadButton({selected}) {
               <RadioGroup defaultValue="TXT" onChange={changeDownloadFileType}>
                 <FormControlLabel
                   value="TXT"
-                  control={<Radio/>}
+                  control={<Radio />}
                   label={t('query_download_txt')}
                 />
                 <FormControlLabel
                   value="ZIP"
-                  control={<Radio/>}
+                  control={<Radio />}
                   label={t('query_download_zip')}
                 />
               </RadioGroup>
             </FormControl>
+            <div className="download-license">
+              {t('query_download_license')}&nbsp;
+              <NewTabHyperlink path={CC_BY_4_0_LICENSE_PATH}
+                               content={t('common_license_cc_by_4_0')} />
+            </div>
             <div className="download-button">
               <Button
                 onClick={downloadTexts}
