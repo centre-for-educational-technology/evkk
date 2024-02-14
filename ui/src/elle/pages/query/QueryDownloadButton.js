@@ -115,12 +115,12 @@ export default function QueryDownloadButton({selected}) {
                 />
               </RadioGroup>
             </FormControl>
-            <div className="download-license">
+            <div className="download-license-and-button">
               {t('query_download_license')}&nbsp;
               <NewTabHyperlink path={CC_BY_4_0_LICENSE_PATH}
                                content={t('common_license_cc_by_4_0')} />
             </div>
-            <div className="download-button">
+            <div className="download-license-and-button">
               <Button
                 onClick={downloadTexts}
                 sx={DefaultButtonStyle}
