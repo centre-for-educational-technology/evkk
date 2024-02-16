@@ -2,30 +2,15 @@ import { useEffect, useState } from 'react';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import FilterAccordion from './errorfilter/FilterAccordion';
 import ErrorTable from './errortable/ErrorTable';
+import { useTranslation } from 'react-i18next';
 
 //TODO translation
 //TODO päringusse lisada emakeel - peaks automaatselt võtma väärtused andmebaasist
 
 export default function ErrorAnalyser() {
-  // const [filterEnums, setFilterEnums] = useState(null);
   const [errorData, setErrorData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  // const getFilterEnums = async () => {
-  //   try {
-  //     // setIsLoading(true);
-  //     const response = await fetch(
-  //       "http://localhost:9090/api/errors/getFilterEnums"
-  //     );
-  //     const data = await response.json();
-  //     setFilterEnums(data);
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //   } finally {
-  //     // setIsLoading(false);
-  //   }
-  // };
+  const { t } = useTranslation();
 
   const getErrors = async (errorTypeFilter, languageLevelFilter) => {
     let query = 'http://localhost:9090/api/errors/getErrors?';
@@ -63,7 +48,7 @@ export default function ErrorAnalyser() {
 
   return (
     <>
-      <Typography variant="h3">Veastatistika</Typography>
+      <Typography variant="h3">{t('error_analyser_title')}</Typography>
 
       <FilterAccordion getErrors={getErrors} setErrorData={setErrorData} />
 
