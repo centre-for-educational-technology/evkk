@@ -38,11 +38,15 @@ export const TRANSLATIONS_ET = {
   common_syllables: 'Silbid',
   common_text_data: 'Teksti andmed',
   common_text_data_field_of_research: 'Valdkond',
-  common_text_data_field_of_research_biosciences_and_environment: 'Bio- ja keskkonnateadused',
-  common_text_data_field_of_research_culture_and_society: 'Ühiskonnateadused ja kultuur',
+  common_text_data_field_of_research_biosciences_and_environment:
+    'Bio- ja keskkonnateadused',
+  common_text_data_field_of_research_culture_and_society:
+    'Ühiskonnateadused ja kultuur',
   common_text_data_field_of_research_health: 'Terviseuuringud',
-  common_text_data_field_of_research_natural_sciences_and_engineering: 'Loodusteadused ja tehnika',
-  common_text_data_type_L2_olympiade_creative_writing: 'K2 olümpiaaditöö loovkirjutis',
+  common_text_data_field_of_research_natural_sciences_and_engineering:
+    'Loodusteadused ja tehnika',
+  common_text_data_type_L2_olympiade_creative_writing:
+    'K2 olümpiaaditöö loovkirjutis',
   common_text_data_type_L2_proficiency_examination: 'K2 riiklik eksamitöö',
   common_text_data_type_creative_writing: 'Loovkirjutis',
   common_text_data_type_examination: 'Eksamitöö',
@@ -63,15 +67,18 @@ export const TRANSLATIONS_ET = {
   common_wordtype: 'Sõnaliik',
   concordances: 'Kasutuskontekstid',
   concordances_before_and_after_selected_word: 'enne ja pärast valitud sõna',
-  concordances_case_sensitive_hover: 'Vaikimisi ei arvestata otsisõna suurt või väikest algustähte, nt "eesti" võimaldab leida nii "eesti" kui ka "Eesti" kasutuskontekstid. Märgi kasti linnuke, kui soovid ainult väike- või suurtähega algavaid vasteid.',
+  concordances_case_sensitive_hover:
+    'Vaikimisi ei arvestata otsisõna suurt või väikest algustähte, nt "eesti" võimaldab leida nii "eesti" kui ka "Eesti" kasutuskontekstid. Märgi kasti linnuke, kui soovid ainult väike- või suurtähega algavaid vasteid.',
   concordances_following_context: 'Järgnev kontekst',
-  concordances_keyword_lemmatization_warning: 'Otsisõna "{{initialKeywordResult}}" vasteid ei leitud. Kasutasime automaatset algvormi tuvastust ja otsisime sõna "{{lemmatizedKeywordResult}}" vormide kasutusnäiteid.',
+  concordances_keyword_lemmatization_warning:
+    'Otsisõna "{{initialKeywordResult}}" vasteid ei leitud. Kasutasime automaatset algvormi tuvastust ja otsisime sõna "{{lemmatizedKeywordResult}}" vormide kasutusnäiteid.',
   concordances_preceding_context: 'Eelnev kontekst',
   concordances_search_word: 'Otsisõna',
   concordances_sentences: 'lauset',
   concordances_view: 'Kuva',
   concordances_words: 'sõna',
-  corpus_donation_text: 'Aita kaasa keeleuurimisele ja loovuta oma tekst meie tekstikogusse. Ootame nii eesti keele õppijate kui ka emakeelekõnelejate tekste.',
+  corpus_donation_text:
+    'Aita kaasa keeleuurimisele ja loovuta oma tekst meie tekstikogusse. Ootame nii eesti keele õppijate kui ka emakeelekõnelejate tekste.',
   corpus_text_count: '12 000+',
   corpus_texts: 'teksti analüüsimiseks',
   corpus_word_count: '3 000 000+',
@@ -79,10 +86,55 @@ export const TRANSLATIONS_ET = {
   donate_text: 'Loovuta oma tekst',
   end: 'lõpp',
   error_404_page_not_found: '404: lehte ei leitud',
+  error_analyser_title: 'Veaanalüsaator',
+  error_analyser_error_type_m: 'lisamised',
+  error_analyser_error_type_m_lex: 'puuduv sõna',
+  error_analyser_error_type_m_punct: 'puuduv kirjavahemärk',
+  error_analyser_error_type_r: 'asendused',
+  error_analyser_error_type_r_case: 'algustäheviga',
+  error_analyser_error_type_r_lex: 'sõnavalikuviga',
+  error_analyser_error_type_r_lex_nom_form:
+    'sõnavaliku- ja käändsõna vormivaliku viga',
+  error_analyser_error_type_r_lex_spell: 'sõnavaliku- ja õigekirjaviga',
+  error_analyser_error_type_r_lex_verb_form:
+    'sõnavaliku- ja tegusõna vormivaliku viga',
+  error_analyser_error_type_r_lex_wo: 'sõnavaliku- ja sõnajärjeviga',
+  error_analyser_error_type_r_lex_ws:
+    'sõnavaliku- ja kokku-lahkukirjutamise viga',
+  error_analyser_error_type_r_nom_form: 'käändsõna vormivaliku viga',
+  error_analyser_error_type_r_nom_form_case:
+    'käändsõna vormivaliku ja algustäheviga',
+  error_analyser_error_type_r_nom_form_spell:
+    'käändsõna vormivaliku ja õigekirjaviga',
+  error_analyser_error_type_r_nom_form_spell_case:
+    'käändsõna vormivaliku, õigekirja- ja algustäheviga',
+  error_analyser_error_type_r_punct: 'kirjavahemärgi valiku viga',
+  error_analyser_error_type_r_spell: 'õigekirjaviga',
+  error_analyser_error_type_r_spell_case: 'õigekirja- ja algustäheviga',
+  error_analyser_error_type_r_verb_form: 'tegusõna vormivaliku viga',
+  error_analyser_error_type_r_verb_form_spell:
+    'tegusõna vormivaliku ja õigekirjaviga',
+  error_analyser_error_type_r_wo: 'sõnajärjeviga',
+  error_analyser_error_type_r_wo_nom_form:
+    'sõnajärje- ja käändsõna vormivaliku viga',
+  error_analyser_error_type_r_ws: 'kokku-lahkukirjutamise viga',
+  error_analyser_error_type_r_ws_case:
+    'kokku-lahkukirjutamise ja algustäheviga',
+  error_analyser_error_type_r_ws_nom_form:
+    'kokku-lahkukirjutamise ja käändsõna vormivaliku viga',
+  error_analyser_error_type_r_ws_nom_form_spell:
+    'kokku-lahkukirjutamise, käändsõna vormivaliku ja õigekirjaviga',
+  error_analyser_error_type_r_ws_spell:
+    'kokku-lahkukirjutamise ja õigekirjaviga',
+  error_analyser_error_type_u: 'kustutused',
+  error_analyser_error_type_u_lex: 'liigne sõna',
+  error_analyser_error_type_u_punct: 'liigne kirjavahemärk',
   error_file_upload_failed: 'Failide üleslaadimine ebaõnnestus!',
-  error_generic_server_error: 'Toiming ebaõnnestus! Palun proovi hiljem uuesti.',
+  error_generic_server_error:
+    'Toiming ebaõnnestus! Palun proovi hiljem uuesti.',
   error_mandatory_field: 'Väli on kohustuslik!',
-  error_no_matching_keywords: 'Tekstist ei leitud otsisõna. Muuda analüüsi valikuid ja proovi uuesti!',
+  error_no_matching_keywords:
+    'Tekstist ei leitud otsisõna. Muuda analüüsi valikuid ja proovi uuesti!',
   error_no_text: 'Analüüsimiseks sisesta esmalt tekst!',
   error_page_not_found: 'Lehte ei leitud',
   error_query_no_subcorpus_picked: 'Vali vähemalt üks alamkorpus!',
@@ -99,60 +151,83 @@ export const TRANSLATIONS_ET = {
   hero_main_text_highlighted: 'Eesti keele õppe ja analüüsi keskkond',
   hero_main_text_not_highlighted: ' õppijatele, õpetajatele ja teadlastele.',
   hero_tools_button: 'tutvu tööriistadega',
-  homepage_box_clusters_content: 'saad tekstist leida tüüpilisemad sõnajärjendid.',
+  homepage_box_clusters_content:
+    'saad tekstist leida tüüpilisemad sõnajärjendid.',
   homepage_box_clusters_title: 'Mustrileidjaga',
-  homepage_box_concordances_content: 'rakendusega saad näha, kuidas sõnu tekstis kasutatakse.',
+  homepage_box_concordances_content:
+    'rakendusega saad näha, kuidas sõnu tekstis kasutatakse.',
   homepage_box_concordances_title: 'Sõna kontekstis',
-  homepage_box_corrector_content: 'saad lasta oma kirjutist hinnata. Vaata, mida arvab robot sinu teksti õigekirjast ja keerukusest ning millisele keeleoskustasemele see vastab.',
+  homepage_box_corrector_content:
+    'saad lasta oma kirjutist hinnata. Vaata, mida arvab robot sinu teksti õigekirjast ja keerukusest ning millisele keeleoskustasemele see vastab.',
   homepage_box_corrector_title: 'Tekstihindajaga',
-  homepage_box_neighbouring_words_content: 'rakendusega saad leida sõnad, mis esinevad sageli lähestikku.',
+  homepage_box_neighbouring_words_content:
+    'rakendusega saad leida sõnad, mis esinevad sageli lähestikku.',
   homepage_box_neighbouring_words_title: 'Naabersõnade',
-  homepage_box_query_content: 'kaudu saad otsida materjale EVKK tekstikogust, lähtudes autori ja teksti andmetest. Soovi korral saad ka oma kirjutise uurimistööks loovutada.',
+  homepage_box_query_content:
+    'kaudu saad otsida materjale EVKK tekstikogust, lähtudes autori ja teksti andmetest. Soovi korral saad ka oma kirjutise uurimistööks loovutada.',
   homepage_box_query_title: 'Tekstipäringu',
-  homepage_box_word_analysis_content: 'saad tekstist leida silpe, algvorme ja grammatilisi vorme.',
+  homepage_box_word_analysis_content:
+    'saad tekstist leida silpe, algvorme ja grammatilisi vorme.',
   homepage_box_word_analysis_title: 'Sõnaanalüsaatoriga',
-  homepage_box_wordlist_content: 'abil saad vaadata, millised sõnad tekstis sagedamini esinevad.',
+  homepage_box_wordlist_content:
+    'abil saad vaadata, millised sõnad tekstis sagedamini esinevad.',
   homepage_box_wordlist_title: 'Sõnaloendi',
   homepage_services_title: 'Mida ELLE keskkond võimaldab?',
-  homepage_summary_text_1: 'Andmepõhist keeleõppimist, kus õppija saab keelematerjali põhjal ise reegleid tuletada või õpitut kinnistada.',
-  homepage_summary_text_2: 'Toimetada nii õpingute kui ka töö käigus kirjutatud tekste, näiteks korrigeerida kodutöid ja lihtsustada ametitekste.',
-  homepage_summary_text_3: 'Kontrollida õpilaste kirjalikke töid, valida ja koostada õppevara lähtudes eri taseme õppijate tüüpilisest keelekasutusest.',
-  homepage_summary_text_4: 'Analüüsida tekstide sisu ja keelekasutust uurimistöös, näiteks keele-, kultuuri- ja meediauuringutes.',
+  homepage_summary_text_1:
+    'Andmepõhist keeleõppimist, kus õppija saab keelematerjali põhjal ise reegleid tuletada või õpitut kinnistada.',
+  homepage_summary_text_2:
+    'Toimetada nii õpingute kui ka töö käigus kirjutatud tekste, näiteks korrigeerida kodutöid ja lihtsustada ametitekste.',
+  homepage_summary_text_3:
+    'Kontrollida õpilaste kirjalikke töid, valida ja koostada õppevara lähtudes eri taseme õppijate tüüpilisest keelekasutusest.',
+  homepage_summary_text_4:
+    'Analüüsida tekstide sisu ja keelekasutust uurimistöös, näiteks keele-, kultuuri- ja meediauuringutes.',
   homepage_summary_title: 'Mida ELLE keskkond toetab?',
-  homepage_title: 'ELLE - Eesti keeleõppe ja -analüüsi keskkond õppijale, õpetajale ja teadlasele',
-  homepage_title_explainer: 'ELLE pakub tekstikogusid ja tekstianalüüsi vahendeid eesti keele õppimiseks ja õpetamiseks nii teise keelena kui ka emakeelena, samuti keeleuurimiseks. Päringu abil saad leida huvipakkuvaid tekste Eesti vahekeele ehk õppijakeele korpusest (EVKK), mis sisaldab peamiselt eesti keele kui teise keele õppijate kirjutisi, aga ka emakeelse keelekasutuse näiteid ja akadeemilisi tekste. Tööriistad võimaldavad analüüsida ka omavalitud tekstide sõnavara ja grammatikat, kontrollida nende keerukust ja korrektsust ning hinnata keeleoskustaset.',
-  input_field_tutorial_text: 'Siin kastis on võimalik sõnadel klõpsata. Klõpsates hkuvatakse valitud sõnad kollase taustaga.',
+  homepage_title:
+    'ELLE - Eesti keeleõppe ja -analüüsi keskkond õppijale, õpetajale ja teadlasele',
+  homepage_title_explainer:
+    'ELLE pakub tekstikogusid ja tekstianalüüsi vahendeid eesti keele õppimiseks ja õpetamiseks nii teise keelena kui ka emakeelena, samuti keeleuurimiseks. Päringu abil saad leida huvipakkuvaid tekste Eesti vahekeele ehk õppijakeele korpusest (EVKK), mis sisaldab peamiselt eesti keele kui teise keele õppijate kirjutisi, aga ka emakeelse keelekasutuse näiteid ja akadeemilisi tekste. Tööriistad võimaldavad analüüsida ka omavalitud tekstide sõnavara ja grammatikat, kontrollida nende keerukust ja korrektsust ning hinnata keeleoskustaset.',
+  input_field_tutorial_text:
+    'Siin kastis on võimalik sõnadel klõpsata. Klõpsates hkuvatakse valitud sõnad kollase taustaga.',
   lemmas_filename: 'algvormid',
   lemmas_header_wordforms: 'Sõnavormid',
   middle: 'keskel',
-  neighbouring_words_case_sensitive_hover: 'Vaikimisi ei arvestata otsisõna suurt või väikest algustähte, nt "eesti" võimaldab leida nii "eesti" kui ka "Eesti" naabersõnad. Märgi kasti linnuke, kui soovid ainult väike- või suurtähega algavaid vasteid.',
+  neighbouring_words_case_sensitive_hover:
+    'Vaikimisi ei arvestata otsisõna suurt või väikest algustähte, nt "eesti" võimaldab leida nii "eesti" kui ka "Eesti" naabersõnad. Märgi kasti linnuke, kui soovid ainult väike- või suurtähega algavaid vasteid.',
   neighbouring_words_choose_statistic_measure: 'Vali valem',
   neighbouring_words_collocation: 'Naabersõna',
   neighbouring_words_frequency_in_text: 'Sagedus tekstis',
-  neighbouring_words_keyword_lemmatization_warning: 'Otsisõna "{{initialKeywordResult}}" vasteid ei leitud. Kasutasime automaatset algvormi tuvastust ja otsisime sõna "{{lemmatizedKeywordResult}}" naabersõnu.',
+  neighbouring_words_keyword_lemmatization_warning:
+    'Otsisõna "{{initialKeywordResult}}" vasteid ei leitud. Kasutasime automaatset algvormi tuvastust ja otsisime sõna "{{lemmatizedKeywordResult}}" naabersõnu.',
   neighbouring_words_number_of_co_occurrences: 'Kooskasutuste arv',
   neighbouring_words_percentage_in_text: 'Osakaal tekstis',
   neighbouring_words_score: 'Skoor',
   neighbouring_words_search_for_neighbouring_words: 'Otsi naabersõnu',
-  neighbouring_words_search_within_preceding_and_following_words: 'eelneva ja järgneva sõna piires',
-  neighbouring_words_statistic_measure_hover: 'Pakume naabersõnade leidmiseks kolme valemit, mis annavad mõnevõrra erinevaid tulemusi. logDice ei sõltu teksti pikkusest ja sobib seega kõige paremini mahukate tekstikogude analüüsimiseks. Üksikute tekstide puhul on logDice\'i ja T-skoori alusel saadud tulemused üsna sarnased. MI-skoor toob paremini esile harvaesinevaid sõnaühendeid, kuid määrab oluliste naabersõnade hulka ka rohkem sisutühje sõnu, mis esinevad paljude sõnade lähiümbruses.',
+  neighbouring_words_search_within_preceding_and_following_words:
+    'eelneva ja järgneva sõna piires',
+  neighbouring_words_statistic_measure_hover:
+    "Pakume naabersõnade leidmiseks kolme valemit, mis annavad mõnevõrra erinevaid tulemusi. logDice ei sõltu teksti pikkusest ja sobib seega kõige paremini mahukate tekstikogude analüüsimiseks. Üksikute tekstide puhul on logDice'i ja T-skoori alusel saadud tulemused üsna sarnased. MI-skoor toob paremini esile harvaesinevaid sõnaühendeid, kuid määrab oluliste naabersõnade hulka ka rohkem sisutühje sõnu, mis esinevad paljude sõnade lähiümbruses.",
   neighbouring_words_statistic_measure_logdice: 'logDice',
   neighbouring_words_statistic_measure_mi_score: 'MI-skoor',
   neighbouring_words_statistic_measure_t_score: 'T-skoor',
   pagination_go_to_page: 'Mine lehele:',
   pagination_page: 'Leht',
-  publish_your_text_author_data_other_languages_tooltip: 'Sisesta keeled komaga eraldatult, märkides esimesena keele, mida kõige paremini oskad',
+  publish_your_text_author_data_other_languages_tooltip:
+    'Sisesta keeled komaga eraldatult, märkides esimesena keele, mida kõige paremini oskad',
   publish_your_text_content: 'Tekst',
-  publish_your_text_content_helper_text: 'Laadi tekst üles või kirjuta see siia tekstikasti',
+  publish_your_text_content_helper_text:
+    'Laadi tekst üles või kirjuta see siia tekstikasti',
   publish_your_text_exercise_description: 'Ülesande kirjeldus',
   publish_your_text_submit_button: 'Loovuta tekst',
-  publish_your_text_terms_of_service_1: 'Luban kasutada oma teksti ja taustaandmeid õppejõududel ja üliõpilastel, õpetajatel ja õppijatel, teadustöötajatel ja tarkvaraarendajatel erialase töö ning keeleõppe vajadustel.',
-  publish_your_text_terms_of_service_2: 'Isikuandmed on eemaldatud, autorit pole andmebaasis märgitud. Kui korpusesse soovitakse lisada avalikult kättesaadav tekst, siis tuleb järgida väljaande litsentsitingimusi. Kõik autoriõigused on tagatud.',
+  publish_your_text_terms_of_service_1:
+    'Luban kasutada oma teksti ja taustaandmeid õppejõududel ja üliõpilastel, õpetajatel ja õppijatel, teadustöötajatel ja tarkvaraarendajatel erialase töö ning keeleõppe vajadustel.',
+  publish_your_text_terms_of_service_2:
+    'Isikuandmed on eemaldatud, autorit pole andmebaasis märgitud. Kui korpusesse soovitakse lisada avalikult kättesaadav tekst, siis tuleb järgida väljaande litsentsitingimusi. Kõik autoriõigused on tagatud.',
   publish_your_text_terms_of_service_infobox_1: 'Teksti loovutades nõustun ',
   publish_your_text_terms_of_service_infobox_2: 'ELLE kasutustingimustega',
   publish_your_text_terms_of_service_title: 'ELLE kasutustingimused',
   publish_your_text_text_data_academic_category: 'Kategooria',
-  publish_your_text_text_data_academic_category_academic_studies: 'Erialaõpingud',
+  publish_your_text_text_data_academic_category_academic_studies:
+    'Erialaõpingud',
   publish_your_text_text_data_academic_category_research: 'Uurimused',
   publish_your_text_text_data_main_text_type: 'Põhiliik',
   publish_your_text_text_data_main_text_type_academic: 'Akadeemiline',
@@ -162,7 +237,8 @@ export const TRANSLATIONS_ET = {
   publish_your_text_text_data_publication: 'Väljaanne',
   publish_your_text_text_data_sub_text_type: 'Alamliik',
   publish_your_text_text_data_supporting_material: 'Õppe- või abimaterjal',
-  publish_your_text_text_data_supporting_material_other: 'Muu õppe- või abimaterjal',
+  publish_your_text_text_data_supporting_material_other:
+    'Muu õppe- või abimaterjal',
   publish_your_text_text_data_year: 'Aasta',
   publish_your_text_title: 'Pealkiri',
   query_author_data_age: 'Vanus',
@@ -188,7 +264,8 @@ export const TRANSLATIONS_ET = {
   query_author_data_nationality: 'Kodakondsus',
   query_author_data_native_language: 'Emakeel',
   query_author_data_other_languages: 'Muu õppe-, töö- või suhtluskeel',
-  query_author_data_other_languages_plural: 'Muud õppe-, töö- või suhtluskeeled',
+  query_author_data_other_languages_plural:
+    'Muud õppe-, töö- või suhtluskeeled',
   query_change_chosen_corpuses: 'Muuda otsingut',
   query_choose_texts: 'Otsi tekste',
   query_common_country_bg: 'Bulgaaria',
@@ -263,20 +340,27 @@ export const TRANSLATIONS_ET = {
   query_results_select_all: 'Vali kõik',
   query_results_unselect_all: 'Eemalda kõik',
   query_subcoprus_L2_olympiade: 'K2 olümpiaaditööd',
-  query_subcoprus_L2_olympiade_hover: 'Sisaldab eesti keele kui teise keele olümpiaadi loovkirjutisi.',
+  query_subcoprus_L2_olympiade_hover:
+    'Sisaldab eesti keele kui teise keele olümpiaadi loovkirjutisi.',
   query_subcorpus: 'Alamkorpus',
   query_subcorpus_L1_estonian: 'K1 eesti keel',
-  query_subcorpus_L1_estonian_hover: 'Võrdluskorpus, mis sisaldab peamiselt emakeelekõnelejate arvamuslugusid ajalehtedest.',
+  query_subcorpus_L1_estonian_hover:
+    'Võrdluskorpus, mis sisaldab peamiselt emakeelekõnelejate arvamuslugusid ajalehtedest.',
   query_subcorpus_L1_russian: 'K1 vene keel',
-  query_subcorpus_L1_russian_hover: 'Sisaldab põhikooli ja gümnaasiumi vene emakeelega õpilaste loomingulist laadi tekste.',
+  query_subcorpus_L1_russian_hover:
+    'Sisaldab põhikooli ja gümnaasiumi vene emakeelega õpilaste loomingulist laadi tekste.',
   query_subcorpus_L2_estonian: 'K2 keeleõpe',
-  query_subcorpus_L2_estonian_hover: 'Sisaldab eesti keelt teise keelena ja võõrkeelena õppijate eksamiväliselt kirjutatud tekste, millest osa on saanud tasemehinnangu (A1-C2) kahe või kolme tunnustatud hindamise spetsialisti arvamuse põhjal.',
+  query_subcorpus_L2_estonian_hover:
+    'Sisaldab eesti keelt teise keelena ja võõrkeelena õppijate eksamiväliselt kirjutatud tekste, millest osa on saanud tasemehinnangu (A1-C2) kahe või kolme tunnustatud hindamise spetsialisti arvamuse põhjal.',
   query_subcorpus_L2_proficiency_examinations: 'K2 riiklikud eksamitööd',
-  query_subcorpus_L2_proficiency_examinations_hover: 'Sisaldab eesti keele kui teise keele riiklikke eksami- ja tasemetöid.',
+  query_subcorpus_L2_proficiency_examinations_hover:
+    'Sisaldab eesti keele kui teise keele riiklikke eksami- ja tasemetöid.',
   query_subcorpus_L3_russian: 'K3 vene keel',
-  query_subcorpus_L3_russian_hover: 'Sisaldab tekste eesti emakeelega õpilastelt, kes õpivad koolis vene keelt kolmanda keelena.',
+  query_subcorpus_L3_russian_hover:
+    'Sisaldab tekste eesti emakeelega õpilastelt, kes õpivad koolis vene keelt kolmanda keelena.',
   query_subcorpus_academic_estonian: 'Akadeemiline eesti keel',
-  query_subcorpus_academic_estonian_hover: 'Sisaldab eesti emakeelega ja eesti keelt teise keelena kasutavate üliöpilaste akadeemilise keelekasutuse näiteid (referaadid, seminaritööd, lõputood jm).',
+  query_subcorpus_academic_estonian_hover:
+    'Sisaldab eesti emakeelega ja eesti keelt teise keelena kasutavate üliöpilaste akadeemilise keelekasutuse näiteid (referaadid, seminaritööd, lõputood jm).',
   query_subcorpus_all: 'kõik',
   query_text_data_char_over_5000: 'üle 5000',
   query_text_data_char_up_to_500: 'kuni 500',
@@ -302,7 +386,8 @@ export const TRANSLATIONS_ET = {
   query_text_data_type_L2_exercise_announcement: 'Kuulutus',
   query_text_data_type_L2_exercise_announcement_full: 'K2 harjutus: kuulutus',
   query_text_data_type_L2_exercise_answering_questions: 'Vastused küsimustele',
-  query_text_data_type_L2_exercise_answering_questions_full: 'K2 harjutus: vastused küsimustele',
+  query_text_data_type_L2_exercise_answering_questions_full:
+    'K2 harjutus: vastused küsimustele',
   query_text_data_type_L2_exercise_contract: 'Leping',
   query_text_data_type_L2_exercise_contract_full: 'K2 harjutus: leping',
   query_text_data_type_L2_exercise_description: 'Kirjeldus',
@@ -312,7 +397,8 @@ export const TRANSLATIONS_ET = {
   query_text_data_type_L2_exercise_dictation: 'Etteütlus',
   query_text_data_type_L2_exercise_dictation_full: 'K2 harjutus: etteütlus',
   query_text_data_type_L2_exercise_fill_in_the_blanks: 'Lünktekst',
-  query_text_data_type_L2_exercise_fill_in_the_blanks_full: 'K2 harjutus: lünktekst',
+  query_text_data_type_L2_exercise_fill_in_the_blanks_full:
+    'K2 harjutus: lünktekst',
   query_text_data_type_L2_exercise_guide: 'Teejuht',
   query_text_data_type_L2_exercise_guide_full: 'K2 harjutus: teejuht',
   query_text_data_type_L2_exercise_instruction: 'Juhend',
@@ -324,7 +410,8 @@ export const TRANSLATIONS_ET = {
   query_text_data_type_L2_exercise_retelling: 'Ümberjutustus',
   query_text_data_type_L2_exercise_retelling_full: 'K2 harjutus: ümberjutustus',
   query_text_data_type_L2_exercise_sentence_construction: 'Laused',
-  query_text_data_type_L2_exercise_sentence_construction_full: 'K2 harjutus: laused',
+  query_text_data_type_L2_exercise_sentence_construction_full:
+    'K2 harjutus: laused',
   query_text_data_type_L2_exercise_speech: 'Kõne',
   query_text_data_type_L2_exercise_speech_full: 'K2 harjutus: kõne',
   query_text_data_type_L2_letter: 'K2 kiri',
@@ -338,44 +425,63 @@ export const TRANSLATIONS_ET = {
   query_text_data_type_L3_russian_examination: 'K3 vene eksamitöö',
   query_text_data_type_academic_research: 'AK uurimused',
   query_text_data_type_academic_research_bachelors_thesis: 'Bakalaureusetöö',
-  query_text_data_type_academic_research_bachelors_thesis_full: 'AK uurimused: bakalaureusetöö',
+  query_text_data_type_academic_research_bachelors_thesis_full:
+    'AK uurimused: bakalaureusetöö',
   query_text_data_type_academic_research_doctoral_thesis: 'Doktoritöö',
-  query_text_data_type_academic_research_doctoral_thesis_full: 'AK uurimused: doktoritöö',
+  query_text_data_type_academic_research_doctoral_thesis_full:
+    'AK uurimused: doktoritöö',
   query_text_data_type_academic_research_masters_thesis: 'Magistritöö',
-  query_text_data_type_academic_research_masters_thesis_full: 'AK uurimused: magistritöö',
+  query_text_data_type_academic_research_masters_thesis_full:
+    'AK uurimused: magistritöö',
   query_text_data_type_academic_research_presentation: 'Ettekanne',
-  query_text_data_type_academic_research_presentation_full: 'AK uurimused: ettekanne',
+  query_text_data_type_academic_research_presentation_full:
+    'AK uurimused: ettekanne',
   query_text_data_type_academic_research_research_article: 'Artikkel',
-  query_text_data_type_academic_research_research_article_full: 'AK uurimused: artikkel',
+  query_text_data_type_academic_research_research_article_full:
+    'AK uurimused: artikkel',
   query_text_data_type_academic_research_summary: 'Kokkuvõte',
-  query_text_data_type_academic_research_summary_full: 'AK uurimused: kokkuvõte',
+  query_text_data_type_academic_research_summary_full:
+    'AK uurimused: kokkuvõte',
   query_text_data_type_academic_research_thesis: 'Diplomitöö',
-  query_text_data_type_academic_research_thesis_full: 'AK uurimused: diplomitöö',
+  query_text_data_type_academic_research_thesis_full:
+    'AK uurimused: diplomitöö',
   query_text_data_type_academic_studies: 'AK erialaõpingud',
   query_text_data_type_academic_studies_analysis: 'Analüüs',
-  query_text_data_type_academic_studies_analysis_full: 'AK erialaõpingud: analüüs',
+  query_text_data_type_academic_studies_analysis_full:
+    'AK erialaõpingud: analüüs',
   query_text_data_type_academic_studies_course_paper: 'Kursusetöö',
-  query_text_data_type_academic_studies_course_paper_full: 'AK erialaõpingud: kursusetöö',
+  query_text_data_type_academic_studies_course_paper_full:
+    'AK erialaõpingud: kursusetöö',
   query_text_data_type_academic_studies_essay: 'Essee',
   query_text_data_type_academic_studies_essay_full: 'AK erialaõpingud: essee',
   query_text_data_type_academic_studies_overview: 'Ülevaade',
-  query_text_data_type_academic_studies_overview_full: 'AK erialaõpingud: ülevaade',
+  query_text_data_type_academic_studies_overview_full:
+    'AK erialaõpingud: ülevaade',
   query_text_data_type_academic_studies_report: 'Referaat',
-  query_text_data_type_academic_studies_report_full: 'AK erialaõpingud: referaat',
+  query_text_data_type_academic_studies_report_full:
+    'AK erialaõpingud: referaat',
   query_text_data_type_academic_studies_review: 'Retsensioon',
-  query_text_data_type_academic_studies_review_full: 'AK erialaõpingud: retsensioon',
+  query_text_data_type_academic_studies_review_full:
+    'AK erialaõpingud: retsensioon',
   query_text_data_type_academic_studies_seminar_paper: 'Seminaritöö',
-  query_text_data_type_academic_studies_seminar_paper_full: 'AK erialaõpingud: seminaritöö',
+  query_text_data_type_academic_studies_seminar_paper_full:
+    'AK erialaõpingud: seminaritöö',
   query_text_data_type_selected: 'Valitud 1 liik',
   query_text_data_type_selected_plural: 'Valitud {{amount}} liiki',
   query_text_data_up_to: 'kuni',
-  query_text_data_used_study_or_supporting_materials: 'Kasutatud õppe- või abimaterjale',
-  query_text_data_used_study_or_supporting_materials_automated_correction: 'Automaatkontroll',
-  query_text_data_used_study_or_supporting_materials_monolingual_dictionary: 'Ükskeelne sõnastik (k.a. veebisõnastikud)',
+  query_text_data_used_study_or_supporting_materials:
+    'Kasutatud õppe- või abimaterjale',
+  query_text_data_used_study_or_supporting_materials_automated_correction:
+    'Automaatkontroll',
+  query_text_data_used_study_or_supporting_materials_monolingual_dictionary:
+    'Ükskeelne sõnastik (k.a. veebisõnastikud)',
   query_text_data_used_study_or_supporting_materials_no: 'Ei',
-  query_text_data_used_study_or_supporting_materials_professional_handbook: 'Erialane käsiraamat või teatmik',
-  query_text_data_used_study_or_supporting_materials_term_glossary_or_base: 'Erialane terminisõnastik või -baas',
-  query_text_data_used_study_or_supporting_materials_translation_dictionary_or_machine_translation: 'Tõlkesõnastik või masintõlge',
+  query_text_data_used_study_or_supporting_materials_professional_handbook:
+    'Erialane käsiraamat või teatmik',
+  query_text_data_used_study_or_supporting_materials_term_glossary_or_base:
+    'Erialane terminisõnastik või -baas',
+  query_text_data_used_study_or_supporting_materials_translation_dictionary_or_machine_translation:
+    'Tõlkesõnastik või masintõlge',
   query_text_data_used_study_or_supporting_materials_yes: 'Jah',
   query_text_data_used_supporting_materials: 'Kasutatud õppematerjale',
   query_text_data_used_supporting_materials_no: 'ei',
@@ -386,7 +492,8 @@ export const TRANSLATIONS_ET = {
   reset_button: 'Lähtesta',
   restore_data_button: 'Ennista andmed',
   send_request_button: 'Saada päring',
-  server_offline_page_error: 'ELLE teenused ei ole hetkel kättesaadavad! Palun proovi hiljem uuesti.',
+  server_offline_page_error:
+    'ELLE teenused ei ole hetkel kättesaadavad! Palun proovi hiljem uuesti.',
   start_button: 'Alusta',
   syllables_beginning: 'algus',
   syllables_end: 'lõpp',
@@ -398,9 +505,12 @@ export const TRANSLATIONS_ET = {
   syllables_table_end: 'Asukoht (keskel)',
   syllables_table_middle: 'Asukoht (lõpp)',
   tab_gram_anal: 'Grammatiline analüüs',
-  table_click_tutorial_text: 'Tabelis olevatel väärtustel klõpsates märgitakse ülevaloleval tekstikastis kõik sõnad, mis on valikuga seotud.',
-  table_tab_tutorial_text: 'Siit saad valida, mis infot sa allolevates tabelites näha soovid.',
-  table_tutorial_text: 'Siin tabelis näed infot tekstikastis olevate sõnade kohta.',
+  table_click_tutorial_text:
+    'Tabelis olevatel väärtustel klõpsates märgitakse ülevaloleval tekstikastis kõik sõnad, mis on valikuga seotud.',
+  table_tab_tutorial_text:
+    'Siit saad valida, mis infot sa allolevates tabelites näha soovid.',
+  table_tutorial_text:
+    'Siin tabelis näed infot tekstikastis olevate sõnade kohta.',
   text_analysis: 'Tekstianalüüs',
   textupload_primary_modal_save: 'Salvesta tekstid analüüsiks',
   textupload_primary_modal_title: 'Sisesta või laadi üles oma tekstid',
@@ -410,35 +520,49 @@ export const TRANSLATIONS_ET = {
   textupload_secondary_modal_tooltip: 'Laadi üles oma tekstid',
   textupload_secondary_modal_upload: 'Laadi failid üles',
   tools_accordion_analysis: 'Analüüsivahendid',
-  tools_accordion_analysis_infobox: 'Hallide tööriistade kasutamiseks vali või lisa esmalt tekst(id). Ülejäänud tööriistadesse ei saa veel tekste suunata: sisesta need tekstikasti või laadi üles.',
-  tools_accordion_clusters_explainer: 'Mustrid ehk n-grammid aitavad tekstist leida tüüpilisemad sõnajärjendid',
-  tools_accordion_neighbouring_words_explainer: 'Leia sõnad, mis esinevad tekstis sageli koos',
-  tools_accordion_word_analysis_explainer: 'Leia sõnade silbid, algvormid ja grammatilised vormid',
-  tools_accordion_word_in_context_explainer: 'Vaata sõna ümbrust tekstis, et saada parem ülevaade selle kasutusest',
-  tools_accordion_wordlist_explainer: 'Kuva tekstis kasutatud sõnad sageduse või tähestiku järjekorras',
-  tools_infobox: 'Otsi tekste EVKK tekstikogust ja analüüsi neid meie tööriistadega või sisesta analüüsimiseks oma tekst(id).',
+  tools_accordion_analysis_infobox:
+    'Hallide tööriistade kasutamiseks vali või lisa esmalt tekst(id). Ülejäänud tööriistadesse ei saa veel tekste suunata: sisesta need tekstikasti või laadi üles.',
+  tools_accordion_clusters_explainer:
+    'Mustrid ehk n-grammid aitavad tekstist leida tüüpilisemad sõnajärjendid',
+  tools_accordion_neighbouring_words_explainer:
+    'Leia sõnad, mis esinevad tekstis sageli koos',
+  tools_accordion_word_analysis_explainer:
+    'Leia sõnade silbid, algvormid ja grammatilised vormid',
+  tools_accordion_word_in_context_explainer:
+    'Vaata sõna ümbrust tekstis, et saada parem ülevaade selle kasutusest',
+  tools_accordion_wordlist_explainer:
+    'Kuva tekstis kasutatud sõnad sageduse või tähestiku järjekorras',
+  tools_infobox:
+    'Otsi tekste EVKK tekstikogust ja analüüsi neid meie tööriistadega või sisesta analüüsimiseks oma tekst(id).',
   tools_title: 'ELLE tööriistad',
   tools_video_text: 'Vaata tutvustavat videot',
-  tools_warning_text: 'Tööriista kasutamiseks tuleb vasakult menüüst valida analüüsitav tekst või tekstid!',
+  tools_warning_text:
+    'Tööriista kasutamiseks tuleb vasakult menüüst valida analüüsitav tekst või tekstid!',
   try_again: 'Proovi uuesti',
-  word_analysis_infobox_1: 'Rakenduse abil saad sõnu silbitada, vaadata nende algvorme ja grammatilist kirjeldust. Sisesta sõna või tekst (kuni 1000 sõna).',
-  word_analysis_infobox_2: 'Teksti sõnu saad analüüsida ühekaupa ja näha ka teksti silpide, algvormide ja grammatiliste vormide statistikat.',
+  word_analysis_infobox_1:
+    'Rakenduse abil saad sõnu silbitada, vaadata nende algvorme ja grammatilist kirjeldust. Sisesta sõna või tekst (kuni 1000 sõna).',
+  word_analysis_infobox_2:
+    'Teksti sõnu saad analüüsida ühekaupa ja näha ka teksti silpide, algvormide ja grammatiliste vormide statistikat.',
   wordcontext_filename: 'sõnakontekstis',
-  wordinfo_tutorial_text: 'Sõnadel klõpsates ilmub siia valitud sõna grammatiline info.',
+  wordinfo_tutorial_text:
+    'Sõnadel klõpsates ilmub siia valitud sõna grammatiline info.',
   wordinfo_word: 'Sõna',
   wordlist_exclude_stopwords: 'Välista stoppsõnad',
   wordlist_filename: 'sõnaloend',
   wordlist_lemma_column: 'Algvorm',
   wordlist_retain_uppercase_letters: 'säilita suurtähed',
-  wordlist_retain_uppercase_letters_hover: 'Sõnad muudetakse vaikimisi väiketäheliseks, näiteks "kool" ja "Kool" loetakse samaks sõnaks. Märgi kasti linnuke, kui soovid, et suur- ja väiketähelisi sõnu arvestataks eraldi (nt "Eesti" ja "eesti").',
+  wordlist_retain_uppercase_letters_hover:
+    'Sõnad muudetakse vaikimisi väiketäheliseks, näiteks "kool" ja "Kool" loetakse samaks sõnaks. Märgi kasti linnuke, kui soovid, et suur- ja väiketähelisi sõnu arvestataks eraldi (nt "Eesti" ja "eesti").',
   wordlist_search_base_forms: 'algvormid',
   wordlist_search_word_forms: 'sõnavormid',
   wordlist_set_minimum_word_frequency: 'Määra sõna minimaalne sagedus',
-  wordlist_set_minimum_word_frequency_hover: 'Kui soovid näiteks välistada sõnad, mida esineb tekstis vaid üks kord, siis määra sageduse alampiiriks 2. Mahukamaid tekstikogusid analüüsides jäetakse sageli kõrvale alla 5 korra esinevad sõnad.',
+  wordlist_set_minimum_word_frequency_hover:
+    'Kui soovid näiteks välistada sõnad, mida esineb tekstis vaid üks kord, siis määra sageduse alampiiriks 2. Mahukamaid tekstikogusid analüüsides jäetakse sageli kõrvale alla 5 korra esinevad sõnad.',
   wordlist_stopwords_from_the_default_list: 'vaikimisi loendist',
   wordlist_stopwords_textbox: 'Kirjuta siia oma stoppsõnad (nt koer, kodu)',
-  wordlist_stopwords_textbox_hover_1: 'Eesti keele stoppsõnade loendi on koostanud Kristel Uiboaed. See sisaldab sidesõnu, asesõnu, sisutühje tegusõnu ja määrsõnu. Nimekiri on kättesaadav Tartu Ülikooli andmerepositooriumis (vaata ',
+  wordlist_stopwords_textbox_hover_1:
+    'Eesti keele stoppsõnade loendi on koostanud Kristel Uiboaed. See sisaldab sidesõnu, asesõnu, sisutühje tegusõnu ja määrsõnu. Nimekiri on kättesaadav Tartu Ülikooli andmerepositooriumis (vaata ',
   wordlist_stopwords_textbox_hover_2: 'siit).',
   wordlist_stopwords_textbox_hover_3: ').',
-  wordlist_word_column: 'Sõnavorm'
+  wordlist_word_column: 'Sõnavorm',
 };

@@ -1,80 +1,80 @@
 export const languageLevels = [
   {
-    type: "all",
-    label: "kõik",
+    type: 'all',
+    label: 'kõik',
     subtype: [
-      { type: "A2", label: "A2" },
-      { type: "B1", label: "B1" },
-      { type: "B2", label: "B2" },
-      { type: "C1", label: "C1" },
+      { type: 'A2', label: 'A2' },
+      { type: 'B1', label: 'B1' },
+      { type: 'B2', label: 'B2' },
+      { type: 'C1', label: 'C1' },
     ],
   },
 ];
 
 export const errorTypes = [
   {
-    type: "R",
-    label: "asendused",
+    type: 'R',
+    label: 'asendused',
     subtype: [
       {
-        type: "R:SPELL",
-        label: "õigekirjaviga",
+        type: 'R:SPELL',
+        label: 'õigekirjaviga',
       },
       {
-        type: "R:CASE",
-        label: "algustäheviga",
+        type: 'R:CASE',
+        label: 'algustäheviga',
       },
       {
-        type: "R:WS",
-        label: "kokku-lahkukirjutamise viga",
+        type: 'R:WS',
+        label: 'kokku-lahkukirjutamise viga',
       },
       {
-        type: "R:NOM:FORM",
-        label: "käändsõna vormivaliku viga",
+        type: 'R:NOM:FORM',
+        label: 'käändsõna vormivaliku viga',
       },
       {
-        type: "R:VERB:FORM",
-        label: "tegusõna vormivaliku viga",
+        type: 'R:VERB:FORM',
+        label: 'tegusõna vormivaliku viga',
       },
       {
-        type: "R:LEX",
-        label: "sõnavalikuviga",
+        type: 'R:LEX',
+        label: 'sõnavalikuviga',
       },
       {
-        type: "R:WO",
-        label: "sõnajärjeviga",
+        type: 'R:WO',
+        label: 'sõnajärjeviga',
       },
       {
-        type: "R:PUNCT",
-        label: "kirjavahemärgi valiku viga",
+        type: 'R:PUNCT',
+        label: 'kirjavahemärgi valiku viga',
       },
     ],
   },
   {
-    type: "M",
-    label: "kustutused",
+    type: 'M',
+    label: 'lisamised',
     subtype: [
       {
-        type: "M:LEX",
-        label: "puuduv sõna",
+        type: 'M:LEX',
+        label: 'puuduv sõna',
       },
       {
-        type: "M:PUNCT",
-        label: "puuduv kirjavahemärk",
+        type: 'M:PUNCT',
+        label: 'puuduv kirjavahemärk',
       },
     ],
   },
   {
-    type: "U",
-    label: "lisamised",
+    type: 'U',
+    label: 'kustutused',
     subtype: [
       {
-        type: "U:LEX",
-        label: "liigne sõna",
+        type: 'U:LEX',
+        label: 'liigne sõna',
       },
       {
-        type: "U:PUNCT",
-        label: "liigne kirjavahemärk",
+        type: 'U:PUNCT',
+        label: 'liigne kirjavahemärk',
       },
     ],
   },

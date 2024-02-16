@@ -63,7 +63,8 @@ div.error-filter {
 }
 
 .corrected-sentence .added {
-  color: red;
+  /* color: red; */
+  background-color: #ffb1d0;
 }
 
 .corrected-sentence .deleted {
@@ -73,7 +74,8 @@ div.error-filter {
 }
 
 .corrected-sentence .replaced-added {
-  color: blue;
+  /* color: blue; */
+  background-color: #e9daff;
 }
 
 .corrected-sentence .replaced-deleted {
@@ -84,4 +86,16 @@ div.error-filter {
 
 .clickable {
   cursor: pointer;
+}
+
+.error-tooltip {
+  background-color: white;
+  color: 'rgba(0, 0, 0, 0.87)';
+  box-shadow: aqua;
+  font-size: 11px;
+}
+
+.annotated:hover {
+  text-decoration: underline;
+  cursor: default;
 }
