@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -34,7 +36,17 @@ public class ErrorAnalyserController {
   public ResponseEntity<ErrorAnalyserEnums> getFilterEnums() {
     List<String> languageLevels = errorAnalyserDao.findFilterEnums("keeletase");
     List<String> nativeLanguages = errorAnalyserDao.findFilterEnums("emakeel");
-    ErrorAnalyserEnums body = new ErrorAnalyserEnums(languageLevels, nativeLanguages);
+    List<String> citizenship = errorAnalyserDao.findFilterEnums("kodakondsus");
+    List<String> textType = errorAnalyserDao.findFilterEnums("tekstityyp");
+    List<String> education = errorAnalyserDao.findFilterEnums("haridus"); // vblla pole vaja
+
+    List<String> ageTemp = errorAnalyserDao.findFilterEnums("vanus"); // vblla pole vaja
+    List<String> age = Arrays.asList(ageTemp.get(0), ageTemp.get(ageTemp.size() - 1));
+    // List<String> ageRange = errorAnalyserDao.findFilterEnums("vanusevahemik");
+    // polegi äkki siin vaja
+
+    ErrorAnalyserEnums body = new ErrorAnalyserEnums(languageLevels, nativeLanguages, citizenship, textType, education,
+        age);
     return ResponseEntity.ok(body);
   }
 
