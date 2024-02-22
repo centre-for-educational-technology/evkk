@@ -1,19 +1,19 @@
-div.error-filter {
+div.request-filter {
   padding: 30px;
   margin-bottom: 30px !important;
 }
 
-.filter-container {
+.request-filter-container {
   display: flex;
   flex-wrap: wrap;
   gap: 50px;
 }
 
-.filter-item-main {
+.request-filter-item-main {
   flex: 3;
 }
 
-.filter-item-side {
+.request-filter-item-side {
   flex: 2;
 }
 
@@ -47,7 +47,7 @@ div.error-filter {
   margin-left: 50px;
 }
 
-div.optional-input {
+div.optional-filter {
   width: 300px;
   margin: 8px 16px 8px 0;
 }

@@ -20,7 +20,7 @@ export default function Multiselect({
   const { t } = useTranslation();
 
   return (
-    <FormControl className="optional-input">
+    <FormControl className="optional-filter">
       <InputLabel id={`${id}-label`}>{label}</InputLabel>
       <Select
         labelId={`${id}-label`}
