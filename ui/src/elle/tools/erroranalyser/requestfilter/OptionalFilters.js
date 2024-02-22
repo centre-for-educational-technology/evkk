@@ -69,7 +69,7 @@ export default function OptionalFilters({
 
     let filteredLanguageOptions = filterFilterOptions(
       languageOptions,
-      data.nativeLanguages
+      data.nativeLanguage
     );
     filteredLanguageOptions = sortFilterOptions(filteredLanguageOptions);
     setNativeLanguageOptions(filteredLanguageOptions);

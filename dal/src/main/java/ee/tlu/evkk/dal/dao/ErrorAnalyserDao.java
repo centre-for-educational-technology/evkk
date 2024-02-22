@@ -15,5 +15,5 @@ public interface ErrorAnalyserDao {
       @Param("levels") List<String> levels,
       @Param("languages") List<String> languages);
 
-  List<String> findFilterEnums(@Param("name") String name);
+  List<String> findFilterOptions(@Param("name") String name);
 }

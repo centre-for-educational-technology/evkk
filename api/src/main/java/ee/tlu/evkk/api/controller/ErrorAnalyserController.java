@@ -1,7 +1,7 @@
 package ee.tlu.evkk.api.controller;
 
 import ee.tlu.evkk.dal.dao.ErrorAnalyserDao;
-import ee.tlu.evkk.dal.dto.ErrorAnalyserEnums;
+import ee.tlu.evkk.dal.dto.ErrorAnalyserOptions;
 import ee.tlu.evkk.dal.dto.ErrorAnalyserSentence;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -32,22 +30,13 @@ public class ErrorAnalyserController {
     return ResponseEntity.ok(body);
   }
 
-  @GetMapping("/getFilterEnums")
-  public ResponseEntity<ErrorAnalyserEnums> getFilterEnums() {
-    List<String> languageLevels = errorAnalyserDao.findFilterEnums("keeletase");
-    List<String> nativeLanguages = errorAnalyserDao.findFilterEnums("emakeel");
-    List<String> citizenship = errorAnalyserDao.findFilterEnums("kodakondsus");
-    List<String> textType = errorAnalyserDao.findFilterEnums("tekstityyp");
-    List<String> education = errorAnalyserDao.findFilterEnums("haridus"); // vblla pole vaja
+  @GetMapping("/getFilterOptions")
+  public ResponseEntity<ErrorAnalyserOptions> getFilterOptions() {
+    List<String> textType = errorAnalyserDao.findFilterOptions("tekstityyp");
+    List<String> nativeLanguage = errorAnalyserDao.findFilterOptions("emakeel");
+    List<String> citizenship = errorAnalyserDao.findFilterOptions("kodakondsus");
 
-    List<String> ageTemp = errorAnalyserDao.findFilterEnums("vanus"); // vblla pole vaja
-    List<String> age = Arrays.asList(ageTemp.get(0), ageTemp.get(ageTemp.size() - 1));
-    // List<String> ageRange = errorAnalyserDao.findFilterEnums("vanusevahemik");
-    // polegi äkki siin vaja
-
-    ErrorAnalyserEnums body = new ErrorAnalyserEnums(languageLevels, nativeLanguages, citizenship, textType, education,
-        age);
+    ErrorAnalyserOptions body = new ErrorAnalyserOptions(textType, nativeLanguage, citizenship);
     return ResponseEntity.ok(body);
   }
-
 }
