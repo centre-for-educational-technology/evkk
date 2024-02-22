@@ -1,8 +1,10 @@
-import { Fragment } from "react";
-import { Box, Checkbox, FormControlLabel } from "@mui/material";
-import "./../ErrorAnalyser.css";
+import { Fragment } from 'react';
+import { Box, Checkbox, FormControlLabel, FormGroup } from '@mui/material';
+import './../ErrorAnalyser.css';
+import { useTranslation } from 'react-i18next';
 
 export default function CheckboxHelper({ nodes, ancestors, onBoxChecked }) {
+  const { t } = useTranslation();
   return (
     <>
       {nodes.map(({ label, type, checked, childrenNodes }) => {
@@ -19,7 +21,7 @@ export default function CheckboxHelper({ nodes, ancestors, onBoxChecked }) {
 
         const checkbox = (
           <FormControlLabel
-            label={label}
+            label={t(label)}
             control={
               <Checkbox
                 value={type}
@@ -33,13 +35,11 @@ export default function CheckboxHelper({ nodes, ancestors, onBoxChecked }) {
         return (
           <Fragment key={type}>
             {ancestors.length === 0 ? (
-              // <Paper variant="outlined" className="checkbox-group">
-              <Box className="checkbox-group">
+              <FormGroup className="checkbox-group">
                 <Box className="checkbox-item">{checkbox}</Box>
                 {children && <Box className="checkbox-item">{children}</Box>}
-              </Box>
+              </FormGroup>
             ) : (
-              // </Paper>
               <>{checkbox}</>
             )}
           </Fragment>

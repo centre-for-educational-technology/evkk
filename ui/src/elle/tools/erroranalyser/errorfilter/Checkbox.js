@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { cloneDeep } from "lodash";
-import CheckboxHelper from "./CheckboxHelper";
-import { FormGroup } from "@mui/material";
-import "./../ErrorAnalyser.css";
+import React, { useEffect, useState } from 'react';
+import { cloneDeep } from 'lodash';
+import CheckboxHelper from './CheckboxHelper';
+import './../ErrorAnalyser.css';
 
 //https://medium.com/sltc-sean-learns-to-code/how-i-build-a-nested-checkbox-react-component-7eef982d1ea9
 //https://playcode.io/1193701E
@@ -76,7 +75,11 @@ const findNode = (nodes, type, ancestors) => {
   return node?.childrenNodes.filter((node) => node.type === type)[0];
 };
 
-export default function Checkbox({ data, setSelectedItems, setFilterError }) {
+export default function ErrorCheckbox({
+  data,
+  setSelectedItems,
+  setFilterError,
+}) {
   const initialNodes = transform(data);
   const [nodes, setNodes] = useState(initialNodes);
 
@@ -99,12 +102,10 @@ export default function Checkbox({ data, setSelectedItems, setFilterError }) {
   }, [nodes, setSelectedItems]);
 
   return (
-    <FormGroup>
-      <CheckboxHelper
-        nodes={nodes}
-        ancestors={[]}
-        onBoxChecked={handleBoxChecked}
-      />
-    </FormGroup>
+    <CheckboxHelper
+      nodes={nodes}
+      ancestors={[]}
+      onBoxChecked={handleBoxChecked}
+    />
   );
 }

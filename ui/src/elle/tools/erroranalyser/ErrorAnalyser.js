@@ -4,37 +4,50 @@ import FilterAccordion from './errorfilter/FilterAccordion';
 import ErrorTable from './errortable/ErrorTable';
 import { useTranslation } from 'react-i18next';
 
-//TODO translation
-//TODO päringusse lisada emakeel - peaks automaatselt võtma väärtused andmebaasist
-
 export default function ErrorAnalyser() {
-  const [errorData, setErrorData] = useState(null);
+  const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
 
-  const getErrors = async (errorTypeFilter, languageLevelFilter) => {
+  const getData = async (
+    errorTypeFilter,
+    languageLevelFilter,
+    optionalFilters
+  ) => {
     let query = 'http://localhost:9090/api/errors/getErrors?';
 
     errorTypeFilter.forEach((element) => {
-      query += 'error=' + element + '&';
+      query += 'error=' + element.type + '&';
     });
 
     languageLevelFilter.forEach((element) => {
-      query += 'level=' + element + '&';
+      query += 'level=' + element.type + '&';
+    });
+
+    optionalFilters.forEach((element) => {
+      Object.entries(element).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          value.forEach((item) => {
+            query += `${key}=${item}&`;
+          });
+        }
+      });
     });
 
     query = query.slice(0, -1);
 
-    try {
-      setIsLoading(true);
-      const response = await fetch(query);
-      const data = await response.json();
-      setErrorData(data);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    console.log(query);
+
+    // try {
+    //   setIsLoading(true);
+    //   const response = await fetch(query);
+    //   const data = await response.json();
+    //   setData(data);
+    // } catch (error) {
+    //   console.error('Error:', error);
+    // } finally {
+    //   setIsLoading(false);
+    // }
   };
 
   // useEffect(() => {
@@ -43,14 +56,14 @@ export default function ErrorAnalyser() {
   // }, []);
 
   useEffect(() => {
-    console.log(errorData);
-  }, [errorData]);
+    console.log(data);
+  }, [data]);
 
   return (
     <>
       <Typography variant="h3">{t('error_analyser_title')}</Typography>
 
-      <FilterAccordion getErrors={getErrors} setErrorData={setErrorData} />
+      <FilterAccordion getData={getData} setData={setData} />
 
       {isLoading && (
         <Box className="spinner-container">
@@ -58,7 +71,7 @@ export default function ErrorAnalyser() {
         </Box>
       )}
 
-      {errorData && <ErrorTable errorData={errorData} />}
+      {data && <ErrorTable errorData={data} />}
     </>
   );
 }
