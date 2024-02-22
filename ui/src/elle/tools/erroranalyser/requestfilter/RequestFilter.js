@@ -43,7 +43,7 @@ export default function FilterAccordion({ getData, setData }) {
     try {
       setIsLoading(true);
       const response = await fetch(
-        'http://localhost:9090/api/errors/getFilterEnums'
+        'http://localhost:9090/api/errors/getFilterOptions'
       );
       const data = await response.json();
       setFilterOptions(data);

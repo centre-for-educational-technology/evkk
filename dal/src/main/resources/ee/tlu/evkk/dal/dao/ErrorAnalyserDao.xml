@@ -69,8 +69,8 @@
     </if>
   </select>
 
-  <select id="findFilterEnums" resultType="java.lang.String">
-    select distinct prop2.property_value as native_language
+  <select id="findFilterOptions" resultType="java.lang.String">
+    select distinct prop2.property_value
     from core.text_error_analysis_sentences sen1
     left join core.text_property prop2 on sen1.text_id = prop2.text_id and prop2.property_name = #{name}
     where prop2.property_value is not null
