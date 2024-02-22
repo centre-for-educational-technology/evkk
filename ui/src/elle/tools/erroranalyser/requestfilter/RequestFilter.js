@@ -91,9 +91,7 @@ export default function FilterAccordion({ getData, setData }) {
   const handleSubmit = () => {
     setData(null);
     const errorTypeFilter = mapFilterInput(errorType);
-    // console.log(errorType, errorTypeFilter);
     let languageLevelFilter = mapFilterInput(languageLevel);
-    // console.log(languageLevel, languageLevelFilter);
     let optinalFilters = [];
     if (nativeLanguage.length > 0) {
       optinalFilters.push({ nativeLanguage: nativeLanguage });
@@ -146,22 +144,21 @@ export default function FilterAccordion({ getData, setData }) {
         <Accordion
           expanded={isExpanded.accordion}
           onChange={() => {
-            handleIsExpanded('optionalFilters');
+            handleIsExpanded('accordion');
           }}
-          className="error-filter"
+          className="request-filter"
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="error-filter-content"
-            id="error-filter-header"
+            aria-controls="request-filter-content"
+            id="request-filter-header"
           >
-            {/* Vali veatüüp ja keeletase */}
             {t('error_analyser_select_error_type_and_language_level')}
           </AccordionSummary>
 
           <AccordionDetails>
-            <Box className="filter-container">
-              <Box className="filter-item-main">
+            <Box className="request-filter-container">
+              <Box className="request-filter-item-main">
                 <Typography
                   variant="h6"
                   style={{ color: filterError.typeError ? 'red' : 'initial' }}
@@ -182,7 +179,7 @@ export default function FilterAccordion({ getData, setData }) {
                 </Paper>
               </Box>
 
-              <Box className="filter-item-side">
+              <Box className="request-filter-item-side">
                 <Typography
                   variant="h6"
                   style={{
