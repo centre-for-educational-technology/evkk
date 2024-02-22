@@ -129,6 +129,13 @@ export const TRANSLATIONS_ET = {
   error_analyser_error_type_u: 'kustutused',
   error_analyser_error_type_u_lex: 'liigne sõna',
   error_analyser_error_type_u_punct: 'liigne kirjavahemärk',
+
+  error_analyser_text_type: 'Teksti liik',
+  error_analyser_authors_native_language: 'Autori emakeel',
+  error_analyser_authors_education: 'Autori haridustase',
+  error_analyser_authors_citizenship: 'Autori elukohariik',
+  error_analyser_authors_age: 'Autori vanus',
+
   error_file_upload_failed: 'Failide üleslaadimine ebaõnnestus!',
   error_generic_server_error:
     'Toiming ebaõnnestus! Palun proovi hiljem uuesti.',

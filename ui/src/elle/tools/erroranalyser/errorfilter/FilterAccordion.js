@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from 'react';
 import {
   Accordion,
   AccordionActions,
@@ -10,15 +10,35 @@ import {
   Link,
   Paper,
   Typography,
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import "./../ErrorAnalyser.css";
-import { errorTypes, languageLevels } from "./CheckboxData";
-import Checkbox from "./Checkbox";
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import './../ErrorAnalyser.css';
+import { errorTypeOptions, languageLevelOptions } from './CheckboxData';
+import ErrorCheckbox from './Checkbox';
+import Multiselect from './Multiselect';
+import {
+  ageOptions,
+  educationOptions,
+  languageOptions,
+  nationalityOptions,
+  textTypesOptions,
+} from '../../../const/Constants';
+import { useTranslation } from 'react-i18next';
 
-export default function FilterAccordion({ getErrors, setErrorData }) {
+export default function FilterAccordion({ getData, setData }) {
   const [isLoading, setIsLoading] = useState(true);
-  const [filterEnums, setFilterEnums] = useState(null);
+  const [errorType, setErrorType] = useState([]);
+  const [languageLevel, setLanguageLevel] = useState([]);
+  const [nativeLanguage, setNativeLanguage] = useState([]);
+  const [citizenship, setCitizenship] = useState([]);
+  const [education, setEducation] = useState([]);
+  const [textType, setTextType] = useState([]);
+  const [age, setAge] = useState([]);
+
+  const [textTypeOptions, setTextTypeOptions] = useState([]);
+  const [nativeLanguageOptions, setNativeLanguageOptions] = useState([]);
+  const [citizenshipOptions, setCitizenshipOptions] = useState([]);
+
   const [filterError, setFilterError] = useState({
     typeError: false,
     levelError: false,
@@ -27,55 +47,108 @@ export default function FilterAccordion({ getErrors, setErrorData }) {
     accordion: true,
     optionalFilters: false,
   });
-  const [selectedErrorTypes, setSelectedErrorTypes] = useState(null);
-  const [selectedLanguageLevels, setSelectedLanguageLevels] = useState(null);
+  const { t, i18n } = useTranslation();
 
-  const transformFilterEnums = (data) => {
-    let enums = {};
-    for (const [key, values] of Object.entries(data)) {
-      enums[key] = values.map((value) => {
-        return { type: value, label: value == null ? "määramata" : value };
-      });
-    }
-    console.log(enums);
+  function handleChange(event, setValue) {
+    const {
+      target: { value },
+    } = event;
+    setValue(typeof value === 'string' ? value.split(',') : value);
+  }
 
-    return enums;
+  const filterFilterOptions = (options, filter) => {
+    return Object.keys(options)
+      .filter((key) => filter.includes(key))
+      .reduce((newObj, key) => {
+        newObj[key] = options[key];
+        return newObj;
+      }, {});
   };
 
-  const getFilterEnums = async () => {
+  const sortFilterOptions = (options) => {
+    return Object.entries(options)
+      .sort(([keyA, valueA], [keyB, valueB]) => {
+        const collator = new Intl.Collator(i18n.language, {
+          sensitivity: 'base',
+        });
+        return collator.compare(t(valueA), t(valueB));
+      })
+      .reduce((acc, [key, value]) => {
+        acc[key] = value;
+        return acc;
+      }, {});
+  };
+
+  useEffect(() => {
+    setTextTypeOptions(sortFilterOptions(textTypeOptions));
+    setNativeLanguageOptions(sortFilterOptions(nativeLanguageOptions));
+    setCitizenshipOptions(sortFilterOptions(citizenshipOptions));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [i18n.language]);
+
+  const transformFilterOptions = (data) => {
+    let filteredTextTypeOptions = filterFilterOptions(
+      textTypesOptions.cFOoRQekA.query_text_data_type_L2_exercise,
+      data.textType
+    );
+    filteredTextTypeOptions = sortFilterOptions(filteredTextTypeOptions);
+    setTextTypeOptions(filteredTextTypeOptions);
+
+    let filteredLanguageOptions = filterFilterOptions(
+      languageOptions,
+      data.nativeLanguages
+    );
+    filteredLanguageOptions = sortFilterOptions(filteredLanguageOptions);
+    setNativeLanguageOptions(filteredLanguageOptions);
+
+    let filteredCitizenshipOptions = filterFilterOptions(
+      nationalityOptions,
+      data.citizenship
+    );
+    filteredCitizenshipOptions = sortFilterOptions(filteredCitizenshipOptions);
+    setCitizenshipOptions(filteredCitizenshipOptions);
+  };
+
+  const getFilterOptions = async () => {
     try {
       setIsLoading(true);
       const response = await fetch(
-        "http://localhost:9090/api/errors/getFilterEnums"
+        'http://localhost:9090/api/errors/getFilterEnums'
       );
       const data = await response.json();
-      const transformedData = transformFilterEnums(data);
-      setFilterEnums(transformedData);
+      transformFilterOptions(data);
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error);
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    getFilterEnums();
+    getFilterOptions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (filterEnums) {
-      //TODO
-    }
-  }, [filterEnums]);
-
   const mapFilterInput = (input) => {
-    return input.flatMap((item) => {
-      return item.checked
-        ? [item.type]
-        : item.childrenNodes
-            .filter((child) => child.checked)
-            .map((child) => child.type);
+    let mappedFilter = [];
+    input.forEach((item) => {
+      if (item.checked) {
+        if (item.childrenNodes.length > 0) {
+          mappedFilter.push(...item.childrenNodes);
+        } else {
+          mappedFilter.push(item);
+        }
+      } else {
+        if (item.childrenNodes.length > 0) {
+          item.childrenNodes.forEach((child) => {
+            if (child.checked) {
+              mappedFilter.push(child);
+            }
+          });
+        }
+      }
     });
+    return mappedFilter;
   };
 
   const handleIsExpanded = (key) => {
@@ -86,9 +159,28 @@ export default function FilterAccordion({ getErrors, setErrorData }) {
   };
 
   const handleSubmit = () => {
-    setErrorData(null);
-    const errorTypeFilter = mapFilterInput(selectedErrorTypes);
-    let languageLevelFilter = mapFilterInput(selectedLanguageLevels);
+    setData(null);
+    const errorTypeFilter = mapFilterInput(errorType);
+    // console.log(errorType, errorTypeFilter);
+    let languageLevelFilter = mapFilterInput(languageLevel);
+    // console.log(languageLevel, languageLevelFilter);
+    let optinalFilters = [];
+    if (nativeLanguage.length > 0) {
+      optinalFilters.push({ nativeLanguage: nativeLanguage });
+    }
+    if (citizenship.length > 0) {
+      optinalFilters.push({ citizenship: citizenship });
+    }
+    if (education.length > 0) {
+      optinalFilters.push({ education: education });
+    }
+    if (textType.length > 0) {
+      optinalFilters.push({ textType: textType });
+    }
+    if (age.length > 0) {
+      optinalFilters.push({ age: age });
+    }
+
     if (errorTypeFilter.length === 0) {
       setFilterError((filterError) => ({
         ...filterError,
@@ -103,14 +195,17 @@ export default function FilterAccordion({ getErrors, setErrorData }) {
       }));
     }
 
+    console.log(errorTypeFilter);
+
     if (errorTypeFilter.length > 0 && languageLevelFilter.length > 0) {
-      if (languageLevelFilter[0] === "all") {
-        languageLevelFilter = languageLevels[0].subtype.map(
-          (item) => item.type
-        );
+      // console.log(languageLevelFilter);
+      if (languageLevelFilter.length === 4) {
+        languageLevelFilter = [];
       }
-      getErrors(errorTypeFilter, languageLevelFilter);
-      handleIsExpanded("accordion");
+      // console.log(errorTypeFilter);
+
+      getData(errorTypeFilter, languageLevelFilter, optinalFilters);
+      handleIsExpanded('accordion');
     }
   };
 
@@ -123,7 +218,7 @@ export default function FilterAccordion({ getErrors, setErrorData }) {
       ) : (
         <Accordion
           expanded={isExpanded.accordion}
-          onChange={() => handleIsExpanded("accordion")}
+          onChange={() => handleIsExpanded('accordion')}
           className="error-filter"
         >
           <AccordionSummary
@@ -136,109 +231,133 @@ export default function FilterAccordion({ getErrors, setErrorData }) {
 
           <AccordionDetails>
             <Box className="filter-container">
-              <Box className="filter-item">
+              <Box className="filter-item-main">
                 <Typography
                   variant="h6"
-                  style={{ color: filterError.typeError ? "red" : "initial" }}
+                  style={{ color: filterError.typeError ? 'red' : 'initial' }}
                 >
                   Veatüüp *
                 </Typography>
                 <Paper
                   variant="outlined"
                   className={`checkbox-container ${
-                    filterError.typeError ? "checkbox-container-error" : ""
+                    filterError.typeError ? 'checkbox-container-error' : ''
                   }`}
                 >
-                  <Checkbox
-                    data={errorTypes}
-                    setSelectedItems={setSelectedErrorTypes}
+                  <ErrorCheckbox
+                    data={errorTypeOptions}
+                    setSelectedItems={setErrorType}
                     setFilterError={setFilterError}
                   />
                 </Paper>
               </Box>
-            </Box>
 
-            <Box className="filter-item">
-              <Typography variant="body1">
-                Filtreeri emakeele ja keeletaseme järgi
-              </Typography>
-
-              {isExpanded.optionalFilters ? (
-                <Link
-                  component="button"
-                  variant="body2"
-                  onClick={() => {
-                    handleIsExpanded("optionalFilters");
+              <Box className="filter-item-side">
+                <Typography
+                  variant="h6"
+                  style={{
+                    color: filterError.levelError ? 'red' : 'initial',
                   }}
                 >
-                  Sulge täpsem otsing
-                </Link>
-              ) : (
-                <Link
-                  component="button"
-                  variant="body2"
-                  onClick={() => {
-                    handleIsExpanded("optionalFilters");
-                  }}
+                  Keeletase *
+                </Typography>
+                <Paper
+                  variant="outlined"
+                  className={`checkbox-container ${
+                    filterError.levelError ? 'checkbox-container-error' : ''
+                  }`}
                 >
-                  Ava täpsem otsing
-                </Link>
-              )}
-              {isExpanded.optionalFilters && (
-                <Box className="filter-container">
-                  <Box className="filter-item">
-                    <Typography
-                      variant="h6"
-                      style={{
-                        color: filterError.levelError ? "red" : "initial",
-                      }}
-                    >
-                      Keeletase *
-                    </Typography>
-                    <Paper
-                      variant="outlined"
-                      className={`checkbox-container ${
-                        filterError.levelError ? "checkbox-container-error" : ""
-                      }`}
-                    >
-                      <Checkbox
-                        data={filterEnums.languageLevels}
-                        setSelectedItems={setSelectedLanguageLevels}
-                        setFilterError={setFilterError}
-                      />
-                    </Paper>
-                  </Box>
-                  <Box className="filter-item">
-                    <Typography
-                      variant="h6"
-                      style={{
-                        color: filterError.levelError ? "red" : "initial",
-                      }}
-                    >
-                      Emakeel *
-                    </Typography>
-                    <Paper
-                      variant="outlined"
-                      className={`checkbox-container ${
-                        filterError.levelError ? "checkbox-container-error" : ""
-                      }`}
-                    >
-                      <Checkbox
-                        data={filterEnums.nativeLanguages}
-                        setSelectedItems={setSelectedLanguageLevels}
-                        setFilterError={setFilterError}
-                      />
-                    </Paper>
-                  </Box>
-                </Box>
-              )}
+                  <ErrorCheckbox
+                    data={languageLevelOptions}
+                    setSelectedItems={setLanguageLevel}
+                    setFilterError={setFilterError}
+                  />
+                </Paper>
+
+                {isExpanded.optionalFilters ? (
+                  <Link
+                    sx={{ my: 4 }}
+                    component="button"
+                    variant="body2"
+                    onClick={() => {
+                      handleIsExpanded('optionalFilters');
+                    }}
+                  >
+                    Sulge täpsem valik
+                  </Link>
+                ) : (
+                  <Link
+                    sx={{ my: 4 }}
+                    component="button"
+                    variant="body2"
+                    onClick={() => {
+                      handleIsExpanded('optionalFilters');
+                    }}
+                  >
+                    Ava täpsem valik
+                  </Link>
+                )}
+
+                {isExpanded.optionalFilters && (
+                  <Fragment>
+                    <Typography variant="h6">Täpsem valik</Typography>
+
+                    <Multiselect
+                      selected={textType}
+                      setSelected={setTextType}
+                      handleChange={(event) => handleChange(event, setTextType)}
+                      options={textTypeOptions}
+                      label={t('error_analyser_text_type')}
+                      id="text-type"
+                    />
+                    <Multiselect
+                      selected={nativeLanguage}
+                      setSelected={setNativeLanguage}
+                      handleChange={(event) =>
+                        handleChange(event, setNativeLanguage)
+                      }
+                      options={nativeLanguageOptions}
+                      label={t('error_analyser_authors_native_language')}
+                      id="authors-native-language"
+                    />
+                    <Multiselect
+                      selected={education}
+                      setSelected={setEducation}
+                      handleChange={(event) =>
+                        handleChange(event, setEducation)
+                      }
+                      options={educationOptions}
+                      label={t('error_analyser_authors_education')}
+                      id="authors-education"
+                    />
+                    <Multiselect
+                      selected={citizenship}
+                      setSelected={setCitizenship}
+                      handleChange={(event) =>
+                        handleChange(event, setCitizenship)
+                      }
+                      options={citizenshipOptions}
+                      label={t('error_analyser_authors_citizenship')}
+                      id="authors-citizenship"
+                    />
+                    <Multiselect
+                      selected={age}
+                      setSelected={setAge}
+                      handleChange={(event) => handleChange(event, setAge)}
+                      options={ageOptions}
+                      label={t('error_analyser_authors_age')}
+                      id="autors-age"
+                    />
+                  </Fragment>
+                )}
+              </Box>
             </Box>
           </AccordionDetails>
 
           <AccordionActions>
             <Box>
               <Button variant="contained" onClick={handleSubmit}>
-                Esita päring
+                {t('send_request_button')}
               </Button>
             </Box>
           </AccordionActions>
