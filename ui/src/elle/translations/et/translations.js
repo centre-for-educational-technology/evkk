@@ -130,6 +130,17 @@ export const TRANSLATIONS_ET = {
   error_analyser_error_type_u_lex: 'liigne sõna',
   error_analyser_error_type_u_punct: 'liigne kirjavahemärk',
 
+  error_analyser_select_error_type_and_language_level:
+    'Vali vealiik ja keeletase',
+  error_analyser_error_type: 'Vealiik',
+  error_analyser_word_errors: 'Sõnavead',
+  error_analyser_punctuation: 'Kirjavahemärgivead',
+  error_analyser_language_level: 'Keeletase',
+  error_analyser_all_language_levels: 'Kõik keeletasemed',
+  error_analyser_open_more_options: 'Ava täpsem valik',
+  error_analyser_close_more_options: 'Sulge täpsem valik',
+  error_analyser_more_options: 'Täpsem valik',
+
   error_analyser_text_type: 'Teksti liik',
   error_analyser_authors_native_language: 'Autori emakeel',
   error_analyser_authors_education: 'Autori haridustase',

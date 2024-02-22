@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Box, CircularProgress, Typography } from '@mui/material';
-import FilterAccordion from './errorfilter/FilterAccordion';
+import FilterAccordion from './requestfilter/RequestFilter';
 import ErrorTable from './errortable/ErrorTable';
 import { useTranslation } from 'react-i18next';
 

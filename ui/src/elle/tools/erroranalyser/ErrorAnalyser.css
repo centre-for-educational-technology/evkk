@@ -51,18 +51,6 @@ div.optional-input {
   width: 300px;
   margin: 8px 16px 8px 0;
 }
-/* .age-slider-container {
-  width: 300px;
-  padding: 16.5px 14px;
-  border-width: thin;
-  border: 0.5px solid rgba(0, 0, 0, 0.12);
-  border-radius: 4px;
-  margin: 8px 16px 8px 0;
-} */
-
-/* .age-slider {
-  padding: 50px 50px;
-} */
 
 .spinner-container {
   display: flex;

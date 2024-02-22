@@ -13,17 +13,10 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './../ErrorAnalyser.css';
-import { errorTypeOptions, languageLevelOptions } from './CheckboxData';
+import { errorTypeOptions, languageLevelOptions } from './CheckboxOptions';
 import ErrorCheckbox from './Checkbox';
-import Multiselect from './Multiselect';
-import {
-  ageOptions,
-  educationOptions,
-  languageOptions,
-  nationalityOptions,
-  textTypesOptions,
-} from '../../../const/Constants';
 import { useTranslation } from 'react-i18next';
+import OptionalFilters from './OptionalFilters';
 
 export default function FilterAccordion({ getData, setData }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -34,10 +27,7 @@ export default function FilterAccordion({ getData, setData }) {
   const [education, setEducation] = useState([]);
   const [textType, setTextType] = useState([]);
   const [age, setAge] = useState([]);
-
-  const [textTypeOptions, setTextTypeOptions] = useState([]);
-  const [nativeLanguageOptions, setNativeLanguageOptions] = useState([]);
-  const [citizenshipOptions, setCitizenshipOptions] = useState([]);
+  const [filterOptions, setFilterOptions] = useState([]);
 
   const [filterError, setFilterError] = useState({
     typeError: false,
@@ -47,67 +37,7 @@ export default function FilterAccordion({ getData, setData }) {
     accordion: true,
     optionalFilters: false,
   });
-  const { t, i18n } = useTranslation();
-
-  function handleChange(event, setValue) {
-    const {
-      target: { value },
-    } = event;
-    setValue(typeof value === 'string' ? value.split(',') : value);
-  }
-
-  const filterFilterOptions = (options, filter) => {
-    return Object.keys(options)
-      .filter((key) => filter.includes(key))
-      .reduce((newObj, key) => {
-        newObj[key] = options[key];
-        return newObj;
-      }, {});
-  };
-
-  const sortFilterOptions = (options) => {
-    return Object.entries(options)
-      .sort(([keyA, valueA], [keyB, valueB]) => {
-        const collator = new Intl.Collator(i18n.language, {
-          sensitivity: 'base',
-        });
-        return collator.compare(t(valueA), t(valueB));
-      })
-      .reduce((acc, [key, value]) => {
-        acc[key] = value;
-        return acc;
-      }, {});
-  };
-
-  useEffect(() => {
-    setTextTypeOptions(sortFilterOptions(textTypeOptions));
-    setNativeLanguageOptions(sortFilterOptions(nativeLanguageOptions));
-    setCitizenshipOptions(sortFilterOptions(citizenshipOptions));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [i18n.language]);
-
-  const transformFilterOptions = (data) => {
-    let filteredTextTypeOptions = filterFilterOptions(
-      textTypesOptions.cFOoRQekA.query_text_data_type_L2_exercise,
-      data.textType
-    );
-    filteredTextTypeOptions = sortFilterOptions(filteredTextTypeOptions);
-    setTextTypeOptions(filteredTextTypeOptions);
-
-    let filteredLanguageOptions = filterFilterOptions(
-      languageOptions,
-      data.nativeLanguages
-    );
-    filteredLanguageOptions = sortFilterOptions(filteredLanguageOptions);
-    setNativeLanguageOptions(filteredLanguageOptions);
-
-    let filteredCitizenshipOptions = filterFilterOptions(
-      nationalityOptions,
-      data.citizenship
-    );
-    filteredCitizenshipOptions = sortFilterOptions(filteredCitizenshipOptions);
-    setCitizenshipOptions(filteredCitizenshipOptions);
-  };
+  const { t } = useTranslation();
 
   const getFilterOptions = async () => {
     try {
@@ -116,7 +46,7 @@ export default function FilterAccordion({ getData, setData }) {
         'http://localhost:9090/api/errors/getFilterEnums'
       );
       const data = await response.json();
-      transformFilterOptions(data);
+      setFilterOptions(data);
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -198,12 +128,9 @@ export default function FilterAccordion({ getData, setData }) {
     console.log(errorTypeFilter);
 
     if (errorTypeFilter.length > 0 && languageLevelFilter.length > 0) {
-      // console.log(languageLevelFilter);
       if (languageLevelFilter.length === 4) {
         languageLevelFilter = [];
       }
-      // console.log(errorTypeFilter);
-
       getData(errorTypeFilter, languageLevelFilter, optinalFilters);
       handleIsExpanded('accordion');
     }
@@ -218,7 +145,9 @@ export default function FilterAccordion({ getData, setData }) {
       ) : (
         <Accordion
           expanded={isExpanded.accordion}
-          onChange={() => handleIsExpanded('accordion')}
+          onChange={() => {
+            handleIsExpanded('optionalFilters');
+          }}
           className="error-filter"
         >
           <AccordionSummary
@@ -226,7 +155,8 @@ export default function FilterAccordion({ getData, setData }) {
             aria-controls="error-filter-content"
             id="error-filter-header"
           >
-            Vali veatüüp ja keeletase
+            {/* Vali veatüüp ja keeletase */}
+            {t('error_analyser_select_error_type_and_language_level')}
           </AccordionSummary>
 
           <AccordionDetails>
@@ -236,7 +166,7 @@ export default function FilterAccordion({ getData, setData }) {
                   variant="h6"
                   style={{ color: filterError.typeError ? 'red' : 'initial' }}
                 >
-                  Veatüüp *
+                  {t('error_analyser_error_type')} *
                 </Typography>
                 <Paper
                   variant="outlined"
@@ -259,7 +189,7 @@ export default function FilterAccordion({ getData, setData }) {
                     color: filterError.levelError ? 'red' : 'initial',
                   }}
                 >
-                  Keeletase *
+                  {t('error_analyser_language_level')} *
                 </Typography>
                 <Paper
                   variant="outlined"
@@ -283,7 +213,7 @@ export default function FilterAccordion({ getData, setData }) {
                       handleIsExpanded('optionalFilters');
                     }}
                   >
-                    Sulge täpsem valik
+                    {t('error_analyser_close_more_options')}
                   </Link>
                 ) : (
                   <Link
@@ -294,61 +224,26 @@ export default function FilterAccordion({ getData, setData }) {
                       handleIsExpanded('optionalFilters');
                     }}
                   >
-                    Ava täpsem valik
+                    {t('error_analyser_open_more_options')}
                   </Link>
                 )}
 
                 {isExpanded.optionalFilters && (
-                  <Fragment>
-                    <Typography variant="h6">Täpsem valik</Typography>
-
-                    <Multiselect
-                      selected={textType}
-                      setSelected={setTextType}
-                      handleChange={(event) => handleChange(event, setTextType)}
-                      options={textTypeOptions}
-                      label={t('error_analyser_text_type')}
-                      id="text-type"
-                    />
-                    <Multiselect
-                      selected={nativeLanguage}
-                      setSelected={setNativeLanguage}
-                      handleChange={(event) =>
-                        handleChange(event, setNativeLanguage)
-                      }
-                      options={nativeLanguageOptions}
-                      label={t('error_analyser_authors_native_language')}
-                      id="authors-native-language"
-                    />
-                    <Multiselect
-                      selected={education}
-                      setSelected={setEducation}
-                      handleChange={(event) =>
-                        handleChange(event, setEducation)
-                      }
-                      options={educationOptions}
-                      label={t('error_analyser_authors_education')}
-                      id="authors-education"
-                    />
-                    <Multiselect
-                      selected={citizenship}
-                      setSelected={setCitizenship}
-                      handleChange={(event) =>
-                        handleChange(event, setCitizenship)
-                      }
-                      options={citizenshipOptions}
-                      label={t('error_analyser_authors_citizenship')}
-                      id="authors-citizenship"
-                    />
-                    <Multiselect
-                      selected={age}
-                      setSelected={setAge}
-                      handleChange={(event) => handleChange(event, setAge)}
-                      options={ageOptions}
-                      label={t('error_analyser_authors_age')}
-                      id="autors-age"
-                    />
-                  </Fragment>
+                  <OptionalFilters
+                    filterOptions={filterOptions}
+                    languageLevel={languageLevel}
+                    setLanguageLevel={setLanguageLevel}
+                    nativeLanguage={nativeLanguage}
+                    setNativeLanguage={setNativeLanguage}
+                    citizenship={citizenship}
+                    setCitizenship={setCitizenship}
+                    education={education}
+                    setEducation={setEducation}
+                    textType={textType}
+                    setTextType={setTextType}
+                    age={age}
+                    setAge={setAge}
+                  />
                 )}
               </Box>
             </Box>
