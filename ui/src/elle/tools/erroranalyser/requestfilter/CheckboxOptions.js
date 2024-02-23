@@ -18,31 +18,31 @@ export const errorTypeOptions = [
     subtype: [
       {
         type: 'R:SPELL',
-        label: 'error_analyser_error_type_r_spell',
+        label: 'error_analyser_r_spell',
       },
       {
         type: 'R:CASE',
-        label: 'error_analyser_error_type_r_case',
+        label: 'error_analyser_r_case',
       },
       {
         type: 'R:NOM:FORM',
-        label: 'error_analyser_error_type_r_nom_form',
+        label: 'error_analyser_r_nom_form',
       },
       {
         type: 'R:VERB:FORM',
-        label: 'error_analyser_error_type_r_verb_form',
+        label: 'error_analyser_r_verb_form',
       },
       {
         type: 'R:LEX',
-        label: 'error_analyser_error_type_r_lex',
+        label: 'error_analyser_r_lex',
       },
       {
         type: 'M:LEX',
-        label: 'error_analyser_error_type_m_lex',
+        label: 'error_analyser_m_lex',
       },
       {
         type: 'U:LEX',
-        label: 'error_analyser_error_type_u_lex',
+        label: 'error_analyser_u_lex',
       },
     ],
   },
@@ -53,24 +53,24 @@ export const errorTypeOptions = [
     subtype: [
       {
         type: 'R:PUNCT',
-        label: 'error_analyser_error_type_r_punct',
+        label: 'error_analyser_r_punct',
       },
       {
         type: 'M:PUNCT',
-        label: 'error_analyser_error_type_m_punct',
+        label: 'error_analyser_m_punct',
       },
       {
         type: 'U:PUNCT',
-        label: 'error_analyser_error_type_u_punct',
+        label: 'error_analyser_u_punct',
       },
     ],
   },
   {
     type: 'R:WS',
-    label: 'error_analyser_error_type_r_ws',
+    label: 'error_analyser_r_ws',
   },
   {
     type: 'R:WO',
-    label: 'error_analyser_error_type_r_wo',
+    label: 'error_analyser_r_wo',
   },
 ];
