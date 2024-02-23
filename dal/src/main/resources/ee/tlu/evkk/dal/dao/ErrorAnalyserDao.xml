@@ -10,7 +10,7 @@
     <result property="languageLevel" column="language_level" />
     <result property="nativeLanguage" column="native_language" />
     <result property="textType" column="text_type" />
-    <!-- <result property="age" column="age" /> -->
+    <result property="age" column="age" />
     <result property="ageRange" column="age_range" />
     <result property="education" column="education" />
     <result property="citizenship" column="citizenship" />
@@ -32,6 +32,7 @@
            prop2.property_value as native_language,     
            prop3.property_value as text_type,
            prop4.property_value as age,
+           <!-- cast(prop4.property_value as int) as age, -->
            prop5.property_value as age_range,
            prop6.property_value as education,
            prop7.property_value as citizenship,
@@ -82,9 +83,21 @@
         </foreach>
       </if>
       <if test="ageRanges != null and ageRanges.size() > 0">
-        AND prop5.property_value in
-        <foreach item="ageRange" index="index" collection="ageRanges" open="(" separator="," close=")">
-          '${ageRange}'
+        AND 
+        <foreach item="ageRange" index="index" collection="ageRanges" open="(" separator="AND" close=")"> 
+          prop5.property_value = '${ageRange}' or
+          <if test= 'ageRange == "kuni18"'>
+           cast(prop4.property_value as int) <![CDATA[ <= ]]> 18
+          </if>
+           <if test="ageRange == 'kuni26'">
+            cast(prop4.property_value as int) between 19 and 26
+          </if>
+          <if test= 'ageRange == "kuni40"'>
+            cast(prop4.property_value as int) between 27 and 40
+          </if>
+          <if test= 'ageRange == "41plus"'>
+            cast(prop4.property_value as int) <![CDATA[ >= ]]> 41
+          </if>
         </foreach>
       </if>
       <if test="educationLevels != null and educationLevels.size() > 0">
