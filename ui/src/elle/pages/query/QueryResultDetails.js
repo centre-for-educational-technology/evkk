@@ -56,16 +56,13 @@ export default function QueryResultDetails({
       quotesPattern,
       (match, capturedGroup) => `"${capturedGroup.slice(1, -1)}"`
     );
-    // console.log(transformedSentence);
     return transformedSentence;
   };
 
   const TransformText = () => {
-    console.log(text);
     const transformedSentence = sentence ? transformSentence() : null;
     return text.split(/\\n/g).map(function (item) {
       let transformedItem = item.replace(/&quot;/g, '"').trim();
-      // &quot;
       return (
         <span
           key={getParagraphKey(item)}
