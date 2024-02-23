@@ -13,7 +13,11 @@ public interface ErrorAnalyserDao {
   List<ErrorAnalyserSentence> findErrors(
       @Param("errors") List<String> errors,
       @Param("levels") List<String> levels,
-      @Param("languages") List<String> languages);
+      @Param("nativeLanguages") List<String> nativeLanguages,
+      @Param("textTypes") List<String> textTypes,
+      @Param("educationLevels") List<String> educationLevels,
+      @Param("citizenshipList") List<String> citizenshipList,
+      @Param("ageRanges") List<String> ageRanges);
 
   List<String> findFilterOptions(@Param("name") String name);
 }

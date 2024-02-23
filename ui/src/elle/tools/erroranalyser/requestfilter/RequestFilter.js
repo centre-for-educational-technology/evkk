@@ -90,7 +90,7 @@ export default function FilterAccordion({ getData, setData }) {
 
   const handleSubmit = () => {
     setData(null);
-    const errorTypeFilter = mapFilterInput(errorType);
+    let errorTypeFilter = mapFilterInput(errorType);
     let languageLevelFilter = mapFilterInput(languageLevel);
     let optinalFilters = [];
     if (nativeLanguage.length > 0) {
@@ -123,9 +123,10 @@ export default function FilterAccordion({ getData, setData }) {
       }));
     }
 
-    console.log(errorTypeFilter);
-
     if (errorTypeFilter.length > 0 && languageLevelFilter.length > 0) {
+      if (errorTypeFilter.length === 12) {
+        errorTypeFilter = [];
+      }
       if (languageLevelFilter.length === 4) {
         languageLevelFilter = [];
       }

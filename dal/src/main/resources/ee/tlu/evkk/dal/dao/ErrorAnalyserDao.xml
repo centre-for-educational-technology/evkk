@@ -9,6 +9,11 @@
     <result property="textId" column="text_id"/>
     <result property="languageLevel" column="language_level" />
     <result property="nativeLanguage" column="native_language" />
+    <result property="textType" column="text_type" />
+    <!-- <result property="age" column="age" /> -->
+    <result property="ageRange" column="age_range" />
+    <result property="education" column="education" />
+    <result property="citizenship" column="citizenship" />
     <collection property="annotations" column="sentence_id" ofType="ee.tlu.evkk.dal.dto.ErrorAnalyserAnnotation" >
       <id property="annotationId" column="annotation_id" />
       <result property="annotatorId" column="annotator_id" />
@@ -24,7 +29,12 @@
            sen1.sentence,
            sen1.text_id,
            prop1.property_value as language_level,
-           prop2.property_value as native_language,
+           prop2.property_value as native_language,     
+           prop3.property_value as text_type,
+           prop4.property_value as age,
+           prop5.property_value as age_range,
+           prop6.property_value as education,
+           prop7.property_value as citizenship,
            seg2.id as annotation_id,
            seg2.annotator_id,
            seg2.scope_start,
@@ -36,37 +46,63 @@
       from core.text_error_analysis_segments seg1
       <where>
         <if test="errors != null and errors.size() > 0">
-        <foreach collection="errors" item="error" separator=" and ">
-            <choose>
-              <!-- <when test='error=="R" or error=="M" or error=="U"'>
-                seg1.error_type LIKE CONCAT(#{error}, '%')
-              </when> -->
-              <otherwise>
-                seg1.error_type LIKE CONCAT(#{error}, '%')
-              </otherwise>
-            </choose>
+        <foreach collection="errors" item="error" separator=" or ">
+            seg1.error_type LIKE CONCAT(#{error}, '%')
           </foreach>
         </if>
       </where>
       group by seg1.annotator_id, seg1.sentence_id
     ) t1
-    join core.text_error_analysis_segments seg2 on t1.sentence_id= seg2.sentence_id
+    join core.text_error_analysis_segments seg2 on t1.sentence_id= seg2.sentence_id and t1.annotator_id = seg2.annotator_id
     join core.text_error_analysis_sentences sen1 on seg2.sentence_id = sen1.id
-    left join core.text_property prop1 on sen1.text_id = prop1.text_id and prop1.property_name = 'keeletase' 
+   left join core.text_property prop1 on sen1.text_id = prop1.text_id and prop1.property_name = 'keeletase' 
     left join core.text_property prop2 on sen1.text_id = prop2.text_id and prop2.property_name = 'emakeel'
-    where t1.sentence_id = seg2.sentence_id and t1.annotator_id = seg2.annotator_id
-    <if test="levels != null and levels.size() > 0">
-      and prop1.property_value in
-      <foreach item="level" index="index" collection="levels" open="(" separator="," close=")">
-        '${level}'
-      </foreach>
-    </if>
-    <if test="languages != null and languages.size() > 0">
-      and prop2.property_value in
-      <foreach item="language" index="index" collection="languages" open="(" separator="," close=")">
-        '${language}'
-      </foreach>
-    </if>
+    left join core.text_property prop3 on sen1.text_id = prop3.text_id and prop3.property_name = 'tekstityyp'
+    left join core.text_property prop4 on sen1.text_id = prop4.text_id and prop4.property_name = 'vanus'
+    left join core.text_property prop5 on sen1.text_id = prop5.text_id and prop5.property_name = 'vanusevahemik'
+    left join core.text_property prop6 on sen1.text_id = prop6.text_id and prop6.property_name = 'haridus'
+    left join core.text_property prop7 on sen1.text_id = prop7.text_id and prop7.property_name = 'kodakondsus'
+    <where>
+      <if test="levels != null and levels.size() > 0">
+        prop1.property_value in
+        <foreach item="level" index="index" collection="levels" open="(" separator="," close=")">
+          '${level}'
+        </foreach>
+      </if>
+      <if test="nativeLanguages != null and nativeLanguages.size() > 0">
+        AND prop2.property_value in
+        <foreach item="nativeLanguage" index="index" collection="nativeLanguages" open="(" separator="," close=")">
+          '${nativeLanguage}'
+        </foreach>
+      </if>
+      <if test="textTypes != null and textTypes.size() > 0">
+        AND prop3.property_value in
+        <foreach item="textType" index="index" collection="textTypes" open="(" separator="," close=")">
+          '${textType}'
+        </foreach>
+      </if>
+      <if test="educationLevels != null and educationLevels.size() > 0">
+        AND prop6.property_value in
+        <foreach item="educationLevel" index="index" collection="educationLevels" open="(" separator="," close=")">
+          '${educationLevel}'
+        </foreach>
+      </if>
+      <if test="citizenshipList != null and citizenshipList.size() > 0">
+        AND prop7.property_value in
+        <foreach item="citizenship" index="index" collection="citizenshipList" open="(" separator="," close=")">
+          '${citizenship}'
+        </foreach>
+      </if>
+
+  <!-- ageRanges
+      <if test="languages != null and languages.size() > 0">
+        prop2.property_value in
+        <foreach item="language" index="index" collection="languages" open="(" separator="," close=")">
+          '${language}'
+        </foreach>
+      </if> -->
+    </where>
+
   </select>
 
   <select id="findFilterOptions" resultType="java.lang.String">
