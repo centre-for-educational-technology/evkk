@@ -29,7 +29,7 @@ public class ErrorAnalyserController {
       @RequestParam(name = "textType", required = false) List<String> textTypes,
       @RequestParam(name = "education", required = false) List<String> educationLevels,
       @RequestParam(name = "citizenship", required = false) List<String> citizenshipList,
-      @RequestParam(name = "age", required = false) List<String> ageRanges) {
+      @RequestParam(name = "ageRange", required = false) List<String> ageRanges) {
     List<ErrorAnalyserSentence> body = errorAnalyserDao.findErrors(errorTypes, languageLevels, nativeLanguages,
         textTypes,
         educationLevels, citizenshipList, ageRanges);

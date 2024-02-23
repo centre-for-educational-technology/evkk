@@ -81,6 +81,12 @@
           '${textType}'
         </foreach>
       </if>
+      <if test="ageRanges != null and ageRanges.size() > 0">
+        AND prop5.property_value in
+        <foreach item="ageRange" index="index" collection="ageRanges" open="(" separator="," close=")">
+          '${ageRange}'
+        </foreach>
+      </if>
       <if test="educationLevels != null and educationLevels.size() > 0">
         AND prop6.property_value in
         <foreach item="educationLevel" index="index" collection="educationLevels" open="(" separator="," close=")">
@@ -93,14 +99,7 @@
           '${citizenship}'
         </foreach>
       </if>
-
-  <!-- ageRanges
-      <if test="languages != null and languages.size() > 0">
-        prop2.property_value in
-        <foreach item="language" index="index" collection="languages" open="(" separator="," close=")">
-          '${language}'
-        </foreach>
-      </if> -->
+      
     </where>
 
   </select>

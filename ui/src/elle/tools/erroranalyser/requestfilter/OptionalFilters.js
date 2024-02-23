@@ -21,8 +21,8 @@ export default function OptionalFilters({
   setEducation,
   textType,
   setTextType,
-  age,
-  setAge,
+  ageRange,
+  setAgeRange,
 }) {
   const [textTypeOptions, setTextTypeOptions] = useState([]);
   const [nativeLanguageOptions, setNativeLanguageOptions] = useState([]);
@@ -130,9 +130,9 @@ export default function OptionalFilters({
         id="authors-citizenship"
       />
       <Multiselect
-        selected={age}
-        setSelected={setAge}
-        handleChange={(event) => handleChange(event, setAge)}
+        selected={ageRange}
+        setSelected={setAgeRange}
+        handleChange={(event) => handleChange(event, setAgeRange)}
         options={ageOptions}
         label={t('error_analyser_authors_age')}
         id="autors-age"

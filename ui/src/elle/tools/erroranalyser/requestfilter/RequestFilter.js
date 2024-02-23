@@ -26,7 +26,7 @@ export default function FilterAccordion({ getData, setData }) {
   const [citizenship, setCitizenship] = useState([]);
   const [education, setEducation] = useState([]);
   const [textType, setTextType] = useState([]);
-  const [age, setAge] = useState([]);
+  const [ageRange, setAgeRange] = useState([]);
   const [filterOptions, setFilterOptions] = useState([]);
 
   const [filterError, setFilterError] = useState({
@@ -105,8 +105,8 @@ export default function FilterAccordion({ getData, setData }) {
     if (textType.length > 0) {
       optinalFilters.push({ textType: textType });
     }
-    if (age.length > 0) {
-      optinalFilters.push({ age: age });
+    if (ageRange.length > 0) {
+      optinalFilters.push({ ageRange: ageRange });
     }
 
     if (errorTypeFilter.length === 0) {
@@ -239,8 +239,8 @@ export default function FilterAccordion({ getData, setData }) {
                     setEducation={setEducation}
                     textType={textType}
                     setTextType={setTextType}
-                    age={age}
-                    setAge={setAge}
+                    ageRange={ageRange}
+                    setAgeRange={setAgeRange}
                   />
                 )}
               </Box>
