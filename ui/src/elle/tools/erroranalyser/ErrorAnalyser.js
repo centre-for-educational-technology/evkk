@@ -38,16 +38,16 @@ export default function ErrorAnalyser() {
 
     console.log(query);
 
-    // try {
-    //   setIsLoading(true);
-    //   const response = await fetch(query);
-    //   const data = await response.json();
-    //   setData(data);
-    // } catch (error) {
-    //   console.error('Error:', error);
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    try {
+      setIsLoading(true);
+      const response = await fetch(query);
+      const data = await response.json();
+      setData(data);
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // useEffect(() => {

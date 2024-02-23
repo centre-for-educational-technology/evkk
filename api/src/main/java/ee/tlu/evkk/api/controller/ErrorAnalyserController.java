@@ -25,8 +25,13 @@ public class ErrorAnalyserController {
   public ResponseEntity<List<ErrorAnalyserSentence>> getErrors(
       @RequestParam(name = "error", required = false) List<String> errors,
       @RequestParam(name = "level", required = false) List<String> levels,
-      @RequestParam(name = "language", required = false) List<String> languages) {
-    List<ErrorAnalyserSentence> body = errorAnalyserDao.findErrors(errors, levels, languages);
+      @RequestParam(name = "nativeLanguage", required = false) List<String> nativeLanguages,
+      @RequestParam(name = "textType", required = false) List<String> textTypes,
+      @RequestParam(name = "education", required = false) List<String> educationLevels,
+      @RequestParam(name = "citizenship", required = false) List<String> citizenshipList,
+      @RequestParam(name = "age", required = false) List<String> ageRanges) {
+    List<ErrorAnalyserSentence> body = errorAnalyserDao.findErrors(errors, levels, nativeLanguages, textTypes,
+        educationLevels, citizenshipList, ageRanges);
     return ResponseEntity.ok(body);
   }
 
