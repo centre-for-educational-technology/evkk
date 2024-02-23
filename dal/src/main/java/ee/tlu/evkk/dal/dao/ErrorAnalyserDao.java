@@ -11,8 +11,8 @@ import java.util.List;
 @Repository
 public interface ErrorAnalyserDao {
   List<ErrorAnalyserSentence> findErrors(
-      @Param("errors") List<String> errors,
-      @Param("levels") List<String> levels,
+      @Param("errorTypes") List<String> errors,
+      @Param("languageLevels") List<String> levels,
       @Param("nativeLanguages") List<String> nativeLanguages,
       @Param("textTypes") List<String> textTypes,
       @Param("educationLevels") List<String> educationLevels,

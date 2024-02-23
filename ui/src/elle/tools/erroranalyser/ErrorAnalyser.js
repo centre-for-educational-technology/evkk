@@ -17,11 +17,11 @@ export default function ErrorAnalyser() {
     let query = 'http://localhost:9090/api/errors/getErrors?';
 
     errorTypeFilter.forEach((element) => {
-      query += 'error=' + element.type + '&';
+      query += 'errorType=' + element.type + '&';
     });
 
     languageLevelFilter.forEach((element) => {
-      query += 'level=' + element.type + '&';
+      query += 'languageLevel=' + element.type + '&';
     });
 
     optionalFilters.forEach((element) => {

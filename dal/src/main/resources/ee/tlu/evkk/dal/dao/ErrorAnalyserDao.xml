@@ -45,9 +45,9 @@
       select seg1.annotator_id, seg1.sentence_id
       from core.text_error_analysis_segments seg1
       <where>
-        <if test="errors != null and errors.size() > 0">
-        <foreach collection="errors" item="error" separator=" or ">
-            seg1.error_type LIKE CONCAT(#{error}, '%')
+        <if test="errorTypes != null and errorTypes.size() > 0">
+        <foreach collection="errorTypes" item="errorType" separator=" or ">
+            seg1.error_type LIKE CONCAT(#{errorType}, '%')
           </foreach>
         </if>
       </where>
@@ -63,10 +63,10 @@
     left join core.text_property prop6 on sen1.text_id = prop6.text_id and prop6.property_name = 'haridus'
     left join core.text_property prop7 on sen1.text_id = prop7.text_id and prop7.property_name = 'kodakondsus'
     <where>
-      <if test="levels != null and levels.size() > 0">
+      <if test="languageLevels != null and languageLevels.size() > 0">
         prop1.property_value in
-        <foreach item="level" index="index" collection="levels" open="(" separator="," close=")">
-          '${level}'
+        <foreach item="languageLevel" index="index" collection="languageLevels" open="(" separator="," close=")">
+          '${languageLevel}'
         </foreach>
       </if>
       <if test="nativeLanguages != null and nativeLanguages.size() > 0">
