@@ -21,8 +21,6 @@ export default function useQueryResultDetails(id) {
   const [sentence, setSentence] = useState('');
 
   const previewText = async (id, localSentence) => {
-    console.log(id, localSentence);
-
     await loadFetch('/api/texts/kysitekstimetainfo?id=' + id, {
       method: 'GET',
       headers: {
@@ -31,7 +29,6 @@ export default function useQueryResultDetails(id) {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
         let tempMetaData = metadata;
         result.forEach((param) => {
           tempMetaData = {
