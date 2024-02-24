@@ -14,6 +14,27 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
     return transformedSentence;
   }
 
+  const getCategory = (errorType) => {
+    if (
+      errorType === 'R:SPELL' ||
+      errorType === 'R:CASE' ||
+      errorType === 'R:NOM:FORM' ||
+      errorType === 'R:VERB:FORM' ||
+      errorType.includes('LEX')
+    ) {
+      return 'word-error';
+    }
+    if (errorType.includes('PUNCT')) {
+      return 'puntuation';
+    }
+    if (errorType === 'R:WS') {
+      return 'word-separation';
+    }
+    if (errorType === 'R:WO') {
+      return 'word-order';
+    }
+  };
+
   const transformAnnotation = (annotation) => {
     const key = [
       annotation.scopeStart,
@@ -26,6 +47,7 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
       annotatorId: parseInt(annotation.annotatorId),
       scopeStart: parseInt(annotation.scopeStart),
       scopeEnd: parseInt(annotation.scopeEnd),
+      category: getCategory(annotation.errorType),
     };
     return { key, value };
   };

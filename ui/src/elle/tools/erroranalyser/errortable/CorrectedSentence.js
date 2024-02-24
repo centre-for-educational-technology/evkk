@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import {
   Box,
   List,
@@ -11,6 +11,7 @@ import './../ErrorAnalyser.css';
 import { useTranslation } from 'react-i18next';
 
 export default function CorrectedSentence({ annotations, sentence }) {
+  const [sortedSentence, setSortedSentence] = useState();
   const { t } = useTranslation();
   const applyAnnotations = (annotations, sentence) => {
     // console.log(annotations);
@@ -80,86 +81,89 @@ export default function CorrectedSentence({ annotations, sentence }) {
   };
 
   const transformErrorType = (errorType) => {
-    return (
+    return t(
       'error_analyser_error_type_' + errorType.toLowerCase().replace(/:/g, '_')
     );
   };
 
-  const modifiedSentence = applyAnnotations(annotations, sentence);
-  const sortedSentence = sortSentence(modifiedSentence);
+  useEffect(() => {
+    const modifiedSentence = applyAnnotations(annotations, sentence);
+    setSortedSentence(sortSentence(modifiedSentence));
+  }, [annotations, sentence]);
 
   return (
     <Box className="corrected-sentence">
-      {sortedSentence.map((value, index) => {
-        if (value.status !== 'deleted' && value.status !== 'replaced-deleted') {
-          if (value.status === 'initial') {
-            <Fragment key={index}>
-              <span className={value.status}>{value.content}</span>{' '}
-            </Fragment>;
-          }
-          return (
-            <Fragment key={index}>
-              {value.status === 'initial' ? (
-                <Fragment key={index}>
-                  <span>{value.content}</span>{' '}
-                </Fragment>
-              ) : (
-                <>
-                  <Tooltip
-                    arrow
-                    placement="top"
-                    componentsProps={{
-                      tooltip: {
-                        sx: {
-                          backgroundColor: '#f5f5f9',
-                          color: 'rgba(0, 0, 0, 0.87)',
-                          fontSize: 11,
-                          border: '1px solid #dadde9',
-                          '& .MuiTooltip-arrow': {
-                            color: '#dadde9',
+      {sortedSentence &&
+        sortedSentence.map((item, index) => {
+          if (item.status !== 'deleted' && item.status !== 'replaced-deleted') {
+            if (item.status === 'initial') {
+              <Fragment key={index}>
+                <span className={item.status}>{item.content}</span>{' '}
+              </Fragment>;
+            }
+            return (
+              <Fragment key={index}>
+                {item.status === 'initial' ? (
+                  <Fragment key={index}>
+                    <span>{item.content}</span>{' '}
+                  </Fragment>
+                ) : (
+                  <>
+                    <Tooltip
+                      arrow
+                      placement="top"
+                      componentsProps={{
+                        tooltip: {
+                          sx: {
+                            backgroundColor: '#f5f5f9',
+                            color: 'rgba(0, 0, 0, 0.87)',
+                            fontSize: 11,
+                            border: '1px solid #dadde9',
+                            '& .MuiTooltip-arrow': {
+                              color: '#dadde9',
+                            },
                           },
                         },
-                      },
-                    }}
-                    title={
-                      <Fragment>
-                        <Typography>
-                          {t(transformErrorType(value.errorType))}
-                        </Typography>
-                        {value.nested && (
-                          <List dense>
-                            {value.nested.map((annotation, index) => {
-                              return (
-                                <ListItem
-                                  key={index}
-                                  component="div"
-                                  disablePadding
-                                >
-                                  <ListItemText
-                                    primary={t(
-                                      transformErrorType(annotation.errorType)
-                                    )}
-                                    secondary={annotation.content}
-                                  />
-                                </ListItem>
-                              );
-                            })}
-                          </List>
-                        )}
-                      </Fragment>
-                    }
-                  >
-                    <span className={`${value.status} annotated`}>
-                      {value.content}
-                    </span>
-                  </Tooltip>{' '}
-                </>
-              )}
-            </Fragment>
-          );
-        }
-        return null;
-      })}
+                      }}
+                      title={
+                        <Fragment>
+                          <Typography>
+                            {transformErrorType(item.errorType)}
+                          </Typography>
+                          {item.nested && (
+                            <List dense>
+                              {item.nested.map((annotation, index) => {
+                                return (
+                                  <ListItem
+                                    key={index}
+                                    component="div"
+                                    disablePadding
+                                  >
+                                    <ListItemText
+                                      primary={t(
+                                        transformErrorType(annotation.errorType)
+                                      )}
+                                      secondary={annotation.content}
+                                    />
+                                  </ListItem>
+                                );
+                              })}
+                            </List>
+                          )}
+                        </Fragment>
+                      }
+                    >
+                      <span className={`${item.category} annotated`}>
+                        {item.content}
+                      </span>
+                    </Tooltip>{' '}
+                  </>
+                )}
+              </Fragment>
+            );
+          }
+          return null;
+        })}
     </Box>
   );
 }

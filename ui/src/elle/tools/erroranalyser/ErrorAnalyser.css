@@ -79,25 +79,25 @@ div.optional-filter {
   padding-bottom: initial;
 }
 
-.corrected-sentence .added {
+/* .corrected-sentence .added {
   background-color: #ffb1d0;
-}
+} */
 
-.corrected-sentence .deleted {
+/* .corrected-sentence .deleted {
   text-decoration: line-through;
   font-weight: bold;
   font-size: smaller;
-}
+} */
 
-.corrected-sentence .replaced-added {
+/* .corrected-sentence .replaced-added {
   background-color: #e9daff;
-}
+} */
 
-.corrected-sentence .replaced-deleted {
+/* .corrected-sentence .replaced-deleted {
   text-decoration: line-through;
   color: gray;
   font-size: smaller;
-}
+} */
 
 .clickable {
   cursor: pointer;
@@ -113,4 +113,20 @@ div.optional-filter {
 .annotated:hover {
   text-decoration: underline;
   cursor: default;
+}
+
+.corrected-sentence .word-error {
+  text-decoration: underline solid red;
+}
+
+.corrected-sentence .puntuation {
+  /* text-decoration: underline double red; */
+  background-color: #ffb1d0;
+}
+
+.corrected-sentence .word-separation {
+  text-decoration: underline dotted red;
+}
+.corrected-sentence .word-order {
+  background-color: #e9daff;
 }
