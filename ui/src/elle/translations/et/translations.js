@@ -226,6 +226,7 @@ export const TRANSLATIONS_ET = {
   query_common_language_de: 'saksa',
   query_common_language_en: 'inglise',
   query_common_language_et: 'eesti',
+  query_common_language_et_ru: 'eesti, vene',
   query_common_language_fi: 'soome',
   query_common_language_fr: 'prantsuse',
   query_common_language_hu: 'ungari',

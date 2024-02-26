@@ -226,6 +226,7 @@ export const TRANSLATIONS_EN = {
   query_common_language_de: 'German',
   query_common_language_en: 'English',
   query_common_language_et: 'Estonian',
+  query_common_language_et_ru: 'Estonian, Russian',
   query_common_language_fi: 'Finnish',
   query_common_language_fr: 'French',
   query_common_language_hu: 'Hungarian',

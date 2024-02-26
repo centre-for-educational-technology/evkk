@@ -561,6 +561,7 @@ export const nationalityOptions = {
 export const languageOptionsForNativeLangs = {
   'eesti': 'query_common_language_et',
   'vene': 'query_common_language_ru',
+  'eesti, vene': 'query_common_language_et_ru',
   'soome': 'query_common_language_fi',
   'saksa': 'query_common_language_de',
   'ukraina': 'query_common_language_ua',
