@@ -9,7 +9,8 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import WordClick from './WordClick';
 import TextUpload from '../../components/TextUpload';
 import { loadFetch } from '../../service/LoadFetch';
-import { CorrectorCustomSlider } from '../../const/Constants';
+import { CorrectorCustomSlider, EVKK_GITHUB_DEMOS_PATH } from '../../const/Constants';
+import NewTabHyperlink from '../../components/NewTabHyperlink';
 
 const Correction = () => {
   const [history, setHistory] = useState(['']);
@@ -467,10 +468,9 @@ const Correction = () => {
               <Alert severity="info">Rakenduse abil saad parandada oma teksti õigekirja ja
                 vaadata,
                 mis keeleoskustasemele see vastab (A2–C1).
-                Loe lähemalt <a
-                  href={'https://github.com/centre-for-educational-technology/evkk/wiki/Demos'}
-                  target="_blank"
-                  rel="noreferrer">siit</a>.</Alert>
+                Loe lähemalt <NewTabHyperlink path={EVKK_GITHUB_DEMOS_PATH}
+                                              content="siit" />.
+              </Alert>
             </Box>
           </div>}
           <TabPanel value="correction">
