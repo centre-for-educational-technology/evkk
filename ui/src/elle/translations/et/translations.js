@@ -26,6 +26,7 @@ export const TRANSLATIONS_ET = {
   common_header_percentage: 'Osakaal',
   common_lemma: 'Algvorm',
   common_lemmas: 'Algvormid',
+  common_license_cc_by_4_0: 'CC BY 4.0',
   common_links: 'Lingikogu',
   common_neighbouring_words: 'Naabersõnad',
   common_other: 'Muu',
@@ -238,6 +239,7 @@ export const TRANSLATIONS_ET = {
   query_common_language_ua: 'ukraina',
   query_download_basictext: 'Lihttekst',
   query_download_form: 'Vorming',
+  query_download_license: 'Litsents:',
   query_download_stanza: 'Süntaktiline märgendus – CoNLL-U',
   query_download_tei: 'TEI-märgendus',
   query_download_txt: 'Ühe failina',
@@ -428,7 +430,7 @@ export const TRANSLATIONS_ET = {
   wordlist_stopwords_from_the_default_list: 'vaikimisi loendist',
   wordlist_stopwords_textbox: 'Kirjuta siia oma stoppsõnad (nt koer, kodu)',
   wordlist_stopwords_textbox_hover_1: 'Eesti keele stoppsõnade loendi on koostanud Kristel Uiboaed. See sisaldab sidesõnu, asesõnu, sisutühje tegusõnu ja määrsõnu. Nimekiri on kättesaadav Tartu Ülikooli andmerepositooriumis (vaata ',
-  wordlist_stopwords_textbox_hover_2: 'siit).',
+  wordlist_stopwords_textbox_hover_2: 'siit',
   wordlist_stopwords_textbox_hover_3: ').',
   wordlist_word_column: 'Sõnavorm'
 };
