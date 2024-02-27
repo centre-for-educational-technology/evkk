@@ -111,7 +111,7 @@ div.optional-filter {
 }
 
 .annotated:hover {
-  text-decoration: underline;
+  /* text-decoration: underline; */
   cursor: default;
 }
 

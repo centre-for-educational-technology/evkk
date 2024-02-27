@@ -59,10 +59,13 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
       annotations.forEach((annotation) => {
         if (annotation.scopeEnd - annotation.scopeStart > 1) {
           // console.log(annotation);
-          annotation.nested = [];
+          // annotation.nested = [];
           for (let i = annotation.scopeStart; i < annotation.scopeEnd; i++) {
             const key = [i, i + 1, annotation.annotatorId].join('::');
             if (annotations.has(key)) {
+              if (!annotation.nested) {
+                annotation.nested = [];
+              }
               annotation.nested.push(annotations.get(key));
               // console.log('tere');
               annotations.delete(key);

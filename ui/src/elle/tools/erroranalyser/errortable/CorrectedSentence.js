@@ -8,11 +8,10 @@ import {
   Typography,
 } from '@mui/material';
 import './../ErrorAnalyser.css';
-import { useTranslation } from 'react-i18next';
+import AnnotatedWord from './AnnotatedWord';
 
 export default function CorrectedSentence({ annotations, sentence }) {
   const [sortedSentence, setSortedSentence] = useState();
-  const { t } = useTranslation();
   const applyAnnotations = (annotations, sentence) => {
     // console.log(annotations);
     // console.log(sentence);
@@ -53,7 +52,11 @@ export default function CorrectedSentence({ annotations, sentence }) {
               modifiedSentence.set(replacedItemKey, replacedDeletedItem);
             }
           }
-          const replacedAddedItem = { ...annotation, status: 'replaced-added' };
+          const replacedAddedItem = {
+            ...annotation,
+            status: 'replaced-added',
+            // originalContent: sourceReplacedItem.content,
+          };
           modifiedSentence.set(key, replacedAddedItem);
       }
     });
@@ -80,12 +83,6 @@ export default function CorrectedSentence({ annotations, sentence }) {
     return sortedSentences;
   };
 
-  const transformErrorType = (errorType) => {
-    return t(
-      'error_analyser_error_type_' + errorType.toLowerCase().replace(/:/g, '_')
-    );
-  };
-
   useEffect(() => {
     const modifiedSentence = applyAnnotations(annotations, sentence);
     setSortedSentence(sortSentence(modifiedSentence));
@@ -97,72 +94,64 @@ export default function CorrectedSentence({ annotations, sentence }) {
         sortedSentence.map((item, index) => {
           if (item.status !== 'deleted' && item.status !== 'replaced-deleted') {
             if (item.status === 'initial') {
-              <Fragment key={index}>
-                <span className={item.status}>{item.content}</span>{' '}
-              </Fragment>;
+              return (
+                <Fragment key={index}>
+                  <span>{item.content}</span>{' '}
+                </Fragment>
+              );
+            } else if (!item.nested) {
+              return <AnnotatedWord key={index} item={item} />;
+            } else {
+              const content = [];
+              const splitContent = item.content.split(' ');
+              console.log(splitContent, item.nested);
+              splitContent.forEach((contentItem) => {
+                let tempItem;
+                item.nested.forEach((nestedItem, nestedItemIndex) => {
+                  if (nestedItem.content === contentItem.toLowerCase()) {
+                    tempItem = (
+                      <AnnotatedWord
+                        item={nestedItem}
+                        addSucceedingSpace={false}
+                        parent={item}
+                      />
+                    );
+                  }
+                });
+
+                const constructedItem = {
+                  content: contentItem,
+                  errorType: 'R:WO',
+                };
+
+                tempItem
+                  ? content.push(tempItem)
+                  : content.push(
+                      <AnnotatedWord
+                        item={constructedItem}
+                        addSucceedingSpace={false}
+                        parent={item}
+                      />
+                    );
+              });
+              console.log(splitContent, content);
+
+              return (
+                <Fragment key={index}>
+                  <span className={item.category}>
+                    {content.map((contentItem, contentIndex) => (
+                      <Fragment key={contentIndex}>
+                        {contentItem}
+                        {contentIndex != content.length - 1 && <span> </span>}
+                      </Fragment>
+                    ))}
+                  </span>{' '}
+                </Fragment>
+              );
             }
-            return (
-              <Fragment key={index}>
-                {item.status === 'initial' ? (
-                  <Fragment key={index}>
-                    <span>{item.content}</span>{' '}
-                  </Fragment>
-                ) : (
-                  <>
-                    <Tooltip
-                      arrow
-                      placement="top"
-                      componentsProps={{
-                        tooltip: {
-                          sx: {
-                            backgroundColor: '#f5f5f9',
-                            color: 'rgba(0, 0, 0, 0.87)',
-                            fontSize: 11,
-                            border: '1px solid #dadde9',
-                            '& .MuiTooltip-arrow': {
-                              color: '#dadde9',
-                            },
-                          },
-                        },
-                      }}
-                      title={
-                        <Fragment>
-                          <Typography>
-                            {transformErrorType(item.errorType)}
-                          </Typography>
-                          {item.nested && (
-                            <List dense>
-                              {item.nested.map((annotation, index) => {
-                                return (
-                                  <ListItem
-                                    key={index}
-                                    component="div"
-                                    disablePadding
-                                  >
-                                    <ListItemText
-                                      primary={t(
-                                        transformErrorType(annotation.errorType)
-                                      )}
-                                      secondary={annotation.content}
-                                    />
-                                  </ListItem>
-                                );
-                              })}
-                            </List>
-                          )}
-                        </Fragment>
-                      }
-                    >
-                      <span className={`${item.category} annotated`}>
-                        {item.content}
-                      </span>
-                    </Tooltip>{' '}
-                  </>
-                )}
-              </Fragment>
-            );
+          } else {
+            return null;
           }
-          return null;
         })}
     </Box>
   );
