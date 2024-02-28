@@ -3931,3 +3931,101 @@ INSERT INTO core.text_property(text_id, property_name, property_value)
 VALUES ('aa229963-da5b-4ce0-b627-b4ca0907ace2', 'riik', 'Eesti');
 INSERT INTO core.text_property(text_id, property_name, property_value)
 VALUES ('aa229963-da5b-4ce0-b627-b4ca0907ace2', 'oppeaste', 'bakalaureuseope');
+
+
+
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a6ae2bf2-2013-4db2-b107-4883894d754c', 'akad_oppematerjal', 'ei');
+
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6eedbeff-d16c-4272-aec1-d9ee8b21d188', 'akad_oppematerjal', 'ei');
+
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('94b6c1c4-16e0-4758-9fe5-f8b3771b49f7', 'akad_oppematerjal', 'ei');
+
+
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('8420cf04-b340-415c-bf09-90e9ede441b1', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bbea16b2-d308-471d-aa97-8f842cc14e19', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bbea16b2-d308-471d-aa97-8f842cc14e19', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bbea16b2-d308-471d-aa97-8f842cc14e19', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('616fb3c3-b97a-454f-b35c-73fe2c99879e', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('f607dc22-4336-4315-9319-6c511cf8a066', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('ba6ebdcf-08cf-4083-ac7e-2eb72e73b160', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('1f23d992-45b3-4ceb-b966-a4cb49175df7', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7cadf72b-ab41-48cf-a731-8b58fc42b8a9', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('2ae3032e-1a29-41c2-bf52-a9ca92848e9a', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('a2c855ea-2c77-452e-b596-1aea837de7ef', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('d14455dd-b489-4746-889f-e2672f312c99', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('211fcf8b-9447-43da-b8dc-afeb8a26029d', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b226639c-e5c2-4b24-9637-a772e9bc9266', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('21820cbc-06ea-4a33-b7e2-f6356179e73c', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('dba36905-ec84-4c65-89c7-9637cad3f96a', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('2e73a12a-3597-4d37-bd0b-f0267581d467', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('42e345de-2c82-4134-bd53-c31b133a5198', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bd56be7f-75da-4aec-947f-8afdf55bb834', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('52d394fa-b9e7-48bd-ad73-6a181cb0b90b', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('cfa37fe5-750b-42c3-8a23-75acdbd0bb1f', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('56b5607d-2d5c-4bb3-8498-c59b8d74260f', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('b52350b8-0558-4a7c-b4dd-b8856ea72ed2', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('9f99cc33-8776-408c-a2fd-2dad0f31c767', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('22d91e57-9584-4b2c-90b6-bcbf52fb07b8', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('9d6c9e07-8b2c-465e-b537-bcbb2b3818e5', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('9e8d0d32-9725-462d-be2a-d6508df4094b', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bb794a34-63ca-4b09-8ac9-85c4bf95b483', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('de6d86ca-99a5-4514-895f-a5e22b8e9f85', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('e0afcf33-661d-46ed-90bc-888dad90186b', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7f28c8b5-6635-4218-a035-fa84e92a3c15', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('8f95eba7-ff55-4646-9886-e8df35e9b4b7', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('71fbdd31-d032-40c9-80f7-6742b4674f2a', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('7dadfe72-b412-4a33-9a2e-9e2f8e21664d', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('683562fa-5b4f-45d6-897d-989e68a47597', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('f8efdcd2-617b-483d-b7e5-4f25ad7b6a4d', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('2c68c814-eed3-4ca3-b006-184571b9b1d6', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('6a72c100-7cf7-421e-8439-2a66ba7896e4', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('758454ec-f2df-4324-8677-314fe951e74a', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('0492dbfd-b9b3-4b2e-b6fa-56f2cb3b96fd', 'akad_oppematerjal', 'muu');
+INSERT INTO core.text_property(text_id, property_name, property_value)
+VALUES ('bb571757-8935-4876-9b06-a30dcb618fe5', 'akad_oppematerjal', 'muu');
+
+
+
