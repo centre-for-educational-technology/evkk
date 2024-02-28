@@ -1,10 +1,9 @@
-import { List, ListItemText, Tooltip, Typography } from '@mui/material';
+import { List, ListItemText, Tooltip } from '@mui/material';
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export default function AnnotatedWord({
   item,
-  // transformErrorType,
   parent,
   addSucceedingSpace = true,
 }) {
@@ -36,14 +35,34 @@ export default function AnnotatedWord({
         title={
           <Fragment>
             <List dense>
-              <ListItemText
-                primary={transformErrorType(item.errorType)}
-                // secondary={parent.content}
-              />
+              {(() => {
+                if (!parent || (parent && item.errorType !== 'R:WO')) {
+                  return (
+                    <ListItemText
+                      primary={transformErrorType(item.errorType)}
+                      secondary={
+                        item.sourceContent
+                          ? `${item.sourceContent} → ${item.content}`
+                          : `(${t('error_analyser_missing_word')}) → ${
+                              item.content
+                            }`
+                      }
+                    />
+                  );
+                }
+                // return null;
+              })()}
+
               {parent && (
                 <ListItemText
                   primary={transformErrorType(parent.errorType)}
-                  secondary={parent.content}
+                  secondary={
+                    parent.sourceContent
+                      ? `${parent.sourceContent} → ${parent.content}`
+                      : `(${t('error_analyser_missing_word')}) → ${
+                          item.content
+                        }`
+                  }
                 />
               )}
             </List>

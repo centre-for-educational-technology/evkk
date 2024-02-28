@@ -1,25 +1,31 @@
+import { useCallback, useEffect, useState } from 'react';
 import CorrectedSentence from './CorrectedSentence';
 
 export default function CorrectedSentenceCell({ sentence, annotations }) {
+  const [transformedSentence, setTransformedSentence] = useState();
+  const [groupedAnnotations, setGroupedAnnotations] = useState();
+
   function transformSentence(sentence) {
-    const transformedSentence = new Map();
+    const tempSentence = new Map();
     sentence.split(' ').forEach((element, index) => {
       const key = [index, index + 1, -1].join('::');
       const value = {
         content: element,
         status: 'initial',
       };
-      transformedSentence.set(key, value);
+      tempSentence.set(key, value);
     });
-    return transformedSentence;
+    // console.log(tempSentence);
+    setTransformedSentence(tempSentence);
+    return tempSentence;
   }
 
   const getCategory = (errorType) => {
     if (
-      errorType === 'R:SPELL' ||
-      errorType === 'R:CASE' ||
-      errorType === 'R:NOM:FORM' ||
-      errorType === 'R:VERB:FORM' ||
+      errorType.includes('R:SPELL') ||
+      errorType.includes('R:CASE') ||
+      errorType.includes('R:NOM:FORM') ||
+      errorType.includes('R:VERB:FORM') ||
       errorType.includes('LEX')
     ) {
       return 'word-error';
@@ -27,15 +33,16 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
     if (errorType.includes('PUNCT')) {
       return 'puntuation';
     }
-    if (errorType === 'R:WS') {
+    if (errorType.includes('R:WS')) {
       return 'word-separation';
     }
-    if (errorType === 'R:WO') {
+    if (errorType.includes('R:WO')) {
       return 'word-order';
     }
+    return null;
   };
 
-  const transformAnnotation = (annotation) => {
+  const transformAnnotation = useCallback((annotation) => {
     const key = [
       annotation.scopeStart,
       annotation.scopeEnd,
@@ -50,61 +57,89 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
       category: getCategory(annotation.errorType),
     };
     return { key, value };
-  };
+  }, []);
 
-  const transformGroupedAnnotations = (groupedAnnotations) => {
-    //tagastan massiivi findNestedAnnotations
-    groupedAnnotations.forEach((annotations) => {
-      // console.log(annotations);
-      annotations.forEach((annotation) => {
-        if (annotation.scopeEnd - annotation.scopeStart > 1) {
-          // console.log(annotation);
-          // annotation.nested = [];
-          for (let i = annotation.scopeStart; i < annotation.scopeEnd; i++) {
-            const key = [i, i + 1, annotation.annotatorId].join('::');
-            if (annotations.has(key)) {
-              if (!annotation.nested) {
-                annotation.nested = [];
+  const transformGroupedAnnotations = useCallback(
+    (groupedAnnotations, _transoformedSentence) => {
+      groupedAnnotations.forEach((annotationGroup) => {
+        annotationGroup.forEach((annotation) => {
+          if (annotation.scopeEnd - annotation.scopeStart > 1) {
+            let sourceContent = [];
+            for (let i = annotation.scopeStart; i < annotation.scopeEnd; i++) {
+              const targetKey = [i, i + 1, annotation.annotatorId].join('::');
+              const sourceKey = [i, i + 1, -1].join('::');
+
+              if (annotationGroup.has(targetKey)) {
+                if (!annotation.nested) {
+                  annotation.nested = [];
+                }
+                annotation.nested.push(annotationGroup.get(targetKey));
+
+                annotationGroup.delete(targetKey);
               }
-              annotation.nested.push(annotations.get(key));
-              // console.log('tere');
-              annotations.delete(key);
+
+              if (_transoformedSentence.has(sourceKey)) {
+                sourceContent.push(
+                  _transoformedSentence.get(sourceKey).content
+                );
+              }
+            }
+            annotation.sourceContent = sourceContent.join(' ');
+          } else {
+            const sourceKey = [
+              annotation.scopeStart,
+              annotation.scopeEnd,
+              -1,
+            ].join('::');
+            if (_transoformedSentence.has(sourceKey)) {
+              annotation.sourceContent =
+                _transoformedSentence.get(sourceKey).content;
             }
           }
-        }
+        });
       });
-      // console.log(annotations);
-    });
-    // console.log(groupedAnnotations);
-    return groupedAnnotations;
-  };
+      return groupedAnnotations;
+    },
+    []
+  );
 
-  const groupAnnotations = (annotations) => {
-    const groupedAnnotations = [];
-    annotations.forEach((annotation) => {
-      if (!groupedAnnotations[annotation.annotatorId]) {
-        groupedAnnotations[annotation.annotatorId] = new Map();
-      }
-      const { key, value } = transformAnnotation(annotation);
-      groupedAnnotations[annotation.annotatorId].set(key, value);
-    });
+  const groupAnnotations = useCallback(
+    (annotations, transoformedSentence) => {
+      const groupedAnnotations = [];
+      annotations.forEach((annotation) => {
+        if (!groupedAnnotations[annotation.annotatorId]) {
+          groupedAnnotations[annotation.annotatorId] = new Map();
+        }
+        const { key, value } = transformAnnotation(annotation);
+        groupedAnnotations[annotation.annotatorId].set(key, value);
+      });
+      return transformGroupedAnnotations(
+        groupedAnnotations.filter(Boolean),
+        transoformedSentence
+      );
+    },
+    [transformAnnotation, transformGroupedAnnotations]
+  );
 
-    return transformGroupedAnnotations(groupedAnnotations.filter(Boolean));
-  };
-
-  const transformedSentence = transformSentence(sentence);
-  const groupedAnnotations = groupAnnotations(annotations);
-  // console.log(groupedAnnotations);
+  useEffect(() => {
+    const transoformedSentence = transformSentence(sentence);
+    const groupedAnnotations = groupAnnotations(
+      annotations,
+      transoformedSentence
+    );
+    setGroupedAnnotations(groupedAnnotations);
+  }, [sentence, annotations, groupAnnotations]);
 
   return (
     <>
-      {groupedAnnotations.map((annotationGroup, index) => (
-        <CorrectedSentence
-          key={index}
-          annotations={annotationGroup}
-          sentence={transformedSentence}
-        />
-      ))}
+      {groupedAnnotations &&
+        groupedAnnotations.map((annotationGroup, index) => (
+          <CorrectedSentence
+            key={index}
+            annotations={annotationGroup}
+            sentence={transformedSentence}
+          />
+        ))}
     </>
   );
 }
