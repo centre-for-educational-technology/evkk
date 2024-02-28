@@ -125,7 +125,7 @@ div.optional-filter {
 }
 
 .corrected-sentence .word-separation {
-  text-decoration: underline dotted red;
+  text-decoration: underline dashed red;
 }
 .corrected-sentence .word-order {
   background-color: #e9daff;

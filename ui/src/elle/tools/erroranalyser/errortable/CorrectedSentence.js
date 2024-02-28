@@ -1,27 +1,21 @@
 import { Fragment, useEffect, useState } from 'react';
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemText,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Box } from '@mui/material';
 import './../ErrorAnalyser.css';
 import AnnotatedWord from './AnnotatedWord';
 
 export default function CorrectedSentence({ annotations, sentence }) {
   const [sortedSentence, setSortedSentence] = useState();
   const applyAnnotations = (annotations, sentence) => {
-    // console.log(annotations);
-    // console.log(sentence);
     const modifiedSentence = structuredClone(sentence);
     annotations.forEach((annotation, key) => {
       const errorType = annotation.errorType;
 
       switch (errorType[0]) {
         case 'M': //missing => added
-          const addedItem = { ...annotation, status: 'added' };
+          const addedItem = {
+            ...annotation,
+            status: 'added',
+          };
           modifiedSentence.set(key, addedItem);
           break;
         case 'U': //unnecessary => deleted
@@ -55,12 +49,10 @@ export default function CorrectedSentence({ annotations, sentence }) {
           const replacedAddedItem = {
             ...annotation,
             status: 'replaced-added',
-            // originalContent: sourceReplacedItem.content,
           };
           modifiedSentence.set(key, replacedAddedItem);
       }
     });
-    // console.log(modifiedSentence);
     return modifiedSentence;
   };
 
@@ -102,16 +94,37 @@ export default function CorrectedSentence({ annotations, sentence }) {
             } else if (!item.nested) {
               return <AnnotatedWord key={index} item={item} />;
             } else {
+              //WO with nested annotations
               const content = [];
-              const splitContent = item.content.split(' ');
-              console.log(splitContent, item.nested);
+              let splitContent = item.content.split(' ');
+              item.nested.forEach((nestedItem) => {
+                if (nestedItem.errorType === 'R:WS') {
+                  const end = item.content.indexOf(nestedItem.content);
+                  var tempString = item.content.substring(0, end);
+                  var count = (tempString.match(/ /g) || []).length;
+                  splitContent[count] = nestedItem.content;
+                  for (
+                    let i = count + 1;
+                    i < nestedItem.content.split(' ').length + 1;
+                    i++
+                  ) {
+                    splitContent[i] = null;
+                  }
+                }
+              });
+              splitContent = splitContent.filter((n) => n);
+
               splitContent.forEach((contentItem) => {
                 let tempItem;
                 item.nested.forEach((nestedItem, nestedItemIndex) => {
                   if (nestedItem.content === contentItem.toLowerCase()) {
+                    const modifiedNestedItem = {
+                      ...nestedItem,
+                      content: contentItem,
+                    };
                     tempItem = (
                       <AnnotatedWord
-                        item={nestedItem}
+                        item={modifiedNestedItem}
                         addSucceedingSpace={false}
                         parent={item}
                       />
@@ -134,7 +147,6 @@ export default function CorrectedSentence({ annotations, sentence }) {
                       />
                     );
               });
-              console.log(splitContent, content);
 
               return (
                 <Fragment key={index}>
@@ -142,7 +154,7 @@ export default function CorrectedSentence({ annotations, sentence }) {
                     {content.map((contentItem, contentIndex) => (
                       <Fragment key={contentIndex}>
                         {contentItem}
-                        {contentIndex != content.length - 1 && <span> </span>}
+                        {contentIndex !== content.length - 1 && <span> </span>}
                       </Fragment>
                     ))}
                   </span>{' '}

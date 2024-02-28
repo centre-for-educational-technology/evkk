@@ -36,8 +36,6 @@ export default function ErrorAnalyser() {
 
     query = query.slice(0, -1);
 
-    console.log(query);
-
     try {
       setIsLoading(true);
       const response = await fetch(query);
@@ -55,9 +53,9 @@ export default function ErrorAnalyser() {
   //   getFilterEnums();
   // }, []);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
 
   return (
     <>
