@@ -87,10 +87,10 @@
         <foreach item="ageRange" index="index" collection="ageRanges" open="(" separator="AND" close=")"> 
           prop5.property_value = '${ageRange}' or
           <if test= 'ageRange == "kuni18"'>
-           cast(prop4.property_value as int) <![CDATA[ <= ]]> 18
+           cast(prop4.property_value as int) <![CDATA[ <= ]]> 17
           </if>
            <if test="ageRange == 'kuni26'">
-            cast(prop4.property_value as int) between 19 and 26
+            cast(prop4.property_value as int) between 18 and 26
           </if>
           <if test= 'ageRange == "kuni40"'>
             cast(prop4.property_value as int) between 27 and 40
