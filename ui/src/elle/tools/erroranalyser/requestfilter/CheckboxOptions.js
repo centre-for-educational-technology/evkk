@@ -74,3 +74,18 @@ export const errorTypeOptions = [
     label: 'error_analyser_r_wo',
   },
 ];
+
+export const errorTypeOptionsFlattened = {
+  'R:SPELL': 'error_analyser_r_spell',
+  'R:CASE': 'error_analyser_r_case',
+  'R:NOM:FORM': 'error_analyser_r_nom_form',
+  'R:VERB:FORM': 'error_analyser_r_verb_form',
+  'R:LEX': 'error_analyser_r_lex',
+  'M:LEX': 'error_analyser_m_lex',
+  'U:LEX': 'error_analyser_u_lex',
+  'R:PUNCT': 'error_analyser_r_punct',
+  'M:PUNCT': 'error_analyser_m_punct',
+  'U:PUNCT': 'error_analyser_u_punct',
+  'R:WS': 'error_analyser_r_ws',
+  'R:WO': 'error_analyser_r_wo',
+};

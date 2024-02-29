@@ -21,6 +21,7 @@ import {
   textTypesOptions,
   textPublishSubTextTypesOptions,
 } from '../../../const/Constants';
+import { errorTypeOptionsFlattened } from '../requestfilter/CheckboxOptions';
 
 export default function ResultTable({ data: rows }) {
   const {
@@ -34,9 +35,45 @@ export default function ResultTable({ data: rows }) {
     useQueryResultDetails();
   const { t } = useTranslation();
 
-  const extractErrorTypes = (annotations) => {
-    return ['R:LEX'];
+  const extractErrorTypes = (errorTypes) => {
+    const extractedErrorTypes = [];
+    for (const [errorType, errorCount] of Object.entries(errorTypes)) {
+      extractedErrorTypes.push(
+        <div key={errorType}>
+          {t(errorTypeOptionsFlattened[errorType]).toLowerCase()} ({errorCount}){' '}
+        </div>
+      );
+    }
+    return extractedErrorTypes;
   };
+
+  function descendingComparator(a, b, orderBy) {
+    if (b[orderBy] < a[orderBy]) {
+      return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+      return 1;
+    }
+    return 0;
+  }
+
+  function getComparator(order, orderBy) {
+    return order === 'desc'
+      ? (a, b) => descendingComparator(a, b, orderBy)
+      : (a, b) => -descendingComparator(a, b, orderBy);
+  }
+
+  function stableSort(array, comparator) {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) {
+        return order;
+      }
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+  }
 
   return (
     <>
@@ -48,6 +85,24 @@ export default function ResultTable({ data: rows }) {
               <TableCell>{t('error_analyser_corrected_sentence')}</TableCell>
               <TableCell>{t('error_analyser_error_type')}</TableCell>
               <TableCell>{t('error_analyser_language_level')}</TableCell>
+              {/* <TableCell
+                sortDirection={orderBy === headCell.id ? order : false}
+              >
+                <TableSortLabel
+                  active={orderBy === headCell.id}
+                  direction={orderBy === headCell.id ? order : 'asc'}
+                  onClick={createSortHandler(headCell.id)}
+                >
+                  {t('error_analyser_language_level')}
+                  {orderBy === headCell.id ? (
+                    <Box component="span" sx={visuallyHidden}>
+                      {order === 'desc'
+                        ? 'sorted descending'
+                        : 'sorted ascending'}
+                    </Box>
+                  ) : null}
+                </TableSortLabel>
+              </TableCell> */}
               <TableCell>{t('error_analyser_text_type')}</TableCell>
               <TableCell>
                 {t('error_analyser_authors_native_language')}
@@ -83,8 +138,9 @@ export default function ResultTable({ data: rows }) {
                   }
                 </TableCell>
                 <TableCell>
-                  {t('error_analyser_error_type')}
-                  {extractErrorTypes(row.annotations)}
+                  {/* {t('error_analyser_error_type')} */}
+                  {extractErrorTypes(row.errorTypes)}
+                  {/* {row.errorTypes} */}
                 </TableCell>
                 <TableCell>{row.languageLevel}</TableCell>
                 <TableCell>
