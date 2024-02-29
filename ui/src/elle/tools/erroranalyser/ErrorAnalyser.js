@@ -53,9 +53,9 @@ export default function ErrorAnalyser() {
   //   getFilterEnums();
   // }, []);
 
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   return (
     <>

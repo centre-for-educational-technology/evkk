@@ -2,23 +2,20 @@ import { useCallback, useEffect, useState } from 'react';
 import CorrectedSentence from './CorrectedSentence';
 
 export default function CorrectedSentenceCell({ sentence, annotations }) {
-  const [transformedSentence, setTransformedSentence] = useState();
-  const [groupedAnnotations, setGroupedAnnotations] = useState();
+  const [sortedSentences, setSortedSentences] = useState([]);
 
-  function transformSentence(sentence) {
-    const tempSentence = new Map();
+  const transformSentence = (sentence) => {
+    const transformedSentence = new Map();
     sentence.split(' ').forEach((element, index) => {
       const key = [index, index + 1, -1].join('::');
       const value = {
         content: element,
         status: 'initial',
       };
-      tempSentence.set(key, value);
+      transformedSentence.set(key, value);
     });
-    // console.log(tempSentence);
-    setTransformedSentence(tempSentence);
-    return tempSentence;
-  }
+    return transformedSentence;
+  };
 
   const getCategory = (errorType) => {
     if (
@@ -60,9 +57,9 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
   }, []);
 
   const transformGroupedAnnotations = useCallback(
-    (groupedAnnotations, _transoformedSentence) => {
-      groupedAnnotations.forEach((annotationGroup) => {
-        annotationGroup.forEach((annotation) => {
+    (groupedAnnotations, transoformedSentence) => {
+      groupedAnnotations.forEach((annotationGroup, index) => {
+        annotationGroup.forEach((annotation, key) => {
           if (annotation.scopeEnd - annotation.scopeStart > 1) {
             let sourceContent = [];
             for (let i = annotation.scopeStart; i < annotation.scopeEnd; i++) {
@@ -78,10 +75,8 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
                 annotationGroup.delete(targetKey);
               }
 
-              if (_transoformedSentence.has(sourceKey)) {
-                sourceContent.push(
-                  _transoformedSentence.get(sourceKey).content
-                );
+              if (transoformedSentence.has(sourceKey)) {
+                sourceContent.push(transoformedSentence.get(sourceKey).content);
               }
             }
             annotation.sourceContent = sourceContent.join(' ');
@@ -91,9 +86,9 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
               annotation.scopeEnd,
               -1,
             ].join('::');
-            if (_transoformedSentence.has(sourceKey)) {
+            if (transoformedSentence.has(sourceKey)) {
               annotation.sourceContent =
-                _transoformedSentence.get(sourceKey).content;
+                transoformedSentence.get(sourceKey).content;
             }
           }
         });
@@ -121,24 +116,98 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
     [transformAnnotation, transformGroupedAnnotations]
   );
 
+  const sortSentence = (sentence) => {
+    const sortedSentence = Array.from(sentence.entries())
+      .map(([key, value]) => {
+        const intKey = key.split('::').map(Number);
+        return [intKey, value];
+      })
+      .sort((a, b) => {
+        for (let i = 0; i < 3; i++) {
+          if (a[0][i] !== b[0][i]) {
+            return a[0][i] - b[0][i];
+          }
+        }
+        return 0;
+      })
+      .map((entry) => entry[1]);
+
+    return sortedSentence;
+  };
+
+  const applyAnnotations = useCallback(
+    (annotations, sentence, index) => {
+      const modifiedSentence = structuredClone(sentence);
+      annotations.forEach((annotation, key) => {
+        const errorType = annotation.errorType;
+
+        switch (errorType[0]) {
+          case 'M': //missing => added
+            const addedItem = {
+              ...annotation,
+              status: 'added',
+            };
+            modifiedSentence.set(key, addedItem);
+            break;
+          case 'U': //unnecessary => deleted
+            const deletedItemKey = [
+              annotation.scopeStart,
+              annotation.scopeEnd,
+              -1,
+            ].join('::');
+
+            const sourceDeletedItem = sentence.get(deletedItemKey);
+            if (sourceDeletedItem) {
+              const deletedItem = {
+                ...sourceDeletedItem,
+                status: 'deleted',
+              };
+              modifiedSentence.set(deletedItemKey, deletedItem);
+            }
+            break;
+          default: //"R" => replaced
+            for (let i = annotation.scopeStart; i < annotation.scopeEnd; i++) {
+              const replacedItemKey = [i, i + 1, -1].join('::');
+              const sourceReplacedItem = sentence.get(replacedItemKey);
+              if (sourceReplacedItem) {
+                const replacedDeletedItem = {
+                  ...sourceReplacedItem,
+                  status: 'replaced-deleted',
+                };
+                modifiedSentence.set(replacedItemKey, replacedDeletedItem);
+              }
+            }
+            const replacedAddedItem = {
+              ...annotation,
+              status: 'replaced-added',
+            };
+            modifiedSentence.set(key, replacedAddedItem);
+        }
+      });
+      const tempSortedSentences = [...sortedSentences];
+      tempSortedSentences[index] = sortSentence(modifiedSentence);
+      setSortedSentences(tempSortedSentences);
+    },
+    [sortedSentences]
+  );
+
   useEffect(() => {
-    const transoformedSentence = transformSentence(sentence);
+    const transformedSentence = transformSentence(sentence);
     const groupedAnnotations = groupAnnotations(
       annotations,
-      transoformedSentence
+      transformedSentence
     );
-    setGroupedAnnotations(groupedAnnotations);
-  }, [sentence, annotations, groupAnnotations]);
+    groupedAnnotations.forEach((annotationGroup, index) => {
+      applyAnnotations(annotationGroup, transformedSentence, index);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sentence, annotations]);
 
   return (
     <>
-      {groupedAnnotations &&
-        groupedAnnotations.map((annotationGroup, index) => (
-          <CorrectedSentence
-            key={index}
-            annotations={annotationGroup}
-            sentence={transformedSentence}
-          />
+      {sortedSentences &&
+        sortedSentences.map((sortedSentence, index) => (
+          <CorrectedSentence key={index} sentence={sortedSentence} />
         ))}
     </>
   );
