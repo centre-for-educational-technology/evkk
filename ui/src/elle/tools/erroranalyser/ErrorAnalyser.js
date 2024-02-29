@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import FilterAccordion from './requestfilter/RequestFilter';
-import ErrorTable from './errortable/ErrorTable';
+import ResultTable from './resulttable/ResultTable';
 import { useTranslation } from 'react-i18next';
 
 export default function ErrorAnalyser() {
@@ -69,7 +69,7 @@ export default function ErrorAnalyser() {
         </Box>
       )}
 
-      {data && <ErrorTable errorData={data} />}
+      {data && <ResultTable data={data} />}
     </>
   );
 }

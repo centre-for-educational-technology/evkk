@@ -13,7 +13,7 @@ import './../ErrorAnalyser.css';
 import useQueryResultDetails from '../../../pages/query/useQueryResultDetails';
 import QueryResultDetails from '../../../pages/query/QueryResultDetails';
 
-export default function ErrorTable({ errorData: rows }) {
+export default function ResultTable({ data: rows }) {
   const {
     page,
     rowsPerPage,
