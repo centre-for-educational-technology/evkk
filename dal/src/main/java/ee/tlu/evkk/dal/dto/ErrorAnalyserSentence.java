@@ -1,6 +1,8 @@
 package ee.tlu.evkk.dal.dto;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ErrorAnalyserSentence {
   private String sentenceId;
@@ -13,8 +15,8 @@ public class ErrorAnalyserSentence {
   private String ageRange;
   private String education;
   private String citizenship;
-
   private List<ErrorAnalyserAnnotation> annotations;
+  private Map<String, Integer> errorTypes;
 
   public ErrorAnalyserSentence(String sentenceId, String sentence, String textId, String languageLevel,
       String nativeLanguage, String textType, String age, String ageRange, String education, String citizenship,
@@ -77,5 +79,19 @@ public class ErrorAnalyserSentence {
 
   public List<ErrorAnalyserAnnotation> getAnnotations() {
     return annotations;
+  }
+
+  public Map<String, Integer> getErrorTypes() {
+    Map<String, Integer> errorCounter = countErrors(annotations);
+    return errorCounter;
+  }
+
+  public static Map<String, Integer> countErrors(List<ErrorAnalyserAnnotation> annotations) {
+    Map<String, Integer> errors = new HashMap<>();
+    for (ErrorAnalyserAnnotation annotation : annotations) {
+      String errorType = annotation.getErrorType();
+      errors.put(errorType, errors.getOrDefault(errorType, 0) + 1);
+    }
+    return errors;
   }
 }
