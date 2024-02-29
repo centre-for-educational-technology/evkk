@@ -154,14 +154,6 @@ export default function ResultTable({ data: rows }) {
       return 0;
     }
 
-    /*
-      
-                    {row.age
-                      ? row.age
-                      : row.ageRange
-                      ? t(ageOptions[row.ageRange])
-    */
-
     if (orderBy === 'age') {
       const ageA = a['age'] ? a['age'] : t(ageOptions[a['ageRange']]);
       const ageB = b['age'] ? b['age'] : t(ageOptions[b['ageRange']]);
