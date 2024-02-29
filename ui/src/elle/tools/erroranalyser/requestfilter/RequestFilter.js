@@ -13,7 +13,10 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './../ErrorAnalyser.css';
-import { errorTypeOptions, languageLevelOptions } from './CheckboxOptions';
+import {
+  filterErrorTypeOptions,
+  filterLanguageLevelOptions,
+} from './CheckboxOptions';
 import ErrorCheckbox from './Checkbox';
 import { useTranslation } from 'react-i18next';
 import OptionalFilters from './OptionalFilters';
@@ -174,7 +177,7 @@ export default function FilterAccordion({ getData, setData }) {
                   }`}
                 >
                   <ErrorCheckbox
-                    data={errorTypeOptions}
+                    data={filterErrorTypeOptions}
                     setSelectedItems={setErrorType}
                     setFilterError={setFilterError}
                   />
@@ -197,7 +200,7 @@ export default function FilterAccordion({ getData, setData }) {
                   }`}
                 >
                   <ErrorCheckbox
-                    data={languageLevelOptions}
+                    data={filterLanguageLevelOptions}
                     setSelectedItems={setLanguageLevel}
                     setFilterError={setFilterError}
                   />

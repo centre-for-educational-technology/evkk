@@ -1,6 +1,7 @@
 import { List, ListItemText, Tooltip } from '@mui/material';
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
+import { errorTypeOptionsFull } from '../../../const/Constants';
 
 export default function AnnotatedWord({
   item,
@@ -9,9 +10,7 @@ export default function AnnotatedWord({
 }) {
   const { t } = useTranslation();
   const transformErrorType = (errorType) => {
-    return t(
-      'error_analyser_error_type_' + errorType.toLowerCase().replace(/:/g, '_')
-    );
+    return t(errorTypeOptionsFull[errorType]);
   };
 
   return (
