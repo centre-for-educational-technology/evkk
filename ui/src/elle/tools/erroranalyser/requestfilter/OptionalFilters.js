@@ -7,6 +7,7 @@ import {
   languageOptions,
   nationalityOptions,
   textTypesOptions,
+  textPublishSubTextTypesOptions,
 } from '../../../const/Constants';
 import { useTranslation } from 'react-i18next';
 
@@ -61,7 +62,7 @@ export default function OptionalFilters({
 
   const transformFilterOptions = (data) => {
     let filteredTextTypeOptions = filterFilterOptions(
-      textTypesOptions.cFOoRQekA.query_text_data_type_L2_exercise,
+      textPublishSubTextTypesOptions,
       data.textType
     );
     filteredTextTypeOptions = sortFilterOptions(filteredTextTypeOptions);

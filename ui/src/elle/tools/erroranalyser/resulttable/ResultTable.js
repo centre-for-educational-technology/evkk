@@ -12,6 +12,15 @@ import CorrectedSentenceCell from './CorrectedSentenceCell';
 import './../ErrorAnalyser.css';
 import useQueryResultDetails from '../../../pages/query/useQueryResultDetails';
 import QueryResultDetails from '../../../pages/query/QueryResultDetails';
+import { useTranslation } from 'react-i18next';
+import {
+  ageOptions,
+  educationOptions,
+  languageOptions,
+  nationalityOptions,
+  textTypesOptions,
+  textPublishSubTextTypesOptions,
+} from '../../../const/Constants';
 
 export default function ResultTable({ data: rows }) {
   const {
@@ -23,6 +32,11 @@ export default function ResultTable({ data: rows }) {
   } = usePagination(rows);
   const { previewText, metadata, text, sentence, modalOpen, setModalOpen } =
     useQueryResultDetails();
+  const { t } = useTranslation();
+
+  const extractErrorTypes = (annotations) => {
+    return ['R:LEX'];
+  };
 
   return (
     <>
@@ -30,10 +44,17 @@ export default function ResultTable({ data: rows }) {
         <Table className="result-table" aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Algne lause</TableCell>
-              <TableCell>Parandatud lause</TableCell>
-              <TableCell>Keeletase</TableCell>
-              <TableCell>Emakeel</TableCell>
+              <TableCell>{t('error_analyser_source_sentence')}</TableCell>
+              <TableCell>{t('error_analyser_corrected_sentence')}</TableCell>
+              <TableCell>{t('error_analyser_error_type')}</TableCell>
+              <TableCell>{t('error_analyser_language_level')}</TableCell>
+              <TableCell>{t('error_analyser_text_type')}</TableCell>
+              <TableCell>
+                {t('error_analyser_authors_native_language')}
+              </TableCell>
+              <TableCell>{t('error_analyser_authors_education')}</TableCell>
+              <TableCell>{t('error_analyser_authors_citizenship')}</TableCell>
+              <TableCell>{t('error_analyser_authors_age')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -61,8 +82,36 @@ export default function ResultTable({ data: rows }) {
                     />
                   }
                 </TableCell>
+                <TableCell>
+                  {t('error_analyser_error_type')}
+                  {extractErrorTypes(row.annotations)}
+                </TableCell>
                 <TableCell>{row.languageLevel}</TableCell>
-                <TableCell></TableCell>
+                <TableCell>
+                  {t(
+                    textPublishSubTextTypesOptions[row.textType]
+                  ).toLowerCase()}
+                </TableCell>
+                <TableCell>
+                  {row.nativeLanguage
+                    ? t(languageOptions[row.nativeLanguage])
+                    : '–'}
+                </TableCell>
+                <TableCell>
+                  {row.education ? t(educationOptions[row.education]) : '–'}
+                </TableCell>
+                <TableCell>
+                  {row.citizenship
+                    ? t(nationalityOptions[row.citizenship])
+                    : '–'}
+                </TableCell>
+                <TableCell>
+                  {row.age
+                    ? row.age
+                    : row.ageRange
+                    ? t(ageOptions[row.ageRange])
+                    : '–'}
+                </TableCell>
               </TableRow>
             ))}
             {emptyRows > 0 && (
