@@ -1,12 +1,19 @@
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import { useMemo, useState } from 'react';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Box,
+  TableFooter,
+  TablePagination,
+  TableSortLabel,
+} from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import TablePaginationActions from './TablePaginationActions';
-import { Box, TableFooter, TablePagination } from '@mui/material';
 import { usePagination } from './usePagination';
 import CorrectedSentenceCell from './CorrectedSentenceCell';
 import './../ErrorAnalyser.css';
@@ -18,12 +25,13 @@ import {
   educationOptions,
   languageOptions,
   nationalityOptions,
-  textTypesOptions,
   textPublishSubTextTypesOptions,
+  errorTypeOptionsShort,
 } from '../../../const/Constants';
-import { errorTypeOptionsFlattened } from '../requestfilter/CheckboxOptions';
 
 export default function ResultTable({ data: rows }) {
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('calories');
   const {
     page,
     rowsPerPage,
@@ -35,12 +43,70 @@ export default function ResultTable({ data: rows }) {
     useQueryResultDetails();
   const { t } = useTranslation();
 
-  const extractErrorTypes = (errorTypes) => {
+  const headCells = [
+    {
+      id: 'source_sentence',
+      sortable: false,
+      label: 'error_analyser_source_sentence',
+    },
+    {
+      id: 'corrected_sentence',
+      sortable: false,
+      label: 'error_analyser_corrected_sentence',
+    },
+    {
+      id: 'error_type',
+      sortable: false,
+      label: 'error_analyser_error_type',
+    },
+    {
+      id: 'languageLevel',
+      sortable: true,
+      label: 'error_analyser_language_level',
+    },
+    {
+      id: 'textType',
+      sortable: true,
+      label: 'error_analyser_text_type',
+    },
+    {
+      id: 'nativeLanguage',
+      sortable: true,
+      label: 'error_analyser_authors_native_language',
+    },
+    {
+      id: 'education',
+      sortable: true,
+      label: 'error_analyser_authors_education',
+    },
+    {
+      id: 'citizenship',
+      sortable: true,
+      label: 'error_analyser_authors_citizenship',
+    },
+    {
+      id: 'age',
+      sortable: true,
+      label: 'error_analyser_authors_age',
+    },
+  ];
+
+  const createSortHandler = (property) => (event) => {
+    handleRequestSort(event, property);
+  };
+
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
+  const displayErrorTypes = (errorTypes) => {
     const extractedErrorTypes = [];
     for (const [errorType, errorCount] of Object.entries(errorTypes)) {
       extractedErrorTypes.push(
         <div key={errorType}>
-          {t(errorTypeOptionsFlattened[errorType]).toLowerCase()} ({errorCount}){' '}
+          {t(errorTypeOptionsShort[errorType]).toLowerCase()} ({errorCount}){' '}
         </div>
       );
     }
@@ -48,13 +114,66 @@ export default function ResultTable({ data: rows }) {
   };
 
   function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
+    if (orderBy === 'languageLevel') {
+      if (b[orderBy] < a[orderBy]) {
+        return -1;
+      }
+      if (b[orderBy] > a[orderBy]) {
+        return 1;
+      }
+      return 0;
     }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
+
+    if (
+      orderBy === 'textType' ||
+      orderBy === 'nativeLanguage' ||
+      orderBy === 'education' ||
+      orderBy === 'citizenship'
+    ) {
+      let options;
+      switch (orderBy) {
+        case 'nativeLanguage':
+          options = languageOptions;
+          break;
+        case 'education':
+          options = educationOptions;
+          break;
+        case 'citizenship':
+          options = nationalityOptions;
+          break;
+        default: //textType
+          options = textPublishSubTextTypesOptions;
+      }
+
+      if (t(options[b[orderBy]]) < t(options[a[orderBy]])) {
+        return -1;
+      }
+      if (t(options[b[orderBy]]) > t(options[a[orderBy]])) {
+        return 1;
+      }
+      return 0;
     }
-    return 0;
+
+    /*
+      
+                    {row.age
+                      ? row.age
+                      : row.ageRange
+                      ? t(ageOptions[row.ageRange])
+    */
+
+    if (orderBy === 'age') {
+      const ageA = a['age'] ? a['age'] : t(ageOptions[a['ageRange']]);
+      const ageB = b['age'] ? b['age'] : t(ageOptions[b['ageRange']]);
+
+      if (ageB < ageA) {
+        return -1;
+      }
+      if (ageB > ageA) {
+        return 1;
+      }
+      return 0;
+    }
   }
 
   function getComparator(order, orderBy) {
@@ -75,101 +194,100 @@ export default function ResultTable({ data: rows }) {
     return stabilizedThis.map((el) => el[0]);
   }
 
+  const visibleRows = useMemo(
+    () =>
+      stableSort(rows, getComparator(order, orderBy)).slice(
+        page * rowsPerPage,
+        page * rowsPerPage + rowsPerPage
+      ),
+    [order, orderBy, page, rowsPerPage]
+  );
+
   return (
     <>
       <TableContainer component={Paper} className="result-table-container">
         <Table className="result-table" aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>{t('error_analyser_source_sentence')}</TableCell>
-              <TableCell>{t('error_analyser_corrected_sentence')}</TableCell>
-              <TableCell>{t('error_analyser_error_type')}</TableCell>
-              <TableCell>{t('error_analyser_language_level')}</TableCell>
-              {/* <TableCell
-                sortDirection={orderBy === headCell.id ? order : false}
-              >
-                <TableSortLabel
-                  active={orderBy === headCell.id}
-                  direction={orderBy === headCell.id ? order : 'asc'}
-                  onClick={createSortHandler(headCell.id)}
+              {headCells.map((headCell) => (
+                <TableCell
+                  key={headCell.id}
+                  sortDirection={orderBy === headCell.id ? order : false}
                 >
-                  {t('error_analyser_language_level')}
-                  {orderBy === headCell.id ? (
-                    <Box component="span" sx={visuallyHidden}>
-                      {order === 'desc'
-                        ? 'sorted descending'
-                        : 'sorted ascending'}
-                    </Box>
-                  ) : null}
-                </TableSortLabel>
-              </TableCell> */}
-              <TableCell>{t('error_analyser_text_type')}</TableCell>
-              <TableCell>
-                {t('error_analyser_authors_native_language')}
-              </TableCell>
-              <TableCell>{t('error_analyser_authors_education')}</TableCell>
-              <TableCell>{t('error_analyser_authors_citizenship')}</TableCell>
-              <TableCell>{t('error_analyser_authors_age')}</TableCell>
+                  {headCell.sortable ? (
+                    <TableSortLabel
+                      active={orderBy === headCell.id}
+                      direction={orderBy === headCell.id ? order : 'asc'}
+                      onClick={createSortHandler(headCell.id)}
+                    >
+                      {t(headCell.label)}
+                      {orderBy === headCell.id ? (
+                        <Box component="span" sx={visuallyHidden}>
+                          {order === 'desc'
+                            ? 'sorted descending'
+                            : 'sorted ascending'}
+                        </Box>
+                      ) : null}
+                    </TableSortLabel>
+                  ) : (
+                    <>{t(headCell.label)}</>
+                  )}
+                </TableCell>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {(rowsPerPage > 0
-              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : rows
-            ).map((row) => (
-              <TableRow
-                key={row.sentenceId}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  <Box
-                    className="clickable"
-                    onClick={() => previewText(row.textId, row.sentence)}
-                  >
-                    {row.sentence}
-                  </Box>
-                </TableCell>
-                <TableCell>
-                  {
-                    <CorrectedSentenceCell
-                      sentence={row.sentence}
-                      annotations={row.annotations}
-                    />
-                  }
-                </TableCell>
-                <TableCell>
-                  {/* {t('error_analyser_error_type')} */}
-                  {extractErrorTypes(row.errorTypes)}
-                  {/* {row.errorTypes} */}
-                </TableCell>
-                <TableCell>{row.languageLevel}</TableCell>
-                <TableCell>
-                  {t(
-                    textPublishSubTextTypesOptions[row.textType]
-                  ).toLowerCase()}
-                </TableCell>
-                <TableCell>
-                  {row.nativeLanguage
-                    ? t(languageOptions[row.nativeLanguage])
-                    : '–'}
-                </TableCell>
-                <TableCell>
-                  {row.education ? t(educationOptions[row.education]) : '–'}
-                </TableCell>
-                <TableCell>
-                  {row.citizenship
-                    ? t(nationalityOptions[row.citizenship])
-                    : '–'}
-                </TableCell>
-                <TableCell>
-                  {row.age
-                    ? row.age
-                    : row.ageRange
-                    ? t(ageOptions[row.ageRange])
-                    : '–'}
-                </TableCell>
-              </TableRow>
-            ))}
+            {visibleRows.map((row, index) => {
+              return (
+                <TableRow key={row.sentenceId}>
+                  <TableCell component="th" scope="row">
+                    <Box
+                      className="clickable"
+                      onClick={() => previewText(row.textId, row.sentence)}
+                    >
+                      {row.sentence}
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    {
+                      <CorrectedSentenceCell
+                        sentence={row.sentence}
+                        annotations={row.annotations}
+                      />
+                    }
+                  </TableCell>
+                  <TableCell>{displayErrorTypes(row.errorTypes)}</TableCell>
+                  <TableCell>{row.languageLevel}</TableCell>
+                  <TableCell>
+                    {row.textType
+                      ? t(
+                          textPublishSubTextTypesOptions[row.textType]
+                        ).toLowerCase()
+                      : '–'}
+                  </TableCell>
+                  <TableCell>
+                    {row.nativeLanguage
+                      ? t(languageOptions[row.nativeLanguage])
+                      : '–'}
+                  </TableCell>
+                  <TableCell>
+                    {row.education ? t(educationOptions[row.education]) : '–'}
+                  </TableCell>
+                  <TableCell>
+                    {row.citizenship
+                      ? t(nationalityOptions[row.citizenship])
+                      : '–'}
+                  </TableCell>
+                  <TableCell>
+                    {row.age
+                      ? row.age
+                      : row.ageRange
+                      ? t(ageOptions[row.ageRange])
+                      : '–'}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
             {emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>
                 <TableCell colSpan={6} />
