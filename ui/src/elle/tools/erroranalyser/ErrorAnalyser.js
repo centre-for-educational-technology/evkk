@@ -36,6 +36,8 @@ export default function ErrorAnalyser() {
 
     query = query.slice(0, -1);
 
+    console.log(query);
+
     try {
       setIsLoading(true);
       const response = await fetch(query);

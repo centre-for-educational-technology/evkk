@@ -24,7 +24,7 @@ public class ErrorAnalyserController {
   @GetMapping("/getErrors")
   public ResponseEntity<List<ErrorAnalyserSentence>> getErrors(
       @RequestParam(name = "errorType", required = false) List<String> errorTypes,
-      @RequestParam(name = "LanguageLevel", required = false) List<String> languageLevels,
+      @RequestParam(name = "languageLevel", required = false) List<String> languageLevels,
       @RequestParam(name = "nativeLanguage", required = false) List<String> nativeLanguages,
       @RequestParam(name = "textType", required = false) List<String> textTypes,
       @RequestParam(name = "education", required = false) List<String> educationLevels,
