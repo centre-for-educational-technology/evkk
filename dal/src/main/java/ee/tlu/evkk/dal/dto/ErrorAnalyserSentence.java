@@ -1,5 +1,6 @@
 package ee.tlu.evkk.dal.dto;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,7 +91,45 @@ public class ErrorAnalyserSentence {
     Map<String, Integer> errors = new HashMap<>();
     for (ErrorAnalyserAnnotation annotation : annotations) {
       String errorType = annotation.getErrorType();
-      errors.put(errorType, errors.getOrDefault(errorType, 0) + 1);
+
+      List<String> mainErrorTypes = Arrays.asList("U:LEX", "U:PUNCT", "M:LEX", "M:PUNCT", "R:LEX", "R:CASE",
+          "R:NOM:FORM", "R:PUNCT", "R:SPELL", "R:VERB:FORM", "R:WO", "R:WS");
+
+      List<String> compoundErrorTypesStart = Arrays.asList("R:LEX", "R:NOM:FORM", "R:SPELL", "R:VERB:FORM", "R:WO",
+          "R:WS");
+
+      List<String> compoundErrorTypesEnd = Arrays.asList("CASE", "NOM:FORM", "SPELL", "VERB:FORM", "WO", "WS");
+
+      if (mainErrorTypes.contains(errorType)) {
+        errors.put(errorType, errors.getOrDefault(errorType, 0) + 1);
+      } else {
+        for (String firstError : compoundErrorTypesStart) {
+          if (errorType.startsWith(firstError)) {
+            errors.put(firstError, errors.getOrDefault(firstError, 0) + 1);
+            String remaining = errorType.substring(firstError.length() + 1);
+            if (!remaining.isEmpty()) {
+              for (String secondError : compoundErrorTypesEnd) {
+                if (remaining.startsWith(secondError)) {
+                  String modifiedSecondError = "R:" + secondError;
+                  errors.put(modifiedSecondError, errors.getOrDefault(modifiedSecondError, 0) + 1);
+                  remaining = remaining.substring(secondError.length());
+                  if (!remaining.isEmpty()) {
+                    for (String thirdError : compoundErrorTypesEnd) {
+                      if (remaining.startsWith(thirdError)) {
+                        String modifiedThirdError = "R:" + thirdError;
+                        errors.put(modifiedThirdError, errors.getOrDefault(modifiedThirdError, 0) + 1);
+                        break;
+                      }
+                    }
+                  }
+                  break;
+                }
+              }
+            }
+            break;
+          }
+        }
+      }
     }
     return errors;
   }
