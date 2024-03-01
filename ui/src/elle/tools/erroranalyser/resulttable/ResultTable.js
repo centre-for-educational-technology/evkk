@@ -101,15 +101,20 @@ export default function ResultTable({ data: rows }) {
     setOrderBy(property);
   };
 
-  const displayErrorTypes = (errorTypes) => {
+  const displayErrorTypes = (errorTypes, row) => {
     const extractedErrorTypes = [];
-    for (const [errorType, errorCount] of Object.entries(errorTypes)) {
-      extractedErrorTypes.push(
-        <div key={errorType}>
-          {t(errorTypeOptionsShort[errorType]).toLowerCase()} ({errorCount}){' '}
-        </div>
-      );
+    console.log(errorTypes, row);
+    for (const [index, value] of Object.entries(errorTypes)) {
+      for (const [errorType, errorCount] of Object.entries(value)) {
+        extractedErrorTypes.push(
+          <div key={errorType}>
+            {t(errorTypeOptionsShort[errorType]).toLowerCase()} ({errorCount}){' '}
+          </div>
+        );
+      }
+      extractedErrorTypes.push(<p>_____</p>);
     }
+
     return extractedErrorTypes;
   };
 
@@ -248,7 +253,9 @@ export default function ResultTable({ data: rows }) {
                       />
                     }
                   </TableCell>
-                  <TableCell>{displayErrorTypes(row.errorTypes)}</TableCell>
+                  <TableCell>
+                    {displayErrorTypes(row.errorTypes, row)}
+                  </TableCell>
                   <TableCell>{row.languageLevel}</TableCell>
                   <TableCell>
                     {row.textType
