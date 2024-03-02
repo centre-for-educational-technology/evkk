@@ -103,17 +103,31 @@ export default function ResultTable({ data: rows }) {
 
   const displayErrorTypes = (errorTypes, row) => {
     const extractedErrorTypes = [];
-    console.log(errorTypes, row);
-    for (const [index, value] of Object.entries(errorTypes)) {
-      for (const [errorType, errorCount] of Object.entries(value)) {
-        extractedErrorTypes.push(
-          <div key={errorType}>
-            {t(errorTypeOptionsShort[errorType]).toLowerCase()} ({errorCount}){' '}
-          </div>
-        );
-      }
-      extractedErrorTypes.push(<p>_____</p>);
+    for (const [errorType, errorCount] of Object.entries(errorTypes)) {
+      extractedErrorTypes.push(
+        <div key={errorType}>
+          {t(errorTypeOptionsShort[errorType]).toLowerCase()} ({errorCount}){' '}
+        </div>
+      );
     }
+    // HOIA VEEL ALLES
+    // row.errorTypes.forEach((group, index) => {
+    //   if (group) {
+    //     console.log(Object.entries(group));
+    //     let index = 0;
+    //     for (const [errorType, errorCount] of Object.entries(group)) {
+    //       console.log(errorType);
+    //       index++;
+    //       extractedErrorTypes.push(
+    //         <div key={errorType + index + row.sentenceId}>
+    //           {t(errorTypeOptionsShort[errorType]).toLowerCase()} ({errorCount}){' '}
+    //         </div>
+    //       );
+    //     }
+    //     console.log(index);
+    //     extractedErrorTypes.push(<Divider />);
+    //   }
+    // });
 
     return extractedErrorTypes;
   };
@@ -197,6 +211,7 @@ export default function ResultTable({ data: rows }) {
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [order, orderBy, page, rowsPerPage]
   );
 

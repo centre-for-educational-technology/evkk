@@ -135,61 +135,56 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
     return sortedSentence;
   };
 
-  const applyAnnotations = useCallback(
-    (annotations, sentence, index) => {
-      const modifiedSentence = structuredClone(sentence);
-      annotations.forEach((annotation, key) => {
-        const errorType = annotation.errorType;
+  const applyAnnotations = (annotations, sentence, index) => {
+    const modifiedSentence = structuredClone(sentence);
+    annotations.forEach((annotation, key) => {
+      const errorType = annotation.errorType;
 
-        switch (errorType[0]) {
-          case 'M': //missing => added
-            const addedItem = {
-              ...annotation,
-              status: 'added',
+      switch (errorType[0]) {
+        case 'M': //missing => added
+          const addedItem = {
+            ...annotation,
+            status: 'added',
+          };
+          modifiedSentence.set(key, addedItem);
+          break;
+        case 'U': //unnecessary => deleted
+          const deletedItemKey = [
+            annotation.scopeStart,
+            annotation.scopeEnd,
+            -1,
+          ].join('::');
+
+          const sourceDeletedItem = sentence.get(deletedItemKey);
+          if (sourceDeletedItem) {
+            const deletedItem = {
+              ...sourceDeletedItem,
+              status: 'deleted',
             };
-            modifiedSentence.set(key, addedItem);
-            break;
-          case 'U': //unnecessary => deleted
-            const deletedItemKey = [
-              annotation.scopeStart,
-              annotation.scopeEnd,
-              -1,
-            ].join('::');
-
-            const sourceDeletedItem = sentence.get(deletedItemKey);
-            if (sourceDeletedItem) {
-              const deletedItem = {
-                ...sourceDeletedItem,
-                status: 'deleted',
+            modifiedSentence.set(deletedItemKey, deletedItem);
+          }
+          break;
+        default: //"R" => replaced
+          for (let i = annotation.scopeStart; i < annotation.scopeEnd; i++) {
+            const replacedItemKey = [i, i + 1, -1].join('::');
+            const sourceReplacedItem = sentence.get(replacedItemKey);
+            if (sourceReplacedItem) {
+              const replacedDeletedItem = {
+                ...sourceReplacedItem,
+                status: 'replaced-deleted',
               };
-              modifiedSentence.set(deletedItemKey, deletedItem);
+              modifiedSentence.set(replacedItemKey, replacedDeletedItem);
             }
-            break;
-          default: //"R" => replaced
-            for (let i = annotation.scopeStart; i < annotation.scopeEnd; i++) {
-              const replacedItemKey = [i, i + 1, -1].join('::');
-              const sourceReplacedItem = sentence.get(replacedItemKey);
-              if (sourceReplacedItem) {
-                const replacedDeletedItem = {
-                  ...sourceReplacedItem,
-                  status: 'replaced-deleted',
-                };
-                modifiedSentence.set(replacedItemKey, replacedDeletedItem);
-              }
-            }
-            const replacedAddedItem = {
-              ...annotation,
-              status: 'replaced-added',
-            };
-            modifiedSentence.set(key, replacedAddedItem);
-        }
-      });
-      const tempSortedSentences = [...sortedSentences];
-      tempSortedSentences[index] = sortSentence(modifiedSentence);
-      setSortedSentences(tempSortedSentences);
-    },
-    [sortedSentences]
-  );
+          }
+          const replacedAddedItem = {
+            ...annotation,
+            status: 'replaced-added',
+          };
+          modifiedSentence.set(key, replacedAddedItem);
+      }
+    });
+    return sortSentence(modifiedSentence);
+  };
 
   useEffect(() => {
     const transformedSentence = transformSentence(sentence);
@@ -197,11 +192,23 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
       annotations,
       transformedSentence
     );
+    let sortedSentences = [];
     groupedAnnotations.forEach((annotationGroup, index) => {
-      applyAnnotations(annotationGroup, transformedSentence, index);
+      const sortedSentece = applyAnnotations(
+        annotationGroup,
+        transformedSentence,
+        index
+      );
+      sortedSentences[index] = sortedSentece;
     });
+    setSortedSentences(sortedSentences);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sentence, annotations]);
+
+  useEffect(() => {
+    // console.log(sortedSentences);
+  }, [sortedSentences]);
 
   return (
     <>
