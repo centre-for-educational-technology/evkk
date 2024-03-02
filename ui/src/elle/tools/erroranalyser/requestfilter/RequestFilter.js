@@ -49,7 +49,7 @@ export default function FilterAccordion({ getData, setData }) {
         'http://localhost:9090/api/errors/getFilterOptions'
       );
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       setFilterOptions(data);
     } catch (error) {
       console.error('Error:', error);

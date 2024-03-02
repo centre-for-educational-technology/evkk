@@ -6,7 +6,6 @@ import {
   educationOptions,
   languageOptions,
   nationalityOptions,
-  textTypesOptions,
   textPublishSubTextTypesOptions,
 } from '../../../const/Constants';
 import { useTranslation } from 'react-i18next';
