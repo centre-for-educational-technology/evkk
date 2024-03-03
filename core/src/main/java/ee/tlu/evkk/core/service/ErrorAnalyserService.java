@@ -2,6 +2,7 @@ package ee.tlu.evkk.core.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -36,13 +37,15 @@ public class ErrorAnalyserService {
         List<ErrorAnalyserTransformedSentence> transformedListItems = new ArrayList<ErrorAnalyserTransformedSentence>();
         for (ErrorAnalyserSentence listItem : listItems) {
             querriedErrorCount = 0;
-            Map<String, Integer> errorTypes = getErrorTypesAndQuerriedErrorCount(listItem.getAnnotations());
+            List<ErrorAnalyserAnnotation> annotations = listItem.getAnnotations();
+            Map<String, Integer> errorTypes = getErrorTypesAndQuerriedErrorCount(annotations);
+            List<Map<String, ErrorAnalyserAnnotation>> groupedAnnotations = getGroupedAnnotations(annotations);
 
             ErrorAnalyserTransformedSentence transformedListItem = new ErrorAnalyserTransformedSentence(
                     listItem.getSentenceId(), listItem.getSentence(), listItem.getTextId(), listItem.getLanguageLevel(),
                     listItem.getNativeLanguage(), listItem.getTextType(), listItem.getAge(), listItem.getAgeRange(),
                     listItem.getEducation(), listItem.getCitizenship(), listItem.getAnnotations(), errorTypes,
-                    querriedErrorCount);
+                    querriedErrorCount, groupedAnnotations);
             transformedListItems.add(transformedListItem);
         }
         return transformedListItems;
@@ -105,6 +108,27 @@ public class ErrorAnalyserService {
         return sortedMap;
     }
 
+    public List<Map<String, ErrorAnalyserAnnotation>> getGroupedAnnotations(List<ErrorAnalyserAnnotation> annotations) {
+        List<Map<String, ErrorAnalyserAnnotation>> annotationGroups = new ArrayList<>();
+        for (ErrorAnalyserAnnotation annotation : annotations) {
+            Integer annotatorId = Integer.valueOf(annotation.getAnnotatorId());
+            if (annotatorId >= annotationGroups.size()) {
+                annotationGroups.addAll(Collections.nCopies(annotatorId -
+                        annotationGroups.size() + 1, null));
+            }
+            if (annotationGroups.get(annotatorId) == null) {
+                annotationGroups.set(annotatorId, new HashMap<String, ErrorAnalyserAnnotation>());
+            }
+            String scopeStart = annotation.getScopeStart();
+            String scopeEnd = annotation.getScopeEnd();
+            String key = String.format("%s::%s::%d", scopeStart, scopeEnd, annotatorId);
+
+            Map<String, ErrorAnalyserAnnotation> annotationGroup = annotationGroups.get(annotatorId);
+            annotationGroup.put(key, annotation);
+        }
+        return annotationGroups;
+    }
+
     // PRAEGU EI KASUTA
     // public List<Map<String, Integer>>
     // getGroupedErrorTypes(List<ErrorAnalyserAnnotation> annotations) {
@@ -158,31 +182,4 @@ public class ErrorAnalyserService {
     // }
     // return errorLists;
     // }
-
-    // public List<Map<String, ErrorAnalyserAnnotation>> getGroupedAnnotations() {
-    // List<Map<String, ErrorAnalyserAnnotation>> annotationGroups = new
-    // ArrayList<>();
-    // for (ErrorAnalyserAnnotation annotation : annotations) {
-    // Integer annotatorId = Integer.valueOf(annotation.getAnnotatorId());
-    // if (annotatorId >= annotationGroups.size()) {
-    // annotationGroups.addAll(Collections.nCopies(annotatorId -
-    // annotationGroups.size() + 1, null));
-    // }
-    // if (annotationGroups.get(annotatorId) == null) {
-    // annotationGroups.set(annotatorId, new HashMap<String,
-    // ErrorAnalyserAnnotation>());
-    // }
-    // String scopeStart = annotation.getScopeStart(); // Assuming getScopeStart()
-    // returns a String
-    // String scopeEnd = annotation.getScopeEnd(); // Assuming getScopeEnd() returns
-    // a String
-    // String key = String.format("%s::%s::%d", scopeStart, scopeEnd, annotatorId);
-
-    // Map<String, ErrorAnalyserAnnotation> annotationGroup =
-    // annotationGroups.get(annotatorId);
-    // annotationGroup.put(key, annotation);
-    // }
-    // return annotationGroups;
-    // }
-
 }
