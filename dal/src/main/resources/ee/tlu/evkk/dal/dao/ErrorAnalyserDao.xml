@@ -32,7 +32,6 @@
            prop2.property_value as native_language,     
            prop3.property_value as text_type,
            prop4.property_value as age,
-           <!-- cast(prop4.property_value as int) as age, -->
            prop5.property_value as age_range,
            prop6.property_value as education,
            prop7.property_value as citizenship,

@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Box, CircularProgress, Typography } from '@mui/material';
-import FilterAccordion from './requestfilter/RequestFilter';
+import RequestFilter from './requestfilter/RequestFilter';
 import ResultTable from './resulttable/ResultTable';
 import { useTranslation } from 'react-i18next';
 
 export default function ErrorAnalyser() {
   const [data, setData] = useState(null);
+  const [filters, setFilters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
 
@@ -63,15 +64,19 @@ export default function ErrorAnalyser() {
     <>
       <Typography variant="h3">{t('error_analyser_title')}</Typography>
 
-      <FilterAccordion getData={getData} setData={setData} />
+      <RequestFilter
+        getData={getData}
+        setData={setData}
+        setFilters={setFilters}
+      />
 
-      {isLoading && (
+      {isLoading && data && (
         <Box className="spinner-container">
           <CircularProgress />
         </Box>
       )}
 
-      {data && <ResultTable data={data} />}
+      {data && <ResultTable data={data} filters={filters} />}
     </>
   );
 }
