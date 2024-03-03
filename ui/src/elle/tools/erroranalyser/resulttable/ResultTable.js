@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Table,
   TableBody,
@@ -29,9 +29,20 @@ import {
   errorTypeOptionsShort,
 } from '../../../const/Constants';
 
-export default function ResultTable({ data: rows }) {
+export default function ResultTable({ data: rows, filters }) {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
+  const [isColumnVisible, setIsColumnVisible] = useState({
+    source_sentence: false,
+    corrected_sentence: false,
+    error_type: false,
+    languageLevel: false,
+    textType: false,
+    nativeLanguage: false,
+    education: false,
+    citizenship: false,
+    age: false,
+  });
   const {
     page,
     rowsPerPage,
@@ -91,6 +102,26 @@ export default function ResultTable({ data: rows }) {
     },
   ];
 
+  useEffect(() => {
+    let visibilty = isColumnVisible;
+    for (const key in visibilty) {
+      if (
+        key === 'source_sentence' ||
+        key === 'corrected_sentence' ||
+        key === 'error_type'
+      ) {
+        visibilty[key] = true;
+      } else {
+        if (filters[key] && filters[key].length > 1) {
+          visibilty[key] = true;
+        } else {
+          visibilty[key] = false;
+        }
+      }
+    }
+    setIsColumnVisible(visibilty);
+  }, [filters, isColumnVisible]);
+
   const createSortHandler = (property) => (event) => {
     handleRequestSort(event, property);
   };
@@ -133,6 +164,9 @@ export default function ResultTable({ data: rows }) {
   };
 
   function descendingComparator(a, b, orderBy) {
+    const countA = a['querriedErrorTypeCount'];
+    const countB = b['querriedErrorTypeCount'];
+
     if (orderBy === 'languageLevel') {
       if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -140,7 +174,14 @@ export default function ResultTable({ data: rows }) {
       if (b[orderBy] > a[orderBy]) {
         return 1;
       }
-      return 0;
+
+      // if (countA < countB) {
+      //   return -1;
+      // }
+      // if (countA > countB) {
+      //   return 1;
+      // }
+      // return 0;
     }
 
     if (
@@ -221,31 +262,34 @@ export default function ResultTable({ data: rows }) {
         <Table className="result-table" aria-label="simple table">
           <TableHead>
             <TableRow>
-              {headCells.map((headCell) => (
-                <TableCell
-                  key={headCell.id}
-                  sortDirection={orderBy === headCell.id ? order : false}
-                >
-                  {headCell.sortable ? (
-                    <TableSortLabel
-                      active={orderBy === headCell.id}
-                      direction={orderBy === headCell.id ? order : 'asc'}
-                      onClick={createSortHandler(headCell.id)}
+              {headCells.map(
+                (headCell) =>
+                  isColumnVisible[headCell.id] && (
+                    <TableCell
+                      key={headCell.id}
+                      sortDirection={orderBy === headCell.id ? order : false}
                     >
-                      {t(headCell.label)}
-                      {orderBy === headCell.id ? (
-                        <Box component="span" sx={visuallyHidden}>
-                          {order === 'desc'
-                            ? 'sorted descending'
-                            : 'sorted ascending'}
-                        </Box>
-                      ) : null}
-                    </TableSortLabel>
-                  ) : (
-                    <>{t(headCell.label)}</>
-                  )}
-                </TableCell>
-              ))}
+                      {headCell.sortable ? (
+                        <TableSortLabel
+                          active={orderBy === headCell.id}
+                          direction={orderBy === headCell.id ? order : 'asc'}
+                          onClick={createSortHandler(headCell.id)}
+                        >
+                          {t(headCell.label)}
+                          {orderBy === headCell.id ? (
+                            <Box component="span" sx={visuallyHidden}>
+                              {order === 'desc'
+                                ? 'sorted descending'
+                                : 'sorted ascending'}
+                            </Box>
+                          ) : null}
+                        </TableSortLabel>
+                      ) : (
+                        <>{t(headCell.label)}</>
+                      )}
+                    </TableCell>
+                  )
+              )}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -271,34 +315,48 @@ export default function ResultTable({ data: rows }) {
                   <TableCell>
                     {displayErrorTypes(row.errorTypes, row)}
                   </TableCell>
-                  <TableCell>{row.languageLevel}</TableCell>
-                  <TableCell>
-                    {row.textType
-                      ? t(
-                          textPublishSubTextTypesOptions[row.textType]
-                        ).toLowerCase()
-                      : '–'}
-                  </TableCell>
-                  <TableCell>
-                    {row.nativeLanguage
-                      ? t(languageOptions[row.nativeLanguage])
-                      : '–'}
-                  </TableCell>
-                  <TableCell>
-                    {row.education ? t(educationOptions[row.education]) : '–'}
-                  </TableCell>
-                  <TableCell>
-                    {row.citizenship
-                      ? t(nationalityOptions[row.citizenship])
-                      : '–'}
-                  </TableCell>
-                  <TableCell>
-                    {row.age
-                      ? row.age
-                      : row.ageRange
-                      ? t(ageOptions[row.ageRange])
-                      : '–'}
-                  </TableCell>
+                  {isColumnVisible['languageLevel'] && (
+                    <TableCell>
+                      {row.languageLevel} {row.querriedErrorTypeCount}
+                    </TableCell>
+                  )}
+                  {isColumnVisible['textType'] && (
+                    <TableCell>
+                      {row.textType
+                        ? t(
+                            textPublishSubTextTypesOptions[row.textType]
+                          ).toLowerCase()
+                        : '–'}
+                    </TableCell>
+                  )}
+                  {isColumnVisible['nativeLanguage'] && (
+                    <TableCell>
+                      {row.nativeLanguage
+                        ? t(languageOptions[row.nativeLanguage])
+                        : '–'}
+                    </TableCell>
+                  )}
+                  {isColumnVisible['education'] && (
+                    <TableCell>
+                      {row.education ? t(educationOptions[row.education]) : '–'}
+                    </TableCell>
+                  )}
+                  {isColumnVisible['citizenship'] && (
+                    <TableCell>
+                      {row.citizenship
+                        ? t(nationalityOptions[row.citizenship])
+                        : '–'}
+                    </TableCell>
+                  )}
+                  {isColumnVisible['age'] && (
+                    <TableCell>
+                      {row.age
+                        ? row.age
+                        : row.ageRange
+                        ? t(ageOptions[row.ageRange])
+                        : '–'}
+                    </TableCell>
+                  )}
                 </TableRow>
               );
             })}

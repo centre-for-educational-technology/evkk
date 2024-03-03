@@ -21,7 +21,7 @@ import ErrorCheckbox from './Checkbox';
 import { useTranslation } from 'react-i18next';
 import OptionalFilters from './OptionalFilters';
 
-export default function FilterAccordion({ getData, setData }) {
+export default function RequestFilter({ getData, setData, setFilters }) {
   const [isLoading, setIsLoading] = useState(true);
   const [errorType, setErrorType] = useState([]);
   const [languageLevel, setLanguageLevel] = useState([]);
@@ -96,21 +96,22 @@ export default function FilterAccordion({ getData, setData }) {
     setData(null);
     let errorTypeFilter = mapFilterInput(errorType);
     let languageLevelFilter = mapFilterInput(languageLevel);
-    let optinalFilters = [];
+    let optionalFilters = [];
+
     if (nativeLanguage.length > 0) {
-      optinalFilters.push({ nativeLanguage: nativeLanguage });
+      optionalFilters.push({ nativeLanguage: nativeLanguage });
     }
     if (citizenship.length > 0) {
-      optinalFilters.push({ citizenship: citizenship });
+      optionalFilters.push({ citizenship: citizenship });
     }
     if (education.length > 0) {
-      optinalFilters.push({ education: education });
+      optionalFilters.push({ education: education });
     }
     if (textType.length > 0) {
-      optinalFilters.push({ textType: textType });
+      optionalFilters.push({ textType: textType });
     }
     if (ageRange.length > 0) {
-      optinalFilters.push({ ageRange: ageRange });
+      optionalFilters.push({ ageRange: ageRange });
     }
 
     if (errorTypeFilter.length === 0) {
@@ -134,7 +135,16 @@ export default function FilterAccordion({ getData, setData }) {
       if (languageLevelFilter.length === 4) {
         languageLevelFilter = [];
       }
-      getData(errorTypeFilter, languageLevelFilter, optinalFilters);
+
+      let filters = {
+        errorTypeFilter,
+        languageLevelFilter,
+        ...Object.assign({}, ...optionalFilters),
+      };
+
+      setFilters(filters);
+
+      getData(errorTypeFilter, languageLevelFilter, optionalFilters);
       handleIsExpanded('accordion');
     }
   };
