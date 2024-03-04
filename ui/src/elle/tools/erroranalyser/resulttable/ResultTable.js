@@ -33,9 +33,9 @@ export default function ResultTable({ data: rows, filters }) {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
   const [isColumnVisible, setIsColumnVisible] = useState({
-    source_sentence: false,
-    corrected_sentence: false,
-    error_type: false,
+    sourceSentence: true,
+    correctedSentence: true,
+    errorType: false,
     languageLevel: false,
     textType: false,
     nativeLanguage: false,
@@ -56,17 +56,17 @@ export default function ResultTable({ data: rows, filters }) {
 
   const headCells = [
     {
-      id: 'source_sentence',
+      id: 'sourceSentence',
       sortable: false,
       label: 'error_analyser_source_sentence',
     },
     {
-      id: 'corrected_sentence',
+      id: 'correctedSentence',
       sortable: false,
       label: 'error_analyser_corrected_sentence',
     },
     {
-      id: 'error_type',
+      id: 'errorType',
       sortable: false,
       label: 'error_analyser_error_type',
     },
@@ -106,9 +106,9 @@ export default function ResultTable({ data: rows, filters }) {
     let visibilty = isColumnVisible;
     for (const key in visibilty) {
       if (
-        key === 'source_sentence' ||
-        key === 'corrected_sentence'
-        // || key === 'error_type'
+        key === 'sourceSentence' ||
+        key === 'correctedSentence'
+        // || key === 'errorType'
       ) {
         visibilty[key] = true;
       } else {
@@ -296,7 +296,7 @@ export default function ResultTable({ data: rows, filters }) {
             {visibleRows.map((row, index) => {
               return (
                 <TableRow key={row.sentenceId}>
-                  <TableCell component="th" scope="row">
+                  <TableCell>
                     <Box
                       className="clickable"
                       onClick={() => previewText(row.textId, row.sentence)}
@@ -313,7 +313,7 @@ export default function ResultTable({ data: rows, filters }) {
                       />
                     }
                   </TableCell>
-                  {isColumnVisible['errorTypes'] && (
+                  {isColumnVisible['errorType'] && (
                     <TableCell>
                       {displayErrorTypes(row.errorTypes, row)}
                     </TableCell>
