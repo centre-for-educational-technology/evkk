@@ -107,8 +107,8 @@ export default function ResultTable({ data: rows, filters }) {
     for (const key in visibilty) {
       if (
         key === 'source_sentence' ||
-        key === 'corrected_sentence' ||
-        key === 'error_type'
+        key === 'corrected_sentence'
+        // || key === 'error_type'
       ) {
         visibilty[key] = true;
       } else {
@@ -307,14 +307,17 @@ export default function ResultTable({ data: rows, filters }) {
                   <TableCell>
                     {
                       <CorrectedSentenceCell
+                        sentence={row.transformedSentence}
                         sentence={row.sentence}
                         annotations={row.annotations}
                       />
                     }
                   </TableCell>
-                  <TableCell>
-                    {displayErrorTypes(row.errorTypes, row)}
-                  </TableCell>
+                  {isColumnVisible['errorTypes'] && (
+                    <TableCell>
+                      {displayErrorTypes(row.errorTypes, row)}
+                    </TableCell>
+                  )}
                   {isColumnVisible['languageLevel'] && (
                     <TableCell>
                       {row.languageLevel} {row.querriedErrorTypeCount}

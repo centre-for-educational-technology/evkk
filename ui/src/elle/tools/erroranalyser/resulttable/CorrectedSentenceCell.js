@@ -188,6 +188,7 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
 
   useEffect(() => {
     const transformedSentence = transformSentence(sentence);
+    // const transformedSentence = sentence;
     const groupedAnnotations = groupAnnotations(
       annotations,
       transformedSentence
