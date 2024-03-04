@@ -45,6 +45,8 @@ subprojects {
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     //developmentOnly "org.springframework.boot:spring-boot-devtools"
     testImplementation project(":test")
+
+    implementation 'com.google.code.gson:gson:2.7'
   }
 
   tasks.withType(BootJar).configureEach {
