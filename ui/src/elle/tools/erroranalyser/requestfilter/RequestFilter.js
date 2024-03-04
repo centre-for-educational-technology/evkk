@@ -135,14 +135,21 @@ export default function RequestFilter({ getData, setData, setFilters }) {
       if (languageLevelFilter.length === 4) {
         languageLevelFilter = [];
       }
-
+      console.log(optionalFilters);
       let filters = {
-        errorTypeFilter,
-        languageLevelFilter,
-        ...Object.assign({}, ...optionalFilters),
+        errorType: errorTypeFilter,
+        languageLevel: languageLevelFilter,
+        nativeLanguage,
+        citizenship,
+        education,
+        education,
+        textType,
+
+        age: ageRange,
       };
 
       setFilters(filters);
+      console.log(filters);
 
       getData(errorTypeFilter, languageLevelFilter, optionalFilters);
       handleIsExpanded('accordion');
