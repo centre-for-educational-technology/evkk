@@ -18,12 +18,14 @@ public class ErrorAnalyserTransformedSentence {
     private Map<String, Integer> errorTypes;
     private Integer querriedErrorTypeCount;
     private List<Map<String, ErrorAnalyserAnnotation>> groupedAnnotations;
+    private Map<String, Object> transformedSentence;
     // private List<Map<String, Integer>> groupedErrorTypes;
 
     public ErrorAnalyserTransformedSentence(String sentenceId, String sentence, String textId, String languageLevel,
             String nativeLanguage, String textType, String age, String ageRange, String education, String citizenship,
             List<ErrorAnalyserAnnotation> annotations, Map<String, Integer> errorTypes,
-            Integer querriedErrorTypeCount, List<Map<String, ErrorAnalyserAnnotation>> groupedAnnotations) {
+            Integer querriedErrorTypeCount, List<Map<String, ErrorAnalyserAnnotation>> groupedAnnotations,
+            Map<String, Object> transformedSentence) {
         this.sentenceId = sentenceId;
         this.sentence = sentence;
         this.textId = textId;
@@ -38,6 +40,7 @@ public class ErrorAnalyserTransformedSentence {
         this.errorTypes = errorTypes;
         this.querriedErrorTypeCount = querriedErrorTypeCount;
         this.groupedAnnotations = groupedAnnotations;
+        this.transformedSentence = transformedSentence;
     }
 
     public String getSentenceId() {
@@ -94,6 +97,10 @@ public class ErrorAnalyserTransformedSentence {
 
     public List<Map<String, ErrorAnalyserAnnotation>> getGroupedAnnotations() {
         return groupedAnnotations;
+    }
+
+    public Map<String, Object> getTransformedSentence() {
+        return transformedSentence;
     }
 
 }

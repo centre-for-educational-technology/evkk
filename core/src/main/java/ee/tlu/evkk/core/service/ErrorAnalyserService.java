@@ -5,9 +5,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -40,12 +42,13 @@ public class ErrorAnalyserService {
             List<ErrorAnalyserAnnotation> annotations = listItem.getAnnotations();
             Map<String, Integer> errorTypes = getErrorTypesAndQuerriedErrorCount(annotations);
             List<Map<String, ErrorAnalyserAnnotation>> groupedAnnotations = getGroupedAnnotations(annotations);
+            Map<String, Object> transformedSentence = transformSentence(listItem.getSentence());
 
             ErrorAnalyserTransformedSentence transformedListItem = new ErrorAnalyserTransformedSentence(
                     listItem.getSentenceId(), listItem.getSentence(), listItem.getTextId(), listItem.getLanguageLevel(),
                     listItem.getNativeLanguage(), listItem.getTextType(), listItem.getAge(), listItem.getAgeRange(),
                     listItem.getEducation(), listItem.getCitizenship(), listItem.getAnnotations(), errorTypes,
-                    querriedErrorCount, groupedAnnotations);
+                    querriedErrorCount, groupedAnnotations, transformedSentence);
             transformedListItems.add(transformedListItem);
         }
         return transformedListItems;
@@ -126,7 +129,44 @@ public class ErrorAnalyserService {
             Map<String, ErrorAnalyserAnnotation> annotationGroup = annotationGroups.get(annotatorId);
             annotationGroup.put(key, annotation);
         }
+
+        annotationGroups.removeIf(Objects::isNull);
         return annotationGroups;
+    }
+
+    // public Map<String, ErrorAnalyserAnnotation> getSplitSentence() {
+    // Map<String, ErrorAnalyserAnnotation> splitSentence;
+    // return splitSentence;
+    // }
+
+    // public List<Map<String, ErrorAnalyserAnnotation>> transformSentence(String
+    // sentence) {
+    // Map<String, ErrorAnalyserAnnotation> transformedSentence = new HashMap<>();
+    // String[] words = sentence.split(" ");
+
+    // for (int index = 0; index < words.length; index++) {
+    // String key = String.format("%d::%d::-1", index, index + 1);
+    // Map<String, ErrorAnalyserAnnotation> value = new HashMap<>();
+    // value.put("content", words[index]);
+    // value.put("status", "initial");
+    // transformedSentence.put(key, value);
+    // }
+    // return transformedSentence;
+    // }
+
+    public static Map<String, Object> transformSentence(String sentence) {
+        Map<String, Object> transformedSentence = new HashMap<>();
+        String[] words = sentence.split(" ");
+
+        for (int index = 0; index < words.length; index++) {
+            String key = String.format("%d::%d::-1", index, index + 1);
+            Map<String, String> value = new HashMap<>();
+            value.put("content", words[index]);
+            value.put("status", "initial");
+            transformedSentence.put(key, value);
+        }
+
+        return transformedSentence;
     }
 
     // PRAEGU EI KASUTA
