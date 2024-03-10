@@ -1,12 +1,14 @@
 package ee.tlu.evkk.api.controller;
 
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+//import com.google.gson.Gson;
+//import com.google.gson.JsonArray;
+//import com.google.gson.JsonObject;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.dto.TextAndMetadata;
+import ee.tlu.evkk.dal.dto.TextMetadata;
 import java.util.Map;
+import java.util.HashMap;
 
 
 import ee.evkk.dto.AddingRequestDto;
@@ -381,7 +383,7 @@ public class TextController {
     if (haridus.equals("alusharidus")) {return "elementary education";}
     if (haridus.equals("põhiharidus")) {return "basic education";}
     if (haridus.equals("keskharidus")) {return "secondary education";}
-    if (haridus.equals("Keskeriharidus/kutseharidus")) {return "(secondary) vocational education";}
+    if (haridus.equals("keskeriharidus/kutseharidus")) {return "(secondary) vocational education";}
     if (haridus.equals("kõrgharidus")) {return "higher education";}
     return haridus;
   }
@@ -405,10 +407,21 @@ public class TextController {
 
   @GetMapping("/kysiTei")
   public String kysiTei(String id) {
-    Gson gson = new Gson();
+    //Gson gson = new Gson();
+    //System.out.println("id "+id);
+    //return "id on "+id;
+
     TextAndMetadata tm=textDao.findTextAndMetadataById(UUID.fromString(id));
     System.out.println(tm);
-    return tm.toString();
+    System.out.println(tm.getText());
+    System.out.println(tm.getProperties().get(0).getPropertyName());
+    System.out.println(tm.getProperties().get(0).getPropertyValue());
+
+    HashMap<String, String> omadused=new HashMap<>();
+    for(TextMetadata t : tm.getProperties()){
+      omadused.put(t.getPropertyName(), t.getPropertyValue());
+    }
+//    return omadused.toString();
     /*    String metaStr = textDao.findTextMetadata(UUID.fromString(id));
     JsonArray jsonArray = gson.fromJson(metaStr, JsonArray.class);
     Map<String, String> omadused = new TreeMap<>();
@@ -421,6 +434,7 @@ public class TextController {
       }
     }
     //return omadused.toString();
+    */
     try {
       DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
 
@@ -622,7 +636,7 @@ public class TextController {
       if (omadused.containsKey("haridus")) {
         Element education = document.createElement("education");
         person.appendChild(education);
-        education.appendChild(document.createTextNode(haridusEn(omadused.get("haridus"))));
+        education.appendChild(document.createTextNode(haridusEn(omadused.get("haridus").toLowerCase())));
       }
       if (omadused.containsKey("oppeaste")) {
         Element education = document.createElement("education");
@@ -647,18 +661,31 @@ public class TextController {
       Optional<Text> tsisu = textDao.findById(UUID.fromString(id));
       if (tsisu.isPresent()) {
         String s1 = tsisu.get().getContent();
-        System.out.println(s1);
-        String[] read = s1.split("\\\\n");
-        //System.out.println(read.length);
-        //for (int i = 0; i < s1.length(); i++) {
-        //  System.out.println(i+" "+s1.charAt(i));
-        //}
-        for (String rida : read) {
-          Element elP = document.createElement("p");
-          body.appendChild(elP);
-          Element elS = document.createElement("s");
-          elP.appendChild(elS);
-          elS.appendChild(document.createTextNode(rida));
+        System.out.println(s1.length());
+        s1=s1.replace("\\", "#");
+        System.out.println(s1.length());
+        System.out.println("asendatud\n"+s1);
+        String[] read = s1.split("#n#n");
+//        System.out.println("uus\n"+read[0]);
+        System.out.println(read.length);
+        if(read.length==1) {
+          for (String rida : read[0].split("#n")) {
+            Element elP = document.createElement("p");
+            body.appendChild(elP);
+            Element elS = document.createElement("s");
+            elP.appendChild(elS);
+            elS.appendChild(document.createTextNode(rida));
+          }
+        } else {
+          for(String loik : read){
+            Element elP = document.createElement("p");
+            body.appendChild(elP);
+            for(String rida: loik.split("#n")){
+              Element elS = document.createElement("s");
+              elP.appendChild(elS);
+              elS.appendChild(document.createTextNode(rida));
+            }
+          }
         }
       }
 
@@ -677,7 +704,7 @@ public class TextController {
       return ex.toString();
     }
 //    return jsonArray.size()+" "+((JsonObject)jsonArray.get(0)).get("property_name");
-*/
+
   }
 
 
