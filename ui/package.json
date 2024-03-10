@@ -7,7 +7,7 @@
     "@emotion/styled": "^11.10.5",
     "@fontsource/exo-2": "^4.5.10",
     "@fortawesome/fontawesome-free": "^5.15.4",
-    "@mui/icons-material": "^5.8.4",
+    "@mui/icons-material": "^5.15.10",
     "@mui/lab": "^5.0.0-alpha.94",
     "@mui/material": "^5.10.13",
     "@mui/styles": "^5.10.10",
