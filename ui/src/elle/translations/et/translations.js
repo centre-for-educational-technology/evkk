@@ -269,7 +269,7 @@ export const TRANSLATIONS_ET = {
   query_subcorpus_L3_russian: 'K3 vene keel',
   query_subcorpus_L3_russian_hover: 'Sisaldab tekste eesti emakeelega õpilastelt, kes õpivad koolis vene keelt kolmanda keelena.',
   query_subcorpus_academic_estonian: 'Akadeemiline eesti keel',
-  query_subcorpus_academic_estonian_hover: 'Sisaldab eesti emakeelega ja eesti keelt teise keelena kasutavate üliöpilaste akadeemilise keelekasutuse näiteid (referaadid, seminaritööd, lõputood jm).',
+  query_subcorpus_academic_estonian_hover: 'Sisaldab eesti emakeelega ja eesti keelt teise keelena kasutavate üliöpilaste akadeemilise keelekasutuse näiteid (referaadid, seminaritööd, lõputööd jm).',
   query_subcorpus_all: 'kõik',
   query_text_data_char_over_5000: 'üle 5000',
   query_text_data_char_up_to_500: 'kuni 500',
