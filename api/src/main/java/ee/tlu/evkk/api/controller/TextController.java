@@ -284,6 +284,8 @@ public class TextController {
     if (keel.equals("ukraina")) {return "Ukrainian";}
     if (keel.equals("ungari")) {return "Hungarian";}
     if (keel.equals("valgevene")) {return "Belarusian";}
+    if (keel.equals("määramata")) {return "unspecified";}
+
     if (keel.equals("")) {return "";}
     return keel;
   }
