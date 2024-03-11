@@ -262,6 +262,7 @@ public class TextController {
   }
 
   private String keelEn(String keel) {
+    keel=keel.toLowerCase();
     if (keel.equals("eesti")) {return "Estonian";}
     if (keel.equals("vene")) {return "Russian";}
     if (keel.equals("soome")) {return "Finnish";}
@@ -628,10 +629,15 @@ public class TextController {
         langKnown.setAttributeNode(attr);
         langKnown.appendChild(document.createTextNode(keelEn(omadused.get("muudkeeled"))));
       }
-      if (omadused.containsKey("elukohariik")) {
+      if (omadused.containsKey("kodakondsus")) {
+        Element residence = document.createElement("nationality");
+        person.appendChild(residence);
+        residence.appendChild(document.createTextNode(keelEn(omadused.get("kodakondsus"))));
+      }
+      if (omadused.containsKey("riik")) {
         Element residence = document.createElement("residence");
         person.appendChild(residence);
-        residence.appendChild(document.createTextNode(riikEn(omadused.get("elukohariik"))));
+        residence.appendChild(document.createTextNode(riikEn(omadused.get("riik"))));
       }
       if (omadused.containsKey("haridus")) {
         Element education = document.createElement("education");
