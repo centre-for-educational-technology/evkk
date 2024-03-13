@@ -17,6 +17,7 @@ import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.Pageable;
 import ee.tlu.evkk.dal.dto.TextAndMetadata;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -43,8 +44,8 @@ import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
 import static org.springframework.http.ResponseEntity.ok;
 import static org.springframework.web.util.UriComponentsBuilder.fromUri;
 
-
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/texts")
 public class TextController {
 
@@ -54,15 +55,6 @@ public class TextController {
   private final CorrectorServerClient correctorServerClient;
   private final TextService textService;
   private final ServiceLocator serviceLocator;
-
-  public TextController(TextDao uusTDao, StanzaServerClient stanzaServerClient, CorrectorServerClient correctorServerClient, TextService textService, ServiceLocator serviceLocator, TeiService teiService) {
-    textDao = uusTDao;
-    this.stanzaServerClient = stanzaServerClient;
-    this.correctorServerClient = correctorServerClient;
-    this.textService = textService;
-    this.serviceLocator = serviceLocator;
-    this.teiService = teiService;
-  }
 
   @PostMapping("/kysitekstid")
   public String kysiTekstid(@RequestBody CorpusTextContentsDto dto) {
