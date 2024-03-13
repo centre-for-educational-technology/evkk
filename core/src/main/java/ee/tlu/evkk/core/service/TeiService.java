@@ -31,131 +31,92 @@ public class TeiService {
 
   private String keelEn(String keel) {
     keel = keel.toLowerCase();
-    if (keel.equals("eesti")) {return "Estonian";}
-    if (keel.equals("vene")) {return "Russian";}
-    if (keel.equals("soome")) {return "Finnish";}
-    if (keel.equals("inglise")) {return "English";}
-    if (keel.equals("saksa")) {return "German";}
-    if (keel.equals("prantsuse")) {return "French";}
-    if (keel.equals("heebrea")) {return "Hebrew";}
-    if (keel.equals("hollandi")) {return "Dutch";}
-    if (keel.equals("itaalia")) {return "Italian";}
-    if (keel.equals("jaapani")) {return "Japanese";}
-    if (keel.equals("jidiš")) {return "Yiddish";}
-    if (keel.equals("katalaani")) {return "Catalan";}
-    if (keel.equals("leedu")) {return "Lithuanian";}
-    if (keel.equals("läti")) {return "Latvian";}
-    if (keel.equals("poola")) {return "Polish";}
-    if (keel.equals("rootsi")) {return "Swedish";}
-    if (keel.equals("sloveenia")) {return "Slovenian";}
-    if (keel.equals("tšehhi")) {return "Czech";}
-    if (keel.equals("ukraina")) {return "Ukrainian";}
-    if (keel.equals("ungari")) {return "Hungarian";}
-    if (keel.equals("valgevene")) {return "Belarusian";}
-    if (keel.equals("määramata")) {return "unspecified";}
 
-    if (keel.equals("")) {return "";}
+    if (keel.equals("eesti")) return "Estonian";
+    if (keel.equals("vene")) return "Russian";
+    if (keel.equals("soome")) return "Finnish";
+    if (keel.equals("inglise")) return "English";
+    if (keel.equals("saksa")) return "German";
+    if (keel.equals("prantsuse")) return "French";
+    if (keel.equals("heebrea")) return "Hebrew";
+    if (keel.equals("hollandi")) return "Dutch";
+    if (keel.equals("itaalia")) return "Italian";
+    if (keel.equals("jaapani")) return "Japanese";
+    if (keel.equals("jidiš")) return "Yiddish";
+    if (keel.equals("katalaani")) return "Catalan";
+    if (keel.equals("leedu")) return "Lithuanian";
+    if (keel.equals("läti")) return "Latvian";
+    if (keel.equals("poola")) return "Polish";
+    if (keel.equals("rootsi")) return "Swedish";
+    if (keel.equals("sloveenia")) return "Slovenian";
+    if (keel.equals("tšehhi")) return "Czech";
+    if (keel.equals("ukraina")) return "Ukrainian";
+    if (keel.equals("ungari")) return "Hungarian";
+    if (keel.equals("valgevene")) return "Belarusian";
+    if (keel.equals("määramata")) return "unspecified";
+    if (keel.isEmpty()) return "";
+
     return keel;
   }
 
   private String keelEnKood(String keel) {
-    if (keel.equals("eesti")) {return "et";}
-    if (keel.equals("vene")) {return "ru";}
-    if (keel.equals("soome")) {return "fi";}
-    if (keel.equals("inglise")) {return "en";}
-    if (keel.equals("saksa")) {return "de";}
-    if (keel.equals("prantsuse")) {return "fr";}
-    if (keel.equals("heebrea")) {return "he";}
-    if (keel.equals("hollandi")) {return "nl";}
-    if (keel.equals("itaalia")) {return "it";}
-    if (keel.equals("jaapani")) {return "ja";}
-    if (keel.equals("jidiš")) {return "ji";}
-    if (keel.equals("katalaani")) {return "ca";}
-    if (keel.equals("leedu")) {return "lt";}
-    if (keel.equals("läti")) {return "lv";}
-    if (keel.equals("poola")) {
-      return "pl";
-    }
-    if (keel.equals("rootsi")) {
-      return "sv";
-    }
-    if (keel.equals("sloveenia")) {
-      return "sl";
-    }
-    if (keel.equals("tšehhi")) {
-      return "cs";
-    }
-    if (keel.equals("ukraina")) {
-      return "ua";
-    }
-    if (keel.equals("ungari")) {
-      return "hu";
-    }
-    if (keel.equals("valgevene")) {
-      return "be";
-    }
+    if (keel.equals("eesti")) return "et";
+    if (keel.equals("vene")) return "ru";
+    if (keel.equals("soome")) return "fi";
+    if (keel.equals("inglise")) return "en";
+    if (keel.equals("saksa")) return "de";
+    if (keel.equals("prantsuse")) return "fr";
+    if (keel.equals("heebrea")) return "he";
+    if (keel.equals("hollandi")) return "nl";
+    if (keel.equals("itaalia")) return "it";
+    if (keel.equals("jaapani")) return "ja";
+    if (keel.equals("jidiš")) return "ji";
+    if (keel.equals("katalaani")) return "ca";
+    if (keel.equals("leedu")) return "lt";
+    if (keel.equals("läti")) return "lv";
+    if (keel.equals("poola")) return "pl";
+    if (keel.equals("rootsi")) return "sv";
+    if (keel.equals("sloveenia")) return "sl";
+    if (keel.equals("tšehhi")) return "cs";
+    if (keel.equals("ukraina")) return "ua";
+    if (keel.equals("ungari")) return "hu";
+    if (keel.equals("valgevene")) return "be";
+
     return keel;
   }
 
   private String korpusEn(String kood) {
-    if (kood.equals("cFqPphvYi")) {
-      return "Estonian L2 olympiade";
-    }
-    if (kood.equals("clWmOIrLa")) {
-      return "Estonian L2 proficiency examinations";
-    }
-    if (kood.equals("cFOoRQekA")) {
-      return "L2 Estonian";
-    }
-    if (kood.equals("cYDRkpymb")) {
-      return "L1 Estonian";
-    }
-    if (kood.equals("cgSRJPKTr")) {
-      return "L1 Russian";
-    }
-    if (kood.equals("cZjHWUPtD")) {
-      return "L3 Russian";
-    }
-    if (kood.equals("cwUSEqQLt")) {
-      return "Academic Estonian";
-    }
+    if (kood.equals("cFqPphvYi")) return "Estonian L2 olympiade";
+    if (kood.equals("clWmOIrLa")) return "Estonian L2 proficiency examinations";
+    if (kood.equals("cFOoRQekA")) return "L2 Estonian";
+    if (kood.equals("cYDRkpymb")) return "L1 Estonian";
+    if (kood.equals("cgSRJPKTr")) return "L1 Russian";
+    if (kood.equals("cZjHWUPtD")) return "L3 Russian";
+    if (kood.equals("cwUSEqQLt")) return "Academic Estonian";
+
     return kood;
   }
 
   private String riikEn(String riik) {
-    if (riik.equals("Eesti")) {
-      return "Estonia";
-    }
-    if (riik.equals("Leedu")) {
-      return "Lithuania";
-    }
-    if (riik.equals("Läti")) {
-      return "Latvia";
-    }
-    if (riik.equals("Rootsi")) {
-      return "Sweden";
-    }
-    if (riik.equals("Saksamaa")) {
-      return "Germany";
-    }
-    if (riik.equals("Soome")) {
-      return "Finland";
-    }
-    if (riik.equals("Suurbritannia")) {
-      return "United Kingdom";
-    }
-    if (riik.equals("Venemaa")) {
-      return "Russia";
-    }
+    if (riik.equals("Eesti")) return "Estonia";
+    if (riik.equals("Leedu")) return "Lithuania";
+    if (riik.equals("Läti")) return "Latvia";
+    if (riik.equals("Rootsi")) return "Sweden";
+    if (riik.equals("Saksamaa")) return "Germany";
+    if (riik.equals("Soome")) return "Finland";
+    if (riik.equals("Suurbritannia")) return "United Kingdom";
+    if (riik.equals("Venemaa")) return "Russia";
+
     return riik;
   }
 
   private String haridusEn(String haridus) {
-    if (haridus.equals("alusharidus")) {return "elementary education";}
-    if (haridus.equals("põhiharidus")) {return "basic education";}
-    if (haridus.equals("keskharidus")) {return "secondary education";}
-    if (haridus.equals("keskeriharidus/kutseharidus")) {return "(secondary) vocational education";}
-    if (haridus.equals("kõrgharidus")) {return "higher education";}
+    if (haridus.equals("alusharidus")) return "elementary education";
+    if (haridus.equals("põhiharidus")) return "basic education";
+    if (haridus.equals("keskharidus")) return "secondary education";
+    if (haridus.equals("keskeriharidus/kutseharidus")) return "(secondary) vocational education";
+    if (haridus.equals("kõrgharidus")) return "higher education";
+
     return haridus;
   }
 

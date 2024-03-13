@@ -1,10 +1,5 @@
 package ee.tlu.evkk.api.controller;
 
-
-//import com.google.gson.Gson;
-//import com.google.gson.JsonArray;
-//import com.google.gson.JsonObject;
-
 import ee.evkk.dto.AddingRequestDto;
 import ee.evkk.dto.CommonTextRequestDto;
 import ee.evkk.dto.CorpusDownloadDto;
