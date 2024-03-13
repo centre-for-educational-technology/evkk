@@ -1210,7 +1210,7 @@ VALUES ('e25632dc-fa2a-4347-b708-6b2eb3715c37', 'tekstikeel', 'eesti');
 INSERT INTO core.text_property(text_id, property_name, property_value)
 VALUES ('e25632dc-fa2a-4347-b708-6b2eb3715c37', 'aasta', '1998');
 INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('e25632dc-fa2a-4347-b708-6b2eb3715c37', 'ajavahemik', '');
+VALUES ('e25632dc-fa2a-4347-b708-6b2eb3715c37', 'ajavahemik', '2000-2005');
 INSERT INTO core.text_property(text_id, property_name, property_value)
 VALUES ('e25632dc-fa2a-4347-b708-6b2eb3715c37', 'korpus', 'cwUSEqQLt');
 INSERT INTO core.text_property(text_id, property_name, property_value)
@@ -1667,7 +1667,7 @@ VALUES ('14c330a5-304d-4a33-93e2-96540b255843', 'tekstikeel', 'eesti');
 INSERT INTO core.text_property(text_id, property_name, property_value)
 VALUES ('14c330a5-304d-4a33-93e2-96540b255843', 'aasta', '1999');
 INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('14c330a5-304d-4a33-93e2-96540b255843', 'ajavahemik', '');
+VALUES ('14c330a5-304d-4a33-93e2-96540b255843', 'ajavahemik', '2000-2005');
 INSERT INTO core.text_property(text_id, property_name, property_value)
 VALUES ('14c330a5-304d-4a33-93e2-96540b255843', 'korpus', 'cwUSEqQLt');
 INSERT INTO core.text_property(text_id, property_name, property_value)
@@ -2846,46 +2846,6 @@ VALUES ('44331e82-3dac-4dc9-bbd4-696d964f604d', 'teaduskraad', 'ba');
 
 
 
-INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'failinimi', 'Infoteaduse_vajalikkus_distantsoppes.docx');
-INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'aasta', '2021');
-INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'ajavahemik', '2021-2025');
-INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'korpus', 'cwUSEqQLt');
-INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'title', 'Infoteaduse vajalikkus distantsõppes');
-INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'valdkond', 'yhiskondjakultuur');
-INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'tekstityyp', 'ak_eriala_essee');
-INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'tekstikeel', 'eesti');
-INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'akad_oppematerjal', 'ykskeelnesonastik');
-INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'akad_oppematerjal', 'terminisonastik');
-INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'akad_oppematerjal', 'kasiraamat');
-INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'akad_oppematerjal', 'automaatkontroll');
-INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'vanus', '41');
-INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'vanusevahemik', '41plus');
-INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'sugu', 'naine');
-INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'emakeel', 'eesti');
-INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'muudkeeled', 'vene');
-INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'muudkeeled', 'inglise');
-INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'riik', 'Eesti');
-INSERT INTO core.text_property(text_id, property_name, property_value)
-VALUES ('a7114d51-6b43-4f85-b86e-3696cf905477', 'oppeaste', 'bakalaureuseope');
 INSERT INTO core.text_property(text_id, property_name, property_value)
 VALUES ('a4130203-690c-4820-88ee-6ab4dbac527d', 'failinimi', 'Videomangimine_kui_hobi.docx');
 INSERT INTO core.text_property(text_id, property_name, property_value)
