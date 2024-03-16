@@ -26,15 +26,18 @@ import {
   educationOptions,
   ElleDefaultChip,
   genderOptions,
-  languageOptions,
+  languageOptionsForNativeLangs,
+  languageOptionsForOtherLangs,
   MenuProps,
   nationalityOptions,
   sentencesOptions,
   studyLevelOptions,
   textLanguageOptions,
   textLevelOptions,
+  textTypeList,
   textTypesOptions,
   usedMaterialsDisplayOptions,
+  usedMaterialsMultiList,
   usedMaterialsMultiOptions,
   useStyles,
   wordsOptions
@@ -363,6 +366,18 @@ export default function Query(props) {
     }
   };
 
+  const getTextTypeRenderValue = (textType) => {
+    return textType.length > 1
+      ? t('query_text_data_type_selected_plural', {amount: textType.length})
+      : t(textTypeList[textType[0]]);
+  };
+
+  const getUsedMultiMaterialsRenderValue = (material) => {
+    return material.length > 1
+      ? t('query_text_data_material_selected_plural', {amount: material.length})
+      : t(usedMaterialsMultiList[material[0]]);
+  };
+
   const checkTextTypeHierarchyCheckboxStatus = (name, corpus) => {
     let checked = true;
     Object.keys(textTypesOptions[corpus][name]).forEach(type => {
@@ -456,7 +471,7 @@ export default function Query(props) {
                   setNoResultsError(false);
                 }}>
           <div className="button-text-query">
-            <ManageSearchIcon className="manage-search-icon"/>
+            <ManageSearchIcon className="manage-search-icon" />
             <span className="manage-search-icon-text">
               {t('query_choose_texts')}
             </span>
@@ -475,13 +490,13 @@ export default function Query(props) {
               <div className="queryContainer">
                 <div>
                   <b>{t('query_subcorpus')}</b>
-                  <br/><br/>
+                  <br /><br />
                   <Checkbox
                     checked={corpusCheckboxStatus.all}
                     onChange={alterAllCorpusCheckboxes}
                   />
                   <label>{t('query_subcorpus_all')}</label>
-                  <br/>
+                  <br />
                   <Checkbox
                     id="clWmOIrLa"
                     checked={corpusCheckboxStatus.clWmOIrLa}
@@ -493,7 +508,7 @@ export default function Query(props) {
                       {t('query_subcorpus_L2_proficiency_examinations')}
                     </label>
                   </Tooltip>
-                  <br/>
+                  <br />
                   <Checkbox
                     id="cFqPphvYi"
                     checked={corpusCheckboxStatus.cFqPphvYi}
@@ -505,7 +520,7 @@ export default function Query(props) {
                       {t('query_subcoprus_L2_olympiade')}
                     </label>
                   </Tooltip>
-                  <br/>
+                  <br />
                   <Checkbox
                     id="cFOoRQekA"
                     checked={corpusCheckboxStatus.cFOoRQekA}
@@ -518,7 +533,7 @@ export default function Query(props) {
                       {t('query_subcorpus_L2_estonian')}
                     </label>
                   </Tooltip>
-                  <br/>
+                  <br />
                   <Checkbox
                     id="cYDRkpymb"
                     checked={corpusCheckboxStatus.cYDRkpymb}
@@ -530,7 +545,7 @@ export default function Query(props) {
                       {t('query_subcorpus_L1_estonian')}
                     </label>
                   </Tooltip>
-                  <br/>
+                  <br />
                   <Checkbox
                     id="cgSRJPKTr"
                     checked={corpusCheckboxStatus.cgSRJPKTr}
@@ -542,7 +557,7 @@ export default function Query(props) {
                       {t('query_subcorpus_L1_russian')}
                     </label>
                   </Tooltip>
-                  <br/>
+                  <br />
                   <Checkbox
                     id="cZjHWUPtD"
                     checked={corpusCheckboxStatus.cZjHWUPtD}
@@ -555,7 +570,7 @@ export default function Query(props) {
                       {t('query_subcorpus_L3_russian')}
                     </label>
                   </Tooltip>
-                  <br/>
+                  <br />
                   <Checkbox
                     id="cwUSEqQLt"
                     checked={corpusCheckboxStatus.cwUSEqQLt}
@@ -568,11 +583,11 @@ export default function Query(props) {
                       {t('query_subcorpus_academic_estonian')}
                     </label>
                   </Tooltip>
-                  <br/>
+                  <br />
                 </div>
                 <div>
                   <b>{t('common_text_data')}</b>
-                  <br/><br/>
+                  <br /><br />
                   <FormControl className={classes.formControl}
                                size="small">
                     <InputLabel id="types-label">{t('query_text_data_type')}</InputLabel>
@@ -582,7 +597,7 @@ export default function Query(props) {
                       multiple
                       value={textTypes}
                       name="types"
-                      renderValue={(textType) => textType.length > 1 ? t('query_text_data_type_selected_plural', {amount: textType.length}) : t('query_text_data_type_selected')}
+                      renderValue={getTextTypeRenderValue}
                       disabled={getSelectedCorpusList().length === 0}
                       MenuProps={MenuProps}
                     >
@@ -595,10 +610,10 @@ export default function Query(props) {
                                         value={textType}>
                               <ListItemIcon>
                                 <Checkbox id={textType}
-                                          checked={textTypes.indexOf(textType) > -1}/>
+                                          checked={textTypes.indexOf(textType) > -1} />
                               </ListItemIcon>
                               <ListItemText id={textType}
-                                            primary={t(textTypesOptions[corpus][textType])}/>
+                                            primary={t(textTypesOptions[corpus][textType])} />
                             </MenuItem>
                             : <span key={`${textType}_span`}>
                             <MenuItem key={textType}
@@ -607,10 +622,10 @@ export default function Query(props) {
                                       value={textType}>
                               <ListItemIcon>
                                 <Checkbox id={textType}
-                                          checked={checkTextTypeHierarchyCheckboxStatus(textType, corpus)}/>
+                                          checked={checkTextTypeHierarchyCheckboxStatus(textType, corpus)} />
                               </ListItemIcon>
                               <ListItemText id={textType}
-                                            primary={t(textType)}/>
+                                            primary={t(textType)} />
                             </MenuItem>
                               {Object.keys(textTypesOptions[corpus][textType]).map((specificTextType) => (
                                 <MenuItem key={specificTextType}
@@ -620,10 +635,10 @@ export default function Query(props) {
                                           sx={{paddingLeft: '2rem'}}>
                                   <ListItemIcon>
                                     <Checkbox id={specificTextType}
-                                              checked={textTypes.indexOf(specificTextType) > -1}/>
+                                              checked={textTypes.indexOf(specificTextType) > -1} />
                                   </ListItemIcon>
                                   <ListItemText id={specificTextType}
-                                                primary={t(textTypesOptions[corpus][textType][specificTextType])}/>
+                                                primary={t(textTypesOptions[corpus][textType][specificTextType])} />
                                 </MenuItem>
                               ))}
                           </span>
@@ -631,7 +646,7 @@ export default function Query(props) {
                       ))}
                     </Select>
                   </FormControl>
-                  <br/><br/>
+                  <br /><br />
                   <FormControl size="small">
                     <InputLabel id="language-label">{t('query_text_data_language')}</InputLabel>
                     <Select
@@ -648,7 +663,7 @@ export default function Query(props) {
                       ))}
                     </Select>
                   </FormControl>
-                  <br/><br/>
+                  <br /><br />
                   {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
                     ? <>
                       <FormControl size="small">
@@ -668,7 +683,7 @@ export default function Query(props) {
                           ))}
                         </Select>
                       </FormControl>
-                      <br/><br/>
+                      <br /><br />
                       <FormControl
                         className={classes.formControl}
                         size="small"
@@ -682,7 +697,7 @@ export default function Query(props) {
                           multiple
                           value={usedMultiMaterials}
                           name="usedMultiMaterials"
-                          renderValue={(material) => material.length > 1 ? t('query_text_data_material_selected_plural', {amount: material.length}) : t('query_text_data_material_selected')}
+                          renderValue={getUsedMultiMaterialsRenderValue}
                           MenuProps={MenuProps}
                         >
                           {Object.keys(usedMaterialsMultiOptions).map((material) => (
@@ -693,10 +708,10 @@ export default function Query(props) {
                                           value={material}>
                                 <ListItemIcon>
                                   <Checkbox id={material}
-                                            checked={usedMultiMaterials.indexOf(material) > -1}/>
+                                            checked={usedMultiMaterials.indexOf(material) > -1} />
                                 </ListItemIcon>
                                 <ListItemText id={material}
-                                              primary={t(usedMaterialsMultiOptions[material])}/>
+                                              primary={t(usedMaterialsMultiOptions[material])} />
                               </MenuItem>
                               : <span key={`${material}_span`}>
                                 <MenuItem key={material}
@@ -705,10 +720,10 @@ export default function Query(props) {
                                           value={material}>
                                   <ListItemIcon>
                                     <Checkbox id={material}
-                                              checked={checkUsedMaterialsHierarchyCheckboxStatus(material)}/>
+                                              checked={checkUsedMaterialsHierarchyCheckboxStatus(material)} />
                                   </ListItemIcon>
                                   <ListItemText id={material}
-                                                primary={t(material)}/>
+                                                primary={t(material)} />
                                 </MenuItem>
                                 {Object.keys(usedMaterialsMultiOptions[material]).map((subMaterial) => (
                                   <MenuItem key={subMaterial}
@@ -719,10 +734,10 @@ export default function Query(props) {
                                     <ListItemIcon>
                                       <Checkbox id={subMaterial}
                                                 style={{color: '#9C27B0'}}
-                                                checked={usedMultiMaterials.indexOf(subMaterial) > -1}/>
+                                                checked={usedMultiMaterials.indexOf(subMaterial) > -1} />
                                     </ListItemIcon>
                                     <ListItemText id={subMaterial}
-                                                  primary={t(usedMaterialsMultiOptions[material][subMaterial])}/>
+                                                  primary={t(usedMaterialsMultiOptions[material][subMaterial])} />
                                   </MenuItem>
                                 ))}
                               </span>
@@ -746,7 +761,7 @@ export default function Query(props) {
                           ))}
                         </Select>
                       </FormControl>
-                      <br/><br/>
+                      <br /><br />
                       <FormControl size="small">
                         <InputLabel
                           id="usedMaterials-label">{t('query_text_data_used_supporting_materials')}</InputLabel>
@@ -766,7 +781,7 @@ export default function Query(props) {
                       </FormControl>
                     </>
                   }
-                  <br/><br/>
+                  <br /><br />
                   <FormControl className={classes.formControl}
                                size="small">
                     <InputLabel
@@ -785,14 +800,14 @@ export default function Query(props) {
                         <MenuItem key={year}
                                   value={t(year)}>
                           <ListItemIcon>
-                            <Checkbox checked={addedYears.indexOf(t(year)) > -1}/>
+                            <Checkbox checked={addedYears.indexOf(t(year)) > -1} />
                           </ListItemIcon>
-                          <ListItemText primary={year}/>
+                          <ListItemText primary={year} />
                         </MenuItem>
                       ))}
                     </Select>
                   </FormControl>
-                  <br/><br/>
+                  <br /><br />
                   <FormControl className={classes.formControl}
                                size="small">
                     <InputLabel id="characters-label">{t('query_text_data_characters')}</InputLabel>
@@ -810,14 +825,14 @@ export default function Query(props) {
                         <MenuItem key={item}
                                   value={t(item)}>
                           <ListItemIcon>
-                            <Checkbox checked={characters.indexOf(t(item)) > -1}/>
+                            <Checkbox checked={characters.indexOf(t(item)) > -1} />
                           </ListItemIcon>
-                          <ListItemText primary={t(item)}/>
+                          <ListItemText primary={t(item)} />
                         </MenuItem>
                       ))}
                     </Select>
                   </FormControl>
-                  <br/><br/>
+                  <br /><br />
                   <FormControl className={classes.formControl}
                                size="small">
                     <InputLabel id="words-label">{t('common_words')}</InputLabel>
@@ -835,14 +850,14 @@ export default function Query(props) {
                         <MenuItem key={item}
                                   value={t(item)}>
                           <ListItemIcon>
-                            <Checkbox checked={words.indexOf(t(item)) > -1}/>
+                            <Checkbox checked={words.indexOf(t(item)) > -1} />
                           </ListItemIcon>
-                          <ListItemText primary={t(item)}/>
+                          <ListItemText primary={t(item)} />
                         </MenuItem>
                       ))}
                     </Select>
                   </FormControl>
-                  <br/><br/>
+                  <br /><br />
                   <FormControl className={classes.formControl}
                                size="small">
                     <InputLabel id="sentences-label">{t('common_sentences')}</InputLabel>
@@ -860,9 +875,9 @@ export default function Query(props) {
                         <MenuItem key={item}
                                   value={t(item)}>
                           <ListItemIcon>
-                            <Checkbox checked={sentences.indexOf(t(item)) > -1}/>
+                            <Checkbox checked={sentences.indexOf(t(item)) > -1} />
                           </ListItemIcon>
-                          <ListItemText primary={t(item)}/>
+                          <ListItemText primary={t(item)} />
                         </MenuItem>
                       ))}
                     </Select>
@@ -870,7 +885,7 @@ export default function Query(props) {
                 </div>
                 <div>
                   <b>{t('common_author_data')}</b>
-                  <br/><br/>
+                  <br /><br />
                   <FormControl size="small">
                     <InputLabel id="age-label">{t('query_author_data_age')}</InputLabel>
                     <Select
@@ -886,7 +901,7 @@ export default function Query(props) {
                       ))}
                     </Select>
                   </FormControl>
-                  <br/><br/>
+                  <br /><br />
                   <FormControl size="small">
                     <InputLabel id="gender-label">{t('query_author_data_gender')}</InputLabel>
                     <Select
@@ -903,7 +918,7 @@ export default function Query(props) {
                       ))}
                     </Select>
                   </FormControl>
-                  <br/><br/>
+                  <br /><br />
                   {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
                     ? <>
                       <FormControl size="small">
@@ -923,7 +938,7 @@ export default function Query(props) {
                           ))}
                         </Select>
                       </FormControl>
-                      <br/><br/>
+                      <br /><br />
                       <FormControl size="small">
                         <InputLabel
                           id="degree-label">{t('query_author_data_degree')}</InputLabel>
@@ -959,7 +974,7 @@ export default function Query(props) {
                         ))}
                       </Select>
                     </FormControl>}
-                  <br/><br/>
+                  <br /><br />
                   {checkIfOnlySpecificCorpusIsChecked('clWmOIrLa')
                     ? <FormControl size="small">
                       <InputLabel
@@ -989,14 +1004,14 @@ export default function Query(props) {
                         label={t('query_author_data_native_language')}
                         onClick={(e) => alterSinglePropertyData(e, 'nativeLang')}
                       >
-                        {Object.keys(languageOptions).map((lang) => (
+                        {Object.keys(languageOptionsForNativeLangs).map((lang) => (
                           <MenuItem key={lang}
-                                    value={lang}>{t(languageOptions[lang])}</MenuItem>
+                                    value={lang}>{t(languageOptionsForNativeLangs[lang])}</MenuItem>
                         ))}
                       </Select>
                     </FormControl>
                   }
-                  <br/><br/>
+                  <br /><br />
                   {checkIfOnlySpecificCorpusIsChecked('cwUSEqQLt')
                     ? <>
                       <FormControl size="small">
@@ -1010,13 +1025,13 @@ export default function Query(props) {
                           label={t('query_author_data_other_languages')}
                           onClick={(e) => alterSinglePropertyData(e, 'otherLang')}
                         >
-                          {Object.keys(languageOptions).map((lang) => (
+                          {Object.keys(languageOptionsForOtherLangs).map((lang) => (
                             <MenuItem key={lang}
-                                      value={lang}>{t(languageOptions[lang])}</MenuItem>
+                                      value={lang}>{t(languageOptionsForOtherLangs[lang])}</MenuItem>
                           ))}
                         </Select>
                       </FormControl>
-                      <br/><br/>
+                      <br /><br />
                     </>
                     : <></>}
                   <FormControl size="small">
@@ -1037,13 +1052,13 @@ export default function Query(props) {
                   </FormControl>
                 </div>
               </div>
-              <br/><br/>
+              <br /><br />
               {alert || noResultsError ?
                 <>
                   <Alert style={{width: '30%'}} severity="error">
                     {alert ? t('error_query_no_subcorpus_picked') : t('query_results_no_texts_found')}
                   </Alert>
-                  <br/>
+                  <br />
                 </> : ''
               }
               <Button
@@ -1074,7 +1089,7 @@ export default function Query(props) {
           onClick={setInputBoxClass}
         >
           <div className="button-text-query">
-            <ReadMoreIcon className="query-find-texts-icon"/>
+            <ReadMoreIcon className="query-find-texts-icon" />
             <span className="query-find-texts-text">
               {t('query_own_texts')}
             </span>
@@ -1084,9 +1099,9 @@ export default function Query(props) {
           <div>
             {t('textupload_primary_modal_title')}
           </div>
-          <br/>
+          <br />
           <div>
-            <TextUpload sendTextFromFile={sendTextFromFile}/>
+            <TextUpload sendTextFromFile={sendTextFromFile} />
             <textarea
               spellCheck="false"
               className="query-textinput"

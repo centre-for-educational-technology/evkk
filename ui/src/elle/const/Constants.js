@@ -265,7 +265,7 @@ export const corpuses = {
   'cwUSEqQLt': 'query_subcorpus_academic_estonian'
 };
 
-export const textTypes = {
+export const textTypeList = {
   'k2eesti_riiklik_eksamitoo': 'common_text_data_type_L2_proficiency_examination',
   'k2eesti_ol_loovkirjutis': 'common_text_data_type_L2_olympiade_creative_writing',
   'k2eesti_kiri_isiklik': 'query_text_data_type_L2_letter_informal_full',
@@ -294,6 +294,8 @@ export const textTypes = {
   'k1eesti_harjutus': 'query_text_data_type_L1_exercise',
   'k1vene_loovkirjutis': 'query_text_data_type_L1_russian_creative_writing',
   'k1vene_eksamitoo': 'query_text_data_type_L1_russian_examination',
+  'k3vene_loovkirjutis': 'query_text_data_type_L3_russian_creative_writing',
+  'k3vene_eksamitoo': 'query_text_data_type_L3_russian_examination',
   'ak_eriala_analuus': 'query_text_data_type_academic_studies_analysis_full',
   'ak_eriala_essee': 'query_text_data_type_academic_studies_essay_full',
   'ak_eriala_kursusetoo': 'query_text_data_type_academic_studies_course_paper_full',
@@ -374,7 +376,7 @@ export const textTypesOptions = {
       'ak_uurimus_batoo': 'query_text_data_type_academic_research_bachelors_thesis',
       'ak_uurimus_diplomitoo': 'query_text_data_type_academic_research_thesis',
       'ak_uurimus_matoo': 'query_text_data_type_academic_research_masters_thesis',
-      'ak_uurimus_pdhtoo': 'query_text_data_type_academic_research_doctoral_thesis'
+      'ak_uurimus_phdtoo': 'query_text_data_type_academic_research_doctoral_thesis'
     }
   }
 };
@@ -421,6 +423,16 @@ export const usedMaterialsMultiOptions = {
     'automaatkontroll': 'query_text_data_used_study_or_supporting_materials_automated_correction',
     'muu': 'common_other'
   },
+  'ei': 'query_text_data_used_study_or_supporting_materials_no'
+};
+
+export const usedMaterialsMultiList = {
+  'tolkesonastik': 'query_text_data_used_study_or_supporting_materials_translation_dictionary_or_machine_translation',
+  'ykskeelnesonastik': 'query_text_data_used_study_or_supporting_materials_monolingual_dictionary',
+  'terminisonastik': 'query_text_data_used_study_or_supporting_materials_term_glossary_or_base',
+  'kasiraamat': 'query_text_data_used_study_or_supporting_materials_professional_handbook',
+  'automaatkontroll': 'query_text_data_used_study_or_supporting_materials_automated_correction',
+  'muu': 'common_other',
   'ei': 'query_text_data_used_study_or_supporting_materials_no'
 };
 
@@ -523,7 +535,7 @@ export const nationalityOptions = {
   'Bulgaaria': 'query_common_country_bg',
   'Egiptus': 'query_common_country_eg',
   'Filipiinid': 'query_common_country_ph',
-  'Hiina': 'query_common_country_ch',
+  'Hiina': 'query_common_country_cn',
   'Hispaania': 'query_common_country_es',
   'Holland': 'query_common_country_nl',
   'Iirimaa': 'query_common_country_ie',
@@ -546,9 +558,10 @@ export const nationalityOptions = {
   'Venezuela': 'query_common_country_ve'
 };
 
-export const languageOptions = {
+export const languageOptionsForNativeLangs = {
   'eesti': 'query_common_language_et',
   'vene': 'query_common_language_ru',
+  'eesti, vene': 'query_common_language_et_ru',
   'soome': 'query_common_language_fi',
   'saksa': 'query_common_language_de',
   'ukraina': 'query_common_language_ua',
@@ -560,6 +573,17 @@ export const languageOptions = {
   'jidis': 'query_common_language_ji',
   'poola': 'query_common_language_pl',
   'ungari': 'query_common_language_hu'
+};
+
+export const languageOptionsForOtherLangs = {
+  'eesti': 'query_common_language_et',
+  'vene': 'query_common_language_ru',
+  'hiina': 'query_common_language_cn',
+  'inglise': 'query_common_language_en',
+  'jaapani': 'query_common_language_jp',
+  'läti': 'query_common_language_lv',
+  'prantsuse': 'query_common_language_fr',
+  'saksa': 'query_common_language_de'
 };
 
 export const countryOptionsForQuery = {

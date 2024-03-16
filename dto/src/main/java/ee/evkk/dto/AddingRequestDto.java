@@ -32,7 +32,7 @@ public class AddingRequestDto {
   private String autoriOppeaste;
   private String autoriTeaduskraad;
   private String autoriHaridus;
-  private String autoriEriala;
+  private String autoriValdkond;
   private String autoriEmakeel;
   private String autoriMuudKeeled;
 
