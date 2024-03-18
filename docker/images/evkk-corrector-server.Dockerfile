@@ -1,5 +1,12 @@
-FROM python:3.13.0a4
-RUN apt-get update && apt-get install -y swig3.0 locales
+FROM python:3.8.18
+
+RUN apt-get update \
+    && apt-get install -y libpcre3 locales \
+    && apt-get clean
+
+RUN wget http://ftp.hr.debian.org/debian/pool/main/s/swig/swig3.0_3.0.12-2_amd64.deb -O swig3.deb \
+    && dpkg -i swig3.deb
+
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
 
 ENV LANG en_US.UTF-8
