@@ -1,22 +1,22 @@
 #!/bin/bash
 
-# Clone Vabamorf's repository
-git clone https://github.com/Filosoft/vabamorf.git vabamorf_github/
+# Clone the Vabamorf repository
+git clone https://github.com/Filosoft/vabamorf.git
 
-# Build Docker image
-docker build -t evkk-vabamorf -f evkk-vabamorf.Dockerfile ./
+# Build the Docker image
+docker build -t vabamorf -f vabamorf.Dockerfile ./
 
 # Create and start a container
-docker run --name evkk-vabamorf-container evkk-vabamorf
+docker run --name vabamorf-container vabamorf
 
 # Copy the compiled vmeta program to the parent directory
-docker cp evkk-vabamorf-container:/usr/src/vabamorf/apps/cmdline/project/unix/vmeta ../
+docker cp vabamorf-container:/usr/src/vabamorf/apps/cmdline/project/unix/vmeta ../
 
 # Stop and remove the container
-docker rm -f evkk-vabamorf-container
+docker rm -f vabamorf-container
 
 # Set the working directory for building lexicons
-cd vabamorf_github/dct/sh/
+cd vabamorf/dct/sh/
 
 # Make scripts executable
 chmod +x *.sh
@@ -31,5 +31,5 @@ cp ../binary/et.dct ../../../../
 cd -
 
 # Remove the cloned repository
-rm -rf vabamorf_github/
+rm -rf vabamorf/
 
