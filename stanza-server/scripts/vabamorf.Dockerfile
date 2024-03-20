@@ -12,4 +12,3 @@ WORKDIR /usr/src/vabamorf/apps/cmdline/project/unix/
 
 # Compile the vmeta program
 RUN make -s vmeta
-

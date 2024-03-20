@@ -16,20 +16,18 @@ docker cp vabamorf-container:/usr/src/vabamorf/apps/cmdline/project/unix/vmeta .
 docker rm -f vabamorf-container
 
 # Set the working directory for building lexicons
-cd vabamorf/dct/sh/
+(
+cd vabamorf/dct/sh/ || exit
 
 # Make scripts executable
-chmod +x *.sh
+chmod +x ./*.sh
 
 # Build the lexicons
 ./nullist-uus-sonastik.sh
 
 # Copy the built et.dct lexicon to the parent directory
 cp ../binary/et.dct ../../../../
-
-# Navigate to the original directory
-cd -
+)
 
 # Remove the cloned repository
 rm -rf vabamorf/
-
