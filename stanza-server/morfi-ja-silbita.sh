@@ -14,7 +14,7 @@
 # - Each word on a separate line, syllable boundaries marked with "-"
 
 sed 's/[^[:alnum:]\n \-\–]//g' |                                      # Only preserve alphanumeric characters, newline characters, spaces and hyphens
-sed 's/\([^[:alnum:]]\)-\([^[:alnum:]]\)/\1\2/g' |                    # Only preserve hyphens that are surrounded by alphanumerical characters on both sides (e.g. in names)
+sed 's/\([^[:alnum:]]\)-\([^[:alnum:]]\)/\1\2/g' |                    # Only preserve hyphens that are surrounded by alphanumeric characters on both sides (e.g. in names)
 tr -s ' ' '\n' |                                                      # Replace all spaces with newline characters and squeeze consecutive newline characters into a single one
 grep '^[a-zA-Z0-9ŠšŽžÕõÄäÖöÜü\-\–]*$' |                               # Search for lines that contain only the aforementioned symbols
 ./vmeta -t -q --dontguesspropnames -s --fs --dontaddphonetics -p ./ | # Run vmeta to mark boundaries in compound words (see Vabamorf's documentation for flags' explanations)
