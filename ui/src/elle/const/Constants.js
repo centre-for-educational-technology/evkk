@@ -566,11 +566,11 @@ export const languageOptionsForNativeLangs = {
   'saksa': 'query_common_language_de',
   'ukraina': 'query_common_language_ua',
   'valgevene': 'query_common_language_by',
-  'lati': 'query_common_language_lv',
+  'läti': 'query_common_language_lv',
   'leedu': 'query_common_language_lt',
   'rootsi': 'query_common_language_se',
   'inglise': 'query_common_language_en',
-  'jidis': 'query_common_language_ji',
+  'jidiš': 'query_common_language_ji',
   'poola': 'query_common_language_pl',
   'ungari': 'query_common_language_hu'
 };
