@@ -231,7 +231,7 @@ def mitmekesisus():
 
 
 def silbita_sisemine(tekst):
-    process = subprocess.Popen(["bash", "/app/poolita-ja-silbita.sh"], cwd="/app", stderr=subprocess.PIPE,
+    process = subprocess.Popen(["bash", "/app/morfi-ja-silbita.sh"], cwd="/app", stderr=subprocess.PIPE,
                                stdin=subprocess.PIPE, stdout=subprocess.PIPE)
     stdo, _ = process.communicate(tekst.encode())
     response = stdo.decode().rstrip().split()
