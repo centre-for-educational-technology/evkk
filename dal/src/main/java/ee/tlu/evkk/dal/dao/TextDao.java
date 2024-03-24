@@ -2,6 +2,7 @@ package ee.tlu.evkk.dal.dao;
 
 import ee.tlu.evkk.dal.dto.CorpusDownloadResponseEntity;
 import ee.tlu.evkk.dal.dto.Text;
+import ee.tlu.evkk.dal.dto.TextAndMetadata;
 import ee.tlu.evkk.dal.dto.TextQueryDisjunctionParamHelper;
 import ee.tlu.evkk.dal.dto.TextQueryMultiParamHelper;
 import ee.tlu.evkk.dal.dto.TextQueryRangeParamBaseHelper;
@@ -21,11 +22,9 @@ import java.util.UUID;
 @Repository
 public interface TextDao {
 
-  String findTextById(@Param("textId") UUID textId);
-
   String findTextsByIds(@Param("ids") Set<UUID> ids);
 
-  String findTextMetadata(@Param("textId") UUID textId);
+  TextAndMetadata findTextAndMetadataById(@Param("textId") UUID textId);
 
   List<String> findTextIdsByCorpusId(@Param("corpusId") String korpusekood);
 

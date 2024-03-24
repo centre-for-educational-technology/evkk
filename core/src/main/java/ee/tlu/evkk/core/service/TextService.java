@@ -133,7 +133,7 @@ public class TextService {
       singleParamHelpers.add(new TextQuerySingleParamHelper("p6", "keeletase", corpusRequestDto.getLevel()));
     }
     if (isNotBlank(corpusRequestDto.getDomain())) {
-      singleParamHelpers.add(new TextQuerySingleParamHelper("p7", "eriala", corpusRequestDto.getDomain()));
+      singleParamHelpers.add(new TextQuerySingleParamHelper("p7", "valdkond", corpusRequestDto.getDomain()));
     }
     if (isNotBlank(corpusRequestDto.getUsedMaterials())) {
       singleParamHelpers.add(new TextQuerySingleParamHelper("p8", "abivahendid", corpusRequestDto.getUsedMaterials()));
@@ -293,7 +293,7 @@ public class TextService {
       lisaTekstiOmadus(kood, "akad_oppematerjal_muu", andmed.getAkadOppematerjalMuu());
     }
     if (andmed.getLiik().equals("akadeemiline")) {
-      lisaTekstiOmadus(kood, "eriala", andmed.getAutoriEriala());
+      lisaTekstiOmadus(kood, "valdkond", andmed.getAutoriValdkond());
       lisaTekstiOmadus(kood, "akad_alamliik", andmed.getAkadAlamliik());
       lisaTekstiOmadus(kood, "artikkel_aasta", andmed.getArtikkelAasta());
       lisaTekstiOmadus(kood, "artikkel_valjaanne", andmed.getArtikkelValjaanne());

@@ -135,17 +135,18 @@ function WordAnalyser() {
   };
 
   const createModifiedInputObj = (inputObj) => {
-    const filteredIndices = inputObj.syllables.map((element, index) => element === '–' ? index : null).filter(index => index !== null);
+    const deepCopiedInputObj = JSON.parse(JSON.stringify(inputObj));
+    const filteredIndices = deepCopiedInputObj.syllables.map((element, index) => element === '–' ? index : null).filter(index => index !== null);
     filteredIndices.forEach((index, offset) => {
-      inputObj.ids.splice(index - offset, 1);
-      inputObj.wordsOrig.splice(index - offset, 1);
-      inputObj.words.splice(index - offset, 1);
-      inputObj.lemmas.splice(index - offset, 1);
-      inputObj.syllables.splice(index - offset, 1);
-      inputObj.wordtypes.splice(index - offset, 1);
-      inputObj.wordforms.splice(index - offset, 1);
+      deepCopiedInputObj.ids.splice(index - offset, 1);
+      deepCopiedInputObj.wordsOrig.splice(index - offset, 1);
+      deepCopiedInputObj.words.splice(index - offset, 1);
+      deepCopiedInputObj.lemmas.splice(index - offset, 1);
+      deepCopiedInputObj.syllables.splice(index - offset, 1);
+      deepCopiedInputObj.wordtypes.splice(index - offset, 1);
+      deepCopiedInputObj.wordforms.splice(index - offset, 1);
     });
-    return inputObj;
+    return deepCopiedInputObj;
   };
 
   const processWordsLowerCase = (words, wordTypes) => {

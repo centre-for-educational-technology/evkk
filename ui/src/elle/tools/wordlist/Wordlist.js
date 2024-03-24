@@ -18,7 +18,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { AccordionStyle, DefaultButtonStyle } from '../../const/Constants';
+import { AccordionStyle, DefaultButtonStyle, STOPWORDS_DATADOI_PATH } from '../../const/Constants';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { QuestionMark } from '@mui/icons-material';
 import WordlistMenu from './menu/WordlistMenu';
@@ -28,6 +28,7 @@ import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
 import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import { sortTableCol } from '../../util/TableUtils';
+import NewTabHyperlink from '../../components/NewTabHyperlink';
 
 export default function Wordlist() {
 
@@ -250,12 +251,8 @@ export default function Wordlist() {
                                     label={<>
                                       {t('wordlist_stopwords_from_the_default_list')}
                                       <Tooltip title={<>{t('wordlist_stopwords_textbox_hover_1')}
-                                        <a
-                                          href={'https://datadoi.ee/handle/33/78'}
-                                          target="_blank"
-                                          rel="noopener noreferrer">
-                                          {t('wordlist_stopwords_textbox_hover_2')}
-                                        </a>
+                                        <NewTabHyperlink path={STOPWORDS_DATADOI_PATH}
+                                                         content={t('wordlist_stopwords_textbox_hover_2')} />
                                         {t('wordlist_stopwords_textbox_hover_3')}</>}
                                                placement="right">
                                         <QuestionMark className="tooltip-icon" />

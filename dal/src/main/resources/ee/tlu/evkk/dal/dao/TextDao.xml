@@ -3,12 +3,6 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ee.tlu.evkk.dal.dao.TextDao">
 
-  <select id="findTextById" resultType="java.lang.String">
-    select content
-    from core.text
-    where id = #{textId}
-  </select>
-
   <select id="findTextsByIds" resultType="java.lang.String">
     select string_agg(content, ' ')
     from core.text
@@ -18,9 +12,13 @@
     </foreach>
   </select>
 
-  <select id="findTextMetadata" resultType="java.lang.String">
-    select array_to_json(array_agg(row_to_json(t)))
-    from (select property_name, property_value from core.text_property where text_id = #{textId}) t
+  <select id="findTextAndMetadataById" resultType="ee.tlu.evkk.dal.dto.TextAndMetadata">
+    select array_to_json(array_agg(json_build_object('propertyName', p.property_name, 'propertyValue',
+                                                     p.property_value))) as properties,
+           t.content                                                     as text
+    from (select property_name, property_value, text_id from core.text_property where text_id = #{textId}) p
+           join core.text t on p.text_id = t.id
+    group by t.content;
   </select>
 
   <select id="findTextIdsByCorpusId" resultType="java.lang.String">
