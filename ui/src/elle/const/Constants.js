@@ -6,6 +6,8 @@ export const EVKK_VERS1_PATH = 'https://evkk.tlu.ee/vers1/';
 
 export const WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO = 1000;
 
+export const replaceSpans = /<\/?span[^>]*>/g;
+
 export const useStyles = makeStyles((_theme) => ({
   formControl: {
     margin: 1,
@@ -25,9 +27,48 @@ export const useStyles = makeStyles((_theme) => ({
   }
 }));
 
+export const ContentEditableDiv = {
+  border: 'gray 1px solid',
+  borderRadius: '5px',
+  height: '20vw',
+  minHeight: '200px',
+  padding: '1rem',
+  '&[contenteditable="true"]:focus': {
+    outline: 'gray 1px solid'
+  }
+
+};
+
+export const CorrectorMarker = {
+  backgroundColor: 'red'
+};
+
 export const AccordionStyle = {
   '&:before': {
     backgroundColor: 'transparent !important'
+  }
+};
+
+export const CorrectorErrorCircle = (color) => {
+  return {
+    backgroundColor: color,
+    borderRadius: '25%',
+    width: '1em',
+    height: '1em',
+    lineHeight: '100%',
+    marginY: 'auto',
+    marginRight: '1em'
+  };
+};
+
+export const CorrectorAccordionStyle = {
+  borderRadius: '10px',
+  boxShadow: 'none',
+  '&:before': {
+    display: 'none'
+  },
+  '&.Mui-expanded': {
+    margin: 0
   }
 };
 

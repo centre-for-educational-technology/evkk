@@ -9,9 +9,11 @@ import ee.tlu.evkk.api.controller.dto.TextSearchRequest;
 import ee.tlu.evkk.api.controller.dto.TextSearchResponse;
 import ee.tlu.evkk.common.env.ServiceLocator;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
+import ee.tlu.evkk.core.integration.GrammarWorkerServerClient;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.service.TextService;
 import ee.tlu.evkk.core.service.dto.TextResponseDto;
+import ee.tlu.evkk.core.service.dto.TextWithComplexity;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.Pageable;
@@ -47,13 +49,16 @@ public class TextController {
   private final TextDao textDao;
   private final StanzaServerClient stanzaServerClient;
   private final CorrectorServerClient correctorServerClient;
+
+  private final GrammarWorkerServerClient grammarWorkerServerClient;
   private final TextService textService;
   private final ServiceLocator serviceLocator;
 
-  public TextController(TextDao uusTDao, StanzaServerClient stanzaServerClient, CorrectorServerClient correctorServerClient, TextService textService, ServiceLocator serviceLocator) {
+  public TextController(TextDao uusTDao, StanzaServerClient stanzaServerClient, CorrectorServerClient correctorServerClient, GrammarWorkerServerClient grammarWorkerServerClient, TextService textService, ServiceLocator serviceLocator) {
     textDao = uusTDao;
     this.stanzaServerClient = stanzaServerClient;
     this.correctorServerClient = correctorServerClient;
+    this.grammarWorkerServerClient = grammarWorkerServerClient;
     this.textService = textService;
     this.serviceLocator = serviceLocator;
   }
@@ -86,6 +91,11 @@ public class TextController {
   @PostMapping("/sonad-lemmad-silbid-sonaliigid-vormimargendid")
   public ResponseEntity<TextResponseDto> sonadLemmadSilbidSonaliigidVormimargendid(@RequestBody CommonTextRequestDto request) {
     return ok(textService.sonadLemmadSilbidSonaliigidVormimargendid(request));
+  }
+
+  @PostMapping("/keerukus-sonaliigid-mitmekesisus")
+  public ResponseEntity<TextWithComplexity> keerukusSonaliigidMitmekesisus(@RequestBody CommonTextRequestDto request) {
+    return ok(textService.keerukusSonaliigidMitmekesisus(request));
   }
 
   @PostMapping("/sonaliik")
@@ -140,6 +150,18 @@ public class TextController {
     String[] vastus = correctorServerClient.getKorrektuur(request.getTekst());
     List<String> body = asList(vastus);
     return ok(body);
+  }
+
+  @PostMapping("/grammarchecker")
+  public ResponseEntity<String> grammarchecker(@RequestBody CommonTextRequestDto request) {
+    String vastus = grammarWorkerServerClient.getGrammarWorker(request.getTekst());
+    return ok(vastus);
+  }
+
+  @PostMapping("/spellchecker")
+  public ResponseEntity<String> spellchecker(@RequestBody CommonTextRequestDto request) {
+    String vastus = grammarWorkerServerClient.getSpeller(request.getTekst());
+    return ok(vastus);
   }
 
   @PostMapping("/keeletase")

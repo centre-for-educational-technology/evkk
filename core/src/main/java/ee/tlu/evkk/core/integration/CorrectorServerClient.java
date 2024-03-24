@@ -24,5 +24,4 @@ public class CorrectorServerClient extends AbstractRestOperationsClient {
     ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/korrektuur", requestEntity, String[].class));
     return forEntity.getBody();
   }
-
 }

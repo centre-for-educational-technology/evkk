@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { MasinoppeEnnustus, MinitornPikkus } from './views/tools';
-import Correction from './elle/tools/correction/Correction';
 import { Container } from '@mui/material';
 import Home from './elle/pages/Home';
 import Links from './elle/pages/Links';
@@ -19,6 +18,7 @@ import WordContext from './elle/tools/wordcontext/WordContext';
 import Collocates from './elle/tools/collocates/Collocates';
 import { withTranslation } from 'react-i18next';
 import Tools from './elle/pages/Tools';
+import Correction from './elle/tools/correction/Correction';
 
 class AppRoutes extends Component {
 

@@ -1,0 +1,179 @@
+.gap-2 {
+  gap: 1rem;
+}
+
+.corrector-button {
+  width: 100px;
+}
+
+.text-span {
+  position: relative;
+}
+
+.text-span[data-color="red"] {
+  background-color: hsl(0 66% 76%);
+  padding: 0.1em 0.1em 0;
+  border-radius: 2px 2px 1px 1px;
+  border-bottom: dashed 2px hsl(0 66% 60%);
+}
+
+.text-span[data-color="red"]:hover {
+  background-color: hsl(0 66% 60%);
+}
+
+.text-span[data-color="yellow"] {
+  background-color: hsl(44.71 100% 80%);
+  padding: 0.1em 0.1em 0;
+  border-radius: 2px 2px 1px 1px;
+  border-bottom: dotted 2px hsl(44.71 100% 60%);
+}
+
+.text-span[data-color="yellow"]:hover {
+  background-color: hsl(44.71 100% 60%);
+}
+
+.text-span[data-color="orange"] {
+  background-color: hsl(31, 89%, 69%);
+  padding: 0.1em 0.1em 0;
+  border-radius: 2px 2px 1px 1px;
+  border-bottom: dotted 2px hsl(31, 89%, 49%);
+}
+
+.text-span[data-color="orange"]:hover {
+  background-color: hsl(31, 89%, 49%);
+}
+
+.text-span[data-color="violet"] {
+  background-color: hsl(255, 37%, 73%);
+  padding: 0.1em 0.1em 0;
+  border-radius: 2px 2px 1px 1px;
+  border-bottom: dotted 2px hsl(255, 37%, 63%);
+}
+
+.text-span[data-color="violet"]:hover {
+  background-color: hsl(255, 37%, 63%);
+}
+
+.text-span[data-color="gray"] {
+  background-color: hsl(0, 0%, 80%);
+  padding: 0.1em 0.1em 0;
+  border-radius: 2px 2px 1px 1px;
+  border-bottom: dotted 2px hsl(0, 0%, 60%)
+}
+
+.text-span[data-color="gray"]:hover {
+  background-color: hsl(0, 0%, 60%);
+}
+
+.text-span[data-color="blue"] {
+  background-color: hsl(217.5 78% 90%);
+  padding: 0.1em 0.1em 0;
+  border-radius: 2px 2px 1px 1px;
+  border-bottom: solid 2px hsl(217.5 78% 70%);
+}
+
+.text-span[data-color="blue"]:hover {
+  background-color: hsl(217.5 78% 70%);
+}
+
+.text-span.spellingErrorhovering {
+  background-color: hsl(0 66% 60%);
+}
+
+.text-span.wordOrderErrorhovering {
+  background-color: hsl(217.5 78% 70%);
+}
+
+.text-span.wordCountErrorhovering {
+  background-color: hsl(44.71 100% 60%);
+}
+
+.text-span.multipleErrorshovering {
+  background-color: hsl(31, 89%, 49%);
+}
+
+.text-span.missingWordErrorhovering,
+.text-span.extraWordErrorhovering {
+  background-color: hsl(255, 37%, 63%);
+}
+
+.text-span[data-color="punctuation"] {
+  background-color: hsl(102.13 37% 75%);
+  padding: 0.1em 0.1em 0;
+  border-radius: 2px 2px 1px 1px;
+  border-bottom: double 2px hsl(102.13 37% 55%);
+}
+
+.text-span[data-color="punctuation"]:hover {
+  background-color: hsl(102.13 37% 55%);
+}
+
+.text-span.missingPunctuationhovering,
+.text-span.extraPunctuationhovering,
+.text-span.wrongPunctuationhovering {
+  background-color: hsl(102.13 37% 55%);
+}
+
+.corrector-right {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  background-color: whitesmoke;
+  padding: 1em;
+  border-radius: 5px;
+  height: auto;
+  min-height: 200px;
+}
+
+.corrector-error-word {
+  color: gray;
+  text-decoration: line-through gray;
+  font-weight: bold;
+}
+
+.corrector-border-box {
+  box-sizing: border-box;
+}
+
+.correction-single-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.5em;
+  transition: 0.3s;
+}
+
+.correction-single-error:hover {
+  border-radius: 5px;
+  background-color: hsl(217.5 78% 98%);
+}
+
+.corrector-error-icon-button {
+  width: 1em;
+  height: 1em;
+}
+
+.corrector-btn-visible {
+  padding-top: 1em;
+  display: flex;
+  gap: 1em;
+  transition: 0.3s;
+}
+
+.corrector-btn-invisible {
+  display: none;
+  gap: 1em;
+  transition: 0.3s;
+}
+
+.mouseaway-listener {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 0;
+  display: none;
+}
+
+
