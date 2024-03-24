@@ -3,7 +3,6 @@ import math
 import os
 import re
 import subprocess
-
 from flask import Flask
 from flask import Response
 from flask import request
@@ -30,6 +29,32 @@ sona_upos_piirang_mitmekesisus = ["PUNCT", "SYM", "NUM", "PROPN"]
 vormimargend_upos_piirang = ["ADP", "ADV", "CCONJ", "SCONJ", "INTJ", "X"]
 
 eesti_tahestik = r'[a-zA-ZõÕäÄöÖüÜŽžŠš]+'
+
+
+@app.route('/keerukus-sonaliigid-mitmekesisus', methods=post)
+def keerukus_sonaliigid_mitmekesisus():
+    tekst = request.json["tekst"]
+    doc = nlp_tpl(tekst)
+
+    sonad = []
+    sonaliigid = []
+    lemmad = []
+
+    for sentence in doc.sentences:
+        for word in sentence.words:
+            if word.upos not in sona_upos_piirang:
+                sonad.append(word.text)
+                sonaliigid.append(word.pos)
+                lemmad.append(word.lemma)
+
+    return Response(json.dumps({
+        "sonad": sonad,
+        "sonaliigid": sonaliigid,
+        "keerukus": hinda_keerukust(tekst),
+        "mitmekesisus": hinda_mitmekesisust(tekst),
+        "lemmad": lemmad,
+        "keeletase": arvuta(tekst)
+    }), mimetype=mimetype)
 
 
 @app.route('/sonad-lemmad-silbid-sonaliigid-vormimargendid', methods=post)

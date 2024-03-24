@@ -54,3 +54,13 @@ services:
       dockerfile: docker/images/evkk-corrector-server.Dockerfile
     ports:
       - "5200:5200"
+
+  grammar-worker:
+    container_name: evkk-grammar-worker
+    profiles: [ "all", "grammar_worker" ]
+    restart: always
+    build:
+      context: .
+      dockerfile: docker/images/evkk-grammar-worker.Dockerfile
+    ports:
+      - "4000:4000"

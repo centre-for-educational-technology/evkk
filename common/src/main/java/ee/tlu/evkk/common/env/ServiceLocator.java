@@ -42,7 +42,8 @@ public class ServiceLocator {
     STANZA_SERVER,
     CLUSTER_FINDER,
     KLASTERDAJA,
-    CORRECTOR_SERVER
+    CORRECTOR_SERVER,
+    GRAMMAR_WORKER
 
   }
 
