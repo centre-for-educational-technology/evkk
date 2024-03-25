@@ -7,6 +7,7 @@ import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.dto.TextAndMetadata;
 import ee.tlu.evkk.dal.dto.TextMetadata;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -65,27 +66,18 @@ import static javax.xml.transform.OutputKeys.INDENT;
 import static org.apache.logging.log4j.util.Strings.isNotBlank;
 
 @Service
+@RequiredArgsConstructor
 public class TeiNotationService {
 
   private final TextDao textDao;
-
-  private final Map<String, String> languageMappings;
-  private final Map<String, String> languageCodeMappings;
-  private final Map<String, String> corpusMappings;
-  private final Map<String, String> preparednessMappings;
-  private final Map<String, String> ageMappings;
-  private final List<CommonMetadataForPersonPropertyCreation> commonMetadataForPersonPropertyCreation;
   private Document document;
 
-  public TeiNotationService(TextDao textDao) {
-    this.textDao = textDao;
-    languageMappings = TeiMappings.getLanguage();
-    languageCodeMappings = TeiMappings.getLanguageCode();
-    corpusMappings = TeiMappings.getCorpus();
-    preparednessMappings = TeiMappings.getPreparedness();
-    ageMappings = TeiMappings.getAge();
-    commonMetadataForPersonPropertyCreation = TeiMappings.getCommonMetadataForPersonPropertyCreation();
-  }
+  private final Map<String, String> languageMappings = TeiMappings.getLanguage();
+  private final Map<String, String> languageCodeMappings = TeiMappings.getLanguageCode();
+  private final Map<String, String> corpusMappings = TeiMappings.getCorpus();
+  private final Map<String, String> preparednessMappings = TeiMappings.getPreparedness();
+  private final Map<String, String> ageMappings = TeiMappings.getAge();
+  private final List<CommonMetadataForPersonPropertyCreation> commonMetadataForPersonPropertyCreation = TeiMappings.getCommonMetadataForPersonPropertyCreation();
 
   public String getTeiNotationByTextId(UUID textId) {
     try {
