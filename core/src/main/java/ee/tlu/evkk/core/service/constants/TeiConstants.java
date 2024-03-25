@@ -8,7 +8,7 @@ import static lombok.AccessLevel.PRIVATE;
 public class TeiConstants {
 
   public static final String METADATA_KEY_ACADEMIC_STUDY_MATERIALS = "akad_oppematerjal";
-  public static final String METADATA_KEY_AGE = "vanus";
+  public static final String METADATA_KEY_AGE = "vanusevahemik";
   public static final String METADATA_KEY_CORPUS = "korpus";
   public static final String METADATA_KEY_COUNTRY = "riik";
   public static final String METADATA_KEY_EDUCATION = "haridus";

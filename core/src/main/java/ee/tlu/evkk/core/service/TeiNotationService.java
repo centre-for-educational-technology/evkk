@@ -69,19 +69,21 @@ public class TeiNotationService {
 
   private final TextDao textDao;
 
-  private final Map<String, String> languageEn;
-  private final Map<String, String> languageCodeEn;
-  private final Map<String, String> corpusEn;
-  private final Map<String, String> preparednessEn;
+  private final Map<String, String> languageMappings;
+  private final Map<String, String> languageCodeMappings;
+  private final Map<String, String> corpusMappings;
+  private final Map<String, String> preparednessMappings;
+  private final Map<String, String> ageMappings;
   private final List<CommonMetadataForPersonPropertyCreation> commonMetadataForPersonPropertyCreation;
   private Document document;
 
   public TeiNotationService(TextDao textDao) {
     this.textDao = textDao;
-    languageEn = TeiMappings.getLanguage();
-    languageCodeEn = TeiMappings.getLanguageCode();
-    corpusEn = TeiMappings.getCorpus();
-    preparednessEn = TeiMappings.getPreparedness();
+    languageMappings = TeiMappings.getLanguage();
+    languageCodeMappings = TeiMappings.getLanguageCode();
+    corpusMappings = TeiMappings.getCorpus();
+    preparednessMappings = TeiMappings.getPreparedness();
+    ageMappings = TeiMappings.getAge();
     commonMetadataForPersonPropertyCreation = TeiMappings.getCommonMetadataForPersonPropertyCreation();
   }
 
@@ -290,7 +292,7 @@ public class TeiNotationService {
 
     if (metadata.containsKey(METADATA_KEY_CORPUS)) {
       createSingleDomain(textDesc, metadata.get(METADATA_KEY_CORPUS).equals(METADATA_VALUE_ACADEMIC_ESTONIAN_CORPUS_CODE) ? "academic" : "non-academic");
-      createSingleDomain(textDesc, corpusEn.get(metadata.get(METADATA_KEY_CORPUS)));
+      createSingleDomain(textDesc, corpusMappings.get(metadata.get(METADATA_KEY_CORPUS)));
     }
     if (metadata.containsKey(METADATA_KEY_SUPPORTING_MATERIALS) && metadata.get(METADATA_KEY_SUPPORTING_MATERIALS).equals(METADATA_VALUE_NO)) {
       createSinglePreparedness(textDesc, metadata, SPONTANEOUS);
@@ -306,8 +308,8 @@ public class TeiNotationService {
     Element particDesc = document.createElement("particDesc");
     Element person = document.createElement("person");
 
-    createBasicPersonProperty(metadata, person, METADATA_KEY_SEX, "sex", metadata.get(METADATA_KEY_SEX));
-    createBasicPersonProperty(metadata, person, METADATA_KEY_AGE, "age", metadata.get(METADATA_KEY_AGE));
+    createPersonAttribute(metadata, person, METADATA_KEY_SEX, "sex", metadata.get(METADATA_KEY_SEX));
+    createPersonAttribute(metadata, person, METADATA_KEY_AGE, "age", metadata.get(METADATA_KEY_AGE));
     createLanguageElement(metadata, person, METADATA_KEY_NATIVE_LANGUAGE);
     createLanguageElement(metadata, person, METADATA_KEY_OTHER_LANGUAGES);
     for (CommonMetadataForPersonPropertyCreation entry : commonMetadataForPersonPropertyCreation) {
@@ -394,19 +396,19 @@ public class TeiNotationService {
     type.setValue(typeValue);
     preparedness.setAttributeNode(type);
     if (typeValue.equals(PREPARED)) {
-      preparedness.appendChild(document.createTextNode(preparednessEn.get(metadata.get(METADATA_KEY_ACADEMIC_STUDY_MATERIALS))));
+      preparedness.appendChild(document.createTextNode(preparednessMappings.get(metadata.get(METADATA_KEY_ACADEMIC_STUDY_MATERIALS))));
     }
 
     textDesc.appendChild(preparedness);
   }
 
-  private void createBasicPersonProperty(HashMap<String, String> metadata, Element person, String metadataKey, String keyToCreate, String value) {
+  private void createPersonAttribute(HashMap<String, String> metadata, Element person, String metadataKey, String keyToCreate, String value) {
     if (metadata.containsKey(metadataKey)) {
       Attr attr = document.createAttribute(keyToCreate);
       if (metadataKey.equals(METADATA_KEY_SEX)) {
         attr.setValue(value.equals(METADATA_VALUE_FEMALE) ? "female" : "male");
       } else {
-        attr.setValue(value);
+        attr.setValue(ageMappings.get(value));
       }
       person.setAttributeNode(attr);
     }
@@ -424,10 +426,10 @@ public class TeiNotationService {
       }
 
       Attr tag = document.createAttribute("tag");
-      tag.setValue(languageCodeEn.get(metadata.get(metadataKey)));
+      tag.setValue(languageCodeMappings.get(metadata.get(metadataKey)));
 
       langKnown.setAttributeNode(tag);
-      langKnown.appendChild(document.createTextNode(languageEn.get(metadata.get(metadataKey))));
+      langKnown.appendChild(document.createTextNode(languageMappings.get(metadata.get(metadataKey))));
 
       langKnowledge.appendChild(langKnown);
       person.appendChild(langKnowledge);

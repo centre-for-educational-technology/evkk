@@ -44,6 +44,9 @@ public class TeiMappings {
   private static final Map<String, String> preparedness = new HashMap<>();
 
   @Getter
+  private static final Map<String, String> age = new HashMap<>();
+
+  @Getter
   private static final List<CommonMetadataForPersonPropertyCreation> commonMetadataForPersonPropertyCreation = new ArrayList<>();
 
   static {
@@ -99,33 +102,33 @@ public class TeiMappings {
     country.put("Soome", "Finland");
     country.put("Ungari", "Hungary");
 
-    nationality.put("Ameerika Ühendriigid", "United States of America");
-    nationality.put("Brasiilia", "Brazil");
-    nationality.put("Bulgaaria", "Bulgaria");
-    nationality.put("Eesti", "Estonia");
-    nationality.put("Egiptus", "Egypt");
-    nationality.put("Filipiinid", "The Philippines");
-    nationality.put("Hiina", "China (PRC)");
-    nationality.put("Hispaania", "Spain");
-    nationality.put("Holland", "The Netherlands");
-    nationality.put("Iirimaa", "Ireland");
-    nationality.put("India", "India");
-    nationality.put("Kreeka", "Greece");
-    nationality.put("Leedu", "Lithuania");
-    nationality.put("Läti", "Latvia");
+    nationality.put("Ameerika Ühendriigid", "U.S.");
+    nationality.put("Brasiilia", "Brazilian");
+    nationality.put("Bulgaaria", "Bulgarian");
+    nationality.put("Eesti", "Estonian");
+    nationality.put("Egiptus", "Egyptian");
+    nationality.put("Filipiinid", "Filipino");
+    nationality.put("Hiina", "Chinese");
+    nationality.put("Hispaania", "Spanish");
+    nationality.put("Holland", "Dutch");
+    nationality.put("Iirimaa", "Irish");
+    nationality.put("India", "Indian");
+    nationality.put("Kreeka", "Greek");
+    nationality.put("Leedu", "Lithuanian");
+    nationality.put("Läti", "Latvian");
     nationality.put("Makedoonia", "North Macedonia");
     nationality.put("Määramata", "Unassigned");
-    nationality.put("Poola", "Poland");
-    nationality.put("Prantsusmaa", "France");
-    nationality.put("Rumeenia", "Romania");
-    nationality.put("Saksamaa", "Germany");
-    nationality.put("Soome", "Finland");
-    nationality.put("Suurbritannia", "United Kingdom");
-    nationality.put("Türgi", "Turkey");
-    nationality.put("Ukraina", "Ukraine");
-    nationality.put("Valgevene", "Belarus");
-    nationality.put("Venemaa", "Russia");
-    nationality.put("Venezuela", "Venezuela");
+    nationality.put("Poola", "Polish");
+    nationality.put("Prantsusmaa", "French");
+    nationality.put("Rumeenia", "Romanian");
+    nationality.put("Saksamaa", "German");
+    nationality.put("Soome", "Finnish");
+    nationality.put("Suurbritannia", "British");
+    nationality.put("Türgi", "Turkish");
+    nationality.put("Ukraina", "Ukrainian");
+    nationality.put("Valgevene", "Belarusian");
+    nationality.put("Venemaa", "Russian");
+    nationality.put("Venezuela", "Venezuelan");
 
     education.put("Alg-/põhiharidus", "elementary/basic education");
     education.put("Keskeriharidus/kutseharidus", "(secondary) vocational education");
@@ -144,6 +147,11 @@ public class TeiMappings {
     preparedness.put("kasiraamat", "professional handbook or manual");
     preparedness.put("automaatkontroll", "automated correction");
     preparedness.put("muu", "other");
+
+    age.put("kuni18", "up to 18");
+    age.put("kuni26", "19–26");
+    age.put("kuni40", "27–40");
+    age.put("41plus", "over 40");
 
     commonMetadataForPersonPropertyCreation.add(
       new CommonMetadataForPersonPropertyCreation(nationality, METADATA_KEY_NATIONALITY, NATIONALITY)
