@@ -72,12 +72,12 @@ public class TeiNotationService {
   private final TextDao textDao;
   private Document document;
 
-  private final Map<String, String> languageMappings = TeiMappings.getLanguage();
-  private final Map<String, String> languageCodeMappings = TeiMappings.getLanguageCode();
-  private final Map<String, String> corpusMappings = TeiMappings.getCorpus();
-  private final Map<String, String> preparednessMappings = TeiMappings.getPreparedness();
-  private final Map<String, String> ageMappings = TeiMappings.getAge();
-  private final List<CommonMetadataForPersonPropertyCreation> commonMetadataForPersonPropertyCreation = TeiMappings.getCommonMetadataForPersonPropertyCreation();
+  private static final Map<String, String> languageMappings = TeiMappings.getLanguage();
+  private static final Map<String, String> languageCodeMappings = TeiMappings.getLanguageCode();
+  private static final Map<String, String> corpusMappings = TeiMappings.getCorpus();
+  private static final Map<String, String> preparednessMappings = TeiMappings.getPreparedness();
+  private static final Map<String, String> ageMappings = TeiMappings.getAge();
+  private static final List<CommonMetadataForPersonPropertyCreation> commonMetadataForPersonPropertyCreation = TeiMappings.getCommonMetadataForPersonPropertyCreation();
 
   public String getTeiNotationByTextId(UUID textId) {
     try {
