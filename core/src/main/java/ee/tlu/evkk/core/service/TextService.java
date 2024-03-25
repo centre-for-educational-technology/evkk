@@ -10,7 +10,7 @@ import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.service.dto.StanzaResponseDto;
 import ee.tlu.evkk.core.service.dto.TextResponseDto;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
-import ee.tlu.evkk.core.service.maps.FeatTranslationMappings;
+import ee.tlu.evkk.core.service.maps.WordFeatTranslationMappings;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.CorpusDownloadResponseEntity;
 import ee.tlu.evkk.dal.dto.Pageable;
@@ -79,8 +79,8 @@ public class TextService {
   private final TextDao textDao;
   private final StanzaServerClient stanzaServerClient;
 
-  private static final Set<String> firstType = FeatTranslationMappings.getFirstType();
-  private static final Set<String> secondType = FeatTranslationMappings.getSecondType();
+  private static final Set<String> firstType = WordFeatTranslationMappings.getFirstType();
+  private static final Set<String> secondType = WordFeatTranslationMappings.getSecondType();
   private static Map<String, String> numberTranslations;
   private static Map<String, String> caseTranslations;
   private static Map<String, String> degreeTranslations;
@@ -485,12 +485,12 @@ public class TextService {
 
   private static void getLanguageMappings(Language language) {
     if (ET.equals(language)) {
-      numberTranslations = FeatTranslationMappings.getNumberEt();
-      caseTranslations = FeatTranslationMappings.getCaseEt();
-      degreeTranslations = FeatTranslationMappings.getDegreeEt();
-      moodTranslations = FeatTranslationMappings.getMoodEt();
-      personTranslations = FeatTranslationMappings.getPersonEt();
-      verbFormTranslations = FeatTranslationMappings.getVerbEt();
+      numberTranslations = WordFeatTranslationMappings.getNumberEt();
+      caseTranslations = WordFeatTranslationMappings.getCaseEt();
+      degreeTranslations = WordFeatTranslationMappings.getDegreeEt();
+      moodTranslations = WordFeatTranslationMappings.getMoodEt();
+      personTranslations = WordFeatTranslationMappings.getPersonEt();
+      verbFormTranslations = WordFeatTranslationMappings.getVerbEt();
       tensePrefixPresent = new StringBuilder("oleviku kesksõna");
       tensePrefixPast = new StringBuilder("mineviku kesksõna");
       tensePostfixNud = " nud-vorm";
@@ -505,12 +505,12 @@ public class TextService {
       inflectedFormTudParticiple = "mineviku kesksõna tud-vorm";
       imperativeMood = "käskiv kõneviis,";
     } else {
-      numberTranslations = FeatTranslationMappings.getNumberEn();
-      caseTranslations = FeatTranslationMappings.getCaseEn();
-      degreeTranslations = FeatTranslationMappings.getDegreeEn();
-      moodTranslations = FeatTranslationMappings.getMoodEn();
-      personTranslations = FeatTranslationMappings.getPersonEn();
-      verbFormTranslations = FeatTranslationMappings.getVerbFormEn();
+      numberTranslations = WordFeatTranslationMappings.getNumberEn();
+      caseTranslations = WordFeatTranslationMappings.getCaseEn();
+      degreeTranslations = WordFeatTranslationMappings.getDegreeEn();
+      moodTranslations = WordFeatTranslationMappings.getMoodEn();
+      personTranslations = WordFeatTranslationMappings.getPersonEn();
+      verbFormTranslations = WordFeatTranslationMappings.getVerbFormEn();
       tensePrefixPresent = new StringBuilder("present participle");
       tensePrefixPast = new StringBuilder("personal past participle");
       tensePostfixNud = " (-nud)";
@@ -593,9 +593,9 @@ public class TextService {
   public List<String> translateWordType(List<String> tekst, Language language) {
     Map<String, String> wordTypes;
     if (ET.equals(language)) {
-      wordTypes = FeatTranslationMappings.getWordTypesEt();
+      wordTypes = WordFeatTranslationMappings.getWordTypesEt();
     } else {
-      wordTypes = FeatTranslationMappings.getWordTypesEn();
+      wordTypes = WordFeatTranslationMappings.getWordTypesEn();
     }
     return tekst.stream()
       .map(wordTypes::get)
