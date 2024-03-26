@@ -529,33 +529,33 @@ export const textPublishUsedMaterialsOptions = {
 };
 
 export const nationalityOptions = {
-  'Eesti': 'query_common_country_et',
-  'Ameerika Ühendriigid': 'query_common_country_us',
-  'Brasiilia': 'query_common_country_br',
-  'Bulgaaria': 'query_common_country_bg',
-  'Egiptus': 'query_common_country_eg',
-  'Filipiinid': 'query_common_country_ph',
-  'Hiina': 'query_common_country_cn',
-  'Hispaania': 'query_common_country_es',
-  'Holland': 'query_common_country_nl',
-  'Iirimaa': 'query_common_country_ie',
-  'India': 'query_common_country_in',
-  'Kreeka': 'query_common_country_gr',
-  'Leedu': 'query_common_country_lt',
-  'Läti': 'query_common_country_lv',
-  'Makedoonia': 'query_common_country_mk',
-  'Määramata': 'query_common_country_unassigned',
-  'Poola': 'query_common_country_pl',
-  'Prantsusmaa': 'query_common_country_fr',
-  'Rumeenia': 'query_common_country_ro',
-  'Saksamaa': 'query_common_country_de',
-  'Soome': 'query_common_country_fi',
-  'Suurbritannia': 'query_common_country_gb',
-  'Türgi': 'query_common_country_tr',
-  'Ukraina': 'query_common_country_ua',
-  'Valgevene': 'query_common_country_by',
-  'Venemaa': 'query_common_country_ru',
-  'Venezuela': 'query_common_country_ve'
+  'Eesti': 'query_common_nationality_et',
+  'Ameerika Ühendriigid': 'query_common_nationality_us',
+  'Brasiilia': 'query_common_nationality_br',
+  'Bulgaaria': 'query_common_nationality_bg',
+  'Egiptus': 'query_common_nationality_eg',
+  'Filipiinid': 'query_common_nationality_ph',
+  'Hiina': 'query_common_nationality_cn',
+  'Hispaania': 'query_common_nationality_es',
+  'Holland': 'query_common_nationality_nl',
+  'Iirimaa': 'query_common_nationality_ie',
+  'India': 'query_common_nationality_in',
+  'Kreeka': 'query_common_nationality_gr',
+  'Leedu': 'query_common_nationality_lt',
+  'Läti': 'query_common_nationality_lv',
+  'Makedoonia': 'query_common_nationality_mk',
+  'Määramata': 'query_common_nationality_unassigned',
+  'Poola': 'query_common_nationality_pl',
+  'Prantsusmaa': 'query_common_nationality_fr',
+  'Rumeenia': 'query_common_nationality_ro',
+  'Saksamaa': 'query_common_nationality_de',
+  'Soome': 'query_common_nationality_fi',
+  'Suurbritannia': 'query_common_nationality_gb',
+  'Türgi': 'query_common_nationality_tr',
+  'Ukraina': 'query_common_nationality_ua',
+  'Valgevene': 'query_common_nationality_by',
+  'Venemaa': 'query_common_nationality_ru',
+  'Venezuela': 'query_common_nationality_ve'
 };
 
 export const languageOptionsForNativeLangs = {
@@ -566,11 +566,11 @@ export const languageOptionsForNativeLangs = {
   'saksa': 'query_common_language_de',
   'ukraina': 'query_common_language_ua',
   'valgevene': 'query_common_language_by',
-  'lati': 'query_common_language_lv',
+  'läti': 'query_common_language_lv',
   'leedu': 'query_common_language_lt',
   'rootsi': 'query_common_language_se',
   'inglise': 'query_common_language_en',
-  'jidis': 'query_common_language_ji',
+  'jidiš': 'query_common_language_ji',
   'poola': 'query_common_language_pl',
   'ungari': 'query_common_language_hu'
 };
@@ -593,6 +593,16 @@ export const countryOptionsForQuery = {
   'Saksamaa': 'query_common_country_de',
   'Inglismaa': 'query_common_country_en',
   'Ungari': 'query_common_country_hu'
+};
+
+export const countryOptionsForQueryResults = {
+  'Eesti': 'query_common_country_et',
+  'Soome': 'query_common_country_fi',
+  'Leedu': 'query_common_country_lt',
+  'Saksamaa': 'query_common_country_de',
+  'Inglismaa': 'query_common_country_en',
+  'Ungari': 'query_common_country_hu',
+  'Muu': 'query_common_country_other'
 };
 
 export const countryOptionsForAddingText = {
