@@ -20,17 +20,18 @@ import FileSaver from 'file-saver';
 import { loadFetch } from '../../service/LoadFetch';
 import { CC_BY_4_0_LICENSE_PATH, DefaultButtonStyle } from '../../const/Constants';
 import NewTabHyperlink from '../../components/NewTabHyperlink';
+import { Languages } from '../../translations/i18n';
 
 export default function QueryDownloadButton({selected}) {
-  const [downloadForm, setDownloadForm] = useState('BASIC_TEXT');
-  const [downloadFileType, setDownloadFileType] = useState('TXT');
+  const [downloadForm, setDownloadForm] = useState(FileDownloadForm.BASIC_TEXT);
+  const [downloadFileType, setDownloadFileType] = useState(FileDownloadType.SINGLE_FILE);
   const [anchorEl, setAnchorEl] = useState(null);
   const optionsDialogOpen = Boolean(anchorEl);
   const {t} = useTranslation();
 
   const handleOptionsDialogOpenButtonClick = (event) => {
-    setDownloadForm('BASIC_TEXT');
-    setDownloadFileType('TXT');
+    setDownloadForm(FileDownloadForm.BASIC_TEXT);
+    setDownloadFileType(FileDownloadType.SINGLE_FILE);
     setAnchorEl(event.currentTarget);
   };
 
@@ -47,6 +48,14 @@ export default function QueryDownloadButton({selected}) {
   };
 
   const downloadTexts = () => {
+    const fileName = i18n.language === Languages.ESTONIAN ? 'tekstid' : 'texts';
+    const fileExtension =
+      downloadFileType === FileDownloadType.SINGLE_FILE
+        ? downloadForm === FileDownloadForm.ANNOTATE_TEI
+          ? 'xml'
+          : 'txt'
+        : 'zip';
+
     loadFetch(`/api/texts/tekstidfailina`, {
       method: 'POST',
       body: JSON.stringify({
@@ -59,7 +68,7 @@ export default function QueryDownloadButton({selected}) {
       }
     })
       .then(res => res.blob())
-      .then(blob => FileSaver.saveAs(blob, `${i18n.language === 'ET' ? 'tekstid' : 'texts'}.${downloadFileType === 'TXT' ? 'txt' : 'zip'}`));
+      .then(blob => FileSaver.saveAs(blob, `${fileName}.${fileExtension}`));
   };
 
   return (
@@ -90,26 +99,25 @@ export default function QueryDownloadButton({selected}) {
               <InputLabel>{t('query_download_form')}</InputLabel>
               <Select
                 size="medium"
-                defaultValue="BASIC_TEXT"
+                defaultValue={FileDownloadForm.BASIC_TEXT}
                 label={t('query_download_form')}
                 onChange={changeDownloadForm}
               >
-                <MenuItem value="BASIC_TEXT">{t('query_download_basictext')}</MenuItem>
-                <MenuItem value="TEI"
-                          disabled>{t('query_download_tei')}</MenuItem>
-                <MenuItem value="CONLLU">{t('query_download_stanza')}</MenuItem>
-                <MenuItem value="VISLCG3">{t('query_download_vislcg3')}</MenuItem>
+                <MenuItem value={FileDownloadForm.BASIC_TEXT}>{t('query_download_basictext')}</MenuItem>
+                <MenuItem value={FileDownloadForm.ANNOTATE_TEI}>{t('query_download_tei')}</MenuItem>
+                <MenuItem value={FileDownloadForm.ANNOTATE_STANZA_CONLLU}>{t('query_download_stanza')}</MenuItem>
+                <MenuItem value={FileDownloadForm.ANNOTATE_ESTNLTK}>{t('query_download_vislcg3')}</MenuItem>
               </Select>
             </FormControl>
             <FormControl className="query-download-modal-radio-group">
-              <RadioGroup defaultValue="TXT" onChange={changeDownloadFileType}>
+              <RadioGroup defaultValue={FileDownloadType.SINGLE_FILE} onChange={changeDownloadFileType}>
                 <FormControlLabel
-                  value="TXT"
+                  value={FileDownloadType.SINGLE_FILE}
                   control={<Radio />}
-                  label={t('query_download_txt')}
+                  label={t('query_download_single_file')}
                 />
                 <FormControlLabel
-                  value="ZIP"
+                  value={FileDownloadType.ZIP_FILE}
                   control={<Radio />}
                   label={t('query_download_zip')}
                 />
@@ -135,3 +143,15 @@ export default function QueryDownloadButton({selected}) {
     </span>
   );
 }
+
+const FileDownloadType = {
+  SINGLE_FILE: 'SINGLE_FILE',
+  ZIP_FILE: 'ZIP'
+};
+
+const FileDownloadForm = {
+  BASIC_TEXT: 'BASIC_TEXT',
+  ANNOTATE_STANZA_CONLLU: 'ANNOTATE_STANZA_CONLLU',
+  ANNOTATE_ESTNLTK: 'ANNOTATE_ESTNLTK',
+  ANNOTATE_TEI: 'ANNOTATE_TEI'
+};

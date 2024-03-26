@@ -67,7 +67,7 @@ import static org.apache.logging.log4j.util.Strings.isNotBlank;
 
 @Service
 @RequiredArgsConstructor
-public class TeiNotationService {
+public class TeiAnnotationService {
 
   private final TextDao textDao;
   private Document document;
@@ -79,7 +79,7 @@ public class TeiNotationService {
   private static final Map<String, String> ageMappings = TeiMappings.getAge();
   private static final List<CommonMetadataForPersonPropertyCreation> commonMetadataForPersonPropertyCreation = TeiMappings.getCommonMetadataForPersonPropertyCreation();
 
-  public String getTeiNotationByTextId(UUID textId) {
+  public String getTeiAnnotationByTextId(UUID textId) {
     try {
       TextAndMetadata textAndMetadata = textDao.findTextAndMetadataById(textId);
       HashMap<String, String> metadata = getMetadataMap(textAndMetadata.getProperties());

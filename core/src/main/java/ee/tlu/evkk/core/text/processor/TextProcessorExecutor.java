@@ -2,30 +2,29 @@ package ee.tlu.evkk.core.text.processor;
 
 import ee.tlu.evkk.core.text.processor.TextProcessor.Context;
 import ee.tlu.evkk.core.text.processor.TextProcessor.Type;
+import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
-import org.springframework.util.Assert;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+
+import static java.util.Objects.requireNonNull;
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toUnmodifiableMap;
+import static org.springframework.util.Assert.notNull;
 
 /**
  * @author Mikk Tarvas
  * Date: 22.01.2022
  */
+@RequiredArgsConstructor
 public class TextProcessorExecutor {
 
   private final Map<Type, TextProcessor> processorsByType;
 
-  private TextProcessorExecutor(Map<Type, TextProcessor> processorsByType) {
-    this.processorsByType = processorsByType;
-  }
-
   static TextProcessorExecutor create(Collection<TextProcessor> processors) {
-    Map<Type, TextProcessor> processorsByType = processors.stream().collect(Collectors.toUnmodifiableMap(TextProcessor::getType, Function.identity()));
+    Map<Type, TextProcessor> processorsByType = processors.stream().collect(toUnmodifiableMap(TextProcessor::getType, identity()));
     return new TextProcessorExecutor(processorsByType);
   }
 
@@ -44,12 +43,12 @@ public class TextProcessorExecutor {
   }
 
   public Object execute(@NonNull Type type, @NonNull Context context, @NonNull String text) {
-    Objects.requireNonNull(type, "type must not be null");
-    Objects.requireNonNull(context, "context must not be null");
-    Objects.requireNonNull(text, "text must not be null");
+    requireNonNull(type, "type must not be null");
+    requireNonNull(context, "context must not be null");
+    requireNonNull(text, "text must not be null");
 
     Object result = getProcessor(type).process(text, context);
-    Assert.notNull(result, "Contract violation: processor must not return NULL");
+    notNull(result, "Contract violation: processor must not return NULL");
     return result;
   }
 
