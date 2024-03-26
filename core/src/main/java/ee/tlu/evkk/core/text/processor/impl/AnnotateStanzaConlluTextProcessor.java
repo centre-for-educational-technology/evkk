@@ -1,6 +1,7 @@
 package ee.tlu.evkk.core.text.processor.impl;
 
 import ee.tlu.evkk.core.integration.StanzaServerClient;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
@@ -8,28 +9,27 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static ee.tlu.evkk.core.text.processor.TextProcessor.Type.ANNOTATE_STANZA_CONLLU;
+
 /**
  * @author Mikk Tarvas
  * Date: 11.02.2022
  */
 @Component
+@RequiredArgsConstructor
 public class AnnotateStanzaConlluTextProcessor extends AbstractTextProcessor {
 
   private final StanzaServerClient stanzaServerClient;
 
-  public AnnotateStanzaConlluTextProcessor(StanzaServerClient stanzaServerClient) {
-    this.stanzaServerClient = stanzaServerClient;
-  }
-
   @Override
   public long getVersion() {
-    return 1;
+    return 1L;
   }
 
   @Nonnull
   @Override
   public Type getType() {
-    return Type.ANNOTATE_STANZA_CONLLU;
+    return ANNOTATE_STANZA_CONLLU;
   }
 
   @Nonnull

@@ -10,7 +10,6 @@ import ee.tlu.evkk.api.controller.dto.TextSearchResponse;
 import ee.tlu.evkk.common.env.ServiceLocator;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
-import ee.tlu.evkk.core.service.TeiNotationService;
 import ee.tlu.evkk.core.service.TextService;
 import ee.tlu.evkk.core.service.dto.TextResponseDto;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
@@ -23,7 +22,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,7 +49,6 @@ import static org.springframework.web.util.UriComponentsBuilder.fromUri;
 public class TextController {
 
   private final TextDao textDao;
-  private final TeiNotationService teiNotationService;
   private final StanzaServerClient stanzaServerClient;
   private final CorrectorServerClient correctorServerClient;
   private final TextService textService;
@@ -226,11 +223,6 @@ public class TextController {
     UUID textId = textWithProperties.getText().getId();
     String downloadUrl = fromUri(publicApiUri).pathSegment("texts", "download", "{textId}").encode().build(textId.toString()).toString();
     return INSTANCE.toTextSearchResponse(textWithProperties, downloadUrl);
-  }
-
-  @GetMapping("/kysiTeiMargendus/{textId}")
-  public String kysiTeiMargendus(@PathVariable UUID textId) {
-    return teiNotationService.getTeiNotationByTextId(textId);
   }
 
 }

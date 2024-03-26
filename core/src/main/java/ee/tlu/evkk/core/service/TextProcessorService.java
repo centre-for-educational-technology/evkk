@@ -1,5 +1,6 @@
 package ee.tlu.evkk.core.service;
 
+import ee.tlu.evkk.core.exception.TextProcessorException;
 import ee.tlu.evkk.core.text.processor.TextProcessor.Context;
 import ee.tlu.evkk.core.text.processor.TextProcessor.Type;
 import ee.tlu.evkk.core.text.processor.TextProcessorExecutor;
@@ -10,6 +11,7 @@ import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.dto.TextProcessorResult;
 import ee.tlu.evkk.dal.json.Json;
 import ee.tlu.evkk.dal.json.JsonFactory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
@@ -18,15 +20,17 @@ import java.io.UncheckedIOException;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+
+import static java.util.stream.Collectors.toUnmodifiableMap;
+import static java.util.stream.StreamSupport.stream;
 
 /**
  * @author Mikk Tarvas
  * Date: 22.01.2022
  */
 @Service
+@RequiredArgsConstructor
 public class TextProcessorService {
 
   private final JsonFactory jsonFactory;
@@ -35,17 +39,9 @@ public class TextProcessorService {
   private final TextPropertyService textPropertyService;
   private final TextProcessorExecutor textProcessorExecutor;
 
-  public TextProcessorService(JsonFactory jsonFactory, TextDao textDao, TextProcessorResultDao textProcessorResultDao, TextPropertyService textPropertyService, TextProcessorExecutor textProcessorExecutor) {
-    this.jsonFactory = jsonFactory;
-    this.textDao = textDao;
-    this.textProcessorResultDao = textProcessorResultDao;
-    this.textPropertyService = textPropertyService;
-    this.textProcessorExecutor = textProcessorExecutor;
-  }
-
   public void processText(Type type, UUID textId) {
     Optional<Text> text = textDao.findById(textId);
-    if (text.isEmpty()) throw new RuntimeException("Text not found: " + textId); //TODO: use business exception
+    if (text.isEmpty()) throw new TextProcessorException("Text not found: " + textId);
 
     String hash = text.get().getHash();
     long version = textProcessorExecutor.getVersion(type);
@@ -64,7 +60,7 @@ public class TextProcessorService {
       result = jsonFactory.createFromObject(textProcessorExecutor.execute(type, buildProcessorContext(textId), finalText));
     } catch (Exception ex) {
       textProcessorResultDao.upsert(buildTextProcessorResult(hash, buildEmptyJson(), type.toString(), version));
-      throw new RuntimeException("Unable to process textId " + textId + " using " + type + " processor", ex);
+      throw new TextProcessorException("Unable to process textId " + textId + " using " + type + " processor: " + ex.getMessage());
     }
     textProcessorResultDao.upsert(buildTextProcessorResult(hash, result, type.toString(), version));
   }
@@ -89,14 +85,14 @@ public class TextProcessorService {
       context = context.withOriginalFileName(textProperties.getFirst("failinimi"));
     if (textProperties.containsKey("tekstikeel"))
       context = context.withLanguageCode(textProperties.getFirst("tekstikeel"));
-    context = context.withFallbackFileName(textId + ".txt");
+    context = context.withTextIdAndFallbackFileName(textId, textId + ".txt");
     return context;
   }
 
   public Stream<MissingTextProcessorResult> findMissingTextProcessorResults() {
-    var processors = textProcessorExecutor.getTypes().stream().collect(Collectors.toUnmodifiableMap(Enum::toString, textProcessorExecutor::getVersion));
+    var processors = textProcessorExecutor.getTypes().stream().collect(toUnmodifiableMap(Enum::toString, textProcessorExecutor::getVersion));
     var cursor = textProcessorResultDao.findMissingTextProcessorResults(processors);
-    var result = StreamSupport.stream(cursor.spliterator(), false);
+    var result = stream(cursor.spliterator(), false);
     return result.onClose(() -> {
       try {
         cursor.close();

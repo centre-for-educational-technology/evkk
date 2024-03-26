@@ -1,21 +1,21 @@
 package ee.tlu.evkk.core.text.processor.impl;
 
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
+import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
+
+import static ee.tlu.evkk.core.text.processor.TextProcessor.Type.CORRECTOR;
 
 /**
  * @author Mikk Tarvas
  * Date: 21.01.2022
  */
 @Component
+@RequiredArgsConstructor
 public class CorrectorTextProcessor extends AbstractTextProcessor {
 
   private final CorrectorServerClient correctorServerClient;
-
-  public CorrectorTextProcessor(CorrectorServerClient correctorServerClient) {
-    this.correctorServerClient = correctorServerClient;
-  }
 
   @Override
   public long getVersion() {
@@ -25,7 +25,7 @@ public class CorrectorTextProcessor extends AbstractTextProcessor {
   @NonNull
   @Override
   public Type getType() {
-    return Type.CORRECTOR;
+    return CORRECTOR;
   }
 
   @NonNull

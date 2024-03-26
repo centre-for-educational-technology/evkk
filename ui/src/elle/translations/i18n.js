@@ -4,6 +4,11 @@ import { initReactI18next } from 'react-i18next';
 import { TRANSLATIONS_ET } from './et/translations';
 import { TRANSLATIONS_EN } from './en/translations';
 
+export const Languages = {
+  ESTONIAN: 'ET',
+  ENGLISH: 'EN'
+};
+
 i18n
   .use(initReactI18next)
   .init({
@@ -15,5 +20,5 @@ i18n
         translation: TRANSLATIONS_ET
       }
     },
-    lng: localStorage.getItem('language') || 'ET'
+    lng: localStorage.getItem('language') || Languages.ESTONIAN
   });

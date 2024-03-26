@@ -9,13 +9,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 @Mapper
 @Repository
 public interface TextProcessorResultDao {
 
-  Optional<UUID> upsert(@Param("textProcessorResult") TextProcessorResult textProcessorResult);
+  void upsert(@Param("textProcessorResult") TextProcessorResult textProcessorResult);
 
   Optional<TextProcessorResult> findResultForTypeAndVersion(@Param("textHash") String textHash, @Param("type") String type, @Param("version") Long version);
 
