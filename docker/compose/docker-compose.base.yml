@@ -70,9 +70,9 @@ services:
         limits:
           memory: 15G
 
-  grammar-work-server:
+  grammar-worker-server:
     image: evkk-grammar-worker
-    container_name: evkk-rammar-worker
+    container_name: evkk-grammar-worker
     restart: always
     deploy:
       resources:
