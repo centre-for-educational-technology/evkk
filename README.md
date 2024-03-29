@@ -1,4 +1,6 @@
-# EVKK
+# ELLE / EVKK
+
+ELLE - Estonian Language Learning and Analysis Environment is a development of the user interface of the Estonian Interlanguage Corpus (Eesti vahekeele korpus - EVKK).
 
 ## General recommendations
 - All commands should be executed from project's root directory if not stated otherwise.
@@ -35,3 +37,7 @@ For example: run **clean**, **migrate** and **seed** commands: `$ ./gradlew :db:
 ### Java development
 Preferred IDE is IntelliJ IDEA but other widely adopted IDE-s should work as well.  
 IntelliJ community edition download: https://www.jetbrains.com/idea/download/  
+
+## Corpus license
+The Estonian Interlanguage Corpus is licensed under a [Creative Commons Attribution 4.0 International (CC-BY-4.0) License](https://creativecommons.org/licenses/by/4.0/).
+Copyright 2024 Tallinn University School of Digital Technologies and the corpus contributors.

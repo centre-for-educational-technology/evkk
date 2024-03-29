@@ -1,7 +1,7 @@
-import React from 'react';
 import { Box } from '@mui/material';
 import './styles/ContactCard.css';
 import { ReactComponent as EtisLogo } from '../../resources/images/misc/etis_logo.svg';
+import NewTabHyperlink from '../NewTabHyperlink';
 
 export default function ContactCard({name, role, email, etisUrl, icon}) {
   return (
@@ -9,7 +9,7 @@ export default function ContactCard({name, role, email, etisUrl, icon}) {
       <Box className="icon-box">
         <img className="contact-image"
              src={icon}
-             alt={icon}/>
+             alt={icon} />
       </Box>
       <Box className="text-box">
         <Box className="name-box">{name}</Box>
@@ -18,10 +18,9 @@ export default function ContactCard({name, role, email, etisUrl, icon}) {
           <div><b>E-post:</b> {email}</div>
           {etisUrl &&
             <div className="etis-container">
-              <a className="etis-link"
-                 href={etisUrl}
-                 target="_blank"
-                 rel="noopener noreferrer"><EtisLogo/></a>
+              <NewTabHyperlink path={etisUrl}
+                               content={<EtisLogo />}
+                               className="etis-link" />
             </div>
           }
         </Box>
