@@ -28,7 +28,7 @@ sona_upos_piirang = ["PUNCT", "SYM"]
 sona_upos_piirang_mitmekesisus = ["PUNCT", "SYM", "NUM", "PROPN"]
 vormimargend_upos_piirang = ["ADP", "ADV", "CCONJ", "SCONJ", "INTJ", "X"]
 
-eesti_tahestik = r'[a-zA-ZõÕäÄöÖüÜŽžŠš]+'
+eesti_tahestik = r'[a-zA-ZõÕäÄöÖüÜŽžŠš-]+'
 
 
 @app.route('/keerukus-sonaliigid-mitmekesisus', methods=post)
