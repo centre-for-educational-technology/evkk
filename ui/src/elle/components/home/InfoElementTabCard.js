@@ -12,7 +12,7 @@ export default function InfoElementTabCard(props) {
   const changeTab = () => {
     props.setOpenTab(props.toolID);
     props.setImageSelected(props.imageNo);
-    props.setInfoOpacity(1);
+    props.setInfoOpacity(400);
   };
 
   return (
@@ -22,10 +22,13 @@ export default function InfoElementTabCard(props) {
       onMouseLeave={(e) => props.setInfoOpacity(0)}
       className={props.tabOpen === props.toolID ? 'btn-visible' : 'btn-invisible'}
     >
-      <Box sx={{width: '100px', height: '100%', position: 'absolute', left: '100%'}}></Box>
+      <Box className="info-tab-helper-strip"
+           sx={{
+             width: `${props.opacity / 8}px`
+           }}></Box>
       <p className="tool-button-text">{props.toolTitle}</p>
       <Box
-        style={{opacity: props.opacity}}
+        style={{width: `${props.opacity}px`}}
         id={props.toolInnerId}
         className={props.tabOpen === props.toolID ? 'info-box-slide-visible' : 'info-box-slide-invisible'}
       >

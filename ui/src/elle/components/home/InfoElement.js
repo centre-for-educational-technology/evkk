@@ -169,7 +169,7 @@ export default function InfoElement() {
         </Box>
         {/*TODO videod tööle panna, kui videod valmis*/}
         <Box className="info-video">
-          <img className="info-image" src={images[imageSelected - 1]} alt="Tööriista pilt"/>
+          <img src={images[imageSelected - 1]} alt="Tööriista pilt"/>
           {/*  <video
             className={"info-video-styling w-100"}
             controls

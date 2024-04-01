@@ -107,7 +107,7 @@ export const TRANSLATIONS_EN = {
   homepage_box_neighbouring_words_title: 'Neighbouring Words',
   homepage_box_query_content: 'allows you to search for language material in EIC text collections based on author and text data. You can also submit your own text for research.',
   homepage_box_query_title: 'Text query',
-  homepage_box_word_analysis_content: 'allows you to assess your writing. See what the robot thinks about the spelling and complexity of your text and what proficiency level it corresponds to.',
+  homepage_box_word_analysis_content: 'allows you to find syllables, base forms and grammatical forms from texts.',
   homepage_box_word_analysis_title: 'Word Analyser',
   homepage_box_wordlist_content: 'allows you to see which words occur most frequently in the text.',
   homepage_box_wordlist_title: 'Wordlist',

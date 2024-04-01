@@ -87,3 +87,9 @@
   font-weight: bold;
   z-index: 104;
 }
+
+.info-tab-helper-strip {
+  height: 100%;
+  position: absolute;
+  left: 100%;
+}
