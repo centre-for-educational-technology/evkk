@@ -56,19 +56,9 @@ public class TextController {
   private final TeiNotationService teiNotationService;
   private final StanzaServerClient stanzaServerClient;
   private final CorrectorServerClient correctorServerClient;
-
   private final GrammarWorkerServerClient grammarWorkerServerClient;
   private final TextService textService;
   private final ServiceLocator serviceLocator;
-
-  public TextController(TextDao uusTDao, StanzaServerClient stanzaServerClient, CorrectorServerClient correctorServerClient, GrammarWorkerServerClient grammarWorkerServerClient, TextService textService, ServiceLocator serviceLocator) {
-    textDao = uusTDao;
-    this.stanzaServerClient = stanzaServerClient;
-    this.correctorServerClient = correctorServerClient;
-    this.grammarWorkerServerClient = grammarWorkerServerClient;
-    this.textService = textService;
-    this.serviceLocator = serviceLocator;
-  }
 
   @PostMapping("/kysitekstid")
   public String kysiTekstid(@RequestBody CorpusTextContentsDto dto) {

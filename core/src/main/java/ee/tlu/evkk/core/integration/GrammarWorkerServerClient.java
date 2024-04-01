@@ -1,30 +1,25 @@
 package ee.tlu.evkk.core.integration;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestOperations;
 
-import java.util.Collections;
 import java.util.Map;
 
-/**
- * @author Mikk Tarvas
- * Date: 30.09.2021
- */
+import static java.util.Collections.singletonList;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+
+@RequiredArgsConstructor
 public class GrammarWorkerServerClient extends AbstractRestOperationsClient {
 
   private final RestOperations rest;
 
-  public GrammarWorkerServerClient(RestOperations restOperations) {
-    this.rest = restOperations;
-  }
-
   public String getGrammarWorker(String tekst) {
     HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_JSON);
-    headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON)); // Explicitly accept JSON
+    headers.setContentType(APPLICATION_JSON);
+    headers.setAccept(singletonList(APPLICATION_JSON));
 
     Map<String, String> map = Map.of("tekst", tekst);
     HttpEntity<?> requestEntity = new HttpEntity<>(map, headers);
@@ -34,8 +29,8 @@ public class GrammarWorkerServerClient extends AbstractRestOperationsClient {
 
   public String getSpeller(String tekst) {
     HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_JSON);
-    headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON)); // Explicitly accept JSON
+    headers.setContentType(APPLICATION_JSON);
+    headers.setAccept(singletonList(APPLICATION_JSON));
 
     Map<String, String> map = Map.of("tekst", tekst);
     HttpEntity<?> requestEntity = new HttpEntity<>(map, headers);
