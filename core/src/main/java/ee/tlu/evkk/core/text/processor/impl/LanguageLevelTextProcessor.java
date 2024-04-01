@@ -1,22 +1,20 @@
 package ee.tlu.evkk.core.text.processor.impl;
 
 import ee.tlu.evkk.core.integration.StanzaServerClient;
-import ee.tlu.evkk.core.text.processor.TextProcessor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Component;
+
+import static ee.tlu.evkk.core.text.processor.TextProcessor.Type.LANGUAGE_LEVEL;
 
 /**
  * @author Mikk Tarvas
  * Date: 22.01.2022
  */
 //@Component
+@RequiredArgsConstructor
 public class LanguageLevelTextProcessor extends AbstractTextProcessor {
 
   private final StanzaServerClient stanzaServerClient;
-
-  public LanguageLevelTextProcessor(StanzaServerClient stanzaServerClient) {
-    this.stanzaServerClient = stanzaServerClient;
-  }
 
   @Override
   public long getVersion() {
@@ -25,8 +23,8 @@ public class LanguageLevelTextProcessor extends AbstractTextProcessor {
 
   @NonNull
   @Override
-  public TextProcessor.Type getType() {
-    return Type.LANGUAGE_LEVEL;
+  public Type getType() {
+    return LANGUAGE_LEVEL;
   }
 
   @NonNull

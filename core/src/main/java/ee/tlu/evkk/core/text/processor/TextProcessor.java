@@ -2,6 +2,9 @@ package ee.tlu.evkk.core.text.processor;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
+import java.util.UUID;
+
+import static java.util.Optional.ofNullable;
 
 /**
  * @author Mikk Tarvas
@@ -18,32 +21,33 @@ public interface TextProcessor {
   Object process(@Nonnull String input, @Nonnull Context context);
 
   enum Type {
-
     LEMMATIZER,
     CORRECTOR,
     LANGUAGE_LEVEL,
     ANNOTATE_ESTNLTK,
     ANNOTATE_STANZA_CONLLU,
+    ANNOTATE_TEI,
     CHARS_WORDS_SENTENCES
-
   }
 
   class Context {
 
-    private static final Context INSTANCE = new Context(null, null, null);
+    private static final Context INSTANCE = new Context(null, null, null, null);
 
     private final String languageCode;
     private final String originalFileName;
     private final String fallbackFileName;
+    private final UUID textId;
 
-    private Context(String languageCode, String originalFileName, String fallbackFileName) {
+    private Context(String languageCode, String originalFileName, String fallbackFileName, UUID textId) {
       this.languageCode = languageCode;
       this.originalFileName = originalFileName;
       this.fallbackFileName = fallbackFileName;
+      this.textId = textId;
     }
 
-    private Context copy(String languageCode, String originalFileName, String fallbackFileName) {
-      return new Context(languageCode, originalFileName, fallbackFileName);
+    private Context copy(String languageCode, String originalFileName, String fallbackFileName, UUID textId) {
+      return new Context(languageCode, originalFileName, fallbackFileName, textId);
     }
 
     public static Context newInstance() {
@@ -51,27 +55,31 @@ public interface TextProcessor {
     }
 
     public Context withLanguageCode(String languageCode) {
-      return copy(languageCode, originalFileName, fallbackFileName);
+      return copy(languageCode, originalFileName, fallbackFileName, textId);
     }
 
     public Context withOriginalFileName(String originalFileName) {
-      return copy(languageCode, originalFileName, fallbackFileName);
+      return copy(languageCode, originalFileName, fallbackFileName, textId);
     }
 
-    public Context withFallbackFileName(String fallbackFileName) {
-      return copy(languageCode, originalFileName, fallbackFileName);
+    public Context withTextIdAndFallbackFileName(UUID textId, String fallbackFileName) {
+      return copy(languageCode, originalFileName, fallbackFileName, textId);
     }
 
     public Optional<String> getLanguageCode() {
-      return Optional.ofNullable(languageCode);
+      return ofNullable(languageCode);
     }
 
     public Optional<String> getOriginalFileName() {
-      return Optional.ofNullable(originalFileName);
+      return ofNullable(originalFileName);
     }
 
     public Optional<String> getFallbackFileName() {
-      return Optional.ofNullable(fallbackFileName);
+      return ofNullable(fallbackFileName);
+    }
+
+    public Optional<UUID> getTextId() {
+      return ofNullable(textId);
     }
 
   }
