@@ -3,7 +3,7 @@ package ee.tlu.evkk.core.text.processor.impl;
 import ee.tlu.evkk.core.text.processor.TextProcessor;
 import org.springframework.lang.NonNull;
 
-import java.util.Objects;
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author Mikk Tarvas
@@ -14,7 +14,7 @@ public abstract class AbstractTextProcessor implements TextProcessor {
   @NonNull
   @Override
   public final Object process(@NonNull String input, @NonNull Context context) {
-    Objects.requireNonNull(input, "input must not be null");
+    requireNonNull(input, "input must not be null");
     return doProcess(input, context);
   }
 

@@ -13,6 +13,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import static java.lang.Boolean.TRUE;
+
 /**
  * @author Mikk Tarvas
  * Date: 20.01.2022
@@ -35,7 +37,7 @@ public class TaskSchedulerConfiguration {
 
   @Scheduled(fixedDelay = 5000L)
   public void processTexts() {
-    if (properties.getTextProcessingEnabled() != Boolean.TRUE) {
+    if (properties.getTextProcessingEnabled() != TRUE) {
       log.info("TextProcessingTask is not enabled");
       return;
     }

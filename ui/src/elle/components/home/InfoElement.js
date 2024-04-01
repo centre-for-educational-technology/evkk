@@ -17,22 +17,23 @@ import textRaterImg from '../../resources/images/home/tekstihindaja.png';
 import textQueryImgEt from '../../resources/images/home/paring_et.png';
 import textQueryImgEn from '../../resources/images/home/paring_en.png';
 import wordPatternImg from '../../resources/images/home/mustrileidja.png';
+import { Languages } from '../../translations/i18n';
 
 export default function InfoElement() {
 
   const {t} = useTranslation();
   const [openTab, setOpenTab] = useState('corrector-tab-card');
-  const [wordlistImg, setWordlistImg] = useState(i18n.language === 'ET' ? wordlistImgEt : wordlistImgEn);
-  const [wordcontextImg, setWordcontextImg] = useState(i18n.language === 'ET' ? wordcontextImgEt : wordcontextImgEn);
-  const [collocateImg, setCollocateImg] = useState(i18n.language === 'ET' ? collocateImgEt : collocateImgEn);
-  const [analyserImg, setAnalyserImg] = useState(i18n.language === 'ET' ? analyserImgEt : analyserImgEn);
-  const [textQueryImg, setTextQueryImg] = useState(i18n.language === 'ET' ? textQueryImgEt : textQueryImgEn);
+  const [wordlistImg, setWordlistImg] = useState(i18n.language === Languages.ESTONIAN ? wordlistImgEt : wordlistImgEn);
+  const [wordcontextImg, setWordcontextImg] = useState(i18n.language === Languages.ESTONIAN ? wordcontextImgEt : wordcontextImgEn);
+  const [collocateImg, setCollocateImg] = useState(i18n.language === Languages.ESTONIAN ? collocateImgEt : collocateImgEn);
+  const [analyserImg, setAnalyserImg] = useState(i18n.language === Languages.ESTONIAN ? analyserImgEt : analyserImgEn);
+  const [textQueryImg, setTextQueryImg] = useState(i18n.language === Languages.ESTONIAN ? textQueryImgEt : textQueryImgEn);
   const [imageSelected, setImageSelected] = useState(1);
   const [infoOpacity, setInfoOpacity] = useState(0);
   const images = [textRaterImg, textQueryImg, wordlistImg, wordcontextImg, collocateImg, wordPatternImg, analyserImg];
 
   i18n.on('languageChanged', () => {
-    if (i18n.language === 'ET') {
+    if (i18n.language === Languages.ESTONIAN) {
       setWordlistImg(wordlistImgEt);
       setWordcontextImg(wordcontextImgEt);
       setCollocateImg(collocateImgEt);
@@ -169,7 +170,7 @@ export default function InfoElement() {
         </Box>
         {/*TODO videod tööle panna, kui videod valmis*/}
         <Box className="info-video">
-          <img src={images[imageSelected - 1]} alt="Tööriista pilt"/>
+          <img src={images[imageSelected - 1]} alt="Tööriista pilt" />
           {/*  <video
             className={"info-video-styling w-100"}
             controls

@@ -10,7 +10,7 @@ import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.service.dto.StanzaResponseDto;
 import ee.tlu.evkk.core.service.dto.TextResponseDto;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
-import ee.tlu.evkk.core.service.maps.TranslationMappings;
+import ee.tlu.evkk.core.service.maps.WordFeatTranslationMappings;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.CorpusDownloadResponseEntity;
 import ee.tlu.evkk.dal.dto.Pageable;
@@ -46,9 +46,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import static ee.evkk.dto.enums.CorpusDownloadFileType.ZIP;
+import static ee.evkk.dto.enums.CorpusDownloadForm.ANNOTATE_TEI;
 import static ee.evkk.dto.enums.CorpusDownloadForm.BASIC_TEXT;
-import static ee.evkk.dto.enums.CorpusDownloadForm.CONLLU;
-import static ee.evkk.dto.enums.CorpusDownloadForm.VISLCG3;
 import static ee.evkk.dto.enums.Language.EN;
 import static ee.evkk.dto.enums.Language.ET;
 import static ee.tlu.evkk.common.util.TextUtils.sanitizeLemmaStrings;
@@ -79,8 +78,8 @@ public class TextService {
   private final TextDao textDao;
   private final StanzaServerClient stanzaServerClient;
 
-  private static final Set<String> firstType = TranslationMappings.getFirstType();
-  private static final Set<String> secondType = TranslationMappings.getSecondType();
+  private static final Set<String> firstType = WordFeatTranslationMappings.getFirstType();
+  private static final Set<String> secondType = WordFeatTranslationMappings.getSecondType();
   private static Map<String, String> numberTranslations;
   private static Map<String, String> caseTranslations;
   private static Map<String, String> degreeTranslations;
@@ -132,7 +131,7 @@ public class TextService {
       singleParamHelpers.add(new TextQuerySingleParamHelper("p6", "keeletase", corpusRequestDto.getLevel()));
     }
     if (isNotBlank(corpusRequestDto.getDomain())) {
-      singleParamHelpers.add(new TextQuerySingleParamHelper("p7", "eriala", corpusRequestDto.getDomain()));
+      singleParamHelpers.add(new TextQuerySingleParamHelper("p7", "valdkond", corpusRequestDto.getDomain()));
     }
     if (isNotBlank(corpusRequestDto.getUsedMaterials())) {
       singleParamHelpers.add(new TextQuerySingleParamHelper("p8", "abivahendid", corpusRequestDto.getUsedMaterials()));
@@ -218,28 +217,26 @@ public class TextService {
     if (BASIC_TEXT.equals(corpusDownloadDto.getForm())) {
       contentsAndTitles = textDao.findTextContentsAndTitlesByIds(corpusDownloadDto.getFileList());
     } else {
-      String typeColumn = "";
-      if (CONLLU.equals(corpusDownloadDto.getForm())) {
-        typeColumn = "ANNOTATE_STANZA_CONLLU";
-      }
-      if (VISLCG3.equals(corpusDownloadDto.getForm())) {
-        typeColumn = "ANNOTATE_ESTNLTK";
-      }
-      contentsAndTitles = textDao.findTextTitlesAndContentsWithStanzaTaggingByIds(corpusDownloadDto.getFileList(), typeColumn);
+      contentsAndTitles = textDao.findTextTitlesAndContentsWithStanzaTaggingByIds(corpusDownloadDto.getFileList(), corpusDownloadDto.getForm().toString());
     }
 
     if (ZIP.equals(corpusDownloadDto.getFileType())) {
       File tempFile = createTempFile("corpusDownloadTempZip", null, null);
+      String fileExtension = ANNOTATE_TEI.equals(corpusDownloadDto.getForm()) ? "xml" : "txt";
+
       try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(tempFile))) {
         for (int i = 0; i < contentsAndTitles.size(); i++) {
           String contents = replaceNewLinesAndTabs(corpusDownloadDto.getForm(), contentsAndTitles.get(i).getContents());
           ZipEntry zipEntry = new ZipEntry(format(
-            "%s (%s).txt",
+            "%s (%s).%s",
             getSanitizedFileName(contentsAndTitles.get(i).getTitle()),
-            corpusDownloadDto.getFileList().get(i))
+            corpusDownloadDto.getFileList().get(i),
+            fileExtension)
           );
           zipOutputStream.putNextEntry(zipEntry);
-          zipOutputStream.write(contents.getBytes(UTF_8));
+
+          String result = nonNull(contents) ? contents : "";
+          zipOutputStream.write(result.getBytes(UTF_8));
           zipOutputStream.closeEntry();
         }
       } catch (IOException e) {
@@ -254,7 +251,7 @@ public class TextService {
     StringBuilder contentsCombined = new StringBuilder();
     for (CorpusDownloadResponseEntity entry : contentsAndTitles) {
       String contents = replaceNewLinesAndTabs(corpusDownloadDto.getForm(), entry.getContents());
-      contentsCombined.append(contents);
+      contentsCombined.append(isNotBlank(contents) ? contents : "");
       contentsCombined.append(lineSeparator()).append(lineSeparator());
     }
     return contentsCombined.toString().getBytes(UTF_8);
@@ -288,7 +285,7 @@ public class TextService {
       lisaTekstiOmadus(kood, "akad_oppematerjal_muu", andmed.getAkadOppematerjalMuu());
     }
     if (andmed.getLiik().equals("akadeemiline")) {
-      lisaTekstiOmadus(kood, "eriala", andmed.getAutoriEriala());
+      lisaTekstiOmadus(kood, "valdkond", andmed.getAutoriValdkond());
       lisaTekstiOmadus(kood, "akad_alamliik", andmed.getAkadAlamliik());
       lisaTekstiOmadus(kood, "artikkel_aasta", andmed.getArtikkelAasta());
       lisaTekstiOmadus(kood, "artikkel_valjaanne", andmed.getArtikkelValjaanne());
@@ -483,16 +480,47 @@ public class TextService {
     return result;
   }
 
-  public List<String> translateWordType(List<String> tekst, Language language) {
-    Map<String, String> wordTypes;
+  private static void getLanguageMappings(Language language) {
     if (ET.equals(language)) {
-      wordTypes = TranslationMappings.getWordTypesEt();
+      numberTranslations = WordFeatTranslationMappings.getNumberEt();
+      caseTranslations = WordFeatTranslationMappings.getCaseEt();
+      degreeTranslations = WordFeatTranslationMappings.getDegreeEt();
+      moodTranslations = WordFeatTranslationMappings.getMoodEt();
+      personTranslations = WordFeatTranslationMappings.getPersonEt();
+      verbFormTranslations = WordFeatTranslationMappings.getVerbEt();
+      tensePrefixPresent = new StringBuilder("oleviku kesksõna");
+      tensePrefixPast = new StringBuilder("mineviku kesksõna");
+      tensePostfixNud = " nud-vorm";
+      tensePostfixTud = " tud-vorm";
+      negPolarity = "eitussõna";
+      negation = "eitus";
+      impersonal = "umbisikuline tegumood";
+      present = "olevik";
+      simplePast = "lihtminevik";
+      past = "minevik";
+      inflectedFormNudParticiple = "mineviku kesksõna nud-vorm";
+      inflectedFormTudParticiple = "mineviku kesksõna tud-vorm";
+      imperativeMood = "käskiv kõneviis,";
     } else {
-      wordTypes = TranslationMappings.getWordTypesEn();
+      numberTranslations = WordFeatTranslationMappings.getNumberEn();
+      caseTranslations = WordFeatTranslationMappings.getCaseEn();
+      degreeTranslations = WordFeatTranslationMappings.getDegreeEn();
+      moodTranslations = WordFeatTranslationMappings.getMoodEn();
+      personTranslations = WordFeatTranslationMappings.getPersonEn();
+      verbFormTranslations = WordFeatTranslationMappings.getVerbFormEn();
+      tensePrefixPresent = new StringBuilder("present participle");
+      tensePrefixPast = new StringBuilder("personal past participle");
+      tensePostfixNud = " (-nud)";
+      tensePostfixTud = " (-tud)";
+      negPolarity = "negative particle";
+      negation = "negation";
+      impersonal = "impersonal";
+      present = "present";
+      past = "past";
+      inflectedFormNudParticiple = "personal past participle (-nud)";
+      inflectedFormTudParticiple = "impersonal past participle (-tud)";
+      imperativeMood = "imperative,";
     }
-    return tekst.stream()
-      .map(wordTypes::get)
-      .collect(toList());
   }
 
   private TextQueryRangeParamBaseHelper createRangeBaseHelper(String table, String parameter, List<List<Integer>> values) {
@@ -559,47 +587,16 @@ public class TextService {
     }
   }
 
-  private static void getLanguageMappings(Language language) {
+  public List<String> translateWordType(List<String> tekst, Language language) {
+    Map<String, String> wordTypes;
     if (ET.equals(language)) {
-      numberTranslations = TranslationMappings.getNumberEt();
-      caseTranslations = TranslationMappings.getCaseEt();
-      degreeTranslations = TranslationMappings.getDegreeEt();
-      moodTranslations = TranslationMappings.getMoodEt();
-      personTranslations = TranslationMappings.getPersonEt();
-      verbFormTranslations = TranslationMappings.getVerbEt();
-      tensePrefixPresent = new StringBuilder("oleviku kesksõna");
-      tensePrefixPast = new StringBuilder("mineviku kesksõna");
-      tensePostfixNud = " nud-vorm";
-      tensePostfixTud = " tud-vorm";
-      negPolarity = "eitussõna";
-      negation = "eitus";
-      impersonal = "umbisikuline tegumood";
-      present = "olevik";
-      simplePast = "lihtminevik";
-      past = "minevik";
-      inflectedFormNudParticiple = "mineviku kesksõna nud-vorm";
-      inflectedFormTudParticiple = "mineviku kesksõna tud-vorm";
-      imperativeMood = "käskiv kõneviis,";
+      wordTypes = WordFeatTranslationMappings.getWordTypesEt();
     } else {
-      numberTranslations = TranslationMappings.getNumberEn();
-      caseTranslations = TranslationMappings.getCaseEn();
-      degreeTranslations = TranslationMappings.getDegreeEn();
-      moodTranslations = TranslationMappings.getMoodEn();
-      personTranslations = TranslationMappings.getPersonEn();
-      verbFormTranslations = TranslationMappings.getVerbFormEn();
-      tensePrefixPresent = new StringBuilder("present participle");
-      tensePrefixPast = new StringBuilder("personal past participle");
-      tensePostfixNud = " (-nud)";
-      tensePostfixTud = " (-tud)";
-      negPolarity = "negative particle";
-      negation = "negation";
-      impersonal = "impersonal";
-      present = "present";
-      past = "past";
-      inflectedFormNudParticiple = "personal past participle (-nud)";
-      inflectedFormTudParticiple = "impersonal past participle (-tud)";
-      imperativeMood = "imperative,";
+      wordTypes = WordFeatTranslationMappings.getWordTypesEn();
     }
+    return tekst.stream()
+      .map(wordTypes::get)
+      .collect(toList());
   }
 
 }

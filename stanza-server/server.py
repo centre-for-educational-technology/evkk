@@ -29,7 +29,7 @@ sona_upos_piirang = ["PUNCT", "SYM"]
 sona_upos_piirang_mitmekesisus = ["PUNCT", "SYM", "NUM", "PROPN"]
 vormimargend_upos_piirang = ["ADP", "ADV", "CCONJ", "SCONJ", "INTJ", "X"]
 
-eesti_tahestik = r'[a-zA-ZõÕäÄöÖüÜŽžŠš]+'
+eesti_tahestik = r'[a-zA-ZõÕäÄöÖüÜŽžŠš-]+'
 
 
 @app.route('/sonad-lemmad-silbid-sonaliigid-vormimargendid', methods=post)
@@ -107,7 +107,7 @@ def lemmad():
     result = []
     for sentence in doc.sentences:
         for word in sentence.words:
-            if word.upos not in sona_upos_piirang:
+            if word.upos not in sona_upos_piirang and word.lemma is not None:
                 result.append(word.lemma)
     return Response(json.dumps(result), mimetype=mimetype)
 
@@ -118,7 +118,7 @@ def lemmadjaposinfo():
     result = []
     for sentence in doc.sentences:
         for word in sentence.words:
-            if word.upos not in sona_upos_piirang:
+            if word.upos not in sona_upos_piirang and word.lemma is not None:
                 result.append({"word": word.lemma, "startChar": word.start_char, "endChar": word.end_char})
     return Response(json.dumps(result), mimetype=mimetype)
 
@@ -152,7 +152,7 @@ def lemmadlausetenajaposinfo():
     for sentence in doc.sentences:
         sentence_result = []
         for word in sentence.words:
-            if word.upos not in sona_upos_piirang:
+            if word.upos not in sona_upos_piirang and word.lemma is not None:
                 sentence_result.append({"word": word.lemma, "startChar": word.start_char, "endChar": word.end_char})
         result.append(sentence_result)
     return Response(json.dumps(result), mimetype=mimetype)
@@ -231,7 +231,7 @@ def mitmekesisus():
 
 
 def silbita_sisemine(tekst):
-    process = subprocess.Popen(["bash", "/app/poolita-ja-silbita.sh"], cwd="/app", stderr=subprocess.PIPE,
+    process = subprocess.Popen(["bash", "/app/morfi-ja-silbita.sh"], cwd="/app", stderr=subprocess.PIPE,
                                stdin=subprocess.PIPE, stdout=subprocess.PIPE)
     stdo, _ = process.communicate(tekst.encode())
     response = stdo.decode().rstrip().split()
