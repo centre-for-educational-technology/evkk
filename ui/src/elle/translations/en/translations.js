@@ -440,5 +440,6 @@ export const TRANSLATIONS_EN = {
   wordlist_stopwords_textbox_hover_1: 'The list of Estonian stop words was compiled by Kristel Uiboaed. It includes conjunctions, pronouns, light verbs and prepositions. The list is available in the data repository of Tartu University (see ',
   wordlist_stopwords_textbox_hover_2: 'here',
   wordlist_stopwords_textbox_hover_3: ').',
-  wordlist_word_column: 'Word form'
+  wordlist_word_column: 'Word form',
+  wordlist_wordcloud_tooltip: 'Word cloud'
 };

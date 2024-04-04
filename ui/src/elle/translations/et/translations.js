@@ -440,5 +440,6 @@ export const TRANSLATIONS_ET = {
   wordlist_stopwords_textbox_hover_1: 'Eesti keele stoppsõnade loendi on koostanud Kristel Uiboaed. See sisaldab sidesõnu, asesõnu, sisutühje tegusõnu ja määrsõnu. Nimekiri on kättesaadav Tartu Ülikooli andmerepositooriumis (vaata ',
   wordlist_stopwords_textbox_hover_2: 'siit',
   wordlist_stopwords_textbox_hover_3: ').',
-  wordlist_word_column: 'Sõnavorm'
+  wordlist_word_column: 'Sõnavorm',
+  wordlist_wordcloud_tooltip: 'Sõnapilv'
 };

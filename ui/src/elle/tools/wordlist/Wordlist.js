@@ -21,14 +21,16 @@ import {
 import { AccordionStyle, DefaultButtonStyle, STOPWORDS_DATADOI_PATH } from '../../const/Constants';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { QuestionMark } from '@mui/icons-material';
-import WordlistMenu from './menu/WordlistMenu';
-import TableDownloadButton, { TableType } from '../../components/table/TableDownloadButton';
+import WordlistMenu from './components/WordlistMenu';
+import { TableType } from '../../components/table/TableDownloadButton';
 import GenericTable from '../../components/GenericTable';
-import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
+import { toolAnalysisStore, ToolAnalysisStoreActionType } from '../../store/ToolAnalysisStore';
 import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import { sortTableCol } from '../../util/TableUtils';
 import NewTabHyperlink from '../../components/NewTabHyperlink';
+import Wordcloud from './components/Wordcloud';
+import TableHeaderButtons from '../../components/table/TableHeaderButtons';
 
 export default function Wordlist() {
 
@@ -50,7 +52,7 @@ export default function Wordlist() {
   const sortByColAccessor = 'frequencyCount';
 
   useEffect(() => {
-    const type = typeValueToDisplay === 'WORDS' ? t('wordlist_word_column') : t('wordlist_lemma_column');
+    const type = typeValueToDisplay === WordlistType.WORDS ? t('wordlist_word_column') : t('wordlist_lemma_column');
     setTableToDownload([type, t('common_header_frequency'), t('common_header_percentage')]);
   }, [typeValueToDisplay, t]);
 
@@ -72,7 +74,7 @@ export default function Wordlist() {
 
   useEffect(() => {
     toolAnalysisStore.dispatch({
-      type: 'CHANGE_WORDLIST_RESULT',
+      type: ToolAnalysisStoreActionType.CHANGE_WORDLIST_RESULT,
       value: {
         parameters: {
           typeValue: typeValue,
@@ -89,7 +91,7 @@ export default function Wordlist() {
 
   queryStore.subscribe(() => {
     toolAnalysisStore.dispatch({
-      type: 'CHANGE_WORDLIST_RESULT',
+      type: ToolAnalysisStoreActionType.CHANGE_WORDLIST_RESULT,
       value: null
     });
     setResponse([]);
@@ -108,7 +110,7 @@ export default function Wordlist() {
     },
     {
       Header: () => {
-        return typeValueToDisplay === 'WORDS' ? t('wordlist_word_column') : t('wordlist_lemma_column');
+        return typeValueToDisplay === WordlistType.WORDS ? t('wordlist_word_column') : t('wordlist_lemma_column');
       },
       accessor: 'word',
       Cell: (cellProps) => {
@@ -222,10 +224,10 @@ export default function Wordlist() {
                     value={typeValue}
                     onChange={handleTypeChange}
                   >
-                    <FormControlLabel value="WORDS"
+                    <FormControlLabel value={WordlistType.WORDS}
                                       control={<Radio />}
                                       label={t('wordlist_search_word_forms')} />
-                    <FormControlLabel value="LEMMAS"
+                    <FormControlLabel value={WordlistType.LEMMAS}
                                       control={<Radio />}
                                       label={t('wordlist_search_base_forms')} />
                   </RadioGroup>
@@ -305,12 +307,12 @@ export default function Wordlist() {
         </AccordionDetails>
       </Accordion>
       {showTable && <>
-        <TableDownloadButton data={data}
-                             tableType={TableType.WORDLIST}
-                             headers={tableToDownload}
-                             accessors={accessors}
-                             sortByColAccessor={sortByColAccessor}
-                             marginTop={'2vh'} />
+        <TableHeaderButtons leftComponent={<Wordcloud />}
+                            downloadData={data}
+                            downloadTableType={TableType.WORDLIST}
+                            downloadHeaders={tableToDownload}
+                            downloadAccessors={accessors}
+                            downloadSortByColAccessor={sortByColAccessor} />
         <GenericTable tableClassname={'wordlist-table'}
                       columns={columns}
                       data={data}
@@ -319,3 +321,8 @@ export default function Wordlist() {
     </>
   );
 }
+
+const WordlistType = {
+  WORDS: 'WORDS',
+  LEMMAS: 'LEMMAS'
+};

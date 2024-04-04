@@ -6,11 +6,11 @@ import DownloadIcon from '@mui/icons-material/Download';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
-import '../../tools/wordanalyser/styles/DownloadButton.css';
+import '../styles/TableDownloadButton.css';
 import { sortTableDataByCol } from '../../util/TableUtils';
 import { DefaultButtonStyle } from '../../const/Constants';
 
-export default function TableDownloadButton({data, headers, accessors, marginTop, tableType, sortByColAccessor}) {
+export default function TableDownloadButton({ data, headers, accessors, tableType, sortByColAccessor }) {
 
   const {t} = useTranslation();
   const ExcelFile = ReactExport.ExcelFile;
@@ -297,8 +297,7 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
   }
 
   return (
-    <Box className="download-button-section"
-         style={{marginTop: marginTop || ''}}>
+    <Box>
       <Tooltip title={t('common_download')}
                placement="top">
         <Button
@@ -324,12 +323,10 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
           <Box className="download-dialog-inner"
                id="fileDownload"
                ref={fileDownloadElement}>
-            <FormControl id="formId"
-                         fullWidth>
+            <FormControl fullWidth>
               <InputLabel>{t('common_download')}</InputLabel>
               <Select
                 size="medium"
-                className="selectElement"
                 label={t('common_download')}
                 defaultValue={DownloadType.EXCEL}
               >
@@ -339,7 +336,7 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
                           onClick={itemClickTrue}>CSV</MenuItem>
               </Select>
             </FormControl>
-            <div className="download-button">{buttonType}</div>
+            <div style={{ marginTop: '0.75rem' }}>{buttonType}</div>
           </Box>
         </Box>
       </Popover>
