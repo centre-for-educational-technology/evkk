@@ -32,7 +32,7 @@ import {
 import TablePagination from '../../components/table/TablePagination';
 import QueryDownloadButton from './QueryDownloadButton';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { queryStore } from '../../store/QueryStore';
+import { queryStore, QueryStoreActionType } from '../../store/QueryStore';
 import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
 
@@ -190,7 +190,7 @@ export default function QueryResults(props) {
 
   const saveTexts = () => {
     queryStore.dispatch({
-      type: 'CHANGE_CORPUS_TEXTS',
+      type: QueryStoreActionType.CHANGE_CORPUS_TEXTS,
       value: Array.from(checkboxStatuses.current).join(',')
     });
   };

@@ -102,5 +102,8 @@
 
 .tool-wrapper {
   margin-top: 5vh;
-  min-width: 70rem;
+}
+
+.tool-accordion {
+  display: flex;
 }

@@ -4,7 +4,7 @@ import './styles/Syllables.css';
 import TablePagination from '../../components/table/TablePagination';
 import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
-import TableDownloadButton from '../../components/table/TableDownloadButton';
+import TableDownloadButton, { TableType } from '../../components/table/TableDownloadButton';
 import { AnalyseContextWithoutMissingData, SetSyllableContext, SetSyllableWordContext } from './Contexts';
 import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import ToggleCell from './ToggleCell';
@@ -375,7 +375,7 @@ export default function Syllables() {
             </Popover>
           </Box>
           <TableDownloadButton data={infoListNew}
-                               tableType={'Syllables'}
+                               tableType={TableType.SYLLABLES}
                                headers={tableToDownload}
                                sortByColAccessor={'col6'} />
         </Box>
