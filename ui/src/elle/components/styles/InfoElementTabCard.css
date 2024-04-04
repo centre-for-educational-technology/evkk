@@ -69,13 +69,12 @@
   width: 400px;
   position: absolute;
   opacity: 1;
-  transition: width 0.01s, left 0.5s, opacity 0.3s;
+  transition: opacity 0.3s;
   box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.4);
 }
 
 .info-box-slide-invisible {
-  left: 90%;
-  width: 0;
+  display: none;
   opacity: 0 !important;
   transition: 0.2s;
 }
@@ -87,4 +86,10 @@
   justify-content: center;
   font-weight: bold;
   z-index: 104;
+}
+
+.info-tab-helper-strip {
+  height: 100%;
+  position: absolute;
+  left: 100%;
 }

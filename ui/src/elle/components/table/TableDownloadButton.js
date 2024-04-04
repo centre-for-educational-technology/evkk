@@ -22,6 +22,8 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
   const [buttonType, setButtonType] = useState(<Button style={DefaultButtonStyle}
                                                        variant="contained"
                                                        onClick={showButton}>{t('common_download')}</Button>);
+  const excelButtonBase = <Button style={DefaultButtonStyle} variant="contained">{t('common_download')}</Button>;
+
   let csvData = '';
   let tableHeaders = [];
 
@@ -42,7 +44,7 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
   }
 
   function setFirstRow() {
-    if (tableType === 'LemmaView' && csvData === '') {
+    if (tableType === TableType.LEMMA_VIEW && csvData === '') {
       for (const element of data) {
         element.col1 = element.col1.props.children;
       }
@@ -102,21 +104,20 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
   }, [data, sortByColAccessor]);
 
   function setData() {
-    if (tableType === 'GrammaticalAnalysis') {
+    if (tableType === TableType.GRAMMATICAL_ANALYSIS) {
       setGrammaticalAnalysisData();
-    } else if (tableType === 'LemmaView') {
+    } else if (tableType === TableType.LEMMA_VIEW) {
       setLemmaViewData();
-    } else if (tableType === 'Syllables') {
+    } else if (tableType === TableType.SYLLABLES) {
       setSyllablesData();
-    } else if (tableType === 'Wordlist' || tableType === 'WordContext' || tableType === 'Collocates') {
+    } else if (tableType === TableType.WORDLIST || tableType === TableType.WORD_CONTEXT || tableType === TableType.COLLOCATES) {
       csvData = JSON.parse(JSON.stringify(data));
     }
   }
 
   function csvButton(filename) {
     return <Button style={DefaultButtonStyle}
-                   variant="contained"
-                   color="primary">
+                   variant="contained">
       <CSVLink filename={t(filename)}
                className="csvLink"
                headers={tableHeaders}
@@ -126,22 +127,22 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
 
   function showButton() {
     switch (tableType) {
-      case 'GrammaticalAnalysis':
+      case TableType.GRAMMATICAL_ANALYSIS:
         grammaticalAnalysisButton();
         break;
-      case 'LemmaView':
+      case TableType.LEMMA_VIEW:
         lemmaViewButton();
         break;
-      case 'Syllables':
+      case TableType.SYLLABLES:
         syllablesButton();
         break;
-      case 'Wordlist':
+      case TableType.WORDLIST:
         wordlistButton();
         break;
-      case 'WordContext':
+      case TableType.WORD_CONTEXT:
         wordContextButton();
         break;
-      case 'Collocates':
+      case TableType.COLLOCATES:
         collocatesButton();
         break;
       default:
@@ -154,19 +155,19 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
       setButtonType(csvButton('gram_anal_filename'));
     } else {
       setButtonType(<ExcelFile filename={t('gram_anal_filename')}
-                               element={<Button variant="contained">{t('common_download')}</Button>}>
+                               element={excelButtonBase}>
         <ExcelSheet data={data}
                     name={t('common_excel_sheet_name')}>
           <ExcelColumn label={headers[0]}
-                       value="col1"/>
+                       value="col1" />
           <ExcelColumn label={headers[1]}
-                       value="col2"/>
+                       value="col2" />
           <ExcelColumn label={headers[2]}
-                       value={(col) => col.col3[2]}/>
+                       value={(col) => col.col3[2]} />
           <ExcelColumn label={headers[3]}
-                       value="col4"/>
+                       value="col4" />
           <ExcelColumn label={headers[4]}
-                       value="col5"/>
+                       value="col5" />
         </ExcelSheet>
       </ExcelFile>);
     }
@@ -177,17 +178,17 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
       setButtonType(csvButton('lemmas_filename'));
     } else {
       setButtonType(<ExcelFile filename={t('lemmas_filename')}
-                               element={<Button variant="contained">{t('common_download')}</Button>}>
+                               element={excelButtonBase}>
         <ExcelSheet data={data}
                     name={t('common_excel_sheet_name')}>
           <ExcelColumn label={headers[0]}
-                       value="col1"/>
+                       value="col1" />
           <ExcelColumn label={headers[1]}
-                       value={(col) => col.col2[2]}/>
+                       value={(col) => col.col2[2]} />
           <ExcelColumn label={headers[2]}
-                       value="col3"/>
+                       value="col3" />
           <ExcelColumn label={headers[3]}
-                       value="col4"/>
+                       value="col4" />
         </ExcelSheet>
       </ExcelFile>);
     }
@@ -198,23 +199,23 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
       setButtonType(csvButton('syllables_filename'));
     } else {
       setButtonType(<ExcelFile filename={t('syllables_filename')}
-                               element={<Button variant="contained">{t('common_download')}</Button>}>
+                               element={excelButtonBase}>
         <ExcelSheet data={data}
                     name={t('common_excel_sheet_name')}>
           <ExcelColumn label={headers[0]}
-                       value="col1"/>
+                       value="col1" />
           <ExcelColumn label={headers[1]}
-                       value="col2"/>
+                       value="col2" />
           <ExcelColumn label={headers[2]}
-                       value="col3"/>
+                       value="col3" />
           <ExcelColumn label={headers[3]}
-                       value="col4"/>
+                       value="col4" />
           <ExcelColumn label={headers[4]}
-                       value={(col) => col.col5[2]}/>
+                       value={(col) => col.col5[2]} />
           <ExcelColumn label={headers[5]}
-                       value="col6"/>
+                       value="col6" />
           <ExcelColumn label={headers[6]}
-                       value="col7"/>
+                       value="col7" />
         </ExcelSheet>
       </ExcelFile>);
     }
@@ -225,15 +226,15 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
       setButtonType(csvButton('wordlist_filename'));
     } else {
       setButtonType(<ExcelFile filename={t('wordlist_filename')}
-                               element={<Button variant="contained">{t('common_download')}</Button>}>
+                               element={excelButtonBase}>
         <ExcelSheet data={data}
                     name={t('common_excel_sheet_name')}>
           <ExcelColumn label={headers[0]}
-                       value="word"/>
+                       value="word" />
           <ExcelColumn label={headers[1]}
-                       value="frequencyCount"/>
+                       value="frequencyCount" />
           <ExcelColumn label={headers[2]}
-                       value="frequencyPercentage"/>
+                       value="frequencyPercentage" />
         </ExcelSheet>
       </ExcelFile>);
     }
@@ -244,15 +245,15 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
       setButtonType(csvButton('wordcontext_filename'));
     } else {
       setButtonType(<ExcelFile filename={t('wordcontext_filename')}
-                               element={<Button variant="contained">{t('common_download')}</Button>}>
+                               element={excelButtonBase}>
         <ExcelSheet data={data}
                     name={t('common_excel_sheet_name')}>
           <ExcelColumn label={headers[0]}
-                       value="contextBefore"/>
+                       value="contextBefore" />
           <ExcelColumn label={headers[1]}
-                       value="keyword"/>
+                       value="keyword" />
           <ExcelColumn label={headers[2]}
-                       value="contextAfter"/>
+                       value="contextAfter" />
         </ExcelSheet>
       </ExcelFile>);
     }
@@ -263,19 +264,19 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
       setButtonType(csvButton('collocates_filename'));
     } else {
       setButtonType(<ExcelFile filename={t('collocates_filename')}
-                               element={<Button variant="contained">{t('common_download')}</Button>}>
+                               element={excelButtonBase}>
         <ExcelSheet data={data}
                     name={t('common_excel_sheet_name')}>
           <ExcelColumn label={headers[0]}
-                       value="collocate"/>
+                       value="collocate" />
           <ExcelColumn label={headers[1]}
-                       value="score"/>
+                       value="score" />
           <ExcelColumn label={headers[2]}
-                       value="coOccurrences"/>
+                       value="coOccurrences" />
           <ExcelColumn label={headers[3]}
-                       value="frequencyCount"/>
+                       value="frequencyCount" />
           <ExcelColumn label={headers[4]}
-                       value="frequencyPercentage"/>
+                       value="frequencyPercentage" />
         </ExcelSheet>
       </ExcelFile>);
     }
@@ -306,7 +307,7 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
           variant="contained"
           onClick={handleClick}
         >
-          <DownloadIcon fontSize="large"/>
+          <DownloadIcon fontSize="large" />
         </Button>
       </Tooltip>
       <Popover
@@ -330,11 +331,11 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
                 size="medium"
                 className="selectElement"
                 label={t('common_download')}
-                defaultValue="Excel"
+                defaultValue={DownloadType.EXCEL}
               >
-                <MenuItem value="Excel"
+                <MenuItem value={DownloadType.EXCEL}
                           onClick={itemClickFalse}>Excel</MenuItem>
-                <MenuItem value="CSV"
+                <MenuItem value={DownloadType.CSV}
                           onClick={itemClickTrue}>CSV</MenuItem>
               </Select>
             </FormControl>
@@ -345,3 +346,17 @@ export default function TableDownloadButton({data, headers, accessors, marginTop
     </Box>
   );
 }
+
+export const TableType = {
+  GRAMMATICAL_ANALYSIS: 'GRAMMATICAL_ANALYSIS',
+  LEMMA_VIEW: 'LEMMA_VIEW',
+  SYLLABLES: 'SYLLABLES',
+  WORDLIST: 'WORDLIST',
+  WORD_CONTEXT: 'WORD_CONTEXT',
+  COLLOCATES: 'COLLOCATES'
+};
+
+const DownloadType = {
+  EXCEL: 'Excel',
+  CSV: 'CSV'
+};

@@ -23,7 +23,7 @@ import {
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import { QuestionMark } from '@mui/icons-material';
-import TableDownloadButton from '../../components/table/TableDownloadButton';
+import TableDownloadButton, { TableType } from '../../components/table/TableDownloadButton';
 import { queryStore } from '../../store/QueryStore';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import WordlistMenu from '../wordlist/menu/WordlistMenu';
@@ -43,7 +43,7 @@ export default function Collocates() {
   const [capitalizationChecked, setCapitalizationChecked] = useState(false);
   const [keyword, setKeyword] = useState('');
   const [searchCount, setSearchCount] = useState(3);
-  const [formula, setFormula] = useState('LOGDICE');
+  const [formula, setFormula] = useState(StatisticMeasureFormula.LOGDICE);
   const [lemmatizedKeywordResult, setLemmatizedKeywordResult] = useState(null);
   const [initialKeywordResult, setInitialKeywordResult] = useState(null);
   const [showTable, setShowTable] = useState(false);
@@ -58,7 +58,7 @@ export default function Collocates() {
     if (urlParams.get('word') && urlParams.get('type') && urlParams.get('keepCapitalization')) {
       setKeyword(urlParams.get('word'));
       setTypeValue(urlParams.get('type'));
-      if (urlParams.get('type') !== 'LEMMAS') {
+      if (urlParams.get('type') !== CollocateType.LEMMAS) {
         setCapitalizationChecked(urlParams.get('keepCapitalization') === 'true');
       }
       sendRequest();
@@ -171,7 +171,7 @@ export default function Collocates() {
   const handleTypeChange = (event) => {
     setTypeValue(event.target.value);
     setTypeError(false);
-    if (event.target.value === 'LEMMAS') {
+    if (event.target.value === CollocateType.LEMMAS) {
       setCapitalizationChecked(false);
     }
   };
@@ -226,7 +226,7 @@ export default function Collocates() {
   };
 
   return (
-    <div className="tool-wrapper">
+    <>
       <h2 className="tool-title">{t('common_neighbouring_words')}</h2>
       <Accordion sx={AccordionStyle}
                  expanded={paramsExpanded}
@@ -241,7 +241,7 @@ export default function Collocates() {
         </AccordionSummary>
         <AccordionDetails>
           <form onSubmit={handleSubmit}>
-            <div className="queryContainer">
+            <div className="tool-accordion">
               <div>
                 <FormControl sx={{m: 3}}
                              error={typeError}
@@ -253,10 +253,10 @@ export default function Collocates() {
                     value={typeValue}
                     onChange={handleTypeChange}
                   >
-                    <FormControlLabel value="WORDS"
+                    <FormControlLabel value={CollocateType.WORDS}
                                       control={<Radio />}
                                       label={t('common_by_word_form')} />
-                    <FormControlLabel value="LEMMAS"
+                    <FormControlLabel value={CollocateType.LEMMAS}
                                       control={<Radio />}
                                       label={t('common_by_base_form')} />
                   </RadioGroup>
@@ -317,9 +317,12 @@ export default function Collocates() {
                         value={formula}
                         onChange={(e) => setFormula(e.target.value)}
                       >
-                        <MenuItem value="LOGDICE">{t('neighbouring_words_statistic_measure_logdice')}</MenuItem>
-                        <MenuItem value="T_SCORE">{t('neighbouring_words_statistic_measure_t_score')}</MenuItem>
-                        <MenuItem value="MI_SCORE">{t('neighbouring_words_statistic_measure_mi_score')}</MenuItem>
+                        <MenuItem
+                          value={StatisticMeasureFormula.LOGDICE}>{t('neighbouring_words_statistic_measure_logdice')}</MenuItem>
+                        <MenuItem
+                          value={StatisticMeasureFormula.T_SCORE}>{t('neighbouring_words_statistic_measure_t_score')}</MenuItem>
+                        <MenuItem
+                          value={StatisticMeasureFormula.MI_SCORE}>{t('neighbouring_words_statistic_measure_mi_score')}</MenuItem>
                       </Select>
                     </Grid>
                     <Grid
@@ -340,7 +343,7 @@ export default function Collocates() {
                   <FormControlLabel control={
                     <Checkbox
                       checked={capitalizationChecked}
-                      disabled={typeValue === 'LEMMAS'}
+                      disabled={typeValue === CollocateType.LEMMAS}
                       onChange={(e) => setCapitalizationChecked(e.target.checked)}
                     ></Checkbox>
                   }
@@ -370,7 +373,7 @@ export default function Collocates() {
       {showTable && <>
         <TableDownloadButton sx={DefaultButtonStyle}
                              data={data}
-                             tableType={'Collocates'}
+                             tableType={TableType.COLLOCATES}
                              headers={tableToDownload}
                              accessors={accessors}
                              sortByColAccessor={sortByColAccessor}
@@ -382,6 +385,17 @@ export default function Collocates() {
       </>}
       {showNoResultsError &&
         <Alert severity="error">{t('error_no_matching_keywords')}</Alert>}
-    </div>
+    </>
   );
 }
+
+const CollocateType = {
+  WORDS: 'WORDS',
+  LEMMAS: 'LEMMAS'
+};
+
+const StatisticMeasureFormula = {
+  LOGDICE: 'LOGDICE',
+  T_SCORE: 'T_SCORE',
+  MI_SCORE: 'MI_SCORE'
+};

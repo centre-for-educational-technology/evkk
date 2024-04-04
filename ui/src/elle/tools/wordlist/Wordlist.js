@@ -22,7 +22,7 @@ import { AccordionStyle, DefaultButtonStyle, STOPWORDS_DATADOI_PATH } from '../.
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { QuestionMark } from '@mui/icons-material';
 import WordlistMenu from './menu/WordlistMenu';
-import TableDownloadButton from '../../components/table/TableDownloadButton';
+import TableDownloadButton, { TableType } from '../../components/table/TableDownloadButton';
 import GenericTable from '../../components/GenericTable';
 import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
 import { loadFetch } from '../../service/LoadFetch';
@@ -195,7 +195,7 @@ export default function Wordlist() {
   };
 
   return (
-    <div className="tool-wrapper">
+    <>
       <h2 className="tool-title">{t('common_wordlist')}</h2>
       <Accordion sx={AccordionStyle}
                  expanded={paramsExpanded}
@@ -210,7 +210,7 @@ export default function Wordlist() {
         </AccordionSummary>
         <AccordionDetails>
           <form onSubmit={handleSubmit}>
-            <div className="queryContainer">
+            <div className="tool-accordion">
               <div>
                 <FormControl sx={{m: 3}}
                              error={typeError}
@@ -306,7 +306,7 @@ export default function Wordlist() {
       </Accordion>
       {showTable && <>
         <TableDownloadButton data={data}
-                             tableType={'Wordlist'}
+                             tableType={TableType.WORDLIST}
                              headers={tableToDownload}
                              accessors={accessors}
                              sortByColAccessor={sortByColAccessor}
@@ -316,6 +316,6 @@ export default function Wordlist() {
                       data={data}
                       sortByColAccessor={sortByColAccessor} />
       </>}
-    </div>
+    </>
   );
 }

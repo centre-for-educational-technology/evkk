@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 import { AnalyseContextWithoutMissingData, SetFormContext, SetTypeContext, SetWordContext } from './Contexts';
 import ToggleCell from './ToggleCell';
-import TableDownloadButton from '../../components/table/TableDownloadButton';
+import TableDownloadButton, { TableType } from '../../components/table/TableDownloadButton';
 import Popover from '@mui/material/Popover';
 import { DefaultButtonStyle } from '../../const/Constants';
 
@@ -349,7 +349,7 @@ export default function GrammaticalAnalysis() {
             </Popover>
           </Box>
           <TableDownloadButton data={data}
-                               tableType={'GrammaticalAnalysis'}
+                               tableType={TableType.GRAMMATICAL_ANALYSIS}
                                headers={tableToDownload}
                                sortByColAccessor={'col4'} />
         </Box>

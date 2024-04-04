@@ -20,7 +20,7 @@ const ToolIconCard = (props) => {
       className="tool-card-container"
       sx={{boxShadow: 3}}>
       <Box className="tool-card-icon">
-        <img className="tool-icon-img" src={props.image} loading="lazy" alt="Tool logo"/>
+        <img className="tool-icon-img" src={props.image} loading="lazy" alt="Tool logo" />
       </Box>
       <Box className="tool-card-text">
         {t(props.text)}
@@ -34,9 +34,14 @@ const TabOutlet = (props) => {
   return (
     <TabPanel value={props.value}>
       <Box className={props.hideBackground ? 'tools-tab-overlay' : ''}>
-        {props.textsSelected ? <Outlet/> :
+        {props.textsSelected
+          ?
+          <div className="tool-wrapper">
+            <Outlet />
+          </div>
+          :
           <Box>
-            <ToolIconCard image={props.image} text={props.text}/>
+            <ToolIconCard image={props.image} text={props.text} />
             <Alert severity="warning">
               {t('tools_warning_text')}
             </Alert>
@@ -82,7 +87,7 @@ export default function Tools() {
       <Box className="tool-page-container-outer">
         <Box className="outer-outer">
           <Query queryOpen={queryOpen}
-                 setHideBackground={setHideBackground}/>
+                 setHideBackground={setHideBackground} />
         </Box>
         <Box className="tools-box-right">
           <TabContext value={tabPage} className="tab-context-class">
