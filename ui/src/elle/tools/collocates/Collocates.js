@@ -226,7 +226,7 @@ export default function Collocates() {
   };
 
   return (
-    <div className="tool-wrapper">
+    <>
       <h2 className="tool-title">{t('common_neighbouring_words')}</h2>
       <Accordion sx={AccordionStyle}
                  expanded={paramsExpanded}
@@ -382,6 +382,6 @@ export default function Collocates() {
       </>}
       {showNoResultsError &&
         <Alert severity="error">{t('error_no_matching_keywords')}</Alert>}
-    </div>
+    </>
   );
 }

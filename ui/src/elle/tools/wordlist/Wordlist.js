@@ -195,7 +195,7 @@ export default function Wordlist() {
   };
 
   return (
-    <div className="tool-wrapper">
+    <>
       <h2 className="tool-title">{t('common_wordlist')}</h2>
       <Accordion sx={AccordionStyle}
                  expanded={paramsExpanded}
@@ -316,6 +316,6 @@ export default function Wordlist() {
                       data={data}
                       sortByColAccessor={sortByColAccessor} />
       </>}
-    </div>
+    </>
   );
 }
