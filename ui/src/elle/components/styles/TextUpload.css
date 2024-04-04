@@ -27,10 +27,6 @@
   right: 0 !important;
 }
 
-#pop_title {
-  font-weight: bold;
-}
-
 #file_name {
   overflow-y: auto;
 }
@@ -42,7 +38,8 @@
   margin: 0 0 1rem -.25rem
 }
 
-.text-upload-modal {
-  width: 40em !important;
-  height: 28em !important;
+.file-name-element {
+  height: 150px;
+  width: 500px;
+  text-align: center;
 }
