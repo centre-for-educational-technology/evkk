@@ -29,7 +29,7 @@ import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import { sortTableCol } from '../../util/TableUtils';
 import NewTabHyperlink from '../../components/NewTabHyperlink';
-import Wordcloud from './components/Wordcloud';
+import WordcloudModal from './components/WordcloudModal';
 import TableHeaderButtons from '../../components/table/TableHeaderButtons';
 
 export default function Wordlist() {
@@ -307,7 +307,7 @@ export default function Wordlist() {
         </AccordionDetails>
       </Accordion>
       {showTable && <>
-        <TableHeaderButtons leftComponent={<Wordcloud />}
+        <TableHeaderButtons leftComponent={<WordcloudModal data={data} />}
                             downloadData={data}
                             downloadTableType={TableType.WORDLIST}
                             downloadHeaders={tableToDownload}

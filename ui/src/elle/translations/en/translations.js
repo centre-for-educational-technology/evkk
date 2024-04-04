@@ -441,5 +441,5 @@ export const TRANSLATIONS_EN = {
   wordlist_stopwords_textbox_hover_2: 'here',
   wordlist_stopwords_textbox_hover_3: ').',
   wordlist_word_column: 'Word form',
-  wordlist_wordcloud_tooltip: 'Word cloud'
+  wordlist_wordcloud: 'Word cloud'
 };
