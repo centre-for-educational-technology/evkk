@@ -55,7 +55,7 @@ services:
     ports:
       - "5200:5200"
 
-  grammar-worker:
+  grammar-worker-server:
     container_name: evkk-grammar-worker
     profiles: [ "all", "grammar_worker" ]
     restart: always
