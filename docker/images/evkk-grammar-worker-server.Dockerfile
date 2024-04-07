@@ -51,7 +51,7 @@ RUN git clone https://huggingface.co/Jaagup/etnc19_reference_corpus_6000000_web_
 EXPOSE 4000
 
 # Copy the current directory contents into the container at /app
-COPY ./grammar-worker /app/
+COPY ./grammar-worker-server/ /app/
 
 # Run the command when the container launches
-CMD ["python", "/app/grammar-worker-server.py"]
+CMD ["python", "/app/server.py"]

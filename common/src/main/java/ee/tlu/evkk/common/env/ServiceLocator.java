@@ -43,7 +43,7 @@ public class ServiceLocator {
     CLUSTER_FINDER,
     KLASTERDAJA,
     CORRECTOR_SERVER,
-    GRAMMAR_WORKER
+    GRAMMAR_WORKER_SERVER
 
   }
 

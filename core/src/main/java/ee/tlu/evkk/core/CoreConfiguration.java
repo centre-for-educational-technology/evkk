@@ -17,7 +17,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.client.RestTemplate;
 
 import static ee.tlu.evkk.common.env.ServiceLocator.ServiceName.CORRECTOR_SERVER;
-import static ee.tlu.evkk.common.env.ServiceLocator.ServiceName.GRAMMAR_WORKER;
+import static ee.tlu.evkk.common.env.ServiceLocator.ServiceName.GRAMMAR_WORKER_SERVER;
 import static ee.tlu.evkk.common.env.ServiceLocator.ServiceName.KLASTERDAJA;
 import static ee.tlu.evkk.common.env.ServiceLocator.ServiceName.STANZA_SERVER;
 
@@ -57,7 +57,7 @@ public class CoreConfiguration {
 
   @Bean
   public GrammarWorkerServerClient grammarWorkerServerClient(ServiceLocator serviceLocator, RestTemplateBuilder restTemplateBuilder) {
-    RestTemplate rest = restTemplateBuilder.rootUri(serviceLocator.locate(GRAMMAR_WORKER).toString()).build();
+    RestTemplate rest = restTemplateBuilder.rootUri(serviceLocator.locate(GRAMMAR_WORKER_SERVER).toString()).build();
     return new GrammarWorkerServerClient(rest);
   }
 
