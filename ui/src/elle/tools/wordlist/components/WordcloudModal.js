@@ -15,6 +15,9 @@ export default function WordcloudModal({ data }) {
   // todo use isLoading
   const [isLoading, setIsLoading] = useState(true);
 
+  const canvasHeight = 475;
+  const canvasWidth = 1275;
+
   useEffect(() => {
     if (modalOpen && canvas) {
       canvas.addEventListener('wordcloudstop', () => {
@@ -27,7 +30,9 @@ export default function WordcloudModal({ data }) {
         backgroundColor: '#FCFCFC',
         drawOutOfBound: false,
         shrinkToFit: true,
-        weightFactor: (size) => size * 36
+        minSize: 12,
+        gridSize: Math.round(16 * canvasWidth / 1024),
+        weightFactor: (size) => Math.sqrt(size) * 36
       });
     }
 
@@ -64,8 +69,8 @@ export default function WordcloudModal({ data }) {
       >
         <canvas
           ref={setCanvas}
-          height="475"
-          width="1275"
+          height={canvasHeight}
+          width={canvasWidth}
         ></canvas>
       </ModalBase>
     </Tooltip>
