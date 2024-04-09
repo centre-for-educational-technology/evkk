@@ -77,7 +77,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 15G
+          memory: 25G
 
   klasterdaja:
     image: evkk-klasterdaja

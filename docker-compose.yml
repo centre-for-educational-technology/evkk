@@ -55,12 +55,12 @@ services:
     ports:
       - "5200:5200"
 
-#  grammar-worker-server:
-#    container_name: evkk-grammar-worker-server
-#    profiles: [ "all", "grammar_worker" ]
-#    restart: always
-#    build:
-#      context: .
-#      dockerfile: docker/images/evkk-grammar-worker-server.Dockerfile
-#    ports:
-#      - "5400:5400"
+  grammar-worker-server:
+    container_name: evkk-grammar-worker-server
+    profiles: [ "all", "grammar_worker" ]
+    restart: always
+    build:
+      context: .
+      dockerfile: docker/images/evkk-grammar-worker-server.Dockerfile
+    ports:
+      - "5400:5400"
