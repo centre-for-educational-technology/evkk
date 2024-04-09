@@ -6,7 +6,7 @@ echo "Running EVKK ..."
 echo "Loading images"
 for file in ./images/*.tar; do docker load -i ${file}; done
 echo "Loading images done"
-docker run -it --memory 25g --memory-swap 12g evkk-grammar-worker-server:latest
+docker run --memory 25g --memory-swap 12g evkk-grammar-worker-server:latest
 
 echo "Stopping services"
 docker-compose -f compose/docker-compose.postgres.yml -f compose/docker-compose.base.yml -f compose/docker-compose.yml down --remove-orphans
