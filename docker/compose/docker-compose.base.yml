@@ -74,10 +74,12 @@ services:
     image: evkk-grammar-worker-server
     container_name: evkk-grammar-worker-server
     restart: always
+    mem_swappiness: 100
     deploy:
       resources:
         limits:
           memory: 25G
+    memswap_limit: 12G
 
   klasterdaja:
     image: evkk-klasterdaja
