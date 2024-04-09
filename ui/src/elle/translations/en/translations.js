@@ -138,6 +138,7 @@ export const TRANSLATIONS_EN = {
   neighbouring_words_statistic_measure_logdice: 'logDice',
   neighbouring_words_statistic_measure_mi_score: 'MI-score',
   neighbouring_words_statistic_measure_t_score: 'T-score',
+  page_title_homepage: 'Homepage',
   pagination_go_to_page: 'Go to page:',
   pagination_page: 'Page',
   publish_your_text_author_data_other_languages_tooltip: 'Enter the languages, separated by commas, starting with the language you understand best',
