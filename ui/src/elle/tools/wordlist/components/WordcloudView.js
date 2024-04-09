@@ -1,18 +1,18 @@
-import { DefaultButtonStyle } from '../../../const/Constants';
+import { DefaultButtonStyle, DefaultCircularProgressStyle } from '../../../const/Constants';
 import BrushIcon from '@mui/icons-material/Brush';
-import { Button, Tooltip } from '@mui/material';
+import { Button, CircularProgress, Tooltip } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ModalBase from '../../../components/ModalBase';
+import '../styles/WordcloudView.css';
 import WordCloud from 'wordcloud';
 
-export default function WordcloudModal({ data }) {
+export default function WordcloudView({ data }) {
 
   const { t } = useTranslation();
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [canvas, setCanvas] = useState(null);
-  // todo use isLoading
   const [isLoading, setIsLoading] = useState(true);
 
   const canvasHeight = 475;
@@ -46,6 +46,7 @@ export default function WordcloudModal({ data }) {
   const handleClick = () => {
     setTooltipOpen(false);
     setModalOpen(true);
+    setIsLoading(true);
   };
 
   return (
@@ -67,6 +68,14 @@ export default function WordcloudModal({ data }) {
         innerClassName="wordcloud-modal"
         title="wordlist_wordcloud"
       >
+        {isLoading &&
+          <div className="wordcloud-loader-container">
+            <CircularProgress style={DefaultCircularProgressStyle} />
+            <span>
+            {t('wordlist_wordcloud_loading')}
+            </span>
+          </div>
+        }
         <canvas
           ref={setCanvas}
           height={canvasHeight}

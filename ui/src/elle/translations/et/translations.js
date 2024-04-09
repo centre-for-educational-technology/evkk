@@ -441,5 +441,6 @@ export const TRANSLATIONS_ET = {
   wordlist_stopwords_textbox_hover_2: 'siit',
   wordlist_stopwords_textbox_hover_3: ').',
   wordlist_word_column: 'Sõnavorm',
-  wordlist_wordcloud: 'Sõnapilv'
+  wordlist_wordcloud: 'Sõnapilv',
+  wordlist_wordcloud_loading: 'Laadin sõnapilve...'
 };

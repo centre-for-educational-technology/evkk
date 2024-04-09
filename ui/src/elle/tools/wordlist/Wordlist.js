@@ -1,7 +1,7 @@
 import { queryStore } from '../../store/QueryStore';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useMemo, useState } from 'react';
-import './Wordlist.css';
+import './styles/Wordlist.css';
 import {
   Accordion,
   AccordionDetails,
@@ -29,7 +29,7 @@ import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import { sortTableCol } from '../../util/TableUtils';
 import NewTabHyperlink from '../../components/NewTabHyperlink';
-import WordcloudModal from './components/WordcloudModal';
+import WordcloudView from './components/WordcloudView';
 import TableHeaderButtons from '../../components/table/TableHeaderButtons';
 
 export default function Wordlist() {
@@ -307,7 +307,7 @@ export default function Wordlist() {
         </AccordionDetails>
       </Accordion>
       {showTable && <>
-        <TableHeaderButtons leftComponent={<WordcloudModal data={data} />}
+        <TableHeaderButtons leftComponent={<WordcloudView data={data} />}
                             downloadData={data}
                             downloadTableType={TableType.WORDLIST}
                             downloadHeaders={tableToDownload}
