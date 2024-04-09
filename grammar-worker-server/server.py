@@ -46,7 +46,7 @@ def spell_checker():
 
     return Response(json_str, mimetype='application/json')
 
-    # Run the Flask app on 0.0.0.0:4000
+    # Run the Flask app on 0.0.0.0:5400
 
 
-app.run(host="0.0.0.0", threaded=True, port=4000)
+app.run(host="0.0.0.0", threaded=True, port=5400)

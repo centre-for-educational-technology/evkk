@@ -48,7 +48,7 @@ RUN git clone https://huggingface.co/Jaagup/etnc19_reference_corpus_6000000_web_
     #git clone https://huggingface.co/Jaagup/etnc19_web_2019 /app/models/Jaagup/etnc19_web_2019 && \
 
 # Expose the necessary port (if needed)
-EXPOSE 4000
+EXPOSE 5400
 
 # Copy the current directory contents into the container at /app
 COPY ./grammar-worker-server/ /app/

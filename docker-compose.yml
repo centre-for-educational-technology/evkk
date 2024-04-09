@@ -63,4 +63,4 @@ services:
       context: .
       dockerfile: docker/images/evkk-grammar-worker-server.Dockerfile
     ports:
-      - "4000:4000"
+      - "5400:5400"
