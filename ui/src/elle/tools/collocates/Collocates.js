@@ -23,18 +23,19 @@ import {
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import { QuestionMark } from '@mui/icons-material';
-import TableDownloadButton, { TableType } from '../../components/table/TableDownloadButton';
+import { TableType } from '../../components/table/TableDownloadButton';
 import { queryStore } from '../../store/QueryStore';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import WordlistMenu from '../wordlist/menu/WordlistMenu';
+import WordlistMenu from '../wordlist/components/WordlistMenu';
 import GenericTable from '../../components/GenericTable';
-import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
+import { toolAnalysisStore, ToolAnalysisStoreActionType } from '../../store/ToolAnalysisStore';
 import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
+import TableHeaderButtons from '../../components/table/TableHeaderButtons';
 
 export default function Collocates() {
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [urlParams] = useSearchParams();
   const [paramsExpanded, setParamsExpanded] = useState(true);
@@ -83,7 +84,7 @@ export default function Collocates() {
 
   useEffect(() => {
     toolAnalysisStore.dispatch({
-      type: 'CHANGE_COLLOCATES_RESULT',
+      type: ToolAnalysisStoreActionType.CHANGE_COLLOCATES_RESULT,
       value: {
         parameters: {
           typeValue: typeValue,
@@ -100,7 +101,7 @@ export default function Collocates() {
 
   queryStore.subscribe(() => {
     toolAnalysisStore.dispatch({
-      type: 'CHANGE_COLLOCATES_RESULT',
+      type: ToolAnalysisStoreActionType.CHANGE_COLLOCATES_RESULT,
       value: null
     });
     setResponse([]);
@@ -243,7 +244,7 @@ export default function Collocates() {
           <form onSubmit={handleSubmit}>
             <div className="tool-accordion">
               <div>
-                <FormControl sx={{m: 3}}
+                <FormControl sx={{ m: 3 }}
                              error={typeError}
                              variant="standard">
                   <FormLabel id="type-radios">{t('common_search')}</FormLabel>
@@ -262,7 +263,7 @@ export default function Collocates() {
                   </RadioGroup>
                   {typeError && <FormHelperText>{t('error_mandatory_field')}</FormHelperText>}
                   <Button sx={DefaultButtonStyle}
-                          style={{marginTop: '10vh !important'}}
+                          style={{ marginTop: '10vh !important' }}
                           className="collocates-analyse-button"
                           type="submit"
                           variant="contained">
@@ -271,7 +272,7 @@ export default function Collocates() {
                 </FormControl>
               </div>
               <div>
-                <FormControl sx={{m: 3}}
+                <FormControl sx={{ m: 3 }}
                              variant="standard">
                   <FormLabel id="keyword">{t('common_enter_search_word')}</FormLabel>
                   <TextField variant="outlined"
@@ -279,18 +280,18 @@ export default function Collocates() {
                              required
                              value={keyword}
                              onChange={(e) => setKeyword(e.target.value)}
-                             style={{width: '250px'}} />
+                             style={{ width: '250px' }} />
                 </FormControl>
                 <br />
-                <FormControl sx={{m: 3}}
-                             style={{marginTop: '-1vh'}}
+                <FormControl sx={{ m: 3 }}
+                             style={{ marginTop: '-1vh' }}
                              variant="standard">
                   <FormLabel id="display">{t('neighbouring_words_search_for_neighbouring_words')}</FormLabel>
                   <Grid container>
                     <Grid item>
                       <TextField variant="outlined"
                                  type="number"
-                                 inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: '1', max: '5'}}
+                                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: '1', max: '5' }}
                                  size="small"
                                  required
                                  value={searchCount}
@@ -307,12 +308,12 @@ export default function Collocates() {
                 </FormControl>
               </div>
               <div>
-                <FormControl sx={{m: 3}} size="small">
+                <FormControl sx={{ m: 3 }} size="small">
                   <FormLabel id="formula">{t('neighbouring_words_choose_statistic_measure')}</FormLabel>
                   <Grid container>
                     <Grid item>
                       <Select
-                        sx={{width: '140px'}}
+                        sx={{ width: '140px' }}
                         name="formula"
                         value={formula}
                         onChange={(e) => setFormula(e.target.value)}
@@ -338,7 +339,7 @@ export default function Collocates() {
                   </Grid>
                 </FormControl>
                 <br />
-                <FormControl sx={{m: 3}}
+                <FormControl sx={{ m: 3 }}
                              variant="standard">
                   <FormControlLabel control={
                     <Checkbox
@@ -371,13 +372,11 @@ export default function Collocates() {
         </Alert>
       </>}
       {showTable && <>
-        <TableDownloadButton sx={DefaultButtonStyle}
-                             data={data}
-                             tableType={TableType.COLLOCATES}
-                             headers={tableToDownload}
-                             accessors={accessors}
-                             sortByColAccessor={sortByColAccessor}
-                             marginTop={'2vh'} />
+        <TableHeaderButtons downloadData={data}
+                            downloadTableType={TableType.COLLOCATES}
+                            downloadHeaders={tableToDownload}
+                            downloadAccessors={accessors}
+                            downloadSortByColAccessor={sortByColAccessor} />
         <GenericTable tableClassname={'wordlist-table'}
                       columns={columns}
                       data={data}

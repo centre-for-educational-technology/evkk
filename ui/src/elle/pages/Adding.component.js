@@ -5,10 +5,8 @@ import {
   Button,
   FormControl,
   Grid,
-  IconButton,
   InputLabel,
   MenuItem,
-  Modal,
   Select,
   TextField,
   Tooltip,
@@ -18,7 +16,6 @@ import TextUpload from '../components/TextUpload';
 import './styles/Adding.css';
 import { loadFetch } from '../service/LoadFetch';
 import { withTranslation } from 'react-i18next';
-import CloseIcon from '@mui/icons-material/Close';
 import {
   countryOptionsForAddingText,
   DefaultButtonStyle,
@@ -27,7 +24,6 @@ import {
   educationOptions,
   ElleOuterDivStyle,
   genderOptions,
-  modalStyle,
   studyLevelOptions,
   textPublishAcademicCategoryOptions,
   textPublishAcademicResearchSubtypeOptions,
@@ -38,6 +34,7 @@ import {
   usedMaterialsSaveOptions
 } from '../const/Constants';
 import { successEmitter } from '../../App';
+import ModalBase from '../components/ModalBase';
 
 class Adding extends Component {
 
@@ -74,8 +71,8 @@ class Adding extends Component {
       ennistusNupp: false,
       modalOpen: false
     };
-    this.startingstate = {...this.state};
-    this.previous = {...this.state};
+    this.startingstate = { ...this.state };
+    this.previous = { ...this.state };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.sendTextFromFile = this.sendTextFromFile.bind(this);
@@ -88,15 +85,15 @@ class Adding extends Component {
 
   handleChange(event) {
     if (event.target.type === 'checkbox') {
-      this.setState({[event.target.name]: event.target.checked});
+      this.setState({ [event.target.name]: event.target.checked });
     } else {
-      this.setState({[event.target.name]: event.target.value});
+      this.setState({ [event.target.name]: event.target.value });
     }
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    this.previous = {...this.state};
+    this.previous = { ...this.state };
     const request_test = {
       method: 'POST',
       body: JSON.stringify(this.state),
@@ -105,25 +102,30 @@ class Adding extends Component {
       }
     };
     this.setState(this.startingstate);
-    this.setState({ennistusnupp: true});
+    this.setState({ ennistusnupp: true });
     loadFetch('/api/texts/lisatekst', request_test).then(() => successEmitter.emit('generic-success'));
   }
 
   taastaVormiSisu() {
     this.setState(this.previous, () => this.setState(
-      {'pealkiri': '', 'kirjeldus': '', 'sisu': '', 'ennistusnupp': false}));
+      { 'pealkiri': '', 'kirjeldus': '', 'sisu': '', 'ennistusnupp': false }
+    ));
   }
 
   sendTextFromFile(tekst) {
-    this.setState({sisu: tekst});
+    this.setState({ sisu: tekst });
   }
 
+  handleModalClose = (value) => {
+    this.setState({ modalOpen: value });
+  };
+
   render() {
-    const {t} = this.props;
+    const { t } = this.props;
     return (
       <Box className="adding-rounded-corners" sx={ElleOuterDivStyle}>
         <div className="add-container">
-          <div style={{width: '100%', textAlign: 'center'}}>
+          <div style={{ width: '100%', textAlign: 'center' }}>
             <Typography className="py-5"
                         variant="h5"><strong>{t('common_publish_your_text')}</strong></Typography>
           </div>
@@ -137,7 +139,7 @@ class Adding extends Component {
                 xs={6}
                 direction="column">
                 <Grid item
-                      style={{paddingTop: '4.5em'}}
+                      style={{ paddingTop: '4.5em' }}
                       xs={2}>
                   <div>
                     <TextField required
@@ -148,7 +150,7 @@ class Adding extends Component {
                                name="pealkiri"
                                value={this.state.pealkiri}
                                onChange={this.handleChange}
-                               style={{width: '75%'}}></TextField>
+                               style={{ width: '75%' }}></TextField>
                   </div>
                   <div>
                     <TextField multiline
@@ -158,7 +160,7 @@ class Adding extends Component {
                                name="kirjeldus"
                                value={this.state.kirjeldus}
                                onChange={this.handleChange}
-                               style={{width: '75%', marginTop: 20}}></TextField>
+                               style={{ width: '75%', marginTop: 20 }}></TextField>
                   </div>
                   <div>
                     <TextField required
@@ -170,31 +172,31 @@ class Adding extends Component {
                                name="sisu"
                                value={this.state.sisu}
                                onChange={this.handleChange}
-                               style={{width: '90%', marginTop: 20}}
+                               style={{ width: '90%', marginTop: 20 }}
                                InputProps={{
                                  endAdornment: <TextUpload
                                    sendTextFromFile={this.sendTextFromFile}
-                                   outerClassName="adding-text-upload-component"/>
+                                   outerClassName="adding-text-upload-component" />
                                }}></TextField>
                   </div>
                 </Grid>
                 <div>
-                  <Grid style={{paddingTop: '40px'}}
+                  <Grid style={{ paddingTop: '40px' }}
                         container
                         spacing={1}>
                     <Grid item>
                       <Alert severity="info">
                         <Typography fontSize={12}>
                           {t('publish_your_text_terms_of_service_infobox_1')}
-                          <u style={{cursor: 'pointer'}}
-                             onClick={() => this.setState({modalOpen: true})}>
+                          <u style={{ cursor: 'pointer' }}
+                             onClick={() => this.setState({ modalOpen: true })}>
                             {t('publish_your_text_terms_of_service_infobox_2')}
                           </u>.
                         </Typography>
                       </Alert>
                     </Grid>
                   </Grid>
-                  <div style={{paddingTop: '10px', paddingBottom: '50px'}}>
+                  <div style={{ paddingTop: '10px', paddingBottom: '50px' }}>
                     <Button type="submit"
                             variant="contained"
                             sx={DefaultButtonStyle}>{t('publish_your_text_submit_button')}</Button> &nbsp;
@@ -209,8 +211,8 @@ class Adding extends Component {
                     item
                     xs={6}
                     direction="column"
-                    style={{padding: '20px'}}>
-                <div style={{width: '100%'}}>
+                    style={{ padding: '20px' }}>
+                <div style={{ width: '100%' }}>
                   <Grid container
                         item
                         xs={12}
@@ -218,7 +220,7 @@ class Adding extends Component {
                     <Grid container
                           item
                           direction="column"
-                          style={{width: '100%'}}
+                          style={{ width: '100%' }}
                           xs={6}>
                       <Grid>
                         <div><h5>{t('common_text_data')}</h5></div>
@@ -446,7 +448,7 @@ class Adding extends Component {
                     <Grid container
                           item
                           direction="column"
-                          style={{width: '100%'}}
+                          style={{ width: '100%' }}
                           xs={6}>
                       <Grid>
                         <h5>{t('common_author_data')}</h5>
@@ -457,7 +459,7 @@ class Adding extends Component {
                                    variant="outlined"
                                    name="autoriVanus"
                                    value={this.state.autoriVanus}
-                                   onChange={this.handleChange}></TextField><br/>
+                                   onChange={this.handleChange}></TextField><br />
                         <FormControl className="form-control"
                                      size="small">
                           <InputLabel
@@ -603,35 +605,16 @@ class Adding extends Component {
               </Grid>
             </Grid>
           </form>
-          <Modal
-            open={this.state.modalOpen}
-            onClose={() => {
-              this.setState({modalOpen: false});
-            }}
+          <ModalBase
+            isOpen={this.state.modalOpen}
+            setIsOpen={this.handleModalClose}
+            innerClassName="terms-of-service-modal"
+            title="publish_your_text_terms_of_service_title"
           >
-            <Box sx={modalStyle} className="terms-of-service-modal">
-              <div className="modal-head">
-                {t('publish_your_text_terms_of_service_title')}
-              </div>
-              <div>
-                <IconButton
-                  aria-label="close"
-                  onClick={() => {
-                    this.setState({modalOpen: false});
-                  }}
-                  className="close-button"
-                >
-                  <CloseIcon/>
-                </IconButton>
-              </div>
-              <br/>
-              <div>
-                {t('publish_your_text_terms_of_service_1')}
-                <br/><br/>
-                {t('publish_your_text_terms_of_service_2')}
-              </div>
-            </Box>
-          </Modal>
+            {t('publish_your_text_terms_of_service_1')}
+            <br /><br />
+            {t('publish_your_text_terms_of_service_2')}
+          </ModalBase>
         </div>
       </Box>
     );

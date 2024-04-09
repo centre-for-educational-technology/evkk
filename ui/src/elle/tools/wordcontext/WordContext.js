@@ -24,13 +24,14 @@ import {
 } from '@mui/material';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import './WordContext.css';
-import TableDownloadButton, { TableType } from '../../components/table/TableDownloadButton';
+import { TableType } from '../../components/table/TableDownloadButton';
 import { QuestionMark } from '@mui/icons-material';
 import GenericTable from '../../components/GenericTable';
-import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
+import { toolAnalysisStore, ToolAnalysisStoreActionType } from '../../store/ToolAnalysisStore';
 import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import { sortColByLastWord, sortTableCol } from '../../util/TableUtils';
+import TableHeaderButtons from '../../components/table/TableHeaderButtons';
 
 export default function WordContext() {
 
@@ -82,7 +83,7 @@ export default function WordContext() {
 
   useEffect(() => {
     toolAnalysisStore.dispatch({
-      type: 'CHANGE_WORDCONTEXT_RESULT',
+      type: ToolAnalysisStoreActionType.CHANGE_WORD_CONTEXT_RESULT,
       value: {
         parameters: {
           typeValue: typeValue,
@@ -99,7 +100,7 @@ export default function WordContext() {
 
   queryStore.subscribe(() => {
     toolAnalysisStore.dispatch({
-      type: 'CHANGE_WORDCONTEXT_RESULT',
+      type: ToolAnalysisStoreActionType.CHANGE_WORD_CONTEXT_RESULT,
       value: null
     });
     setResponse([]);
@@ -348,11 +349,10 @@ export default function WordContext() {
         </Alert>
       </>}
       {showTable && <>
-        <TableDownloadButton sx={DefaultButtonStyle} data={data}
-                             tableType={TableType.WORD_CONTEXT}
-                             headers={tableToDownload}
-                             accessors={accessors}
-                             marginTop={'2vh'} />
+        <TableHeaderButtons downloadData={data}
+                            downloadTableType={TableType.WORD_CONTEXT}
+                            downloadHeaders={tableToDownload}
+                            downloadAccessors={accessors} />
         <GenericTable tableClassname={'wordcontext-table'}
                       columns={columns}
                       data={data}
