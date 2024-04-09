@@ -24,88 +24,76 @@ export default function BreadcrumbLinks() {
   const [isNoMatch, setIsNoMatch] = useState(false);
 
   useEffect(() => {
-    console.log(document.title);
-    console.log(breadcrumbs);
-
     if (breadcrumbs.length > 1) {
       const allButHome = breadcrumbs.slice(1);
       setIsNoMatch(
         allButHome.some(path => breadcrumbNameMap[path.key] === undefined)
       );
+    } else {
+      setIsNoMatch(false);
     }
   }, [breadcrumbs]);
 
-  const mainRender = () => {
-    return <React.Fragment>
-      <PageTitle breadcrumbs={breadcrumbs} />
-      {breadcrumbBox()}
-    </React.Fragment>;
+  const pageTitle = <PageTitle breadcrumbs={breadcrumbs} />;
+
+  const RenderBreadcrumbs = ({ children }) => {
+    return (
+      <React.Fragment>
+        {pageTitle}
+        <Box className="breadcrumb-box">
+          <Breadcrumbs aria-label="breadcrumb">
+            {children}
+          </Breadcrumbs>
+        </Box>
+      </React.Fragment>
+    );
   };
 
-  const breadcrumbBox = () => {
-    return <Box className="breadcrumb-box">
-      <Breadcrumbs aria-label="breadcrumb">
-
-      </Breadcrumbs>
-    </Box>;
-  };
-
-  const menuLink = ({ to, key, className, translateKey }) => {
-    return <MenuLink
-      to={to}
-      key={key}
-      className={className}
-      component={RouterLink}
-    >
-      {translateKey ? t(translateKey) : <HomeIcon />}
-    </MenuLink>;
+  const RenderMenuLink = ({ to, key, className, translateKey }) => {
+    return (
+      <MenuLink
+        to={to}
+        key={key}
+        className={className}
+        component={RouterLink}
+      >
+        {translateKey ? t(translateKey) : <HomeIcon />}
+      </MenuLink>
+    );
   };
 
   if (isNoMatch) {
     return (
-      <React.Fragment>
-        <Box className="breadcrumb-box">
-          <Breadcrumbs aria-label="breadcrumb">
-            <MenuLink to="/"
-                      key="/"
-                      className="breadcrumb-menu-link"
-                      component={RouterLink}>
-              <HomeIcon />
-            </MenuLink>
-            <MenuLink className="breadcrumb-menu-link regular"
-                      component={RouterLink}>
-              {t('error_page_not_found')}
-            </MenuLink>
-          </Breadcrumbs>
-        </Box>
-      </React.Fragment>
-    );
-  } else if (breadcrumbs.length > 1) {
-    return (
-      <React.Fragment>
-        <Box className="breadcrumb-box">
-          <Breadcrumbs aria-label="breadcrumb">
-            {breadcrumbs.map((value, index) => {
-              return index === 0 ? (
-                <MenuLink to="/"
-                          key={value.key}
-                          className="breadcrumb-menu-link"
-                          component={RouterLink}>
-                  <HomeIcon />
-                </MenuLink>
-              ) : (
-                <MenuLink to={value.key}
-                          key={value.key}
-                          className="breadcrumb-menu-link regular"
-                          component={RouterLink}>
-                  {t(breadcrumbNameMap[value.key])}
-                </MenuLink>
-              );
-            })}
-          </Breadcrumbs>
-        </Box>
-      </React.Fragment>
+      <RenderBreadcrumbs>
+        <RenderMenuLink
+          to="/"
+          key="/"
+          className="breadcrumb-menu-link"
+        />
+        <RenderMenuLink
+          className="breadcrumb-menu-link"
+          translateKey="error_page_not_found"
+        />
+      </RenderBreadcrumbs>
     );
   }
-  return null;
+
+  if (breadcrumbs.length > 1) {
+    return (
+      <RenderBreadcrumbs>
+        {breadcrumbs.map((value, index) => {
+          return (
+            <RenderMenuLink
+              to={index === 0 ? '/' : value.key}
+              key={value.key}
+              className={`breadcrumb-menu-link ${index !== 0 && 'regular'}`}
+              translateKey={index !== 0 && breadcrumbNameMap[value.key]}
+            />
+          );
+        })}
+      </RenderBreadcrumbs>
+    );
+  }
+
+  return pageTitle;
 }

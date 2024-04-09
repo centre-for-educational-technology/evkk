@@ -207,9 +207,11 @@ export default function GrammaticalAnalysis() {
         id: 'col1',
         Cell: (props) => {
           const word = props.value;
-          return <span key={props.id}
-                       className="word"
-                       onClick={() => handleTypeClick(word)}>{word}</span>;
+          return (
+            <span key={props.id}
+                  className="word"
+                  onClick={() => handleTypeClick(word)}>{word}</span>
+          );
         },
         filter: multiSelectFilter,
         className: 'user',
@@ -223,8 +225,10 @@ export default function GrammaticalAnalysis() {
         id: 'col2',
         Cell: (props) => {
           const word = props.value;
-          return <span className="word"
-                       onClick={() => handleFormClick(word)}>{word}</span>;
+          return (
+            <span className="word"
+                  onClick={() => handleFormClick(word)}>{word}</span>
+          );
         },
         filter: multiSelectFilter,
         width: 400,
