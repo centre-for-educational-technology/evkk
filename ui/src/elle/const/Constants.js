@@ -616,3 +616,20 @@ export const countryOptionsForAddingText = {
   'Inglismaa': 'query_common_country_en',
   'Ungari': 'query_common_country_hu'
 };
+
+export const breadcrumbNameMap = {
+  '/corrector': 'common_corrector',
+  '/tools': 'common_tools',
+  '/links': 'common_links',
+  '/about': 'common_about',
+  '/about/us': 'common_us',
+  '/about/people': 'common_people',
+  '/about/grants': 'common_grants',
+  '/about/publications': 'common_publications',
+  '/adding': 'common_publish_your_text',
+  '/tools/clusterfinder': 'common_clusters',
+  '/tools/wordanalyser': 'common_word_analysis',
+  '/tools/wordlist': 'common_wordlist',
+  '/tools/wordcontext': 'common_word_in_context',
+  '/tools/collocates': 'common_neighbouring_words'
+};

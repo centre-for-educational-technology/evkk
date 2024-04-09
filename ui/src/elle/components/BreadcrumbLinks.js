@@ -1,26 +1,12 @@
-import React from 'react';
-import {Box, Breadcrumbs, Link, styled} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Breadcrumbs, Link, styled } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
-import {Link as RouterLink} from 'react-router-dom';
-import {useTranslation} from 'react-i18next';
-
-const breadcrumbNameMap = {
-  '/corrector': 'common_corrector',
-  '/tools': 'common_tools',
-  '/links': 'common_links',
-  '/about': 'common_about',
-  '/about/us': 'common_us',
-  '/about/people': 'common_people',
-  '/about/grants': 'common_grants',
-  '/about/publications': 'common_publications',
-  '/adding': 'common_publish_your_text',
-  '/tools/clusterfinder': 'common_clusters',
-  '/tools/wordanalyser': 'common_word_analysis',
-  '/tools/wordlist': 'common_wordlist',
-  '/tools/wordcontext': 'common_word_in_context',
-  '/tools/collocates': 'common_neighbouring_words'
-};
+import { Link as RouterLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { breadcrumbNameMap } from '../const/Constants';
+import './styles/BreadcrumbLinks.css';
+import PageTitle from './PageTitle';
 
 const MenuLink = styled(Link)({
   color: '#1B1B1B',
@@ -33,34 +19,60 @@ const MenuLink = styled(Link)({
 });
 
 export default function BreadcrumbLinks() {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const breadcrumbs = useBreadcrumbs();
-  let noMatch = false;
+  const [isNoMatch, setIsNoMatch] = useState(false);
 
-  if (breadcrumbs.length > 1) {
-    const allButHome = breadcrumbs.slice(1);
-    allButHome.forEach((path) => {
-      if (breadcrumbNameMap[path.key] === undefined) {
-        noMatch = true;
-      }
-    });
-  }
+  useEffect(() => {
+    console.log(document.title);
+    console.log(breadcrumbs);
 
-  if (noMatch) {
+    if (breadcrumbs.length > 1) {
+      const allButHome = breadcrumbs.slice(1);
+      setIsNoMatch(
+        allButHome.some(path => breadcrumbNameMap[path.key] === undefined)
+      );
+    }
+  }, [breadcrumbs]);
+
+  const mainRender = () => {
+    return <React.Fragment>
+      <PageTitle breadcrumbs={breadcrumbs} />
+      {breadcrumbBox()}
+    </React.Fragment>;
+  };
+
+  const breadcrumbBox = () => {
+    return <Box className="breadcrumb-box">
+      <Breadcrumbs aria-label="breadcrumb">
+
+      </Breadcrumbs>
+    </Box>;
+  };
+
+  const menuLink = ({ to, key, className, translateKey }) => {
+    return <MenuLink
+      to={to}
+      key={key}
+      className={className}
+      component={RouterLink}
+    >
+      {translateKey ? t(translateKey) : <HomeIcon />}
+    </MenuLink>;
+  };
+
+  if (isNoMatch) {
     return (
       <React.Fragment>
-        <Box display={'flex'}
-             width={'80vw'}
-             padding={'25px'}
-             alignItems={'flex-end'}>
+        <Box className="breadcrumb-box">
           <Breadcrumbs aria-label="breadcrumb">
             <MenuLink to="/"
                       key="/"
-                      style={{paddingRight: '15px'}}
+                      className="breadcrumb-menu-link"
                       component={RouterLink}>
-              <HomeIcon/>
+              <HomeIcon />
             </MenuLink>
-            <MenuLink style={{paddingRight: '15px', paddingLeft: '15px'}}
+            <MenuLink className="breadcrumb-menu-link regular"
                       component={RouterLink}>
               {t('error_page_not_found')}
             </MenuLink>
@@ -71,23 +83,20 @@ export default function BreadcrumbLinks() {
   } else if (breadcrumbs.length > 1) {
     return (
       <React.Fragment>
-        <Box display={'flex'}
-             width={'80vw'}
-             padding={'25px'}
-             alignItems={'flex-end'}>
+        <Box className="breadcrumb-box">
           <Breadcrumbs aria-label="breadcrumb">
             {breadcrumbs.map((value, index) => {
               return index === 0 ? (
                 <MenuLink to="/"
                           key={value.key}
-                          style={{paddingRight: '15px'}}
+                          className="breadcrumb-menu-link"
                           component={RouterLink}>
-                  <HomeIcon/>
+                  <HomeIcon />
                 </MenuLink>
               ) : (
                 <MenuLink to={value.key}
                           key={value.key}
-                          style={{paddingRight: '15px', paddingLeft: '15px'}}
+                          className="breadcrumb-menu-link regular"
                           component={RouterLink}>
                   {t(breadcrumbNameMap[value.key])}
                 </MenuLink>
@@ -98,6 +107,5 @@ export default function BreadcrumbLinks() {
       </React.Fragment>
     );
   }
-  return <></>;
+  return null;
 }
-
