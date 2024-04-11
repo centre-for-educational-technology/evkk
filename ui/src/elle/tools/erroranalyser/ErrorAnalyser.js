@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Box, CircularProgress, Typography } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  FormControlLabel,
+  Switch,
+  Typography,
+} from '@mui/material';
 import RequestFilter from './requestfilter/RequestFilter';
 import ResultTable from './resulttable/ResultTable';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +14,7 @@ export default function ErrorAnalyser() {
   const [data, setData] = useState(null);
   const [filters, setFilters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [showAllErrors, setShowAllErrors] = useState(false);
   const { t } = useTranslation();
 
   const getData = async (
@@ -37,8 +44,6 @@ export default function ErrorAnalyser() {
 
     query = query.slice(0, -1);
 
-    console.log(query);
-
     try {
       setIsLoading(true);
       const response = await fetch(query);
@@ -56,9 +61,14 @@ export default function ErrorAnalyser() {
   //   getFilterEnums();
   // }, []);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
+
+  const handleSwitchChange = (event) => {
+    setShowAllErrors(!showAllErrors);
+  };
+  // console.log(showAllErrors);
 
   return (
     <>
@@ -76,7 +86,21 @@ export default function ErrorAnalyser() {
         </Box>
       )}
 
-      {data && <ResultTable data={data} filters={filters} />}
+      {data && (
+        <>
+          <FormControlLabel
+            control={
+              <Switch checked={showAllErrors} onChange={handleSwitchChange} />
+            }
+            label={t('error_analyser_show_all_errors')}
+          />
+          <ResultTable
+            data={data}
+            filters={filters}
+            showAllErrors={showAllErrors}
+          />
+        </>
+      )}
     </>
   );
 }

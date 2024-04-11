@@ -10,7 +10,7 @@ export const filterLanguageLevelOptions = [
     ],
   },
 ];
-//SIIN EI OLE SILTI VAJA
+
 export const filterErrorTypeOptions = [
   {
     type: 'word_errors',

@@ -119,9 +119,16 @@ div.optional-filter {
   text-decoration: underline solid red;
 }
 
-.corrected-sentence .puntuation {
-  /* text-decoration: underline double red; */
+.corrected-sentence .word-error.deleted {
+  text-decoration: line-through red;
+}
+
+.corrected-sentence .punctuation {
   background-color: #ffb1d0;
+}
+
+.corrected-sentence .punctuation.deleted {
+  text-decoration: line-through;
 }
 
 .corrected-sentence .word-separation {

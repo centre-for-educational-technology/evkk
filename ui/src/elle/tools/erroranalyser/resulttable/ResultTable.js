@@ -29,7 +29,7 @@ import {
   errorTypeOptionsShort,
 } from '../../../const/Constants';
 
-export default function ResultTable({ data: rows, filters }) {
+export default function ResultTable({ data: rows, filters, showAllErrors }) {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
   const [isColumnVisible, setIsColumnVisible] = useState({
@@ -103,6 +103,7 @@ export default function ResultTable({ data: rows, filters }) {
   ];
 
   useEffect(() => {
+    // console.log(filters);
     let visibilty = isColumnVisible;
     for (const key in visibilty) {
       if (
@@ -307,9 +308,11 @@ export default function ResultTable({ data: rows, filters }) {
                   <TableCell>
                     {
                       <CorrectedSentenceCell
-                        sentence={row.transformedSentence}
+                        // sentence={row.transformedSentence}
                         sentence={row.sentence}
                         annotations={row.annotations}
+                        showAllErrors={showAllErrors}
+                        filters={filters}
                       />
                     }
                   </TableCell>

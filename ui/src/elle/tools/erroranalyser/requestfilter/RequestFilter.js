@@ -17,7 +17,7 @@ import {
   filterErrorTypeOptions,
   filterLanguageLevelOptions,
 } from './CheckboxOptions';
-import ErrorCheckbox from './Checkbox';
+import Checkbox from './Checkbox';
 import { useTranslation } from 'react-i18next';
 import OptionalFilters from './OptionalFilters';
 
@@ -135,22 +135,18 @@ export default function RequestFilter({ getData, setData, setFilters }) {
       if (languageLevelFilter.length === 4) {
         languageLevelFilter = [];
       }
-      console.log(optionalFilters);
+
       let filters = {
-        errorType: errorTypeFilter,
-        languageLevel: languageLevelFilter,
+        errorType: errorTypeFilter.map((item) => item.type),
+        languageLevel: languageLevelFilter.map((item) => item.type),
         nativeLanguage,
         citizenship,
         education,
-        education,
         textType,
-
         age: ageRange,
       };
 
       setFilters(filters);
-      console.log(filters);
-
       getData(errorTypeFilter, languageLevelFilter, optionalFilters);
       handleIsExpanded('accordion');
     }
@@ -193,7 +189,7 @@ export default function RequestFilter({ getData, setData, setFilters }) {
                     filterError.typeError ? 'checkbox-container-error' : ''
                   }`}
                 >
-                  <ErrorCheckbox
+                  <Checkbox
                     data={filterErrorTypeOptions}
                     setSelectedItems={setErrorType}
                     setFilterError={setFilterError}
@@ -216,7 +212,7 @@ export default function RequestFilter({ getData, setData, setFilters }) {
                     filterError.levelError ? 'checkbox-container-error' : ''
                   }`}
                 >
-                  <ErrorCheckbox
+                  <Checkbox
                     data={filterLanguageLevelOptions}
                     setSelectedItems={setLanguageLevel}
                     setFilterError={setFilterError}

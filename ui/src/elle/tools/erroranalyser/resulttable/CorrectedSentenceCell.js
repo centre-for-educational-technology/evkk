@@ -1,7 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import CorrectedSentence from './CorrectedSentence';
 
-export default function CorrectedSentenceCell({ sentence, annotations }) {
+export default function CorrectedSentenceCell({
+  sentence,
+  annotations,
+  showAllErrors,
+  filters,
+}) {
   const [sortedSentences, setSortedSentences] = useState([]);
 
   const transformSentence = (sentence) => {
@@ -28,7 +33,7 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
       return 'word-error';
     }
     if (errorType.includes('PUNCT')) {
-      return 'puntuation';
+      return 'punctuation';
     }
     if (errorType.includes('R:WS')) {
       return 'word-separation';
@@ -148,7 +153,7 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
           };
           modifiedSentence.set(key, addedItem);
           break;
-        case 'U': //unnecessary => deleted
+        case 'U': //unnecessary => deleted / partially-deleted
           const deletedItemKey = [
             annotation.scopeStart,
             annotation.scopeEnd,
@@ -158,8 +163,16 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
           const sourceDeletedItem = sentence.get(deletedItemKey);
           if (sourceDeletedItem) {
             const deletedItem = {
+              ...annotation,
               ...sourceDeletedItem,
-              status: 'deleted',
+              content:
+                annotation.content === '-NONE-'
+                  ? sourceDeletedItem.content
+                  : annotation.content,
+              status:
+                annotation.content === '-NONE-'
+                  ? 'deleted'
+                  : 'partially-deleted',
             };
             modifiedSentence.set(deletedItemKey, deletedItem);
           }
@@ -188,7 +201,6 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
 
   useEffect(() => {
     const transformedSentence = transformSentence(sentence);
-    // const transformedSentence = sentence;
     const groupedAnnotations = groupAnnotations(
       annotations,
       transformedSentence
@@ -215,7 +227,12 @@ export default function CorrectedSentenceCell({ sentence, annotations }) {
     <>
       {sortedSentences &&
         sortedSentences.map((sortedSentence, index) => (
-          <CorrectedSentence key={index} sentence={sortedSentence} />
+          <CorrectedSentence
+            key={index}
+            sentence={sortedSentence}
+            filters={filters}
+            showAllErrors={showAllErrors}
+          />
         ))}
     </>
   );
