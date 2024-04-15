@@ -68,6 +68,8 @@ export default function ComplexityTab({inputText, setInputText}) {
 
   useTypeTimeout(timer, setTimer, getLanguageData, setComplexityAnswer, textBoxRef, setInputText);
 
+  console.log(complexityAnswer);
+
   return (
     <div className="corrector-border-box">
       <Box className="d-flex mb-2">
