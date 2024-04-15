@@ -144,12 +144,6 @@ public class TextController {
     return ok(body);
   }
 
-  @PostMapping("/grammarchecker")
-  public ResponseEntity<String> grammarchecker(@RequestBody CommonTextRequestDto request) {
-    String vastus = grammarWorkerServerClient.getGrammarWorker(request.getTekst());
-    return ok(vastus);
-  }
-
   @PostMapping("/spellchecker")
   public ResponseEntity<String> spellchecker(@RequestBody CommonTextRequestDto request) {
     String vastus = grammarWorkerServerClient.getSpeller(request.getTekst());

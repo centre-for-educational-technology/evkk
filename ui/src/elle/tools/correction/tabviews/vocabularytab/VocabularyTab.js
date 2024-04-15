@@ -55,6 +55,7 @@ export default function VocabularyTab({inputText, setInputText}) {
   }, [complexityAnswer]);
 
   useEffect(() => {
+    if (!inputText) return;
     markText();
   }, [model]);
 

@@ -44,6 +44,7 @@ export default function ComplexityTab({inputText, setInputText}) {
   }, [complexityAnswer]);
 
   useEffect(() => {
+    if (!inputText) return;
     markText();
   }, [model]);
 

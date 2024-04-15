@@ -48,7 +48,7 @@ export default function CorrectionInput({
   useProcessTextCorrections(responseText, textBoxRef, textBoxValueRef, setErrorList, setInputText);
   usePopUpHover('text-span', inputText, errorList, setPopperAnchor, setPopperValue);
 
-  useTypeTimeout(timer, setTimer, fetchCorrection, setResponseText, textBoxRef, setInputText);
+  useTypeTimeout(timer, setTimer, fetchCorrection, setResponseText, textBoxRef, setInputText, model);
 
   return (
     <div className="w-50 d-flex flex-column">

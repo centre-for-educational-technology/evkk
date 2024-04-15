@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { replaceSpans } from '../../../../../const/Constants';
 
-export default function useTypeTimeout(timer, setTimer, fetchCorrection, setComplexityAnswer, textBoxRef, setInputValue) {
+export default function useTypeTimeout(timer, setTimer, fetchCorrection, setComplexityAnswer, textBoxRef, setInputValue, model = null) {
   useEffect(() => {
     // Handler to call on key press or paste event
     const startTimerCountDown = () => {
@@ -27,5 +27,5 @@ export default function useTypeTimeout(timer, setTimer, fetchCorrection, setComp
       document.removeEventListener('paste', startTimerCountDown);
       if (timer) clearTimeout(timer);
     };
-  }, [timer]);
+  }, [timer, model]);
 }

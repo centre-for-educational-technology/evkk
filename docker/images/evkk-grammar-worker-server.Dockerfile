@@ -36,11 +36,6 @@ RUN apt-get update && \
     apt-get install -y git-lfs && \
     git lfs install
 
-# Clone GEC models
-RUN git clone https://huggingface.co/tartuNLP/en-et-de-cs-nelb /app/models/tartuNLP/en-et-de-cs-nelb
-    #git clone https://huggingface.co/tartuNLP/GEC-noisy-nmt-ut /app/models/tartuNLP/GEC-noisy-nmt-ut && \
-    #git clone https://huggingface.co/tartuNLP/GEC-synthetic-pretrain-ut-ft /app/models/tartuNLP/GEC-synthetic-pretrain-ut-ft
-
 # Clone Spell models
 RUN git clone https://huggingface.co/Jaagup/etnc19_reference_corpus_6000000_web_2019_600000 /app/models/Jaagup/etnc19_reference_corpus_6000000_web_2019_600000
 
