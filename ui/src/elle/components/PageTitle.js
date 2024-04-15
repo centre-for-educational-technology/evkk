@@ -7,15 +7,8 @@ export default function PageTitle({ breadcrumbs }) {
   const { t } = useTranslation();
 
   useEffect(() => {
-    const dynamicTitle = breadcrumbs
-      .slice(1)
-      .map(item => breadcrumbNameMap[item.key])
-      .every(title => title !== undefined)
-      ? breadcrumbs
-        .slice(1)
-        .map(item => t(breadcrumbNameMap[item.key]))
-        .join(' > ')
-      : t('error_page_not_found');
+    const lastSegmentKey = breadcrumbs[breadcrumbs.length - 1].key;
+    const dynamicTitle = t(breadcrumbNameMap[lastSegmentKey]) || t('error_page_not_found');
 
     document.title = (
       breadcrumbs.length === 1
