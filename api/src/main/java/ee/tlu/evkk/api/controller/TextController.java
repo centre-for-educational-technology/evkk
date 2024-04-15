@@ -9,7 +9,6 @@ import ee.tlu.evkk.api.controller.dto.TextSearchRequest;
 import ee.tlu.evkk.api.controller.dto.TextSearchResponse;
 import ee.tlu.evkk.common.env.ServiceLocator;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
-import ee.tlu.evkk.core.integration.GrammarWorkerServerClient;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.service.TeiNotationService;
 import ee.tlu.evkk.core.service.TextService;
@@ -56,7 +55,6 @@ public class TextController {
   private final TeiNotationService teiNotationService;
   private final StanzaServerClient stanzaServerClient;
   private final CorrectorServerClient correctorServerClient;
-  private final GrammarWorkerServerClient grammarWorkerServerClient;
   private final TextService textService;
   private final ServiceLocator serviceLocator;
 
@@ -142,18 +140,6 @@ public class TextController {
     String[] vastus = correctorServerClient.getKorrektuur(request.getTekst());
     List<String> body = asList(vastus);
     return ok(body);
-  }
-
-  @PostMapping("/grammarchecker")
-  public ResponseEntity<String> grammarchecker(@RequestBody CommonTextRequestDto request) {
-    String vastus = grammarWorkerServerClient.getGrammarWorker(request.getTekst());
-    return ok(vastus);
-  }
-
-  @PostMapping("/spellchecker")
-  public ResponseEntity<String> spellchecker(@RequestBody CommonTextRequestDto request) {
-    String vastus = grammarWorkerServerClient.getSpeller(request.getTekst());
-    return ok(vastus);
   }
 
   @PostMapping("/keeletase")
