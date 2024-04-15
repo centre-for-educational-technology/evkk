@@ -1,0 +1,32 @@
+.slider-labels {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  position: absolute;
+  top: 120%;
+}
+
+.word-repetition-color {
+  background-color: hsl(0 66% 76%);
+  padding: 0.1em;
+  border-radius: 2px 2px 1px 1px;
+}
+
+.uncommon-word-color {
+  background-color: hsl(100 66% 76%);
+  padding: 0.1em;
+  border-radius: 2px 2px 1px 1px;
+}
+
+
+.abstract-word-color {
+  background-color: hsl(200 66% 76%);
+  padding: 0.1em;
+  border-radius: 2px 2px 1px 1px;
+}
+
+.content-word-color {
+  background-color: hsl(44.71 100% 80%);
+  padding: 0.1em;
+  border-radius: 2px 2px 1px 1px;
+}
