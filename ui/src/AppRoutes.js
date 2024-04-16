@@ -23,7 +23,7 @@ import Tools from './elle/pages/Tools';
 class AppRoutes extends Component {
 
   render404 = () => {
-    const {t} = this.props;
+    const { t } = this.props;
 
     return (
       <div className={'text-center pb-4'}>
@@ -40,53 +40,53 @@ class AppRoutes extends Component {
       }}
                  disableGutters
                  maxWidth={false}>
-        <BreadcrumbLinks/>
+        <BreadcrumbLinks />
         <Routes>
           <Route exact
                  path="/"
-                 element={<Home/>}/>
+                 element={<Home />} />
           <Route path="/about"
-                 element={<AboutUs/>}>
+                 element={<AboutUs />}>
             <Route index
                    element={<Navigate to="us"
-                                      replace/>}/>
+                                      replace />} />
             <Route path="us"
-                   element={<AboutUsText/>}/>
+                   element={<AboutUsText />} />
             <Route path="people"
-                   element={<FilledContacts/>}/>
+                   element={<FilledContacts />} />
             <Route path="grants"
-                   element={<Grants/>}/>
+                   element={<Grants />} />
             <Route path="publications"
-                   element={<Publications/>}/>
+                   element={<Publications />} />
           </Route>
           <Route path="/adding"
-                 element={<Adding/>}/>
+                 element={<Adding />} />
           <Route path="/corrector"
-                 element={<Correction/>}/>
+                 element={<Correction />} />
           <Route path="/tools"
-                 element={<Tools/>}>
+                 element={<Tools />}>
             <Route index
                    element={<Navigate to="wordlist"
-                                      replace/>}/>
+                                      replace />} />
             <Route path="wordlist"
-                   element={<Wordlist/>}/>
+                   element={<Wordlist />} />
             <Route path="wordcontext"
-                   element={<WordContext/>}/>
+                   element={<WordContext />} />
             <Route path="collocates"
-                   element={<Collocates/>}/>
+                   element={<Collocates />} />
             <Route path="clusterfinder"
-                   element={<ClusterFinder/>}/>
+                   element={<ClusterFinder />} />
             <Route path="wordanalyser"
-                   element={<WordAnalyserParent/>}/>
+                   element={<WordAnalyserParent />} />
             <Route path="minitorn-pikkus"
-                   element={<MinitornPikkus/>}/>
+                   element={<MinitornPikkus />} />
             <Route path="masinoppe-ennustus"
-                   element={<MasinoppeEnnustus/>}/>
+                   element={<MasinoppeEnnustus />} />
           </Route>
           <Route path="/links"
-                 element={<Links/>}/>
+                 element={<Links />} />
           <Route path="*"
-                 element={this.render404()}/>
+                 element={this.render404()} />
         </Routes>
       </Container>
     );

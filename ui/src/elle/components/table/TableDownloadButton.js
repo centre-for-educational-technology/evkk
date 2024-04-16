@@ -12,7 +12,7 @@ import { DefaultButtonStyle } from '../../const/Constants';
 
 export default function TableDownloadButton({ data, headers, accessors, tableType, sortByColAccessor }) {
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const ExcelFile = ReactExport.ExcelFile;
   const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
   const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
@@ -40,7 +40,7 @@ export default function TableDownloadButton({ data, headers, accessors, tableTyp
 
   for (let i = 0; i < headers.length; i++) {
     const key = accessors ? accessors[i] : 'col' + [i + 1];
-    tableHeaders.push({label: headers[i], key: key});
+    tableHeaders.push({ label: headers[i], key: key });
   }
 
   function setFirstRow() {
@@ -116,13 +116,15 @@ export default function TableDownloadButton({ data, headers, accessors, tableTyp
   }
 
   function csvButton(filename) {
-    return <Button style={DefaultButtonStyle}
-                   variant="contained">
-      <CSVLink filename={t(filename)}
-               className="csvLink"
-               headers={tableHeaders}
-               data={csvData}>{t('common_download')}</CSVLink>
-    </Button>;
+    return (
+      <Button style={DefaultButtonStyle}
+              variant="contained">
+        <CSVLink filename={t(filename)}
+                 className="csvLink"
+                 headers={tableHeaders}
+                 data={csvData}>{t('common_download')}</CSVLink>
+      </Button>
+    );
   }
 
   function showButton() {

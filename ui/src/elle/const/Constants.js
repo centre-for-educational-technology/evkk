@@ -125,11 +125,7 @@ export const TabStyle = {
     height: '60px',
     borderBottom: '4px solid #9C27B0',
     borderTop: '4px solid #9C27B0',
-    textTransform: 'lowercase',
     transition: '0.5s'
-  },
-  '& button::first-letter': {
-    textTransform: 'uppercase'
   },
   '& button:first-of-type': {
     borderRadius: '25px 0 0 25px',
@@ -154,6 +150,9 @@ export const TabStyle = {
   '& .MuiTabs-root': {
     border: 'none',
     borderBottom: 'none'
+  },
+  '& .MuiTab-root': {
+    textTransform: 'none'
   }
 };
 
@@ -615,4 +614,21 @@ export const countryOptionsForAddingText = {
   'Saksamaa': 'query_common_country_de',
   'Inglismaa': 'query_common_country_en',
   'Ungari': 'query_common_country_hu'
+};
+
+export const breadcrumbNameMap = {
+  '/corrector': 'common_corrector',
+  '/tools': 'common_tools',
+  '/links': 'common_links',
+  '/about': 'common_about',
+  '/about/us': 'common_us',
+  '/about/people': 'common_people',
+  '/about/grants': 'common_grants',
+  '/about/publications': 'common_publications',
+  '/adding': 'common_publish_your_text',
+  '/tools/clusterfinder': 'common_clusters',
+  '/tools/wordanalyser': 'common_word_analyser',
+  '/tools/wordlist': 'common_wordlist',
+  '/tools/wordcontext': 'common_word_in_context',
+  '/tools/collocates': 'common_neighbouring_words'
 };

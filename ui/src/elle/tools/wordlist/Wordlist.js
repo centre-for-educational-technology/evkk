@@ -34,7 +34,7 @@ import TableHeaderButtons from '../../components/table/TableHeaderButtons';
 
 export default function Wordlist() {
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [paramsExpanded, setParamsExpanded] = useState(true);
   const [typeValue, setTypeValue] = useState('');
@@ -139,8 +139,10 @@ export default function Wordlist() {
       accessor: 'menu',
       disableSortBy: true,
       Cell: (cellProps) => {
-        return <WordlistMenu word={cellProps.row.original.word} type={typeValue}
-                             keepCapitalization={capitalizationChecked} showCollocatesButton={true} />;
+        return (
+          <WordlistMenu word={cellProps.row.original.word} type={typeValue}
+                        keepCapitalization={capitalizationChecked} showCollocatesButton={true} />
+        );
       }
     }
   ], [typeValue, typeValueToDisplay, capitalizationChecked, t]);
@@ -214,7 +216,7 @@ export default function Wordlist() {
           <form onSubmit={handleSubmit}>
             <div className="tool-accordion">
               <div>
-                <FormControl sx={{m: 3}}
+                <FormControl sx={{ m: 3 }}
                              error={typeError}
                              variant="standard">
                   <FormLabel id="type-radios">{t('common_search')}</FormLabel>
@@ -241,7 +243,7 @@ export default function Wordlist() {
                 </FormControl>
               </div>
               <div>
-                <FormControl sx={{m: 3}}
+                <FormControl sx={{ m: 3 }}
                              variant="standard">
                   <FormLabel id="stopwords">{t('wordlist_exclude_stopwords')}</FormLabel>
                   <FormControlLabel control={
@@ -265,11 +267,11 @@ export default function Wordlist() {
                              size="small"
                              value={customStopwords}
                              onChange={(e) => setCustomStopwords(e.target.value)}
-                             style={{width: '350px'}} />
+                             style={{ width: '350px' }} />
                 </FormControl>
               </div>
               <div>
-                <FormControl sx={{m: 7}}
+                <FormControl sx={{ m: 7 }}
                              variant="standard">
                   <FormControlLabel control={
                     <Checkbox
@@ -293,13 +295,13 @@ export default function Wordlist() {
                       <QuestionMark className="tooltip-icon" />
                     </Tooltip></>}
                              type="number"
-                             inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: '1'}}
-                             InputLabelProps={{style: {pointerEvents: 'auto'}}}
+                             inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: '1' }}
+                             InputLabelProps={{ style: { pointerEvents: 'auto' } }}
                              variant="outlined"
                              size="small"
                              value={minimumFrequency}
                              onChange={(e) => setMinimumFrequency(e.target.value)}
-                             style={{width: '310px'}} />
+                             style={{ width: '310px' }} />
                 </FormControl>
               </div>
             </div>

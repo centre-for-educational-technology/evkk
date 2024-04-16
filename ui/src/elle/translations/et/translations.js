@@ -138,6 +138,7 @@ export const TRANSLATIONS_ET = {
   neighbouring_words_statistic_measure_logdice: 'logDice',
   neighbouring_words_statistic_measure_mi_score: 'MI-skoor',
   neighbouring_words_statistic_measure_t_score: 'T-skoor',
+  page_title_homepage: 'Avaleht',
   pagination_go_to_page: 'Mine lehele:',
   pagination_page: 'Leht',
   publish_your_text_author_data_other_languages_tooltip: 'Sisesta keeled komaga eraldatult, märkides esimesena keele, mida kõige paremini oskad',

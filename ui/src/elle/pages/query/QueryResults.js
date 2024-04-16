@@ -90,8 +90,10 @@ export default function QueryResults(props) {
         Header: '',
         accessor: 'property_value',
         Cell: (cellProps) => {
-          return <span className="clickable-row"
-                       onClick={() => previewText(cellProps.row.original.text_id)}>{cellProps.value}</span>;
+          return (
+            <span className="clickable-row"
+                  onClick={() => previewText(cellProps.row.original.text_id)}>{cellProps.value}</span>
+          );
         }
       }
     ],

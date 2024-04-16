@@ -18,7 +18,7 @@ function changePreviousColor(idNumber, setIdNumber, markedIds, onWordInfo) {
   }
 }
 
-export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
+export const InputText = ({ onMarkWords, onWordSelect, onWordInfo }) => {
   const analyse = useContext(AnalyseContext)[0];
   const markedIds = [];
   const [idNumber, setIdNumber] = useState(0);
@@ -37,27 +37,33 @@ export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
 
   const handleIsMarked = (ids, i, analysedWords, markedIds, idNumber) => {
     if (ids[i] === markedIds[idNumber]) {
-      return <span id={ids[i]}
-                   className="word blue"
-                   key={ids[i]}
-                   onClick={(e) => {
-                     handleWord(e.target.id);
-                   }}>{analysedWords[i]}</span>;
+      return (
+        <span id={ids[i]}
+              className="word blue"
+              key={ids[i]}
+              onClick={(e) => {
+                handleWord(e.target.id);
+              }}>{analysedWords[i]}</span>
+      );
     } else {
-      return <span id={ids[i]}
-                   className="word marked"
-                   key={ids[i]}
-                   onClick={(e) => {
-                     handleWord(e.target.id);
-                   }}>{analysedWords[i]}</span>;
+      return (
+        <span id={ids[i]}
+              className="word marked"
+              key={ids[i]}
+              onClick={(e) => {
+                handleWord(e.target.id);
+              }}>{analysedWords[i]}</span>
+      );
     }
   };
 
   const handleIsNotMarked = (ids, i, analysedWords) => {
-    return <span id={ids[i]}
-                 className="word"
-                 key={ids[i]}
-                 onClick={(e) => handleWord(e.target.id)}>{analysedWords[i]}</span>;
+    return (
+      <span id={ids[i]}
+            className="word"
+            key={ids[i]}
+            onClick={(e) => handleWord(e.target.id)}>{analysedWords[i]}</span>
+    );
   };
 
   const updatedText = useMemo(() => {
@@ -83,11 +89,11 @@ export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
             if (match.index > 0) {
               let newSequence = sequence.slice(0, match.index);
               content.push(newSequence);
-              content.push(<br key={index}/>);
+              content.push(<br key={index} />);
               sequence = sequence.substring(match.index + 1, sequence.length);
               match = /[\r\n]/.exec(sequence);
             } else {
-              content.push(<br key={index}/>);
+              content.push(<br key={index} />);
               sequence = sequence.substring(1, sequence.length);
               match = /[\r\n]/.exec(sequence);
             }
@@ -120,11 +126,16 @@ export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
         {updatedText}
       </div>
       <span className="wordHighlightButtons">
-        {idNumber > 0 ? <KeyboardArrowLeftIcon fontSize={'large'} cursor={'pointer'}
-                                               onClick={() => changePreviousColor(idNumber, setIdNumber, markedIds, onWordInfo)}/> :
-          <Box width={'24px'} height={'24px'}></Box>}
-        {idNumber < markedIds.length - 1 ? <KeyboardArrowRightIcon fontSize={'large'} cursor={'pointer'}
-                                                                   onClick={() => changeNextColor(idNumber, setIdNumber, markedIds, onWordInfo)}/> : null}
+        {idNumber > 0 ? (
+          <KeyboardArrowLeftIcon fontSize={'large'} cursor={'pointer'}
+                                 onClick={() => changePreviousColor(idNumber, setIdNumber, markedIds, onWordInfo)} />
+        ) : (
+          <Box width={'24px'} height={'24px'}></Box>
+        )}
+        {idNumber < markedIds.length - 1 ? (
+          <KeyboardArrowRightIcon fontSize={'large'} cursor={'pointer'}
+                                  onClick={() => changeNextColor(idNumber, setIdNumber, markedIds, onWordInfo)} />
+        ) : null}
       </span>
     </>
   );

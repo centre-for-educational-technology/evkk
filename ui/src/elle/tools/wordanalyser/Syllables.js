@@ -388,11 +388,13 @@ export default function Syllables() {
               <tr className="tableRow" {...row.getRowProps()}>
                 {
                   row.cells.map(cell => {
-                    return <td className="tableData" {...cell.getCellProps()}
-                               style={{
-                                 padding: '10px',
-                                 width: cell.column.width
-                               }}>{cell.render('Cell')}</td>;
+                    return (
+                      <td className="tableData" {...cell.getCellProps()}
+                          style={{
+                            padding: '10px',
+                            width: cell.column.width
+                          }}>{cell.render('Cell')}</td>
+                    );
                   })
                 }
               </tr>

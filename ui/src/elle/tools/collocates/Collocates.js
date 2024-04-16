@@ -158,8 +158,10 @@ export default function Collocates() {
       accessor: 'menu',
       disableSortBy: true,
       Cell: (cellProps) => {
-        return <WordlistMenu word={cellProps.row.original.collocate} type={typeValue}
-                             keepCapitalization={capitalizationChecked} />;
+        return (
+          <WordlistMenu word={cellProps.row.original.collocate} type={typeValue}
+                        keepCapitalization={capitalizationChecked} />
+        );
       }
     }
   ], [typeValue, capitalizationChecked, t]);
