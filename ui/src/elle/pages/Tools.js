@@ -98,7 +98,7 @@ export default function Tools() {
                 sx={TabStyle}
               >
                 <Tab
-                  label={t('wordlist_filename')}
+                  label={t('common_wordlist')}
                   onClick={() => navigate('/tools/wordlist')}
                   value="/tools/wordlist"
                 />
