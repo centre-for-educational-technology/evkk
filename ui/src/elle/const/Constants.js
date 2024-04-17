@@ -2,7 +2,13 @@ import { makeStyles } from '@mui/styles';
 import { styled } from '@mui/material';
 import { HashLink } from 'react-router-hash-link';
 
+export const ELLE_PATH = 'https://elle.tlu.ee/';
 export const EVKK_VERS1_PATH = 'https://evkk.tlu.ee/vers1/';
+export const EVKK_GITHUB_PATH = 'https://github.com/centre-for-educational-technology/evkk';
+export const EVKK_GITHUB_DEMOS_PATH = 'https://github.com/centre-for-educational-technology/evkk/wiki/Demos';
+export const CC_BY_4_0_LICENSE_PATH = 'https://creativecommons.org/licenses/by/4.0/';
+export const MIT_LICENSE_PATH = 'https://opensource.org/license/mit/';
+export const STOPWORDS_DATADOI_PATH = 'https://datadoi.ee/handle/33/78';
 
 export const WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO = 1000;
 
@@ -119,11 +125,7 @@ export const TabStyle = {
     height: '60px',
     borderBottom: '4px solid #9C27B0',
     borderTop: '4px solid #9C27B0',
-    textTransform: 'lowercase',
     transition: '0.5s'
-  },
-  '& button::first-letter': {
-    textTransform: 'uppercase'
   },
   '& button:first-of-type': {
     borderRadius: '25px 0 0 25px',
@@ -148,6 +150,9 @@ export const TabStyle = {
   '& .MuiTabs-root': {
     border: 'none',
     borderBottom: 'none'
+  },
+  '& .MuiTab-root': {
+    textTransform: 'none'
   }
 };
 
@@ -202,38 +207,38 @@ export const modalStyle = {
 };
 
 export const addedYearOptions = [
-  '2000—2005',
-  '2006—2010',
-  '2011—2015',
-  '2016—2020',
+  '2000–2005',
+  '2006–2010',
+  '2011–2015',
+  '2016–2020',
   '2021...'
 ];
 
 export const charactersOptions = [
   'query_text_data_char_up_to_500',
-  '501—1000',
-  '1001—1500',
-  '1501—2500',
-  '2501—5000',
+  '501–1000',
+  '1001–1500',
+  '1501–2500',
+  '2501–5000',
   'query_text_data_char_over_5000'
 ];
 
 export const wordsOptions = [
   'query_text_data_words_up_to_100',
-  '101—200',
-  '201—300',
-  '301—400',
-  '401—600',
-  '601—800',
+  '101–200',
+  '201–300',
+  '301–400',
+  '401–600',
+  '601–800',
   'query_text_data_words_over_800'
 ];
 
 export const sentencesOptions = [
   'query_text_data_sentences_up_to_10',
-  '11—20',
-  '21—30',
-  '31—60',
-  '61—100',
+  '11–20',
+  '21–30',
+  '31–60',
+  '61–100',
   'query_text_data_sentences_over_100'
 ];
 
@@ -259,7 +264,7 @@ export const corpuses = {
   'cwUSEqQLt': 'query_subcorpus_academic_estonian'
 };
 
-export const textTypes = {
+export const textTypeList = {
   'k2eesti_riiklik_eksamitoo': 'common_text_data_type_L2_proficiency_examination',
   'k2eesti_ol_loovkirjutis': 'common_text_data_type_L2_olympiade_creative_writing',
   'k2eesti_kiri_isiklik': 'query_text_data_type_L2_letter_informal_full',
@@ -288,6 +293,8 @@ export const textTypes = {
   'k1eesti_harjutus': 'query_text_data_type_L1_exercise',
   'k1vene_loovkirjutis': 'query_text_data_type_L1_russian_creative_writing',
   'k1vene_eksamitoo': 'query_text_data_type_L1_russian_examination',
+  'k3vene_loovkirjutis': 'query_text_data_type_L3_russian_creative_writing',
+  'k3vene_eksamitoo': 'query_text_data_type_L3_russian_examination',
   'ak_eriala_analuus': 'query_text_data_type_academic_studies_analysis_full',
   'ak_eriala_essee': 'query_text_data_type_academic_studies_essay_full',
   'ak_eriala_kursusetoo': 'query_text_data_type_academic_studies_course_paper_full',
@@ -368,7 +375,7 @@ export const textTypesOptions = {
       'ak_uurimus_batoo': 'query_text_data_type_academic_research_bachelors_thesis',
       'ak_uurimus_diplomitoo': 'query_text_data_type_academic_research_thesis',
       'ak_uurimus_matoo': 'query_text_data_type_academic_research_masters_thesis',
-      'ak_uurimus_pdhtoo': 'query_text_data_type_academic_research_doctoral_thesis'
+      'ak_uurimus_phdtoo': 'query_text_data_type_academic_research_doctoral_thesis'
     }
   }
 };
@@ -418,6 +425,16 @@ export const usedMaterialsMultiOptions = {
   'ei': 'query_text_data_used_study_or_supporting_materials_no'
 };
 
+export const usedMaterialsMultiList = {
+  'tolkesonastik': 'query_text_data_used_study_or_supporting_materials_translation_dictionary_or_machine_translation',
+  'ykskeelnesonastik': 'query_text_data_used_study_or_supporting_materials_monolingual_dictionary',
+  'terminisonastik': 'query_text_data_used_study_or_supporting_materials_term_glossary_or_base',
+  'kasiraamat': 'query_text_data_used_study_or_supporting_materials_professional_handbook',
+  'automaatkontroll': 'query_text_data_used_study_or_supporting_materials_automated_correction',
+  'muu': 'common_other',
+  'ei': 'query_text_data_used_study_or_supporting_materials_no'
+};
+
 export const textLanguageOptions = {
   'eesti': 'query_common_language_et',
   'vene': 'query_common_language_ru'
@@ -442,9 +459,9 @@ export const usedMaterialsSaveOptions = {
 
 export const ageOptions = {
   'kuni18': 'query_author_data_age_up_to_18',
-  'kuni26': '18 - 26',
-  'kuni40': '27 - 40',
-  '41plus': '41 +'
+  'kuni26': '19–26',
+  'kuni40': '27–40',
+  '41plus': 'query_author_data_age_over_40'
 };
 
 export const genderOptions = {
@@ -511,49 +528,61 @@ export const textPublishUsedMaterialsOptions = {
 };
 
 export const nationalityOptions = {
-  'Eesti': 'query_common_country_et',
-  'Ameerika Ühendriigid': 'query_common_country_us',
-  'Brasiilia': 'query_common_country_br',
-  'Bulgaaria': 'query_common_country_bg',
-  'Egiptus': 'query_common_country_eg',
-  'Filipiinid': 'query_common_country_ph',
-  'Hiina': 'query_common_country_ch',
-  'Hispaania': 'query_common_country_es',
-  'Holland': 'query_common_country_nl',
-  'Iirimaa': 'query_common_country_ie',
-  'India': 'query_common_country_in',
-  'Kreeka': 'query_common_country_gr',
-  'Leedu': 'query_common_country_lt',
-  'Läti': 'query_common_country_lv',
-  'Makedoonia': 'query_common_country_mk',
-  'Määramata': 'query_common_country_unassigned',
-  'Poola': 'query_common_country_pl',
-  'Prantsusmaa': 'query_common_country_fr',
-  'Rumeenia': 'query_common_country_ro',
-  'Saksamaa': 'query_common_country_de',
-  'Soome': 'query_common_country_fi',
-  'Suurbritannia': 'query_common_country_gb',
-  'Türgi': 'query_common_country_tr',
-  'Ukraina': 'query_common_country_ua',
-  'Valgevene': 'query_common_country_by',
-  'Venemaa': 'query_common_country_ru',
-  'Venezuela': 'query_common_country_ve'
+  'Eesti': 'query_common_nationality_et',
+  'Ameerika Ühendriigid': 'query_common_nationality_us',
+  'Brasiilia': 'query_common_nationality_br',
+  'Bulgaaria': 'query_common_nationality_bg',
+  'Egiptus': 'query_common_nationality_eg',
+  'Filipiinid': 'query_common_nationality_ph',
+  'Hiina': 'query_common_nationality_cn',
+  'Hispaania': 'query_common_nationality_es',
+  'Holland': 'query_common_nationality_nl',
+  'Iirimaa': 'query_common_nationality_ie',
+  'India': 'query_common_nationality_in',
+  'Kreeka': 'query_common_nationality_gr',
+  'Leedu': 'query_common_nationality_lt',
+  'Läti': 'query_common_nationality_lv',
+  'Makedoonia': 'query_common_nationality_mk',
+  'Määramata': 'query_common_nationality_unassigned',
+  'Poola': 'query_common_nationality_pl',
+  'Prantsusmaa': 'query_common_nationality_fr',
+  'Rumeenia': 'query_common_nationality_ro',
+  'Saksamaa': 'query_common_nationality_de',
+  'Soome': 'query_common_nationality_fi',
+  'Suurbritannia': 'query_common_nationality_gb',
+  'Türgi': 'query_common_nationality_tr',
+  'Ukraina': 'query_common_nationality_ua',
+  'Valgevene': 'query_common_nationality_by',
+  'Venemaa': 'query_common_nationality_ru',
+  'Venezuela': 'query_common_nationality_ve'
 };
 
-export const languageOptions = {
+export const languageOptionsForNativeLangs = {
   'eesti': 'query_common_language_et',
   'vene': 'query_common_language_ru',
+  'eesti, vene': 'query_common_language_et_ru',
   'soome': 'query_common_language_fi',
   'saksa': 'query_common_language_de',
   'ukraina': 'query_common_language_ua',
   'valgevene': 'query_common_language_by',
-  'lati': 'query_common_language_lv',
+  'läti': 'query_common_language_lv',
   'leedu': 'query_common_language_lt',
   'rootsi': 'query_common_language_se',
   'inglise': 'query_common_language_en',
-  'jidis': 'query_common_language_ji',
+  'jidiš': 'query_common_language_ji',
   'poola': 'query_common_language_pl',
   'ungari': 'query_common_language_hu'
+};
+
+export const languageOptionsForOtherLangs = {
+  'eesti': 'query_common_language_et',
+  'vene': 'query_common_language_ru',
+  'hiina': 'query_common_language_cn',
+  'inglise': 'query_common_language_en',
+  'jaapani': 'query_common_language_jp',
+  'läti': 'query_common_language_lv',
+  'prantsuse': 'query_common_language_fr',
+  'saksa': 'query_common_language_de'
 };
 
 export const countryOptionsForQuery = {
@@ -563,6 +592,16 @@ export const countryOptionsForQuery = {
   'Saksamaa': 'query_common_country_de',
   'Inglismaa': 'query_common_country_en',
   'Ungari': 'query_common_country_hu'
+};
+
+export const countryOptionsForQueryResults = {
+  'Eesti': 'query_common_country_et',
+  'Soome': 'query_common_country_fi',
+  'Leedu': 'query_common_country_lt',
+  'Saksamaa': 'query_common_country_de',
+  'Inglismaa': 'query_common_country_en',
+  'Ungari': 'query_common_country_hu',
+  'Muu': 'query_common_country_other'
 };
 
 export const countryOptionsForAddingText = {
@@ -575,4 +614,21 @@ export const countryOptionsForAddingText = {
   'Saksamaa': 'query_common_country_de',
   'Inglismaa': 'query_common_country_en',
   'Ungari': 'query_common_country_hu'
+};
+
+export const breadcrumbNameMap = {
+  '/corrector': 'common_corrector',
+  '/tools': 'common_tools',
+  '/links': 'common_links',
+  '/about': 'common_about',
+  '/about/us': 'common_us',
+  '/about/people': 'common_people',
+  '/about/grants': 'common_grants',
+  '/about/publications': 'common_publications',
+  '/adding': 'common_publish_your_text',
+  '/tools/clusterfinder': 'common_clusters',
+  '/tools/wordanalyser': 'common_word_analyser',
+  '/tools/wordlist': 'common_wordlist',
+  '/tools/wordcontext': 'common_word_in_context',
+  '/tools/collocates': 'common_neighbouring_words'
 };

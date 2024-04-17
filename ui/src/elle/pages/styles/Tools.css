@@ -94,3 +94,16 @@
 .tool-icon-img {
   height: 80%;
 }
+
+.tool-title {
+  text-align: center;
+  padding-bottom: 2vh;
+}
+
+.tool-wrapper {
+  margin-top: 5vh;
+}
+
+.tool-accordion {
+  display: flex;
+}

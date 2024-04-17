@@ -3,41 +3,37 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Box,
   Button,
   Checkbox,
   CircularProgress,
-  IconButton,
-  Modal,
   Typography
 } from '@mui/material';
 import { usePagination, useTable } from 'react-table';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import '../styles/QueryResults.css';
 import {
   ageOptions,
   corpuses,
-  countryOptionsForQuery,
+  countryOptionsForQueryResults,
   DefaultButtonStyle,
   educationOptions,
   genderOptions,
-  languageOptions,
-  modalStyle,
+  languageOptionsForNativeLangs,
   textLanguageOptions,
-  textTypes,
+  textTypeList,
   usedMaterialsDisplayOptions
 } from '../../const/Constants';
 import TablePagination from '../../components/table/TablePagination';
 import QueryDownloadButton from './QueryDownloadButton';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { queryStore } from '../../store/QueryStore';
+import { queryStore, QueryStoreActionType } from '../../store/QueryStore';
 import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
+import ModalBase from '../../components/ModalBase';
 
 export default function QueryResults(props) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const response = props.data;
   const [modalOpen, setModalOpen] = useState(false);
   const [modalAccordionExpanded, setModalAccordionExpanded] = useState(false);
@@ -81,7 +77,7 @@ export default function QueryResults(props) {
         Cell: (cellProps) => {
           return (
             <Checkbox
-              style={{color: '#9C27B0'}}
+              style={{ color: '#9C27B0' }}
               checked={checkboxStatuses.current.has(cellProps.value)}
               id={cellProps.value}
               onChange={() => alterCheckbox(cellProps.value)}
@@ -94,8 +90,10 @@ export default function QueryResults(props) {
         Header: '',
         accessor: 'property_value',
         Cell: (cellProps) => {
-          return <span className="clickable-row"
-                       onClick={() => previewText(cellProps.row.original.text_id)}>{cellProps.value}</span>;
+          return (
+            <span className="clickable-row"
+                  onClick={() => previewText(cellProps.row.original.text_id)}>{cellProps.value}</span>
+          );
         }
       }
     ],
@@ -117,9 +115,9 @@ export default function QueryResults(props) {
     nextPage,
     previousPage,
     setPageSize,
-    state: {pageIndex, pageSize}
+    state: { pageIndex, pageSize }
   } =
-    useTable({columns, data}, usePagination);
+    useTable({ columns, data }, usePagination);
 
   const allTextIds = data.map(item => {
     return item.text_id;
@@ -139,28 +137,18 @@ export default function QueryResults(props) {
   };
 
   function previewText(id) {
-    loadFetch('/api/texts/kysitekstimetainfo?id=' + id, {
+    loadFetch('/api/texts/kysitekstjametainfo?id=' + id, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
       .then(res => res.json())
-      .then((result) => {
-        result.forEach(param => {
-          setIndividualMetadata(param.property_name, param.property_value);
+      .then(res => {
+        setText(res.text);
+        res.properties.forEach(param => {
+          setIndividualMetadata(param.propertyName, param.propertyValue);
         });
-      });
-
-    loadFetch('/api/texts/kysitekst?id=' + id, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => res.text())
-      .then((result) => {
-        setText(result);
       });
 
     setModalOpen(true);
@@ -200,7 +188,7 @@ export default function QueryResults(props) {
 
   const saveTexts = () => {
     queryStore.dispatch({
-      type: 'CHANGE_CORPUS_TEXTS',
+      type: QueryStoreActionType.CHANGE_CORPUS_TEXTS,
       value: Array.from(checkboxStatuses.current).join(',')
     });
   };
@@ -220,7 +208,7 @@ export default function QueryResults(props) {
       {response.length > 0 &&
         <>
           <div>
-            <Button style={{color: 'white'}} startIcon={<ArrowBackIcon/>} sx={DefaultButtonStyle}
+            <Button style={{ color: 'white' }} startIcon={<ArrowBackIcon />} sx={DefaultButtonStyle}
                     onClick={() => {
                       props.setIsQueryAnswerPage(prevState => !prevState);
                       props.setPreviousSelectedIds(checkboxStatuses.current);
@@ -228,7 +216,7 @@ export default function QueryResults(props) {
           </div>
           <LoadingButton
             variant="outlined"
-            loadingIndicator={<CircularProgress disableShrink color="inherit" size={16}/>}
+            loadingIndicator={<CircularProgress disableShrink color="inherit" size={16} />}
             loading={isLoadingSelectAllTexts}
             disabled={isLoadingSelectAllTexts}
             className="select-all-button"
@@ -248,7 +236,7 @@ export default function QueryResults(props) {
           >
             {t('query_results_save_texts_for_analysis')}
           </Button>
-          <QueryDownloadButton selected={checkboxStatuses.current}/>
+          <QueryDownloadButton selected={checkboxStatuses.current} />
           <table className="result-table"
                  {...getTableProps()}>
             <thead>
@@ -284,7 +272,7 @@ export default function QueryResults(props) {
             })}
             </tbody>
           </table>
-          <br/>
+          <br />
           <TablePagination
             gotoPage={gotoPage}
             previousPage={previousPage}
@@ -299,68 +287,50 @@ export default function QueryResults(props) {
           />
         </>
       }
-      <Modal
-        open={modalOpen}
-        onClose={() => {
-          setModalOpen(false);
-        }}
+      <ModalBase
+        isOpen={modalOpen}
+        setIsOpen={setModalOpen}
+        title={metadata.title}
       >
-        <Box sx={modalStyle}>
-          <div className="modal-head">
-            {metadata.title}
-          </div>
-          <IconButton
-            aria-label="close"
-            onClick={() => {
-              setModalOpen(false);
-            }}
-            className="close-button"
+        <Accordion
+          expanded={modalAccordionExpanded}
+          onChange={changeModalAccordion}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            id="filters-header"
           >
-            <CloseIcon/>
-          </IconButton>
-          <br/>
-          <div>
-            <Accordion
-              expanded={modalAccordionExpanded}
-              onChange={changeModalAccordion}
-            >
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon/>}
-                id="filters-header"
-              >
-                <Typography>
-                  {t('query_results_preview_metadata_modal_title')}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <div className="metainfo-subtitle">{t('common_text_data')}</div>
-                <strong>{t('query_subcorpus')}:</strong> {t(corpuses[metadata.korpus]) || '-'}<br/>
-                <strong>{t('query_text_data_type')}:</strong> {t(textTypes[metadata.tekstityyp]) || '-'}<br/>
-                <strong>{t('query_text_data_language')}:</strong> {t(textLanguageOptions[metadata.tekstikeel]) || '-'}<br/>
-                <strong>{t('query_text_data_level')}:</strong> {metadata.keeletase || '-'}<br/>
-                <strong>{t('query_text_data_used_supporting_materials')}:</strong> {t(usedMaterialsDisplayOptions[metadata.abivahendid]) || '-'}<br/>
-                <strong>{t('query_text_data_year_of_publication')}:</strong> {metadata.ajavahemik || '-'}<br />
-                <br/>
-                <div className="metainfo-subtitle">{t('common_author_data')}</div>
-                <strong>{t('query_author_data_age')}:</strong> {t(ageOptions[metadata.vanusevahemik]) || '-'}<br />
-                <strong>{t('query_author_data_gender')}:</strong> {t(genderOptions[metadata.sugu]) || '-'}<br/>
-                <strong>{t('query_author_data_education')}:</strong> {t(educationOptions[metadata.haridus]) || '-'}<br/>
-                <strong>{t('query_author_data_native_language')}:</strong> {t(languageOptions[metadata.emakeel]) || '-'}<br/>
-                <strong>{t('query_author_data_country')}:</strong> {t(countryOptionsForQuery[metadata.riik]) || '-'}<br />
-              </AccordionDetails>
-            </Accordion>
-            <br/>
-            {text.split(/\\n/g).map(function (item) {
-              return (
-                <span key={getParagraphKey(item)}>
+            <Typography>
+              {t('query_results_preview_metadata_modal_title')}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <div className="metainfo-subtitle">{t('common_text_data')}</div>
+            <strong>{t('query_subcorpus')}:</strong> {t(corpuses[metadata.korpus]) || '-'}<br />
+            <strong>{t('query_text_data_type')}:</strong> {t(textTypeList[metadata.tekstityyp]) || '-'}<br />
+            <strong>{t('query_text_data_language')}:</strong> {t(textLanguageOptions[metadata.tekstikeel]) || '-'}<br />
+            <strong>{t('query_text_data_level')}:</strong> {metadata.keeletase || '-'}<br />
+            <strong>{t('query_text_data_used_supporting_materials')}:</strong> {t(usedMaterialsDisplayOptions[metadata.abivahendid]) || '-'}<br />
+            <strong>{t('query_text_data_year_of_publication')}:</strong> {metadata.ajavahemik || '-'}<br />
+            <br />
+            <div className="metainfo-subtitle">{t('common_author_data')}</div>
+            <strong>{t('query_author_data_age')}:</strong> {t(ageOptions[metadata.vanusevahemik]) || '-'}<br />
+            <strong>{t('query_author_data_gender')}:</strong> {t(genderOptions[metadata.sugu]) || '-'}<br />
+            <strong>{t('query_author_data_education')}:</strong> {t(educationOptions[metadata.haridus]) || '-'}<br />
+            <strong>{t('query_author_data_native_language')}:</strong> {t(languageOptionsForNativeLangs[metadata.emakeel]) || '-'}<br />
+            <strong>{t('query_author_data_country')}:</strong> {t(countryOptionsForQueryResults[metadata.riik]) || '-'}<br />
+          </AccordionDetails>
+        </Accordion>
+        <br />
+        {text.split(/\\n/g).map(function (item) {
+          return (
+            <span key={getParagraphKey(item)}>
                     {item}
-                  <br/>
-                  </span>
-              );
-            })}
-          </div>
-        </Box>
-      </Modal>
+              <br />
+            </span>
+          );
+        })}
+      </ModalBase>
     </>
   );
 }

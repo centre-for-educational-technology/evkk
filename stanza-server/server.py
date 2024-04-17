@@ -29,7 +29,7 @@ sona_upos_piirang = ["PUNCT", "SYM"]
 sona_upos_piirang_mitmekesisus = ["PUNCT", "SYM", "NUM", "PROPN"]
 vormimargend_upos_piirang = ["ADP", "ADV", "CCONJ", "SCONJ", "INTJ", "X"]
 
-eesti_tahestik = r'[a-zA-ZõÕäÄöÖüÜŽžŠš]+'
+eesti_tahestik = r'[a-zA-ZõÕäÄöÖüÜŽžŠš-]+'
 
 
 @app.route('/sonad-lemmad-silbid-sonaliigid-vormimargendid', methods=post)
@@ -231,7 +231,7 @@ def mitmekesisus():
 
 
 def silbita_sisemine(tekst):
-    process = subprocess.Popen(["bash", "/app/poolita-ja-silbita.sh"], cwd="/app", stderr=subprocess.PIPE,
+    process = subprocess.Popen(["bash", "/app/morfi-ja-silbita.sh"], cwd="/app", stderr=subprocess.PIPE,
                                stdin=subprocess.PIPE, stdout=subprocess.PIPE)
     stdo, _ = process.communicate(tekst.encode())
     response = stdo.decode().rstrip().split()

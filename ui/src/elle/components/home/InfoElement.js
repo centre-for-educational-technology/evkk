@@ -17,22 +17,23 @@ import textRaterImg from '../../resources/images/home/tekstihindaja.png';
 import textQueryImgEt from '../../resources/images/home/paring_et.png';
 import textQueryImgEn from '../../resources/images/home/paring_en.png';
 import wordPatternImg from '../../resources/images/home/mustrileidja.png';
+import { Languages } from '../../translations/i18n';
 
 export default function InfoElement() {
 
   const {t} = useTranslation();
   const [openTab, setOpenTab] = useState('corrector-tab-card');
-  const [wordlistImg, setWordlistImg] = useState(i18n.language === 'ET' ? wordlistImgEt : wordlistImgEn);
-  const [wordcontextImg, setWordcontextImg] = useState(i18n.language === 'ET' ? wordcontextImgEt : wordcontextImgEn);
-  const [collocateImg, setCollocateImg] = useState(i18n.language === 'ET' ? collocateImgEt : collocateImgEn);
-  const [analyserImg, setAnalyserImg] = useState(i18n.language === 'ET' ? analyserImgEt : analyserImgEn);
-  const [textQueryImg, setTextQueryImg] = useState(i18n.language === 'ET' ? textQueryImgEt : textQueryImgEn);
+  const [wordlistImg, setWordlistImg] = useState(i18n.language === Languages.ESTONIAN ? wordlistImgEt : wordlistImgEn);
+  const [wordcontextImg, setWordcontextImg] = useState(i18n.language === Languages.ESTONIAN ? wordcontextImgEt : wordcontextImgEn);
+  const [collocateImg, setCollocateImg] = useState(i18n.language === Languages.ESTONIAN ? collocateImgEt : collocateImgEn);
+  const [analyserImg, setAnalyserImg] = useState(i18n.language === Languages.ESTONIAN ? analyserImgEt : analyserImgEn);
+  const [textQueryImg, setTextQueryImg] = useState(i18n.language === Languages.ESTONIAN ? textQueryImgEt : textQueryImgEn);
   const [imageSelected, setImageSelected] = useState(1);
-  const [infoOpacity, setInfoOpacity] = useState(1);
+  const [infoOpacity, setInfoOpacity] = useState(0);
   const images = [textRaterImg, textQueryImg, wordlistImg, wordcontextImg, collocateImg, wordPatternImg, analyserImg];
 
   i18n.on('languageChanged', () => {
-    if (i18n.language === 'ET') {
+    if (i18n.language === Languages.ESTONIAN) {
       setWordlistImg(wordlistImgEt);
       setWordcontextImg(wordcontextImgEt);
       setCollocateImg(collocateImgEt);
@@ -58,13 +59,18 @@ export default function InfoElement() {
   };
 
   return (
-    <Box id="elle-tools" sx={ElleOuterDivStyle} className="info-element-container">
+    <Box id="elle-tools"
+         sx={ElleOuterDivStyle}
+         className="info-element-container"
+         onMouseLeave={() => setInfoOpacity(0)}
+    >
       <Box className="info-element-inner">
         <Box className="info-tool-title">
           <h2>{t('tools_title')}</h2>
         </Box>
         <Box className="elle-tools">
           <InfoElementTabCard
+            setInfoOpacity={setInfoOpacity}
             opacity={infoOpacity}
             toolID={'corrector-tab-card'}
             toolTitle={t('common_corrector')}
@@ -78,6 +84,7 @@ export default function InfoElement() {
             linkTo={'/corrector'}
           />
           <InfoElementTabCard
+            setInfoOpacity={setInfoOpacity}
             opacity={infoOpacity}
             toolID={'text-query-btn'}
             toolTitle={t('common_query')}
@@ -91,6 +98,7 @@ export default function InfoElement() {
             linkTo={'/tools'}
           />
           <InfoElementTabCard
+            setInfoOpacity={setInfoOpacity}
             opacity={infoOpacity}
             toolID={'wordlist-tab-card'}
             toolTitle={t('common_wordlist')}
@@ -104,6 +112,7 @@ export default function InfoElement() {
             linkTo={'/tools/wordlist'}
           />
           <InfoElementTabCard
+            setInfoOpacity={setInfoOpacity}
             opacity={infoOpacity}
             toolID={'word-context-tab-card'}
             toolTitle={t('common_word_in_context')}
@@ -117,6 +126,7 @@ export default function InfoElement() {
             linkTo={'/tools/wordcontext'}
           />
           <InfoElementTabCard
+            setInfoOpacity={setInfoOpacity}
             opacity={infoOpacity}
             toolID={'neighbouring-word-tab-card'}
             toolTitle={t('common_neighbouring_words')}
@@ -130,6 +140,7 @@ export default function InfoElement() {
             linkTo={'/tools/collocates'}
           />
           <InfoElementTabCard
+            setInfoOpacity={setInfoOpacity}
             opacity={infoOpacity}
             toolID={'cluster-finder-tab-card'}
             toolTitle={t('common_clusters')}
@@ -143,6 +154,7 @@ export default function InfoElement() {
             linkTo={'/tools/clusterfinder'}
           />
           <InfoElementTabCard
+            setInfoOpacity={setInfoOpacity}
             opacity={infoOpacity}
             toolID={'word-analyser-tab-card'}
             toolTitle={t('common_word_analyser')}
@@ -157,10 +169,8 @@ export default function InfoElement() {
           />
         </Box>
         {/*TODO videod tööle panna, kui videod valmis*/}
-        <Box className="info-video"
-             onMouseEnter={() => setInfoOpacity(0)}
-             onMouseLeave={() => setInfoOpacity(1)}>
-          <img className="info-image" src={images[imageSelected - 1]} alt="Tööriista pilt"/>
+        <Box className="info-video">
+          <img src={images[imageSelected - 1]} alt="Tööriista pilt" />
           {/*  <video
             className={"info-video-styling w-100"}
             controls

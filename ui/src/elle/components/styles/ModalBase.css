@@ -1,0 +1,22 @@
+.modal-head {
+  font-size: 1.5em;
+}
+
+.close-button {
+  position: absolute !important;
+  top: 0.5em;
+  right: 0.5em;
+}
+
+.terms-of-service-modal {
+  max-width: 30em !important;
+}
+
+.text-upload-modal {
+  width: 40em !important;
+  height: 28em !important;
+}
+
+.wordcloud-modal {
+  width: 84em !important;
+}

@@ -1,19 +1,19 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useFilters, usePagination, useSortBy, useTable } from 'react-table';
-import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import './styles/GrammaticalAnalysis.css';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import TablePagination from '../../components/table/TablePagination';
 import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 import { AnalyseContextWithoutMissingData, SetFormContext, SetTypeContext, SetWordContext } from './Contexts';
 import ToggleCell from './ToggleCell';
-import TableDownloadButton from '../../components/table/TableDownloadButton';
-import Popover from '@mui/material/Popover';
-import { DefaultButtonStyle } from '../../const/Constants';
+import { TableType } from '../../components/table/TableDownloadButton';
+import TableHeaderButtons from '../../components/table/TableHeaderButtons';
+import TableAppliedFilters from '../../components/table/filter/TableAppliedFilters';
+import TableFilterButton from '../../components/table/filter/TableFilterButton';
 
 export default function GrammaticalAnalysis() {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const setType = useContext(SetTypeContext);
   const setForm = useContext(SetFormContext);
   const setWord = useContext(SetWordContext);
@@ -59,10 +59,13 @@ export default function GrammaticalAnalysis() {
 
   function multiSelect(values, label, disableValue) {
     const handleChange = (event) => {
-      let value = event.target.value;
+      const value = event.target.value;
       setFilterValue(value);
       setFiltersInUse(value);
-      setAllFilters([{id: 'col1', value: checkFilters(value, col1)}, {id: 'col2', value: checkFilters(value, col2)}]);
+      setAllFilters([{ id: 'col1', value: checkFilters(value, col1) }, {
+        id: 'col2',
+        value: checkFilters(value, col2)
+      }]);
     };
     return (
       <Box marginY={'5px'}>
@@ -95,7 +98,7 @@ export default function GrammaticalAnalysis() {
       let typeIndex = wordArray.findIndex(
         element => element.type === types[i] && element.form === forms[i]
       );
-      //kui ei ole sama sõnaliigi ja -tüübiga objekti
+      // kui ei ole sama sõnaliigi ja -tüübiga objekti
       if (typeIndex === -1) {
         let content = {
           type: types[i],
@@ -122,9 +125,9 @@ export default function GrammaticalAnalysis() {
         }
       }
     }
-    //liigi ja tüübi sortimine
+    // liigi ja tüübi sortimine
     wordArray.sort((a, b) => (a.count === b.count) ? ((a.type > b.type) ? -1 : 1) : ((a.count > b.count) ? -1 : 1));
-    //sõnade sortimine
+    // sõnade sortimine
     for (const element of wordArray) {
       element.words.sort((a, b) => (a.ids.length === b.ids.length) ? ((a.word < b.word) ? -1 : 1) : ((a.ids.length > b.ids.length) ? -1 : 1));
     }
@@ -204,9 +207,11 @@ export default function GrammaticalAnalysis() {
         id: 'col1',
         Cell: (props) => {
           const word = props.value;
-          return <span key={props.id}
-                       className="word"
-                       onClick={() => handleTypeClick(word)}>{word}</span>;
+          return (
+            <span key={props.id}
+                  className="word"
+                  onClick={() => handleTypeClick(word)}>{word}</span>
+          );
         },
         filter: multiSelectFilter,
         className: 'user',
@@ -220,8 +225,10 @@ export default function GrammaticalAnalysis() {
         id: 'col2',
         Cell: (props) => {
           const word = props.value;
-          return <span className="word"
-                       onClick={() => handleFormClick(word)}>{word}</span>;
+          return (
+            <span className="word"
+                  onClick={() => handleFormClick(word)}>{word}</span>
+          );
         },
         filter: multiSelectFilter,
         width: 400,
@@ -292,7 +299,7 @@ export default function GrammaticalAnalysis() {
     previousPage,
     setPageSize,
     setAllFilters,
-    state: {pageIndex, pageSize}
+    state: { pageIndex, pageSize }
   } = useTable({
     columns, data, initialState: {
       sortBy: [
@@ -304,56 +311,29 @@ export default function GrammaticalAnalysis() {
     }
   }, useFilters, useSortBy, usePagination);
 
-  function AppliedFilters() {
-    if (filtersInUse.length !== 0) {
-      return (
-        filtersInUse.map((value) => (<Chip sx={{marginBottom: '5px'}} key={value} label={value} />))
-      );
-    }
-  }
+  const renderFilterButton = () => {
+    return (
+      <TableFilterButton
+        popoverId={analyzerFilterPopoverID}
+        handlePopoverOpen={handlePopoverOpen}
+        popoverToggle={analyzerFilterPopoverToggle}
+        popoverAnchorEl={analyzerFilterPopoverAnchorEl}
+        handlePopoverClose={handlePopoverClose}
+      >
+        {multiSelect(col1.sort(), t('filter_by_word_type'), false)}
+        {multiSelect(col2.sort(), t('filter_by_word_form'), filtersInUse.length === 0)}
+      </TableFilterButton>
+    );
+  };
 
   return (
     <Box>
-      <Box className="d-flex justify-content-between w-100">
-        <Box className="w-75">
-          {filtersInUse.length !== 0 ?
-            <Box className="applied-filters-box">{t('applied_filters')}: {AppliedFilters()} </Box> : null}</Box>
-        <Box className="d-flex" style={{gap: '10px'}}>
-          <Box>
-            <Button
-              style={DefaultButtonStyle}
-              aria-describedby={analyzerFilterPopoverID}
-              variant="contained"
-              onClick={handlePopoverOpen}
-            >
-              <FilterAltIcon fontSize="large" />
-            </Button>
-            <Popover
-              id={analyzerFilterPopoverID}
-              open={analyzerFilterPopoverToggle}
-              anchorEl={analyzerFilterPopoverAnchorEl}
-              onClose={handlePopoverClose}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left'
-              }}
-              transformOrigin={{
-                horizontal: 'center',
-                vertical: 'top'
-              }}
-            >
-              <Box className="popover-box">
-                {multiSelect(col1.sort(), t('filter_by_word_type'), false)}
-                {multiSelect(col2.sort(), t('filter_by_word_form'), filtersInUse.length === 0)}
-              </Box>
-            </Popover>
-          </Box>
-          <TableDownloadButton data={data}
-                               tableType={'GrammaticalAnalysis'}
-                               headers={tableToDownload}
-                               sortByColAccessor={'col4'} />
-        </Box>
-      </Box>
+      <TableHeaderButtons leftComponent={<TableAppliedFilters appliedFilters={filtersInUse} />}
+                          rightComponent={renderFilterButton()}
+                          downloadData={data}
+                          downloadTableType={TableType.GRAMMATICAL_ANALYSIS}
+                          downloadHeaders={tableToDownload}
+                          downloadSortByColAccessor={'col4'} />
       <table className="analyserTable" {...getTableProps()}>
         <thead>
         {headerGroups.map(headerGroup => (
@@ -361,7 +341,7 @@ export default function GrammaticalAnalysis() {
             {headerGroup.headers.map(column => (
               <th className="tableHead" key={column.id}>
                 {<span>{column.render('Header')}</span>}
-                <span className="sortIcon" {...column.getHeaderProps(column.getSortByToggleProps({title: ''}))}>
+                <span className="sortIcon" {...column.getHeaderProps(column.getSortByToggleProps({ title: '' }))}>
                     {column.isSorted
                       ? column.isSortedDesc
                         ? ' ▼'

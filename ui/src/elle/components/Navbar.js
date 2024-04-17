@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import './styles/Navbar.css';
 import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
+import { Languages } from '../translations/i18n';
 
 const pages = [
   {id: 1, title: 'common_corrector', target: '/corrector'},
@@ -73,20 +74,20 @@ export default function Navbar() {
   const languageMenu = () => {
     return (
       <div>
-        <Language className="language-icon" onClick={handleLangClick}/>
+        <Language className="language-icon" onClick={handleLangClick} />
         <Menu
           anchorEl={langAnchorEl}
           open={langOpen}
           onClose={handleLangClose}
         >
-          <MenuItem onClick={() => handleLangSelect('ET')}>
+          <MenuItem onClick={() => handleLangSelect(Languages.ESTONIAN)}>
             <img
               src={require('../resources/images/flags/est.png').default}
               className="lang-icon"
               alt="EST"
             />EST
           </MenuItem>
-          <MenuItem onClick={() => handleLangSelect('EN')}>
+          <MenuItem onClick={() => handleLangSelect(Languages.ENGLISH)}>
             <img
               src={require('../resources/images/flags/eng.png').default}
               className="lang-icon"
@@ -154,7 +155,7 @@ export default function Navbar() {
               onClick={() => toggleDrawer()}
               className="navBar-icon-button mr-2"
             >
-              <MenuIcon className="burger-menu-icon"/>
+              <MenuIcon className="burger-menu-icon" />
             </IconButton>
           </div>
         </div>
@@ -198,7 +199,7 @@ export default function Navbar() {
           <div className="d-flex justify-content-end align-items-center nav-50px-height">
             {languageMenu()}
             <IconButton onClick={() => toggleDrawer()}>
-              <Close className="nav-close-icon"/>
+              <Close className="nav-close-icon" />
             </IconButton>
           </div>
         </div>

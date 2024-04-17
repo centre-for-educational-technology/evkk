@@ -4,14 +4,14 @@ import { useFilters, usePagination, useSortBy, useTable } from 'react-table';
 import TablePagination from '../../components/table/TablePagination';
 import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
-import TableDownloadButton from '../../components/table/TableDownloadButton';
+import { TableType } from '../../components/table/TableDownloadButton';
 import { AnalyseContextWithoutMissingData, SetLemmaContext, SetWordContext } from './Contexts';
-import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import ToggleCell from './ToggleCell';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import Popover from '@mui/material/Popover';
 import { sortTableCol } from '../../util/TableUtils';
-import { DefaultButtonStyle } from '../../const/Constants';
+import TableHeaderButtons from '../../components/table/TableHeaderButtons';
+import TableAppliedFilters from '../../components/table/filter/TableAppliedFilters';
+import TableFilterButton from '../../components/table/filter/TableFilterButton';
 
 export default function LemmaView() {
 
@@ -30,7 +30,7 @@ export default function LemmaView() {
   const lemmaFilterPopoverID = lemmaFilterPopoverToggle ? 'lemma-filter-popover' : undefined;
   let lemmaArray = [];
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const tableToDownload = [t('common_lemma'), t('lemmas_header_wordforms'), t('common_header_frequency'), t('common_header_percentage')];
 
   const analyseLemmas = () => {
@@ -121,7 +121,7 @@ export default function LemmaView() {
 
   function multiSelect(values, label) {
     const handleChange = (event) => {
-      let value = event.target.value;
+      const value = event.target.value;
       setFilterValue(value);
       setAppliedFilters(value);
       setFilter('col5', value);
@@ -237,7 +237,7 @@ export default function LemmaView() {
     previousPage,
     setPageSize,
     setFilter,
-    state: {pageIndex, pageSize}
+    state: { pageIndex, pageSize }
   } = useTable({
     columns, data, initialState: {
       hiddenColumns: ['col5'],
@@ -250,49 +250,28 @@ export default function LemmaView() {
     }
   }, useFilters, useSortBy, usePagination);
 
-  function AppliedFilters() {
-    if (appliedFilters !== []) {
-      return (
-        appliedFilters.map((value) => (<Chip sx={{marginBottom: '5px'}} key={value} label={value} />))
-      );
-    }
-  }
+  const renderFilterButton = () => {
+    return (
+      <TableFilterButton
+        popoverId={lemmaFilterPopoverID}
+        handlePopoverOpen={handlePopoverOpen}
+        popoverToggle={lemmaFilterPopoverToggle}
+        popoverAnchorEl={lemmaFilterPopoverAnchor}
+        handlePopoverClose={handlePopoverClose}
+      >
+        {multiSelect(col1.sort(), t('filter_by_word_type'))}
+      </TableFilterButton>
+    );
+  };
 
   return (
     <Box>
-      <Box className="d-flex justify-content-between w-100">
-        <Box className="w-75">{appliedFilters !== [] ?
-          <Box className="applied-filters-box">{t('applied_filters')}: {AppliedFilters()}</Box> : null}
-        </Box>
-        <Box className="d-flex" style={{gap: '10px'}}>
-          <Box>
-            <Button style={DefaultButtonStyle} aria-describedby={lemmaFilterPopoverID} variant="contained"
-                    onClick={handlePopoverOpen}><FilterAltIcon fontSize="large" /></Button>
-            <Popover
-              id={lemmaFilterPopoverID}
-              open={lemmaFilterPopoverToggle}
-              anchorEl={lemmaFilterPopoverAnchor}
-              onClose={handlePopoverClose}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left'
-              }}
-              transformOrigin={{
-                horizontal: 'center',
-                vertical: 'top'
-              }}
-            >
-              <Box className="popover-box">
-                {multiSelect(col1.sort(), t('filter_by_word_type'))}
-              </Box>
-            </Popover>
-          </Box>
-          <TableDownloadButton data={data}
-                               tableType={'LemmaView'}
-                               headers={tableToDownload}
-                               sortByColAccessor={'col3'} />
-        </Box>
-      </Box>
+      <TableHeaderButtons leftComponent={<TableAppliedFilters appliedFilters={appliedFilters} />}
+                          rightComponent={renderFilterButton()}
+                          downloadData={data}
+                          downloadTableType={TableType.LEMMA_VIEW}
+                          downloadHeaders={tableToDownload}
+                          downloadSortByColAccessor={'col3'} />
       <table className="analyserTable"
              {...getTableProps()}
              style={{

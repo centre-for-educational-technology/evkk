@@ -1,7 +1,7 @@
 import { queryStore } from '../../store/QueryStore';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useMemo, useState } from 'react';
-import './Wordlist.css';
+import './styles/Wordlist.css';
 import {
   Accordion,
   AccordionDetails,
@@ -18,20 +18,23 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { AccordionStyle, DefaultButtonStyle } from '../../const/Constants';
+import { AccordionStyle, DefaultButtonStyle, STOPWORDS_DATADOI_PATH } from '../../const/Constants';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { QuestionMark } from '@mui/icons-material';
-import WordlistMenu from './menu/WordlistMenu';
-import TableDownloadButton from '../../components/table/TableDownloadButton';
+import WordlistMenu from './components/WordlistMenu';
+import { TableType } from '../../components/table/TableDownloadButton';
 import GenericTable from '../../components/GenericTable';
-import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
+import { toolAnalysisStore, ToolAnalysisStoreActionType } from '../../store/ToolAnalysisStore';
 import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import { sortTableCol } from '../../util/TableUtils';
+import NewTabHyperlink from '../../components/NewTabHyperlink';
+import WordcloudView from './components/WordcloudView';
+import TableHeaderButtons from '../../components/table/TableHeaderButtons';
 
 export default function Wordlist() {
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [paramsExpanded, setParamsExpanded] = useState(true);
   const [typeValue, setTypeValue] = useState('');
@@ -49,7 +52,7 @@ export default function Wordlist() {
   const sortByColAccessor = 'frequencyCount';
 
   useEffect(() => {
-    const type = typeValueToDisplay === 'WORDS' ? t('wordlist_word_column') : t('wordlist_lemma_column');
+    const type = typeValueToDisplay === WordlistType.WORDS ? t('wordlist_word_column') : t('wordlist_lemma_column');
     setTableToDownload([type, t('common_header_frequency'), t('common_header_percentage')]);
   }, [typeValueToDisplay, t]);
 
@@ -71,7 +74,7 @@ export default function Wordlist() {
 
   useEffect(() => {
     toolAnalysisStore.dispatch({
-      type: 'CHANGE_WORDLIST_RESULT',
+      type: ToolAnalysisStoreActionType.CHANGE_WORDLIST_RESULT,
       value: {
         parameters: {
           typeValue: typeValue,
@@ -88,7 +91,7 @@ export default function Wordlist() {
 
   queryStore.subscribe(() => {
     toolAnalysisStore.dispatch({
-      type: 'CHANGE_WORDLIST_RESULT',
+      type: ToolAnalysisStoreActionType.CHANGE_WORDLIST_RESULT,
       value: null
     });
     setResponse([]);
@@ -107,7 +110,7 @@ export default function Wordlist() {
     },
     {
       Header: () => {
-        return typeValueToDisplay === 'WORDS' ? t('wordlist_word_column') : t('wordlist_lemma_column');
+        return typeValueToDisplay === WordlistType.WORDS ? t('wordlist_word_column') : t('wordlist_lemma_column');
       },
       accessor: 'word',
       Cell: (cellProps) => {
@@ -136,8 +139,10 @@ export default function Wordlist() {
       accessor: 'menu',
       disableSortBy: true,
       Cell: (cellProps) => {
-        return <WordlistMenu word={cellProps.row.original.word} type={typeValue}
-                             keepCapitalization={capitalizationChecked} showCollocatesButton={true} />;
+        return (
+          <WordlistMenu word={cellProps.row.original.word} type={typeValue}
+                        keepCapitalization={capitalizationChecked} showCollocatesButton={true} />
+        );
       }
     }
   ], [typeValue, typeValueToDisplay, capitalizationChecked, t]);
@@ -194,7 +199,7 @@ export default function Wordlist() {
   };
 
   return (
-    <div className="tool-wrapper">
+    <>
       <h2 className="tool-title">{t('common_wordlist')}</h2>
       <Accordion sx={AccordionStyle}
                  expanded={paramsExpanded}
@@ -209,9 +214,9 @@ export default function Wordlist() {
         </AccordionSummary>
         <AccordionDetails>
           <form onSubmit={handleSubmit}>
-            <div className="queryContainer">
+            <div className="tool-accordion">
               <div>
-                <FormControl sx={{m: 3}}
+                <FormControl sx={{ m: 3 }}
                              error={typeError}
                              variant="standard">
                   <FormLabel id="type-radios">{t('common_search')}</FormLabel>
@@ -221,10 +226,10 @@ export default function Wordlist() {
                     value={typeValue}
                     onChange={handleTypeChange}
                   >
-                    <FormControlLabel value="WORDS"
+                    <FormControlLabel value={WordlistType.WORDS}
                                       control={<Radio />}
                                       label={t('wordlist_search_word_forms')} />
-                    <FormControlLabel value="LEMMAS"
+                    <FormControlLabel value={WordlistType.LEMMAS}
                                       control={<Radio />}
                                       label={t('wordlist_search_base_forms')} />
                   </RadioGroup>
@@ -238,7 +243,7 @@ export default function Wordlist() {
                 </FormControl>
               </div>
               <div>
-                <FormControl sx={{m: 3}}
+                <FormControl sx={{ m: 3 }}
                              variant="standard">
                   <FormLabel id="stopwords">{t('wordlist_exclude_stopwords')}</FormLabel>
                   <FormControlLabel control={
@@ -250,12 +255,8 @@ export default function Wordlist() {
                                     label={<>
                                       {t('wordlist_stopwords_from_the_default_list')}
                                       <Tooltip title={<>{t('wordlist_stopwords_textbox_hover_1')}
-                                        <a
-                                          href={'https://datadoi.ee/handle/33/78'}
-                                          target="_blank"
-                                          rel="noopener noreferrer">
-                                          {t('wordlist_stopwords_textbox_hover_2')}
-                                        </a>
+                                        <NewTabHyperlink path={STOPWORDS_DATADOI_PATH}
+                                                         content={t('wordlist_stopwords_textbox_hover_2')} />
                                         {t('wordlist_stopwords_textbox_hover_3')}</>}
                                                placement="right">
                                         <QuestionMark className="tooltip-icon" />
@@ -266,11 +267,11 @@ export default function Wordlist() {
                              size="small"
                              value={customStopwords}
                              onChange={(e) => setCustomStopwords(e.target.value)}
-                             style={{width: '350px'}} />
+                             style={{ width: '350px' }} />
                 </FormControl>
               </div>
               <div>
-                <FormControl sx={{m: 7}}
+                <FormControl sx={{ m: 7 }}
                              variant="standard">
                   <FormControlLabel control={
                     <Checkbox
@@ -294,13 +295,13 @@ export default function Wordlist() {
                       <QuestionMark className="tooltip-icon" />
                     </Tooltip></>}
                              type="number"
-                             inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: '1'}}
-                             InputLabelProps={{style: {pointerEvents: 'auto'}}}
+                             inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: '1' }}
+                             InputLabelProps={{ style: { pointerEvents: 'auto' } }}
                              variant="outlined"
                              size="small"
                              value={minimumFrequency}
                              onChange={(e) => setMinimumFrequency(e.target.value)}
-                             style={{width: '310px'}} />
+                             style={{ width: '310px' }} />
                 </FormControl>
               </div>
             </div>
@@ -308,17 +309,22 @@ export default function Wordlist() {
         </AccordionDetails>
       </Accordion>
       {showTable && <>
-        <TableDownloadButton data={data}
-                             tableType={'Wordlist'}
-                             headers={tableToDownload}
-                             accessors={accessors}
-                             sortByColAccessor={sortByColAccessor}
-                             marginTop={'2vh'} />
+        <TableHeaderButtons leftComponent={<WordcloudView data={data} />}
+                            downloadData={data}
+                            downloadTableType={TableType.WORDLIST}
+                            downloadHeaders={tableToDownload}
+                            downloadAccessors={accessors}
+                            downloadSortByColAccessor={sortByColAccessor} />
         <GenericTable tableClassname={'wordlist-table'}
                       columns={columns}
                       data={data}
                       sortByColAccessor={sortByColAccessor} />
       </>}
-    </div>
+    </>
   );
 }
+
+const WordlistType = {
+  WORDS: 'WORDS',
+  LEMMAS: 'LEMMAS'
+};

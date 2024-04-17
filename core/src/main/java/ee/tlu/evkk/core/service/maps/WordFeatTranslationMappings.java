@@ -11,7 +11,7 @@ import java.util.Set;
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
-public class TranslationMappings {
+public class WordFeatTranslationMappings {
 
   @Getter
   private static final Map<String, String> wordTypesEt = new HashMap<>();

@@ -15,6 +15,8 @@ import ee.tlu.evkk.core.service.dto.TextResponseDto;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.Pageable;
+import ee.tlu.evkk.dal.dto.TextAndMetadata;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -35,12 +37,14 @@ import java.util.UUID;
 
 import static ee.tlu.evkk.api.ApiMapper.INSTANCE;
 import static java.util.Arrays.asList;
+import static java.util.UUID.fromString;
 import static java.util.stream.Collectors.toUnmodifiableList;
 import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
 import static org.springframework.http.ResponseEntity.ok;
 import static org.springframework.web.util.UriComponentsBuilder.fromUri;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/texts")
 public class TextController {
 
@@ -50,27 +54,14 @@ public class TextController {
   private final TextService textService;
   private final ServiceLocator serviceLocator;
 
-  public TextController(TextDao uusTDao, StanzaServerClient stanzaServerClient, CorrectorServerClient correctorServerClient, TextService textService, ServiceLocator serviceLocator) {
-    textDao = uusTDao;
-    this.stanzaServerClient = stanzaServerClient;
-    this.correctorServerClient = correctorServerClient;
-    this.textService = textService;
-    this.serviceLocator = serviceLocator;
-  }
-
-  @GetMapping("/kysitekst")
-  public String kysiTekst(String id) {
-    return textDao.findTextById(UUID.fromString(id));
-  }
-
   @PostMapping("/kysitekstid")
   public String kysiTekstid(@RequestBody CorpusTextContentsDto dto) {
     return textDao.findTextsByIds(dto.getIds());
   }
 
-  @GetMapping("/kysitekstimetainfo")
-  public String kysiTekstiMetainfo(String id) {
-    return textDao.findTextMetadata(UUID.fromString(id));
+  @GetMapping("/kysitekstjametainfo")
+  public TextAndMetadata kysiTekstJaMetainfo(String id) {
+    return textDao.findTextAndMetadataById(fromString(id));
   }
 
   @GetMapping("/kysikorpusetekstiIDd")

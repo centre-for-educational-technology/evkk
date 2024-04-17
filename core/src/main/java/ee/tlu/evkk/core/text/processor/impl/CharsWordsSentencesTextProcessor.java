@@ -1,6 +1,7 @@
 package ee.tlu.evkk.core.text.processor.impl;
 
 import ee.tlu.evkk.core.integration.StanzaServerClient;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
@@ -11,17 +12,14 @@ import static ee.tlu.evkk.core.text.processor.TextProcessor.Type.CHARS_WORDS_SEN
 import static java.lang.Integer.parseInt;
 
 @Component
+@RequiredArgsConstructor
 public class CharsWordsSentencesTextProcessor extends AbstractTextProcessor {
 
   private final StanzaServerClient stanzaServerClient;
 
-  public CharsWordsSentencesTextProcessor(StanzaServerClient stanzaServerClient) {
-    this.stanzaServerClient = stanzaServerClient;
-  }
-
   @Override
   public long getVersion() {
-    return 1;
+    return 1L;
   }
 
   @Nonnull
