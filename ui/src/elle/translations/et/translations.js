@@ -4,6 +4,7 @@ export const TRANSLATIONS_ET = {
   back: 'EELMINE',
   beginning: 'algus',
   collocates_filename: 'naabersõnad',
+  collocates_graph: 'Graaf',
   common_about: 'Keskkonnast',
   common_analysis_options: 'Analüüsi valikud',
   common_articles: 'Publikatsioonid',

@@ -50,9 +50,11 @@ export default function WordcloudView({ data }) {
   };
 
   return (
-    <Tooltip title={t('wordlist_wordcloud')}
-             open={tooltipOpen}
-             placement="top">
+    <Tooltip
+      title={t('wordlist_wordcloud')}
+      open={tooltipOpen}
+      placement="top"
+    >
       <Button
         style={DefaultButtonStyle}
         variant="contained"

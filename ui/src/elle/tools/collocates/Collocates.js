@@ -32,6 +32,7 @@ import { toolAnalysisStore, ToolAnalysisStoreActionType } from '../../store/Tool
 import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import TableHeaderButtons from '../../components/table/TableHeaderButtons';
+import GraphView from '../wordcontext/components/GraphView';
 
 export default function Collocates() {
 
@@ -374,7 +375,8 @@ export default function Collocates() {
         </Alert>
       </>}
       {showTable && <>
-        <TableHeaderButtons downloadData={data}
+        <TableHeaderButtons leftComponent={<GraphView data={data} />}
+                            downloadData={data}
                             downloadTableType={TableType.COLLOCATES}
                             downloadHeaders={tableToDownload}
                             downloadAccessors={accessors}

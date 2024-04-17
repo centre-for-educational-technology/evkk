@@ -4,6 +4,7 @@ export const TRANSLATIONS_EN = {
   back: 'PREVIOUS',
   beginning: 'beginning',
   collocates_filename: 'collocates',
+  collocates_graph: 'Graph',
   common_about: 'About',
   common_analysis_options: 'Analysis options',
   common_articles: 'Articles',
