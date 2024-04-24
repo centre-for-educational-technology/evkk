@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Divider } from '@mui/material';
 import { ToggleButton, ToggleButtonGroup } from '@mui/lab';
-import { ContentEditableDiv, CorrectorAccordionStyle, replaceSpans } from '../../../../const/Constants';
+import { ContentEditableDiv, CorrectorAccordionStyle, replaceCombined } from '../../../../const/Constants';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import useTypeTimeout from '../correctiontab/hooks/useTypeTimeout';
 import './style/vocabularyTab.css';
 import {
   calculateAbstractnessAverage,
@@ -22,37 +21,23 @@ import {
   handleUncommonWords,
   handleWordRepetition
 } from './helperFunctions/vocabularyMarkingHandlers';
-import { getLanguageData } from '../../helperFunctions/queries/getLanguageData';
+import CorrectionButton from '../../components/CorrectionButton';
 
-export default function VocabularyTab({inputText, setInputText}) {
-  const [complexityAnswer, setComplexityAnswer] = React.useState(null);
-  const [abstractAnswer, setAbstractAnswer] = React.useState();
+export default function VocabularyTab(
+  {
+    inputText,
+    setInputText,
+    complexityAnswer,
+    setComplexityAnswer,
+    abstractWords,
+    setAbstractWords,
+    setSpellerAnswer,
+    setGrammarAnswer
+  }) {
   const [model, setModel] = useState('wordrepetition');
-  const [timer, setTimer] = React.useState(setTimeout(() => {}, 0));
   const textBoxRef = React.useRef();
   const textBoxValueRef = React.useRef(inputText);
   const [, setRenderTrigger] = useState(false);
-  const [firstRender, setFirstRender] = useState(true);
-
-
-  useEffect(() => {
-    if (inputText === '') return;
-    if (firstRender) {
-      getLanguageData(inputText, setComplexityAnswer);
-      getAbstractWords();
-      setFirstRender(false);
-    }
-  }, [inputText]);
-
-  useEffect(() => {
-    if (!abstractAnswer) return;
-    markText();
-  }, [abstractAnswer]);
-
-  useEffect(() => {
-    if (!complexityAnswer) return;
-    getAbstractWords();
-  }, [complexityAnswer]);
 
   useEffect(() => {
     if (!inputText) return;
@@ -61,7 +46,7 @@ export default function VocabularyTab({inputText, setInputText}) {
 
   const markText = () => {
     if (!complexityAnswer) return;
-    let text = textBoxValueRef.current.replaceAll(replaceSpans, '').replaceAll('  ', ' ');
+    let text = textBoxValueRef.current.replaceAll(replaceCombined, '').replaceAll('  ', ' ');
     const sentences = text.split(/(?<=[.!?])\s+/);
     sentences.forEach((sentence, index) => {
       if (model === 'wordrepetition') {
@@ -69,9 +54,9 @@ export default function VocabularyTab({inputText, setInputText}) {
           text = handleWordRepetition(sentence, sentences, index, text, complexityAnswer);
         }
       } else if (model === 'uncommonwords' && complexityAnswer) {
-        text = handleUncommonWords(text, abstractAnswer, complexityAnswer);
-      } else if (model === 'abstractwords' && abstractAnswer) {
-        text = handleAbstractWords(text, abstractAnswer);
+        text = handleUncommonWords(text, abstractWords, complexityAnswer);
+      } else if (model === 'abstractwords' && abstractWords) {
+        text = handleAbstractWords(text, abstractWords);
       } else if (model === 'contentwords') {
         text = handleContentWords(text, complexityAnswer);
       }
@@ -80,25 +65,6 @@ export default function VocabularyTab({inputText, setInputText}) {
     textBoxValueRef.current = text;
     setRenderTrigger(renderTrigger => !renderTrigger);
   };
-
-  const getAbstractWords = () => {
-    fetch('https://kiirlugemine.keeleressursid.ee/api/analyze', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        identifier: '',
-        language: 'estonian',
-        text: inputText === '' ? inputText : inputText.replaceAll(replaceSpans, '').replaceAll('  ', ' ')
-      })
-    }).then(v => v.json()).then(t => {
-      setAbstractAnswer(t);
-    });
-  };
-
-  useTypeTimeout(timer, setTimer, getLanguageData, setComplexityAnswer, textBoxRef, setInputText);
 
   return (
     <div className="corrector-border-box">
@@ -128,11 +94,20 @@ export default function VocabularyTab({inputText, setInputText}) {
             suppressContentEditableWarning={true}
             sx={ContentEditableDiv}
             contentEditable={true}
-            onCopy={() => {navigator.clipboard.writeText(textBoxValueRef.current.replaceAll(replaceSpans, '').replaceAll('  ', ' '));}}
+            onCopy={() => {navigator.clipboard.writeText(textBoxValueRef.current.replaceAll(replaceCombined, '').replaceAll('  ', ' '));}}
             onPaste={(e) => handlePaste(e, textBoxValueRef, setInputText)}
             onChange={(e) => handleInput(e.target.innerText, e.target.innerHTML, textBoxValueRef)}
           >
           </Box>
+          <CorrectionButton
+            inputText={inputText}
+            textBoxRef={textBoxRef}
+            setInputText={setInputText}
+            setComplexityAnswer={setComplexityAnswer}
+            setGrammarAnswer={setGrammarAnswer}
+            setSpellerAnswer={setSpellerAnswer}
+            setAbstractWords={setAbstractWords}
+          />
         </div>
         <div className="w-50 corrector-right">
           {complexityAnswer &&
@@ -157,16 +132,16 @@ export default function VocabularyTab({inputText, setInputText}) {
                     </div>
                     <div className="tab-table">
                       <div>Harvaesinevaid sõnu</div>
-                      <div>{calculateUncommonWords(abstractAnswer)}</div>
+                      <div>{calculateUncommonWords(abstractWords)}</div>
                     </div>
                     <div className="tab-table">
                       <div>Sisusõnu</div>
-                      <div>{calculateContentWord(abstractAnswer)}</div>
+                      <div>{calculateContentWord(abstractWords)}</div>
                     </div>
-                    {abstractAnswer &&
+                    {abstractWords &&
                       <div className="tab-table">
                         <div>Abstraktseid nimisõnu</div>
-                        <div>{calculateAbstractWords(abstractAnswer)}</div>
+                        <div>{calculateAbstractWords(abstractWords)}</div>
                       </div>
                     }
                   </div>
@@ -215,13 +190,13 @@ export default function VocabularyTab({inputText, setInputText}) {
                       />
                       <Divider/>
                     </>}
-                  {abstractAnswer &&
+                  {abstractWords &&
                     <>
                       <CorrectionScale
                         title={'Nimisõnade abstraktsus'}
                         startValue={1}
                         endValue={3}
-                        value={calculateAbstractnessAverage(abstractAnswer)}
+                        value={calculateAbstractnessAverage(abstractWords)}
                         startText={'Konkreetsem sõnavara'}
                         endText={'Abstraktsem sõnavara'}
                       />
@@ -232,7 +207,7 @@ export default function VocabularyTab({inputText, setInputText}) {
                     title={'Sõnavara ulatus'}
                     startValue={0}
                     endValue={10}
-                    value={calculateUncommonWords(abstractAnswer) * 100 / complexityAnswer.mitmekesisus[10]}
+                    value={calculateUncommonWords(abstractWords) * 100 / complexityAnswer.mitmekesisus[10]}
                     startText={'Sagedam sõnavara'}
                     endText={'Harvem sõnavara'}
                     percentage={true}
@@ -242,7 +217,7 @@ export default function VocabularyTab({inputText, setInputText}) {
                     title={'Leksikaalne tihedus'}
                     startValue={30}
                     endValue={70}
-                    value={calculateContentWord(abstractAnswer) * 100 / complexityAnswer.mitmekesisus[10]}
+                    value={calculateContentWord(abstractWords) * 100 / complexityAnswer.mitmekesisus[10]}
                     startText={'Vähem sisusõnu'}
                     endText={'Rohkem sisusõnu'}
                     percentage={true}

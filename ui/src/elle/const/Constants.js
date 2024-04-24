@@ -13,6 +13,8 @@ export const STOPWORDS_DATADOI_PATH = 'https://datadoi.ee/handle/33/78';
 export const WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO = 1000;
 
 export const replaceSpans = /<\/?span[^>]*>/g;
+export const replaceBreaks = /<br>/g;
+export const replaceCombined = /<\/?span[^>]*>|<\/?div[^>]*>/g;
 
 export const useStyles = makeStyles((_theme) => ({
   formControl: {
@@ -34,6 +36,7 @@ export const useStyles = makeStyles((_theme) => ({
 }));
 
 export const ContentEditableDiv = {
+  overflowY: 'auto',
   border: 'gray 1px solid',
   borderRadius: '5px',
   height: '20vw',

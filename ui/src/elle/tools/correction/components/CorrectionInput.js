@@ -1,54 +1,43 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box } from '@mui/material';
-import { ContentEditableDiv, replaceSpans } from '../../../const/Constants';
+import { ContentEditableDiv, replaceCombined } from '../../../const/Constants';
 import ErrorSpanPopper from '../tabviews/correctiontab/components/ErrorSpanPopper';
-import { loadFetch } from '../../../service/LoadFetch';
-import useTypeTimeout from '../tabviews/correctiontab/hooks/useTypeTimeout';
 import usePopUpHover from '../tabviews/correctiontab/hooks/usePopUpHover';
 import useProcessTextCorrections from '../tabviews/correctiontab/hooks/useProcessTextCorrections';
 import { handleInput, handlePaste } from '../helperFunctions/helperFunctions';
 import { resolveError } from '../tabviews/correctiontab/helperFunctions/correctorErrorResolveFunctions';
+import CorrectionButton from './CorrectionButton';
 
-export default function CorrectionInput({
-                                          inputText,
-                                          setInputText,
-                                          model,
-                                          responseText,
-                                          setResponseText,
-                                          errorList,
-                                          setErrorList
-                                        }) {
+export default function CorrectionInput(
+  {
+    inputText,
+    setInputText,
+    model,
+    responseText,
+    setResponseText,
+    errorList,
+    setErrorList,
+    setComplexityAnswer,
+    spellerAnswer,
+    grammarAnswer,
+    setSpellerAnswer,
+    setGrammarAnswer,
+    setAbstractWords
+  }) {
   const [popperAnchor, setPopperAnchor] = useState(null);
   const [popperValue, setPopperValue] = useState(null);
-  const [timer, setTimer] = useState(setTimeout(() => {}, 0));
   const textBoxRef = useRef();
   const textBoxValueRef = useRef(inputText);
 
   useEffect(() => {
-    if (!inputText || !responseText) return;
-    fetchCorrection(inputText, setResponseText);
-  }, []);
+    if (model === 'spellchecker') setResponseText(spellerAnswer);
+    if (model === 'grammarchecker') setResponseText(grammarAnswer);
+  }, [model]);
 
-  const fetchCorrection = (val, setterFunction) => {
-    loadFetch(model === 'grammarchecker' ? 'https://api.tartunlp.ai/grammar' : '/api/texts/spellchecker', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(model === 'grammarchecker' ? {
-        language: 'et',
-        text: val
-      } : {tekst: val})
-    }).then((response) => {return response.json();}).then(response => {
-      setterFunction(response);
-    });
-  };
-
-  useProcessTextCorrections(responseText, textBoxRef, textBoxValueRef, setErrorList, setInputText);
+  useProcessTextCorrections(responseText, textBoxRef, textBoxValueRef, setErrorList, setInputText, spellerAnswer, grammarAnswer);
   usePopUpHover('text-span', inputText, errorList, setPopperAnchor, setPopperValue);
 
-  useTypeTimeout(timer, setTimer, fetchCorrection, setResponseText, textBoxRef, setInputText, model);
+  console.log(textBoxValueRef.current, inputText);
 
   return (
     <div className="w-50 d-flex flex-column">
@@ -60,7 +49,7 @@ export default function CorrectionInput({
         suppressContentEditableWarning={true}
         sx={ContentEditableDiv}
         contentEditable={true}
-        onCopy={() => {navigator.clipboard.writeText(textBoxValueRef.current.replaceAll(replaceSpans, '').replaceAll('  ', ' '));}}
+        onCopy={() => {navigator.clipboard.writeText(textBoxValueRef.current.replaceAll(replaceCombined, '').replaceAll('  ', ' '));}}
         onPaste={(e) => handlePaste(e, textBoxValueRef, setInputText)}
         onChange={(e) => handleInput(e.target.innerText, e.target.innerHTML, textBoxValueRef)}
       >
@@ -73,6 +62,19 @@ export default function CorrectionInput({
         setInputText={setInputText}
         setErrorList={setErrorList}
         errorList={errorList}
+        setGrammarAnswer={setGrammarAnswer}
+        setSpellerAnswer={setSpellerAnswer}
+        grammarAnswer={grammarAnswer}
+        spellerAnswer={spellerAnswer}
+      />
+      <CorrectionButton
+        inputText={inputText}
+        textBoxRef={textBoxRef}
+        setInputText={setInputText}
+        setComplexityAnswer={setComplexityAnswer}
+        setGrammarAnswer={setGrammarAnswer}
+        setSpellerAnswer={setSpellerAnswer}
+        setAbstractWords={setAbstractWords}
       />
     </div>
   );

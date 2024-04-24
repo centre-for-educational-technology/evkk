@@ -1,27 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { Box } from '@mui/material';
+import React, { useState } from 'react';
+import { Alert, Box } from '@mui/material';
 import '../correctiontab/styles/correctionTab.css';
 import { ToggleButton, ToggleButtonGroup } from '@mui/lab';
 import CorrectionInput from '../../components/CorrectionInput';
 import './style/textLevelTab.css';
 import TextLevelAccordion from './components/TextLevelAccordion';
-import { accordionDetails, colors, textLevels } from './constants/constants';
+import { accordionDetails, textLevelColors, textLevels } from './constants/constants';
 import { handleModelChange } from '../../helperFunctions/helperFunctions';
-import { getLanguageData } from '../../helperFunctions/queries/getLanguageData';
+import TextLevelAccordionInner from './components/TextLevelAccordionInner';
 
-export default function TextLevelTab({setInputText, inputText, errorList, setErrorList}) {
+export default function TextLevelTab(
+  {
+    setInputText,
+    inputText,
+    errorList,
+    setErrorList,
+    complexityAnswer,
+    setComplexityAnswer,
+    correctionModel,
+    setCorrectionModel,
+    spellerAnswer,
+    grammarAnswer,
+    setAbstractWords
+  }) {
   const [responseText, setResponseText] = useState();
-  const [complexityAnswer, setComplexityAnswer] = useState(null);
-  const [firstRender, setFirstRender] = useState(true);
-  const [model, setModel] = useState('spellchecker');
-
-  useEffect(() => {
-    if (inputText === '') return;
-    if (firstRender) {
-      getLanguageData(inputText, setComplexityAnswer);
-      setFirstRender(false);
-    }
-  }, [inputText]);
 
   return (
     <div className="corrector-border-box">
@@ -29,10 +31,10 @@ export default function TextLevelTab({setInputText, inputText, errorList, setErr
         <strong>Veaotsing:</strong>
         <ToggleButtonGroup
           color="primary"
-          value={model}
+          value={correctionModel}
           sx={{height: '1em', paddingLeft: '1em'}}
           exclusive
-          onChange={(e) => handleModelChange(setModel, e)}
+          onChange={(e) => handleModelChange(setCorrectionModel, e)}
           aria-label="Platform"
         >
           <ToggleButton value="spellchecker">Tähevead</ToggleButton>
@@ -43,16 +45,20 @@ export default function TextLevelTab({setInputText, inputText, errorList, setErr
         <CorrectionInput
           inputText={inputText}
           setInputText={setInputText}
-          model={model}
+          model={correctionModel}
           responseText={responseText}
           setResponseText={setResponseText}
           errorList={errorList}
           setErrorList={setErrorList}
+          setComplexityAnswer={setComplexityAnswer}
+          spellerAnswer={spellerAnswer}
+          grammarAnswer={grammarAnswer}
+          setAbstractWords={setAbstractWords}
         />
         <div className="w-50 corrector-right">
           <div className="d-flex justify-content-between">
-            <div style={{fontSize: '1.5rem'}}>Tesemete värvikoodid:</div>
-            {colors.map((color, index) => {
+            <div style={{fontSize: '1.5rem'}}>Tasemete värvikoodid:</div>
+            {textLevelColors.map((color, index) => {
               return (
                 <div className="d-flex align-items-center" key={textLevels[index]}>
                   <div className="text-level-tab-color-circle " style={{backgroundColor: color}}></div>
@@ -62,20 +68,37 @@ export default function TextLevelTab({setInputText, inputText, errorList, setErr
               );
             })}
           </div>
-          {complexityAnswer &&
-            <div>
-              {accordionDetails.map((detail, index) => {
-                return (
-                  <TextLevelAccordion
-                    key={detail.label}
-                    label={detail.label}
-                    arrayValues={detail.arrayValues}
-                    complexityAnswer={complexityAnswer.keeletase}
-                    colors={colors}
-                  />
-                );
-              })}
-            </div>
+          {complexityAnswer && complexityAnswer?.keeletase.length === 0 &&
+            <Alert
+              severity="info"
+              className="level-tab-short-text-notice"
+            >
+              Tasemehinnangu saamiseks sisesta pikem tekst
+            </Alert>
+          }
+          {complexityAnswer && complexityAnswer?.keeletase.length !== 0 &&
+            <>
+              <div className="level-accordion-overall-value-container">
+                <div className="level-accordion-overall-value-label">{accordionDetails[0].label}</div>
+                <TextLevelAccordionInner
+                  complexityAnswer={complexityAnswer.keeletase}
+                  arrayValues={accordionDetails[0].arrayValues}
+                />
+              </div>
+              <div>
+                {accordionDetails.map((detail, index) => {
+                  if (index === 0) return;
+                  return (
+                    <TextLevelAccordion
+                      key={detail.label}
+                      label={detail.label}
+                      arrayValues={detail.arrayValues}
+                      complexityAnswer={complexityAnswer.keeletase}
+                    />
+                  );
+                })}
+              </div>
+            </>
           }
         </div>
       </div>

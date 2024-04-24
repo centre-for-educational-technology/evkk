@@ -13,6 +13,14 @@ const Correction = () => {
   const [value, setValue] = React.useState('1');
   const [inputText, setInputText] = useState('');
   const [errorList, setErrorList] = useState(null);
+  const [complexityAnswer, setComplexityAnswer] = useState();
+  const [grammarAnswer, setGrammarAnswer] = useState();
+  const [spellerAnswer, setSpellerAnswer] = useState();
+  const [abstractWords, setAbstractWords] = useState();
+  const [correctionModel, setCorrectionModel] = useState('spellchecker');
+
+  console.log(grammarAnswer);
+  console.log(errorList);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -32,12 +40,58 @@ const Correction = () => {
                 <Tab label="Sõnavara" value="4"/>
               </TabList>
             </Box>
-            <TabPanel value="1"><CorrectionTab inputText={inputText} setInputText={setInputText} errorList={errorList}
-                                               setErrorList={setErrorList}/></TabPanel>
-            <TabPanel value="2"><TextLevelTab inputText={inputText} setInputText={setInputText} errorList={errorList}
-                                              setErrorList={setErrorList}/></TabPanel>
-            <TabPanel value="3"><ComplexityTab inputText={inputText} setInputText={setInputText}/></TabPanel>
-            <TabPanel value="4"><VocabularyTab inputText={inputText} setInputText={setInputText}/></TabPanel>
+            <TabPanel value="1">
+              <CorrectionTab
+                inputText={inputText}
+                setInputText={setInputText}
+                errorList={errorList}
+                setErrorList={setErrorList}
+                setComplexityAnswer={setComplexityAnswer}
+                grammarAnswer={grammarAnswer}
+                setGrammarAnswer={setGrammarAnswer}
+                spellerAnswer={spellerAnswer}
+                setSpellerAnswer={setSpellerAnswer}
+                correctionModel={correctionModel}
+                setCorrectionModel={setCorrectionModel}
+                setAbstractWords={setAbstractWords}
+              /></TabPanel>
+            <TabPanel value="2">
+              <TextLevelTab
+                inputText={inputText}
+                setInputText={setInputText}
+                errorList={errorList}
+                setErrorList={setErrorList}
+                complexityAnswer={complexityAnswer}
+                setComplexityAnswer={setComplexityAnswer}
+                correctionModel={correctionModel}
+                setCorrectionModel={setCorrectionModel}
+                grammarAnswer={grammarAnswer}
+                setGrammarAnswer={setGrammarAnswer}
+                spellerAnswer={spellerAnswer}
+                setSpellerAnswer={setSpellerAnswer}
+                setAbstractWords={setAbstractWords}
+              /></TabPanel>
+            <TabPanel value="3">
+              <ComplexityTab
+                inputText={inputText}
+                setInputText={setInputText}
+                complexityAnswer={complexityAnswer}
+                setComplexityAnswer={setComplexityAnswer}
+                setAbstractWords={setAbstractWords}
+                setSpellerAnswer={setSpellerAnswer}
+                setGrammarAnswer={setGrammarAnswer}
+              /></TabPanel>
+            <TabPanel value="4">
+              <VocabularyTab
+                inputText={inputText}
+                setInputText={setInputText}
+                complexityAnswer={complexityAnswer}
+                setComplexityAnswer={setComplexityAnswer}
+                abstractWords={abstractWords}
+                setAbstractWords={setAbstractWords}
+                setSpellerAnswer={setSpellerAnswer}
+                setGrammarAnswer={setGrammarAnswer}
+              /></TabPanel>
           </TabContext>
         </Box>
       </div>

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { replaceSpans } from '../../../../../const/Constants';
+import { replaceCombined } from '../../../../../const/Constants';
 
 export default function useTypeTimeout(timer, setTimer, fetchCorrection, setComplexityAnswer, textBoxRef, setInputValue, model = null) {
   useEffect(() => {
@@ -10,8 +10,8 @@ export default function useTypeTimeout(timer, setTimer, fetchCorrection, setComp
 
       // Set a new timer
       const newTimer = setTimeout(() => {
-        fetchCorrection(textBoxRef.current.innerHTML.replace(replaceSpans, ''), setComplexityAnswer);
-        setInputValue(textBoxRef.current.innerHTML.replace(replaceSpans, ''));
+        fetchCorrection(textBoxRef.current.innerHTML.replace(replaceCombined, ''), setComplexityAnswer);
+        setInputValue(textBoxRef.current.innerHTML.replace(replaceCombined, ''));
       }, 2000); // 1000ms = 1s
 
       setTimer(newTimer);

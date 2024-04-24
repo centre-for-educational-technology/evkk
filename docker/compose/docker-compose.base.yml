@@ -70,7 +70,7 @@ services:
         limits:
           memory: 15G
 
-  grammar-worker-server:
+  evkk-grammar-worker-server:
     image: evkk-grammar-worker-server
     container_name: evkk-grammar-worker-server
     restart: always
@@ -79,7 +79,6 @@ services:
       resources:
         limits:
           memory: 25G
-    memswap_limit: 12G
 
   klasterdaja:
     image: evkk-klasterdaja

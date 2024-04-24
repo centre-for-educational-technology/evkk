@@ -11,10 +11,36 @@ export const resolvePunctuation = (type, error) => {
   }
 };
 
-export const resolveError = (index, errorType, newInnerText, type, setErrorList, errorList, inputText, setInputText) => {
+export const resolveError = (index, errorType, newInnerText, type, setErrorList, errorList, inputText, setInputText, setSpellerAnswer, setGrammarAnswer, grammarAnswer, spellerAnswer) => {
   const resolvableElement = document.querySelector(`#${errorType}_${index}`);
   resolvableElement.classList.remove('text-span');
+  const difference = newInnerText.length - resolvableElement.innerText.length;
   resolvableElement.innerText = newInnerText;
+
+  console.log(difference);
+  const array = [];
+
+  console.log(grammarAnswer);
+  let errorIndex = -1;
+  grammarAnswer.corrections.reverse().forEach((error) => {
+    if (error.errorId !== `${errorType}_${index}`) {
+      console.log('Siin');
+      if (errorIndex > error.index) {
+        console.log('veel');
+        error.span.start = error.span.start + difference;
+        error.span.end = error.span.end + difference;
+      }
+      array.push(error);
+    } else {
+      errorIndex = error.index;
+    }
+    ;
+  });
+  grammarAnswer.corrections = array.reverse();
+  console.log(grammarAnswer);
+  spellerAnswer.corrections = spellerAnswer.corrections.filter((error) => error.errorId !== `${errorType}_${index}`);
+  setGrammarAnswer(grammarAnswer);
+  setSpellerAnswer(spellerAnswer);
 
   const regex = new RegExp(`<span id="${errorType}_${index}" data-color="[^"]*" class="text-span">(.*?)</span>`, 'g');
   const newInputext = inputText.replace(regex, newInnerText);

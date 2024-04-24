@@ -4,7 +4,20 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { resolvePunctuation } from '../helperFunctions/correctorErrorResolveFunctions';
 
-export default function SingleError({error, resolveError, type, errorList, setErrorList, inputText, setInputText}) {
+export default function SingleError(
+  {
+    error,
+    resolveError,
+    type,
+    errorList,
+    setErrorList,
+    inputText,
+    setInputText,
+    setSpellerAnswer,
+    setGrammarAnswer,
+    spellerAnswer,
+    grammarAnswer
+  }) {
   const [isHovering, setIsHovering] = useState(false);
   const isFirstRender = useRef(true);
   const errorValue = type === 'extraPunctuation' || type === 'missingPunctuation' ? 'punctuation' : 'errorno';
@@ -42,13 +55,13 @@ export default function SingleError({error, resolveError, type, errorList, setEr
       <IconButton
         className="corrector-error-icon-button"
         color="success"
-        onClick={() => resolveError(error.index, errorValue, acceptText, type, setErrorList, errorList, inputText, setInputText)}
+        onClick={() => resolveError(error.index, errorValue, acceptText, type, setErrorList, errorList, inputText, setInputText, setSpellerAnswer, setGrammarAnswer, grammarAnswer, spellerAnswer)}
       >
         <CheckCircleIcon fontSize={'medium'}/>
       </IconButton>
       <IconButton
         className="corrector-error-icon-button"
-        onClick={() => resolveError(error.index, errorValue, declineText, type, setErrorList, errorList, inputText, setInputText)}
+        onClick={() => resolveError(error.index, errorValue, declineText, type, setErrorList, errorList, inputText, setInputText, setSpellerAnswer, setGrammarAnswer, grammarAnswer, spellerAnswer)}
         color={'error'}
       >
         <CancelIcon fontSize={'medium'}/>

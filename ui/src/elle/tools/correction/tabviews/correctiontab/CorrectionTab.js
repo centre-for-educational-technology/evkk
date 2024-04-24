@@ -7,9 +7,22 @@ import { handleModelChange } from '../../helperFunctions/helperFunctions';
 import CorrectionInput from '../../components/CorrectionInput';
 import { resolveError } from './helperFunctions/correctorErrorResolveFunctions';
 
-export default function CorrectionTab({setInputText, inputText, errorList, setErrorList}) {
+export default function CorrectionTab(
+  {
+    setInputText,
+    inputText,
+    errorList,
+    setErrorList,
+    grammarAnswer,
+    setGrammarAnswer,
+    spellerAnswer,
+    setSpellerAnswer,
+    setComplexityAnswer,
+    correctionModel,
+    setCorrectionModel,
+    setAbstractWords
+  }) {
   const [responseText, setResponseText] = useState();
-  const [model, setModel] = useState('spellchecker');
   const [totalErrors, setTotalErrors] = useState(null);
 
   useEffect(() => {
@@ -24,10 +37,10 @@ export default function CorrectionTab({setInputText, inputText, errorList, setEr
         <strong>Veaotsing:</strong>
         <ToggleButtonGroup
           color="primary"
-          value={model}
+          value={correctionModel}
           sx={{height: '1em', paddingLeft: '1em'}}
           exclusive
-          onChange={(e) => handleModelChange(setModel, e)}
+          onChange={(e) => handleModelChange(setCorrectionModel, e)}
           aria-label="Platform"
         >
           <ToggleButton value="spellchecker">Tähevead</ToggleButton>
@@ -38,11 +51,17 @@ export default function CorrectionTab({setInputText, inputText, errorList, setEr
         <CorrectionInput
           inputText={inputText}
           setInputText={setInputText}
-          model={model}
+          model={correctionModel}
           responseText={responseText}
           setResponseText={setResponseText}
           errorList={errorList}
           setErrorList={setErrorList}
+          setComplexityAnswer={setComplexityAnswer}
+          grammarAnswer={grammarAnswer}
+          spellerAnswer={spellerAnswer}
+          setGrammarAnswer={setGrammarAnswer}
+          setSpellerAnswer={setSpellerAnswer}
+          setAbstractWords={setAbstractWords}
         />
         <div className="w-50 corrector-right">
           {errorList &&
@@ -52,7 +71,13 @@ export default function CorrectionTab({setInputText, inputText, errorList, setEr
                 resolveError={resolveError}
                 setErrorList={setErrorList}
                 errorList={errorList}
-                model={model}
+                model={correctionModel}
+                inputText={inputText}
+                setInputText={setInputText}
+                setSpellerAnswer={setSpellerAnswer}
+                setGrammarAnswer={setGrammarAnswer}
+                spellerAnswer={spellerAnswer}
+                grammarAnswer={grammarAnswer}
               />
             </>
           }

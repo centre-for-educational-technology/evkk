@@ -8,6 +8,7 @@
 
 .text-span {
   position: relative;
+  display: inline-block;
 }
 
 .text-span[data-color="red"] {

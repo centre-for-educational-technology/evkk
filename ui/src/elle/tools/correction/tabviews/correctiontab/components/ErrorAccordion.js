@@ -8,7 +8,19 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import SingleError from './SingleError';
 import { errorTypes } from '../constants/constants';
 
-export default function ErrorAccordion({errorList, model, resolveError, setErrorList}) {
+export default function ErrorAccordion(
+  {
+    errorList,
+    model,
+    resolveError,
+    setErrorList,
+    inputText,
+    setInputText,
+    setSpellerAnswer,
+    setGrammarAnswer,
+    spellerAnswer,
+    grammarAnswer
+  }) {
   return (
     <>
       {/*
@@ -38,6 +50,12 @@ export default function ErrorAccordion({errorList, model, resolveError, setError
                   errorList={errorList}
                   setErrorList={setErrorList}
                   type={errorProperties[0]}
+                  inputText={inputText}
+                  setInputText={setInputText}
+                  setSpellerAnswer={setSpellerAnswer}
+                  setGrammarAnswer={setGrammarAnswer}
+                  spellerAnswer={spellerAnswer}
+                  grammarAnswer={grammarAnswer}
                 />
               ))}
             </div>

@@ -1,9 +1,13 @@
 import { commonLemmas, stopWords } from '../constants/constants';
+import { replaceCombined } from '../../../../../const/Constants';
 
 export const handleUncommonWords = (text, abstractAnswer, complexityAnswer) => {
-  let tempText = text;
+  let tempText = text.replaceAll(replaceCombined, '');
+  const usedWords = [];
+
   abstractAnswer.wordAnalysis.forEach((lemma, index) => {
-    if (lemma.pos !== 'Pärisnimi' && !commonLemmas.includes(lemma.lemmas[0].lemma)) {
+    if (lemma.pos !== 'Pärisnimi' && !commonLemmas.includes(lemma.lemmas[0].lemma) && !usedWords.includes(abstractAnswer.wordAnalysis[index].word)) {
+      usedWords.push(complexityAnswer.sonad[index]);
       let regex = new RegExp('\\b' + complexityAnswer.sonad[index] + '\\b', 'g');
       const newWord = `<span class="uncommon-word-color">${complexityAnswer.sonad[index]}</span>`;
       tempText = tempText.replaceAll(regex, newWord);
@@ -13,9 +17,11 @@ export const handleUncommonWords = (text, abstractAnswer, complexityAnswer) => {
 };
 
 export const handleAbstractWords = (text, abstractAnswer) => {
-  let tempText = text;
+  let tempText = text.replaceAll(replaceCombined, '');
+  const usedWords = [];
   abstractAnswer.wordAnalysis.forEach((word) => {
-    if (word.abstractness === 3 && word.pos !== 'Pärisnimi') {
+    if (word.abstractness === 3 && word.pos !== 'Pärisnimi' && !usedWords.includes(word.word)) {
+      usedWords.push(word.word);
       let regex = new RegExp('\\b' + word.word + '\\b', 'g');
       const newWord = `<span class="abstract-word-color">${word.word}</span>`;
       tempText = tempText.replaceAll(regex, newWord);
@@ -25,9 +31,11 @@ export const handleAbstractWords = (text, abstractAnswer) => {
 };
 
 export const handleContentWords = (text, complexityAnswer) => {
-  let tempText = text;
+  let tempText = text.replaceAll(replaceCombined, '');
+  const usedWords = [];
   complexityAnswer.lemmad.forEach((lemma, index) => {
-    if (!stopWords.includes(lemma)) {
+    if (!stopWords.includes(lemma) && !usedWords.includes(complexityAnswer.sonad[index])) {
+      usedWords.push(complexityAnswer.sonad[index]);
       let regex = new RegExp('\\b' + complexityAnswer.sonad[index] + '\\b', 'g');
       const newWord = `<span class="content-word-color">${complexityAnswer.sonad[index]}</span>`;
       tempText = tempText.replaceAll(regex, newWord);
@@ -37,7 +45,7 @@ export const handleContentWords = (text, complexityAnswer) => {
 };
 
 export const handleWordRepetition = (sentence, sentences, index, text, complexityAnswer) => {
-  let tempText = text;
+  let tempText = text.replaceAll(replaceCombined, '');
   const sentence1Length = sentence.length;
   const sentence2Length = sentences[index + 1].length;
   const sentence1Words = complexityAnswer.sonad.slice(0, sentence1Length);

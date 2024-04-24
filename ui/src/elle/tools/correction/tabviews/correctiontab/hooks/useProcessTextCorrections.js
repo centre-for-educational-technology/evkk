@@ -5,15 +5,15 @@ import {
   returnMarkingColor
 } from '../helperFunctions/textErrorMarkingFunctions';
 import { checkAllErrors } from '../helperFunctions/textErrorTypeFunctions';
+import { replaceCombined } from '../../../../../const/Constants';
 
 const replaceSpans = /<\/?span[^>]*>/g;
 
-const useProcessTextCorrections = (responseText, textBoxRef, textBoxValueRef, setErrorList, setInputText) => {
+const useProcessTextCorrections = (responseText, textBoxRef, textBoxValueRef, setErrorList, setInputText, spellerAnswer, grammarAnswer) => {
   useEffect(() => {
     // Avoid resetting input text on tab change
     if (!responseText) return;
 
-    const reversedCorrections = responseText?.corrections.reverse();
     const corrections = {
       spellingError: [],
       wordOrderError: [],
@@ -25,9 +25,8 @@ const useProcessTextCorrections = (responseText, textBoxRef, textBoxValueRef, se
       extraPunctuation: [],
       missingPunctuation: []
     };
-    let innerText = textBoxRef.current.innerHTML.replace(replaceSpans, '');
-
-    reversedCorrections?.forEach((correction, index) => {
+    let innerText = textBoxRef.current.innerHTML.replace(replaceCombined, '');
+    responseText.corrections.forEach((correction, index) => {
       const errorWord = correction.span.value;
       const correctedWord = correction.replacements[0].value;
       const errorTypes = checkAllErrors(errorWord, correctedWord);
@@ -66,7 +65,7 @@ const useProcessTextCorrections = (responseText, textBoxRef, textBoxValueRef, se
     setErrorList(corrections);
     textBoxValueRef.current = innerText;
     setInputText(innerText);
-  }, [responseText, textBoxRef]);
+  }, [responseText]);
 };
 
 export default useProcessTextCorrections;

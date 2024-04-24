@@ -3,15 +3,20 @@ import { Paper, Popper } from '@mui/material';
 import '../styles/errorSpanPopper.css';
 import SingleError from './SingleError';
 
-export default function ErrorSpanPopper({
-                                          popperAnchor,
-                                          popperValue,
-                                          resolveError,
-                                          errorList,
-                                          setErrorList,
-                                          inputText,
-                                          setInputText
-                                        }) {
+export default function ErrorSpanPopper(
+  {
+    popperAnchor,
+    popperValue,
+    resolveError,
+    errorList,
+    setErrorList,
+    inputText,
+    setInputText,
+    setGrammarAnswer,
+    setSpellerAnswer,
+    grammarAnswer,
+    spellerAnswer
+  }) {
   const open = Boolean(popperAnchor);
   const id = open ? 'simple-popper' : undefined;
 
@@ -28,6 +33,10 @@ export default function ErrorSpanPopper({
               setErrorList={setErrorList}
               inputText={inputText}
               setInputText={setInputText}
+              setGrammarAnswer={setGrammarAnswer}
+              setSpellerAnswer={setSpellerAnswer}
+              grammarAnswer={grammarAnswer}
+              spellerAnswer={spellerAnswer}
             />
           }
         </Paper>
