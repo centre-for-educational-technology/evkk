@@ -22,6 +22,7 @@ import java.util.UUID;
 public interface TextDao {
 
   List<String> getAllData();
+
   String findTextById(@Param("textId") UUID textId);
 
   String findTextsByIds(@Param("ids") Set<UUID> ids);

@@ -1,19 +1,17 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { loadFetch } from "../service/LoadFetch";
-import { Checkbox, FormControlLabel } from "@mui/material";
+import { Checkbox, FormControlLabel, FormControl, InputLabel, Select, MenuItem, NativeSelect } from "@mui/material";
 import ChartComponent from "../components/ChartComponent.js";
+import ChartComponentPie from "../components/ChartComponentPie.js";
 
 function Statistics() {
   const [noResultsError, setNoResultsError] = useState(false);
   const [results, setResults] = useState([]);
   const [chartData, setChartData] = useState([]);
+  const [pieData, setPieData] = useState([]);
+  const [pieData2, setPieData2] = useState([]);
+  const [chartType, setChartType] = useState("bar");
   const [showChart, setShowChart] = useState(false);
-  //const [selectedValues, setSelectedValues] = useState([]);
-  //const [selectedGenders, setSelectedGenders] = useState([]);
-  //const [selectedYears, setSelectedYears] = useState([]);
-  //const [dataCount, setDataCount] = useState(0);
-  //const [chartTitle, setChartTitle] = useState([]);
-  //const [yAxisTitle, setYAxisTitle] = useState([]);
   const [corpusCheckboxes, setCorpusCheckboxes] = useState({
     allCorpusCheckboxes: false,
     clWmOIrLa: false,
@@ -46,15 +44,18 @@ function Statistics() {
     residenceCountry: false
   });
 
-
   const [showGenderCheckboxes, setShowGenderCheckboxes] = useState(false);
   const [showAgeCheckboxes, setShowAgeCheckboxes] = useState(false);
   const [showEducationCheckboxes, setShowEducationCheckboxes] = useState(false);
   const [showMotherTongueCheckboxes, setShowMotherTongueCheckboxes] = useState(false);
   const [showCountryOfResidenceCheckboxes, setShowCountryOfResidenceCheckboxes] = useState(false);
+
+  const [showTypeCheckboxes, setShowTypeCheckboxes] = useState(false);
   const [showLanguageCheckboxes, setShowLanguageCheckboxes] = useState(false);
   const [showLevelCheckboxes, setShowLevelCheckboxes] = useState(false);
   const [showMaterialCheckboxes, setShowMaterialCheckboxes] = useState(false);
+  const [showYearCheckboxes, setShowYearCheckboxes] = useState(false);
+  const [showDiagram, setShowDiagram] = useState(false);
 
   const checkboxGroups = {
     genderCheckboxes: {
@@ -106,6 +107,10 @@ function Statistics() {
       Saksamaa: false,
       Muu: false
     },
+    typeCheckboxes: {
+      eesti: false,
+      vene: false
+    },
     languageCheckboxes: {
       eesti: false,
       vene: false
@@ -124,6 +129,12 @@ function Statistics() {
     materialCheckboxes: {
       jah: false,
       ei: false
+    },
+    yearCheckboxes: {
+      ["2000-2005"]: false,
+      ["2006-2010"]: false,
+      ["2011-2015"]: false,
+      ["2016-2020"]: false
     }
   }
 
@@ -133,12 +144,6 @@ function Statistics() {
   const [arr1, setArr1] = useState([]);
   const [arr2, setArr2] = useState([]);
   const [openSubgroups, setOpenSubgroups] = useState([]);
-
-
-
-
-
-
 
   //getting the data on page load
   const fetchData = useCallback(() => {
@@ -165,18 +170,13 @@ function Statistics() {
       .catch(error => {
         console.error("Error fetching data:", error);
         setNoResultsError(true);
-        setShowChart(false);
       });
   }, [fetchData]);
-
-
-
-
 
   //checkboxes
   const handleCorpusCheckboxChange = (event, checkboxName) => {
     const { value, checked } = event.target;
-  
+
     if (value === "allCorpusCheckboxes") {
       // If the "kõik" checkbox is checked, add all corpus values to the array
       if (checked) {
@@ -189,7 +189,7 @@ function Statistics() {
           "cZjHWUPtD",
           "cwUSEqQLt",
         ]);
-  
+
         setCorpusCheckboxes({
           allCorpusCheckboxes: true,
           clWmOIrLa: true,
@@ -220,7 +220,6 @@ function Statistics() {
         ...prevCheckboxes,
         [value]: checked,
       }));
-  
       if (checked) {
         // Checkbox is checked, add its name to the array
         setArr((prevArr) => [...prevArr, value]);
@@ -234,18 +233,20 @@ function Statistics() {
   const toggleSubgroup = (subgroup) => {
     if (openSubgroups.includes(subgroup)) {
       setOpenSubgroups(openSubgroups.filter((sg) => sg !== subgroup));
+      setArr1([]);
+      setArr2([]);
+      setCheckboxes(checkboxGroups);
     } else {
-      // Limit to 2 open subgroups
       if (openSubgroups.length < 2) {
         setOpenSubgroups([...openSubgroups, subgroup]);
       }
     }
-    console.log(openSubgroups);
+    //console.log(openSubgroups);
   };
-  
+
   const handleTextCheckboxChange = (event) => {
     const { value, checked } = event.target;
-  
+
     if (checked) {
       // Check if the maximum number of open subgroups is reached
       if (openSubgroups.length < 2) {
@@ -256,7 +257,7 @@ function Statistics() {
       setShowTextSubgroup(value, false);
       toggleSubgroup(value);
     }
-  
+
     setTextCheckboxes((prevCheckboxes) => ({
       ...prevCheckboxes,
       [value]: checked
@@ -265,25 +266,34 @@ function Statistics() {
 
   const setShowTextSubgroup = (subgroup, show) => {
     switch (subgroup) {
+      case "type":
+        setShowTypeCheckboxes(show);
+        break;
       case "language":
         setShowLanguageCheckboxes(show);
         break;
       case "level":
         setShowLevelCheckboxes(show);
         break;
-      case "material":
+      case "materialsUsed":
         setShowMaterialCheckboxes(show);
         break;
+      case "year":
+        setShowYearCheckboxes(show);
+        break;
+
       default:
+        break;
+
+      case "diagram":
+        setShowDiagram(show);
         break;
     }
   };
-  
-
 
   const handleAuthorCheckboxChange = (event) => {
     const { value, checked } = event.target;
-  
+
     if (checked) {
       // Check if the maximum number of open subgroups is reached
       if (openSubgroups.length < 2) {
@@ -296,13 +306,13 @@ function Statistics() {
       setShowAuthorSubgroup(value, false);
       toggleSubgroup(value);
     }
-  
+
     setAuthorCheckboxes((prevCheckboxes) => ({
       ...prevCheckboxes,
       [value]: checked
     }));
   };
-  
+
   const setShowAuthorSubgroup = (subgroup, show) => {
     switch (subgroup) {
       case "age":
@@ -324,10 +334,7 @@ function Statistics() {
         break;
     }
   };
-  
-  
 
-  
   const handleOtherCheckboxChange = (group, checkboxName, checked) => {
     setCheckboxes((prevCheckboxes) => ({
       ...prevCheckboxes,
@@ -336,7 +343,7 @@ function Statistics() {
         [checkboxName]: checked,
       },
     }));
-  
+
     if (checked) {
       if (arr1.length === 0) {
         // If arr1 is empty, create a new array with the current [group, checkboxName]
@@ -348,6 +355,7 @@ function Statistics() {
         // If arr1 is not empty and the group matches arr1's group, add [group, checkboxName] to arr1
         setArr1((prevArr) => [...prevArr, [group, checkboxName]]);
       }
+      setShowChart(true);
     } else {
       // Checkbox is unchecked, remove the [group, checkboxName] from arr1 and arr2
       setArr1((prevArr) =>
@@ -357,61 +365,184 @@ function Statistics() {
         prevArr.filter(([g, name]) => !(g === group && name === checkboxName))
       );
     }
-    console.log(arr1);
-    console.log(arr2);
+    //console.log(arr1);
+    //console.log(arr2);
   };
-  
-  
-  
-  
+
+
 
   const countDataRows = () => {
     const filteredData = results.filter((row) => {
       const corpusCheckboxesSelected = Object.entries(corpusCheckboxes)
         .filter(([checkboxName, isChecked]) => isChecked)
         .map(([checkboxName]) => checkboxName);
-  
+
       const arr1CheckboxesSelected = arr1.map(([_, checkboxName]) => checkboxName);
       const arr2CheckboxesSelected = arr2.map(([_, checkboxName]) => checkboxName);
-  
+
       const isArr1Present = arr1CheckboxesSelected.some((checkboxName) => row.includes(checkboxName));
       const isArr2Present = arr2CheckboxesSelected.some((checkboxName) => row.includes(checkboxName));
-  
+
       return (
         (corpusCheckboxesSelected.length === 0 || corpusCheckboxesSelected.some((checkboxName) => row.includes(checkboxName))) &&
         ((arr1CheckboxesSelected.length === 0 || isArr1Present) && (arr2CheckboxesSelected.length === 0 || isArr2Present))
       );
     });
-  
+
     setDataCount(filteredData.length);
   };
+
+
+  const updateChartData = () => {
+    let counts = [];
+    if (arr1.length === 0) {
+        counts = arr2.map(([_, checkboxName2]) => {
+            return results.reduce((acc, row) => {
+                const hasCheckboxAndCorpus = row.includes(checkboxName2) && Object.entries(corpusCheckboxes).some(([corpusCheckboxName, isChecked]) => {
+                    return isChecked && row.includes(corpusCheckboxName);
+                });
+                return acc + (hasCheckboxAndCorpus ? 1 : 0);
+            }, 0);
+        });
+    } else if (arr2.length === 0) {
+        counts = arr1.map(([_, checkboxName]) => {
+            return results.reduce((acc, row) => {
+                const hasCheckboxAndCorpus = row.includes(checkboxName) && Object.entries(corpusCheckboxes).some(([corpusCheckboxName, isChecked]) => {
+                    return isChecked && row.includes(corpusCheckboxName);
+                });
+                return acc + (hasCheckboxAndCorpus ? 1 : 0);
+            }, 0);
+        });
+    } else {
+        counts = arr1.map(([_, checkboxName]) => {
+            return arr2.map(([_, checkboxName2]) => {
+                return results.reduce((acc, row) => {
+                    const hasCheckboxAndCorpus = row.includes(checkboxName) && row.includes(checkboxName2) && Object.entries(corpusCheckboxes).some(([corpusCheckboxName, isChecked]) => {
+                        return isChecked && row.includes(corpusCheckboxName);
+                    });
+                    return acc + (hasCheckboxAndCorpus ? 1 : 0);
+                }, 0);
+            });
+        });
+    }
+    //console.log(counts);
+
+    let finalData = [];
+    if(arr2.length !== 0 && arr1.length !== 0){
+      finalData.push([" "]);
+      arr2.forEach(([_, checkboxName2]) => {
+        finalData[0].push(checkboxName2);
+      });
+      
+      for(let i = 0; i < arr1.length; i++){
+        let temparr = [];
+        temparr.push(arr1[i][1]);
+        for(let j = 0; j < counts[0].length; j++){
+          temparr.push(counts[i][j])
+        }
+        finalData.push(temparr);
+      }
+    } else{
+      finalData.push(["Category", "Value"]);
+      for(let i = 0; i < counts.length; i++){
+        let temparr = [];
+        if(arr1.length !== 0){
+          temparr.push(arr1[i][1]);
+        } else if(arr2.length !== 0){
+          temparr.push(arr2[i][1]);
+        }
+        temparr.push(counts[i])
+        finalData.push(temparr);
+      }
+    }
+    //console.log(finalData)
+    setChartData(finalData);
+
+    //Piecharts
+    let countsPie = [];
+    let countsPie2 = [];
+
+    if (arr1.length === 0) {
+        countsPie2 = arr2.map(([_, checkboxName2]) => {
+            return results.reduce((acc, row) => {
+                const hasCheckboxAndCorpus = row.includes(checkboxName2) && Object.entries(corpusCheckboxes).some(([corpusCheckboxName, isChecked]) => {
+                    return isChecked && row.includes(corpusCheckboxName);
+                });
+                return acc + (hasCheckboxAndCorpus ? 1 : 0);
+            }, 0);
+        });
+    } else if (arr2.length === 0) {
+        countsPie = arr1.map(([_, checkboxName]) => {
+            return results.reduce((acc, row) => {
+                const hasCheckboxAndCorpus = row.includes(checkboxName) && Object.entries(corpusCheckboxes).some(([corpusCheckboxName, isChecked]) => {
+                    return isChecked && row.includes(corpusCheckboxName);
+                });
+                return acc + (hasCheckboxAndCorpus ? 1 : 0);
+            }, 0);
+        });
+    } else {
+        countsPie = arr1.map(([_, checkboxName]) => {
+            return results.reduce((acc, row) => {
+                const hasCheckboxAndCorpus = row.includes(checkboxName) && Object.entries(corpusCheckboxes).some(([corpusCheckboxName, isChecked]) => {
+                    return isChecked && row.includes(corpusCheckboxName);
+                });
+                return acc + (hasCheckboxAndCorpus ? 1 : 0);
+            }, 0);
+        });
+
+        countsPie2 = arr2.map(([_, checkboxName2]) => {
+            return results.reduce((acc, row) => {
+                const hasCheckboxAndCorpus = row.includes(checkboxName2) && Object.entries(corpusCheckboxes).some(([corpusCheckboxName, isChecked]) => {
+                    return isChecked && row.includes(corpusCheckboxName);
+                });
+                return acc + (hasCheckboxAndCorpus ? 1 : 0);
+            }, 0);
+        });
+    }
+    //console.log(countsPie, countsPie2);
+
+
+    let piedata = [];
+    let piedata2 = [];
+    if(arr2.length !== 0 && arr1.length !== 0){
+      piedata.push(["Category", "Value"]);
+      piedata2.push(["Category", "Value"]);
+
+      for (let i = 0; i < arr1.length; i++) {
+          piedata.push([arr1[i][1], countsPie[i]]);
+      }
+
+      for (let i = 0; i < arr2.length; i++) {
+          piedata2.push([arr2[i][1], countsPie2[i]]);
+      }
+    } else{
+      piedata.push(["Category", "Value"]);
+      piedata2.push(["Category", "Value"]);
   
-  
-  useEffect(() => {
-    // Call countDataRows whenever arr, corpusCheckboxes, or other checkboxes change
-    countDataRows();
-  }, [arr, corpusCheckboxes, checkboxes]);
-  
-  
-  useEffect(() => {
-    // Call countDataRows whenever arr, corpusCheckboxes, or other checkboxes change
-    countDataRows();
-  }, [arr, corpusCheckboxes, checkboxes]);
-  
-  
-  
+      if (arr1.length !== 0) {
+          for (let i = 0; i < counts.length; i++) {
+              piedata.push([arr1[i][1], countsPie[i]]);
+          }
+      } else if (arr2.length !== 0) {
+          for (let i = 0; i < counts.length; i++) {
+              piedata2.push([arr2[i][1], countsPie2[i]]);
+          }
+      }
+    }
+    //console.log(piedata);
+    setPieData(piedata);
+    setPieData2(piedata2);
+  };
 
   useEffect(() => {
-    // Call countDataRows whenever arr changes
     countDataRows();
-  }, [arr, corpusCheckboxes]);
-  
-
+    updateChartData();
+  }, [arr, corpusCheckboxes, checkboxes]);
 
   const renderCheckbox = (label, value, checked, onChange) => {
     // Determine if the checkbox should be disabled
     const isDisabled = openSubgroups.length >= 2 && !checked;
-  
+
     return (
       <FormControlLabel
         control={
@@ -427,27 +558,31 @@ function Statistics() {
     );
   };
 
+  const scrollToOtherCheckboxes = () => {
+    const divElement = document.getElementById('newBoxes');
+    divElement.scrollIntoView({ behavior: 'smooth' });
+  }
+
   return (
     <>
-    {openSubgroups.length >= 2 && (
-      <p>You can only open a maximum of two subcategories.</p>
-    )}
-
+      {openSubgroups.length >= 2 && (
+        <>
+          <p style={{ marginLeft: '470px' }}>Korraga saab valida kuni kaks omadust!</p>
+          {scrollToOtherCheckboxes()}
+        </>
+      )}
     
+      <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '20px', marginLeft: '100px' }}>
 
-
-
-      <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '20px', margin: '50px' }}>
-        
         {/* Corpus Checkboxes */}
-        <div style={{ display: 'flex', flexDirection: 'column', marginRight: '50px' }}>
-          <label>Korpus</label>
+        <div style={{ display: 'flex', flexDirection: 'column', margin: '50px' }}>
+          <label style={{ fontWeight: 'bold' }}>Korpus</label>
           <FormControlLabel
-            control={<Checkbox value="allCorpusCheckboxes" 
-              checked={Object.values(corpusCheckboxes).every(Boolean)} 
+            control={<Checkbox value="allCorpusCheckboxes"
+              checked={Object.values(corpusCheckboxes).every(Boolean)}
               onChange={handleCorpusCheckboxChange} />
             }
-            label="kõik"
+            label="Kõik"
           />
           <FormControlLabel
             control={<Checkbox value="clWmOIrLa" checked={corpusCheckboxes.clWmOIrLa} onChange={handleCorpusCheckboxChange} />}
@@ -482,10 +617,10 @@ function Statistics() {
         <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '20px', margin: '50px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', marginRight: '50px' }}>
         {/* Render text data checkboxes */}
-        <label>Teksti Andmed</label>
-        {renderCheckbox("Liik", "type", textCheckboxes.type, handleTextCheckboxChange)}
+        <label style={{ fontWeight: 'bold' }}>Teksti Andmed</label>
+        {renderCheckbox("Teksti liik", "type", textCheckboxes.type, handleTextCheckboxChange)}
         {renderCheckbox("Keel", "language", textCheckboxes.language, handleTextCheckboxChange)}
-        {renderCheckbox("Tase", "level", textCheckboxes.level, handleTextCheckboxChange)}
+        {renderCheckbox("Keeleoskustase", "level", textCheckboxes.level, handleTextCheckboxChange)}
         {renderCheckbox("Kasutatud õppematerjale", "materialsUsed", textCheckboxes.materialsUsed, handleTextCheckboxChange)}
         {renderCheckbox("Lisamise aasta", "year", textCheckboxes.year, handleTextCheckboxChange)}
         {renderCheckbox("Tähemärke", "characters", textCheckboxes.characters, handleTextCheckboxChange)}
@@ -495,81 +630,31 @@ function Statistics() {
 
         <div style={{ display: 'flex', flexDirection: 'column', marginRight: '50px' }}>
         {/* Render author data checkboxes */}
-        <label>Autori Andmed</label>
+        <label style={{ fontWeight: 'bold' }}>Autori Andmed</label>
         {renderCheckbox("Vanus", "age", authorCheckboxes.age, handleAuthorCheckboxChange)}
         {renderCheckbox("Sugu", "sex", authorCheckboxes.sex, handleAuthorCheckboxChange)}
         {renderCheckbox("Haridus", "education", authorCheckboxes.education, handleAuthorCheckboxChange)}
         {renderCheckbox("Emakeel", "motherTongue", authorCheckboxes.motherTongue, handleAuthorCheckboxChange)}
         {renderCheckbox("Elukohariik", "residenceCountry", authorCheckboxes.residenceCountry, handleAuthorCheckboxChange)}
-        {/* Add more author data checkboxes as needed */}
         </div>
         </div>
-
-        {/* Text Data Checkboxes */}
-        {/* <div style={{ display: 'flex', flexDirection: 'column', marginRight: '50px' }}>
-          <label>Teksti Andmed</label>
-          <FormControlLabel
-            control={<Checkbox value="type" checked={textCheckboxes.type} onChange={handleTextCheckboxChange} />}
-            label="Liik"
-          />
-          <FormControlLabel
-            control={<Checkbox value="language" checked={textCheckboxes.language} onChange={handleTextCheckboxChange} />}
-            label="Keel"
-          />
-          <FormControlLabel
-            control={<Checkbox value="level" checked={textCheckboxes.level} onChange={handleTextCheckboxChange} />}
-            label="Tase"
-          />
-          <FormControlLabel
-            control={<Checkbox value="materialsUsed" checked={textCheckboxes.materialsUsed} onChange={handleTextCheckboxChange} />}
-            label="Kasutatud õppematerjale"
-          />
-          <FormControlLabel
-            control={<Checkbox value="year" checked={textCheckboxes.year} onChange={handleTextCheckboxChange} />}
-            label="Lisamise aasta"
-          />
-          <FormControlLabel
-            control={<Checkbox value="characters" checked={textCheckboxes.characters} onChange={handleTextCheckboxChange} />}
-            label="Tähemärke"
-          />
-          <FormControlLabel
-            control={<Checkbox value="words" checked={textCheckboxes.words} onChange={handleTextCheckboxChange} />}
-            label="Sõnu"
-          />
-          <FormControlLabel
-            control={<Checkbox value="sentences" checked={textCheckboxes.sentences} onChange={handleTextCheckboxChange} />}
-            label="Lauseid"
-          />
-        </div> */}
-
-        {/* Author Data Checkboxes */}
-        {/* <div style={{ display: 'flex', flexDirection: 'column', marginRight: '50px' }}>
-          <label>Autori Andmed</label>
-          <FormControlLabel
-            control={<Checkbox value="age" checked={authorCheckboxes.age} onChange={handleAuthorCheckboxChange} />}
-            label="Vanus"
-          />
-          <FormControlLabel
-            control={<Checkbox value="sex" checked={authorCheckboxes.sex} onChange={handleAuthorCheckboxChange} />}
-            label="Sugu"
-          />
-          <FormControlLabel
-            control={<Checkbox value="education" checked={authorCheckboxes.education} onChange={handleAuthorCheckboxChange} />}
-            label="Haridus"
-          />
-          <FormControlLabel
-            control={<Checkbox value="motherTongue" checked={authorCheckboxes.motherTongue} onChange={handleAuthorCheckboxChange} />}
-            label="Emakeel"
-          />
-          <FormControlLabel
-            control={<Checkbox value="residenceCountry" checked={authorCheckboxes.residenceCountry} onChange={handleAuthorCheckboxChange} />}
-            label="Elukohariik"
-          />
-        </div> */}
       </div>
 
-
-
+      <div id='newBoxes' style={{ display: 'flex', flexDirection: 'row', marginBottom: '20px', marginLeft: '470px' }}>
+      {/* Type Checkboxes */}
+      {showTypeCheckboxes && (
+        <div style={{ display: "flex", flexDirection: "column", marginRight: "50px" }}>
+          <label>Liik</label>
+          <FormControlLabel
+            control={<Checkbox value="k2eesti_riiklik_eksamitoo" checked={checkboxes.typeCheckboxes.k2eesti_riiklik_eksamitoo} onChange={(e) => handleOtherCheckboxChange("typeCheckboxes", "k2eesti_riiklik_eksamitoo", e.target.checked)} />}
+            label="k2eesti_riiklik_eksamitoo"
+          />
+          <FormControlLabel
+            control={<Checkbox value="vene" checked={checkboxes.typeCheckboxes.vene} onChange={(e) => handleOtherCheckboxChange("typeCheckboxes", "vene", e.target.checked)} />}
+            label="vene"
+          />
+        </div>
+      )}
 
       {/* Language Checkboxes */}
       {showLanguageCheckboxes && (
@@ -644,8 +729,28 @@ function Statistics() {
         </div>
       )}
 
-
-
+      {/* Year Checkboxes */}
+      {showYearCheckboxes && (
+        <div style={{ display: "flex", flexDirection: "column", marginRight: "50px" }}>
+          <label>Aasta</label>
+          <FormControlLabel
+            control={<Checkbox value="2000-2005" checked={checkboxes.yearCheckboxes["2000-2005"]} onChange={(e) => handleOtherCheckboxChange("languageCheckboxes", "2000kuni2005", e.target.checked)} />}
+            label="2000-2005"
+          />
+          <FormControlLabel
+            control={<Checkbox value="2006-2010" checked={checkboxes.yearCheckboxes["2006-2010"]} onChange={(e) => handleOtherCheckboxChange("languageCheckboxes", "2006-2010", e.target.checked)} />}
+            label="2006-2010"
+          />
+          <FormControlLabel
+            control={<Checkbox value="2011-2015" checked={checkboxes.yearCheckboxes["2011-2015"]} onChange={(e) => handleOtherCheckboxChange("languageCheckboxes", "2011-2015", e.target.checked)} />}
+            label="2011-2015"
+          />
+          <FormControlLabel
+            control={<Checkbox value="2016-2020" checked={checkboxes.yearCheckboxes["2016-2020"]} onChange={(e) => handleOtherCheckboxChange("languageCheckboxes", "2016-2020", e.target.checked)} />}
+            label="2016-2020"
+          />
+        </div>
+      )}
 
       {/* Age Checkboxes */}
       {showAgeCheckboxes && (
@@ -694,7 +799,7 @@ function Statistics() {
             label="algharidus/põhiharidus"
           />
           <FormControlLabel
-            control={<Checkbox value="keskharidus" checked={checkboxes.educationCheckboxes.keskharidus} onChange={(e) => handleOtherCheckboxChange("educationCheckboxes", "keskharidus", e.target.checked)} />}
+            control={<Checkbox value="Keskharidus" checked={checkboxes.educationCheckboxes.Keskharidus} onChange={(e) => handleOtherCheckboxChange("educationCheckboxes", "Keskharidus", e.target.checked)} />}
             label="keskharidus"
           />
           <FormControlLabel
@@ -702,7 +807,7 @@ function Statistics() {
             label="keskeriharidus/kutseharidus"
           />
           <FormControlLabel
-            control={<Checkbox value="kõrgharidus" checked={checkboxes.educationCheckboxes.kõrgharidus} onChange={(e) => handleOtherCheckboxChange("educationCheckboxes", "kõrgharidus", e.target.checked)} />}
+            control={<Checkbox value="Kõrgharidus" checked={checkboxes.educationCheckboxes.Kõrgharidus} onChange={(e) => handleOtherCheckboxChange("educationCheckboxes", "Kõrgharidus", e.target.checked)} />}
             label="kõrgharidus"
           />
         </div>
@@ -837,32 +942,53 @@ function Statistics() {
           />
         </div>
       )}
-
-
-      {/* Data Count */}
-      <div style={{ marginLeft: '80px', marginTop: '80px', fontWeight: 'bold' }}>
-        <p>Kirjeid: {dataCount}</p>
       </div>
 
+      {showChart && (
+        <div>
+          <FormControl style={{ width: "200px", marginLeft: "480px", marginTop: "50px", marginBottom: "50px" }}>
+            <InputLabel variant="standard" htmlFor="uncontrolled-native">
+              Diagrammi tüüp
+            </InputLabel>
+            <NativeSelect
+              value={chartType} onChange={(e) => setChartType(e.target.value)}
+              defaultValue="bar"
+            >
+              <option value="bar">Tulpdiagramm</option>
+              <option value="pie">Sektordiagramm (väärtuste jaotuvus omaduse põhiselt)</option>
+            </NativeSelect>
+          </FormControl>
 
+          {/* Data Count */}
+          {/* <p style={{ marginLeft: "480px", marginTop: "20px", marginBottom: "50px", fontWeight: "bold" }}>Kirjeid: {dataCount}</p> */}
 
-      {/* Chart */}
-      
-      {/*{showChart && (
-        <>
+          {/* Charts */}
+          <>
           {noResultsError ? (
-            <p>No results found.</p>
+            <p>Vasteid ei leitud.</p>
           ) : (
-            <ChartComponent
-              data={[["Category", "Value"], ...chartData]}
-              title={chartTitle}
-              xAxisTitle="Tekstide arv"
-              yAxisTitle={yAxisTitle}
-            />
+            <>
+              {chartType === "bar" ? (
+                <>
+                <div style={{ marginLeft: "350px", paddingBottom: "20px" }}>
+                <ChartComponent
+                  data={chartData}
+                />
+                </div>
+                </>
+              ) : (
+                <>
+                  <div style={{ display: "flex" }}>
+                    {pieData.length !== 0 && <ChartComponentPie pieData={pieData} />}
+                    {pieData2.length !== 0 && <ChartComponentPie pieData={pieData2} />}
+                  </div>
+                </>
+              )}
+            </>
           )}
-        </>
-      )}*/}
-
+          </>
+        </div>
+      )}
     </>
   );
 }
