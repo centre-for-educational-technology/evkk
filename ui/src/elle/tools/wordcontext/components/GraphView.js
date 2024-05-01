@@ -15,11 +15,10 @@ export default function GraphView({ data, keyword }) {
 
   const svgHeight = 475;
   const svgWidth = 1275;
+  const svgEdgePadding = 20;
 
   const minRadiusRange = 5;
   const maxRadiusRange = 20;
-
-  const svgEdgePadding = 20;
 
   useEffect(() => {
     if (modalOpen && svgState && data) {
@@ -35,86 +34,19 @@ export default function GraphView({ data, keyword }) {
 
       normalizedData.forEach((d, i) => {
         const { x, y, radius } = getCoordinatesAndRadius(d, i);
-
-        // Add lines connecting each circle to the main dot
-        // Drawing lines before circles is important, otherwise they would be drawn on top of the circles
-        svg.append('line')
-          .attr('x1', svgWidth / 2)
-          .attr('y1', svgHeight / 2)
-          .attr('x2', x)
-          .attr('y2', y)
-          .attr('stroke', 'rgba(128, 128, 128, 0.5)')
-          .attr('stroke-width', 1);
-
-        // Draw circles for each data point
-        svg.append('circle')
-          .attr('cx', x)
-          .attr('cy', y)
-          .attr('r', radius)
-          .attr('fill', 'rgb(255, 208, 253)');
+        addCirclesAndLines(svg, radius, x, y);
       });
 
       // Doing a second loop is necessary to avoid text from being drawn over by subsequent circles
       normalizedData.forEach((d, i) => {
         const { x, y, radius } = getCoordinatesAndRadius(d, i);
-
-        // Add labels for each data point
-        const label = svg.append('text')
-          .attr('x', x)
-          .attr('y', y)
-          .text(d.collocate);
-
-        // Adjust label position based on circle position
-        if (x === svgWidth / 2) {
-          // If circle is in the center of the canvas
-          if (y < svgHeight / 2) {
-            // If circle is in the upper half, place the text below it at the center
-            label.attr('text-anchor', 'middle')
-              .attr('dy', radius * 2);
-          } else {
-            // If circle is in the lower half, place the text above it at the center
-            label.attr('text-anchor', 'middle')
-              .attr('dy', -radius * 2);
-          }
-        } else if (y < svgHeight / 2) {
-          if (x < svgWidth / 2) { // Top left quadrant
-            label.attr('dx', radius)
-              .attr('dy', radius);
-          } else { // Top right quadrant
-            label.attr('text-anchor', 'end')
-              .attr('dx', -radius)
-              .attr('dy', radius);
-          }
-        } else {
-          if (x < svgWidth / 2) { // Bottom left quadrant
-            label.attr('dx', radius)
-              .attr('dy', -radius);
-          } else { // Bottom right quadrant
-            label.attr('text-anchor', 'end')
-              .attr('dx', -radius)
-              .attr('dy', -radius);
-          }
-        }
+        addLabelsAndAdjustPositions(svg, radius, x, y, d);
       });
 
-      // Add main dot at the center
-      svg.append('circle')
-        .attr('cx', svgWidth / 2)
-        .attr('cy', svgHeight / 2)
-        .attr('r', 10)
-        .attr('fill', 'rgb(156, 39, 176)');
-
-      // Add label for the main dot
-      svg.append('text')
-        .attr('x', svgWidth / 2)
-        .attr('y', svgHeight / 2 - 30)
-        .attr('text-anchor', 'middle')
-        .attr('alignment-baseline', 'central')
-        .attr('font-weight', 'bold')
-        .attr('font-size', '25px')
-        .text(keyword);
+      addMainDotData(svg);
     }
-  }, [modalOpen, data, svgState, svgHeight, svgWidth]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalOpen, data, keyword, svgState, svgHeight, svgWidth]);
 
   // Calculate radius for each data point using normalized scores
   const normalizedRadius = d3.scaleLinear()
@@ -141,6 +73,84 @@ export default function GraphView({ data, keyword }) {
     const radius = normalizedRadius(d.normalizedScore);
 
     return { x, y, radius };
+  };
+
+  const addCirclesAndLines = (svg, radius, x, y) => {
+    // Add lines connecting each circle to the main dot
+    // Drawing lines before circles is important, otherwise they would be drawn on top of the circles
+    svg.append('line')
+      .attr('x1', svgWidth / 2)
+      .attr('y1', svgHeight / 2)
+      .attr('x2', x)
+      .attr('y2', y)
+      .attr('stroke', 'rgba(128, 128, 128, 0.5)')
+      .attr('stroke-width', 1);
+
+    // Draw circles for each data point
+    svg.append('circle')
+      .attr('cx', x)
+      .attr('cy', y)
+      .attr('r', radius)
+      .attr('fill', 'rgb(255, 208, 253)');
+  };
+
+  const addLabelsAndAdjustPositions = (svg, radius, x, y, d) => {
+    // Add labels for each data point
+    const label = svg.append('text')
+      .attr('x', x)
+      .attr('y', y)
+      .text(d.collocate);
+
+    // Adjust label position based on circle position
+    if (x === svgWidth / 2) {
+      // If circle is in the center of the canvas
+      if (y < svgHeight / 2) {
+        // If circle is in the upper half, place the text below it at the center
+        label.attr('text-anchor', 'middle')
+          .attr('dy', radius * 2);
+      } else {
+        // If circle is in the lower half, place the text above it at the center
+        label.attr('text-anchor', 'middle')
+          .attr('dy', -radius * 2);
+      }
+    } else if (y < svgHeight / 2) {
+      if (x < svgWidth / 2) { // Top left quadrant
+        label.attr('dx', radius)
+          .attr('dy', radius);
+      } else { // Top right quadrant
+        label.attr('text-anchor', 'end')
+          .attr('dx', -radius)
+          .attr('dy', radius);
+      }
+    } else {
+      if (x < svgWidth / 2) { // Bottom left quadrant
+        label.attr('dx', radius)
+          .attr('dy', -radius);
+      } else { // Bottom right quadrant
+        label.attr('text-anchor', 'end')
+          .attr('dx', -radius)
+          .attr('dy', -radius);
+      }
+    }
+  };
+
+  const addMainDotData = (svg) => {
+    // Add main dot at the center
+    svg.append('circle')
+      .attr('cx', svgWidth / 2)
+      .attr('cy', svgHeight / 2)
+      .attr('r', 10)
+      .attr('fill', 'rgb(156, 39, 176)');
+
+    // Add label for the main dot
+    svg.append('text')
+      .attr('x', svgWidth / 2)
+      .attr('y', svgHeight / 2 - 30)
+      .attr('text-anchor', 'middle')
+      .attr('alignment-baseline', 'central')
+      .attr('font-weight', 'bold')
+      .attr('font-size', '25px')
+      .text(keyword);
   };
 
   const handleClick = () => {
