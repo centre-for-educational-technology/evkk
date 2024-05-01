@@ -6,7 +6,7 @@ import { DefaultButtonStyle } from '../../../const/Constants';
 import { GroupWork } from '@mui/icons-material';
 import ModalBase from '../../../components/ModalBase';
 
-export default function GraphView({ data }) {
+export default function GraphView({ data, keyword }) {
 
   const { t } = useTranslation();
   const [tooltipOpen, setTooltipOpen] = useState(false);
@@ -16,68 +16,132 @@ export default function GraphView({ data }) {
   const svgHeight = 475;
   const svgWidth = 1275;
 
+  const minRadiusRange = 5;
+  const maxRadiusRange = 20;
+
+  const svgEdgePadding = 20;
+
   useEffect(() => {
-    if (modalOpen && svgState) {
+    if (modalOpen && svgState && data) {
       const svg = d3.select(svgState);
-      const graphData = [
-        { x: 10, y: 20 },
-        { x: 20, y: 25 },
-        { x: 30, y: 15 },
-        { x: 40, y: 30 },
-        { x: 50, y: 35 }
-      ];
 
-      // Set up scales for x and y axes
-      const xScale = d3.scaleLinear().domain([0, d3.max(graphData, d => d.x)]).range([0, svgWidth]);
-      const yScale = d3.scaleLinear().domain([0, d3.max(graphData, d => d.y)]).range([svgHeight, 0]);
+      // Normalize scores to the range [0, 1]
+      const maxScore = d3.max(data, d => d.score);
+      const minScore = d3.min(data, d => d.score);
+      const normalizedData = data.map(d => ({
+        ...d,
+        normalizedScore: (d.score - minScore) / (maxScore - minScore)
+      }));
 
-      // Add circles for each data point
-      svg.selectAll('.point')
-        .data(graphData)
-        .enter()
-        .append('circle')
-        .attr('class', 'point')
-        .attr('cx', d => xScale(d.x))
-        .attr('cy', d => yScale(d.y))
-        .attr('r', 5)
-        .attr('fill', 'steelblue');
+      normalizedData.forEach((d, i) => {
+        const { x, y, radius } = getCoordinatesAndRadius(d, i);
 
-      // Add labels for each data point
-      svg.selectAll('.label')
-        .data(graphData)
-        .enter()
-        .append('text')
-        .attr('class', 'label')
-        .attr('x', d => xScale(d.x))
-        .attr('y', d => yScale(d.y))
-        .attr('dx', 8)
-        .attr('dy', -5)
-        .text(d => `(${d.x}, ${d.y})`);
+        // Add lines connecting each circle to the main dot
+        // Drawing lines before circles is important, otherwise they would be drawn on top of the circles
+        svg.append('line')
+          .attr('x1', svgWidth / 2)
+          .attr('y1', svgHeight / 2)
+          .attr('x2', x)
+          .attr('y2', y)
+          .attr('stroke', 'rgba(128, 128, 128, 0.5)')
+          .attr('stroke-width', 1);
 
-      const centerX = svgWidth / 2;
-      const centerY = svgHeight / 2;
+        // Draw circles for each data point
+        svg.append('circle')
+          .attr('cx', x)
+          .attr('cy', y)
+          .attr('r', radius)
+          .attr('fill', 'rgb(255, 208, 253)');
+      });
 
-      // Connect main dot with lines to other dots
-      svg.selectAll('.line')
-        .data(graphData)
-        .enter()
-        .append('line')
-        .attr('class', 'line')
-        .attr('x1', centerX)
-        .attr('y1', centerY)
-        .attr('x2', d => xScale(d.x))
-        .attr('y2', d => yScale(d.y))
-        .attr('stroke', 'black')
-        .attr('stroke-width', 1);
+      // Doing a second loop is necessary to avoid text from being drawn over by subsequent circles
+      normalizedData.forEach((d, i) => {
+        const { x, y, radius } = getCoordinatesAndRadius(d, i);
+
+        // Add labels for each data point
+        const label = svg.append('text')
+          .attr('x', x)
+          .attr('y', y)
+          .text(d.collocate);
+
+        // Adjust label position based on circle position
+        if (x === svgWidth / 2) {
+          // If circle is in the center of the canvas
+          if (y < svgHeight / 2) {
+            // If circle is in the upper half, place the text below it at the center
+            label.attr('text-anchor', 'middle')
+              .attr('dy', radius * 2);
+          } else {
+            // If circle is in the lower half, place the text above it at the center
+            label.attr('text-anchor', 'middle')
+              .attr('dy', -radius * 2);
+          }
+        } else if (y < svgHeight / 2) {
+          if (x < svgWidth / 2) { // Top left quadrant
+            label.attr('dx', radius)
+              .attr('dy', radius);
+          } else { // Top right quadrant
+            label.attr('text-anchor', 'end')
+              .attr('dx', -radius)
+              .attr('dy', radius);
+          }
+        } else {
+          if (x < svgWidth / 2) { // Bottom left quadrant
+            label.attr('dx', radius)
+              .attr('dy', -radius);
+          } else { // Bottom right quadrant
+            label.attr('text-anchor', 'end')
+              .attr('dx', -radius)
+              .attr('dy', -radius);
+          }
+        }
+      });
 
       // Add main dot at the center
       svg.append('circle')
-        .attr('cx', centerX)
-        .attr('cy', centerY)
-        .attr('r', 8)
-        .attr('fill', 'rgba(255, 208, 253, 1)');
+        .attr('cx', svgWidth / 2)
+        .attr('cy', svgHeight / 2)
+        .attr('r', 10)
+        .attr('fill', 'rgb(156, 39, 176)');
+
+      // Add label for the main dot
+      svg.append('text')
+        .attr('x', svgWidth / 2)
+        .attr('y', svgHeight / 2 - 30)
+        .attr('text-anchor', 'middle')
+        .attr('alignment-baseline', 'central')
+        .attr('font-weight', 'bold')
+        .attr('font-size', '25px')
+        .text(keyword);
     }
   }, [modalOpen, data, svgState, svgHeight, svgWidth]);
+
+  // Calculate radius for each data point using normalized scores
+  const normalizedRadius = d3.scaleLinear()
+    .domain([0, 1]) // Normalized score range
+    .range([minRadiusRange, maxRadiusRange]); // Output radius range
+
+  const getCoordinatesAndRadius = (d, i) => {
+    // Calculate the maximum dominance value (leftOccurrences or rightOccurrences)
+    const maxDominance = d3.max(data, d => Math.max(d.leftOccurrences, d.rightOccurrences));
+
+    // Set up scales for x and y axes with padding
+    const xScale = d3.scaleLinear().domain([0, maxDominance]).range([svgEdgePadding, svgWidth - svgEdgePadding]);
+    const yScale = d3.scaleLinear().domain([0, data.length - 1]).range([svgEdgePadding, svgHeight - svgEdgePadding]);
+
+    const leftRatio = d.leftOccurrences / (d.leftOccurrences + d.rightOccurrences);
+
+    // Calculate the position based on the ratio of leftOccurrences to rightOccurrences
+    const x = xScale(maxDominance * (1 - leftRatio)); // Adjusted calculation to mirror the coordinates to the correct side (left or right)
+
+    // Calculate y-coordinate to evenly space points along the y-axis
+    const y = yScale(i);
+
+    // Determine circle radius based on the normalized score
+    const radius = normalizedRadius(d.normalizedScore);
+
+    return { x, y, radius };
+  };
 
   const handleClick = () => {
     setTooltipOpen(false);
