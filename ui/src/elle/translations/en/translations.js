@@ -5,6 +5,7 @@ export const TRANSLATIONS_EN = {
   beginning: 'beginning',
   collocates_filename: 'collocates',
   collocates_graph: 'Graph',
+  collocates_graph_slider_title: 'Set the number of the most important neighbouring words shown on the graph',
   common_about: 'About',
   common_analysis_options: 'Analysis options',
   common_articles: 'Articles',

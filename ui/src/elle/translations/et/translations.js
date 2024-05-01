@@ -5,6 +5,7 @@ export const TRANSLATIONS_ET = {
   beginning: 'algus',
   collocates_filename: 'naabersõnad',
   collocates_graph: 'Graaf',
+  collocates_graph_slider_title: 'Määra graafil kuvatud oluliseimate naabersõnade arv',
   common_about: 'Keskkonnast',
   common_analysis_options: 'Analüüsi valikud',
   common_articles: 'Publikatsioonid',
