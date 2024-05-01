@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 import { Button, Grid, Input, Slider, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { DefaultButtonStyle } from '../../../const/Constants';
+import { DefaultButtonStyle, DefaultInputStyle, DefaultSliderStyle } from '../../../const/Constants';
 import { GroupWork } from '@mui/icons-material';
 import ModalBase from '../../../components/ModalBase';
 
@@ -209,6 +209,7 @@ export default function GraphView({ data, keyword }) {
         >
           <Grid item xs>
             <Slider
+              sx={DefaultSliderStyle}
               value={sliderValue}
               onChange={handleSliderChange}
               min={1}
@@ -219,6 +220,8 @@ export default function GraphView({ data, keyword }) {
           </Grid>
           <Grid item>
             <Input
+              sx={DefaultInputStyle}
+              disableUnderline
               value={sliderValue}
               onChange={handleInputChange}
               inputProps={{
