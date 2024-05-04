@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { DefaultButtonStyle, DefaultInputStyle, DefaultSliderStyle } from '../../../const/Constants';
 import { Timeline } from '@mui/icons-material';
 import ModalBase from '../../../components/ModalBase';
+import '../styles/GraphView.css';
 
 export default function GraphView({ data, keyword }) {
 
@@ -219,7 +220,7 @@ export default function GraphView({ data, keyword }) {
               marks
             />
           </Grid>
-          <Grid item>
+          <Grid item className="input-grid-item">
             <Input
               sx={DefaultInputStyle}
               disableUnderline
