@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import { Button, Grid, Input, Slider, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { DefaultButtonStyle, DefaultInputStyle, DefaultSliderStyle } from '../../../const/Constants';
-import { GroupWork } from '@mui/icons-material';
+import { Timeline } from '@mui/icons-material';
 import ModalBase from '../../../components/ModalBase';
 
 export default function GraphView({ data, keyword }) {
@@ -180,7 +180,7 @@ export default function GraphView({ data, keyword }) {
 
   return (
     <Tooltip
-      title={t('collocates_graph')}
+      title={t('collocates_graph_modal_tooltip')}
       open={tooltipOpen}
       placement="top"
     >
@@ -191,13 +191,14 @@ export default function GraphView({ data, keyword }) {
         onMouseEnter={() => setTooltipOpen(true)}
         onMouseLeave={() => setTooltipOpen(false)}
       >
-        <GroupWork fontSize="large" />
+        <Timeline fontSize="large" />
       </Button>
       <ModalBase
         isOpen={modalOpen}
         setIsOpen={setModalOpen}
         innerClassName="graph-modal"
         title="collocates_graph"
+        titleTooltip="collocates_graph_tooltip"
       >
         <Typography>
           {t('collocates_graph_slider_title')}
