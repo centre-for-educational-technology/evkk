@@ -5,6 +5,7 @@ export const TRANSLATIONS_EN = {
   beginning: 'beginning',
   collocates_filename: 'collocates',
   collocates_graph: 'Graph',
+  collocates_graph_filename: 'graph',
   collocates_graph_modal_tooltip: 'Show neighbouring words on a graph',
   collocates_graph_slider_title: 'Specify whether you want to see fewer or more neighbouring words on the graph',
   collocates_graph_tooltip: 'The graph shows collocates of the selected word, illustrating their importance and position in text. Neighbouring words are located to the left, right, or center of the search word, depending on whether they tend to precede it, follow it or appear on both sides of it. Neighbouring words with a higher collocation score are marked by a larger dot. By default, up to 30 most important collocates are shown but their number can be changed if wanted.',
@@ -447,5 +448,6 @@ export const TRANSLATIONS_EN = {
   wordlist_stopwords_textbox_hover_3: ').',
   wordlist_word_column: 'Word form',
   wordlist_wordcloud: 'Word cloud',
+  wordlist_wordcloud_filename: 'wordcloud',
   wordlist_wordcloud_loading: 'Loading word cloud...'
 };

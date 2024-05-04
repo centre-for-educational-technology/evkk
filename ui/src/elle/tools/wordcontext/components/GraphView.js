@@ -6,6 +6,7 @@ import { DefaultButtonStyle, DefaultInputStyle, DefaultSliderStyle } from '../..
 import { Timeline } from '@mui/icons-material';
 import ModalBase from '../../../components/ModalBase';
 import '../styles/GraphView.css';
+import ImageDownloadButton, { ImageDownloadSourceType } from '../../../components/ImageDownloadButton';
 
 export default function GraphView({ data, keyword }) {
 
@@ -201,6 +202,11 @@ export default function GraphView({ data, keyword }) {
         title="collocates_graph"
         titleTooltip="collocates_graph_tooltip"
       >
+        <ImageDownloadButton
+          element={svgState}
+          sourceType={ImageDownloadSourceType.SVG}
+          fileName="collocates_graph_filename"
+        />
         <Typography>
           {t('collocates_graph_slider_title')}
         </Typography>
