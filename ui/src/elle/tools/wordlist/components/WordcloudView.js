@@ -78,11 +78,14 @@ export default function WordcloudView({ data }) {
             {t('wordlist_wordcloud_loading')}
             </span>
           </div>) : (
-          <ImageDownloadButton
-            element={canvas}
-            sourceType={ImageDownloadSourceType.CANVAS}
-            fileName="wordlist_wordcloud_filename"
-          />)
+          <>
+            <ImageDownloadButton
+              element={canvas}
+              sourceType={ImageDownloadSourceType.CANVAS}
+              fileName="wordlist_wordcloud_filename"
+            />
+            <br />
+          </>)
         }
         <canvas
           ref={setCanvas}

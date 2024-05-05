@@ -27,6 +27,10 @@ export default function ImageDownloadButton({ element, sourceType, fileName }) {
       canvas.width = image.width;
       canvas.height = image.height;
       const context = canvas.getContext('2d');
+
+      context.fillStyle = '#fff';
+      context.fillRect(0, 0, canvas.width, canvas.height);
+
       context.drawImage(image, 0, 0);
 
       canvasAsImage(canvas);
