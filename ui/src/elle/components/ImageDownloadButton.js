@@ -7,6 +7,7 @@ import './styles/ImageDownloadButton.css';
 export default function ImageDownloadButton({ element, sourceType, fileName }) {
 
   const { t } = useTranslation();
+  const imagePadding = 20;
 
   const handleClick = () => {
     if (sourceType === ImageDownloadSourceType.SVG) {
@@ -23,15 +24,13 @@ export default function ImageDownloadButton({ element, sourceType, fileName }) {
     const image = new Image();
 
     image.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = image.width;
-      canvas.height = image.height;
+      const canvas = createNewCanvas(image);
       const context = canvas.getContext('2d');
 
-      context.fillStyle = '#fff';
+      context.fillStyle = 'white';
       context.fillRect(0, 0, canvas.width, canvas.height);
 
-      context.drawImage(image, 0, 0);
+      context.drawImage(image, imagePadding, imagePadding, image.width, image.height);
 
       canvasAsImage(canvas);
     };
@@ -44,12 +43,29 @@ export default function ImageDownloadButton({ element, sourceType, fileName }) {
   };
 
   const canvasAsImage = (canvasElement) => {
-    const canvasDataURL = canvasElement.toDataURL('image/png');
+    const canvas = createNewCanvas(canvasElement);
+    const context = canvas.getContext('2d');
 
+    context.drawImage(canvasElement, imagePadding, imagePadding);
+
+    context.fillStyle = 'white';
+    context.fillRect(0, 0, canvas.width, imagePadding);
+    context.fillRect(0, 0, imagePadding, canvas.height);
+    context.fillRect(canvas.width - imagePadding, 0, imagePadding, canvas.height);
+    context.fillRect(0, canvas.height - imagePadding, canvas.width, imagePadding);
+
+    const canvasDataURL = canvas.toDataURL('image/png');
     const link = document.createElement('a');
     link.href = canvasDataURL;
     link.download = t(fileName);
     link.click();
+  };
+
+  const createNewCanvas = (element) => {
+    const canvas = document.createElement('canvas');
+    canvas.width = element.width + 2 * imagePadding;
+    canvas.height = element.height + 2 * imagePadding;
+    return canvas;
   };
 
   return (
