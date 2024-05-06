@@ -16,4 +16,6 @@ public class CollocateDto {
   private Long coOccurrences;
   private Long frequencyCount;
   private BigDecimal frequencyPercentage;
+  private Long leftOccurrences;
+  private Long rightOccurrences;
 }

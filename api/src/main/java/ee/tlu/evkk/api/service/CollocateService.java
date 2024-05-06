@@ -1,6 +1,7 @@
 package ee.tlu.evkk.api.service;
 
 import ee.evkk.dto.CollocateDto;
+import ee.evkk.dto.CollocateOccurrencesDto;
 import ee.evkk.dto.CollocateRequestDto;
 import ee.evkk.dto.CollocateResponseDto;
 import ee.evkk.dto.WordlistRequestDto;
@@ -50,14 +51,14 @@ public class CollocateService {
 
   private CollocateResponseDto wordResponse(CollocateRequestDto dto, String keyword) throws IOException {
     WordlistResponseDto wordlistResponse = getWordlistResponse(dto, WORDS);
-    Map<String, Long> collocates = getCollocates(wordlistResponse.getWordlist(), keyword, dto.getSearchCount());
+    Map<String, CollocateOccurrencesDto> collocates = getCollocates(wordlistResponse.getWordlist(), keyword, dto.getSearchCount());
     return combineFinalResult(collocates, wordlistResponse.getResultList(), keyword, dto.getFormula(), null);
   }
 
   private CollocateResponseDto lemmaResponse(CollocateRequestDto dto, String keyword) throws IOException {
     String initialKeyword = null;
     WordlistResponseDto wordlistResponse = getWordlistResponse(dto, LEMMAS);
-    Map<String, Long> collocates = getCollocates(wordlistResponse.getWordlist(), keyword, dto.getSearchCount());
+    Map<String, CollocateOccurrencesDto> collocates = getCollocates(wordlistResponse.getWordlist(), keyword, dto.getSearchCount());
     if (collocates.isEmpty()) {
       initialKeyword = dto.getKeyword();
       keyword = sanitizeLemmaStrings(asList(stanzaServerClient.getLemmad(initialKeyword))).get(0);
@@ -68,9 +69,9 @@ public class CollocateService {
     return combineFinalResult(collocates, wordlistResponse.getResultList(), keyword, dto.getFormula(), initialKeyword);
   }
 
-  private CollocateResponseDto combineFinalResult(Map<String, Long> collocates, List<WordlistResponseEntryDto> wordlistAndFrequencies, String keyword, CollocateFormula formula, String initialKeyword) {
+  private CollocateResponseDto combineFinalResult(Map<String, CollocateOccurrencesDto> collocates, List<WordlistResponseEntryDto> wordlistAndFrequencies, String keyword, CollocateFormula formula, String initialKeyword) {
     List<CollocateDto> finalCollocates = new ArrayList<>();
-    for (Map.Entry<String, Long> collocate : collocates.entrySet()) {
+    for (Map.Entry<String, CollocateOccurrencesDto> collocate : collocates.entrySet()) {
       WordlistResponseEntryDto keywordFromFrequencyList = wordlistAndFrequencies.stream()
         .filter(entry -> entry.getWord().equals(keyword))
         .collect(toList()).get(0);
@@ -80,11 +81,13 @@ public class CollocateService {
 
       finalCollocates.add(new CollocateDto(
         collocate.getKey(),
-        calculateScore(formula, keywordFromFrequencyList.getFrequencyCount(), collocateFromFrequencyList.getFrequencyCount(), collocate.getValue(), wordlistAndFrequencies.size())
+        calculateScore(formula, keywordFromFrequencyList.getFrequencyCount(), collocateFromFrequencyList.getFrequencyCount(), collocate.getValue().getOccurrences(), wordlistAndFrequencies.size())
           .setScale(4, UP),
-        collocate.getValue(),
+        collocate.getValue().getOccurrences(),
         collocateFromFrequencyList.getFrequencyCount(),
-        collocateFromFrequencyList.getFrequencyPercentage()
+        collocateFromFrequencyList.getFrequencyPercentage(),
+        collocate.getValue().getLeftOccurrences(),
+        collocate.getValue().getRightOccurrences()
       ));
     }
     String lemmatizedKeyword = initialKeyword == null
@@ -93,8 +96,8 @@ public class CollocateService {
     return new CollocateResponseDto(finalCollocates, initialKeyword, lemmatizedKeyword);
   }
 
-  private Map<String, Long> getCollocates(List<String> wordlist, String keyword, int searchCount) {
-    Map<String, Long> result = new HashMap<>();
+  private Map<String, CollocateOccurrencesDto> getCollocates(List<String> wordlist, String keyword, int searchCount) {
+    Map<String, CollocateOccurrencesDto> result = new HashMap<>();
     for (int i = 0; i < wordlist.size(); i++) {
       if (wordlist.get(i).equals(keyword)) {
         int counter = i;
@@ -102,11 +105,10 @@ public class CollocateService {
           counter--;
           try {
             String collocate = wordlist.get(counter);
-            if (result.containsKey(collocate)) {
-              result.merge(collocate, 1L, Long::sum);
-            } else {
-              result.put(collocate, 1L);
-            }
+            CollocateOccurrencesDto dto = result.getOrDefault(collocate, new CollocateOccurrencesDto(0L, 0L, 0L));
+            dto.setOccurrences(dto.getOccurrences() + 1);
+            dto.setLeftOccurrences(dto.getLeftOccurrences() + 1);
+            result.put(collocate, dto);
           } catch (IndexOutOfBoundsException e) {
             break;
           }
@@ -116,11 +118,10 @@ public class CollocateService {
           counter++;
           try {
             String collocate = wordlist.get(counter);
-            if (result.containsKey(collocate)) {
-              result.merge(collocate, 1L, Long::sum);
-            } else {
-              result.put(collocate, 1L);
-            }
+            CollocateOccurrencesDto dto = result.getOrDefault(collocate, new CollocateOccurrencesDto(0L, 0L, 0L));
+            dto.setOccurrences(dto.getOccurrences() + 1);
+            dto.setRightOccurrences(dto.getRightOccurrences() + 1);
+            result.put(collocate, dto);
           } catch (IndexOutOfBoundsException e) {
             break;
           }

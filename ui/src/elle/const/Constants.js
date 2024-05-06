@@ -50,6 +50,30 @@ export const DefaultButtonStyle = {
   }
 };
 
+export const DefaultSliderStyle = {
+  color: '#9C27B0',
+  '& .MuiSlider-rail': {
+    backgroundColor: 'rgba(255, 208, 253, 1)'
+  },
+  '& .MuiSlider-track': {
+    backgroundColor: '#9C27B0'
+  }
+};
+
+export const DefaultInputStyle = {
+  '& .MuiInputBase-input': {
+    padding: '10px',
+    transition: '0.3s',
+    borderBottom: 'solid #FFCFFD 1px',
+    '&:hover': {
+      borderBottom: 'solid #CCA8FE 1px'
+    },
+    '&:focus': {
+      borderBottom: 'solid #852197 1px'
+    }
+  }
+};
+
 export const DefaultButtonStyleSmall = {
   backgroundColor: '#9C27B0',
   fontWeight: 'bold',
@@ -83,7 +107,7 @@ export const CorrectorCustomSlider = {
     backgroundColor: '#9C27B0',
     transformOrigin: 'bottom',
     transform: 'rotate(-45deg)',
-    '&:before': {display: 'none'},
+    '&:before': { display: 'none' },
     '&.MuiSlider-valueLabelOpen': {
       transform: 'translate(40%, -90%) rotate(-45deg)'
     },
@@ -114,8 +138,8 @@ export const MenuLink = styled(HashLink)({
 });
 
 export const TabStyle = {
-  '& button:hover': {backgroundColor: 'rgba(204, 168, 253, 1)', transition: '0.5s'},
-  '& button:active': {backgroundColor: '#9C27B0'},
+  '& button:hover': { backgroundColor: 'rgba(204, 168, 253, 1)', transition: '0.5s' },
+  '& button:active': { backgroundColor: '#9C27B0' },
   '& button': {
     backgroundColor: 'rgba(255, 208, 253, 1)',
     lineHeight: '60px',
