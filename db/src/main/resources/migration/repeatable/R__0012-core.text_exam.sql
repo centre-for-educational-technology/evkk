@@ -32,7 +32,7 @@ INSERT INTO core.text_property
 VALUES ('636d8adc-94f0-439b-a7f2-56659bacd073', '7040b610-eec6-49a0-9375-250f740ad5e0', 'kodakondsus', 'Määramata');
 INSERT INTO core.text_property
 VALUES ('aa1fa2c2-bf85-4875-94ab-9af34acc7fe3', '7040b610-eec6-49a0-9375-250f740ad5e0', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('85e47e04-4740-457b-8229-78eaa3da9ad0', '7040b610-eec6-49a0-9375-250f740ad5e0', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -75,7 +75,7 @@ VALUES ('1e443ee8-ec86-4214-86c8-319b81374c89', '4e5fb7fc-5cac-4ea6-b921-eab7299
 INSERT INTO core.text_property
 VALUES ('1d83e6d8-cbad-4786-a7d1-f424ee344ac5', '4e5fb7fc-5cac-4ea6-b921-eab7299d8ea5', 'kodakondsus', 'Kasahstan');
 INSERT INTO core.text_property
-VALUES ('b94b3719-674a-4c2b-bd80-2baae6dd23c7', '4e5fb7fc-5cac-4ea6-b921-eab7299d8ea5', 'haridus', 'kõrgharidus');
+VALUES ('b94b3719-674a-4c2b-bd80-2baae6dd23c7', '4e5fb7fc-5cac-4ea6-b921-eab7299d8ea5', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('5157884e-a037-42f2-ab5e-f24760a54bc4', '4e5fb7fc-5cac-4ea6-b921-eab7299d8ea5', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -118,7 +118,7 @@ VALUES ('63d6482e-75f3-4a67-9ab8-75e740e5a3a7', '09198c43-119b-470b-bfaf-bcba3c1
 INSERT INTO core.text_property
 VALUES ('37e99636-b1c5-4f22-84f5-a6e1c1a4a25b', '09198c43-119b-470b-bfaf-bcba3c1deba4', 'kodakondsus', 'Valgevene');
 INSERT INTO core.text_property
-VALUES ('80e8145e-1104-4603-aade-c58c4ae50bf8', '09198c43-119b-470b-bfaf-bcba3c1deba4', 'haridus', 'kõrgharidus');
+VALUES ('80e8145e-1104-4603-aade-c58c4ae50bf8', '09198c43-119b-470b-bfaf-bcba3c1deba4', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('b0149da7-b69a-4156-82f1-14c8cf46d106', '09198c43-119b-470b-bfaf-bcba3c1deba4', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -162,7 +162,7 @@ INSERT INTO core.text_property
 VALUES ('1ce6147e-301b-4aa4-9600-e8b19d556d16', '37d67b93-0a52-4ded-bc91-0424d4f5729f', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('b7c524e3-b434-48f5-8260-51d256485734', '37d67b93-0a52-4ded-bc91-0424d4f5729f', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('9bd03fa0-7a93-4b3a-92b2-abb12d4db399', '37d67b93-0a52-4ded-bc91-0424d4f5729f', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -206,7 +206,7 @@ INSERT INTO core.text_property
 VALUES ('0c499797-870a-4dce-8be9-979e5bd1777d', '489011c2-0975-4151-96f2-998d89c1d406', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('83f31690-628b-4751-99d3-54f455bb9bcf', '489011c2-0975-4151-96f2-998d89c1d406', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('195fb5d0-565e-4171-bf8d-7a30bc63120a', '489011c2-0975-4151-96f2-998d89c1d406', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -250,7 +250,7 @@ INSERT INTO core.text_property
 VALUES ('eebd89c9-70ee-49f1-9da7-4cd3f9b4c674', '584c47e0-aae9-459a-a125-cb869d0052de', 'kodakondsus', 'Määramata');
 INSERT INTO core.text_property
 VALUES ('a489d449-72b3-4632-8653-55b0a0043942', '584c47e0-aae9-459a-a125-cb869d0052de', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('36688763-52c7-4a6c-b72f-29e55bcbf2df', '584c47e0-aae9-459a-a125-cb869d0052de', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -293,7 +293,7 @@ VALUES ('233e60e2-5bbc-4b10-8798-469519d0263f', 'f8459b9b-ce6f-4c6d-8b1b-d14b589
 INSERT INTO core.text_property
 VALUES ('b855291f-e68a-43ef-b66c-3c6bcaf5ab41', 'f8459b9b-ce6f-4c6d-8b1b-d14b589be330', 'kodakondsus', 'Valgevene');
 INSERT INTO core.text_property
-VALUES ('587f4c5d-6d9c-468b-aef4-50217e74213a', 'f8459b9b-ce6f-4c6d-8b1b-d14b589be330', 'haridus', 'kõrgharidus');
+VALUES ('587f4c5d-6d9c-468b-aef4-50217e74213a', 'f8459b9b-ce6f-4c6d-8b1b-d14b589be330', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('542f65fe-76c8-44ac-8fb7-576309f6e0fe', 'f8459b9b-ce6f-4c6d-8b1b-d14b589be330', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -336,7 +336,7 @@ VALUES ('32e6b95e-448c-41e5-bc15-0a0ee877b2b1', '3f588581-d48c-4554-82e5-497c851
 INSERT INTO core.text_property
 VALUES ('4edc0ea9-6246-427f-96a7-1f81dcd157fc', '3f588581-d48c-4554-82e5-497c851e2292', 'kodakondsus', 'Valgevene');
 INSERT INTO core.text_property
-VALUES ('e19d661b-b650-43ce-a419-f9d1a848567d', '3f588581-d48c-4554-82e5-497c851e2292', 'haridus', 'kõrgharidus');
+VALUES ('e19d661b-b650-43ce-a419-f9d1a848567d', '3f588581-d48c-4554-82e5-497c851e2292', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('de8b68c5-d810-46c6-9360-05376230bd36', '3f588581-d48c-4554-82e5-497c851e2292', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -379,7 +379,7 @@ VALUES ('611682a8-2a5f-4b84-9a46-0ccdc4f13702', '8551ea2f-11c1-4180-8e3d-3bdd7fc
 INSERT INTO core.text_property
 VALUES ('db16893e-85c0-4082-97c8-10df9a152f36', '8551ea2f-11c1-4180-8e3d-3bdd7fccd205', 'kodakondsus', 'Määramata');
 INSERT INTO core.text_property
-VALUES ('af146759-cce6-4615-91cb-d4651af5bca6', '8551ea2f-11c1-4180-8e3d-3bdd7fccd205', 'haridus', 'kõrgharidus');
+VALUES ('af146759-cce6-4615-91cb-d4651af5bca6', '8551ea2f-11c1-4180-8e3d-3bdd7fccd205', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('09a5d60b-bcee-4b40-b15d-9c09cd175d80', '8551ea2f-11c1-4180-8e3d-3bdd7fccd205', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -422,7 +422,7 @@ VALUES ('8df5f11b-ceb4-462c-838b-ffa1eda4eb3e', '61a88c43-0c9d-44be-86d8-153d921
 INSERT INTO core.text_property
 VALUES ('755eb56b-d8df-4d87-b72f-728d9f8f89b1', '61a88c43-0c9d-44be-86d8-153d921ee9b2', 'kodakondsus', 'Itaalia');
 INSERT INTO core.text_property
-VALUES ('0124ef0e-1c9a-4793-9115-332c0d19bed5', '61a88c43-0c9d-44be-86d8-153d921ee9b2', 'haridus', 'kõrgharidus');
+VALUES ('0124ef0e-1c9a-4793-9115-332c0d19bed5', '61a88c43-0c9d-44be-86d8-153d921ee9b2', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('91fd52ce-d556-4d79-94d0-ffce53e4d6cd', '61a88c43-0c9d-44be-86d8-153d921ee9b2', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -465,7 +465,7 @@ VALUES ('e9af3d64-9eb6-441b-9fb9-ac55226c802b', 'ab105a04-af6e-4677-b15e-d44f55e
 INSERT INTO core.text_property
 VALUES ('482fa8fd-e35b-4e08-97f0-1b5217a38692', 'ab105a04-af6e-4677-b15e-d44f55e2ade1', 'kodakondsus', 'Afganistan');
 INSERT INTO core.text_property
-VALUES ('c1e07a4c-653b-4fed-82e9-78ba19700f94', 'ab105a04-af6e-4677-b15e-d44f55e2ade1', 'haridus', 'keskharidus');
+VALUES ('c1e07a4c-653b-4fed-82e9-78ba19700f94', 'ab105a04-af6e-4677-b15e-d44f55e2ade1', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('aea2e19e-4483-4093-a5cf-ef622898a66d', 'ab105a04-af6e-4677-b15e-d44f55e2ade1', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -508,7 +508,7 @@ VALUES ('64717189-d83e-4be9-bdc1-8d43a2807865', '951bc2bd-4486-499a-967e-66c6f6f
 INSERT INTO core.text_property
 VALUES ('717f205b-7125-4222-933e-cbffe132620f', '951bc2bd-4486-499a-967e-66c6f6f69c26', 'kodakondsus', 'Ukraina');
 INSERT INTO core.text_property
-VALUES ('084b5a0b-35e2-4143-8e37-cde91440fa2c', '951bc2bd-4486-499a-967e-66c6f6f69c26', 'haridus', 'kõrgharidus');
+VALUES ('084b5a0b-35e2-4143-8e37-cde91440fa2c', '951bc2bd-4486-499a-967e-66c6f6f69c26', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('6b8adab9-5100-44c9-8c14-b8db1dd8f4a3', '951bc2bd-4486-499a-967e-66c6f6f69c26', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -551,7 +551,7 @@ VALUES ('da768a42-ca5e-42ca-855a-2bde789f4da6', 'c1e6af0a-c05e-4e61-8f5c-40fd8eb
 INSERT INTO core.text_property
 VALUES ('6084fe53-85c6-4f3e-8102-d50ddea5a68a', 'c1e6af0a-c05e-4e61-8f5c-40fd8eb971ff', 'kodakondsus', 'Ukraina');
 INSERT INTO core.text_property
-VALUES ('831548dd-1ed0-4629-9d1e-2623f763f545', 'c1e6af0a-c05e-4e61-8f5c-40fd8eb971ff', 'haridus', 'kõrgharidus');
+VALUES ('831548dd-1ed0-4629-9d1e-2623f763f545', 'c1e6af0a-c05e-4e61-8f5c-40fd8eb971ff', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('e99ae176-0966-4936-83fe-bf76ec366d42', 'c1e6af0a-c05e-4e61-8f5c-40fd8eb971ff', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -595,7 +595,7 @@ INSERT INTO core.text_property
 VALUES ('edb44977-961a-433a-ad66-273736b3e4d1', 'fa2adfa9-5da9-4fb3-a46b-13cfbaa4f849', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('4a9b3304-2054-4328-b9c6-32d571a3b1ec', 'fa2adfa9-5da9-4fb3-a46b-13cfbaa4f849', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('747e7a0f-7a22-4a9b-b58c-7c6b3860fb32', 'fa2adfa9-5da9-4fb3-a46b-13cfbaa4f849', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -638,7 +638,7 @@ VALUES ('9557c1e2-c402-4533-a25e-8b2d0957ae3a', '5f359232-b5a7-4c23-9a58-3ae6e53
 INSERT INTO core.text_property
 VALUES ('d0e387c1-e3dd-48c0-90cc-a6cddb67f063', '5f359232-b5a7-4c23-9a58-3ae6e5338421', 'kodakondsus', 'Läti');
 INSERT INTO core.text_property
-VALUES ('1eb6d3b8-e090-4fe6-a666-cf2f2f0dd9f4', '5f359232-b5a7-4c23-9a58-3ae6e5338421', 'haridus', 'kõrgharidus');
+VALUES ('1eb6d3b8-e090-4fe6-a666-cf2f2f0dd9f4', '5f359232-b5a7-4c23-9a58-3ae6e5338421', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('6a7622fa-a44d-4eae-bb86-bb36be1248a5', '5f359232-b5a7-4c23-9a58-3ae6e5338421', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -682,7 +682,7 @@ INSERT INTO core.text_property
 VALUES ('4e5997be-5687-4171-b7e8-f150f6512ac0', 'ed07afd3-301d-4fe6-8981-628c3a87d962', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('261ece12-6a23-450a-90fe-9371e961698e', 'ed07afd3-301d-4fe6-8981-628c3a87d962', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('81309be9-78e3-465a-84ec-a121e713dbfb', 'ed07afd3-301d-4fe6-8981-628c3a87d962', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -725,7 +725,7 @@ VALUES ('87b3a26b-fbc9-4167-9e8e-b8db715f7be9', '2e63c4f3-cea9-4ede-8009-68196de
 INSERT INTO core.text_property
 VALUES ('ca145c6a-e842-484e-9dfb-d94868983aff', '2e63c4f3-cea9-4ede-8009-68196def7d0d', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('854dfdc0-6109-47bc-8264-daed7f45bff4', '2e63c4f3-cea9-4ede-8009-68196def7d0d', 'haridus', 'keskharidus');
+VALUES ('854dfdc0-6109-47bc-8264-daed7f45bff4', '2e63c4f3-cea9-4ede-8009-68196def7d0d', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('fe106131-617d-4c2e-8ff6-f22e57e49c06', '2e63c4f3-cea9-4ede-8009-68196def7d0d', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -768,7 +768,7 @@ VALUES ('297da1c8-1b52-4356-bf2b-ec5f81081e60', 'bff67133-5e7c-47b9-904e-4132504
 INSERT INTO core.text_property
 VALUES ('db61e5c6-e585-4627-80b4-8d053fe5b57e', 'bff67133-5e7c-47b9-904e-413250478968', 'kodakondsus', 'Ukraina');
 INSERT INTO core.text_property
-VALUES ('0b0a36c0-b3c3-40ac-b9ed-ed14326face8', 'bff67133-5e7c-47b9-904e-413250478968', 'haridus', 'kõrgharidus');
+VALUES ('0b0a36c0-b3c3-40ac-b9ed-ed14326face8', 'bff67133-5e7c-47b9-904e-413250478968', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('10606a56-c69a-440f-8aca-8887ef16fef5', 'bff67133-5e7c-47b9-904e-413250478968', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -811,7 +811,7 @@ VALUES ('e9d2acbb-2a94-40c3-b7dc-a0f50985d075', 'deaeb3cb-ec51-4af7-9eaf-0c0abd5
 INSERT INTO core.text_property
 VALUES ('62d3aef6-756f-4b2d-8940-85026e96224d', 'deaeb3cb-ec51-4af7-9eaf-0c0abd581134', 'kodakondsus', 'Läti');
 INSERT INTO core.text_property
-VALUES ('72cf4de4-28e4-4cad-8d6e-a4bb8597e9cf', 'deaeb3cb-ec51-4af7-9eaf-0c0abd581134', 'haridus', 'kõrgharidus');
+VALUES ('72cf4de4-28e4-4cad-8d6e-a4bb8597e9cf', 'deaeb3cb-ec51-4af7-9eaf-0c0abd581134', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('b076b81f-10e7-40fd-a451-6da5e6988011', 'deaeb3cb-ec51-4af7-9eaf-0c0abd581134', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -854,7 +854,7 @@ VALUES ('d0d24a53-e982-418a-9b62-a477fabdb8bc', '118453eb-4ff6-43cc-a95d-72b2c56
 INSERT INTO core.text_property
 VALUES ('66ba5235-6809-41c7-94ae-7b55b8e6976e', '118453eb-4ff6-43cc-a95d-72b2c561e911', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('f2f924c3-41c1-4038-8b68-b379fa4bb010', '118453eb-4ff6-43cc-a95d-72b2c561e911', 'haridus', 'kõrgharidus');
+VALUES ('f2f924c3-41c1-4038-8b68-b379fa4bb010', '118453eb-4ff6-43cc-a95d-72b2c561e911', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('2140d141-9797-4853-b302-062a86edd78f', '118453eb-4ff6-43cc-a95d-72b2c561e911', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -897,7 +897,7 @@ VALUES ('ad040b8d-8c09-4763-a156-abae0ccbec61', '919be6cf-b4d9-4dd3-a2aa-d7728a9
 INSERT INTO core.text_property
 VALUES ('e90b3710-7219-4388-9b6b-2c86251e8b80', '919be6cf-b4d9-4dd3-a2aa-d7728a9b8737', 'kodakondsus', 'Rumeenia');
 INSERT INTO core.text_property
-VALUES ('19983060-74f9-4a6c-8179-bd2897bc7964', '919be6cf-b4d9-4dd3-a2aa-d7728a9b8737', 'haridus', 'kõrgharidus');
+VALUES ('19983060-74f9-4a6c-8179-bd2897bc7964', '919be6cf-b4d9-4dd3-a2aa-d7728a9b8737', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('5f1e4e14-d6e1-425e-b592-ded1c1c593b7', '919be6cf-b4d9-4dd3-a2aa-d7728a9b8737', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -940,7 +940,7 @@ VALUES ('325f0d91-0e9c-4f67-bc65-6a029cf1e641', '2498495f-661e-4120-b244-6ffdc01
 INSERT INTO core.text_property
 VALUES ('410e05f6-d6f7-4170-a9e1-4f8e804102ea', '2498495f-661e-4120-b244-6ffdc01b8406', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('93e1573f-099a-49de-b010-ff312f0e5968', '2498495f-661e-4120-b244-6ffdc01b8406', 'haridus', 'kõrgharidus');
+VALUES ('93e1573f-099a-49de-b010-ff312f0e5968', '2498495f-661e-4120-b244-6ffdc01b8406', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('f27de2a4-d62b-49b5-a0b7-54b77df00bc9', '2498495f-661e-4120-b244-6ffdc01b8406', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -985,7 +985,7 @@ VALUES ('b0de43b6-e8db-42bb-b7a3-9aeeb709650a', '47fab1fb-3f2e-4a04-a58e-1f57eda
         'Ameerika Ühendriigid');
 INSERT INTO core.text_property
 VALUES ('0e931206-047d-48c8-a9f0-4e4ff6479e27', '47fab1fb-3f2e-4a04-a58e-1f57eda97d5d', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('c336a7f1-6919-4c02-8b5a-04909382da81', '47fab1fb-3f2e-4a04-a58e-1f57eda97d5d', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -1029,7 +1029,7 @@ INSERT INTO core.text_property
 VALUES ('c41e6483-8a33-4f3d-bd74-34c4bec6516f', 'b13a2420-f688-44a0-8ae3-0de3e47679c8', 'kodakondsus', 'Läti');
 INSERT INTO core.text_property
 VALUES ('12ac7195-6a71-4754-a01e-ec604f830f59', 'b13a2420-f688-44a0-8ae3-0de3e47679c8', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('259b25da-1da2-4a36-928d-419f5e8fbbc6', 'b13a2420-f688-44a0-8ae3-0de3e47679c8', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -1072,7 +1072,7 @@ VALUES ('82457fca-dd31-48aa-96ff-eeab4308710d', 'ac3eb34a-ea60-4098-a7e1-067362e
 INSERT INTO core.text_property
 VALUES ('42caa5f7-8ef5-4101-89e1-472e645609ad', 'ac3eb34a-ea60-4098-a7e1-067362ef6363', 'kodakondsus', 'Läti');
 INSERT INTO core.text_property
-VALUES ('13e875d8-9842-4e90-9bf5-11aaf68f1aff', 'ac3eb34a-ea60-4098-a7e1-067362ef6363', 'haridus', 'keskharidus');
+VALUES ('13e875d8-9842-4e90-9bf5-11aaf68f1aff', 'ac3eb34a-ea60-4098-a7e1-067362ef6363', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('36bd9946-3fc2-494a-9bd7-b97a12ca7081', 'ac3eb34a-ea60-4098-a7e1-067362ef6363', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -1115,7 +1115,7 @@ VALUES ('a221c5e6-fb90-4d3c-8f8c-bccd11e864fc', '134bd783-dc3c-48d2-b504-cf1ce07
 INSERT INTO core.text_property
 VALUES ('46b7d116-d390-469d-9c35-9386a111d05e', '134bd783-dc3c-48d2-b504-cf1ce0748e14', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('0ed43e14-d278-4071-9e52-241f4fb0e748', '134bd783-dc3c-48d2-b504-cf1ce0748e14', 'haridus', 'kõrgharidus');
+VALUES ('0ed43e14-d278-4071-9e52-241f4fb0e748', '134bd783-dc3c-48d2-b504-cf1ce0748e14', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('470f97c4-5c9c-4bee-9d47-30d606f638dc', '134bd783-dc3c-48d2-b504-cf1ce0748e14', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -1158,7 +1158,7 @@ VALUES ('7c722866-5ff8-4335-bae2-783b499b54ed', 'f7db24fb-7928-41ff-892b-0e6e42d
 INSERT INTO core.text_property
 VALUES ('50ff1292-41e5-4a86-8648-611eb86bd81e', 'f7db24fb-7928-41ff-892b-0e6e42d0103e', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('0254a48b-d687-40fa-b1d1-7e9be2f2a4a1', 'f7db24fb-7928-41ff-892b-0e6e42d0103e', 'haridus', 'kõrgharidus');
+VALUES ('0254a48b-d687-40fa-b1d1-7e9be2f2a4a1', 'f7db24fb-7928-41ff-892b-0e6e42d0103e', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('e1f89007-ae3d-4818-8fbe-7db9ea04eb9d', 'f7db24fb-7928-41ff-892b-0e6e42d0103e', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -1202,7 +1202,7 @@ INSERT INTO core.text_property
 VALUES ('26d96a3c-84e3-4e0f-9f1c-49d1b322da9a', 'a3f55d3a-d56e-4daa-8b9d-025017e1c68f', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
 VALUES ('6757a6af-d2b8-45c0-97cb-530b91dabc2c', 'a3f55d3a-d56e-4daa-8b9d-025017e1c68f', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('893b68a1-d832-4ca4-8a6b-80546394921d', 'a3f55d3a-d56e-4daa-8b9d-025017e1c68f', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -1246,7 +1246,7 @@ INSERT INTO core.text_property
 VALUES ('a3943881-991f-48ae-b74b-a525d53628d6', '4c4213fd-6903-48c2-ba77-d9367b7d2cad', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('40bc19fc-3013-408e-8cc8-9c55d065fb0c', '4c4213fd-6903-48c2-ba77-d9367b7d2cad', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('8de0ed91-4c03-42d4-ab56-0af3c42fe383', '4c4213fd-6903-48c2-ba77-d9367b7d2cad', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -1290,7 +1290,7 @@ INSERT INTO core.text_property
 VALUES ('de3de984-63ee-4143-bc94-5d710297d787', '781108d5-616a-4cc8-a892-e962201fab0c', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
 VALUES ('2de34ee3-0c92-4b1f-973f-f18599921730', '781108d5-616a-4cc8-a892-e962201fab0c', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('99971a09-e69d-4c67-8609-55fd238cb6e8', '781108d5-616a-4cc8-a892-e962201fab0c', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -1334,7 +1334,7 @@ INSERT INTO core.text_property
 VALUES ('4f0c8e42-e25c-4376-9131-b94533bb77e3', 'ab27766f-ce69-43ba-89bd-89f404845b4b', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('d9ea901b-a764-4b5c-839c-276694b21dae', 'ab27766f-ce69-43ba-89bd-89f404845b4b', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('87a0a0e4-960d-4a96-8c95-58384474d4d1', 'ab27766f-ce69-43ba-89bd-89f404845b4b', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -1378,7 +1378,7 @@ INSERT INTO core.text_property
 VALUES ('4d788bdd-886a-40c9-8f8e-d1abd975b993', '2a12d1b1-dcb6-42ce-bda7-bcfabe81005c', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('3b38d3ad-9942-4277-86a8-0a2be78d5293', '2a12d1b1-dcb6-42ce-bda7-bcfabe81005c', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('be8ff450-38f3-41fc-bc3e-5e1845187cfb', '2a12d1b1-dcb6-42ce-bda7-bcfabe81005c', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -1422,7 +1422,7 @@ INSERT INTO core.text_property
 VALUES ('5ecb0ead-22c9-4bf9-b1df-8c239c1a3f2f', '50e1e104-f444-4478-a6b7-3db2b4023e68', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('477202fd-1935-4588-be93-5745bc4398e6', '50e1e104-f444-4478-a6b7-3db2b4023e68', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('f7221984-2258-4cd5-832d-ad7b7c9cf2c9', '50e1e104-f444-4478-a6b7-3db2b4023e68', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -1466,7 +1466,7 @@ INSERT INTO core.text_property
 VALUES ('9ad209cc-f48d-48d0-98bd-08c0c8577f64', 'a6b89a46-49ff-445b-848c-c88f1da78c0f', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('9aca417a-4d25-4903-82ef-b61d80540c9b', 'a6b89a46-49ff-445b-848c-c88f1da78c0f', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('3e82298a-22be-4d4d-9cb7-d542659f78ef', 'a6b89a46-49ff-445b-848c-c88f1da78c0f', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -1509,7 +1509,7 @@ VALUES ('fab9aae4-f200-44ee-bd57-4c34512e8241', 'aa2e65d6-7468-4bdd-9230-6ff7f59
 INSERT INTO core.text_property
 VALUES ('dadf7ba4-a9f6-4f3b-984c-813d01291352', 'aa2e65d6-7468-4bdd-9230-6ff7f599ca34', 'kodakondsus', 'Ukraina');
 INSERT INTO core.text_property
-VALUES ('e7ddbf65-93a3-4096-9cb4-6b54f5fd027a', 'aa2e65d6-7468-4bdd-9230-6ff7f599ca34', 'haridus', 'kõrgharidus');
+VALUES ('e7ddbf65-93a3-4096-9cb4-6b54f5fd027a', 'aa2e65d6-7468-4bdd-9230-6ff7f599ca34', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('53d43f84-43ce-402b-845d-1ea20d602088', 'aa2e65d6-7468-4bdd-9230-6ff7f599ca34', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -1553,7 +1553,7 @@ INSERT INTO core.text_property
 VALUES ('ff1ef074-77cf-48e8-9757-d236b6121c93', 'e0d0af44-3320-49be-a48e-5f51ce7b5451', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('2cf5e46e-1d62-432c-a1f3-962eb3470060', 'e0d0af44-3320-49be-a48e-5f51ce7b5451', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('efa0faff-1cd6-41dc-ae1c-d821ef980c9d', 'e0d0af44-3320-49be-a48e-5f51ce7b5451', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -1596,7 +1596,7 @@ VALUES ('58df9d9b-859a-4d0c-8e0a-e208d7f81d8b', '81209a65-8448-4413-9ec4-b8bc592
 INSERT INTO core.text_property
 VALUES ('7550fc32-71ee-40ff-9615-a969a762f813', '81209a65-8448-4413-9ec4-b8bc5920ca9b', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('a6319794-224e-4e50-806a-f2e411407ea5', '81209a65-8448-4413-9ec4-b8bc5920ca9b', 'haridus', 'keskharidus');
+VALUES ('a6319794-224e-4e50-806a-f2e411407ea5', '81209a65-8448-4413-9ec4-b8bc5920ca9b', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('95a735f7-8bdc-4fe5-bf66-6e5af26dcec0', '81209a65-8448-4413-9ec4-b8bc5920ca9b', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -1639,7 +1639,7 @@ VALUES ('8bd7e8a2-8264-4695-bd34-2e99a6015cc9', '185c599d-86c1-42f0-b1b2-f5e7267
 INSERT INTO core.text_property
 VALUES ('b0ac0eee-1ef4-4bec-8c0c-b5c834a3c64a', '185c599d-86c1-42f0-b1b2-f5e726725916', 'kodakondsus', 'Ukraina');
 INSERT INTO core.text_property
-VALUES ('f5e104c3-0564-485a-9a5c-c599fee861f6', '185c599d-86c1-42f0-b1b2-f5e726725916', 'haridus', 'kõrgharidus');
+VALUES ('f5e104c3-0564-485a-9a5c-c599fee861f6', '185c599d-86c1-42f0-b1b2-f5e726725916', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('52da90ce-c8ad-43de-9f44-ceddcd2c9f76', '185c599d-86c1-42f0-b1b2-f5e726725916', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -1682,7 +1682,7 @@ VALUES ('05e04aa1-c5a3-433a-9fc1-7684add84d70', '670324bc-57a9-45df-8dd3-325ace9
 INSERT INTO core.text_property
 VALUES ('754fc34b-6069-41df-947b-5ff0d4327298', '670324bc-57a9-45df-8dd3-325ace965cb8', 'kodakondsus', 'Rumeenia');
 INSERT INTO core.text_property
-VALUES ('2711d71c-3950-4e9b-ac46-78d69cdbfb95', '670324bc-57a9-45df-8dd3-325ace965cb8', 'haridus', 'kõrgharidus');
+VALUES ('2711d71c-3950-4e9b-ac46-78d69cdbfb95', '670324bc-57a9-45df-8dd3-325ace965cb8', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('c4785909-686b-47d4-81ae-6331feeba95b', '670324bc-57a9-45df-8dd3-325ace965cb8', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -1725,7 +1725,7 @@ VALUES ('a825e789-10d5-4392-8d1b-ed0d3b9d4aa3', '4c0aa5ed-c531-4a67-be1b-6ddcb15
 INSERT INTO core.text_property
 VALUES ('4f8ed983-5d91-4ef0-a08b-9b878044bcf1', '4c0aa5ed-c531-4a67-be1b-6ddcb1576b47', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('d23fe180-9c90-4fb6-b8c3-79cfb8422bbb', '4c0aa5ed-c531-4a67-be1b-6ddcb1576b47', 'haridus', 'kõrgharidus');
+VALUES ('d23fe180-9c90-4fb6-b8c3-79cfb8422bbb', '4c0aa5ed-c531-4a67-be1b-6ddcb1576b47', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('01c5e5a4-3932-4ea7-9c92-5b9f95d4fad3', '4c0aa5ed-c531-4a67-be1b-6ddcb1576b47', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -1769,7 +1769,7 @@ INSERT INTO core.text_property
 VALUES ('d8090145-2f85-45c1-bca9-8852a242fd45', '551c5d53-171d-404c-9e14-f95ca6913df2', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('9add7319-73a5-4644-af51-ba4769a012cb', '551c5d53-171d-404c-9e14-f95ca6913df2', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('ff28841c-f4a8-4096-a3f3-d1e155539e8f', '551c5d53-171d-404c-9e14-f95ca6913df2', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -1812,7 +1812,7 @@ VALUES ('58d70ffb-06ce-4d2c-8bfa-f4a4fc942c01', 'eada5d75-05e1-4fe8-8277-eeb3cbd
 INSERT INTO core.text_property
 VALUES ('71613c42-4876-4250-8113-4ccc3b6a12ec', 'eada5d75-05e1-4fe8-8277-eeb3cbdd6b47', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('1bc25b69-041d-4a77-8fb3-5979942b0e8c', 'eada5d75-05e1-4fe8-8277-eeb3cbdd6b47', 'haridus', 'keskharidus');
+VALUES ('1bc25b69-041d-4a77-8fb3-5979942b0e8c', 'eada5d75-05e1-4fe8-8277-eeb3cbdd6b47', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('7c19b602-24a8-4c23-b023-3a1898963462', 'eada5d75-05e1-4fe8-8277-eeb3cbdd6b47', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -1855,7 +1855,7 @@ VALUES ('e5184f25-fc1f-4ae4-801b-d383080e302b', '369372db-037b-43d8-be9e-7fcf2c3
 INSERT INTO core.text_property
 VALUES ('4ce5f174-7449-4e9f-99ac-c71d47d6daeb', '369372db-037b-43d8-be9e-7fcf2c350ce0', 'kodakondsus', 'Ukraina');
 INSERT INTO core.text_property
-VALUES ('5d3040bb-a9ad-415c-9aaa-9a0793f9aa9c', '369372db-037b-43d8-be9e-7fcf2c350ce0', 'haridus', 'kõrgharidus');
+VALUES ('5d3040bb-a9ad-415c-9aaa-9a0793f9aa9c', '369372db-037b-43d8-be9e-7fcf2c350ce0', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('243e0777-e94d-4d7e-b83c-cce6783744d5', '369372db-037b-43d8-be9e-7fcf2c350ce0', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -1898,7 +1898,7 @@ VALUES ('ecb8a584-3a11-42dd-9470-877cb55e1da8', '3d5f723a-676d-4bfb-918b-6506f67
 INSERT INTO core.text_property
 VALUES ('73eef857-3b52-4233-b87b-dd444fd610b7', '3d5f723a-676d-4bfb-918b-6506f6745682', 'kodakondsus', 'Ukraina');
 INSERT INTO core.text_property
-VALUES ('b6d51a78-cb46-4452-a8f9-cd6051902ed7', '3d5f723a-676d-4bfb-918b-6506f6745682', 'haridus', 'kõrgharidus');
+VALUES ('b6d51a78-cb46-4452-a8f9-cd6051902ed7', '3d5f723a-676d-4bfb-918b-6506f6745682', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('e5887eed-f83a-4436-8135-4bb8128b6b98', '3d5f723a-676d-4bfb-918b-6506f6745682', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -1942,7 +1942,7 @@ INSERT INTO core.text_property
 VALUES ('51cc5046-77eb-4a8a-a80b-5944f2038b65', 'cfca40b9-05a9-4ec7-94b5-e50c4ac2686a', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
 VALUES ('7f5762f1-c860-4dd2-8103-b3641244c75a', 'cfca40b9-05a9-4ec7-94b5-e50c4ac2686a', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('b8d20c5a-ab21-4e54-98d4-255702db1f93', 'cfca40b9-05a9-4ec7-94b5-e50c4ac2686a', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -1985,7 +1985,7 @@ VALUES ('63cb14a7-d138-48b4-80b0-ae07190b0abe', '2ce6bb58-677e-41c6-ad4b-bc9d3dc
 INSERT INTO core.text_property
 VALUES ('d83efad9-ba76-426c-b582-4faa9ac5ade1', '2ce6bb58-677e-41c6-ad4b-bc9d3dc68189', 'kodakondsus', 'Valgevene');
 INSERT INTO core.text_property
-VALUES ('1bc1a8d1-2ce0-4b00-aeae-1e619adb05e1', '2ce6bb58-677e-41c6-ad4b-bc9d3dc68189', 'haridus', 'keskharidus');
+VALUES ('1bc1a8d1-2ce0-4b00-aeae-1e619adb05e1', '2ce6bb58-677e-41c6-ad4b-bc9d3dc68189', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('2e951146-d057-48ce-8b6e-7307dac2c69e', '2ce6bb58-677e-41c6-ad4b-bc9d3dc68189', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -2028,7 +2028,7 @@ VALUES ('4e0c63b4-362e-41c1-af66-507a77b4963b', '436ddee6-6085-46c3-8838-1053aa5
 INSERT INTO core.text_property
 VALUES ('489073d9-c2cc-46e8-8712-9467927f7451', '436ddee6-6085-46c3-8838-1053aa50e061', 'kodakondsus', 'Itaalia');
 INSERT INTO core.text_property
-VALUES ('0090a56b-5e36-4ce5-82cc-2acb9cf73089', '436ddee6-6085-46c3-8838-1053aa50e061', 'haridus', 'kõrgharidus');
+VALUES ('0090a56b-5e36-4ce5-82cc-2acb9cf73089', '436ddee6-6085-46c3-8838-1053aa50e061', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('28e01fba-3e0f-43fb-af05-b3c3ee57d409', '436ddee6-6085-46c3-8838-1053aa50e061', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -2072,7 +2072,7 @@ INSERT INTO core.text_property
 VALUES ('aefad350-7edc-4d03-adf3-9284aab8895d', 'c11b456d-1d5c-4420-bed3-11ad7d7840dd', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('3c57dee2-2f5a-4d65-8ef6-9492afc8e30f', 'c11b456d-1d5c-4420-bed3-11ad7d7840dd', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('4abc877b-0147-4c61-b546-4bdd08cd72af', 'c11b456d-1d5c-4420-bed3-11ad7d7840dd', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -2115,7 +2115,7 @@ VALUES ('820ca91a-c8a9-4815-acdc-db76b18b6ce0', '3aa94035-418f-4815-9ff0-96c777c
 INSERT INTO core.text_property
 VALUES ('cf9d5d1b-6673-4c24-b0d1-1c857b45735d', '3aa94035-418f-4815-9ff0-96c777c3d63b', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('c029b68c-3b03-4cdb-9d3b-f2c3e27d370b', '3aa94035-418f-4815-9ff0-96c777c3d63b', 'haridus', 'kõrgharidus');
+VALUES ('c029b68c-3b03-4cdb-9d3b-f2c3e27d370b', '3aa94035-418f-4815-9ff0-96c777c3d63b', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('4d88b0ed-c58e-4be1-ada6-625d8d711a6d', '3aa94035-418f-4815-9ff0-96c777c3d63b', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -2158,7 +2158,7 @@ VALUES ('ed4a7fa8-4193-42eb-999d-6eeb99829bf7', '5bba61f5-8ab4-47a7-9e1f-d37184c
 INSERT INTO core.text_property
 VALUES ('ba2f6a60-d13e-4612-9bca-12cae628a9e6', '5bba61f5-8ab4-47a7-9e1f-d37184cc3691', 'kodakondsus', 'Moldova');
 INSERT INTO core.text_property
-VALUES ('33d3de2d-5078-48da-8d27-1e7f79ae34fb', '5bba61f5-8ab4-47a7-9e1f-d37184cc3691', 'haridus', 'kõrgharidus');
+VALUES ('33d3de2d-5078-48da-8d27-1e7f79ae34fb', '5bba61f5-8ab4-47a7-9e1f-d37184cc3691', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('1bbcf6aa-b1ac-4b74-9f8a-809c529c0310', '5bba61f5-8ab4-47a7-9e1f-d37184cc3691', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -2201,7 +2201,7 @@ VALUES ('2f30fa9d-b3a6-4b14-8858-edecdf8c444c', 'fb6ad3c3-51b8-4a21-8e41-4c8184b
 INSERT INTO core.text_property
 VALUES ('93de7a86-0af2-4819-9d7c-afe00a27ca23', 'fb6ad3c3-51b8-4a21-8e41-4c8184b39a18', 'kodakondsus', 'Süüria');
 INSERT INTO core.text_property
-VALUES ('d10ee8b1-3f69-4549-a0ea-120651f4138f', 'fb6ad3c3-51b8-4a21-8e41-4c8184b39a18', 'haridus', 'kõrgharidus');
+VALUES ('d10ee8b1-3f69-4549-a0ea-120651f4138f', 'fb6ad3c3-51b8-4a21-8e41-4c8184b39a18', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('b73e34d2-df87-4dbd-bb0e-3e0922918ea4', 'fb6ad3c3-51b8-4a21-8e41-4c8184b39a18', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -2245,7 +2245,7 @@ INSERT INTO core.text_property
 VALUES ('825f0620-b36c-402d-84fe-dccd640da02c', '7e8c9c83-1157-4fbb-aecd-60baab55decb', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
 VALUES ('5ec4c4f5-d1c9-4e05-a87d-c21d6a291468', '7e8c9c83-1157-4fbb-aecd-60baab55decb', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('aeedcdd3-f1a9-4228-b75f-754e680ec06d', '7e8c9c83-1157-4fbb-aecd-60baab55decb', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -2288,7 +2288,7 @@ VALUES ('a9ab44c8-e992-47b6-9895-9a160a2fea0f', 'ed59f59f-964e-4c93-8e01-7bccf17
 INSERT INTO core.text_property
 VALUES ('f1b141c4-66dd-49d3-8362-2f2f81476271', 'ed59f59f-964e-4c93-8e01-7bccf1746184', 'kodakondsus', 'Kanada');
 INSERT INTO core.text_property
-VALUES ('bbb40983-628a-4ce1-9fc7-4065d04eb0c5', 'ed59f59f-964e-4c93-8e01-7bccf1746184', 'haridus', 'kõrgharidus');
+VALUES ('bbb40983-628a-4ce1-9fc7-4065d04eb0c5', 'ed59f59f-964e-4c93-8e01-7bccf1746184', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('dd1920d0-66a2-4bbe-8887-00b6000d5aa7', 'ed59f59f-964e-4c93-8e01-7bccf1746184', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -2332,7 +2332,7 @@ INSERT INTO core.text_property
 VALUES ('d508f93c-cef0-4139-8d39-ed0b77e9bdce', 'a0252722-a904-4a59-9d55-42bf8944cb67', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
 VALUES ('61e376df-7a87-4cf1-b485-0a03b196f806', 'a0252722-a904-4a59-9d55-42bf8944cb67', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('3059bdfb-3808-4e8f-bfea-d1469ed9ffdc', 'a0252722-a904-4a59-9d55-42bf8944cb67', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -2376,7 +2376,7 @@ INSERT INTO core.text_property
 VALUES ('3e22a1fc-fcbf-4b55-89b7-9082224db4ad', '29c4e48c-2779-41f9-9697-c6cc2129b37c', 'kodakondsus', 'Ukraina');
 INSERT INTO core.text_property
 VALUES ('92fbca60-673c-4e70-b5ce-911fe6162188', '29c4e48c-2779-41f9-9697-c6cc2129b37c', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('857aad81-4bde-41ba-857d-73d8b27b7ef3', '29c4e48c-2779-41f9-9697-c6cc2129b37c', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -2419,7 +2419,7 @@ VALUES ('5e6f7d46-c83f-458a-b48c-bc112f9add6f', 'be8adcf7-4e89-4b0d-b76c-dc1eb8a
 INSERT INTO core.text_property
 VALUES ('cf79b114-d9db-4b32-8420-03fb58a08d31', 'be8adcf7-4e89-4b0d-b76c-dc1eb8a7c85f', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('09041a91-9c07-471e-a449-5d4774f19938', 'be8adcf7-4e89-4b0d-b76c-dc1eb8a7c85f', 'haridus', 'kõrgharidus');
+VALUES ('09041a91-9c07-471e-a449-5d4774f19938', 'be8adcf7-4e89-4b0d-b76c-dc1eb8a7c85f', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('402fdcea-407c-4f9d-bf0e-9e815f14f53f', 'be8adcf7-4e89-4b0d-b76c-dc1eb8a7c85f', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -2462,7 +2462,7 @@ VALUES ('683c1c09-4182-4502-a8b4-a897593bd0b0', '00e58bfc-5908-4d9b-88ce-3d2ed6a
 INSERT INTO core.text_property
 VALUES ('9639769d-d3ad-4e5e-b5a7-c7a599769ccc', '00e58bfc-5908-4d9b-88ce-3d2ed6a94961', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('6cf57dec-fa52-4c47-98c3-116897c41600', '00e58bfc-5908-4d9b-88ce-3d2ed6a94961', 'haridus', 'keskharidus');
+VALUES ('6cf57dec-fa52-4c47-98c3-116897c41600', '00e58bfc-5908-4d9b-88ce-3d2ed6a94961', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('64a92848-87d9-450a-b811-d3ca6390868d', '00e58bfc-5908-4d9b-88ce-3d2ed6a94961', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -2506,7 +2506,7 @@ INSERT INTO core.text_property
 VALUES ('d22eb24d-ab5b-4001-bb45-1c2e4c949621', '9e9ad773-7658-4f72-8d72-49c2a31f0765', 'kodakondsus', 'Määramata');
 INSERT INTO core.text_property
 VALUES ('e2c8e4da-7ff5-4457-b0bb-88cf37f17a10', '9e9ad773-7658-4f72-8d72-49c2a31f0765', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('cc889d0a-f176-4dc6-b89c-5d52bc9eeddc', '9e9ad773-7658-4f72-8d72-49c2a31f0765', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -2550,7 +2550,7 @@ INSERT INTO core.text_property
 VALUES ('4b6c18eb-f37e-4fde-adde-ebee6fdbf0d4', '4e83cea1-420d-46ae-8933-ef2c8bec7421', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
 VALUES ('0b9ab06d-8e8b-4dd3-9471-f0b6a147a924', '4e83cea1-420d-46ae-8933-ef2c8bec7421', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('0991da6e-9346-4791-95f4-34afb35d643b', '4e83cea1-420d-46ae-8933-ef2c8bec7421', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -2594,7 +2594,7 @@ INSERT INTO core.text_property
 VALUES ('975f7c91-8896-4e3c-935c-ca62607e1cbe', '34bd76b2-3e24-46e2-af21-a776fa72b20a', 'kodakondsus', 'Määramata');
 INSERT INTO core.text_property
 VALUES ('f6c95563-9dea-4f9d-92c6-34a8e905ad2e', '34bd76b2-3e24-46e2-af21-a776fa72b20a', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('711f2886-94ce-4bc8-af38-46b272407224', '34bd76b2-3e24-46e2-af21-a776fa72b20a', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -2724,7 +2724,7 @@ INSERT INTO core.text_property
 VALUES ('698e72dd-5eab-40de-ae64-f89aac9f1ae8', 'c3e84a67-2834-49de-a37b-a23fdafa3a2a', 'kodakondsus', 'Määramata');
 INSERT INTO core.text_property
 VALUES ('50653990-42e1-4ebc-96c8-90dbca271ad7', 'c3e84a67-2834-49de-a37b-a23fdafa3a2a', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('52a1fd47-356b-4b85-b921-420bea52ca69', 'c3e84a67-2834-49de-a37b-a23fdafa3a2a', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -2768,7 +2768,7 @@ INSERT INTO core.text_property
 VALUES ('0768073d-ebc7-4a33-a226-92c232e9225c', '1c61031a-df75-4e97-92d3-371dc172fafe', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('33285e4e-6171-41d2-bb3c-2fc2c56935c5', '1c61031a-df75-4e97-92d3-371dc172fafe', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('3c211b5c-b9fe-4b9e-b9f7-2caa3626a9a3', '1c61031a-df75-4e97-92d3-371dc172fafe', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -2811,7 +2811,7 @@ VALUES ('9431517e-7b82-4d9a-87c0-c566bc12da33', '23e7d41d-7c93-4ab0-9f63-71f969a
 INSERT INTO core.text_property
 VALUES ('d7d1b3a4-78b3-46f2-ad5e-94aea4382d18', '23e7d41d-7c93-4ab0-9f63-71f969a795e9', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('b5862635-096a-4519-b84f-c2afd9a472f3', '23e7d41d-7c93-4ab0-9f63-71f969a795e9', 'haridus', 'kõrgharidus');
+VALUES ('b5862635-096a-4519-b84f-c2afd9a472f3', '23e7d41d-7c93-4ab0-9f63-71f969a795e9', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('7186dd16-a916-4ae8-b5b3-fe07b9e460e6', '23e7d41d-7c93-4ab0-9f63-71f969a795e9', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -2897,7 +2897,7 @@ VALUES ('2cfce474-0d4b-4cd6-b64e-6015260a77fe', 'cf4e7121-a8b1-4686-866b-af63f38
 INSERT INTO core.text_property
 VALUES ('86a16755-bdc5-4b2c-b246-47439d6b335a', 'cf4e7121-a8b1-4686-866b-af63f381c5f6', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('cb376fcb-6d65-4e6a-9798-ff0f27974e5b', 'cf4e7121-a8b1-4686-866b-af63f381c5f6', 'haridus', 'keskharidus');
+VALUES ('cb376fcb-6d65-4e6a-9798-ff0f27974e5b', 'cf4e7121-a8b1-4686-866b-af63f381c5f6', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('908a2570-7276-42e8-a4e3-e07cdc87cda9', 'cf4e7121-a8b1-4686-866b-af63f381c5f6', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -2940,7 +2940,7 @@ VALUES ('c0bf626b-3ee9-458a-8f14-138788b2cf4d', '8344e221-c2a8-403f-8900-ecd4c6a
 INSERT INTO core.text_property
 VALUES ('6f5acd6e-2352-44a6-b87c-a913f59c867f', '8344e221-c2a8-403f-8900-ecd4c6a8153b', 'kodakondsus', 'Türgi');
 INSERT INTO core.text_property
-VALUES ('faff0b4a-7c4a-4ece-9a40-09f8d5edf270', '8344e221-c2a8-403f-8900-ecd4c6a8153b', 'haridus', 'kõrgharidus');
+VALUES ('faff0b4a-7c4a-4ece-9a40-09f8d5edf270', '8344e221-c2a8-403f-8900-ecd4c6a8153b', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('ae45d2a5-9e93-440e-bbcf-408a075ec432', '8344e221-c2a8-403f-8900-ecd4c6a8153b', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -2984,7 +2984,7 @@ INSERT INTO core.text_property
 VALUES ('1a436e8e-aae0-4326-9732-a0bc0759a89e', 'bd60c3f6-585b-439c-bcae-aa1c0d1f62a5', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
 VALUES ('21ee8fc8-f485-4048-8130-30d6a80f3ddf', 'bd60c3f6-585b-439c-bcae-aa1c0d1f62a5', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('76adc98e-4c6b-4c15-b186-3d38e73264d9', 'bd60c3f6-585b-439c-bcae-aa1c0d1f62a5', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -3027,7 +3027,7 @@ VALUES ('899e8459-f38d-48c6-9864-bdc53d4e3795', 'a81e5b8e-c2f4-466b-9712-c10cb73
 INSERT INTO core.text_property
 VALUES ('bedc556a-831a-4384-b0a5-3c2f1b3a08fb', 'a81e5b8e-c2f4-466b-9712-c10cb73a20a8', 'kodakondsus', 'Määramata');
 INSERT INTO core.text_property
-VALUES ('8b87e4ee-679b-4643-a943-63b2e1ff705e', 'a81e5b8e-c2f4-466b-9712-c10cb73a20a8', 'haridus', 'kõrgharidus');
+VALUES ('8b87e4ee-679b-4643-a943-63b2e1ff705e', 'a81e5b8e-c2f4-466b-9712-c10cb73a20a8', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('5670c88c-8422-408e-b250-bc17a56d28b5', 'a81e5b8e-c2f4-466b-9712-c10cb73a20a8', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -3070,7 +3070,7 @@ VALUES ('d74f4dcf-7efa-443a-8357-bba2b40d78b3', '5acdc33a-a922-4b35-a66d-e7c85cc
 INSERT INTO core.text_property
 VALUES ('ffc0e657-123e-4368-b49e-50568de04427', '5acdc33a-a922-4b35-a66d-e7c85cc9c3af', 'kodakondsus', 'Aserbaidžaan');
 INSERT INTO core.text_property
-VALUES ('d717b2de-b0e3-40c4-873a-7d21a0e9ba2c', '5acdc33a-a922-4b35-a66d-e7c85cc9c3af', 'haridus', 'kõrgharidus');
+VALUES ('d717b2de-b0e3-40c4-873a-7d21a0e9ba2c', '5acdc33a-a922-4b35-a66d-e7c85cc9c3af', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('f1c06402-c7a2-441d-a497-ca15d103171d', '5acdc33a-a922-4b35-a66d-e7c85cc9c3af', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -3113,7 +3113,7 @@ VALUES ('21f1a0eb-14ae-4238-83b3-e2d6332eda14', '70d7d33e-0bec-4b1c-aeb2-4be3bfd
 INSERT INTO core.text_property
 VALUES ('3e41a342-54bc-4fde-9b37-e339107b8ce0', '70d7d33e-0bec-4b1c-aeb2-4be3bfd4fc4a', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('8084843b-b393-4cd4-832d-47a1207fe5a1', '70d7d33e-0bec-4b1c-aeb2-4be3bfd4fc4a', 'haridus', 'kõrgharidus');
+VALUES ('8084843b-b393-4cd4-832d-47a1207fe5a1', '70d7d33e-0bec-4b1c-aeb2-4be3bfd4fc4a', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('982ec201-1e1d-4e1e-9a7d-f603c6dc3404', '70d7d33e-0bec-4b1c-aeb2-4be3bfd4fc4a', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -3285,7 +3285,7 @@ VALUES ('49b1e642-acfe-4d81-a3c3-4ffa988cd07a', '67da58e1-e1fa-4a23-9aea-509dec1
 INSERT INTO core.text_property
 VALUES ('5aae820b-45f7-4143-9662-4fc2ee6c2fa9', '67da58e1-e1fa-4a23-9aea-509dec1e30e5', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('037d24c6-09a4-4b96-aed0-6c094d7fcb5b', '67da58e1-e1fa-4a23-9aea-509dec1e30e5', 'haridus', 'keskharidus');
+VALUES ('037d24c6-09a4-4b96-aed0-6c094d7fcb5b', '67da58e1-e1fa-4a23-9aea-509dec1e30e5', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('fe162af3-458d-43ad-b349-d9798ab81f19', '67da58e1-e1fa-4a23-9aea-509dec1e30e5', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -3415,7 +3415,7 @@ INSERT INTO core.text_property
 VALUES ('c77d1f26-2b96-4db8-a6b7-fd356252db0f', '5567efda-f7fe-455d-aedb-b676845cec51', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('ef548a15-4f67-400a-9496-537ccb5ce899', '5567efda-f7fe-455d-aedb-b676845cec51', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('5c44f4ec-13b4-4811-a328-5a1cc2337acc', '5567efda-f7fe-455d-aedb-b676845cec51', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -3459,7 +3459,7 @@ INSERT INTO core.text_property
 VALUES ('b8bd97f2-d7bf-4b75-bbd6-cf8e5a387982', 'a0e86b41-b6ee-4159-bfc7-01e50a22e9fb', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('a14ceeb4-8f4d-4458-9f9d-39ba7b0665ec', 'a0e86b41-b6ee-4159-bfc7-01e50a22e9fb', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('3e009d13-b63c-474a-b5c8-640bb2392279', 'a0e86b41-b6ee-4159-bfc7-01e50a22e9fb', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -3503,7 +3503,7 @@ INSERT INTO core.text_property
 VALUES ('38b2afab-0826-4562-9b0b-429085eb46b4', '5890ceb1-7d99-4845-beb1-c07eafedf132', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('3436b21c-90a5-49ac-a85d-bd6c0f24036f', '5890ceb1-7d99-4845-beb1-c07eafedf132', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('a8846fdf-1c75-4ebe-8f81-c47556ac91c2', '5890ceb1-7d99-4845-beb1-c07eafedf132', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -3589,7 +3589,7 @@ VALUES ('602652f7-a15f-4228-96be-73a31c83fffe', '5eb7c1f7-b0cb-466d-b662-9fd4ec7
 INSERT INTO core.text_property
 VALUES ('7c4cf882-674e-47ad-8ca4-a3b2a727f967', '5eb7c1f7-b0cb-466d-b662-9fd4ec788804', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('edb288db-1064-402b-aa84-21b36afff9ee', '5eb7c1f7-b0cb-466d-b662-9fd4ec788804', 'haridus', 'kõrgharidus');
+VALUES ('edb288db-1064-402b-aa84-21b36afff9ee', '5eb7c1f7-b0cb-466d-b662-9fd4ec788804', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('1116a5b2-2b26-4b9a-afbe-a906f79120d0', '5eb7c1f7-b0cb-466d-b662-9fd4ec788804', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -3633,7 +3633,7 @@ INSERT INTO core.text_property
 VALUES ('e8412a53-1f39-4bb2-b9e6-c63f78d2d60c', '73fc61b1-3639-4af0-a56d-4deb6b18fda1', 'kodakondsus', 'Määramata');
 INSERT INTO core.text_property
 VALUES ('24374d35-58d4-411f-9dd3-e7a22eaf7ef5', '73fc61b1-3639-4af0-a56d-4deb6b18fda1', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('1639343e-9933-41c8-b93c-ef8aa2669631', '73fc61b1-3639-4af0-a56d-4deb6b18fda1', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -3676,7 +3676,7 @@ VALUES ('6e011097-0ac5-45b9-9c72-59884e2ec1fb', 'c16ebe8a-dd59-4614-8c47-aa79013
 INSERT INTO core.text_property
 VALUES ('ebb5d9dc-2e54-4224-bcd9-aa2187d9f5ae', 'c16ebe8a-dd59-4614-8c47-aa79013c39a8', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('1ede2847-4c6c-409f-ade3-69ecaa51b749', 'c16ebe8a-dd59-4614-8c47-aa79013c39a8', 'haridus', 'kõrgharidus');
+VALUES ('1ede2847-4c6c-409f-ade3-69ecaa51b749', 'c16ebe8a-dd59-4614-8c47-aa79013c39a8', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('77c0abbf-960c-4e9f-ad5e-6bafe44f140d', 'c16ebe8a-dd59-4614-8c47-aa79013c39a8', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -3719,7 +3719,7 @@ VALUES ('d9cb367c-ff09-42ae-9633-e9c87107ba3b', 'f3f744b7-a8f5-45ac-986c-842b8b2
 INSERT INTO core.text_property
 VALUES ('f15d0e21-b64f-4025-a14e-8c6dab29f255', 'f3f744b7-a8f5-45ac-986c-842b8b2d930b', 'kodakondsus', 'Määramata');
 INSERT INTO core.text_property
-VALUES ('2bf89ba0-26c7-4bb1-94a6-d5fcc43ec061', 'f3f744b7-a8f5-45ac-986c-842b8b2d930b', 'haridus', 'keskharidus');
+VALUES ('2bf89ba0-26c7-4bb1-94a6-d5fcc43ec061', 'f3f744b7-a8f5-45ac-986c-842b8b2d930b', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('2220bf4c-c5f8-4258-a0c8-f59ad21a6c16', 'f3f744b7-a8f5-45ac-986c-842b8b2d930b', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -3763,7 +3763,7 @@ INSERT INTO core.text_property
 VALUES ('66b65c95-4a8f-49ae-b6af-76c525ec5fe3', '88f15e80-e2b7-433d-aa7a-fb6543f5556c', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('c7711ade-98be-4365-a0bf-9a1217347b2a', '88f15e80-e2b7-433d-aa7a-fb6543f5556c', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('13ebf051-282d-4387-9623-a30aa2446c53', '88f15e80-e2b7-433d-aa7a-fb6543f5556c', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -3806,7 +3806,7 @@ VALUES ('b0017e67-6eac-43c4-b113-31b762cb0814', '41daf086-9159-4a9d-8d6d-c4d27c2
 INSERT INTO core.text_property
 VALUES ('228397e0-068f-4ed6-b961-a70123e28231', '41daf086-9159-4a9d-8d6d-c4d27c2bda87', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('1e975a13-d215-41b9-9bc0-492b6d92d277', '41daf086-9159-4a9d-8d6d-c4d27c2bda87', 'haridus', 'keskharidus');
+VALUES ('1e975a13-d215-41b9-9bc0-492b6d92d277', '41daf086-9159-4a9d-8d6d-c4d27c2bda87', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('f1622db8-2d9a-4e0a-afd1-271e3d7cee81', '41daf086-9159-4a9d-8d6d-c4d27c2bda87', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -3850,7 +3850,7 @@ INSERT INTO core.text_property
 VALUES ('29beee7c-e305-4724-aad2-837a1faf5baf', '0db32a03-f75e-4588-94be-87b441b4a7e7', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('5569c78d-175b-4804-a8cf-6eb7422a1119', '0db32a03-f75e-4588-94be-87b441b4a7e7', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('f570d9ed-bca3-4e3a-b1f3-ee37fc32a69f', '0db32a03-f75e-4588-94be-87b441b4a7e7', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -3894,7 +3894,7 @@ INSERT INTO core.text_property
 VALUES ('7f416814-6489-485e-b1d5-b6010c756a70', '53f346c7-4d8c-4991-becd-e1b3e79a6fa3', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('e6d15b68-59e4-4bfe-a59c-e0119807c57d', '53f346c7-4d8c-4991-becd-e1b3e79a6fa3', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('27dc8ab5-fda1-4187-bab7-47f3e9aeb575', '53f346c7-4d8c-4991-becd-e1b3e79a6fa3', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -3937,7 +3937,7 @@ VALUES ('a10df996-aefe-48d6-8f70-dd22e7fd5ad2', 'a16a18ac-7ef9-409f-8dbf-4c2e4f9
 INSERT INTO core.text_property
 VALUES ('e3a9f231-2603-4c9c-a63a-19c8b22cf6c5', 'a16a18ac-7ef9-409f-8dbf-4c2e4f9b0682', 'kodakondsus', 'Ukraina');
 INSERT INTO core.text_property
-VALUES ('6075b986-ada0-4ed3-9b61-71538c353572', 'a16a18ac-7ef9-409f-8dbf-4c2e4f9b0682', 'haridus', 'kõrgharidus');
+VALUES ('6075b986-ada0-4ed3-9b61-71538c353572', 'a16a18ac-7ef9-409f-8dbf-4c2e4f9b0682', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('80fb8fc1-e230-4cc6-af2e-733461f93d55', 'a16a18ac-7ef9-409f-8dbf-4c2e4f9b0682', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -3981,7 +3981,7 @@ INSERT INTO core.text_property
 VALUES ('ca22b390-4479-4a53-9484-fab14fa1d60f', '6c6e9fce-9239-49b7-9ced-6c074f2701cc', 'kodakondsus', 'Määramata');
 INSERT INTO core.text_property
 VALUES ('3e8d3b8f-835c-49f0-9614-5aa59f0272bf', '6c6e9fce-9239-49b7-9ced-6c074f2701cc', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('7436fcda-a5c2-4a08-9f8e-036da0358663', '6c6e9fce-9239-49b7-9ced-6c074f2701cc', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -4024,7 +4024,7 @@ VALUES ('8076bac2-e461-4483-b813-c6a6b842ecb0', 'da384716-ee92-495b-95e4-79d0995
 INSERT INTO core.text_property
 VALUES ('d6ec2bd8-1325-4fc6-9c22-93b4e8771f40', 'da384716-ee92-495b-95e4-79d099537da4', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('cc19b919-057f-4088-840d-10f4a853f87b', 'da384716-ee92-495b-95e4-79d099537da4', 'haridus', 'keskharidus');
+VALUES ('cc19b919-057f-4088-840d-10f4a853f87b', 'da384716-ee92-495b-95e4-79d099537da4', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('ef53b801-e65a-4834-bf8f-337ef281e700', 'da384716-ee92-495b-95e4-79d099537da4', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -4068,7 +4068,7 @@ INSERT INTO core.text_property
 VALUES ('7f60e761-2dd0-4eed-b761-754bf5b3f3b2', '0a2af93b-3a72-4464-87ab-f867c0e98ab4', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('935b8880-8632-47ad-80da-2ba870011246', '0a2af93b-3a72-4464-87ab-f867c0e98ab4', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('872d0f8b-141a-4aea-b06c-15deb104bd56', '0a2af93b-3a72-4464-87ab-f867c0e98ab4', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -4112,7 +4112,7 @@ INSERT INTO core.text_property
 VALUES ('fedd7365-ad46-40ff-b892-d4a994df53a2', '9577062b-c8da-4fa9-b9b8-9ece2ce9b098', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('37d6a743-ba41-4560-8255-dd3748744870', '9577062b-c8da-4fa9-b9b8-9ece2ce9b098', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('319b9142-0187-42cc-9c9b-43475de4466e', '9577062b-c8da-4fa9-b9b8-9ece2ce9b098', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -4156,7 +4156,7 @@ INSERT INTO core.text_property
 VALUES ('4eab72ec-987f-4115-99fc-9d4a16a6fdd8', '904b242b-3cf5-40b2-9fec-8098ab146d22', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('18933b88-5844-4374-b1ae-67aefc729c55', '904b242b-3cf5-40b2-9fec-8098ab146d22', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('7fc286c1-9840-41c5-a930-1127a89efd0b', '904b242b-3cf5-40b2-9fec-8098ab146d22', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -4200,7 +4200,7 @@ INSERT INTO core.text_property
 VALUES ('a7075454-3552-442d-98ab-f02bcda99055', '24fee410-1dfc-4be1-9aff-fb2b2608a604', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('29962e1a-1c62-4828-952b-590822dcaa03', '24fee410-1dfc-4be1-9aff-fb2b2608a604', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('13de8375-3a7c-4f4e-a8b0-cfac26ea68e6', '24fee410-1dfc-4be1-9aff-fb2b2608a604', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -4244,7 +4244,7 @@ INSERT INTO core.text_property
 VALUES ('3bc4959f-a8dd-47bf-8439-e124735aba86', 'eb5f6cdd-d8b6-4cc4-9845-2d380c35c1a1', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('688b5116-7c0d-409c-9b4e-17379baf3edc', 'eb5f6cdd-d8b6-4cc4-9845-2d380c35c1a1', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('bbce7e8a-2518-4a95-89a8-7e3528b346d3', 'eb5f6cdd-d8b6-4cc4-9845-2d380c35c1a1', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -4287,7 +4287,7 @@ VALUES ('858cf296-1cfd-4d7a-9c04-5be5a2749392', '18f0e84a-18ee-4206-83d7-234cbba
 INSERT INTO core.text_property
 VALUES ('64a5fc24-3fa3-4bae-91ee-17fe4bfa4f74', '18f0e84a-18ee-4206-83d7-234cbba14ce1', 'kodakondsus', 'Ungari');
 INSERT INTO core.text_property
-VALUES ('a6776c23-376e-48ae-97a0-71b4b9aefd4f', '18f0e84a-18ee-4206-83d7-234cbba14ce1', 'haridus', 'kõrgharidus');
+VALUES ('a6776c23-376e-48ae-97a0-71b4b9aefd4f', '18f0e84a-18ee-4206-83d7-234cbba14ce1', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('23618f51-78d3-4f9a-a22a-652d3b657233', '18f0e84a-18ee-4206-83d7-234cbba14ce1', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -4330,7 +4330,7 @@ VALUES ('d69c6e1f-a739-431f-a427-4c140f685734', '8319a450-94f9-40e1-80a1-259873c
 INSERT INTO core.text_property
 VALUES ('ba10523e-3e76-4c46-90a9-d5273cea0e1f', '8319a450-94f9-40e1-80a1-259873c68000', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('dccedbec-bb74-4ffc-ad7a-80b6e06565ec', '8319a450-94f9-40e1-80a1-259873c68000', 'haridus', 'kõrgharidus');
+VALUES ('dccedbec-bb74-4ffc-ad7a-80b6e06565ec', '8319a450-94f9-40e1-80a1-259873c68000', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('7b64bb91-44aa-4669-b5e1-edb3d1a642cb', '8319a450-94f9-40e1-80a1-259873c68000', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -4373,7 +4373,7 @@ VALUES ('372bcf5c-20c1-456f-9a71-a40306fe08ba', '8c28c46b-1ba5-45f1-a406-62622e9
 INSERT INTO core.text_property
 VALUES ('bcfd5aa6-5722-439b-8cb7-6f031e34e012', '8c28c46b-1ba5-45f1-a406-62622e9eba1a', 'kodakondsus', 'Valgevene');
 INSERT INTO core.text_property
-VALUES ('372d30de-854b-408a-9fa5-e48316d015c8', '8c28c46b-1ba5-45f1-a406-62622e9eba1a', 'haridus', 'kõrgharidus');
+VALUES ('372d30de-854b-408a-9fa5-e48316d015c8', '8c28c46b-1ba5-45f1-a406-62622e9eba1a', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('3d8164e4-c973-4e5a-8faa-f969f647ee1e', '8c28c46b-1ba5-45f1-a406-62622e9eba1a', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -4417,7 +4417,7 @@ INSERT INTO core.text_property
 VALUES ('50a868ac-09d8-43a4-a7aa-8b50c859a26e', '15570eee-b11c-4373-b2b1-d2aba7e535f4', 'kodakondsus', 'Määramata');
 INSERT INTO core.text_property
 VALUES ('19294e0c-a5d2-4799-894a-9c49df50dfca', '15570eee-b11c-4373-b2b1-d2aba7e535f4', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('eb524f49-46f1-4a64-a636-74a5ff8ef3f2', '15570eee-b11c-4373-b2b1-d2aba7e535f4', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -4460,7 +4460,7 @@ VALUES ('675f5f2b-727c-4c20-9d4a-b49cc66affc2', '0ad1cc3b-ad0a-427f-bd19-89393e0
 INSERT INTO core.text_property
 VALUES ('61089bcd-a5ea-4c0e-8391-e919b786fe02', '0ad1cc3b-ad0a-427f-bd19-89393e042b62', 'kodakondsus', 'Määramata');
 INSERT INTO core.text_property
-VALUES ('96bd10b7-5b2c-44ee-b6ed-4639ac5c2ecc', '0ad1cc3b-ad0a-427f-bd19-89393e042b62', 'haridus', 'keskharidus');
+VALUES ('96bd10b7-5b2c-44ee-b6ed-4639ac5c2ecc', '0ad1cc3b-ad0a-427f-bd19-89393e042b62', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('5254a5e5-8681-4d33-a1f2-8ab409f0c3f2', '0ad1cc3b-ad0a-427f-bd19-89393e042b62', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -4504,7 +4504,7 @@ INSERT INTO core.text_property
 VALUES ('e0f5b7a4-7874-46e0-8df8-0f1336e1e20e', 'd68e2e8b-2685-4972-8589-6f86925361bd', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('c3cba733-df05-4568-a296-2fe1121098a7', 'd68e2e8b-2685-4972-8589-6f86925361bd', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('a952823e-c8b9-4287-a110-6a98edc1a2ec', 'd68e2e8b-2685-4972-8589-6f86925361bd', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -4547,7 +4547,7 @@ VALUES ('184794d0-356a-4516-9334-42caa1930486', 'b3eeb5fa-d376-4d14-adcb-ca98bb3
 INSERT INTO core.text_property
 VALUES ('c0f1b587-e9f4-4693-9afb-c58374e7521b', 'b3eeb5fa-d376-4d14-adcb-ca98bb3e776b', 'kodakondsus', 'Ukraina');
 INSERT INTO core.text_property
-VALUES ('e6ef4378-669f-4254-90d0-24594fc25d9b', 'b3eeb5fa-d376-4d14-adcb-ca98bb3e776b', 'haridus', 'kõrgharidus');
+VALUES ('e6ef4378-669f-4254-90d0-24594fc25d9b', 'b3eeb5fa-d376-4d14-adcb-ca98bb3e776b', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('e259f7df-26a1-48c4-a00f-a4ff9ed113f4', 'b3eeb5fa-d376-4d14-adcb-ca98bb3e776b', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -4590,7 +4590,7 @@ VALUES ('81e24609-7f9e-4042-8ca9-e33071980fd0', 'a6a5cc0a-7181-4c6e-8fb6-8a82b8b
 INSERT INTO core.text_property
 VALUES ('787db02b-ec31-4dfb-b0f0-78ecb710c6db', 'a6a5cc0a-7181-4c6e-8fb6-8a82b8bfa144', 'kodakondsus', 'Määramata');
 INSERT INTO core.text_property
-VALUES ('cb44d99d-59e0-42be-973b-2e120dd089b7', 'a6a5cc0a-7181-4c6e-8fb6-8a82b8bfa144', 'haridus', 'keskharidus');
+VALUES ('cb44d99d-59e0-42be-973b-2e120dd089b7', 'a6a5cc0a-7181-4c6e-8fb6-8a82b8bfa144', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('8bb9a663-43bb-494d-97ee-b3515283b3c5', 'a6a5cc0a-7181-4c6e-8fb6-8a82b8bfa144', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -4634,7 +4634,7 @@ INSERT INTO core.text_property
 VALUES ('532ad8e3-21cb-41b6-a68f-1c28bd05dcb8', '34df5ef0-811a-4a30-86eb-11fe6b0cb841', 'kodakondsus', 'Määramata');
 INSERT INTO core.text_property
 VALUES ('5efe667f-5656-450a-8e42-283dca60852c', '34df5ef0-811a-4a30-86eb-11fe6b0cb841', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('59ed1c41-3435-401b-9399-3028f282d258', '34df5ef0-811a-4a30-86eb-11fe6b0cb841', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -4677,7 +4677,7 @@ VALUES ('947bda7c-75be-4a3b-a36b-3c9fcb52a27c', '1f60484b-2ce2-4a8e-ad8b-59b17ec
 INSERT INTO core.text_property
 VALUES ('7a4fa132-9d96-4535-ac47-62d887bb7aab', '1f60484b-2ce2-4a8e-ad8b-59b17ec41309', 'kodakondsus', 'Määramata');
 INSERT INTO core.text_property
-VALUES ('08612c97-ce90-498c-9ffd-b16352a56e18', '1f60484b-2ce2-4a8e-ad8b-59b17ec41309', 'haridus', 'kõrgharidus');
+VALUES ('08612c97-ce90-498c-9ffd-b16352a56e18', '1f60484b-2ce2-4a8e-ad8b-59b17ec41309', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('019e6db4-6828-4a5b-9e46-d6ae059087ab', '1f60484b-2ce2-4a8e-ad8b-59b17ec41309', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -4720,7 +4720,7 @@ VALUES ('2ff7cbd9-29be-47c8-81a9-3e7b0e317a31', '37317f37-d1fe-426b-a4e2-c093a19
 INSERT INTO core.text_property
 VALUES ('decd60fa-c929-4945-b3ba-1881811e64d5', '37317f37-d1fe-426b-a4e2-c093a1976b39', 'kodakondsus', 'Läti');
 INSERT INTO core.text_property
-VALUES ('61adf27d-4219-4359-a9d7-09962f4f41e2', '37317f37-d1fe-426b-a4e2-c093a1976b39', 'haridus', 'kõrgharidus');
+VALUES ('61adf27d-4219-4359-a9d7-09962f4f41e2', '37317f37-d1fe-426b-a4e2-c093a1976b39', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('7c730184-f266-4259-94b4-c33e3a4d6ae9', '37317f37-d1fe-426b-a4e2-c093a1976b39', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -4763,7 +4763,7 @@ VALUES ('5cf27f2b-ad56-4bf0-b11e-28b0246cb93b', 'fe9ccf4d-c9f7-47f6-8cd6-ed04209
 INSERT INTO core.text_property
 VALUES ('9bddc5c7-e94f-48e8-8cf0-887f7b05b4da', 'fe9ccf4d-c9f7-47f6-8cd6-ed042097ab30', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('5e0ebfa9-b2db-4624-8669-4cbe20a713cc', 'fe9ccf4d-c9f7-47f6-8cd6-ed042097ab30', 'haridus', 'kõrgharidus');
+VALUES ('5e0ebfa9-b2db-4624-8669-4cbe20a713cc', 'fe9ccf4d-c9f7-47f6-8cd6-ed042097ab30', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('a8e265a9-44fd-4d6e-b50c-120bfdbd585e', 'fe9ccf4d-c9f7-47f6-8cd6-ed042097ab30', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -4806,7 +4806,7 @@ VALUES ('71737840-f9fd-42de-98fb-320016956a7a', '98bef829-d866-497a-aed4-a6b8840
 INSERT INTO core.text_property
 VALUES ('494c236b-5bcb-43ee-82e6-f7ac3c61a360', '98bef829-d866-497a-aed4-a6b8840697b9', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('66153a96-b6ef-4302-abae-a1d8678738d1', '98bef829-d866-497a-aed4-a6b8840697b9', 'haridus', 'keskharidus');
+VALUES ('66153a96-b6ef-4302-abae-a1d8678738d1', '98bef829-d866-497a-aed4-a6b8840697b9', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('0b7115eb-cf1e-4798-9e04-ed66a16a5bd9', '98bef829-d866-497a-aed4-a6b8840697b9', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -4850,7 +4850,7 @@ INSERT INTO core.text_property
 VALUES ('65f2f653-0d7c-4686-a174-a6ca187bda72', '682c3b44-7169-4f82-b21c-2bb213189248', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('97dd7992-32f2-49a4-ab51-1b56b8fd735c', '682c3b44-7169-4f82-b21c-2bb213189248', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('6ad1e1c1-1037-4d48-8b60-f661f909ea73', '682c3b44-7169-4f82-b21c-2bb213189248', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -4936,7 +4936,7 @@ VALUES ('87aad0a9-9b3b-47d5-8824-285adc048a79', '294e5a80-158a-4d26-af97-8ce15a6
 INSERT INTO core.text_property
 VALUES ('afa31094-69dd-46fb-8d73-8f3548df409a', '294e5a80-158a-4d26-af97-8ce15a6aa904', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('57c8a615-b314-4113-bd05-65cab581243b', '294e5a80-158a-4d26-af97-8ce15a6aa904', 'haridus', 'kõrgharidus');
+VALUES ('57c8a615-b314-4113-bd05-65cab581243b', '294e5a80-158a-4d26-af97-8ce15a6aa904', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('4cd7b2c3-f6c5-4b11-908a-d9cfb8c6df7a', '294e5a80-158a-4d26-af97-8ce15a6aa904', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -5023,7 +5023,7 @@ INSERT INTO core.text_property
 VALUES ('fff62d9d-acc0-401b-9f76-0c2642a6f535', '9647903b-87ef-4df0-a413-4e52f6a0ae13', 'kodakondsus', 'Määramata');
 INSERT INTO core.text_property
 VALUES ('e1b94fb3-6021-433c-bf42-085c1105bcfa', '9647903b-87ef-4df0-a413-4e52f6a0ae13', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('a8129539-d8da-4998-bb8d-d7a9eae6dc6a', '9647903b-87ef-4df0-a413-4e52f6a0ae13', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -5067,7 +5067,7 @@ INSERT INTO core.text_property
 VALUES ('1a692c72-5339-4f4e-964c-36b9974ef7a3', 'e21fe0bf-43fc-4dd4-a3d1-adde08d1d2bf', 'kodakondsus', 'Määramata');
 INSERT INTO core.text_property
 VALUES ('4e385686-2523-463e-a04f-39c48f868496', 'e21fe0bf-43fc-4dd4-a3d1-adde08d1d2bf', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('183c431f-c1ea-4ad8-ad7a-609b6c15bbbf', 'e21fe0bf-43fc-4dd4-a3d1-adde08d1d2bf', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -5110,7 +5110,7 @@ VALUES ('19b92725-e8dc-4973-9fcd-d97c4dfb826f', '1fc04053-fd02-4655-8a11-e7a9ca2
 INSERT INTO core.text_property
 VALUES ('3c9d6c4b-1287-467c-b5de-377d7bb631a5', '1fc04053-fd02-4655-8a11-e7a9ca280fe7', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('194d87e2-ba05-4a78-88e5-576753a82efc', '1fc04053-fd02-4655-8a11-e7a9ca280fe7', 'haridus', 'kõrgharidus');
+VALUES ('194d87e2-ba05-4a78-88e5-576753a82efc', '1fc04053-fd02-4655-8a11-e7a9ca280fe7', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('92ebf58d-dd25-4854-9cfd-aee12eeb2dfa', '1fc04053-fd02-4655-8a11-e7a9ca280fe7', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -5154,7 +5154,7 @@ INSERT INTO core.text_property
 VALUES ('dccbfab7-28e8-41aa-84e2-3b5be96fa661', 'e7fa1b7b-37c7-4188-946d-d92b71bc533d', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('80ab1a4c-5f14-4691-957c-cd85f378856f', 'e7fa1b7b-37c7-4188-946d-d92b71bc533d', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('0348270b-073f-4c89-9171-cd8f204e4007', 'e7fa1b7b-37c7-4188-946d-d92b71bc533d', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -5197,7 +5197,7 @@ VALUES ('8f1a998c-d6df-41af-8de4-a32f715b4cf7', '0bcaf5ba-bfab-4bb5-88b6-4d8f3d0
 INSERT INTO core.text_property
 VALUES ('6b960ddc-063b-45ae-9923-44b00c7a685c', '0bcaf5ba-bfab-4bb5-88b6-4d8f3d0728d3', 'kodakondsus', 'Hispaania');
 INSERT INTO core.text_property
-VALUES ('556507e5-b61a-41a3-a658-67127a33923b', '0bcaf5ba-bfab-4bb5-88b6-4d8f3d0728d3', 'haridus', 'keskharidus');
+VALUES ('556507e5-b61a-41a3-a658-67127a33923b', '0bcaf5ba-bfab-4bb5-88b6-4d8f3d0728d3', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('f19d93a8-820f-47b4-937a-2adb41f202da', '0bcaf5ba-bfab-4bb5-88b6-4d8f3d0728d3', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -5241,7 +5241,7 @@ INSERT INTO core.text_property
 VALUES ('bb7daa5c-fed9-4ebf-98a9-d0dd53e8da39', '6d97e574-1be0-477d-9c23-7545d56f2827', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('cbe3feec-7a04-40dd-b32d-81301ef064a2', '6d97e574-1be0-477d-9c23-7545d56f2827', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('6854318e-1dc3-45e8-add0-819321372d05', '6d97e574-1be0-477d-9c23-7545d56f2827', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -5253,7 +5253,7 @@ VALUES ('7e3a9e34-22a4-4003-94f4-610a12e2f170', '6d97e574-1be0-477d-9c23-7545d56
 
 INSERT INTO core.text
 VALUES ('fe49bd1c-7a38-4241-b955-d6549e32aaf7',
-        'Elukutset vahetada võib igas vanuses inimene. Mina tahaksin arutleda teemal, et elukutset vahetada võib igas vanuses inimene. See teema täna päeval on väga aktuaalne. Mõned inimesed otsivad ennast kogu elu jooksul. Meie maailmas pidevalt ilmuvad uued elukutsed. Inimestel praegu on väga suur valik elukutsete suhtes ja iga päevaga see valik suureneb. Näiteks inimene, kes sai kõrgharidust kakskümmend või kolmkümmend aastat tagasi, võib tutvuda uue moodse elukutsega. Mis puudutab mind, ma tean palju uusi moodseid elukutseid, millised nagu arvuti disaineer, fitness treener, interneti bloger ja muud. Ma arvan, et me elame huvitavas maailmas, kus elu ja tänapäevane progress läheb kiiresti ja kui inimene ei taha hiljaks jääda ja jõuda kõikides ta peab õppima kogu elu jooksul. Inimene kes areneb end kogu aeg on töövõimeline ja võib hoolitseda enese ja oma lähedaste eest. Ma tean nii näidet, kui inimene töötab paljude aastate jooksul ühes valdkonnas ja äkki ta hakkab õppima uut elukutset. Hiljem mina veendusin et uues valdkonnas inimene sai paremaid tulemusi, kui eelmisel valdkonnas. Kokkuvõttes tahaksin öelda, et kõik sõltub inimessest ja kui inimesel on suur soov midagi muuta siis ta kindlasti saab hakkama. Ma ei saa vältida et tulevikuses ma võin muuta oma elukutset ka. Kõik liigub ja mitte midagi ei seisa kohal.\n');
+        'Elukutset vahetada võib igas vanuses inimene. Mina tahaksin arutleda teemal, et elukutset vahetada võib igas vanuses inimene. See teema täna päeval on väga aktuaalne. Mõned inimesed otsivad ennast kogu elu jooksul. Meie maailmas pidevalt ilmuvad uued elukutsed. Inimestel praegu on väga suur valik elukutsete suhtes ja iga päevaga see valik suureneb. Näiteks inimene, kes sai Kõrgharidust kakskümmend või kolmkümmend aastat tagasi, võib tutvuda uue moodse elukutsega. Mis puudutab mind, ma tean palju uusi moodseid elukutseid, millised nagu arvuti disaineer, fitness treener, interneti bloger ja muud. Ma arvan, et me elame huvitavas maailmas, kus elu ja tänapäevane progress läheb kiiresti ja kui inimene ei taha hiljaks jääda ja jõuda kõikides ta peab õppima kogu elu jooksul. Inimene kes areneb end kogu aeg on töövõimeline ja võib hoolitseda enese ja oma lähedaste eest. Ma tean nii näidet, kui inimene töötab paljude aastate jooksul ühes valdkonnas ja äkki ta hakkab õppima uut elukutset. Hiljem mina veendusin et uues valdkonnas inimene sai paremaid tulemusi, kui eelmisel valdkonnas. Kokkuvõttes tahaksin öelda, et kõik sõltub inimessest ja kui inimesel on suur soov midagi muuta siis ta kindlasti saab hakkama. Ma ei saa vältida et tulevikuses ma võin muuta oma elukutset ka. Kõik liigub ja mitte midagi ei seisa kohal.\n');
 INSERT INTO core.text_property
 VALUES ('2b123bab-b2ec-4e00-ab72-f5912411624a', 'fe49bd1c-7a38-4241-b955-d6549e32aaf7', 'title', 'B2 2020 II_005-003');
 INSERT INTO core.text_property
@@ -5284,7 +5284,7 @@ VALUES ('b89e3325-5096-491a-9ef3-7be413fa0402', 'fe49bd1c-7a38-4241-b955-d6549e3
 INSERT INTO core.text_property
 VALUES ('2e7b2081-2d4a-4799-a215-ca28e879e1b6', 'fe49bd1c-7a38-4241-b955-d6549e32aaf7', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('93ab1200-786f-48b0-ad7b-f3c05bd7cf3b', 'fe49bd1c-7a38-4241-b955-d6549e32aaf7', 'haridus', 'kõrgharidus');
+VALUES ('93ab1200-786f-48b0-ad7b-f3c05bd7cf3b', 'fe49bd1c-7a38-4241-b955-d6549e32aaf7', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('89a2206f-1451-4866-a38d-39449028b86f', 'fe49bd1c-7a38-4241-b955-d6549e32aaf7', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -5327,7 +5327,7 @@ VALUES ('5adae33f-b3ca-400a-9c48-0bb2b997ac76', 'd581ec7a-7ae6-44bb-9829-59c474b
 INSERT INTO core.text_property
 VALUES ('ca245293-ce81-4e93-ae13-5211ddebb5e4', 'd581ec7a-7ae6-44bb-9829-59c474bb459a', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('4553d12a-289b-4281-8395-013704334c88', 'd581ec7a-7ae6-44bb-9829-59c474bb459a', 'haridus', 'alg-/põhiharidus');
+VALUES ('4553d12a-289b-4281-8395-013704334c88', 'd581ec7a-7ae6-44bb-9829-59c474bb459a', 'haridus', 'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('37c7f233-931a-4cb5-9726-0905347c2bb3', 'd581ec7a-7ae6-44bb-9829-59c474bb459a', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -5370,7 +5370,7 @@ VALUES ('a9f5892c-65f7-4580-9637-6ade4f6f307d', 'b2237ad6-7ba5-44fa-a5cc-98f3efe
 INSERT INTO core.text_property
 VALUES ('85b4d1a0-e134-4c31-9b3c-9e89b2e9410e', 'b2237ad6-7ba5-44fa-a5cc-98f3efe298f6', 'kodakondsus', 'Ukraina');
 INSERT INTO core.text_property
-VALUES ('16344791-c97a-4894-a205-0a05ef1e25fc', 'b2237ad6-7ba5-44fa-a5cc-98f3efe298f6', 'haridus', 'kõrgharidus');
+VALUES ('16344791-c97a-4894-a205-0a05ef1e25fc', 'b2237ad6-7ba5-44fa-a5cc-98f3efe298f6', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('b3da546d-fd3b-4688-8a66-2ba40edd2e38', 'b2237ad6-7ba5-44fa-a5cc-98f3efe298f6', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -5413,7 +5413,7 @@ VALUES ('ad413d2a-a9ec-4fc8-8182-d69f34e31dfa', '435258af-5cb5-438a-a6be-05a14aa
 INSERT INTO core.text_property
 VALUES ('47fd0136-ecc9-4221-8f9d-e63991247958', '435258af-5cb5-438a-a6be-05a14aa06807', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('20cdb354-7e14-402d-a611-b732daf91f39', '435258af-5cb5-438a-a6be-05a14aa06807', 'haridus', 'alg-/põhiharidus');
+VALUES ('20cdb354-7e14-402d-a611-b732daf91f39', '435258af-5cb5-438a-a6be-05a14aa06807', 'haridus', 'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('27c8e8d7-d016-4765-b300-845c003031bd', '435258af-5cb5-438a-a6be-05a14aa06807', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -5456,7 +5456,7 @@ VALUES ('d95907a4-a94e-45c9-81b7-ef3d22844c98', '0834e57a-98fc-4fd5-80e7-4ab7fb1
 INSERT INTO core.text_property
 VALUES ('70a05ba9-9d41-4d99-8bb4-9c6d92686b96', '0834e57a-98fc-4fd5-80e7-4ab7fb11036a', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('a9574f99-d063-4546-9b7c-21880e541df7', '0834e57a-98fc-4fd5-80e7-4ab7fb11036a', 'haridus', 'keskharidus');
+VALUES ('a9574f99-d063-4546-9b7c-21880e541df7', '0834e57a-98fc-4fd5-80e7-4ab7fb11036a', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('68b06eb9-d7f4-4dfa-8b6b-8ca484ba3c0a', '0834e57a-98fc-4fd5-80e7-4ab7fb11036a', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -5499,7 +5499,7 @@ VALUES ('d21d4912-e67e-4200-a3c6-3dbb13aedb35', '661bcc7d-1a04-4ced-adbc-6630f5e
 INSERT INTO core.text_property
 VALUES ('88c55129-41ca-47b6-97cc-4deb73a2f2f8', '661bcc7d-1a04-4ced-adbc-6630f5e7c6ca', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('d400aa72-f749-4000-a56c-f18e18adbcf1', '661bcc7d-1a04-4ced-adbc-6630f5e7c6ca', 'haridus', 'kõrgharidus');
+VALUES ('d400aa72-f749-4000-a56c-f18e18adbcf1', '661bcc7d-1a04-4ced-adbc-6630f5e7c6ca', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('bb0fb57c-94a9-4e47-a1aa-134f7e434652', '661bcc7d-1a04-4ced-adbc-6630f5e7c6ca', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -5543,7 +5543,7 @@ INSERT INTO core.text_property
 VALUES ('6877a13c-978f-4e4b-b673-3f90da8481ad', '81765af5-c525-40e0-ac4c-4980b972ea0d', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('564f010e-540b-4a7a-8152-a696aa2af3e5', '81765af5-c525-40e0-ac4c-4980b972ea0d', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('03626b0b-45dc-49c9-9772-f984d826c295', '81765af5-c525-40e0-ac4c-4980b972ea0d', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -5586,7 +5586,7 @@ VALUES ('cc78ca4a-241a-4326-b57f-69472234b8e7', '91c00d30-7309-4c61-a514-b8cd7ea
 INSERT INTO core.text_property
 VALUES ('2508c641-e24e-43bd-bc96-b355ece7112c', '91c00d30-7309-4c61-a514-b8cd7eac4440', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('4bff9fff-60be-48fb-8a48-220d883903d1', '91c00d30-7309-4c61-a514-b8cd7eac4440', 'haridus', 'alg-/põhiharidus');
+VALUES ('4bff9fff-60be-48fb-8a48-220d883903d1', '91c00d30-7309-4c61-a514-b8cd7eac4440', 'haridus', 'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('d5d2b646-f2ea-40d8-a7b2-2c9a825209a9', '91c00d30-7309-4c61-a514-b8cd7eac4440', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -5629,7 +5629,7 @@ VALUES ('d2798767-e19e-4830-aa01-8f0a301b866a', 'fb9d2e9a-c698-40d6-8e29-71342b0
 INSERT INTO core.text_property
 VALUES ('2b45c9c2-d8f9-434c-b4d3-87f46c3bb6c7', 'fb9d2e9a-c698-40d6-8e29-71342b0d5195', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('32cba383-6428-46eb-b3a8-3b145043232c', 'fb9d2e9a-c698-40d6-8e29-71342b0d5195', 'haridus', 'keskharidus');
+VALUES ('32cba383-6428-46eb-b3a8-3b145043232c', 'fb9d2e9a-c698-40d6-8e29-71342b0d5195', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('51d5719a-031a-4381-9da2-b5cee2aa0fae', 'fb9d2e9a-c698-40d6-8e29-71342b0d5195', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -5672,7 +5672,7 @@ VALUES ('52ee288e-f31e-4179-b739-f86eb75fbac2', 'f6e7cccd-37e8-433d-aa9e-d6cbb92
 INSERT INTO core.text_property
 VALUES ('a1fe78eb-422a-44b8-9174-d1c261740a5b', 'f6e7cccd-37e8-433d-aa9e-d6cbb9228cf8', 'kodakondsus', 'Hiina');
 INSERT INTO core.text_property
-VALUES ('e348fbb6-a8ea-45dc-ad85-4965c7d5374e', 'f6e7cccd-37e8-433d-aa9e-d6cbb9228cf8', 'haridus', 'kõrgharidus');
+VALUES ('e348fbb6-a8ea-45dc-ad85-4965c7d5374e', 'f6e7cccd-37e8-433d-aa9e-d6cbb9228cf8', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('947b4517-4937-429d-864c-13cf0f2b234c', 'f6e7cccd-37e8-433d-aa9e-d6cbb9228cf8', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -5715,7 +5715,7 @@ VALUES ('9d328cc6-7f41-47de-a547-e99589c57b59', '121212d9-4b28-4e10-a605-a826826
 INSERT INTO core.text_property
 VALUES ('fde5a111-bc8f-4af4-b456-ab33104a319a', '121212d9-4b28-4e10-a605-a826826454f4', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('c93e744c-8075-4b57-910a-f1503c63fee8', '121212d9-4b28-4e10-a605-a826826454f4', 'haridus', 'kõrgharidus');
+VALUES ('c93e744c-8075-4b57-910a-f1503c63fee8', '121212d9-4b28-4e10-a605-a826826454f4', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('845f692b-30b6-4258-8102-4e12bf5e837d', '121212d9-4b28-4e10-a605-a826826454f4', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -5758,7 +5758,7 @@ VALUES ('035e8146-6de0-4acc-8a05-96a59595dfb3', '1523e173-e1c8-486a-8448-823f813
 INSERT INTO core.text_property
 VALUES ('4e138c14-8156-468e-ba29-b486e5ba8d49', '1523e173-e1c8-486a-8448-823f81356b6c', 'kodakondsus', 'Ukraina');
 INSERT INTO core.text_property
-VALUES ('6f89a579-3846-4a04-9188-d3cb6941a8a4', '1523e173-e1c8-486a-8448-823f81356b6c', 'haridus', 'kõrgharidus');
+VALUES ('6f89a579-3846-4a04-9188-d3cb6941a8a4', '1523e173-e1c8-486a-8448-823f81356b6c', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('4691faf0-4eaa-4ca5-b07f-6a9a3a73e754', '1523e173-e1c8-486a-8448-823f81356b6c', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -5801,7 +5801,7 @@ VALUES ('03bef74c-7862-4d92-b33f-437f8d85462d', '3eba8779-edff-461f-9a92-d9f0f3e
 INSERT INTO core.text_property
 VALUES ('0481091f-6c80-4bcf-aae1-ce4ce1932a55', '3eba8779-edff-461f-9a92-d9f0f3e32cca', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('caf15030-e1a3-4cae-acbb-72e2ab95a838', '3eba8779-edff-461f-9a92-d9f0f3e32cca', 'haridus', 'alg-/põhiharidus');
+VALUES ('caf15030-e1a3-4cae-acbb-72e2ab95a838', '3eba8779-edff-461f-9a92-d9f0f3e32cca', 'haridus', 'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('ed3c6862-e570-4b1c-9c77-a2805845e2a6', '3eba8779-edff-461f-9a92-d9f0f3e32cca', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -5844,7 +5844,7 @@ VALUES ('72accebe-93cf-48c0-81d1-c3ac236faeff', '52e78a3c-948b-45cd-bef4-f65a9d2
 INSERT INTO core.text_property
 VALUES ('97a2e8c8-0847-4a5f-a61d-5f1c5ddf42a2', '52e78a3c-948b-45cd-bef4-f65a9d227d9e', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('061ec20e-ab25-481a-8559-bd26530d32f1', '52e78a3c-948b-45cd-bef4-f65a9d227d9e', 'haridus', 'kõrgharidus');
+VALUES ('061ec20e-ab25-481a-8559-bd26530d32f1', '52e78a3c-948b-45cd-bef4-f65a9d227d9e', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('2de9ba94-7be8-4259-8c86-8fdce6bb787d', '52e78a3c-948b-45cd-bef4-f65a9d227d9e', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -5888,7 +5888,7 @@ INSERT INTO core.text_property
 VALUES ('bbce2def-2dda-49ff-822b-3e7ba85f1175', '23d327e0-5d4c-4704-a9f1-24ff2fe01bf0', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
 VALUES ('cc878c2d-80ee-4440-9b0c-d77188487ea3', '23d327e0-5d4c-4704-a9f1-24ff2fe01bf0', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('ba403a4b-e079-4ba7-9047-440a64760983', '23d327e0-5d4c-4704-a9f1-24ff2fe01bf0', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -5931,7 +5931,7 @@ VALUES ('a87916a3-2564-46b4-a51f-e88d7254e3c1', '255401f6-96d8-4438-8a29-8340195
 INSERT INTO core.text_property
 VALUES ('57ae1ab4-fe5d-421f-bafe-4a5812814d77', '255401f6-96d8-4438-8a29-834019502938', 'kodakondsus', 'Määramata');
 INSERT INTO core.text_property
-VALUES ('066a0b60-1c54-47a5-af3a-90016f497473', '255401f6-96d8-4438-8a29-834019502938', 'haridus', 'alg-/põhiharidus');
+VALUES ('066a0b60-1c54-47a5-af3a-90016f497473', '255401f6-96d8-4438-8a29-834019502938', 'haridus', 'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('c4722ca0-acc3-4922-9af0-1dd2c169c36c', '255401f6-96d8-4438-8a29-834019502938', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -5974,7 +5974,7 @@ VALUES ('186cee83-e981-4bd6-9c56-c58a17b7b494', '710fa745-95b0-4d1d-bfd5-aeb31cc
 INSERT INTO core.text_property
 VALUES ('bfdb6e7d-54fa-4f40-9215-e7af74ea900e', '710fa745-95b0-4d1d-bfd5-aeb31cc993f9', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('bc1984b9-0a5e-4413-a190-a7972746979c', '710fa745-95b0-4d1d-bfd5-aeb31cc993f9', 'haridus', 'kõrgharidus');
+VALUES ('bc1984b9-0a5e-4413-a190-a7972746979c', '710fa745-95b0-4d1d-bfd5-aeb31cc993f9', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('213fab51-ea91-4eef-8f82-1a31ca78ddf4', '710fa745-95b0-4d1d-bfd5-aeb31cc993f9', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -6017,7 +6017,7 @@ VALUES ('75c42926-0bf7-4472-9336-d3cbbb2b898b', 'ce8eb7a9-c18b-4613-9d58-409f451
 INSERT INTO core.text_property
 VALUES ('5f5e4dee-a356-4b0e-aaf1-917d248612dc', 'ce8eb7a9-c18b-4613-9d58-409f451dcb66', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('eb479487-22c6-40b4-8de0-cbace8f34479', 'ce8eb7a9-c18b-4613-9d58-409f451dcb66', 'haridus', 'kõrgharidus');
+VALUES ('eb479487-22c6-40b4-8de0-cbace8f34479', 'ce8eb7a9-c18b-4613-9d58-409f451dcb66', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('85e19c8a-000b-4c73-9968-5854c3302acc', 'ce8eb7a9-c18b-4613-9d58-409f451dcb66', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -6060,7 +6060,7 @@ VALUES ('b451c616-89fa-4d70-901f-c2cf3c55036b', 'cb8c5bca-e197-4d1b-b9bd-2d02b3e
 INSERT INTO core.text_property
 VALUES ('cb0c0f99-5f19-4a08-a626-a9f0c6865684', 'cb8c5bca-e197-4d1b-b9bd-2d02b3e5fdde', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('4a793a60-d9f4-4b6f-bf6b-724a27c81692', 'cb8c5bca-e197-4d1b-b9bd-2d02b3e5fdde', 'haridus', 'kõrgharidus');
+VALUES ('4a793a60-d9f4-4b6f-bf6b-724a27c81692', 'cb8c5bca-e197-4d1b-b9bd-2d02b3e5fdde', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('e9a22d96-8d4a-4715-8cbc-d7a25f59e2b7', 'cb8c5bca-e197-4d1b-b9bd-2d02b3e5fdde', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -6103,7 +6103,7 @@ VALUES ('05b8d3e4-4814-46e1-a162-266a2bc6d026', 'd00e243f-985c-4191-8ce3-5b9559f
 INSERT INTO core.text_property
 VALUES ('d7a79d83-b003-4f0b-ae94-cde833a5b1a4', 'd00e243f-985c-4191-8ce3-5b9559f71ab2', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('30d3ffc9-e207-4711-98a3-991c62eebe2c', 'd00e243f-985c-4191-8ce3-5b9559f71ab2', 'haridus', 'keskharidus');
+VALUES ('30d3ffc9-e207-4711-98a3-991c62eebe2c', 'd00e243f-985c-4191-8ce3-5b9559f71ab2', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('19f056e2-a51e-4e3f-ba19-eb6dedca4a2f', 'd00e243f-985c-4191-8ce3-5b9559f71ab2', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -6146,7 +6146,7 @@ VALUES ('b74958fc-e450-4571-8be4-e78a3b629128', 'f2d137e7-b01f-4464-8f9f-a4934aa
 INSERT INTO core.text_property
 VALUES ('9a2c80a7-3b33-475f-82e3-5128f2d28293', 'f2d137e7-b01f-4464-8f9f-a4934aaf67b6', 'kodakondsus', 'Hispaania');
 INSERT INTO core.text_property
-VALUES ('6c59b5ed-4c75-4663-9c23-bb9ac5e2ef50', 'f2d137e7-b01f-4464-8f9f-a4934aaf67b6', 'haridus', 'kõrgharidus');
+VALUES ('6c59b5ed-4c75-4663-9c23-bb9ac5e2ef50', 'f2d137e7-b01f-4464-8f9f-a4934aaf67b6', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('09457315-0f83-4f0e-9287-a3d50e160481', 'f2d137e7-b01f-4464-8f9f-a4934aaf67b6', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -6158,7 +6158,7 @@ VALUES ('4a4dd0d9-b678-45a7-abb1-49db73eff858', 'f2d137e7-b01f-4464-8f9f-a4934aa
 
 INSERT INTO core.text
 VALUES ('76610c6a-62db-4488-9d97-062618368dd0',
-        'Distantsõpe on sama efektiivne kui koolis kohal käimine. Minu valik on distantsõpe. Ma olen kindel, et distantsõpe on sama efektiivne kui koolis kohal käimine. Mul on kolm last, ma töötan tais koormusega ja õppin ülikoolis. Ja selle pärast lihtsalt mul ei ole aega iga päev kooli kaima. Ma otsustasin, et ainult distantsõpe annab mulle võimalusi kõrgharidus saama. Distantsõpe süsteem on väga mugav mulle. Ma võin ise oma aega planeerida. Tavaliselt ma õppin öösel, millal kõik lapsed magavad ja kodus on vaikne ja rahul, keegi ei küsi minu tähelepanu. Praegu ma õppin Moskva Psühoanalüüsi Ülikoolis, defektoloogia erialal. See on väga põnev ja võtab minu käest palju energiat ja aega. Mul on oma kabinet ülikooli kodulehel. Seal on poolaasta plaan. Tunniplaanis on vebinaarid, kus ma saan õppetajaga kohtuda, küsida midagi või suheleda kaastlasdega. Ikka ma pean nii palju lugeda ja vaadata, informatsiooni otsima. Eksami ajad ka saan kabinetis näha. Testid teen online reziimis, referaatid või esse saadan maili peale. Minu vanem laps, 10 kümne aastane tüdruk ka õppib niimodi. Ja distantsõpe meeldib talle rohkem, kui iga päev kooli käimine. Tegelikult talle ei meeldi nii vara hommikul ärkama. Ühesõnaga distantsõpe on väga tore mõte. Aga see sobib nendele, kes saab planeerida oma aega ja oled ästi distsiplineeritud inimene. Aga mina ikka soovitan distantsõpe kõikidele.');
+        'Distantsõpe on sama efektiivne kui koolis kohal käimine. Minu valik on distantsõpe. Ma olen kindel, et distantsõpe on sama efektiivne kui koolis kohal käimine. Mul on kolm last, ma töötan tais koormusega ja õppin ülikoolis. Ja selle pärast lihtsalt mul ei ole aega iga päev kooli kaima. Ma otsustasin, et ainult distantsõpe annab mulle võimalusi Kõrgharidus saama. Distantsõpe süsteem on väga mugav mulle. Ma võin ise oma aega planeerida. Tavaliselt ma õppin öösel, millal kõik lapsed magavad ja kodus on vaikne ja rahul, keegi ei küsi minu tähelepanu. Praegu ma õppin Moskva Psühoanalüüsi Ülikoolis, defektoloogia erialal. See on väga põnev ja võtab minu käest palju energiat ja aega. Mul on oma kabinet ülikooli kodulehel. Seal on poolaasta plaan. Tunniplaanis on vebinaarid, kus ma saan õppetajaga kohtuda, küsida midagi või suheleda kaastlasdega. Ikka ma pean nii palju lugeda ja vaadata, informatsiooni otsima. Eksami ajad ka saan kabinetis näha. Testid teen online reziimis, referaatid või esse saadan maili peale. Minu vanem laps, 10 kümne aastane tüdruk ka õppib niimodi. Ja distantsõpe meeldib talle rohkem, kui iga päev kooli käimine. Tegelikult talle ei meeldi nii vara hommikul ärkama. Ühesõnaga distantsõpe on väga tore mõte. Aga see sobib nendele, kes saab planeerida oma aega ja oled ästi distsiplineeritud inimene. Aga mina ikka soovitan distantsõpe kõikidele.');
 INSERT INTO core.text_property
 VALUES ('d560f168-08d9-4de5-8146-cb8f26c72dbf', '76610c6a-62db-4488-9d97-062618368dd0', 'title', 'B2 2020 II_007-107');
 INSERT INTO core.text_property
@@ -6190,7 +6190,7 @@ INSERT INTO core.text_property
 VALUES ('ea321632-c0b7-4dd9-8fc9-94866c4e63cc', '76610c6a-62db-4488-9d97-062618368dd0', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
 VALUES ('5004fcea-c1ce-4946-b915-e67211f77e27', '76610c6a-62db-4488-9d97-062618368dd0', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('32b53db0-c6e8-4210-ad1b-1f3d1623daa5', '76610c6a-62db-4488-9d97-062618368dd0', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -6233,7 +6233,7 @@ VALUES ('36ebcaad-031a-4fc1-a9ce-d2b65a8f2276', '5cdcb888-fe04-4a4d-a7a6-94abde6
 INSERT INTO core.text_property
 VALUES ('33e04352-de75-4b49-8e2e-0bdd383bcbbe', '5cdcb888-fe04-4a4d-a7a6-94abde6f013e', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('58418bbb-62ed-40eb-bce7-b78a676461ab', '5cdcb888-fe04-4a4d-a7a6-94abde6f013e', 'haridus', 'kõrgharidus');
+VALUES ('58418bbb-62ed-40eb-bce7-b78a676461ab', '5cdcb888-fe04-4a4d-a7a6-94abde6f013e', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('386902b3-8fb3-4659-a701-eb1ad4bd1250', '5cdcb888-fe04-4a4d-a7a6-94abde6f013e', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -6276,7 +6276,7 @@ VALUES ('5d051649-fe0f-489a-8c83-64c056db5d0b', '43381dac-8c35-40f8-871d-e7c3d80
 INSERT INTO core.text_property
 VALUES ('c8b97960-eaa2-478b-b7c0-c56257b0394a', '43381dac-8c35-40f8-871d-e7c3d8015a33', 'kodakondsus', 'Valgevene');
 INSERT INTO core.text_property
-VALUES ('96bb485f-98d0-4f65-86ba-cd1a11e0a129', '43381dac-8c35-40f8-871d-e7c3d8015a33', 'haridus', 'kõrgharidus');
+VALUES ('96bb485f-98d0-4f65-86ba-cd1a11e0a129', '43381dac-8c35-40f8-871d-e7c3d8015a33', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('4099a69e-91c7-4617-a87b-fc0fef41c1bb', '43381dac-8c35-40f8-871d-e7c3d8015a33', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -6319,7 +6319,7 @@ VALUES ('0fbebd3a-fdca-46ef-a6a8-894a6269e594', 'edda1d30-2150-4c38-beb9-29932ec
 INSERT INTO core.text_property
 VALUES ('b02ce33e-a58b-4156-8664-19f620a4aa27', 'edda1d30-2150-4c38-beb9-29932ec00c68', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('ee355454-6053-4250-9486-9f0ce325d1e3', 'edda1d30-2150-4c38-beb9-29932ec00c68', 'haridus', 'keskharidus');
+VALUES ('ee355454-6053-4250-9486-9f0ce325d1e3', 'edda1d30-2150-4c38-beb9-29932ec00c68', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('474327b1-206e-4f23-ac21-87be0da7fa64', 'edda1d30-2150-4c38-beb9-29932ec00c68', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -6362,7 +6362,7 @@ VALUES ('a31460c9-92f5-463a-832c-c16bdbccd209', 'fc5b3e17-019a-4630-af69-4703476
 INSERT INTO core.text_property
 VALUES ('b9602a0c-0244-42f6-9916-28d5120b16c1', 'fc5b3e17-019a-4630-af69-4703476db70b', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('e4b15f23-f40c-434e-8764-e55366146c37', 'fc5b3e17-019a-4630-af69-4703476db70b', 'haridus', 'keskharidus');
+VALUES ('e4b15f23-f40c-434e-8764-e55366146c37', 'fc5b3e17-019a-4630-af69-4703476db70b', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('faa20fd3-e060-47ba-841c-27fa467d81a6', 'fc5b3e17-019a-4630-af69-4703476db70b', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -6406,7 +6406,7 @@ INSERT INTO core.text_property
 VALUES ('dac30479-b250-4812-9484-f3c7227a5baf', '60dd5c9c-1ac4-42bd-9ee0-48b22431b7db', 'kodakondsus', '');
 INSERT INTO core.text_property
 VALUES ('8f722ccd-6ace-4bcb-bbc8-bc8ce244a5b1', '60dd5c9c-1ac4-42bd-9ee0-48b22431b7db', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('83c8f0c8-b609-4625-b802-d0773bbfc1be', '60dd5c9c-1ac4-42bd-9ee0-48b22431b7db', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -6449,7 +6449,7 @@ VALUES ('2164cbc5-2f29-4f50-b991-dfc361d5d93a', '6f54924a-940a-43e2-9546-8ef5dc2
 INSERT INTO core.text_property
 VALUES ('760e10c3-2858-42fe-b1c6-8cdff8eab419', '6f54924a-940a-43e2-9546-8ef5dc2224cf', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('5adcebae-56ff-40e6-87f7-78b1f776c7b9', '6f54924a-940a-43e2-9546-8ef5dc2224cf', 'haridus', 'kõrgharidus');
+VALUES ('5adcebae-56ff-40e6-87f7-78b1f776c7b9', '6f54924a-940a-43e2-9546-8ef5dc2224cf', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('e97b17e2-0bc3-4f7d-9b68-2e2a6ab1c3a3', '6f54924a-940a-43e2-9546-8ef5dc2224cf', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -6492,7 +6492,7 @@ VALUES ('38ebf014-8aa0-4e7f-8aff-0627502f1fa7', 'af9b33f7-037c-4c93-b955-1d39ab6
 INSERT INTO core.text_property
 VALUES ('f6935624-2d84-4f81-90dd-952b8c66c8ce', 'af9b33f7-037c-4c93-b955-1d39ab6dc288', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('cdf2fcbe-faec-411a-a2a4-a73c8f6d6ed4', 'af9b33f7-037c-4c93-b955-1d39ab6dc288', 'haridus', 'kõrgharidus');
+VALUES ('cdf2fcbe-faec-411a-a2a4-a73c8f6d6ed4', 'af9b33f7-037c-4c93-b955-1d39ab6dc288', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('99960f30-8e40-482d-9152-47f25ae95848', 'af9b33f7-037c-4c93-b955-1d39ab6dc288', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -6579,7 +6579,7 @@ INSERT INTO core.text_property
 VALUES ('3da2dafb-9152-4e69-b553-9a2a89edd3f4', '4904e62d-0c14-4c33-b52b-aa9873210575', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('7c69215d-5da2-4005-a7bb-6b6b805588d0', '4904e62d-0c14-4c33-b52b-aa9873210575', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('334e3565-38f9-4fb9-991b-fa5f1a5d622f', '4904e62d-0c14-4c33-b52b-aa9873210575', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -6622,7 +6622,7 @@ VALUES ('84521625-a685-4f8a-b856-a6500cb8efb7', 'de64f53d-457c-4dc7-a2f0-b66c32d
 INSERT INTO core.text_property
 VALUES ('202e0b57-6475-4de4-ad85-1452693f7e49', 'de64f53d-457c-4dc7-a2f0-b66c32da678d', 'kodakondsus', 'Rumeenia');
 INSERT INTO core.text_property
-VALUES ('d044efe6-48b6-4b3d-89b7-dc6998710c9b', 'de64f53d-457c-4dc7-a2f0-b66c32da678d', 'haridus', 'kõrgharidus');
+VALUES ('d044efe6-48b6-4b3d-89b7-dc6998710c9b', 'de64f53d-457c-4dc7-a2f0-b66c32da678d', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('ebc1b1d7-0139-4810-a0c5-46d156eff0af', 'de64f53d-457c-4dc7-a2f0-b66c32da678d', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -6665,7 +6665,7 @@ VALUES ('6c2e065c-b238-4ecb-b4fa-4e98c1a40594', '2c3aa4cf-5189-41c8-9b0f-08b2d0c
 INSERT INTO core.text_property
 VALUES ('111afcec-d68f-4d9c-a987-01a63e13e93b', '2c3aa4cf-5189-41c8-9b0f-08b2d0c7f0f7', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('7613bc31-6f04-4f7e-a711-2b0540350d36', '2c3aa4cf-5189-41c8-9b0f-08b2d0c7f0f7', 'haridus', 'kõrgharidus');
+VALUES ('7613bc31-6f04-4f7e-a711-2b0540350d36', '2c3aa4cf-5189-41c8-9b0f-08b2d0c7f0f7', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('c5e37a0c-4147-4407-8079-68aefbfa0ec7', '2c3aa4cf-5189-41c8-9b0f-08b2d0c7f0f7', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -6709,7 +6709,7 @@ INSERT INTO core.text_property
 VALUES ('8f274c0c-b4d5-4dd5-90b2-f5432863b9f5', '122f3505-297d-467a-a2c7-9610e0bd1cf1', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('6e125cdc-461d-4c25-a678-833f49543b70', '122f3505-297d-467a-a2c7-9610e0bd1cf1', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('5345682c-a00b-43b1-a1e8-f04acfa5eaa8', '122f3505-297d-467a-a2c7-9610e0bd1cf1', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -6753,7 +6753,7 @@ INSERT INTO core.text_property
 VALUES ('0861ec97-4136-4c17-bc01-b05b130acbde', '68631d5b-34da-4759-85b6-60dc2e0d73d7', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('ec545e74-8d9a-499b-bca9-1623fd53a7df', '68631d5b-34da-4759-85b6-60dc2e0d73d7', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('3966bc23-ab14-4a88-8058-6f544dc77c88', '68631d5b-34da-4759-85b6-60dc2e0d73d7', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -6796,7 +6796,7 @@ VALUES ('6498f09d-42f4-47e3-a8a1-040a9e10e72a', 'e3df76e6-ecc3-4172-9bbc-412045d
 INSERT INTO core.text_property
 VALUES ('eed89488-3a30-4ba6-b2e1-b053c4dfdf1b', 'e3df76e6-ecc3-4172-9bbc-412045d2bc5e', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('93b04a87-df55-436c-b2b0-ce47e8afedcd', 'e3df76e6-ecc3-4172-9bbc-412045d2bc5e', 'haridus', 'kõrgharidus');
+VALUES ('93b04a87-df55-436c-b2b0-ce47e8afedcd', 'e3df76e6-ecc3-4172-9bbc-412045d2bc5e', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('b334c4d1-985b-4c36-93da-e3462a1276a1', 'e3df76e6-ecc3-4172-9bbc-412045d2bc5e', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -6840,7 +6840,7 @@ INSERT INTO core.text_property
 VALUES ('d4b8aa6d-76bb-4f10-8d09-76ebaf3f1f2d', '9a1a1c89-8bda-47a8-95c5-7f5132b8a8ac', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('4f65d865-9b43-4783-b188-46a7da10143d', '9a1a1c89-8bda-47a8-95c5-7f5132b8a8ac', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('0377c22a-c6a2-433e-84e4-b2b00b9132a9', '9a1a1c89-8bda-47a8-95c5-7f5132b8a8ac', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -6883,7 +6883,7 @@ VALUES ('ca95a047-a9b7-4e8e-855f-3e517115b6c8', 'd418dc32-a2d3-4a0c-b20c-e17212a
 INSERT INTO core.text_property
 VALUES ('e51c36ea-db38-4ae5-af1e-f8d49f59378d', 'd418dc32-a2d3-4a0c-b20c-e17212a2089d', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('817c9325-9068-4a2a-ab75-5d56b3bb9c2a', 'd418dc32-a2d3-4a0c-b20c-e17212a2089d', 'haridus', 'kõrgharidus');
+VALUES ('817c9325-9068-4a2a-ab75-5d56b3bb9c2a', 'd418dc32-a2d3-4a0c-b20c-e17212a2089d', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('4b4efdb7-e9f1-4b2f-81a0-f8eabc78eec4', 'd418dc32-a2d3-4a0c-b20c-e17212a2089d', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -6926,7 +6926,7 @@ VALUES ('e844c856-1146-4ae5-934e-c307844d3b87', '39e5418f-f3c1-4949-8529-2c7d061
 INSERT INTO core.text_property
 VALUES ('4a33be35-cd0e-411f-8b09-b2ee3d4d2ea1', '39e5418f-f3c1-4949-8529-2c7d061deebf', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('4296215a-ced2-4dcb-8ed5-eacea919463c', '39e5418f-f3c1-4949-8529-2c7d061deebf', 'haridus', 'kõrgharidus');
+VALUES ('4296215a-ced2-4dcb-8ed5-eacea919463c', '39e5418f-f3c1-4949-8529-2c7d061deebf', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('b5a0825b-99b5-4556-a12b-eaf3e1c8cc47', '39e5418f-f3c1-4949-8529-2c7d061deebf', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -6969,7 +6969,7 @@ VALUES ('021b45a8-f92a-43e4-a919-1d34670e42fe', 'b96b4693-215b-454e-9d3f-c059526
 INSERT INTO core.text_property
 VALUES ('42197c2c-1075-4f38-9851-cbdde87d39bc', 'b96b4693-215b-454e-9d3f-c059526f9d11', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('f1d02e98-5bb2-48f2-89e7-ac23acd9cf8c', 'b96b4693-215b-454e-9d3f-c059526f9d11', 'haridus', 'kõrgharidus');
+VALUES ('f1d02e98-5bb2-48f2-89e7-ac23acd9cf8c', 'b96b4693-215b-454e-9d3f-c059526f9d11', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('6313620d-2819-48cc-b64f-d4489e7e4e30', 'b96b4693-215b-454e-9d3f-c059526f9d11', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -7013,7 +7013,7 @@ INSERT INTO core.text_property
 VALUES ('0f11c0b0-385b-4f0b-bf47-e20df3f90518', 'bd4231da-42c5-4cac-a5b2-c26e18a7a8f4', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('cb5b57d9-afa8-4f39-8a10-5d0ddfa325ba', 'bd4231da-42c5-4cac-a5b2-c26e18a7a8f4', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('dbb048db-023b-491f-91ff-188221844afa', 'bd4231da-42c5-4cac-a5b2-c26e18a7a8f4', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -7056,7 +7056,7 @@ VALUES ('74f4fab4-7643-41a9-b350-ad28c49f67b3', '48a267b1-07cf-4dd1-9469-fe6a6e4
 INSERT INTO core.text_property
 VALUES ('9fb0054e-f059-43bd-b72f-95727c801723', '48a267b1-07cf-4dd1-9469-fe6a6e42eb92', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('17c7e967-879a-4b15-8414-3c6839b4cffa', '48a267b1-07cf-4dd1-9469-fe6a6e42eb92', 'haridus', 'kõrgharidus');
+VALUES ('17c7e967-879a-4b15-8414-3c6839b4cffa', '48a267b1-07cf-4dd1-9469-fe6a6e42eb92', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('1dfd4d32-530d-4095-9d3c-d5c8a2b11c65', '48a267b1-07cf-4dd1-9469-fe6a6e42eb92', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -7100,7 +7100,7 @@ INSERT INTO core.text_property
 VALUES ('b76023bb-526a-4078-99db-23c2f053a8ec', 'd9febdb8-3691-4af8-a0c6-dc29380cd016', 'kodakondsus', 'Määramata');
 INSERT INTO core.text_property
 VALUES ('d6fac102-05b7-4981-8573-e280f8e7bbc6', 'd9febdb8-3691-4af8-a0c6-dc29380cd016', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('11ffec29-05b9-4aef-9abd-5ef7ff13a1c5', 'd9febdb8-3691-4af8-a0c6-dc29380cd016', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -7144,7 +7144,7 @@ INSERT INTO core.text_property
 VALUES ('d5654564-0084-42f1-b457-bcd15b412dc0', 'a81aede9-1477-41e0-ab05-c5fd70198354', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('c09ac969-a7be-4148-bcc7-b1a5be8cb6f1', 'a81aede9-1477-41e0-ab05-c5fd70198354', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('bbc5bb5c-0449-4233-abab-4a8ac56dfd86', 'a81aede9-1477-41e0-ab05-c5fd70198354', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -7187,7 +7187,7 @@ VALUES ('bba04898-132a-4a56-9515-f4b9f0f5b8e9', 'cf6ca491-4b98-4055-9e0b-c178c93
 INSERT INTO core.text_property
 VALUES ('b871f1a7-c94b-49db-a016-9be0628bc913', 'cf6ca491-4b98-4055-9e0b-c178c93001ae', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('ffda817d-4237-4b4a-be20-fc97a6953100', 'cf6ca491-4b98-4055-9e0b-c178c93001ae', 'haridus', 'kõrgharidus');
+VALUES ('ffda817d-4237-4b4a-be20-fc97a6953100', 'cf6ca491-4b98-4055-9e0b-c178c93001ae', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('2372d691-8f5b-4086-929a-9beca8b515d1', 'cf6ca491-4b98-4055-9e0b-c178c93001ae', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -7231,7 +7231,7 @@ INSERT INTO core.text_property
 VALUES ('e523822b-82f2-4ef7-a345-a87942498a99', '7d165deb-03b8-4840-a963-bc07df2b5fae', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('2cd9b225-06db-4f83-af5d-533cf7ed2450', '7d165deb-03b8-4840-a963-bc07df2b5fae', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('827fa421-f24e-40c1-9089-e750273501e1', '7d165deb-03b8-4840-a963-bc07df2b5fae', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -7274,7 +7274,7 @@ VALUES ('29aa2af2-a81d-4683-a152-15ff15364425', '202e7304-d7c0-4db0-98c7-cd5a02c
 INSERT INTO core.text_property
 VALUES ('4cce0912-fe53-4827-b310-06a686d41e8a', '202e7304-d7c0-4db0-98c7-cd5a02cd97d2', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('f99f990e-d8ff-435b-bcc5-31e5fa533032', '202e7304-d7c0-4db0-98c7-cd5a02cd97d2', 'haridus', 'keskharidus');
+VALUES ('f99f990e-d8ff-435b-bcc5-31e5fa533032', '202e7304-d7c0-4db0-98c7-cd5a02cd97d2', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('38f10928-a64c-4aab-9be3-d8b90a8b375a', '202e7304-d7c0-4db0-98c7-cd5a02cd97d2', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -7318,7 +7318,7 @@ INSERT INTO core.text_property
 VALUES ('26463334-6fbd-4fb9-bc5b-07cb78d545a8', '17efb210-c75d-4196-aba7-297e9f6c713f', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('98793028-6db5-4146-91d5-22b206537c49', '17efb210-c75d-4196-aba7-297e9f6c713f', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('cc2d6438-01c1-4ffe-a5fa-c3f1c1cee7d1', '17efb210-c75d-4196-aba7-297e9f6c713f', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -7361,7 +7361,7 @@ VALUES ('14244e5f-0bfc-4405-9d22-749108beb4ab', '8bccf7f2-3939-41ba-a71c-3d566fe
 INSERT INTO core.text_property
 VALUES ('06b2e875-1f5d-4f34-b9fa-592186c6bea9', '8bccf7f2-3939-41ba-a71c-3d566fe0c797', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('b1e7be30-51a4-498e-ba32-848be6b071bb', '8bccf7f2-3939-41ba-a71c-3d566fe0c797', 'haridus', 'kõrgharidus');
+VALUES ('b1e7be30-51a4-498e-ba32-848be6b071bb', '8bccf7f2-3939-41ba-a71c-3d566fe0c797', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('62596b6d-02f4-418c-aea5-21c2a10b630f', '8bccf7f2-3939-41ba-a71c-3d566fe0c797', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -7405,7 +7405,7 @@ INSERT INTO core.text_property
 VALUES ('69ef1e3e-901d-42e9-a6fb-ea3fd38842d1', '8f95c62d-3d34-46c3-bcf0-d4002fe33eef', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('1ec3f7d4-c659-4aa4-9948-4c326ba22f51', '8f95c62d-3d34-46c3-bcf0-d4002fe33eef', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('45cc2a9f-22aa-4606-96b7-d8a761501263', '8f95c62d-3d34-46c3-bcf0-d4002fe33eef', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -7448,7 +7448,7 @@ VALUES ('e2142aee-f06b-49f4-acc1-c8d97ac4de2d', 'ce59414f-f5e8-4ee4-8a00-d44ba6d
 INSERT INTO core.text_property
 VALUES ('1875e0c6-d4c4-4247-b640-021b3c1b96b2', 'ce59414f-f5e8-4ee4-8a00-d44ba6decbf0', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('9bb554e6-48a2-4847-b6ab-04d73efd6991', 'ce59414f-f5e8-4ee4-8a00-d44ba6decbf0', 'haridus', 'kõrgharidus');
+VALUES ('9bb554e6-48a2-4847-b6ab-04d73efd6991', 'ce59414f-f5e8-4ee4-8a00-d44ba6decbf0', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('dd2863c9-bdb7-4933-9227-60c834c75c7b', 'ce59414f-f5e8-4ee4-8a00-d44ba6decbf0', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -7492,7 +7492,7 @@ INSERT INTO core.text_property
 VALUES ('c02521c6-589d-4904-9300-d427891bf02f', '5b4bc22a-2df2-413e-a7ea-c92615e1ce61', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('0c3b9b58-5ab1-4bf2-9ab3-da0b2600d0b8', '5b4bc22a-2df2-413e-a7ea-c92615e1ce61', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('cf4e1d03-c3ef-45fc-82a7-3769674a64ee', '5b4bc22a-2df2-413e-a7ea-c92615e1ce61', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -7535,7 +7535,7 @@ VALUES ('e58cdbe1-6f92-40b5-8400-e97b9be68648', '2e9c0a0d-a386-4e95-b8cd-981db82
 INSERT INTO core.text_property
 VALUES ('cceee618-e525-45db-9208-441746dd4bb1', '2e9c0a0d-a386-4e95-b8cd-981db821992e', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('3b3f081c-c2f1-4e90-b92c-1a003cdc0401', '2e9c0a0d-a386-4e95-b8cd-981db821992e', 'haridus', 'keskharidus');
+VALUES ('3b3f081c-c2f1-4e90-b92c-1a003cdc0401', '2e9c0a0d-a386-4e95-b8cd-981db821992e', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('b94ccc20-17c8-4868-ae4b-43aae6ba7a1d', '2e9c0a0d-a386-4e95-b8cd-981db821992e', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -7578,7 +7578,7 @@ VALUES ('01c21a89-d57f-4798-b9f8-53af4f7de886', '87aefb18-2615-4ca9-b5b4-2087812
 INSERT INTO core.text_property
 VALUES ('50f500c0-0177-459e-a4fa-6bc6becefec6', '87aefb18-2615-4ca9-b5b4-20878121a5ba', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('49009084-caf0-4ddc-8b30-588ebf385838', '87aefb18-2615-4ca9-b5b4-20878121a5ba', 'haridus', 'kõrgharidus');
+VALUES ('49009084-caf0-4ddc-8b30-588ebf385838', '87aefb18-2615-4ca9-b5b4-20878121a5ba', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('0d9542ee-15a6-4f17-afd5-c2215b635577', '87aefb18-2615-4ca9-b5b4-20878121a5ba', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -7622,7 +7622,7 @@ INSERT INTO core.text_property
 VALUES ('5331d13d-0fc1-460c-b75a-c91473858377', 'fdba6534-3d1f-44ae-941c-203b47a63b4a', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('968798ab-3f13-4bb8-89c9-50acce0ce05f', 'fdba6534-3d1f-44ae-941c-203b47a63b4a', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('02b43ca6-cea9-4373-9e94-76c677cca9bf', 'fdba6534-3d1f-44ae-941c-203b47a63b4a', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -7665,7 +7665,7 @@ VALUES ('e1bdab19-3b06-489c-b368-3cb8386aea23', '1b5c50f4-5a06-452f-9b56-82d3df8
 INSERT INTO core.text_property
 VALUES ('8bcf1acc-6385-4d93-9d38-50c3f35c1459', '1b5c50f4-5a06-452f-9b56-82d3df885789', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('0b1ba13e-a7f7-488c-9eef-82ed956d1cb3', '1b5c50f4-5a06-452f-9b56-82d3df885789', 'haridus', 'kõrgharidus');
+VALUES ('0b1ba13e-a7f7-488c-9eef-82ed956d1cb3', '1b5c50f4-5a06-452f-9b56-82d3df885789', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('b1b347a4-7937-415e-91ae-961f417bf8c5', '1b5c50f4-5a06-452f-9b56-82d3df885789', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -7709,7 +7709,7 @@ INSERT INTO core.text_property
 VALUES ('ef9bb356-fa89-4b6f-803f-9128f2b82e32', '04f1b12f-f3ff-4f1a-88a9-b98d9187b8f6', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('a9c8c09b-3ed6-4cd2-8283-7390ce83d900', '04f1b12f-f3ff-4f1a-88a9-b98d9187b8f6', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('892b1a8d-07b1-4bcb-a1ed-d7c28c2ecfb6', '04f1b12f-f3ff-4f1a-88a9-b98d9187b8f6', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -7752,7 +7752,7 @@ VALUES ('018f1235-9282-4fca-9da2-434c57318215', '5f767acc-1b49-45b1-a7d3-7e21461
 INSERT INTO core.text_property
 VALUES ('7e1587c1-0538-4d03-861e-dd33805d66a7', '5f767acc-1b49-45b1-a7d3-7e214616d6df', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('3089f6d4-7c00-4d0a-8b99-83861bbb6c18', '5f767acc-1b49-45b1-a7d3-7e214616d6df', 'haridus', 'keskharidus');
+VALUES ('3089f6d4-7c00-4d0a-8b99-83861bbb6c18', '5f767acc-1b49-45b1-a7d3-7e214616d6df', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('73c5f458-94c0-4840-bd79-7c4ef70ffe8d', '5f767acc-1b49-45b1-a7d3-7e214616d6df', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -7796,7 +7796,7 @@ INSERT INTO core.text_property
 VALUES ('146798d3-b6e5-40c3-b190-34ba9d374fb0', '821049cb-55ca-42e9-8edf-f8a75b656e45', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('728e0eab-c612-44e9-8f53-0d4f3433a032', '821049cb-55ca-42e9-8edf-f8a75b656e45', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('743a8cd3-a6c8-4930-b249-f1cdacc94184', '821049cb-55ca-42e9-8edf-f8a75b656e45', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -7840,7 +7840,7 @@ INSERT INTO core.text_property
 VALUES ('81dd4986-915b-4f53-9df9-203ee80306da', '01afdfd2-8f31-4674-ba3f-54ad29d07694', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('48f83049-3070-47ad-b497-ea3c6e843c45', '01afdfd2-8f31-4674-ba3f-54ad29d07694', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('1737eebd-9190-421d-8d25-32827713764d', '01afdfd2-8f31-4674-ba3f-54ad29d07694', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -7883,7 +7883,7 @@ VALUES ('c7444641-8b8f-4f88-abbb-0b419f694e36', '5b9588ce-d780-4390-97c5-4e2c5a5
 INSERT INTO core.text_property
 VALUES ('45015fe6-0e28-43fa-80b4-6bd0cd739c48', '5b9588ce-d780-4390-97c5-4e2c5a53ff4c', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('09acd603-978e-4231-80cf-980acf60f562', '5b9588ce-d780-4390-97c5-4e2c5a53ff4c', 'haridus', 'kõrgharidus');
+VALUES ('09acd603-978e-4231-80cf-980acf60f562', '5b9588ce-d780-4390-97c5-4e2c5a53ff4c', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('812780ac-d666-4522-a55f-7be3b2dd7339', '5b9588ce-d780-4390-97c5-4e2c5a53ff4c', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -7926,7 +7926,7 @@ VALUES ('14d33837-3f23-4d66-800f-f93969c7645a', 'e642c5e8-7d7d-4277-aa8b-460dec1
 INSERT INTO core.text_property
 VALUES ('69f3118e-fb1d-4a70-b5c2-43be3ab684cf', 'e642c5e8-7d7d-4277-aa8b-460dec19ef7d', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('85b71997-f45a-492b-aefd-d02e579005d2', 'e642c5e8-7d7d-4277-aa8b-460dec19ef7d', 'haridus', 'kõrgharidus');
+VALUES ('85b71997-f45a-492b-aefd-d02e579005d2', 'e642c5e8-7d7d-4277-aa8b-460dec19ef7d', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('a77741b4-63ba-4b6d-b1aa-640863c7a2d0', 'e642c5e8-7d7d-4277-aa8b-460dec19ef7d', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -7969,7 +7969,7 @@ VALUES ('dd1822e9-6275-4f42-b8a4-ea4c08a2aed5', '5c8967bf-584d-499b-8670-fff4673
 INSERT INTO core.text_property
 VALUES ('5d5b19cf-955a-48f2-b85a-cf591a70e848', '5c8967bf-584d-499b-8670-fff46733b170', 'kodakondsus', 'Läti');
 INSERT INTO core.text_property
-VALUES ('47a10098-f1fd-43c9-9c70-ee9f5e19082c', '5c8967bf-584d-499b-8670-fff46733b170', 'haridus', 'kõrgharidus');
+VALUES ('47a10098-f1fd-43c9-9c70-ee9f5e19082c', '5c8967bf-584d-499b-8670-fff46733b170', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('09de57ed-9d25-4f92-a116-1c232886713f', '5c8967bf-584d-499b-8670-fff46733b170', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -8013,7 +8013,7 @@ INSERT INTO core.text_property
 VALUES ('6ca6306a-8ebb-4212-b6d5-83bd63551869', 'e88abba5-c780-49b2-8e54-1f53efd46c30', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('2a455459-dbd3-4055-a549-3dfc07616fe4', 'e88abba5-c780-49b2-8e54-1f53efd46c30', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('e642be84-d220-4659-bd46-c8915425efa9', 'e88abba5-c780-49b2-8e54-1f53efd46c30', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -8056,7 +8056,7 @@ VALUES ('cd33f5a4-19a7-4871-a224-63a31708e98d', '28a90dc4-45d8-49a2-ad0d-2112039
 INSERT INTO core.text_property
 VALUES ('b28b40bd-bba8-4828-aa09-420094784783', '28a90dc4-45d8-49a2-ad0d-2112039db8f9', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('d90c1785-cc24-44b5-aaee-fb021558f814', '28a90dc4-45d8-49a2-ad0d-2112039db8f9', 'haridus', 'kõrgharidus');
+VALUES ('d90c1785-cc24-44b5-aaee-fb021558f814', '28a90dc4-45d8-49a2-ad0d-2112039db8f9', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('df3c8aa5-00ce-4c7b-9a5e-05bc1b67fd1b', '28a90dc4-45d8-49a2-ad0d-2112039db8f9', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -8099,7 +8099,7 @@ VALUES ('10a80b5d-34f1-42ed-a363-0f9d2ef77fb2', 'aa3af96c-d137-467e-a157-da263c4
 INSERT INTO core.text_property
 VALUES ('eb7875a7-d682-41f6-900b-ff12a9a63522', 'aa3af96c-d137-467e-a157-da263c48e547', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('4b831219-c26d-42b5-b2cd-fb4640045060', 'aa3af96c-d137-467e-a157-da263c48e547', 'haridus', 'kõrgharidus');
+VALUES ('4b831219-c26d-42b5-b2cd-fb4640045060', 'aa3af96c-d137-467e-a157-da263c48e547', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('0c695719-b973-4548-8f50-e0e322e38d4d', 'aa3af96c-d137-467e-a157-da263c48e547', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -8142,7 +8142,7 @@ VALUES ('9d132870-b205-4a85-b0db-2efb219dae80', '3940f483-47c9-465e-bdf7-1c8d3a6
 INSERT INTO core.text_property
 VALUES ('1e8885eb-482a-43aa-a7bc-7bf96020eeaa', '3940f483-47c9-465e-bdf7-1c8d3a6d1e62', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('2e0cfd41-4450-4657-9cbd-a2012f43b767', '3940f483-47c9-465e-bdf7-1c8d3a6d1e62', 'haridus', 'kõrgharidus');
+VALUES ('2e0cfd41-4450-4657-9cbd-a2012f43b767', '3940f483-47c9-465e-bdf7-1c8d3a6d1e62', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('1a277d6f-3af5-4803-8bbf-d71c6e52dbca', '3940f483-47c9-465e-bdf7-1c8d3a6d1e62', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -8186,7 +8186,7 @@ INSERT INTO core.text_property
 VALUES ('7311da00-cee4-4053-ae23-333b99f08d43', '02193e92-aa39-444f-ac0f-5cd191222278', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('1915e4bb-8b44-4102-936d-6f6fa8f66902', '02193e92-aa39-444f-ac0f-5cd191222278', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('19c5c7ba-58c9-48e0-9022-26cb088d307f', '02193e92-aa39-444f-ac0f-5cd191222278', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -8229,7 +8229,7 @@ VALUES ('4c53f4b9-b060-4e2b-899f-770ee3a1859e', '37b6417b-1df1-496e-b839-a00d4c3
 INSERT INTO core.text_property
 VALUES ('cb87b068-d125-4c38-9db8-9c6051b4bc14', '37b6417b-1df1-496e-b839-a00d4c3938f8', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('99a36d08-664c-4e80-8cf3-74fad8b54850', '37b6417b-1df1-496e-b839-a00d4c3938f8', 'haridus', 'kõrgharidus');
+VALUES ('99a36d08-664c-4e80-8cf3-74fad8b54850', '37b6417b-1df1-496e-b839-a00d4c3938f8', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('3a933917-0ade-4c8f-8d23-aefd90f3d912', '37b6417b-1df1-496e-b839-a00d4c3938f8', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -8272,7 +8272,7 @@ VALUES ('3ce92494-ce50-448f-ae6c-d1def3f7edd1', '2a4afd15-8aeb-4c64-8320-d09be91
 INSERT INTO core.text_property
 VALUES ('346b8f5b-4498-40a3-949c-eda02f8142bd', '2a4afd15-8aeb-4c64-8320-d09be9185edb', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('f8d3dcf9-75b2-44b9-85e9-610390a87729', '2a4afd15-8aeb-4c64-8320-d09be9185edb', 'haridus', 'kõrgharidus');
+VALUES ('f8d3dcf9-75b2-44b9-85e9-610390a87729', '2a4afd15-8aeb-4c64-8320-d09be9185edb', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('4c0a9e25-7c30-4792-9624-1ecd46dacb81', '2a4afd15-8aeb-4c64-8320-d09be9185edb', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -8316,7 +8316,7 @@ INSERT INTO core.text_property
 VALUES ('f828c3f5-9ea0-49f0-b7ce-eaf0c3671041', 'ad558d00-b01c-4704-a8b7-abf6bb736fe0', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('8edb7f34-f5bf-41f4-816a-b0024e96cf6a', 'ad558d00-b01c-4704-a8b7-abf6bb736fe0', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('65230774-ba03-4b7f-8dee-bbb196040f83', 'ad558d00-b01c-4704-a8b7-abf6bb736fe0', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -8359,7 +8359,7 @@ VALUES ('a82208b6-ffb0-4cb3-b884-884b38ef90b4', 'e5cd529f-f72d-40fe-8e29-39bebe0
 INSERT INTO core.text_property
 VALUES ('69417df9-8499-4bb8-b193-b1221ec17ddf', 'e5cd529f-f72d-40fe-8e29-39bebe07e209', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('0b248424-c656-4156-956e-55e74ec91d76', 'e5cd529f-f72d-40fe-8e29-39bebe07e209', 'haridus', 'keskharidus');
+VALUES ('0b248424-c656-4156-956e-55e74ec91d76', 'e5cd529f-f72d-40fe-8e29-39bebe07e209', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('c6d0326c-978e-4b3c-8eeb-7c3983aafbf8', 'e5cd529f-f72d-40fe-8e29-39bebe07e209', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -8402,7 +8402,7 @@ VALUES ('b399569c-9c5c-4467-9600-582c8ef263f3', '3989385c-6b0b-4c48-9829-2bd2d72
 INSERT INTO core.text_property
 VALUES ('d049fa90-bfd4-41b0-9363-e39ba5a74735', '3989385c-6b0b-4c48-9829-2bd2d72c107a', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('a514c6e5-74c3-47ab-a696-acea5e2c8a13', '3989385c-6b0b-4c48-9829-2bd2d72c107a', 'haridus', 'kõrgharidus');
+VALUES ('a514c6e5-74c3-47ab-a696-acea5e2c8a13', '3989385c-6b0b-4c48-9829-2bd2d72c107a', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('388e230a-4171-4530-a6e3-561bf222ef6b', '3989385c-6b0b-4c48-9829-2bd2d72c107a', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -8445,7 +8445,7 @@ VALUES ('e8f38ada-1df9-4915-ac3e-bdd2ba42b574', '5dbb578e-57fc-4730-bb7c-c13fcb7
 INSERT INTO core.text_property
 VALUES ('e1737934-0eae-4eb3-89ed-e6a83d2040da', '5dbb578e-57fc-4730-bb7c-c13fcb7fb939', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('4afdfdb2-6eec-4287-8965-eef4f20e8d9c', '5dbb578e-57fc-4730-bb7c-c13fcb7fb939', 'haridus', 'kõrgharidus');
+VALUES ('4afdfdb2-6eec-4287-8965-eef4f20e8d9c', '5dbb578e-57fc-4730-bb7c-c13fcb7fb939', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('c1a55b4d-dc5f-4bda-a977-03c4024edaee', '5dbb578e-57fc-4730-bb7c-c13fcb7fb939', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -8488,7 +8488,7 @@ VALUES ('4eb8edba-2ab6-47f9-9d27-118d3251391f', 'e2deb5a9-1f35-475c-879e-9ea9280
 INSERT INTO core.text_property
 VALUES ('8a913dbd-489e-4aa2-b658-ace4eeb01d54', 'e2deb5a9-1f35-475c-879e-9ea928032b5d', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('eac1ee72-7364-4f67-9008-fa7d59763876', 'e2deb5a9-1f35-475c-879e-9ea928032b5d', 'haridus', 'keskharidus');
+VALUES ('eac1ee72-7364-4f67-9008-fa7d59763876', 'e2deb5a9-1f35-475c-879e-9ea928032b5d', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('91e8e83d-d21c-4766-95a9-62781423e3f6', 'e2deb5a9-1f35-475c-879e-9ea928032b5d', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -8531,7 +8531,7 @@ VALUES ('0d78cd98-9aa4-481e-bf94-d8b91928825d', '473eb7df-ae7a-4ddd-902e-fe0df33
 INSERT INTO core.text_property
 VALUES ('a56da684-b8a1-4e0f-9645-6fa708bea253', '473eb7df-ae7a-4ddd-902e-fe0df33ab1ae', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('c7026635-63ee-4fdc-84e2-c8bc710ba648', '473eb7df-ae7a-4ddd-902e-fe0df33ab1ae', 'haridus', 'keskharidus');
+VALUES ('c7026635-63ee-4fdc-84e2-c8bc710ba648', '473eb7df-ae7a-4ddd-902e-fe0df33ab1ae', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('4ac3f398-ddb2-463f-b7c6-fd247d8f5f15', '473eb7df-ae7a-4ddd-902e-fe0df33ab1ae', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -8575,7 +8575,7 @@ INSERT INTO core.text_property
 VALUES ('054ffe41-d4a6-40e0-a361-8be4dcd0cad7', '41c40023-0c1c-48c6-bfdf-ac5450f7391e', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('7ef9674f-caef-4da1-933e-39ef759eb8a4', '41c40023-0c1c-48c6-bfdf-ac5450f7391e', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('6bea0011-3050-479a-a38c-58f00fffd957', '41c40023-0c1c-48c6-bfdf-ac5450f7391e', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -8619,7 +8619,7 @@ INSERT INTO core.text_property
 VALUES ('2486c31f-d35e-4c11-94a5-4b7ff50c1eb4', '59c49406-17e1-43bb-b852-6ed6d4a65950', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('e08c4dac-dc12-44b2-b439-3121b3dd6fe1', '59c49406-17e1-43bb-b852-6ed6d4a65950', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('5c989efa-9366-4414-a9c4-77e59e957fbb', '59c49406-17e1-43bb-b852-6ed6d4a65950', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -8663,7 +8663,7 @@ INSERT INTO core.text_property
 VALUES ('330d77fd-7243-4928-a156-0e4fcf55e784', 'f27bda17-7b25-4e79-a297-9c40935b9fbd', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('b1b496bd-aadf-4ffc-9c6e-d6457e2514ff', 'f27bda17-7b25-4e79-a297-9c40935b9fbd', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('550a26dd-9c45-48e1-9211-906974a2fe68', 'f27bda17-7b25-4e79-a297-9c40935b9fbd', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -8706,7 +8706,7 @@ VALUES ('a57db1ff-68d2-475b-9cca-25b86c40b5dc', '2ddcd2ec-f27d-4b48-aab3-933700a
 INSERT INTO core.text_property
 VALUES ('8c345588-28b4-4a15-a1e4-e6d18829d338', '2ddcd2ec-f27d-4b48-aab3-933700ad4d19', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('d5c68f3d-1047-4f11-a12f-a2c6212e0704', '2ddcd2ec-f27d-4b48-aab3-933700ad4d19', 'haridus', 'keskharidus');
+VALUES ('d5c68f3d-1047-4f11-a12f-a2c6212e0704', '2ddcd2ec-f27d-4b48-aab3-933700ad4d19', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('7ccd40f6-35a9-4ed8-a28e-505f02dfebd5', '2ddcd2ec-f27d-4b48-aab3-933700ad4d19', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -8749,7 +8749,7 @@ VALUES ('9ec42fff-5bac-4c06-bf40-cebd68bd87ad', '251b21e2-c642-41cd-9bde-d96454d
 INSERT INTO core.text_property
 VALUES ('00afffbc-1aa9-46a7-ba75-591b1e19f699', '251b21e2-c642-41cd-9bde-d96454de910b', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('5ede1db8-f6f6-4e76-9827-20c10022a800', '251b21e2-c642-41cd-9bde-d96454de910b', 'haridus', 'keskharidus');
+VALUES ('5ede1db8-f6f6-4e76-9827-20c10022a800', '251b21e2-c642-41cd-9bde-d96454de910b', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('557110f7-1bb5-49d1-a8de-0067721e85c2', '251b21e2-c642-41cd-9bde-d96454de910b', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -8792,7 +8792,7 @@ VALUES ('4e17a3ec-fd76-427d-a44d-35f400b59873', 'a1640968-ec47-4c56-99fe-3f427b2
 INSERT INTO core.text_property
 VALUES ('a7b1ebc8-f506-449d-b7cb-d4a60ab5f4cc', 'a1640968-ec47-4c56-99fe-3f427b267538', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('36a639b7-d2e6-4244-a669-5eb9638ab518', 'a1640968-ec47-4c56-99fe-3f427b267538', 'haridus', 'keskharidus');
+VALUES ('36a639b7-d2e6-4244-a669-5eb9638ab518', 'a1640968-ec47-4c56-99fe-3f427b267538', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('7b76088d-4bfa-4625-9966-a7ce5ebd65f8', 'a1640968-ec47-4c56-99fe-3f427b267538', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -8835,7 +8835,7 @@ VALUES ('fce9d959-8167-4306-a566-a539d69d511c', '49fa3ab4-967e-4503-80c1-778d6bf
 INSERT INTO core.text_property
 VALUES ('7e2abed9-d513-41fc-89b3-8a69e3855aac', '49fa3ab4-967e-4503-80c1-778d6bfcd5dd', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('ec699fd8-429e-401d-9674-ec1f4a6dae46', '49fa3ab4-967e-4503-80c1-778d6bfcd5dd', 'haridus', 'keskharidus');
+VALUES ('ec699fd8-429e-401d-9674-ec1f4a6dae46', '49fa3ab4-967e-4503-80c1-778d6bfcd5dd', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('c50dae64-223b-4a0d-b818-579719e7d675', '49fa3ab4-967e-4503-80c1-778d6bfcd5dd', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -8847,7 +8847,7 @@ VALUES ('ac4497dc-ceab-4a01-9fc2-3d78add670bc', '49fa3ab4-967e-4503-80c1-778d6bf
 
 INSERT INTO core.text
 VALUES ('8d088547-6bf2-4b10-a702-e73549146222',
-        'Tahan jagada oma arvamust selle kohta, mida olen kuulnud, osaledes Eesti Töötukassa ümarlaual. Üritusel käsitleti üsna levinud ning kasulikke teemasid mitte ainult nendele, kes otsivad tööd, aga ka tööandjatele ja nendele kes juba töötavad. Kavas olid järgmised teemad: 1. Tänapäeva tööturul vajalikud oskused isikuomadused; 2. Tööturu kohanemine ühiskonnas aset leidvate muutustega. Minu arvates, oli väga õigesti öeldud, et inimese isikuomadused on vajalikum, kui oskused. On palju tähtsam saada aru, et kui inimene ise tahab õppida midagi uut, ta on hea suhtleja, alati kipub likvideerida oma nõrgad küljed, siis ta on see, kes saab hakkama iga raskusega ning kohaneb igal töökohal. Kui ta midagi ei oska, pole hullu, teda saab suunata vajalikele kursustele ehk koolitustele, kus ta saab soovi korral väärikaks töötajaks. Teine teema on seotud esimesega: tööturg lihtsalt saab võita tööpuudust, kui loobub otsimast valmis professionaale ning pühendub nende tegemisse (valmistamisse). Kui tööandja hakkab õpetama endale töötajaid, siis tööjõupuudus (mis Eestis elab koos tööpuudusega) oleks minimaalne. See on täielik probleem ühiskonnas - inimestel pole kogemust, mingeid teadmisi (ei räägi kõrgharidusest), siis nad jaavad töötuks, aga tööandja jaab töötajateta. Ma olen sellega täiesti nõus ning ei saa aru tööandjate nördimusi selle peale, et meil ei piisa inimesi. Aga kui keegi kandideerib töökohale, nad vastuvad eitusega, sest: "meile on vaja sellist inimest, kellel on suur töökogemus selles valdkonnas". kokkuvõteks ütlen, et olen väga rõõmus, et neid teemasid püstitati selles ürituses ning loodan, et tööandjad teevad oma õiged kokkuvõted ning muudavad om suhtumist inimestesse.');
+        'Tahan jagada oma arvamust selle kohta, mida olen kuulnud, osaledes Eesti Töötukassa ümarlaual. Üritusel käsitleti üsna levinud ning kasulikke teemasid mitte ainult nendele, kes otsivad tööd, aga ka tööandjatele ja nendele kes juba töötavad. Kavas olid järgmised teemad: 1. Tänapäeva tööturul vajalikud oskused isikuomadused; 2. Tööturu kohanemine ühiskonnas aset leidvate muutustega. Minu arvates, oli väga õigesti öeldud, et inimese isikuomadused on vajalikum, kui oskused. On palju tähtsam saada aru, et kui inimene ise tahab õppida midagi uut, ta on hea suhtleja, alati kipub likvideerida oma nõrgad küljed, siis ta on see, kes saab hakkama iga raskusega ning kohaneb igal töökohal. Kui ta midagi ei oska, pole hullu, teda saab suunata vajalikele kursustele ehk koolitustele, kus ta saab soovi korral väärikaks töötajaks. Teine teema on seotud esimesega: tööturg lihtsalt saab võita tööpuudust, kui loobub otsimast valmis professionaale ning pühendub nende tegemisse (valmistamisse). Kui tööandja hakkab õpetama endale töötajaid, siis tööjõupuudus (mis Eestis elab koos tööpuudusega) oleks minimaalne. See on täielik probleem ühiskonnas - inimestel pole kogemust, mingeid teadmisi (ei räägi Kõrgharidusest), siis nad jaavad töötuks, aga tööandja jaab töötajateta. Ma olen sellega täiesti nõus ning ei saa aru tööandjate nördimusi selle peale, et meil ei piisa inimesi. Aga kui keegi kandideerib töökohale, nad vastuvad eitusega, sest: "meile on vaja sellist inimest, kellel on suur töökogemus selles valdkonnas". kokkuvõteks ütlen, et olen väga rõõmus, et neid teemasid püstitati selles ürituses ning loodan, et tööandjad teevad oma õiged kokkuvõted ning muudavad om suhtumist inimestesse.');
 INSERT INTO core.text_property
 VALUES ('00953035-7f01-4f9a-9222-58bae748dc10', '8d088547-6bf2-4b10-a702-e73549146222', 'title', 'C1 2020 II_002-037');
 INSERT INTO core.text_property
@@ -8879,7 +8879,7 @@ INSERT INTO core.text_property
 VALUES ('662d96a2-8e6d-4cc0-be78-eecd73b8a46d', '8d088547-6bf2-4b10-a702-e73549146222', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('fc80a9bd-0ca3-423e-9bb3-fea2c4109ec1', '8d088547-6bf2-4b10-a702-e73549146222', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('4867601b-bb3a-46d7-931a-986c7fd3680f', '8d088547-6bf2-4b10-a702-e73549146222', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -8922,7 +8922,7 @@ VALUES ('df477c0a-b3c0-46fb-93df-f9a5137e1f8f', '20fbcf13-4829-4714-a7b2-2461414
 INSERT INTO core.text_property
 VALUES ('b0d6dc2d-9e2d-467e-b071-6b5e9e07224d', '20fbcf13-4829-4714-a7b2-2461414ec075', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('6896be80-d7aa-4794-9c9c-09a9a70787c1', '20fbcf13-4829-4714-a7b2-2461414ec075', 'haridus', 'kõrgharidus');
+VALUES ('6896be80-d7aa-4794-9c9c-09a9a70787c1', '20fbcf13-4829-4714-a7b2-2461414ec075', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('12bdab3a-c761-4d4a-a55f-5f95471714b1', '20fbcf13-4829-4714-a7b2-2461414ec075', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -8966,7 +8966,7 @@ INSERT INTO core.text_property
 VALUES ('c9de2154-c229-4955-81d3-4d15264be50c', 'e16a01f7-9db4-4b1b-a938-d4dc62ff4eef', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('7889bd0e-e545-4ce1-a2d5-9acfdb2352b3', 'e16a01f7-9db4-4b1b-a938-d4dc62ff4eef', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('a7bb4c8d-f45b-436a-840c-546dc306c6a6', 'e16a01f7-9db4-4b1b-a938-d4dc62ff4eef', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -9009,7 +9009,7 @@ VALUES ('c9ef2844-6cae-4e3b-aac9-c9de68554fe8', '3debf067-f56f-471a-b6fd-22299b8
 INSERT INTO core.text_property
 VALUES ('4b1f7b7f-86e9-4008-8463-4e4613dfa67e', '3debf067-f56f-471a-b6fd-22299b83228e', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('428498dc-9e03-488e-8e8e-b0425fdedde9', '3debf067-f56f-471a-b6fd-22299b83228e', 'haridus', 'keskharidus');
+VALUES ('428498dc-9e03-488e-8e8e-b0425fdedde9', '3debf067-f56f-471a-b6fd-22299b83228e', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('538cc827-2d9a-499c-92fb-0959a4312e5a', '3debf067-f56f-471a-b6fd-22299b83228e', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -9052,7 +9052,7 @@ VALUES ('1087001f-e056-4bf9-b1e3-08960598a46b', '6d9f49a5-acf7-4731-a79d-27a5633
 INSERT INTO core.text_property
 VALUES ('32228816-cb4c-4733-af41-46cbd86d94b1', '6d9f49a5-acf7-4731-a79d-27a5633b37f3', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('1715eb08-2dd2-4533-9ac5-9467da21d3cb', '6d9f49a5-acf7-4731-a79d-27a5633b37f3', 'haridus', 'kõrgharidus');
+VALUES ('1715eb08-2dd2-4533-9ac5-9467da21d3cb', '6d9f49a5-acf7-4731-a79d-27a5633b37f3', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('46b15e3c-e579-4fce-afae-778f543faa8d', '6d9f49a5-acf7-4731-a79d-27a5633b37f3', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -9095,7 +9095,7 @@ VALUES ('00625959-8514-4dcd-b5ce-8a1f7b8e8671', 'f442bfda-21b4-409b-80bf-fafc282
 INSERT INTO core.text_property
 VALUES ('2265fc2c-00a1-4bec-9389-1f3d1952adc7', 'f442bfda-21b4-409b-80bf-fafc282044cf', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('f729a1f2-50c5-4b92-8767-ad887daa800b', 'f442bfda-21b4-409b-80bf-fafc282044cf', 'haridus', 'kõrgharidus');
+VALUES ('f729a1f2-50c5-4b92-8767-ad887daa800b', 'f442bfda-21b4-409b-80bf-fafc282044cf', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('db715ff3-d60e-4c2f-956b-364af3021d99', 'f442bfda-21b4-409b-80bf-fafc282044cf', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -9138,7 +9138,7 @@ VALUES ('23752680-a1da-4294-b34b-f39e4ea8e894', 'fa925fc8-10c4-4c1f-9769-f3df5af
 INSERT INTO core.text_property
 VALUES ('6ac45f21-b8b0-4c50-9e1b-f3f84cc1893a', 'fa925fc8-10c4-4c1f-9769-f3df5af699e7', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
-VALUES ('d4fe85ae-3c58-438f-9c06-c37e5ec7c911', 'fa925fc8-10c4-4c1f-9769-f3df5af699e7', 'haridus', 'kõrgharidus');
+VALUES ('d4fe85ae-3c58-438f-9c06-c37e5ec7c911', 'fa925fc8-10c4-4c1f-9769-f3df5af699e7', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('e9a2a02d-ca82-4a62-8836-062000b85624', 'fa925fc8-10c4-4c1f-9769-f3df5af699e7', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -9182,7 +9182,7 @@ INSERT INTO core.text_property
 VALUES ('d960982a-2c6a-490f-a8af-fd2b87f7b1be', 'edc0036d-2bde-4bcd-8ff2-600b5f5f3179', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
 VALUES ('adb9bbee-5e3b-4fde-bcc1-c6e4431cf348', 'edc0036d-2bde-4bcd-8ff2-600b5f5f3179', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('198fbfe4-4eaa-4c71-a47d-915b89d54b77', 'edc0036d-2bde-4bcd-8ff2-600b5f5f3179', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -9226,7 +9226,7 @@ INSERT INTO core.text_property
 VALUES ('6a0904d1-7d3a-420c-b97b-eab561aba9f6', 'd9aa22fc-7ee3-4177-8744-90c34a8965b0', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('37538fd2-c118-43e6-a856-9f7d362cd3e7', 'd9aa22fc-7ee3-4177-8744-90c34a8965b0', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('0092edce-fd0d-4f91-937f-b14bfa25a002', 'd9aa22fc-7ee3-4177-8744-90c34a8965b0', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -9270,7 +9270,7 @@ INSERT INTO core.text_property
 VALUES ('368ce653-55da-4a72-a196-d58961cc0734', '33973d0a-976a-4d69-bdcc-d37c4de1ba1f', 'kodakondsus', 'Venemaa');
 INSERT INTO core.text_property
 VALUES ('a2dc1169-9b00-49cf-a8c7-86c27ab46793', '33973d0a-976a-4d69-bdcc-d37c4de1ba1f', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('5e02fc12-6105-4bc0-b246-78a39ddc839d', '33973d0a-976a-4d69-bdcc-d37c4de1ba1f', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -9313,7 +9313,7 @@ VALUES ('706d9221-733d-4f00-a49f-d9b3873e8f93', '43282af5-fb08-442b-b682-3b1052a
 INSERT INTO core.text_property
 VALUES ('00c80547-99f9-4e83-b160-32265c5f17b0', '43282af5-fb08-442b-b682-3b1052ab1a43', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('24890d8f-0fe9-4737-8253-8e54ed435d97', '43282af5-fb08-442b-b682-3b1052ab1a43', 'haridus', 'kõrgharidus');
+VALUES ('24890d8f-0fe9-4737-8253-8e54ed435d97', '43282af5-fb08-442b-b682-3b1052ab1a43', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('6ea74ce7-d468-4dbd-b19a-062e7eaa9f3f', '43282af5-fb08-442b-b682-3b1052ab1a43', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -9356,7 +9356,7 @@ VALUES ('368ef5da-0ffd-4b42-a498-7fcf86802b39', '288ae542-c88e-4efb-b9ef-b2ddd41
 INSERT INTO core.text_property
 VALUES ('62666bc3-fb82-4d1c-94fb-a926f39e7e53', '288ae542-c88e-4efb-b9ef-b2ddd41680b6', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('a99aab7e-8ac5-4006-94a7-1ad81fa7ecc9', '288ae542-c88e-4efb-b9ef-b2ddd41680b6', 'haridus', 'kõrgharidus');
+VALUES ('a99aab7e-8ac5-4006-94a7-1ad81fa7ecc9', '288ae542-c88e-4efb-b9ef-b2ddd41680b6', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('f1197133-5c5b-45a2-b35b-cb24c13eccbb', '288ae542-c88e-4efb-b9ef-b2ddd41680b6', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -9399,7 +9399,7 @@ VALUES ('41fab500-5cdf-4753-b7a2-204e60b7b994', '0b441d54-e619-48c7-9f47-c742c4c
 INSERT INTO core.text_property
 VALUES ('fd7c016d-ed78-4490-8bd7-353d71386d0d', '0b441d54-e619-48c7-9f47-c742c4c2da95', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('cae85999-8022-44c6-a716-aba6c8d90926', '0b441d54-e619-48c7-9f47-c742c4c2da95', 'haridus', 'kõrgharidus');
+VALUES ('cae85999-8022-44c6-a716-aba6c8d90926', '0b441d54-e619-48c7-9f47-c742c4c2da95', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('a3e4eea0-f218-4398-bc28-d63f27737ff3', '0b441d54-e619-48c7-9f47-c742c4c2da95', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -9442,7 +9442,7 @@ VALUES ('2e20c8cc-f320-435d-8b26-81d653510add', 'bd590e73-e00b-4c64-a1b3-079e803
 INSERT INTO core.text_property
 VALUES ('f29e0e35-a3a9-46e1-b045-c167d95c5534', 'bd590e73-e00b-4c64-a1b3-079e8037db3e', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('470a6dee-4cd6-40ca-a661-1554a7106feb', 'bd590e73-e00b-4c64-a1b3-079e8037db3e', 'haridus', 'keskharidus');
+VALUES ('470a6dee-4cd6-40ca-a661-1554a7106feb', 'bd590e73-e00b-4c64-a1b3-079e8037db3e', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('98b7a737-be44-4afd-b4bb-ac19f8e55ac6', 'bd590e73-e00b-4c64-a1b3-079e8037db3e', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -9486,7 +9486,7 @@ INSERT INTO core.text_property
 VALUES ('21f7e091-13b1-482b-a9c8-a07e455d0d71', '840a7592-3372-4620-9fa3-e0fc0fe2dbcd', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('be9ae57f-e2f9-4095-b760-9058ebd80b3a', '840a7592-3372-4620-9fa3-e0fc0fe2dbcd', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('14a80729-ca2d-4262-bb6a-e6ba062f0983', '840a7592-3372-4620-9fa3-e0fc0fe2dbcd', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -9530,7 +9530,7 @@ INSERT INTO core.text_property
 VALUES ('72414d77-3009-4d0a-80cc-181b531bae50', 'f415eb05-b6ef-4ec4-948e-359ffef05af5', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('1962522f-1f6c-4d69-93ee-b359402e0399', 'f415eb05-b6ef-4ec4-948e-359ffef05af5', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('82717bf2-b500-4bdd-926d-a6d92e63e090', 'f415eb05-b6ef-4ec4-948e-359ffef05af5', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -9573,7 +9573,7 @@ VALUES ('6ac568b4-b175-4d56-8925-9fa7f4f21800', 'd3220763-598f-439c-b945-1a2966b
 INSERT INTO core.text_property
 VALUES ('995345b1-cc6e-4b46-b7b0-eed79a2aa8e1', 'd3220763-598f-439c-b945-1a2966b07404', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('6624fbec-3bd8-4227-baf7-b63b1dff7e36', 'd3220763-598f-439c-b945-1a2966b07404', 'haridus', 'kõrgharidus');
+VALUES ('6624fbec-3bd8-4227-baf7-b63b1dff7e36', 'd3220763-598f-439c-b945-1a2966b07404', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('281e98ef-0e13-4bed-9c70-8379daafef53', 'd3220763-598f-439c-b945-1a2966b07404', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -9616,7 +9616,7 @@ VALUES ('a3a44ca7-5d88-4f0c-a8fa-5118a51f9e02', 'a28a4499-a03a-44de-bb46-f5e1da3
 INSERT INTO core.text_property
 VALUES ('305b2502-a93d-43aa-a461-ba3f05ddbc3a', 'a28a4499-a03a-44de-bb46-f5e1da34a9bb', 'kodakondsus', 'Ukraina');
 INSERT INTO core.text_property
-VALUES ('255791dc-3214-4144-8400-bfc135e38c16', 'a28a4499-a03a-44de-bb46-f5e1da34a9bb', 'haridus', 'kõrgharidus');
+VALUES ('255791dc-3214-4144-8400-bfc135e38c16', 'a28a4499-a03a-44de-bb46-f5e1da34a9bb', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('7f636cec-1caa-4229-8185-133870a8b692', 'a28a4499-a03a-44de-bb46-f5e1da34a9bb', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -9659,7 +9659,7 @@ VALUES ('46f0a560-6e8e-46d4-8ab4-08eab86fa52e', '9b8a2d23-1905-48b8-bede-e17370c
 INSERT INTO core.text_property
 VALUES ('44562b47-bc48-485e-a7ef-f350effbc2c7', '9b8a2d23-1905-48b8-bede-e17370c7717b', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('f7eb24a4-39ed-4c34-931f-dcf4f7f26d6b', '9b8a2d23-1905-48b8-bede-e17370c7717b', 'haridus', 'keskharidus');
+VALUES ('f7eb24a4-39ed-4c34-931f-dcf4f7f26d6b', '9b8a2d23-1905-48b8-bede-e17370c7717b', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('3f1c2227-5a70-4374-9e08-340afa40650e', '9b8a2d23-1905-48b8-bede-e17370c7717b', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -9703,7 +9703,7 @@ INSERT INTO core.text_property
 VALUES ('b5884055-88de-4518-a0d1-f18040276e20', '9cf77a89-0719-471e-8ce0-2c75450a1b61', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('ca0ed0f0-6c18-4575-b541-28a45215351c', '9cf77a89-0719-471e-8ce0-2c75450a1b61', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('64969d68-7dba-41eb-9732-ca4dee5f5b5f', '9cf77a89-0719-471e-8ce0-2c75450a1b61', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -9746,7 +9746,7 @@ VALUES ('24f6f281-209c-4639-832b-2d2c19bc9bd9', '40a4bfda-4e78-4b94-8c56-e591e10
 INSERT INTO core.text_property
 VALUES ('711837d3-51a7-4762-94b9-4335166c6af6', '40a4bfda-4e78-4b94-8c56-e591e107e645', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('443f5703-f63b-4b4b-b779-6118cfa55ac1', '40a4bfda-4e78-4b94-8c56-e591e107e645', 'haridus', 'keskharidus');
+VALUES ('443f5703-f63b-4b4b-b779-6118cfa55ac1', '40a4bfda-4e78-4b94-8c56-e591e107e645', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('d90498b6-e195-490d-bce8-ca4ec8b09810', '40a4bfda-4e78-4b94-8c56-e591e107e645', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -9758,7 +9758,7 @@ VALUES ('0cd24a47-b4bb-4174-9e94-d56d439b0326', '40a4bfda-4e78-4b94-8c56-e591e10
 
 INSERT INTO core.text
 VALUES ('f00a5b6c-a95a-4aee-b9e5-e18fc8f271c5',
-        'Arvamuslugu\nMöödunud nädalavahetusel toimus haridusteemal teabepäev. Sellel üritusel oli kaks olulist teemat millest ma tahaksin rääkida. Esimesena oli õpingu jätkamine pärast kohustusliku koolihariduse omandamist. Tänapäeval aina vähem ja vähem noori lähevad õppima edasi pärast kooli lõppetamist. Noored valivad käia tööl ja teenida raha. Teine variant on ka selline, et nad võtavad vaba aasta puhkamiseks, teenivad raha tulevikkule ja kui tuleb sisseastumise aeg siis nad ei taha omandada oma haridust edasi, motivatsioon on juba kadunud. Pärast rääkisime kutseõppe võimalustest noortele ja eakatele. Paljud noored lähevad kutseõppeasutusse, sest sinna on lihtsam astuda või kui ei ole teisi mõtteid mida õppida. Aga mida teha eakatele inimestele kellel juba olemas kesk- või kõrgharidus? On olemas palju inimesi kellele juba ei meeldi nende eriala, nad on väsinud üksluisest tööst ja tahavad proovida midagi uut ja mis veel toob raha. Võib minna õppima või täiendada oma haridust. Aga rohkem inimestest valivad saada täiesti uut haridust, sest meie eelised muutuvad ja me tahame proovida midagi uut. Ülikooli astumisega on raskem, sest noored pärast gümnaasiumi lõppetamist tahavad saada kõrgharidust. Selle pärast on olemas kutseõppeasutused. Seal on palju huvitavaid erialasid ja võib olla leiad enda jaoks midagi täiesti uut ja sulle see hakkab meeldima. Oma haridust võib täiendada, parandada terve elujooksul, meie õppime terve elu. Kõik õppeasutused ootavad rohkem õppureid igat vanust. Kui sul on soov saada uut või täiendada oma haridust siis tee seda. Koos me teeme sind õnnelikkumaks. Ei pea olema häbi, et õpid edasi, see võib näidata teistele inimestele, et on olemas sellised võimalused.');
+        'Arvamuslugu\nMöödunud nädalavahetusel toimus haridusteemal teabepäev. Sellel üritusel oli kaks olulist teemat millest ma tahaksin rääkida. Esimesena oli õpingu jätkamine pärast kohustusliku koolihariduse omandamist. Tänapäeval aina vähem ja vähem noori lähevad õppima edasi pärast kooli lõppetamist. Noored valivad käia tööl ja teenida raha. Teine variant on ka selline, et nad võtavad vaba aasta puhkamiseks, teenivad raha tulevikkule ja kui tuleb sisseastumise aeg siis nad ei taha omandada oma haridust edasi, motivatsioon on juba kadunud. Pärast rääkisime kutseõppe võimalustest noortele ja eakatele. Paljud noored lähevad kutseõppeasutusse, sest sinna on lihtsam astuda või kui ei ole teisi mõtteid mida õppida. Aga mida teha eakatele inimestele kellel juba olemas kesk- või Kõrgharidus? On olemas palju inimesi kellele juba ei meeldi nende eriala, nad on väsinud üksluisest tööst ja tahavad proovida midagi uut ja mis veel toob raha. Võib minna õppima või täiendada oma haridust. Aga rohkem inimestest valivad saada täiesti uut haridust, sest meie eelised muutuvad ja me tahame proovida midagi uut. Ülikooli astumisega on raskem, sest noored pärast gümnaasiumi lõppetamist tahavad saada Kõrgharidust. Selle pärast on olemas kutseõppeasutused. Seal on palju huvitavaid erialasid ja võib olla leiad enda jaoks midagi täiesti uut ja sulle see hakkab meeldima. Oma haridust võib täiendada, parandada terve elujooksul, meie õppime terve elu. Kõik õppeasutused ootavad rohkem õppureid igat vanust. Kui sul on soov saada uut või täiendada oma haridust siis tee seda. Koos me teeme sind õnnelikkumaks. Ei pea olema häbi, et õpid edasi, see võib näidata teistele inimestele, et on olemas sellised võimalused.');
 INSERT INTO core.text_property
 VALUES ('d0a0eb03-1c3b-420f-b453-bb5ee1a29c51', 'f00a5b6c-a95a-4aee-b9e5-e18fc8f271c5', 'title', 'C1 2020 IV_002-001');
 INSERT INTO core.text_property
@@ -9790,7 +9790,7 @@ INSERT INTO core.text_property
 VALUES ('ba8d2020-78f4-409b-8842-549ff86eb7c2', 'f00a5b6c-a95a-4aee-b9e5-e18fc8f271c5', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('10ed1367-2165-46b7-a7d8-9cfdb4f39cb0', 'f00a5b6c-a95a-4aee-b9e5-e18fc8f271c5', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('1f55c9cf-5cd6-47db-ab9c-2b2dc871e0a0', 'f00a5b6c-a95a-4aee-b9e5-e18fc8f271c5', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -9834,7 +9834,7 @@ INSERT INTO core.text_property
 VALUES ('afe5680c-f1f4-4d0a-839c-4dd37919939f', 'e99a71e0-e1df-4774-a814-03d7521f5f02', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('c784cda3-e94e-455e-8d2b-59c9026a36b0', 'e99a71e0-e1df-4774-a814-03d7521f5f02', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('05383216-3ee1-4c52-814c-0d16b156057a', 'e99a71e0-e1df-4774-a814-03d7521f5f02', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -9846,7 +9846,7 @@ VALUES ('882c730c-ca63-4630-bc9a-7665732f4511', 'e99a71e0-e1df-4774-a814-03d7521
 
 INSERT INTO core.text
 VALUES ('b1dc6b2e-23e2-44da-a61a-e1cb9c091b49',
-        'Möödunud nädalal toimus Tallinnas iga-aastane haridusteemaline teabepäev, kus arutati sellistel teemadel nagu haridustee jätkamine pärast kohustusliku koolihariduse omandamist ning kutseõppe võimalused tööhõive parandamisel. Arutledes esimesel teemal suurem osa osalejatest arvas, et haridustee jätkamine peale gümnaasiumi lõpetamist on ikka pigem kasulik. Jätkates õpinguid ülikoolis, kõrgkoolis või ka mõnes kutsekoolis on tulevikus kergem leida tööd ning saab olla edukas. Kõrgharidusega on rohkem võimalusi paremaks tööks kõrgema palgaga. Muidugi on vaieldamatu see, et on võimalik elus hakkama saada ka ilma kõige selleta, kuid kõrgharidus on ikka väga suur pluss, mis aitab inimesel elus edukam olla. Kõrghariduse juures on mugav see, et inimene saab jätkata haridusteed siis, kui ta ise soovib. Ei ole kohustuslik minna õppima kohe peale gümnaasiumi lõpetamist. Võib aasta või isegi kaks puhata ning otsida endale sobivat teed. Eestis on olemas palju kutseharidus võimalusi, mis sobivad absoluutselt iga ühele. Nii noored kui ka vanad inimesed saavad arendada ennast mõnes neile sobivas valdkonnas. Kutseõppe on ka hea võimalus riigi tööhõive parandamisel. Mõnda kutset saab kiiresti kursustel ära õppida ning üsna koheselt ka tööle astuda. Suur pluss on see, et enamasti on kutseõppe tasuta ehk vaja on ainult inimese suurt tahet. Paljud arvavad, et kutseõppe on halvem kui ülikool, kuid ka kutseõppel on palju positiivseid külgi. Kokkuvõttes saab öelda, et igasugune haridus on enesearendamine. Enesearendamine on omakorda aga suur pluss inimese elus ning see kunagi ei saa tuua inimese ellu negatiivset mõju. Iga ühe arvamus on oluline ning inimene valib ise, missugune haridustee on talle sobivam ja meeldivam.');
+        'Möödunud nädalal toimus Tallinnas iga-aastane haridusteemaline teabepäev, kus arutati sellistel teemadel nagu haridustee jätkamine pärast kohustusliku koolihariduse omandamist ning kutseõppe võimalused tööhõive parandamisel. Arutledes esimesel teemal suurem osa osalejatest arvas, et haridustee jätkamine peale gümnaasiumi lõpetamist on ikka pigem kasulik. Jätkates õpinguid ülikoolis, kõrgkoolis või ka mõnes kutsekoolis on tulevikus kergem leida tööd ning saab olla edukas. Kõrgharidusega on rohkem võimalusi paremaks tööks kõrgema palgaga. Muidugi on vaieldamatu see, et on võimalik elus hakkama saada ka ilma kõige selleta, kuid Kõrgharidus on ikka väga suur pluss, mis aitab inimesel elus edukam olla. Kõrghariduse juures on mugav see, et inimene saab jätkata haridusteed siis, kui ta ise soovib. Ei ole kohustuslik minna õppima kohe peale gümnaasiumi lõpetamist. Võib aasta või isegi kaks puhata ning otsida endale sobivat teed. Eestis on olemas palju kutseharidus võimalusi, mis sobivad absoluutselt iga ühele. Nii noored kui ka vanad inimesed saavad arendada ennast mõnes neile sobivas valdkonnas. Kutseõppe on ka hea võimalus riigi tööhõive parandamisel. Mõnda kutset saab kiiresti kursustel ära õppida ning üsna koheselt ka tööle astuda. Suur pluss on see, et enamasti on kutseõppe tasuta ehk vaja on ainult inimese suurt tahet. Paljud arvavad, et kutseõppe on halvem kui ülikool, kuid ka kutseõppel on palju positiivseid külgi. Kokkuvõttes saab öelda, et igasugune haridus on enesearendamine. Enesearendamine on omakorda aga suur pluss inimese elus ning see kunagi ei saa tuua inimese ellu negatiivset mõju. Iga ühe arvamus on oluline ning inimene valib ise, missugune haridustee on talle sobivam ja meeldivam.');
 INSERT INTO core.text_property
 VALUES ('82864d47-82e4-429d-98ba-d8a53bbd3713', 'b1dc6b2e-23e2-44da-a61a-e1cb9c091b49', 'title', 'C1 2020 IV_002-031');
 INSERT INTO core.text_property
@@ -9878,7 +9878,7 @@ INSERT INTO core.text_property
 VALUES ('7826950b-820e-4c6f-b8fe-0b01d908977c', 'b1dc6b2e-23e2-44da-a61a-e1cb9c091b49', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('72bfbd72-b71b-432a-9329-aa18b596af71', 'b1dc6b2e-23e2-44da-a61a-e1cb9c091b49', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('cc1d4de9-26d2-4659-b887-5594b408d1e8', 'b1dc6b2e-23e2-44da-a61a-e1cb9c091b49', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -9890,7 +9890,7 @@ VALUES ('19badc5e-fa1b-4d6f-bf3d-482fc979ae46', 'b1dc6b2e-23e2-44da-a61a-e1cb9c0
 
 INSERT INTO core.text
 VALUES ('12f42d60-08d0-4cfc-9630-f131c64d4514',
-        'Eelmisel nädalal mul õnnestus võtta osa ühel haridusteemalisel teabepäeval, mis toimus Kultuurikatlas, Tallinnas. Seal käsitleti palju huvitavaid ja tähtsaid teemasid, nendest kõige olulisemad, minu arvates, olid haridustee jätkamine pärast kohustusliku koolihariduse omandamist ning kutseõppe võimalused noorte ja ka eakate tööhõive parandamisel. Kui nüüd rääkida põhjalikult haridustee jätkamist pärast kohustusliku koolihariduse omandamist, siis leian, et see on ülimalt oluline, mitte ainult õppuritele vaid ka kogu meie ühiskonnale. Haritud noored on meie tulevik, riigi vara, kui nii võib neid nimetada. Omades kõrgemat haridust, kahtlemata on rohkem võimalusi, ning see avab palju rohkem uksi ja kindlustab ka tuleviku. See laiendab silmaringi ning paneb rohkelt võimalusi ka ennast täendada mitte ainult siin, kodumaal, vaid ka välismaal. Tänu sellele, et kõrgharidus on meil nüüd tasuta, on see kindlasti suuremale õpilaste arvule kättesaadav. Erinevad ülikoolid ja ka kutsekoolid pakuvad rohkelt valikus erinevaid ameteid ja õppeharusid. Tänapäeva abiturientidel on tõesti palju võimalusi ennast harida ja arendada, samuti ka täendada olemasolevaid teadmisi ja oskusi. Kui nüüd rääkida kutseõppe võimalustest nii noorte, kui ka eakate tööhõive parandamiseks, siis ka selles valdkonnas on võimalusi palju. Paljud kutsekoolid võtavad meelsasti õppima eri vanuses soovijaid, sisseastumisi korraldatakse mitu korda aastas, ning ka õppekorraldus on seotud nii, et ka tööl käiv inimene, saaks õppida ja uusi teadmisi omandada. See on väga oluline, sest vaadates tänapäeva olukorda ülemaalmse majandusliku kriisi ja kogu praegust olukorda riigis, kus igapäevaselt kaotab tööd päris suur hulk inimesi. Kui nad teavad, et saavad ennast koolitada, või ümber õppida, siis neil on kindlasti suurem eelis tööturul ja nad on konkurentsivõimelisemad ja kindlasti ka palju enesekindlamad. Haridus, olgu ta kõrg- või kutseharidus, annab vabaduse ja kahtlemata ka kindluse homses päevas.');
+        'Eelmisel nädalal mul õnnestus võtta osa ühel haridusteemalisel teabepäeval, mis toimus Kultuurikatlas, Tallinnas. Seal käsitleti palju huvitavaid ja tähtsaid teemasid, nendest kõige olulisemad, minu arvates, olid haridustee jätkamine pärast kohustusliku koolihariduse omandamist ning kutseõppe võimalused noorte ja ka eakate tööhõive parandamisel. Kui nüüd rääkida põhjalikult haridustee jätkamist pärast kohustusliku koolihariduse omandamist, siis leian, et see on ülimalt oluline, mitte ainult õppuritele vaid ka kogu meie ühiskonnale. Haritud noored on meie tulevik, riigi vara, kui nii võib neid nimetada. Omades kõrgemat haridust, kahtlemata on rohkem võimalusi, ning see avab palju rohkem uksi ja kindlustab ka tuleviku. See laiendab silmaringi ning paneb rohkelt võimalusi ka ennast täendada mitte ainult siin, kodumaal, vaid ka välismaal. Tänu sellele, et Kõrgharidus on meil nüüd tasuta, on see kindlasti suuremale õpilaste arvule kättesaadav. Erinevad ülikoolid ja ka kutsekoolid pakuvad rohkelt valikus erinevaid ameteid ja õppeharusid. Tänapäeva abiturientidel on tõesti palju võimalusi ennast harida ja arendada, samuti ka täendada olemasolevaid teadmisi ja oskusi. Kui nüüd rääkida kutseõppe võimalustest nii noorte, kui ka eakate tööhõive parandamiseks, siis ka selles valdkonnas on võimalusi palju. Paljud kutsekoolid võtavad meelsasti õppima eri vanuses soovijaid, sisseastumisi korraldatakse mitu korda aastas, ning ka õppekorraldus on seotud nii, et ka tööl käiv inimene, saaks õppida ja uusi teadmisi omandada. See on väga oluline, sest vaadates tänapäeva olukorda ülemaalmse majandusliku kriisi ja kogu praegust olukorda riigis, kus igapäevaselt kaotab tööd päris suur hulk inimesi. Kui nad teavad, et saavad ennast koolitada, või ümber õppida, siis neil on kindlasti suurem eelis tööturul ja nad on konkurentsivõimelisemad ja kindlasti ka palju enesekindlamad. Haridus, olgu ta kõrg- või kutseharidus, annab vabaduse ja kahtlemata ka kindluse homses päevas.');
 INSERT INTO core.text_property
 VALUES ('6e8d3d16-7db4-4e06-9143-607ae055d6d3', '12f42d60-08d0-4cfc-9630-f131c64d4514', 'title', 'C1 2020 IV_002-065');
 INSERT INTO core.text_property
@@ -9922,7 +9922,7 @@ INSERT INTO core.text_property
 VALUES ('b68b7882-da4b-4d01-a74e-069b30cb222c', '12f42d60-08d0-4cfc-9630-f131c64d4514', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('ba3264b4-8b31-4d6a-87da-28c8ec376d74', '12f42d60-08d0-4cfc-9630-f131c64d4514', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('00801cdc-573f-40bd-ad54-9d0e88f14b44', '12f42d60-08d0-4cfc-9630-f131c64d4514', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -9934,7 +9934,7 @@ VALUES ('3b83699e-01b5-4ec0-b23b-fe93c894d3b0', '12f42d60-08d0-4cfc-9630-f131c64
 
 INSERT INTO core.text
 VALUES ('b989b370-b5ce-465e-a299-bca5822c410a',
-        'Eelmisel nädalal osalesin haridusteemalisel teabepäeval. Arutlesime sellistel teemadel nagu hariduse jätkamine pärast kohustusliku koolihariduse omandamist ning kutseõppe võimalused noorte ja ka eakate tööhõive parandamisel. Arutlused olid väga huvitavad ja ma soovin seda infot nüüd teiega jagada. Haridus on suur ja oluline osa inimese elus. Selle omandamine annab meile võimaluse leida paremat tööd ja olla edukas. Kooliharidus on hea alus selleks, et jätkata õpinguid ning omandada kutse- või kõrgharidust. Esineja rõhutas, et haridus ei anna sajaprotsendilist garantiid, et kohe pärast selle saamist leiab inimene suurepärase töökohta. Kuid samas see on väga hea viis ennast areneda ning saada uusi teadmisi endale huvitavas valdkonnas. Esineja mainis, et paljud noored inimesed ei tea, mida nad tahavad oma elus teha. Sellisel juhul soovitati võtta aasta või paar aastat selleks, et töötada erinevates valdkondades ning aru saada, kas on üldse soov haridust jätkata. Samuti arutlesime kutseõppe võimalustest noorte ja ka eakate tööhõive parandamisel. Esineja ütles, et praegu on rohkem ja rohkem võimalusi teha distantsõpet. Samuti lähevad aina paremaks töökohad, mis on eakatele mõeldud. Nende töökohtate arv kasvab iga aastaga, mis on väga hea tendents. Kokkuvõtteks võib öelda, et on väga hea, et Eestis toimuvad sellised üritused, kus inimesed saavad oma kogemusest rääkida ning seda teistega jagada. Mul on väga hea meel et osalesin, kuna sain midagi uut ja huvitavat teada. Soovitaksin seda üritust kindlasti ka teistele. ');
+        'Eelmisel nädalal osalesin haridusteemalisel teabepäeval. Arutlesime sellistel teemadel nagu hariduse jätkamine pärast kohustusliku koolihariduse omandamist ning kutseõppe võimalused noorte ja ka eakate tööhõive parandamisel. Arutlused olid väga huvitavad ja ma soovin seda infot nüüd teiega jagada. Haridus on suur ja oluline osa inimese elus. Selle omandamine annab meile võimaluse leida paremat tööd ja olla edukas. Kooliharidus on hea alus selleks, et jätkata õpinguid ning omandada kutse- või Kõrgharidust. Esineja rõhutas, et haridus ei anna sajaprotsendilist garantiid, et kohe pärast selle saamist leiab inimene suurepärase töökohta. Kuid samas see on väga hea viis ennast areneda ning saada uusi teadmisi endale huvitavas valdkonnas. Esineja mainis, et paljud noored inimesed ei tea, mida nad tahavad oma elus teha. Sellisel juhul soovitati võtta aasta või paar aastat selleks, et töötada erinevates valdkondades ning aru saada, kas on üldse soov haridust jätkata. Samuti arutlesime kutseõppe võimalustest noorte ja ka eakate tööhõive parandamisel. Esineja ütles, et praegu on rohkem ja rohkem võimalusi teha distantsõpet. Samuti lähevad aina paremaks töökohad, mis on eakatele mõeldud. Nende töökohtate arv kasvab iga aastaga, mis on väga hea tendents. Kokkuvõtteks võib öelda, et on väga hea, et Eestis toimuvad sellised üritused, kus inimesed saavad oma kogemusest rääkida ning seda teistega jagada. Mul on väga hea meel et osalesin, kuna sain midagi uut ja huvitavat teada. Soovitaksin seda üritust kindlasti ka teistele. ');
 INSERT INTO core.text_property
 VALUES ('3c0b6da0-4a54-410a-984f-a5dbbf035818', 'b989b370-b5ce-465e-a299-bca5822c410a', 'title', 'C1 2020 IV_002-085');
 INSERT INTO core.text_property
@@ -10005,7 +10005,7 @@ INSERT INTO core.text_property
 VALUES ('f1491dd2-02a2-4aed-94bd-378d18ba5ae8', 'c38a17f6-e0b2-4620-833e-b9bff4efe7b3', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('9b8a198d-967e-4d1f-a8dd-d891e43f89cc', 'c38a17f6-e0b2-4620-833e-b9bff4efe7b3', 'haridus',
-        'keskeriharidus/kutseharidus');
+        'Keskeriharidus/kutseharidus');
 INSERT INTO core.text_property
 VALUES ('6779c133-4896-4834-a9ee-690d2ca49931', 'c38a17f6-e0b2-4620-833e-b9bff4efe7b3', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -10048,7 +10048,7 @@ VALUES ('928d7a9c-d9ec-49ec-9f56-912f08fe4b97', '56384554-9af9-48f9-bd26-c61a345
 INSERT INTO core.text_property
 VALUES ('e2a9fcd8-d6bb-4d69-bb99-5d62c6a65f50', '56384554-9af9-48f9-bd26-c61a345a7809', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('6d4f4df0-f4e2-44ef-bbaf-627be0a4213c', '56384554-9af9-48f9-bd26-c61a345a7809', 'haridus', 'kõrgharidus');
+VALUES ('6d4f4df0-f4e2-44ef-bbaf-627be0a4213c', '56384554-9af9-48f9-bd26-c61a345a7809', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('b1ff3bec-7d4f-495a-b823-852e4554886d', '56384554-9af9-48f9-bd26-c61a345a7809', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -10091,7 +10091,7 @@ VALUES ('654e70cb-c740-4dc6-b11e-5a2a67e7b969', 'afe25485-2f13-4039-9498-2c6046f
 INSERT INTO core.text_property
 VALUES ('3ed9a92c-5c53-4b7e-b482-d69cef3ca391', 'afe25485-2f13-4039-9498-2c6046ff05d6', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('b4ca2c09-e13e-4f63-8f54-11e19721b766', 'afe25485-2f13-4039-9498-2c6046ff05d6', 'haridus', 'keskharidus');
+VALUES ('b4ca2c09-e13e-4f63-8f54-11e19721b766', 'afe25485-2f13-4039-9498-2c6046ff05d6', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('28f76d0d-e32a-44f6-8ff4-c779562e2019', 'afe25485-2f13-4039-9498-2c6046ff05d6', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -10103,7 +10103,7 @@ VALUES ('abdecc1f-d88e-487e-9161-2dba11771293', 'afe25485-2f13-4039-9498-2c6046f
 
 INSERT INTO core.text
 VALUES ('0e85d3f8-128e-49bd-8a71-30b1fa393c16',
-        'Haridus mängib meie ühiskonnas väga suurt rolli. Räägitakse, et inimene peab õppima terve elu jooksul. Kuid mõned inimesed jäävad selle väide vastu ja ei tegele haridusega ülikooli pärast. Osalesin haridusteemalisel teabepäeval, kust sain uut informatsiooni ning tahan teistele inimestele seda edastada. Üks käsitletud teemasid oli "Haridustee jätkamine pärast kohustusliku koolihariduse omandamist". Enamus inimesi ikkagi arvab, et kooliharidust mei ühiskonnas ei piisa ning igaüks peaks minema edasi õppima. See on oluline mitte ainult sissetuleku pärast vaid ka seepärast, et kõrgharidus muutub inimesi seest poolt. Ülikoolis õppimise ajal inimesed loevad väga palju kirjandust, asendavad kohusetunnet ning kohtuvad uusi inimesi, kellega pärast elus edasi suhtlevad. See on suurepärane kogemus, mis valmistab meid raskusi üle elamiseks. Samuti oli räägitud teemal "Kutseõppe võimalused noorte ja ka eakate tööhõive parandamisel". Räägiti sellest, kas on lisa koolitused vaja selleks, et tööhõive parandada. Muidugi kutseõppe võimalused annavad rohkem võimalusi ja see ei ole halb aga see ei ole kohustuslik ja iga inimese enda valik. Kuid minu arvates see on tähtsam eakate jaoks, sest nende teadmised ei ole enam nii aktuaalsed ja neid peaks uuendama. Kutseõppe kindlasti mängib suurt rolli tööhõive parandamisel, sest mida targem on töötaja, seda rohkem teda austakse ja väärtustakse. Firmad tahavad töötada haritute spetsialistitega ning kutseõppe saab anda rohkem võimalusi hea ametikoha leidmiseks. Kokkuvõteks, mõlemad teemad on väga aktuaalsed ja iga inimese arvamus selle kohta on erinev aga võiks ikkagi pöörata rohkem tähelepanu enda hariduse ja ka oma laste haridusele, sest sellest sõltub meie tulevik ja meie sissetulek.');
+        'Haridus mängib meie ühiskonnas väga suurt rolli. Räägitakse, et inimene peab õppima terve elu jooksul. Kuid mõned inimesed jäävad selle väide vastu ja ei tegele haridusega ülikooli pärast. Osalesin haridusteemalisel teabepäeval, kust sain uut informatsiooni ning tahan teistele inimestele seda edastada. Üks käsitletud teemasid oli "Haridustee jätkamine pärast kohustusliku koolihariduse omandamist". Enamus inimesi ikkagi arvab, et kooliharidust mei ühiskonnas ei piisa ning igaüks peaks minema edasi õppima. See on oluline mitte ainult sissetuleku pärast vaid ka seepärast, et Kõrgharidus muutub inimesi seest poolt. Ülikoolis õppimise ajal inimesed loevad väga palju kirjandust, asendavad kohusetunnet ning kohtuvad uusi inimesi, kellega pärast elus edasi suhtlevad. See on suurepärane kogemus, mis valmistab meid raskusi üle elamiseks. Samuti oli räägitud teemal "Kutseõppe võimalused noorte ja ka eakate tööhõive parandamisel". Räägiti sellest, kas on lisa koolitused vaja selleks, et tööhõive parandada. Muidugi kutseõppe võimalused annavad rohkem võimalusi ja see ei ole halb aga see ei ole kohustuslik ja iga inimese enda valik. Kuid minu arvates see on tähtsam eakate jaoks, sest nende teadmised ei ole enam nii aktuaalsed ja neid peaks uuendama. Kutseõppe kindlasti mängib suurt rolli tööhõive parandamisel, sest mida targem on töötaja, seda rohkem teda austakse ja väärtustakse. Firmad tahavad töötada haritute spetsialistitega ning kutseõppe saab anda rohkem võimalusi hea ametikoha leidmiseks. Kokkuvõteks, mõlemad teemad on väga aktuaalsed ja iga inimese arvamus selle kohta on erinev aga võiks ikkagi pöörata rohkem tähelepanu enda hariduse ja ka oma laste haridusele, sest sellest sõltub meie tulevik ja meie sissetulek.');
 INSERT INTO core.text_property
 VALUES ('1b51a345-7237-485c-8fd7-1526172b62a6', '0e85d3f8-128e-49bd-8a71-30b1fa393c16', 'title', 'C1 2020 IV_002-164');
 INSERT INTO core.text_property
@@ -10135,7 +10135,7 @@ INSERT INTO core.text_property
 VALUES ('afbc733e-0ce7-4a3e-bfe0-61ad9ae14799', '0e85d3f8-128e-49bd-8a71-30b1fa393c16', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('a3d7f1ea-2502-4943-856e-35d49035884b', '0e85d3f8-128e-49bd-8a71-30b1fa393c16', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('9f8db040-aa6c-4f1c-8cea-d6233a71e6f6', '0e85d3f8-128e-49bd-8a71-30b1fa393c16', 'vanusevahemik', 'kuni26');
 INSERT INTO core.text_property
@@ -10178,7 +10178,7 @@ VALUES ('177914a2-5d35-404c-b394-bea6ef32808c', '4c6c5bfd-0a49-48a6-a23e-c9d7b83
 INSERT INTO core.text_property
 VALUES ('a1b09f1d-3c5e-48b1-85b1-fe38c10ef3cb', '4c6c5bfd-0a49-48a6-a23e-c9d7b8322092', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('97302b6f-1ba9-4692-aca3-6fc0e1bf4ab6', '4c6c5bfd-0a49-48a6-a23e-c9d7b8322092', 'haridus', 'kõrgharidus');
+VALUES ('97302b6f-1ba9-4692-aca3-6fc0e1bf4ab6', '4c6c5bfd-0a49-48a6-a23e-c9d7b8322092', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('bbe3e214-04c2-4677-9cb7-6c988b440622', '4c6c5bfd-0a49-48a6-a23e-c9d7b8322092', 'vanusevahemik', '41plus');
 INSERT INTO core.text_property
@@ -10190,7 +10190,7 @@ VALUES ('9f56b26f-e27d-419a-a915-f68aeb2280bb', '4c6c5bfd-0a49-48a6-a23e-c9d7b83
 
 INSERT INTO core.text
 VALUES ('3a6c5d46-f22e-47eb-9a34-c125a3c608bd',
-        'Üks olulisemaid teemasid tänapäeval on haridus. Tihi saab kuulda arutlusi antud teemal nii noorte, kui ka eakate seas. Mina sain osaleda haridusteemalisel teabepäeval ning hea meelega jagaksin Teiega millest seal räägiti. Esimeseks teemaks oli: "Hariduse jätkamine pärast kohustusliku koolihariduse omandamist". Arvamusi oli palju, mõne jaoks oli oluline inimeste haridustase ehk kui hästi saab ta asjadest aru ning sellest põhines, et tuleks ikka gümnaasiumi ja ülikooli minna, et olla tulevikus edukas. Teise jaoks ei olnud oluline, mis haridus inimestel on, vaid kuidas inimene saab hakkama oma eluteel ilma kõrghariduseta. Samuti, pakkusid ka, et alternatiiviks haridusele võiksid olla erinevad kursused või näiteks oma ettevõtte avamine ja selle arenemine. Mõlemad pooled jõudsid kokkuleppele, et haridusteed oleks ikka vaja jätkata, kuna juhul, kui õppimist inimene ei jätka, ei jõua ta ka elus päris kaugele. Samuti teiseks teemaks oli: "Kutseõppe võimalused noorte ja ka eakate tööhõive parandamisel". Noorte kohta on tihti nii, et neil puudub vajalik haridus konkreetse töö tegemiseks, seega ei võeta neid tööle. Eakatega on muidu vastupidi, neil on olemas haridus ja kogemus, vaid see töö ei ole enam eriti ühiskonnas vajalik ning neile oleks vaja uut tööd olemasoleva kogemusele juurde õppida. Seetõttu, kutseasutused, mis pakuvad täiendavaid õppet noortele ja eakatele võivad parandada nende tööhõive. Paljud arvasid, et selline võimalus võib ka parandada majanduslikku olukorra riigis ning anda suurepärast võimalust inimestele arendada ja olla edukas elus. Kokkuvõteks võiks öelda, et oluline on see, et inimene ei jäta oma haristeed pooleli pärast koolihariduse omandamist, vaid jätkab samas vaimus enesearenguga edasi. Tänapäeval pole vaja karta, et ühiskond muutub ja tööhõive langeb, vaid oleme sihikindlad ning kasutame kutseõppe võimalused enda elu parandamiseks.');
+        'Üks olulisemaid teemasid tänapäeval on haridus. Tihi saab kuulda arutlusi antud teemal nii noorte, kui ka eakate seas. Mina sain osaleda haridusteemalisel teabepäeval ning hea meelega jagaksin Teiega millest seal räägiti. Esimeseks teemaks oli: "Hariduse jätkamine pärast kohustusliku koolihariduse omandamist". Arvamusi oli palju, mõne jaoks oli oluline inimeste haridustase ehk kui hästi saab ta asjadest aru ning sellest põhines, et tuleks ikka gümnaasiumi ja ülikooli minna, et olla tulevikus edukas. Teise jaoks ei olnud oluline, mis haridus inimestel on, vaid kuidas inimene saab hakkama oma eluteel ilma Kõrghariduseta. Samuti, pakkusid ka, et alternatiiviks haridusele võiksid olla erinevad kursused või näiteks oma ettevõtte avamine ja selle arenemine. Mõlemad pooled jõudsid kokkuleppele, et haridusteed oleks ikka vaja jätkata, kuna juhul, kui õppimist inimene ei jätka, ei jõua ta ka elus päris kaugele. Samuti teiseks teemaks oli: "Kutseõppe võimalused noorte ja ka eakate tööhõive parandamisel". Noorte kohta on tihti nii, et neil puudub vajalik haridus konkreetse töö tegemiseks, seega ei võeta neid tööle. Eakatega on muidu vastupidi, neil on olemas haridus ja kogemus, vaid see töö ei ole enam eriti ühiskonnas vajalik ning neile oleks vaja uut tööd olemasoleva kogemusele juurde õppida. Seetõttu, kutseasutused, mis pakuvad täiendavaid õppet noortele ja eakatele võivad parandada nende tööhõive. Paljud arvasid, et selline võimalus võib ka parandada majanduslikku olukorra riigis ning anda suurepärast võimalust inimestele arendada ja olla edukas elus. Kokkuvõteks võiks öelda, et oluline on see, et inimene ei jäta oma haristeed pooleli pärast koolihariduse omandamist, vaid jätkab samas vaimus enesearenguga edasi. Tänapäeval pole vaja karta, et ühiskond muutub ja tööhõive langeb, vaid oleme sihikindlad ning kasutame kutseõppe võimalused enda elu parandamiseks.');
 INSERT INTO core.text_property
 VALUES ('59b436ab-99d3-4884-98ad-f8eb91062869', '3a6c5d46-f22e-47eb-9a34-c125a3c608bd', 'title', 'C1 2020 IV_002-168');
 INSERT INTO core.text_property
@@ -10221,7 +10221,7 @@ VALUES ('8f694419-8076-4d67-a986-6d7b06d9bf07', '3a6c5d46-f22e-47eb-9a34-c125a3c
 INSERT INTO core.text_property
 VALUES ('62f9aac5-6f4a-4c56-a235-bff5c37869c1', '3a6c5d46-f22e-47eb-9a34-c125a3c608bd', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('b087221a-38ca-4d1e-811c-af6cf7487768', '3a6c5d46-f22e-47eb-9a34-c125a3c608bd', 'haridus', 'keskharidus');
+VALUES ('b087221a-38ca-4d1e-811c-af6cf7487768', '3a6c5d46-f22e-47eb-9a34-c125a3c608bd', 'haridus', 'Keskharidus');
 INSERT INTO core.text_property
 VALUES ('62dea913-df91-48e1-91b9-ba3691af9658', '3a6c5d46-f22e-47eb-9a34-c125a3c608bd', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -10233,7 +10233,7 @@ VALUES ('a79f0580-b463-4fa4-9561-393d1c8e7d55', '3a6c5d46-f22e-47eb-9a34-c125a3c
 
 INSERT INTO core.text
 VALUES ('9620d7cf-f4c6-440e-86bd-9415d660da05',
-        'Lugupeetud "Postimees" lugejad, \nKäesolevaga lubage jagada oma arvamust teiega haridusteemal. Minu arvamus on tekkinud peale teabepäeva, mille ma kuulsin ja kus arutleti tänapäeva aktuaalsed probleemid. Esimeseks teemaks oli haridustee jätkamine pärast kohustusliku koolihariduse omandamist. Arvan, et enamik õpilastest tahavad ja suudavad peale põhikooli omandada kindla ameti või astuvad gümnaasiumisse, et pärast saada kõrgharidust. Õnneks, meie Eestimaa on hästi arenenud ja kaitstud riik, kus kõik lapsed saavad tasuta põhikooliharidust. Meil on palju tasuta kohti kõrgkoolides ja mõned ülikoolid, nagu Tartu Ülikool, TalTech (ehk Tallinna Tehnikakool), on tuntuvad üle maalma. Usun, et eesti haridus on väga kõrgel tasemel momendil tänu valitsuse toetusele ja haritud eesti inimeste patriotismile. Paljud õpetajad ja professorid on tõelised fännid ning elavad oma töö pärast. Samuti loodan, et õppejõudu palgad tõstetakse nii nagu poliitikud lubasid. Teiseks teemaks oli kutseõppe võimalused noorte ja ka eakate tööhõive parandamisel. Töötukassa ja Haridusamet edukalt töötavad selle nimel, et eakad saaksid omandada kutseharidust. Üle Eesti on päris palju kutsekoole, kust saab õppida erinevaid praktilisi ameteid ja oskusi. Eesti inimene, kodanik võib õppida lisa ameti või omandada teist taseme haridust tasuta, riigi toetusega, kui tal on suur tahe ja soov. Kahjuks, paljud töötajad kolivad teiste riigidesse kõrgema palga tõttu, mille pärast Eestis on suur professionaalse tööjõudu puudus. Järelduseks soovin jagada arvamust, et Eesti on tore, ilus ja mõnus maa, kust saab nautida elu ja töö, kui inimene ise ei ole laiskvorst ja tahab elu elada mitte ainult eksisteerida. Hirmsasti toetan eesti hariduse arengut ja väga austan kõike, kes on seotud selle valdkonnaga. Teie kommentarid on teretulnud. Tänan väga.');
+        'Lugupeetud "Postimees" lugejad, \nKäesolevaga lubage jagada oma arvamust teiega haridusteemal. Minu arvamus on tekkinud peale teabepäeva, mille ma kuulsin ja kus arutleti tänapäeva aktuaalsed probleemid. Esimeseks teemaks oli haridustee jätkamine pärast kohustusliku koolihariduse omandamist. Arvan, et enamik õpilastest tahavad ja suudavad peale põhikooli omandada kindla ameti või astuvad gümnaasiumisse, et pärast saada Kõrgharidust. Õnneks, meie Eestimaa on hästi arenenud ja kaitstud riik, kus kõik lapsed saavad tasuta põhikooliharidust. Meil on palju tasuta kohti kõrgkoolides ja mõned ülikoolid, nagu Tartu Ülikool, TalTech (ehk Tallinna Tehnikakool), on tuntuvad üle maalma. Usun, et eesti haridus on väga kõrgel tasemel momendil tänu valitsuse toetusele ja haritud eesti inimeste patriotismile. Paljud õpetajad ja professorid on tõelised fännid ning elavad oma töö pärast. Samuti loodan, et õppejõudu palgad tõstetakse nii nagu poliitikud lubasid. Teiseks teemaks oli kutseõppe võimalused noorte ja ka eakate tööhõive parandamisel. Töötukassa ja Haridusamet edukalt töötavad selle nimel, et eakad saaksid omandada kutseharidust. Üle Eesti on päris palju kutsekoole, kust saab õppida erinevaid praktilisi ameteid ja oskusi. Eesti inimene, kodanik võib õppida lisa ameti või omandada teist taseme haridust tasuta, riigi toetusega, kui tal on suur tahe ja soov. Kahjuks, paljud töötajad kolivad teiste riigidesse kõrgema palga tõttu, mille pärast Eestis on suur professionaalse tööjõudu puudus. Järelduseks soovin jagada arvamust, et Eesti on tore, ilus ja mõnus maa, kust saab nautida elu ja töö, kui inimene ise ei ole laiskvorst ja tahab elu elada mitte ainult eksisteerida. Hirmsasti toetan eesti hariduse arengut ja väga austan kõike, kes on seotud selle valdkonnaga. Teie kommentarid on teretulnud. Tänan väga.');
 INSERT INTO core.text_property
 VALUES ('072dbb0e-f760-4515-ad95-ac4f42fc137e', '9620d7cf-f4c6-440e-86bd-9415d660da05', 'title', 'C1 2020 IV_002-171');
 INSERT INTO core.text_property
@@ -10264,7 +10264,7 @@ VALUES ('990970cb-5d98-4932-b3f4-03195cbaa8fa', '9620d7cf-f4c6-440e-86bd-9415d66
 INSERT INTO core.text_property
 VALUES ('98ab8e19-dbf3-4d46-834d-0c75cc2971a4', '9620d7cf-f4c6-440e-86bd-9415d660da05', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('9172b8c8-be77-4b1f-999f-fa89b12bb38f', '9620d7cf-f4c6-440e-86bd-9415d660da05', 'haridus', 'kõrgharidus');
+VALUES ('9172b8c8-be77-4b1f-999f-fa89b12bb38f', '9620d7cf-f4c6-440e-86bd-9415d660da05', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('c3239702-d0a6-4af2-a52b-1eb6234adf3c', '9620d7cf-f4c6-440e-86bd-9415d660da05', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -10276,7 +10276,7 @@ VALUES ('9a714aa8-feb5-4ab4-ac04-66c44505f813', '9620d7cf-f4c6-440e-86bd-9415d66
 
 INSERT INTO core.text
 VALUES ('1e143b79-c1eb-4804-82ec-5c1fe784a6c1',
-        'Hariduse edukas omandamine on tänapäeval tähtis ja vajalik, sest haridus avab uksed uutele töövõimalustele ja edukale elule. Valikuid, millist haridust ja kus omandada, on palju ning igaüks ise valib mida, kus ja kuidas õppida. Eestis on põhiharidus kohustuslik ning selle peab igaüks omandama. Edasine õppimine ja eriala omandamine on inimese enda valida. Peale põhihariduse omandamist võib õpet jätkata gümnaasiumis ning peale gümnaasiumi võib minna ülikooli, et omandada kõrgharidust. Samuti saab ka minna kutseharidusasutusse kohe peale põhikooli, et mingit eriala omandada ning siis minna ülikooli kõrghariduse saavutamiseks. Mõlema valiku puhul on nii positiivsed kui ka negatiivsed küljed. Gümnaasiumi minek tähendab seda, et peale keskhariduse omandamist ei ole inimesel erialast haridust ning õpinguid tuleb jätkata, kas ülikoolis või kutseõppekeskuses. Gümnaasiumihariduse ja sellejärgse erialase hariduse omandamine kestab vähemalt kuus aastat. Selle tõttu paljud valivad kutsehariduse, kohe pärast põhikooli lõpetamist, sest nii saab kiiremini kätte erialase hariduse. Kuid samal ajal on kõrgharidusega inimene tööturul rohkem nõutud ning kõrghariduse omandamine peale kutseharidust tekitab raskusi, tihti tuleb võtta lisakursuseid jne, et ülikooli sisseastuja nõudmistega sobida. Tööhõive parandamisel mängivad tähtsat rolli kutseõppeasutused, sest need pakuvad täiendõpet ja tihti ka kvalifikatsiooni tõstmist. Tänapäeva maailm areneb kiiresti ning selle tõttu on tähtis kogu aeg uusi teadmisi eriala kohta omandada. Töötukassa pakub töötutele ja noortele täiendõpet ja mitmeid kursuseid, et neil oleks piisavalt teadmisi tööle asumiseks. Üsna tihti on need kursused tasuta ning on vaja ainult tahet ja avaldust kursusel osalemise soovist. Iga inimese elukäik sõltub ainult temast endast. Võimalusi ennast arendada on piisavalt, tuleb ainult natuke vaeva näha, et soovitud eriala omandada või et paremat haridust saada. ');
+        'Hariduse edukas omandamine on tänapäeval tähtis ja vajalik, sest haridus avab uksed uutele töövõimalustele ja edukale elule. Valikuid, millist haridust ja kus omandada, on palju ning igaüks ise valib mida, kus ja kuidas õppida. Eestis on põhiharidus kohustuslik ning selle peab igaüks omandama. Edasine õppimine ja eriala omandamine on inimese enda valida. Peale põhihariduse omandamist võib õpet jätkata gümnaasiumis ning peale gümnaasiumi võib minna ülikooli, et omandada Kõrgharidust. Samuti saab ka minna kutseharidusasutusse kohe peale põhikooli, et mingit eriala omandada ning siis minna ülikooli Kõrghariduse saavutamiseks. Mõlema valiku puhul on nii positiivsed kui ka negatiivsed küljed. Gümnaasiumi minek tähendab seda, et peale Keskhariduse omandamist ei ole inimesel erialast haridust ning õpinguid tuleb jätkata, kas ülikoolis või kutseõppekeskuses. Gümnaasiumihariduse ja sellejärgse erialase hariduse omandamine kestab vähemalt kuus aastat. Selle tõttu paljud valivad kutsehariduse, kohe pärast põhikooli lõpetamist, sest nii saab kiiremini kätte erialase hariduse. Kuid samal ajal on Kõrgharidusega inimene tööturul rohkem nõutud ning Kõrghariduse omandamine peale kutseharidust tekitab raskusi, tihti tuleb võtta lisakursuseid jne, et ülikooli sisseastuja nõudmistega sobida. Tööhõive parandamisel mängivad tähtsat rolli kutseõppeasutused, sest need pakuvad täiendõpet ja tihti ka kvalifikatsiooni tõstmist. Tänapäeva maailm areneb kiiresti ning selle tõttu on tähtis kogu aeg uusi teadmisi eriala kohta omandada. Töötukassa pakub töötutele ja noortele täiendõpet ja mitmeid kursuseid, et neil oleks piisavalt teadmisi tööle asumiseks. Üsna tihti on need kursused tasuta ning on vaja ainult tahet ja avaldust kursusel osalemise soovist. Iga inimese elukäik sõltub ainult temast endast. Võimalusi ennast arendada on piisavalt, tuleb ainult natuke vaeva näha, et soovitud eriala omandada või et paremat haridust saada. ');
 INSERT INTO core.text_property
 VALUES ('4db86020-da18-4fbb-b86e-b3022f839f8b', '1e143b79-c1eb-4804-82ec-5c1fe784a6c1', 'title', 'C1 2020 IV_003-019');
 INSERT INTO core.text_property
@@ -10308,7 +10308,7 @@ INSERT INTO core.text_property
 VALUES ('721c63f0-2ab0-44e7-8d6a-85f4a180277f', '1e143b79-c1eb-4804-82ec-5c1fe784a6c1', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('bf74cd12-6840-43d0-bb5c-d1712d88eb53', '1e143b79-c1eb-4804-82ec-5c1fe784a6c1', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('084a4276-5786-4b87-8c24-2c30d49b8149', '1e143b79-c1eb-4804-82ec-5c1fe784a6c1', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
@@ -10320,7 +10320,7 @@ VALUES ('1de510ed-8435-4818-afb5-47d7afd2ad4c', '1e143b79-c1eb-4804-82ec-5c1fe78
 
 INSERT INTO core.text
 VALUES ('80115031-a46f-47e4-b9a5-5ba0ceddbff8',
-        'Hiljuti ilmus meie linnas haridusteemaline infopäev, kus räägiti hariduse jätkamisest pärast põhihariduse saamist ja samas kutseõppe võimalustest tööhõive parandamisel. Teabepäeva ettekanded osutusid igati kasulikeks ja mõtteainet pakkuvateks. Üheks oluliseks teemaks sai seekord haridustee jätkamine pärast 9. klassi lõpetamist ehk kohustusliku koolihariduse omandamist. Tänapäeval mõtleb üha rohkem ja rohkem õpilasi, et nad tahavad kõrghariduse saada, seega astuvad 10. klassi ehk gümnaasiumi sisse, et oma eesmärgi poole liikuda. Arvatakse, et kõrgharidus on väga mainekas, kuid kui me vaatame tänapäevast tööturgu, siis nõutakse ka oskuslikke kutseharidusega spetsialiste. Kahju on sellest, et kutsekoolidesse ei lähe eriti andekad teismelised. Tavaliselt targeimad ja usinaimad jäävadki gümnaasiumi. On käimas müüt, et kutseharidus on vähem andekamate jaoks sobivaim koht. Ei saa sellega nõustuda. Praktika näitab, et kutsehariduse osatähtsus on viimaste aastate jooksul üles kasvanud. Tööandjad ootavad just praktilised oskused saanud noori, kuna kõrgharidus on enamuses teoreetilised teadmised. Võiks arvata, et aja jooksul see tendents kasvab ja noored hakkavad julgemini ka kutseõppe variandile tähelepanu pöörama. Teiseks oluliseks teemaks oli kutseõppe võimalused tööhõive parandamisel. Räägiti mitte ainult noortest kui ka eakatest. Kutsekeskused on töötanud erinevad täiendõppe ja ümberõppe programmid välja, et nii noored kui ka eakad inimesed saaksid vajadusel oma elukutse muuta. Nii pakutakse noortele palju lühiajalisi koolitusi, mis võimaldavad õige ettekujutuse tahetud elukutsest saada. Eakatele on mõeldud nii lühikesed kui ka pikaajalised ümberõppe variandid, mis loodetavasti annavad neile tulevikus töökohad või vähemalt võimaluse olla natuke konkurentsivõimelisem tööturul. Töötavatele inimestele pakuvad kutsekoolid hulganisti õhtuseid kursusi ja täiendkoolitusi. Igaüks saab leida endale meelepärasema. Üldiselt oli teabepäev üsna inforikas. Kõlas palju kasulikke jutte elukestvast õppest kui meie ühiskonna heaoluga kaasnevast tegurist. Nii, et haridustee jätkamine ja tööhõive parandamine on nii indiviidi kui ka terve ühiskonna eesmärk. ');
+        'Hiljuti ilmus meie linnas haridusteemaline infopäev, kus räägiti hariduse jätkamisest pärast põhihariduse saamist ja samas kutseõppe võimalustest tööhõive parandamisel. Teabepäeva ettekanded osutusid igati kasulikeks ja mõtteainet pakkuvateks. Üheks oluliseks teemaks sai seekord haridustee jätkamine pärast 9. klassi lõpetamist ehk kohustusliku koolihariduse omandamist. Tänapäeval mõtleb üha rohkem ja rohkem õpilasi, et nad tahavad Kõrghariduse saada, seega astuvad 10. klassi ehk gümnaasiumi sisse, et oma eesmärgi poole liikuda. Arvatakse, et Kõrgharidus on väga mainekas, kuid kui me vaatame tänapäevast tööturgu, siis nõutakse ka oskuslikke kutseharidusega spetsialiste. Kahju on sellest, et kutsekoolidesse ei lähe eriti andekad teismelised. Tavaliselt targeimad ja usinaimad jäävadki gümnaasiumi. On käimas müüt, et kutseharidus on vähem andekamate jaoks sobivaim koht. Ei saa sellega nõustuda. Praktika näitab, et kutsehariduse osatähtsus on viimaste aastate jooksul üles kasvanud. Tööandjad ootavad just praktilised oskused saanud noori, kuna Kõrgharidus on enamuses teoreetilised teadmised. Võiks arvata, et aja jooksul see tendents kasvab ja noored hakkavad julgemini ka kutseõppe variandile tähelepanu pöörama. Teiseks oluliseks teemaks oli kutseõppe võimalused tööhõive parandamisel. Räägiti mitte ainult noortest kui ka eakatest. Kutsekeskused on töötanud erinevad täiendõppe ja ümberõppe programmid välja, et nii noored kui ka eakad inimesed saaksid vajadusel oma elukutse muuta. Nii pakutakse noortele palju lühiajalisi koolitusi, mis võimaldavad õige ettekujutuse tahetud elukutsest saada. Eakatele on mõeldud nii lühikesed kui ka pikaajalised ümberõppe variandid, mis loodetavasti annavad neile tulevikus töökohad või vähemalt võimaluse olla natuke konkurentsivõimelisem tööturul. Töötavatele inimestele pakuvad kutsekoolid hulganisti õhtuseid kursusi ja täiendkoolitusi. Igaüks saab leida endale meelepärasema. Üldiselt oli teabepäev üsna inforikas. Kõlas palju kasulikke jutte elukestvast õppest kui meie ühiskonna heaoluga kaasnevast tegurist. Nii, et haridustee jätkamine ja tööhõive parandamine on nii indiviidi kui ka terve ühiskonna eesmärk. ');
 INSERT INTO core.text_property
 VALUES ('d6286973-fddf-4d18-b463-55081e9e6cfb', '80115031-a46f-47e4-b9a5-5ba0ceddbff8', 'title', 'C1 2020 IV_003-033');
 INSERT INTO core.text_property
@@ -10351,7 +10351,7 @@ VALUES ('23ee5ceb-7a55-4bca-9e6e-d64db567d7fa', '80115031-a46f-47e4-b9a5-5ba0ced
 INSERT INTO core.text_property
 VALUES ('d554b79b-b075-4d45-a578-a2a08c2c81be', '80115031-a46f-47e4-b9a5-5ba0ceddbff8', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
-VALUES ('28535027-9e33-4a5f-93aa-44aca98120a4', '80115031-a46f-47e4-b9a5-5ba0ceddbff8', 'haridus', 'kõrgharidus');
+VALUES ('28535027-9e33-4a5f-93aa-44aca98120a4', '80115031-a46f-47e4-b9a5-5ba0ceddbff8', 'haridus', 'Kõrgharidus');
 INSERT INTO core.text_property
 VALUES ('ec9ae8b7-497c-4f7c-9532-afc5a417a6ed', '80115031-a46f-47e4-b9a5-5ba0ceddbff8', 'vanusevahemik', 'kuni40');
 INSERT INTO core.text_property
@@ -10395,7 +10395,7 @@ INSERT INTO core.text_property
 VALUES ('2d53e70b-5d5e-4ddc-a706-ececb4fd0c29', '12207713-b8e3-4919-8dd1-e3c8f5c80ff7', 'kodakondsus', 'Eesti');
 INSERT INTO core.text_property
 VALUES ('5c776156-8556-4bf6-97d1-d4172541a3fd', '12207713-b8e3-4919-8dd1-e3c8f5c80ff7', 'haridus',
-        'algharidus/põhiharidus');
+        'Alg-/põhiharidus');
 INSERT INTO core.text_property
 VALUES ('1123cf0c-264f-4189-8ff8-c6ef49965032', '12207713-b8e3-4919-8dd1-e3c8f5c80ff7', 'vanusevahemik', 'kuni18');
 INSERT INTO core.text_property
