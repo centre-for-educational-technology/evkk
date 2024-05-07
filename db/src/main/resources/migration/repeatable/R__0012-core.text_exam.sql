@@ -15,7 +15,7 @@ VALUES ('beed45cf-5d2d-4eaa-8900-d20654437f90', '7040b610-eec6-49a0-9375-250f740
 INSERT INTO core.text_property
 VALUES ('977ad51e-a092-44e5-80b3-9fc1a108b33d', '7040b610-eec6-49a0-9375-250f740ad5e0', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('9a18fc40-5c0b-4ece-9647-a41fb5c43476', '7040b610-eec6-49a0-9375-250f740ad5e0', 'taust', '"Teenindus');
+VALUES ('9a18fc40-5c0b-4ece-9647-a41fb5c43476', '7040b610-eec6-49a0-9375-250f740ad5e0', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('7ed11a82-582b-47bc-90c8-eadab61c11c2', '7040b610-eec6-49a0-9375-250f740ad5e0', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -59,7 +59,7 @@ VALUES ('b3bc9fb5-6311-47b4-8f30-62da724598d1', '4e5fb7fc-5cac-4ea6-b921-eab7299
 INSERT INTO core.text_property
 VALUES ('56667766-9473-4115-9135-7fed0fddaef7', '4e5fb7fc-5cac-4ea6-b921-eab7299d8ea5', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('4e9b6f90-b444-437b-b7aa-9f9aeab6ac90', '4e5fb7fc-5cac-4ea6-b921-eab7299d8ea5', 'taust', '"Teenindus');
+VALUES ('4e9b6f90-b444-437b-b7aa-9f9aeab6ac90', '4e5fb7fc-5cac-4ea6-b921-eab7299d8ea5', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('f368e2c1-8958-4555-b280-6337b591c2cc', '4e5fb7fc-5cac-4ea6-b921-eab7299d8ea5', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -102,7 +102,7 @@ VALUES ('fe84328d-2687-4b43-aa83-7b17487787e0', '09198c43-119b-470b-bfaf-bcba3c1
 INSERT INTO core.text_property
 VALUES ('04cef210-51a4-4628-90c5-40250477085a', '09198c43-119b-470b-bfaf-bcba3c1deba4', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('3fd8a655-895c-4c77-9aad-178f922040ac', '09198c43-119b-470b-bfaf-bcba3c1deba4', 'taust', '"Haridus');
+VALUES ('3fd8a655-895c-4c77-9aad-178f922040ac', '09198c43-119b-470b-bfaf-bcba3c1deba4', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('69aaa30d-4f70-4f5c-af8c-80fb3ae52e8c', '09198c43-119b-470b-bfaf-bcba3c1deba4', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -145,7 +145,7 @@ VALUES ('98df95d4-fadf-4cba-a344-37d627f9f77f', '37d67b93-0a52-4ded-bc91-0424d4f
 INSERT INTO core.text_property
 VALUES ('aaae05a6-e8f0-4066-babb-987d6683e65d', '37d67b93-0a52-4ded-bc91-0424d4f5729f', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('cb407b84-56a6-423b-9e94-bc2b267823af', '37d67b93-0a52-4ded-bc91-0424d4f5729f', 'taust', '"Teenindus');
+VALUES ('cb407b84-56a6-423b-9e94-bc2b267823af', '37d67b93-0a52-4ded-bc91-0424d4f5729f', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('dc74ba5a-2cd5-4b3a-a53b-08f0b38f3ac1', '37d67b93-0a52-4ded-bc91-0424d4f5729f', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -189,7 +189,7 @@ VALUES ('c5613c2e-3bd9-4f49-8689-116ca82276e0', '489011c2-0975-4151-96f2-998d89c
 INSERT INTO core.text_property
 VALUES ('96dd29bb-fa26-4485-b35e-fad0e7ff75c3', '489011c2-0975-4151-96f2-998d89c1d406', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('15a65256-8af7-4ae9-9d30-643f4a62e46e', '489011c2-0975-4151-96f2-998d89c1d406', 'taust', '"Tööstus');
+VALUES ('15a65256-8af7-4ae9-9d30-643f4a62e46e', '489011c2-0975-4151-96f2-998d89c1d406', 'taust', 'Tööstus');
 INSERT INTO core.text_property
 VALUES ('5c9f3b76-2e18-46eb-9f30-535699f89b7b', '489011c2-0975-4151-96f2-998d89c1d406', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -233,7 +233,7 @@ VALUES ('b13f9c9e-650f-423a-b34f-36ae82cf424d', '584c47e0-aae9-459a-a125-cb869d0
 INSERT INTO core.text_property
 VALUES ('0befae23-071a-4fbf-a1d8-b391cb29fcea', '584c47e0-aae9-459a-a125-cb869d0052de', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('a7c8a96d-eab6-4aa6-a0cc-c79115a6bc79', '584c47e0-aae9-459a-a125-cb869d0052de', 'taust', '"Teenindus');
+VALUES ('a7c8a96d-eab6-4aa6-a0cc-c79115a6bc79', '584c47e0-aae9-459a-a125-cb869d0052de', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('dafe3dc6-9e08-4e32-aa26-5fc0dadeb31c', '584c47e0-aae9-459a-a125-cb869d0052de', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -363,7 +363,7 @@ VALUES ('9130fce3-b770-41e8-b3f8-b66551e26efd', '8551ea2f-11c1-4180-8e3d-3bdd7fc
 INSERT INTO core.text_property
 VALUES ('3e8dba91-0934-4099-9458-297027bfe858', '8551ea2f-11c1-4180-8e3d-3bdd7fccd205', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('b8b42977-2b34-4641-9a74-b06daae8720e', '8551ea2f-11c1-4180-8e3d-3bdd7fccd205', 'taust', '"Haridus');
+VALUES ('b8b42977-2b34-4641-9a74-b06daae8720e', '8551ea2f-11c1-4180-8e3d-3bdd7fccd205', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('9ed49833-d002-49f1-82ca-40058a15adce', '8551ea2f-11c1-4180-8e3d-3bdd7fccd205', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -449,7 +449,7 @@ VALUES ('474d2fda-42e3-40ce-9db5-b7fbf295b56a', 'ab105a04-af6e-4677-b15e-d44f55e
 INSERT INTO core.text_property
 VALUES ('3da34670-a467-4686-8f00-ba027b7190d1', 'ab105a04-af6e-4677-b15e-d44f55e2ade1', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('4c8cc1ea-2683-440e-ac3a-ca9b9492ae43', 'ab105a04-af6e-4677-b15e-d44f55e2ade1', 'taust', '"Teenindus');
+VALUES ('4c8cc1ea-2683-440e-ac3a-ca9b9492ae43', 'ab105a04-af6e-4677-b15e-d44f55e2ade1', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('5534ecda-08a3-46c9-85c5-40f3ce8fc546', 'ab105a04-af6e-4677-b15e-d44f55e2ade1', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -492,7 +492,7 @@ VALUES ('39e45873-4106-44fc-9293-34ac83b4b160', '951bc2bd-4486-499a-967e-66c6f6f
 INSERT INTO core.text_property
 VALUES ('4fbf2d36-34a2-4f5d-bb38-22ca97e62741', '951bc2bd-4486-499a-967e-66c6f6f69c26', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('007c7218-562f-4777-bf95-0fba3417889e', '951bc2bd-4486-499a-967e-66c6f6f69c26', 'taust', '"Tervishoid');
+VALUES ('007c7218-562f-4777-bf95-0fba3417889e', '951bc2bd-4486-499a-967e-66c6f6f69c26', 'taust', 'Tervishoid');
 INSERT INTO core.text_property
 VALUES ('ce4469b1-1271-48c2-836b-2adac7598f1e', '951bc2bd-4486-499a-967e-66c6f6f69c26', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -535,7 +535,7 @@ VALUES ('4b386002-1324-462b-88a6-da2b6df518bd', 'c1e6af0a-c05e-4e61-8f5c-40fd8eb
 INSERT INTO core.text_property
 VALUES ('f35a93d5-9776-4542-ab26-78a7e9f9f0ff', 'c1e6af0a-c05e-4e61-8f5c-40fd8eb971ff', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('8a7f719c-793e-47bb-88c3-08058b222b74', 'c1e6af0a-c05e-4e61-8f5c-40fd8eb971ff', 'taust', '"Haridus');
+VALUES ('8a7f719c-793e-47bb-88c3-08058b222b74', 'c1e6af0a-c05e-4e61-8f5c-40fd8eb971ff', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('c4c8d165-6d18-42e5-98d7-155cc69e718f', 'c1e6af0a-c05e-4e61-8f5c-40fd8eb971ff', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -578,7 +578,7 @@ VALUES ('0d8ce015-438b-4174-bbc2-9accf7cb8cad', 'fa2adfa9-5da9-4fb3-a46b-13cfbaa
 INSERT INTO core.text_property
 VALUES ('a114edd4-91de-4e78-974f-c80fec6c1199', 'fa2adfa9-5da9-4fb3-a46b-13cfbaa4f849', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('7a7e27fc-543d-4329-bebf-72c97c07f329', 'fa2adfa9-5da9-4fb3-a46b-13cfbaa4f849', 'taust', '"Teenindus');
+VALUES ('7a7e27fc-543d-4329-bebf-72c97c07f329', 'fa2adfa9-5da9-4fb3-a46b-13cfbaa4f849', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('9e878ece-463d-4042-abec-224b07b535cb', 'fa2adfa9-5da9-4fb3-a46b-13cfbaa4f849', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -622,7 +622,7 @@ VALUES ('3ae23348-5f8e-40f5-a4aa-0b3033fb3bff', '5f359232-b5a7-4c23-9a58-3ae6e53
 INSERT INTO core.text_property
 VALUES ('c30ce96b-ee83-4c4b-80ae-44ca7f808b3f', '5f359232-b5a7-4c23-9a58-3ae6e5338421', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('86561590-cd7a-4121-ab87-f1d0890cce9c', '5f359232-b5a7-4c23-9a58-3ae6e5338421', 'taust', '"Ehitus');
+VALUES ('86561590-cd7a-4121-ab87-f1d0890cce9c', '5f359232-b5a7-4c23-9a58-3ae6e5338421', 'taust', 'Ehitus');
 INSERT INTO core.text_property
 VALUES ('15f8d52e-dd34-4bc1-b84a-64326242785b', '5f359232-b5a7-4c23-9a58-3ae6e5338421', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -665,7 +665,7 @@ VALUES ('dd8f5a85-db26-46b5-b9f4-a904321036ec', 'ed07afd3-301d-4fe6-8981-628c3a8
 INSERT INTO core.text_property
 VALUES ('fa5794af-d32f-4e48-a7b4-ce32043a561e', 'ed07afd3-301d-4fe6-8981-628c3a87d962', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('ecf1b9c4-c5cf-4c59-993b-baf612c61164', 'ed07afd3-301d-4fe6-8981-628c3a87d962', 'taust', '"Tervishoid');
+VALUES ('ecf1b9c4-c5cf-4c59-993b-baf612c61164', 'ed07afd3-301d-4fe6-8981-628c3a87d962', 'taust', 'Tervishoid');
 INSERT INTO core.text_property
 VALUES ('d7d797d2-c9b2-44a4-8e52-baea38e055ec', 'ed07afd3-301d-4fe6-8981-628c3a87d962', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -709,7 +709,7 @@ VALUES ('e443ca7b-dae9-47d6-99fa-9922ab8378d0', '2e63c4f3-cea9-4ede-8009-68196de
 INSERT INTO core.text_property
 VALUES ('919f6022-c7e6-4793-b01b-cf0c3fa8151c', '2e63c4f3-cea9-4ede-8009-68196def7d0d', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('4eceb4d1-6bea-4530-8710-cd429a4b1d74', '2e63c4f3-cea9-4ede-8009-68196def7d0d', 'taust', '"Teenindus');
+VALUES ('4eceb4d1-6bea-4530-8710-cd429a4b1d74', '2e63c4f3-cea9-4ede-8009-68196def7d0d', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('d1ea73c7-d26e-4b31-bf1b-6d97ac9b7ee2', '2e63c4f3-cea9-4ede-8009-68196def7d0d', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -752,7 +752,7 @@ VALUES ('e950f50c-a824-4aba-ac01-268224d654e3', 'bff67133-5e7c-47b9-904e-4132504
 INSERT INTO core.text_property
 VALUES ('779c1f2b-3add-4100-a8a9-e1fcf124cec0', 'bff67133-5e7c-47b9-904e-413250478968', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('1168302a-1c85-44fb-baea-c287f10d24cd', 'bff67133-5e7c-47b9-904e-413250478968', 'taust', '"Tööstus');
+VALUES ('1168302a-1c85-44fb-baea-c287f10d24cd', 'bff67133-5e7c-47b9-904e-413250478968', 'taust', 'Tööstus');
 INSERT INTO core.text_property
 VALUES ('a8ad5d45-4248-40cf-be8a-966fd7d08e7d', 'bff67133-5e7c-47b9-904e-413250478968', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -967,7 +967,7 @@ VALUES ('c5794467-962e-4182-a5c0-62886c18b123', '47fab1fb-3f2e-4a04-a58e-1f57eda
 INSERT INTO core.text_property
 VALUES ('30543c9d-cbfe-46e5-a2ab-b24759c2533b', '47fab1fb-3f2e-4a04-a58e-1f57eda97d5d', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('bd023075-8438-4738-8b01-bce47a2039b1', '47fab1fb-3f2e-4a04-a58e-1f57eda97d5d', 'taust', '"Toitlustus');
+VALUES ('bd023075-8438-4738-8b01-bce47a2039b1', '47fab1fb-3f2e-4a04-a58e-1f57eda97d5d', 'taust', 'Toitlustus');
 INSERT INTO core.text_property
 VALUES ('886f60e6-0e71-4fa6-88b0-a6922fa34afa', '47fab1fb-3f2e-4a04-a58e-1f57eda97d5d', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -1056,7 +1056,7 @@ VALUES ('df4feb48-fff2-46ea-ace8-f018d011801d', 'ac3eb34a-ea60-4098-a7e1-067362e
 INSERT INTO core.text_property
 VALUES ('23660154-257e-4b36-a8d5-7267492da521', 'ac3eb34a-ea60-4098-a7e1-067362ef6363', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('17ba4f7f-7f21-4b65-8d78-adf82d3c0343', 'ac3eb34a-ea60-4098-a7e1-067362ef6363', 'taust', '"Teenindus');
+VALUES ('17ba4f7f-7f21-4b65-8d78-adf82d3c0343', 'ac3eb34a-ea60-4098-a7e1-067362ef6363', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('f76dc61d-b73a-441a-a689-9b1f8def472f', 'ac3eb34a-ea60-4098-a7e1-067362ef6363', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -1142,7 +1142,7 @@ VALUES ('8753a23b-4651-4d88-897c-9c932e220e25', 'f7db24fb-7928-41ff-892b-0e6e42d
 INSERT INTO core.text_property
 VALUES ('f9d8e63c-cd87-47e7-b2b1-ee271000795a', 'f7db24fb-7928-41ff-892b-0e6e42d0103e', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('e87232f6-7189-4185-adc4-7a29e39257e5', 'f7db24fb-7928-41ff-892b-0e6e42d0103e', 'taust', '"Haridus');
+VALUES ('e87232f6-7189-4185-adc4-7a29e39257e5', 'f7db24fb-7928-41ff-892b-0e6e42d0103e', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('ee7edfe0-93a8-49bc-986b-b726cbe3471c', 'f7db24fb-7928-41ff-892b-0e6e42d0103e', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -1185,7 +1185,7 @@ VALUES ('a56eb58f-4522-4df9-9da0-dfc813b3d188', 'a3f55d3a-d56e-4daa-8b9d-025017e
 INSERT INTO core.text_property
 VALUES ('79c1abb6-6873-429c-9552-bf7a5eb729f4', 'a3f55d3a-d56e-4daa-8b9d-025017e1c68f', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('b40a70ce-1c72-4144-8382-175289887c67', 'a3f55d3a-d56e-4daa-8b9d-025017e1c68f', 'taust', '"Haridus');
+VALUES ('b40a70ce-1c72-4144-8382-175289887c67', 'a3f55d3a-d56e-4daa-8b9d-025017e1c68f', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('e0bc9d6a-15ea-45ff-bfbd-836efd24d37c', 'a3f55d3a-d56e-4daa-8b9d-025017e1c68f', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -1273,7 +1273,7 @@ VALUES ('3bd0110d-20aa-4699-852b-61e3c92522e7', '781108d5-616a-4cc8-a892-e962201
 INSERT INTO core.text_property
 VALUES ('bea37e74-5ab9-4618-897a-3b834ec60c2a', '781108d5-616a-4cc8-a892-e962201fab0c', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('4c32d4f3-a7ce-4a72-82c9-6ae982dfb9ca', '781108d5-616a-4cc8-a892-e962201fab0c', 'taust', '"Tervishoid');
+VALUES ('4c32d4f3-a7ce-4a72-82c9-6ae982dfb9ca', '781108d5-616a-4cc8-a892-e962201fab0c', 'taust', 'Tervishoid');
 INSERT INTO core.text_property
 VALUES ('e1a75c35-5d37-4073-80ea-62ee979dda50', '781108d5-616a-4cc8-a892-e962201fab0c', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -1317,7 +1317,7 @@ VALUES ('0d1e59f1-98c7-4b2a-bf5f-40d136430a98', 'ab27766f-ce69-43ba-89bd-89f4048
 INSERT INTO core.text_property
 VALUES ('ba2bde23-6d07-494d-b16f-9d406e630498', 'ab27766f-ce69-43ba-89bd-89f404845b4b', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('f68ca971-a95d-40e2-b6ce-aca86b39f165', 'ab27766f-ce69-43ba-89bd-89f404845b4b', 'taust', '"Tööstus');
+VALUES ('f68ca971-a95d-40e2-b6ce-aca86b39f165', 'ab27766f-ce69-43ba-89bd-89f404845b4b', 'taust', 'Tööstus');
 INSERT INTO core.text_property
 VALUES ('a004a072-4629-4e41-9219-a179f3fac97d', 'ab27766f-ce69-43ba-89bd-89f404845b4b', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -1361,7 +1361,7 @@ VALUES ('b96ec83e-8566-47c6-b53f-8e6a11a270b4', '2a12d1b1-dcb6-42ce-bda7-bcfabe8
 INSERT INTO core.text_property
 VALUES ('40ea87be-2bda-4e4f-ba0e-2ef113ab66be', '2a12d1b1-dcb6-42ce-bda7-bcfabe81005c', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('0822921d-8bf8-4e41-8808-b53eb94cd09b', '2a12d1b1-dcb6-42ce-bda7-bcfabe81005c', 'taust', '"Teenindus');
+VALUES ('0822921d-8bf8-4e41-8808-b53eb94cd09b', '2a12d1b1-dcb6-42ce-bda7-bcfabe81005c', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('347c55b0-247c-4e0f-93b5-8d71874c0dd9', '2a12d1b1-dcb6-42ce-bda7-bcfabe81005c', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -1405,7 +1405,7 @@ VALUES ('0ceb0149-c2c4-4e6b-9dda-bfe456e5c097', '50e1e104-f444-4478-a6b7-3db2b40
 INSERT INTO core.text_property
 VALUES ('5277cc54-ef69-4539-9c2e-b060c28cc6c4', '50e1e104-f444-4478-a6b7-3db2b4023e68', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('7b08856a-e76f-4b6a-8423-1eda5d5668fc', '50e1e104-f444-4478-a6b7-3db2b4023e68', 'taust', '"Teenindus');
+VALUES ('7b08856a-e76f-4b6a-8423-1eda5d5668fc', '50e1e104-f444-4478-a6b7-3db2b4023e68', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('7467b08c-87dd-4dba-96cf-9043ade4456a', '50e1e104-f444-4478-a6b7-3db2b4023e68', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -1449,7 +1449,7 @@ VALUES ('57bfda6c-ebbb-4082-b67f-0b0269877ac9', 'a6b89a46-49ff-445b-848c-c88f1da
 INSERT INTO core.text_property
 VALUES ('02f98d2f-8052-4c1e-99b7-b7d814ccd22a', 'a6b89a46-49ff-445b-848c-c88f1da78c0f', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('9c8b4153-a9a3-4954-82bb-77bbc57c2eb9', 'a6b89a46-49ff-445b-848c-c88f1da78c0f', 'taust', '"Tervishoid');
+VALUES ('9c8b4153-a9a3-4954-82bb-77bbc57c2eb9', 'a6b89a46-49ff-445b-848c-c88f1da78c0f', 'taust', 'Tervishoid');
 INSERT INTO core.text_property
 VALUES ('e19ac6b2-e5fc-416a-8114-e68cf0e98286', 'a6b89a46-49ff-445b-848c-c88f1da78c0f', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -1493,7 +1493,7 @@ VALUES ('475176ed-caab-4b50-97b2-8bce5ca519fd', 'aa2e65d6-7468-4bdd-9230-6ff7f59
 INSERT INTO core.text_property
 VALUES ('cb12705a-e0da-40ed-bb7d-a404a31214d3', 'aa2e65d6-7468-4bdd-9230-6ff7f599ca34', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('d6481070-1543-46b3-ba10-57b9e27a5971', 'aa2e65d6-7468-4bdd-9230-6ff7f599ca34', 'taust', '"Tervishoid');
+VALUES ('d6481070-1543-46b3-ba10-57b9e27a5971', 'aa2e65d6-7468-4bdd-9230-6ff7f599ca34', 'taust', 'Tervishoid');
 INSERT INTO core.text_property
 VALUES ('b9a5fd82-87cd-4f47-9ccd-a28ef18fd92b', 'aa2e65d6-7468-4bdd-9230-6ff7f599ca34', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -1580,7 +1580,7 @@ VALUES ('22176467-78a9-44e2-9d84-53457a834203', '81209a65-8448-4413-9ec4-b8bc592
 INSERT INTO core.text_property
 VALUES ('40e2038d-46e2-44fd-afc4-b763234343d2', '81209a65-8448-4413-9ec4-b8bc5920ca9b', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('35fce0a8-d4b8-42f2-8793-1aa0fa240a6e', '81209a65-8448-4413-9ec4-b8bc5920ca9b', 'taust', '"Teenindus');
+VALUES ('35fce0a8-d4b8-42f2-8793-1aa0fa240a6e', '81209a65-8448-4413-9ec4-b8bc5920ca9b', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('11864899-831e-48e1-969b-adf93858a054', '81209a65-8448-4413-9ec4-b8bc5920ca9b', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -1623,7 +1623,7 @@ VALUES ('0d01ede9-f200-4dda-bef3-f260b4f8e21e', '185c599d-86c1-42f0-b1b2-f5e7267
 INSERT INTO core.text_property
 VALUES ('65e18590-8207-4679-8249-3e3a08e05227', '185c599d-86c1-42f0-b1b2-f5e726725916', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('5b24cbb0-467f-4322-9de5-df9789337fab', '185c599d-86c1-42f0-b1b2-f5e726725916', 'taust', '"Haridus');
+VALUES ('5b24cbb0-467f-4322-9de5-df9789337fab', '185c599d-86c1-42f0-b1b2-f5e726725916', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('d7e06b5d-31a0-4001-859b-af792d09418f', '185c599d-86c1-42f0-b1b2-f5e726725916', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -1666,7 +1666,7 @@ VALUES ('fc5e06b3-78b6-4f59-b071-64c98629c3cf', '670324bc-57a9-45df-8dd3-325ace9
 INSERT INTO core.text_property
 VALUES ('1b1ea5d8-e069-4104-a795-f95141b4fa73', '670324bc-57a9-45df-8dd3-325ace965cb8', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('5be22ff7-922c-4184-90be-1fabe6a73416', '670324bc-57a9-45df-8dd3-325ace965cb8', 'taust', '"Tööstus');
+VALUES ('5be22ff7-922c-4184-90be-1fabe6a73416', '670324bc-57a9-45df-8dd3-325ace965cb8', 'taust', 'Tööstus');
 INSERT INTO core.text_property
 VALUES ('efdc034c-01a6-49b9-abaf-37085379cdff', '670324bc-57a9-45df-8dd3-325ace965cb8', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -1709,7 +1709,7 @@ VALUES ('8fac2b2a-2063-4c50-9111-cff47ae538e7', '4c0aa5ed-c531-4a67-be1b-6ddcb15
 INSERT INTO core.text_property
 VALUES ('f55001ec-dcc5-49a6-ad2a-c81882104d51', '4c0aa5ed-c531-4a67-be1b-6ddcb1576b47', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('69ce64c8-3f13-4bc3-8c09-7dbea26a755a', '4c0aa5ed-c531-4a67-be1b-6ddcb1576b47', 'taust', '"Tervishoid');
+VALUES ('69ce64c8-3f13-4bc3-8c09-7dbea26a755a', '4c0aa5ed-c531-4a67-be1b-6ddcb1576b47', 'taust', 'Tervishoid');
 INSERT INTO core.text_property
 VALUES ('703f78c6-cf82-48b1-ba6b-fd86c6718a19', '4c0aa5ed-c531-4a67-be1b-6ddcb1576b47', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -1752,7 +1752,7 @@ VALUES ('b2648597-9822-4636-91f5-41ea2985026c', '551c5d53-171d-404c-9e14-f95ca69
 INSERT INTO core.text_property
 VALUES ('1a316f91-2d34-4bf7-b084-0008de3a68d6', '551c5d53-171d-404c-9e14-f95ca6913df2', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('390d0937-2fec-4b95-86d1-6b5a70ab1511', '551c5d53-171d-404c-9e14-f95ca6913df2', 'taust', '"Haridus');
+VALUES ('390d0937-2fec-4b95-86d1-6b5a70ab1511', '551c5d53-171d-404c-9e14-f95ca6913df2', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('1c3a61e2-5c29-49b7-a804-76a5a1a01760', '551c5d53-171d-404c-9e14-f95ca6913df2', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -1839,7 +1839,7 @@ VALUES ('eae584ee-29e0-4cb8-afc1-cb87025a43e3', '369372db-037b-43d8-be9e-7fcf2c3
 INSERT INTO core.text_property
 VALUES ('99b5f035-dc1c-4948-81c5-d2af9c7bc219', '369372db-037b-43d8-be9e-7fcf2c350ce0', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('00ca26fe-7ef2-4dea-8bd7-df7fa531d89a', '369372db-037b-43d8-be9e-7fcf2c350ce0', 'taust', '"Tervishoid');
+VALUES ('00ca26fe-7ef2-4dea-8bd7-df7fa531d89a', '369372db-037b-43d8-be9e-7fcf2c350ce0', 'taust', 'Tervishoid');
 INSERT INTO core.text_property
 VALUES ('c4417a87-1468-4e6a-85e8-046b5e589f41', '369372db-037b-43d8-be9e-7fcf2c350ce0', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -1882,7 +1882,7 @@ VALUES ('de79c5f9-233c-4a1b-8868-240bc54a4df6', '3d5f723a-676d-4bfb-918b-6506f67
 INSERT INTO core.text_property
 VALUES ('a0d822bf-3156-48ec-a579-fc4f3005d890', '3d5f723a-676d-4bfb-918b-6506f6745682', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('031b53a4-fb69-4617-8c5b-04e52b4d47a0', '3d5f723a-676d-4bfb-918b-6506f6745682', 'taust', '"Haridus');
+VALUES ('031b53a4-fb69-4617-8c5b-04e52b4d47a0', '3d5f723a-676d-4bfb-918b-6506f6745682', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('ef5fb8e2-4d48-4c41-86da-2ea510d29b6b', '3d5f723a-676d-4bfb-918b-6506f6745682', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -1925,7 +1925,7 @@ VALUES ('cbc14ddd-d31e-4fd0-a692-cc7f752de09e', 'cfca40b9-05a9-4ec7-94b5-e50c4ac
 INSERT INTO core.text_property
 VALUES ('a74252ad-efd6-4df7-8e28-2c3e61342937', 'cfca40b9-05a9-4ec7-94b5-e50c4ac2686a', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('4f99baa4-b364-4f63-9de7-85858fbe0e82', 'cfca40b9-05a9-4ec7-94b5-e50c4ac2686a', 'taust', '"Tervishoid');
+VALUES ('4f99baa4-b364-4f63-9de7-85858fbe0e82', 'cfca40b9-05a9-4ec7-94b5-e50c4ac2686a', 'taust', 'Tervishoid');
 INSERT INTO core.text_property
 VALUES ('a67fc852-c0d4-45a8-90ba-bff7bde7106b', 'cfca40b9-05a9-4ec7-94b5-e50c4ac2686a', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -1969,7 +1969,7 @@ VALUES ('8c17227e-7e3d-4c7f-b31f-ad1887d1dfb7', '2ce6bb58-677e-41c6-ad4b-bc9d3dc
 INSERT INTO core.text_property
 VALUES ('6435fff0-7cce-4646-ab21-b450f04ba187', '2ce6bb58-677e-41c6-ad4b-bc9d3dc68189', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('312ee939-9a4f-4b2d-acf0-18fc88dc9b42', '2ce6bb58-677e-41c6-ad4b-bc9d3dc68189', 'taust', '"Tervishoid');
+VALUES ('312ee939-9a4f-4b2d-acf0-18fc88dc9b42', '2ce6bb58-677e-41c6-ad4b-bc9d3dc68189', 'taust', 'Tervishoid');
 INSERT INTO core.text_property
 VALUES ('4bc8571e-f40b-4f3f-963c-0bfba3036d61', '2ce6bb58-677e-41c6-ad4b-bc9d3dc68189', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -2012,7 +2012,7 @@ VALUES ('9268ebb3-e036-40bf-808a-6de00b170f24', '436ddee6-6085-46c3-8838-1053aa5
 INSERT INTO core.text_property
 VALUES ('ea81ac37-00fe-4c65-812c-ec3d87e7b82e', '436ddee6-6085-46c3-8838-1053aa50e061', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('b4b4ae19-9a76-44da-a812-9292dc0e10b8', '436ddee6-6085-46c3-8838-1053aa50e061', 'taust', '"Haridus');
+VALUES ('b4b4ae19-9a76-44da-a812-9292dc0e10b8', '436ddee6-6085-46c3-8838-1053aa50e061', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('a13cf1a0-81c7-4f36-951a-15d2df6894f8', '436ddee6-6085-46c3-8838-1053aa50e061', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -2055,7 +2055,7 @@ VALUES ('de3a4dcd-08c5-491f-b06a-48ae2c02d01d', 'c11b456d-1d5c-4420-bed3-11ad7d7
 INSERT INTO core.text_property
 VALUES ('5d04e899-bd92-413e-b926-7f0a5d842f85', 'c11b456d-1d5c-4420-bed3-11ad7d7840dd', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('a3278a65-4d27-4c8b-81d8-981612964af0', 'c11b456d-1d5c-4420-bed3-11ad7d7840dd', 'taust', '"Tööstus');
+VALUES ('a3278a65-4d27-4c8b-81d8-981612964af0', 'c11b456d-1d5c-4420-bed3-11ad7d7840dd', 'taust', 'Tööstus');
 INSERT INTO core.text_property
 VALUES ('f27da5f5-7df6-4f2b-a6a7-75d5608cb992', 'c11b456d-1d5c-4420-bed3-11ad7d7840dd', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -2099,7 +2099,7 @@ VALUES ('dcafd7d7-b226-4a63-87cd-0f9a75479cdb', '3aa94035-418f-4815-9ff0-96c777c
 INSERT INTO core.text_property
 VALUES ('77ef511c-067a-4dc9-b049-31e0d4fac31d', '3aa94035-418f-4815-9ff0-96c777c3d63b', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('6cfb9836-0c5e-4c4a-8f22-28b472a329a8', '3aa94035-418f-4815-9ff0-96c777c3d63b', 'taust', '"Tervishoid');
+VALUES ('6cfb9836-0c5e-4c4a-8f22-28b472a329a8', '3aa94035-418f-4815-9ff0-96c777c3d63b', 'taust', 'Tervishoid');
 INSERT INTO core.text_property
 VALUES ('e5f3f339-96b0-4705-b896-5122aa628e41', '3aa94035-418f-4815-9ff0-96c777c3d63b', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -2142,7 +2142,7 @@ VALUES ('80f4cfd2-d0d2-4123-9276-e3ae6255f6a0', '5bba61f5-8ab4-47a7-9e1f-d37184c
 INSERT INTO core.text_property
 VALUES ('22f64442-febc-4d96-9a41-c49916e09963', '5bba61f5-8ab4-47a7-9e1f-d37184cc3691', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('8a381e45-da1a-4209-acb8-5781d87ec7c8', '5bba61f5-8ab4-47a7-9e1f-d37184cc3691', 'taust', '"Haridus');
+VALUES ('8a381e45-da1a-4209-acb8-5781d87ec7c8', '5bba61f5-8ab4-47a7-9e1f-d37184cc3691', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('fa5b695a-b763-48d1-b06d-0cc1937f9159', '5bba61f5-8ab4-47a7-9e1f-d37184cc3691', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -2228,7 +2228,7 @@ VALUES ('876d4ef8-58c6-45ee-924a-5fe058843269', '7e8c9c83-1157-4fbb-aecd-60baab5
 INSERT INTO core.text_property
 VALUES ('4bd2eb9a-a734-4150-9b42-8fa3235aab9a', '7e8c9c83-1157-4fbb-aecd-60baab55decb', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('59869bec-835f-4c9e-8f64-7d3b4763d3d2', '7e8c9c83-1157-4fbb-aecd-60baab55decb', 'taust', '"Teenindus');
+VALUES ('59869bec-835f-4c9e-8f64-7d3b4763d3d2', '7e8c9c83-1157-4fbb-aecd-60baab55decb', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('106bac47-32b9-4d48-a5ef-6ce08a1edda0', '7e8c9c83-1157-4fbb-aecd-60baab55decb', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -2315,7 +2315,7 @@ VALUES ('36f1d529-dab0-4059-98c4-4b526c87cc7d', 'a0252722-a904-4a59-9d55-42bf894
 INSERT INTO core.text_property
 VALUES ('89552465-d764-489f-ae6d-37aa52ac1912', 'a0252722-a904-4a59-9d55-42bf8944cb67', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('1d450fba-a47b-4955-be27-826365349811', 'a0252722-a904-4a59-9d55-42bf8944cb67', 'taust', '"Ehitus');
+VALUES ('1d450fba-a47b-4955-be27-826365349811', 'a0252722-a904-4a59-9d55-42bf8944cb67', 'taust', 'Ehitus');
 INSERT INTO core.text_property
 VALUES ('0231b750-1e1b-4298-886a-24752be348ea', 'a0252722-a904-4a59-9d55-42bf8944cb67', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -2359,7 +2359,7 @@ VALUES ('670b0ffd-2e6f-478a-9122-4852f5f78c6f', '29c4e48c-2779-41f9-9697-c6cc212
 INSERT INTO core.text_property
 VALUES ('65bd4783-3dd6-4567-915e-c4f0f809dcf9', '29c4e48c-2779-41f9-9697-c6cc2129b37c', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('26b51155-53a2-4da0-b800-0c0f1e64db44', '29c4e48c-2779-41f9-9697-c6cc2129b37c', 'taust', '"Haridus');
+VALUES ('26b51155-53a2-4da0-b800-0c0f1e64db44', '29c4e48c-2779-41f9-9697-c6cc2129b37c', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('759405ab-5cc5-4087-9ac0-2e7ed3ba6b23', '29c4e48c-2779-41f9-9697-c6cc2129b37c', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -2446,7 +2446,7 @@ VALUES ('c4822e0b-7105-43f4-bc1f-863dc1301ea1', '00e58bfc-5908-4d9b-88ce-3d2ed6a
 INSERT INTO core.text_property
 VALUES ('c4de21b6-8c9d-49b8-8c1f-f19dc0253aee', '00e58bfc-5908-4d9b-88ce-3d2ed6a94961', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('84b1dd37-3ec8-4885-94cc-0f4b8e3c91de', '00e58bfc-5908-4d9b-88ce-3d2ed6a94961', 'taust', '"Tööstus');
+VALUES ('84b1dd37-3ec8-4885-94cc-0f4b8e3c91de', '00e58bfc-5908-4d9b-88ce-3d2ed6a94961', 'taust', 'Tööstus');
 INSERT INTO core.text_property
 VALUES ('38c06d58-48db-480a-b246-5cfb400c14c4', '00e58bfc-5908-4d9b-88ce-3d2ed6a94961', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -2489,7 +2489,7 @@ VALUES ('ba6adc16-8ce3-42bd-9031-5d8940371043', '9e9ad773-7658-4f72-8d72-49c2a31
 INSERT INTO core.text_property
 VALUES ('6c3b0f74-fd65-42d2-aa85-965373785f50', '9e9ad773-7658-4f72-8d72-49c2a31f0765', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('1880d788-8bf1-48e8-9f77-607f65f67860', '9e9ad773-7658-4f72-8d72-49c2a31f0765', 'taust', '"Tööstus');
+VALUES ('1880d788-8bf1-48e8-9f77-607f65f67860', '9e9ad773-7658-4f72-8d72-49c2a31f0765', 'taust', 'Tööstus');
 INSERT INTO core.text_property
 VALUES ('7c3eb721-a045-4b2d-8735-b8ad1ad78f60', '9e9ad773-7658-4f72-8d72-49c2a31f0765', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -2533,7 +2533,7 @@ VALUES ('98a5e14c-3600-4369-8102-10907c919bd2', '4e83cea1-420d-46ae-8933-ef2c8be
 INSERT INTO core.text_property
 VALUES ('8e751c42-737b-41e7-b2a7-82670fe75fec', '4e83cea1-420d-46ae-8933-ef2c8bec7421', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('3ad46709-b820-4484-b995-e35372feeee2', '4e83cea1-420d-46ae-8933-ef2c8bec7421', 'taust', '"Teenindus');
+VALUES ('3ad46709-b820-4484-b995-e35372feeee2', '4e83cea1-420d-46ae-8933-ef2c8bec7421', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('8a63b808-647a-4328-a575-6499b95bd775', '4e83cea1-420d-46ae-8933-ef2c8bec7421', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -2577,7 +2577,7 @@ VALUES ('a5fa611e-615e-43b3-95a1-c6b0e80b0c91', '34bd76b2-3e24-46e2-af21-a776fa7
 INSERT INTO core.text_property
 VALUES ('b97946ef-e4e1-43fe-a471-489a50d50b4d', '34bd76b2-3e24-46e2-af21-a776fa72b20a', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('15367fea-5f38-49c3-91d0-a5837f990f7f', '34bd76b2-3e24-46e2-af21-a776fa72b20a', 'taust', '"Teenindus');
+VALUES ('15367fea-5f38-49c3-91d0-a5837f990f7f', '34bd76b2-3e24-46e2-af21-a776fa72b20a', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('555289c6-2b9a-4afc-bb8f-ccfdddcaae84', '34bd76b2-3e24-46e2-af21-a776fa72b20a', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -2707,7 +2707,7 @@ VALUES ('560ad8ce-2eb3-4033-9a6b-21e371c6f671', 'c3e84a67-2834-49de-a37b-a23fdaf
 INSERT INTO core.text_property
 VALUES ('cf9cefe3-27da-4fe2-8a10-0bf2398a2a70', 'c3e84a67-2834-49de-a37b-a23fdafa3a2a', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('ca3df79b-1a24-4e2a-91b0-d78542e5b289', 'c3e84a67-2834-49de-a37b-a23fdafa3a2a', 'taust', '"Teenindus');
+VALUES ('ca3df79b-1a24-4e2a-91b0-d78542e5b289', 'c3e84a67-2834-49de-a37b-a23fdafa3a2a', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('e437cc51-ab7a-4574-ba15-dafc45a51198', 'c3e84a67-2834-49de-a37b-a23fdafa3a2a', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -2795,7 +2795,7 @@ VALUES ('46fab79d-1780-4d38-9b1d-7977c04892f6', '23e7d41d-7c93-4ab0-9f63-71f969a
 INSERT INTO core.text_property
 VALUES ('e453f8c7-6429-41ad-93f5-06aa03877e41', '23e7d41d-7c93-4ab0-9f63-71f969a795e9', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('4fd7c133-b906-479c-80ec-13499fa4ffa3', '23e7d41d-7c93-4ab0-9f63-71f969a795e9', 'taust', '"Transport');
+VALUES ('4fd7c133-b906-479c-80ec-13499fa4ffa3', '23e7d41d-7c93-4ab0-9f63-71f969a795e9', 'taust', 'Transport');
 INSERT INTO core.text_property
 VALUES ('46f86962-20fc-401f-9028-af873a5ae610', '23e7d41d-7c93-4ab0-9f63-71f969a795e9', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -2881,7 +2881,7 @@ VALUES ('f86308ac-baf9-46b5-a1b2-1733fa811bdd', 'cf4e7121-a8b1-4686-866b-af63f38
 INSERT INTO core.text_property
 VALUES ('27fddecf-6ee5-4753-84b9-770703e865bc', 'cf4e7121-a8b1-4686-866b-af63f381c5f6', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('08c4a3d0-7b9a-4bb4-a3aa-de9b8eeca702', 'cf4e7121-a8b1-4686-866b-af63f381c5f6', 'taust', '"Ehitus');
+VALUES ('08c4a3d0-7b9a-4bb4-a3aa-de9b8eeca702', 'cf4e7121-a8b1-4686-866b-af63f381c5f6', 'taust', 'Ehitus');
 INSERT INTO core.text_property
 VALUES ('a3aad871-8d5e-4ff7-9d66-0d5b15ead1f0', 'cf4e7121-a8b1-4686-866b-af63f381c5f6', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -3097,7 +3097,7 @@ VALUES ('46b19d15-3f34-4b8a-8db5-fe36953c5759', '70d7d33e-0bec-4b1c-aeb2-4be3bfd
 INSERT INTO core.text_property
 VALUES ('e0092bf8-cf76-4f3a-86c1-2f152655d19a', '70d7d33e-0bec-4b1c-aeb2-4be3bfd4fc4a', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('a7baf812-9fd1-4a25-84bb-a500d5d94ee4', '70d7d33e-0bec-4b1c-aeb2-4be3bfd4fc4a', 'taust', '"Teenindus');
+VALUES ('a7baf812-9fd1-4a25-84bb-a500d5d94ee4', '70d7d33e-0bec-4b1c-aeb2-4be3bfd4fc4a', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('4af167be-642e-48c3-8119-459840db5f46', '70d7d33e-0bec-4b1c-aeb2-4be3bfd4fc4a', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -3140,7 +3140,7 @@ VALUES ('2f4f8454-318e-46a5-941b-f570adfc933f', '2385ae22-046c-4322-97f8-ff281c5
 INSERT INTO core.text_property
 VALUES ('a1ba0f00-2c65-4ff4-afef-5f55a2bbdaff', '2385ae22-046c-4322-97f8-ff281c54b17a', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('d25df678-0e7a-4705-80f0-9125c6013287', '2385ae22-046c-4322-97f8-ff281c54b17a', 'taust', '"Teenindus');
+VALUES ('d25df678-0e7a-4705-80f0-9125c6013287', '2385ae22-046c-4322-97f8-ff281c54b17a', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('2f9b9934-0d34-4004-a8e3-9bf3d6b0733a', '2385ae22-046c-4322-97f8-ff281c54b17a', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -3269,7 +3269,7 @@ VALUES ('d7881298-8785-4929-90c3-bfa0aa549cf3', '67da58e1-e1fa-4a23-9aea-509dec1
 INSERT INTO core.text_property
 VALUES ('9286c790-a8cd-49d7-993e-f915053302bf', '67da58e1-e1fa-4a23-9aea-509dec1e30e5', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('5ccecbe5-512a-4459-a72c-dcfad8c8032f', '67da58e1-e1fa-4a23-9aea-509dec1e30e5', 'taust', '"Haridus');
+VALUES ('5ccecbe5-512a-4459-a72c-dcfad8c8032f', '67da58e1-e1fa-4a23-9aea-509dec1e30e5', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('8ba71174-ddd7-4e42-8407-6e45342b1efb', '67da58e1-e1fa-4a23-9aea-509dec1e30e5', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -3398,7 +3398,7 @@ VALUES ('b7cc9527-f2a8-4105-8e24-da497627c6df', '5567efda-f7fe-455d-aedb-b676845
 INSERT INTO core.text_property
 VALUES ('35ec31fa-aba3-448d-a183-9843c08e121f', '5567efda-f7fe-455d-aedb-b676845cec51', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('c13ea184-3007-4e22-88c7-9287bb3cfc83', '5567efda-f7fe-455d-aedb-b676845cec51', 'taust', '"Tööstus');
+VALUES ('c13ea184-3007-4e22-88c7-9287bb3cfc83', '5567efda-f7fe-455d-aedb-b676845cec51', 'taust', 'Tööstus');
 INSERT INTO core.text_property
 VALUES ('ba8bd31b-7c04-49db-8b61-bec9b04d33ed', '5567efda-f7fe-455d-aedb-b676845cec51', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -3486,7 +3486,7 @@ VALUES ('eb9fa842-553b-4969-aaba-459bec8c1676', '5890ceb1-7d99-4845-beb1-c07eafe
 INSERT INTO core.text_property
 VALUES ('ca022bfa-6f42-4281-9b5a-d956aab164e7', '5890ceb1-7d99-4845-beb1-c07eafedf132', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('e65a1983-a855-4dc6-b465-0bc124363f88', '5890ceb1-7d99-4845-beb1-c07eafedf132', 'taust', '"Haridus');
+VALUES ('e65a1983-a855-4dc6-b465-0bc124363f88', '5890ceb1-7d99-4845-beb1-c07eafedf132', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('a4a11f68-9548-423d-b93c-ae6a1d60e84b', '5890ceb1-7d99-4845-beb1-c07eafedf132', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -3530,7 +3530,7 @@ VALUES ('6d9f9dac-33c5-400f-805f-4984f763a33c', 'd656df37-5ea1-4d3b-85e8-4bc044c
 INSERT INTO core.text_property
 VALUES ('86f30d47-e8e1-463d-8f99-c46e6bfaf4cb', 'd656df37-5ea1-4d3b-85e8-4bc044c1ff9d', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('a96c9479-8cde-4f75-8d81-d7d2f16d1bf1', 'd656df37-5ea1-4d3b-85e8-4bc044c1ff9d', 'taust', '"Haridus');
+VALUES ('a96c9479-8cde-4f75-8d81-d7d2f16d1bf1', 'd656df37-5ea1-4d3b-85e8-4bc044c1ff9d', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('9c63dab1-a622-4cef-b75d-18234aa377f7', 'd656df37-5ea1-4d3b-85e8-4bc044c1ff9d', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -3616,7 +3616,7 @@ VALUES ('4ef329d5-a89d-4ab3-a2b9-17a499725bfa', '73fc61b1-3639-4af0-a56d-4deb6b1
 INSERT INTO core.text_property
 VALUES ('fcc1a623-cd0d-4d7c-a2d8-711f93fb6f64', '73fc61b1-3639-4af0-a56d-4deb6b18fda1', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('6598f213-022a-4ae4-aeba-7d7d33463647', '73fc61b1-3639-4af0-a56d-4deb6b18fda1', 'taust', '"Tööstus');
+VALUES ('6598f213-022a-4ae4-aeba-7d7d33463647', '73fc61b1-3639-4af0-a56d-4deb6b18fda1', 'taust', 'Tööstus');
 INSERT INTO core.text_property
 VALUES ('ceb3a491-0a44-47e9-bb2b-13735e508d58', '73fc61b1-3639-4af0-a56d-4deb6b18fda1', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -3660,7 +3660,7 @@ VALUES ('92d04908-b60c-4ebd-978e-b8eab352c6f5', 'c16ebe8a-dd59-4614-8c47-aa79013
 INSERT INTO core.text_property
 VALUES ('0c541009-11f8-4e22-8225-55648bfdfcab', 'c16ebe8a-dd59-4614-8c47-aa79013c39a8', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('4cf0d0a5-0a5b-4b95-98db-07316da733b7', 'c16ebe8a-dd59-4614-8c47-aa79013c39a8', 'taust', '"Teenindus');
+VALUES ('4cf0d0a5-0a5b-4b95-98db-07316da733b7', 'c16ebe8a-dd59-4614-8c47-aa79013c39a8', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('0b2c26a1-b4e9-424e-a408-ab88be5fd115', 'c16ebe8a-dd59-4614-8c47-aa79013c39a8', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -3703,7 +3703,7 @@ VALUES ('3d00af19-b90b-4c1a-b2e9-e69e9a68c6d4', 'f3f744b7-a8f5-45ac-986c-842b8b2
 INSERT INTO core.text_property
 VALUES ('a313d7c0-95d4-4a46-b014-9023b338f6ea', 'f3f744b7-a8f5-45ac-986c-842b8b2d930b', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('bdede5d4-4d52-49d1-b265-8eeb5874ff95', 'f3f744b7-a8f5-45ac-986c-842b8b2d930b', 'taust', '"Teenindus');
+VALUES ('bdede5d4-4d52-49d1-b265-8eeb5874ff95', 'f3f744b7-a8f5-45ac-986c-842b8b2d930b', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('0b06fa47-e069-48a0-b0ab-886391299446', 'f3f744b7-a8f5-45ac-986c-842b8b2d930b', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -3746,7 +3746,7 @@ VALUES ('77ab3ec3-9e2b-4e68-ad22-e2b33f2f8faf', '88f15e80-e2b7-433d-aa7a-fb6543f
 INSERT INTO core.text_property
 VALUES ('9e20d667-f57f-449b-bfa3-53aa35f479e8', '88f15e80-e2b7-433d-aa7a-fb6543f5556c', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('a2685a92-80ed-4909-af95-5f8762e0c67f', '88f15e80-e2b7-433d-aa7a-fb6543f5556c', 'taust', '"Toitlustus');
+VALUES ('a2685a92-80ed-4909-af95-5f8762e0c67f', '88f15e80-e2b7-433d-aa7a-fb6543f5556c', 'taust', 'Toitlustus');
 INSERT INTO core.text_property
 VALUES ('6d7ec342-a1d9-4dd9-8ea3-89978de86fb5', '88f15e80-e2b7-433d-aa7a-fb6543f5556c', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -3833,7 +3833,7 @@ VALUES ('f0530e79-fc3a-4d47-afa5-e9abcb0c5d34', '0db32a03-f75e-4588-94be-87b441b
 INSERT INTO core.text_property
 VALUES ('6044cd79-96a9-49fa-aab4-272a8b9d4e62', '0db32a03-f75e-4588-94be-87b441b4a7e7', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('ef3ebc49-8f19-41be-8c05-2539620ffa23', '0db32a03-f75e-4588-94be-87b441b4a7e7', 'taust', '"Tervishoid');
+VALUES ('ef3ebc49-8f19-41be-8c05-2539620ffa23', '0db32a03-f75e-4588-94be-87b441b4a7e7', 'taust', 'Tervishoid');
 INSERT INTO core.text_property
 VALUES ('0ea3cd9b-c434-4d73-8953-bbfdce1cc77c', '0db32a03-f75e-4588-94be-87b441b4a7e7', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -3921,7 +3921,7 @@ VALUES ('6335d61f-0385-4211-8c03-38f1d22f064b', 'a16a18ac-7ef9-409f-8dbf-4c2e4f9
 INSERT INTO core.text_property
 VALUES ('311de411-8bad-4518-a87f-4ad20f117d10', 'a16a18ac-7ef9-409f-8dbf-4c2e4f9b0682', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('b9ea02fe-efab-47ec-a075-1803ef236fd9', 'a16a18ac-7ef9-409f-8dbf-4c2e4f9b0682', 'taust', '"Tervishoid');
+VALUES ('b9ea02fe-efab-47ec-a075-1803ef236fd9', 'a16a18ac-7ef9-409f-8dbf-4c2e4f9b0682', 'taust', 'Tervishoid');
 INSERT INTO core.text_property
 VALUES ('dbb21dd3-9bff-45a4-9d5f-a68431184df8', 'a16a18ac-7ef9-409f-8dbf-4c2e4f9b0682', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -3964,7 +3964,7 @@ VALUES ('cfef708b-3bc0-4041-ad36-ae26e4a5f8b0', '6c6e9fce-9239-49b7-9ced-6c074f2
 INSERT INTO core.text_property
 VALUES ('4494492c-e167-41d3-95c1-d059df2a8be7', '6c6e9fce-9239-49b7-9ced-6c074f2701cc', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('74ca6114-d8d6-4a13-a1ea-5a3f11241cfd', '6c6e9fce-9239-49b7-9ced-6c074f2701cc', 'taust', '"Teenindus');
+VALUES ('74ca6114-d8d6-4a13-a1ea-5a3f11241cfd', '6c6e9fce-9239-49b7-9ced-6c074f2701cc', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('39f66721-1397-4640-a941-57ab16029eae', '6c6e9fce-9239-49b7-9ced-6c074f2701cc', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -4051,7 +4051,7 @@ VALUES ('7ab4f994-bfc9-430a-9691-17b0bcf3bc1e', '0a2af93b-3a72-4464-87ab-f867c0e
 INSERT INTO core.text_property
 VALUES ('8742c687-4f6e-4718-b92f-9b570a1094fb', '0a2af93b-3a72-4464-87ab-f867c0e98ab4', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('e8727609-fdec-4802-9730-7e9baadc2453', '0a2af93b-3a72-4464-87ab-f867c0e98ab4', 'taust', '"Teenindus');
+VALUES ('e8727609-fdec-4802-9730-7e9baadc2453', '0a2af93b-3a72-4464-87ab-f867c0e98ab4', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('8b6949ec-5620-4e37-9c91-c8c9fe9b04f9', '0a2af93b-3a72-4464-87ab-f867c0e98ab4', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -4095,7 +4095,7 @@ VALUES ('a9c36f93-d6c8-4ebf-89a3-1f14736036ad', '9577062b-c8da-4fa9-b9b8-9ece2ce
 INSERT INTO core.text_property
 VALUES ('e8394396-227c-449c-8533-04312e6032aa', '9577062b-c8da-4fa9-b9b8-9ece2ce9b098', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('3f105c4c-ff0a-49fd-920c-931f47a98eb1', '9577062b-c8da-4fa9-b9b8-9ece2ce9b098', 'taust', '"Haridus');
+VALUES ('3f105c4c-ff0a-49fd-920c-931f47a98eb1', '9577062b-c8da-4fa9-b9b8-9ece2ce9b098', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('64d2d2e8-a00f-4e49-832c-98254288cbd2', '9577062b-c8da-4fa9-b9b8-9ece2ce9b098', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -4139,7 +4139,7 @@ VALUES ('a0b722b7-8584-4352-bce1-1ff0d5be7f1a', '904b242b-3cf5-40b2-9fec-8098ab1
 INSERT INTO core.text_property
 VALUES ('c04b6fb2-48fe-4ef4-a5d0-38be57f167a8', '904b242b-3cf5-40b2-9fec-8098ab146d22', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('6e1b8865-824f-49fc-8ae9-112587b9a2b4', '904b242b-3cf5-40b2-9fec-8098ab146d22', 'taust', '"Haridus');
+VALUES ('6e1b8865-824f-49fc-8ae9-112587b9a2b4', '904b242b-3cf5-40b2-9fec-8098ab146d22', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('b39e22ca-7700-4b5f-91a6-457e44f0ad13', '904b242b-3cf5-40b2-9fec-8098ab146d22', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -4183,7 +4183,7 @@ VALUES ('1c60d439-f235-48b1-b0f6-db011ad2ee71', '24fee410-1dfc-4be1-9aff-fb2b260
 INSERT INTO core.text_property
 VALUES ('6b45267a-5063-441a-b09e-c57569bc8a01', '24fee410-1dfc-4be1-9aff-fb2b2608a604', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('8217922d-5256-4558-bd4d-1575cbb6292f', '24fee410-1dfc-4be1-9aff-fb2b2608a604', 'taust', '"Transport');
+VALUES ('8217922d-5256-4558-bd4d-1575cbb6292f', '24fee410-1dfc-4be1-9aff-fb2b2608a604', 'taust', 'Transport');
 INSERT INTO core.text_property
 VALUES ('67375556-9a03-4619-85a0-421b4e521731', '24fee410-1dfc-4be1-9aff-fb2b2608a604', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -4227,7 +4227,7 @@ VALUES ('d30f5c7b-47e8-41c0-92ff-0570afbb9a61', 'eb5f6cdd-d8b6-4cc4-9845-2d380c3
 INSERT INTO core.text_property
 VALUES ('fd7285b4-5f20-4794-bc22-5719d7078a2e', 'eb5f6cdd-d8b6-4cc4-9845-2d380c35c1a1', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('9f3f95ce-f504-4bfb-83be-64ca59e9ed5a', 'eb5f6cdd-d8b6-4cc4-9845-2d380c35c1a1', 'taust', '"Transport');
+VALUES ('9f3f95ce-f504-4bfb-83be-64ca59e9ed5a', 'eb5f6cdd-d8b6-4cc4-9845-2d380c35c1a1', 'taust', 'Transport');
 INSERT INTO core.text_property
 VALUES ('18aa2a4b-de58-4351-a2b4-4939c97d7b90', 'eb5f6cdd-d8b6-4cc4-9845-2d380c35c1a1', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -4314,7 +4314,7 @@ VALUES ('916a8004-9d8f-44b3-9ddf-611a4bc9a92a', '8319a450-94f9-40e1-80a1-259873c
 INSERT INTO core.text_property
 VALUES ('f435bc10-f381-42cb-ac77-8be068527391', '8319a450-94f9-40e1-80a1-259873c68000', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('ed89b329-bc29-42eb-beb5-5890a6c7ae69', '8319a450-94f9-40e1-80a1-259873c68000', 'taust', '"Tervishoid');
+VALUES ('ed89b329-bc29-42eb-beb5-5890a6c7ae69', '8319a450-94f9-40e1-80a1-259873c68000', 'taust', 'Tervishoid');
 INSERT INTO core.text_property
 VALUES ('fd9f2069-9004-44e3-bb8a-6b4e4ce6b2a5', '8319a450-94f9-40e1-80a1-259873c68000', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -4400,7 +4400,7 @@ VALUES ('caf4148a-b181-4845-b33c-31ea153c0483', '15570eee-b11c-4373-b2b1-d2aba7e
 INSERT INTO core.text_property
 VALUES ('63d09e56-a0cc-4ac7-899c-3ee2c1505b34', '15570eee-b11c-4373-b2b1-d2aba7e535f4', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('a16c131a-0d93-4a58-8205-4daa3c81ed91', '15570eee-b11c-4373-b2b1-d2aba7e535f4', 'taust', '"Toitlustus');
+VALUES ('a16c131a-0d93-4a58-8205-4daa3c81ed91', '15570eee-b11c-4373-b2b1-d2aba7e535f4', 'taust', 'Toitlustus');
 INSERT INTO core.text_property
 VALUES ('2715375e-6cbe-4d6b-8cad-e8fa092e2826', '15570eee-b11c-4373-b2b1-d2aba7e535f4', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -4444,7 +4444,7 @@ VALUES ('18596130-a3dc-49c0-a4e9-423ae607a68a', '0ad1cc3b-ad0a-427f-bd19-89393e0
 INSERT INTO core.text_property
 VALUES ('dc212995-97c7-4690-9e2f-0cba211c7045', '0ad1cc3b-ad0a-427f-bd19-89393e042b62', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('75c3485c-ae71-436f-a20d-312d2fcbe2c5', '0ad1cc3b-ad0a-427f-bd19-89393e042b62', 'taust', '"Ehitus');
+VALUES ('75c3485c-ae71-436f-a20d-312d2fcbe2c5', '0ad1cc3b-ad0a-427f-bd19-89393e042b62', 'taust', 'Ehitus');
 INSERT INTO core.text_property
 VALUES ('f9e903c9-85a6-4f40-a5d0-ebaddff84129', '0ad1cc3b-ad0a-427f-bd19-89393e042b62', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -4487,7 +4487,7 @@ VALUES ('593eb9a6-ea4e-4c43-a01a-b83ffc372199', 'd68e2e8b-2685-4972-8589-6f86925
 INSERT INTO core.text_property
 VALUES ('73d84936-784d-46f6-bf74-e4358bdb8c3e', 'd68e2e8b-2685-4972-8589-6f86925361bd', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('c69f76c0-c421-4e14-8dce-8a757f2a8189', 'd68e2e8b-2685-4972-8589-6f86925361bd', 'taust', '"Teenindus');
+VALUES ('c69f76c0-c421-4e14-8dce-8a757f2a8189', 'd68e2e8b-2685-4972-8589-6f86925361bd', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('829983ac-70e5-421f-a8bc-7b1e07d2e3f1', 'd68e2e8b-2685-4972-8589-6f86925361bd', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -4574,7 +4574,7 @@ VALUES ('798fb150-96a0-4e92-acb6-c7f8c718cd78', 'a6a5cc0a-7181-4c6e-8fb6-8a82b8b
 INSERT INTO core.text_property
 VALUES ('9fe694aa-4da5-4d3f-a37a-c974a43b17e7', 'a6a5cc0a-7181-4c6e-8fb6-8a82b8bfa144', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('c86deebb-5fb0-4af7-94ac-7487f3225090', 'a6a5cc0a-7181-4c6e-8fb6-8a82b8bfa144', 'taust', '"Tervishoid');
+VALUES ('c86deebb-5fb0-4af7-94ac-7487f3225090', 'a6a5cc0a-7181-4c6e-8fb6-8a82b8bfa144', 'taust', 'Tervishoid');
 INSERT INTO core.text_property
 VALUES ('a8ef2a83-27a3-47fe-bbf3-ce3f8a807d1e', 'a6a5cc0a-7181-4c6e-8fb6-8a82b8bfa144', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -4617,7 +4617,7 @@ VALUES ('7c1a6357-0157-4332-99dd-abe66a846ff9', '34df5ef0-811a-4a30-86eb-11fe6b0
 INSERT INTO core.text_property
 VALUES ('56210a03-d37c-499e-8a8b-e8ecc30ebcf1', '34df5ef0-811a-4a30-86eb-11fe6b0cb841', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('e7fb7dac-fd03-47e7-8276-cc0c179fbd57', '34df5ef0-811a-4a30-86eb-11fe6b0cb841', 'taust', '"Ehitus');
+VALUES ('e7fb7dac-fd03-47e7-8276-cc0c179fbd57', '34df5ef0-811a-4a30-86eb-11fe6b0cb841', 'taust', 'Ehitus');
 INSERT INTO core.text_property
 VALUES ('9ad94867-6710-4495-902a-f67b1db04459', '34df5ef0-811a-4a30-86eb-11fe6b0cb841', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -4704,7 +4704,7 @@ VALUES ('7f0a9b53-4ff5-425d-b891-34372354172d', '37317f37-d1fe-426b-a4e2-c093a19
 INSERT INTO core.text_property
 VALUES ('7d88dcd5-4171-4028-89e0-a4df2e03ed57', '37317f37-d1fe-426b-a4e2-c093a1976b39', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('19d1b545-6135-404d-b229-ea5441f20d2c', '37317f37-d1fe-426b-a4e2-c093a1976b39', 'taust', '"Tervishoid');
+VALUES ('19d1b545-6135-404d-b229-ea5441f20d2c', '37317f37-d1fe-426b-a4e2-c093a1976b39', 'taust', 'Tervishoid');
 INSERT INTO core.text_property
 VALUES ('0e934e42-7ab3-4d20-9e6e-0ed472f057b5', '37317f37-d1fe-426b-a4e2-c093a1976b39', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -4747,7 +4747,7 @@ VALUES ('9a8561bf-9ea8-445f-86ea-72f95c824f05', 'fe9ccf4d-c9f7-47f6-8cd6-ed04209
 INSERT INTO core.text_property
 VALUES ('41cd92fa-5ecd-4125-8c7f-cb173a313499', 'fe9ccf4d-c9f7-47f6-8cd6-ed042097ab30', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('f0532bc3-555a-4168-b257-f853dc1a2799', 'fe9ccf4d-c9f7-47f6-8cd6-ed042097ab30', 'taust', '"Teenindus');
+VALUES ('f0532bc3-555a-4168-b257-f853dc1a2799', 'fe9ccf4d-c9f7-47f6-8cd6-ed042097ab30', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('d2fe6069-88e8-4bcd-aa53-c80d36ffe356', 'fe9ccf4d-c9f7-47f6-8cd6-ed042097ab30', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -4790,7 +4790,7 @@ VALUES ('8b0bc006-66af-4faa-8aab-0ab861157565', '98bef829-d866-497a-aed4-a6b8840
 INSERT INTO core.text_property
 VALUES ('6e65c591-640b-48fa-ac4c-03148f4cf547', '98bef829-d866-497a-aed4-a6b8840697b9', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('a76db35e-c006-4f5d-b0e2-190a8f8961cf', '98bef829-d866-497a-aed4-a6b8840697b9', 'taust', '"Teenindus');
+VALUES ('a76db35e-c006-4f5d-b0e2-190a8f8961cf', '98bef829-d866-497a-aed4-a6b8840697b9', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('5ce00ee5-d97e-4cc4-92c1-57eb8a7b5a5a', '98bef829-d866-497a-aed4-a6b8840697b9', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -4833,7 +4833,7 @@ VALUES ('2a57fe89-3f53-4a7e-ba6e-521ff5d7dec5', '682c3b44-7169-4f82-b21c-2bb2131
 INSERT INTO core.text_property
 VALUES ('d79ea000-5832-4599-8fe6-0823a0c24186', '682c3b44-7169-4f82-b21c-2bb213189248', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('dcc794e1-8f07-4978-993c-b1b480724cd6', '682c3b44-7169-4f82-b21c-2bb213189248', 'taust', '"Teenindus');
+VALUES ('dcc794e1-8f07-4978-993c-b1b480724cd6', '682c3b44-7169-4f82-b21c-2bb213189248', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('b81b9287-0f1a-48ec-803f-232c7eb8f137', '682c3b44-7169-4f82-b21c-2bb213189248', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -5006,7 +5006,7 @@ VALUES ('115e0386-282d-4054-ab00-1f1b11deddc7', '9647903b-87ef-4df0-a413-4e52f6a
 INSERT INTO core.text_property
 VALUES ('7cf5cc2d-99fb-43ab-9824-31b2dec74218', '9647903b-87ef-4df0-a413-4e52f6a0ae13', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('d2d9ee47-9d2b-4287-814e-33953352fdc8', '9647903b-87ef-4df0-a413-4e52f6a0ae13', 'taust', '"Transport');
+VALUES ('d2d9ee47-9d2b-4287-814e-33953352fdc8', '9647903b-87ef-4df0-a413-4e52f6a0ae13', 'taust', 'Transport');
 INSERT INTO core.text_property
 VALUES ('be771de7-0fc9-4958-be9e-4b9c632910fd', '9647903b-87ef-4df0-a413-4e52f6a0ae13', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -5050,7 +5050,7 @@ VALUES ('e679616b-f401-4e57-9340-b08eeb17a1be', 'e21fe0bf-43fc-4dd4-a3d1-adde08d
 INSERT INTO core.text_property
 VALUES ('d1d4506c-9f88-4d16-a371-c1ff9c1572b5', 'e21fe0bf-43fc-4dd4-a3d1-adde08d1d2bf', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('f2412b78-5e45-438d-aaca-5c93e2f1c243', 'e21fe0bf-43fc-4dd4-a3d1-adde08d1d2bf', 'taust', '"Ehitus');
+VALUES ('f2412b78-5e45-438d-aaca-5c93e2f1c243', 'e21fe0bf-43fc-4dd4-a3d1-adde08d1d2bf', 'taust', 'Ehitus');
 INSERT INTO core.text_property
 VALUES ('cb73a582-d73a-4d23-a5c1-15fccf0e5dce', 'e21fe0bf-43fc-4dd4-a3d1-adde08d1d2bf', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -5094,7 +5094,7 @@ VALUES ('1c240dfc-df9f-4750-bd63-4785bf659ccd', '1fc04053-fd02-4655-8a11-e7a9ca2
 INSERT INTO core.text_property
 VALUES ('248f2d2e-b32a-42d3-b904-1fac7177e095', '1fc04053-fd02-4655-8a11-e7a9ca280fe7', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('50e0cd9d-97f4-4570-88fc-0cb059bce1a5', '1fc04053-fd02-4655-8a11-e7a9ca280fe7', 'taust', '"Transport');
+VALUES ('50e0cd9d-97f4-4570-88fc-0cb059bce1a5', '1fc04053-fd02-4655-8a11-e7a9ca280fe7', 'taust', 'Transport');
 INSERT INTO core.text_property
 VALUES ('977239c3-4fc9-4698-8b36-ee42a7636658', '1fc04053-fd02-4655-8a11-e7a9ca280fe7', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -5137,7 +5137,7 @@ VALUES ('b89f395f-5574-43b5-84c0-f23e462c7f3b', 'e7fa1b7b-37c7-4188-946d-d92b71b
 INSERT INTO core.text_property
 VALUES ('d80b828c-f767-4cb1-9c0a-46e194ab6559', 'e7fa1b7b-37c7-4188-946d-d92b71bc533d', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('0b7e6c2c-30da-438c-8389-fa33b7527299', 'e7fa1b7b-37c7-4188-946d-d92b71bc533d', 'taust', '"Transport');
+VALUES ('0b7e6c2c-30da-438c-8389-fa33b7527299', 'e7fa1b7b-37c7-4188-946d-d92b71bc533d', 'taust', 'Transport');
 INSERT INTO core.text_property
 VALUES ('6379744d-1893-4943-a312-5b624822a241', 'e7fa1b7b-37c7-4188-946d-d92b71bc533d', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -5354,7 +5354,7 @@ VALUES ('3168c984-e274-4d15-935f-2c468324026a', 'b2237ad6-7ba5-44fa-a5cc-98f3efe
 INSERT INTO core.text_property
 VALUES ('1b33adf0-9a00-44a6-9120-a1d0fc916923', 'b2237ad6-7ba5-44fa-a5cc-98f3efe298f6', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('c0e673ff-c1ef-4853-ab0e-03ab1cd73a96', 'b2237ad6-7ba5-44fa-a5cc-98f3efe298f6', 'taust', '"Haridus');
+VALUES ('c0e673ff-c1ef-4853-ab0e-03ab1cd73a96', 'b2237ad6-7ba5-44fa-a5cc-98f3efe298f6', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('cc39b7c7-55fa-49a4-8996-d3b52882652c', 'b2237ad6-7ba5-44fa-a5cc-98f3efe298f6', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -5440,7 +5440,7 @@ VALUES ('cc31e6cc-c1bd-4ac3-86f1-250e2b127dfa', '0834e57a-98fc-4fd5-80e7-4ab7fb1
 INSERT INTO core.text_property
 VALUES ('7609859d-8b78-4a14-abd3-8619ce75a77f', '0834e57a-98fc-4fd5-80e7-4ab7fb11036a', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('acec25de-8ebc-4210-a485-85198bc95185', '0834e57a-98fc-4fd5-80e7-4ab7fb11036a', 'taust', '"Haridus');
+VALUES ('acec25de-8ebc-4210-a485-85198bc95185', '0834e57a-98fc-4fd5-80e7-4ab7fb11036a', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('0ad1d10e-003d-4890-b360-c6ff917332fe', '0834e57a-98fc-4fd5-80e7-4ab7fb11036a', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -5483,7 +5483,7 @@ VALUES ('4af1c4c6-c5c2-47a4-baab-58ce06c147a7', '661bcc7d-1a04-4ced-adbc-6630f5e
 INSERT INTO core.text_property
 VALUES ('226ab446-354f-4d05-ba36-9ba1b95b762b', '661bcc7d-1a04-4ced-adbc-6630f5e7c6ca', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('b992d9b6-432c-4cbc-bbb4-54cc1e72f116', '661bcc7d-1a04-4ced-adbc-6630f5e7c6ca', 'taust', '"Haridus');
+VALUES ('b992d9b6-432c-4cbc-bbb4-54cc1e72f116', '661bcc7d-1a04-4ced-adbc-6630f5e7c6ca', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('d4682741-8416-45b6-8405-adbdea06194c', '661bcc7d-1a04-4ced-adbc-6630f5e7c6ca', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -5526,7 +5526,7 @@ VALUES ('e06a6944-9807-4b44-9cf8-9456ca15e0e5', '81765af5-c525-40e0-ac4c-4980b97
 INSERT INTO core.text_property
 VALUES ('c89de4e4-a1ef-4fcf-a7a4-cb9a47edc5f3', '81765af5-c525-40e0-ac4c-4980b972ea0d', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('5312b2c2-8855-45a3-a717-f5c277254c4f', '81765af5-c525-40e0-ac4c-4980b972ea0d', 'taust', '"Transport');
+VALUES ('5312b2c2-8855-45a3-a717-f5c277254c4f', '81765af5-c525-40e0-ac4c-4980b972ea0d', 'taust', 'Transport');
 INSERT INTO core.text_property
 VALUES ('79805bfe-e9ec-416f-a10a-1982691175cc', '81765af5-c525-40e0-ac4c-4980b972ea0d', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -5656,7 +5656,7 @@ VALUES ('b6d89368-68c6-428c-bca2-627b795c4e02', 'f6e7cccd-37e8-433d-aa9e-d6cbb92
 INSERT INTO core.text_property
 VALUES ('c8bc3410-d58f-46e9-ad37-57062f3aa936', 'f6e7cccd-37e8-433d-aa9e-d6cbb9228cf8', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('e940d075-5aaa-4818-a861-b0d1ce870553', 'f6e7cccd-37e8-433d-aa9e-d6cbb9228cf8', 'taust', '"Haridus');
+VALUES ('e940d075-5aaa-4818-a861-b0d1ce870553', 'f6e7cccd-37e8-433d-aa9e-d6cbb9228cf8', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('a6f3da67-01a0-4eff-b3f6-83cd7dee20ff', 'f6e7cccd-37e8-433d-aa9e-d6cbb9228cf8', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -5699,7 +5699,7 @@ VALUES ('969c4e87-cf73-461d-8eac-aaa2bcf74a8b', '121212d9-4b28-4e10-a605-a826826
 INSERT INTO core.text_property
 VALUES ('3275776f-0986-4aa6-bba7-1494e7e7ca9a', '121212d9-4b28-4e10-a605-a826826454f4', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('148d3415-5d78-49be-b2a2-0630f531329d', '121212d9-4b28-4e10-a605-a826826454f4', 'taust', '"Teenindus');
+VALUES ('148d3415-5d78-49be-b2a2-0630f531329d', '121212d9-4b28-4e10-a605-a826826454f4', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('a266c5c2-3771-48c5-9873-ad681189f627', '121212d9-4b28-4e10-a605-a826826454f4', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -5742,7 +5742,7 @@ VALUES ('c7a6e94f-e6d2-448a-a872-76d016b63e95', '1523e173-e1c8-486a-8448-823f813
 INSERT INTO core.text_property
 VALUES ('190284f8-3f2d-4d46-a8a3-f44519108d2d', '1523e173-e1c8-486a-8448-823f81356b6c', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('0493c833-c358-4903-bc23-664aa9f00b88', '1523e173-e1c8-486a-8448-823f81356b6c', 'taust', '"Ehitus');
+VALUES ('0493c833-c358-4903-bc23-664aa9f00b88', '1523e173-e1c8-486a-8448-823f81356b6c', 'taust', 'Ehitus');
 INSERT INTO core.text_property
 VALUES ('10a03622-d48d-414e-9684-78447e55426c', '1523e173-e1c8-486a-8448-823f81356b6c', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -5785,7 +5785,7 @@ VALUES ('2a51a33c-1456-4400-8c5c-82ffbd70512f', '3eba8779-edff-461f-9a92-d9f0f3e
 INSERT INTO core.text_property
 VALUES ('2f8f7bb9-4c2e-41a9-920f-9552ace3f80d', '3eba8779-edff-461f-9a92-d9f0f3e32cca', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('5ca1fe36-53c8-4177-89b6-5dcc4572f94c', '3eba8779-edff-461f-9a92-d9f0f3e32cca', 'taust', '"Teenindus');
+VALUES ('5ca1fe36-53c8-4177-89b6-5dcc4572f94c', '3eba8779-edff-461f-9a92-d9f0f3e32cca', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('5ad3e1d2-be90-4725-97ba-a462ac632865', '3eba8779-edff-461f-9a92-d9f0f3e32cca', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -5828,7 +5828,7 @@ VALUES ('55a51c0c-28f0-499f-b26e-59ce38b199fe', '52e78a3c-948b-45cd-bef4-f65a9d2
 INSERT INTO core.text_property
 VALUES ('77aaa5fa-fbb7-41c5-be56-89da97ceb6d9', '52e78a3c-948b-45cd-bef4-f65a9d227d9e', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('53d2074e-9e96-4e80-8b77-ea7a88b50c63', '52e78a3c-948b-45cd-bef4-f65a9d227d9e', 'taust', '"Haridus');
+VALUES ('53d2074e-9e96-4e80-8b77-ea7a88b50c63', '52e78a3c-948b-45cd-bef4-f65a9d227d9e', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('d40311e7-c1fc-41df-9316-0a391f4b4fe1', '52e78a3c-948b-45cd-bef4-f65a9d227d9e', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -5871,7 +5871,7 @@ VALUES ('5e5ffeac-bf27-4dca-9a7d-a3cf9a14a9b4', '23d327e0-5d4c-4704-a9f1-24ff2fe
 INSERT INTO core.text_property
 VALUES ('c69cc3b4-0e01-4157-ac46-8cd39e8525f5', '23d327e0-5d4c-4704-a9f1-24ff2fe01bf0', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('89368742-fe7a-4c56-bdbf-9284e3f01e13', '23d327e0-5d4c-4704-a9f1-24ff2fe01bf0', 'taust', '"Haridus');
+VALUES ('89368742-fe7a-4c56-bdbf-9284e3f01e13', '23d327e0-5d4c-4704-a9f1-24ff2fe01bf0', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('f9a1d776-a576-4083-a307-c8f21fbbeca0', '23d327e0-5d4c-4704-a9f1-24ff2fe01bf0', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -6001,7 +6001,7 @@ VALUES ('1871ffc9-9d45-478a-b752-1a390f5599d6', 'ce8eb7a9-c18b-4613-9d58-409f451
 INSERT INTO core.text_property
 VALUES ('e47747d5-93fe-426b-9a66-936c1a6adbc2', 'ce8eb7a9-c18b-4613-9d58-409f451dcb66', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('e349c01e-0d20-4bd2-affd-fd202656942d', 'ce8eb7a9-c18b-4613-9d58-409f451dcb66', 'taust', '"Tervishoid');
+VALUES ('e349c01e-0d20-4bd2-affd-fd202656942d', 'ce8eb7a9-c18b-4613-9d58-409f451dcb66', 'taust', 'Tervishoid');
 INSERT INTO core.text_property
 VALUES ('eec42eaf-5d25-4b54-8554-f86757bc64d4', 'ce8eb7a9-c18b-4613-9d58-409f451dcb66', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -6044,7 +6044,7 @@ VALUES ('2b835ae7-eea7-4adb-a1a3-69826773cafa', 'cb8c5bca-e197-4d1b-b9bd-2d02b3e
 INSERT INTO core.text_property
 VALUES ('6fabaab5-f05a-4556-8c25-e1cb1c18ced9', 'cb8c5bca-e197-4d1b-b9bd-2d02b3e5fdde', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('85268bfa-f667-4c37-8b8c-7ee4d773160f', 'cb8c5bca-e197-4d1b-b9bd-2d02b3e5fdde', 'taust', '"Tervishoid');
+VALUES ('85268bfa-f667-4c37-8b8c-7ee4d773160f', 'cb8c5bca-e197-4d1b-b9bd-2d02b3e5fdde', 'taust', 'Tervishoid');
 INSERT INTO core.text_property
 VALUES ('097b04c2-2d03-424c-a859-9b53676959d3', 'cb8c5bca-e197-4d1b-b9bd-2d02b3e5fdde', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -6087,7 +6087,7 @@ VALUES ('bb8d59d5-0be3-404b-be0c-3a55982d9e04', 'd00e243f-985c-4191-8ce3-5b9559f
 INSERT INTO core.text_property
 VALUES ('4bdcdc3b-ea94-4cef-bb60-619c943da568', 'd00e243f-985c-4191-8ce3-5b9559f71ab2', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('2c31e2ff-bbd9-4906-8c77-24350670979b', 'd00e243f-985c-4191-8ce3-5b9559f71ab2', 'taust', '"Teenindus');
+VALUES ('2c31e2ff-bbd9-4906-8c77-24350670979b', 'd00e243f-985c-4191-8ce3-5b9559f71ab2', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('319fca83-1fe0-4973-ac4d-b6be0ab7150c', 'd00e243f-985c-4191-8ce3-5b9559f71ab2', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -6173,7 +6173,7 @@ VALUES ('51e763e7-b456-46ef-8467-8051a42c9bb9', '76610c6a-62db-4488-9d97-0626183
 INSERT INTO core.text_property
 VALUES ('848ad254-aba7-4cf9-a3d4-1e63c386c010', '76610c6a-62db-4488-9d97-062618368dd0', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('86bc5ac9-0553-4586-ab99-6a986a5f5c74', '76610c6a-62db-4488-9d97-062618368dd0', 'taust', '"Haridus');
+VALUES ('86bc5ac9-0553-4586-ab99-6a986a5f5c74', '76610c6a-62db-4488-9d97-062618368dd0', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('18b0fc00-9854-44c5-b931-d6cd986b3ee6', '76610c6a-62db-4488-9d97-062618368dd0', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -6303,7 +6303,7 @@ VALUES ('0fd52c6f-8fae-47b4-918a-6bbde84326f7', 'edda1d30-2150-4c38-beb9-29932ec
 INSERT INTO core.text_property
 VALUES ('e5b26e07-9972-4a9a-9e05-7a0bf91d24ef', 'edda1d30-2150-4c38-beb9-29932ec00c68', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('4884afad-7499-4e41-a27a-fb5be95adf4b', 'edda1d30-2150-4c38-beb9-29932ec00c68', 'taust', '"Haridus');
+VALUES ('4884afad-7499-4e41-a27a-fb5be95adf4b', 'edda1d30-2150-4c38-beb9-29932ec00c68', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('0c8a62e9-9081-4728-9ebe-a3a4f5690e84', 'edda1d30-2150-4c38-beb9-29932ec00c68', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -6389,7 +6389,7 @@ VALUES ('7902338d-bd00-461c-9e73-52228f6f3569', '60dd5c9c-1ac4-42bd-9ee0-48b2243
 INSERT INTO core.text_property
 VALUES ('d0f5f62b-0e93-4a9f-93b1-8b411bafeb85', '60dd5c9c-1ac4-42bd-9ee0-48b22431b7db', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('25b7a851-09dd-473b-96af-edf0b72a049c', '60dd5c9c-1ac4-42bd-9ee0-48b22431b7db', 'taust', '"Teenindus');
+VALUES ('25b7a851-09dd-473b-96af-edf0b72a049c', '60dd5c9c-1ac4-42bd-9ee0-48b22431b7db', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('9c795664-5acd-47f5-8a61-7c9cdd272d55', '60dd5c9c-1ac4-42bd-9ee0-48b22431b7db', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -6433,7 +6433,7 @@ VALUES ('47fcdbcf-a8ee-4c25-90df-5d19702740d2', '6f54924a-940a-43e2-9546-8ef5dc2
 INSERT INTO core.text_property
 VALUES ('68c11dea-fed2-4701-b51e-c1466fcf21f1', '6f54924a-940a-43e2-9546-8ef5dc2224cf', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('9ef8fd3d-496f-46e6-95e2-1bfffd95aa80', '6f54924a-940a-43e2-9546-8ef5dc2224cf', 'taust', '"Ehitus');
+VALUES ('9ef8fd3d-496f-46e6-95e2-1bfffd95aa80', '6f54924a-940a-43e2-9546-8ef5dc2224cf', 'taust', 'Ehitus');
 INSERT INTO core.text_property
 VALUES ('76b5e7e3-99b1-44ab-8d6a-3c5e23e51f06', '6f54924a-940a-43e2-9546-8ef5dc2224cf', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -6476,7 +6476,7 @@ VALUES ('871c2f72-cec4-444b-803d-4ca4a24d511a', 'af9b33f7-037c-4c93-b955-1d39ab6
 INSERT INTO core.text_property
 VALUES ('653764f5-9a30-4618-b006-01568480d851', 'af9b33f7-037c-4c93-b955-1d39ab6dc288', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('dfd93ebe-3442-4074-a288-133c0c330af2', 'af9b33f7-037c-4c93-b955-1d39ab6dc288', 'taust', '"Haridus');
+VALUES ('dfd93ebe-3442-4074-a288-133c0c330af2', 'af9b33f7-037c-4c93-b955-1d39ab6dc288', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('8b9db854-d430-4fae-8640-5e02c7eeef6f', 'af9b33f7-037c-4c93-b955-1d39ab6dc288', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -6562,7 +6562,7 @@ VALUES ('877412c0-c67d-40b0-8a44-b249d225bf76', '4904e62d-0c14-4c33-b52b-aa98732
 INSERT INTO core.text_property
 VALUES ('fd95d5f9-64c2-4407-8313-594c17c9dac3', '4904e62d-0c14-4c33-b52b-aa9873210575', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('e295f47b-c539-4d02-afce-da8ee0955635', '4904e62d-0c14-4c33-b52b-aa9873210575', 'taust', '"Teenindus');
+VALUES ('e295f47b-c539-4d02-afce-da8ee0955635', '4904e62d-0c14-4c33-b52b-aa9873210575', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('2a2c8a08-286d-4587-a987-2e8e70d32f86', '4904e62d-0c14-4c33-b52b-aa9873210575', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -6606,7 +6606,7 @@ VALUES ('07b1d5ef-8fde-4f0d-bf11-e28349d1cd4c', 'de64f53d-457c-4dc7-a2f0-b66c32d
 INSERT INTO core.text_property
 VALUES ('6680bd8d-9841-43e0-a5a0-fda3e5b30503', 'de64f53d-457c-4dc7-a2f0-b66c32da678d', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('ddd4188b-8f72-4da2-8e04-77406c2374f2', 'de64f53d-457c-4dc7-a2f0-b66c32da678d', 'taust', '"Haridus');
+VALUES ('ddd4188b-8f72-4da2-8e04-77406c2374f2', 'de64f53d-457c-4dc7-a2f0-b66c32da678d', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('6f5ac62c-518b-4d07-a375-705aa603d08f', 'de64f53d-457c-4dc7-a2f0-b66c32da678d', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -6692,7 +6692,7 @@ VALUES ('ce603ec7-7a12-4303-bfc8-bdcbb7be2859', '122f3505-297d-467a-a2c7-9610e0b
 INSERT INTO core.text_property
 VALUES ('b3fc8b0c-02ac-4d96-82a4-d3e870311f29', '122f3505-297d-467a-a2c7-9610e0bd1cf1', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('db979615-d182-41d1-bc36-82c7c654f641', '122f3505-297d-467a-a2c7-9610e0bd1cf1', 'taust', '"Tööstus');
+VALUES ('db979615-d182-41d1-bc36-82c7c654f641', '122f3505-297d-467a-a2c7-9610e0bd1cf1', 'taust', 'Tööstus');
 INSERT INTO core.text_property
 VALUES ('0a1bd313-22f0-4d42-9658-c34782625285', '122f3505-297d-467a-a2c7-9610e0bd1cf1', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -6780,7 +6780,7 @@ VALUES ('e2e87fec-0df5-45a5-9eb8-58f3cec27a75', 'e3df76e6-ecc3-4172-9bbc-412045d
 INSERT INTO core.text_property
 VALUES ('0c21b110-0b0b-4f8b-8e21-e3beef6ba462', 'e3df76e6-ecc3-4172-9bbc-412045d2bc5e', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('b9b48640-23dc-45df-8f9b-a14356d8e2ac', 'e3df76e6-ecc3-4172-9bbc-412045d2bc5e', 'taust', '"Haridus');
+VALUES ('b9b48640-23dc-45df-8f9b-a14356d8e2ac', 'e3df76e6-ecc3-4172-9bbc-412045d2bc5e', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('8bc36810-99ba-493f-981e-56dbc3c5b433', 'e3df76e6-ecc3-4172-9bbc-412045d2bc5e', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -6823,7 +6823,7 @@ VALUES ('35f3593e-c7f5-4594-ae5c-47421d13272b', '9a1a1c89-8bda-47a8-95c5-7f5132b
 INSERT INTO core.text_property
 VALUES ('8d8895a5-2131-4c80-8802-5f6402010ee1', '9a1a1c89-8bda-47a8-95c5-7f5132b8a8ac', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('7f38b849-b339-4ad0-bc71-460c36defb62', '9a1a1c89-8bda-47a8-95c5-7f5132b8a8ac', 'taust', '"Haridus');
+VALUES ('7f38b849-b339-4ad0-bc71-460c36defb62', '9a1a1c89-8bda-47a8-95c5-7f5132b8a8ac', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('328f3d67-068f-4699-868a-b46e017bd7d9', '9a1a1c89-8bda-47a8-95c5-7f5132b8a8ac', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -6910,7 +6910,7 @@ VALUES ('aa5a5b35-a269-4aef-9083-8ff7e3a733d4', '39e5418f-f3c1-4949-8529-2c7d061
 INSERT INTO core.text_property
 VALUES ('b43c8713-7726-4bee-ba9b-49f328cf6c1d', '39e5418f-f3c1-4949-8529-2c7d061deebf', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('d5e95270-f9b3-4a55-92a0-a91940d0efc1', '39e5418f-f3c1-4949-8529-2c7d061deebf', 'taust', '"Teenindus');
+VALUES ('d5e95270-f9b3-4a55-92a0-a91940d0efc1', '39e5418f-f3c1-4949-8529-2c7d061deebf', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('cbe220ff-9063-4a8a-b6e3-f2fb1b6f0bef', '39e5418f-f3c1-4949-8529-2c7d061deebf', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -6953,7 +6953,7 @@ VALUES ('1f8fcdbf-b930-46b3-a518-c7aeb2830aec', 'b96b4693-215b-454e-9d3f-c059526
 INSERT INTO core.text_property
 VALUES ('9d6384a6-0033-494e-b006-bdd8051e4fcb', 'b96b4693-215b-454e-9d3f-c059526f9d11', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('587a9aed-840f-4cb0-b40a-0a0d3709d786', 'b96b4693-215b-454e-9d3f-c059526f9d11', 'taust', '"Tervishoid');
+VALUES ('587a9aed-840f-4cb0-b40a-0a0d3709d786', 'b96b4693-215b-454e-9d3f-c059526f9d11', 'taust', 'Tervishoid');
 INSERT INTO core.text_property
 VALUES ('7d2835b7-5262-4d7c-9005-2ae78d0a4f9d', 'b96b4693-215b-454e-9d3f-c059526f9d11', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -6996,7 +6996,7 @@ VALUES ('de9552b9-8d5f-4f99-bb74-d746910a0825', 'bd4231da-42c5-4cac-a5b2-c26e18a
 INSERT INTO core.text_property
 VALUES ('287477a4-a79d-455e-8073-3fab48a8c514', 'bd4231da-42c5-4cac-a5b2-c26e18a7a8f4', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('5797d127-8e2b-4d6d-b436-523b5654ae6c', 'bd4231da-42c5-4cac-a5b2-c26e18a7a8f4', 'taust', '"Haridus');
+VALUES ('5797d127-8e2b-4d6d-b436-523b5654ae6c', 'bd4231da-42c5-4cac-a5b2-c26e18a7a8f4', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('975adb5d-909a-4c8e-b5aa-b5468dce64c0', 'bd4231da-42c5-4cac-a5b2-c26e18a7a8f4', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -7040,7 +7040,7 @@ VALUES ('97538272-be06-42a6-bb1b-96018d281b28', '48a267b1-07cf-4dd1-9469-fe6a6e4
 INSERT INTO core.text_property
 VALUES ('044ae8fe-0a7e-4d83-806a-fb8257e1e13c', '48a267b1-07cf-4dd1-9469-fe6a6e42eb92', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('020362aa-65dc-47ef-adb1-de1f400b31f6', '48a267b1-07cf-4dd1-9469-fe6a6e42eb92', 'taust', '"Ehitus');
+VALUES ('020362aa-65dc-47ef-adb1-de1f400b31f6', '48a267b1-07cf-4dd1-9469-fe6a6e42eb92', 'taust', 'Ehitus');
 INSERT INTO core.text_property
 VALUES ('12f7c6a8-9f58-46b4-b335-8565411e00bd', '48a267b1-07cf-4dd1-9469-fe6a6e42eb92', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -7171,7 +7171,7 @@ VALUES ('3a4c7be5-ec68-4981-8e81-dad20bae5919', 'cf6ca491-4b98-4055-9e0b-c178c93
 INSERT INTO core.text_property
 VALUES ('28547d77-deb7-4810-ba66-7680fe71539b', 'cf6ca491-4b98-4055-9e0b-c178c93001ae', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('e0847f0d-7379-4e30-b0ce-8e75fd33db44', 'cf6ca491-4b98-4055-9e0b-c178c93001ae', 'taust', '"Transport');
+VALUES ('e0847f0d-7379-4e30-b0ce-8e75fd33db44', 'cf6ca491-4b98-4055-9e0b-c178c93001ae', 'taust', 'Transport');
 INSERT INTO core.text_property
 VALUES ('11a72775-05b4-4d2d-bb21-b7e804bab181', 'cf6ca491-4b98-4055-9e0b-c178c93001ae', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -7214,7 +7214,7 @@ VALUES ('4582f977-229f-4a23-bebc-859721c27ae8', '7d165deb-03b8-4840-a963-bc07df2
 INSERT INTO core.text_property
 VALUES ('d99251a0-4b52-42e4-8e96-7447d9acb699', '7d165deb-03b8-4840-a963-bc07df2b5fae', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('3925feb4-fe28-446f-9f92-114954502f11', '7d165deb-03b8-4840-a963-bc07df2b5fae', 'taust', '"Haridus');
+VALUES ('3925feb4-fe28-446f-9f92-114954502f11', '7d165deb-03b8-4840-a963-bc07df2b5fae', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('0f96a7c1-3c0d-4bd0-894d-8a80e09c4829', '7d165deb-03b8-4840-a963-bc07df2b5fae', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -7258,7 +7258,7 @@ VALUES ('f835b822-10ed-4a8d-a7f1-b238ee4f064e', '202e7304-d7c0-4db0-98c7-cd5a02c
 INSERT INTO core.text_property
 VALUES ('e9fa1aaa-c224-4f04-897e-8bf41005bb85', '202e7304-d7c0-4db0-98c7-cd5a02cd97d2', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('ae2b6f2e-ce6c-461e-9f87-5c3e0e425c3a', '202e7304-d7c0-4db0-98c7-cd5a02cd97d2', 'taust', '"Haridus');
+VALUES ('ae2b6f2e-ce6c-461e-9f87-5c3e0e425c3a', '202e7304-d7c0-4db0-98c7-cd5a02cd97d2', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('21f01524-36a6-47b9-9e98-555300120139', '202e7304-d7c0-4db0-98c7-cd5a02cd97d2', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -7345,7 +7345,7 @@ VALUES ('2c88513d-64de-4b2f-bc9c-4a9d1beab4f4', '8bccf7f2-3939-41ba-a71c-3d566fe
 INSERT INTO core.text_property
 VALUES ('7776f91c-c390-4fda-8f6e-56b7bc453b41', '8bccf7f2-3939-41ba-a71c-3d566fe0c797', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('3ada3a81-9dc5-4b0a-b5e2-5859e9b20702', '8bccf7f2-3939-41ba-a71c-3d566fe0c797', 'taust', '"Toitlustus');
+VALUES ('3ada3a81-9dc5-4b0a-b5e2-5859e9b20702', '8bccf7f2-3939-41ba-a71c-3d566fe0c797', 'taust', 'Toitlustus');
 INSERT INTO core.text_property
 VALUES ('c35c981e-f6fa-4870-b690-e6be3dda9b49', '8bccf7f2-3939-41ba-a71c-3d566fe0c797', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -7388,7 +7388,7 @@ VALUES ('931e6280-6a83-42cd-9c40-e096ba3563ab', '8f95c62d-3d34-46c3-bcf0-d4002fe
 INSERT INTO core.text_property
 VALUES ('71852054-b505-444f-829f-59105dcf3ca7', '8f95c62d-3d34-46c3-bcf0-d4002fe33eef', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('ec666e17-028d-4ba9-b27e-5d7ddaa4e81c', '8f95c62d-3d34-46c3-bcf0-d4002fe33eef', 'taust', '"Haridus');
+VALUES ('ec666e17-028d-4ba9-b27e-5d7ddaa4e81c', '8f95c62d-3d34-46c3-bcf0-d4002fe33eef', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('bcd00d43-9d61-4d2a-acb2-b201918e57c7', '8f95c62d-3d34-46c3-bcf0-d4002fe33eef', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -7432,7 +7432,7 @@ VALUES ('d99af3f1-b897-47b0-898e-b7a98d08afdd', 'ce59414f-f5e8-4ee4-8a00-d44ba6d
 INSERT INTO core.text_property
 VALUES ('d62a510f-dc97-4076-a8ef-4aceba7ec715', 'ce59414f-f5e8-4ee4-8a00-d44ba6decbf0', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('6db10ba3-86c7-4887-bab3-7824e3e4fa25', 'ce59414f-f5e8-4ee4-8a00-d44ba6decbf0', 'taust', '"Teenindus');
+VALUES ('6db10ba3-86c7-4887-bab3-7824e3e4fa25', 'ce59414f-f5e8-4ee4-8a00-d44ba6decbf0', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('c4d90583-5575-4610-b907-722d137a3ef2', 'ce59414f-f5e8-4ee4-8a00-d44ba6decbf0', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -7475,7 +7475,7 @@ VALUES ('f3006a61-d4ac-4480-9231-8275de1ae925', '5b4bc22a-2df2-413e-a7ea-c92615e
 INSERT INTO core.text_property
 VALUES ('c456f8a7-5033-4f65-a707-ddcef9c456b5', '5b4bc22a-2df2-413e-a7ea-c92615e1ce61', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('2e538312-a3f2-4737-8bde-34bb83e3cead', '5b4bc22a-2df2-413e-a7ea-c92615e1ce61', 'taust', '"Haridus');
+VALUES ('2e538312-a3f2-4737-8bde-34bb83e3cead', '5b4bc22a-2df2-413e-a7ea-c92615e1ce61', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('e648bba0-0c54-4f48-9c0b-3cbfe62cd44d', '5b4bc22a-2df2-413e-a7ea-c92615e1ce61', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -7519,7 +7519,7 @@ VALUES ('030ca81f-9a03-40eb-9585-7172315b905a', '2e9c0a0d-a386-4e95-b8cd-981db82
 INSERT INTO core.text_property
 VALUES ('a82418e2-e0b6-4337-9c14-a94798777dd9', '2e9c0a0d-a386-4e95-b8cd-981db821992e', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('56e1485f-e180-4aa0-8dbc-9e7bc83906f9', '2e9c0a0d-a386-4e95-b8cd-981db821992e', 'taust', '"Toitlustus');
+VALUES ('56e1485f-e180-4aa0-8dbc-9e7bc83906f9', '2e9c0a0d-a386-4e95-b8cd-981db821992e', 'taust', 'Toitlustus');
 INSERT INTO core.text_property
 VALUES ('be8142cf-ffb0-4047-a3c9-39740ac63663', '2e9c0a0d-a386-4e95-b8cd-981db821992e', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -7562,7 +7562,7 @@ VALUES ('68353499-268e-424b-84b9-a8dbe9105068', '87aefb18-2615-4ca9-b5b4-2087812
 INSERT INTO core.text_property
 VALUES ('cb90f67b-385a-48e6-adaa-cf1c31e4acf5', '87aefb18-2615-4ca9-b5b4-20878121a5ba', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('337e76a6-3d88-4a19-ac95-a66bd829efa9', '87aefb18-2615-4ca9-b5b4-20878121a5ba', 'taust', '"Tervishoid');
+VALUES ('337e76a6-3d88-4a19-ac95-a66bd829efa9', '87aefb18-2615-4ca9-b5b4-20878121a5ba', 'taust', 'Tervishoid');
 INSERT INTO core.text_property
 VALUES ('c6345b34-4de1-49b7-9dfe-e3a3b3b7000b', '87aefb18-2615-4ca9-b5b4-20878121a5ba', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -7649,7 +7649,7 @@ VALUES ('0442a5d2-f776-4e64-bdc3-a18e3d80843b', '1b5c50f4-5a06-452f-9b56-82d3df8
 INSERT INTO core.text_property
 VALUES ('44a1c0b7-4df1-4e15-8748-712bfa43f36f', '1b5c50f4-5a06-452f-9b56-82d3df885789', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('04285c0c-2949-47e6-8088-5c675548d291', '1b5c50f4-5a06-452f-9b56-82d3df885789', 'taust', '"Ehitus');
+VALUES ('04285c0c-2949-47e6-8088-5c675548d291', '1b5c50f4-5a06-452f-9b56-82d3df885789', 'taust', 'Ehitus');
 INSERT INTO core.text_property
 VALUES ('6416320d-64ae-4171-bc5c-006ea88f115c', '1b5c50f4-5a06-452f-9b56-82d3df885789', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -7692,7 +7692,7 @@ VALUES ('e6c4b231-cf1e-4347-b5de-79f498cd5cfa', '04f1b12f-f3ff-4f1a-88a9-b98d918
 INSERT INTO core.text_property
 VALUES ('2c347b41-5dea-49bf-a4f0-2ef628829e02', '04f1b12f-f3ff-4f1a-88a9-b98d9187b8f6', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('56e54273-e450-443a-b6da-4221d3fbe96d', '04f1b12f-f3ff-4f1a-88a9-b98d9187b8f6', 'taust', '"Teenindus');
+VALUES ('56e54273-e450-443a-b6da-4221d3fbe96d', '04f1b12f-f3ff-4f1a-88a9-b98d9187b8f6', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('b73953e3-b7cd-49a8-b6e5-d01ef468d577', '04f1b12f-f3ff-4f1a-88a9-b98d9187b8f6', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -7779,7 +7779,7 @@ VALUES ('b3def1e5-ce6d-404c-b349-3cc99fb79097', '821049cb-55ca-42e9-8edf-f8a75b6
 INSERT INTO core.text_property
 VALUES ('dcf0a567-6865-46a5-84e2-731c12d86948', '821049cb-55ca-42e9-8edf-f8a75b656e45', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('a369275a-c663-4519-ae5b-c670ad387ab5', '821049cb-55ca-42e9-8edf-f8a75b656e45', 'taust', '"Haridus');
+VALUES ('a369275a-c663-4519-ae5b-c670ad387ab5', '821049cb-55ca-42e9-8edf-f8a75b656e45', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('8ec8872d-a38b-48f4-abd7-9ee68585d8d1', '821049cb-55ca-42e9-8edf-f8a75b656e45', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -7823,7 +7823,7 @@ VALUES ('0faf53c5-c34b-4ff3-95fe-3f78632179b8', '01afdfd2-8f31-4674-ba3f-54ad29d
 INSERT INTO core.text_property
 VALUES ('78a6a3d5-9a1a-423d-aa4b-84cbc7a285a0', '01afdfd2-8f31-4674-ba3f-54ad29d07694', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('51d5d006-4af6-4da8-87f4-5221b3b80136', '01afdfd2-8f31-4674-ba3f-54ad29d07694', 'taust', '"Tööstus');
+VALUES ('51d5d006-4af6-4da8-87f4-5221b3b80136', '01afdfd2-8f31-4674-ba3f-54ad29d07694', 'taust', 'Tööstus');
 INSERT INTO core.text_property
 VALUES ('7c87c2a1-91af-49bf-b310-b0a2b0f26b43', '01afdfd2-8f31-4674-ba3f-54ad29d07694', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -7910,7 +7910,7 @@ VALUES ('e14aa5f7-f224-4059-9505-1bd6789e651e', 'e642c5e8-7d7d-4277-aa8b-460dec1
 INSERT INTO core.text_property
 VALUES ('098c04f6-ffe9-48e6-b090-34c65d714fec', 'e642c5e8-7d7d-4277-aa8b-460dec19ef7d', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('0fe76108-ee22-4995-8ac5-29f81cacb067', 'e642c5e8-7d7d-4277-aa8b-460dec19ef7d', 'taust', '"Transport');
+VALUES ('0fe76108-ee22-4995-8ac5-29f81cacb067', 'e642c5e8-7d7d-4277-aa8b-460dec19ef7d', 'taust', 'Transport');
 INSERT INTO core.text_property
 VALUES ('7620b591-be36-4c01-8760-f6e86d5ddcf9', 'e642c5e8-7d7d-4277-aa8b-460dec19ef7d', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -8040,7 +8040,7 @@ VALUES ('c252867a-0404-4404-8db9-f8acaeb85738', '28a90dc4-45d8-49a2-ad0d-2112039
 INSERT INTO core.text_property
 VALUES ('4b511138-8367-48f0-9150-f8dd78114fc6', '28a90dc4-45d8-49a2-ad0d-2112039db8f9', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('e144e43a-29a2-4083-bbdb-f9aa2270b7e1', '28a90dc4-45d8-49a2-ad0d-2112039db8f9', 'taust', '"Haridus');
+VALUES ('e144e43a-29a2-4083-bbdb-f9aa2270b7e1', '28a90dc4-45d8-49a2-ad0d-2112039db8f9', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('7ebbc4fa-ceff-4477-99b5-3d83b25ef0e0', '28a90dc4-45d8-49a2-ad0d-2112039db8f9', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -8083,7 +8083,7 @@ VALUES ('3bef60b7-ce79-4c76-b397-94d89c4ae2c7', 'aa3af96c-d137-467e-a157-da263c4
 INSERT INTO core.text_property
 VALUES ('90ba7b76-58f2-43dc-86fd-a2ca72a2997b', 'aa3af96c-d137-467e-a157-da263c48e547', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('6512558d-3f1e-4224-a31d-b322c51574a8', 'aa3af96c-d137-467e-a157-da263c48e547', 'taust', '"Haridus');
+VALUES ('6512558d-3f1e-4224-a31d-b322c51574a8', 'aa3af96c-d137-467e-a157-da263c48e547', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('42b84a32-1874-4a64-ab99-1d477e85847e', 'aa3af96c-d137-467e-a157-da263c48e547', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -8126,7 +8126,7 @@ VALUES ('9422646b-a9af-4e58-b327-fecf649a7502', '3940f483-47c9-465e-bdf7-1c8d3a6
 INSERT INTO core.text_property
 VALUES ('00321d44-1df7-4c03-ac39-8a9a9689b048', '3940f483-47c9-465e-bdf7-1c8d3a6d1e62', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('97e1d4a4-ba32-463d-8a65-fa3dbe611a30', '3940f483-47c9-465e-bdf7-1c8d3a6d1e62', 'taust', '"Haridus');
+VALUES ('97e1d4a4-ba32-463d-8a65-fa3dbe611a30', '3940f483-47c9-465e-bdf7-1c8d3a6d1e62', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('fe839170-9976-45a6-82dd-8b8a3572ac32', '3940f483-47c9-465e-bdf7-1c8d3a6d1e62', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -8213,7 +8213,7 @@ VALUES ('cf247c88-ed7e-442c-8dbf-190366364d06', '37b6417b-1df1-496e-b839-a00d4c3
 INSERT INTO core.text_property
 VALUES ('d1f1dd80-9a29-4e09-8afd-8f9e13bf8711', '37b6417b-1df1-496e-b839-a00d4c3938f8', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('0e94ec1b-2e0d-4d6a-8797-e5a7afac13d0', '37b6417b-1df1-496e-b839-a00d4c3938f8', 'taust', '"Haridus');
+VALUES ('0e94ec1b-2e0d-4d6a-8797-e5a7afac13d0', '37b6417b-1df1-496e-b839-a00d4c3938f8', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('02ecca04-eff0-488a-a254-02a0d1125633', '37b6417b-1df1-496e-b839-a00d4c3938f8', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -8256,7 +8256,7 @@ VALUES ('5e1cacf5-56b3-4518-8365-d88d6068e0bc', '2a4afd15-8aeb-4c64-8320-d09be91
 INSERT INTO core.text_property
 VALUES ('fec30c4b-9181-47b3-ab79-6b4e45743f40', '2a4afd15-8aeb-4c64-8320-d09be9185edb', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('44488f8f-3d98-44b5-868f-9144c5419490', '2a4afd15-8aeb-4c64-8320-d09be9185edb', 'taust', '"Haridus');
+VALUES ('44488f8f-3d98-44b5-868f-9144c5419490', '2a4afd15-8aeb-4c64-8320-d09be9185edb', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('31655a0c-6c16-41bf-a60e-5bdb5a62d224', '2a4afd15-8aeb-4c64-8320-d09be9185edb', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -8299,7 +8299,7 @@ VALUES ('ef628838-7836-45ef-8710-b3cdaf10352f', 'ad558d00-b01c-4704-a8b7-abf6bb7
 INSERT INTO core.text_property
 VALUES ('ea4acd94-28ef-4e03-860a-775d2e52cf06', 'ad558d00-b01c-4704-a8b7-abf6bb736fe0', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('c746e928-1009-472a-981c-de16d263bf9e', 'ad558d00-b01c-4704-a8b7-abf6bb736fe0', 'taust', '"Haridus');
+VALUES ('c746e928-1009-472a-981c-de16d263bf9e', 'ad558d00-b01c-4704-a8b7-abf6bb736fe0', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('dcdf8e3b-cecd-4746-a642-0f5d5ba1bca8', 'ad558d00-b01c-4704-a8b7-abf6bb736fe0', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -8343,7 +8343,7 @@ VALUES ('53d60840-a4f3-4f6e-82b2-e49a3a1ad77c', 'e5cd529f-f72d-40fe-8e29-39bebe0
 INSERT INTO core.text_property
 VALUES ('ac4a4414-f887-4059-85e8-c659d2d25d07', 'e5cd529f-f72d-40fe-8e29-39bebe07e209', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('af873a0a-1389-4bac-8a87-318f10beddb0', 'e5cd529f-f72d-40fe-8e29-39bebe07e209', 'taust', '"Haridus');
+VALUES ('af873a0a-1389-4bac-8a87-318f10beddb0', 'e5cd529f-f72d-40fe-8e29-39bebe07e209', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('3e782f7d-0cf8-4063-9a07-1b045c6535dd', 'e5cd529f-f72d-40fe-8e29-39bebe07e209', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -8429,7 +8429,7 @@ VALUES ('bd2d465d-04a2-49d5-8d0d-048a39847d9e', '5dbb578e-57fc-4730-bb7c-c13fcb7
 INSERT INTO core.text_property
 VALUES ('0d827c43-a36f-4406-87ec-64a66c963aec', '5dbb578e-57fc-4730-bb7c-c13fcb7fb939', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('8e7cf560-db80-4688-812f-d8308a3a17f1', '5dbb578e-57fc-4730-bb7c-c13fcb7fb939', 'taust', '"Haridus');
+VALUES ('8e7cf560-db80-4688-812f-d8308a3a17f1', '5dbb578e-57fc-4730-bb7c-c13fcb7fb939', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('1cd4132c-c0e9-4e9e-a2c5-51747427a692', '5dbb578e-57fc-4730-bb7c-c13fcb7fb939', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -8472,7 +8472,7 @@ VALUES ('0931b9a8-d35a-4bd7-aa7e-cffc1e82215e', 'e2deb5a9-1f35-475c-879e-9ea9280
 INSERT INTO core.text_property
 VALUES ('a2d52c56-d8d0-4ca0-8c01-371bbec99a27', 'e2deb5a9-1f35-475c-879e-9ea928032b5d', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('b43a4688-522c-42cc-a706-5172c5301263', 'e2deb5a9-1f35-475c-879e-9ea928032b5d', 'taust', '"Haridus');
+VALUES ('b43a4688-522c-42cc-a706-5172c5301263', 'e2deb5a9-1f35-475c-879e-9ea928032b5d', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('80b94cbb-415a-4e6b-bcb4-5d6da2af2569', 'e2deb5a9-1f35-475c-879e-9ea928032b5d', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -8515,7 +8515,7 @@ VALUES ('623ad909-f3b4-4ad5-9f8a-a2f2edb2ed73', '473eb7df-ae7a-4ddd-902e-fe0df33
 INSERT INTO core.text_property
 VALUES ('559ff95d-b3cb-49e4-98ad-40d44550ed6d', '473eb7df-ae7a-4ddd-902e-fe0df33ab1ae', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('2f6c8e52-7eb8-4b1e-ba2d-c4a451e24ff7', '473eb7df-ae7a-4ddd-902e-fe0df33ab1ae', 'taust', '"Haridus');
+VALUES ('2f6c8e52-7eb8-4b1e-ba2d-c4a451e24ff7', '473eb7df-ae7a-4ddd-902e-fe0df33ab1ae', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('3bfa602a-03dd-4a06-8780-f8425a06307c', '473eb7df-ae7a-4ddd-902e-fe0df33ab1ae', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -8558,7 +8558,7 @@ VALUES ('f5fe14b5-7d2c-4c8f-92bf-6a68b604e073', '41c40023-0c1c-48c6-bfdf-ac5450f
 INSERT INTO core.text_property
 VALUES ('db0eeb5f-2816-45e4-9b0a-62931880e821', '41c40023-0c1c-48c6-bfdf-ac5450f7391e', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('edd4da8e-2d94-4401-aafd-c3129d920142', '41c40023-0c1c-48c6-bfdf-ac5450f7391e', 'taust', '"Haridus');
+VALUES ('edd4da8e-2d94-4401-aafd-c3129d920142', '41c40023-0c1c-48c6-bfdf-ac5450f7391e', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('dca2ed98-bb0b-408e-96fe-1bd5b5ec9448', '41c40023-0c1c-48c6-bfdf-ac5450f7391e', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -8602,7 +8602,7 @@ VALUES ('8ac8bae1-d46c-4e67-951a-ab620c2e4b75', '59c49406-17e1-43bb-b852-6ed6d4a
 INSERT INTO core.text_property
 VALUES ('604aabff-db84-4de0-b66a-def0a1fee21d', '59c49406-17e1-43bb-b852-6ed6d4a65950', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('c9a748ed-108e-4447-ab9f-bddc9f5a45bd', '59c49406-17e1-43bb-b852-6ed6d4a65950', 'taust', '"Haridus');
+VALUES ('c9a748ed-108e-4447-ab9f-bddc9f5a45bd', '59c49406-17e1-43bb-b852-6ed6d4a65950', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('37cd65a8-3ee4-4fef-8772-d64acde66600', '59c49406-17e1-43bb-b852-6ed6d4a65950', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -8646,7 +8646,7 @@ VALUES ('2b9b9c0e-7215-4e8c-b3d5-13bb78268796', 'f27bda17-7b25-4e79-a297-9c40935
 INSERT INTO core.text_property
 VALUES ('8ff88cc5-30be-4492-bf97-2a7ab217454f', 'f27bda17-7b25-4e79-a297-9c40935b9fbd', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('5543dd8a-effc-499a-867e-43b7926d5609', 'f27bda17-7b25-4e79-a297-9c40935b9fbd', 'taust', '"Haridus');
+VALUES ('5543dd8a-effc-499a-867e-43b7926d5609', 'f27bda17-7b25-4e79-a297-9c40935b9fbd', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('2b98574d-edcc-4251-8c6f-b59968489297', 'f27bda17-7b25-4e79-a297-9c40935b9fbd', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -8776,7 +8776,7 @@ VALUES ('39aa4bc4-c5fb-4d60-90a5-35dbc69a5cad', 'a1640968-ec47-4c56-99fe-3f427b2
 INSERT INTO core.text_property
 VALUES ('24262ad8-e2d4-4d15-b464-6c36fb10527a', 'a1640968-ec47-4c56-99fe-3f427b267538', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('3d409262-6e46-4e47-83f0-c29d01fa2a33', 'a1640968-ec47-4c56-99fe-3f427b267538', 'taust', '"Haridus');
+VALUES ('3d409262-6e46-4e47-83f0-c29d01fa2a33', 'a1640968-ec47-4c56-99fe-3f427b267538', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('f7dedaa5-9096-4b6c-825a-7eee29563054', 'a1640968-ec47-4c56-99fe-3f427b267538', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -8819,7 +8819,7 @@ VALUES ('5afe5d73-995b-49b7-a961-f9267f9c410d', '49fa3ab4-967e-4503-80c1-778d6bf
 INSERT INTO core.text_property
 VALUES ('2654d254-87b3-44c2-aa62-8784610c1666', '49fa3ab4-967e-4503-80c1-778d6bfcd5dd', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('63961872-1639-4883-9749-dec2b3bc40d0', '49fa3ab4-967e-4503-80c1-778d6bfcd5dd', 'taust', '"Haridus');
+VALUES ('63961872-1639-4883-9749-dec2b3bc40d0', '49fa3ab4-967e-4503-80c1-778d6bfcd5dd', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('10982a51-c74f-4510-9ec9-0aea118f8091', '49fa3ab4-967e-4503-80c1-778d6bfcd5dd', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -8862,7 +8862,7 @@ VALUES ('e18da8ee-d9be-4150-8e9f-13f16251364a', '8d088547-6bf2-4b10-a702-e735491
 INSERT INTO core.text_property
 VALUES ('65d90217-7dda-49e0-9209-6f2a784c2274', '8d088547-6bf2-4b10-a702-e73549146222', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('60c5fed7-93f4-4b2b-9825-902f6efeff14', '8d088547-6bf2-4b10-a702-e73549146222', 'taust', '"Haridus');
+VALUES ('60c5fed7-93f4-4b2b-9825-902f6efeff14', '8d088547-6bf2-4b10-a702-e73549146222', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('966f815c-bc7f-4747-90c9-fc8b92aa8f53', '8d088547-6bf2-4b10-a702-e73549146222', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -8906,7 +8906,7 @@ VALUES ('c26960ed-d9e0-4f59-81e2-36a24de9dcb8', '20fbcf13-4829-4714-a7b2-2461414
 INSERT INTO core.text_property
 VALUES ('1696f54e-e115-4803-b4d3-a9a390229181', '20fbcf13-4829-4714-a7b2-2461414ec075', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('c724d60b-3dd4-43b5-ab6b-ddc958c5e7a1', '20fbcf13-4829-4714-a7b2-2461414ec075', 'taust', '"Haridus');
+VALUES ('c724d60b-3dd4-43b5-ab6b-ddc958c5e7a1', '20fbcf13-4829-4714-a7b2-2461414ec075', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('0bd62037-9385-4028-8077-9c648d54998e', '20fbcf13-4829-4714-a7b2-2461414ec075', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -8949,7 +8949,7 @@ VALUES ('f8f324f8-0423-45a1-9d52-2965916734fc', 'e16a01f7-9db4-4b1b-a938-d4dc62f
 INSERT INTO core.text_property
 VALUES ('8aa8271c-58c2-475d-93aa-9b655896db86', 'e16a01f7-9db4-4b1b-a938-d4dc62ff4eef', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('b3212b25-7852-4bc0-950c-47a738747c0f', 'e16a01f7-9db4-4b1b-a938-d4dc62ff4eef', 'taust', '"Haridus');
+VALUES ('b3212b25-7852-4bc0-950c-47a738747c0f', 'e16a01f7-9db4-4b1b-a938-d4dc62ff4eef', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('c460cd3a-722c-4b6d-9b57-213df08271b1', 'e16a01f7-9db4-4b1b-a938-d4dc62ff4eef', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -8993,7 +8993,7 @@ VALUES ('60a95519-8094-4b6b-b540-5a3273e10fc2', '3debf067-f56f-471a-b6fd-22299b8
 INSERT INTO core.text_property
 VALUES ('a303315f-5582-411c-a185-1ddcd7f75657', '3debf067-f56f-471a-b6fd-22299b83228e', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('e8c816d0-5fe3-43f8-a4d6-a91748038278', '3debf067-f56f-471a-b6fd-22299b83228e', 'taust', '"Haridus');
+VALUES ('e8c816d0-5fe3-43f8-a4d6-a91748038278', '3debf067-f56f-471a-b6fd-22299b83228e', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('4ed6f13a-d0bc-4186-b6de-a5b7de593304', '3debf067-f56f-471a-b6fd-22299b83228e', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -9036,7 +9036,7 @@ VALUES ('507b22bc-53c7-4e89-8c35-1ab7e14eaf8a', '6d9f49a5-acf7-4731-a79d-27a5633
 INSERT INTO core.text_property
 VALUES ('fa098f3e-0598-4fd5-ac7f-ea20e81bba09', '6d9f49a5-acf7-4731-a79d-27a5633b37f3', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('ebd94609-bb6a-44dc-bef2-df816c74d17d', '6d9f49a5-acf7-4731-a79d-27a5633b37f3', 'taust', '"Haridus');
+VALUES ('ebd94609-bb6a-44dc-bef2-df816c74d17d', '6d9f49a5-acf7-4731-a79d-27a5633b37f3', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('9b99c6d3-ec35-4c1b-811d-d119e8ce7538', '6d9f49a5-acf7-4731-a79d-27a5633b37f3', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -9079,7 +9079,7 @@ VALUES ('21d904cc-bce7-40b3-bb85-194ea69e6079', 'f442bfda-21b4-409b-80bf-fafc282
 INSERT INTO core.text_property
 VALUES ('d0ec420a-8bbf-469f-8deb-397383731a43', 'f442bfda-21b4-409b-80bf-fafc282044cf', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('8d441b44-69d8-4806-8d36-f8b1fcbab395', 'f442bfda-21b4-409b-80bf-fafc282044cf', 'taust', '"Ehitus');
+VALUES ('8d441b44-69d8-4806-8d36-f8b1fcbab395', 'f442bfda-21b4-409b-80bf-fafc282044cf', 'taust', 'Ehitus');
 INSERT INTO core.text_property
 VALUES ('0c967f6a-0412-49cc-b2ca-2d13bca693fc', 'f442bfda-21b4-409b-80bf-fafc282044cf', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -9122,7 +9122,7 @@ VALUES ('cc6be19e-7e87-4dc6-82d4-510ea3b0e6fb', 'fa925fc8-10c4-4c1f-9769-f3df5af
 INSERT INTO core.text_property
 VALUES ('7bf74483-8ea3-4f59-9aac-103880eb3ef9', 'fa925fc8-10c4-4c1f-9769-f3df5af699e7', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('ca8134bf-1791-416f-a87a-fd8d2af60664', 'fa925fc8-10c4-4c1f-9769-f3df5af699e7', 'taust', '"Haridus');
+VALUES ('ca8134bf-1791-416f-a87a-fd8d2af60664', 'fa925fc8-10c4-4c1f-9769-f3df5af699e7', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('ff919b04-bc06-46d4-a786-0a9390a8f279', 'fa925fc8-10c4-4c1f-9769-f3df5af699e7', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -9209,7 +9209,7 @@ VALUES ('08a7ea59-b196-403f-ade8-ccbef6eb992e', 'd9aa22fc-7ee3-4177-8744-90c34a8
 INSERT INTO core.text_property
 VALUES ('3d53a517-778e-44ab-81fe-ec5d20376be7', 'd9aa22fc-7ee3-4177-8744-90c34a8965b0', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('82ff861c-4d95-49c1-b56c-e53d541ccdbc', 'd9aa22fc-7ee3-4177-8744-90c34a8965b0', 'taust', '"Teenindus');
+VALUES ('82ff861c-4d95-49c1-b56c-e53d541ccdbc', 'd9aa22fc-7ee3-4177-8744-90c34a8965b0', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('c4c9cc26-1ec4-4a73-a0b8-1a156f4285d9', 'd9aa22fc-7ee3-4177-8744-90c34a8965b0', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -9253,7 +9253,7 @@ VALUES ('db2a483c-f06c-4b90-ad47-69a9ea0a36dc', '33973d0a-976a-4d69-bdcc-d37c4de
 INSERT INTO core.text_property
 VALUES ('899d2af8-0839-48bb-93cc-e53226eee73e', '33973d0a-976a-4d69-bdcc-d37c4de1ba1f', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('05a9daeb-a1c3-4a25-a2e5-6d14850a39ff', '33973d0a-976a-4d69-bdcc-d37c4de1ba1f', 'taust', '"Teenindus');
+VALUES ('05a9daeb-a1c3-4a25-a2e5-6d14850a39ff', '33973d0a-976a-4d69-bdcc-d37c4de1ba1f', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('f1221699-1d51-4c2f-bf00-021d66d1afbe', '33973d0a-976a-4d69-bdcc-d37c4de1ba1f', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -9297,7 +9297,7 @@ VALUES ('2e875d71-4f52-4707-8757-2a3d654ad9ba', '43282af5-fb08-442b-b682-3b1052a
 INSERT INTO core.text_property
 VALUES ('ac95c98e-751c-4323-8c70-d4d8122d1ef3', '43282af5-fb08-442b-b682-3b1052ab1a43', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('c5133c80-708c-4d35-96f6-e2cba8d58f11', '43282af5-fb08-442b-b682-3b1052ab1a43', 'taust', '"Teenindus');
+VALUES ('c5133c80-708c-4d35-96f6-e2cba8d58f11', '43282af5-fb08-442b-b682-3b1052ab1a43', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('7f4ee99b-8892-4e23-af84-42fba348482f', '43282af5-fb08-442b-b682-3b1052ab1a43', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -9383,7 +9383,7 @@ VALUES ('8c1b07de-2576-4774-8ec0-780df9c57532', '0b441d54-e619-48c7-9f47-c742c4c
 INSERT INTO core.text_property
 VALUES ('ff783fab-13fe-4886-ad38-5c2f8389a78a', '0b441d54-e619-48c7-9f47-c742c4c2da95', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('9e6a2756-1279-4caa-a3b4-9fa9e0532bd0', '0b441d54-e619-48c7-9f47-c742c4c2da95', 'taust', '"Haridus');
+VALUES ('9e6a2756-1279-4caa-a3b4-9fa9e0532bd0', '0b441d54-e619-48c7-9f47-c742c4c2da95', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('4c6b4a79-b0a0-437d-933c-4198ff07047f', '0b441d54-e619-48c7-9f47-c742c4c2da95', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -9600,7 +9600,7 @@ VALUES ('6c0aaa08-bb51-48bb-a951-715afba7ee02', 'a28a4499-a03a-44de-bb46-f5e1da3
 INSERT INTO core.text_property
 VALUES ('649e9ff6-6f16-406c-9021-1e9143d2585e', 'a28a4499-a03a-44de-bb46-f5e1da34a9bb', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('44ae5ef7-fe90-44a1-b526-2c6b2475305d', 'a28a4499-a03a-44de-bb46-f5e1da34a9bb', 'taust', '"Haridus');
+VALUES ('44ae5ef7-fe90-44a1-b526-2c6b2475305d', 'a28a4499-a03a-44de-bb46-f5e1da34a9bb', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('a53cf1d2-3064-4da7-bffb-b33e16c78f95', 'a28a4499-a03a-44de-bb46-f5e1da34a9bb', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -9643,7 +9643,7 @@ VALUES ('1dddac8a-e270-4162-a697-8c2dfffcf6ee', '9b8a2d23-1905-48b8-bede-e17370c
 INSERT INTO core.text_property
 VALUES ('98403d7f-43fd-4e31-89ba-c8923d658d00', '9b8a2d23-1905-48b8-bede-e17370c7717b', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('a9812ba1-0106-4bb3-905c-35eb06f4827c', '9b8a2d23-1905-48b8-bede-e17370c7717b', 'taust', '"Ehitus');
+VALUES ('a9812ba1-0106-4bb3-905c-35eb06f4827c', '9b8a2d23-1905-48b8-bede-e17370c7717b', 'taust', 'Ehitus');
 INSERT INTO core.text_property
 VALUES ('9534cf12-c387-4bf2-a0c4-c65df066c878', '9b8a2d23-1905-48b8-bede-e17370c7717b', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -9686,7 +9686,7 @@ VALUES ('3ee18e90-e8c8-4d3b-bc1e-7c4a300ef652', '9cf77a89-0719-471e-8ce0-2c75450
 INSERT INTO core.text_property
 VALUES ('a18d98e5-ec91-4d17-aaec-f2f4262a778e', '9cf77a89-0719-471e-8ce0-2c75450a1b61', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('8c1abc51-d5b5-446f-87c6-85cbcdbe5c49', '9cf77a89-0719-471e-8ce0-2c75450a1b61', 'taust', '"Teenindus');
+VALUES ('8c1abc51-d5b5-446f-87c6-85cbcdbe5c49', '9cf77a89-0719-471e-8ce0-2c75450a1b61', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('607abe08-098b-4a61-a2b3-a99894112883', '9cf77a89-0719-471e-8ce0-2c75450a1b61', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -9730,7 +9730,7 @@ VALUES ('6e531668-19a2-4814-92aa-ff9bf4e5863f', '40a4bfda-4e78-4b94-8c56-e591e10
 INSERT INTO core.text_property
 VALUES ('8c5c786e-33e6-4f11-b128-a565d8ba9809', '40a4bfda-4e78-4b94-8c56-e591e107e645', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('fa3c8f4b-f173-437e-917a-07855ab882b8', '40a4bfda-4e78-4b94-8c56-e591e107e645', 'taust', '"Teenindus');
+VALUES ('fa3c8f4b-f173-437e-917a-07855ab882b8', '40a4bfda-4e78-4b94-8c56-e591e107e645', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('7222870d-e86a-4e9e-b570-d67c57fdb528', '40a4bfda-4e78-4b94-8c56-e591e107e645', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -9773,7 +9773,7 @@ VALUES ('6b5f2d18-824b-45f6-a38c-9ca4fa60fa66', 'f00a5b6c-a95a-4aee-b9e5-e18fc8f
 INSERT INTO core.text_property
 VALUES ('e7917f87-9064-4aa5-9c35-cc4f26a481b8', 'f00a5b6c-a95a-4aee-b9e5-e18fc8f271c5', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('a88785fb-910f-49a7-a7a4-7384df5ad96a', 'f00a5b6c-a95a-4aee-b9e5-e18fc8f271c5', 'taust', '"Teenindus');
+VALUES ('a88785fb-910f-49a7-a7a4-7384df5ad96a', 'f00a5b6c-a95a-4aee-b9e5-e18fc8f271c5', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('6b47c063-7c0d-4efe-98f9-4fbe2a03077f', 'f00a5b6c-a95a-4aee-b9e5-e18fc8f271c5', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -9817,7 +9817,7 @@ VALUES ('c0ca1699-3be9-48f1-8cde-a3b627eab51b', 'e99a71e0-e1df-4774-a814-03d7521
 INSERT INTO core.text_property
 VALUES ('af6b8b1c-7c3e-4361-88e2-12e53a0867ef', 'e99a71e0-e1df-4774-a814-03d7521f5f02', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('0be085c7-4f0c-427a-8929-5276d1e631fd', 'e99a71e0-e1df-4774-a814-03d7521f5f02', 'taust', '"Haridus');
+VALUES ('0be085c7-4f0c-427a-8929-5276d1e631fd', 'e99a71e0-e1df-4774-a814-03d7521f5f02', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('1fd5fdfd-4b16-49ca-8e36-ed72f917da4b', 'e99a71e0-e1df-4774-a814-03d7521f5f02', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -9861,7 +9861,7 @@ VALUES ('ba1d68cb-ac79-47ac-8bb5-f821e9118824', 'b1dc6b2e-23e2-44da-a61a-e1cb9c0
 INSERT INTO core.text_property
 VALUES ('db8817df-36f2-424e-9042-25e07ee77b16', 'b1dc6b2e-23e2-44da-a61a-e1cb9c091b49', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('d1810568-c938-4269-935e-2fd97df06867', 'b1dc6b2e-23e2-44da-a61a-e1cb9c091b49', 'taust', '"Haridus');
+VALUES ('d1810568-c938-4269-935e-2fd97df06867', 'b1dc6b2e-23e2-44da-a61a-e1cb9c091b49', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('773636cd-420f-4da3-80a4-873f3cd00940', 'b1dc6b2e-23e2-44da-a61a-e1cb9c091b49', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -9905,7 +9905,7 @@ VALUES ('119e33fe-efbf-41ba-9c07-a3b3002f0237', '12f42d60-08d0-4cfc-9630-f131c64
 INSERT INTO core.text_property
 VALUES ('34143d22-f55f-4ec5-947e-cee62dcc1448', '12f42d60-08d0-4cfc-9630-f131c64d4514', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('b0e2a41f-d33e-4cbc-8bc8-7054f30d6544', '12f42d60-08d0-4cfc-9630-f131c64d4514', 'taust', '"Tervishoid');
+VALUES ('b0e2a41f-d33e-4cbc-8bc8-7054f30d6544', '12f42d60-08d0-4cfc-9630-f131c64d4514', 'taust', 'Tervishoid');
 INSERT INTO core.text_property
 VALUES ('28759e6f-e40d-4bff-887a-2d173a96f54d', '12f42d60-08d0-4cfc-9630-f131c64d4514', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -9949,7 +9949,7 @@ VALUES ('842d3e38-2cb2-489f-9ad1-6d806de52613', 'b989b370-b5ce-465e-a299-bca5822
 INSERT INTO core.text_property
 VALUES ('914ffe25-6f3c-4586-8e4b-8f20c3fa5851', 'b989b370-b5ce-465e-a299-bca5822c410a', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('7517f13c-39b0-40b5-8747-020c579216bd', 'b989b370-b5ce-465e-a299-bca5822c410a', 'taust', '"Haridus');
+VALUES ('7517f13c-39b0-40b5-8747-020c579216bd', 'b989b370-b5ce-465e-a299-bca5822c410a', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('39613ccc-e39f-44de-8e84-0e175c236fa6', 'b989b370-b5ce-465e-a299-bca5822c410a', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -9988,7 +9988,7 @@ VALUES ('0fb3bc77-94c3-4425-940d-ee97c95d78dd', 'c38a17f6-e0b2-4620-833e-b9bff4e
 INSERT INTO core.text_property
 VALUES ('a85afaca-1069-4924-bded-ca477d13cacc', 'c38a17f6-e0b2-4620-833e-b9bff4efe7b3', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('bbc9d92f-f033-4a07-880f-c1e4cdef5d13', 'c38a17f6-e0b2-4620-833e-b9bff4efe7b3', 'taust', '"Haridus');
+VALUES ('bbc9d92f-f033-4a07-880f-c1e4cdef5d13', 'c38a17f6-e0b2-4620-833e-b9bff4efe7b3', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('ca282d7d-db73-4636-a1bf-8900f185589e', 'c38a17f6-e0b2-4620-833e-b9bff4efe7b3', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -10205,7 +10205,7 @@ VALUES ('a74b7cb6-06ae-4eda-9ce3-cf9cb637625a', '3a6c5d46-f22e-47eb-9a34-c125a3c
 INSERT INTO core.text_property
 VALUES ('b23e3fe2-7d78-4969-b7d4-8eb4932976cd', '3a6c5d46-f22e-47eb-9a34-c125a3c608bd', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('4de28bea-d816-4134-9776-8fc6147a8e4e', '3a6c5d46-f22e-47eb-9a34-c125a3c608bd', 'taust', '"Teenindus');
+VALUES ('4de28bea-d816-4134-9776-8fc6147a8e4e', '3a6c5d46-f22e-47eb-9a34-c125a3c608bd', 'taust', 'Teenindus');
 INSERT INTO core.text_property
 VALUES ('e63a7199-7b50-4940-8e5b-98a51108942e', '3a6c5d46-f22e-47eb-9a34-c125a3c608bd', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -10248,7 +10248,7 @@ VALUES ('6fcc343c-b4e7-4d0e-a5d8-45cdb86496b5', '9620d7cf-f4c6-440e-86bd-9415d66
 INSERT INTO core.text_property
 VALUES ('9b80c42c-ed40-4678-8409-37459f33cbd7', '9620d7cf-f4c6-440e-86bd-9415d660da05', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('b2477ed1-a5ec-4a38-85ff-713b5243c5ab', '9620d7cf-f4c6-440e-86bd-9415d660da05', 'taust', '"Haridus');
+VALUES ('b2477ed1-a5ec-4a38-85ff-713b5243c5ab', '9620d7cf-f4c6-440e-86bd-9415d660da05', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('4d4d8474-7768-451f-91af-e70ced970d62', '9620d7cf-f4c6-440e-86bd-9415d660da05', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
@@ -10335,7 +10335,7 @@ VALUES ('c3d53246-89a5-4d05-9c0f-95305286400b', '80115031-a46f-47e4-b9a5-5ba0ced
 INSERT INTO core.text_property
 VALUES ('623f2902-6053-4f28-b16f-4bff80eecfe5', '80115031-a46f-47e4-b9a5-5ba0ceddbff8', 'ajavahemik', '2016-2020');
 INSERT INTO core.text_property
-VALUES ('6e558c13-6d8c-4f51-80de-c0b5aceb9444', '80115031-a46f-47e4-b9a5-5ba0ceddbff8', 'taust', '"Haridus');
+VALUES ('6e558c13-6d8c-4f51-80de-c0b5aceb9444', '80115031-a46f-47e4-b9a5-5ba0ceddbff8', 'taust', 'Haridus');
 INSERT INTO core.text_property
 VALUES ('9a5dc8b3-45c1-4a9a-b8b9-53060110d396', '80115031-a46f-47e4-b9a5-5ba0ceddbff8', 'tekstityyp',
         'k2eesti_riiklik_eksamitoo');
