@@ -23,7 +23,7 @@ import {
   Typography
 } from '@mui/material';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import './WordContext.css';
+import './styles/WordContext.css';
 import { TableType } from '../../components/table/TableDownloadButton';
 import { QuestionMark } from '@mui/icons-material';
 import GenericTable from '../../components/GenericTable';

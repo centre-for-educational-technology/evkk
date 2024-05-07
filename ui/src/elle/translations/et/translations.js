@@ -4,6 +4,11 @@ export const TRANSLATIONS_ET = {
   back: 'EELMINE',
   beginning: 'algus',
   collocates_filename: 'naabersõnad',
+  collocates_graph: 'Joonis',
+  collocates_graph_filename: 'joonis',
+  collocates_graph_modal_tooltip: 'Kuva naabersõnad joonisel',
+  collocates_graph_slider_title: 'Määra, kas tahad joonisel näha vähem või rohkem naabersõnu',
+  collocates_graph_tooltip: 'Joonisel kujutatakse valitud sõna naabersõnu, nende olulisust ja paiknemist otsisõna suhtes. Naabersõnad asuvad otsisõnast vasakul, paremal või keskel vastavalt sellele, kas need esinevad tekstis pigem otsisõna ees, järel või võrdselt mõlemal pool. Suurema skooriga naabersõnad on tähistatud suurema mummuga. Vaikimisi näidatakse kuni 30 olulisemat naabersõna, aga nende arvu saab soovi korral muuta.',
   common_about: 'Keskkonnast',
   common_analysis_options: 'Analüüsi valikud',
   common_articles: 'Publikatsioonid',
@@ -443,5 +448,6 @@ export const TRANSLATIONS_ET = {
   wordlist_stopwords_textbox_hover_3: ').',
   wordlist_word_column: 'Sõnavorm',
   wordlist_wordcloud: 'Sõnapilv',
+  wordlist_wordcloud_filename: 'sonapilv',
   wordlist_wordcloud_loading: 'Laadin sõnapilve...'
 };

@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import ModalBase from '../../../components/ModalBase';
 import '../styles/WordcloudView.css';
 import WordCloud from 'wordcloud';
+import ImageDownloadButton, { ImageDownloadSourceType } from '../../../components/ImageDownloadButton';
 
 export default function WordcloudView({ data }) {
 
@@ -50,9 +51,11 @@ export default function WordcloudView({ data }) {
   };
 
   return (
-    <Tooltip title={t('wordlist_wordcloud')}
-             open={tooltipOpen}
-             placement="top">
+    <Tooltip
+      title={t('wordlist_wordcloud')}
+      open={tooltipOpen}
+      placement="top"
+    >
       <Button
         style={DefaultButtonStyle}
         variant="contained"
@@ -68,13 +71,21 @@ export default function WordcloudView({ data }) {
         innerClassName="wordcloud-modal"
         title="wordlist_wordcloud"
       >
-        {isLoading &&
+        {isLoading ? (
           <div className="wordcloud-loader-container">
             <CircularProgress style={DefaultCircularProgressStyle} />
             <span>
             {t('wordlist_wordcloud_loading')}
             </span>
-          </div>
+          </div>) : (
+          <>
+            <ImageDownloadButton
+              element={canvas}
+              sourceType={ImageDownloadSourceType.CANVAS}
+              fileName="wordlist_wordcloud_filename"
+            />
+            <br />
+          </>)
         }
         <canvas
           ref={setCanvas}

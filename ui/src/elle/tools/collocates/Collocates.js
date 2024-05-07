@@ -32,6 +32,7 @@ import { toolAnalysisStore, ToolAnalysisStoreActionType } from '../../store/Tool
 import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import TableHeaderButtons from '../../components/table/TableHeaderButtons';
+import GraphView from '../wordcontext/components/GraphView';
 
 export default function Collocates() {
 
@@ -43,6 +44,7 @@ export default function Collocates() {
   const [typeError, setTypeError] = useState(false);
   const [capitalizationChecked, setCapitalizationChecked] = useState(false);
   const [keyword, setKeyword] = useState('');
+  const [lastKeyword, setLastKeyword] = useState('');
   const [searchCount, setSearchCount] = useState(3);
   const [formula, setFormula] = useState(StatisticMeasureFormula.LOGDICE);
   const [lemmatizedKeywordResult, setLemmatizedKeywordResult] = useState(null);
@@ -192,6 +194,7 @@ export default function Collocates() {
       })
         .then(res => res.json())
         .then(result => {
+          setLastKeyword(keyword);
           setLemmatizedKeywordResult(null);
           setResponse(result.collocateList);
           if (result.collocateList.length === 0) {
@@ -374,7 +377,8 @@ export default function Collocates() {
         </Alert>
       </>}
       {showTable && <>
-        <TableHeaderButtons downloadData={data}
+        <TableHeaderButtons leftComponent={<GraphView data={data} keyword={lastKeyword} />}
+                            downloadData={data}
                             downloadTableType={TableType.COLLOCATES}
                             downloadHeaders={tableToDownload}
                             downloadAccessors={accessors}
