@@ -29,7 +29,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import WordlistMenu from '../wordlist/components/WordlistMenu';
 import GenericTable from '../../components/GenericTable';
 import { toolAnalysisStore, ToolAnalysisStoreActionType } from '../../store/ToolAnalysisStore';
-import { loadFetch } from '../../service/LoadFetch';
+import { loadFetch } from '../../service/util/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import TableHeaderButtons from '../../components/table/TableHeaderButtons';
 import GraphView from '../wordcontext/components/GraphView';

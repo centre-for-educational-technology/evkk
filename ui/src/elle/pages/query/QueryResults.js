@@ -28,7 +28,7 @@ import TablePagination from '../../components/table/TablePagination';
 import QueryDownloadButton from './QueryDownloadButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { queryStore, QueryStoreActionType } from '../../store/QueryStore';
-import { loadFetch } from '../../service/LoadFetch';
+import { loadFetch } from '../../service/util/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import ModalBase from '../../components/ModalBase';
 

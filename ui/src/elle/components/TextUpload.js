@@ -4,7 +4,7 @@ import { Button, Tooltip } from '@mui/material';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { useTranslation } from 'react-i18next';
 import '../translations/i18n';
-import { loadFetch } from '../service/LoadFetch';
+import { loadFetch } from '../service/util/LoadFetch';
 import { DefaultButtonStyle } from '../const/Constants';
 import ModalBase from './ModalBase';
 

@@ -1,5 +1,5 @@
 import { queryStore } from '../store/QueryStore';
-import { loadFetch } from './LoadFetch';
+import { loadFetch } from './util/LoadFetch';
 import { sanitizeTexts } from '../util/TextUtils';
 
 export const getSelectedTexts = (setStoreData) => {

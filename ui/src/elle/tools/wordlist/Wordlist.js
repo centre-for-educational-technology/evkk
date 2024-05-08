@@ -25,7 +25,7 @@ import WordlistMenu from './components/WordlistMenu';
 import { TableType } from '../../components/table/TableDownloadButton';
 import GenericTable from '../../components/GenericTable';
 import { toolAnalysisStore, ToolAnalysisStoreActionType } from '../../store/ToolAnalysisStore';
-import { loadFetch } from '../../service/LoadFetch';
+import { loadFetch } from '../../service/util/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import { sortTableCol } from '../../util/TableUtils';
 import NewTabHyperlink from '../../components/NewTabHyperlink';

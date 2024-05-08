@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { selectIntegrationPath } from '../../rootSelectors';
-import { useSelector } from 'react-redux';
 import { Box } from '@mui/material';
 import { queryStore } from '../store/QueryStore';
 import { getSelectedTexts } from '../service/TextService';
+import { rootStore } from '../store/RootStore';
 
-const IntegrationFrame = ({integrationName}) => {
-  const path = useSelector(state => selectIntegrationPath(integrationName)(state), []);
+const IntegrationFrame = ({ integrationName }) => {
+  const path = rootStore.getState().data.integrationPaths[integrationName];
   const [height, setHeight] = useState('');
   const iframeRef = useRef();
   const [storeData, setStoreData] = useState('');
@@ -31,7 +30,7 @@ const IntegrationFrame = ({integrationName}) => {
 
   return (
     <Box className="embed-responsive embed-responsive-21by9 overflow-hidden" height={height}>
-      <iframe ref={iframeRef} src={path} title={integrationName}/>
+      <iframe ref={iframeRef} src={path} title={integrationName} />
     </Box>
   );
 };

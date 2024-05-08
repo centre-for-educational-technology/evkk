@@ -33,6 +33,7 @@ export const TRANSLATIONS_EN = {
   common_lemmas: 'Base forms',
   common_license_cc_by_4_0: 'CC BY 4.0',
   common_links: 'Link collections',
+  common_login_for_admins: 'Login for administrators',
   common_neighbouring_words: 'Neighbouring Words',
   common_other: 'Other',
   common_people: 'Employees',

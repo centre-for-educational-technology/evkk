@@ -17,7 +17,7 @@ import '../styles/QueryDownloadButton.css';
 import { useState } from 'react';
 import i18n from 'i18next';
 import FileSaver from 'file-saver';
-import { loadFetch } from '../../service/LoadFetch';
+import { loadFetch } from '../../service/util/LoadFetch';
 import { CC_BY_4_0_LICENSE_PATH, DefaultButtonStyle } from '../../const/Constants';
 import NewTabHyperlink from '../../components/NewTabHyperlink';
 import { Languages } from '../../translations/i18n';

@@ -1,8 +1,7 @@
-import React, {Component} from 'react';
-import {postMinitornPikkus} from './../../Api';
+import React, { Component } from 'react';
+import { postMinitornPikkus } from '../../Api';
 
 class MinitornPikkus extends Component {
-
 
   constructor(props) {
     super(props);
@@ -18,16 +17,16 @@ class MinitornPikkus extends Component {
     event.preventDefault();
     const response = await postMinitornPikkus(this.state.form.text);
     const json = await response.json();
-    this.setState({length: json.length});
+    this.setState({ length: json.length });
   };
 
   handleInputChange = (event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    const {form = {}} = this.state;
+    const { form = {} } = this.state;
     form[name] = value;
-    this.setState({form});
+    this.setState({ form });
   };
 
   render() {
@@ -40,7 +39,7 @@ class MinitornPikkus extends Component {
                 <label htmlFor="textInput">Sõne</label>
                 <input name={'text'} onChange={this.handleInputChange} value={this.state.form.text}
                        type="text" className="form-control" id="textInput" aria-describedby="textHelp"
-                       placeholder="Sisestage sõne siia"/>
+                       placeholder="Sisestage sõne siia" />
                 <small id="textHelp" className="form-text text-muted">Sisestage sõne mille pikkust mõõta soovite</small>
               </div>
               {this.state.length !== null && (
@@ -57,9 +56,8 @@ class MinitornPikkus extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
-
 }
 
 export default MinitornPikkus;

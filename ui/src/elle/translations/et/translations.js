@@ -33,6 +33,7 @@ export const TRANSLATIONS_ET = {
   common_lemmas: 'Algvormid',
   common_license_cc_by_4_0: 'CC BY 4.0',
   common_links: 'Lingikogu',
+  common_login_for_admins: 'Sisenemine administraatoritele',
   common_neighbouring_words: 'Naabersõnad',
   common_other: 'Muu',
   common_people: 'Töötajad',

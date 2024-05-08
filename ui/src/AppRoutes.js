@@ -19,6 +19,7 @@ import WordContext from './elle/tools/wordcontext/WordContext';
 import Collocates from './elle/tools/collocates/Collocates';
 import { withTranslation } from 'react-i18next';
 import Tools from './elle/pages/Tools';
+import Login from './elle/pages/Login';
 
 class AppRoutes extends Component {
 
@@ -85,6 +86,8 @@ class AppRoutes extends Component {
           </Route>
           <Route path="/links"
                  element={<Links />} />
+          <Route path="/login"
+                 element={<Login />} />
           <Route path="*"
                  element={this.render404()} />
         </Routes>

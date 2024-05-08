@@ -46,7 +46,7 @@ import QueryResults from './QueryResults';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import TextUpload from '../../components/TextUpload';
 import { queryStore, QueryStoreActionType } from '../../store/QueryStore';
-import { loadFetch } from '../../service/LoadFetch';
+import { loadFetch } from '../../service/util/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';

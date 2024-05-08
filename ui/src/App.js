@@ -1,13 +1,8 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from './elle/components/Navbar';
 import { Provider } from 'react-redux';
-import { applyMiddleware, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { compose, connectedComponent } from './util/redux-utils';
-import rootReducer from './rootReducer';
-import { getStatusIfNeeded } from './rootActions';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { selectStatus, selectStatusLoaded } from './rootSelectors';
 import { createTheme } from '@mui/material/styles';
 import AppRoutes from './AppRoutes';
 import { ThemeProvider } from '@mui/material';
@@ -18,15 +13,15 @@ import ServerOfflinePage from './elle/components/ServerOfflinePage';
 import SuccessSnackbar from './elle/components/SuccessSnackbar';
 import FooterElement from './elle/components/FooterElement';
 import DonateText from './elle/components/DonateText';
+import { getStatusIfNeeded } from './elle/service/RootService';
+import { rootStore } from './elle/store/RootStore';
+import { applyMiddleware, compose, createStore } from 'redux';
 
 export const errorEmitter = new EventEmitter();
 export const loadingEmitter = new EventEmitter();
 export const successEmitter = new EventEmitter();
 
-const store = createStore(
-  rootReducer,
-  compose(applyMiddleware(thunkMiddleware))
-);
+const store = createStore(compose(applyMiddleware(thunkMiddleware)));
 
 const theme = createTheme({
   palette: {
@@ -75,53 +70,45 @@ const theme = createTheme({
   }
 });
 
-class AppWithStatus extends Component {
+function AppWithStatus() {
+  const [isOffline, setIsOffline] = useState(false);
 
-  componentDidMount() {
-    this.props.getStatusIfNeeded();
+  useEffect(() => {
+    getStatusIfNeeded();
+  }, []);
+
+  rootStore.subscribe(() => {
+    setIsOffline(rootStore.getState().status === false);
+  });
+
+  if (isOffline) {
+    return <ServerOfflinePage />;
   }
 
-  render() {
-    if (this.props.status instanceof Response) return <ServerOfflinePage/>;
-    return (
-      <div className="min-vh-100 d-flex flex-column justify-content-between">
-        <div>
-          <ErrorSnackbar/>
-          <SuccessSnackbar/>
-          <LoadingSpinner/>
-          <Navbar/>
-          <DonateText/>
-          <AppRoutes/>
-        </div>
-        <FooterElement/>
+  return (
+    <div className="min-vh-100 d-flex flex-column justify-content-between">
+      <div>
+        <ErrorSnackbar />
+        <SuccessSnackbar />
+        <LoadingSpinner />
+        <Navbar />
+        <DonateText />
+        <AppRoutes />
       </div>
-    );
-  }
+      <FooterElement />
+    </div>
+  );
 }
 
-const mapStateToProps = state => ({
-  statusLoaded: selectStatusLoaded()(state),
-  status: selectStatus()(state)
-});
+export default function App() {
 
-const mapDispatchToProps = {getStatusIfNeeded};
-
-const ConnectedAppWithStatus = connectedComponent(AppWithStatus, mapStateToProps, mapDispatchToProps);
-
-class App extends Component {
-
-  render() {
-    return (
-      <Router>
-        <ThemeProvider theme={theme}>
-          <Provider store={store}>
-            <ConnectedAppWithStatus/>
-          </Provider>
-        </ThemeProvider>
-      </Router>
-    );
-  }
-
+  return (
+    <Router>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <AppWithStatus />
+        </Provider>
+      </ThemeProvider>
+    </Router>
+  );
 }
-
-export default App;
