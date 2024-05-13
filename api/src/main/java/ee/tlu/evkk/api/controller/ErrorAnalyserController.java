@@ -26,6 +26,16 @@ public class ErrorAnalyserController {
     this.errorAnalyserService = errorAnalyserService;
   }
 
+  @GetMapping("/getFilterOptions")
+  public ResponseEntity<ErrorAnalyserOptions> getFilterOptions() {
+    List<String> textType = errorAnalyserDao.findFilterOptions("tekstityyp");
+    List<String> nativeLanguage = errorAnalyserDao.findFilterOptions("emakeel");
+    List<String> citizenship = errorAnalyserDao.findFilterOptions("kodakondsus");
+
+    ErrorAnalyserOptions body = new ErrorAnalyserOptions(textType, nativeLanguage, citizenship);
+    return ResponseEntity.ok(body);
+  }
+
   @GetMapping("/getErrors")
   public ResponseEntity<List<ErrorAnalyserTransformedSentence>> getErrors(
       @RequestParam(name = "errorType", required = false) List<String> errorTypes,
@@ -43,15 +53,5 @@ public class ErrorAnalyserController {
         errorTypes);
 
     return ResponseEntity.ok(transformedResult);
-  }
-
-  @GetMapping("/getFilterOptions")
-  public ResponseEntity<ErrorAnalyserOptions> getFilterOptions() {
-    List<String> textType = errorAnalyserDao.findFilterOptions("tekstityyp");
-    List<String> nativeLanguage = errorAnalyserDao.findFilterOptions("emakeel");
-    List<String> citizenship = errorAnalyserDao.findFilterOptions("kodakondsus");
-
-    ErrorAnalyserOptions body = new ErrorAnalyserOptions(textType, nativeLanguage, citizenship);
-    return ResponseEntity.ok(body);
   }
 }

@@ -35,26 +35,26 @@
            prop5.property_value as age_range,
            prop6.property_value as education,
            prop7.property_value as citizenship,
-           seg2.id as annotation_id,
-           seg2.annotator_id,
-           seg2.scope_start,
-           seg2.scope_end,
-           seg2.error_type,
-           seg2.correction
+           annot2.id as annotation_id,
+           annot2.annotator_id,
+           annot2.scope_start,
+           annot2.scope_end,
+           annot2.error_type,
+           annot2.correction
     from (
-      select seg1.annotator_id, seg1.sentence_id
-      from core.text_error_analysis_segments seg1
+      select annot1.annotator_id, annot1.sentence_id
+      from core.text_error_analysis_annotations annot1
       <where>
         <if test="errorTypes != null and errorTypes.size() > 0">
         <foreach collection="errorTypes" item="errorType" separator=" or ">
-            seg1.error_type LIKE CONCAT(#{errorType}, '%')
+            annot1.error_type LIKE CONCAT(#{errorType}, '%')
           </foreach>
         </if>
       </where>
-      group by seg1.annotator_id, seg1.sentence_id
+      group by annot1.annotator_id, annot1.sentence_id
     ) t1
-    join core.text_error_analysis_segments seg2 on t1.sentence_id= seg2.sentence_id and t1.annotator_id = seg2.annotator_id
-    join core.text_error_analysis_sentences sen1 on seg2.sentence_id = sen1.id
+    join core.text_error_analysis_annotations annot2 on t1.sentence_id= annot2.sentence_id and t1.annotator_id = annot2.annotator_id
+    join core.text_error_analysis_sentences sen1 on annot2.sentence_id = sen1.id
    left join core.text_property prop1 on sen1.text_id = prop1.text_id and prop1.property_name = 'keeletase' 
     left join core.text_property prop2 on sen1.text_id = prop2.text_id and prop2.property_name = 'emakeel'
     left join core.text_property prop3 on sen1.text_id = prop3.text_id and prop3.property_name = 'tekstityyp'
