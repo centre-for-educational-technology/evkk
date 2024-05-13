@@ -108,7 +108,8 @@ export default function ComplexityTab(
         <div className="w-50 corrector-right">
           {complexityAnswer &&
             <div>
-              <div style={{marginBottom: '0.5em', fontSize: '1.5em'}}>Keerukustase: {complexityAnswer[11]}</div>
+              <div
+                style={{marginBottom: '0.5em', fontSize: '1.5em'}}>Keerukustase: {complexityAnswer.keerukus[11]}</div>
               <Accordion square={true} style={{marginBottom: '0.5em'}} sx={CorrectorAccordionStyle}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon/>}
