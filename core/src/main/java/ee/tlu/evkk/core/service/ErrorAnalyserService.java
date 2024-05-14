@@ -34,6 +34,10 @@ public class ErrorAnalyserService {
     public List<ErrorAnalyserTransformedSentence> transformErrorTypes(List<ErrorAnalyserSentence> listItems,
             List<String> querriedErrorTypes) {
 
+        if (querriedErrorTypes == null) {
+            querriedErrorTypes = new ArrayList<>();
+        }
+
         this.querriedErrorTypes = querriedErrorTypes;
 
         List<ErrorAnalyserTransformedSentence> transformedListItems = new ArrayList<ErrorAnalyserTransformedSentence>();
@@ -47,7 +51,7 @@ public class ErrorAnalyserService {
             ErrorAnalyserTransformedSentence transformedListItem = new ErrorAnalyserTransformedSentence(
                     listItem.getSentenceId(), listItem.getSentence(), listItem.getTextId(), listItem.getLanguageLevel(),
                     listItem.getNativeLanguage(), listItem.getTextType(), listItem.getAge(), listItem.getAgeRange(),
-                    listItem.getEducation(), listItem.getCitizenship(), listItem.getAnnotations(), errorTypes,
+                    listItem.getEducation(), listItem.getCitizenship(), annotations, errorTypes,
                     querriedErrorCount, groupedAnnotations, transformedSentence);
             transformedListItems.add(transformedListItem);
         }
