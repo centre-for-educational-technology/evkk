@@ -53,8 +53,15 @@
       from core.text_error_analysis_annotations annot1
       <where>
         <if test="errorTypes != null and errorTypes.size() > 0">
-        <foreach collection="errorTypes" item="errorType" separator=" or ">
-            annot1.error_type LIKE CONCAT(#{errorType}, '%')
+          <foreach collection="errorTypes" item="errorType" separator=" or ">
+            <choose>
+              <when test='errorType.startsWith("R")'>
+                annot1.error_type like concat('R', concat('%', SUBSTRING(#{errorType}, 3)))
+              </when>
+              <otherwise>
+                annot1.error_type = #{errorType}
+              </otherwise>
+            </choose>
           </foreach>
         </if>
       </where>

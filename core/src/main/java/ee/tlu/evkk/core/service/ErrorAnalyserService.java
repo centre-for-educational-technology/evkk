@@ -98,17 +98,20 @@ public class ErrorAnalyserService {
                                     errorTypes.put(modifiedSecondError,
                                             errorTypes.getOrDefault(modifiedSecondError, 0) + 1);
                                     countQuerriedErrors(modifiedSecondError);
-                                    remaining = remaining.substring(secondError.length());
-                                    if (!remaining.isEmpty()) {
-                                        for (String thirdError : compoundErrorTypesEnd) {
-                                            if (remaining.startsWith(thirdError)) {
-                                                String modifiedThirdError = "R:" + thirdError;
-                                                annotationErrorTypes.add(modifiedThirdError);
-                                                errorTypes.put(modifiedThirdError,
-                                                        errorTypes.getOrDefault(modifiedThirdError,
-                                                                0) + 1);
-                                                countQuerriedErrors(modifiedThirdError);
-                                                break;
+                                    if (remaining.substring(secondError.length()).length() > 0) {
+
+                                        remaining = remaining.substring(secondError.length() + 1);
+                                        if (!remaining.isEmpty()) {
+                                            for (String thirdError : compoundErrorTypesEnd) {
+                                                if (remaining.startsWith(thirdError)) {
+                                                    String modifiedThirdError = "R:" + thirdError;
+                                                    annotationErrorTypes.add(modifiedThirdError);
+                                                    errorTypes.put(modifiedThirdError,
+                                                            errorTypes.getOrDefault(modifiedThirdError,
+                                                                    0) + 1);
+                                                    countQuerriedErrors(modifiedThirdError);
+                                                    break;
+                                                }
                                             }
                                         }
                                     }
