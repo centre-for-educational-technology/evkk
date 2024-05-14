@@ -49,7 +49,7 @@ public class ErrorAnalyserController {
         textTypes,
         educationLevels, citizenshipList, ageRanges);
 
-    List<ErrorAnalyserTransformedSentence> transformedResult = errorAnalyserService.transformErrorTypes(result,
+    List<ErrorAnalyserTransformedSentence> transformedResult = errorAnalyserService.transformSentence(result,
         errorTypes);
 
     return ResponseEntity.ok(transformedResult);

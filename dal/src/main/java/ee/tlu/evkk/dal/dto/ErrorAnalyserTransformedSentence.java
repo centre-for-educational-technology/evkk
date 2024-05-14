@@ -14,7 +14,8 @@ public class ErrorAnalyserTransformedSentence {
     private String ageRange;
     private String education;
     private String citizenship;
-    private List<ErrorAnalyserAnnotation> annotations;
+    private List<ErrorAnalyserAnnotation> annotations; // selle võib tulevikus eemaldada
+    private List<ErrorAnalyserTransformedAnnotation> transformedAnnotations;
     private Map<String, Integer> errorTypes;
     private Integer querriedErrorTypeCount;
     private List<Map<String, ErrorAnalyserAnnotation>> groupedAnnotations;
@@ -23,7 +24,8 @@ public class ErrorAnalyserTransformedSentence {
 
     public ErrorAnalyserTransformedSentence(String sentenceId, String sentence, String textId, String languageLevel,
             String nativeLanguage, String textType, String age, String ageRange, String education, String citizenship,
-            List<ErrorAnalyserAnnotation> annotations, Map<String, Integer> errorTypes,
+            List<ErrorAnalyserAnnotation> annotations, List<ErrorAnalyserTransformedAnnotation> transformedAnnotations,
+            Map<String, Integer> errorTypes,
             Integer querriedErrorTypeCount, List<Map<String, ErrorAnalyserAnnotation>> groupedAnnotations,
             Map<String, Object> transformedSentence) {
         this.sentenceId = sentenceId;
@@ -37,6 +39,7 @@ public class ErrorAnalyserTransformedSentence {
         this.education = education;
         this.citizenship = citizenship;
         this.annotations = annotations;
+        this.transformedAnnotations = transformedAnnotations;
         this.errorTypes = errorTypes;
         this.querriedErrorTypeCount = querriedErrorTypeCount;
         this.groupedAnnotations = groupedAnnotations;
@@ -85,6 +88,10 @@ public class ErrorAnalyserTransformedSentence {
 
     public List<ErrorAnalyserAnnotation> getAnnotations() {
         return annotations;
+    }
+
+    public List<ErrorAnalyserTransformedAnnotation> getTransformedAnnotations() {
+        return transformedAnnotations;
     }
 
     public Map<String, Integer> getErrorTypes() {
