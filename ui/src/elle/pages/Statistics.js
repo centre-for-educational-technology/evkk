@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { loadFetch } from "../service/LoadFetch";
-import { Checkbox, FormControlLabel, FormControl, InputLabel, Select, MenuItem, NativeSelect } from "@mui/material";
+import { Checkbox, FormControlLabel, FormControl, InputLabel, NativeSelect } from "@mui/material";
 import ChartComponent from "../components/ChartComponent.js";
 import ChartComponentPie from "../components/ChartComponentPie.js";
 
@@ -418,7 +418,7 @@ function Statistics() {
       arr2.forEach(([_, checkboxName2]) => {
         finalData[0].push(checkboxName2);
       });
-      
+
       for(let i = 0; i < arr1.length; i++){
         let temparr = [];
         temparr.push(arr1[i][1]);
@@ -501,7 +501,7 @@ function Statistics() {
     } else{
       piedata.push(["Category", "Value"]);
       piedata2.push(["Category", "Value"]);
-  
+
       if (arr1.length !== 0) {
           for (let i = 0; i < counts.length; i++) {
               piedata.push([arr1[i][1], countsPie[i]]);
@@ -552,7 +552,7 @@ function Statistics() {
           {scrollToOtherCheckboxes()}
         </>
       )}
-    
+
       <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '20px', marginLeft: '100px' }}>
 
         {/* Corpus Checkboxes */}
