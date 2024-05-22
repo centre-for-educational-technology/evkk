@@ -6,23 +6,17 @@ import ee.tlu.evkk.api.controller.dto.TextSearchResponse;
 import ee.tlu.evkk.api.controller.dto.UserFileResponseEntity;
 import ee.tlu.evkk.api.controller.tools.dto.MasinoppeEnustusResponseEntity;
 import ee.tlu.evkk.api.controller.tools.dto.MinitornPikkusResponseEntity;
-import ee.tlu.evkk.api.security.AuthenticatedUser;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.dto.TextProperty;
-import ee.tlu.evkk.dal.dto.User;
 import ee.tlu.evkk.dal.dto.UserFileView;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.StreamSupport.stream;
 import static org.mapstruct.NullValueMappingStrategy.RETURN_DEFAULT;
 import static org.mapstruct.ReportingPolicy.ERROR;
 import static org.mapstruct.factory.Mappers.getMapper;
@@ -46,11 +40,6 @@ public abstract class ApiMapper {
   public abstract FileResponseEntity toFileResponseEntity(UserFileView userFileView, String url, Boolean aPublic);
 
   public abstract UserFileResponseEntity toUserFileResponseEntity(UserFileView userFileView);
-
-  public AuthenticatedUser toAuthenticatedUser(User user, Iterable<String> permissionNames) {
-    List<SimpleGrantedAuthority> authorities = stream(permissionNames.spliterator(), false).map(permissionName -> new SimpleGrantedAuthority("ROLE_" + permissionName)).collect(toList());
-    return new AuthenticatedUser(user.getUserId(), user.getEmailAddress(), user.getPasswordHash(), true, true, true, true, authorities);
-  }
 
   @Mapping(target = "textId", source = "text.id")
   protected abstract TextSearchResponse toTextSearchResponse(Text text, Map<String, String> properties, String downloadUrl);

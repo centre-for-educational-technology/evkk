@@ -37,13 +37,12 @@ public class ServiceLocator {
   }
 
   public enum ServiceName {
-
     EVKK_PUBLIC_API,
+    EVKK_UI,
     STANZA_SERVER,
     CLUSTER_FINDER,
     KLASTERDAJA,
     CORRECTOR_SERVER
-
   }
 
 }

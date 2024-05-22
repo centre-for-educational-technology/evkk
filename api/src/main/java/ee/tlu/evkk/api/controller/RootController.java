@@ -5,6 +5,7 @@ import ee.tlu.evkk.api.controller.dto.StatusResponseEntity;
 import ee.tlu.evkk.api.security.AuthenticatedUser;
 import ee.tlu.evkk.api.service.SessionTokenService;
 import ee.tlu.evkk.common.env.ServiceLocator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,16 +22,12 @@ import java.util.UUID;
  * Date: 11.02.2020
  */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/")
 public class RootController {
 
   private final ServiceLocator serviceLocator;
   private final SessionTokenService sessionTokenService;
-
-  public RootController(ServiceLocator serviceLocator, SessionTokenService sessionTokenService) {
-    this.serviceLocator = serviceLocator;
-    this.sessionTokenService = sessionTokenService;
-  }
 
   @GetMapping("/status")
   public StatusResponseEntity status(@AuthenticationPrincipal AuthenticatedUser authenticatedUser) {

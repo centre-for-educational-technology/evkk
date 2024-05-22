@@ -7,8 +7,17 @@ import './styles/ErrorSnackbar.css';
 export default function ErrorSnackbar() {
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('error_generic_server_error');
   const { t } = useTranslation();
-  errorEmitter.on(ErrorSnackbarEventType.GENERIC_ERROR, () => setSnackbarOpen(true));
+
+  const handleEvent = typeValue => {
+    setSnackbarOpen(true);
+    setErrorMessage(typeValue);
+  };
+
+  Object.values(ErrorSnackbarEventType).forEach(eventTypeValue => {
+    errorEmitter.on(eventTypeValue, () => handleEvent(eventTypeValue));
+  });
 
   const handleSnackbarClose = (_event, reason) => {
     if (reason === 'clickaway') {
@@ -19,18 +28,21 @@ export default function ErrorSnackbar() {
 
   return (
     <Snackbar open={snackbarOpen}
-              autoHideDuration={6000}
+              autoHideDuration={10000}
               anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
               onClose={handleSnackbarClose}>
       <Alert onClose={handleSnackbarClose}
              className="error-alert"
              severity="error">
-        {t('error_generic_server_error')}
+        {t(errorMessage)}
       </Alert>
     </Snackbar>
   );
 }
 
 export const ErrorSnackbarEventType = {
-  GENERIC_ERROR: 'generic-error'
+  GENERIC_ERROR: 'error_generic_server_error',
+  LOGIN_FAILED: 'error_login_failed',
+  ID_CODE_MISSING: 'error_id_code_missing',
+  UNAUTHORIZED: 'error_unauthorized'
 };

@@ -7,16 +7,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
-/**
- * @author Mikk Tarvas
- * Date: 10.02.2020
- */
 @Mapper
 @Repository
 public interface UserDao {
 
-  User findById(@Param("userId") UUID userId);
+  User findByIdCode(@Param("idCode") String idCode);
 
-  User findByEmailAddress(@Param("emailAddress") String emailAddress);
+  User findById(@Param("id") UUID id);
 
+  User insert(@Param("user") User user);
 }

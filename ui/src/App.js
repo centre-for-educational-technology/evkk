@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Navbar from './elle/components/Navbar';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, useNavigate, useSearchParams } from 'react-router-dom';
 import { createTheme } from '@mui/material/styles';
 import AppRoutes from './AppRoutes';
 import { ThemeProvider } from '@mui/material';
 import { EventEmitter } from 'events';
-import ErrorSnackbar from './elle/components/ErrorSnackbar';
+import ErrorSnackbar, { ErrorSnackbarEventType } from './elle/components/ErrorSnackbar';
 import LoadingSpinner from './elle/components/LoadingSpinner';
 import ServerOfflinePage from './elle/components/ServerOfflinePage';
 import SuccessSnackbar from './elle/components/SuccessSnackbar';
@@ -16,6 +16,7 @@ import DonateText from './elle/components/DonateText';
 import { getStatusIfNeeded } from './elle/service/RootService';
 import { rootStore } from './elle/store/RootStore';
 import { applyMiddleware, compose, createStore } from 'redux';
+import { userDataStore, UserStoreActionType } from './elle/store/UserDataStore';
 
 export const errorEmitter = new EventEmitter();
 export const loadingEmitter = new EventEmitter();
@@ -71,11 +72,54 @@ const theme = createTheme({
 });
 
 function AppWithStatus() {
+  const navigate = useNavigate();
+  const [urlParams] = useSearchParams();
   const [isOffline, setIsOffline] = useState(false);
+
+  const extractUserFromToken = () => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      userDataStore.dispatch({
+        type: UserStoreActionType.SET_USER_DATA,
+        value: JSON.parse(atob(token.split('.')[1]))
+      });
+    }
+  };
+
+  const handleAccessTokenChange = (event) => {
+    if (event.storageArea === localStorage && event.key === 'accessToken') {
+      extractUserFromToken();
+    }
+  };
 
   useEffect(() => {
     getStatusIfNeeded();
+    extractUserFromToken();
+    window.addEventListener('storage', handleAccessTokenChange);
+
+    return () => {
+      window.removeEventListener('storage', handleAccessTokenChange);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (urlParams.get('accessToken')) {
+      localStorage.setItem('accessToken', urlParams.get('accessToken'));
+      navigate('', { replace: true });
+    }
+
+    if (urlParams.get('loginFailed')) {
+      errorEmitter.emit(ErrorSnackbarEventType.LOGIN_FAILED);
+      navigate('', { replace: true });
+    }
+
+    if (urlParams.get('idCodeMissing')) {
+      errorEmitter.emit(ErrorSnackbarEventType.ID_CODE_MISSING);
+      navigate('', { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlParams]);
 
   rootStore.subscribe(() => {
     setIsOffline(rootStore.getState().status === false);

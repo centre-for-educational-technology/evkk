@@ -1,5 +1,6 @@
 package ee.tlu.evkk.api.security;
 
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
@@ -10,6 +11,7 @@ import java.util.UUID;
  * @author Mikk Tarvas
  * Date: 11.02.2020
  */
+@Getter
 public class AuthenticatedUser extends User {
 
   private final UUID userId;
@@ -17,10 +19,6 @@ public class AuthenticatedUser extends User {
   public AuthenticatedUser(UUID userId, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
     super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
     this.userId = userId;
-  }
-
-  public UUID getUserId() {
-    return userId;
   }
 
 }
