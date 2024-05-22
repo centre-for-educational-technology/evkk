@@ -178,7 +178,6 @@ function Statistics() {
     const { value, checked } = event.target;
 
     if (value === "allCorpusCheckboxes") {
-      // If the "kõik" checkbox is checked, add all corpus values to the array
       if (checked) {
         setArr([
           "clWmOIrLa",
@@ -201,7 +200,6 @@ function Statistics() {
           cwUSEqQLt: true
         });
       } else {
-        // If the "kõik" checkbox is unchecked, clear the array (remove all corpus values)
         setArr([]);
         setCorpusCheckboxes({
           allCorpusCheckboxes: false,
@@ -215,16 +213,13 @@ function Statistics() {
         });
       }
     } else {
-      // For individual corpus checkboxes, update the state of the individual checkbox
       setCorpusCheckboxes((prevCheckboxes) => ({
         ...prevCheckboxes,
         [value]: checked,
       }));
       if (checked) {
-        // Checkbox is checked, add its name to the array
         setArr((prevArr) => [...prevArr, value]);
       } else {
-        // Checkbox is unchecked, remove its name from the array
         setArr((prevArr) => prevArr.filter((name) => name !== value));
       }
     }
@@ -241,14 +236,12 @@ function Statistics() {
         setOpenSubgroups([...openSubgroups, subgroup]);
       }
     }
-    //console.log(openSubgroups);
   };
 
   const handleTextCheckboxChange = (event) => {
     const { value, checked } = event.target;
 
     if (checked) {
-      // Check if the maximum number of open subgroups is reached
       if (openSubgroups.length < 2) {
         setShowTextSubgroup(value, true);
         toggleSubgroup(value);
@@ -295,7 +288,6 @@ function Statistics() {
     const { value, checked } = event.target;
 
     if (checked) {
-      // Check if the maximum number of open subgroups is reached
       if (openSubgroups.length < 2) {
         setShowAuthorSubgroup(value, true);
         toggleSubgroup(value);
@@ -346,18 +338,14 @@ function Statistics() {
 
     if (checked) {
       if (arr1.length === 0) {
-        // If arr1 is empty, create a new array with the current [group, checkboxName]
         setArr1([[group, checkboxName]]);
       } else if (!arr1.some(([g, _]) => g === group)) {
-        // If arr1 is not empty and the group doesn't match arr1's group, create arr2
         setArr2((prevArr) => [...prevArr, [group, checkboxName]]);
       } else {
-        // If arr1 is not empty and the group matches arr1's group, add [group, checkboxName] to arr1
         setArr1((prevArr) => [...prevArr, [group, checkboxName]]);
       }
       setShowChart(true);
     } else {
-      // Checkbox is unchecked, remove the [group, checkboxName] from arr1 and arr2
       setArr1((prevArr) =>
         prevArr.filter(([g, name]) => !(g === group && name === checkboxName))
       );
@@ -365,8 +353,6 @@ function Statistics() {
         prevArr.filter(([g, name]) => !(g === group && name === checkboxName))
       );
     }
-    //console.log(arr1);
-    //console.log(arr2);
   };
 
 
@@ -425,7 +411,6 @@ function Statistics() {
             });
         });
     }
-    //console.log(counts);
 
     let finalData = [];
     if(arr2.length !== 0 && arr1.length !== 0){
@@ -455,7 +440,6 @@ function Statistics() {
         finalData.push(temparr);
       }
     }
-    //console.log(finalData)
     setChartData(finalData);
 
     //Piecharts
@@ -499,7 +483,6 @@ function Statistics() {
             }, 0);
         });
     }
-    //console.log(countsPie, countsPie2);
 
 
     let piedata = [];
@@ -529,7 +512,6 @@ function Statistics() {
           }
       }
     }
-    //console.log(piedata);
     setPieData(piedata);
     setPieData2(piedata2);
   };
@@ -540,7 +522,6 @@ function Statistics() {
   }, [arr, corpusCheckboxes, checkboxes]);
 
   const renderCheckbox = (label, value, checked, onChange) => {
-    // Determine if the checkbox should be disabled
     const isDisabled = openSubgroups.length >= 2 && !checked;
 
     return (
