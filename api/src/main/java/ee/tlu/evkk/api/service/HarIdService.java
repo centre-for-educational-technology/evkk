@@ -17,6 +17,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import static ee.evkk.dto.enums.Language.ET;
+import static ee.tlu.evkk.api.constant.AuthConstants.HARID_AUTHENTICATION_SUCCESS_URL;
+import static ee.tlu.evkk.api.constant.AuthConstants.HARID_AUTHENTICATION_URL;
 import static ee.tlu.evkk.api.controller.dto.UserLoginDto.setFailedLogin;
 import static ee.tlu.evkk.api.controller.dto.UserLoginDto.setHarIdRedirect;
 import static ee.tlu.evkk.api.controller.dto.UserLoginDto.setMissingIdCode;
@@ -37,8 +39,6 @@ import static org.springframework.http.RequestEntity.post;
 @Slf4j
 public class HarIdService {
 
-  private static final String HARID_AUTHENTICATION_URL = "%s?client_id=%s&redirect_uri=%s&scope=openid+profile+personal_code+email&response_type=code";
-  private static final String HARID_AUTHENTICATION_SUCCESS_URL = "/auth/login/harid/success";
   private static final RestTemplate restTemplate = new RestTemplate();
 
   private final HarIdProperties harIdProperties;
