@@ -37,8 +37,6 @@ export default function CorrectionInput(
   useProcessTextCorrections(responseText, textBoxRef, textBoxValueRef, setErrorList, setInputText, spellerAnswer, grammarAnswer);
   usePopUpHover('text-span', inputText, errorList, setPopperAnchor, setPopperValue);
 
-  console.log(textBoxValueRef.current, inputText);
-
   return (
     <div className="w-50 d-flex flex-column">
       <Box

@@ -5,7 +5,6 @@ export const calculateAbstractnessAverage = (abstractAnswer) => {
   let abstractnessSum = 0;
   abstractAnswer.wordAnalysis.forEach((word) => {
     if (word.abstractness !== null && word.pos === 'Nimisõna') {
-      console.log(word.pos);
       abstractCount++;
       abstractnessSum += word.abstractness;
     }

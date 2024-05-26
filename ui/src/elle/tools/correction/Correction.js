@@ -19,9 +19,6 @@ const Correction = () => {
   const [abstractWords, setAbstractWords] = useState();
   const [correctionModel, setCorrectionModel] = useState('spellchecker');
 
-  console.log(grammarAnswer);
-  console.log(errorList);
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

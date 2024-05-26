@@ -28,7 +28,7 @@ export default function TextLevelTab(
   return (
     <div className="corrector-border-box">
       <Box className="d-flex mb-2">
-        <strong>Veaotsing:</strong>
+        <strong>Automaatkontroll:</strong>
         <ToggleButtonGroup
           color="primary"
           value={correctionModel}
@@ -37,8 +37,8 @@ export default function TextLevelTab(
           onChange={(e) => handleModelChange(setCorrectionModel, e)}
           aria-label="Platform"
         >
-          <ToggleButton value="spellchecker">Tähevead</ToggleButton>
-          <ToggleButton value="grammarchecker">Grammatikavead</ToggleButton>
+          <ToggleButton value="spellchecker">Sõnad</ToggleButton>
+          <ToggleButton value="grammarchecker">Grammatika</ToggleButton>
         </ToggleButtonGroup>
       </Box>
       <div className="d-flex gap-2">

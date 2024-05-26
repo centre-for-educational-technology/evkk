@@ -18,6 +18,7 @@ import { handleInput, handleModelChange, handlePaste } from '../../helperFunctio
 import {
   handleAbstractWords,
   handleContentWords,
+  handleSameWordRepetition,
   handleUncommonWords,
   handleWordRepetition
 } from './helperFunctions/vocabularyMarkingHandlers';
@@ -48,10 +49,15 @@ export default function VocabularyTab(
     if (!complexityAnswer) return;
     let text = textBoxValueRef.current.replaceAll(replaceCombined, '').replaceAll('  ', ' ');
     const sentences = text.split(/(?<=[.!?])\s+/);
+    let currentWordIndex = 0;
     sentences.forEach((sentence, index) => {
       if (model === 'wordrepetition') {
+        const usedIndexes = {start: currentWordIndex, end: currentWordIndex + sentence.split(' ').length};
+        const tempSentence = text.split(/(?<=[.!?])\s+/)[index];
+        text = handleSameWordRepetition(tempSentence, text, usedIndexes, complexityAnswer);
         if (index < sentences.length - 1) {
-          text = handleWordRepetition(sentence, sentences, index, text, complexityAnswer);
+          currentWordIndex = usedIndexes.end;
+          text = handleWordRepetition(tempSentence, sentences[index + 1], usedIndexes, text, complexityAnswer);
         }
       } else if (model === 'uncommonwords' && complexityAnswer) {
         text = handleUncommonWords(text, abstractWords, complexityAnswer);
@@ -65,6 +71,8 @@ export default function VocabularyTab(
     textBoxValueRef.current = text;
     setRenderTrigger(renderTrigger => !renderTrigger);
   };
+
+  console.log(complexityAnswer);
 
   return (
     <div className="corrector-border-box">

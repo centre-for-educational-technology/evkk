@@ -17,16 +17,13 @@ export const resolveError = (index, errorType, newInnerText, type, setErrorList,
   const difference = newInnerText.length - resolvableElement.innerText.length;
   resolvableElement.innerText = newInnerText;
 
-  console.log(difference);
   const array = [];
 
   console.log(grammarAnswer);
   let errorIndex = -1;
   grammarAnswer.corrections.reverse().forEach((error) => {
     if (error.errorId !== `${errorType}_${index}`) {
-      console.log('Siin');
       if (errorIndex > error.index) {
-        console.log('veel');
         error.span.start = error.span.start + difference;
         error.span.end = error.span.end + difference;
       }
@@ -37,7 +34,6 @@ export const resolveError = (index, errorType, newInnerText, type, setErrorList,
     ;
   });
   grammarAnswer.corrections = array.reverse();
-  console.log(grammarAnswer);
   spellerAnswer.corrections = spellerAnswer.corrections.filter((error) => error.errorId !== `${errorType}_${index}`);
   setGrammarAnswer(grammarAnswer);
   setSpellerAnswer(spellerAnswer);
