@@ -41,8 +41,9 @@ export default function ErrorSnackbar() {
 }
 
 export const ErrorSnackbarEventType = {
+  FORBIDDEN: 'error_forbidden',
   GENERIC_ERROR: 'error_generic_server_error',
-  LOGIN_FAILED: 'error_login_failed',
   ID_CODE_MISSING: 'error_id_code_missing',
+  LOGIN_FAILED: 'error_login_failed',
   UNAUTHORIZED: 'error_unauthorized'
 };

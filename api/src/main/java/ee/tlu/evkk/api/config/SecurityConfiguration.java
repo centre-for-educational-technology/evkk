@@ -22,6 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
@@ -33,11 +34,13 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+  public static final List<String> PROTECTED_URLS = List.of("/user/**", "/admin/**");
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -46,18 +49,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     http
       .csrf().disable() //TODO: use repo
-      .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
       .authorizeRequests()
-      .mvcMatchers("/status").permitAll()
-      .mvcMatchers("/auth/**").permitAll()
-      .mvcMatchers("/texts/**").permitAll()
-      .mvcMatchers("/textfromfile/**").permitAll()
-      .mvcMatchers("/integration/**").permitAll()
-      .mvcMatchers("/tools/**").permitAll()
-      .anyRequest().authenticated().and()
+      .anyRequest().permitAll().and()
+      .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
       .sessionManagement().sessionCreationPolicy(STATELESS).and()
-      .logout().logoutSuccessHandler(logoutSuccessHandler())
-      .and().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint());
+      .logout().logoutSuccessHandler(logoutSuccessHandler()).and()
+      .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint());
   }
 
   private AuthenticationEntryPoint authenticationEntryPoint() {
