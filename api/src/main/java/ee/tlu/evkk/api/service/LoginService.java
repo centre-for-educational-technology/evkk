@@ -1,7 +1,8 @@
 package ee.tlu.evkk.api.service;
 
+import ee.tlu.evkk.api.controller.dto.AccessTokenDto;
 import ee.tlu.evkk.api.controller.dto.UserLoginDto;
-import ee.tlu.evkk.api.controller.dto.UserTokensDto;
+import ee.tlu.evkk.api.exception.TokenNotFoundException;
 import ee.tlu.evkk.api.service.dto.HarIdUserResponse;
 import ee.tlu.evkk.dal.dao.UserDao;
 import ee.tlu.evkk.dal.dto.User;
@@ -11,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
@@ -41,9 +43,9 @@ public class LoginService {
     return new RedirectView(userLoginDto.getRedirectUri().toString());
   }
 
-  public void logout(UserTokensDto userTokensDto, HttpServletResponse response) {
-    jwtService.blacklistToken(userTokensDto.getAccessToken());
-    refreshTokenService.revokeTokenAndRemoveCookie(userTokensDto.getRefreshToken(), response);
+  public void logout(AccessTokenDto accessTokenDto, HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException {
+    jwtService.blacklistToken(accessTokenDto.getToken());
+    refreshTokenService.revokeTokenAndRemoveCookie(request, response);
     SecurityContextHolder.getContext().setAuthentication(null);
   }
 

@@ -2,9 +2,7 @@ package ee.tlu.evkk.api.controller;
 
 import ee.evkk.dto.enums.Language;
 import ee.tlu.evkk.api.controller.dto.AccessTokenDto;
-import ee.tlu.evkk.api.controller.dto.RefreshTokenDto;
 import ee.tlu.evkk.api.controller.dto.UserLoginDto;
-import ee.tlu.evkk.api.controller.dto.UserTokensDto;
 import ee.tlu.evkk.api.exception.TokenExpiredException;
 import ee.tlu.evkk.api.exception.TokenNotFoundException;
 import ee.tlu.evkk.api.service.HarIdService;
@@ -20,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URISyntaxException;
@@ -46,13 +45,12 @@ public class AuthController {
   }
 
   @PostMapping("renew")
-  public AccessTokenDto renewTokens(@RequestBody RefreshTokenDto refreshTokenDto,
-                                    HttpServletResponse response) throws TokenNotFoundException, TokenExpiredException {
-    return refreshTokenService.renewToken(refreshTokenDto, response);
+  public AccessTokenDto renewTokens(HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException, TokenExpiredException {
+    return refreshTokenService.renewToken(request, response);
   }
 
   @DeleteMapping("logout")
-  public void logout(@RequestBody @Valid UserTokensDto userTokensDto, HttpServletResponse response) {
-    loginService.logout(userTokensDto, response);
+  public void logout(@RequestBody @Valid AccessTokenDto accessTokenDto, HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException {
+    loginService.logout(accessTokenDto, request, response);
   }
 }

@@ -1,7 +1,6 @@
 package ee.tlu.evkk.api.service;
 
 import ee.tlu.evkk.api.controller.dto.AccessTokenDto;
-import ee.tlu.evkk.api.controller.dto.RefreshTokenDto;
 import ee.tlu.evkk.api.exception.TokenExpiredException;
 import ee.tlu.evkk.api.exception.TokenNotFoundException;
 import ee.tlu.evkk.dal.dao.RefreshTokenDao;
@@ -12,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -19,6 +19,7 @@ import java.security.SecureRandom;
 import static ee.tlu.evkk.api.constant.AuthConstants.REFRESH_TOKEN_EXPIRES_IN_MILLISECONDS;
 import static ee.tlu.evkk.api.constant.AuthConstants.REFRESH_TOKEN_EXPIRES_IN_SECONDS;
 import static java.time.Instant.now;
+import static java.util.Arrays.stream;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,8 @@ public class RefreshTokenService {
   private final UserDao userDao;
   private final RefreshTokenDao refreshTokenDao;
   private final JwtService jwtService;
+
+  private static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
 
   public RefreshToken generateToken(User user) {
     refreshTokenDao.deleteByUserId(user.getUserId());
@@ -40,8 +43,8 @@ public class RefreshTokenService {
     return refreshTokenDao.insert(refreshToken);
   }
 
-  public AccessTokenDto renewToken(RefreshTokenDto refreshTokenDto, HttpServletResponse response) throws TokenNotFoundException, TokenExpiredException {
-    RefreshToken token = refreshTokenDao.findByToken(refreshTokenDto.getToken());
+  public AccessTokenDto renewToken(HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException, TokenExpiredException {
+    RefreshToken token = refreshTokenDao.findByToken(getRefreshToken(request));
 
     if (token == null) {
       throw new TokenNotFoundException();
@@ -57,13 +60,13 @@ public class RefreshTokenService {
     return new AccessTokenDto(jwtService.generateToken(user));
   }
 
-  public void revokeTokenAndRemoveCookie(String token, HttpServletResponse response) {
-    refreshTokenDao.deleteByToken(token);
+  public void revokeTokenAndRemoveCookie(HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException {
+    refreshTokenDao.deleteByToken(getRefreshToken(request));
     removeCookie(response);
   }
 
   public void createCookie(String token, HttpServletResponse response) {
-    Cookie refreshTokenCookie = new Cookie("refreshToken", token);
+    Cookie refreshTokenCookie = new Cookie(REFRESH_TOKEN_COOKIE_NAME, token);
     refreshTokenCookie.setHttpOnly(true);
     refreshTokenCookie.setSecure(true);
     refreshTokenCookie.setPath("/");
@@ -73,11 +76,19 @@ public class RefreshTokenService {
   }
 
   private void removeCookie(HttpServletResponse response) {
-    Cookie refreshTokenCookie = new Cookie("refreshToken", null);
+    Cookie refreshTokenCookie = new Cookie(REFRESH_TOKEN_COOKIE_NAME, null);
     refreshTokenCookie.setHttpOnly(true);
     refreshTokenCookie.setSecure(true);
     refreshTokenCookie.setPath("/");
     refreshTokenCookie.setMaxAge(0);
     response.addCookie(refreshTokenCookie);
+  }
+
+  private String getRefreshToken(HttpServletRequest request) throws TokenNotFoundException {
+    if (request.getCookies() == null) throw new TokenNotFoundException();
+    Cookie tokenCookie = stream(request.getCookies())
+      .filter(cookie -> cookie.getName().equals(REFRESH_TOKEN_COOKIE_NAME))
+      .findFirst().orElseThrow(TokenNotFoundException::new);
+    return tokenCookie.getValue();
   }
 }

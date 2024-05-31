@@ -17,6 +17,7 @@ import { getStatusIfNeeded } from './elle/service/RootService';
 import { rootStore } from './elle/store/RootStore';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { userDataStore, UserStoreActionType } from './elle/store/UserDataStore';
+import { setNavigateFunction } from './elle/util/navigate';
 
 export const errorEmitter = new EventEmitter();
 export const loadingEmitter = new EventEmitter();
@@ -120,6 +121,10 @@ function AppWithStatus() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [urlParams]);
+
+  useEffect(() => {
+    setNavigateFunction(navigate);
+  }, [navigate]);
 
   rootStore.subscribe(() => {
     setIsOffline(rootStore.getState().status === false);
