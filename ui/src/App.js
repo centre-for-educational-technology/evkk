@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Navbar from './elle/components/Navbar';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
@@ -16,8 +16,9 @@ import DonateText from './elle/components/DonateText';
 import { getStatusIfNeeded } from './elle/service/RootService';
 import { rootStore } from './elle/store/RootStore';
 import { applyMiddleware, compose, createStore } from 'redux';
-import { userDataStore, UserStoreActionType } from './elle/store/UserDataStore';
 import { setNavigateFunction } from './elle/util/navigate';
+import AuthContext, { AuthProvider } from './elle/context/AuthContext';
+import withGlobalLoading from './elle/hoc/withGlobalLoading';
 
 export const errorEmitter = new EventEmitter();
 export const loadingEmitter = new EventEmitter();
@@ -76,37 +77,23 @@ function AppWithStatus() {
   const navigate = useNavigate();
   const [urlParams] = useSearchParams();
   const [isOffline, setIsOffline] = useState(false);
-
-  const extractUserFromToken = () => {
-    const token = localStorage.getItem('accessToken');
-    if (token) {
-      userDataStore.dispatch({
-        type: UserStoreActionType.SET_USER_DATA,
-        value: JSON.parse(atob(token.split('.')[1]))
-      });
-    }
-  };
-
-  const handleAccessTokenChange = (event) => {
-    if (event.storageArea === localStorage && event.key === 'accessToken') {
-      extractUserFromToken();
-    }
-  };
+  const { setContext } = useContext(AuthContext);
 
   useEffect(() => {
     getStatusIfNeeded();
-    extractUserFromToken();
-    window.addEventListener('storage', handleAccessTokenChange);
+    const unsubscribe = rootStore.subscribe(() => {
+      setIsOffline(rootStore.getState().status === false);
+    });
 
     return () => {
-      window.removeEventListener('storage', handleAccessTokenChange);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+      unsubscribe();
+    }
   }, []);
 
   useEffect(() => {
     if (urlParams.get('accessToken')) {
       localStorage.setItem('accessToken', urlParams.get('accessToken'));
+      setContext();
       navigate('', { replace: true });
     }
 
@@ -125,10 +112,6 @@ function AppWithStatus() {
   useEffect(() => {
     setNavigateFunction(navigate);
   }, [navigate]);
-
-  rootStore.subscribe(() => {
-    setIsOffline(rootStore.getState().status === false);
-  });
 
   if (isOffline) {
     return <ServerOfflinePage />;
@@ -149,13 +132,17 @@ function AppWithStatus() {
   );
 }
 
+const AppWithStatusAndLoading = withGlobalLoading(AppWithStatus);
+
 export default function App() {
 
   return (
     <Router>
       <ThemeProvider theme={theme}>
         <Provider store={store}>
-          <AppWithStatus />
+          <AuthProvider>
+            <AppWithStatusAndLoading />
+          </AuthProvider>
         </Provider>
       </ThemeProvider>
     </Router>

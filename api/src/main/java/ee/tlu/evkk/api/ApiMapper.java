@@ -3,12 +3,14 @@ package ee.tlu.evkk.api;
 import ee.evkk.dto.integration.FileResponseEntity;
 import ee.tlu.evkk.api.controller.dto.StatusResponseEntity;
 import ee.tlu.evkk.api.controller.dto.TextSearchResponse;
+import ee.tlu.evkk.api.controller.dto.UserDto;
 import ee.tlu.evkk.api.controller.dto.UserFileResponseEntity;
 import ee.tlu.evkk.api.controller.tools.dto.MasinoppeEnustusResponseEntity;
 import ee.tlu.evkk.api.controller.tools.dto.MinitornPikkusResponseEntity;
 import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.dal.dto.Text;
 import ee.tlu.evkk.dal.dto.TextProperty;
+import ee.tlu.evkk.dal.dto.User;
 import ee.tlu.evkk.dal.dto.UserFileView;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -43,6 +45,9 @@ public abstract class ApiMapper {
 
   @Mapping(target = "textId", source = "text.id")
   protected abstract TextSearchResponse toTextSearchResponse(Text text, Map<String, String> properties, String downloadUrl);
+
+  @Mapping(target = "fullName", expression = "java(user.getFirstName() + \" \" + user.getLastName())")
+  public abstract UserDto toUserDto(User user);
 
   protected TextSearchResponse toTextSearchResponse(Text text, Collection<TextProperty> properties, String downloadUrl) {
     TreeMap<String, String> propertyMap = new TreeMap<>(String::compareTo);

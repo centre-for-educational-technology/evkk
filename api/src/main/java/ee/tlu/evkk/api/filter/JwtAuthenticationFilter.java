@@ -2,7 +2,6 @@ package ee.tlu.evkk.api.filter;
 
 import ee.tlu.evkk.api.service.JwtService;
 import ee.tlu.evkk.dal.dto.User;
-import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -49,7 +48,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Authentication authentication = new UsernamePasswordAuthenticationToken(user, token, getAuthorities(user));
             SecurityContextHolder.getContext().setAuthentication(authentication);
           }
-        } catch (ExpiredJwtException e) {
+        } catch (Exception e) {
           response.setStatus(SC_UNAUTHORIZED);
         }
       }

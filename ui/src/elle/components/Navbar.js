@@ -8,12 +8,15 @@ import './styles/Navbar.css';
 import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { Languages } from '../translations/i18n';
+import Can from './security/Can';
+import { UserRoleConstants } from '../const/Constants';
 
 const pages = [
-  {id: 1, title: 'common_corrector', target: '/corrector'},
-  {id: 2, title: 'common_tools', target: '/tools'},
-  {id: 3, title: 'common_links', target: '/links'},
-  {id: 4, title: 'common_about', target: '/about'}
+  { id: 1, title: 'common_corrector', target: '/corrector' },
+  { id: 2, title: 'common_tools', target: '/tools' },
+  { id: 3, title: 'common_links', target: '/links' },
+  { id: 4, title: 'common_about', target: '/about' },
+  { id: 5, title: 'common_admin_panel', target: '/admin', role: UserRoleConstants.ADMIN }
 ];
 
 const MenuLink = styled(Link)({
@@ -49,7 +52,7 @@ const BurgerLink = styled(Link)({
 });
 
 export default function Navbar() {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [navColor, setNavColor] = useState('sticking');
 
@@ -109,7 +112,7 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll, {passive: true});
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -135,16 +138,19 @@ export default function Navbar() {
           <div className="nav-menu-link-container">
             {pages.map((page) => {
               return (
-                <span style={{height: '100%'}} key={page.id}>
-                  <Box className="nav-menu-item my-0 mx-4">
-                    <MenuLink
-                      to={page.target}
-                      component={NavLink}
-                    >
-                      {t(page.title)}
-                    </MenuLink>
-                  </Box>
-                </span>);
+                <Can role={page.role} key={page.id}>
+                  <span style={{ height: '100%' }}>
+                    <Box className="nav-menu-item my-0 mx-4">
+                      <MenuLink
+                        to={page.target}
+                        component={NavLink}
+                      >
+                        {t(page.title)}
+                      </MenuLink>
+                    </Box>
+                  </span>
+                </Can>
+              );
             })}
           </div>
           <div className="nav-icons-container">
@@ -165,7 +171,7 @@ export default function Navbar() {
         anchor="left"
         onClose={toggleDrawer}
         PaperProps={{
-          sx: {width: '100%'}
+          sx: { width: '100%' }
         }}
       >
         <div className="nav-drawer-container">
@@ -183,15 +189,17 @@ export default function Navbar() {
             <List>
               {pages.map((page) => {
                 return (
-                  <ListItem sx={{pl: 0}} key={page.id}>
-                    <BurgerLink
-                      to={page.target}
-                      component={NavLink}
-                      onClick={toggleDrawer}
-                    >
-                      {t(page.title)}
-                    </BurgerLink>
-                  </ListItem>
+                  <Can role={page.role} key={page.id}>
+                    <ListItem sx={{ pl: 0 }}>
+                      <BurgerLink
+                        to={page.target}
+                        component={NavLink}
+                        onClick={toggleDrawer}
+                      >
+                        {t(page.title)}
+                      </BurgerLink>
+                    </ListItem>
+                  </Can>
                 );
               })}
             </List>

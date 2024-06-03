@@ -655,5 +655,11 @@ export const breadcrumbNameMap = {
   '/tools/wordanalyser': 'common_word_analyser',
   '/tools/wordlist': 'common_wordlist',
   '/tools/wordcontext': 'common_word_in_context',
-  '/tools/collocates': 'common_neighbouring_words'
+  '/tools/collocates': 'common_neighbouring_words',
+  '/admin': 'common_admin_panel'
+};
+
+export const UserRoleConstants = {
+  USER: 'USER',
+  ADMIN: 'ADMIN'
 };

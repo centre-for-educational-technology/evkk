@@ -1,19 +1,15 @@
 package ee.tlu.evkk.api.controller.tools.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @author Mikk Tarvas
  * Date: 11.02.2020
  */
+@Getter
+@Setter
 public class MinitornPikkusResponseEntity {
 
   private Long length;
-
-  public Long getLength() {
-    return length;
-  }
-
-  public void setLength(Long length) {
-    this.length = length;
-  }
-
 }

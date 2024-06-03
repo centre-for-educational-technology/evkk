@@ -1,13 +1,24 @@
 import { Backdrop, CircularProgress } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { loadingEmitter } from '../../App';
 import { DefaultCircularProgressStyle } from '../const/Constants';
 
 export default function LoadingSpinner() {
 
   const [loading, setLoading] = useState(false);
-  loadingEmitter.on(LoadingSpinnerEventType.LOADER_START, () => setLoading(true));
-  loadingEmitter.on(LoadingSpinnerEventType.LOADER_END, () => setLoading(false));
+
+  useEffect(() => {
+    const handleLoaderStart = () => setLoading(true);
+    const handleLoaderEnd = () => setLoading(false);
+
+    loadingEmitter.on(LoadingSpinnerEventType.LOADER_START, handleLoaderStart);
+    loadingEmitter.on(LoadingSpinnerEventType.LOADER_END, handleLoaderEnd);
+
+    return () => {
+      loadingEmitter.off(LoadingSpinnerEventType.LOADER_START, handleLoaderStart);
+      loadingEmitter.off(LoadingSpinnerEventType.LOADER_END, handleLoaderEnd);
+    };
+  }, []);
 
   return (
     <Backdrop

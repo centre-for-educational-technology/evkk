@@ -20,6 +20,9 @@ import Collocates from './elle/tools/collocates/Collocates';
 import { withTranslation } from 'react-i18next';
 import Tools from './elle/pages/Tools';
 import Login from './elle/pages/Login';
+import Admin from './elle/pages/Admin';
+import RequireAuth from './elle/components/security/RequireAuth';
+import { UserRoleConstants } from './elle/const/Constants';
 
 class AppRoutes extends Component {
 
@@ -88,6 +91,10 @@ class AppRoutes extends Component {
                  element={<Links />} />
           <Route path="/login"
                  element={<Login />} />
+          <Route element={<RequireAuth role={UserRoleConstants.ADMIN} />}>
+            <Route path="/admin"
+                   element={<Admin />} />
+          </Route>
           <Route path="*"
                  element={this.render404()} />
         </Routes>
