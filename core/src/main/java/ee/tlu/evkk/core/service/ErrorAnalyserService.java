@@ -11,6 +11,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import ee.tlu.evkk.dal.dto.ErrorAnalyserAnnotationGroup;
+import ee.tlu.evkk.core.service.dto.ErrorAnalyserExtractErrorsResult;
+import ee.tlu.evkk.dal.dto.ErrorAnalyserGroupedAnnotations;
 import org.springframework.stereotype.Service;
 
 import ee.tlu.evkk.core.service.dto.ErrorAnalyserTransformedAnnotationsResult;
@@ -21,238 +24,325 @@ import ee.tlu.evkk.dal.dto.ErrorAnalyserTransformedSentence;
 
 @Service
 public class ErrorAnalyserService {
-    private final List<String> mainErrorTypes = Arrays.asList("U:LEX", "U:PUNCT", "M:LEX",
-            "M:PUNCT", "R:LEX", "R:CASE",
-            "R:NOM:FORM", "R:PUNCT", "R:SPELL", "R:VERB:FORM", "R:WO", "R:WS");
-    private final List<String> compoundErrorTypesStart = Arrays.asList("R:LEX", "R:NOM:FORM",
-            "R:SPELL", "R:VERB:FORM", "R:WO",
-            "R:WS");
-    private final List<String> compoundErrorTypesEnd = Arrays.asList("CASE", "NOM:FORM",
-            "SPELL", "VERB:FORM", "WO", "WS");
-    private List<String> querriedErrorTypes;
-    private Integer querriedErrorCount;
+  private final List<String> mainErrorTypes = Arrays.asList("U:LEX", "U:PUNCT", "M:LEX",
+    "M:PUNCT", "R:LEX", "R:CASE",
+    "R:NOM:FORM", "R:PUNCT", "R:SPELL", "R:VERB:FORM", "R:WO", "R:WS");
+  private final List<String> compoundErrorTypesStart = Arrays.asList("R:LEX", "R:NOM:FORM",
+    "R:SPELL", "R:VERB:FORM", "R:WO",
+    "R:WS");
+  private final List<String> compoundErrorTypesEnd = Arrays.asList("CASE", "NOM:FORM",
+    "SPELL", "VERB:FORM", "WO", "WS");
+  private List<String> queriedErrorTypes;
+  private Integer queriedErrorCount; //pärast kust
 
-    public List<ErrorAnalyserTransformedSentence> transformSentence(List<ErrorAnalyserSentence> listItems,
-            List<String> querriedErrorTypes) {
+  //KUST
+  public static Map<String, Object> transformSentence(String sentence) {
+    Map<String, Object> transformedSentence = new HashMap<>();
+    String[] words = sentence.split(" ");
 
-        if (querriedErrorTypes == null) {
-            querriedErrorTypes = new ArrayList<>();
-        }
-
-        this.querriedErrorTypes = querriedErrorTypes;
-
-        List<ErrorAnalyserTransformedSentence> transformedListItems = new ArrayList<ErrorAnalyserTransformedSentence>();
-
-        for (ErrorAnalyserSentence listItem : listItems) {
-            querriedErrorCount = 0;
-            List<ErrorAnalyserAnnotation> annotations = listItem.getAnnotations();
-            ErrorAnalyserTransformedAnnotationsResult transformedAnnotationsResult = transformAnnotations(annotations);
-
-            List<ErrorAnalyserTransformedAnnotation> transformedAnnotations = transformedAnnotationsResult
-                    .getTransformedAnnotations();
-
-            Map<String, Integer> errorTypes = transformedAnnotationsResult.getErrorTypes();
-            List<Map<String, ErrorAnalyserAnnotation>> groupedAnnotations = getGroupedAnnotations(annotations);
-            Map<String, Object> transformedSentence = transformSentence(listItem.getSentence());
-
-            ErrorAnalyserTransformedSentence transformedListItem = new ErrorAnalyserTransformedSentence(
-                    listItem.getSentenceId(), listItem.getSentence(), listItem.getTextId(), listItem.getLanguageLevel(),
-                    listItem.getNativeLanguage(), listItem.getTextType(), listItem.getAge(), listItem.getAgeRange(),
-                    listItem.getEducation(), listItem.getCitizenship(), annotations, transformedAnnotations, errorTypes,
-                    querriedErrorCount, groupedAnnotations, transformedSentence);
-            transformedListItems.add(transformedListItem);
-        }
-        return transformedListItems;
+    for (int index = 0; index < words.length; index++) {
+      String key = String.format("%d::%d::-1", index, index + 1);
+      Map<String, String> value = new HashMap<>();
+      value.put("content", words[index]);
+      value.put("status", "initial");
+      transformedSentence.put(key, value);
     }
 
-    public void countQuerriedErrors(String error) {
-        if (querriedErrorTypes.contains(error)) {
-            querriedErrorCount++;
-        }
+    return transformedSentence;
+  }
+
+  public List<ErrorAnalyserTransformedSentence> transformSentence(List<ErrorAnalyserSentence> listItems,
+                                                                  List<String> queriedErrorTypes) {
+
+    if (queriedErrorTypes == null) {
+      queriedErrorTypes = new ArrayList<>();
     }
 
-    // Eraldab liitvigades lihtvead ja loeb palju vigasid annotatsioonide peale
-    // kokku on
-    public ErrorAnalyserTransformedAnnotationsResult transformAnnotations(List<ErrorAnalyserAnnotation> annotations) {
-        List<ErrorAnalyserTransformedAnnotation> transformedAnnotations = new ArrayList<ErrorAnalyserTransformedAnnotation>();
-        Map<String, Integer> errorTypes = new HashMap<String, Integer>();
-        for (ErrorAnalyserAnnotation annotation : annotations) {
-            List<String> annotationErrorTypes = new ArrayList<>();
-            String errorType = annotation.getErrorType();
-            if (mainErrorTypes.contains(errorType)) {
-                annotationErrorTypes.add(errorType);
-                errorTypes.put(errorType, errorTypes.getOrDefault(errorType, 0) + 1);
-                countQuerriedErrors(errorType);
-            } else {
-                for (String firstError : compoundErrorTypesStart) {
-                    if (errorType.startsWith(firstError)) {
-                        annotationErrorTypes.add(firstError);
-                        errorTypes.put(firstError, errorTypes.getOrDefault(errorType, 0) + 1);
-                        countQuerriedErrors(firstError);
-                        String remaining = errorType.substring(firstError.length() + 1);
-                        if (!remaining.isEmpty()) {
-                            for (String secondError : compoundErrorTypesEnd) {
-                                if (remaining.startsWith(secondError)) {
-                                    String modifiedSecondError = "R:" + secondError;
-                                    annotationErrorTypes.add(modifiedSecondError);
-                                    errorTypes.put(modifiedSecondError,
-                                            errorTypes.getOrDefault(modifiedSecondError, 0) + 1);
-                                    countQuerriedErrors(modifiedSecondError);
-                                    if (remaining.substring(secondError.length()).length() > 0) {
+    this.queriedErrorTypes = queriedErrorTypes;
 
-                                        remaining = remaining.substring(secondError.length() + 1);
-                                        if (!remaining.isEmpty()) {
-                                            for (String thirdError : compoundErrorTypesEnd) {
-                                                if (remaining.startsWith(thirdError)) {
-                                                    String modifiedThirdError = "R:" + thirdError;
-                                                    annotationErrorTypes.add(modifiedThirdError);
-                                                    errorTypes.put(modifiedThirdError,
-                                                            errorTypes.getOrDefault(modifiedThirdError,
-                                                                    0) + 1);
-                                                    countQuerriedErrors(modifiedThirdError);
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    break;
-                                }
-                            }
-                        }
+    List<ErrorAnalyserTransformedSentence> transformedListItems = new ArrayList<ErrorAnalyserTransformedSentence>();
+
+    for (ErrorAnalyserSentence listItem : listItems) {
+      queriedErrorCount = 0;
+      List<ErrorAnalyserAnnotation> annotations = listItem.getAnnotations();
+      ErrorAnalyserTransformedAnnotationsResult transformedAnnotationsResult = transformAnnotations(annotations);
+
+      List<ErrorAnalyserTransformedAnnotation> transformedAnnotations = transformedAnnotationsResult
+        .getTransformedAnnotations();
+
+      Map<String, Integer> errorTypes = transformedAnnotationsResult.getErrorTypes();
+      ErrorAnalyserGroupedAnnotations groupedAnnotations = getGroupedAnnotations(annotations);
+      Map<String, Object> transformedSentence = transformSentence(listItem.getSentence());
+
+      ErrorAnalyserTransformedSentence transformedListItem = new ErrorAnalyserTransformedSentence(
+        listItem.getSentenceId(), listItem.getSentence(), listItem.getTextId(), listItem.getLanguageLevel(),
+        listItem.getNativeLanguage(), listItem.getTextType(), listItem.getAge(), listItem.getAgeRange(),
+        listItem.getEducation(), listItem.getCitizenship(), annotations, transformedAnnotations, errorTypes,
+        queriedErrorCount, groupedAnnotations.getAnnotationGroups(), transformedSentence);
+      transformedListItems.add(transformedListItem);
+    }
+    return transformedListItems;
+  }
+
+  public void countQueriedErrors(String error) {
+    if (queriedErrorTypes.contains(error)) {
+      queriedErrorCount++;
+    }
+  }
+
+  public ErrorAnalyserExtractErrorsResult extractErrors(ErrorAnalyserAnnotation annotation, Map<String, Integer> errorTypeCount) {
+    List<String> annotationErrorTypes = new ArrayList<>();
+    String errorType = annotation.getErrorType();
+
+    if (mainErrorTypes.contains(errorType)) {
+      annotationErrorTypes.add(errorType);
+      errorTypeCount.put(errorType, errorTypeCount.getOrDefault(errorType, 0) + 1);
+      countQueriedErrors(errorType);
+    } else {
+      for (String firstError : compoundErrorTypesStart) {
+        if (errorType.startsWith(firstError)) {
+          annotationErrorTypes.add(firstError);
+          errorTypeCount.put(firstError, errorTypeCount.getOrDefault(errorType, 0) + 1);
+          countQueriedErrors(firstError);
+          String remaining = errorType.substring(firstError.length() + 1);
+          if (!remaining.isEmpty()) {
+            for (String secondError : compoundErrorTypesEnd) {
+              if (remaining.startsWith(secondError)) {
+                String modifiedSecondError = "R:" + secondError;
+                annotationErrorTypes.add(modifiedSecondError);
+                errorTypeCount.put(modifiedSecondError,
+                  errorTypeCount.getOrDefault(modifiedSecondError, 0) + 1);
+                countQueriedErrors(modifiedSecondError);
+                if (!remaining.substring(secondError.length()).isEmpty()) {
+
+                  remaining = remaining.substring(secondError.length() + 1);
+                  if (!remaining.isEmpty()) {
+                    for (String thirdError : compoundErrorTypesEnd) {
+                      if (remaining.startsWith(thirdError)) {
+                        String modifiedThirdError = "R:" + thirdError;
+                        annotationErrorTypes.add(modifiedThirdError);
+                        errorTypeCount.put(modifiedThirdError,
+                          errorTypeCount.getOrDefault(modifiedThirdError,
+                            0) + 1);
+                        countQueriedErrors(modifiedThirdError);
                         break;
+                      }
                     }
+                  }
                 }
+                break;
+              }
             }
-            ErrorAnalyserTransformedAnnotation transformedAnnotation = new ErrorAnalyserTransformedAnnotation(
-                    annotation.getAnnotationId(), annotation.getAnnotatorId(), annotation.getScopeStart(),
-                    annotation.getScopeEnd(), annotation.getErrorType(), annotationErrorTypes,
-                    annotation.getCorrection());
-            transformedAnnotations.add(transformedAnnotation);
+          }
+          break;
         }
-
-        Map<String, Integer> sortederrorTypes = errorTypes.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
-
-        ErrorAnalyserTransformedAnnotationsResult result = new ErrorAnalyserTransformedAnnotationsResult(
-                transformedAnnotations,
-                sortederrorTypes);
-        return result;
-
+      }
     }
 
-    public List<Map<String, ErrorAnalyserAnnotation>> getGroupedAnnotations(List<ErrorAnalyserAnnotation> annotations) {
-        List<Map<String, ErrorAnalyserAnnotation>> annotationGroups = new ArrayList<>();
-        for (ErrorAnalyserAnnotation annotation : annotations) {
-            Integer annotatorId = Integer.valueOf(annotation.getAnnotatorId());
-            if (annotatorId >= annotationGroups.size()) {
-                annotationGroups.addAll(Collections.nCopies(annotatorId -
-                        annotationGroups.size() + 1, null));
-            }
-            if (annotationGroups.get(annotatorId) == null) {
-                annotationGroups.set(annotatorId, new HashMap<String, ErrorAnalyserAnnotation>());
-            }
-            String scopeStart = annotation.getScopeStart();
-            String scopeEnd = annotation.getScopeEnd();
-            String key = String.format("%s::%s::%d", scopeStart, scopeEnd, annotatorId);
+    return new ErrorAnalyserExtractErrorsResult(
+      annotationErrorTypes,
+      errorTypeCount);
+  }
 
-            Map<String, ErrorAnalyserAnnotation> annotationGroup = annotationGroups.get(annotatorId);
-            annotationGroup.put(key, annotation);
+  // Eraldab liitvigades lihtvead ja loeb palju vigasid annotatsioonide peale kokku on
+  //SEE ON PRAEGU TOIMIV VARIANT
+  public ErrorAnalyserTransformedAnnotationsResult transformAnnotations(List<ErrorAnalyserAnnotation> annotations) {
+    List<ErrorAnalyserTransformedAnnotation> transformedAnnotations = new ArrayList<ErrorAnalyserTransformedAnnotation>();
+    Map<String, Integer> errorTypes = new HashMap<String, Integer>();
+    for (ErrorAnalyserAnnotation annotation : annotations) {
+      List<String> annotationErrorTypes = new ArrayList<>();
+      String errorType = annotation.getErrorType();
+      if (mainErrorTypes.contains(errorType)) {
+        annotationErrorTypes.add(errorType);
+        errorTypes.put(errorType, errorTypes.getOrDefault(errorType, 0) + 1);
+        countQueriedErrors(errorType);
+      } else {
+        for (String firstError : compoundErrorTypesStart) {
+          if (errorType.startsWith(firstError)) {
+            annotationErrorTypes.add(firstError);
+            errorTypes.put(firstError, errorTypes.getOrDefault(errorType, 0) + 1);
+            countQueriedErrors(firstError);
+            String remaining = errorType.substring(firstError.length() + 1);
+            if (!remaining.isEmpty()) {
+              for (String secondError : compoundErrorTypesEnd) {
+                if (remaining.startsWith(secondError)) {
+                  String modifiedSecondError = "R:" + secondError;
+                  annotationErrorTypes.add(modifiedSecondError);
+                  errorTypes.put(modifiedSecondError,
+                    errorTypes.getOrDefault(modifiedSecondError, 0) + 1);
+                  countQueriedErrors(modifiedSecondError);
+                  if (!remaining.substring(secondError.length()).isEmpty()) {
+
+                    remaining = remaining.substring(secondError.length() + 1);
+                    if (!remaining.isEmpty()) {
+                      for (String thirdError : compoundErrorTypesEnd) {
+                        if (remaining.startsWith(thirdError)) {
+                          String modifiedThirdError = "R:" + thirdError;
+                          annotationErrorTypes.add(modifiedThirdError);
+                          errorTypes.put(modifiedThirdError,
+                            errorTypes.getOrDefault(modifiedThirdError,
+                              0) + 1);
+                          countQueriedErrors(modifiedThirdError);
+                          break;
+                        }
+                      }
+                    }
+                  }
+                  break;
+                }
+              }
+            }
+            break;
+          }
         }
-
-        annotationGroups.removeIf(Objects::isNull);
-        return annotationGroups;
+      }
+      ErrorAnalyserTransformedAnnotation transformedAnnotation = new ErrorAnalyserTransformedAnnotation(
+        annotation.getAnnotationId(), annotation.getAnnotatorId(), annotation.getScopeStart(),
+        annotation.getScopeEnd(), annotation.getErrorType(), annotationErrorTypes,
+        annotation.getCorrection());
+      transformedAnnotations.add(transformedAnnotation);
     }
 
-    // public Map<String, ErrorAnalyserAnnotation> getSplitSentence() {
-    // Map<String, ErrorAnalyserAnnotation> splitSentence;
-    // return splitSentence;
-    // }
+    Map<String, Integer> sortedErrorTypes = errorTypes.entrySet().stream()
+      .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+      .collect(Collectors.toMap(
+        Map.Entry::getKey,
+        Map.Entry::getValue,
+        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 
-    // public List<Map<String, ErrorAnalyserAnnotation>> transformSentence(String
-    // sentence) {
-    // Map<String, ErrorAnalyserAnnotation> transformedSentence = new HashMap<>();
-    // String[] words = sentence.split(" ");
+    return new ErrorAnalyserTransformedAnnotationsResult(
+      transformedAnnotations,
+      sortedErrorTypes, 0); //mida see viimane teeb
 
-    // for (int index = 0; index < words.length; index++) {
-    // String key = String.format("%d::%d::-1", index, index + 1);
-    // Map<String, ErrorAnalyserAnnotation> value = new HashMap<>();
-    // value.put("content", words[index]);
-    // value.put("status", "initial");
-    // transformedSentence.put(key, value);
-    // }
-    // return transformedSentence;
-    // }
+  }
 
-    public static Map<String, Object> transformSentence(String sentence) {
-        Map<String, Object> transformedSentence = new HashMap<>();
-        String[] words = sentence.split(" ");
+  // public Map<String, ErrorAnalyserAnnotation> getSplitSentence() {
+  // Map<String, ErrorAnalyserAnnotation> splitSentence;
+  // return splitSentence;
+  // }
 
-        for (int index = 0; index < words.length; index++) {
-            String key = String.format("%d::%d::-1", index, index + 1);
-            Map<String, String> value = new HashMap<>();
-            value.put("content", words[index]);
-            value.put("status", "initial");
-            transformedSentence.put(key, value);
-        }
+  // public List<Map<String, ErrorAnalyserAnnotation>> transformSentence(String
+  // sentence) {
+  // Map<String, ErrorAnalyserAnnotation> transformedSentence = new HashMap<>();
+  // String[] words = sentence.split(" ");
 
-        return transformedSentence;
+  // for (int index = 0; index < words.length; index++) {
+  // String key = String.format("%d::%d::-1", index, index + 1);
+  // Map<String, ErrorAnalyserAnnotation> value = new HashMap<>();
+  // value.put("content", words[index]);
+  // value.put("status", "initial");
+  // transformedSentence.put(key, value);
+  // }
+  // return transformedSentence;
+  // }
+
+  //SEE ON EDASPIDI
+  //Tagasi objekt {
+  // annotationGroups: [{annotations: [], errorTypes: }]
+  // queriedErrorCount: int
+  // }
+  public ErrorAnalyserGroupedAnnotations getGroupedAnnotations(List<ErrorAnalyserAnnotation> annotations) {
+    List<ErrorAnalyserAnnotationGroup> annotationGroups = new ArrayList<>();
+    int queriedErrorCount = 0;
+
+    for (ErrorAnalyserAnnotation annotation : annotations) {
+      int annotatorId = Integer.parseInt(annotation.getAnnotatorId());
+      if (annotationGroups.size() <= annotatorId) {
+        annotationGroups.addAll(Collections.nCopies(annotatorId -
+          annotationGroups.size() + 1, null));
+      }
+      if (annotationGroups.get(annotatorId) == null) {
+        annotationGroups.set(annotatorId, new ErrorAnalyserAnnotationGroup(new HashMap<String, ErrorAnalyserTransformedAnnotation>(), new HashMap<String, Integer>()));
+      }
+
+      ErrorAnalyserAnnotationGroup currentAnnotationGroup = annotationGroups.get(annotatorId);
+      ErrorAnalyserExtractErrorsResult extractErrorsResult = extractErrors(annotation, currentAnnotationGroup.getErrorTypeCount());
+      currentAnnotationGroup.setErrorTypeCount(extractErrorsResult.getErrorTypeCount());
+
+      String scopeStart = annotation.getScopeStart();
+      String scopeEnd = annotation.getScopeEnd();
+      String key = String.format("%s::%s::%d", scopeStart, scopeEnd, annotatorId);
+
+      ErrorAnalyserTransformedAnnotation transformedAnnotation = new ErrorAnalyserTransformedAnnotation(annotation.getAnnotationId(), annotation.getAnnotatorId(), scopeStart,
+        scopeEnd, annotation.getErrorType(), extractErrorsResult.getAnnotationErrorTypes(),
+        annotation.getCorrection());
+
+      currentAnnotationGroup.getAnnotationGroup().put(key, transformedAnnotation);
+
+
+      //Map<String, ErrorAnalyserTransformedAnnotation> annotationGroup = annotationGroups.get(annotatorId);
+      //annotationGroup.put(key, transformedAnnotation);
     }
 
-    // PRAEGU EI KASUTA
-    // public List<Map<String, Integer>>
-    // getGroupedErrorTypes(List<ErrorAnalyserAnnotation> annotations) {
-    // List<Map<String, Integer>> errorLists = new ArrayList<>();
-    // for (ErrorAnalyserAnnotation annotation : annotations) {
-    // Integer annotatorId = Integer.valueOf(annotation.getAnnotatorId());
-    // if (annotatorId >= errorLists.size()) {
-    // errorLists.addAll(Collections.nCopies(annotatorId - errorLists.size() + 1,
-    // null));
-    // }
-    // if (errorLists.get(annotatorId) == null) {
-    // errorLists.set(annotatorId, new HashMap<String, Integer>());
-    // }
+    //sordib märgendusversiooni vead esinemise järjekorras
+//    for (Map<String, ErrorAnalyserTransformedAnnotation> annotationGroup : annotationGroups) {
+//
+//      Map<String, Integer> sortedErrorTypes = annotationGroup.
+//        errorTypes.entrySet().stream()
+//        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+//        .collect(Collectors.toMap(
+//          Map.Entry::getKey,
+//          Map.Entry::getValue,
+//          (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+//
+//    }
 
-    // String errorType = annotation.getErrorType();
+    annotationGroups.removeIf(Objects::isNull);
 
-    // Map<String, Integer> errorList = errorLists.get(annotatorId);
-    // if (mainErrorTypes.contains(errorType)) {
-    // errorList.put(errorType, errorList.getOrDefault(errorType, 0) + 1);
-    // } else {
-    // for (String firstError : compoundErrorTypesStart) {
-    // if (errorType.startsWith(firstError)) {
-    // errorList.put(firstError, errorList.getOrDefault(errorType, 0) + 1);
-    // String remaining = errorType.substring(firstError.length() + 1);
-    // if (!remaining.isEmpty()) {
-    // for (String secondError : compoundErrorTypesEnd) {
-    // if (remaining.startsWith(secondError)) {
-    // String modifiedSecondError = "R:" + secondError;
-    // errorList.put(modifiedSecondError,
-    // errorList.getOrDefault(modifiedSecondError, 0) + 1);
-    // remaining = remaining.substring(secondError.length());
-    // if (!remaining.isEmpty()) {
-    // for (String thirdError : compoundErrorTypesEnd) {
-    // if (remaining.startsWith(thirdError)) {
-    // String modifiedThirdError = "R:" + thirdError;
-    // errorList.put(modifiedThirdError,
-    // errorList.getOrDefault(modifiedThirdError, 0) + 1);
-    // break;
-    // }
-    // }
-    // }
-    // break;
-    // }
-    // }
-    // }
-    // break;
-    // }
-    // }
-    // }
-    // errorLists.set(annotatorId, errorList);
-    // }
-    // return errorLists;
-    // }
+    return new ErrorAnalyserGroupedAnnotations(annotationGroups, queriedErrorCount);
+  }
+
+  // PRAEGU EI KASUTA
+  // public List<Map<String, Integer>>
+  // getGroupedErrorTypes(List<ErrorAnalyserAnnotation> annotations) {
+  // List<Map<String, Integer>> errorLists = new ArrayList<>();
+  // for (ErrorAnalyserAnnotation annotation : annotations) {
+  // Integer annotatorId = Integer.valueOf(annotation.getAnnotatorId());
+  // if (annotatorId >= errorLists.size()) {
+  // errorLists.addAll(Collections.nCopies(annotatorId - errorLists.size() + 1,
+  // null));
+  // }
+  // if (errorLists.get(annotatorId) == null) {
+  // errorLists.set(annotatorId, new HashMap<String, Integer>());
+  // }
+
+  // String errorType = annotation.getErrorType();
+
+  // Map<String, Integer> errorList = errorLists.get(annotatorId);
+  // if (mainErrorTypes.contains(errorType)) {
+  // errorList.put(errorType, errorList.getOrDefault(errorType, 0) + 1);
+  // } else {
+  // for (String firstError : compoundErrorTypesStart) {
+  // if (errorType.startsWith(firstError)) {
+  // errorList.put(firstError, errorList.getOrDefault(errorType, 0) + 1);
+  // String remaining = errorType.substring(firstError.length() + 1);
+  // if (!remaining.isEmpty()) {
+  // for (String secondError : compoundErrorTypesEnd) {
+  // if (remaining.startsWith(secondError)) {
+  // String modifiedSecondError = "R:" + secondError;
+  // errorList.put(modifiedSecondError,
+  // errorList.getOrDefault(modifiedSecondError, 0) + 1);
+  // remaining = remaining.substring(secondError.length());
+  // if (!remaining.isEmpty()) {
+  // for (String thirdError : compoundErrorTypesEnd) {
+  // if (remaining.startsWith(thirdError)) {
+  // String modifiedThirdError = "R:" + thirdError;
+  // errorList.put(modifiedThirdError,
+  // errorList.getOrDefault(modifiedThirdError, 0) + 1);
+  // break;
+  // }
+  // }
+  // }
+  // break;
+  // }
+  // }
+  // }
+  // break;
+  // }
+  // }
+  // }
+  // errorLists.set(annotatorId, errorList);
+  // }
+  // return errorLists;
+  // }
 }
