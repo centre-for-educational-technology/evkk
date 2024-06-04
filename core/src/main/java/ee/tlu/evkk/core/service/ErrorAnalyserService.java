@@ -12,7 +12,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import ee.tlu.evkk.dal.dto.ErrorAnalyserAnnotationGroup;
-import ee.tlu.evkk.core.service.dto.ErrorAnalyserExtractErrorsResult;
 import ee.tlu.evkk.dal.dto.ErrorAnalyserGroupedAnnotations;
 import org.springframework.stereotype.Service;
 
@@ -33,17 +32,16 @@ public class ErrorAnalyserService {
   private final List<String> compoundErrorTypesEnd = Arrays.asList("CASE", "NOM:FORM",
     "SPELL", "VERB:FORM", "WO", "WS");
   private List<String> queriedErrorTypes;
-  private Integer queriedErrorCount; //pärast kust
 
-  //KUST
-  public static Map<String, Object> transformSentence(String sentence) {
+  //KUST?
+  public Map<String, Object> splitSentence(String sentence) {
     Map<String, Object> transformedSentence = new HashMap<>();
-    String[] words = sentence.split(" ");
+    String[] elements = sentence.split(" ");
 
-    for (int index = 0; index < words.length; index++) {
+    for (int index = 0; index < elements.length; index++) {
       String key = String.format("%d::%d::-1", index, index + 1);
       Map<String, String> value = new HashMap<>();
-      value.put("content", words[index]);
+      value.put("content", elements[index]);
       value.put("status", "initial");
       transformedSentence.put(key, value);
     }
@@ -60,10 +58,10 @@ public class ErrorAnalyserService {
 
     this.queriedErrorTypes = queriedErrorTypes;
 
-    List<ErrorAnalyserTransformedSentence> transformedListItems = new ArrayList<ErrorAnalyserTransformedSentence>();
+    List<ErrorAnalyserTransformedSentence> transformedListItems = new ArrayList<>();
 
     for (ErrorAnalyserSentence listItem : listItems) {
-      queriedErrorCount = 0;
+
       List<ErrorAnalyserAnnotation> annotations = listItem.getAnnotations();
       ErrorAnalyserTransformedAnnotationsResult transformedAnnotationsResult = transformAnnotations(annotations);
 
@@ -72,7 +70,10 @@ public class ErrorAnalyserService {
 
       Map<String, Integer> errorTypes = transformedAnnotationsResult.getErrorTypes();
       ErrorAnalyserGroupedAnnotations groupedAnnotations = getGroupedAnnotations(annotations);
-      Map<String, Object> transformedSentence = transformSentence(listItem.getSentence());
+      Map<String, Object> transformedSentence = splitSentence(listItem.getSentence());
+
+      //märgendusversioonid on sorditud päringule vastavate vigade arvu alusel, valib esimese
+      int queriedErrorCount = groupedAnnotations.getAnnotationGroups().get(0).getQueriedErrorCount();
 
       ErrorAnalyserTransformedSentence transformedListItem = new ErrorAnalyserTransformedSentence(
         listItem.getSentenceId(), listItem.getSentence(), listItem.getTextId(), listItem.getLanguageLevel(),
@@ -81,38 +82,36 @@ public class ErrorAnalyserService {
         queriedErrorCount, groupedAnnotations.getAnnotationGroups(), transformedSentence);
       transformedListItems.add(transformedListItem);
     }
+
+    //sordib kõik elemendid pärigule kõige paremini vastanud märgendusversioonide alusel
+    transformedListItems.sort(Comparator.comparingInt(ErrorAnalyserTransformedSentence::getQueriedErrorTypeCount).reversed());
+
     return transformedListItems;
   }
 
+  //Lõpus kustutada
   public void countQueriedErrors(String error) {
     if (queriedErrorTypes.contains(error)) {
-      queriedErrorCount++;
+      //queriedErrorCount++;
     }
   }
 
-  public ErrorAnalyserExtractErrorsResult extractErrors(ErrorAnalyserAnnotation annotation, Map<String, Integer> errorTypeCount) {
+  public List<String> extractErrors(ErrorAnalyserAnnotation annotation) {
     List<String> annotationErrorTypes = new ArrayList<>();
     String errorType = annotation.getErrorType();
 
     if (mainErrorTypes.contains(errorType)) {
       annotationErrorTypes.add(errorType);
-      errorTypeCount.put(errorType, errorTypeCount.getOrDefault(errorType, 0) + 1);
-      countQueriedErrors(errorType);
     } else {
       for (String firstError : compoundErrorTypesStart) {
         if (errorType.startsWith(firstError)) {
           annotationErrorTypes.add(firstError);
-          errorTypeCount.put(firstError, errorTypeCount.getOrDefault(errorType, 0) + 1);
-          countQueriedErrors(firstError);
           String remaining = errorType.substring(firstError.length() + 1);
           if (!remaining.isEmpty()) {
             for (String secondError : compoundErrorTypesEnd) {
               if (remaining.startsWith(secondError)) {
                 String modifiedSecondError = "R:" + secondError;
                 annotationErrorTypes.add(modifiedSecondError);
-                errorTypeCount.put(modifiedSecondError,
-                  errorTypeCount.getOrDefault(modifiedSecondError, 0) + 1);
-                countQueriedErrors(modifiedSecondError);
                 if (!remaining.substring(secondError.length()).isEmpty()) {
 
                   remaining = remaining.substring(secondError.length() + 1);
@@ -121,10 +120,6 @@ public class ErrorAnalyserService {
                       if (remaining.startsWith(thirdError)) {
                         String modifiedThirdError = "R:" + thirdError;
                         annotationErrorTypes.add(modifiedThirdError);
-                        errorTypeCount.put(modifiedThirdError,
-                          errorTypeCount.getOrDefault(modifiedThirdError,
-                            0) + 1);
-                        countQueriedErrors(modifiedThirdError);
                         break;
                       }
                     }
@@ -139,16 +134,14 @@ public class ErrorAnalyserService {
       }
     }
 
-    return new ErrorAnalyserExtractErrorsResult(
-      annotationErrorTypes,
-      errorTypeCount);
+    return annotationErrorTypes;
   }
 
   // Eraldab liitvigades lihtvead ja loeb palju vigasid annotatsioonide peale kokku on
-  //SEE ON PRAEGU TOIMIV VARIANT
+  //SEE ON PRAEGU TOIMIV VARIANT PÄRAST EEMALDADA
   public ErrorAnalyserTransformedAnnotationsResult transformAnnotations(List<ErrorAnalyserAnnotation> annotations) {
-    List<ErrorAnalyserTransformedAnnotation> transformedAnnotations = new ArrayList<ErrorAnalyserTransformedAnnotation>();
-    Map<String, Integer> errorTypes = new HashMap<String, Integer>();
+    List<ErrorAnalyserTransformedAnnotation> transformedAnnotations = new ArrayList<>();
+    Map<String, Integer> errorTypes = new HashMap<>();
     for (ErrorAnalyserAnnotation annotation : annotations) {
       List<String> annotationErrorTypes = new ArrayList<>();
       String errorType = annotation.getErrorType();
@@ -247,47 +240,58 @@ public class ErrorAnalyserService {
 
     for (ErrorAnalyserAnnotation annotation : annotations) {
       int annotatorId = Integer.parseInt(annotation.getAnnotatorId());
+
       if (annotationGroups.size() <= annotatorId) {
         annotationGroups.addAll(Collections.nCopies(annotatorId -
           annotationGroups.size() + 1, null));
       }
       if (annotationGroups.get(annotatorId) == null) {
-        annotationGroups.set(annotatorId, new ErrorAnalyserAnnotationGroup(new HashMap<String, ErrorAnalyserTransformedAnnotation>(), new HashMap<String, Integer>()));
+        annotationGroups.set(annotatorId, new ErrorAnalyserAnnotationGroup());
       }
 
       ErrorAnalyserAnnotationGroup currentAnnotationGroup = annotationGroups.get(annotatorId);
-      ErrorAnalyserExtractErrorsResult extractErrorsResult = extractErrors(annotation, currentAnnotationGroup.getErrorTypeCount());
-      currentAnnotationGroup.setErrorTypeCount(extractErrorsResult.getErrorTypeCount());
 
+      List<String> extractedErrorTypes = extractErrors(annotation);
+
+      //loendab vigu ja mitu neist vastab päringule
+      for (String extractedErrorType : extractedErrorTypes) {
+        int updatedErrorCount = currentAnnotationGroup.getErrorTypeCount().getOrDefault(extractedErrorType, 0) + 1;
+        currentAnnotationGroup.getErrorTypeCount().put(extractedErrorType, updatedErrorCount);
+        if (queriedErrorTypes.contains(extractedErrorType)) {
+          int updatedQueriedErrorCount = currentAnnotationGroup.getQueriedErrorCount() + 1;
+          currentAnnotationGroup.setQueriedErrorCount(updatedQueriedErrorCount);
+        }
+      }
+
+      //teisendab märgendused uuele kujule
       String scopeStart = annotation.getScopeStart();
       String scopeEnd = annotation.getScopeEnd();
       String key = String.format("%s::%s::%d", scopeStart, scopeEnd, annotatorId);
 
       ErrorAnalyserTransformedAnnotation transformedAnnotation = new ErrorAnalyserTransformedAnnotation(annotation.getAnnotationId(), annotation.getAnnotatorId(), scopeStart,
-        scopeEnd, annotation.getErrorType(), extractErrorsResult.getAnnotationErrorTypes(),
+        scopeEnd, annotation.getErrorType(), extractedErrorTypes,
         annotation.getCorrection());
 
       currentAnnotationGroup.getAnnotationGroup().put(key, transformedAnnotation);
-
-
-      //Map<String, ErrorAnalyserTransformedAnnotation> annotationGroup = annotationGroups.get(annotatorId);
-      //annotationGroup.put(key, transformedAnnotation);
     }
 
-    //sordib märgendusversiooni vead esinemise järjekorras
-//    for (Map<String, ErrorAnalyserTransformedAnnotation> annotationGroup : annotationGroups) {
-//
-//      Map<String, Integer> sortedErrorTypes = annotationGroup.
-//        errorTypes.entrySet().stream()
-//        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-//        .collect(Collectors.toMap(
-//          Map.Entry::getKey,
-//          Map.Entry::getValue,
-//          (oldValue, newValue) -> oldValue, LinkedHashMap::new));
-//
-//    }
-
+    //eemaldab tühjad elemendid listist
     annotationGroups.removeIf(Objects::isNull);
+
+    //sordib vead esinemise järjekorras
+    for (ErrorAnalyserAnnotationGroup annotationGroup : annotationGroups) {
+      Map<String, Integer> sortedMap = annotationGroup.getErrorTypeCount().entrySet().stream()
+        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+        .collect(Collectors.toMap(
+          Map.Entry::getKey,
+          Map.Entry::getValue,
+          (oldValue, newValue) -> oldValue,
+          LinkedHashMap::new));
+      annotationGroup.setErrorTypeCount(sortedMap);
+    }
+
+    //sordib märgendusversioonid päringule vastavate vigade arvu alusel
+    annotationGroups.sort(Comparator.comparingInt(ErrorAnalyserAnnotationGroup::getQueriedErrorCount).reversed());
 
     return new ErrorAnalyserGroupedAnnotations(annotationGroups, queriedErrorCount);
   }

@@ -1,14 +1,17 @@
 package ee.tlu.evkk.dal.dto;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ErrorAnalyserAnnotationGroup {
   Map<String, ErrorAnalyserTransformedAnnotation> annotationGroup;
   Map<String, Integer> errorTypeCount;
+  int queriedErrorCount;
 
-  public ErrorAnalyserAnnotationGroup(Map<String, ErrorAnalyserTransformedAnnotation> annotationGroup, Map<String, Integer> errorTypeCount) {
-    this.annotationGroup = annotationGroup;
-    this.errorTypeCount = errorTypeCount;
+  public ErrorAnalyserAnnotationGroup() {
+    this.annotationGroup = new HashMap<>();
+    this.errorTypeCount = new HashMap<>();
+    this.queriedErrorCount = 0;
   }
 
   public Map<String, ErrorAnalyserTransformedAnnotation> getAnnotationGroup() {
@@ -25,5 +28,13 @@ public class ErrorAnalyserAnnotationGroup {
 
   public void setErrorTypeCount(Map<String, Integer> errorTypeCount) {
     this.errorTypeCount = errorTypeCount;
+  }
+
+  public int getQueriedErrorCount() {
+    return queriedErrorCount;
+  }
+
+  public void setQueriedErrorCount(int queriedErrorCount) {
+    this.queriedErrorCount = queriedErrorCount;
   }
 }
