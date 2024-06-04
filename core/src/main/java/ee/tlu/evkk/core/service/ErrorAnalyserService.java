@@ -33,22 +33,6 @@ public class ErrorAnalyserService {
     "SPELL", "VERB:FORM", "WO", "WS");
   private List<String> queriedErrorTypes;
 
-  //KUST?
-  public Map<String, Object> splitSentence(String sentence) {
-    Map<String, Object> transformedSentence = new HashMap<>();
-    String[] elements = sentence.split(" ");
-
-    for (int index = 0; index < elements.length; index++) {
-      String key = String.format("%d::%d::-1", index, index + 1);
-      Map<String, String> value = new HashMap<>();
-      value.put("content", elements[index]);
-      value.put("status", "initial");
-      transformedSentence.put(key, value);
-    }
-
-    return transformedSentence;
-  }
-
   public List<ErrorAnalyserTransformedSentence> transformSentence(List<ErrorAnalyserSentence> listItems,
                                                                   List<String> queriedErrorTypes) {
 

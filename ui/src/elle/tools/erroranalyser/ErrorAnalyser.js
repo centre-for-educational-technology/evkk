@@ -65,10 +65,9 @@ export default function ErrorAnalyser() {
     console.log(data);
   }, [data]);
 
-  const handleSwitchChange = (event) => {
+  const handleSwitchChange = () => {
     setShowAllErrors(!showAllErrors);
   };
-  // console.log(showAllErrors);
 
   return (
     <>

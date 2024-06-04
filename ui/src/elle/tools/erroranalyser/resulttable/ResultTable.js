@@ -113,11 +113,7 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
       ) {
         visibilty[key] = true;
       } else {
-        if (filters[key] && filters[key].length > 1) {
-          visibilty[key] = true;
-        } else {
-          visibilty[key] = false;
-        }
+        visibilty[key] = !!(filters[key] && filters[key].length > 1);
       }
     }
     setIsColumnVisible(visibilty);
@@ -133,7 +129,7 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
     setOrderBy(property);
   };
 
-  const displayErrorTypes = (errorTypes, row) => {
+  const displayErrorTypes = (errorTypes) => {
     const extractedErrorTypes = [];
     for (const [errorType, errorCount] of Object.entries(errorTypes)) {
       extractedErrorTypes.push(
@@ -294,7 +290,7 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {visibleRows.map((row, index) => {
+            {visibleRows.map((row) => {
               return (
                 <TableRow key={row.sentenceId}>
                   <TableCell>
@@ -310,7 +306,6 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
                       <CorrectedSentenceCell
                         // sentence={row.transformedSentence}
                         sentence={row.sentence}
-                        annotations={row.annotations}
                         annotationGroups={row.groupedAnnotations}
                         showAllErrors={showAllErrors}
                         filters={filters}

@@ -3,13 +3,13 @@ import CorrectedSentence from './CorrectedSentence';
 
 export default function CorrectedSentenceCell({
                                                 sentence,
-                                                annotations,
                                                 annotationGroups,
                                                 showAllErrors,
                                                 filters,
                                               }) {
   const [sortedSentences, setSortedSentences] = useState([]);
 
+  //sõnestab algse lause
   const transformSentence = (sentence) => {
     const transformedSentence = new Map();
     sentence.split(' ').forEach((element, index) => {
@@ -23,6 +23,7 @@ export default function CorrectedSentenceCell({
     return transformedSentence;
   };
 
+  //määrab vea kategooria TULEB KOHENDADA LIITVIGADELE
   const getCategory = (errorType) => {
     if (
       errorType.includes('R:SPELL') ||
@@ -45,7 +46,8 @@ export default function CorrectedSentenceCell({
     return null;
   };
 
-  const transformAnnotation = useCallback((annotation) => {
+  //teisendab märgendid VEALIIGID ON MASSIIV
+  const initializeAnnotation = useCallback((annotation) => {
     const key = [
       annotation.scopeStart,
       annotation.scopeEnd,
@@ -62,9 +64,9 @@ export default function CorrectedSentenceCell({
     return {key, value};
   }, []);
 
-  const transformGroupedAnnotations = useCallback(
-    (groupedAnnotations, transoformedSentence) => {
-      groupedAnnotations.forEach((annotationGroup) => {
+  const transformAnnotationGroups = useCallback(
+    (annotationGroups, transformedSentence) => {
+      annotationGroups.forEach((annotationGroup) => {
         annotationGroup.forEach((annotation) => {
           if (annotation.scopeEnd - annotation.scopeStart > 1) {
             let sourceContent = [];
@@ -81,8 +83,8 @@ export default function CorrectedSentenceCell({
                 annotationGroup.delete(targetKey);
               }
 
-              if (transoformedSentence.has(sourceKey)) {
-                sourceContent.push(transoformedSentence.get(sourceKey).content);
+              if (transformedSentence.has(sourceKey)) {
+                sourceContent.push(transformedSentence.get(sourceKey).content);
               }
             }
             annotation.sourceContent = sourceContent.join(' ');
@@ -92,34 +94,34 @@ export default function CorrectedSentenceCell({
               annotation.scopeEnd,
               -1,
             ].join('::');
-            if (transoformedSentence.has(sourceKey)) {
+            if (transformedSentence.has(sourceKey)) {
               annotation.sourceContent =
-                transoformedSentence.get(sourceKey).content;
+                transformedSentence.get(sourceKey).content;
             }
           }
         });
       });
-      return groupedAnnotations;
+      return annotationGroups;
     },
     []
   );
 
-  const createGroupedAnnotations = useCallback((annotationGroups, transformedSentence) => {
-    const groupedAnnotations = [];
+  const processAnnotations = useCallback((annotationGroups, transformedSentence) => {
+    const initialAnnotationGroups = [];
     annotationGroups.forEach((annotationGroup) => {
-      const transformedAnnotationGroup = new Map();
+      const initialAnnotationGroup = new Map();
       annotationGroup.annotations.forEach((annotation) => {
-        const {key, value} = transformAnnotation(annotation);
-        transformedAnnotationGroup.set(key, value);
+        const {key, value} = initializeAnnotation(annotation);
+        initialAnnotationGroup.set(key, value);
       });
-      groupedAnnotations.push(transformedAnnotationGroup);
+      initialAnnotationGroups.push(initialAnnotationGroup);
     });
 
-    return transformGroupedAnnotations(
-      groupedAnnotations,
+    return transformAnnotationGroups(
+      initialAnnotationGroups,
       transformedSentence
     );
-  }, [transformAnnotation]);
+  }, [initializeAnnotation, transformAnnotationGroups]);
 
   const sortSentence = (sentence) => {
     return Array.from(sentence.entries())
@@ -199,10 +201,10 @@ export default function CorrectedSentenceCell({
 
   useEffect(() => {
     const transformedSentence = transformSentence(sentence);
-    const groupedAnnotations = createGroupedAnnotations(annotationGroups, transformedSentence);
+    const transformedAnnotationGroups = processAnnotations(annotationGroups, transformedSentence);
 
     let sortedSentences = [];
-    groupedAnnotations.forEach((annotationGroup, index) => {
+    transformedAnnotationGroups.forEach((annotationGroup, index) => {
       sortedSentences[index] = applyAnnotations(
         annotationGroup,
         transformedSentence,
@@ -212,7 +214,7 @@ export default function CorrectedSentenceCell({
     setSortedSentences(sortedSentences);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sentence, annotations]);
+  }, [sentence, annotationGroups]);
 
   useEffect(() => {
     //console.log(sortedSentences);
