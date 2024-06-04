@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {
   Table,
   TableBody,
@@ -12,14 +12,14 @@ import {
   TablePagination,
   TableSortLabel,
 } from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
+import {visuallyHidden} from '@mui/utils';
 import TablePaginationActions from './TablePaginationActions';
-import { usePagination } from './usePagination';
+import {usePagination} from './usePagination';
 import CorrectedSentenceCell from './CorrectedSentenceCell';
 import './../ErrorAnalyser.css';
 import useQueryResultDetails from '../../../pages/query/useQueryResultDetails';
 import QueryResultDetails from '../../../pages/query/QueryResultDetails';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import {
   ageOptions,
   educationOptions,
@@ -29,7 +29,7 @@ import {
   errorTypeOptionsShort,
 } from '../../../const/Constants';
 
-export default function ResultTable({ data: rows, filters, showAllErrors }) {
+export default function ResultTable({data: rows, filters, showAllErrors}) {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
   const [isColumnVisible, setIsColumnVisible] = useState({
@@ -50,9 +50,9 @@ export default function ResultTable({ data: rows, filters, showAllErrors }) {
     handleChangePage,
     handleChangeRowsPerPage,
   } = usePagination(rows);
-  const { previewText, metadata, text, sentence, modalOpen, setModalOpen } =
+  const {previewText, metadata, text, sentence, modalOpen, setModalOpen} =
     useQueryResultDetails();
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const headCells = [
     {
@@ -311,6 +311,7 @@ export default function ResultTable({ data: rows, filters, showAllErrors }) {
                         // sentence={row.transformedSentence}
                         sentence={row.sentence}
                         annotations={row.annotations}
+                        annotationGroups={row.groupedAnnotations}
                         showAllErrors={showAllErrors}
                         filters={filters}
                       />
@@ -330,8 +331,8 @@ export default function ResultTable({ data: rows, filters, showAllErrors }) {
                     <TableCell>
                       {row.textType
                         ? t(
-                            textPublishSubTextTypesOptions[row.textType]
-                          ).toLowerCase()
+                          textPublishSubTextTypesOptions[row.textType]
+                        ).toLowerCase()
                         : '–'}
                     </TableCell>
                   )}
@@ -359,23 +360,23 @@ export default function ResultTable({ data: rows, filters, showAllErrors }) {
                       {row.age
                         ? row.age
                         : row.ageRange
-                        ? t(ageOptions[row.ageRange])
-                        : '–'}
+                          ? t(ageOptions[row.ageRange])
+                          : '–'}
                     </TableCell>
                   )}
                 </TableRow>
               );
             })}
             {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={6} />
+              <TableRow style={{height: 53 * emptyRows}}>
+                <TableCell colSpan={6}/>
               </TableRow>
             )}
           </TableBody>
           <TableFooter>
             <TableRow>
               <TablePagination
-                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                rowsPerPageOptions={[5, 10, 25, {label: 'All', value: -1}]}
                 colSpan={3}
                 count={rows.length}
                 rowsPerPage={rowsPerPage}

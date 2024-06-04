@@ -15,18 +15,17 @@ public class ErrorAnalyserTransformedSentence {
   private final String education;
   private final String citizenship;
   private final List<ErrorAnalyserAnnotation> annotations; // selle võib tulevikus eemaldada
-  private final List<ErrorAnalyserTransformedAnnotation> transformedAnnotations;
+  private final List<ErrorAnalyserTransformedAnnotation> transformedAnnotations; //see eemaldada
   private final Map<String, Integer> errorTypes;
-  private final Integer queriedErrorTypeCount; //SEE HILJEM MUUTA
+  private final Integer queriedErrorTypeCount;
   private final List<ErrorAnalyserAnnotationGroup> groupedAnnotations;
-  private final Map<String, Object> transformedSentence;
 
   public ErrorAnalyserTransformedSentence(String sentenceId, String sentence, String textId, String languageLevel,
                                           String nativeLanguage, String textType, String age, String ageRange, String education, String citizenship,
                                           List<ErrorAnalyserAnnotation> annotations, List<ErrorAnalyserTransformedAnnotation> transformedAnnotations,
                                           Map<String, Integer> errorTypes,
-                                          Integer queriedErrorTypeCount, List<ErrorAnalyserAnnotationGroup> groupedAnnotations,
-                                          Map<String, Object> transformedSentence) {
+                                          Integer queriedErrorTypeCount, List<ErrorAnalyserAnnotationGroup> groupedAnnotations
+  ) {
     this.sentenceId = sentenceId;
     this.sentence = sentence;
     this.textId = textId;
@@ -42,7 +41,6 @@ public class ErrorAnalyserTransformedSentence {
     this.errorTypes = errorTypes;
     this.queriedErrorTypeCount = queriedErrorTypeCount;
     this.groupedAnnotations = groupedAnnotations;
-    this.transformedSentence = transformedSentence;
   }
 
   public String getSentenceId() {
@@ -105,8 +103,5 @@ public class ErrorAnalyserTransformedSentence {
     return groupedAnnotations;
   }
 
-  public Map<String, Object> getTransformedSentence() {
-    return transformedSentence;
-  }
 
 }

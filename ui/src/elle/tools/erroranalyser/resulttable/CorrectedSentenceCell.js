@@ -1,12 +1,13 @@
-import { useCallback, useEffect, useState } from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import CorrectedSentence from './CorrectedSentence';
 
 export default function CorrectedSentenceCell({
-  sentence,
-  annotations,
-  showAllErrors,
-  filters,
-}) {
+                                                sentence,
+                                                annotations,
+                                                annotationGroups,
+                                                showAllErrors,
+                                                filters,
+                                              }) {
   const [sortedSentences, setSortedSentences] = useState([]);
 
   const transformSentence = (sentence) => {
@@ -58,13 +59,13 @@ export default function CorrectedSentenceCell({
       scopeEnd: parseInt(annotation.scopeEnd),
       category: getCategory(annotation.errorType),
     };
-    return { key, value };
+    return {key, value};
   }, []);
 
   const transformGroupedAnnotations = useCallback(
     (groupedAnnotations, transoformedSentence) => {
-      groupedAnnotations.forEach((annotationGroup, index) => {
-        annotationGroup.forEach((annotation, key) => {
+      groupedAnnotations.forEach((annotationGroup) => {
+        annotationGroup.forEach((annotation) => {
           if (annotation.scopeEnd - annotation.scopeStart > 1) {
             let sourceContent = [];
             for (let i = annotation.scopeStart; i < annotation.scopeEnd; i++) {
@@ -103,26 +104,25 @@ export default function CorrectedSentenceCell({
     []
   );
 
-  const groupAnnotations = useCallback(
-    (annotations, transoformedSentence) => {
-      const groupedAnnotations = [];
-      annotations.forEach((annotation) => {
-        if (!groupedAnnotations[annotation.annotatorId]) {
-          groupedAnnotations[annotation.annotatorId] = new Map();
-        }
-        const { key, value } = transformAnnotation(annotation);
-        groupedAnnotations[annotation.annotatorId].set(key, value);
+  const createGroupedAnnotations = useCallback((annotationGroups, transformedSentence) => {
+    const groupedAnnotations = [];
+    annotationGroups.forEach((annotationGroup) => {
+      const transformedAnnotationGroup = new Map();
+      annotationGroup.annotations.forEach((annotation) => {
+        const {key, value} = transformAnnotation(annotation);
+        transformedAnnotationGroup.set(key, value);
       });
-      return transformGroupedAnnotations(
-        groupedAnnotations.filter(Boolean),
-        transoformedSentence
-      );
-    },
-    [transformAnnotation, transformGroupedAnnotations]
-  );
+      groupedAnnotations.push(transformedAnnotationGroup);
+    });
+
+    return transformGroupedAnnotations(
+      groupedAnnotations,
+      transformedSentence
+    );
+  }, [transformAnnotation]);
 
   const sortSentence = (sentence) => {
-    const sortedSentence = Array.from(sentence.entries())
+    return Array.from(sentence.entries())
       .map(([key, value]) => {
         const intKey = key.split('::').map(Number);
         return [intKey, value];
@@ -136,11 +136,9 @@ export default function CorrectedSentenceCell({
         return 0;
       })
       .map((entry) => entry[1]);
-
-    return sortedSentence;
   };
 
-  const applyAnnotations = (annotations, sentence, index) => {
+  const applyAnnotations = (annotations, sentence) => {
     const modifiedSentence = structuredClone(sentence);
     annotations.forEach((annotation, key) => {
       const errorType = annotation.errorType;
@@ -201,18 +199,15 @@ export default function CorrectedSentenceCell({
 
   useEffect(() => {
     const transformedSentence = transformSentence(sentence);
-    const groupedAnnotations = groupAnnotations(
-      annotations,
-      transformedSentence
-    );
+    const groupedAnnotations = createGroupedAnnotations(annotationGroups, transformedSentence);
+
     let sortedSentences = [];
     groupedAnnotations.forEach((annotationGroup, index) => {
-      const sortedSentece = applyAnnotations(
+      sortedSentences[index] = applyAnnotations(
         annotationGroup,
         transformedSentence,
         index
       );
-      sortedSentences[index] = sortedSentece;
     });
     setSortedSentences(sortedSentences);
 
@@ -220,7 +215,7 @@ export default function CorrectedSentenceCell({
   }, [sentence, annotations]);
 
   useEffect(() => {
-    // console.log(sortedSentences);
+    //console.log(sortedSentences);
   }, [sortedSentences]);
 
   return (

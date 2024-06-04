@@ -70,7 +70,7 @@ public class ErrorAnalyserService {
 
       Map<String, Integer> errorTypes = transformedAnnotationsResult.getErrorTypes();
       ErrorAnalyserGroupedAnnotations groupedAnnotations = getGroupedAnnotations(annotations);
-      Map<String, Object> transformedSentence = splitSentence(listItem.getSentence());
+      //Map<String, Object> transformedSentence = splitSentence(listItem.getSentence());
 
       //märgendusversioonid on sorditud päringule vastavate vigade arvu alusel, valib esimese
       int queriedErrorCount = groupedAnnotations.getAnnotationGroups().get(0).getQueriedErrorCount();
@@ -79,7 +79,7 @@ public class ErrorAnalyserService {
         listItem.getSentenceId(), listItem.getSentence(), listItem.getTextId(), listItem.getLanguageLevel(),
         listItem.getNativeLanguage(), listItem.getTextType(), listItem.getAge(), listItem.getAgeRange(),
         listItem.getEducation(), listItem.getCitizenship(), annotations, transformedAnnotations, errorTypes,
-        queriedErrorCount, groupedAnnotations.getAnnotationGroups(), transformedSentence);
+        queriedErrorCount, groupedAnnotations.getAnnotationGroups());
       transformedListItems.add(transformedListItem);
     }
 
@@ -268,11 +268,11 @@ public class ErrorAnalyserService {
       String scopeEnd = annotation.getScopeEnd();
       String key = String.format("%s::%s::%d", scopeStart, scopeEnd, annotatorId);
 
-      ErrorAnalyserTransformedAnnotation transformedAnnotation = new ErrorAnalyserTransformedAnnotation(annotation.getAnnotationId(), annotation.getAnnotatorId(), scopeStart,
-        scopeEnd, annotation.getErrorType(), extractedErrorTypes,
+      ErrorAnalyserTransformedAnnotation transformedAnnotation = new ErrorAnalyserTransformedAnnotation(annotation.getAnnotationId(), annotation.getAnnotatorId(), annotation.getScopeStart(),
+        annotation.getScopeEnd(), annotation.getErrorType(), extractedErrorTypes,
         annotation.getCorrection());
 
-      currentAnnotationGroup.getAnnotationGroup().put(key, transformedAnnotation);
+      currentAnnotationGroup.getAnnotations().add(transformedAnnotation);
     }
 
     //eemaldab tühjad elemendid listist

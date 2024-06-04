@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import {
   Box,
   CircularProgress,
@@ -8,14 +8,14 @@ import {
 } from '@mui/material';
 import RequestFilter from './requestfilter/RequestFilter';
 import ResultTable from './resulttable/ResultTable';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 export default function ErrorAnalyser() {
   const [data, setData] = useState(null);
   const [filters, setFilters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showAllErrors, setShowAllErrors] = useState(false);
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const getData = async (
     errorTypeFilter,
@@ -82,7 +82,7 @@ export default function ErrorAnalyser() {
 
       {isLoading && data && (
         <Box className="spinner-container">
-          <CircularProgress />
+          <CircularProgress/>
         </Box>
       )}
 
@@ -90,7 +90,7 @@ export default function ErrorAnalyser() {
         <>
           <FormControlLabel
             control={
-              <Switch checked={showAllErrors} onChange={handleSwitchChange} />
+              <Switch checked={showAllErrors} onChange={handleSwitchChange}/>
             }
             label={t('error_analyser_show_all_errors')}
           />
