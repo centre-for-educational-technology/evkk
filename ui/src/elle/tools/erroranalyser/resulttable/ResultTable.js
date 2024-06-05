@@ -129,33 +129,25 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
     setOrderBy(property);
   };
 
-  const displayErrorTypes = (errorTypes) => {
-    const extractedErrorTypes = [];
-    for (const [errorType, errorCount] of Object.entries(errorTypes)) {
-      extractedErrorTypes.push(
-        <div key={errorType}>
-          {t(errorTypeOptionsShort[errorType]).toLowerCase()} ({errorCount}){' '}
+  const insertErrorTypes = (errorTypeCount) => {
+    const insertedErrorTypes = [];
+    Object.entries(errorTypeCount).forEach(([errorType, errorCount], index) => {
+      insertedErrorTypes.push(
+        <div key={index}>
+          {t(errorTypeOptionsShort[errorType]).toLowerCase()} ({errorCount})
         </div>
       );
-    }
-    // HOIA VEEL ALLES
-    // row.errorTypes.forEach((group, index) => {
-    //   if (group) {
-    //     console.log(Object.entries(group));
-    //     let index = 0;
-    //     for (const [errorType, errorCount] of Object.entries(group)) {
-    //       console.log(errorType);
-    //       index++;
-    //       extractedErrorTypes.push(
-    //         <div key={errorType + index + row.sentenceId}>
-    //           {t(errorTypeOptionsShort[errorType]).toLowerCase()} ({errorCount}){' '}
-    //         </div>
-    //       );
-    //     }
-    //     console.log(index);
-    //     extractedErrorTypes.push(<Divider />);
-    //   }
-    // });
+    });
+    return insertedErrorTypes;
+  };
+
+  const displayErrorTypes = (annotationGroups) => {
+    const extractedErrorTypes = [];
+
+    annotationGroups.forEach((annotationGroup, index) => {
+      extractedErrorTypes.push(<div key={index}
+                                    className="corrected-sentence">{insertErrorTypes(annotationGroup.errorTypeCount)}</div>);
+    });
 
     return extractedErrorTypes;
   };
@@ -304,7 +296,6 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
                   <TableCell>
                     {
                       <CorrectedSentenceCell
-                        // sentence={row.transformedSentence}
                         sentence={row.sentence}
                         annotationGroups={row.groupedAnnotations}
                         showAllErrors={showAllErrors}
@@ -314,7 +305,7 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
                   </TableCell>
                   {isColumnVisible['errorType'] && (
                     <TableCell>
-                      {displayErrorTypes(row.errorTypes, row)}
+                      {displayErrorTypes(row.groupedAnnotations)}
                     </TableCell>
                   )}
                   {isColumnVisible['languageLevel'] && (
