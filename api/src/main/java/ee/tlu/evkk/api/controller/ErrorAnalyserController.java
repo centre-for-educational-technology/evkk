@@ -29,28 +29,25 @@ public class ErrorAnalyserController {
   @GetMapping("/getFilterOptions")
   public ResponseEntity<ErrorAnalyserOptions> getFilterOptions() {
     List<String> textType = errorAnalyserDao.findFilterOptions("tekstityyp");
-    List<String> nativeLanguage = errorAnalyserDao.findFilterOptions("emakeel");
     List<String> citizenship = errorAnalyserDao.findFilterOptions("kodakondsus");
 
-    ErrorAnalyserOptions body = new ErrorAnalyserOptions(textType, nativeLanguage, citizenship);
+    ErrorAnalyserOptions body = new ErrorAnalyserOptions(textType, citizenship);
     return ResponseEntity.ok(body);
   }
 
   @GetMapping("/getErrors")
   public ResponseEntity<List<ErrorAnalyserTransformedSentence>> getErrors(
-      @RequestParam(name = "errorType", required = false) List<String> errorTypes,
-      @RequestParam(name = "languageLevel", required = false) List<String> languageLevels,
-      @RequestParam(name = "nativeLanguage", required = false) List<String> nativeLanguages,
-      @RequestParam(name = "textType", required = false) List<String> textTypes,
-      @RequestParam(name = "education", required = false) List<String> educationLevels,
-      @RequestParam(name = "citizenship", required = false) List<String> citizenshipList,
-      @RequestParam(name = "ageRange", required = false) List<String> ageRanges) {
-    List<ErrorAnalyserSentence> result = errorAnalyserDao.findErrors(errorTypes, languageLevels, nativeLanguages,
-        textTypes,
-        educationLevels, citizenshipList, ageRanges);
+    @RequestParam(name = "errorType", required = false) List<String> errorTypes,
+    @RequestParam(name = "languageLevel", required = false) List<String> languageLevels,
+    @RequestParam(name = "textType", required = false) List<String> textTypes,
+    @RequestParam(name = "education", required = false) List<String> educationLevels,
+    @RequestParam(name = "citizenship", required = false) List<String> citizenshipList,
+    @RequestParam(name = "ageRange", required = false) List<String> ageRanges) {
+    List<ErrorAnalyserSentence> result = errorAnalyserDao.findErrors(errorTypes, languageLevels,
+      textTypes, educationLevels, citizenshipList, ageRanges);
 
     List<ErrorAnalyserTransformedSentence> transformedResult = errorAnalyserService.transformSentence(result,
-        errorTypes);
+      errorTypes);
 
     return ResponseEntity.ok(transformedResult);
   }

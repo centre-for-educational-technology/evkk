@@ -1,33 +1,28 @@
-import { Typography } from '@mui/material';
-import { Fragment, useEffect, useState } from 'react';
+import {Typography} from '@mui/material';
+import {Fragment, useEffect, useState} from 'react';
 import Multiselect from './Multiselect';
 import {
   ageOptions,
   educationOptions,
-  languageOptions,
   nationalityOptions,
   textPublishSubTextTypesOptions,
 } from '../../../const/Constants';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 export default function OptionalFilters({
-  filterOptions,
-  setLanguageLevel,
-  nativeLanguage,
-  setNativeLanguage,
-  citizenship,
-  setCitizenship,
-  education,
-  setEducation,
-  textType,
-  setTextType,
-  ageRange,
-  setAgeRange,
-}) {
+                                          filterOptions,
+                                          citizenship,
+                                          setCitizenship,
+                                          education,
+                                          setEducation,
+                                          textType,
+                                          setTextType,
+                                          ageRange,
+                                          setAgeRange,
+                                        }) {
   const [textTypeOptions, setTextTypeOptions] = useState([]);
-  const [nativeLanguageOptions, setNativeLanguageOptions] = useState([]);
   const [citizenshipOptions, setCitizenshipOptions] = useState([]);
-  const { t, i18n } = useTranslation();
+  const {t, i18n} = useTranslation();
 
   const filterFilterOptions = (options, filter) => {
     return Object.keys(options)
@@ -54,7 +49,6 @@ export default function OptionalFilters({
 
   useEffect(() => {
     setTextTypeOptions(sortFilterOptions(textTypeOptions));
-    setNativeLanguageOptions(sortFilterOptions(nativeLanguageOptions));
     setCitizenshipOptions(sortFilterOptions(citizenshipOptions));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [i18n.language]);
@@ -66,13 +60,6 @@ export default function OptionalFilters({
     );
     filteredTextTypeOptions = sortFilterOptions(filteredTextTypeOptions);
     setTextTypeOptions(filteredTextTypeOptions);
-
-    let filteredLanguageOptions = filterFilterOptions(
-      languageOptions,
-      data.nativeLanguage
-    );
-    filteredLanguageOptions = sortFilterOptions(filteredLanguageOptions);
-    setNativeLanguageOptions(filteredLanguageOptions);
 
     let filteredCitizenshipOptions = filterFilterOptions(
       nationalityOptions,
@@ -89,10 +76,11 @@ export default function OptionalFilters({
 
   function handleChange(event, setValue) {
     const {
-      target: { value },
+      target: {value},
     } = event;
     setValue(typeof value === 'string' ? value.split(',') : value);
   }
+
   return (
     <Fragment>
       <Typography variant="h6">{t('error_analyser_more_options')}</Typography>
@@ -104,14 +92,6 @@ export default function OptionalFilters({
         options={textTypeOptions}
         label={t('error_analyser_text_type')}
         id="text-type"
-      />
-      <Multiselect
-        selected={nativeLanguage}
-        setSelected={setNativeLanguage}
-        handleChange={(event) => handleChange(event, setNativeLanguage)}
-        options={nativeLanguageOptions}
-        label={t('error_analyser_authors_native_language')}
-        id="authors-native-language"
       />
       <Multiselect
         selected={education}

@@ -7,7 +7,6 @@ public class ErrorAnalyserSentence {
   private String sentence;
   private String textId;
   private String languageLevel;
-  private String nativeLanguage;
   private String textType;
   private String age;
   private String ageRange;
@@ -16,13 +15,12 @@ public class ErrorAnalyserSentence {
   private List<ErrorAnalyserAnnotation> annotations;
 
   public ErrorAnalyserSentence(String sentenceId, String sentence, String textId, String languageLevel,
-      String nativeLanguage, String textType, String age, String ageRange, String education, String citizenship,
-      List<ErrorAnalyserAnnotation> annotations) {
+                               String textType, String age, String ageRange, String education, String citizenship,
+                               List<ErrorAnalyserAnnotation> annotations) {
     this.sentenceId = sentenceId;
     this.sentence = sentence;
     this.textId = textId;
     this.languageLevel = languageLevel;
-    this.nativeLanguage = nativeLanguage;
     this.annotations = annotations;
     this.textType = textType;
     this.age = age;
@@ -48,10 +46,6 @@ public class ErrorAnalyserSentence {
 
   public String getLanguageLevel() {
     return languageLevel;
-  }
-
-  public String getNativeLanguage() {
-    return nativeLanguage;
   }
 
   public String getTextType() {

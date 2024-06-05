@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import {Fragment, useEffect, useState} from 'react';
 import {
   Accordion,
   AccordionActions,
@@ -18,14 +18,13 @@ import {
   filterLanguageLevelOptions,
 } from './CheckboxOptions';
 import Checkbox from './Checkbox';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import OptionalFilters from './OptionalFilters';
 
-export default function RequestFilter({ getData, setData, setFilters }) {
+export default function RequestFilter({getData, setData, setFilters}) {
   const [isLoading, setIsLoading] = useState(true);
   const [errorType, setErrorType] = useState([]);
   const [languageLevel, setLanguageLevel] = useState([]);
-  const [nativeLanguage, setNativeLanguage] = useState([]);
   const [citizenship, setCitizenship] = useState([]);
   const [education, setEducation] = useState([]);
   const [textType, setTextType] = useState([]);
@@ -40,7 +39,7 @@ export default function RequestFilter({ getData, setData, setFilters }) {
     accordion: true,
     optionalFilters: false,
   });
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const getFilterOptions = async () => {
     try {
@@ -98,20 +97,17 @@ export default function RequestFilter({ getData, setData, setFilters }) {
     let languageLevelFilter = mapFilterInput(languageLevel);
     let optionalFilters = [];
 
-    if (nativeLanguage.length > 0) {
-      optionalFilters.push({ nativeLanguage: nativeLanguage });
-    }
     if (citizenship.length > 0) {
-      optionalFilters.push({ citizenship: citizenship });
+      optionalFilters.push({citizenship: citizenship});
     }
     if (education.length > 0) {
-      optionalFilters.push({ education: education });
+      optionalFilters.push({education: education});
     }
     if (textType.length > 0) {
-      optionalFilters.push({ textType: textType });
+      optionalFilters.push({textType: textType});
     }
     if (ageRange.length > 0) {
-      optionalFilters.push({ ageRange: ageRange });
+      optionalFilters.push({ageRange: ageRange});
     }
 
     if (errorTypeFilter.length === 0) {
@@ -139,7 +135,6 @@ export default function RequestFilter({ getData, setData, setFilters }) {
       let filters = {
         errorType: errorTypeFilter.map((item) => item.type),
         languageLevel: languageLevelFilter.map((item) => item.type),
-        nativeLanguage,
         citizenship,
         education,
         textType,
@@ -156,7 +151,7 @@ export default function RequestFilter({ getData, setData, setFilters }) {
     <>
       {isLoading ? (
         <Box className="spinner-container">
-          <CircularProgress />
+          <CircularProgress/>
         </Box>
       ) : (
         <Accordion
@@ -167,7 +162,7 @@ export default function RequestFilter({ getData, setData, setFilters }) {
           className="request-filter"
         >
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
+            expandIcon={<ExpandMoreIcon/>}
             aria-controls="request-filter-content"
             id="request-filter-header"
           >
@@ -179,7 +174,7 @@ export default function RequestFilter({ getData, setData, setFilters }) {
               <Box className="request-filter-item-main">
                 <Typography
                   variant="h6"
-                  style={{ color: filterError.typeError ? 'red' : 'initial' }}
+                  style={{color: filterError.typeError ? 'red' : 'initial'}}
                 >
                   {t('error_analyser_error_type')} *
                 </Typography>
@@ -221,7 +216,7 @@ export default function RequestFilter({ getData, setData, setFilters }) {
 
                 {isExpanded.optionalFilters ? (
                   <Link
-                    sx={{ my: 4 }}
+                    sx={{my: 4}}
                     component="button"
                     variant="body2"
                     onClick={() => {
@@ -232,7 +227,7 @@ export default function RequestFilter({ getData, setData, setFilters }) {
                   </Link>
                 ) : (
                   <Link
-                    sx={{ my: 4 }}
+                    sx={{my: 4}}
                     component="button"
                     variant="body2"
                     onClick={() => {
@@ -248,8 +243,6 @@ export default function RequestFilter({ getData, setData, setFilters }) {
                     filterOptions={filterOptions}
                     languageLevel={languageLevel}
                     setLanguageLevel={setLanguageLevel}
-                    nativeLanguage={nativeLanguage}
-                    setNativeLanguage={setNativeLanguage}
                     citizenship={citizenship}
                     setCitizenship={setCitizenship}
                     education={education}

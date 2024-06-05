@@ -47,17 +47,17 @@ public class ErrorAnalyserService {
       List<ErrorAnalyserAnnotation> annotations = sentence.getAnnotations();
       ErrorAnalyserAnnotationVersions annotationVersions = groupAnnotationVersions(annotations);
 
-      //märgendusversioonid on sorditud päringule vastavate vigade arvu alusel, valib esimese
+      //Märgendusversioonid on sorditud päringule vastavate vigade arvu alusel, valib esimese
       int queriedErrorCount = annotationVersions.getAnnotationVersions().get(0).getQueriedErrorCount();
 
       ErrorAnalyserTransformedSentence transformedSentence = new ErrorAnalyserTransformedSentence(
         sentence.getSentenceId(), sentence.getSentence(), sentence.getTextId(), sentence.getLanguageLevel(),
-        sentence.getNativeLanguage(), sentence.getTextType(), sentence.getAge(), sentence.getAgeRange(),
-        sentence.getEducation(), sentence.getCitizenship(), queriedErrorCount, annotationVersions.getAnnotationVersions());
+        sentence.getTextType(), sentence.getAge(), sentence.getAgeRange(), sentence.getEducation(),
+        sentence.getCitizenship(), queriedErrorCount, annotationVersions.getAnnotationVersions());
       transformedSentences.add(transformedSentence);
     }
 
-    //sordib kõik elemendid pärigule kõige paremini vastanud märgendusversioonide alusel
+    //Sordib kõik elemendid pärigule kõige paremini vastanud märgendusversioonide alusel
     transformedSentences.sort(Comparator.comparingInt(ErrorAnalyserTransformedSentence::getQueriedErrorTypeCount).reversed());
 
     return transformedSentences;
@@ -124,7 +124,7 @@ public class ErrorAnalyserService {
 
       List<String> extractedErrorTypes = extractErrors(annotation);
 
-      //loendab vigu ja mitu neist vastab päringule
+      //Loendab vigu ja mitu neist vastab päringule
       for (String extractedErrorType : extractedErrorTypes) {
         int updatedErrorCount = currentAnnotationVersion.getErrorTypeCount().getOrDefault(extractedErrorType, 0) + 1;
         currentAnnotationVersion.getErrorTypeCount().put(extractedErrorType, updatedErrorCount);
@@ -134,7 +134,7 @@ public class ErrorAnalyserService {
         }
       }
 
-      //teisendab märgendused uuele kujule
+      //Teisendab märgendused uuele kujule
       ErrorAnalyserTransformedAnnotation transformedAnnotation = new ErrorAnalyserTransformedAnnotation(annotation.getAnnotationId(), annotation.getAnnotatorId(), annotation.getScopeStart(),
         annotation.getScopeEnd(), annotation.getErrorType(), extractedErrorTypes,
         annotation.getCorrection());
@@ -145,7 +145,7 @@ public class ErrorAnalyserService {
     //eemaldab tühjad elemendid listist
     annotationVersions.removeIf(Objects::isNull);
 
-    //sordib vead esinemise järjekorras
+    //sordib märgendusversiooni vealoendi vigade arvu alusel
     for (ErrorAnalyserAnnotationVersion annotationVersion : annotationVersions) {
       Map<String, Integer> sortedMap = annotationVersion.getErrorTypeCount().entrySet().stream()
         .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
@@ -157,7 +157,7 @@ public class ErrorAnalyserService {
       annotationVersion.setErrorTypeCount(sortedMap);
     }
 
-    //sordib märgendusversioonid päringule vastavate vigade arvu alusel
+    //Sordib märgendusversioonid päringule vastavate vigade arvu alusel
     annotationVersions.sort(Comparator.comparingInt(ErrorAnalyserAnnotationVersion::getQueriedErrorCount).reversed());
 
     return new ErrorAnalyserAnnotationVersions(annotationVersions, queriedErrorCount);

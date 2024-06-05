@@ -23,7 +23,6 @@ import {useTranslation} from 'react-i18next';
 import {
   ageOptions,
   educationOptions,
-  languageOptions,
   nationalityOptions,
   textPublishSubTextTypesOptions,
   errorTypeOptionsShort,
@@ -38,7 +37,6 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
     errorType: false,
     languageLevel: false,
     textType: false,
-    nativeLanguage: false,
     education: false,
     citizenship: false,
     age: false,
@@ -79,11 +77,6 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
       id: 'textType',
       sortable: true,
       label: 'error_analyser_text_type',
-    },
-    {
-      id: 'nativeLanguage',
-      sortable: true,
-      label: 'error_analyser_authors_native_language',
     },
     {
       id: 'education',
@@ -175,15 +168,11 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
 
     if (
       orderBy === 'textType' ||
-      orderBy === 'nativeLanguage' ||
       orderBy === 'education' ||
       orderBy === 'citizenship'
     ) {
       let options;
       switch (orderBy) {
-        case 'nativeLanguage':
-          options = languageOptions;
-          break;
         case 'education':
           options = educationOptions;
           break;
@@ -319,13 +308,6 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
                         ? t(
                           textPublishSubTextTypesOptions[row.textType]
                         ).toLowerCase()
-                        : '–'}
-                    </TableCell>
-                  )}
-                  {isColumnVisible['nativeLanguage'] && (
-                    <TableCell>
-                      {row.nativeLanguage
-                        ? t(languageOptions[row.nativeLanguage])
                         : '–'}
                     </TableCell>
                   )}
