@@ -1,8 +1,8 @@
 package ee.tlu.evkk.api.service;
 
 import ee.tlu.evkk.api.controller.dto.AccessTokenDto;
-import ee.tlu.evkk.api.exception.TokenExpiredException;
 import ee.tlu.evkk.api.exception.TokenNotFoundException;
+import ee.tlu.evkk.api.exception.UnauthorizedException;
 import ee.tlu.evkk.dal.dao.RefreshTokenDao;
 import ee.tlu.evkk.dal.dao.UserDao;
 import ee.tlu.evkk.dal.dto.RefreshToken;
@@ -43,16 +43,16 @@ public class RefreshTokenService {
     return refreshTokenDao.insert(refreshToken);
   }
 
-  public AccessTokenDto renewToken(HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException, TokenExpiredException {
+  public AccessTokenDto renewToken(HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException {
     RefreshToken token = refreshTokenDao.findByToken(getRefreshToken(request));
 
     if (token == null) {
-      throw new TokenNotFoundException();
+      throw new UnauthorizedException();
     }
 
     if (token.getExpiresAt().isBefore(now())) {
       refreshTokenDao.deleteByUserId(token.getUserId());
-      throw new TokenExpiredException();
+      throw new UnauthorizedException();
     }
 
     User user = userDao.findById(token.getUserId());

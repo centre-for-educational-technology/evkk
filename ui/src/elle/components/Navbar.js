@@ -1,6 +1,6 @@
 import Logo from '../resources/images/header/elle_logo.png';
 import { AppBar, Box, Drawer, IconButton, Link, List, ListItem, Menu, MenuItem, styled, Toolbar } from '@mui/material';
-import { Close, Language, Menu as MenuIcon } from '@mui/icons-material';
+import { Close, Language, Logout, Menu as MenuIcon } from '@mui/icons-material';
 import { NavLink } from 'react-router-dom';
 import '@fontsource/exo-2/600.css';
 import React, { useEffect, useState } from 'react';
@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { Languages } from '../translations/i18n';
 import Can from './security/Can';
 import { UserRoleConstants } from '../const/Constants';
+import { logout } from '../service/AuthService';
 
 const pages = [
   { id: 1, title: 'common_corrector', target: '/corrector' },
@@ -21,7 +22,6 @@ const pages = [
 
 const MenuLink = styled(Link)({
   fontWeight: 600,
-  fontSize: 16,
   color: '#1B1B1B',
   textDecoration: 'none',
   fontFamily: ['Exo 2', 'sans-serif'].join(','),
@@ -37,7 +37,6 @@ const MenuLink = styled(Link)({
 
 const BurgerLink = styled(Link)({
   fontWeight: 400,
-  fontSize: 16,
   color: '#1B1B1B',
   textDecoration: 'none',
   fontFamily: ['Exo 2', 'sans-serif'].join(','),
@@ -55,23 +54,30 @@ export default function Navbar() {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [navColor, setNavColor] = useState('sticking');
+  const [langAnchorEl, setLangAnchorEl] = useState(false);
+  const langOpen = Boolean(langAnchorEl);
 
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
-  const [langAnchorEl, setLangAnchorEl] = useState(false);
-  const langOpen = Boolean(langAnchorEl);
   const handleLangClick = (event) => {
     setLangAnchorEl(event.currentTarget);
   };
+
   const handleLangClose = () => {
     setLangAnchorEl(false);
   };
+
   const handleLangSelect = (lang) => {
     i18n.changeLanguage(lang).then(r => r);
     localStorage.setItem('language', lang);
     setLangAnchorEl(false);
+  };
+
+  const handleLogout = () => {
+    setOpen(false);
+    logout();
   };
 
   const languageMenu = () => {
@@ -99,6 +105,22 @@ export default function Navbar() {
           </MenuItem>
         </Menu>
       </div>
+    );
+  };
+
+  const logoutItem = (isDesktop) => {
+    return (
+      <Can requireAuth={true}>
+        <div
+          className={`nav-logout ${isDesktop ? 'desktop' : ''}`}
+          onClick={handleLogout}
+        >
+          <Logout />
+          <span className="logout-text">
+            {t('navbar_logout')}
+          </span>
+        </div>
+      </Can>
     );
   };
 
@@ -154,6 +176,7 @@ export default function Navbar() {
             })}
           </div>
           <div className="nav-icons-container">
+            {logoutItem(true)}
             <Box className="language-menu-desktop">
               {languageMenu()}
             </Box>
@@ -205,6 +228,7 @@ export default function Navbar() {
             </List>
           </div>
           <div className="d-flex justify-content-end align-items-center nav-50px-height">
+            {logoutItem(false)}
             {languageMenu()}
             <IconButton onClick={() => toggleDrawer()}>
               <Close className="nav-close-icon" />

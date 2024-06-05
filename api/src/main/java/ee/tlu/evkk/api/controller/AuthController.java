@@ -3,7 +3,6 @@ package ee.tlu.evkk.api.controller;
 import ee.evkk.dto.enums.Language;
 import ee.tlu.evkk.api.controller.dto.AccessTokenDto;
 import ee.tlu.evkk.api.controller.dto.UserLoginDto;
-import ee.tlu.evkk.api.exception.TokenExpiredException;
 import ee.tlu.evkk.api.exception.TokenNotFoundException;
 import ee.tlu.evkk.api.service.HarIdService;
 import ee.tlu.evkk.api.service.LoginService;
@@ -45,7 +44,7 @@ public class AuthController {
   }
 
   @PostMapping("renew")
-  public AccessTokenDto renewTokens(HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException, TokenExpiredException {
+  public AccessTokenDto renewTokens(HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException {
     return refreshTokenService.renewToken(request, response);
   }
 

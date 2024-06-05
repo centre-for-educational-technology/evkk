@@ -1,5 +1,7 @@
 import { loadFetch } from './util/LoadFetch';
-import { navigateTo } from '../util/navigate';
+import { clearContext, navigateTo } from '../util/LogoutFunctionUtils';
+import { successEmitter } from '../../App';
+import { SuccessSnackbarEventType } from '../components/SuccessSnackbar';
 
 export const logout = () => {
   loadFetch('/api/auth/logout', {
@@ -10,6 +12,8 @@ export const logout = () => {
     }
   }).then(() => {
     localStorage.removeItem('accessToken');
+    clearContext();
     navigateTo('/');
+    successEmitter.emit(SuccessSnackbarEventType.LOGOUT_SUCCESS);
   });
 };

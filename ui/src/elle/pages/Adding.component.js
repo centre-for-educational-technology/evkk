@@ -35,6 +35,7 @@ import {
 } from '../const/Constants';
 import { successEmitter } from '../../App';
 import ModalBase from '../components/ModalBase';
+import { SuccessSnackbarEventType } from '../components/SuccessSnackbar';
 
 class Adding extends Component {
 
@@ -103,7 +104,7 @@ class Adding extends Component {
     };
     this.setState(this.startingstate);
     this.setState({ ennistusnupp: true });
-    loadFetch('/api/texts/lisatekst', request_test).then(() => successEmitter.emit('generic-success'));
+    loadFetch('/api/texts/lisatekst', request_test).then(() => successEmitter.emit(SuccessSnackbarEventType.GENERIC_SUCCESS));
   }
 
   taastaVormiSisu() {

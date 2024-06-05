@@ -16,7 +16,7 @@ import DonateText from './elle/components/DonateText';
 import { getStatusIfNeeded } from './elle/service/RootService';
 import { rootStore } from './elle/store/RootStore';
 import { applyMiddleware, compose, createStore } from 'redux';
-import { setNavigateFunction } from './elle/util/navigate';
+import { setLogoutFunctions } from './elle/util/LogoutFunctionUtils';
 import AuthContext, { AuthProvider } from './elle/context/AuthContext';
 import withGlobalLoading from './elle/hoc/withGlobalLoading';
 
@@ -77,7 +77,7 @@ function AppWithStatus() {
   const navigate = useNavigate();
   const [urlParams] = useSearchParams();
   const [isOffline, setIsOffline] = useState(false);
-  const { setContext } = useContext(AuthContext);
+  const { setContext, clearContext } = useContext(AuthContext);
 
   useEffect(() => {
     getStatusIfNeeded();
@@ -110,8 +110,8 @@ function AppWithStatus() {
   }, [urlParams]);
 
   useEffect(() => {
-    setNavigateFunction(navigate);
-  }, [navigate]);
+    setLogoutFunctions(navigate, clearContext);
+  }, [navigate, clearContext]);
 
   if (isOffline) {
     return <ServerOfflinePage />;
