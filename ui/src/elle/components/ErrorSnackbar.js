@@ -1,5 +1,5 @@
 import { Alert, Snackbar } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { errorEmitter } from '../../App';
 import './styles/ErrorSnackbar.css';
@@ -15,9 +15,17 @@ export default function ErrorSnackbar() {
     setErrorMessage(typeValue);
   };
 
-  Object.values(ErrorSnackbarEventType).forEach(eventTypeValue => {
-    errorEmitter.on(eventTypeValue, () => handleEvent(eventTypeValue));
-  });
+  useEffect(() => {
+    Object.values(ErrorSnackbarEventType).forEach(eventTypeValue => {
+      errorEmitter.on(eventTypeValue, () => handleEvent(eventTypeValue));
+    });
+
+    return () => {
+      Object.values(ErrorSnackbarEventType).forEach(eventTypeValue => {
+        errorEmitter.off(eventTypeValue, () => handleEvent(eventTypeValue));
+      });
+    };
+  }, []);
 
   const handleSnackbarClose = (_event, reason) => {
     if (reason === 'clickaway') {

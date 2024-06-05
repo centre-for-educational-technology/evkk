@@ -18,12 +18,19 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('accessToken')) {
+    if (hasNonExpiredToken()) {
       loadUser();
     } else {
       setIsLoading(false);
     }
   }, []);
+
+  const hasNonExpiredToken = () => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) return false;
+
+    return Date.now() < JSON.parse(atob(token.split('.')[1])).exp * 1000;
+  };
 
   const setContext = () => {
     loadUser();

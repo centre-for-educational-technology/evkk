@@ -12,6 +12,7 @@ export default function ModalBase({
                                     innerClassName,
                                     title,
                                     titleTooltip,
+                                    disableComfortClosing = false,
                                     children
                                   }) {
 
@@ -20,10 +21,14 @@ export default function ModalBase({
   return (
     <Modal
       open={isOpen}
-      onClose={() => {
+      onClose={(_, reason) => {
+        if (disableComfortClosing && reason === 'backdropClick') {
+          return;
+        }
         setIsOpen(false);
       }}
       disableAutoFocus
+      disableEscapeKeyDown={disableComfortClosing}
     >
       <Box
         sx={modalStyle}

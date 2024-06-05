@@ -3,7 +3,7 @@ import { clearContext, navigateTo } from '../util/LogoutFunctionUtils';
 import { successEmitter } from '../../App';
 import { SuccessSnackbarEventType } from '../components/SuccessSnackbar';
 
-export const logout = () => {
+export const logout = (forced = false) => {
   loadFetch('/api/auth/logout', {
     method: 'DELETE',
     body: JSON.stringify({ token: localStorage.getItem('accessToken') }),
@@ -14,6 +14,17 @@ export const logout = () => {
     localStorage.removeItem('accessToken');
     clearContext();
     navigateTo('/');
-    successEmitter.emit(SuccessSnackbarEventType.LOGOUT_SUCCESS);
+    successEmitter.emit(forced ? SuccessSnackbarEventType.LOGOUT_FORCED_SUCCESS : SuccessSnackbarEventType.LOGOUT_SUCCESS);
   });
+};
+
+export const renew = async () => {
+  await loadFetch('/api/auth/renew', {
+    method: 'POST'
+  })
+    .then(res => res.json())
+    .then(res => {
+      localStorage.setItem('accessToken', res.token);
+      successEmitter.emit(SuccessSnackbarEventType.SESSION_RENEW_SUCCESS);
+    });
 };

@@ -19,6 +19,7 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import { setLogoutFunctions } from './elle/util/LogoutFunctionUtils';
 import AuthContext, { AuthProvider } from './elle/context/AuthContext';
 import withGlobalLoading from './elle/hoc/withGlobalLoading';
+import SessionExpirationModal from './elle/components/SessionExpirationModal';
 
 export const errorEmitter = new EventEmitter();
 export const loadingEmitter = new EventEmitter();
@@ -87,7 +88,7 @@ function AppWithStatus() {
 
     return () => {
       unsubscribe();
-    }
+    };
   }, []);
 
   useEffect(() => {
@@ -114,7 +115,7 @@ function AppWithStatus() {
   }, [navigate, clearContext]);
 
   if (isOffline) {
-    return <ServerOfflinePage />;
+    return <ServerOfflinePage retry={getStatusIfNeeded} />;
   }
 
   return (
@@ -123,6 +124,7 @@ function AppWithStatus() {
         <ErrorSnackbar />
         <SuccessSnackbar />
         <LoadingSpinner />
+        <SessionExpirationModal />
         <Navbar />
         <DonateText />
         <AppRoutes />

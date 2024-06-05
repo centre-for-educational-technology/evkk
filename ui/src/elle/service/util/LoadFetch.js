@@ -1,7 +1,6 @@
 import { errorEmitter, loadingEmitter } from '../../../App';
 import { LoadingSpinnerEventType } from '../../components/LoadingSpinner';
 import { ErrorSnackbarEventType } from '../../components/ErrorSnackbar';
-import { logout } from '../AuthService';
 
 export const loadFetch = async (url, params, disableErrorHandling = false) => {
   loadingEmitter.emit(LoadingSpinnerEventType.LOADER_START);
@@ -29,7 +28,6 @@ export const loadFetch = async (url, params, disableErrorHandling = false) => {
         return res;
       } else if (res.status === 401) {
         errorEmitter.emit(ErrorSnackbarEventType.UNAUTHORIZED);
-        logout();
       } else if (res.status === 403) {
         errorEmitter.emit(ErrorSnackbarEventType.FORBIDDEN);
       } else {
