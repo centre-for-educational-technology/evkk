@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ErrorAnalyserAnnotationGroup {
+public class ErrorAnalyserAnnotationVersion {
   List<ErrorAnalyserTransformedAnnotation> annotations;
   Map<String, Integer> errorTypeCount;
   int queriedErrorCount;
 
-  public ErrorAnalyserAnnotationGroup() {
+  public ErrorAnalyserAnnotationVersion() {
     this.annotations = new ArrayList<>();
     this.errorTypeCount = new HashMap<>();
     this.queriedErrorCount = 0;

@@ -14,11 +14,11 @@ public class ErrorAnalyserTransformedSentence {
   private final String education;
   private final String citizenship;
   private final Integer queriedErrorTypeCount;
-  private final List<ErrorAnalyserAnnotationGroup> groupedAnnotations;
+  private final List<ErrorAnalyserAnnotationVersion> annotationVersions;
 
   public ErrorAnalyserTransformedSentence(String sentenceId, String sentence, String textId, String languageLevel,
                                           String nativeLanguage, String textType, String age, String ageRange, String education, String citizenship,
-                                          Integer queriedErrorTypeCount, List<ErrorAnalyserAnnotationGroup> groupedAnnotations
+                                          Integer queriedErrorTypeCount, List<ErrorAnalyserAnnotationVersion> annotationVersions
   ) {
     this.sentenceId = sentenceId;
     this.sentence = sentence;
@@ -31,7 +31,7 @@ public class ErrorAnalyserTransformedSentence {
     this.education = education;
     this.citizenship = citizenship;
     this.queriedErrorTypeCount = queriedErrorTypeCount;
-    this.groupedAnnotations = groupedAnnotations;
+    this.annotationVersions = annotationVersions;
   }
 
   public String getSentenceId() {
@@ -78,8 +78,8 @@ public class ErrorAnalyserTransformedSentence {
     return queriedErrorTypeCount;
   }
 
-  public List<ErrorAnalyserAnnotationGroup> getGroupedAnnotations() {
-    return groupedAnnotations;
+  public List<ErrorAnalyserAnnotationVersion> getAnnotationVersions() {
+    return annotationVersions;
   }
 
 

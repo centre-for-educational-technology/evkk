@@ -3,7 +3,7 @@ import CorrectedSentence from './CorrectedSentence';
 
 export default function CorrectedSentenceCell({
                                                 sentence,
-                                                annotationGroups,
+                                                annotationVersions,
                                                 showAllErrors,
                                                 filters,
                                               }) {
@@ -64,23 +64,23 @@ export default function CorrectedSentenceCell({
     return {key, value};
   }, []);
 
-  const transformAnnotationGroups = useCallback(
-    (annotationGroups, transformedSentence) => {
-      annotationGroups.forEach((annotationGroup) => {
-        annotationGroup.forEach((annotation) => {
+  const transformAnnotationVersions = useCallback(
+    (annotationVersions, transformedSentence) => {
+      annotationVersions.forEach((annotationVersion) => {
+        annotationVersion.forEach((annotation) => {
           if (annotation.scopeEnd - annotation.scopeStart > 1) {
             let sourceContent = [];
             for (let i = annotation.scopeStart; i < annotation.scopeEnd; i++) {
               const targetKey = [i, i + 1, annotation.annotatorId].join('::');
               const sourceKey = [i, i + 1, -1].join('::');
 
-              if (annotationGroup.has(targetKey)) {
+              if (annotationVersion.has(targetKey)) {
                 if (!annotation.nested) {
                   annotation.nested = [];
                 }
-                annotation.nested.push(annotationGroup.get(targetKey));
+                annotation.nested.push(annotationVersion.get(targetKey));
 
-                annotationGroup.delete(targetKey);
+                annotationVersion.delete(targetKey);
               }
 
               if (transformedSentence.has(sourceKey)) {
@@ -101,27 +101,27 @@ export default function CorrectedSentenceCell({
           }
         });
       });
-      return annotationGroups;
+      return annotationVersions;
     },
     []
   );
 
-  const processAnnotations = useCallback((annotationGroups, transformedSentence) => {
-    const initialAnnotationGroups = [];
-    annotationGroups.forEach((annotationGroup) => {
-      const initialAnnotationGroup = new Map();
-      annotationGroup.annotations.forEach((annotation) => {
+  const processAnnotations = useCallback((annotationVersions, transformedSentence) => {
+    const initialAnnotationVersions = [];
+    annotationVersions.forEach((annotationVersion) => {
+      const initialAnnotationVersion = new Map();
+      annotationVersion.annotations.forEach((annotation) => {
         const {key, value} = initializeAnnotation(annotation);
-        initialAnnotationGroup.set(key, value);
+        initialAnnotationVersion.set(key, value);
       });
-      initialAnnotationGroups.push(initialAnnotationGroup);
+      initialAnnotationVersions.push(initialAnnotationVersion);
     });
 
-    return transformAnnotationGroups(
-      initialAnnotationGroups,
+    return transformAnnotationVersions(
+      initialAnnotationVersions,
       transformedSentence
     );
-  }, [initializeAnnotation, transformAnnotationGroups]);
+  }, [initializeAnnotation, transformAnnotationVersions]);
 
   const sortSentence = (sentence) => {
     return Array.from(sentence.entries())
@@ -201,12 +201,12 @@ export default function CorrectedSentenceCell({
 
   useEffect(() => {
     const transformedSentence = transformSentence(sentence);
-    const transformedAnnotationGroups = processAnnotations(annotationGroups, transformedSentence);
+    const transformedAnnotationVersions = processAnnotations(annotationVersions, transformedSentence);
 
     let sortedSentences = [];
-    transformedAnnotationGroups.forEach((annotationGroup, index) => {
+    transformedAnnotationVersions.forEach((annotationVersion, index) => {
       sortedSentences[index] = applyAnnotations(
-        annotationGroup,
+        annotationVersion,
         transformedSentence,
         index
       );
@@ -214,7 +214,7 @@ export default function CorrectedSentenceCell({
     setSortedSentences(sortedSentences);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sentence, annotationGroups]);
+  }, [sentence, annotationVersions]);
 
   useEffect(() => {
     //console.log(sortedSentences);

@@ -297,7 +297,7 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
                     {
                       <CorrectedSentenceCell
                         sentence={row.sentence}
-                        annotationGroups={row.groupedAnnotations}
+                        annotationVersions={row.annotationVersions}
                         showAllErrors={showAllErrors}
                         filters={filters}
                       />
@@ -305,7 +305,7 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
                   </TableCell>
                   {isColumnVisible['errorType'] && (
                     <TableCell>
-                      {displayErrorTypes(row.groupedAnnotations)}
+                      {displayErrorTypes(row.annotationVersions)}
                     </TableCell>
                   )}
                   {isColumnVisible['languageLevel'] && (

@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import ee.tlu.evkk.dal.dto.ErrorAnalyserAnnotationGroup;
-import ee.tlu.evkk.dal.dto.ErrorAnalyserGroupedAnnotations;
+import ee.tlu.evkk.dal.dto.ErrorAnalyserAnnotationVersion;
+import ee.tlu.evkk.dal.dto.ErrorAnalyserAnnotationVersions;
 import org.springframework.stereotype.Service;
 
 import ee.tlu.evkk.dal.dto.ErrorAnalyserAnnotation;
@@ -45,15 +45,15 @@ public class ErrorAnalyserService {
     for (ErrorAnalyserSentence sentence : sentences) {
 
       List<ErrorAnalyserAnnotation> annotations = sentence.getAnnotations();
-      ErrorAnalyserGroupedAnnotations groupedAnnotations = getGroupedAnnotations(annotations);
+      ErrorAnalyserAnnotationVersions annotationVersions = groupAnnotationVersions(annotations);
 
       //märgendusversioonid on sorditud päringule vastavate vigade arvu alusel, valib esimese
-      int queriedErrorCount = groupedAnnotations.getAnnotationGroups().get(0).getQueriedErrorCount();
+      int queriedErrorCount = annotationVersions.getAnnotationVersions().get(0).getQueriedErrorCount();
 
       ErrorAnalyserTransformedSentence transformedSentence = new ErrorAnalyserTransformedSentence(
         sentence.getSentenceId(), sentence.getSentence(), sentence.getTextId(), sentence.getLanguageLevel(),
         sentence.getNativeLanguage(), sentence.getTextType(), sentence.getAge(), sentence.getAgeRange(),
-        sentence.getEducation(), sentence.getCitizenship(), queriedErrorCount, groupedAnnotations.getAnnotationGroups());
+        sentence.getEducation(), sentence.getCitizenship(), queriedErrorCount, annotationVersions.getAnnotationVersions());
       transformedSentences.add(transformedSentence);
     }
 
@@ -105,32 +105,32 @@ public class ErrorAnalyserService {
   }
 
   //Jaotab märgendid versiooni alusel rühmadeks ja töötleb/loendab vigu
-  public ErrorAnalyserGroupedAnnotations getGroupedAnnotations(List<ErrorAnalyserAnnotation> annotations) {
-    List<ErrorAnalyserAnnotationGroup> annotationGroups = new ArrayList<>();
+  public ErrorAnalyserAnnotationVersions groupAnnotationVersions(List<ErrorAnalyserAnnotation> annotations) {
+    List<ErrorAnalyserAnnotationVersion> annotationVersions = new ArrayList<>();
     int queriedErrorCount = 0;
 
     for (ErrorAnalyserAnnotation annotation : annotations) {
       int annotatorId = Integer.parseInt(annotation.getAnnotatorId());
 
-      if (annotationGroups.size() <= annotatorId) {
-        annotationGroups.addAll(Collections.nCopies(annotatorId -
-          annotationGroups.size() + 1, null));
+      if (annotationVersions.size() <= annotatorId) {
+        annotationVersions.addAll(Collections.nCopies(annotatorId -
+          annotationVersions.size() + 1, null));
       }
-      if (annotationGroups.get(annotatorId) == null) {
-        annotationGroups.set(annotatorId, new ErrorAnalyserAnnotationGroup());
+      if (annotationVersions.get(annotatorId) == null) {
+        annotationVersions.set(annotatorId, new ErrorAnalyserAnnotationVersion());
       }
 
-      ErrorAnalyserAnnotationGroup currentAnnotationGroup = annotationGroups.get(annotatorId);
+      ErrorAnalyserAnnotationVersion currentAnnotationVersion = annotationVersions.get(annotatorId);
 
       List<String> extractedErrorTypes = extractErrors(annotation);
 
       //loendab vigu ja mitu neist vastab päringule
       for (String extractedErrorType : extractedErrorTypes) {
-        int updatedErrorCount = currentAnnotationGroup.getErrorTypeCount().getOrDefault(extractedErrorType, 0) + 1;
-        currentAnnotationGroup.getErrorTypeCount().put(extractedErrorType, updatedErrorCount);
+        int updatedErrorCount = currentAnnotationVersion.getErrorTypeCount().getOrDefault(extractedErrorType, 0) + 1;
+        currentAnnotationVersion.getErrorTypeCount().put(extractedErrorType, updatedErrorCount);
         if (queriedErrorTypes.contains(extractedErrorType)) {
-          int updatedQueriedErrorCount = currentAnnotationGroup.getQueriedErrorCount() + 1;
-          currentAnnotationGroup.setQueriedErrorCount(updatedQueriedErrorCount);
+          int updatedQueriedErrorCount = currentAnnotationVersion.getQueriedErrorCount() + 1;
+          currentAnnotationVersion.setQueriedErrorCount(updatedQueriedErrorCount);
         }
       }
 
@@ -139,27 +139,27 @@ public class ErrorAnalyserService {
         annotation.getScopeEnd(), annotation.getErrorType(), extractedErrorTypes,
         annotation.getCorrection());
 
-      currentAnnotationGroup.getAnnotations().add(transformedAnnotation);
+      currentAnnotationVersion.getAnnotations().add(transformedAnnotation);
     }
 
     //eemaldab tühjad elemendid listist
-    annotationGroups.removeIf(Objects::isNull);
+    annotationVersions.removeIf(Objects::isNull);
 
     //sordib vead esinemise järjekorras
-    for (ErrorAnalyserAnnotationGroup annotationGroup : annotationGroups) {
-      Map<String, Integer> sortedMap = annotationGroup.getErrorTypeCount().entrySet().stream()
+    for (ErrorAnalyserAnnotationVersion annotationVersion : annotationVersions) {
+      Map<String, Integer> sortedMap = annotationVersion.getErrorTypeCount().entrySet().stream()
         .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
         .collect(Collectors.toMap(
           Map.Entry::getKey,
           Map.Entry::getValue,
           (oldValue, newValue) -> oldValue,
           LinkedHashMap::new));
-      annotationGroup.setErrorTypeCount(sortedMap);
+      annotationVersion.setErrorTypeCount(sortedMap);
     }
 
     //sordib märgendusversioonid päringule vastavate vigade arvu alusel
-    annotationGroups.sort(Comparator.comparingInt(ErrorAnalyserAnnotationGroup::getQueriedErrorCount).reversed());
+    annotationVersions.sort(Comparator.comparingInt(ErrorAnalyserAnnotationVersion::getQueriedErrorCount).reversed());
 
-    return new ErrorAnalyserGroupedAnnotations(annotationGroups, queriedErrorCount);
+    return new ErrorAnalyserAnnotationVersions(annotationVersions, queriedErrorCount);
   }
 }
