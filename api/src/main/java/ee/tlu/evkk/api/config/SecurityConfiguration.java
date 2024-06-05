@@ -40,7 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-  public static final List<String> PROTECTED_URLS = List.of("/user/**", "/admin/**");
+  public static final List<String> PROTECTED_PATHS = List.of("/user/**", "/admin/**");
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {

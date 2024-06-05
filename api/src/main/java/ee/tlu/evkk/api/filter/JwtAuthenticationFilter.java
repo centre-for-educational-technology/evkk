@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import static ee.tlu.evkk.api.config.SecurityConfiguration.PROTECTED_URLS;
+import static ee.tlu.evkk.api.config.SecurityConfiguration.PROTECTED_PATHS;
 import static java.lang.String.format;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static org.apache.logging.log4j.util.Strings.isNotEmpty;
@@ -58,7 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   }
 
   private boolean isProtected(String servletPath) {
-    return PROTECTED_URLS.stream()
+    return PROTECTED_PATHS.stream()
       .anyMatch(url -> antPathMatcher.match(url, servletPath));
   }
 
