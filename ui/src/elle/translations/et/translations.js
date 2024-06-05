@@ -89,7 +89,7 @@ export const TRANSLATIONS_ET = {
   end: 'lõpp',
   error_404_page_not_found: '404: lehte ei leitud',
   error_file_upload_failed: 'Failide üleslaadimine ebaõnnestus.',
-  error_forbidden: 'Teil puudub õigus selle toimingu sooritamiseks.',
+  error_forbidden: 'Sul puudub õigus selle toimingu sooritamiseks.',
   error_generic_server_error: 'Toiming ebaõnnestus. Palun proovi hiljem uuesti.',
   error_id_code_missing: 'Sisenemine ebaõnnestus. ELLE-sse sisenemiseks salvesta oma HarID kontole isikukood. Seejärel sulge brauseri aken ja sisene uues aknas ELLE-sse.',
   error_login_failed: 'Sisenemine ebaõnnestus. Palun proovi hiljem uuesti.',
