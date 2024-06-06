@@ -18,6 +18,7 @@ import java.security.SecureRandom;
 
 import static ee.tlu.evkk.api.constant.AuthConstants.REFRESH_TOKEN_EXPIRES_IN_MILLISECONDS;
 import static ee.tlu.evkk.api.constant.AuthConstants.REFRESH_TOKEN_EXPIRES_IN_SECONDS;
+import static java.lang.String.format;
 import static java.time.Instant.now;
 import static java.util.Arrays.stream;
 
@@ -30,6 +31,7 @@ public class RefreshTokenService {
   private final JwtService jwtService;
 
   private static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
+  private static final String COOKIE_HEADER_NAME = "Set-Cookie";
 
   public RefreshToken generateToken(User user) {
     refreshTokenDao.deleteByUserId(user.getUserId());
@@ -66,22 +68,19 @@ public class RefreshTokenService {
   }
 
   public void createCookie(String token, HttpServletResponse response) {
-    Cookie refreshTokenCookie = new Cookie(REFRESH_TOKEN_COOKIE_NAME, token);
-    refreshTokenCookie.setHttpOnly(true);
-    refreshTokenCookie.setSecure(true);
-    refreshTokenCookie.setPath("/");
-    refreshTokenCookie.setMaxAge(REFRESH_TOKEN_EXPIRES_IN_SECONDS);
-
-    response.addCookie(refreshTokenCookie);
+    String cookie = format(
+      "%s=%s; Max-Age=%d; SameSite=Strict; HttpOnly; Secure; Path=/",
+      REFRESH_TOKEN_COOKIE_NAME, token, REFRESH_TOKEN_EXPIRES_IN_SECONDS
+    );
+    response.addHeader(COOKIE_HEADER_NAME, cookie);
   }
 
   private void removeCookie(HttpServletResponse response) {
-    Cookie refreshTokenCookie = new Cookie(REFRESH_TOKEN_COOKIE_NAME, null);
-    refreshTokenCookie.setHttpOnly(true);
-    refreshTokenCookie.setSecure(true);
-    refreshTokenCookie.setPath("/");
-    refreshTokenCookie.setMaxAge(0);
-    response.addCookie(refreshTokenCookie);
+    String cookie = format(
+      "%s=; Max-Age=0; SameSite=Strict; HttpOnly; Secure; Path=/",
+      REFRESH_TOKEN_COOKIE_NAME
+    );
+    response.addHeader(COOKIE_HEADER_NAME, cookie);
   }
 
   private String getRefreshToken(HttpServletRequest request) throws TokenNotFoundException {
