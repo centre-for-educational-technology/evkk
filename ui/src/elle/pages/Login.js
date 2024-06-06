@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import React from 'react';
 import './styles/Login.css';
 import i18n from 'i18next';
+import CookieAcknowledgementSnackbar from '../components/snackbar/CookieAcknowledgementSnackbar';
 
 export default function Login() {
 
@@ -21,6 +22,7 @@ export default function Login() {
         onClick={handleClick}
         className="harid-image"
       />
+      <CookieAcknowledgementSnackbar />
     </div>
   );
 }
