@@ -54,8 +54,9 @@ export default function CorrectedSentenceCell({
       annotation.annotatorId,
     ].join('::');
     const value = {
-      content: annotation.correction,
+      content: annotation.content,
       errorType: annotation.errorType,
+      extractedErrorTypes: annotation.extractedErrorTypes,
       annotatorId: parseInt(annotation.annotatorId),
       scopeStart: parseInt(annotation.scopeStart),
       scopeEnd: parseInt(annotation.scopeEnd),
@@ -64,6 +65,7 @@ export default function CorrectedSentenceCell({
     return {key, value};
   }, []);
 
+
   const transformAnnotationVersions = useCallback(
     (annotationVersions, transformedSentence) => {
       annotationVersions.forEach((annotationVersion) => {
@@ -71,20 +73,34 @@ export default function CorrectedSentenceCell({
           if (annotation.scopeEnd - annotation.scopeStart > 1) {
             let sourceContent = [];
             for (let i = annotation.scopeStart; i < annotation.scopeEnd; i++) {
-              const targetKey = [i, i + 1, annotation.annotatorId].join('::');
-              const sourceKey = [i, i + 1, -1].join('::');
+              const targetKey1 = [i, i, annotation.annotatorId].join('::');
+              const sourceKey1 = [i, i, -1].join('::');
 
-              if (annotationVersion.has(targetKey)) {
+              const targetKey2 = [i, i + 1, annotation.annotatorId].join('::');
+              const sourceKey2 = [i, i + 1, -1].join('::');
+
+              if (annotationVersion.has(targetKey1)) {
                 if (!annotation.nested) {
                   annotation.nested = [];
                 }
-                annotation.nested.push(annotationVersion.get(targetKey));
-
-                annotationVersion.delete(targetKey);
+                annotation.nested.push(annotationVersion.get(targetKey1));
+                annotationVersion.delete(targetKey1);
               }
 
-              if (transformedSentence.has(sourceKey)) {
-                sourceContent.push(transformedSentence.get(sourceKey).content);
+              if (annotationVersion.has(targetKey2)) {
+                if (!annotation.nested) {
+                  annotation.nested = [];
+                }
+                annotation.nested.push(annotationVersion.get(targetKey2));
+                annotationVersion.delete(targetKey2);
+              }
+
+              if (transformedSentence.has(sourceKey1)) {
+                sourceContent.push(transformedSentence.get(sourceKey1).content);
+              }
+
+              if (transformedSentence.has(sourceKey2)) {
+                sourceContent.push(transformedSentence.get(sourceKey2).content);
               }
             }
             annotation.sourceContent = sourceContent.join(' ');
@@ -215,10 +231,6 @@ export default function CorrectedSentenceCell({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sentence, annotationVersions]);
-
-  useEffect(() => {
-    //console.log(sortedSentences);
-  }, [sortedSentences]);
 
   return (
     <>

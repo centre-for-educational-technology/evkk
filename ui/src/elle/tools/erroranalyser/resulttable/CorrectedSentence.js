@@ -1,26 +1,22 @@
-import { Fragment } from 'react';
-import { Box } from '@mui/material';
+import {Fragment} from 'react';
+import {Box} from '@mui/material';
 import './../ErrorAnalyser.css';
 import AnnotatedWord from './AnnotatedWord';
 
 export default function CorrectedSentence({
-  sentence,
-  filters,
-  showAllErrors,
-}) {
-  const checkAnnotationVisibility = (errorType) => {
+                                            sentence,
+                                            filters,
+                                            showAllErrors,
+                                          }) {
+  const checkAnnotationVisibility = (errorTypes) => {
     if (showAllErrors) {
       return true;
-    } else {
-      if (filters.errorType.includes(errorType)) {
-        return true;
-      } else {
-        return false;
-      }
     }
+    return errorTypes.some(errorType => filters.errorType.includes(errorType));
   };
+
   return (
-    <Box className="corrected-sentence">
+    <Box className="nested-cell corrected-sentence">
       {sentence &&
         sentence.map((item, index) => {
           if (item.status !== 'replaced-deleted') {
@@ -46,8 +42,8 @@ export default function CorrectedSentence({
               item.nested.forEach((nestedItem) => {
                 if (nestedItem.errorType === 'R:WS') {
                   const end = item.content.indexOf(nestedItem.content);
-                  var tempString = item.content.substring(0, end);
-                  var count = (tempString.match(/ /g) || []).length;
+                  const tempString = item.content.substring(0, end);
+                  const count = (tempString.match(/ /g) || []).length;
                   splitContent[count] = nestedItem.content;
                   for (
                     let i = count + 1;
@@ -62,7 +58,7 @@ export default function CorrectedSentence({
 
               splitContent.forEach((contentItem) => {
                 let tempItem;
-                item.nested.forEach((nestedItem, nestedItemIndex) => {
+                item.nested.forEach((nestedItem) => {
                   if (
                     nestedItem.content.toLowerCase() ===
                     contentItem.toLowerCase()
@@ -86,26 +82,27 @@ export default function CorrectedSentence({
                 const constructedItem = {
                   content: contentItem,
                   errorType: 'R:WO',
+                  extractedErrorTypes: item.extractedErrorTypes,
                 };
 
                 tempItem
                   ? content.push(tempItem)
                   : content.push(
-                      <AnnotatedWord
-                        item={constructedItem}
-                        addSucceedingSpace={false}
-                        parent={item}
-                        showAllErrors={showAllErrors}
-                        checkAnnotationVisibility={checkAnnotationVisibility}
-                      />
-                    );
+                    <AnnotatedWord
+                      item={constructedItem}
+                      addSucceedingSpace={false}
+                      parent={item}
+                      showAllErrors={showAllErrors}
+                      checkAnnotationVisibility={checkAnnotationVisibility}
+                    />
+                  );
               });
 
               return (
                 <Fragment key={index}>
                   <span
                     className={`${
-                      checkAnnotationVisibility(item.errorType) && item.category
+                      checkAnnotationVisibility(item.extractedErrorTypes) && item.category
                     }`}
                   >
                     {content.map((contentItem, contentIndex) => (

@@ -16,6 +16,7 @@ import {visuallyHidden} from '@mui/utils';
 import TablePaginationActions from './TablePaginationActions';
 import {usePagination} from './usePagination';
 import CorrectedSentenceCell from './CorrectedSentenceCell';
+import ErrorTypeCell from './ErrorTypeCell';
 import './../ErrorAnalyser.css';
 import useQueryResultDetails from '../../../pages/query/useQueryResultDetails';
 import QueryResultDetails from '../../../pages/query/QueryResultDetails';
@@ -122,29 +123,14 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
     setOrderBy(property);
   };
 
-  const insertErrorTypes = (errorTypeCount) => {
-    const insertedErrorTypes = [];
-    Object.entries(errorTypeCount).forEach(([errorType, errorCount], index) => {
-      insertedErrorTypes.push(
-        <div key={index}>
-          {t(errorTypeOptionsShort[errorType]).toLowerCase()} ({errorCount})
-        </div>
-      );
-    });
-    return insertedErrorTypes;
+  //SEE ASENDADA ANdMEBAASIST VÕETUD LAUSEGA
+  const removeWhiteSpace = (input) => {
+    const regex = /\s+([.,:])/g;
+    const result = input.replace(regex, '$1');
+    return result;
   };
 
-  const displayErrorTypes = (annotationGroups) => {
-    const extractedErrorTypes = [];
-
-    annotationGroups.forEach((annotationGroup, index) => {
-      extractedErrorTypes.push(<div key={index}
-                                    className="corrected-sentence">{insertErrorTypes(annotationGroup.errorTypeCount)}</div>);
-    });
-
-    return extractedErrorTypes;
-  };
-
+  //FUNCTION
   function descendingComparator(a, b, orderBy) {
     const countA = a['querriedErrorTypeCount'];
     const countB = b['querriedErrorTypeCount'];
@@ -273,28 +259,37 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
           <TableBody>
             {visibleRows.map((row) => {
               return (
-                <TableRow key={row.sentenceId}>
+                <TableRow key={row.sentenceId} style={{height: '100%', verticalAlign: 'top'}}>
                   <TableCell>
                     <Box
                       className="clickable"
                       onClick={() => previewText(row.textId, row.sentence)}
                     >
-                      {row.sentence}
+                      {removeWhiteSpace(row.sentence)}
                     </Box>
                   </TableCell>
-                  <TableCell>
-                    {
-                      <CorrectedSentenceCell
-                        sentence={row.sentence}
-                        annotationVersions={row.annotationVersions}
-                        showAllErrors={showAllErrors}
-                        filters={filters}
-                      />
-                    }
+                  <TableCell style={{height: '100%'}}>
+                    <div className="nested-cell-wrapper">
+                      {
+                        <CorrectedSentenceCell
+                          sentence={row.sentence}
+                          annotationVersions={row.annotationVersions}
+                          showAllErrors={showAllErrors}
+                          filters={filters}
+                        />
+                      }
+                    </div>
                   </TableCell>
                   {isColumnVisible['errorType'] && (
-                    <TableCell>
-                      {displayErrorTypes(row.annotationVersions)}
+                    <TableCell style={{height: '100%'}}>
+                      <div className="nested-cell-wrapper">
+                        {
+                          <ErrorTypeCell
+                            annotationVersions={row.annotationVersions}
+                            showAllErrors={showAllErrors}
+                            queriedErrorTypes={filters.errorType}/>
+                        }
+                      </div>
                     </TableCell>
                   )}
                   {isColumnVisible['languageLevel'] && (

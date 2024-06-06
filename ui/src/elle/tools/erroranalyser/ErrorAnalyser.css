@@ -71,33 +71,18 @@ div.optional-filter {
   vertical-align: top;
 }
 
-.corrected-sentence {
-  padding-bottom: 15px;
+.nested-cell-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  row-gap: 15px;
+  align-items: stretch;
 }
 
-.corrected-sentence:last-of-type {
-  padding-bottom: initial;
+.nested-cell {
+  flex-grow: 1;
 }
-
-/* .corrected-sentence .added {
-  background-color: #ffb1d0;
-} */
-
-/* .corrected-sentence .deleted {
-  text-decoration: line-through;
-  font-weight: bold;
-  font-size: smaller;
-} */
-
-/* .corrected-sentence .replaced-added {
-  background-color: #e9daff;
-} */
-
-/* .corrected-sentence .replaced-deleted {
-  text-decoration: line-through;
-  color: gray;
-  font-size: smaller;
-} */
 
 .clickable {
   cursor: pointer;
@@ -105,8 +90,6 @@ div.optional-filter {
 
 .error-tooltip {
   background-color: white;
-  color: 'rgba(0, 0, 0, 0.87)';
-  box-shadow: aqua;
   font-size: 11px;
 }
 
@@ -134,6 +117,7 @@ div.optional-filter {
 .corrected-sentence .word-separation {
   text-decoration: underline dashed red;
 }
+
 .corrected-sentence .word-order {
   background-color: #e9daff;
 }

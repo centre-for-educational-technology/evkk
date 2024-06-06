@@ -1,27 +1,25 @@
-import { List, ListItemText, Tooltip } from '@mui/material';
-import { Fragment, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { errorTypeOptionsFull } from '../../../const/Constants';
+import {List, ListItemText, Tooltip} from '@mui/material';
+import {Fragment, useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {errorTypeOptionsFull} from '../../../const/Constants';
 
 export default function AnnotatedWord({
-  item,
-  parent,
-  addSucceedingSpace = true,
-  showAllErrors,
-  checkAnnotationVisibility,
-}) {
+                                        item,
+                                        parent,
+                                        addSucceedingSpace = true,
+                                        showAllErrors,
+                                        checkAnnotationVisibility,
+                                      }) {
   const [isAnnotationVisible, setIsAnnotationVisible] = useState(false);
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const transformErrorType = (errorType) => {
     return t(errorTypeOptionsFull[errorType]);
   };
 
   useEffect(() => {
-    setIsAnnotationVisible(checkAnnotationVisibility(item.errorType));
+    setIsAnnotationVisible(checkAnnotationVisibility(item.extractedErrorTypes));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showAllErrors]);
-
-  // console.log(item, item.status === 'deleted');
 
   return (
     <>
@@ -48,7 +46,7 @@ export default function AnnotatedWord({
                 <List dense>
                   {(() => {
                     if (
-                      checkAnnotationVisibility(item.errorType) &&
+                      checkAnnotationVisibility(item.extractedErrorTypes) &&
                       (!parent || (parent && item.errorType !== 'R:WO'))
                     ) {
                       return (
@@ -57,11 +55,11 @@ export default function AnnotatedWord({
                           secondary={
                             item.status === 'deleted'
                               ? ` ${item.content}→(${t(
-                                  'error_analyser_deleted_word'
-                                )})`
+                                'error_analyser_deleted_word'
+                              )})`
                               : item.sourceContent
-                              ? `${item.sourceContent} → ${item.content}`
-                              : `(${t('error_analyser_missing_word')}) → ${
+                                ? `${item.sourceContent} → ${item.content}`
+                                : `(${t('error_analyser_missing_word')}) → ${
                                   item.content
                                 }`
                           }
@@ -69,15 +67,15 @@ export default function AnnotatedWord({
                       );
                     }
                   })()}
-                  {parent && checkAnnotationVisibility(parent.errorType) && (
+                  {parent && checkAnnotationVisibility(parent.extractedErrorTypes) && (
                     <ListItemText
                       primary={transformErrorType(parent.errorType)}
                       secondary={
                         parent.sourceContent
                           ? `${parent.sourceContent} → ${parent.content}`
                           : `(${t('error_analyser_missing_word')}) → ${
-                              item.content
-                            }`
+                            item.content
+                          }`
                       }
                     />
                   )}
@@ -87,7 +85,7 @@ export default function AnnotatedWord({
           >
             <span
               className={`${
-                checkAnnotationVisibility(item.errorType) ? item.category : ''
+                checkAnnotationVisibility(item.extractedErrorTypes) ? item.category : ''
               } ${item.status === 'deleted' ? 'deleted' : ''} annotated`}
             >
               {item.content}
