@@ -4,7 +4,7 @@ import { Button, Grid, Input, Slider, Tooltip, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next';
 import { DefaultButtonStyle, DefaultInputStyle, DefaultSliderStyle } from '../../../const/Constants';
 import { Timeline } from '@mui/icons-material';
-import ModalBase from '../../../components/ModalBase';
+import ModalBase from '../../../components/modal/ModalBase';
 import '../styles/GraphView.css';
 import ImageDownloadButton, { ImageDownloadSourceType } from '../../../components/ImageDownloadButton';
 

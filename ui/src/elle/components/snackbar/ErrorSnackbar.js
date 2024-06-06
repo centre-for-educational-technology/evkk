@@ -1,8 +1,8 @@
 import { Alert, Snackbar } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { errorEmitter } from '../../App';
-import './styles/ErrorSnackbar.css';
+import { errorEmitter } from '../../../App';
+import '../styles/ErrorSnackbar.css';
 
 export default function ErrorSnackbar() {
 

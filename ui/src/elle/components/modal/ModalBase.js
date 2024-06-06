@@ -1,9 +1,9 @@
 import { Box, IconButton, Modal, Tooltip } from '@mui/material';
-import { modalStyle } from '../const/Constants';
+import { modalStyle } from '../../const/Constants';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import CloseIcon from '@mui/icons-material/Close';
-import './styles/ModalBase.css';
+import '../styles/ModalBase.css';
 import { QuestionMark } from '@mui/icons-material';
 
 export default function ModalBase({

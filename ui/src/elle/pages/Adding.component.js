@@ -34,8 +34,8 @@ import {
   usedMaterialsSaveOptions
 } from '../const/Constants';
 import { successEmitter } from '../../App';
-import ModalBase from '../components/ModalBase';
-import { SuccessSnackbarEventType } from '../components/SuccessSnackbar';
+import ModalBase from '../components/modal/ModalBase';
+import { SuccessSnackbarEventType } from '../components/snackbar/SuccessSnackbar';
 
 class Adding extends Component {
 

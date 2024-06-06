@@ -1,6 +1,6 @@
 import { errorEmitter, loadingEmitter } from '../../../App';
 import { LoadingSpinnerEventType } from '../../components/LoadingSpinner';
-import { ErrorSnackbarEventType } from '../../components/ErrorSnackbar';
+import { ErrorSnackbarEventType } from '../../components/snackbar/ErrorSnackbar';
 
 export const loadFetch = async (url, params, disableErrorHandling = false) => {
   loadingEmitter.emit(LoadingSpinnerEventType.LOADER_START);

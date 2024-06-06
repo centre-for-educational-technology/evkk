@@ -1,7 +1,7 @@
 import { loadFetch } from './util/LoadFetch';
 import { clearContext, navigateTo } from '../util/LogoutFunctionUtils';
 import { successEmitter } from '../../App';
-import { SuccessSnackbarEventType } from '../components/SuccessSnackbar';
+import { SuccessSnackbarEventType } from '../components/snackbar/SuccessSnackbar';
 
 export const logout = (forced = false) => {
   loadFetch('/api/auth/logout', {

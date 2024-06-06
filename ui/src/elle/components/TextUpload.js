@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import '../translations/i18n';
 import { loadFetch } from '../service/util/LoadFetch';
 import { DefaultButtonStyle } from '../const/Constants';
-import ModalBase from './ModalBase';
+import ModalBase from './modal/ModalBase';
 
 export default function TextUpload({ sendTextFromFile, outerClassName = '' }) {
 
