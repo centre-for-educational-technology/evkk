@@ -13,6 +13,6 @@ import java.util.Map;
 @Setter
 public class StatusResponseEntity {
 
-  private String loggedInEmailAddress;
+  private UserDto user;
   private Map<String, String> integrationPaths;
 }

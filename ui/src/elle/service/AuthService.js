@@ -1,5 +1,5 @@
 import { loadFetch } from './util/LoadFetch';
-import { clearContext, navigateTo } from '../util/LogoutFunctionUtils';
+import { clearUserContext, navigateTo } from '../util/LogoutFunctionUtils';
 import { successEmitter } from '../../App';
 import { SuccessSnackbarEventType } from '../components/snackbar/SuccessSnackbar';
 
@@ -12,7 +12,7 @@ export const logout = (forced = false) => {
     }
   }).then(() => {
     localStorage.removeItem('accessToken');
-    clearContext();
+    clearUserContext();
     navigateTo('/');
     successEmitter.emit(forced ? SuccessSnackbarEventType.LOGOUT_FORCED_SUCCESS : SuccessSnackbarEventType.LOGOUT_SUCCESS);
   });

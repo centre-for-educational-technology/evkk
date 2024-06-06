@@ -10,7 +10,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -21,7 +20,6 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import static ee.tlu.evkk.api.config.SecurityConfiguration.PROTECTED_PATHS;
 import static java.lang.String.format;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static org.apache.logging.log4j.util.Strings.isNotEmpty;
@@ -31,13 +29,12 @@ import static org.apache.logging.log4j.util.Strings.isNotEmpty;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private final JwtService jwtService;
-  private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
   @Override
   protected void doFilterInternal(@NonNull HttpServletRequest request,
                                   @NonNull HttpServletResponse response,
                                   @NonNull FilterChain filterChain) throws ServletException, IOException {
-    if (isProtected(request.getServletPath()) && SecurityContextHolder.getContext().getAuthentication() == null) {
+    if (SecurityContextHolder.getContext().getAuthentication() == null) {
       String authHeader = request.getHeader("Authorization");
 
       if (isNotEmpty(authHeader) && authHeader.startsWith("Bearer ")) {
@@ -55,11 +52,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     filterChain.doFilter(request, response);
-  }
-
-  private boolean isProtected(String servletPath) {
-    return PROTECTED_PATHS.stream()
-      .anyMatch(url -> antPathMatcher.match(url, servletPath));
   }
 
   private Set<GrantedAuthority> getAuthorities(User user) {

@@ -32,7 +32,7 @@ public abstract class ApiMapper {
 
   public static final ApiMapper INSTANCE = getMapper(ApiMapper.class);
 
-  public abstract StatusResponseEntity toStatusResponseEntity(String loggedInEmailAddress, Map<String, String> integrationPaths);
+  public abstract StatusResponseEntity toStatusResponseEntity(UserDto user, Map<String, String> integrationPaths);
 
   public abstract MinitornPikkusResponseEntity toMinitornPikkusResponseEntity(Long length);
 

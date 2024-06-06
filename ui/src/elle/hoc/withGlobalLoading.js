@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import AuthContext from '../context/AuthContext';
+import RootContext from '../context/RootContext';
 
 const withGlobalLoading = (WrappedComponent) => (props) => {
-  const { isLoading } = useContext(AuthContext);
+  const { isLoading } = useContext(RootContext);
 
   return isLoading ? null : <WrappedComponent {...props} />;
 };

@@ -1,11 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Box } from '@mui/material';
 import { queryStore } from '../store/QueryStore';
 import { getSelectedTexts } from '../service/TextService';
-import { rootStore } from '../store/RootStore';
+import RootContext from '../context/RootContext';
 
 const IntegrationFrame = ({ integrationName }) => {
-  const path = rootStore.getState().data.integrationPaths[integrationName];
+  const { integrationPaths } = useContext(RootContext);
+  const path = integrationPaths[integrationName];
   const [height, setHeight] = useState('');
   const iframeRef = useRef();
   const [storeData, setStoreData] = useState('');

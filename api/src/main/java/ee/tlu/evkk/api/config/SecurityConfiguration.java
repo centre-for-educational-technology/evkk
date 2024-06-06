@@ -22,7 +22,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
@@ -39,8 +38,6 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
-  public static final List<String> PROTECTED_PATHS = List.of("/user/**", "/admin/**");
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {

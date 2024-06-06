@@ -13,11 +13,9 @@ import ServerOfflinePage from './elle/components/ServerOfflinePage';
 import SuccessSnackbar from './elle/components/snackbar/SuccessSnackbar';
 import FooterElement from './elle/components/FooterElement';
 import DonateText from './elle/components/DonateText';
-import { getStatusIfNeeded } from './elle/service/RootService';
-import { rootStore } from './elle/store/RootStore';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { setLogoutFunctions } from './elle/util/LogoutFunctionUtils';
-import AuthContext, { AuthProvider } from './elle/context/AuthContext';
+import RootContext, { RootProvider } from './elle/context/RootContext';
 import withGlobalLoading from './elle/hoc/withGlobalLoading';
 import SessionExpirationModal from './elle/components/modal/SessionExpirationModal';
 
@@ -78,18 +76,11 @@ function AppWithStatus() {
   const navigate = useNavigate();
   const [urlParams] = useSearchParams();
   const [isOffline, setIsOffline] = useState(false);
-  const { setContext, clearContext } = useContext(AuthContext);
+  const { setContext, clearUserContext, status } = useContext(RootContext);
 
   useEffect(() => {
-    getStatusIfNeeded();
-    const unsubscribe = rootStore.subscribe(() => {
-      setIsOffline(rootStore.getState().status === false);
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+    setIsOffline(!status);
+  }, [status]);
 
   useEffect(() => {
     if (urlParams.get('accessToken')) {
@@ -111,11 +102,11 @@ function AppWithStatus() {
   }, [urlParams]);
 
   useEffect(() => {
-    setLogoutFunctions(navigate, clearContext);
-  }, [navigate, clearContext]);
+    setLogoutFunctions(navigate, clearUserContext);
+  }, [navigate, clearUserContext]);
 
   if (isOffline) {
-    return <ServerOfflinePage retry={getStatusIfNeeded} />;
+    return <ServerOfflinePage retry={setContext} />;
   }
 
   return (
@@ -142,9 +133,9 @@ export default function App() {
     <Router>
       <ThemeProvider theme={theme}>
         <Provider store={store}>
-          <AuthProvider>
+          <RootProvider>
             <AppWithStatusAndLoading />
-          </AuthProvider>
+          </RootProvider>
         </Provider>
       </ThemeProvider>
     </Router>

@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import AuthContext from '../../context/AuthContext';
+import RootContext from '../../context/RootContext';
 
 export default function Can({ role, requireAuth = false, children }) {
-  const { user } = useContext(AuthContext);
+  const { user } = useContext(RootContext);
 
   const hasRole = () => user.roleName === role;
 

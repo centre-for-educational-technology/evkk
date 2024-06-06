@@ -1,9 +1,9 @@
 let navigateFunction;
-let clearContextFunction;
+let clearUserContextFunction;
 
-export const setLogoutFunctions = (navigate, clearContext) => {
+export const setLogoutFunctions = (navigate, clearUserContext) => {
   navigateFunction = navigate;
-  clearContextFunction = clearContext;
+  clearUserContextFunction = clearUserContext;
 };
 
 export const navigateTo = (path) => {
@@ -11,6 +11,6 @@ export const navigateTo = (path) => {
   window.scrollTo(0, 0);
 };
 
-export const clearContext = () => {
-  clearContextFunction();
+export const clearUserContext = () => {
+  clearUserContextFunction();
 };

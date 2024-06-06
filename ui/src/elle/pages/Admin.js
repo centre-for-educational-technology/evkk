@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import { useContext } from 'react';
-import AuthContext from '../context/AuthContext';
+import RootContext from '../context/RootContext';
 
 export default function Admin() {
 
   const { t } = useTranslation();
-  const { user } = useContext(AuthContext);
+  const { user } = useContext(RootContext);
 
   return (
     <>
