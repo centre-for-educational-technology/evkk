@@ -18,7 +18,9 @@ import java.net.URLConnection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import static java.util.Objects.requireNonNull;
+import static org.springframework.util.MimeType.valueOf;
 
 /**
  * @author Mikk Tarvas
@@ -28,20 +30,20 @@ import java.util.Objects;
 public class MimeTypeDetector {
 
   // If we can not detect mime type, fall back to binary stream
-  private static final MimeType DEFAULT_MIME_TYPE = MimeType.valueOf("application/octet-stream");
+  private static final MimeType DEFAULT_MIME_TYPE = valueOf("application/octet-stream");
 
   private static final Map<String, MimeType> EXTENSION_TYPE_MAP;
 
   static {
     Map<String, MimeType> extensionTypeMap = new HashMap<>();
-    extensionTypeMap.put("txt", MimeType.valueOf("text/plain"));
-    extensionTypeMap.put("doc", MimeType.valueOf("application/msword"));
-    extensionTypeMap.put("docx", MimeType.valueOf("application/vnd.openxmlformats-officedocument.wordprocessingml.document"));
-    extensionTypeMap.put("htm", MimeType.valueOf("text/html"));
-    extensionTypeMap.put("html", MimeType.valueOf("text/html"));
-    extensionTypeMap.put("pdf", MimeType.valueOf("application/pdf"));
-    extensionTypeMap.put("rtf", MimeType.valueOf("application/rtf"));
-    extensionTypeMap.put("odt", MimeType.valueOf("application/vnd.oasis.opendocument.text"));
+    extensionTypeMap.put("txt", valueOf("text/plain"));
+    extensionTypeMap.put("doc", valueOf("application/msword"));
+    extensionTypeMap.put("docx", valueOf("application/vnd.openxmlformats-officedocument.wordprocessingml.document"));
+    extensionTypeMap.put("htm", valueOf("text/html"));
+    extensionTypeMap.put("html", valueOf("text/html"));
+    extensionTypeMap.put("pdf", valueOf("application/pdf"));
+    extensionTypeMap.put("rtf", valueOf("application/rtf"));
+    extensionTypeMap.put("odt", valueOf("application/vnd.oasis.opendocument.text"));
     EXTENSION_TYPE_MAP = Collections.unmodifiableMap(extensionTypeMap);
   }
 
@@ -54,7 +56,7 @@ public class MimeTypeDetector {
 
   @Nonnull
   public MimeType detect(@Nonnull InputStream is, @Nullable String name) throws IOException {
-    Objects.requireNonNull(is);
+    requireNonNull(is);
 
     MimeType fromInputStream = detectFromInputStream(is, name);
     if (isAcceptable(fromInputStream)) return fromInputStream;
@@ -122,7 +124,7 @@ public class MimeTypeDetector {
   private MimeType parseMimeType(String mimeType) {
     if (mimeType == null) return null;
     try {
-      return MimeType.valueOf(mimeType);
+      return valueOf(mimeType);
     } catch (Exception ex) {
       return null;
     }

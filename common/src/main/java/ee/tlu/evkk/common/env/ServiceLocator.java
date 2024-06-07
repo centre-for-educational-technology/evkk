@@ -1,5 +1,6 @@
 package ee.tlu.evkk.common.env;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 
 import java.net.URI;
@@ -11,13 +12,10 @@ import java.util.Map;
  * @author Mikk Tarvas
  * Date: 21.01.2022
  */
+@RequiredArgsConstructor
 public class ServiceLocator {
 
   private final Map<ServiceName, URI> serviceUris;
-
-  private ServiceLocator(Map<ServiceName, URI> serviceUris) {
-    this.serviceUris = serviceUris;
-  }
 
   static ServiceLocator create(Map<String, String> servicePaths) {
     HashMap<ServiceName, URI> serviceUris = new HashMap<>(servicePaths.size());

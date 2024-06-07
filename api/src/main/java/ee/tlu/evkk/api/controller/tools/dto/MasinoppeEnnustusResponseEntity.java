@@ -9,7 +9,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class MasinoppeEnustusResponseEntity {
+public class MasinoppeEnnustusResponseEntity {
 
   private String result;
 }

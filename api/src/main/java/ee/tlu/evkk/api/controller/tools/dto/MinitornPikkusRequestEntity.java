@@ -1,19 +1,15 @@
 package ee.tlu.evkk.api.controller.tools.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @author Mikk Tarvas
  * Date: 11.02.2020
  */
+@Getter
+@Setter
 public class MinitornPikkusRequestEntity {
 
   private String input;
-
-  public String getInput() {
-    return input;
-  }
-
-  public void setInput(String input) {
-    this.input = input;
-  }
-
 }

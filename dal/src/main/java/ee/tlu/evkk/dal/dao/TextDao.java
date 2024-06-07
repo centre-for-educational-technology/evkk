@@ -26,21 +26,7 @@ public interface TextDao {
 
   TextAndMetadata findTextAndMetadataById(@Param("textId") UUID textId);
 
-  List<String> findTextIdsByCorpusId(@Param("corpusId") String korpusekood);
-
-  List<String> findTextIdAndTitleByCorpusId(@Param("corpusId") String korpusekood);
-
   String detailedTextQueryByParameters(@Param("multiParamHelpers") List<TextQueryMultiParamHelper> multiParamHelpers, @Param("singleParamHelpers") List<TextQuerySingleParamHelper> singleParamHelpers, @Param("rangeParamHelpers") List<TextQueryRangeParamBaseHelper> rangeParamHelpers, @Param("studyLevelAndDegreeHelper") TextQueryDisjunctionParamHelper studyLevelAndDegreeHelper, @Param("otherLangHelper") TextQuerySingleParamHelper otherLangHelper, @Param("usedMultiMaterialsHelper") TextQueryMultiParamHelper usedMultiMaterialsHelper);
-
-  String findDetailedValueByPropertyName(@Param("pValue") String[] pValue, @Param("pName") String pName, @Param("cId") String[] cId); // property value, name, corpus id
-
-  String findValueByPropertyName(@Param("cId") String cId); // corpus id
-
-  String findMiniStats(@Param("cId") String[] cId); // corpus id
-
-  String findAvailableValues(@Param("pName") String pName); // selected filter
-
-  List<String> findTextsByCorpusId(@Param("corpusId") String corpusId);
 
   List<CorpusDownloadResponseEntity> findTextContentsAndTitlesByIds(@Param("ids") List<UUID> ids);
 
