@@ -11,7 +11,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class StatusResponseEntity {
+public class StatusResponseDto {
 
   private UserDto user;
   private Map<String, String> integrationPaths;

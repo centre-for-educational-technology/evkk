@@ -1,6 +1,7 @@
 package ee.tlu.evkk.api.controller;
 
-import ee.tlu.evkk.api.controller.dto.StatusResponseEntity;
+import ee.tlu.evkk.api.controller.dto.StatusResponseDto;
+import ee.tlu.evkk.api.converter.DtoMapper;
 import ee.tlu.evkk.common.env.ServiceLocator;
 import ee.tlu.evkk.dal.dto.User;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.HashMap;
 import java.util.Map;
 
-import static ee.tlu.evkk.api.ApiMapper.INSTANCE;
 import static ee.tlu.evkk.common.env.ServiceLocator.ServiceName.CLUSTER_FINDER;
 import static org.springframework.web.util.UriComponentsBuilder.fromUri;
 
@@ -22,16 +22,17 @@ import static org.springframework.web.util.UriComponentsBuilder.fromUri;
  * Date: 11.02.2020
  */
 @RestController
-@RequiredArgsConstructor
 @RequestMapping
+@RequiredArgsConstructor
 public class RootController {
 
   private final ServiceLocator serviceLocator;
+  private final DtoMapper dtoMapper;
 
   @GetMapping("/status")
-  public StatusResponseEntity status(@AuthenticationPrincipal User user) {
-    var userDto = user == null ? null : INSTANCE.toUserDto(user);
-    return INSTANCE.toStatusResponseEntity(userDto, buildIntegrationPaths());
+  public StatusResponseDto status(@AuthenticationPrincipal User user) {
+    var userDto = dtoMapper.toUserDto(user);
+    return dtoMapper.toStatusResponseDto(userDto, buildIntegrationPaths());
   }
 
   private Map<String, String> buildIntegrationPaths() {
@@ -46,3 +47,4 @@ public class RootController {
   }
 
 }
+

@@ -9,7 +9,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class MinitornPikkusResponseEntity {
+public class MinitornPikkusResponseDto {
 
   private Long length;
 }

@@ -1,4 +1,4 @@
-package ee.tlu.evkk.core;
+package ee.tlu.evkk.api.properties;
 
 import lombok.Getter;
 import lombok.Setter;

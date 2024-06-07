@@ -7,13 +7,11 @@ import ee.tlu.evkk.dal.dto.TextQueryDisjunctionParamHelper;
 import ee.tlu.evkk.dal.dto.TextQueryMultiParamHelper;
 import ee.tlu.evkk.dal.dto.TextQueryRangeParamBaseHelper;
 import ee.tlu.evkk.dal.dto.TextQuerySingleParamHelper;
-import ee.tlu.evkk.dal.jdbc.SqlArray;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -33,10 +31,6 @@ public interface TextDao {
   List<CorpusDownloadResponseEntity> findTextTitlesAndContentsWithStanzaTaggingByIds(@Param("ids") List<UUID> ids, @Param("type") String type);
 
   Optional<Text> findById(@Param("id") UUID id);
-
-  List<Text> search(@Param("filters") Map<String, SqlArray<String>> filters, @Param("limit") Integer limit, @Param("offset") Integer offset);
-
-  List<Text> list(@Param("limit") Integer limit, @Param("offset") Integer offset);
 
   void insertAdding(@Param("id") UUID id, @Param("content") String content);
 

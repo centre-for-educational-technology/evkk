@@ -15,8 +15,6 @@ import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
@@ -35,16 +33,16 @@ public class MimeTypeDetector {
   private static final Map<String, MimeType> EXTENSION_TYPE_MAP;
 
   static {
-    Map<String, MimeType> extensionTypeMap = new HashMap<>();
-    extensionTypeMap.put("txt", valueOf("text/plain"));
-    extensionTypeMap.put("doc", valueOf("application/msword"));
-    extensionTypeMap.put("docx", valueOf("application/vnd.openxmlformats-officedocument.wordprocessingml.document"));
-    extensionTypeMap.put("htm", valueOf("text/html"));
-    extensionTypeMap.put("html", valueOf("text/html"));
-    extensionTypeMap.put("pdf", valueOf("application/pdf"));
-    extensionTypeMap.put("rtf", valueOf("application/rtf"));
-    extensionTypeMap.put("odt", valueOf("application/vnd.oasis.opendocument.text"));
-    EXTENSION_TYPE_MAP = Collections.unmodifiableMap(extensionTypeMap);
+    EXTENSION_TYPE_MAP = Map.of(
+      "txt", valueOf("text/plain"),
+      "doc", valueOf("application/msword"),
+      "docx", valueOf("application/vnd.openxmlformats-officedocument.wordprocessingml.document"),
+      "htm", valueOf("text/html"),
+      "html", valueOf("text/html"),
+      "pdf", valueOf("application/pdf"),
+      "rtf", valueOf("application/rtf"),
+      "odt", valueOf("application/vnd.oasis.opendocument.text")
+    );
   }
 
   private final Detector tikaDetector;

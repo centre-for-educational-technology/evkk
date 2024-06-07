@@ -2,11 +2,11 @@ package ee.tlu.evkk.api.service;
 
 import ee.evkk.dto.enums.Language;
 import ee.tlu.evkk.api.controller.dto.UserLoginDto;
+import ee.tlu.evkk.api.properties.HarIdProperties;
 import ee.tlu.evkk.api.service.dto.HarIdCodeRequest;
 import ee.tlu.evkk.api.service.dto.HarIdCodeResponse;
 import ee.tlu.evkk.api.service.dto.HarIdUserResponse;
 import ee.tlu.evkk.common.env.ServiceLocator;
-import ee.tlu.evkk.core.HarIdProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.RequestEntity;
