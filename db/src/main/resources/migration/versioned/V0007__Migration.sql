@@ -5,12 +5,18 @@ VALUES ('USER');
 
 -- Drop old tables
 
+DROP TABLE core.text_schema_property;
+DROP TABLE core.text_schema;
+DROP TABLE core.text_property_default_value;
+DROP TABLE core.text_official_property;
+DROP TABLE core.testing_texts;
 DROP TABLE core.token;
 DROP TABLE core.session_token;
 DROP TABLE core.group_users;
 DROP TABLE core.group;
 DROP TABLE core.role_permission;
 DROP TABLE core.user_file;
+DROP TABLE core.file;
 DROP TABLE core.user;
 
 -- Create new tables
