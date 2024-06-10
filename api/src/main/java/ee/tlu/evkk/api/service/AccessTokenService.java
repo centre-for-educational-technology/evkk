@@ -117,6 +117,8 @@ public class AccessTokenService {
   }
 
   private String saveToken(String token, UUID userId, Date expiresAt) {
+    accessTokenDao.deleteByUserId(userId);
+
     AccessToken accessToken = AccessToken.builder()
       .token(token)
       .expiresAt(expiresAt.toInstant())
