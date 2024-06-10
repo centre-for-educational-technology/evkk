@@ -10,12 +10,16 @@ import RootContext from '../../context/RootContext';
 export default function SessionExpirationModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [minutesLeft, setMinutesLeft] = useState(5);
-  const timerId = useRef();
+  const timeoutId = useRef();
+  const intervalId = useRef();
   const { t } = useTranslation();
   const { accessToken } = useContext(RootContext);
 
   const initTimeoutOrLogout = useCallback(() => {
-    if (!accessToken) return;
+    if (!accessToken) {
+      clearTimeout(timeoutId.current);
+      return;
+    }
 
     const jwtPayload = JSON.parse(atob(accessToken.split('.')[1]));
     const expirationTime = jwtPayload.exp * 1000;
@@ -23,7 +27,7 @@ export default function SessionExpirationModal() {
     const timeoutDuration = expirationTime - dateNow - 5 * 60 * 1000; // 5 minutes before expiration
 
     if (timeoutDuration > 0) {
-      timerId.current = setTimeout(() => {
+      timeoutId.current = setTimeout(() => {
         setIsOpen(true);
         updateMinutesLeft(expirationTime);
       }, timeoutDuration);
@@ -34,7 +38,8 @@ export default function SessionExpirationModal() {
   }, [accessToken]);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
+    clearInterval(intervalId.current);
+    intervalId.current = setInterval(() => {
       if (!accessToken) return;
 
       const jwtPayload = JSON.parse(atob(accessToken.split('.')[1]));
@@ -44,13 +49,13 @@ export default function SessionExpirationModal() {
       if (Date.now() > expirationTime) {
         setIsOpen(false);
         logout(true);
-        clearInterval(intervalId);
+        clearInterval(intervalId.current);
       }
     }, 3000);
 
     initTimeoutOrLogout();
 
-    return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId.current);
   }, [initTimeoutOrLogout, accessToken]);
 
   const updateMinutesLeft = (expirationTime) => {
@@ -61,7 +66,7 @@ export default function SessionExpirationModal() {
   const handleExtendSession = async () => {
     await renew();
     setIsOpen(false);
-    clearTimeout(timerId.current);
+    clearTimeout(timeoutId.current);
     initTimeoutOrLogout();
   };
 

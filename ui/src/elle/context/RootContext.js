@@ -31,6 +31,7 @@ export const RootProvider = ({ children }) => {
 
   const clearAuthContext = () => {
     setUser(null);
+    setAccessToken(null);
   };
 
   const setDataSuccess = (res) => {

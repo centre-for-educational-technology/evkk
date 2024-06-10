@@ -1,6 +1,6 @@
 package ee.tlu.evkk.api.filter;
 
-import ee.tlu.evkk.api.service.JwtService;
+import ee.tlu.evkk.api.service.AccessTokenService;
 import ee.tlu.evkk.dal.dto.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
@@ -28,7 +28,7 @@ import static org.apache.logging.log4j.util.Strings.isNotEmpty;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-  private final JwtService jwtService;
+  private final AccessTokenService accessTokenService;
 
   @Override
   protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -40,8 +40,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       if (isNotEmpty(authHeader) && authHeader.startsWith("Bearer ")) {
         String token = authHeader.substring(7);
         try {
-          if (jwtService.isTokenValid(token)) {
-            User user = jwtService.extractUser(token);
+          if (accessTokenService.isExistingTokenValid(token)) {
+            User user = accessTokenService.extractUser(token);
             Authentication authentication = new UsernamePasswordAuthenticationToken(user, token, getAuthorities(user));
             SecurityContextHolder.getContext().setAuthentication(authentication);
           }

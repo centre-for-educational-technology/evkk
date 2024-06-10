@@ -39,6 +39,7 @@ CREATE TABLE core.user
 CALL core.attach_meta_trigger('core.user');
 COMMENT ON TABLE core.user IS 'ELLE user accounts';
 
+
 CREATE TABLE core.refresh_token
 (
   token_id   uuid DEFAULT uuid_generate_v4(),
@@ -46,9 +47,26 @@ CREATE TABLE core.refresh_token
   expires_at timestamptz                         NOT NULL,
   user_id    UUID REFERENCES core.user (user_id) NOT NULL,
 
-  CONSTRAINT refresh_token_pk PRIMARY KEY (token_id)
+  CONSTRAINT refresh_token_pk PRIMARY KEY (token_id),
+  CONSTRAINT refresh_token_uq_user_id UNIQUE (user_id)
 );
 
 CALL core.attach_meta_trigger('core.refresh_token');
-COMMENT ON TABLE core.user IS 'Refresh tokens for ELLE user accounts';
+COMMENT ON TABLE core.refresh_token IS 'Refresh tokens for ELLE user accounts';
 GRANT DELETE ON TABLE core.refresh_token TO api_user;
+
+
+CREATE TABLE core.access_token
+(
+  token_id   uuid DEFAULT uuid_generate_v4(),
+  token      text                                NOT NULL,
+  expires_at timestamptz                         NOT NULL,
+  user_id    UUID REFERENCES core.user (user_id) NOT NULL,
+
+  CONSTRAINT access_token_pk PRIMARY KEY (token_id),
+  CONSTRAINT access_token_uq_user_id UNIQUE (user_id)
+);
+
+CALL core.attach_meta_trigger('core.access_token');
+COMMENT ON TABLE core.access_token IS 'Access tokens for ELLE user accounts';
+GRANT DELETE ON TABLE core.access_token TO api_user;

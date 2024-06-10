@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 public class LoginService {
 
-  private final JwtService jwtService;
+  private final AccessTokenService accessTokenService;
   private final RefreshTokenService refreshTokenService;
   private final UserDao userDao;
 
@@ -41,7 +41,7 @@ public class LoginService {
   }
 
   public void logout(AccessTokenDto accessTokenDto, HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException {
-    jwtService.blacklistToken(accessTokenDto.getToken());
+    accessTokenService.revokeToken(accessTokenDto.getToken());
     refreshTokenService.revokeTokenAndRemoveCookie(request, response);
     SecurityContextHolder.getContext().setAuthentication(null);
   }

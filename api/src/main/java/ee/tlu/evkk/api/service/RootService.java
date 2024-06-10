@@ -5,6 +5,7 @@ import ee.tlu.evkk.dal.dao.UserDao;
 import ee.tlu.evkk.dal.dto.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -16,21 +17,23 @@ import static java.util.Arrays.stream;
 @RequiredArgsConstructor
 public class RootService {
 
-  private final JwtService jwtService;
+  private final AccessTokenService accessTokenService;
+  private final RefreshTokenService refreshTokenService;
   private final UserDao userDao;
 
   public User getUser(HttpServletRequest request) throws TokenNotFoundException {
     var refreshToken = getRefreshToken(request);
-    if (refreshToken == null) return null;
+    if (refreshToken == null || refreshTokenService.isTokenInvalid(refreshToken)) return null;
 
     var dbUser = userDao.findByRefreshToken(refreshToken);
     if (dbUser == null) throw new TokenNotFoundException();
     return dbUser;
   }
 
+  @Transactional
   public String getAccessToken(User user) {
     if (user == null) return null;
-    return jwtService.generateToken(user);
+    return accessTokenService.getAccessToken(user);
   }
 
   private String getRefreshToken(HttpServletRequest request) {

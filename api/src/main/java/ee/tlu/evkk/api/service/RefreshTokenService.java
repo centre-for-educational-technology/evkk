@@ -2,6 +2,7 @@ package ee.tlu.evkk.api.service;
 
 import ee.tlu.evkk.api.exception.TokenNotFoundException;
 import ee.tlu.evkk.api.exception.UnauthorizedException;
+import ee.tlu.evkk.dal.dao.AccessTokenDao;
 import ee.tlu.evkk.dal.dao.RefreshTokenDao;
 import ee.tlu.evkk.dal.dao.UserDao;
 import ee.tlu.evkk.dal.dto.RefreshToken;
@@ -28,6 +29,7 @@ public class RefreshTokenService {
 
   private final UserDao userDao;
   private final RefreshTokenDao refreshTokenDao;
+  private final AccessTokenDao accessTokenDao;
 
   private static final String COOKIE_HEADER_NAME = "Set-Cookie";
 
@@ -57,6 +59,8 @@ public class RefreshTokenService {
 
     User user = userDao.findById(token.getUserId());
     createCookie(generateToken(user).getToken(), response);
+
+    accessTokenDao.deleteByUserId(token.getUserId());
   }
 
   public void revokeTokenAndRemoveCookie(HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException {
@@ -70,6 +74,12 @@ public class RefreshTokenService {
       REFRESH_TOKEN_COOKIE_NAME, token, REFRESH_TOKEN_EXPIRES_IN_SECONDS
     );
     response.addHeader(COOKIE_HEADER_NAME, cookie);
+  }
+
+  public boolean isTokenInvalid(String token) {
+    RefreshToken refreshToken = refreshTokenDao.findByToken(token);
+    if (refreshToken == null) return true;
+    return refreshToken.getExpiresAt().isBefore(now());
   }
 
   private void removeCookie(HttpServletResponse response) {
