@@ -31,7 +31,7 @@ export default function SessionExpirationModal() {
       setIsOpen(true);
       updateMinutesLeft(expirationTime);
     }
-  }, []);
+  }, [accessToken]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
