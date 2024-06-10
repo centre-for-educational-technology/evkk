@@ -7,6 +7,7 @@ import ee.tlu.evkk.api.service.RootService;
 import ee.tlu.evkk.common.env.ServiceLocator;
 import ee.tlu.evkk.dal.dto.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +34,7 @@ public class RootController {
   private final DtoMapper dtoMapper;
 
   @GetMapping("/status")
+  @Transactional
   public StatusResponseDto status(HttpServletRequest request) throws TokenNotFoundException {
     User user = rootService.getUser(request);
     String accessToken = rootService.getAccessToken(user);

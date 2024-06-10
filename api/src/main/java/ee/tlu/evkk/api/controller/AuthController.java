@@ -8,6 +8,7 @@ import ee.tlu.evkk.api.service.HarIdService;
 import ee.tlu.evkk.api.service.LoginService;
 import ee.tlu.evkk.api.service.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +38,7 @@ public class AuthController {
   }
 
   @GetMapping("login/harid/success")
+  @Transactional
   public RedirectView loginWithHarIdSuccess(@RequestParam(value = "code", required = false) String code,
                                             HttpServletResponse response) throws URISyntaxException {
     UserLoginDto userLoginDto = harIdService.authenticateWithHarIdToken(code);
@@ -44,11 +46,13 @@ public class AuthController {
   }
 
   @PostMapping("renew")
+  @Transactional
   public void renewTokens(HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException {
     refreshTokenService.renewToken(request, response);
   }
 
   @DeleteMapping("logout")
+  @Transactional
   public void logout(@RequestBody @Valid AccessTokenDto accessTokenDto, HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException {
     loginService.logout(accessTokenDto, request, response);
   }

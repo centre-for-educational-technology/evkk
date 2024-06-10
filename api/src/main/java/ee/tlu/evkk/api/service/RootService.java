@@ -5,7 +5,6 @@ import ee.tlu.evkk.dal.dao.UserDao;
 import ee.tlu.evkk.dal.dto.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +29,6 @@ public class RootService {
     return dbUser;
   }
 
-  @Transactional
   public String getAccessToken(User user) {
     if (user == null) return null;
     return accessTokenService.getAccessToken(user);
