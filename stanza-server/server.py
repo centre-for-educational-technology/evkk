@@ -3,7 +3,6 @@ import math
 import os
 import re
 import subprocess
-
 from flask import Flask
 from flask import Response
 from flask import request
@@ -29,7 +28,7 @@ sona_upos_piirang = ["PUNCT", "SYM"]
 sona_upos_piirang_mitmekesisus = ["PUNCT", "SYM", "NUM", "PROPN"]
 vormimargend_upos_piirang = ["ADP", "ADV", "CCONJ", "SCONJ", "INTJ", "X"]
 
-eesti_tahestik = r'[a-zA-ZõÕäÄöÖüÜŽžŠš-]+'
+eesti_tahestik = r'[a-zA-ZõÕäÄöÖüÜŽžŠš0-9.-]+'
 
 
 @app.route('/sonad-lemmad-silbid-sonaliigid-vormimargendid', methods=post)
@@ -61,10 +60,17 @@ def sonad_lemmad_silbid_sonaliigid_vormimargendid():
                     sonaliigid.append("–")
                     vormimargendid.append(["–", "–"])
 
+    silbid = silbita_sisemine(" ".join(puhasta_sonad(eestikeelsed_sonad)))
+    silbidLength = len(silbid)
+
+    for index, sona in enumerate(reversed(eestikeelsed_sonad)):
+        if sona == "–":
+            silbid.insert(silbidLength - index, "–")
+
     return Response(json.dumps({
         "sonad": sonad,
         "lemmad": lemmad,
-        "silbid": silbita_sisemine(" ".join(puhasta_sonad(eestikeelsed_sonad))),
+        "silbid": silbid,
         "sonaliigid": sonaliigid,
         "vormimargendid": vormimargendid
     }), mimetype=mimetype)

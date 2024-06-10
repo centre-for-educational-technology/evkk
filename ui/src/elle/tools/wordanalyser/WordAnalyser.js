@@ -194,6 +194,7 @@ function WordAnalyser() {
       let analysedSyllable = analysedInput.syllables[i];
       let id = analysedInput.ids[i];
       if (analysedWord.indexOf(syllable) >= 0
+        && analysedSyllable
         && (syllable === analysedSyllable
           || analysedSyllable.endsWith(`-${syllable}`)
           || analysedSyllable.startsWith(`${syllable}-`)
@@ -404,7 +405,7 @@ function WordAnalyser() {
                   setBorder(0);
                 }}
               >
-                <CloseIcon fontSize="inherit" />
+                <CloseIcon fontSize="inherit"/>
               </IconButton>
             }
             sx={{mb: 2}}
@@ -443,12 +444,17 @@ function WordAnalyser() {
                  onReset={resetAnalyser}
                  ref={inputRef}
           />
+          {analysedInput.syllables.includes('–')
+            &&
+            <Alert severity="error">
+              Tekstis leidub üks või mitu võõkeelset tähemärki sisaldavat sõna!
+            </Alert>}
         </Grid>
         <Grid item
               xs={12}
               md={6}>
           {showResults && !isTextTooLong &&
-            <WordInfo onWordInfo={wordInfo} />
+            <WordInfo onWordInfo={wordInfo}/>
           }
         </Grid>
       </Grid>

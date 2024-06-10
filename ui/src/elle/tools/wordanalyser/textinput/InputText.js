@@ -18,7 +18,7 @@ function changePreviousColor(idNumber, setIdNumber, markedIds, onWordInfo) {
   }
 }
 
-export const InputText = ({ onMarkWords, onWordSelect, onWordInfo }) => {
+export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
   const analyse = useContext(AnalyseContext)[0];
   const markedIds = [];
   const [idNumber, setIdNumber] = useState(0);
@@ -57,10 +57,10 @@ export const InputText = ({ onMarkWords, onWordSelect, onWordInfo }) => {
     }
   };
 
-  const handleIsNotMarked = (ids, i, analysedWords) => {
+  const handleIsNotMarked = (ids, i, analysedWords, syllable) => {
     return (
       <span id={ids[i]}
-            className="word"
+            className={syllable[i] === '–' ? 'word non-estonian-word' : 'word'}
             key={ids[i]}
             onClick={(e) => handleWord(e.target.id)}>{analysedWords[i]}</span>
     );
@@ -70,13 +70,14 @@ export const InputText = ({ onMarkWords, onWordSelect, onWordInfo }) => {
     let analysedWords = analyse.wordsOrig;
     let text = analyse.text;
     let ids = analyse.ids;
+    let syllable = analyse.syllables;
     let content = [];
     if (analysedWords) {
       for (let i = 0; i < analysedWords.length; i++) {
         let index = text.indexOf(analysedWords[i]);
         let isMarked = false;
         for (const element of onMarkWords) {
-          if (ids[i] === element) {
+          if (ids[i] === element && syllable[i] !== '–') {
             isMarked = true;
             markedIds.push(ids[i]);
           }
@@ -89,11 +90,11 @@ export const InputText = ({ onMarkWords, onWordSelect, onWordInfo }) => {
             if (match.index > 0) {
               let newSequence = sequence.slice(0, match.index);
               content.push(newSequence);
-              content.push(<br key={index} />);
+              content.push(<br key={index}/>);
               sequence = sequence.substring(match.index + 1, sequence.length);
               match = /[\r\n]/.exec(sequence);
             } else {
-              content.push(<br key={index} />);
+              content.push(<br key={index}/>);
               sequence = sequence.substring(1, sequence.length);
               match = /[\r\n]/.exec(sequence);
             }
@@ -102,14 +103,14 @@ export const InputText = ({ onMarkWords, onWordSelect, onWordInfo }) => {
           if (isMarked) {
             content.push(handleIsMarked(ids, i, analysedWords, markedIds, idNumber));
           } else {
-            content.push(handleIsNotMarked(ids, i, analysedWords));
+            content.push(handleIsNotMarked(ids, i, analysedWords, syllable));
           }
           text = text.substring(index + analysedWords[i].length, text.length);
         } else {
           if (isMarked) {
             content.push(handleIsMarked(ids, i, analysedWords, markedIds, idNumber));
           } else {
-            content.push(handleIsNotMarked(ids, i, analysedWords));
+            content.push(handleIsNotMarked(ids, i, analysedWords, syllable));
           }
           text = text.substring(index + analysedWords[i].length, text.length);
         }
@@ -128,13 +129,13 @@ export const InputText = ({ onMarkWords, onWordSelect, onWordInfo }) => {
       <span className="wordHighlightButtons">
         {idNumber > 0 ? (
           <KeyboardArrowLeftIcon fontSize={'large'} cursor={'pointer'}
-                                 onClick={() => changePreviousColor(idNumber, setIdNumber, markedIds, onWordInfo)} />
+                                 onClick={() => changePreviousColor(idNumber, setIdNumber, markedIds, onWordInfo)}/>
         ) : (
           <Box width={'24px'} height={'24px'}></Box>
         )}
         {idNumber < markedIds.length - 1 ? (
           <KeyboardArrowRightIcon fontSize={'large'} cursor={'pointer'}
-                                  onClick={() => changeNextColor(idNumber, setIdNumber, markedIds, onWordInfo)} />
+                                  onClick={() => changeNextColor(idNumber, setIdNumber, markedIds, onWordInfo)}/>
         ) : null}
       </span>
     </>
