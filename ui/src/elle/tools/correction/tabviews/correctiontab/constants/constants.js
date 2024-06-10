@@ -7,5 +7,5 @@ export const errorTypes = {
   wordOrderError: {color: 'hsl(217.5 78% 90%)', label: 'Sõnajärg'},
   multipleErrors: {color: 'hsl(31, 89%, 69%)', label: 'Muu parandus'},
   missingWordError: {color: 'hsl(255, 37%, 73%)', label: 'Puuduv sõna'},
-  extraWordError: {color: 'hsl(255, 37%, 73%)', label: 'Üleliigne sõna'}
+  extraWordError: {color: 'hsl(255, 37%, 73%)', label: 'Liigne sõna'}
 };

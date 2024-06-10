@@ -25,8 +25,10 @@ export const handleUncommonWords = (text, abstractAnswer, complexityAnswer) => {
   let tempText = text.replaceAll(replaceCombined, '');
   const usedWords = [];
 
+  const positionalWords = ['Pärisnimi', 'Põhiarvsõna', 'Järgarvsõna'];
+
   abstractAnswer.wordAnalysis.forEach((lemma, index) => {
-    if (lemma.pos !== 'Pärisnimi' && lemma.pos !== 'Põhiarvsõna' && lemma.pos !== 'Järgarvsõna' && !commonLemmas.includes(lemma.lemmas[0].lemma) && !usedWords.includes(abstractAnswer.wordAnalysis[index].word)) {
+    if (!positionalWords.includes(lemma.pos) && !commonLemmas.includes(lemma.lemmas[0].lemma) && !usedWords.includes(abstractAnswer.wordAnalysis[index].word) && lemma.posTag !== 'G') {
       usedWords.push(complexityAnswer.sonad[index]);
       let regex = new RegExp('\\b' + complexityAnswer.sonad[index] + '\\b', 'g');
       const newWord = `<span class="uncommon-word-color">${complexityAnswer.sonad[index]}</span>`;
@@ -36,11 +38,11 @@ export const handleUncommonWords = (text, abstractAnswer, complexityAnswer) => {
   return tempText;
 };
 
-export const handleAbstractWords = (text, abstractAnswer) => {
+export const handleAbstractWords = (text, abstractAnswer, complexityAnswer) => {
   let tempText = text.replaceAll(replaceCombined, '');
   const usedWords = [];
-  abstractAnswer.wordAnalysis.forEach((word) => {
-    if (word.abstractness === 3 && word.pos !== 'Pärisnimi' && !usedWords.includes(word.word)) {
+  abstractAnswer.wordAnalysis.forEach((word, index) => {
+    if (word.abstractness === 3 && (word.pos !== 'Pärisnimi' && !usedWords.includes(word.word)) && complexityAnswer.sonaliigid[index] === 'NOUN') {
       usedWords.push(word.word);
       let regex = new RegExp('\\b' + word.word + '\\b', 'g');
       const newWord = `<span class="abstract-word-color">${word.word}</span>`;

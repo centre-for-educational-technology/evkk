@@ -99,6 +99,7 @@
 }
 
 .text-span[data-color="punctuation"] {
+  min-width: 0.3rem;
   background-color: hsl(102.13 37% 75%);
   padding: 0.1em 0.1em 0;
   border-radius: 2px 2px 1px 1px;

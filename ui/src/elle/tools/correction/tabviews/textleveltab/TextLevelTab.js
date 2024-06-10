@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Box } from '@mui/material';
+import { Alert, Box, Tooltip } from '@mui/material';
 import '../correctiontab/styles/correctionTab.css';
 import { ToggleButton, ToggleButtonGroup } from '@mui/lab';
 import CorrectionInput from '../../components/CorrectionInput';
@@ -8,6 +8,7 @@ import TextLevelAccordion from './components/TextLevelAccordion';
 import { accordionDetails, textLevelColors, textLevels } from './constants/constants';
 import { handleModelChange } from '../../helperFunctions/helperFunctions';
 import TextLevelAccordionInner from './components/TextLevelAccordionInner';
+import CorrectionInfoIcon from '../../components/CorrectionInfoIcon';
 
 export default function TextLevelTab(
   {
@@ -27,19 +28,25 @@ export default function TextLevelTab(
 
   return (
     <div className="corrector-border-box">
-      <Box className="d-flex mb-2">
-        <strong>Automaatkontroll:</strong>
-        <ToggleButtonGroup
-          color="primary"
-          value={correctionModel}
-          sx={{height: '1em', paddingLeft: '1em'}}
-          exclusive
-          onChange={(e) => handleModelChange(setCorrectionModel, e)}
-          aria-label="Platform"
-        >
-          <ToggleButton value="spellchecker">Sõnad</ToggleButton>
-          <ToggleButton value="grammarchecker">Grammatika</ToggleButton>
-        </ToggleButtonGroup>
+      <Box className="d-flex justify-content-between">
+        <Box className="d-flex">
+          <ToggleButtonGroup
+            color="primary"
+            value={correctionModel}
+            sx={{height: '1rem', marginBottom: '1rem'}}
+            exclusive
+            onChange={(e) => handleModelChange(setCorrectionModel, e)}
+            aria-label="Platform"
+          >
+            <Tooltip placement="top" title="Kirjavigade tekst">
+              <ToggleButton value="spellchecker">Õigekiri</ToggleButton>
+            </Tooltip>
+            <Tooltip placement="top" title="Grammatika tekst">
+              <ToggleButton value="grammarchecker">Grammatika</ToggleButton>
+            </Tooltip>
+          </ToggleButtonGroup>
+        </Box>
+        <CorrectionInfoIcon inputText={<div>Tekst.</div>}/>
       </Box>
       <div className="d-flex gap-2">
         <CorrectionInput

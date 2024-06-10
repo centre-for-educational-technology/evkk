@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Divider } from '@mui/material';
+import { Box, Divider, Tooltip } from '@mui/material';
 import { ToggleButton, ToggleButtonGroup } from '@mui/lab';
 import { ContentEditableDiv, CorrectorAccordionStyle, replaceCombined } from '../../../../const/Constants';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -16,6 +16,7 @@ import {
 } from './helperFunctions/complexityMarkingHandlers';
 import CorrectionScale from '../../components/CorrectionScale';
 import CorrectionButton from '../../components/CorrectionButton';
+import CorrectionInfoIcon from '../../components/CorrectionInfoIcon';
 
 export default function ComplexityTab(
   {
@@ -65,20 +66,28 @@ export default function ComplexityTab(
 
   return (
     <div className="corrector-border-box">
-      <Box className="d-flex mb-2">
-        <strong>Märgi tekstis:</strong>
-        <ToggleButtonGroup
-          color="primary"
-          value={model}
-          sx={{height: '1em', paddingLeft: '1em'}}
-          exclusive
-          onChange={(e) => handleModelChange(setModel, e)}
-          aria-label="Platform"
-        >
-          <ToggleButton value="longsentence">Pikad laused</ToggleButton>
-          <ToggleButton value="longword">Pikad sõnad</ToggleButton>
-          <ToggleButton value="nouns">Nimisõnad</ToggleButton>
-        </ToggleButtonGroup>
+      <Box className="d-flex justify-content-between">
+        <Box className="d-flex">
+          <ToggleButtonGroup
+            color="primary"
+            value={model}
+            sx={{height: '1rem', marginBottom: '1rem'}}
+            exclusive
+            onChange={(e) => handleModelChange(setModel, e)}
+            aria-label="Platform"
+          >
+            <Tooltip placement="top" title={'Pikkade tekstide tekst'}>
+              <ToggleButton value="longsentence">Pikad laused</ToggleButton>
+            </Tooltip>
+            <Tooltip placement="top" title={'Pikkade sõnade tekst'}>
+              <ToggleButton value="longword">Pikad sõnad</ToggleButton>
+            </Tooltip>
+            <Tooltip placement="top" title={'Nimisõnade tekst'}>
+              <ToggleButton value="nouns">Nimisõnad</ToggleButton>
+            </Tooltip>
+          </ToggleButtonGroup>
+        </Box>
+        <CorrectionInfoIcon inputText={<div>Tekst.</div>}/>
       </Box>
       <div className="d-flex gap-2">
         <div className="w-50 d-flex flex-column">
@@ -110,7 +119,7 @@ export default function ComplexityTab(
             <div>
               <div
                 style={{marginBottom: '0.5em', fontSize: '1.5em'}}>Keerukustase: {complexityAnswer.keerukus[11]}</div>
-              <Accordion square={true} style={{marginBottom: '0.5em'}} sx={CorrectorAccordionStyle}>
+              <Accordion square={true} style={{marginBottom: '0.5em'}} sx={CorrectorAccordionStyle} defaultExpanded>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon/>}
                   aria-controls="panel1-content"

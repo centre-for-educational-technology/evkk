@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Divider } from '@mui/material';
+import { Box, Divider, Tooltip } from '@mui/material';
 import { ToggleButton, ToggleButtonGroup } from '@mui/lab';
 import { ContentEditableDiv, CorrectorAccordionStyle, replaceCombined } from '../../../../const/Constants';
 import Accordion from '@mui/material/Accordion';
@@ -23,6 +23,7 @@ import {
   handleWordRepetition
 } from './helperFunctions/vocabularyMarkingHandlers';
 import CorrectionButton from '../../components/CorrectionButton';
+import CorrectionInfoIcon from '../../components/CorrectionInfoIcon';
 
 export default function VocabularyTab(
   {
@@ -62,7 +63,7 @@ export default function VocabularyTab(
       } else if (model === 'uncommonwords' && complexityAnswer) {
         text = handleUncommonWords(text, abstractWords, complexityAnswer);
       } else if (model === 'abstractwords' && abstractWords) {
-        text = handleAbstractWords(text, abstractWords);
+        text = handleAbstractWords(text, abstractWords, complexityAnswer);
       } else if (model === 'contentwords') {
         text = handleContentWords(text, complexityAnswer);
       }
@@ -76,21 +77,32 @@ export default function VocabularyTab(
 
   return (
     <div className="corrector-border-box">
-      <Box className="d-flex mb-2">
-        <strong>Märgi tekstis:</strong>
-        <ToggleButtonGroup
-          color="primary"
-          value={model}
-          sx={{height: '1em', paddingLeft: '1em'}}
-          exclusive
-          onChange={(e) => handleModelChange(setModel, e)}
-          aria-label="Platform"
-        >
-          <ToggleButton value="wordrepetition">Sõnakordused</ToggleButton>
-          <ToggleButton value="uncommonwords">Harvad sõnad</ToggleButton>
-          <ToggleButton value="abstractwords">Abstraktsed sõnad</ToggleButton>
-          <ToggleButton value="contentwords">Sisusõnad</ToggleButton>
-        </ToggleButtonGroup>
+      <Box className="d-flex justify-content-between">
+        <Box className="d-flex">
+          <ToggleButtonGroup
+            color="primary"
+            value={model}
+            sx={{height: '1rem', marginBottom: '1rem'}}
+            exclusive
+            onChange={(e) => handleModelChange(setModel, e)}
+            aria-label="Platform"
+          >
+            <Tooltip placement="top" title={'Sõnakorduste tekst'}>
+              <ToggleButton value="wordrepetition">Sõnakordused</ToggleButton>
+            </Tooltip>
+            <Tooltip placement="top" title={'Harvade sõnade tekst'}>
+              <ToggleButton value="uncommonwords">Harvad sõnad</ToggleButton>
+            </Tooltip>
+            <Tooltip placement="top" title={'Abstraktsete sõnade tekst'}>
+              <ToggleButton value="abstractwords">Abstraktsed sõnad</ToggleButton>
+            </Tooltip>
+            <Tooltip placement="top" title={'Sisusõnade tekst'}>
+              <ToggleButton value="contentwords">Sisusõnad</ToggleButton>
+            </Tooltip>
+          </ToggleButtonGroup>
+        </Box>
+        <CorrectionInfoIcon
+          inputText={<div>Tekst</div>}/>
       </Box>
       <div className="d-flex gap-2">
         <div className="w-50 d-flex flex-column">
@@ -120,7 +132,7 @@ export default function VocabularyTab(
         <div className="w-50 corrector-right">
           {complexityAnswer &&
             <div>
-              <Accordion square={true} style={{marginBottom: '0.5em'}} sx={CorrectorAccordionStyle}>
+              <Accordion square={true} style={{marginBottom: '0.5em'}} sx={CorrectorAccordionStyle} defaultExpanded>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon/>}
                   aria-controls="panel1-content"
