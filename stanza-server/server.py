@@ -66,6 +66,7 @@ def sonad_lemmad_silbid_sonaliigid_vormimargendid():
     for index, sona in enumerate(reversed(eestikeelsed_sonad)):
         if sona == "–":
             silbid.insert(silbidLength - index, "–")
+            silbidLength += 1
 
     return Response(json.dumps({
         "sonad": sonad,
