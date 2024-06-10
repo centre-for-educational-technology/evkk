@@ -1,18 +1,17 @@
 import { loadFetch } from './util/LoadFetch';
-import { clearUserContext, navigateTo } from '../util/LogoutFunctionUtils';
+import { clearAuthContext, getAccessToken, navigateTo, setContext } from '../util/FunctionAndPropertyUtils';
 import { successEmitter } from '../../App';
 import { SuccessSnackbarEventType } from '../components/snackbar/SuccessSnackbar';
 
 export const logout = (forced = false) => {
   loadFetch('/api/auth/logout', {
     method: 'DELETE',
-    body: JSON.stringify({ token: localStorage.getItem('accessToken') }),
+    body: JSON.stringify({ token: getAccessToken() }),
     headers: {
       'Content-Type': 'application/json'
     }
   }).then(() => {
-    localStorage.removeItem('accessToken');
-    clearUserContext();
+    clearAuthContext();
     navigateTo('/');
     successEmitter.emit(forced ? SuccessSnackbarEventType.LOGOUT_FORCED_SUCCESS : SuccessSnackbarEventType.LOGOUT_SUCCESS);
   });
@@ -21,10 +20,7 @@ export const logout = (forced = false) => {
 export const renew = async () => {
   await loadFetch('/api/auth/renew', {
     method: 'POST'
-  })
-    .then(res => res.json())
-    .then(res => {
-      localStorage.setItem('accessToken', res.token);
-      successEmitter.emit(SuccessSnackbarEventType.SESSION_RENEW_SUCCESS);
-    });
+  }).then(() => {
+    setContext(true);
+  });
 };

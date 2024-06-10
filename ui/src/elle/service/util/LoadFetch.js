@@ -1,6 +1,7 @@
 import { errorEmitter, loadingEmitter } from '../../../App';
 import { LoadingSpinnerEventType } from '../../components/LoadingSpinner';
 import { ErrorSnackbarEventType } from '../../components/snackbar/ErrorSnackbar';
+import { getAccessToken } from '../../util/FunctionAndPropertyUtils';
 
 export const loadFetch = async (url, params, disableErrorHandling = false) => {
   loadingEmitter.emit(LoadingSpinnerEventType.LOADER_START);
@@ -8,7 +9,7 @@ export const loadFetch = async (url, params, disableErrorHandling = false) => {
   if (hasNonExpiredToken()) {
     params.headers = {
       ...params.headers,
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      Authorization: `Bearer ${getAccessToken()}`
     };
   }
 
@@ -37,7 +38,7 @@ export const loadFetch = async (url, params, disableErrorHandling = false) => {
 };
 
 const hasNonExpiredToken = () => {
-  const token = localStorage.getItem('accessToken');
+  const token = getAccessToken();
   if (!token) return false;
 
   return Date.now() < JSON.parse(atob(token.split('.')[1])).exp * 1000;

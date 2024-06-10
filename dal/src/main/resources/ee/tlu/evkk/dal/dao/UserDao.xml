@@ -29,6 +29,20 @@
     where user_id = #{id};
   </select>
 
+  <select id="findByRefreshToken" parameterType="java.lang.String" resultType="ee.tlu.evkk.dal.dto.User">
+    select u.user_id,
+           u.email_address,
+           u.id_code,
+           u.id_code_prefix,
+           u.first_name,
+           u.last_name,
+           u.role_name,
+           u.ui_locales
+    from core.user u
+           join core.refresh_token t on u.user_id = t.user_id
+    where t.token = #{token};
+  </select>
+
   <select id="insert" parameterType="ee.tlu.evkk.dal.dto.User" resultType="ee.tlu.evkk.dal.dto.User">
     insert into core.user (email_address,
                            id_code,

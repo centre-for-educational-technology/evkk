@@ -17,7 +17,7 @@ import static org.mapstruct.ReportingPolicy.IGNORE;
 @MapperConfig(unmappedTargetPolicy = IGNORE)
 public interface DtoMapper {
 
-  StatusResponseDto toStatusResponseDto(UserDto user, Map<String, String> integrationPaths);
+  StatusResponseDto toStatusResponseDto(UserDto user, String accessToken, Map<String, String> integrationPaths);
 
   MinitornPikkusResponseDto toMinitornPikkusResponseDto(Long length);
 

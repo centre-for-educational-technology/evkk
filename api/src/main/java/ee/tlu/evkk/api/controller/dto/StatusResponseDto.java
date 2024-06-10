@@ -14,5 +14,6 @@ import java.util.Map;
 public class StatusResponseDto {
 
   private UserDto user;
+  private String accessToken;
   private Map<String, String> integrationPaths;
 }

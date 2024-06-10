@@ -44,8 +44,8 @@ public class AuthController {
   }
 
   @PostMapping("renew")
-  public AccessTokenDto renewTokens(HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException {
-    return refreshTokenService.renewToken(request, response);
+  public void renewTokens(HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException {
+    refreshTokenService.renewToken(request, response);
   }
 
   @DeleteMapping("logout")

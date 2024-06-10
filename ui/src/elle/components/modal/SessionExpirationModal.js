@@ -1,22 +1,23 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { logout, renew } from '../../service/AuthService';
 import ModalBase from './ModalBase';
 import { useTranslation } from 'react-i18next';
 import { DefaultButtonStyle } from '../../const/Constants';
 import { Button } from '@mui/material';
 import '../styles/SessionExpirationModal.css';
+import RootContext from '../../context/RootContext';
 
 export default function SessionExpirationModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [minutesLeft, setMinutesLeft] = useState(5);
   const timerId = useRef();
   const { t } = useTranslation();
+  const { accessToken } = useContext(RootContext);
 
   const initTimeoutOrLogout = useCallback(() => {
-    const token = localStorage.getItem('accessToken');
-    if (!token) return;
+    if (!accessToken) return;
 
-    const jwtPayload = JSON.parse(atob(token.split('.')[1]));
+    const jwtPayload = JSON.parse(atob(accessToken.split('.')[1]));
     const expirationTime = jwtPayload.exp * 1000;
     const dateNow = Date.now();
     const timeoutDuration = expirationTime - dateNow - 5 * 60 * 1000; // 5 minutes before expiration
@@ -29,31 +30,28 @@ export default function SessionExpirationModal() {
     } else if (dateNow < expirationTime) {
       setIsOpen(true);
       updateMinutesLeft(expirationTime);
-    } else {
-      setIsOpen(false);
-      logout(true);
     }
   }, []);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const token = localStorage.getItem('accessToken');
-      if (!token) return;
+      if (!accessToken) return;
 
-      const jwtPayload = JSON.parse(atob(token.split('.')[1]));
+      const jwtPayload = JSON.parse(atob(accessToken.split('.')[1]));
       const expirationTime = jwtPayload.exp * 1000;
 
       updateMinutesLeft(expirationTime);
       if (Date.now() > expirationTime) {
         setIsOpen(false);
         logout(true);
+        clearInterval(intervalId);
       }
-    }, 5000);
+    }, 3000);
 
     initTimeoutOrLogout();
 
     return () => clearInterval(intervalId);
-  }, [initTimeoutOrLogout]);
+  }, [initTimeoutOrLogout, accessToken]);
 
   const updateMinutesLeft = (expirationTime) => {
     const minutes = Math.max(0, Math.ceil((expirationTime - Date.now()) / 60000));

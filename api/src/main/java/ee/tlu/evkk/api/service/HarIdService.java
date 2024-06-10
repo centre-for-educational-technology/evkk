@@ -81,7 +81,7 @@ public class HarIdService {
   }
 
   private UserLoginDto redirectSuccess(UserLoginDto userLoginDto) throws URISyntaxException {
-    userLoginDto.setRedirectUri(new URI(serviceLocator.locate(EVKK_UI) + format("?accessToken=%s", userLoginDto.getAccessToken())));
+    userLoginDto.setRedirectUri(new URI(serviceLocator.locate(EVKK_UI).toString()));
     userLoginDto.setRefreshToken(userLoginDto.getRefreshToken());
     return userLoginDto;
   }

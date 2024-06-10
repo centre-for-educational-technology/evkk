@@ -1,6 +1,5 @@
 package ee.tlu.evkk.api.service;
 
-import ee.tlu.evkk.api.controller.dto.AccessTokenDto;
 import ee.tlu.evkk.api.exception.TokenNotFoundException;
 import ee.tlu.evkk.api.exception.UnauthorizedException;
 import ee.tlu.evkk.dal.dao.RefreshTokenDao;
@@ -16,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
+import static ee.tlu.evkk.api.constant.AuthConstants.REFRESH_TOKEN_COOKIE_NAME;
 import static ee.tlu.evkk.api.constant.AuthConstants.REFRESH_TOKEN_EXPIRES_IN_MILLISECONDS;
 import static ee.tlu.evkk.api.constant.AuthConstants.REFRESH_TOKEN_EXPIRES_IN_SECONDS;
 import static java.lang.String.format;
@@ -28,9 +28,7 @@ public class RefreshTokenService {
 
   private final UserDao userDao;
   private final RefreshTokenDao refreshTokenDao;
-  private final JwtService jwtService;
 
-  private static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
   private static final String COOKIE_HEADER_NAME = "Set-Cookie";
 
   public RefreshToken generateToken(User user) {
@@ -45,7 +43,7 @@ public class RefreshTokenService {
     return refreshTokenDao.insert(refreshToken);
   }
 
-  public AccessTokenDto renewToken(HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException {
+  public void renewToken(HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException {
     RefreshToken token = refreshTokenDao.findByToken(getRefreshToken(request));
 
     if (token == null) {
@@ -59,7 +57,6 @@ public class RefreshTokenService {
 
     User user = userDao.findById(token.getUserId());
     createCookie(generateToken(user).getToken(), response);
-    return new AccessTokenDto(jwtService.generateToken(user));
   }
 
   public void revokeTokenAndRemoveCookie(HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException {

@@ -2,15 +2,17 @@ package ee.tlu.evkk.api.controller;
 
 import ee.tlu.evkk.api.controller.dto.StatusResponseDto;
 import ee.tlu.evkk.api.converter.DtoMapper;
+import ee.tlu.evkk.api.exception.TokenNotFoundException;
+import ee.tlu.evkk.api.service.RootService;
 import ee.tlu.evkk.common.env.ServiceLocator;
 import ee.tlu.evkk.dal.dto.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,13 +28,15 @@ import static org.springframework.web.util.UriComponentsBuilder.fromUri;
 @RequiredArgsConstructor
 public class RootController {
 
+  private final RootService rootService;
   private final ServiceLocator serviceLocator;
   private final DtoMapper dtoMapper;
 
   @GetMapping("/status")
-  public StatusResponseDto status(@AuthenticationPrincipal User user) {
-    var userDto = dtoMapper.toUserDto(user);
-    return dtoMapper.toStatusResponseDto(userDto, buildIntegrationPaths());
+  public StatusResponseDto status(HttpServletRequest request) throws TokenNotFoundException {
+    User user = rootService.getUser(request);
+    String accessToken = rootService.getAccessToken(user);
+    return dtoMapper.toStatusResponseDto(dtoMapper.toUserDto(user), accessToken, buildIntegrationPaths());
   }
 
   private Map<String, String> buildIntegrationPaths() {

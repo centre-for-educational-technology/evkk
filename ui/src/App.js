@@ -14,7 +14,7 @@ import SuccessSnackbar from './elle/components/snackbar/SuccessSnackbar';
 import FooterElement from './elle/components/FooterElement';
 import DonateText from './elle/components/DonateText';
 import { applyMiddleware, compose, createStore } from 'redux';
-import { setLogoutFunctions } from './elle/util/LogoutFunctionUtils';
+import { setFunctionsAndProperties } from './elle/util/FunctionAndPropertyUtils';
 import RootContext, { RootProvider } from './elle/context/RootContext';
 import withGlobalLoading from './elle/hoc/withGlobalLoading';
 import SessionExpirationModal from './elle/components/modal/SessionExpirationModal';
@@ -76,19 +76,13 @@ function AppWithStatus() {
   const navigate = useNavigate();
   const [urlParams] = useSearchParams();
   const [isOffline, setIsOffline] = useState(false);
-  const { setContext, clearUserContext, status } = useContext(RootContext);
+  const { setContext, clearAuthContext, status, accessToken } = useContext(RootContext);
 
   useEffect(() => {
     setIsOffline(!status);
   }, [status]);
 
   useEffect(() => {
-    if (urlParams.get('accessToken')) {
-      localStorage.setItem('accessToken', urlParams.get('accessToken'));
-      setContext();
-      navigate('', { replace: true });
-    }
-
     if (urlParams.get('loginFailed')) {
       errorEmitter.emit(ErrorSnackbarEventType.LOGIN_FAILED);
       navigate('', { replace: true });
@@ -102,8 +96,8 @@ function AppWithStatus() {
   }, [urlParams]);
 
   useEffect(() => {
-    setLogoutFunctions(navigate, clearUserContext);
-  }, [navigate, clearUserContext]);
+    setFunctionsAndProperties(navigate, clearAuthContext, accessToken, setContext);
+  }, [navigate, clearAuthContext, accessToken, setContext]);
 
   if (isOffline) {
     return <ServerOfflinePage retry={setContext} />;

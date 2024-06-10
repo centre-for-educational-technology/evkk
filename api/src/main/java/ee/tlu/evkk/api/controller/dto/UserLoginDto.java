@@ -9,15 +9,13 @@ import java.net.URI;
 @NoArgsConstructor
 public class UserLoginDto {
 
-  private String accessToken;
   private String refreshToken;
   private URI redirectUri;
   private boolean idCodeMissing = false;
   private boolean loginFailed = false;
   private boolean redirectToHarId = false;
 
-  public UserLoginDto(String accessToken, String refreshToken) {
-    this.accessToken = accessToken;
+  public UserLoginDto(String refreshToken) {
     this.refreshToken = refreshToken;
   }
 

@@ -30,10 +30,7 @@ public class LoginService {
       user = createNewUser(harIdUser);
     }
 
-    return new UserLoginDto(
-      jwtService.generateToken(user),
-      refreshTokenService.generateToken(user).getToken()
-    );
+    return new UserLoginDto(refreshTokenService.generateToken(user).getToken());
   }
 
   public RedirectView finalizeLogin(UserLoginDto userLoginDto, HttpServletResponse response) {

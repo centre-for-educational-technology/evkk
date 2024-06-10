@@ -15,5 +15,7 @@ public interface UserDao {
 
   User findById(@Param("id") UUID id);
 
+  User findByRefreshToken(@Param("token") String refreshToken);
+
   User insert(@Param("user") User user);
 }

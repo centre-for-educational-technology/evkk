@@ -13,4 +13,6 @@ public class AuthConstants {
 
   public static final String HARID_AUTHENTICATION_URL = "%s?client_id=%s&redirect_uri=%s&scope=openid+profile+personal_code+email&response_type=code";
   public static final String HARID_AUTHENTICATION_SUCCESS_URL = "/auth/login/harid/success";
+
+  public static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
 }
