@@ -1,4 +1,4 @@
-import { Box, List, ListItem, ListItemIcon, ListItemText, Paper, Typography } from '@mui/material';
+import { List, ListItem, ListItemIcon, ListItemText, Paper, Typography } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import React, { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';

@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Alert,
   Box,
   CircularProgress,
-  FormControlLabel, List, ListItem, ListItemIcon, ListItemText,
+  FormControlLabel,
   Switch,
   Typography,
 } from '@mui/material';
 import RequestFilter from './requestfilter/RequestFilter';
 import ResultTable from './resulttable/ResultTable';
 import { useTranslation } from 'react-i18next';
-import NewTabHyperlink from '../../components/NewTabHyperlink';
-import { EVKK_GITHUB_DEMOS_PATH } from '../../const/Constants';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import ErrorAnalyserKeys from './ErrorAnalyserKeys';
 
 export default function ErrorAnalyser() {
