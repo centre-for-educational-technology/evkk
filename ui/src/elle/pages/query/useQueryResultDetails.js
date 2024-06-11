@@ -20,37 +20,31 @@ export default function useQueryResultDetails(id) {
   const [text, setText] = useState('');
   const [sentence, setSentence] = useState('');
 
-  const previewText = async (id, localSentence) => {
-    await loadFetch('/api/texts/kysitekstimetainfo?id=' + id, {
+  function previewText(id, localSentence) {
+    loadFetch('/api/texts/kysitekstjametainfo?id=' + id, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
-      },
+        'Content-Type': 'application/json'
+      }
     })
-      .then((res) => res.json())
-      .then((result) => {
-        let tempMetaData = metadata;
-        result.forEach((param) => {
-          tempMetaData = {
-            ...tempMetaData,
-            [param.property_name]: param.property_value,
-          };
+      .then(res => res.json())
+      .then(res => {
+        setText(res.text);
+        res.properties.forEach(param => {
+          setIndividualMetadata(param.propertyName, param.propertyValue);
         });
-        setMetadata(tempMetaData);
-      });
-
-    await loadFetch('/api/texts/kysitekst?id=' + id, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((res) => res.text())
-      .then((result) => {
-        setText(result);
       });
     setSentence(localSentence);
     setModalOpen(true);
+  }
+
+  const setIndividualMetadata = (keyName, valueName) => {
+    setMetadata(prevData => {
+      return {
+        ...prevData,
+        [keyName]: valueName
+      };
+    });
   };
 
   return { previewText, metadata, text, sentence, modalOpen, setModalOpen };

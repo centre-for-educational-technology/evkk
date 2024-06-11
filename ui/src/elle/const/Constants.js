@@ -656,3 +656,48 @@ export const breadcrumbNameMap = {
   '/tools/wordcontext': 'common_word_in_context',
   '/tools/collocates': 'common_neighbouring_words'
 };
+
+export const errorTypeOptionsShort = {
+  'R:SPELL': 'error_analyser_r_spell',
+  'R:CASE': 'error_analyser_r_case',
+  'R:NOM:FORM': 'error_analyser_r_nom_form',
+  'R:VERB:FORM': 'error_analyser_r_verb_form',
+  'R:LEX': 'error_analyser_r_lex',
+  'M:LEX': 'error_analyser_m_lex',
+  'U:LEX': 'error_analyser_u_lex',
+  'R:PUNCT': 'error_analyser_r_punct',
+  'M:PUNCT': 'error_analyser_m_punct',
+  'U:PUNCT': 'error_analyser_u_punct',
+  'R:WS': 'error_analyser_r_ws',
+  'R:WO': 'error_analyser_r_wo',
+};
+
+export const errorTypeOptionsFull = {
+  'M:LEX': 'error_analyser_error_type_m_lex',
+  'M:PUNCT': 'error_analyser_error_type_m_punct',
+  'R:CASE': 'error_analyser_error_type_r_case',
+  'R:LEX': 'error_analyser_error_type_r_lex',
+  'R:LEX:NOM:FORM': 'error_analyser_error_type_r_lex_nom_form',
+  'R:LEX:SPELL': 'error_analyser_error_type_r_lex_spell',
+  'R:LEX:VERB:FORM': 'error_analyser_error_type_r_lex_verb_form',
+  'R:LEX:WO': 'error_analyser_error_type_r_lex_wo',
+  'R:LEX:WS': 'error_analyser_error_type_r_lex_ws',
+  'R:NOM:FORM': 'error_analyser_error_type_r_nom_form',
+  'R:NOM:FORM:CASE': 'error_analyser_error_type_r_nom_form_case',
+  'R:NOM:FORM:SPELL': 'error_analyser_error_type_r_nom_form_spell',
+  'R:NOM:FORM:SPELL:CASE': 'error_analyser_error_type_r_nom_form_spell_case',
+  'R:PUNCT': 'error_analyser_error_type_r_punct',
+  'R:SPELL': 'error_analyser_error_type_r_spell',
+  'R:SPELL:CASE': 'error_analyser_error_type_r_spell_case',
+  'R:VERB:FORM': 'error_analyser_error_type_r_verb_form',
+  'R:VERB:FORM:SPELL': 'error_analyser_error_type_r_verb_form_spell',
+  'R:WO': 'error_analyser_error_type_r_wo',
+  'R:WO:NOM:FORM': 'error_analyser_error_type_r_wo_nom_form',
+  'R:WS': 'error_analyser_error_type_r_ws',
+  'R:WS:CASE': 'error_analyser_error_type_r_ws_case',
+  'R:WS:NOM:FORM': 'error_analyser_error_type_r_ws_nom_form',
+  'R:WS:NOM:FORM:SPELL': 'error_analyser_error_type_r_ws_nom_form_spell',
+  'R:WS:SPELL': 'error_analyser_error_type_r_ws_spell',
+  'U:PUNCT': 'error_analyser_error_type_u_punct',
+  'U:LEX': 'error_analyser_error_type_u_lex',
+};
