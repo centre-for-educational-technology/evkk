@@ -243,7 +243,7 @@ export default function Query(props) {
   }
 
   function replaceDashes(data) {
-    return data.map(function(item) {
+    return data.map(function (item) {
       let parsed;
       if (item.includes('...')) {
         const splitValue = item.split('...')[0];
