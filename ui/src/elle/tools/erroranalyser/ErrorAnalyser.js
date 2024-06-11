@@ -1,21 +1,26 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  Alert,
   Box,
   CircularProgress,
-  FormControlLabel,
+  FormControlLabel, List, ListItem, ListItemIcon, ListItemText,
   Switch,
   Typography,
 } from '@mui/material';
 import RequestFilter from './requestfilter/RequestFilter';
 import ResultTable from './resulttable/ResultTable';
 import { useTranslation } from 'react-i18next';
+import NewTabHyperlink from '../../components/NewTabHyperlink';
+import { EVKK_GITHUB_DEMOS_PATH } from '../../const/Constants';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import ErrorAnalyserKeys from './ErrorAnalyserKeys';
 
 export default function ErrorAnalyser() {
   const [data, setData] = useState(null);
   const [filters, setFilters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showAllErrors, setShowAllErrors] = useState(false);
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const getData = async (
     errorTypeFilter,
@@ -56,17 +61,20 @@ export default function ErrorAnalyser() {
     }
   };
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   const handleSwitchChange = () => {
     setShowAllErrors(!showAllErrors);
   };
 
+
   return (
     <>
-      <Typography variant="h3">{t('error_analyser_title')}</Typography>
+      <Typography variant="h3" sx={{mb: '50px'}}>{t('error_analyser_title')}</Typography>
+
+      {!data && <Box sx={{my: '50px', maxWidth: '500px'}}>
+        <Alert severity="info">
+          {t('error_analyser_intro')}
+        </Alert>
+      </Box>}
 
       <RequestFilter
         getData={getData}
@@ -82,6 +90,7 @@ export default function ErrorAnalyser() {
 
       {data && (
         <>
+          <ErrorAnalyserKeys />
           <FormControlLabel
             control={
               <Switch checked={showAllErrors} onChange={handleSwitchChange} />

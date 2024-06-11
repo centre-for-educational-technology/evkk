@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import CorrectedSentence from './CorrectedSentence';
 
 export default function CorrectedSentenceCell({
@@ -24,7 +24,11 @@ export default function CorrectedSentenceCell({
   };
 
   //määrab vea kategooria TULEB KOHENDADA LIITVIGADELE
-  const getCategory = (errorType) => {
+  const getCategory = (errorTypes) => {
+    if (errorTypes.length > 1) {
+      return 'compound-error';
+    }
+    const errorType = errorTypes[0];
     if (
       errorType.includes('R:SPELL') ||
       errorType.includes('R:CASE') ||
@@ -38,7 +42,7 @@ export default function CorrectedSentenceCell({
       return 'punctuation';
     }
     if (errorType.includes('R:WS')) {
-      return 'word-separation';
+      return 'white-space';
     }
     if (errorType.includes('R:WO')) {
       return 'word-order';
@@ -60,7 +64,7 @@ export default function CorrectedSentenceCell({
       annotatorId: parseInt(annotation.annotatorId),
       scopeStart: parseInt(annotation.scopeStart),
       scopeEnd: parseInt(annotation.scopeEnd),
-      category: getCategory(annotation.errorType),
+      category: getCategory(annotation.extractedErrorTypes),
     };
     return {key, value};
   }, []);

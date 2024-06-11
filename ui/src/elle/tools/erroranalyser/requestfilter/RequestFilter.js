@@ -1,4 +1,4 @@
-import {Fragment, useEffect, useState} from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import {
   Accordion,
   AccordionActions,
@@ -18,7 +18,7 @@ import {
   filterLanguageLevelOptions,
 } from './CheckboxOptions';
 import Checkbox from './Checkbox';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import OptionalFilters from './OptionalFilters';
 
 export default function RequestFilter({getData, setData, setFilters}) {
@@ -151,7 +151,7 @@ export default function RequestFilter({getData, setData, setFilters}) {
     <>
       {isLoading ? (
         <Box className="spinner-container">
-          <CircularProgress/>
+          <CircularProgress />
         </Box>
       ) : (
         <Accordion
@@ -162,11 +162,13 @@ export default function RequestFilter({getData, setData, setFilters}) {
           className="request-filter"
         >
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon/>}
+            expandIcon={<ExpandMoreIcon />}
             aria-controls="request-filter-content"
             id="request-filter-header"
           >
-            {t('error_analyser_select_error_type_and_language_level')}
+            <Typography variant="h6">
+              {t('error_analyser_select_error_type_and_language_level')}
+            </Typography>
           </AccordionSummary>
 
           <AccordionDetails>
@@ -216,9 +218,8 @@ export default function RequestFilter({getData, setData, setFilters}) {
 
                 {isExpanded.optionalFilters ? (
                   <Link
-                    sx={{my: 4}}
+                    sx={{my: 4, fontSize: '16px'}}
                     component="button"
-                    variant="body2"
                     onClick={() => {
                       handleIsExpanded('optionalFilters');
                     }}
@@ -227,9 +228,8 @@ export default function RequestFilter({getData, setData, setFilters}) {
                   </Link>
                 ) : (
                   <Link
-                    sx={{my: 4}}
+                    sx={{my: 4, fontSize: '16px'}}
                     component="button"
-                    variant="body2"
                     onClick={() => {
                       handleIsExpanded('optionalFilters');
                     }}

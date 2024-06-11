@@ -28,7 +28,7 @@ import {
   textPublishSubTextTypesOptions
 } from '../../../const/Constants';
 
-export default function ResultTable({ data: rows, filters, showAllErrors }) {
+export default function ResultTable({data: rows, filters, showAllErrors}) {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
   const [isColumnVisible, setIsColumnVisible] = useState({
@@ -48,8 +48,8 @@ export default function ResultTable({ data: rows, filters, showAllErrors }) {
     handleChangePage,
     handleChangeRowsPerPage,
   } = usePagination(rows);
-  const { previewText, metadata, text, sentence, modalOpen, setModalOpen } = useQueryResultDetails();
-  const { t } = useTranslation();
+  const {previewText, metadata, text, sentence, modalOpen, setModalOpen} = useQueryResultDetails();
+  const {t} = useTranslation();
 
   const headCells = [
     {
@@ -232,6 +232,7 @@ export default function ResultTable({ data: rows, filters, showAllErrors }) {
                 (headCell) =>
                   isColumnVisible[headCell.id] && (
                     <TableCell
+                      sx={{fontWeight: '900'}}
                       key={headCell.id}
                       sortDirection={orderBy === headCell.id ? order : false}
                     >
@@ -262,7 +263,7 @@ export default function ResultTable({ data: rows, filters, showAllErrors }) {
             {visibleRows.map((row) => {
               const formattedSentence = formatSentence(row.sentence);
               return (
-                <TableRow key={row.sentenceId} style={{ height: '100%', verticalAlign: 'top' }}>
+                <TableRow key={row.sentenceId} style={{height: '100%', verticalAlign: 'top'}}>
                   <TableCell>
                     <Box
                       className="clickable"
@@ -271,7 +272,7 @@ export default function ResultTable({ data: rows, filters, showAllErrors }) {
                       {formattedSentence}
                     </Box>
                   </TableCell>
-                  <TableCell style={{ height: '100%' }}>
+                  <TableCell style={{height: '100%'}}>
                     <div className="nested-cell-wrapper">
                       {
                         <CorrectedSentenceCell
@@ -284,7 +285,7 @@ export default function ResultTable({ data: rows, filters, showAllErrors }) {
                     </div>
                   </TableCell>
                   {isColumnVisible['errorType'] && (
-                    <TableCell style={{ height: '100%' }}>
+                    <TableCell style={{height: '100%'}}>
                       <div className="nested-cell-wrapper">
                         {
                           <ErrorTypeCell
@@ -334,7 +335,7 @@ export default function ResultTable({ data: rows, filters, showAllErrors }) {
               );
             })}
             {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
+              <TableRow style={{height: 53 * emptyRows}}>
                 <TableCell colSpan={6} />
               </TableRow>
             )}
@@ -342,7 +343,7 @@ export default function ResultTable({ data: rows, filters, showAllErrors }) {
           <TableFooter>
             <TableRow>
               <TablePagination
-                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                rowsPerPageOptions={[5, 10, 25, {label: 'All', value: -1}]}
                 colSpan={3}
                 count={rows.length}
                 rowsPerPage={rowsPerPage}
