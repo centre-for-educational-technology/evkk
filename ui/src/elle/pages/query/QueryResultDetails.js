@@ -47,7 +47,7 @@ export default function QueryResultDetails({
           }}
         >
           {transformedItem}
-          <br/>
+          <br />
         </span>
       );
     });
@@ -64,7 +64,7 @@ export default function QueryResultDetails({
         onChange={changeModalAccordion}
       >
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon/>}
+          expandIcon={<ExpandMoreIcon />}
           id="filters-header"
         >
           <Typography>
@@ -73,23 +73,23 @@ export default function QueryResultDetails({
         </AccordionSummary>
         <AccordionDetails>
           <div className="metainfo-subtitle">{t('common_text_data')}</div>
-          <strong>{t('query_subcorpus')}:</strong> {t(corpuses[metadata.korpus]) || '-'}<br/>
-          <strong>{t('query_text_data_type')}:</strong> {t(textTypeList[metadata.tekstityyp]) || '-'}<br/>
-          <strong>{t('query_text_data_language')}:</strong> {t(textLanguageOptions[metadata.tekstikeel]) || '-'}<br/>
-          <strong>{t('query_text_data_level')}:</strong> {metadata.keeletase || '-'}<br/>
-          <strong>{t('query_text_data_used_supporting_materials')}:</strong> {t(usedMaterialsDisplayOptions[metadata.abivahendid]) || '-'}<br/>
-          <strong>{t('query_text_data_year_of_publication')}:</strong> {metadata.ajavahemik || '-'}<br/>
-          <br/>
+          <strong>{t('query_subcorpus')}:</strong> {t(corpuses[metadata.korpus]) || '-'}<br />
+          <strong>{t('query_text_data_type')}:</strong> {t(textTypeList[metadata.tekstityyp]) || '-'}<br />
+          <strong>{t('query_text_data_language')}:</strong> {t(textLanguageOptions[metadata.tekstikeel]) || '-'}<br />
+          <strong>{t('query_text_data_level')}:</strong> {metadata.keeletase || '-'}<br />
+          <strong>{t('query_text_data_used_supporting_materials')}:</strong> {t(usedMaterialsDisplayOptions[metadata.abivahendid]) || '-'}<br />
+          <strong>{t('query_text_data_year_of_publication')}:</strong> {metadata.ajavahemik || '-'}<br />
+          <br />
           <div className="metainfo-subtitle">{t('common_author_data')}</div>
-          <strong>{t('query_author_data_age')}:</strong> {t(ageOptions[metadata.vanusevahemik]) || '-'}<br/>
-          <strong>{t('query_author_data_gender')}:</strong> {t(genderOptions[metadata.sugu]) || '-'}<br/>
-          <strong>{t('query_author_data_education')}:</strong> {t(educationOptions[metadata.haridus]) || '-'}<br/>
-          <strong>{t('query_author_data_native_language')}:</strong> {t(languageOptionsForNativeLangs[metadata.emakeel]) || '-'}<br/>
-          <strong>{t('query_author_data_country')}:</strong> {t(countryOptionsForQueryResults[metadata.riik]) || '-'}<br/>
+          <strong>{t('query_author_data_age')}:</strong> {t(ageOptions[metadata.vanusevahemik]) || '-'}<br />
+          <strong>{t('query_author_data_gender')}:</strong> {t(genderOptions[metadata.sugu]) || '-'}<br />
+          <strong>{t('query_author_data_education')}:</strong> {t(educationOptions[metadata.haridus]) || '-'}<br />
+          <strong>{t('query_author_data_native_language')}:</strong> {t(languageOptionsForNativeLangs[metadata.emakeel]) || '-'}<br />
+          <strong>{t('query_author_data_country')}:</strong> {t(countryOptionsForQueryResults[metadata.riik]) || '-'}<br />
         </AccordionDetails>
       </Accordion>
-      <br/>
-      {<TransformText/>}
+      <br />
+      {<TransformText />}
     </ModalBase>
   );
 }

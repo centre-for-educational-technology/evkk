@@ -76,7 +76,7 @@ export default function ErrorAnalyser() {
 
       {isLoading && data && (
         <Box className="spinner-container">
-          <CircularProgress/>
+          <CircularProgress />
         </Box>
       )}
 
@@ -84,7 +84,7 @@ export default function ErrorAnalyser() {
         <>
           <FormControlLabel
             control={
-              <Switch checked={showAllErrors} onChange={handleSwitchChange}/>
+              <Switch checked={showAllErrors} onChange={handleSwitchChange} />
             }
             label={t('error_analyser_show_all_errors')}
           />

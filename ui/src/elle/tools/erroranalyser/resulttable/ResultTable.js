@@ -127,7 +127,7 @@ export default function ResultTable({ data: rows, filters, showAllErrors }) {
     const quotesPattern = /"(.*?)"/g;
     formattedSentence = formattedSentence.replace(
       quotesPattern,
-      (match, capturedGroup) => `"${ capturedGroup.slice(1, -1) }"`
+      (match, capturedGroup) => `"${capturedGroup.slice(1, -1)}"`
     );
     return formattedSentence;
   };
@@ -224,151 +224,151 @@ export default function ResultTable({ data: rows, filters, showAllErrors }) {
 
   return (
     <>
-      <TableContainer component={ Paper } className="result-table-container">
+      <TableContainer component={Paper} className="result-table-container">
         <Table className="result-table" aria-label="simple table">
           <TableHead>
             <TableRow>
-              { headCells.map(
+              {headCells.map(
                 (headCell) =>
                   isColumnVisible[headCell.id] && (
                     <TableCell
-                      key={ headCell.id }
-                      sortDirection={ orderBy === headCell.id ? order : false }
+                      key={headCell.id}
+                      sortDirection={orderBy === headCell.id ? order : false}
                     >
-                      { headCell.sortable ? (
+                      {headCell.sortable ? (
                         <TableSortLabel
-                          active={ orderBy === headCell.id }
-                          direction={ orderBy === headCell.id ? order : 'asc' }
-                          onClick={ createSortHandler(headCell.id) }
+                          active={orderBy === headCell.id}
+                          direction={orderBy === headCell.id ? order : 'asc'}
+                          onClick={createSortHandler(headCell.id)}
                         >
-                          { t(headCell.label) }
-                          { orderBy === headCell.id ? (
-                            <Box component="span" sx={ visuallyHidden }>
-                              { order === 'desc'
+                          {t(headCell.label)}
+                          {orderBy === headCell.id ? (
+                            <Box component="span" sx={visuallyHidden}>
+                              {order === 'desc'
                                 ? 'sorted descending'
-                                : 'sorted ascending' }
+                                : 'sorted ascending'}
                             </Box>
-                          ) : null }
+                          ) : null}
                         </TableSortLabel>
                       ) : (
-                        <>{ t(headCell.label) }</>
-                      ) }
+                        <>{t(headCell.label)}</>
+                      )}
                     </TableCell>
                   )
-              ) }
+              )}
             </TableRow>
           </TableHead>
           <TableBody>
-            { visibleRows.map((row) => {
+            {visibleRows.map((row) => {
               const formattedSentence = formatSentence(row.sentence);
               return (
-                <TableRow key={ row.sentenceId } style={ { height: '100%', verticalAlign: 'top' } }>
+                <TableRow key={row.sentenceId} style={{ height: '100%', verticalAlign: 'top' }}>
                   <TableCell>
                     <Box
                       className="clickable"
-                      onClick={ () => previewText(row.textId, formattedSentence) }
+                      onClick={() => previewText(row.textId, formattedSentence)}
                     >
-                      { formattedSentence }
+                      {formattedSentence}
                     </Box>
                   </TableCell>
-                  <TableCell style={ { height: '100%' } }>
+                  <TableCell style={{ height: '100%' }}>
                     <div className="nested-cell-wrapper">
                       {
                         <CorrectedSentenceCell
-                          sentence={ row.sentence }
-                          annotationVersions={ row.annotationVersions }
-                          showAllErrors={ showAllErrors }
-                          filters={ filters }
+                          sentence={row.sentence}
+                          annotationVersions={row.annotationVersions}
+                          showAllErrors={showAllErrors}
+                          filters={filters}
                         />
                       }
                     </div>
                   </TableCell>
-                  { isColumnVisible['errorType'] && (
-                    <TableCell style={ { height: '100%' } }>
+                  {isColumnVisible['errorType'] && (
+                    <TableCell style={{ height: '100%' }}>
                       <div className="nested-cell-wrapper">
                         {
                           <ErrorTypeCell
-                            annotationVersions={ row.annotationVersions }
-                            showAllErrors={ showAllErrors }
-                            queriedErrorTypes={ filters.errorType }/>
+                            annotationVersions={row.annotationVersions}
+                            showAllErrors={showAllErrors}
+                            queriedErrorTypes={filters.errorType} />
                         }
                       </div>
                     </TableCell>
-                  ) }
-                  { isColumnVisible['languageLevel'] && (
+                  )}
+                  {isColumnVisible['languageLevel'] && (
                     <TableCell>
-                      { row.languageLevel } { row.querriedErrorTypeCount }
+                      {row.languageLevel} {row.querriedErrorTypeCount}
                     </TableCell>
-                  ) }
-                  { isColumnVisible['textType'] && (
+                  )}
+                  {isColumnVisible['textType'] && (
                     <TableCell>
-                      { row.textType
+                      {row.textType
                         ? t(
                           textPublishSubTextTypesOptions[row.textType]
                         ).toLowerCase()
-                        : '–' }
+                        : '–'}
                     </TableCell>
-                  ) }
-                  { isColumnVisible['education'] && (
+                  )}
+                  {isColumnVisible['education'] && (
                     <TableCell>
-                      { row.education ? t(educationOptions[row.education]) : '–' }
+                      {row.education ? t(educationOptions[row.education]) : '–'}
                     </TableCell>
-                  ) }
-                  { isColumnVisible['citizenship'] && (
+                  )}
+                  {isColumnVisible['citizenship'] && (
                     <TableCell>
-                      { row.citizenship
+                      {row.citizenship
                         ? t(nationalityOptions[row.citizenship])
-                        : '–' }
+                        : '–'}
                     </TableCell>
-                  ) }
-                  { isColumnVisible['age'] && (
+                  )}
+                  {isColumnVisible['age'] && (
                     <TableCell>
-                      { row.age
+                      {row.age
                         ? row.age
                         : row.ageRange
                           ? t(ageOptions[row.ageRange])
-                          : '–' }
+                          : '–'}
                     </TableCell>
-                  ) }
+                  )}
                 </TableRow>
               );
-            }) }
-            { emptyRows > 0 && (
-              <TableRow style={ { height: 53 * emptyRows } }>
-                <TableCell colSpan={ 6 }/>
+            })}
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 53 * emptyRows }}>
+                <TableCell colSpan={6} />
               </TableRow>
-            ) }
+            )}
           </TableBody>
           <TableFooter>
             <TableRow>
               <TablePagination
-                rowsPerPageOptions={ [5, 10, 25, { label: 'All', value: -1 }] }
-                colSpan={ 3 }
-                count={ rows.length }
-                rowsPerPage={ rowsPerPage }
-                page={ page }
-                slotProps={ {
+                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                colSpan={3}
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                slotProps={{
                   select: {
                     inputProps: {
                       'aria-label': 'rows per page',
                     },
                     native: true,
                   },
-                } }
-                onPageChange={ handleChangePage }
-                onRowsPerPageChange={ handleChangeRowsPerPage }
-                ActionsComponent={ TablePaginationActions }
+                }}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
               />
             </TableRow>
           </TableFooter>
         </Table>
       </TableContainer>
       <QueryResultDetails
-        metadata={ metadata }
-        text={ text }
-        sentence={ sentence }
-        modalOpen={ modalOpen }
-        setModalOpen={ setModalOpen }
+        metadata={metadata}
+        text={text}
+        sentence={sentence}
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
       />
     </>
   );
