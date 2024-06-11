@@ -22,12 +22,12 @@ import { CC_BY_4_0_LICENSE_PATH, DefaultButtonStyle } from '../../const/Constant
 import NewTabHyperlink from '../../components/NewTabHyperlink';
 import { Languages } from '../../translations/i18n';
 
-export default function QueryDownloadButton({ selected }) {
+export default function QueryDownloadButton({selected}) {
   const [downloadForm, setDownloadForm] = useState(FileDownloadForm.BASIC_TEXT);
   const [downloadFileType, setDownloadFileType] = useState(FileDownloadType.SINGLE_FILE);
   const [anchorEl, setAnchorEl] = useState(null);
   const optionsDialogOpen = Boolean(anchorEl);
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const handleOptionsDialogOpenButtonClick = (event) => {
     setDownloadForm(FileDownloadForm.BASIC_TEXT);
@@ -81,7 +81,7 @@ export default function QueryDownloadButton({ selected }) {
           className="query-download-modal-button"
           onClick={handleOptionsDialogOpenButtonClick}
         >
-          <DownloadIcon fontSize="medium"/>
+          <DownloadIcon fontSize="medium" />
         </Button>
       </Tooltip>
       <Popover
@@ -113,12 +113,12 @@ export default function QueryDownloadButton({ selected }) {
               <RadioGroup defaultValue={FileDownloadType.SINGLE_FILE} onChange={changeDownloadFileType}>
                 <FormControlLabel
                   value={FileDownloadType.SINGLE_FILE}
-                  control={<Radio/>}
+                  control={<Radio />}
                   label={t('query_download_single_file')}
                 />
                 <FormControlLabel
                   value={FileDownloadType.ZIP_FILE}
-                  control={<Radio/>}
+                  control={<Radio />}
                   label={t('query_download_zip')}
                 />
               </RadioGroup>
@@ -126,7 +126,7 @@ export default function QueryDownloadButton({ selected }) {
             <div className="download-license-and-button">
               {t('query_download_license')}&nbsp;
               <NewTabHyperlink path={CC_BY_4_0_LICENSE_PATH}
-                               content={t('common_license_cc_by_4_0')}/>
+                               content={t('common_license_cc_by_4_0')} />
             </div>
             <div className="download-license-and-button">
               <Button
