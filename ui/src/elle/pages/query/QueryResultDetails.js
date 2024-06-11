@@ -19,7 +19,7 @@ export default function QueryResultDetails({
                                              setModalOpen
                                            }) {
 
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const [modalAccordionExpanded, setModalAccordionExpanded] = useState(false);
   let paragraphCount = 0;
 

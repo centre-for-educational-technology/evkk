@@ -53,7 +53,7 @@ import ReadMoreIcon from '@mui/icons-material/ReadMore';
 
 export default function Query(props) {
 
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const selectWidth = 300;
   const classes = useStyles();
   const navigate = useNavigate();
@@ -107,7 +107,7 @@ export default function Query(props) {
 
   // reset corpus-based filters
   useEffect(() => {
-    let newSinglePropertyData = { ...singlePropertyData };
+    let newSinglePropertyData = {...singlePropertyData};
 
     if (checkIfOnlySpecificCorpusIsChecked('clWmOIrLa')) {
       newSinglePropertyData.nativeLang = '';
@@ -145,7 +145,7 @@ export default function Query(props) {
 
   useEffect(() => {
     if (urlParams.get('openQuery')) {
-      navigate('', { replace: true });
+      navigate('', {replace: true});
     }
   }, [urlParams, navigate]);
 
@@ -283,7 +283,7 @@ export default function Query(props) {
     });
 
   const alterCorpusCheckbox = (event) => {
-    let newCorpusCheckboxStatus = { ...corpusCheckboxStatus };
+    let newCorpusCheckboxStatus = {...corpusCheckboxStatus};
     let trueCount = 0;
     newCorpusCheckboxStatus[event.target.id] = event.target.checked;
     Object.entries(newCorpusCheckboxStatus).forEach((entry) => {
@@ -302,7 +302,7 @@ export default function Query(props) {
   };
 
   const alterAllCorpusCheckboxes = (event) => {
-    let newCorpusCheckboxStatus = { ...corpusCheckboxStatus };
+    let newCorpusCheckboxStatus = {...corpusCheckboxStatus};
     for (let checkbox in newCorpusCheckboxStatus) {
       newCorpusCheckboxStatus[checkbox] = event.target.checked;
     }
@@ -315,7 +315,7 @@ export default function Query(props) {
   };
 
   const alterSinglePropertyData = (event, fieldName) => {
-    let newSinglePropertyData = { ...singlePropertyData };
+    let newSinglePropertyData = {...singlePropertyData};
     newSinglePropertyData[fieldName] = (newSinglePropertyData[fieldName] === event.target.dataset.value || event.target.dataset.value === undefined)
       ? ''
       : event.target.dataset.value;
@@ -368,13 +368,13 @@ export default function Query(props) {
 
   const getTextTypeRenderValue = (textType) => {
     return textType.length > 1
-      ? t('query_text_data_type_selected_plural', { amount: textType.length })
+      ? t('query_text_data_type_selected_plural', {amount: textType.length})
       : t(textTypeList[textType[0]]);
   };
 
   const getUsedMultiMaterialsRenderValue = (material) => {
     return material.length > 1
-      ? t('query_text_data_material_selected_plural', { amount: material.length })
+      ? t('query_text_data_material_selected_plural', {amount: material.length})
       : t(usedMaterialsMultiList[material[0]]);
   };
 
@@ -632,7 +632,7 @@ export default function Query(props) {
                                           id={specificTextType}
                                           onClick={(e) => alterTextTypeHierarchyDropdown(e, true, null)}
                                           value={specificTextType}
-                                          sx={{ paddingLeft: '2rem' }}>
+                                          sx={{paddingLeft: '2rem'}}>
                                   <ListItemIcon>
                                     <Checkbox id={specificTextType}
                                               checked={textTypes.indexOf(specificTextType) > -1} />
@@ -650,7 +650,7 @@ export default function Query(props) {
                   <FormControl size="small">
                     <InputLabel id="language-label">{t('query_text_data_language')}</InputLabel>
                     <Select
-                      sx={{ minWidth: selectWidth }}
+                      sx={{minWidth: selectWidth}}
                       labelId="language-label"
                       name="language"
                       value={singlePropertyData.language}
@@ -670,7 +670,7 @@ export default function Query(props) {
                         <InputLabel
                           id="domain-label">{t('common_text_data_field_of_research')}</InputLabel>
                         <Select
-                          sx={{ minWidth: selectWidth }}
+                          sx={{minWidth: selectWidth}}
                           labelId="domain-label"
                           name="domain"
                           value={singlePropertyData.domain}
@@ -730,10 +730,10 @@ export default function Query(props) {
                                             id={subMaterial}
                                             onClick={(e) => alterUsedMaterialsHierarchyDropdown(e, true)}
                                             value={subMaterial}
-                                            sx={{ paddingLeft: '2rem' }}>
+                                            sx={{paddingLeft: '2rem'}}>
                                     <ListItemIcon>
                                       <Checkbox id={subMaterial}
-                                                style={{ color: '#9C27B0' }}
+                                                style={{color: '#9C27B0'}}
                                                 checked={usedMultiMaterials.indexOf(subMaterial) > -1} />
                                     </ListItemIcon>
                                     <ListItemText id={subMaterial}
@@ -749,7 +749,7 @@ export default function Query(props) {
                       <FormControl size="small">
                         <InputLabel id="level-label">{t('query_text_data_level')}</InputLabel>
                         <Select
-                          sx={{ minWidth: selectWidth }}
+                          sx={{minWidth: selectWidth}}
                           labelId="level-label"
                           name="level"
                           value={singlePropertyData.level}
@@ -766,7 +766,7 @@ export default function Query(props) {
                         <InputLabel
                           id="usedMaterials-label">{t('query_text_data_used_supporting_materials')}</InputLabel>
                         <Select
-                          sx={{ minWidth: selectWidth }}
+                          sx={{minWidth: selectWidth}}
                           labelId="usedMaterials-label"
                           name="usedMaterials"
                           value={singlePropertyData.usedMaterials}
@@ -889,7 +889,7 @@ export default function Query(props) {
                   <FormControl size="small">
                     <InputLabel id="age-label">{t('query_author_data_age')}</InputLabel>
                     <Select
-                      sx={{ minWidth: selectWidth }}
+                      sx={{minWidth: selectWidth}}
                       labelId="age-label"
                       name="age"
                       value={singlePropertyData.age}
@@ -905,7 +905,7 @@ export default function Query(props) {
                   <FormControl size="small">
                     <InputLabel id="gender-label">{t('query_author_data_gender')}</InputLabel>
                     <Select
-                      sx={{ minWidth: selectWidth }}
+                      sx={{minWidth: selectWidth}}
                       labelId="gender-label"
                       name="gender"
                       value={singlePropertyData.gender}
@@ -925,7 +925,7 @@ export default function Query(props) {
                         <InputLabel
                           id="studyLevel-label">{t('query_author_data_level_of_study')}</InputLabel>
                         <Select
-                          sx={{ minWidth: selectWidth }}
+                          sx={{minWidth: selectWidth}}
                           labelId="studyLevel-label"
                           name="studyLevel"
                           value={singlePropertyData.studyLevel}
@@ -943,7 +943,7 @@ export default function Query(props) {
                         <InputLabel
                           id="degree-label">{t('query_author_data_degree')}</InputLabel>
                         <Select
-                          sx={{ minWidth: selectWidth }}
+                          sx={{minWidth: selectWidth}}
                           labelId="degree-label"
                           name="degree"
                           value={singlePropertyData.degree}
@@ -961,7 +961,7 @@ export default function Query(props) {
                       <InputLabel
                         id="education-label">{t('query_author_data_education')}</InputLabel>
                       <Select
-                        sx={{ minWidth: selectWidth }}
+                        sx={{minWidth: selectWidth}}
                         labelId="education-label"
                         name="education"
                         value={singlePropertyData.education}
@@ -980,7 +980,7 @@ export default function Query(props) {
                       <InputLabel
                         id="nationality-label">{t('query_author_data_nationality')}</InputLabel>
                       <Select
-                        sx={{ minWidth: selectWidth }}
+                        sx={{minWidth: selectWidth}}
                         labelId="nationality-label"
                         name="nationality"
                         value={singlePropertyData.nationality}
@@ -997,7 +997,7 @@ export default function Query(props) {
                       <InputLabel
                         id="nativeLang-label">{t('query_author_data_native_language')}</InputLabel>
                       <Select
-                        sx={{ minWidth: selectWidth }}
+                        sx={{minWidth: selectWidth}}
                         labelId="nativeLang-label"
                         name="nativeLang"
                         value={singlePropertyData.nativeLang}
@@ -1018,7 +1018,7 @@ export default function Query(props) {
                         <InputLabel
                           id="otherLang-label">{t('query_author_data_other_languages')}</InputLabel>
                         <Select
-                          sx={{ minWidth: selectWidth }}
+                          sx={{minWidth: selectWidth}}
                           labelId="otherLang-label"
                           name="otherLang"
                           value={singlePropertyData.otherLang}
@@ -1037,7 +1037,7 @@ export default function Query(props) {
                   <FormControl size="small">
                     <InputLabel id="country-label">{t('query_author_data_country')}</InputLabel>
                     <Select
-                      sx={{ minWidth: selectWidth }}
+                      sx={{minWidth: selectWidth}}
                       labelId="country-label"
                       name="country"
                       value={singlePropertyData.country}
@@ -1055,7 +1055,7 @@ export default function Query(props) {
               <br /><br />
               {alert || noResultsError ?
                 <>
-                  <Alert style={{ width: '30%' }} severity="error">
+                  <Alert style={{width: '30%'}} severity="error">
                     {alert ? t('error_query_no_subcorpus_picked') : t('query_results_no_texts_found')}
                   </Alert>
                   <br />
@@ -1133,7 +1133,7 @@ export default function Query(props) {
                       bgcolor: '#9C27B0',
                       color: 'white !important'
                     }}>{corpusTextsSelected > 1 ? corpusTextsSelected : 1}</Avatar>}
-                    label={corpusTextsSelected > 1 ? t('query_results_saved_for_analysis_corpus_plural', { amount: corpusTextsSelected }) : t('query_results_saved_for_analysis_corpus')}
+                    label={corpusTextsSelected > 1 ? t('query_results_saved_for_analysis_corpus_plural', {amount: corpusTextsSelected}) : t('query_results_saved_for_analysis_corpus')}
                     className="my-1"
                     variant="outlined"
                     onDelete={() => handleChipDelete(ChipDeleteType.CORPUS_TEXTS)}

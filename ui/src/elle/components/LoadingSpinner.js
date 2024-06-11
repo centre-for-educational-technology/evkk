@@ -22,7 +22,7 @@ export default function LoadingSpinner() {
 
   return (
     <Backdrop
-      style={{ zIndex: '9999' }}
+      style={{zIndex: '9999'}}
       open={loading}
     >
       <CircularProgress style={DefaultCircularProgressStyle}
