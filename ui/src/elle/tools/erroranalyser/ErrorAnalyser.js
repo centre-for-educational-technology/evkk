@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Alert,
   Box,
@@ -10,7 +10,7 @@ import {
 import RequestFilter from './requestfilter/RequestFilter';
 import ResultTable from './resulttable/ResultTable';
 import { useTranslation } from 'react-i18next';
-import ErrorAnalyserKeys from './ErrorAnalyserKeys';
+import ErrorAnalyserKey from './ErrorAnalyserKey';
 
 export default function ErrorAnalyser() {
   const [data, setData] = useState(null);
@@ -62,6 +62,9 @@ export default function ErrorAnalyser() {
     setShowAllErrors(!showAllErrors);
   };
 
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   return (
     <>
@@ -87,7 +90,7 @@ export default function ErrorAnalyser() {
 
       {data && (
         <>
-          <ErrorAnalyserKeys />
+          <ErrorAnalyserKey />
           <FormControlLabel
             control={
               <Switch checked={showAllErrors} onChange={handleSwitchChange} />

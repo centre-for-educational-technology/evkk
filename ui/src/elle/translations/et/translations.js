@@ -159,6 +159,7 @@ export const TRANSLATIONS_ET = {
   error_analyser_missing_word: 'puudub',
   error_analyser_deleted_word: 'kustutatud',
   error_analyser_show_all_errors: 'Kuva kõik vead',
+  error_analyser_key_title: 'Legend',
   error_analyser_key_word_error_changed: 'lisatud või muudetud sõna',
   error_analyser_key_word_error_deleted: 'kustutatud sõna',
   error_analyser_key_punctuation_changed: 'lisatud või muudetud kirjavahemärk',

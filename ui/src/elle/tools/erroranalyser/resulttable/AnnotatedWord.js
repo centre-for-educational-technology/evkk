@@ -1,12 +1,12 @@
-import {List, ListItemText, Tooltip} from '@mui/material';
-import {Fragment, useEffect, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {errorTypeOptionsFull} from '../../../const/Constants';
+import { List, ListItemText, Tooltip } from '@mui/material';
+import { Fragment, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { errorTypeOptionsFull } from '../../../const/Constants';
 
 export default function AnnotatedWord({
                                         item,
                                         parent,
-                                        addSucceedingSpace = true,
+                                        addSucceedingSpace,
                                         showAllErrors,
                                         checkAnnotationVisibility,
                                       }) {
@@ -95,7 +95,7 @@ export default function AnnotatedWord({
         </Fragment>
       ) : item.status === 'deleted' ? null : (
         <Fragment>
-          <span>{item.content}</span>{' '}
+          <span>{item.content}</span>{addSucceedingSpace && ' '}
         </Fragment>
       )}
     </>

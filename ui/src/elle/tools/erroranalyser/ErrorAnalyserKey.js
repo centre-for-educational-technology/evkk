@@ -3,7 +3,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import React, { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export default function ErrorAnalyserKeys() {
+export default function ErrorAnalyserKey() {
   const {t} = useTranslation();
   const legendOptions = [
     {
@@ -33,7 +33,8 @@ export default function ErrorAnalyserKeys() {
   ];
   return (
     <Paper sx={{my: '50px', px: '46px', py: '30px', backgroundColor: 'white'}}>
-      <Typography variant="h6">Legend</Typography>
+      <Typography variant="h6">{t('error_analyser_key_title')}</Typography>
+
       <List dense>
         {legendOptions.map((mainTypes, index) => (
           <ListItem key={index}>
