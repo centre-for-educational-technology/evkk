@@ -27,6 +27,7 @@ import {
   nationalityOptions,
   textPublishSubTextTypesOptions
 } from '../../../const/Constants';
+import { Sort } from '@mui/icons-material';
 
 export default function ResultTable({data: rows, filters, showAllErrors}) {
   const [order, setOrder] = useState('asc');
@@ -64,7 +65,7 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
     },
     {
       id: 'errorType',
-      sortable: false,
+      sortable: true,
       label: 'error_analyser_error_type',
     },
     {
@@ -101,7 +102,6 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
       if (
         key === 'sourceSentence' ||
         key === 'correctedSentence'
-        // || key === 'errorType'
       ) {
         visibilty[key] = true;
       } else {
@@ -121,21 +121,16 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
     setOrderBy(property);
   };
 
-  const formatSentence = (sentence) => {
-    const punctuationPattern = /\s+([.,!?:;])/g;
-    let formattedSentence = sentence.replace(punctuationPattern, '$1');
-    const quotesPattern = /"(.*?)"/g;
-    formattedSentence = formattedSentence.replace(
-      quotesPattern,
-      (match, capturedGroup) => `"${capturedGroup.slice(1, -1)}"`
-    );
-    return formattedSentence;
-  };
-
-  //FUNCTION
   function descendingComparator(a, b, orderBy) {
-    const countA = a['querriedErrorTypeCount'];
-    const countB = b['querriedErrorTypeCount'];
+    if (orderBy === 'errorType') {
+      orderBy = 'queriedErrorTypeCount';
+      if (b[orderBy] < a[orderBy]) {
+        return -1;
+      }
+      if (b[orderBy] > a[orderBy]) {
+        return 1;
+      }
+    }
 
     if (orderBy === 'languageLevel') {
       if (b[orderBy] < a[orderBy]) {
@@ -144,14 +139,6 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
       if (b[orderBy] > a[orderBy]) {
         return 1;
       }
-
-      // if (countA < countB) {
-      //   return -1;
-      // }
-      // if (countA > countB) {
-      //   return 1;
-      // }
-      // return 0;
     }
 
     if (
@@ -222,6 +209,17 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
     [order, orderBy, page, rowsPerPage]
   );
 
+  const formatSentence = (sentence) => {
+    const punctuationPattern = /\s+([.,!?:;])/g;
+    let formattedSentence = sentence.replace(punctuationPattern, '$1');
+    const quotesPattern = /"(.*?)"/g;
+    formattedSentence = formattedSentence.replace(
+      quotesPattern,
+      (match, capturedGroup) => `"${capturedGroup.slice(1, -1)}"`
+    );
+    return formattedSentence;
+  };
+
   return (
     <>
       <TableContainer component={Paper} className="result-table-container">
@@ -241,6 +239,8 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
                           active={orderBy === headCell.id}
                           direction={orderBy === headCell.id ? order : 'asc'}
                           onClick={createSortHandler(headCell.id)}
+                          hideSortIcon={true}
+                          //IconComponent={orderBy === headCell.id ? ArrowDownward : AccessAlarm}
                         >
                           {t(headCell.label)}
                           {orderBy === headCell.id ? (
@@ -249,7 +249,7 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
                                 ? 'sorted descending'
                                 : 'sorted ascending'}
                             </Box>
-                          ) : null}
+                          ) : <Sort sx={{mx: '4px', fontSize: '18px'}} />}
                         </TableSortLabel>
                       ) : (
                         <>{t(headCell.label)}</>

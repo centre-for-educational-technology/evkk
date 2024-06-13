@@ -21,16 +21,16 @@ export default function CorrectedSentence({
   };
 
   const checkInclusion = (status, errorType = '') => {
-    const selectedStatusTags = ['replaced-deleted', 'deleted'];
-    const allStatusTags = ['replaced-deleted'];
+    const exclusionTagsForShowSelected = ['replaced-deleted', 'deleted'];
+    const exclusionTagsForShowAll = ['replaced-deleted'];
 
     if (showAllErrors) {
-      return !allStatusTags.includes(status);
+      return !exclusionTagsForShowAll.includes(status);
     } else {
       if (errorType[0] === 'U') {
-        return !allStatusTags.includes(status);
+        return !exclusionTagsForShowAll.includes(status);
       } else {
-        return !selectedStatusTags.includes(status);
+        return !exclusionTagsForShowSelected.includes(status);
       }
     }
   };
@@ -50,6 +50,8 @@ export default function CorrectedSentence({
               nextItemIndex++;
               nextItem = sentence[index + nextItemIndex];
             }
+
+            console.log(currentItemContent, nextItem);
 
             if (checkInclusion(nextItem.status, nextItem.errorType)) {
               const nextItemContent = nextItem.content.split(' ');
