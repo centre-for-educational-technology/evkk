@@ -10,6 +10,8 @@ export default function CorrectedSentence({
                                           }) {
   const elementsWithoutPrecedingWhitespace = ['.', ',', ';', '!', '?', '...', ')', ']', '}', ':'];
   const elementsWithoutFollowingWhitespace = ['(', '[', '{'];
+  const quotationMarks = ['"', '\''];
+  let isQuotesEvenNumber = true;
 
   const checkAnnotationVisibility = (errorTypes) => {
     if (showAllErrors) {
@@ -18,47 +20,71 @@ export default function CorrectedSentence({
     return errorTypes.some(errorType => filters.errorType.includes(errorType));
   };
 
-  const checkForStatusInclusion = (status) => {
-    const skipValuesForShowAllErrors = ['replaced-deleted'];
-    const skipValuesForSelectedErrorsOnly = ['replaced-deleted', 'deleted'];
-    return showAllErrors ? !skipValuesForShowAllErrors.includes(status) : !skipValuesForSelectedErrorsOnly.includes(status);
+  const checkInclusion = (status, errorType = '') => {
+    const selectedStatusTags = ['replaced-deleted', 'deleted'];
+    const allStatusTags = ['replaced-deleted'];
+
+    if (showAllErrors) {
+      return !allStatusTags.includes(status);
+    } else {
+      if (errorType[0] === 'U') {
+        return !allStatusTags.includes(status);
+      } else {
+        return !selectedStatusTags.includes(status);
+      }
+    }
   };
 
   return (
     <Box className="nested-cell corrected-sentence">
       {sentence &&
         sentence.map((item, index) => {
-          //console.log(item);
           const isLastItem = index === sentence.length - 1;
-          let isFollowedByWhiteSpace = false;
+          let isFollowedByWhiteSpace = true;
+          const currentItemContent = item.content.split(' ');
 
-          //
-          //console.log(checkForStatusInclusion(item.status), item.status);
-          if (checkForStatusInclusion(item.status) && !isLastItem) {
-            //console.log(item.content);
+          if (checkInclusion(item.status, item.errorType) && !isLastItem) {
             let nextItemIndex = 1;
             let nextItem = sentence[index + nextItemIndex];
-            while (!checkForStatusInclusion(nextItem.status) && (index + nextItemIndex + 1) < sentence.length) {
+            while (!checkInclusion(nextItem.status, nextItem.errorType) && (index + nextItemIndex + 1) < sentence.length) {
               nextItemIndex++;
               nextItem = sentence[index + nextItemIndex];
             }
 
-            if (checkForStatusInclusion(nextItem.status)) {
-
-              //console.log(item);
-              //console.log(item, nextItem);
-              //console.log(nextItem);
-              //console.log(nextItemContent);
+            if (checkInclusion(nextItem.status, nextItem.errorType)) {
               const nextItemContent = nextItem.content.split(' ');
-              //console.log(item.content, item.status, nextItem.content, nextItemContent);
-              if (!elementsWithoutPrecedingWhitespace.includes(nextItemContent[0])) {
-                //console.log(nextItem.content, nextItemContent[0]);
-                isFollowedByWhiteSpace = true;
-                //console.log(isFollowedByWhiteSpace);
+
+              //kui praegune on kirjavahemärk, mille ees ei käi tühik
+              if (elementsWithoutFollowingWhitespace.includes(currentItemContent[0])) {
+                isFollowedByWhiteSpace = false;
+              }
+
+              //kui järgmine on kirjavahemärk, mille ees ei käi tühik
+              if (elementsWithoutPrecedingWhitespace.includes(nextItemContent[0])) {
+                isFollowedByWhiteSpace = false;
+              }
+
+              //kui praegune on jutumärk ja lahtisi jutumärke ei ole
+              if (quotationMarks.includes(currentItemContent[0]) && isQuotesEvenNumber) {
+                isFollowedByWhiteSpace = false;
+              }
+
+              //kui praegune on jutumärk ja jutumärgid on lahtised ja järgmine on kirjavahemärk
+              if (quotationMarks.includes(currentItemContent[0]) && !isQuotesEvenNumber && ['.', '!', '?'].includes(nextItemContent[0])) {
+                isFollowedByWhiteSpace = false;
+              }
+
+              //kui järgmine on jutumärk ja jutumärgid on lahtised
+              if (quotationMarks.includes(nextItemContent[0]) && !isQuotesEvenNumber) {
+                isFollowedByWhiteSpace = false;
+              }
+
+              //jutumärgi oleku arvestus
+              if (quotationMarks.includes(currentItemContent[0])) {
+                isQuotesEvenNumber = !isQuotesEvenNumber;
               }
             }
           }
-
 
           if (item.status !== 'replaced-deleted') {
             if (item.status === 'initial') {
@@ -68,7 +94,6 @@ export default function CorrectedSentence({
                 </Fragment>
               );
             } else if (!item.nested) {
-              //console.log(item);
               return (
                 <AnnotatedWord
                   key={index}
@@ -79,7 +104,7 @@ export default function CorrectedSentence({
                 />
               );
             } else {
-              //WO with nested annotations
+              //Sõnajärjevead, milles sisalduvad teised vead
               const content = [];
               let splitContent = item.content.split(' ');
               item.nested.forEach((nestedItem) => {
@@ -103,7 +128,6 @@ export default function CorrectedSentence({
                 let tempItem;
                 let contentItemIsFollowedByWhiteSpace = false;
                 if (contentIndex + 1 < contentArray.length) {
-                  //console.log(contentArray[contentIndex]);
                   if (!elementsWithoutPrecedingWhitespace.includes(contentArray[contentIndex + 1])) {
                     contentItemIsFollowedByWhiteSpace = true;
                   }

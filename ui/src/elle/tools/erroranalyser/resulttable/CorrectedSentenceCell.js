@@ -66,7 +66,6 @@ export default function CorrectedSentenceCell({
       scopeEnd: parseInt(annotation.scopeEnd),
       category: getCategory(annotation.extractedErrorTypes),
     };
-    //console.log(key, value, annotation);
     return {key, value};
   }, []);
 
@@ -78,41 +77,19 @@ export default function CorrectedSentenceCell({
           if (annotation.scopeEnd - annotation.scopeStart > 1) {
             let sourceContent = [];
             for (let i = annotation.scopeStart; i < annotation.scopeEnd; i++) {
-              const targetKey1 = [i, i, annotation.annotatorId].join('::');
-              const sourceKey1 = [i, i, -1].join('::');
+              const targetKey = [i, i + 1, annotation.annotatorId].join('::');
+              const sourceKey = [i, i + 1, -1].join('::');
 
-              const targetKey2 = [i, i + 1, annotation.annotatorId].join('::');
-              const sourceKey2 = [i, i + 1, -1].join('::');
-
-              if (annotationVersion.has('5::5:1')) {
-                console.log('eureka');
-              }
-
-
-              //KAS SEE ON VAJALIK
-              /*        if (annotationVersion.has(targetKey1)) {
-                        console.log(annotation);
-                        if (!annotation.nested) {
-                          annotation.nested = [];
-                        }
-                        annotation.nested.push(annotationVersion.get(targetKey1));
-                        //annotationVersion.delete(targetKey1);
-                      }*/
-
-              if (annotationVersion.has(targetKey2)) {
+              if (annotationVersion.has(targetKey)) {
                 if (!annotation.nested) {
                   annotation.nested = [];
                 }
-                annotation.nested.push(annotationVersion.get(targetKey2));
-                annotationVersion.delete(targetKey2);
+                annotation.nested.push(annotationVersion.get(targetKey));
+                annotationVersion.delete(targetKey);
               }
 
-              /*     if (transformedSentence.has(sourceKey1)) {
-                     sourceContent.push(transformedSentence.get(sourceKey1).content);
-                   }*/
-
-              if (transformedSentence.has(sourceKey2)) {
-                sourceContent.push(transformedSentence.get(sourceKey2).content);
+              if (transformedSentence.has(sourceKey)) {
+                sourceContent.push(transformedSentence.get(sourceKey).content);
               }
             }
             annotation.sourceContent = sourceContent.join(' ');
@@ -129,7 +106,6 @@ export default function CorrectedSentenceCell({
           }
         });
       });
-      //annotationVersions.forEach(x => (x.forEach(y => console.log(y))));
       return annotationVersions;
     },
     []
@@ -145,8 +121,6 @@ export default function CorrectedSentenceCell({
       });
       initialAnnotationVersions.push(initialAnnotationVersion);
     });
-
-    //initialAnnotationVersions.forEach(x => (x.forEach(y => console.log(y))));
 
     return transformAnnotationVersions(
       initialAnnotationVersions,
@@ -169,7 +143,6 @@ export default function CorrectedSentenceCell({
         return 0;
       })
       .map((entry) => {
-        //console.log(entry);
         return entry[1];
       });
   };
@@ -179,15 +152,12 @@ export default function CorrectedSentenceCell({
     annotations.forEach((annotation, key) => {
       const errorType = annotation.errorType;
 
-      //console.log(annotation);
-
       switch (errorType[0]) {
         case 'M': //missing => added / replaced-deleted
           const addedItem = {
             ...annotation,
             status: 'added',
           };
-          //console.log(addedItem.content, key);
           modifiedSentence.set(key, addedItem);
 
           for (let i = annotation.scopeStart; i < annotation.scopeEnd; i++) {
@@ -251,12 +221,8 @@ export default function CorrectedSentenceCell({
   useEffect(() => {
     const transformedSentence = transformSentence(sentence);
     const transformedAnnotationVersions = processAnnotations(annotationVersions, transformedSentence);
-
-    //console.log(transformedAnnotationVersions.valueOf());
-    //transformedAnnotationVersions.forEach(x => (x.forEach(y => console.log(y))));
     let sortedSentences = [];
     transformedAnnotationVersions.forEach((annotationVersion, index) => {
-      //annotationVersion.forEach((x) => console.log(x));
       sortedSentences[index] = applyAnnotations(
         annotationVersion,
         transformedSentence,
