@@ -20,14 +20,14 @@ export default function CorrectedSentence({
     return errorTypes.some(errorType => filters.errorType.includes(errorType));
   };
 
-  const checkInclusion = (status, errorType = '') => {
+  const checkInclusion = (status, errorType = '', extractedErrorTypes = []) => {
     const exclusionTagsForShowSelected = ['replaced-deleted', 'deleted'];
     const exclusionTagsForShowAll = ['replaced-deleted'];
 
     if (showAllErrors) {
       return !exclusionTagsForShowAll.includes(status);
     } else {
-      if (errorType[0] === 'U') {
+      if (filters.errorType.some(element => extractedErrorTypes.includes(element))) {
         return !exclusionTagsForShowAll.includes(status);
       } else {
         return !exclusionTagsForShowSelected.includes(status);
@@ -50,8 +50,6 @@ export default function CorrectedSentence({
               nextItemIndex++;
               nextItem = sentence[index + nextItemIndex];
             }
-
-            console.log(currentItemContent, nextItem);
 
             if (checkInclusion(nextItem.status, nextItem.errorType)) {
               const nextItemContent = nextItem.content.split(' ');
