@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { logout, renew } from '../../service/AuthService';
+import { renew, useLogout } from '../../hooks/service/AuthService';
 import ModalBase from './ModalBase';
 import { useTranslation } from 'react-i18next';
 import { DefaultButtonStyle } from '../../const/Constants';
@@ -14,6 +14,7 @@ export default function SessionExpirationModal() {
   const intervalId = useRef();
   const { t } = useTranslation();
   const { accessToken } = useContext(RootContext);
+  const { logout } = useLogout();
 
   const initTimeoutOrLogout = useCallback(() => {
     if (!accessToken) {
@@ -56,7 +57,7 @@ export default function SessionExpirationModal() {
     initTimeoutOrLogout();
 
     return () => clearInterval(intervalId.current);
-  }, [initTimeoutOrLogout, accessToken]);
+  }, [initTimeoutOrLogout, accessToken, logout]);
 
   const updateMinutesLeft = (expirationTime) => {
     const minutes = Math.max(0, Math.ceil((expirationTime - Date.now()) / 60000));

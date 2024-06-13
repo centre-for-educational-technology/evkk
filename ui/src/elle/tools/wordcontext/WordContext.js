@@ -28,7 +28,7 @@ import { TableType } from '../../components/table/TableDownloadButton';
 import { QuestionMark } from '@mui/icons-material';
 import GenericTable from '../../components/GenericTable';
 import { toolAnalysisStore, ToolAnalysisStoreActionType } from '../../store/ToolAnalysisStore';
-import { loadFetch } from '../../service/util/LoadFetch';
+import { loadFetch } from '../../hooks/service/util/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import { sortColByLastWord, sortTableCol } from '../../util/TableUtils';
 import TableHeaderButtons from '../../components/table/TableHeaderButtons';

@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import TextUpload from '../components/TextUpload';
 import './styles/Adding.css';
-import { loadFetch } from '../service/util/LoadFetch';
+import { loadFetch } from '../hooks/service/util/LoadFetch';
 import { withTranslation } from 'react-i18next';
 import {
   countryOptionsForAddingText,

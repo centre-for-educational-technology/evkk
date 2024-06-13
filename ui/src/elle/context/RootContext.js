@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
-import { loadFetch } from '../service/util/LoadFetch';
+import { loadFetch } from '../hooks/service/util/LoadFetch';
 import { successEmitter } from '../../App';
 import { SuccessSnackbarEventType } from '../components/snackbar/SuccessSnackbar';
 

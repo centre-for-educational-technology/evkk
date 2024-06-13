@@ -1,6 +1,6 @@
-import { queryStore } from '../store/QueryStore';
+import { queryStore } from '../../store/QueryStore';
 import { loadFetch } from './util/LoadFetch';
-import { sanitizeTexts } from '../util/TextUtils';
+import { sanitizeTexts } from '../../util/TextUtils';
 
 export const getSelectedTexts = (setStoreData) => {
   const queryStoreState = queryStore.getState();

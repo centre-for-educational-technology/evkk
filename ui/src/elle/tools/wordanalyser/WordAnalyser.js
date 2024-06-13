@@ -18,10 +18,10 @@ import {
 } from './Contexts';
 import CloseIcon from '@mui/icons-material/Close';
 import { queryStore } from '../../store/QueryStore';
-import { getSelectedTexts } from '../../service/TextService';
+import { getSelectedTexts } from '../../hooks/service/TextService';
 import { WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO } from '../../const/Constants';
 import { useTranslation } from 'react-i18next';
-import { loadFetch } from '../../service/util/LoadFetch';
+import { loadFetch } from '../../hooks/service/util/LoadFetch';
 
 function WordAnalyser() {
   const [analysedInput, setAnalysedInput] = useContext(AnalyseContext);

@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { Languages } from '../translations/i18n';
 import Can from './security/Can';
 import { UserRoleConstants } from '../const/Constants';
-import { logout } from '../service/AuthService';
+import { useLogout } from '../hooks/service/AuthService';
 
 const pages = [
   { id: 1, title: 'common_corrector', target: '/corrector' },
@@ -56,6 +56,7 @@ export default function Navbar() {
   const [navColor, setNavColor] = useState('sticking');
   const [langAnchorEl, setLangAnchorEl] = useState(false);
   const langOpen = Boolean(langAnchorEl);
+  const { logout } = useLogout();
 
   const toggleDrawer = () => {
     setOpen(!open);

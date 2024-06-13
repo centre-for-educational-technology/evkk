@@ -95,7 +95,7 @@ function AppWithStatus() {
   }, [urlParams, navigate]);
 
   useEffect(() => {
-    setFunctionsAndProperties(navigate, clearAuthContext, accessToken, setContext);
+    setFunctionsAndProperties(accessToken, setContext);
   }, [navigate, clearAuthContext, accessToken, setContext]);
 
   if (isOffline) {

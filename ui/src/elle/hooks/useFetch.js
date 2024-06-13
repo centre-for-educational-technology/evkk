@@ -13,7 +13,7 @@ export const useFetch = () => {
   const { accessToken } = useContext(RootContext);
   const [response, setResponse] = useState(null);
 
-  const fetchData = async (url, params = {}, disableErrorHandling = false) => {
+  const fetchData = async (url, params = {}, disableErrorHandling = false, disableResponseParsing = false) => {
     loadingEmitter.emit(LoadingSpinnerEventType.LOADER_START);
 
     if (hasNonExpiredToken(accessToken)) {
@@ -34,9 +34,10 @@ export const useFetch = () => {
       } else {
         errorEmitter.emit(ErrorSnackbarEventType.GENERIC_ERROR);
       }
+      return Promise.reject();
     }
 
-    const result = await res.json();
+    const result = disableResponseParsing ? res : await res.json();
     setResponse(result);
   };
 

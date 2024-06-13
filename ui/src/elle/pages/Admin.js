@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useContext } from 'react';
 import RootContext from '../context/RootContext';
-import { useGetTextsToReviewCount } from '../service/AdminService';
+import { useGetTextsToReviewCount } from '../hooks/service/AdminService';
 
 export default function Admin() {
   const { t } = useTranslation();

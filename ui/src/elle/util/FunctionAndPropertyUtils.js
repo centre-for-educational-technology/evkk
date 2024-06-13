@@ -1,22 +1,11 @@
-let navigateFunction;
-let clearAuthContextFunction;
 let accessTokenProperty;
 let setContextFunction;
 
-export const setFunctionsAndProperties = (navigate, clearAuthContext, accessToken, setContext) => {
-  navigateFunction = navigate;
-  clearAuthContextFunction = clearAuthContext;
+export const setFunctionsAndProperties = (accessToken, setContext) => {
   accessTokenProperty = accessToken;
   setContextFunction = setContext;
 };
 
-
-export const navigateTo = (path) => {
-  navigateFunction(path);
-  window.scrollTo(0, 0);
-};
-
-export const clearAuthContext = () => clearAuthContextFunction();
 
 export const getAccessToken = () => accessTokenProperty;
 

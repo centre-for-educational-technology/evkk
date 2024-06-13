@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Box } from '@mui/material';
 import { queryStore } from '../store/QueryStore';
-import { getSelectedTexts } from '../service/TextService';
+import { getSelectedTexts } from '../hooks/service/TextService';
 import RootContext from '../context/RootContext';
 
 const IntegrationFrame = ({ integrationName }) => {
