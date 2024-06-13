@@ -8,7 +8,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import WordClick from './WordClick';
 import TextUpload from '../../components/TextUpload';
-import { loadFetch } from '../../service/util/LoadFetch';
+import { loadFetch } from '../../hooks/service/util/LoadFetch';
 import { CorrectorCustomSlider, EVKK_GITHUB_DEMOS_PATH } from '../../const/Constants';
 import NewTabHyperlink from '../../components/NewTabHyperlink';
 
