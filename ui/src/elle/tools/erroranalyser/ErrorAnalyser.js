@@ -26,10 +26,12 @@ export default function ErrorAnalyser() {
   ) => {
     let query = 'http://localhost:9090/api/errors/getErrors?';
 
+    //errorTypeFilter.length < 12 &&
     errorTypeFilter.forEach((element) => {
       query += 'errorType=' + element.type + '&';
     });
 
+    //languageLevelFilter.length < 4 &&
     languageLevelFilter.forEach((element) => {
       query += 'languageLevel=' + element.type + '&';
     });

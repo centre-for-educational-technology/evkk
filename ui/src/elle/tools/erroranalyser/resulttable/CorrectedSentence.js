@@ -20,9 +20,13 @@ export default function CorrectedSentence({
     return errorTypes.some(errorType => filters.errorType.includes(errorType));
   };
 
-  const checkInclusion = (status, errorType = '', extractedErrorTypes = []) => {
-    const exclusionTagsForShowSelected = ['replaced-deleted', 'deleted'];
+  const checkInclusion = (item) => {
     const exclusionTagsForShowAll = ['replaced-deleted'];
+    const exclusionTagsForShowSelected = ['replaced-deleted', 'deleted'];
+
+    const status = item.status ?? '';
+    const extractedErrorTypes = item.extractedErrorTypes ?? [];
+
 
     if (showAllErrors) {
       return !exclusionTagsForShowAll.includes(status);
@@ -43,42 +47,38 @@ export default function CorrectedSentence({
           let isFollowedByWhiteSpace = true;
           const currentItemContent = item.content.split(' ');
 
-          if (checkInclusion(item.status, item.errorType) && !isLastItem) {
+          //kontrollib, kas eemaldada järgnevat tühikut
+          if (checkInclusion(item) && !isLastItem) {
             let nextItemIndex = 1;
             let nextItem = sentence[index + nextItemIndex];
-            while (!checkInclusion(nextItem.status, nextItem.errorType) && (index + nextItemIndex + 1) < sentence.length) {
+
+            while (!checkInclusion(nextItem) && (index + nextItemIndex + 1) < sentence.length) {
               nextItemIndex++;
               nextItem = sentence[index + nextItemIndex];
             }
 
-            if (checkInclusion(nextItem.status, nextItem.errorType)) {
+            if (checkInclusion(nextItem)) {
               const nextItemContent = nextItem.content.split(' ');
-
-              //kui praegune on kirjavahemärk, mille ees ei käi tühik
+              //kui praegune on kirjavahemärk, mille järel ei käi tühik
               if (elementsWithoutFollowingWhitespace.includes(currentItemContent[0])) {
                 isFollowedByWhiteSpace = false;
               }
-
               //kui järgmine on kirjavahemärk, mille ees ei käi tühik
               if (elementsWithoutPrecedingWhitespace.includes(nextItemContent[0])) {
                 isFollowedByWhiteSpace = false;
               }
-
               //kui praegune on jutumärk ja lahtisi jutumärke ei ole
               if (quotationMarks.includes(currentItemContent[0]) && isQuotesEvenNumber) {
                 isFollowedByWhiteSpace = false;
               }
-
               //kui praegune on jutumärk ja jutumärgid on lahtised ja järgmine on kirjavahemärk
               if (quotationMarks.includes(currentItemContent[0]) && !isQuotesEvenNumber && ['.', '!', '?'].includes(nextItemContent[0])) {
                 isFollowedByWhiteSpace = false;
               }
-
               //kui järgmine on jutumärk ja jutumärgid on lahtised
               if (quotationMarks.includes(nextItemContent[0]) && !isQuotesEvenNumber) {
                 isFollowedByWhiteSpace = false;
               }
-
               //jutumärgi oleku arvestus
               if (quotationMarks.includes(currentItemContent[0])) {
                 isQuotesEvenNumber = !isQuotesEvenNumber;

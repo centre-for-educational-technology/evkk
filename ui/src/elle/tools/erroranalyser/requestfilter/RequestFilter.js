@@ -31,7 +31,7 @@ export default function RequestFilter({getData, setData, setFilters}) {
   const [ageRange, setAgeRange] = useState([]);
   const [filterOptions, setFilterOptions] = useState([]);
 
-  const [filterError, setFilterError] = useState({
+  const [requestFilterValues, setRequestFilterValues] = useState({
     typeError: false,
     levelError: false,
   });
@@ -110,26 +110,20 @@ export default function RequestFilter({getData, setData, setFilters}) {
     }
 
     if (errorTypeFilter.length === 0) {
-      setFilterError((filterError) => ({
-        ...filterError,
+      setRequestFilterValues((requestFilterValues) => ({
+        ...requestFilterValues,
         typeError: true,
       }));
     }
 
     if (languageLevelFilter.length === 0) {
-      setFilterError((filterError) => ({
-        ...filterError,
+      setRequestFilterValues((requestFilterValues) => ({
+        ...requestFilterValues,
         levelError: true,
       }));
     }
 
     if (errorTypeFilter.length > 0 && languageLevelFilter.length > 0) {
-      if (errorTypeFilter.length === 12) {
-        errorTypeFilter = [];
-      }
-      if (languageLevelFilter.length === 4) {
-        languageLevelFilter = [];
-      }
 
       let filters = {
         errorType: errorTypeFilter.map((item) => item.type),
@@ -175,20 +169,20 @@ export default function RequestFilter({getData, setData, setFilters}) {
               <Box className="request-filter-item-main">
                 <Typography
                   variant="h6"
-                  style={{color: filterError.typeError ? 'red' : 'initial'}}
+                  style={{color: requestFilterValues.typeError ? 'red' : 'initial'}}
                 >
                   {t('error_analyser_error_type')} *
                 </Typography>
                 <Paper
                   variant="outlined"
                   className={`checkbox-container ${
-                    filterError.typeError ? 'checkbox-container-error' : ''
+                    requestFilterValues.typeError ? 'checkbox-container-error' : ''
                   }`}
                 >
                   <Checkbox
                     data={filterErrorTypeOptions}
                     setSelectedItems={setErrorType}
-                    setFilterError={setFilterError}
+                    setRequestFilterValues={setRequestFilterValues}
                   />
                 </Paper>
               </Box>
@@ -197,7 +191,7 @@ export default function RequestFilter({getData, setData, setFilters}) {
                 <Typography
                   variant="h6"
                   style={{
-                    color: filterError.levelError ? 'red' : 'initial',
+                    color: requestFilterValues.levelError ? 'red' : 'initial',
                   }}
                 >
                   {t('error_analyser_language_level')} *
@@ -205,13 +199,13 @@ export default function RequestFilter({getData, setData, setFilters}) {
                 <Paper
                   variant="outlined"
                   className={`checkbox-container ${
-                    filterError.levelError ? 'checkbox-container-error' : ''
+                    requestFilterValues.levelError ? 'checkbox-container-error' : ''
                   }`}
                 >
                   <Checkbox
                     data={filterLanguageLevelOptions}
                     setSelectedItems={setLanguageLevel}
-                    setFilterError={setFilterError}
+                    setRequestFilterValues={setRequestFilterValues}
                   />
                 </Paper>
 

@@ -96,7 +96,7 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
   ];
 
   useEffect(() => {
-    // console.log(filters);
+    console.log(filters);
     let visibilty = isColumnVisible;
     for (const key in visibilty) {
       if (

@@ -5,28 +5,28 @@
 
   <select id="findFilterOptions" resultType="java.lang.String">
     select distinct prop2.property_value
-    from core.text_error_analysis_sentences sen1
-           left join core.text_property prop2 on sen1.text_id = prop2.text_id and prop2.property_name = #{name}
+    from evkk.core.text_error_analysis_sentences sen1
+           left join evkk.core.text_property prop2 on sen1.text_id = prop2.text_id and prop2.property_name = #{name}
     where prop2.property_value is not null
   </select>
 
   <resultMap id="errorResultMap" type="ee.tlu.evkk.dal.dto.ErrorAnalyserSentence">
-    <id property="sentenceId" column="sentence_id"/>
-    <result property="sentence" column="sentence"/>
-    <result property="textId" column="text_id"/>
-    <result property="languageLevel" column="language_level"/>
-    <result property="textType" column="text_type"/>
-    <result property="age" column="age"/>
-    <result property="ageRange" column="age_range"/>
-    <result property="education" column="education"/>
-    <result property="citizenship" column="citizenship"/>
+    <id property="sentenceId" column="sentence_id" />
+    <result property="sentence" column="sentence" />
+    <result property="textId" column="text_id" />
+    <result property="languageLevel" column="language_level" />
+    <result property="textType" column="text_type" />
+    <result property="age" column="age" />
+    <result property="ageRange" column="age_range" />
+    <result property="education" column="education" />
+    <result property="citizenship" column="citizenship" />
     <collection property="annotations" column="sentence_id" ofType="ee.tlu.evkk.dal.dto.ErrorAnalyserAnnotation">
-      <id property="annotationId" column="annotation_id"/>
-      <result property="annotatorId" column="annotator_id"/>
-      <result property="scopeStart" column="scope_start"/>
-      <result property="scopeEnd" column="scope_end"/>
-      <result property="errorType" column="error_type"/>
-      <result property="correction" column="correction"/>
+      <id property="annotationId" column="annotation_id" />
+      <result property="annotatorId" column="annotator_id" />
+      <result property="scopeStart" column="scope_start" />
+      <result property="scopeEnd" column="scope_end" />
+      <result property="errorType" column="error_type" />
+      <result property="correction" column="correction" />
     </collection>
   </resultMap>
 
@@ -62,6 +62,7 @@
           </choose>
         </foreach>
       </if>
+      AND annot1.scope_start >-1 AND annot1.scope_end >-1
     </where>
     group by annot1.annotator_id, annot1.sentence_id
     ) t1

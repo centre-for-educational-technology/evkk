@@ -18,12 +18,12 @@ const transform = (data) => {
 
     parentNode.childrenNodes = item.subtype
       ? item.subtype.map((child) => ({
-          label: child.label,
-          type: child.type,
-          checked: false,
-          childrenNodes: [],
-          parent: parentNode,
-        }))
+        label: child.label,
+        type: child.type,
+        checked: false,
+        childrenNodes: [],
+        parent: parentNode,
+      }))
       : [];
 
     return parentNode;
@@ -76,10 +76,10 @@ const findNode = (nodes, type, ancestors) => {
 };
 
 export default function ErrorCheckbox({
-  data,
-  setSelectedItems,
-  setFilterError,
-}) {
+                                        data,
+                                        setSelectedItems,
+                                        setRequestFilterValues,
+                                      }) {
   const initialNodes = transform(data);
   const [nodes, setNodes] = useState(initialNodes);
 
@@ -91,7 +91,7 @@ export default function ErrorCheckbox({
     updateAncestors(node);
 
     setNodes(cloneDeep(nodes));
-    setFilterError({
+    setRequestFilterValues({
       typeError: false,
       levelError: false,
     });
