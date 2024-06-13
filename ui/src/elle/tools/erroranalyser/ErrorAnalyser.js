@@ -16,6 +16,7 @@ export default function ErrorAnalyser() {
   const [data, setData] = useState(null);
   const [filters, setFilters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [fetchingError, setFetchingError] = useState(false);
   const [showAllErrors, setShowAllErrors] = useState(false);
   const {t} = useTranslation();
 
@@ -26,12 +27,10 @@ export default function ErrorAnalyser() {
   ) => {
     let query = 'http://localhost:9090/api/errors/getErrors?';
 
-    //errorTypeFilter.length < 12 &&
     errorTypeFilter.forEach((element) => {
       query += 'errorType=' + element.type + '&';
     });
 
-    //languageLevelFilter.length < 4 &&
     languageLevelFilter.forEach((element) => {
       query += 'languageLevel=' + element.type + '&';
     });
@@ -51,8 +50,10 @@ export default function ErrorAnalyser() {
     try {
       setIsLoading(true);
       const response = await fetch(query);
-      const data = await response.json();
-      setData(data);
+      if (response.status === 200) {
+        const data = await response.json();
+        setData(data);
+      }
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -84,7 +85,7 @@ export default function ErrorAnalyser() {
         setFilters={setFilters}
       />
 
-      {isLoading && data && (
+      {isLoading && (
         <Box className="spinner-container">
           <CircularProgress />
         </Box>

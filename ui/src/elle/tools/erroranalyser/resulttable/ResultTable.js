@@ -12,7 +12,6 @@ import {
   TablePagination,
   TableSortLabel,
 } from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
 import TablePaginationActions from './TablePaginationActions';
 import { usePagination } from './usePagination';
 import CorrectedSentenceCell from './CorrectedSentenceCell';
@@ -96,19 +95,18 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
   ];
 
   useEffect(() => {
-    console.log(filters);
-    let visibilty = isColumnVisible;
-    for (const key in visibilty) {
+    let visibility = isColumnVisible;
+    for (const key in visibility) {
       if (
         key === 'sourceSentence' ||
         key === 'correctedSentence'
       ) {
-        visibilty[key] = true;
+        visibility[key] = true;
       } else {
-        visibilty[key] = !!(filters[key] && filters[key].length > 1);
+        visibility[key] = !!(filters[key] && filters[key].length > 1);
       }
     }
-    setIsColumnVisible(visibilty);
+    setIsColumnVisible(visibility);
   }, [filters, isColumnVisible]);
 
   const createSortHandler = (property) => (event) => {
@@ -240,16 +238,9 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
                           direction={orderBy === headCell.id ? order : 'asc'}
                           onClick={createSortHandler(headCell.id)}
                           hideSortIcon={true}
-                          //IconComponent={orderBy === headCell.id ? ArrowDownward : AccessAlarm}
                         >
                           {t(headCell.label)}
-                          {orderBy === headCell.id ? (
-                            <Box component="span" sx={visuallyHidden}>
-                              {order === 'desc'
-                                ? 'sorted descending'
-                                : 'sorted ascending'}
-                            </Box>
-                          ) : <Sort sx={{mx: '4px', fontSize: '18px'}} />}
+                          {orderBy !== headCell.id && <Sort sx={{mx: '4px', fontSize: '18px'}} />}
                         </TableSortLabel>
                       ) : (
                         <>{t(headCell.label)}</>
@@ -343,7 +334,8 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
           <TableFooter>
             <TableRow>
               <TablePagination
-                rowsPerPageOptions={[5, 10, 25, {label: 'All', value: -1}]}
+                rowsPerPageOptions={[5, 10, 25, {label: t('error_analyser_table_footer_all'), value: -1}]}
+                labelRowsPerPage={t('error_analyser_table_footer_rows_per_page')}
                 colSpan={3}
                 count={rows.length}
                 rowsPerPage={rowsPerPage}
@@ -359,6 +351,9 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
                 ActionsComponent={TablePaginationActions}
+                labelDisplayedRows={function ({from, to, count}) {
+                  return `${from}–${to} / ${count !== -1 ? count : `more than ${to}`}`;
+                }}
               />
             </TableRow>
           </TableFooter>

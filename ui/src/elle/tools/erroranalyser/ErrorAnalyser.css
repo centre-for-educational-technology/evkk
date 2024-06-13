@@ -154,3 +154,7 @@ div.optional-filter {
   text-decoration: underline double red;
 }
 
+p.MuiTablePagination-selectLabel, p.MuiTablePagination-displayedRows {
+  margin-top: auto;
+  margin-bottom: auto;
+}
