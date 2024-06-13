@@ -16,14 +16,8 @@ export const navigateTo = (path) => {
   window.scrollTo(0, 0);
 };
 
-export const clearAuthContext = () => {
-  clearAuthContextFunction();
-};
+export const clearAuthContext = () => clearAuthContextFunction();
 
-export const getAccessToken = () => {
-  return accessTokenProperty;
-};
+export const getAccessToken = () => accessTokenProperty;
 
-export const setContext = (isTokenRenewed) => {
-  setContextFunction(isTokenRenewed);
-};
+export const setContext = (isTokenRenewed) => setContextFunction(isTokenRenewed);

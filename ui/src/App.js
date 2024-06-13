@@ -92,8 +92,7 @@ function AppWithStatus() {
       errorEmitter.emit(ErrorSnackbarEventType.ID_CODE_MISSING);
       navigate('', { replace: true });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [urlParams]);
+  }, [urlParams, navigate]);
 
   useEffect(() => {
     setFunctionsAndProperties(navigate, clearAuthContext, accessToken, setContext);

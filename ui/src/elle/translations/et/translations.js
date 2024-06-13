@@ -1,4 +1,5 @@
 export const TRANSLATIONS_ET = {
+  admin_panel_texts_to_review: 'Loovutatud tekste ülevaatuse ootel',
   analyse_button: 'Analüüsi',
   applied_filters: 'Rakendatud filtrid',
   back: 'EELMINE',

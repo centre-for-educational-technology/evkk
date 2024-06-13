@@ -1,4 +1,5 @@
 export const TRANSLATIONS_EN = {
+  admin_panel_texts_to_review: 'Donated texts awaiting review',
   analyse_button: 'Analyse',
   applied_filters: 'Applied filters',
   back: 'PREVIOUS',
