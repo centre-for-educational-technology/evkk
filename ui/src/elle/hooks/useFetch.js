@@ -34,7 +34,6 @@ export const useFetch = () => {
       } else {
         errorEmitter.emit(ErrorSnackbarEventType.GENERIC_ERROR);
       }
-      throw new Error('blabla');
     }
 
     const result = await res.json();
