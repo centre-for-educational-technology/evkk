@@ -12,8 +12,6 @@ import ee.tlu.evkk.core.service.dto.TextResponseDto;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.TextAndMetadata;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +26,6 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.UUID.fromString;
-import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
 import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
@@ -131,14 +128,11 @@ public class TextController {
   }
 
   @PostMapping("/tekstidfailina")
-  public HttpEntity<byte[]> tekstidfailina(@RequestBody CorpusDownloadDto corpusDownloadDto, HttpServletResponse response) throws IOException {
+  public byte[] tekstidfailina(@RequestBody CorpusDownloadDto corpusDownloadDto, HttpServletResponse response) throws IOException {
     byte[] file = textService.tekstidfailina(corpusDownloadDto);
-
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(APPLICATION_OCTET_STREAM);
+    response.setHeader("Content-Type", "application/octet-stream");
     response.setHeader("Content-Disposition", "attachment");
-
-    return new HttpEntity<>(file, headers);
+    return file;
   }
 
   @PostMapping("/lisatekst")
