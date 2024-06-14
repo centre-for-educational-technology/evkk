@@ -14,7 +14,6 @@ import SuccessSnackbar from './elle/components/snackbar/SuccessSnackbar';
 import FooterElement from './elle/components/FooterElement';
 import DonateText from './elle/components/DonateText';
 import { applyMiddleware, compose, createStore } from 'redux';
-import { setFunctionsAndProperties } from './elle/util/FunctionAndPropertyUtils';
 import RootContext, { RootProvider } from './elle/context/RootContext';
 import withGlobalLoading from './elle/hoc/withGlobalLoading';
 import SessionExpirationModal from './elle/components/modal/SessionExpirationModal';
@@ -76,7 +75,7 @@ function AppWithStatus() {
   const navigate = useNavigate();
   const [urlParams] = useSearchParams();
   const [isOffline, setIsOffline] = useState(false);
-  const { setContext, clearAuthContext, status, accessToken } = useContext(RootContext);
+  const { setContext, status } = useContext(RootContext);
 
   useEffect(() => {
     setIsOffline(!status);
@@ -93,10 +92,6 @@ function AppWithStatus() {
       navigate('', { replace: true });
     }
   }, [urlParams, navigate]);
-
-  useEffect(() => {
-    setFunctionsAndProperties(accessToken, setContext);
-  }, [navigate, clearAuthContext, accessToken, setContext]);
 
   if (isOffline) {
     return <ServerOfflinePage retry={setContext} />;
