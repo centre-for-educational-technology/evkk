@@ -1,4 +1,4 @@
-package ee.tlu.evkk.api;
+package ee.tlu.evkk.api.controller;
 
 import ee.tlu.evkk.dal.dao.TextAddedDao;
 import lombok.RequiredArgsConstructor;
