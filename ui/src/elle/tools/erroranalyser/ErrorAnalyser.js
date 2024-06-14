@@ -46,7 +46,9 @@ export default function ErrorAnalyser() {
 
     query = query.slice(0, -1);
 
-    return loadFetch(query).then(res => res.json()).catch(error => console.error('Error:', error));
+    return loadFetch(query)
+      .then(res => res.json())
+      .catch(error => console.error('Error:', error));
   };
 
   const handleSwitchChange = () => {

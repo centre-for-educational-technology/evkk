@@ -29,9 +29,7 @@ export default function CorrectedSentenceCell({
       return 'compound-error';
     }
 
-    //console.log(errorTypes);
     const errorType = errorTypes[0];
-    //const errorType = 'R:SPELL';
     if (
       errorType.includes('R:SPELL') ||
       errorType.includes('R:CASE') ||

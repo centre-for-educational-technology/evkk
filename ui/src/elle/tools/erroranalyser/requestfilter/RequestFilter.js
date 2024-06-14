@@ -37,23 +37,10 @@ export default function RequestFilter({getData, setData, setFilters}) {
   });
   const {t} = useTranslation();
 
-  const getFilterOptions = async () => {
-//
-    return loadFetch('/api/errors/getFilterOptions').then(res => res.json()).catch(error => console.error('Error:', error));
-
-    /*try {
-      setIsLoading(true);
-      const response = await fetch(
-        'http://localhost:9090/api/errors/getFilterOptions'
-      );
-      if (response.status === 200) {
-        return await response.json();
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
-    }*/
+  const getFilterOptions = () => {
+    return loadFetch('/api/errors/getFilterOptions')
+      .then(res => res.json())
+      .catch(error => console.error('Error:', error));
   };
 
   useEffect(() => {
