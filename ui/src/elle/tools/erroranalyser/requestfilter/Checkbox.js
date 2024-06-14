@@ -78,7 +78,7 @@ const findNode = (nodes, type, ancestors) => {
 export default function ErrorCheckbox({
                                         data,
                                         setSelectedItems,
-                                        setRequestFilterValues,
+                                        setRequestFilterErrors,
                                       }) {
   const initialNodes = transform(data);
   const [nodes, setNodes] = useState(initialNodes);
@@ -91,7 +91,7 @@ export default function ErrorCheckbox({
     updateAncestors(node);
 
     setNodes(cloneDeep(nodes));
-    setRequestFilterValues({
+    setRequestFilterErrors({
       typeError: false,
       levelError: false,
     });

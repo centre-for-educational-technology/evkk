@@ -13,10 +13,7 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './../ErrorAnalyser.css';
-import {
-  filterErrorTypeOptions,
-  filterLanguageLevelOptions,
-} from './CheckboxOptions';
+import { filterErrorTypeOptions, filterLanguageLevelOptions, } from './CheckboxOptions';
 import Checkbox from './Checkbox';
 import { useTranslation } from 'react-i18next';
 import OptionalFilters from './OptionalFilters';
@@ -31,7 +28,7 @@ export default function RequestFilter({getData, setData, setFilters}) {
   const [ageRange, setAgeRange] = useState([]);
   const [filterOptions, setFilterOptions] = useState([]);
 
-  const [requestFilterValues, setRequestFilterValues] = useState({
+  const [requestFilterErrors, setRequestFilterErrors] = useState({
     typeError: false,
     levelError: false,
   });
@@ -47,8 +44,9 @@ export default function RequestFilter({getData, setData, setFilters}) {
       const response = await fetch(
         'http://localhost:9090/api/errors/getFilterOptions'
       );
-      const data = await response.json();
-      setFilterOptions(data);
+      if (response.status === 200) {
+        return await response.json();
+      }
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -57,7 +55,7 @@ export default function RequestFilter({getData, setData, setFilters}) {
   };
 
   useEffect(() => {
-    getFilterOptions();
+    getFilterOptions().then(setFilterOptions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -110,16 +108,16 @@ export default function RequestFilter({getData, setData, setFilters}) {
     }
 
     if (errorTypeFilter.length === 0) {
-      setRequestFilterValues((requestFilterValues) => ({
-        ...requestFilterValues,
+      setRequestFilterErrors(prevState => ({
         typeError: true,
+        levelError: prevState.typeError,
       }));
     }
 
     if (languageLevelFilter.length === 0) {
-      setRequestFilterValues((requestFilterValues) => ({
-        ...requestFilterValues,
+      setRequestFilterErrors(prevState => ({
         levelError: true,
+        typeError: prevState.typeError,
       }));
     }
 
@@ -135,7 +133,7 @@ export default function RequestFilter({getData, setData, setFilters}) {
       };
 
       setFilters(filters);
-      getData(errorTypeFilter, languageLevelFilter, optionalFilters);
+      getData(errorTypeFilter, languageLevelFilter, optionalFilters).then(setData);
       handleIsExpanded('accordion');
     }
   };
@@ -169,20 +167,20 @@ export default function RequestFilter({getData, setData, setFilters}) {
               <Box className="request-filter-item-main">
                 <Typography
                   variant="h6"
-                  style={{color: requestFilterValues.typeError ? 'red' : 'initial'}}
+                  style={{color: requestFilterErrors.typeError ? 'red' : 'initial'}}
                 >
                   {t('error_analyser_error_type')} *
                 </Typography>
                 <Paper
                   variant="outlined"
                   className={`checkbox-container ${
-                    requestFilterValues.typeError ? 'checkbox-container-error' : ''
+                    requestFilterErrors.typeError ? 'checkbox-container-error' : ''
                   }`}
                 >
                   <Checkbox
                     data={filterErrorTypeOptions}
                     setSelectedItems={setErrorType}
-                    setRequestFilterValues={setRequestFilterValues}
+                    setRequestFilterErrors={setRequestFilterErrors}
                   />
                 </Paper>
               </Box>
@@ -191,7 +189,7 @@ export default function RequestFilter({getData, setData, setFilters}) {
                 <Typography
                   variant="h6"
                   style={{
-                    color: requestFilterValues.levelError ? 'red' : 'initial',
+                    color: requestFilterErrors.levelError ? 'red' : 'initial',
                   }}
                 >
                   {t('error_analyser_language_level')} *
@@ -199,13 +197,13 @@ export default function RequestFilter({getData, setData, setFilters}) {
                 <Paper
                   variant="outlined"
                   className={`checkbox-container ${
-                    requestFilterValues.levelError ? 'checkbox-container-error' : ''
+                    requestFilterErrors.levelError ? 'checkbox-container-error' : ''
                   }`}
                 >
                   <Checkbox
                     data={filterLanguageLevelOptions}
                     setSelectedItems={setLanguageLevel}
-                    setRequestFilterValues={setRequestFilterValues}
+                    setRequestFilterErrors={setRequestFilterErrors}
                   />
                 </Paper>
 
@@ -231,7 +229,7 @@ export default function RequestFilter({getData, setData, setFilters}) {
                   </Link>
                 )}
 
-                {isExpanded.optionalFilters && (
+                {isExpanded.optionalFilters && filterOptions && (
                   <OptionalFilters
                     filterOptions={filterOptions}
                     languageLevel={languageLevel}

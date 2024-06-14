@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Alert,
   Box,
@@ -16,7 +16,6 @@ export default function ErrorAnalyser() {
   const [data, setData] = useState(null);
   const [filters, setFilters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [fetchingError, setFetchingError] = useState(false);
   const [showAllErrors, setShowAllErrors] = useState(false);
   const {t} = useTranslation();
 
@@ -51,8 +50,7 @@ export default function ErrorAnalyser() {
       setIsLoading(true);
       const response = await fetch(query);
       if (response.status === 200) {
-        const data = await response.json();
-        setData(data);
+        return await response.json();
       }
     } catch (error) {
       console.error('Error:', error);
@@ -64,10 +62,6 @@ export default function ErrorAnalyser() {
   const handleSwitchChange = () => {
     setShowAllErrors(!showAllErrors);
   };
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   return (
     <>

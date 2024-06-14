@@ -98,8 +98,8 @@ div.optional-filter {
 }
 
 .annotated:hover {
-  /* text-decoration: underline; */
   cursor: default;
+  color: dimgray;
 }
 
 .corrected-sentence .word-error * {
