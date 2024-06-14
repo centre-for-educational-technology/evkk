@@ -95,7 +95,6 @@ export default function ResultTable({ data: rows, filters, showAllErrors }) {
   ];
 
   useEffect(() => {
-    console.log(filters);
     let visibility = { ...isColumnVisible };
     for (const key in visibility) {
       if (
@@ -107,7 +106,6 @@ export default function ResultTable({ data: rows, filters, showAllErrors }) {
         visibility[key] = !!(filters[key] && filters[key].length > 1);
       }
     }
-    console.log(visibility);
     setIsColumnVisible(visibility);
   }, []);
 
@@ -219,17 +217,6 @@ export default function ResultTable({ data: rows, filters, showAllErrors }) {
     );
     return formattedSentence;
   };
-
-  useEffect(() => {
-    if (isColumnVisible['languageLevel']) {
-      console.log('nähtavkeel');
-    }
-
-    console.log(rows);
-
-    headCells.forEach(headCell => console.log(headCell.id, isColumnVisible[headCell.id]));
-  }, [rows]);
-
 
   return (
     <>
