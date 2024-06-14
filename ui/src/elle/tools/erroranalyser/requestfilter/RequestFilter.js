@@ -6,7 +6,6 @@ import {
   AccordionSummary,
   Box,
   Button,
-  CircularProgress,
   Link,
   Paper,
   Typography,
@@ -17,9 +16,9 @@ import { filterErrorTypeOptions, filterLanguageLevelOptions, } from './CheckboxO
 import Checkbox from './Checkbox';
 import { useTranslation } from 'react-i18next';
 import OptionalFilters from './OptionalFilters';
+import { loadFetch } from '../../../service/LoadFetch';
 
 export default function RequestFilter({getData, setData, setFilters}) {
-  const [isLoading, setIsLoading] = useState(true);
   const [errorType, setErrorType] = useState([]);
   const [languageLevel, setLanguageLevel] = useState([]);
   const [citizenship, setCitizenship] = useState([]);
@@ -39,7 +38,10 @@ export default function RequestFilter({getData, setData, setFilters}) {
   const {t} = useTranslation();
 
   const getFilterOptions = async () => {
-    try {
+//
+    return loadFetch('/api/errors/getFilterOptions').then(res => res.json()).catch(error => console.error('Error:', error));
+
+    /*try {
       setIsLoading(true);
       const response = await fetch(
         'http://localhost:9090/api/errors/getFilterOptions'
@@ -51,7 +53,7 @@ export default function RequestFilter({getData, setData, setFilters}) {
       console.error('Error:', error);
     } finally {
       setIsLoading(false);
-    }
+    }*/
   };
 
   useEffect(() => {
@@ -140,123 +142,118 @@ export default function RequestFilter({getData, setData, setFilters}) {
 
   return (
     <>
-      {isLoading ? (
-        <Box className="spinner-container">
-          <CircularProgress />
-        </Box>
-      ) : (
-        <Accordion
-          expanded={isExpanded.accordion}
-          onChange={() => {
-            handleIsExpanded('accordion');
-          }}
-          className="request-filter"
+      <Accordion
+        expanded={isExpanded.accordion}
+        onChange={() => {
+          handleIsExpanded('accordion');
+        }}
+        className="request-filter"
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="request-filter-content"
+          id="request-filter-header"
         >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="request-filter-content"
-            id="request-filter-header"
-          >
-            <Typography variant="h6">
-              {t('error_analyser_select_error_type_and_language_level')}
-            </Typography>
-          </AccordionSummary>
+          <Typography variant="h6">
+            {t('error_analyser_select_error_type_and_language_level')}
+          </Typography>
+        </AccordionSummary>
 
-          <AccordionDetails>
-            <Box className="request-filter-container">
-              <Box className="request-filter-item-main">
-                <Typography
-                  variant="h6"
-                  style={{color: requestFilterErrors.typeError ? 'red' : 'initial'}}
-                >
-                  {t('error_analyser_error_type')} *
-                </Typography>
-                <Paper
-                  variant="outlined"
-                  className={`checkbox-container ${
-                    requestFilterErrors.typeError ? 'checkbox-container-error' : ''
-                  }`}
-                >
-                  <Checkbox
-                    data={filterErrorTypeOptions}
-                    setSelectedItems={setErrorType}
-                    setRequestFilterErrors={setRequestFilterErrors}
-                  />
-                </Paper>
-              </Box>
+        <AccordionDetails>
+          <Box className="request-filter-container">
+            <Box className="request-filter-item-main">
+              <Typography
+                variant="h6"
+                style={{color: requestFilterErrors.typeError ? 'red' : 'initial'}}
+              >
+                {t('error_analyser_error_type')} *
+              </Typography>
+              <Paper
+                variant="outlined"
+                className={`checkbox-container ${
+                  requestFilterErrors.typeError ? 'checkbox-container-error' : ''
+                }`}
+              >
+                <Checkbox
+                  data={filterErrorTypeOptions}
+                  setSelectedItems={setErrorType}
+                  setRequestFilterErrors={setRequestFilterErrors}
+                />
+              </Paper>
+            </Box>
 
-              <Box className="request-filter-item-side">
-                <Typography
-                  variant="h6"
-                  style={{
-                    color: requestFilterErrors.levelError ? 'red' : 'initial',
+            <Box className="request-filter-item-side">
+              <Typography
+                variant="h6"
+                style={{
+                  color: requestFilterErrors.levelError ? 'red' : 'initial',
+                }}
+              >
+                {t('error_analyser_language_level')} *
+              </Typography>
+              <Paper
+                variant="outlined"
+                className={`checkbox-container ${
+                  requestFilterErrors.levelError ? 'checkbox-container-error' : ''
+                }`}
+              >
+                <Checkbox
+                  data={filterLanguageLevelOptions}
+                  setSelectedItems={setLanguageLevel}
+                  setRequestFilterErrors={setRequestFilterErrors}
+                />
+              </Paper>
+
+              {isExpanded.optionalFilters ? (
+                <Link
+                  sx={{my: 4, fontSize: '16px'}}
+                  component="button"
+                  onClick={() => {
+                    handleIsExpanded('optionalFilters');
                   }}
                 >
-                  {t('error_analyser_language_level')} *
-                </Typography>
-                <Paper
-                  variant="outlined"
-                  className={`checkbox-container ${
-                    requestFilterErrors.levelError ? 'checkbox-container-error' : ''
-                  }`}
+                  {t('error_analyser_close_more_options')}
+                </Link>
+              ) : (
+                <Link
+                  sx={{my: 4, fontSize: '16px'}}
+                  component="button"
+                  onClick={() => {
+                    handleIsExpanded('optionalFilters');
+                  }}
                 >
-                  <Checkbox
-                    data={filterLanguageLevelOptions}
-                    setSelectedItems={setLanguageLevel}
-                    setRequestFilterErrors={setRequestFilterErrors}
-                  />
-                </Paper>
+                  {t('error_analyser_open_more_options')}
+                </Link>
+              )}
 
-                {isExpanded.optionalFilters ? (
-                  <Link
-                    sx={{my: 4, fontSize: '16px'}}
-                    component="button"
-                    onClick={() => {
-                      handleIsExpanded('optionalFilters');
-                    }}
-                  >
-                    {t('error_analyser_close_more_options')}
-                  </Link>
-                ) : (
-                  <Link
-                    sx={{my: 4, fontSize: '16px'}}
-                    component="button"
-                    onClick={() => {
-                      handleIsExpanded('optionalFilters');
-                    }}
-                  >
-                    {t('error_analyser_open_more_options')}
-                  </Link>
-                )}
-
-                {isExpanded.optionalFilters && filterOptions && (
-                  <OptionalFilters
-                    filterOptions={filterOptions}
-                    languageLevel={languageLevel}
-                    setLanguageLevel={setLanguageLevel}
-                    citizenship={citizenship}
-                    setCitizenship={setCitizenship}
-                    education={education}
-                    setEducation={setEducation}
-                    textType={textType}
-                    setTextType={setTextType}
-                    ageRange={ageRange}
-                    setAgeRange={setAgeRange}
-                  />
-                )}
-              </Box>
+              {isExpanded.optionalFilters && filterOptions && (
+                <OptionalFilters
+                  filterOptions={filterOptions}
+                  languageLevel={languageLevel}
+                  setLanguageLevel={setLanguageLevel}
+                  citizenship={citizenship}
+                  setCitizenship={setCitizenship}
+                  education={education}
+                  setEducation={setEducation}
+                  textType={textType}
+                  setTextType={setTextType}
+                  ageRange={ageRange}
+                  setAgeRange={setAgeRange}
+                />
+              )}
             </Box>
-          </AccordionDetails>
+          </Box>
+        </AccordionDetails>
 
-          <AccordionActions>
-            <Box>
-              <Button variant="contained" onClick={handleSubmit}>
-                {t('send_request_button')}
-              </Button>
-            </Box>
-          </AccordionActions>
-        </Accordion>
-      )}
+        <AccordionActions>
+          <Box>
+            <Button variant="contained" onClick={handleSubmit}>
+              {t('send_request_button')}
+            </Button>
+          </Box>
+        </AccordionActions>
+      </Accordion>
+
     </>
   );
 }

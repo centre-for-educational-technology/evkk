@@ -2,7 +2,6 @@ import { useState } from 'react';
 import {
   Alert,
   Box,
-  CircularProgress,
   FormControlLabel,
   Switch,
   Typography,
@@ -11,11 +10,12 @@ import RequestFilter from './requestfilter/RequestFilter';
 import ResultTable from './resulttable/ResultTable';
 import { useTranslation } from 'react-i18next';
 import ErrorAnalyserKey from './ErrorAnalyserKey';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import { loadFetch } from '../../service/LoadFetch';
 
 export default function ErrorAnalyser() {
   const [data, setData] = useState(null);
   const [filters, setFilters] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [showAllErrors, setShowAllErrors] = useState(false);
   const {t} = useTranslation();
 
@@ -24,7 +24,7 @@ export default function ErrorAnalyser() {
     languageLevelFilter,
     optionalFilters
   ) => {
-    let query = 'http://localhost:9090/api/errors/getErrors?';
+    let query = '/api/errors/getErrors?';
 
     errorTypeFilter.forEach((element) => {
       query += 'errorType=' + element.type + '&';
@@ -46,17 +46,7 @@ export default function ErrorAnalyser() {
 
     query = query.slice(0, -1);
 
-    try {
-      setIsLoading(true);
-      const response = await fetch(query);
-      if (response.status === 200) {
-        return await response.json();
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    return loadFetch(query).then(res => res.json()).catch(error => console.error('Error:', error));
   };
 
   const handleSwitchChange = () => {
@@ -79,11 +69,14 @@ export default function ErrorAnalyser() {
         setFilters={setFilters}
       />
 
-      {isLoading && (
+      {/*false && isLoading && (
         <Box className="spinner-container">
           <CircularProgress />
         </Box>
-      )}
+
+      )*/}
+
+      <LoadingSpinner />
 
       {data && (
         <>
