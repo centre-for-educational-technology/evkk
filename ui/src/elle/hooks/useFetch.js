@@ -16,7 +16,8 @@ export const useFetch = () => {
   const fetchData = async (url, params = {}, options = {}) => {
     const defaultOptions = {
       disableErrorHandling: false,
-      disableResponseParsing: false
+      disableResponseParsing: false,
+      parseAsText: false
     };
     const finalOptions = { ...defaultOptions, ...options };
 
@@ -43,7 +44,11 @@ export const useFetch = () => {
       return Promise.reject();
     }
 
-    const result = finalOptions.disableResponseParsing ? res : await res.json();
+    const result = finalOptions.disableResponseParsing
+      ? res
+      : finalOptions.parseAsText
+        ? await res.text()
+        : await res.json();
     setResponse(result);
   };
 

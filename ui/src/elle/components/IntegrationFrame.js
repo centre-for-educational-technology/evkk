@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Box } from '@mui/material';
 import { queryStore } from '../store/QueryStore';
-import { getSelectedTexts } from '../hooks/service/TextService';
+import { useGetSelectedTexts } from '../hooks/service/TextService';
 import RootContext from '../context/RootContext';
 
 const IntegrationFrame = ({ integrationName }) => {
@@ -10,17 +10,18 @@ const IntegrationFrame = ({ integrationName }) => {
   const [height, setHeight] = useState('');
   const iframeRef = useRef();
   const [storeData, setStoreData] = useState('');
+  const { getSelectedTexts } = useGetSelectedTexts(setStoreData);
 
   useEffect(() => {
     iframeRef.current.contentWindow.postMessage(storeData, path);
   }, [storeData, height, path]);
 
   useEffect(() => {
-    getSelectedTexts(setStoreData);
+    getSelectedTexts();
   }, []);
 
   queryStore.subscribe(() => {
-    getSelectedTexts(setStoreData);
+    getSelectedTexts();
   });
 
   window.addEventListener('message', function (event) {

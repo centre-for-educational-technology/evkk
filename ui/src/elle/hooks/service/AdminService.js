@@ -2,7 +2,7 @@ import { useFetch } from '../useFetch';
 import { useEffect } from 'react';
 
 export const useGetTextsToReviewCount = () => {
-  const { response, fetchData } = useFetch();
+  const { fetchData, response } = useFetch();
 
   useEffect(() => {
     fetchData('/api/admin/texts-to-review');
