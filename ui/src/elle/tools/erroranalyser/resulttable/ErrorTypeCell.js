@@ -1,9 +1,9 @@
-import {errorTypeOptionsShort} from '../../../const/Constants';
-import {useTranslation} from 'react-i18next';
+import { errorTypeOptionsShort } from '../../../const/Constants';
+import { useTranslation } from 'react-i18next';
 
 
-export default function CorrectedSentence({annotationVersions, showAllErrors, queriedErrorTypes}) {
-  const {t} = useTranslation();
+export default function CorrectedSentence({ annotationVersions, showAllErrors, queriedErrorTypes }) {
+  const { t } = useTranslation();
 
   const insertErrorTypes = (errorTypeCount) => {
     const insertedErrorTypes = [];

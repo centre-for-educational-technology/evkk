@@ -67,7 +67,7 @@ export default function CorrectedSentenceCell({
       scopeEnd: parseInt(annotation.scopeEnd),
       category: getCategory(annotation.extractedErrorTypes),
     };
-    return {key, value};
+    return { key, value };
   }, []);
 
 
@@ -117,7 +117,7 @@ export default function CorrectedSentenceCell({
     annotationVersions.forEach((annotationVersion) => {
       const initialAnnotationVersion = new Map();
       annotationVersion.annotations.forEach((annotation) => {
-        const {key, value} = initializeAnnotation(annotation);
+        const { key, value } = initializeAnnotation(annotation);
         initialAnnotationVersion.set(key, value);
       });
       initialAnnotationVersions.push(initialAnnotationVersion);

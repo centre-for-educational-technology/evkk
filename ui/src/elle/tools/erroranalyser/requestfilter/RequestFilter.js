@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 import OptionalFilters from './OptionalFilters';
 import { loadFetch } from '../../../service/LoadFetch';
 
-export default function RequestFilter({getData, setData, setFilters}) {
+export default function RequestFilter({ getData, setData, setFilters }) {
   const [errorType, setErrorType] = useState([]);
   const [languageLevel, setLanguageLevel] = useState([]);
   const [citizenship, setCitizenship] = useState([]);
@@ -35,16 +35,17 @@ export default function RequestFilter({getData, setData, setFilters}) {
     accordion: true,
     optionalFilters: false,
   });
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const getFilterOptions = () => {
-    return loadFetch('/api/errors/getFilterOptions')
+    loadFetch('/api/errors/getFilterOptions')
       .then(res => res.json())
+      .then(setFilterOptions)
       .catch(error => console.error('Error:', error));
   };
 
   useEffect(() => {
-    getFilterOptions().then(setFilterOptions);
+    getFilterOptions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -84,16 +85,16 @@ export default function RequestFilter({getData, setData, setFilters}) {
     let optionalFilters = [];
 
     if (citizenship.length > 0) {
-      optionalFilters.push({citizenship: citizenship});
+      optionalFilters.push({ citizenship: citizenship });
     }
     if (education.length > 0) {
-      optionalFilters.push({education: education});
+      optionalFilters.push({ education: education });
     }
     if (textType.length > 0) {
-      optionalFilters.push({textType: textType});
+      optionalFilters.push({ textType: textType });
     }
     if (ageRange.length > 0) {
-      optionalFilters.push({ageRange: ageRange});
+      optionalFilters.push({ ageRange: ageRange });
     }
 
     if (errorTypeFilter.length === 0) {
@@ -122,7 +123,8 @@ export default function RequestFilter({getData, setData, setFilters}) {
       };
 
       setFilters(filters);
-      getData(errorTypeFilter, languageLevelFilter, optionalFilters).then(setData);
+      getData(errorTypeFilter, languageLevelFilter, optionalFilters);
+
       handleIsExpanded('accordion');
     }
   };
@@ -151,7 +153,7 @@ export default function RequestFilter({getData, setData, setFilters}) {
             <Box className="request-filter-item-main">
               <Typography
                 variant="h6"
-                style={{color: requestFilterErrors.typeError ? 'red' : 'initial'}}
+                style={{ color: requestFilterErrors.typeError ? 'red' : 'initial' }}
               >
                 {t('error_analyser_error_type')} *
               </Typography>
@@ -193,7 +195,7 @@ export default function RequestFilter({getData, setData, setFilters}) {
 
               {isExpanded.optionalFilters ? (
                 <Link
-                  sx={{my: 4, fontSize: '16px'}}
+                  sx={{ my: 4, fontSize: '16px' }}
                   component="button"
                   onClick={() => {
                     handleIsExpanded('optionalFilters');
@@ -203,7 +205,7 @@ export default function RequestFilter({getData, setData, setFilters}) {
                 </Link>
               ) : (
                 <Link
-                  sx={{my: 4, fontSize: '16px'}}
+                  sx={{ my: 4, fontSize: '16px' }}
                   component="button"
                   onClick={() => {
                     handleIsExpanded('optionalFilters');

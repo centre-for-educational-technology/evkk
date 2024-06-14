@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { cloneDeep } from 'lodash';
 import CheckboxHelper from './CheckboxHelper';
 import './../ErrorAnalyser.css';
-
-//https://medium.com/sltc-sean-learns-to-code/how-i-build-a-nested-checkbox-react-component-7eef982d1ea9
-//https://playcode.io/1193701E
 
 const transform = (data) => {
   return data.map((item) => {
@@ -46,11 +42,8 @@ const updateAncestors = (node) => {
     if (parent.childrenNodes.every((node) => node.checked)) {
       parent.checked = true;
       updateAncestors(parent);
-      return;
     }
   }
-
-  return;
 };
 
 const toggleDescendants = (node) => {
@@ -90,7 +83,7 @@ export default function ErrorCheckbox({
     toggleDescendants(node);
     updateAncestors(node);
 
-    setNodes(cloneDeep(nodes));
+    setNodes(structuredClone(nodes));
     setRequestFilterErrors({
       typeError: false,
       levelError: false,

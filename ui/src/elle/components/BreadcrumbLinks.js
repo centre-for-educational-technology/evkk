@@ -19,14 +19,16 @@ const MenuLink = styled(Link)({
 });
 
 export default function BreadcrumbLinks() {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const breadcrumbs = useBreadcrumbs();
   const [isNoMatch, setIsNoMatch] = useState(false);
 
   useEffect(() => {
     if (breadcrumbs.length > 1) {
       const allButHome = breadcrumbs.slice(1);
-      setIsNoMatch(allButHome.some(path => breadcrumbNameMap[path.key] === undefined));
+      setIsNoMatch(
+        allButHome.some(path => breadcrumbNameMap[path.key] === undefined)
+      );
     } else {
       setIsNoMatch(false);
     }
@@ -34,7 +36,7 @@ export default function BreadcrumbLinks() {
 
   const pageTitle = <PageTitle breadcrumbs={breadcrumbs} />;
 
-  const RenderBreadcrumbs = ({children}) => {
+  const RenderBreadcrumbs = ({ children }) => {
     return (
       <React.Fragment>
         {pageTitle}
@@ -47,7 +49,7 @@ export default function BreadcrumbLinks() {
     );
   };
 
-  const RenderMenuLink = ({to, className, translateKey}) => {
+  const RenderMenuLink = ({ to, className, translateKey }) => {
     return (
       <MenuLink
         to={to}

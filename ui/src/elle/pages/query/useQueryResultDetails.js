@@ -47,5 +47,5 @@ export default function useQueryResultDetails(id) {
     });
   };
 
-  return {previewText, metadata, text, sentence, modalOpen, setModalOpen};
+  return { previewText, metadata, text, sentence, modalOpen, setModalOpen };
 }

@@ -17,9 +17,9 @@ export default function ErrorAnalyser() {
   const [data, setData] = useState(null);
   const [filters, setFilters] = useState([]);
   const [showAllErrors, setShowAllErrors] = useState(false);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
-  const getData = async (
+  const getData = (
     errorTypeFilter,
     languageLevelFilter,
     optionalFilters
@@ -46,8 +46,9 @@ export default function ErrorAnalyser() {
 
     query = query.slice(0, -1);
 
-    return loadFetch(query)
+    loadFetch(query)
       .then(res => res.json())
+      .then(setData)
       .catch(error => console.error('Error:', error));
   };
 
@@ -57,9 +58,9 @@ export default function ErrorAnalyser() {
 
   return (
     <>
-      <Typography variant="h3" sx={{mb: '50px'}}>{t('error_analyser_title')}</Typography>
+      <Typography variant="h3" sx={{ mb: '50px' }}>{t('error_analyser_title')}</Typography>
 
-      {!data && <Box sx={{my: '50px', maxWidth: '500px'}}>
+      {!data && <Box sx={{ my: '50px', maxWidth: '500px' }}>
         <Alert severity="info">
           {t('error_analyser_intro')}
         </Alert>
@@ -70,13 +71,6 @@ export default function ErrorAnalyser() {
         setData={setData}
         setFilters={setFilters}
       />
-
-      {/*false && isLoading && (
-        <Box className="spinner-container">
-          <CircularProgress />
-        </Box>
-
-      )*/}
 
       <LoadingSpinner />
 

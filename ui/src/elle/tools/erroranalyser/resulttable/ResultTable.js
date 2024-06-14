@@ -28,7 +28,7 @@ import {
 } from '../../../const/Constants';
 import { Sort } from '@mui/icons-material';
 
-export default function ResultTable({data: rows, filters, showAllErrors}) {
+export default function ResultTable({ data: rows, filters, showAllErrors }) {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
   const [isColumnVisible, setIsColumnVisible] = useState({
@@ -48,8 +48,8 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
     handleChangePage,
     handleChangeRowsPerPage,
   } = usePagination(rows);
-  const {previewText, metadata, text, sentence, modalOpen, setModalOpen} = useQueryResultDetails();
-  const {t} = useTranslation();
+  const { previewText, metadata, text, sentence, modalOpen, setModalOpen } = useQueryResultDetails();
+  const { t } = useTranslation();
 
   const headCells = [
     {
@@ -95,7 +95,8 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
   ];
 
   useEffect(() => {
-    let visibility = isColumnVisible;
+    console.log(filters);
+    let visibility = { ...isColumnVisible };
     for (const key in visibility) {
       if (
         key === 'sourceSentence' ||
@@ -106,8 +107,9 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
         visibility[key] = !!(filters[key] && filters[key].length > 1);
       }
     }
+    console.log(visibility);
     setIsColumnVisible(visibility);
-  }, [filters, isColumnVisible]);
+  }, []);
 
   const createSortHandler = (property) => (event) => {
     handleRequestSort(event, property);
@@ -218,6 +220,17 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
     return formattedSentence;
   };
 
+  useEffect(() => {
+    if (isColumnVisible['languageLevel']) {
+      console.log('nähtavkeel');
+    }
+
+    console.log(rows);
+
+    headCells.forEach(headCell => console.log(headCell.id, isColumnVisible[headCell.id]));
+  }, [rows]);
+
+
   return (
     <>
       <TableContainer component={Paper} className="result-table-container">
@@ -228,7 +241,7 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
                 (headCell) =>
                   isColumnVisible[headCell.id] && (
                     <TableCell
-                      sx={{fontWeight: '900'}}
+                      sx={{ fontWeight: '900' }}
                       key={headCell.id}
                       sortDirection={orderBy === headCell.id ? order : false}
                     >
@@ -240,7 +253,7 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
                           hideSortIcon={true}
                         >
                           {t(headCell.label)}
-                          {orderBy !== headCell.id && <Sort sx={{mx: '4px', fontSize: '18px'}} />}
+                          {orderBy !== headCell.id && <Sort sx={{ mx: '4px', fontSize: '18px' }} />}
                         </TableSortLabel>
                       ) : (
                         <>{t(headCell.label)}</>
@@ -254,7 +267,7 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
             {visibleRows.map((row) => {
               const formattedSentence = formatSentence(row.sentence);
               return (
-                <TableRow key={row.sentenceId} style={{height: '100%', verticalAlign: 'top'}}>
+                <TableRow key={row.sentenceId} style={{ height: '100%', verticalAlign: 'top' }}>
                   <TableCell>
                     <Box
                       className="clickable"
@@ -263,7 +276,7 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
                       {formattedSentence}
                     </Box>
                   </TableCell>
-                  <TableCell style={{height: '100%'}}>
+                  <TableCell style={{ height: '100%' }}>
                     <div className="nested-cell-wrapper">
                       {
                         <CorrectedSentenceCell
@@ -276,7 +289,7 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
                     </div>
                   </TableCell>
                   {isColumnVisible['errorType'] && (
-                    <TableCell style={{height: '100%'}}>
+                    <TableCell style={{ height: '100%' }}>
                       <div className="nested-cell-wrapper">
                         {
                           <ErrorTypeCell
@@ -289,7 +302,7 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
                   )}
                   {isColumnVisible['languageLevel'] && (
                     <TableCell>
-                      {row.languageLevel} {row.querriedErrorTypeCount}
+                      {row.languageLevel}
                     </TableCell>
                   )}
                   {isColumnVisible['textType'] && (
@@ -326,7 +339,7 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
               );
             })}
             {emptyRows > 0 && (
-              <TableRow style={{height: 53 * emptyRows}}>
+              <TableRow style={{ height: 53 * emptyRows }}>
                 <TableCell colSpan={6} />
               </TableRow>
             )}
@@ -334,7 +347,7 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
           <TableFooter>
             <TableRow>
               <TablePagination
-                rowsPerPageOptions={[5, 10, 25, {label: t('error_analyser_table_footer_all'), value: -1}]}
+                rowsPerPageOptions={[5, 10, 25, { label: t('error_analyser_table_footer_all'), value: -1 }]}
                 labelRowsPerPage={t('error_analyser_table_footer_rows_per_page')}
                 colSpan={3}
                 count={rows.length}
@@ -351,7 +364,7 @@ export default function ResultTable({data: rows, filters, showAllErrors}) {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
                 ActionsComponent={TablePaginationActions}
-                labelDisplayedRows={function ({from, to, count}) {
+                labelDisplayedRows={function ({ from, to, count }) {
                   return `${from}–${to} / ${count !== -1 ? count : `more than ${to}`}`;
                 }}
               />

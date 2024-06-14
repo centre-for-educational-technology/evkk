@@ -22,12 +22,12 @@ import { CC_BY_4_0_LICENSE_PATH, DefaultButtonStyle } from '../../const/Constant
 import NewTabHyperlink from '../../components/NewTabHyperlink';
 import { Languages } from '../../translations/i18n';
 
-export default function QueryDownloadButton({selected}) {
+export default function QueryDownloadButton({ selected }) {
   const [downloadForm, setDownloadForm] = useState(FileDownloadForm.BASIC_TEXT);
   const [downloadFileType, setDownloadFileType] = useState(FileDownloadType.SINGLE_FILE);
   const [anchorEl, setAnchorEl] = useState(null);
   const optionsDialogOpen = Boolean(anchorEl);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const handleOptionsDialogOpenButtonClick = (event) => {
     setDownloadForm(FileDownloadForm.BASIC_TEXT);
