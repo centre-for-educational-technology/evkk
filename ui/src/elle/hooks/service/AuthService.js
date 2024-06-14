@@ -1,5 +1,3 @@
-import { loadFetch } from './util/LoadFetch';
-import { setContext } from '../../util/FunctionAndPropertyUtils';
 import { successEmitter } from '../../../App';
 import { SuccessSnackbarEventType } from '../../components/snackbar/SuccessSnackbar';
 import { useFetch } from '../useFetch';
@@ -34,10 +32,20 @@ export const useLogout = (forced = false) => {
   return { logout };
 };
 
-export const renew = async () => {
-  await loadFetch(`${AUTH_PATH}/renew`, {
-    method: 'POST'
-  }).then(() => {
-    setContext(true);
-  });
+export const useRenew = () => {
+  const { fetchData } = useFetch();
+  const { setContext } = useContext(RootContext);
+
+  const renew = useCallback(() => {
+    fetchData(`${AUTH_PATH}/renew`, {
+      method: 'POST'
+    }, {
+      disableResponseParsing: true
+    }).then(() => {
+      setContext(true);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return { renew };
 };

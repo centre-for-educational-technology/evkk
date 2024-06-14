@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { renew, useLogout } from '../../hooks/service/AuthService';
+import { useLogout, useRenew } from '../../hooks/service/AuthService';
 import ModalBase from './ModalBase';
 import { useTranslation } from 'react-i18next';
 import { DefaultButtonStyle } from '../../const/Constants';
@@ -15,6 +15,7 @@ export default function SessionExpirationModal() {
   const { t } = useTranslation();
   const { accessToken } = useContext(RootContext);
   const { logout } = useLogout();
+  const { renew } = useRenew();
 
   const initTimeoutOrLogout = useCallback(() => {
     if (!accessToken) {
