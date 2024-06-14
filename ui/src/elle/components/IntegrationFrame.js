@@ -18,7 +18,7 @@ const IntegrationFrame = ({ integrationName }) => {
 
   useEffect(() => {
     getSelectedTexts();
-  }, []);
+  }, [getSelectedTexts]);
 
   queryStore.subscribe(() => {
     getSelectedTexts();

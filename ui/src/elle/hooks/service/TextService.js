@@ -21,7 +21,7 @@ export const useGetSelectedTexts = (setStoreData) => {
     } else if (queryStoreState.ownTexts) {
       setStoreData(queryStoreState.ownTexts);
     }
-  });
+  }, [fetchData, setStoreData]);
 
   useEffect(() => {
     if (response) {
@@ -32,7 +32,7 @@ export const useGetSelectedTexts = (setStoreData) => {
       }
       setStoreData(sanitizeTexts(result));
     }
-  }, [response]);
+  }, [response, setStoreData]);
 
   return { getSelectedTexts };
 };

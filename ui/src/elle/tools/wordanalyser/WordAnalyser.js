@@ -48,7 +48,7 @@ function WordAnalyser() {
 
   useEffect(() => {
     getSelectedTexts();
-  }, []);
+  }, [getSelectedTexts]);
 
   useEffect(() => {
     setInputText(storeData);

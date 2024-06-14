@@ -26,8 +26,7 @@ export const useLogout = (forced = false) => {
       navigate('/');
       successEmitter.emit(forced ? SuccessSnackbarEventType.LOGOUT_FORCED_SUCCESS : SuccessSnackbarEventType.LOGOUT_SUCCESS);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [accessToken, clearAuthContext, fetchData, forced, navigate]);
 
   return { logout };
 };
@@ -44,8 +43,7 @@ export const useRenew = () => {
     }).then(() => {
       setContext(true);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fetchData, setContext]);
 
   return { renew };
 };
