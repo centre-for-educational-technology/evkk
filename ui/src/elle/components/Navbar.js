@@ -94,15 +94,15 @@ export default function Navbar() {
             <img
               src={require('../resources/images/flags/est.png').default}
               className="lang-icon"
-              alt="EST"
-            />EST
+              alt="Eesti"
+            />Eesti
           </MenuItem>
           <MenuItem onClick={() => handleLangSelect(Languages.ENGLISH)}>
             <img
               src={require('../resources/images/flags/eng.png').default}
               className="lang-icon"
-              alt="ENG"
-            />ENG
+              alt="English"
+            />English
           </MenuItem>
         </Menu>
       </div>

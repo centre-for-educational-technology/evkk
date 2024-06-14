@@ -21,7 +21,9 @@ export const useLogout = (forced = false) => {
       headers: {
         'Content-Type': 'application/json'
       }
-    }, false, true).then(() => {
+    }, {
+      disableResponseParsing: true
+    }).then(() => {
       clearAuthContext();
       navigate('/');
       successEmitter.emit(forced ? SuccessSnackbarEventType.LOGOUT_FORCED_SUCCESS : SuccessSnackbarEventType.LOGOUT_SUCCESS);

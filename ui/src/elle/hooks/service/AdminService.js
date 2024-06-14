@@ -5,7 +5,7 @@ export const useGetTextsToReviewCount = () => {
   const { response, fetchData } = useFetch();
 
   useEffect(() => {
-    fetchData('/api/admin/texts-to-review', {}, false);
+    fetchData('/api/admin/texts-to-review');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

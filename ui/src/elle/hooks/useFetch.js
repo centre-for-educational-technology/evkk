@@ -13,7 +13,13 @@ export const useFetch = () => {
   const { accessToken } = useContext(RootContext);
   const [response, setResponse] = useState(null);
 
-  const fetchData = async (url, params = {}, disableErrorHandling = false, disableResponseParsing = false) => {
+  const fetchData = async (url, params = {}, options = {}) => {
+    const defaultOptions = {
+      disableErrorHandling: false,
+      disableResponseParsing: false
+    };
+    const finalOptions = { ...defaultOptions, ...options };
+
     loadingEmitter.emit(LoadingSpinnerEventType.LOADER_START);
 
     if (hasNonExpiredToken(accessToken)) {
@@ -26,7 +32,7 @@ export const useFetch = () => {
     const res = await fetch(url, params);
     loadingEmitter.emit(LoadingSpinnerEventType.LOADER_END);
 
-    if (!disableErrorHandling && !res.ok) {
+    if (!finalOptions.disableErrorHandling && !res.ok) {
       if (res.status === 401) {
         errorEmitter.emit(ErrorSnackbarEventType.UNAUTHORIZED);
       } else if (res.status === 403) {
@@ -37,7 +43,7 @@ export const useFetch = () => {
       return Promise.reject();
     }
 
-    const result = disableResponseParsing ? res : await res.json();
+    const result = finalOptions.disableResponseParsing ? res : await res.json();
     setResponse(result);
   };
 

@@ -46,7 +46,7 @@ export const RootProvider = ({ children }) => {
   }, [loadData]);
 
   useEffect(() => {
-    if (tokenRenewed && !isLoading) {
+    if (tokenRenewed === true && !isLoading) {
       successEmitter.emit(SuccessSnackbarEventType.SESSION_RENEW_SUCCESS);
       setTokenRenewed(false);
     }
