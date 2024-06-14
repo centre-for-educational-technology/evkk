@@ -19,6 +19,7 @@ export default function ErrorAnalyser() {
   const [showAllErrors, setShowAllErrors] = useState(false);
   const { t } = useTranslation();
 
+
   const getData = (
     errorTypeFilter,
     languageLevelFilter,
