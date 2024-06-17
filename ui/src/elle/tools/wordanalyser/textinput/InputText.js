@@ -2,7 +2,8 @@ import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { AnalyseContext } from '../Contexts';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { Box } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
+import { WordAnalyzerTooltipShift } from '../../../const/Constants';
 
 function changeNextColor(idNumber, setIdNumber, markedIds, onWordInfo) {
   if (idNumber < markedIds.length - 1) {
@@ -59,10 +60,18 @@ export const InputText = ({onMarkWords, onWordSelect, onWordInfo}) => {
 
   const handleIsNotMarked = (ids, i, analysedWords, syllable) => {
     return (
+      <Tooltip
+        placement={'top'}
+        enterDelay={300}
+        arrow
+        title={syllable[i] === '–' ? 'Sõna sisaldab võõraid tähemärke!' : ''}
+        slotProps={WordAnalyzerTooltipShift}
+      >
       <span id={ids[i]}
             className={syllable[i] === '–' ? 'word non-estonian-word' : 'word'}
             key={ids[i]}
             onClick={(e) => handleWord(e.target.id)}>{analysedWords[i]}</span>
+      </Tooltip>
     );
   };
 

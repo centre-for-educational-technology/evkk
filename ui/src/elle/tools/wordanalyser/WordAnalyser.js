@@ -444,11 +444,6 @@ function WordAnalyser() {
                  onReset={resetAnalyser}
                  ref={inputRef}
           />
-          {analysedInput.syllables.includes('–')
-            &&
-            <Alert severity="error">
-              Tekstis leidub üks või mitu võõkeelset tähemärki sisaldavat sõna!
-            </Alert>}
         </Grid>
         <Grid item
               xs={12}
