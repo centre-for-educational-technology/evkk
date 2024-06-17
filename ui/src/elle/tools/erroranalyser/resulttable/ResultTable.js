@@ -342,14 +342,6 @@ export default function ResultTable({ data: rows, filters, showAllErrors }) {
                 count={rows.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
-                slotProps={{
-                  select: {
-                    inputProps: {
-                      'aria-label': 'rows per page',
-                    },
-                    native: true,
-                  },
-                }}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
                 ActionsComponent={TablePaginationActions}
