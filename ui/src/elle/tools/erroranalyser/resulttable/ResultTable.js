@@ -96,6 +96,7 @@ export default function ResultTable({ data: rows, filters, showAllErrors }) {
 
   useEffect(() => {
     let visibility = { ...isColumnVisible };
+
     for (const key in visibility) {
       if (
         key === 'sourceSentence' ||
@@ -107,6 +108,7 @@ export default function ResultTable({ data: rows, filters, showAllErrors }) {
       }
     }
     setIsColumnVisible(visibility);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const createSortHandler = (property) => (event) => {
