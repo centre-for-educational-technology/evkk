@@ -43,11 +43,33 @@
   </select>
 
   <select id="getAllData" resultType="java.lang.String">
-    SELECT array_agg(property_name || ': ' || property_value) AS properties
-    FROM (SELECT text_id, 'text_id' AS property_name, text_id::varchar AS property_value
-          FROM core.text_property GROUP BY text_id
-          UNION SELECT text_id, property_name, property_value FROM core.text_property)
-           AS tabel1 GROUP BY text_id;
+    SELECT
+      jsonb_build_object(
+        tpr.text_processor_result_id::text,
+        jsonb_build_object(
+          'charCount', tpr.result->>'charCount',
+          'wordCount', tpr.result->>'wordCount',
+          'sentenceCount', tpr.result->>'sentenceCount'
+          ) || jsonb_object_agg(tp.property_name, tp.property_value)
+        ) AS result
+    FROM
+      core.text_processor_result tpr
+        JOIN
+      core.text t
+      ON tpr.text_hash = t.hash
+        LEFT JOIN (
+        SELECT
+          tp.text_id,
+          tp.property_name,
+          tp.property_value
+        FROM
+          core.text_property tp
+      ) tp ON t.id = tp.text_id
+    WHERE
+      tpr.type = 'CHARS_WORDS_SENTENCES'
+    GROUP BY
+      tpr.text_processor_result_id, tpr.result;
+
   </select>
 
   <select id="detailedTextQueryByParameters" resultType="java.lang.String">

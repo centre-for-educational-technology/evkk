@@ -599,14 +599,14 @@ function Statistics() {
         <div style={{ display: 'flex', flexDirection: 'column', marginRight: '50px' }}>
         {/* Render text data checkboxes */}
         <label style={{ fontWeight: 'bold' }}>Teksti Andmed</label>
-        {renderCheckbox("Teksti liik", "type", textCheckboxes.type, handleTextCheckboxChange)}
+        {/* {renderCheckbox("Teksti liik", "type", textCheckboxes.type, handleTextCheckboxChange)} */}
         {renderCheckbox("Keel", "language", textCheckboxes.language, handleTextCheckboxChange)}
         {renderCheckbox("Keeleoskustase", "level", textCheckboxes.level, handleTextCheckboxChange)}
         {renderCheckbox("Kasutatud õppematerjale", "materialsUsed", textCheckboxes.materialsUsed, handleTextCheckboxChange)}
         {renderCheckbox("Lisamise aasta", "year", textCheckboxes.year, handleTextCheckboxChange)}
-        {renderCheckbox("Tähemärke", "characters", textCheckboxes.characters, handleTextCheckboxChange)}
+        {/* {renderCheckbox("Tähemärke", "characters", textCheckboxes.characters, handleTextCheckboxChange)}
         {renderCheckbox("Sõnu", "words", textCheckboxes.words, handleTextCheckboxChange)}
-        {renderCheckbox("Lauseid", "sentences", textCheckboxes.sentences, handleTextCheckboxChange)}
+        {renderCheckbox("Lauseid", "sentences", textCheckboxes.sentences, handleTextCheckboxChange)} */}
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', marginRight: '50px' }}>
