@@ -21,15 +21,17 @@ public class User implements Serializable {
   private String idCode;
   private String idCodePrefix;
   private String firstName;
+  private String middleName;
   private String lastName;
   private String roleName;
   private String uiLocales;
 
-  public User(String emailAddress, String idCode, String idCodePrefix, String firstName, String lastName, String roleName, String uiLocales) {
+  public User(String emailAddress, String idCode, String idCodePrefix, String firstName, String middleName, String lastName, String roleName, String uiLocales) {
     this.emailAddress = emailAddress;
     this.idCode = idCode;
     this.idCodePrefix = idCodePrefix;
     this.firstName = firstName;
+    this.middleName = middleName;
     this.lastName = lastName;
     this.roleName = roleName;
     this.uiLocales = uiLocales;

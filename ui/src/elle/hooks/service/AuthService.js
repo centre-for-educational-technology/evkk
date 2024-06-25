@@ -7,12 +7,12 @@ import RootContext from '../../context/RootContext';
 
 const AUTH_PATH = '/api/auth';
 
-export const useLogout = (forced = false) => {
+export const useLogout = () => {
   const { fetchData } = useFetch();
   const navigate = useNavigate();
   const { clearAuthContext, accessToken } = useContext(RootContext);
 
-  const logout = useCallback(() => {
+  const logout = useCallback((forced = false) => {
     fetchData(`${AUTH_PATH}/logout`, {
       method: 'DELETE',
       body: JSON.stringify({ token: accessToken }),
@@ -26,7 +26,7 @@ export const useLogout = (forced = false) => {
       navigate('/');
       successEmitter.emit(forced ? SuccessSnackbarEventType.LOGOUT_FORCED_SUCCESS : SuccessSnackbarEventType.LOGOUT_SUCCESS);
     });
-  }, [accessToken, clearAuthContext, fetchData, forced, navigate]);
+  }, [accessToken, clearAuthContext, fetchData, navigate]);
 
   return { logout };
 };

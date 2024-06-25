@@ -23,6 +23,7 @@ import static io.jsonwebtoken.security.Keys.hmacShaKeyFor;
 import static java.lang.String.format;
 import static java.lang.System.currentTimeMillis;
 import static java.time.Instant.now;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @Service
 @RequiredArgsConstructor
@@ -53,6 +54,7 @@ public class AccessTokenService {
       (String) claims.get("idCode"),
       (String) claims.get("idCodePrefix"),
       (String) claims.get("firstName"),
+      (String) claims.get("middleName"),
       (String) claims.get("lastName"),
       (String) claims.get("roleName"),
       (String) claims.get("uiLocales")
@@ -78,8 +80,13 @@ public class AccessTokenService {
     claims.put("idCode", user.getIdCode());
     claims.put("idCodePrefix", user.getIdCodePrefix());
     claims.put("firstName", user.getFirstName());
+    claims.put("middleName", user.getMiddleName());
     claims.put("lastName", user.getLastName());
-    claims.put("fullName", format("%s %s", user.getFirstName(), user.getLastName()));
+    claims.put("fullName", format("%s%s %s",
+      user.getFirstName(),
+      isEmpty(user.getMiddleName()) ? "" : " " + user.getMiddleName(),
+      user.getLastName())
+    );
     claims.put("roleName", user.getRoleName());
     claims.put("uiLocales", user.getUiLocales());
     return createToken(claims, user.getIdCode(), user.getUserId());

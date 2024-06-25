@@ -55,6 +55,7 @@ public class LoginService {
       .idCode(harIdUser.getIdCode().split(":")[2])
       .idCodePrefix(idCode.substring(0, idCode.indexOf(':', idCode.indexOf(':') + 1)))
       .firstName(harIdUser.getFirstName())
+      .middleName(harIdUser.getMiddleName())
       .lastName(harIdUser.getLastName())
       .roleName("USER")
       .uiLocales(harIdUser.getUiLocales())

@@ -58,7 +58,8 @@ export default function SessionExpirationModal() {
     initTimeoutOrLogout();
 
     return () => clearInterval(intervalId.current);
-  }, [initTimeoutOrLogout, accessToken, logout]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initTimeoutOrLogout, accessToken]);
 
   const updateMinutesLeft = (expirationTime) => {
     const minutes = Math.max(0, Math.ceil((expirationTime - Date.now()) / 60000));
@@ -72,11 +73,17 @@ export default function SessionExpirationModal() {
     initTimeoutOrLogout();
   };
 
+  const handleClose = () => {
+    setIsOpen(false);
+    clearTimeout(timeoutId.current);
+  };
+
   return (
     <ModalBase
       isOpen={isOpen}
       setIsOpen={setIsOpen}
       disableComfortClosing={true}
+      disableCloseButton={true}
       innerClassName="session-expiration-modal"
       title="session_expiration_modal_title"
     >
@@ -89,10 +96,19 @@ export default function SessionExpirationModal() {
       <br /><br />
       <Button
         style={DefaultButtonStyle}
+        size="small"
         variant="contained"
         onClick={handleExtendSession}
       >
-        {t('session_expiration_modal_renew')}
+        {t('session_expiration_modal_renew_yes')}
+      </Button>
+      <Button
+        style={DefaultButtonStyle}
+        size="small"
+        variant="contained"
+        onClick={handleClose}
+      >
+        {t('session_expiration_modal_renew_no')}
       </Button>
     </ModalBase>
   );

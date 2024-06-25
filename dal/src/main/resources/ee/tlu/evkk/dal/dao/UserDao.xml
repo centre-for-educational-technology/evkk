@@ -9,6 +9,7 @@
            id_code,
            id_code_prefix,
            first_name,
+           middle_name,
            last_name,
            role_name,
            ui_locales
@@ -22,6 +23,7 @@
            id_code,
            id_code_prefix,
            first_name,
+           middle_name,
            last_name,
            role_name,
            ui_locales
@@ -35,6 +37,7 @@
            u.id_code,
            u.id_code_prefix,
            u.first_name,
+           u.middle_name,
            u.last_name,
            u.role_name,
            u.ui_locales
@@ -48,6 +51,7 @@
                            id_code,
                            id_code_prefix,
                            first_name,
+                           middle_name,
                            last_name,
                            role_name,
                            ui_locales)
@@ -55,10 +59,11 @@
             #{user.idCode},
             #{user.idCodePrefix},
             #{user.firstName},
+            #{user.middleName},
             #{user.lastName},
             'USER',
             #{user.uiLocales})
-    returning user_id, email_address, id_code, id_code_prefix, first_name, last_name, role_name, ui_locales
+    returning user_id, email_address, id_code, id_code_prefix, first_name, middle_name, last_name, role_name, ui_locales
   </select>
 
 </mapper>

@@ -25,6 +25,7 @@ CREATE TABLE core.user
 (
   user_id        uuid DEFAULT uuid_generate_v4(),
   first_name     text                             NOT NULL,
+  middle_name text NULL,
   last_name      text                             NOT NULL,
   email_address  citext                           NOT NULL,
   id_code        text                             NOT NULL,

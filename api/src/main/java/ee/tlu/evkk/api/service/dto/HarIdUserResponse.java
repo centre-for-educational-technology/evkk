@@ -19,6 +19,9 @@ public class HarIdUserResponse {
   @JsonProperty("given_name")
   private String firstName;
 
+  @JsonProperty("middle_name")
+  private String middleName;
+
   @JsonProperty("family_name")
   private String lastName;
 

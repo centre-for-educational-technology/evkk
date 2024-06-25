@@ -13,6 +13,7 @@ export default function ModalBase({
                                     title,
                                     titleTooltip,
                                     disableComfortClosing = false,
+                                    disableCloseButton = false,
                                     children
                                   }) {
 
@@ -43,15 +44,17 @@ export default function ModalBase({
               <QuestionMark className="tooltip-icon" />
             </Tooltip>}
         </div>
-        <IconButton
-          aria-label="close"
-          onClick={() => {
-            setIsOpen(false);
-          }}
-          className="close-button"
-        >
-          <CloseIcon />
-        </IconButton>
+        {!disableCloseButton && (
+          <IconButton
+            aria-label="close"
+            onClick={() => {
+              setIsOpen(false);
+            }}
+            className="close-button"
+          >
+            <CloseIcon />
+          </IconButton>
+        )}
         <br />
         <div>
           {children}

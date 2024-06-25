@@ -11,6 +11,8 @@ import org.mapstruct.Mapping;
 
 import java.util.Map;
 
+import static java.lang.String.format;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.mapstruct.ReportingPolicy.IGNORE;
 
 @Mapper(componentModel = "spring")
@@ -23,7 +25,16 @@ public interface DtoMapper {
 
   MasinoppeEnnustusResponseDto toMasinoppeEnnustusResponseDto(String result);
 
-  @Mapping(target = "fullName", expression = "java(user.getFirstName() + \" \" + user.getLastName())")
+  @Mapping(target = "fullName", expression = "java(getFullName(user))")
   UserDto toUserDto(User user);
+
+  // This method is in use as a Java expression for toUserDto
+  default String getFullName(User user) {
+    return format("%s%s %s",
+      user.getFirstName(),
+      isEmpty(user.getMiddleName()) ? "" : " " + user.getMiddleName(),
+      user.getLastName()
+    );
+  }
 
 }
