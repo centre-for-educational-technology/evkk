@@ -10,6 +10,7 @@ export const TRANSLATIONS_ET = {
   collocates_graph_slider_title: 'Määra, kas tahad joonisel näha vähem või rohkem naabersõnu',
   collocates_graph_tooltip: 'Joonisel kujutatakse valitud sõna naabersõnu, nende olulisust ja paiknemist otsisõna suhtes. Naabersõnad asuvad otsisõnast vasakul, paremal või keskel vastavalt sellele, kas need esinevad tekstis pigem otsisõna ees, järel või võrdselt mõlemal pool. Suurema skooriga naabersõnad on tähistatud suurema mummuga. Vaikimisi näidatakse kuni 30 olulisemat naabersõna, aga nende arvu saab soovi korral muuta.',
   common_about: 'Keskkonnast',
+  common_statistics: 'Statistika',
   common_analysis_options: 'Analüüsi valikud',
   common_articles: 'Publikatsioonid',
   common_author_data: 'Autori andmed',

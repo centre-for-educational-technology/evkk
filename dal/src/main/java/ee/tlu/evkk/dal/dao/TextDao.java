@@ -22,6 +22,8 @@ import java.util.UUID;
 @Repository
 public interface TextDao {
 
+  List<String> getAllData();
+
   String findTextsByIds(@Param("ids") Set<UUID> ids);
 
   TextAndMetadata findTextAndMetadataById(@Param("textId") UUID textId);

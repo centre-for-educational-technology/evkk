@@ -12,6 +12,7 @@ import ClusterFinder from './elle/tools/ClusterFinder';
 import WordAnalyserParent from './elle/tools/wordanalyser/WordAnalyserParent';
 import BreadcrumbLinks from './elle/components/BreadcrumbLinks';
 import AboutUsText from './elle/components/about/AboutUsText';
+import Statistics from './elle/pages/Statistics';
 import Publications from './elle/components/about/Publications';
 import Adding from './elle/pages/Adding.component';
 import Wordlist from './elle/tools/wordlist/Wordlist';
@@ -85,6 +86,8 @@ class AppRoutes extends Component {
           </Route>
           <Route path="/links"
                  element={<Links />} />
+          <Route path='/statistics'
+                 element={<Statistics />} />
           <Route path="*"
                  element={this.render404()} />
         </Routes>
