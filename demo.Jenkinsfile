@@ -8,6 +8,9 @@ pipeline {
 
   environment {
     BUILD_TARGET = 'demo'
+    HARID_CLIENT_ID = credentials('harid_client_id')
+    HARID_CLIENT_SECRET = credentials('harid_client_secret')
+    JWT_TOKEN_SECRET = credentials('jwt_token_secret')
   }
 
   stages {
