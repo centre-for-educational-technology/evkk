@@ -19,6 +19,7 @@ export default function TableDownloadButton({ data, headers, accessors, tableTyp
   const [fileType, setFileType] = useState(false);
   const fileDownloadElement = createRef();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [modifiedData, setModifiedData] = useState(data);
   const [buttonType, setButtonType] = useState(<Button style={DefaultButtonStyle}
                                                        variant="contained"
                                                        onClick={showButton}>{t('common_download')}</Button>);
@@ -45,14 +46,14 @@ export default function TableDownloadButton({ data, headers, accessors, tableTyp
 
   function setFirstRow() {
     if (tableType === TableType.LEMMA_VIEW && csvData === '') {
-      for (const element of data) {
+      for (const element of modifiedData) {
         element.col1 = element.col1.props.children;
       }
     }
   }
 
   const setGrammaticalAnalysisData = () => {
-    for (const element of data) {
+    for (const element of modifiedData) {
       let a = '';
       for (let j = 0; j < element.col3[0].length; j++) {
         a += element.col3[0][j] + ' ';
@@ -60,14 +61,14 @@ export default function TableDownloadButton({ data, headers, accessors, tableTyp
       }
       element.col3[2] = a;
     }
-    csvData = JSON.parse(JSON.stringify(data));
-    for (let i = 0; i < data.length; i++) {
+    csvData = JSON.parse(JSON.stringify(modifiedData));
+    for (let i = 0; i < modifiedData.length; i++) {
       csvData[i].col3.splice(0, 2);
     }
   };
 
   const setLemmaViewData = () => {
-    for (const element of data) {
+    for (const element of modifiedData) {
       let a = '';
       for (let j = 0; j < element.col2[0].length; j++) {
         a += element.col2[0][j] + ' ';
@@ -75,14 +76,14 @@ export default function TableDownloadButton({ data, headers, accessors, tableTyp
       }
       element.col2[2] = a;
     }
-    csvData = JSON.parse(JSON.stringify(data));
+    csvData = JSON.parse(JSON.stringify(modifiedData));
     for (let i = 0; i < data.length; i++) {
       csvData[i].col2.splice(0, 2);
     }
   };
 
   const setSyllablesData = () => {
-    for (const element of data) {
+    for (const element of modifiedData) {
       let a = '';
       for (let j = 0; j < element.col5[0].length; j++) {
         a += element.col5[0][j] + ' ';
@@ -90,8 +91,8 @@ export default function TableDownloadButton({ data, headers, accessors, tableTyp
       }
       element.col5[2] = a;
     }
-    csvData = JSON.parse(JSON.stringify(data));
-    for (let i = 0; i < data.length; i++) {
+    csvData = JSON.parse(JSON.stringify(modifiedData));
+    for (let i = 0; i < modifiedData.length; i++) {
       csvData[i].col5.splice(0, 2);
     }
   };
@@ -100,7 +101,7 @@ export default function TableDownloadButton({ data, headers, accessors, tableTyp
     // if sortBy column is given, data is sorted accordingly
     if (sortByColAccessor) {
       const sortedData = sortTableDataByCol(data, sortByColAccessor);
-      setData(sortedData);
+      setModifiedData(sortedData);
     }
     setFirstRow();
     setData();
@@ -115,7 +116,7 @@ export default function TableDownloadButton({ data, headers, accessors, tableTyp
     } else if (tableType === TableType.SYLLABLES) {
       setSyllablesData();
     } else if (tableType === TableType.WORDLIST || tableType === TableType.WORD_CONTEXT || tableType === TableType.COLLOCATES) {
-      csvData = JSON.parse(JSON.stringify(data));
+      csvData = JSON.parse(JSON.stringify(modifiedData));
     }
   }
 
@@ -162,7 +163,7 @@ export default function TableDownloadButton({ data, headers, accessors, tableTyp
     } else {
       setButtonType(<ExcelFile filename={t('gram_anal_filename')}
                                element={excelButtonBase}>
-        <ExcelSheet data={data}
+        <ExcelSheet data={modifiedData}
                     name={t('common_excel_sheet_name')}>
           <ExcelColumn label={headers[0]}
                        value="col1" />
@@ -185,7 +186,7 @@ export default function TableDownloadButton({ data, headers, accessors, tableTyp
     } else {
       setButtonType(<ExcelFile filename={t('lemmas_filename')}
                                element={excelButtonBase}>
-        <ExcelSheet data={data}
+        <ExcelSheet data={modifiedData}
                     name={t('common_excel_sheet_name')}>
           <ExcelColumn label={headers[0]}
                        value="col1" />
@@ -206,7 +207,7 @@ export default function TableDownloadButton({ data, headers, accessors, tableTyp
     } else {
       setButtonType(<ExcelFile filename={t('syllables_filename')}
                                element={excelButtonBase}>
-        <ExcelSheet data={data}
+        <ExcelSheet data={modifiedData}
                     name={t('common_excel_sheet_name')}>
           <ExcelColumn label={headers[0]}
                        value="col1" />
@@ -233,7 +234,7 @@ export default function TableDownloadButton({ data, headers, accessors, tableTyp
     } else {
       setButtonType(<ExcelFile filename={t('wordlist_filename')}
                                element={excelButtonBase}>
-        <ExcelSheet data={data}
+        <ExcelSheet data={modifiedData}
                     name={t('common_excel_sheet_name')}>
           <ExcelColumn label={headers[0]}
                        value="word" />
@@ -252,7 +253,7 @@ export default function TableDownloadButton({ data, headers, accessors, tableTyp
     } else {
       setButtonType(<ExcelFile filename={t('wordcontext_filename')}
                                element={excelButtonBase}>
-        <ExcelSheet data={data}
+        <ExcelSheet data={modifiedData}
                     name={t('common_excel_sheet_name')}>
           <ExcelColumn label={headers[0]}
                        value="contextBefore" />
@@ -271,7 +272,7 @@ export default function TableDownloadButton({ data, headers, accessors, tableTyp
     } else {
       setButtonType(<ExcelFile filename={t('collocates_filename')}
                                element={excelButtonBase}>
-        <ExcelSheet data={data}
+        <ExcelSheet data={modifiedData}
                     name={t('common_excel_sheet_name')}>
           <ExcelColumn label={headers[0]}
                        value="collocate" />
