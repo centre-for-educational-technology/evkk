@@ -107,7 +107,7 @@ export const CorrectorCustomSlider = {
     backgroundColor: '#9C27B0',
     transformOrigin: 'bottom',
     transform: 'rotate(-45deg)',
-    '&:before': {display: 'none'},
+    '&:before': { display: 'none' },
     '&.MuiSlider-valueLabelOpen': {
       transform: 'translate(40%, -90%) rotate(-45deg)'
     },
@@ -150,8 +150,8 @@ export const MenuLink = styled(HashLink)({
 });
 
 export const TabStyle = {
-  '& button:hover': {backgroundColor: 'rgba(204, 168, 253, 1)', transition: '0.5s'},
-  '& button:active': {backgroundColor: '#9C27B0'},
+  '& button:hover': { backgroundColor: 'rgba(204, 168, 253, 1)', transition: '0.5s' },
+  '& button:active': { backgroundColor: '#9C27B0' },
   '& button': {
     backgroundColor: 'rgba(255, 208, 253, 1)',
     lineHeight: '60px',

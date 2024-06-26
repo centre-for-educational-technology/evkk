@@ -43,7 +43,7 @@ function WordAnalyser() {
   const [border, setBorder] = useState(0);
   const [storeData, setStoreData] = useState();
   const inputRef = useRef();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     getSelectedTexts(setStoreData);
@@ -64,7 +64,7 @@ function WordAnalyser() {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({tekst: input, language: i18n.language})
+      body: JSON.stringify({ tekst: input, language: i18n.language })
     })
       .then(data => data.json())
       .then(data => {
@@ -405,10 +405,10 @@ function WordAnalyser() {
                   setBorder(0);
                 }}
               >
-                <CloseIcon fontSize="inherit"/>
+                <CloseIcon fontSize="inherit" />
               </IconButton>
             }
-            sx={{mb: 2}}
+            sx={{ mb: 2 }}
           >
             <Typography color={'#1A237E'}><strong>Vasakus kastis sõnadel klõpastes ilmub paremale info antud sõna
               kohta</strong></Typography>
@@ -416,7 +416,7 @@ function WordAnalyser() {
         </Box>
       </Fade>
       <Grid className="position-relative" container
-            columnSpacing={{xs: 0, md: 4}}>
+            columnSpacing={{ xs: 0, md: 4 }}>
         {isTextTooLong &&
           <Alert severity="info"
                  className="textTooLongInfobox"
@@ -449,7 +449,7 @@ function WordAnalyser() {
               xs={12}
               md={6}>
           {showResults && !isTextTooLong &&
-            <WordInfo onWordInfo={wordInfo}/>
+            <WordInfo onWordInfo={wordInfo} />
           }
         </Grid>
       </Grid>

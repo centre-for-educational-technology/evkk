@@ -82,10 +82,10 @@ export default function WordAnalyserParent() {
                                       borderColor={'#E1F5FE'}
                                       borderRadius={10}
                                     >
-                                      <WordAnalyser/>
+                                      <WordAnalyser />
                                     </Box>
                                     <Box component={'span'}>
-                                      {tabValue === 1 || tabValue === 2 || tabValue === 3 ? <TableComponent/> : null}
+                                      {tabValue === 1 || tabValue === 2 || tabValue === 3 ? <TableComponent /> : null}
                                     </Box>
                                     <Box
                                       padding={'20px'}
@@ -107,19 +107,19 @@ export default function WordAnalyserParent() {
                                                   setBorder(0);
                                                 }}
                                               >
-                                                <CloseIcon fontSize="inherit"/>
+                                                <CloseIcon fontSize="inherit" />
                                               </IconButton>
                                             }
-                                            sx={{mb: 2}}
+                                            sx={{ mb: 2 }}
                                           >
                                             <Typography color={'#1A237E'}><strong>Tabelis olevatel väärtustel klõpsides
                                               märgitakse väärtused ära ülaoleva kasti tekstis</strong></Typography>
                                           </Alert>
                                         </Box>
                                       </Fade>
-                                      {tabValue === 1 ? <Syllables/> : null}
-                                      {tabValue === 2 ? <LemmaView/> : null}
-                                      {tabValue === 3 ? <GrammaticalAnalysis/> : null}
+                                      {tabValue === 1 ? <Syllables /> : null}
+                                      {tabValue === 2 ? <LemmaView /> : null}
+                                      {tabValue === 3 ? <GrammaticalAnalysis /> : null}
                                     </Box>
                                     {/*TODO fix usage tutorial*/}
                                     {/*{tabValue !== 0 ? <Tutorial/> : null}*/}
