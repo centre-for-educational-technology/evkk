@@ -10,50 +10,41 @@ export default function FooterElement() {
   const {t} = useTranslation();
 
   const linkValues = [
-    {title: 'Tutvustus', target: 'tutvustus'},
-    {title: 'Sõnastikud', target: 'sõnastikud'},
-    {title: 'Tõlkerakendused', target: 'tõlkerakendused'},
-    {title: 'Eestikeelsed tekstid', target: 'eestikeelsed'},
-    //{title: 'Meediatekstid', target: 'meediatekstid'},
-    //{title: 'Kirjandus', target: 'kirjandus'},
-    //{title: 'Teadustekstid', target: 'teadustekstid'},
-    {title: 'Audiovisuaalne meedia', target: 'audiovisuaalne'},
-    //{title: 'Sarjad, filmid, videod', target: 'visuaalne'},
-    //{title: 'Raadio, audio, taskuhäälingud', target: 'audio'},
-    {title: 'Keeleõppevara', target: 'keeleõppevara'},
-    //{title: 'Õppematerjalid ja harjutused', target: 'õppematerjalid'},
-    //{title: 'Keeleõppemängud', target: 'õppemängud'},
-    {title: 'Keeleõppekeskkonnad ja kursused', target: 'keskkonnadkursused'},
-    //{title: 'Keeleõppekeskkonnad', target: 'keeleõppekeskkonnad'},
-    //{title: 'Kursused', target: 'kursused'},
-    {title: 'Abiks õpetajale', target: 'abiksõpetajale'},
-    {title: 'Eesti keele korpused', target: 'keelekorpused'}
+    {title: t('footer_resources_introduction'), target: 'tutvustus'},
+    {title: t('footer_resources_dictionaries'), target: 'sõnastikud'},
+    {title: t('footer_resources_translate_tools'), target: 'tõlkerakendused'},
+    {title: t('footer_resources_estonian'), target: 'eestikeelsed'},
+    {title: t('footer_resources_audiovisual'), target: 'audiovisuaalne'},
+    {title: t('footer_resources_language_tools'), target: 'keeleõppevara'},
+    {title: t('footer_resources_environments_courses'), target: 'keskkonnadkursused'},
+    {title: t('footer_resources_teacher_aid'), target: 'abiksõpetajale'},
+    {title: t('footer_resources_language_corp'), target: 'keelekorpused'}
   ];
 
   const aboutValues = [
-    {title: 'Meist', target: 'us'},
-    {title: 'Töötajad', target: 'people'},
-    {title: 'Grandid', target: 'grants'},
-    {title: 'Üllitised', target: 'publications'},
-    {title: 'Lõputööd', target: 'publications#loputood'},
-    {title: 'Konverentsid ja töötoad', target: 'publications#konverentsid'},
-    {title: 'Publikatsioonid', target: 'publications#publikatsioonid'}
+    {title: t('footer_about_us'), target: 'us'},
+    {title: t('footer_about_people'), target: 'people'},
+    {title: t('footer_about_grants'), target: 'grants'},
+    {title: t('footer_about_publications'), target: 'publications'},
+    {title: t('footer_about_publications_thesis'), target: 'publications#loputood'},
+    {title: t('footer_about_publications_conferences'), target: 'publications#konverentsid'},
+    {title: t('footer_about_publications_publications'), target: 'publications#publikatsioonid'}
   ];
 
   const toolsValues = [
-    {title: 'Sõnaloend', target: 'wordlist'},
-    {title: 'Sõna kontekstis', target: 'wordcontext'},
-    {title: 'Nabersõnad', target: 'collocates'},
-    {title: 'Sõnaanalüsaator', target: 'wordanalyser'},
-    {title: 'Mustrileidja', target: 'clusterfinder'}
+    {title: t('footer_tools_wordlist'), target: 'wordlist'},
+    {title: t('footer_tools_wordcontext'), target: 'wordcontext'},
+    {title: t('footer_tools_collocates'), target: 'collocates'},
+    {title: t('footer_tools_wordanalyser'), target: 'wordanalyser'},
+    {title: t('footer_tools_clusterfinder'), target: 'clusterfinder'}
   ];
 
   const outLinksValues = [
-    {title: 'Eesti vahekeele korpus', target: 'https://evkk.tlu.ee/vers1/'},
-    {title: 'ELLE Github repositoorium', target: 'https://github.com/centre-for-educational-technology/evkk'},
-    {title: 'ELLE litsents', target: 'https://opensource.org/license/mit'},
-    {title: 'EVKK litsents', target: 'https://creativecommons.org/licenses/by/4.0/'},
-    {title: 'Loovuta oma tekst', target: '/adding'}
+    {title: t('footer_links_evkk'), target: 'https://evkk.tlu.ee/vers1/'},
+    {title: t('footer_links_elle_github'), target: 'https://github.com/centre-for-educational-technology/evkk'},
+    {title: t('footer_links_elle_license'), target: 'https://opensource.org/license/mit'},
+    {title: t('footer_links_evkk_license'), target: 'https://creativecommons.org/licenses/by/4.0/'},
+    {title: t('footer_links_adding'), target: '/adding'}
   ];
 
   return (
@@ -65,7 +56,7 @@ export default function FooterElement() {
         </Box>
         <Box className={'footer-inner-right'}>
           <Box className="footer-middle-box">
-            <p className="font-weight-bold">Viited</p>
+            <p className="font-weight-bold">{t('footer_links')}</p>
             {outLinksValues.map((link, index) => {
               return (
                 <FooterLink target="_blank" key={link.target}
@@ -74,7 +65,7 @@ export default function FooterElement() {
             })}
           </Box>
           <Box className="footer-middle-box">
-            <p className="font-weight-bold">Tekstid ja tööriistad</p>
+            <p className="font-weight-bold">{t('footer_texts_and_tools')}</p>
             {toolsValues.map((link, index) => {
               return (
                 <FooterLink key={link.target}
@@ -83,7 +74,7 @@ export default function FooterElement() {
             })}
           </Box>
           <Box className="footer-middle-box">
-            <p className="font-weight-bold">Lingikogu</p>
+            <p className="font-weight-bold">{t('footer_link_collections')}</p>
             {linkValues.map((link, index) => {
               return (
                 <FooterLink key={link.target}
@@ -92,7 +83,7 @@ export default function FooterElement() {
             })}
           </Box>
           <Box className="footer-box-right">
-            <p className="font-weight-bold">Keskkonnast</p>
+            <p className="font-weight-bold">{t('footer_about')}</p>
             {aboutValues.map((link, index) => {
               return (
                 <FooterLink key={link.target}
