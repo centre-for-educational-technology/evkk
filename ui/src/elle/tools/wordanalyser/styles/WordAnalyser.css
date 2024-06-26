@@ -64,10 +64,6 @@
   white-space: nowrap;
 }
 
-.non-estonian-word {
-  color: red;
-}
-
 .wordInfo {
   line-height: 1em;
 }

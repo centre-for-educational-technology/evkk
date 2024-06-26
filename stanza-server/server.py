@@ -3,6 +3,7 @@ import math
 import os
 import re
 import subprocess
+
 from flask import Flask
 from flask import Response
 from flask import request
@@ -61,12 +62,12 @@ def sonad_lemmad_silbid_sonaliigid_vormimargendid():
                     vormimargendid.append(["–", "–"])
 
     silbid = silbita_sisemine(" ".join(puhasta_sonad(eestikeelsed_sonad)))
-    silbidLength = len(silbid)
+    silpide_arv = len(silbid)
 
     for index, sona in enumerate(reversed(eestikeelsed_sonad)):
         if sona == "–":
-            silbid.insert(silbidLength - index, "–")
-            silbidLength += 1
+            silbid.insert(silpide_arv - index, "–")
+            silpide_arv += 1
 
     return Response(json.dumps({
         "sonad": sonad,
