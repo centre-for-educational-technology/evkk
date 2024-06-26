@@ -13,16 +13,19 @@ import ServerOfflinePage from './elle/components/ServerOfflinePage';
 import SuccessSnackbar from './elle/components/snackbar/SuccessSnackbar';
 import FooterElement from './elle/components/FooterElement';
 import DonateText from './elle/components/DonateText';
-import { applyMiddleware, compose, createStore } from 'redux';
 import RootContext, { RootProvider } from './elle/context/RootContext';
 import withGlobalLoading from './elle/hoc/withGlobalLoading';
 import SessionExpirationModal from './elle/components/modal/SessionExpirationModal';
+import { configureStore } from '@reduxjs/toolkit';
 
 export const errorEmitter = new EventEmitter();
 export const loadingEmitter = new EventEmitter();
 export const successEmitter = new EventEmitter();
 
-const store = createStore(compose(applyMiddleware(thunkMiddleware)));
+const store = configureStore({
+  reducer: (state = {}, _) => state,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunkMiddleware)
+});
 
 const theme = createTheme({
   palette: {

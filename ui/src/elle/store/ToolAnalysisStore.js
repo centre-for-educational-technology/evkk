@@ -1,20 +1,29 @@
-import { createStore } from 'redux';
+import { configureStore, createSlice } from '@reduxjs/toolkit';
 
-export const ToolAnalysisStoreActionType = {
-  CHANGE_WORDLIST_RESULT: 'CHANGE_WORDLIST_RESULT',
-  CHANGE_WORD_CONTEXT_RESULT: 'CHANGE_WORD_CONTEXT_RESULT',
-  CHANGE_COLLOCATES_RESULT: 'CHANGE_COLLOCATES_RESULT'
+const initialState = {
+  wordlist: null,
+  wordContext: null,
+  collocates: null
 };
 
-const reducer = (state = { wordlist: null, wordContext: null, collocates: null }, action) => {
-  if (action.type === ToolAnalysisStoreActionType.CHANGE_WORDLIST_RESULT) {
-    return { ...state, wordlist: action.value };
-  } else if (action.type === ToolAnalysisStoreActionType.CHANGE_WORD_CONTEXT_RESULT) {
-    return { ...state, wordContext: action.value };
-  } else if (action.type === ToolAnalysisStoreActionType.CHANGE_COLLOCATES_RESULT) {
-    return { ...state, collocates: action.value };
+const toolAnalysisSlice = createSlice({
+  name: 'toolAnalysis',
+  initialState,
+  reducers: {
+    changeWordlistResult: (state, action) => {
+      state.wordlist = action.value;
+    },
+    changeWordContextResult: (state, action) => {
+      state.wordContext = action.value;
+    },
+    changeCollocatesResult: (state, action) => {
+      state.collocates = action.value;
+    }
   }
-  return state;
-};
+});
 
-export const toolAnalysisStore = createStore(reducer);
+export const { changeWordlistResult, changeWordContextResult, changeCollocatesResult } = toolAnalysisSlice.actions;
+
+export const toolAnalysisStore = configureStore({
+  reducer: toolAnalysisSlice.reducer
+});

@@ -97,7 +97,11 @@ export default function TableDownloadButton({ data, headers, accessors, tableTyp
   };
 
   useEffect(() => {
-    sortByColAccessor && sortTableDataByCol(data, sortByColAccessor); // if sortBy column is given, data is sorted accordingly
+    // if sortBy column is given, data is sorted accordingly
+    if (sortByColAccessor) {
+      const sortedData = sortTableDataByCol(data, sortByColAccessor);
+      setData(sortedData);
+    }
     setFirstRow();
     setData();
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -28,7 +28,7 @@ import { queryStore } from '../../store/QueryStore';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import WordlistMenu from '../wordlist/components/WordlistMenu';
 import GenericTable from '../../components/GenericTable';
-import { toolAnalysisStore, ToolAnalysisStoreActionType } from '../../store/ToolAnalysisStore';
+import { changeCollocatesResult, toolAnalysisStore } from '../../store/ToolAnalysisStore';
 import { loadFetch } from '../../hooks/service/util/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import TableHeaderButtons from '../../components/table/TableHeaderButtons';
@@ -86,7 +86,7 @@ export default function Collocates() {
 
   useEffect(() => {
     toolAnalysisStore.dispatch({
-      type: ToolAnalysisStoreActionType.CHANGE_COLLOCATES_RESULT,
+      type: changeCollocatesResult,
       value: {
         parameters: {
           typeValue: typeValue,
@@ -103,7 +103,7 @@ export default function Collocates() {
 
   queryStore.subscribe(() => {
     toolAnalysisStore.dispatch({
-      type: ToolAnalysisStoreActionType.CHANGE_COLLOCATES_RESULT,
+      type: changeCollocatesResult,
       value: null
     });
     setResponse([]);

@@ -45,7 +45,7 @@ import {
 import QueryResults from './QueryResults';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import TextUpload from '../../components/TextUpload';
-import { queryStore, QueryStoreActionType } from '../../store/QueryStore';
+import { changeCorpusTexts, changeOwnTexts, queryStore } from '../../store/QueryStore';
 import { loadFetch } from '../../hooks/service/util/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
@@ -404,7 +404,7 @@ export default function Query(props) {
 
   const handleSubmitOwnTexts = () => {
     queryStore.dispatch({
-      type: QueryStoreActionType.CHANGE_OWN_TEXTS,
+      type: changeOwnTexts,
       value: textInputValue
     });
   };
@@ -412,12 +412,12 @@ export default function Query(props) {
   const handleChipDelete = (type) => {
     if (type === ChipDeleteType.CORPUS_TEXTS) {
       queryStore.dispatch({
-        type: QueryStoreActionType.CHANGE_CORPUS_TEXTS,
+        type: changeCorpusTexts,
         value: null
       });
     } else {
       queryStore.dispatch({
-        type: QueryStoreActionType.CHANGE_OWN_TEXTS,
+        type: changeOwnTexts,
         value: null
       });
     }

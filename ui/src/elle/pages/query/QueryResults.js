@@ -27,7 +27,7 @@ import {
 import TablePagination from '../../components/table/TablePagination';
 import QueryDownloadButton from './QueryDownloadButton';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { queryStore, QueryStoreActionType } from '../../store/QueryStore';
+import { changeCorpusTexts, queryStore } from '../../store/QueryStore';
 import { loadFetch } from '../../hooks/service/util/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import ModalBase from '../../components/modal/ModalBase';
@@ -188,7 +188,7 @@ export default function QueryResults(props) {
 
   const saveTexts = () => {
     queryStore.dispatch({
-      type: QueryStoreActionType.CHANGE_CORPUS_TEXTS,
+      type: changeCorpusTexts,
       value: Array.from(checkboxStatuses.current).join(',')
     });
   };

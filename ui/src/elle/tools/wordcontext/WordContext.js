@@ -27,7 +27,7 @@ import './styles/WordContext.css';
 import { TableType } from '../../components/table/TableDownloadButton';
 import { QuestionMark } from '@mui/icons-material';
 import GenericTable from '../../components/GenericTable';
-import { toolAnalysisStore, ToolAnalysisStoreActionType } from '../../store/ToolAnalysisStore';
+import { changeWordContextResult, toolAnalysisStore } from '../../store/ToolAnalysisStore';
 import { loadFetch } from '../../hooks/service/util/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import { sortColByLastWord, sortTableCol } from '../../util/TableUtils';
@@ -83,7 +83,7 @@ export default function WordContext() {
 
   useEffect(() => {
     toolAnalysisStore.dispatch({
-      type: ToolAnalysisStoreActionType.CHANGE_WORD_CONTEXT_RESULT,
+      type: changeWordContextResult,
       value: {
         parameters: {
           typeValue: typeValue,
@@ -100,7 +100,7 @@ export default function WordContext() {
 
   queryStore.subscribe(() => {
     toolAnalysisStore.dispatch({
-      type: ToolAnalysisStoreActionType.CHANGE_WORD_CONTEXT_RESULT,
+      type: changeWordContextResult,
       value: null
     });
     setResponse([]);

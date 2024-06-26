@@ -24,7 +24,7 @@ import { QuestionMark } from '@mui/icons-material';
 import WordlistMenu from './components/WordlistMenu';
 import { TableType } from '../../components/table/TableDownloadButton';
 import GenericTable from '../../components/GenericTable';
-import { toolAnalysisStore, ToolAnalysisStoreActionType } from '../../store/ToolAnalysisStore';
+import { changeWordlistResult, toolAnalysisStore } from '../../store/ToolAnalysisStore';
 import { loadFetch } from '../../hooks/service/util/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import { sortTableCol } from '../../util/TableUtils';
@@ -74,7 +74,7 @@ export default function Wordlist() {
 
   useEffect(() => {
     toolAnalysisStore.dispatch({
-      type: ToolAnalysisStoreActionType.CHANGE_WORDLIST_RESULT,
+      type: changeWordlistResult,
       value: {
         parameters: {
           typeValue: typeValue,
@@ -91,7 +91,7 @@ export default function Wordlist() {
 
   queryStore.subscribe(() => {
     toolAnalysisStore.dispatch({
-      type: ToolAnalysisStoreActionType.CHANGE_WORDLIST_RESULT,
+      type: changeWordlistResult,
       value: null
     });
     setResponse([]);
@@ -140,8 +140,12 @@ export default function Wordlist() {
       disableSortBy: true,
       Cell: (cellProps) => {
         return (
-          <WordlistMenu word={cellProps.row.original.word} type={typeValue}
-                        keepCapitalization={capitalizationChecked} showCollocatesButton={true} />
+          <WordlistMenu
+            word={cellProps.row.original.word}
+            type={typeValue}
+            keepCapitalization={capitalizationChecked}
+            showCollocatesButton={true}
+          />
         );
       }
     }
