@@ -110,7 +110,7 @@ export default function WordAnalyserParent() {
                                                 <CloseIcon fontSize="inherit" />
                                               </IconButton>
                                             }
-                                            sx={{mb: 2}}
+                                            sx={{ mb: 2 }}
                                           >
                                             <Typography color={'#1A237E'}><strong>Tabelis olevatel väärtustel klõpsides
                                               märgitakse väärtused ära ülaoleva kasti tekstis</strong></Typography>
