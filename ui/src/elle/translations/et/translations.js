@@ -432,6 +432,7 @@ export const TRANSLATIONS_ET = {
   wordcontext_filename: 'sõnakontekstis',
   wordinfo_tutorial_text: 'Sõnadel klõpsates ilmub siia valitud sõna grammatiline info.',
   wordinfo_word: 'Sõna',
+  wordinfo_warning: 'Sõna sisaldab võõrkeelseid tähemärke.',
   wordlist_exclude_stopwords: 'Välista stoppsõnad',
   wordlist_filename: 'sõnaloend',
   wordlist_lemma_column: 'Algvorm',

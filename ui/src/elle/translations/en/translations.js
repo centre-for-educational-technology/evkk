@@ -432,6 +432,7 @@ export const TRANSLATIONS_EN = {
   wordcontext_filename: 'wordcontext',
   wordinfo_tutorial_text: 'Clicking on a word will display the grammatical info of the word.',
   wordinfo_word: 'Word',
+  wordinfo_warning: 'The word includes foreign characters.',
   wordlist_exclude_stopwords: 'Exclude stop words',
   wordlist_filename: 'wordlist',
   wordlist_lemma_column: 'Base form',
