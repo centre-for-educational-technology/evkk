@@ -195,6 +195,7 @@ function WordAnalyser() {
       let analysedSyllable = analysedInput.syllables[i];
       let id = analysedInput.ids[i];
       if (analysedWord.indexOf(syllable) >= 0
+        && analysedSyllable
         && (syllable === analysedSyllable
           || analysedSyllable.endsWith(`-${syllable}`)
           || analysedSyllable.startsWith(`${syllable}-`)
