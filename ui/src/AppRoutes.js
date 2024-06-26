@@ -19,6 +19,7 @@ import WordContext from './elle/tools/wordcontext/WordContext';
 import Collocates from './elle/tools/collocates/Collocates';
 import { withTranslation } from 'react-i18next';
 import Tools from './elle/pages/Tools';
+import ErrorAnalyser from './elle/tools/erroranalyser/ErrorAnalyser';
 
 class AppRoutes extends Component {
 
@@ -83,6 +84,8 @@ class AppRoutes extends Component {
             <Route path="masinoppe-ennustus"
                    element={<MasinoppeEnnustus />} />
           </Route>
+          <Route path="error-analyser"
+                 element={<ErrorAnalyser />} />
           <Route path="/links"
                  element={<Links />} />
           <Route path="*"

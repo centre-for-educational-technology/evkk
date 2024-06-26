@@ -49,11 +49,10 @@ export default function BreadcrumbLinks() {
     );
   };
 
-  const RenderMenuLink = ({ to, key, className, translateKey }) => {
+  const RenderMenuLink = ({ to, className, translateKey }) => {
     return (
       <MenuLink
         to={to}
-        key={key}
         className={className}
         component={RouterLink}
       >
@@ -67,7 +66,6 @@ export default function BreadcrumbLinks() {
       <RenderBreadcrumbs>
         <RenderMenuLink
           to="/"
-          key="/"
           className="breadcrumb-menu-link"
         />
         <RenderMenuLink
@@ -85,7 +83,7 @@ export default function BreadcrumbLinks() {
           return (
             <RenderMenuLink
               to={index === 0 ? '/' : value.key}
-              key={value.key}
+              key={index}
               className={`breadcrumb-menu-link ${index !== 0 && 'regular'}`}
               translateKey={index !== 0 && breadcrumbNameMap[value.key]}
             />

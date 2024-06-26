@@ -1,0 +1,160 @@
+div.request-filter {
+  padding: 30px;
+  margin: 50px 0 !important;
+}
+
+.request-filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+}
+
+.request-filter-item-main {
+  flex: 3;
+}
+
+.request-filter-item-side {
+  flex: 2;
+}
+
+.checkbox-container {
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.checkbox-container.checkbox-container-error {
+  border-color: red;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+
+.checkbox-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkbox-item:nth-of-type(1) {
+  text-decoration: underline;
+}
+
+.checkbox-item:nth-of-type(2) {
+  margin-left: 50px;
+}
+
+div.optional-filter {
+  width: 300px;
+  margin: 8px 16px 8px 0;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+}
+
+.result-table-container {
+  margin: 25px 0;
+}
+
+.result-table {
+  min-width: 650px;
+}
+
+.result-table tbody tr th {
+  vertical-align: top;
+}
+
+.nested-cell-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  row-gap: 15px;
+  align-items: stretch;
+}
+
+.nested-cell {
+  flex-grow: 1;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  color: dimgray;
+}
+
+.error-tooltip {
+  background-color: white;
+  font-size: 11px;
+}
+
+.annotated:hover {
+  cursor: default;
+  color: dimgray;
+}
+
+.corrected-sentence .word-error * {
+  text-decoration: underline solid red;
+}
+
+.corrected-sentence .word-error.deleted {
+  text-decoration: line-through red;
+}
+
+.corrected-sentence .punctuation {
+  background-color: #ffb1d0;
+}
+
+.corrected-sentence .punctuation.deleted {
+  text-decoration: line-through;
+}
+
+.corrected-sentence .white-space {
+  text-decoration: underline dashed red;
+}
+
+.corrected-sentence .word-order {
+  background-color: #e9daff;
+}
+
+.word-error {
+  text-decoration: underline solid red;
+}
+
+.word-error-deleted {
+  text-decoration: line-through red;
+}
+
+.punctuation {
+  background-color: #ffb1d0;
+}
+
+.punctuation-deleted {
+  text-decoration: line-through;
+}
+
+.white-space {
+  text-decoration: underline dashed red;
+}
+
+.word-order {
+  background-color: #e9daff;
+}
+
+.compound-error {
+  text-decoration: underline double red;
+}
+
+p.MuiTablePagination-selectLabel, p.MuiTablePagination-displayedRows {
+  margin-top: auto;
+  margin-bottom: auto;
+}

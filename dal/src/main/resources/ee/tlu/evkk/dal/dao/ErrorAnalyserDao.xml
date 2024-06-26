@@ -1,0 +1,124 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ee.tlu.evkk.dal.dao.ErrorAnalyserDao">
+
+  <select id="findFilterOptions" resultType="java.lang.String">
+    select distinct prop2.property_value
+    from evkk.core.text_error_analysis_sentences sen1
+           left join evkk.core.text_property prop2 on sen1.text_id = prop2.text_id and prop2.property_name = #{name}
+    where prop2.property_value is not null
+  </select>
+
+  <resultMap id="errorResultMap" type="ee.tlu.evkk.dal.dto.ErrorAnalyserSentence">
+    <id property="sentenceId" column="sentence_id" />
+    <result property="sentence" column="sentence" />
+    <result property="textId" column="text_id" />
+    <result property="languageLevel" column="language_level" />
+    <result property="textType" column="text_type" />
+    <result property="age" column="age" />
+    <result property="ageRange" column="age_range" />
+    <result property="education" column="education" />
+    <result property="citizenship" column="citizenship" />
+    <collection property="annotations" column="sentence_id" ofType="ee.tlu.evkk.dal.dto.ErrorAnalyserAnnotation">
+      <id property="annotationId" column="annotation_id" />
+      <result property="annotatorId" column="annotator_id" />
+      <result property="scopeStart" column="scope_start" />
+      <result property="scopeEnd" column="scope_end" />
+      <result property="errorType" column="error_type" />
+      <result property="correction" column="correction" />
+    </collection>
+  </resultMap>
+
+  <select id="findErrors" resultMap="errorResultMap">
+    select sen1.id as sentence_id,
+    sen1.sentence,
+    sen1.text_id,
+    prop1.property_value as language_level,
+    prop3.property_value as text_type,
+    prop4.property_value as age,
+    prop5.property_value as age_range,
+    prop6.property_value as education,
+    prop7.property_value as citizenship,
+    annot2.id as annotation_id,
+    annot2.annotator_id,
+    annot2.scope_start,
+    annot2.scope_end,
+    annot2.error_type,
+    annot2.correction
+    from (
+    select annot1.annotator_id, annot1.sentence_id
+    from core.text_error_analysis_annotations annot1
+    <where>
+      <if test="errorTypes != null and errorTypes.size() > 0">
+        <foreach collection="errorTypes" item="errorType" separator=" or ">
+          <choose>
+            <when test='errorType.startsWith("R")'>
+              annot1.error_type like concat('R', concat('%', SUBSTRING(#{errorType}, 3)))
+            </when>
+            <otherwise>
+              annot1.error_type = #{errorType}
+            </otherwise>
+          </choose>
+        </foreach>
+      </if>
+      AND annot1.scope_start >-1 AND annot1.scope_end >-1
+    </where>
+    group by annot1.annotator_id, annot1.sentence_id
+    ) t1
+    join core.text_error_analysis_annotations annot2 on t1.sentence_id= annot2.sentence_id and t1.annotator_id =
+    annot2.annotator_id
+    join core.text_error_analysis_sentences sen1 on annot2.sentence_id = sen1.id
+    left join core.text_property prop1 on sen1.text_id = prop1.text_id and prop1.property_name = 'keeletase'
+    left join core.text_property prop3 on sen1.text_id = prop3.text_id and prop3.property_name = 'tekstityyp'
+    left join core.text_property prop4 on sen1.text_id = prop4.text_id and prop4.property_name = 'vanus'
+    left join core.text_property prop5 on sen1.text_id = prop5.text_id and prop5.property_name = 'vanusevahemik'
+    left join core.text_property prop6 on sen1.text_id = prop6.text_id and prop6.property_name = 'haridus'
+    left join core.text_property prop7 on sen1.text_id = prop7.text_id and prop7.property_name = 'kodakondsus'
+    <where>
+      <if test="languageLevels != null and languageLevels.size() > 0">
+        prop1.property_value in
+        <foreach item="languageLevel" index="index" collection="languageLevels" open="(" separator="," close=")">
+          '${languageLevel}'
+        </foreach>
+      </if>
+      <if test="textTypes != null and textTypes.size() > 0">
+        AND prop3.property_value in
+        <foreach item="textType" index="index" collection="textTypes" open="(" separator="," close=")">
+          '${textType}'
+        </foreach>
+      </if>
+      <if test="ageRanges != null and ageRanges.size() > 0">
+        AND
+        <foreach item="ageRange" index="index" collection="ageRanges" open="(" separator="AND" close=")">
+          prop5.property_value = '${ageRange}' or
+          <if test='ageRange == "kuni18"'>
+            cast(prop4.property_value as int) <![CDATA[ <= ]]> 17
+          </if>
+          <if test="ageRange == 'kuni26'">
+            cast(prop4.property_value as int) between 18 and 26
+          </if>
+          <if test='ageRange == "kuni40"'>
+            cast(prop4.property_value as int) between 27 and 40
+          </if>
+          <if test='ageRange == "41plus"'>
+            cast(prop4.property_value as int) <![CDATA[ >= ]]> 41
+          </if>
+        </foreach>
+      </if>
+      <if test="educationLevels != null and educationLevels.size() > 0">
+        AND prop6.property_value in
+        <foreach item="educationLevel" index="index" collection="educationLevels" open="(" separator="," close=")">
+          '${educationLevel}'
+        </foreach>
+      </if>
+      <if test="citizenshipList != null and citizenshipList.size() > 0">
+        AND prop7.property_value in
+        <foreach item="citizenship" index="index" collection="citizenshipList" open="(" separator="," close=")">
+          '${citizenship}'
+        </foreach>
+      </if>
+    </where>
+  </select>
+</mapper>
+
