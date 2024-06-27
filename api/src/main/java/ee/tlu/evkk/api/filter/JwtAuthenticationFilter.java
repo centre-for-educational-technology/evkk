@@ -1,6 +1,8 @@
 package ee.tlu.evkk.api.filter;
 
-import ee.tlu.evkk.api.service.AccessTokenService;
+import ee.tlu.evkk.api.exception.UnauthorizedException;
+import ee.tlu.evkk.api.service.interfaces.AbstractAccessTokenService;
+import ee.tlu.evkk.api.service.interfaces.AbstractJwtTokenService;
 import ee.tlu.evkk.dal.dto.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
@@ -21,14 +23,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static java.lang.String.format;
-import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static org.apache.logging.log4j.util.Strings.isNotEmpty;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-  private final AccessTokenService accessTokenService;
+  private final AbstractAccessTokenService accessTokenService;
+  private final AbstractJwtTokenService jwtTokenService;
 
   @Override
   protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -41,12 +43,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = authHeader.substring(7);
         try {
           if (accessTokenService.isExistingTokenValid(token)) {
-            User user = accessTokenService.extractUser(token);
+            User user = jwtTokenService.extractUser(token);
             Authentication authentication = new UsernamePasswordAuthenticationToken(user, token, getAuthorities(user));
             SecurityContextHolder.getContext().setAuthentication(authentication);
           }
         } catch (Exception e) {
-          response.setStatus(SC_UNAUTHORIZED);
+          throw new UnauthorizedException();
         }
       }
     }

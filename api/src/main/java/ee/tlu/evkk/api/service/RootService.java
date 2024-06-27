@@ -1,6 +1,8 @@
 package ee.tlu.evkk.api.service;
 
 import ee.tlu.evkk.api.exception.TokenNotFoundException;
+import ee.tlu.evkk.api.service.interfaces.AbstractAccessTokenService;
+import ee.tlu.evkk.api.service.interfaces.AbstractRefreshTokenService;
 import ee.tlu.evkk.dal.dao.UserDao;
 import ee.tlu.evkk.dal.dto.User;
 import lombok.RequiredArgsConstructor;
@@ -16,17 +18,16 @@ import static java.util.Arrays.stream;
 @RequiredArgsConstructor
 public class RootService {
 
-  private final AccessTokenService accessTokenService;
-  private final RefreshTokenService refreshTokenService;
+  private final AbstractAccessTokenService accessTokenService;
+  private final AbstractRefreshTokenService refreshTokenService;
   private final UserDao userDao;
 
   public User getUser(HttpServletRequest request) throws TokenNotFoundException {
     var refreshToken = getRefreshToken(request);
     if (refreshToken == null || refreshTokenService.isTokenInvalid(refreshToken)) return null;
 
-    var dbUser = userDao.findByRefreshToken(refreshToken);
-    if (dbUser == null) throw new TokenNotFoundException();
-    return dbUser;
+    return userDao.findByRefreshToken(refreshToken)
+      .orElseThrow(TokenNotFoundException::new);
   }
 
   public String getAccessToken(User user) {

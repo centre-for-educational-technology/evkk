@@ -2,6 +2,8 @@ package ee.tlu.evkk.api.service;
 
 import ee.tlu.evkk.api.exception.TokenNotFoundException;
 import ee.tlu.evkk.api.exception.UnauthorizedException;
+import ee.tlu.evkk.api.service.interfaces.AbstractRefreshTokenService;
+import ee.tlu.evkk.api.strategy.RefreshTokenExpirationStrategy;
 import ee.tlu.evkk.dal.dao.AccessTokenDao;
 import ee.tlu.evkk.dal.dao.RefreshTokenDao;
 import ee.tlu.evkk.dal.dao.UserDao;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
+import static ee.tlu.evkk.api.constant.AuthConstants.COOKIE_HEADER_NAME;
 import static ee.tlu.evkk.api.constant.AuthConstants.REFRESH_TOKEN_COOKIE_NAME;
 import static ee.tlu.evkk.api.constant.AuthConstants.REFRESH_TOKEN_EXPIRES_IN_MILLISECONDS;
 import static ee.tlu.evkk.api.constant.AuthConstants.REFRESH_TOKEN_EXPIRES_IN_SECONDS;
@@ -25,13 +28,12 @@ import static java.util.Arrays.stream;
 
 @Service
 @RequiredArgsConstructor
-public class RefreshTokenService {
+public class RefreshTokenService implements AbstractRefreshTokenService {
 
   private final UserDao userDao;
   private final RefreshTokenDao refreshTokenDao;
   private final AccessTokenDao accessTokenDao;
-
-  private static final String COOKIE_HEADER_NAME = "Set-Cookie";
+  private final RefreshTokenExpirationStrategy refreshTokenExpirationStrategy;
 
   public RefreshToken generateToken(User user) {
     refreshTokenDao.deleteByUserId(user.getUserId());
@@ -39,18 +41,15 @@ public class RefreshTokenService {
     RefreshToken refreshToken = RefreshToken.builder()
       .token(new BigInteger(130, new SecureRandom()).toString(32))
       .expiresAt(now().plusMillis(REFRESH_TOKEN_EXPIRES_IN_MILLISECONDS))
-      .userId(userDao.findByIdCode(user.getIdCode()).getUserId())
+      .userId(user.getUserId())
       .build();
 
     return refreshTokenDao.insert(refreshToken);
   }
 
   public void renewToken(HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException {
-    RefreshToken token = refreshTokenDao.findByToken(getRefreshToken(request));
-
-    if (token == null) {
-      throw new UnauthorizedException();
-    }
+    RefreshToken token = refreshTokenDao.findByToken(getRefreshToken(request))
+      .orElseThrow(UnauthorizedException::new);
 
     if (token.getExpiresAt().isBefore(now())) {
       refreshTokenDao.deleteByUserId(token.getUserId());
@@ -77,9 +76,9 @@ public class RefreshTokenService {
   }
 
   public boolean isTokenInvalid(String token) {
-    RefreshToken refreshToken = refreshTokenDao.findByToken(token);
-    if (refreshToken == null) return true;
-    return refreshToken.getExpiresAt().isBefore(now());
+    return refreshTokenDao.findByToken(token)
+      .map(refreshTokenExpirationStrategy::isExpired)
+      .orElse(true);
   }
 
   private void removeCookie(HttpServletResponse response) {

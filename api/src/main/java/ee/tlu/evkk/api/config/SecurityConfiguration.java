@@ -47,6 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     http
       .csrf().disable() //TODO: use repo
       .authorizeRequests()
+      .antMatchers("/actuator/**").hasRole("ADMIN")
       .anyRequest().permitAll().and()
       .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
       .sessionManagement().sessionCreationPolicy(STATELESS).and()

@@ -13,5 +13,4 @@ import java.util.UUID;
 public interface TextPropertyDao {
 
   Collection<TextProperty> findByTextId(@Param("textId") UUID textId);
-
 }

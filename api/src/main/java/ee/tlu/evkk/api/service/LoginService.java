@@ -4,6 +4,8 @@ import ee.tlu.evkk.api.controller.dto.AccessTokenDto;
 import ee.tlu.evkk.api.controller.dto.UserLoginDto;
 import ee.tlu.evkk.api.exception.TokenNotFoundException;
 import ee.tlu.evkk.api.service.dto.HarIdUserResponse;
+import ee.tlu.evkk.api.service.interfaces.AbstractAccessTokenService;
+import ee.tlu.evkk.api.service.interfaces.AbstractRefreshTokenService;
 import ee.tlu.evkk.dal.dao.UserDao;
 import ee.tlu.evkk.dal.dto.User;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 public class LoginService {
 
-  private final AccessTokenService accessTokenService;
-  private final RefreshTokenService refreshTokenService;
+  private final AbstractAccessTokenService accessTokenService;
+  private final AbstractRefreshTokenService refreshTokenService;
   private final UserDao userDao;
 
   public UserLoginDto login(HarIdUserResponse harIdUser) {

@@ -11,6 +11,8 @@ dependencies {
   implementation "org.springframework.boot:spring-boot-starter-web"
   implementation "org.springframework.boot:spring-boot-starter-security"
   implementation "org.springframework.boot:spring-boot-starter-validation"
+  implementation "org.springframework.boot:spring-boot-starter-aop"
+  implementation "org.springframework.boot:spring-boot-starter-actuator"
   implementation "org.springframework.session:spring-session-data-redis"
 
   // JWT
@@ -20,6 +22,9 @@ dependencies {
 
   // Redis
   implementation "io.lettuce:lettuce-core"
+
+  // Metrics
+  implementation "io.micrometer:micrometer-core"
 
   // Other
   implementation 'org.apache.tika:tika-core:2.5.0'

@@ -15,4 +15,5 @@ public class AuthConstants {
   public static final String HARID_AUTHENTICATION_SUCCESS_URL = "/auth/login/harid/success";
 
   public static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
+  public static final String COOKIE_HEADER_NAME = "Set-Cookie";
 }

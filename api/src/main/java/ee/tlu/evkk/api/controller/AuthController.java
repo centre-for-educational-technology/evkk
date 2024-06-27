@@ -6,7 +6,7 @@ import ee.tlu.evkk.api.controller.dto.UserLoginDto;
 import ee.tlu.evkk.api.exception.TokenNotFoundException;
 import ee.tlu.evkk.api.service.HarIdService;
 import ee.tlu.evkk.api.service.LoginService;
-import ee.tlu.evkk.api.service.RefreshTokenService;
+import ee.tlu.evkk.api.service.interfaces.AbstractRefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,7 +29,7 @@ import java.net.URISyntaxException;
 public class AuthController {
 
   private final HarIdService harIdService;
-  private final RefreshTokenService refreshTokenService;
+  private final AbstractRefreshTokenService refreshTokenService;
   private final LoginService loginService;
 
   @GetMapping("login/harid")

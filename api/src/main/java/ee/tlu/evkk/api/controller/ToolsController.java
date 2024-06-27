@@ -6,6 +6,7 @@ import ee.evkk.dto.WordContextRequestDto;
 import ee.evkk.dto.WordContextResponseDto;
 import ee.evkk.dto.WordlistRequestDto;
 import ee.evkk.dto.WordlistResponseDto;
+import ee.tlu.evkk.api.annotation.RateLimit;
 import ee.tlu.evkk.api.service.CollocateService;
 import ee.tlu.evkk.api.service.WordContextService;
 import ee.tlu.evkk.api.service.WordlistService;
@@ -31,16 +32,19 @@ public class ToolsController {
   private final WordContextService wordContextService;
   private final CollocateService collocateService;
 
+  @RateLimit
   @PostMapping(WORDLIST)
   public WordlistResponseDto getWordlistResponse(@RequestBody @Valid WordlistRequestDto dto) throws IOException {
     return wordlistService.getWordlistResponse(dto);
   }
 
+  @RateLimit
   @PostMapping(WORDCONTEXT)
   public WordContextResponseDto getWordContextResponse(@RequestBody @Valid WordContextRequestDto dto) {
     return wordContextService.getWordContextResponse(dto);
   }
 
+  @RateLimit
   @PostMapping(COLLOCATES)
   public CollocateResponseDto getCollocateResponse(@RequestBody @Valid CollocateRequestDto dto) throws IOException {
     return collocateService.getCollocateResponse(dto);

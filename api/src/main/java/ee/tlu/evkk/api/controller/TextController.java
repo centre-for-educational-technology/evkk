@@ -5,6 +5,8 @@ import ee.evkk.dto.CommonTextRequestDto;
 import ee.evkk.dto.CorpusDownloadDto;
 import ee.evkk.dto.CorpusRequestDto;
 import ee.evkk.dto.CorpusTextContentsDto;
+import ee.tlu.evkk.api.annotation.RateLimit;
+import ee.tlu.evkk.api.annotation.RecordResponseTime;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.service.TextService;
@@ -48,6 +50,8 @@ public class TextController {
     return textDao.findTextAndMetadataById(fromString(id));
   }
 
+  @RateLimit
+  @RecordResponseTime("tools.wordanalyser")
   @PostMapping("/sonad-lemmad-silbid-sonaliigid-vormimargendid")
   public ResponseEntity<TextResponseDto> sonadLemmadSilbidSonaliigidVormimargendid(@RequestBody CommonTextRequestDto request) {
     return ok(textService.sonadLemmadSilbidSonaliigidVormimargendid(request));
@@ -135,6 +139,7 @@ public class TextController {
     return file;
   }
 
+  @RateLimit
   @PostMapping("/lisatekst")
   public String lisatekst(@Valid @RequestBody AddingRequestDto andmed) {
     return textService.lisatekst(andmed);

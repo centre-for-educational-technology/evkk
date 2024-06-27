@@ -1,7 +1,7 @@
 import { errorEmitter, loadingEmitter } from '../../App';
 import { LoadingSpinnerEventType } from '../components/LoadingSpinner';
 import { ErrorSnackbarEventType } from '../components/snackbar/ErrorSnackbar';
-import { useContext, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import RootContext from '../context/RootContext';
 
 const hasNonExpiredToken = (token) => {
@@ -13,11 +13,12 @@ export const useFetch = () => {
   const { accessToken } = useContext(RootContext);
   const [response, setResponse] = useState(null);
 
-  const fetchData = async (url, params = {}, options = {}) => {
+  const fetchData = useCallback(async (url, params = {}, options = {}) => {
     const defaultOptions = {
       disableErrorHandling: false,
       disableResponseParsing: false,
-      parseAsText: false
+      parseAsText: false,
+      ignoreNotFoundError: false
     };
     const finalOptions = { ...defaultOptions, ...options };
 
@@ -38,7 +39,9 @@ export const useFetch = () => {
         errorEmitter.emit(ErrorSnackbarEventType.UNAUTHORIZED);
       } else if (res.status === 403) {
         errorEmitter.emit(ErrorSnackbarEventType.FORBIDDEN);
-      } else {
+      } else if (res.status === 429) {
+        errorEmitter.emit(ErrorSnackbarEventType.TOO_MANY_REQUESTS);
+      } else if (!(finalOptions.ignoreNotFoundError && res.status === 404)) {
         errorEmitter.emit(ErrorSnackbarEventType.GENERIC_ERROR);
       }
       return Promise.reject();
@@ -50,7 +53,7 @@ export const useFetch = () => {
         ? await res.text()
         : await res.json();
     setResponse(result);
-  };
+  }, [accessToken]);
 
   return { fetchData, response };
 };
