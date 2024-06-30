@@ -1,11 +1,3 @@
-.wordcontext-param-container {
-  display: flex;
-}
-
-.wordcontext-param-container > div {
-  flex: auto;
-}
-
 .wordcontext-analyse-button {
   margin-top: 7vh !important;
 }
@@ -22,7 +14,6 @@
 
 .wordcontext-table {
   border-collapse: collapse;
-  width: 70%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -50,11 +41,11 @@
   font-weight: bold;
 }
 
+.wordcontext-table th:nth-child(3) {
+  min-width: 9em;
+}
+
 .wordcontext-keyword {
   text-align: center;
   color: red;
-}
-
-.wordcontext-table td, .wordcontext-table th {
-  width: 1%;
 }

@@ -1,21 +1,20 @@
 package ee.tlu.evkk.core.text.processor.impl;
 
 import ee.tlu.evkk.core.integration.StanzaServerClient;
+import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Component;
+
+import static ee.tlu.evkk.core.text.processor.TextProcessor.Type.LEMMATIZER;
 
 /**
  * @author Mikk Tarvas
  * Date: 21.01.2022
  */
 //@Component
+@RequiredArgsConstructor
 public class LemmatizerTextProcessor extends AbstractTextProcessor {
 
   private final StanzaServerClient stanzaServerClient;
-
-  public LemmatizerTextProcessor(StanzaServerClient stanzaServerClient) {
-    this.stanzaServerClient = stanzaServerClient;
-  }
 
   @Override
   public long getVersion() {
@@ -25,7 +24,7 @@ public class LemmatizerTextProcessor extends AbstractTextProcessor {
   @NonNull
   @Override
   public Type getType() {
-    return Type.LEMMATIZER;
+    return LEMMATIZER;
   }
 
   @NonNull

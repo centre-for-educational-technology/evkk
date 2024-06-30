@@ -23,14 +23,15 @@ import {
   Typography
 } from '@mui/material';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import './WordContext.css';
-import TableDownloadButton from '../../components/table/TableDownloadButton';
+import './styles/WordContext.css';
+import { TableType } from '../../components/table/TableDownloadButton';
 import { QuestionMark } from '@mui/icons-material';
 import GenericTable from '../../components/GenericTable';
-import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
+import { toolAnalysisStore, ToolAnalysisStoreActionType } from '../../store/ToolAnalysisStore';
 import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import { sortColByLastWord, sortTableCol } from '../../util/TableUtils';
+import TableHeaderButtons from '../../components/table/TableHeaderButtons';
 
 export default function WordContext() {
 
@@ -42,7 +43,7 @@ export default function WordContext() {
   const [typeError, setTypeError] = useState(false);
   const [keyword, setKeyword] = useState('');
   const [displayCount, setDisplayCount] = useState(5);
-  const [displayType, setDisplayType] = useState('WORD');
+  const [displayType, setDisplayType] = useState(DisplayType.WORD);
   const [capitalizationChecked, setCapitalizationChecked] = useState(false);
   const [response, setResponse] = useState([]);
   const [showTable, setShowTable] = useState(false);
@@ -57,7 +58,7 @@ export default function WordContext() {
     if (urlParams.get('word') && urlParams.get('type') && urlParams.get('keepCapitalization')) {
       setKeyword(urlParams.get('word'));
       setTypeValue(urlParams.get('type'));
-      if (urlParams.get('type') !== 'LEMMAS') {
+      if (urlParams.get('type') !== WordContextType.LEMMAS) {
         setCapitalizationChecked(urlParams.get('keepCapitalization') === 'true');
       }
       sendRequest();
@@ -82,7 +83,7 @@ export default function WordContext() {
 
   useEffect(() => {
     toolAnalysisStore.dispatch({
-      type: 'CHANGE_WORDCONTEXT_RESULT',
+      type: ToolAnalysisStoreActionType.CHANGE_WORD_CONTEXT_RESULT,
       value: {
         parameters: {
           typeValue: typeValue,
@@ -99,7 +100,7 @@ export default function WordContext() {
 
   queryStore.subscribe(() => {
     toolAnalysisStore.dispatch({
-      type: 'CHANGE_WORDCONTEXT_RESULT',
+      type: ToolAnalysisStoreActionType.CHANGE_WORD_CONTEXT_RESULT,
       value: null
     });
     setResponse([]);
@@ -166,7 +167,7 @@ export default function WordContext() {
   const handleTypeChange = (event) => {
     setTypeValue(event.target.value);
     setTypeError(false);
-    if (event.target.value === 'LEMMAS') {
+    if (event.target.value === WordContextType.LEMMAS) {
       setCapitalizationChecked(false);
     }
   };
@@ -221,7 +222,7 @@ export default function WordContext() {
   };
 
   return (
-    <div className="tool-wrapper">
+    <>
       <h2 className="tool-title">{t('common_word_in_context')}</h2>
       <Accordion sx={AccordionStyle}
                  expanded={paramsExpanded}
@@ -236,7 +237,7 @@ export default function WordContext() {
         </AccordionSummary>
         <AccordionDetails>
           <form onSubmit={handleSubmit}>
-            <div className="wordcontext-param-container">
+            <div className="tool-accordion">
               <div>
                 <FormControl sx={{m: 3}}
                              error={typeError}
@@ -248,10 +249,10 @@ export default function WordContext() {
                     value={typeValue}
                     onChange={handleTypeChange}
                   >
-                    <FormControlLabel value="WORDS"
+                    <FormControlLabel value={WordContextType.WORDS}
                                       control={<Radio />}
                                       label={t('common_by_word_form')} />
-                    <FormControlLabel value="LEMMAS"
+                    <FormControlLabel value={WordContextType.LEMMAS}
                                       control={<Radio />}
                                       label={t('common_by_base_form')} />
                   </RadioGroup>
@@ -300,8 +301,8 @@ export default function WordContext() {
                           value={displayType}
                           onChange={(e) => setDisplayType(e.target.value)}
                         >
-                          <MenuItem value="WORD">{t('concordances_words')}</MenuItem>
-                          <MenuItem value="SENTENCE">{t('concordances_sentences')}</MenuItem>
+                          <MenuItem value={DisplayType.WORD}>{t('concordances_words')}</MenuItem>
+                          <MenuItem value={DisplayType.SENTENCE}>{t('concordances_sentences')}</MenuItem>
                         </Select>
                       </FormControl>
                     </Grid>
@@ -320,7 +321,7 @@ export default function WordContext() {
                   <FormControlLabel control={
                     <Checkbox
                       checked={capitalizationChecked}
-                      disabled={typeValue === 'LEMMAS'}
+                      disabled={typeValue === WordContextType.LEMMAS}
                       onChange={(e) => setCapitalizationChecked(e.target.checked)}
                     ></Checkbox>
                   }
@@ -348,11 +349,10 @@ export default function WordContext() {
         </Alert>
       </>}
       {showTable && <>
-        <TableDownloadButton sx={DefaultButtonStyle} data={data}
-                             tableType={'WordContext'}
-                             headers={tableToDownload}
-                             accessors={accessors}
-                             marginTop={'2vh'} />
+        <TableHeaderButtons downloadData={data}
+                            downloadTableType={TableType.WORD_CONTEXT}
+                            downloadHeaders={tableToDownload}
+                            downloadAccessors={accessors} />
         <GenericTable tableClassname={'wordcontext-table'}
                       columns={columns}
                       data={data}
@@ -362,6 +362,16 @@ export default function WordContext() {
       </>}
       {showNoResultsError &&
         <Alert severity="error">{t('error_no_matching_keywords')}</Alert>}
-    </div>
+    </>
   );
 }
+
+const WordContextType = {
+  WORDS: 'WORDS',
+  LEMMAS: 'LEMMAS'
+};
+
+const DisplayType = {
+  WORD: 'WORD',
+  SENTENCE: 'SENTENCE'
+};

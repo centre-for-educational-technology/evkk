@@ -23,18 +23,20 @@ import {
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import { QuestionMark } from '@mui/icons-material';
-import TableDownloadButton from '../../components/table/TableDownloadButton';
+import { TableType } from '../../components/table/TableDownloadButton';
 import { queryStore } from '../../store/QueryStore';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import WordlistMenu from '../wordlist/menu/WordlistMenu';
+import WordlistMenu from '../wordlist/components/WordlistMenu';
 import GenericTable from '../../components/GenericTable';
-import { toolAnalysisStore } from '../../store/ToolAnalysisStore';
+import { toolAnalysisStore, ToolAnalysisStoreActionType } from '../../store/ToolAnalysisStore';
 import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
+import TableHeaderButtons from '../../components/table/TableHeaderButtons';
+import GraphView from '../wordcontext/components/GraphView';
 
 export default function Collocates() {
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [urlParams] = useSearchParams();
   const [paramsExpanded, setParamsExpanded] = useState(true);
@@ -42,8 +44,9 @@ export default function Collocates() {
   const [typeError, setTypeError] = useState(false);
   const [capitalizationChecked, setCapitalizationChecked] = useState(false);
   const [keyword, setKeyword] = useState('');
+  const [lastKeyword, setLastKeyword] = useState('');
   const [searchCount, setSearchCount] = useState(3);
-  const [formula, setFormula] = useState('LOGDICE');
+  const [formula, setFormula] = useState(StatisticMeasureFormula.LOGDICE);
   const [lemmatizedKeywordResult, setLemmatizedKeywordResult] = useState(null);
   const [initialKeywordResult, setInitialKeywordResult] = useState(null);
   const [showTable, setShowTable] = useState(false);
@@ -58,7 +61,7 @@ export default function Collocates() {
     if (urlParams.get('word') && urlParams.get('type') && urlParams.get('keepCapitalization')) {
       setKeyword(urlParams.get('word'));
       setTypeValue(urlParams.get('type'));
-      if (urlParams.get('type') !== 'LEMMAS') {
+      if (urlParams.get('type') !== CollocateType.LEMMAS) {
         setCapitalizationChecked(urlParams.get('keepCapitalization') === 'true');
       }
       sendRequest();
@@ -83,7 +86,7 @@ export default function Collocates() {
 
   useEffect(() => {
     toolAnalysisStore.dispatch({
-      type: 'CHANGE_COLLOCATES_RESULT',
+      type: ToolAnalysisStoreActionType.CHANGE_COLLOCATES_RESULT,
       value: {
         parameters: {
           typeValue: typeValue,
@@ -100,7 +103,7 @@ export default function Collocates() {
 
   queryStore.subscribe(() => {
     toolAnalysisStore.dispatch({
-      type: 'CHANGE_COLLOCATES_RESULT',
+      type: ToolAnalysisStoreActionType.CHANGE_COLLOCATES_RESULT,
       value: null
     });
     setResponse([]);
@@ -157,8 +160,10 @@ export default function Collocates() {
       accessor: 'menu',
       disableSortBy: true,
       Cell: (cellProps) => {
-        return <WordlistMenu word={cellProps.row.original.collocate} type={typeValue}
-                             keepCapitalization={capitalizationChecked} />;
+        return (
+          <WordlistMenu word={cellProps.row.original.collocate} type={typeValue}
+                        keepCapitalization={capitalizationChecked} />
+        );
       }
     }
   ], [typeValue, capitalizationChecked, t]);
@@ -171,7 +176,7 @@ export default function Collocates() {
   const handleTypeChange = (event) => {
     setTypeValue(event.target.value);
     setTypeError(false);
-    if (event.target.value === 'LEMMAS') {
+    if (event.target.value === CollocateType.LEMMAS) {
       setCapitalizationChecked(false);
     }
   };
@@ -189,6 +194,7 @@ export default function Collocates() {
       })
         .then(res => res.json())
         .then(result => {
+          setLastKeyword(keyword);
           setLemmatizedKeywordResult(null);
           setResponse(result.collocateList);
           if (result.collocateList.length === 0) {
@@ -226,7 +232,7 @@ export default function Collocates() {
   };
 
   return (
-    <div className="tool-wrapper">
+    <>
       <h2 className="tool-title">{t('common_neighbouring_words')}</h2>
       <Accordion sx={AccordionStyle}
                  expanded={paramsExpanded}
@@ -241,9 +247,9 @@ export default function Collocates() {
         </AccordionSummary>
         <AccordionDetails>
           <form onSubmit={handleSubmit}>
-            <div className="queryContainer">
+            <div className="tool-accordion">
               <div>
-                <FormControl sx={{m: 3}}
+                <FormControl sx={{ m: 3 }}
                              error={typeError}
                              variant="standard">
                   <FormLabel id="type-radios">{t('common_search')}</FormLabel>
@@ -253,16 +259,16 @@ export default function Collocates() {
                     value={typeValue}
                     onChange={handleTypeChange}
                   >
-                    <FormControlLabel value="WORDS"
+                    <FormControlLabel value={CollocateType.WORDS}
                                       control={<Radio />}
                                       label={t('common_by_word_form')} />
-                    <FormControlLabel value="LEMMAS"
+                    <FormControlLabel value={CollocateType.LEMMAS}
                                       control={<Radio />}
                                       label={t('common_by_base_form')} />
                   </RadioGroup>
                   {typeError && <FormHelperText>{t('error_mandatory_field')}</FormHelperText>}
                   <Button sx={DefaultButtonStyle}
-                          style={{marginTop: '10vh !important'}}
+                          style={{ marginTop: '10vh !important' }}
                           className="collocates-analyse-button"
                           type="submit"
                           variant="contained">
@@ -271,7 +277,7 @@ export default function Collocates() {
                 </FormControl>
               </div>
               <div>
-                <FormControl sx={{m: 3}}
+                <FormControl sx={{ m: 3 }}
                              variant="standard">
                   <FormLabel id="keyword">{t('common_enter_search_word')}</FormLabel>
                   <TextField variant="outlined"
@@ -279,18 +285,18 @@ export default function Collocates() {
                              required
                              value={keyword}
                              onChange={(e) => setKeyword(e.target.value)}
-                             style={{width: '250px'}} />
+                             style={{ width: '250px' }} />
                 </FormControl>
                 <br />
-                <FormControl sx={{m: 3}}
-                             style={{marginTop: '-1vh'}}
+                <FormControl sx={{ m: 3 }}
+                             style={{ marginTop: '-1vh' }}
                              variant="standard">
                   <FormLabel id="display">{t('neighbouring_words_search_for_neighbouring_words')}</FormLabel>
                   <Grid container>
                     <Grid item>
                       <TextField variant="outlined"
                                  type="number"
-                                 inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: '1', max: '5'}}
+                                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: '1', max: '5' }}
                                  size="small"
                                  required
                                  value={searchCount}
@@ -307,19 +313,22 @@ export default function Collocates() {
                 </FormControl>
               </div>
               <div>
-                <FormControl sx={{m: 3}} size="small">
+                <FormControl sx={{ m: 3 }} size="small">
                   <FormLabel id="formula">{t('neighbouring_words_choose_statistic_measure')}</FormLabel>
                   <Grid container>
                     <Grid item>
                       <Select
-                        sx={{width: '140px'}}
+                        sx={{ width: '140px' }}
                         name="formula"
                         value={formula}
                         onChange={(e) => setFormula(e.target.value)}
                       >
-                        <MenuItem value="LOGDICE">{t('neighbouring_words_statistic_measure_logdice')}</MenuItem>
-                        <MenuItem value="T_SCORE">{t('neighbouring_words_statistic_measure_t_score')}</MenuItem>
-                        <MenuItem value="MI_SCORE">{t('neighbouring_words_statistic_measure_mi_score')}</MenuItem>
+                        <MenuItem
+                          value={StatisticMeasureFormula.LOGDICE}>{t('neighbouring_words_statistic_measure_logdice')}</MenuItem>
+                        <MenuItem
+                          value={StatisticMeasureFormula.T_SCORE}>{t('neighbouring_words_statistic_measure_t_score')}</MenuItem>
+                        <MenuItem
+                          value={StatisticMeasureFormula.MI_SCORE}>{t('neighbouring_words_statistic_measure_mi_score')}</MenuItem>
                       </Select>
                     </Grid>
                     <Grid
@@ -335,12 +344,12 @@ export default function Collocates() {
                   </Grid>
                 </FormControl>
                 <br />
-                <FormControl sx={{m: 3}}
+                <FormControl sx={{ m: 3 }}
                              variant="standard">
                   <FormControlLabel control={
                     <Checkbox
                       checked={capitalizationChecked}
-                      disabled={typeValue === 'LEMMAS'}
+                      disabled={typeValue === CollocateType.LEMMAS}
                       onChange={(e) => setCapitalizationChecked(e.target.checked)}
                     ></Checkbox>
                   }
@@ -368,13 +377,12 @@ export default function Collocates() {
         </Alert>
       </>}
       {showTable && <>
-        <TableDownloadButton sx={DefaultButtonStyle}
-                             data={data}
-                             tableType={'Collocates'}
-                             headers={tableToDownload}
-                             accessors={accessors}
-                             sortByColAccessor={sortByColAccessor}
-                             marginTop={'2vh'} />
+        <TableHeaderButtons leftComponent={<GraphView data={data} keyword={lastKeyword} />}
+                            downloadData={data}
+                            downloadTableType={TableType.COLLOCATES}
+                            downloadHeaders={tableToDownload}
+                            downloadAccessors={accessors}
+                            downloadSortByColAccessor={sortByColAccessor} />
         <GenericTable tableClassname={'wordlist-table'}
                       columns={columns}
                       data={data}
@@ -382,6 +390,17 @@ export default function Collocates() {
       </>}
       {showNoResultsError &&
         <Alert severity="error">{t('error_no_matching_keywords')}</Alert>}
-    </div>
+    </>
   );
 }
+
+const CollocateType = {
+  WORDS: 'WORDS',
+  LEMMAS: 'LEMMAS'
+};
+
+const StatisticMeasureFormula = {
+  LOGDICE: 'LOGDICE',
+  T_SCORE: 'T_SCORE',
+  MI_SCORE: 'MI_SCORE'
+};

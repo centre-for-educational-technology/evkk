@@ -47,9 +47,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import static ee.evkk.dto.enums.CorpusDownloadFileType.ZIP;
+import static ee.evkk.dto.enums.CorpusDownloadForm.ANNOTATE_TEI;
 import static ee.evkk.dto.enums.CorpusDownloadForm.BASIC_TEXT;
-import static ee.evkk.dto.enums.CorpusDownloadForm.CONLLU;
-import static ee.evkk.dto.enums.CorpusDownloadForm.VISLCG3;
 import static ee.evkk.dto.enums.Language.EN;
 import static ee.evkk.dto.enums.Language.ET;
 import static ee.tlu.evkk.common.util.TextUtils.sanitizeLemmaStrings;
@@ -223,28 +222,26 @@ public class TextService {
     if (BASIC_TEXT.equals(corpusDownloadDto.getForm())) {
       contentsAndTitles = textDao.findTextContentsAndTitlesByIds(corpusDownloadDto.getFileList());
     } else {
-      String typeColumn = "";
-      if (CONLLU.equals(corpusDownloadDto.getForm())) {
-        typeColumn = "ANNOTATE_STANZA_CONLLU";
-      }
-      if (VISLCG3.equals(corpusDownloadDto.getForm())) {
-        typeColumn = "ANNOTATE_ESTNLTK";
-      }
-      contentsAndTitles = textDao.findTextTitlesAndContentsWithStanzaTaggingByIds(corpusDownloadDto.getFileList(), typeColumn);
+      contentsAndTitles = textDao.findTextTitlesAndContentsWithStanzaTaggingByIds(corpusDownloadDto.getFileList(), corpusDownloadDto.getForm().toString());
     }
 
     if (ZIP.equals(corpusDownloadDto.getFileType())) {
       File tempFile = createTempFile("corpusDownloadTempZip", null, null);
+      String fileExtension = ANNOTATE_TEI.equals(corpusDownloadDto.getForm()) ? "xml" : "txt";
+
       try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(tempFile))) {
         for (int i = 0; i < contentsAndTitles.size(); i++) {
           String contents = replaceNewLinesAndTabs(corpusDownloadDto.getForm(), contentsAndTitles.get(i).getContents());
           ZipEntry zipEntry = new ZipEntry(format(
-            "%s (%s).txt",
+            "%s (%s).%s",
             getSanitizedFileName(contentsAndTitles.get(i).getTitle()),
-            corpusDownloadDto.getFileList().get(i))
+            corpusDownloadDto.getFileList().get(i),
+            fileExtension)
           );
           zipOutputStream.putNextEntry(zipEntry);
-          zipOutputStream.write(contents.getBytes(UTF_8));
+
+          String result = nonNull(contents) ? contents : "";
+          zipOutputStream.write(result.getBytes(UTF_8));
           zipOutputStream.closeEntry();
         }
       } catch (IOException e) {
@@ -259,7 +256,7 @@ public class TextService {
     StringBuilder contentsCombined = new StringBuilder();
     for (CorpusDownloadResponseEntity entry : contentsAndTitles) {
       String contents = replaceNewLinesAndTabs(corpusDownloadDto.getForm(), entry.getContents());
-      contentsCombined.append(contents);
+      contentsCombined.append(isNotBlank(contents) ? contents : "");
       contentsCombined.append(lineSeparator()).append(lineSeparator());
     }
     return contentsCombined.toString().getBytes(UTF_8);

@@ -87,7 +87,7 @@ public class TeiMappings {
     languageCode.put("hiina", "cn");
 
     corpus.put("cFqPphvYi", "Estonian L2 olympiade");
-    corpus.put("clWmOIrLa", "Estonian L2 proficiency examinations");
+    corpus.put("clWmOIrLa", "Estonian L2 proficiency exams");
     corpus.put("cFOoRQekA", "L2 Estonian");
     corpus.put("cYDRkpymb", "L1 Estonian");
     corpus.put("cgSRJPKTr", "L1 Russian");

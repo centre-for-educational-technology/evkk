@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import './styles/ContactCard.css';
+import '../styles/ContactCard.css';
 import { ReactComponent as EtisLogo } from '../../resources/images/misc/etis_logo.svg';
 import NewTabHyperlink from '../NewTabHyperlink';
 

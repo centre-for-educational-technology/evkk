@@ -4,13 +4,13 @@ import './styles/Syllables.css';
 import TablePagination from '../../components/table/TablePagination';
 import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
-import TableDownloadButton from '../../components/table/TableDownloadButton';
+import { TableType } from '../../components/table/TableDownloadButton';
 import { AnalyseContextWithoutMissingData, SetSyllableContext, SetSyllableWordContext } from './Contexts';
-import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import ToggleCell from './ToggleCell';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import Popover from '@mui/material/Popover';
-import { DefaultButtonStyle } from '../../const/Constants';
+import TableHeaderButtons from '../../components/table/TableHeaderButtons';
+import TableAppliedFilters from '../../components/table/filter/TableAppliedFilters';
+import TableFilterButton from '../../components/table/filter/TableFilterButton';
 
 export default function Syllables() {
 
@@ -20,7 +20,7 @@ export default function Syllables() {
   const data = analyse.syllables;
   const len = data.length;
   const words = analyse.words;
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [infoListNew, setInfoListNew] = useState([]);
   const [filterValue, setFilterValue] = useState([]);
   const [formattedList, setFormattedList] = useState([]);
@@ -54,7 +54,7 @@ export default function Syllables() {
 
   function multiSelect(values, label) {
     const handleChange = (event) => {
-      let value = event.target.value;
+      const value = event.target.value;
       setFilterValue(value);
       setAppliedFilters(value);
       setFilter('col2', value);
@@ -325,16 +325,22 @@ export default function Syllables() {
     previousPage,
     setPageSize,
     setFilter,
-    state: {pageIndex, pageSize}
+    state: { pageIndex, pageSize }
   } = tableInstance;
 
-  function AppliedFilters() {
-    if (appliedFilters !== []) {
-      return (
-        appliedFilters.map((value) => (<Chip sx={{marginBottom: '5px'}} key={value} label={value} />))
-      );
-    }
-  }
+  const renderFilterButton = () => {
+    return (
+      <TableFilterButton
+        popoverId={syllableFilterPopoverID}
+        handlePopoverOpen={handlePopoverOpen}
+        popoverToggle={syllableFilterPopoverToggle}
+        popoverAnchorEl={syllableFilterPopoverAnchor}
+        handlePopoverClose={handlePopoverClose}
+      >
+        {multiSelect(col2, t('filter_by_word_form'))}
+      </TableFilterButton>
+    );
+  };
 
   return (
     <Box>
@@ -347,39 +353,12 @@ export default function Syllables() {
         formating();
         // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [])}
-      <Box className="d-flex justify-content-between w-100">
-        <Box className="w-75">{appliedFilters !== [] ?
-          <Box
-            className="applied-filters-box">{t('applied_filters')}: {AppliedFilters()} </Box> : null}</Box>
-        <Box className="d-flex" style={{gap: '10px'}}>
-          <Box>
-            <Button style={DefaultButtonStyle} aria-describedby={syllableFilterPopoverID}
-                    variant="contained"
-                    onClick={handlePopoverOpen}><FilterAltIcon fontSize="large" /></Button>
-            <Popover
-              id={syllableFilterPopoverID}
-              open={syllableFilterPopoverToggle}
-              anchorEl={syllableFilterPopoverAnchor}
-              onClose={handlePopoverClose}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left'
-              }}
-              transformOrigin={{
-                horizontal: 'center'
-              }}
-            >
-              <Box className="popover-box">
-                {multiSelect(col2, t('filter_by_word_form'))}
-              </Box>
-            </Popover>
-          </Box>
-          <TableDownloadButton data={infoListNew}
-                               tableType={'Syllables'}
-                               headers={tableToDownload}
-                               sortByColAccessor={'col6'} />
-        </Box>
-      </Box>
+      <TableHeaderButtons leftComponent={<TableAppliedFilters appliedFilters={appliedFilters} />}
+                          rightComponent={renderFilterButton()}
+                          downloadData={infoListNew}
+                          downloadTableType={TableType.SYLLABLES}
+                          downloadHeaders={tableToDownload}
+                          downloadSortByColAccessor={'col6'} />
       <table className="analyserTable" {...getTableProps()}>
         <thead>
         {headerGroups.map((headerGroup) => (
@@ -409,11 +388,13 @@ export default function Syllables() {
               <tr className="tableRow" {...row.getRowProps()}>
                 {
                   row.cells.map(cell => {
-                    return <td className="tableData" {...cell.getCellProps()}
-                               style={{
-                                 padding: '10px',
-                                 width: cell.column.width
-                               }}>{cell.render('Cell')}</td>;
+                    return (
+                      <td className="tableData" {...cell.getCellProps()}
+                          style={{
+                            padding: '10px',
+                            width: cell.column.width
+                          }}>{cell.render('Cell')}</td>
+                    );
                   })
                 }
               </tr>

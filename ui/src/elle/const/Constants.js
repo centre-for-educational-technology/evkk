@@ -97,6 +97,30 @@ export const DefaultButtonStyle = {
   }
 };
 
+export const DefaultSliderStyle = {
+  color: '#9C27B0',
+  '& .MuiSlider-rail': {
+    backgroundColor: 'rgba(255, 208, 253, 1)'
+  },
+  '& .MuiSlider-track': {
+    backgroundColor: '#9C27B0'
+  }
+};
+
+export const DefaultInputStyle = {
+  '& .MuiInputBase-input': {
+    padding: '10px',
+    transition: '0.3s',
+    borderBottom: 'solid #FFCFFD 1px',
+    '&:hover': {
+      borderBottom: 'solid #CCA8FE 1px'
+    },
+    '&:focus': {
+      borderBottom: 'solid #852197 1px'
+    }
+  }
+};
+
 export const DefaultButtonStyleSmall = {
   backgroundColor: '#9C27B0',
   fontWeight: 'bold',
@@ -130,7 +154,7 @@ export const CorrectorCustomSlider = {
     backgroundColor: '#9C27B0',
     transformOrigin: 'bottom',
     transform: 'rotate(-45deg)',
-    '&:before': {display: 'none'},
+    '&:before': { display: 'none' },
     '&.MuiSlider-valueLabelOpen': {
       transform: 'translate(40%, -90%) rotate(-45deg)'
     },
@@ -142,6 +166,18 @@ export const CorrectorCustomSlider = {
 
 export const DefaultCircularProgressStyle = {
   color: '#9C27B0'
+};
+
+export const WordAnalyzerTooltipShift = {
+  popper: {
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, -8]
+        }
+      }]
+  }
 };
 
 export const MenuLink = styled(HashLink)({
@@ -161,8 +197,8 @@ export const MenuLink = styled(HashLink)({
 });
 
 export const TabStyle = {
-  '& button:hover': {backgroundColor: 'rgba(204, 168, 253, 1)', transition: '0.5s'},
-  '& button:active': {backgroundColor: '#9C27B0'},
+  '& button:hover': { backgroundColor: 'rgba(204, 168, 253, 1)', transition: '0.5s' },
+  '& button:active': { backgroundColor: '#9C27B0' },
   '& button': {
     backgroundColor: 'rgba(255, 208, 253, 1)',
     lineHeight: '60px',
@@ -172,11 +208,7 @@ export const TabStyle = {
     height: '60px',
     borderBottom: '4px solid #9C27B0',
     borderTop: '4px solid #9C27B0',
-    textTransform: 'lowercase',
     transition: '0.5s'
-  },
-  '& button::first-letter': {
-    textTransform: 'uppercase'
   },
   '& button:first-of-type': {
     borderRadius: '25px 0 0 25px',
@@ -201,6 +233,9 @@ export const TabStyle = {
   '& .MuiTabs-root': {
     border: 'none',
     borderBottom: 'none'
+  },
+  '& .MuiTab-root': {
+    textTransform: 'none'
   }
 };
 
@@ -662,4 +697,21 @@ export const countryOptionsForAddingText = {
   'Saksamaa': 'query_common_country_de',
   'Inglismaa': 'query_common_country_en',
   'Ungari': 'query_common_country_hu'
+};
+
+export const breadcrumbNameMap = {
+  '/corrector': 'common_corrector',
+  '/tools': 'common_tools',
+  '/links': 'common_links',
+  '/about': 'common_about',
+  '/about/us': 'common_us',
+  '/about/people': 'common_people',
+  '/about/grants': 'common_grants',
+  '/about/publications': 'common_publications',
+  '/adding': 'common_publish_your_text',
+  '/tools/clusterfinder': 'common_clusters',
+  '/tools/wordanalyser': 'common_word_analyser',
+  '/tools/wordlist': 'common_wordlist',
+  '/tools/wordcontext': 'common_word_in_context',
+  '/tools/collocates': 'common_neighbouring_words'
 };

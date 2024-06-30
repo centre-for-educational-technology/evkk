@@ -2,6 +2,7 @@ package ee.tlu.evkk.taskscheduler.task;
 
 import ee.tlu.evkk.core.service.TextProcessorService;
 import ee.tlu.evkk.dal.dto.MissingTextProcessorResult;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,17 +21,12 @@ import static ee.tlu.evkk.core.text.processor.TextProcessor.Type.valueOf;
  * Date: 21.01.2022
  */
 @Slf4j
+@RequiredArgsConstructor
 public class TextProcessingTask {
 
   private final AsyncListenableTaskExecutor executor;
   private final TransactionOperations transactionOperations;
   private final TextProcessorService textProcessorService;
-
-  public TextProcessingTask(AsyncListenableTaskExecutor executor, TransactionOperations transactionOperations, TextProcessorService textProcessorService) {
-    this.executor = executor;
-    this.transactionOperations = transactionOperations;
-    this.textProcessorService = textProcessorService;
-  }
 
   @Transactional
   public CompletableFuture<Void> execute() {

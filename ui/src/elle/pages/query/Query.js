@@ -45,7 +45,7 @@ import {
 import QueryResults from './QueryResults';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import TextUpload from '../../components/TextUpload';
-import { queryStore } from '../../store/QueryStore';
+import { queryStore, QueryStoreActionType } from '../../store/QueryStore';
 import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
@@ -404,20 +404,20 @@ export default function Query(props) {
 
   const handleSubmitOwnTexts = () => {
     queryStore.dispatch({
-      type: 'CHANGE_OWN_TEXTS',
+      type: QueryStoreActionType.CHANGE_OWN_TEXTS,
       value: textInputValue
     });
   };
 
   const handleChipDelete = (type) => {
-    if (type === 'CORPUS_TEXTS') {
+    if (type === ChipDeleteType.CORPUS_TEXTS) {
       queryStore.dispatch({
-        type: 'CHANGE_CORPUS_TEXTS',
+        type: QueryStoreActionType.CHANGE_CORPUS_TEXTS,
         value: null
       });
     } else {
       queryStore.dispatch({
-        type: 'CHANGE_OWN_TEXTS',
+        type: QueryStoreActionType.CHANGE_OWN_TEXTS,
         value: null
       });
     }
@@ -1136,7 +1136,7 @@ export default function Query(props) {
                     label={corpusTextsSelected > 1 ? t('query_results_saved_for_analysis_corpus_plural', {amount: corpusTextsSelected}) : t('query_results_saved_for_analysis_corpus')}
                     className="my-1"
                     variant="outlined"
-                    onDelete={() => handleChipDelete('CORPUS_TEXTS')}
+                    onDelete={() => handleChipDelete(ChipDeleteType.CORPUS_TEXTS)}
                   />
                 </div>
               }
@@ -1145,7 +1145,7 @@ export default function Query(props) {
                   sx={ElleDefaultChip}
                   label={t('query_results_saved_for_analysis_own_texts')}
                   variant="outlined"
-                  onDelete={() => handleChipDelete('OWN_TEXTS')}
+                  onDelete={() => handleChipDelete(ChipDeleteType.OWN_TEXTS)}
                 />
               }
             </div>
@@ -1154,3 +1154,8 @@ export default function Query(props) {
     </div>
   );
 }
+
+const ChipDeleteType = {
+  CORPUS_TEXTS: 'CORPUS_TEXTS',
+  OWN_TEXTS: 'OWN_TEXTS'
+};
