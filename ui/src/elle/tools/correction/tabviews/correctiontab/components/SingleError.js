@@ -16,7 +16,8 @@ export default function SingleError(
     setSpellerAnswer,
     setGrammarAnswer,
     spellerAnswer,
-    grammarAnswer
+    grammarAnswer,
+    model
   }) {
   const [isHovering, setIsHovering] = useState(false);
   const isFirstRender = useRef(true);
@@ -36,9 +37,10 @@ export default function SingleError(
       return;
     }
 
-    if (type === 'missingPunctuation' || type === 'extraPunctuation') {
+
+    if ((type === 'missingPunctuation' || type === 'extraPunctuation') && document.querySelector(`#punctuation_${error.index}`)) {
       document.querySelector(`#punctuation_${error.index}`).classList.toggle(`${type}hovering`);
-    } else {
+    } else if (document.querySelector(`#errorno_${error.index}`)) {
       document.querySelector(`#errorno_${error.index}`).classList.toggle(`${type}hovering`);
     }
   }, [isHovering]);
@@ -55,13 +57,13 @@ export default function SingleError(
       <IconButton
         className="corrector-error-icon-button"
         color="success"
-        onClick={() => resolveError(error.index, errorValue, acceptText, type, setErrorList, errorList, inputText, setInputText, setSpellerAnswer, setGrammarAnswer, grammarAnswer, spellerAnswer)}
+        onClick={() => resolveError(error.index, errorValue, acceptText, type, setErrorList, errorList, inputText, setInputText, setSpellerAnswer, setGrammarAnswer, grammarAnswer, spellerAnswer, model)}
       >
         <CheckCircleIcon fontSize={'medium'}/>
       </IconButton>
       <IconButton
         className="corrector-error-icon-button"
-        onClick={() => resolveError(error.index, errorValue, declineText, type, setErrorList, errorList, inputText, setInputText, setSpellerAnswer, setGrammarAnswer, grammarAnswer, spellerAnswer)}
+        onClick={() => resolveError(error.index, errorValue, declineText, type, setErrorList, errorList, inputText, setInputText, setSpellerAnswer, setGrammarAnswer, grammarAnswer, spellerAnswer, model)}
         color={'error'}
       >
         <CancelIcon fontSize={'medium'}/>

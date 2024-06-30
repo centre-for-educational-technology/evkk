@@ -1,5 +1,7 @@
 import { commonLemmas, stopWords } from '../constants/constants';
 
+const positionalWords = ['Pärisnimi', 'Põhiarvsõna', 'Järgarvsõna'];
+
 export const calculateAbstractnessAverage = (abstractAnswer) => {
   let abstractCount = 0;
   let abstractnessSum = 0;
@@ -14,8 +16,9 @@ export const calculateAbstractnessAverage = (abstractAnswer) => {
 
 export const calculateUncommonWords = (abstractAnswer) => {
   let unCommonCount = 0;
+
   abstractAnswer.wordAnalysis.forEach((lemma, index) => {
-    if (lemma.pos !== 'Pärisnimi' && lemma.pos !== 'Järgarvsõna' && !commonLemmas.includes(lemma.lemmas[0].lemma)) {
+    if (!positionalWords.includes(lemma.pos) && !commonLemmas.includes(lemma.lemmas[0].lemma) && lemma.posTag !== 'G') {
       unCommonCount++;
     }
   });
@@ -25,7 +28,7 @@ export const calculateUncommonWords = (abstractAnswer) => {
 export const calculateContentWord = (abstractAnswer) => {
   let contentWordCount = 0;
   abstractAnswer.wordAnalysis.forEach((lemma, index) => {
-    if (lemma.pos !== 'Pärisnimi' && lemma.pos !== 'Järgarvsõna' && !stopWords.includes(lemma.lemmas[0].lemma)) {
+    if (!positionalWords.includes(lemma.pos) && !stopWords.includes(lemma.lemmas[0].lemma) && lemma.posTag !== 'G') {
       contentWordCount++;
     }
   });
@@ -40,5 +43,15 @@ export const calculateAbstractWords = (abstractAnswer) => {
     }
   });
   return abstractCount;
+};
+
+export const calculateTotalWords = (abstractAnswer) => {
+  let totalWordCount = 0;
+  abstractAnswer.wordAnalysis.forEach((lemma, index) => {
+    if (!positionalWords.includes(lemma.pos) && lemma.posTag !== 'G') {
+      totalWordCount++;
+    }
+  });
+  return totalWordCount;
 };
 

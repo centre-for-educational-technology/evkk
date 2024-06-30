@@ -1,9 +1,8 @@
-import { replaceCombined } from '../../../../../const/Constants';
+import { checkForFullWord, replaceCombined } from '../../../../../const/Constants';
 
 export const handleNounMarking = (text, complexityAnswer) => {
   let tempText = text.replaceAll(replaceCombined, '');
   let nounList = [];
-  const usedWords = [];
 
   complexityAnswer.sonaliigid.forEach((word, index) => {
     if (word === 'NOUN') {
@@ -12,11 +11,11 @@ export const handleNounMarking = (text, complexityAnswer) => {
       }
     }
   });
-  nounList.forEach(noun => {
-    if (!usedWords.includes(noun)) {
-      usedWords.push(noun);
+  complexityAnswer.sonaliigid.forEach((word, index) => {
+    if (word === 'NOUN') {
+      const noun = complexityAnswer.sonad[index];
       const newWord = `<span id="text-span" class="noun-color">${noun}</span>`;
-      tempText = tempText.replaceAll(noun, newWord);
+      tempText = tempText.replace(checkForFullWord(noun), newWord);
     }
   });
 
@@ -25,12 +24,10 @@ export const handleNounMarking = (text, complexityAnswer) => {
 
 export const handleLongWordMarking = (text, complexityAnswer) => {
   let tempText = text.replaceAll(replaceCombined, '');
-  const usedWords = [];
   complexityAnswer.sonad.forEach(word => {
-    if (word.length > 6 && !usedWords.includes(word)) {
-      usedWords.push(word);
+    if (word.length > 6) {
       const newWord = `<span id="text-span" class="long-word-color">${word}</span>`;
-      tempText = tempText.replaceAll(word, newWord);
+      tempText = tempText.replace(checkForFullWord(word), newWord);
     }
   });
 

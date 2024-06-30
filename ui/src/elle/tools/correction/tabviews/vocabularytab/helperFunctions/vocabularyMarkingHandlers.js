@@ -1,5 +1,7 @@
 import { commonLemmas, stopWords } from '../constants/constants';
-import { replaceCombined } from '../../../../../const/Constants';
+import { checkForFullWord, replaceCombined } from '../../../../../const/Constants';
+
+const positionalWords = ['Pärisnimi', 'Põhiarvsõna', 'Järgarvsõna'];
 
 const findDuplicates = (arr) => {
   const countMap = arr.reduce((acc, val) => {
@@ -23,16 +25,11 @@ const extractHslValue = (text, word) => {
 
 export const handleUncommonWords = (text, abstractAnswer, complexityAnswer) => {
   let tempText = text.replaceAll(replaceCombined, '');
-  const usedWords = [];
-
-  const positionalWords = ['Pärisnimi', 'Põhiarvsõna', 'Järgarvsõna'];
 
   abstractAnswer.wordAnalysis.forEach((lemma, index) => {
-    if (!positionalWords.includes(lemma.pos) && !commonLemmas.includes(lemma.lemmas[0].lemma) && !usedWords.includes(abstractAnswer.wordAnalysis[index].word) && lemma.posTag !== 'G') {
-      usedWords.push(complexityAnswer.sonad[index]);
-      let regex = new RegExp('\\b' + complexityAnswer.sonad[index] + '\\b', 'g');
+    if (!positionalWords.includes(lemma.pos) && !commonLemmas.includes(lemma.lemmas[0].lemma) && lemma.posTag !== 'G') {
       const newWord = `<span class="uncommon-word-color">${complexityAnswer.sonad[index]}</span>`;
-      tempText = tempText.replaceAll(regex, newWord);
+      tempText = tempText.replace(checkForFullWord(complexityAnswer.sonad[index]), newWord);
     }
   });
   return tempText;
@@ -40,13 +37,10 @@ export const handleUncommonWords = (text, abstractAnswer, complexityAnswer) => {
 
 export const handleAbstractWords = (text, abstractAnswer, complexityAnswer) => {
   let tempText = text.replaceAll(replaceCombined, '');
-  const usedWords = [];
   abstractAnswer.wordAnalysis.forEach((word, index) => {
-    if (word.abstractness === 3 && (word.pos !== 'Pärisnimi' && !usedWords.includes(word.word)) && complexityAnswer.sonaliigid[index] === 'NOUN') {
-      usedWords.push(word.word);
-      let regex = new RegExp('\\b' + word.word + '\\b', 'g');
+    if (word.abstractness === 3 && word.pos !== 'Pärisnimi' && complexityAnswer.sonaliigid[index] === 'NOUN') {
       const newWord = `<span class="abstract-word-color">${word.word}</span>`;
-      tempText = tempText.replaceAll(regex, newWord);
+      tempText = tempText.replace(checkForFullWord(word.word), newWord);
     }
   });
   return tempText;
@@ -54,13 +48,10 @@ export const handleAbstractWords = (text, abstractAnswer, complexityAnswer) => {
 
 export const handleContentWords = (text, complexityAnswer) => {
   let tempText = text.replaceAll(replaceCombined, '');
-  const usedWords = [];
   complexityAnswer.lemmad.forEach((lemma, index) => {
-    if (!stopWords.includes(lemma) && !usedWords.includes(complexityAnswer.sonad[index])) {
-      usedWords.push(complexityAnswer.sonad[index]);
-      let regex = new RegExp('\\b' + complexityAnswer.sonad[index] + '\\b', 'g');
+    if (!positionalWords.includes(lemma.pos) && !stopWords.includes(lemma) && lemma.posTag !== 'G') {
       const newWord = `<span class="content-word-color">${complexityAnswer.sonad[index]}</span>`;
-      tempText = tempText.replaceAll(regex, newWord);
+      tempText = tempText.replace(checkForFullWord(complexityAnswer.sonad[index]), newWord);
     }
   });
   return tempText;

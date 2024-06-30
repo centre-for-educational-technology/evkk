@@ -11,7 +11,7 @@ export const resolvePunctuation = (type, error) => {
   }
 };
 
-export const resolveError = (index, errorType, newInnerText, type, setErrorList, errorList, inputText, setInputText, setSpellerAnswer, setGrammarAnswer, grammarAnswer, spellerAnswer) => {
+export const resolveError = (index, errorType, newInnerText, type, setErrorList, errorList, inputText, setInputText, setSpellerAnswer, setGrammarAnswer, grammarAnswer, spellerAnswer, model) => {
   const resolvableElement = document.querySelector(`#${errorType}_${index}`);
   resolvableElement.classList.remove('text-span');
   const difference = newInnerText.length - resolvableElement.innerText.length;
@@ -19,7 +19,6 @@ export const resolveError = (index, errorType, newInnerText, type, setErrorList,
 
   const array = [];
 
-  console.log(grammarAnswer);
   let errorIndex = -1;
   grammarAnswer.corrections.reverse().forEach((error) => {
     if (error.errorId !== `${errorType}_${index}`) {
@@ -34,7 +33,24 @@ export const resolveError = (index, errorType, newInnerText, type, setErrorList,
     ;
   });
   grammarAnswer.corrections = array.reverse();
-  spellerAnswer.corrections = spellerAnswer.corrections.filter((error) => error.errorId !== `${errorType}_${index}`);
+  if (model === 'spellerchecker') {
+    spellerAnswer.corrections.forEach((error) => {
+      if (error.errorId < index) {
+        error.span.start = error.span.start + difference;
+        error.span.end = error.span.end + difference;
+      }
+    });
+    spellerAnswer.corrections = spellerAnswer.corrections.filter((error) => error.errorId !== index);
+  }
+  if (model === 'grammarchecker') {
+    grammarAnswer.corrections.forEach((error, innerIndex) => {
+      if (error.errorId < index) {
+        error.span.start = error.span.start + difference;
+        error.span.end = error.span.end + difference;
+      }
+    });
+    grammarAnswer.corrections = grammarAnswer.corrections.filter((error) => error.errorId !== index);
+  }
   setGrammarAnswer(grammarAnswer);
   setSpellerAnswer(spellerAnswer);
 

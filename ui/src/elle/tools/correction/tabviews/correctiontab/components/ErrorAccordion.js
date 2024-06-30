@@ -56,6 +56,7 @@ export default function ErrorAccordion(
                   setGrammarAnswer={setGrammarAnswer}
                   spellerAnswer={spellerAnswer}
                   grammarAnswer={grammarAnswer}
+                  model={model}
                 />
               ))}
             </div>

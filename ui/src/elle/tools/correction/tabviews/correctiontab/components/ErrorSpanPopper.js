@@ -15,7 +15,8 @@ export default function ErrorSpanPopper(
     setGrammarAnswer,
     setSpellerAnswer,
     grammarAnswer,
-    spellerAnswer
+    spellerAnswer,
+    model
   }) {
   const open = Boolean(popperAnchor);
   const id = open ? 'simple-popper' : undefined;
@@ -37,6 +38,7 @@ export default function ErrorSpanPopper(
               setSpellerAnswer={setSpellerAnswer}
               grammarAnswer={grammarAnswer}
               spellerAnswer={spellerAnswer}
+              model={model}
             />
           }
         </Paper>

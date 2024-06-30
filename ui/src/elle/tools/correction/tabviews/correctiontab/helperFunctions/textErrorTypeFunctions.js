@@ -25,6 +25,7 @@ export const checkIfSpellingError = (errorWord, correctedWord) => {
 };
 
 export const checkForExtraPunctuationError = (errorWord, correctedWord) => {
+  if (errorWord.split(' ').length !== correctedWord.split(' ').length) return false;
   const errorLastChar = errorWord[errorWord.length - 1];
   const correctedLastChar = correctedWord[correctedWord.length - 1];
   return (punctuations.includes(errorLastChar) && !punctuations.includes(correctedLastChar));
@@ -66,8 +67,8 @@ export const checkForExtraWordError = (errorWord, correctedWord) => {
 };
 
 export const checkForMissingWordError = (errorWord, correctedWord) => {
-  const errorWords = removePunctuationFromEnd(errorWord).split(' ');
-  const correctedWords = removePunctuationFromEnd(correctedWord).split(' ');
+  const errorWords = errorWord.split(' ');
+  const correctedWords = correctedWord.split(' ');
   if (errorWords.length === correctedWords.length || errorWords.length > correctedWords.length) return false;
 
   return (errorWords.every((word) => correctedWords.includes(word)));

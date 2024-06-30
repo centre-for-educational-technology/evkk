@@ -29,10 +29,12 @@ export default function CorrectionInput(
   const textBoxRef = useRef();
   const textBoxValueRef = useRef(inputText);
 
+  textBoxValueRef.current = inputText;
+
   useEffect(() => {
     if (model === 'spellchecker') setResponseText(spellerAnswer);
     if (model === 'grammarchecker') setResponseText(grammarAnswer);
-  }, [model]);
+  }, [model, inputText]);
 
   useProcessTextCorrections(responseText, textBoxRef, textBoxValueRef, setErrorList, setInputText, spellerAnswer, grammarAnswer);
   usePopUpHover('text-span', inputText, errorList, setPopperAnchor, setPopperValue);
@@ -64,6 +66,7 @@ export default function CorrectionInput(
         setSpellerAnswer={setSpellerAnswer}
         grammarAnswer={grammarAnswer}
         spellerAnswer={spellerAnswer}
+        model={model}
       />
       <CorrectionButton
         inputText={inputText}

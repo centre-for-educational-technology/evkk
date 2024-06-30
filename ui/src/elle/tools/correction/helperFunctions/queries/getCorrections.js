@@ -22,6 +22,13 @@ export const getCorrections = async (val, grammarSetter, spellerSetter) => {
   const grammarResponse = await correctionFetch('grammarchecker');
   const spellerResponse = await correctionFetch('spellchecker');
 
+  grammarResponse.corrections.forEach((error, index) => {
+    error.errorId = index;
+  });
+  spellerResponse.corrections.forEach((error, index) => {
+    error.errorId = index;
+  });
+
   grammarSetter(grammarResponse);
   spellerSetter(spellerResponse);
 };

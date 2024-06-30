@@ -43,9 +43,6 @@ const useProcessTextCorrections = (responseText, textBoxRef, textBoxValueRef, se
         missingPunctuation
       } = errorTypes;
 
-      console.log(correction);
-
-
       if (wrongPunctuation || extraPunctuation || missingPunctuation) {
         const correctionCopy = {...correction};
         innerText = resolvePunctuationMarks(wrongPunctuation, extraPunctuation, missingPunctuation, correctionCopy, errorWord, innerText, mainIndex);
@@ -102,7 +99,6 @@ const useProcessTextCorrections = (responseText, textBoxRef, textBoxValueRef, se
       }
     });
 
-    console.log(corrections);
     setErrorList(corrections);
     textBoxValueRef.current = innerText;
     setInputText(innerText);
