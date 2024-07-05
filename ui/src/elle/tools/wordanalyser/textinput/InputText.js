@@ -3,7 +3,6 @@ import { AnalyseContext } from '../Contexts';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { Box, Tooltip } from '@mui/material';
-import { WordAnalyzerTooltipShift } from '../../../const/Constants';
 import { useTranslation } from 'react-i18next';
 
 function changeNextColor(idNumber, setIdNumber, markedIds, onWordInfo) {
@@ -56,7 +55,6 @@ export const InputText = ({ onMarkWords, onWordSelect, onWordInfo }) => {
       enterDelay={300}
       arrow
       title={syllable[i] === '–' ? t('word_analyser_word_with_foreign_characters_tooltip') : ''}
-      slotProps={WordAnalyzerTooltipShift}
     >
       <span
         id={ids[i]}
