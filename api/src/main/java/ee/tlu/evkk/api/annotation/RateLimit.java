@@ -10,7 +10,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface RateLimit {
 
-  int limit() default 2;
+  int limit() default 5;
 
   int timeFrame() default 30;
 }

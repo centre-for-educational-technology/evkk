@@ -2,9 +2,7 @@ import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { AnalyseContext } from '../Contexts';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { Box, Tooltip } from '@mui/material';
-import { WordAnalyzerTooltipShift } from '../../../const/Constants';
-import { useTranslation } from 'react-i18next';
+import { Box } from '@mui/material';
 
 function changeNextColor(idNumber, setIdNumber, markedIds, onWordInfo) {
   if (idNumber < markedIds.length - 1) {
@@ -21,7 +19,6 @@ function changePreviousColor(idNumber, setIdNumber, markedIds, onWordInfo) {
 }
 
 export const InputText = ({ onMarkWords, onWordSelect, onWordInfo }) => {
-  const { t } = useTranslation();
   const analyse = useContext(AnalyseContext)[0];
   const markedIds = [];
   const [idNumber, setIdNumber] = useState(0);
@@ -38,42 +35,33 @@ export const InputText = ({ onMarkWords, onWordSelect, onWordInfo }) => {
     // eslint-disable-next-line
   }, [onMarkWords]);
 
-  const handleIsMarked = (ids, i, analysedWords, markedIds, idNumber, syllable) => {
+  const handleIsMarked = (ids, i, analysedWords, markedIds, idNumber) => {
     if (ids[i] === markedIds[idNumber]) {
-      return renderWord(ids, i, 'word blue', analysedWords, handleWord, syllable);
+      return renderWord(ids, i, 'word blue', analysedWords, handleWord);
     } else {
-      return renderWord(ids, i, 'word marked', analysedWords, handleWord, syllable);
+      return renderWord(ids, i, 'word marked', analysedWords, handleWord);
     }
   };
 
-  const handleIsNotMarked = (ids, i, analysedWords, syllable) => {
-    return renderWord(ids, i, 'word', analysedWords, handleWord, syllable);
+  const handleIsNotMarked = (ids, i, analysedWords) => {
+    return renderWord(ids, i, 'word', analysedWords, handleWord);
   };
 
-  const renderWord = (ids, i, className, analysedWords, onClickHandler, syllable) => (
-    <Tooltip
-      placement={'top'}
-      enterDelay={300}
-      arrow
-      title={syllable[i] === '–' ? t('word_analyser_word_with_foreign_characters_tooltip') : ''}
-      slotProps={WordAnalyzerTooltipShift}
+  const renderWord = (ids, i, className, analysedWords, onClickHandler) => (
+    <span
+      id={ids[i]}
+      className={className}
+      key={ids[i]}
+      onClick={(e) => onClickHandler(e.target.id)}
     >
-      <span
-        id={ids[i]}
-        className={className}
-        key={ids[i]}
-        onClick={(e) => onClickHandler(e.target.id)}
-      >
-        {analysedWords[i]}
-      </span>
-    </Tooltip>
+      {analysedWords[i]}
+    </span>
   );
 
   const updatedText = useMemo(() => {
     let analysedWords = analyse.wordsOrig;
     let text = analyse.text;
     let ids = analyse.ids;
-    let syllable = analyse.syllables;
     let content = [];
     if (analysedWords) {
       for (let i = 0; i < analysedWords.length; i++) {
@@ -104,16 +92,16 @@ export const InputText = ({ onMarkWords, onWordSelect, onWordInfo }) => {
           }
           content.push(sequence);
           if (isMarked) {
-            content.push(handleIsMarked(ids, i, analysedWords, markedIds, idNumber, syllable));
+            content.push(handleIsMarked(ids, i, analysedWords, markedIds, idNumber));
           } else {
-            content.push(handleIsNotMarked(ids, i, analysedWords, syllable));
+            content.push(handleIsNotMarked(ids, i, analysedWords));
           }
           text = text.substring(index + analysedWords[i].length, text.length);
         } else {
           if (isMarked) {
-            content.push(handleIsMarked(ids, i, analysedWords, markedIds, idNumber, syllable));
+            content.push(handleIsMarked(ids, i, analysedWords, markedIds, idNumber));
           } else {
-            content.push(handleIsNotMarked(ids, i, analysedWords, syllable));
+            content.push(handleIsNotMarked(ids, i, analysedWords));
           }
           text = text.substring(index + analysedWords[i].length, text.length);
         }
