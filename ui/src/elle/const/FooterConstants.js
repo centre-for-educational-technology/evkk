@@ -138,20 +138,8 @@ export const aboutValues = [
     connector: '/'
   },
   {
-    title: 'common_graduation_papers',
-    target: `${RouteConstants.PUBLICATIONS}#${HashFragmentRouteConstants.PUBLICATIONS_GRADUATION_PAPERS}`,
-    prefix: RouteConstants.ABOUT,
-    connector: '/'
-  },
-  {
-    title: 'common_conferences_and_workshops',
-    target: `${RouteConstants.PUBLICATIONS}#${HashFragmentRouteConstants.PUBLICATIONS_CONFERENCES_AND_WORKSHOPS}`,
-    prefix: RouteConstants.ABOUT,
-    connector: '/'
-  },
-  {
-    title: 'common_articles',
-    target: `${RouteConstants.PUBLICATIONS}#${HashFragmentRouteConstants.PUBLICATIONS_ARTICLES}`,
+    title: 'common_publications',
+    target: RouteConstants.PUBLICATIONS,
     prefix: RouteConstants.ABOUT,
     connector: '/'
   }
