@@ -443,6 +443,7 @@ export const TRANSLATIONS_EN = {
   tools_warning_text: 'To use this tool, please choose a text or texts to analyse from the menu on the left!',
   try_again: 'Try again',
   word_analyser_text_too_long_infobox: 'Word-by-word text analysis is possible for texts up to 1,000 words.',
+  word_analyser_word_with_foreign_characters_tooltip: 'The word contains foreign characters.',
   wordcontext_filename: 'wordcontext',
   wordinfo_tutorial_text: 'Clicking on a word will display the grammatical info of the word.',
   wordinfo_word: 'Word',

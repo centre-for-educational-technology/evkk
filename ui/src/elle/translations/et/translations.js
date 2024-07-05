@@ -443,6 +443,7 @@ export const TRANSLATIONS_ET = {
   tools_warning_text: 'Tööriista kasutamiseks tuleb vasakult menüüst valida analüüsitav tekst või tekstid!',
   try_again: 'Proovi uuesti',
   word_analyser_text_too_long_infobox: 'Teksti analüüsimine sõna kaupa on võimalik kuni 1000-sõnalise teksti puhul.',
+  word_analyser_word_with_foreign_characters_tooltip: 'Sõna sisaldab võõraid tähemärke.',
   wordcontext_filename: 'sõnakontekstis',
   wordinfo_tutorial_text: 'Sõnadel klõpsates ilmub siia valitud sõna grammatiline info.',
   wordinfo_word: 'Sõna',
