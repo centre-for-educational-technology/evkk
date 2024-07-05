@@ -1,11 +1,12 @@
 import React from 'react';
-import {Box, Button} from "@mui/material";
-import '../styles/StatisticsElement.css'
+import { Box, Button } from '@mui/material';
+import '../styles/StatisticsElement.css';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
-import {DefaultButtonStyle, ElleOuterDivStyle} from "../../const/Constants";
-import {useTranslation} from "react-i18next";
-import {useNavigate} from "react-router-dom";
+import { DefaultButtonStyle, ElleOuterDivStyle } from '../../const/StyleConstants';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { RouteConstants } from '../../../AppRoutes';
 
 const StatisticsIconContainer = (props) => {
   return (
@@ -43,10 +44,10 @@ export default function StatisticsElement() {
             className="align-self-start"
             variant={"contained"}
             onClick={() => {
-              navigate('/adding')
+              navigate(RouteConstants.ADDING);
             }}
           >
-            {t('donate_text')}
+            {t('common_donate_text')}
           </Button>
         </Box>
       </Box>

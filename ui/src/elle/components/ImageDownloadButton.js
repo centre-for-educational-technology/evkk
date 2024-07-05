@@ -1,8 +1,8 @@
 import { Button, Tooltip } from '@mui/material';
-import { DefaultButtonStyle } from '../const/Constants';
 import DownloadIcon from '@mui/icons-material/Download';
 import { useTranslation } from 'react-i18next';
 import './styles/ImageDownloadButton.css';
+import { DefaultButtonStyle } from '../const/StyleConstants';
 
 export default function ImageDownloadButton({ element, sourceType, fileName }) {
 

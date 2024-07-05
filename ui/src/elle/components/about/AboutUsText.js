@@ -5,7 +5,7 @@ import {
   EVKK_GITHUB_PATH,
   EVKK_VERS1_PATH,
   MIT_LICENSE_PATH
-} from '../../const/Constants';
+} from '../../const/PathConstants';
 import NewTabHyperlink from '../NewTabHyperlink';
 
 export default function AboutUsText() {
@@ -40,7 +40,7 @@ export default function AboutUsText() {
                            content="siin" />.
           ELLE arendusega saab ennast kurssi viia meie&nbsp;
           <NewTabHyperlink path={EVKK_GITHUB_PATH}
-                           content="GitHubi koodihoidlas" />.<br /><br />
+                           content="GitHubi repositooriumis" />.<br /><br />
 
           ELLE tarkvara on kasutatav&nbsp;
           <NewTabHyperlink path={MIT_LICENSE_PATH}

@@ -1,13 +1,13 @@
-import {Button, ButtonGroup, MenuItem, Select, TextField} from '@mui/material';
+import { Button, ButtonGroup, MenuItem, Select, TextField } from '@mui/material';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import React from 'react';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 import '../styles/TablePagination.css';
-import {DefaultButtonStyle} from "../../const/Constants";
+import { DefaultButtonStyle } from '../../const/StyleConstants';
 
 export default function TablePagination(props) {
   const {t} = useTranslation();

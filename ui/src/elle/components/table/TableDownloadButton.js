@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 import '../styles/TableDownloadButton.css';
 import { sortTableDataByCol } from '../../util/TableUtils';
-import { DefaultButtonStyle } from '../../const/Constants';
+import { DefaultButtonStyle } from '../../const/StyleConstants';
 
 export default function TableDownloadButton({ data, headers, accessors, tableType, sortByColAccessor }) {
 

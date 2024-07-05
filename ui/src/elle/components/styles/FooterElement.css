@@ -7,11 +7,12 @@
 }
 
 .footer-inner {
-  height: 100%;
   width: 100%;
   padding-left: 6rem;
   padding-top: 2rem;
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   align-items: flex-start;
   gap: 4rem;
 }
@@ -19,7 +20,8 @@
 .footer-inner-right {
   display: flex;
   flex: 3;
-  align-items: start;
+  flex-wrap: wrap;
+  align-items: flex-start;
   gap: 4rem;
 }
 
@@ -28,22 +30,22 @@
   padding-left: 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: start;
-  align-items: start;
-  gap: 2rem;
+  justify-content: flex-start;
+  align-items: flex-start;
   text-align: start;
 }
 
 .dti-logo {
   height: 5rem;
+  margin-bottom: 2rem;
 }
 
 .footer-middle-box {
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: start;
-  justify-content: start;
+  align-items: flex-start;
+  justify-content: flex-start;
   text-align: start;
 }
 
@@ -51,7 +53,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: flex-start;
   justify-content: flex-end;
   text-align: start;
   padding-right: 4rem;
@@ -60,6 +62,35 @@
 .footer-date-stamp {
   font-family: "Exo 2", sans-serif;
   font-weight: 600;
-  font-size: 0.8rem;
   color: #0009;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .footer-inner {
+    padding-left: 2rem;
+    padding-top: 1rem;
+  }
+
+  .footer-inner-right {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .footer-logo-box {
+    padding-left: 0;
+    align-items: center;
+  }
+
+  .footer-box-right {
+    padding-right: 0;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .footer-middle-box, .footer-box-right {
+    align-items: center;
+    text-align: center;
+  }
 }
