@@ -83,3 +83,32 @@ export const useAddText = () => {
 
   return { addText };
 };
+
+export const useGetQueryResults = (setNoResultsError, setResults, setIsQueryAnswerPage) => {
+  const { fetchData, response } = useFetch();
+
+  const getQueryResults = useCallback((body) => {
+    fetchData('/api/texts/detailneparing', {
+      method: 'POST',
+      body,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  }, [fetchData]);
+
+  useEffect(() => {
+    if (response) {
+      if (response.length > 0) {
+        setNoResultsError(false);
+        setResults(response);
+        setIsQueryAnswerPage(true);
+      } else {
+        setNoResultsError(true);
+        setResults([]);
+      }
+    }
+  }, [response, setIsQueryAnswerPage, setNoResultsError, setResults]);
+
+  return { getQueryResults };
+};

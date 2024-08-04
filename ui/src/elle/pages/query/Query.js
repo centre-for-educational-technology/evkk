@@ -42,11 +42,11 @@ import QueryResults from './QueryResults';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import TextUpload from '../../components/TextUpload';
 import { changeCorpusTexts, changeOwnTexts, queryStore } from '../../store/QueryStore';
-import { loadFetch } from '../../hooks/service/util/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import { DefaultButtonStyle, ElleDefaultChip, MenuProps, useStyles } from '../../const/StyleConstants';
+import { useGetQueryResults } from '../../hooks/service/TextService';
 
 export default function Query(props) {
 
@@ -86,6 +86,7 @@ export default function Query(props) {
   const [inputQueryOpen, setInputQueryOpen] = useState('query-own-texts-modal-closed');
   const [isQueryAnswerPage, setIsQueryAnswerPage] = useState(false);
   const [previousSelectedIds, setPreviousSelectedIds] = useState({});
+  const { getQueryResults } = useGetQueryResults(setNoResultsError, setResults, setIsQueryAnswerPage);
   const [singlePropertyData, setSinglePropertyData] = useState({
     language: 'eesti',
     level: '',
@@ -202,24 +203,7 @@ export default function Query(props) {
         params.sentences = simplifyDropdowns(sentences);
       }
 
-      loadFetch('/api/texts/detailneparing', {
-        method: 'POST',
-        body: JSON.stringify(params),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(res => res.json())
-        .then((result) => {
-          if (result.length > 0) {
-            setNoResultsError(false);
-            setResults(result);
-            setIsQueryAnswerPage(true);
-          } else {
-            setNoResultsError(true);
-            setResults([]);
-          }
-        });
+      getQueryResults(JSON.stringify(params));
     }
   };
 
