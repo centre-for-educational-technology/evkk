@@ -2,6 +2,8 @@ import { queryStore } from '../../store/QueryStore';
 import { sanitizeTexts } from '../../util/TextUtils';
 import { useFetch } from '../useFetch';
 import { useCallback, useEffect } from 'react';
+import { successEmitter } from '../../../App';
+import { SuccessSnackbarEventType } from '../../components/snackbar/SuccessSnackbar';
 
 export const useGetSelectedTexts = (setStoreData) => {
   const { fetchData, response } = useFetch();
@@ -58,4 +60,26 @@ export const useGetTextFromFile = (sendTextFromFile) => {
   }, [response, sendTextFromFile]);
 
   return { getTextFromFile };
+};
+
+export const useAddText = () => {
+  const { fetchData } = useFetch();
+
+  const addText = useCallback((body, onComplete) => {
+    fetchData('/api/texts/lisatekst', {
+      method: 'POST',
+      body,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }, {
+      parseAsText: true
+    }).then(() => {
+      console.log('asd');
+      successEmitter.emit(SuccessSnackbarEventType.GENERIC_SUCCESS);
+      if (onComplete) onComplete();
+    });
+  }, [fetchData]);
+
+  return { addText };
 };
