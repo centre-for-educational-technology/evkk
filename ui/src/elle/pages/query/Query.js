@@ -20,15 +20,12 @@ import {
   ageOptions,
   charactersOptions,
   countryOptionsForQuery,
-  DefaultButtonStyle,
   degreeOptions,
   domainOptions,
   educationOptions,
-  ElleDefaultChip,
   genderOptions,
   languageOptionsForNativeLangs,
   languageOptionsForOtherLangs,
-  MenuProps,
   nationalityOptions,
   sentencesOptions,
   studyLevelOptions,
@@ -39,7 +36,6 @@ import {
   usedMaterialsDisplayOptions,
   usedMaterialsMultiList,
   usedMaterialsMultiOptions,
-  useStyles,
   wordsOptions
 } from '../../const/Constants';
 import QueryResults from './QueryResults';
@@ -50,6 +46,7 @@ import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
+import { DefaultButtonStyle, ElleDefaultChip, MenuProps, useStyles } from '../../const/StyleConstants';
 
 export default function Query(props) {
 

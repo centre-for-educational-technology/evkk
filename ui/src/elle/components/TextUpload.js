@@ -5,7 +5,7 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { useTranslation } from 'react-i18next';
 import '../translations/i18n';
 import { loadFetch } from '../service/LoadFetch';
-import { DefaultButtonStyle } from '../const/Constants';
+import { DefaultButtonStyle } from '../const/StyleConstants';
 import ModalBase from './ModalBase';
 
 export default function TextUpload({ sendTextFromFile, outerClassName = '' }) {

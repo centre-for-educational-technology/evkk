@@ -3,7 +3,7 @@ import '../styles/InfoElement.css';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import InfoElementTabCard from './InfoElementTabCard';
-import { ElleOuterDivStyle } from '../../const/Constants';
+import { ElleOuterDivStyle } from '../../const/StyleConstants';
 import i18n from 'i18next';
 import wordlistImgEt from '../../resources/images/home/sonaloend_et.png';
 import wordlistImgEn from '../../resources/images/home/sonaloend_en.png';
@@ -18,10 +18,11 @@ import textQueryImgEt from '../../resources/images/home/paring_et.png';
 import textQueryImgEn from '../../resources/images/home/paring_en.png';
 import wordPatternImg from '../../resources/images/home/mustrileidja.png';
 import { Languages } from '../../translations/i18n';
+import { RouteConstants, RouteFullPathConstants } from '../../../AppRoutes';
 
 export default function InfoElement() {
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [openTab, setOpenTab] = useState('corrector-tab-card');
   const [wordlistImg, setWordlistImg] = useState(i18n.language === Languages.ESTONIAN ? wordlistImgEt : wordlistImgEn);
   const [wordcontextImg, setWordcontextImg] = useState(i18n.language === Languages.ESTONIAN ? wordcontextImgEt : wordcontextImgEn);
@@ -81,7 +82,7 @@ export default function InfoElement() {
             setImageSelected={setImageSelected}
             imageNo={1}
             tabReference={null}
-            linkTo={'/corrector'}
+            linkTo={RouteConstants.CORRECTOR}
           />
           <InfoElementTabCard
             setInfoOpacity={setInfoOpacity}
@@ -95,7 +96,7 @@ export default function InfoElement() {
             setImageSelected={setImageSelected}
             imageNo={2}
             tabReference={'queryOpen'}
-            linkTo={'/tools'}
+            linkTo={RouteConstants.TOOLS}
           />
           <InfoElementTabCard
             setInfoOpacity={setInfoOpacity}
@@ -109,7 +110,7 @@ export default function InfoElement() {
             setImageSelected={setImageSelected}
             imageNo={3}
             tabReference={'1'}
-            linkTo={'/tools/wordlist'}
+            linkTo={RouteFullPathConstants.WORDLIST}
           />
           <InfoElementTabCard
             setInfoOpacity={setInfoOpacity}
@@ -123,7 +124,7 @@ export default function InfoElement() {
             setImageSelected={setImageSelected}
             imageNo={4}
             tabReference={'2'}
-            linkTo={'/tools/wordcontext'}
+            linkTo={RouteFullPathConstants.WORDCONTEXT}
           />
           <InfoElementTabCard
             setInfoOpacity={setInfoOpacity}
@@ -137,7 +138,7 @@ export default function InfoElement() {
             setImageSelected={setImageSelected}
             imageNo={5}
             tabReference={'3'}
-            linkTo={'/tools/collocates'}
+            linkTo={RouteFullPathConstants.COLLOCATES}
           />
           <InfoElementTabCard
             setInfoOpacity={setInfoOpacity}
@@ -151,7 +152,7 @@ export default function InfoElement() {
             setImageSelected={setImageSelected}
             imageNo={6}
             tabReference={'5'}
-            linkTo={'/tools/clusterfinder'}
+            linkTo={RouteFullPathConstants.CLUSTERFINDER}
           />
           <InfoElementTabCard
             setInfoOpacity={setInfoOpacity}
@@ -165,7 +166,7 @@ export default function InfoElement() {
             setImageSelected={setImageSelected}
             imageNo={7}
             tabReference={'4'}
-            linkTo={'/tools/wordanalyser'}
+            linkTo={RouteFullPathConstants.WORDANALYSER}
           />
         </Box>
         {/*TODO videod tööle panna, kui videod valmis*/}

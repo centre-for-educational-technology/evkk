@@ -16,7 +16,6 @@ import {
   ageOptions,
   corpuses,
   countryOptionsForQueryResults,
-  DefaultButtonStyle,
   educationOptions,
   genderOptions,
   languageOptionsForNativeLangs,
@@ -31,6 +30,7 @@ import { queryStore, QueryStoreActionType } from '../../store/QueryStore';
 import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import ModalBase from '../../components/ModalBase';
+import { DefaultButtonStyle } from '../../const/StyleConstants';
 
 export default function QueryResults(props) {
   const { t } = useTranslation();

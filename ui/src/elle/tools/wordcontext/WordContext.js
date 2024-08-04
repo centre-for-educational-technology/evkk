@@ -1,7 +1,6 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import React, { useEffect, useMemo, useState } from 'react';
 import { queryStore } from '../../store/QueryStore';
-import { AccordionStyle, DefaultButtonStyle } from '../../const/Constants';
 import Accordion from '@mui/material/Accordion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -32,6 +31,7 @@ import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import { sortColByLastWord, sortTableCol } from '../../util/TableUtils';
 import TableHeaderButtons from '../../components/table/TableHeaderButtons';
+import { AccordionStyle, DefaultButtonStyle } from '../../const/StyleConstants';
 
 export default function WordContext() {
 

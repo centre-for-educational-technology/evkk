@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button } from '@mui/material';
 import '../styles/InfoElementTabCard.css';
-import { DefaultButtonStyleSmall } from '../../const/Constants';
+import { DefaultButtonStyleSmall } from '../../const/StyleConstants';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,8 +18,8 @@ export default function InfoElementTabCard(props) {
   return (
     <Box
       id={props.toolID}
-      onMouseEnter={(e) => changeTab()}
-      onMouseLeave={(e) => props.setInfoOpacity(0)}
+      onMouseEnter={changeTab}
+      onMouseLeave={() => props.setInfoOpacity(0)}
       className={props.tabOpen === props.toolID ? 'btn-visible' : 'btn-invisible'}
     >
       <Box className="info-tab-helper-strip"

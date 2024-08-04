@@ -1,5 +1,5 @@
 import { Box, IconButton, Modal, Tooltip } from '@mui/material';
-import { modalStyle } from '../const/Constants';
+import { modalStyle } from '../const/StyleConstants';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import CloseIcon from '@mui/icons-material/Close';

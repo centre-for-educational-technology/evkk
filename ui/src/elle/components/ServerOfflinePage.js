@@ -3,7 +3,7 @@ import './styles/ServerOfflinePage.css';
 import { useTranslation } from 'react-i18next';
 import Navbar from './Navbar';
 import FooterElement from './FooterElement';
-import { DefaultButtonStyle } from '../const/Constants';
+import { DefaultButtonStyle } from '../const/StyleConstants';
 
 export default function ServerOfflinePage() {
 

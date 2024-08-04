@@ -1,6 +1,5 @@
 import './Collocates.css';
 import React, { useEffect, useMemo, useState } from 'react';
-import { AccordionStyle, DefaultButtonStyle } from '../../const/Constants';
 import Accordion from '@mui/material/Accordion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
@@ -33,6 +32,7 @@ import { loadFetch } from '../../service/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import TableHeaderButtons from '../../components/table/TableHeaderButtons';
 import GraphView from '../wordcontext/components/GraphView';
+import { AccordionStyle, DefaultButtonStyle } from '../../const/StyleConstants';
 
 export default function Collocates() {
 
