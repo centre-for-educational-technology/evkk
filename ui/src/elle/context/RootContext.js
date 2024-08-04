@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
-import { loadFetch } from '../hooks/service/util/LoadFetch';
 import { successEmitter } from '../../App';
 import { SuccessSnackbarEventType } from '../components/snackbar/SuccessSnackbar';
+import { useGetStatus } from '../hooks/service/RootService';
 
 const RootContext = createContext();
 
@@ -13,17 +13,21 @@ export const RootProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [tokenRenewed, setTokenRenewed] = useState(false);
 
-  const loadData = useCallback((isTokenRenewed = false) => {
-    setIsLoading(true);
-    loadFetch('/api/status', {}, true)
-      .then(res => res.json())
-      .then(res => setDataSuccess(res))
-      .catch(() => setStatus(false))
-      .finally(() => {
-        setIsLoading(false);
-        setTokenRenewed(isTokenRenewed);
-      });
+  const setDataSuccess = useCallback((res) => {
+    setUser(res.user);
+    setAccessToken(res.accessToken);
+    setIntegrationPaths(res.integrationPaths);
+    setStatus(true);
   }, []);
+
+  const { getStatus } = useGetStatus(setStatus, setDataSuccess);
+
+  const loadData = useCallback(async (isTokenRenewed = false) => {
+    setIsLoading(true);
+    await getStatus();
+    setIsLoading(false);
+    setTokenRenewed(isTokenRenewed);
+  }, [getStatus, setIsLoading, setTokenRenewed]);
 
   const setContext = (isTokenRenewed) => {
     loadData(isTokenRenewed);
@@ -32,13 +36,6 @@ export const RootProvider = ({ children }) => {
   const clearAuthContext = () => {
     setUser(null);
     setAccessToken(null);
-  };
-
-  const setDataSuccess = (res) => {
-    setUser(res.user);
-    setAccessToken(res.accessToken);
-    setIntegrationPaths(res.integrationPaths);
-    setStatus(true);
   };
 
   useEffect(() => {

@@ -10,7 +10,7 @@ const hasNonExpiredToken = (token) => {
 };
 
 export const useFetch = () => {
-  const { accessToken } = useContext(RootContext);
+  const { accessToken } = useContext(RootContext) || {};
   const [response, setResponse] = useState(null);
 
   const fetchData = useCallback(async (url, params = {}, options = {}) => {
