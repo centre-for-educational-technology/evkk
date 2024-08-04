@@ -1,9 +1,10 @@
 import { queryStore } from '../../store/QueryStore';
 import { sanitizeTexts } from '../../util/TextUtils';
-import { useFetch } from '../useFetch';
-import { useCallback, useEffect } from 'react';
+import { FetchParseType, useFetch } from '../useFetch';
+import { useCallback, useEffect, useState } from 'react';
 import { successEmitter } from '../../../App';
 import { SuccessSnackbarEventType } from '../../components/snackbar/SuccessSnackbar';
+import FileSaver from 'file-saver';
 
 export const useGetSelectedTexts = (setStoreData) => {
   const { fetchData, response } = useFetch();
@@ -18,7 +19,7 @@ export const useGetSelectedTexts = (setStoreData) => {
           'Content-Type': 'application/json'
         }
       }, {
-        parseAsText: true
+        parseType: FetchParseType.TEXT
       });
     } else if (queryStoreState.ownTexts) {
       setStoreData(queryStoreState.ownTexts);
@@ -47,16 +48,14 @@ export const useGetTextFromFile = (sendTextFromFile) => {
       method: 'POST',
       body
     }, {
-      parseAsText: true
+      parseType: FetchParseType.TEXT
     }).catch(() => {
       sendTextFromFile('');
     });
   }, [fetchData, sendTextFromFile]);
 
   useEffect(() => {
-    if (response) {
-      sendTextFromFile(response);
-    }
+    if (response) sendTextFromFile(response);
   }, [response, sendTextFromFile]);
 
   return { getTextFromFile };
@@ -73,9 +72,8 @@ export const useAddText = () => {
         'Content-Type': 'application/json'
       }
     }, {
-      parseAsText: true
+      parseType: FetchParseType.TEXT
     }).then(() => {
-      console.log('asd');
       successEmitter.emit(SuccessSnackbarEventType.GENERIC_SUCCESS);
       if (onComplete) onComplete();
     });
@@ -111,4 +109,35 @@ export const useGetQueryResults = (setNoResultsError, setResults, setIsQueryAnsw
   }, [response, setIsQueryAnswerPage, setNoResultsError, setResults]);
 
   return { getQueryResults };
+};
+
+export const useDownloadQueryResults = () => {
+  const { fetchData, response } = useFetch();
+  const [fileName, setFileName] = useState(null);
+  const [fileExtension, setFileExtension] = useState(null);
+
+  const downloadQueryResults = useCallback((form, fileType, fileList, fileName, fileExtension) => {
+    setFileName(fileName);
+    setFileExtension(fileExtension);
+
+    fetchData('/api/texts/tekstidfailina', {
+      method: 'POST',
+      body: JSON.stringify({
+        form,
+        fileType,
+        fileList: Array.from(fileList)
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }, {
+      parseType: FetchParseType.BLOB
+    });
+  }, [fetchData]);
+
+  useEffect(() => {
+    if (response) FileSaver.saveAs(response, `${fileName}.${fileExtension}`);
+  }, [response]);
+
+  return { downloadQueryResults };
 };

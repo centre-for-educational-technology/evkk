@@ -9,6 +9,19 @@ const hasNonExpiredToken = (token) => {
   return Date.now() < JSON.parse(atob(token.split('.')[1])).exp * 1000;
 };
 
+const parseByType = async (res, type) => {
+  switch (type) {
+    case FetchParseType.JSON:
+      return await res.json();
+    case FetchParseType.TEXT:
+      return await res.text();
+    case FetchParseType.BLOB:
+      return await res.blob();
+    default:
+      throw new Error(`Unexpected fetch type: ${type}`);
+  }
+};
+
 export const useFetch = () => {
   const { accessToken } = useContext(RootContext) || {};
   const [response, setResponse] = useState(null);
@@ -17,7 +30,7 @@ export const useFetch = () => {
     const defaultOptions = {
       disableErrorHandling: false,
       disableResponseParsing: false,
-      parseAsText: false,
+      parseType: FetchParseType.JSON,
       ignoreNotFoundError: false
     };
     const finalOptions = { ...defaultOptions, ...options };
@@ -49,11 +62,15 @@ export const useFetch = () => {
 
     const result = finalOptions.disableResponseParsing
       ? res
-      : finalOptions.parseAsText
-        ? await res.text()
-        : await res.json();
+      : await parseByType(res, finalOptions.parseType);
     setResponse(result);
   }, [accessToken]);
 
   return { fetchData, response };
+};
+
+export const FetchParseType = {
+  BLOB: 'blob',
+  JSON: 'json',
+  TEXT: 'text'
 };
