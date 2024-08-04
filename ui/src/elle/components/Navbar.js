@@ -9,7 +9,7 @@ import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { Languages } from '../translations/i18n';
 import Can from './security/Can';
-import { UserRoleConstants } from '../const/Constants';
+import { UserRoles } from '../const/Constants';
 import { useLogout } from '../hooks/service/AuthService';
 import { RouteConstants } from '../../AppRoutes';
 
@@ -18,7 +18,7 @@ const pages = [
   { id: 2, title: 'common_tools', target: RouteConstants.TOOLS },
   { id: 3, title: 'common_links', target: RouteConstants.LINKS },
   { id: 4, title: 'common_about', target: RouteConstants.ABOUT },
-  { id: 5, title: 'common_admin_panel', target: '/admin', role: UserRoleConstants.ADMIN }
+  { id: 5, title: 'common_admin_panel', target: '/admin', role: UserRoles.ADMIN }
 ];
 
 const MenuLink = styled(Link)({

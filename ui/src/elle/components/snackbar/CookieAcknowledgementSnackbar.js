@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, Button, Snackbar } from '@mui/material';
-import { DefaultButtonStyle } from '../../const/Constants';
+import { DefaultButtonStyle } from '../../const/StyleConstants';
 import '../styles/CookieAcknowledgementSnackbar.css';
 
 export default function CookieAcknowledgementSnackbar() {

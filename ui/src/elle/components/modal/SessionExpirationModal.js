@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect, useRef, useState } from 'rea
 import { useLogout, useRenew } from '../../hooks/service/AuthService';
 import ModalBase from './ModalBase';
 import { useTranslation } from 'react-i18next';
-import { DefaultButtonStyle } from '../../const/Constants';
+import { DefaultButtonStyle } from '../../const/StyleConstants';
 import { Button } from '@mui/material';
 import '../styles/SessionExpirationModal.css';
 import RootContext from '../../context/RootContext';

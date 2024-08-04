@@ -22,7 +22,7 @@ import Tools from './elle/pages/Tools';
 import Login from './elle/pages/Login';
 import Admin from './elle/pages/Admin';
 import RequireAuth from './elle/components/security/RequireAuth';
-import { UserRoleConstants } from './elle/const/Constants';
+import { UserRoles } from './elle/const/Constants';
 
 class AppRoutes extends Component {
 
@@ -89,10 +89,10 @@ class AppRoutes extends Component {
           </Route>
           <Route path={RouteConstants.LINKS}
                  element={<Links />} />
-          <Route path="/login"
+          <Route path={RouteConstants.LOGIN}
                  element={<Login />} />
-          <Route element={<RequireAuth role={UserRoleConstants.ADMIN} />}>
-            <Route path="/admin"
+          <Route element={<RequireAuth role={UserRoles.ADMIN} />}>
+            <Route path={RouteConstants.ADMIN}
                    element={<Admin />} />
           </Route>
           <Route path="*"
@@ -106,11 +106,13 @@ class AppRoutes extends Component {
 export const RouteConstants = {
   ABOUT: 'about',
   ADDING: 'adding',
+  ADMIN: 'admin',
   CLUSTERFINDER: 'clusterfinder',
   COLLOCATES: 'collocates',
   CORRECTOR: 'corrector',
   GRANTS: 'grants',
   LINKS: 'links',
+  LOGIN: 'login',
   PEOPLE: 'people',
   PUBLICATIONS: 'publications',
   TOOLS: 'tools',

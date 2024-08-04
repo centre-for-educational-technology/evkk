@@ -19,7 +19,7 @@ export const breadcrumbNameMap = {
   '/admin': 'common_admin_panel'
 };
 
-export const UserRoleConstants = {
+export const UserRoles = {
   USER: 'USER',
   ADMIN: 'ADMIN'
 };
