@@ -9,8 +9,10 @@ import { IMAGES } from '../resources/images/link-images';
 import { MenuLink } from '../const/StyleConstants';
 import './styles/Links.css';
 import { HashFragmentRouteConstants } from '../../AppRoutes';
+import { useTranslation } from 'react-i18next';
 
 function Links() {
+  const { t } = useTranslation();
   const classes = {
     focused: {
       bgcolor: 'transparent'
@@ -54,9 +56,9 @@ function Links() {
                       <MenuLink
                         key={'1'}
                         smooth
-                        to={`#${HashFragmentRouteConstants.LINKS_TUTVUSTUS}`}
+                        to={`#${HashFragmentRouteConstants.LINKS_INTRODUCTION}`}
                       >
-                        Tutvustus
+                        {t('common_introduction')}
                       </MenuLink>
                     </Typography>
                   }
@@ -68,9 +70,9 @@ function Links() {
                       <MenuLink
                         key={'2'}
                         smooth
-                        to={`#${HashFragmentRouteConstants.LINKS_SONASTIKUD}`}
+                        to={`#${HashFragmentRouteConstants.LINKS_DICTIONARIES}`}
                       >
-                        Sõnastikud
+                        {t('common_dictionaries')}
                       </MenuLink>
                     </Typography>
                   }
@@ -82,9 +84,9 @@ function Links() {
                       <MenuLink
                         key={'3'}
                         smooth
-                        to={`#${HashFragmentRouteConstants.LINKS_TOLKERAKENDUSED}`}
+                        to={`#${HashFragmentRouteConstants.LINKS_TRANSLATION_TOOLS}`}
                       >
-                        Tõlkerakendused
+                        {t('common_translation_tools')}
                       </MenuLink>
                     </Typography>
                   }
@@ -94,11 +96,11 @@ function Links() {
                   label={
                     <Typography className="treeitem-label">
                       <MenuLink
-                        to={`#${HashFragmentRouteConstants.LINKS_EESTIKEELSED_TEKSTID}`}
+                        to={`#${HashFragmentRouteConstants.LINKS_ESTONIAN_TEXTS}`}
                         onClick={preventTreeOpening}
                         smooth
                       >
-                        Eestikeelsed tekstid
+                        {t('common_estonian_texts')}
                       </MenuLink>
                     </Typography>
                   }>
@@ -109,9 +111,9 @@ function Links() {
                         <MenuLink
                           key={'4'}
                           smooth
-                          to={`#${HashFragmentRouteConstants.LINKS_EESTIKEELSED_TEKSTID_MEEDIATEKSTID}`}
+                          to={`#${HashFragmentRouteConstants.LINKS_MEDIA_TEXTS}`}
                         >
-                          Meediatekstid
+                          {t('links_media_texts')}
                         </MenuLink>
                       </Typography>
                     }
@@ -123,9 +125,9 @@ function Links() {
                         <MenuLink
                           key={'4'}
                           smooth
-                          to={`#${HashFragmentRouteConstants.LINKS_EESTIKEELSED_TEKSTID_KIRJANDUS}`}
+                          to={`#${HashFragmentRouteConstants.LINKS_LITERATURE}`}
                         >
-                          Kirjandus
+                          {t('links_literature')}
                         </MenuLink>
                       </Typography>
                     }
@@ -137,9 +139,9 @@ function Links() {
                         <MenuLink
                           key={'5'}
                           smooth
-                          to={`#${HashFragmentRouteConstants.LINKS_EESTIKEELSED_TEKSTID_TEADUSTEKSTID}`}
+                          to={`#${HashFragmentRouteConstants.LINKS_ACADEMIC_TEXTS}`}
                         >
-                          Teadustekstid
+                          {t('links_academic_texts')}
                         </MenuLink>
                       </Typography>
                     }
@@ -150,11 +152,11 @@ function Links() {
                   label={
                     <Typography className="treeitem-label">
                       <MenuLink
-                        to={`#${HashFragmentRouteConstants.LINKS_AUDIOVISUAALNE_MEEDIA}`}
+                        to={`#${HashFragmentRouteConstants.LINKS_AUDIOVISUAL_MEDIA}`}
                         onClick={preventTreeOpening}
                         smooth
                       >
-                        Audiovisuaalne meedia
+                        {t('common_audiovisual_media')}
                       </MenuLink>
                     </Typography>
                   }>
@@ -165,9 +167,9 @@ function Links() {
                         <MenuLink
                           key={'6'}
                           smooth
-                          to={`#${HashFragmentRouteConstants.LINKS_AUDIOVISUAALNE_MEEDIA_SARJAD_FILMID_VIDEOD}`}
+                          to={`#${HashFragmentRouteConstants.LINKS_SERIES_FILMS_VIDEOS}`}
                         >
-                          Sarjad, filmid ja videod
+                          {t('links_series_films_videos')}
                         </MenuLink>
                       </Typography>
                     }
@@ -179,9 +181,9 @@ function Links() {
                         <MenuLink
                           key={'7'}
                           smooth
-                          to={`#${HashFragmentRouteConstants.LINKS_AUDIOVISUAALNE_MEEDIA_RAADIO_AUDIO_TASKUHAALINGUD}`}
+                          to={`#${HashFragmentRouteConstants.LINKS_RADIO_AUDIO_PODCASTS}`}
                         >
-                          Raadio, audio, taskuhäälingud
+                          {t('links_radio_audio_podcasts')}
                         </MenuLink>
                       </Typography>
                     }
@@ -192,11 +194,11 @@ function Links() {
                   label={
                     <Typography className="treeitem-label">
                       <MenuLink
-                        to={`#${HashFragmentRouteConstants.LINKS_KEELEOPPEVARA}`}
+                        to={`#${HashFragmentRouteConstants.LINKS_LEARNING_RESOURCES}`}
                         onClick={preventTreeOpening}
                         smooth
                       >
-                        Keeleõppevara
+                        {t('common_learning_resources')}
                       </MenuLink>
                     </Typography>
                   }>
@@ -207,9 +209,9 @@ function Links() {
                         <MenuLink
                           key={'8'}
                           smooth
-                          to={`#${HashFragmentRouteConstants.LINKS_KEELEOPPEVARA_OPPEMATERJALID_HARJUTUSED}`}
+                          to={`#${HashFragmentRouteConstants.LINKS_LANGUAGE_LEARNING_MATERIALS_AND_EXERCISES}`}
                         >
-                          Õppematerjalid ja harjutused
+                          {t('links_language_learning_materials_and_exercises')}
                         </MenuLink>
                       </Typography>
                     }
@@ -221,9 +223,9 @@ function Links() {
                         <MenuLink
                           key={'9'}
                           smooth
-                          to={`#${HashFragmentRouteConstants.LINKS_KEELEOPPEVARA_KEELEOPPEMANGUD}`}
+                          to={`#${HashFragmentRouteConstants.LINKS_LANGUAGE_LEARNING_GAMES}`}
                         >
-                          Keeleõppemängud
+                          {t('links_language_learning_games')}
                         </MenuLink>
                       </Typography>
                     }
@@ -234,11 +236,11 @@ function Links() {
                   label={
                     <Typography className="treeitem-label">
                       <MenuLink
-                        to={`#${HashFragmentRouteConstants.LINKS_KEELEOPPEKESKKONNAD_KURSUSED}`}
+                        to={`#${HashFragmentRouteConstants.LINKS_LEARNING_ENVIRONMENTS_AND_COURSES}`}
                         onClick={preventTreeOpening}
                         smooth
                       >
-                        Keeleõppekeskkonnad ja kursused
+                        {t('common_learning_environments_and_courses')}
                       </MenuLink>
                     </Typography>
                   }>
@@ -249,9 +251,9 @@ function Links() {
                         <MenuLink
                           key={'10'}
                           smooth
-                          to={`#${HashFragmentRouteConstants.LINKS_KEELEOPPEKESKKONNAD_KURSUSED_KEELEOPPEKESKKONNAD}`}
+                          to={`#${HashFragmentRouteConstants.LINKS_LANGUAGE_LEARNING_ENVIRONMENTS}`}
                         >
-                          Keeleõppekeskkonnad
+                          {t('links_language_learning_environments')}
                         </MenuLink>
                       </Typography>
                     }
@@ -263,9 +265,9 @@ function Links() {
                         <MenuLink
                           key={'11'}
                           smooth
-                          to={`#${HashFragmentRouteConstants.LINKS_KEELEOPPEKESKKONNAD_KURSUSED_KURSUSED}`}
+                          to={`#${HashFragmentRouteConstants.LINKS_LANGUAGE_COURSES}`}
                         >
-                          Kursused
+                          {t('links_language_courses')}
                         </MenuLink>
                       </Typography>
                     }
@@ -278,9 +280,9 @@ function Links() {
                       <MenuLink
                         key={'12'}
                         smooth
-                        to={`#${HashFragmentRouteConstants.LINKS_ABIKS_OPETAJALE}`}
+                        to={`#${HashFragmentRouteConstants.LINKS_FOR_TEACHERS}`}
                       >
-                        Abiks õpetajale
+                        {t('common_for_teachers')}
                       </MenuLink>
                     </Typography>
                   }
@@ -292,9 +294,9 @@ function Links() {
                       <MenuLink
                         key={'13'}
                         smooth
-                        to={`#${HashFragmentRouteConstants.LINKS_EESTI_KEELE_KORPUSED}`}
+                        to={`#${HashFragmentRouteConstants.LINKS_ESTONIAN_LANGUAGE_CORPORA}`}
                       >
-                        Eesti keele korpused
+                        {t('common_estonian_language_corpora')}
                       </MenuLink>
                     </Typography>
                   }
@@ -305,7 +307,7 @@ function Links() {
 
           <Box className="link-container-right">
             <Box>
-              <div id={HashFragmentRouteConstants.LINKS_TUTVUSTUS} className="link-anchor-gap"></div>
+              <div id={HashFragmentRouteConstants.LINKS_INTRODUCTION} className="link-anchor-gap"></div>
               <Typography className="px-5 text-center">
                 ELLE eesmärk on eesti keele õpet igati toetada, mistõttu oleme
                 lingikogusse koondanud hulgaliselt erinevaid keskkondi, millest võib kasu olla nii eesti keele
@@ -316,9 +318,9 @@ function Links() {
             </Box>
 
             <Box>
-              <div id={HashFragmentRouteConstants.LINKS_SONASTIKUD} className="link-anchor-gap"></div>
+              <div id={HashFragmentRouteConstants.LINKS_DICTIONARIES} className="link-anchor-gap"></div>
               <Typography variant={'h3'}>
-                Sõnastikud
+                {t('common_dictionaries')}
               </Typography>
             </Box>
 
@@ -351,9 +353,9 @@ function Links() {
               tags={['tõlkesõnastik']} />
 
             <Box>
-              <div id={HashFragmentRouteConstants.LINKS_TOLKERAKENDUSED} className="link-anchor-gap"></div>
+              <div id={HashFragmentRouteConstants.LINKS_TRANSLATION_TOOLS} className="link-anchor-gap"></div>
               <Typography variant={'h3'}>
-                Tõlkerakendused
+                {t('common_translation_tools')}
               </Typography>
             </Box>
 
@@ -387,17 +389,17 @@ function Links() {
 
 
             <Box>
-              <div id={HashFragmentRouteConstants.LINKS_EESTIKEELSED_TEKSTID} className="link-anchor-gap"></div>
+              <div id={HashFragmentRouteConstants.LINKS_ESTONIAN_TEXTS} className="link-anchor-gap"></div>
               <Typography variant={'h3'}>
-                Eestikeelsed tekstid
+                {t('common_estonian_texts')}
               </Typography>
             </Box>
 
             <Box>
-              <div id={HashFragmentRouteConstants.LINKS_EESTIKEELSED_TEKSTID_MEEDIATEKSTID}
+              <div id={HashFragmentRouteConstants.LINKS_MEDIA_TEXTS}
                    className="link-anchor-gap"></div>
               <Typography variant={'h4'}>
-                Meediatekstid
+                {t('links_media_texts')}
               </Typography>
             </Box>
 
@@ -437,10 +439,10 @@ function Links() {
               tags={['uudised', 'tasuline', 'taskuhääling']} />
 
             <Box>
-              <div id={HashFragmentRouteConstants.LINKS_EESTIKEELSED_TEKSTID_KIRJANDUS}
+              <div id={HashFragmentRouteConstants.LINKS_LITERATURE}
                    className="link-anchor-gap"></div>
               <Typography variant={'h4'}>
-                Kirjandus
+                {t('links_literature')}
               </Typography>
             </Box>
 
@@ -494,10 +496,10 @@ function Links() {
               tags={['raamatud', 'e-raamatud', 'tasuta', 'arhiiv']} />
 
             <Box>
-              <div id={HashFragmentRouteConstants.LINKS_EESTIKEELSED_TEKSTID_TEADUSTEKSTID}
+              <div id={HashFragmentRouteConstants.LINKS_ACADEMIC_TEXTS}
                    className="link-anchor-gap"></div>
               <Typography variant={'h4'}>
-                Teadustekstid
+                {t('links_academic_texts')}
               </Typography>
             </Box>
 
@@ -523,17 +525,17 @@ function Links() {
               tags={['lõputööd', 'õpikud', 'raamatud', 'ajakirjad', 'tasuta', 'arhiiv']} />
 
             <Box>
-              <div id={HashFragmentRouteConstants.LINKS_AUDIOVISUAALNE_MEEDIA} className="link-anchor-gap"></div>
+              <div id={HashFragmentRouteConstants.LINKS_AUDIOVISUAL_MEDIA} className="link-anchor-gap"></div>
               <Typography variant={'h3'}>
-                Audiovisuaalne meedia
+                {t('common_audiovisual_media')}
               </Typography>
             </Box>
 
             <Box>
-              <div id={HashFragmentRouteConstants.LINKS_AUDIOVISUAALNE_MEEDIA_SARJAD_FILMID_VIDEOD}
+              <div id={HashFragmentRouteConstants.LINKS_SERIES_FILMS_VIDEOS}
                    className="link-anchor-gap"></div>
               <Typography variant={'h4'}>
-                Sarjad, filmid ja videod
+                {t('links_series_films_videos')}
               </Typography>
             </Box>
 
@@ -587,10 +589,10 @@ function Links() {
               tags={['sarjad', 'saated', 'filmid', 'videolaenutus', 'tasuline', 'televisioon']} />
 
             <Box>
-              <div id={HashFragmentRouteConstants.LINKS_AUDIOVISUAALNE_MEEDIA_RAADIO_AUDIO_TASKUHAALINGUD}
+              <div id={HashFragmentRouteConstants.LINKS_RADIO_AUDIO_PODCASTS}
                    className="link-anchor-gap"></div>
               <Typography variant={'h4'}>
-                Raadio, audio, taskuhäälingud
+                {t('links_radio_audio_podcasts')}
               </Typography>
             </Box>
 
@@ -644,17 +646,17 @@ function Links() {
               tags={['kuuldemäng', 'järjejutt']} />
 
             <Box>
-              <div id={HashFragmentRouteConstants.LINKS_KEELEOPPEVARA} className="link-anchor-gap"></div>
+              <div id={HashFragmentRouteConstants.LINKS_LEARNING_RESOURCES} className="link-anchor-gap"></div>
               <Typography variant={'h3'}>
-                Keeleõppevara
+                {t('common_learning_resources')}
               </Typography>
             </Box>
 
             <Box>
-              <div id={HashFragmentRouteConstants.LINKS_KEELEOPPEVARA_OPPEMATERJALID_HARJUTUSED}
+              <div id={HashFragmentRouteConstants.LINKS_LANGUAGE_LEARNING_MATERIALS_AND_EXERCISES}
                    className="link-anchor-gap"></div>
               <Typography variant={'h4'}>
-                Õppematerjalid ja harjutused
+                {t('links_language_learning_materials_and_exercises')}
               </Typography>
             </Box>
 
@@ -722,10 +724,10 @@ function Links() {
               tags={['harjutus', 'õppematerjal', 'eksam', 'tasuta']} />
 
             <Box>
-              <div id={HashFragmentRouteConstants.LINKS_KEELEOPPEVARA_KEELEOPPEMANGUD}
+              <div id={HashFragmentRouteConstants.LINKS_LANGUAGE_LEARNING_GAMES}
                    className="link-anchor-gap"></div>
               <Typography variant={'h4'}>
-                Keeleõppemängud
+                {t('links_language_learning_games')}
               </Typography>
             </Box>
 
@@ -765,17 +767,18 @@ function Links() {
               tags={['tasuta', 'mäng', 'arvuti']} />
 
             <Box>
-              <div id={HashFragmentRouteConstants.LINKS_KEELEOPPEKESKKONNAD_KURSUSED} className="link-anchor-gap"></div>
+              <div id={HashFragmentRouteConstants.LINKS_LEARNING_ENVIRONMENTS_AND_COURSES}
+                   className="link-anchor-gap"></div>
               <Typography variant={'h3'}>
-                Keeleõppekeskkonnad ja kursused
+                {t('common_learning_environments_and_courses')}
               </Typography>
             </Box>
 
             <Box>
-              <div id={HashFragmentRouteConstants.LINKS_KEELEOPPEKESKKONNAD_KURSUSED_KEELEOPPEKESKKONNAD}
+              <div id={HashFragmentRouteConstants.LINKS_LANGUAGE_LEARNING_ENVIRONMENTS}
                    className="link-anchor-gap"></div>
               <Typography variant={'h4'}>
-                Keeleõppekeskkonnad
+                {t('links_language_learning_environments')}
               </Typography>
             </Box>
 
@@ -815,10 +818,10 @@ function Links() {
               tags={['tasuta', 'tasuline', 'nutiseade', 'arvuti', 'keeleõppekeskkond']} />
 
             <Box>
-              <div id={HashFragmentRouteConstants.LINKS_KEELEOPPEKESKKONNAD_KURSUSED_KURSUSED}
+              <div id={HashFragmentRouteConstants.LINKS_LANGUAGE_COURSES}
                    className="link-anchor-gap"></div>
               <Typography variant={'h4'}>
-                Kursused
+                {t('links_language_courses')}
               </Typography>
             </Box>
 
@@ -858,9 +861,9 @@ function Links() {
               tags={['e-kursus', 'suhtlus', 'tasuline', 'tasuta', 'õppematerjal', 'harjutus']} />
 
             <Box>
-              <div id={HashFragmentRouteConstants.LINKS_ABIKS_OPETAJALE} className="link-anchor-gap"></div>
+              <div id={HashFragmentRouteConstants.LINKS_FOR_TEACHERS} className="link-anchor-gap"></div>
               <Typography variant={'h3'}>
-                Abiks õpetajale
+                {t('common_for_teachers')}
               </Typography>
             </Box>
 
@@ -893,9 +896,9 @@ function Links() {
               tags={['keeletasemed', 'tasemehinnang', 'eesti keel teise keelena', 'EKI']} />
 
             <Box>
-              <div id={HashFragmentRouteConstants.LINKS_EESTI_KEELE_KORPUSED} className="link-anchor-gap"></div>
+              <div id={HashFragmentRouteConstants.LINKS_ESTONIAN_LANGUAGE_CORPORA} className="link-anchor-gap"></div>
               <Typography variant={'h3'}>
-                Eesti keele korpused
+                {t('common_estonian_language_corpora')}
               </Typography>
             </Box>
 

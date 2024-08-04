@@ -4,8 +4,10 @@ import { useLocation } from 'react-router-dom';
 import SingleLinkedResourceList from './SingleLinkedResourceList';
 import { conferences_workshops, publications, theses } from '../../const/PublicationsAndGrantsConstants';
 import { HashFragmentRouteConstants } from '../../../AppRoutes';
+import { useTranslation } from 'react-i18next';
 
 export default function Publications() {
+  const { t } = useTranslation();
   const location = useLocation();
 
   useEffect(() => {
@@ -27,7 +29,7 @@ export default function Publications() {
           style={{ paddingLeft: '1rem' }}
           variant={'h3'}
         >
-          Lõputööd
+          {t('common_graduation_papers')}
         </Typography>
       </Box>
       <SingleLinkedResourceList list={theses} />
@@ -38,7 +40,7 @@ export default function Publications() {
           style={{ paddingLeft: '1rem' }}
           variant={'h3'}
         >
-          Konverentsid ja töötoad
+          {t('common_conferences_and_workshops')}
         </Typography>
       </Box>
       <SingleLinkedResourceList list={conferences_workshops} />
@@ -49,7 +51,7 @@ export default function Publications() {
           style={{ paddingLeft: '1rem' }}
           variant={'h3'}
         >
-          Publikatsioonid
+          {t('common_articles')}
         </Typography>
       </Box>
       <SingleLinkedResourceList list={publications} />

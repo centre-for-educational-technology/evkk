@@ -63,56 +63,56 @@ export const textsAndToolsValues = [
 
 export const linksValues = [
   {
-    title: 'footer_resources_introduction',
-    target: HashFragmentRouteConstants.LINKS_TUTVUSTUS,
+    title: 'common_introduction',
+    target: HashFragmentRouteConstants.LINKS_INTRODUCTION,
     prefix: RouteConstants.LINKS,
     connector: '#'
   },
   {
-    title: 'footer_resources_dictionaries',
-    target: HashFragmentRouteConstants.LINKS_SONASTIKUD,
+    title: 'common_dictionaries',
+    target: HashFragmentRouteConstants.LINKS_DICTIONARIES,
     prefix: RouteConstants.LINKS,
     connector: '#'
   },
   {
-    title: 'footer_resources_translate_tools',
-    target: HashFragmentRouteConstants.LINKS_TOLKERAKENDUSED,
+    title: 'common_translation_tools',
+    target: HashFragmentRouteConstants.LINKS_TRANSLATION_TOOLS,
     prefix: RouteConstants.LINKS,
     connector: '#'
   },
   {
-    title: 'footer_resources_estonian',
-    target: HashFragmentRouteConstants.LINKS_EESTIKEELSED_TEKSTID,
+    title: 'common_estonian_texts',
+    target: HashFragmentRouteConstants.LINKS_ESTONIAN_TEXTS,
     prefix: RouteConstants.LINKS,
     connector: '#'
   },
   {
-    title: 'footer_resources_audiovisual',
-    target: HashFragmentRouteConstants.LINKS_AUDIOVISUAALNE_MEEDIA,
+    title: 'common_audiovisual_media',
+    target: HashFragmentRouteConstants.LINKS_AUDIOVISUAL_MEDIA,
     prefix: RouteConstants.LINKS,
     connector: '#'
   },
   {
-    title: 'footer_resources_language_tools',
-    target: HashFragmentRouteConstants.LINKS_KEELEOPPEVARA,
+    title: 'common_learning_resources',
+    target: HashFragmentRouteConstants.LINKS_LEARNING_RESOURCES,
     prefix: RouteConstants.LINKS,
     connector: '#'
   },
   {
-    title: 'footer_resources_environments_courses',
-    target: HashFragmentRouteConstants.LINKS_KEELEOPPEKESKKONNAD_KURSUSED,
+    title: 'common_learning_environments_and_courses',
+    target: HashFragmentRouteConstants.LINKS_LEARNING_ENVIRONMENTS_AND_COURSES,
     prefix: RouteConstants.LINKS,
     connector: '#'
   },
   {
-    title: 'footer_resources_teacher_aid',
-    target: HashFragmentRouteConstants.LINKS_ABIKS_OPETAJALE,
+    title: 'common_for_teachers',
+    target: HashFragmentRouteConstants.LINKS_FOR_TEACHERS,
     prefix: RouteConstants.LINKS,
     connector: '#'
   },
   {
-    title: 'footer_resources_language_corp',
-    target: HashFragmentRouteConstants.LINKS_EESTI_KEELE_KORPUSED,
+    title: 'common_estonian_language_corpora',
+    target: HashFragmentRouteConstants.LINKS_ESTONIAN_LANGUAGE_CORPORA,
     prefix: RouteConstants.LINKS,
     connector: '#'
   }
