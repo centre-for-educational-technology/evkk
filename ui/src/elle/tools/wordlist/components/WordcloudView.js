@@ -1,4 +1,4 @@
-import { DefaultButtonStyle, DefaultCircularProgressStyle } from '../../../const/Constants';
+import { DefaultButtonStyle, DefaultCircularProgressStyle } from '../../../const/StyleConstants';
 import BrushIcon from '@mui/icons-material/Brush';
 import { Button, CircularProgress, Tooltip } from '@mui/material';
 import React, { useEffect, useState } from 'react';

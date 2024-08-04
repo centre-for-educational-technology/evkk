@@ -9,8 +9,9 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import WordClick from './WordClick';
 import TextUpload from '../../components/TextUpload';
 import { loadFetch } from '../../hooks/service/util/LoadFetch';
-import { CorrectorCustomSlider, EVKK_GITHUB_DEMOS_PATH } from '../../const/Constants';
+import { EVKK_GITHUB_DEMOS_PATH } from '../../const/PathConstants';
 import NewTabHyperlink from '../../components/NewTabHyperlink';
+import { CorrectorCustomSlider } from '../../const/StyleConstants';
 
 const Correction = () => {
   const [history, setHistory] = useState(['']);

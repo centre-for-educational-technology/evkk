@@ -18,9 +18,10 @@ import { useState } from 'react';
 import i18n from 'i18next';
 import FileSaver from 'file-saver';
 import { loadFetch } from '../../hooks/service/util/LoadFetch';
-import { CC_BY_4_0_LICENSE_PATH, DefaultButtonStyle } from '../../const/Constants';
+import { CC_BY_4_0_LICENSE_PATH } from '../../const/PathConstants';
 import NewTabHyperlink from '../../components/NewTabHyperlink';
 import { Languages } from '../../translations/i18n';
+import { DefaultButtonStyle } from '../../const/StyleConstants';
 
 export default function QueryDownloadButton({selected}) {
   const [downloadForm, setDownloadForm] = useState(FileDownloadForm.BASIC_TEXT);

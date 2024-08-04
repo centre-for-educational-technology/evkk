@@ -1,7 +1,7 @@
 import { Backdrop, CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { loadingEmitter } from '../../App';
-import { DefaultCircularProgressStyle } from '../const/Constants';
+import { DefaultCircularProgressStyle } from '../const/StyleConstants';
 
 export default function LoadingSpinner() {
 

@@ -18,11 +18,9 @@ import { loadFetch } from '../hooks/service/util/LoadFetch';
 import { withTranslation } from 'react-i18next';
 import {
   countryOptionsForAddingText,
-  DefaultButtonStyle,
   degreeOptions,
   domainOptions,
   educationOptions,
-  ElleOuterDivStyle,
   genderOptions,
   studyLevelOptions,
   textPublishAcademicCategoryOptions,
@@ -35,6 +33,7 @@ import {
 } from '../const/Constants';
 import { successEmitter } from '../../App';
 import ModalBase from '../components/modal/ModalBase';
+import { DefaultButtonStyle, ElleOuterDivStyle } from '../const/StyleConstants';
 import { SuccessSnackbarEventType } from '../components/snackbar/SuccessSnackbar';
 
 class Adding extends Component {

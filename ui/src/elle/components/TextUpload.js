@@ -4,7 +4,7 @@ import { Button, Tooltip } from '@mui/material';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { useTranslation } from 'react-i18next';
 import '../translations/i18n';
-import { DefaultButtonStyle } from '../const/Constants';
+import { DefaultButtonStyle } from '../const/StyleConstants';
 import ModalBase from './modal/ModalBase';
 import { useGetTextFromFile } from '../hooks/service/TextService';
 

@@ -18,7 +18,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { AccordionStyle, DefaultButtonStyle, STOPWORDS_DATADOI_PATH } from '../../const/Constants';
+import { STOPWORDS_DATADOI_PATH } from '../../const/PathConstants';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { QuestionMark } from '@mui/icons-material';
 import WordlistMenu from './components/WordlistMenu';
@@ -31,6 +31,7 @@ import { sortTableCol } from '../../util/TableUtils';
 import NewTabHyperlink from '../../components/NewTabHyperlink';
 import WordcloudView from './components/WordcloudView';
 import TableHeaderButtons from '../../components/table/TableHeaderButtons';
+import { AccordionStyle, DefaultButtonStyle } from '../../const/StyleConstants';
 
 export default function Wordlist() {
 

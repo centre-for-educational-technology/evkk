@@ -11,12 +11,13 @@ import { Languages } from '../translations/i18n';
 import Can from './security/Can';
 import { UserRoleConstants } from '../const/Constants';
 import { useLogout } from '../hooks/service/AuthService';
+import { RouteConstants } from '../../AppRoutes';
 
 const pages = [
-  { id: 1, title: 'common_corrector', target: '/corrector' },
-  { id: 2, title: 'common_tools', target: '/tools' },
-  { id: 3, title: 'common_links', target: '/links' },
-  { id: 4, title: 'common_about', target: '/about' },
+  { id: 1, title: 'common_corrector', target: RouteConstants.CORRECTOR },
+  { id: 2, title: 'common_tools', target: RouteConstants.TOOLS },
+  { id: 3, title: 'common_links', target: RouteConstants.LINKS },
+  { id: 4, title: 'common_about', target: RouteConstants.ABOUT },
   { id: 5, title: 'common_admin_panel', target: '/admin', role: UserRoleConstants.ADMIN }
 ];
 
