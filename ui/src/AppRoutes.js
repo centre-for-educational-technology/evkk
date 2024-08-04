@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { MasinoppeEnnustus, MinitornPikkus } from './views/tools';
 import Correction from './elle/tools/correction/Correction';
@@ -17,90 +17,87 @@ import Adding from './elle/pages/Adding.component';
 import Wordlist from './elle/tools/wordlist/Wordlist';
 import WordContext from './elle/tools/wordcontext/WordContext';
 import Collocates from './elle/tools/collocates/Collocates';
-import { withTranslation } from 'react-i18next';
 import Tools from './elle/pages/Tools';
 import Login from './elle/pages/Login';
 import Admin from './elle/pages/Admin';
 import RequireAuth from './elle/components/security/RequireAuth';
 import { UserRoles } from './elle/const/Constants';
+import { useTranslation } from 'react-i18next';
 
-class AppRoutes extends Component {
+export default function AppRoutes() {
+  const { t } = useTranslation();
 
-  render404 = () => {
-    const { t } = this.props;
+  const render404 = () => (
+    <div className={'text-center pb-4'}>
+      <p className={'lead'}>{t('error_404_page_not_found')}</p>
+    </div>
+  );
 
-    return (
-      <div className={'text-center pb-4'}>
-        <p className={'lead'}>{t('error_404_page_not_found')}</p>
-      </div>
-    );
-  };
-
-  render() {
-    return (
-      <Container sx={{
+  return (
+    <Container
+      disableGutters
+      maxWidth={false}
+      sx={{
         width: '80vw',
         marginTop: '20px'
       }}
-                 disableGutters
-                 maxWidth={false}>
-        <BreadcrumbLinks />
-        <Routes>
-          <Route exact
-                 path="/"
-                 element={<Home />} />
-          <Route path={RouteConstants.ABOUT}
-                 element={<AboutUs />}>
-            <Route index
-                   element={<Navigate to={RouteConstants.US}
-                                      replace />} />
-            <Route path={RouteConstants.US}
-                   element={<AboutUsText />} />
-            <Route path={RouteConstants.PEOPLE}
-                   element={<FilledContacts />} />
-            <Route path={RouteConstants.GRANTS}
-                   element={<Grants />} />
-            <Route path={RouteConstants.PUBLICATIONS}
-                   element={<Publications />} />
-          </Route>
-          <Route path={RouteConstants.ADDING}
-                 element={<Adding />} />
-          <Route path={RouteConstants.CORRECTOR}
-                 element={<Correction />} />
-          <Route path={RouteConstants.TOOLS}
-                 element={<Tools />}>
-            <Route index
-                   element={<Navigate to={RouteConstants.WORDLIST}
-                                      replace />} />
-            <Route path={RouteConstants.WORDLIST}
-                   element={<Wordlist />} />
-            <Route path={RouteConstants.WORDCONTEXT}
-                   element={<WordContext />} />
-            <Route path={RouteConstants.COLLOCATES}
-                   element={<Collocates />} />
-            <Route path={RouteConstants.CLUSTERFINDER}
-                   element={<ClusterFinder />} />
-            <Route path={RouteConstants.WORDANALYSER}
-                   element={<WordAnalyserParent />} />
-            <Route path="minitorn-pikkus"
-                   element={<MinitornPikkus />} />
-            <Route path="masinoppe-ennustus"
-                   element={<MasinoppeEnnustus />} />
-          </Route>
-          <Route path={RouteConstants.LINKS}
-                 element={<Links />} />
-          <Route path={RouteConstants.LOGIN}
-                 element={<Login />} />
-          <Route element={<RequireAuth role={UserRoles.ADMIN} />}>
-            <Route path={RouteConstants.ADMIN}
-                   element={<Admin />} />
-          </Route>
-          <Route path="*"
-                 element={this.render404()} />
-        </Routes>
-      </Container>
-    );
-  }
+    >
+      <BreadcrumbLinks />
+      <Routes>
+        <Route exact
+               path="/"
+               element={<Home />} />
+        <Route path={RouteConstants.ABOUT}
+               element={<AboutUs />}>
+          <Route index
+                 element={<Navigate to={RouteConstants.US}
+                                    replace />} />
+          <Route path={RouteConstants.US}
+                 element={<AboutUsText />} />
+          <Route path={RouteConstants.PEOPLE}
+                 element={<FilledContacts />} />
+          <Route path={RouteConstants.GRANTS}
+                 element={<Grants />} />
+          <Route path={RouteConstants.PUBLICATIONS}
+                 element={<Publications />} />
+        </Route>
+        <Route path={RouteConstants.ADDING}
+               element={<Adding />} />
+        <Route path={RouteConstants.CORRECTOR}
+               element={<Correction />} />
+        <Route path={RouteConstants.TOOLS}
+               element={<Tools />}>
+          <Route index
+                 element={<Navigate to={RouteConstants.WORDLIST}
+                                    replace />} />
+          <Route path={RouteConstants.WORDLIST}
+                 element={<Wordlist />} />
+          <Route path={RouteConstants.WORDCONTEXT}
+                 element={<WordContext />} />
+          <Route path={RouteConstants.COLLOCATES}
+                 element={<Collocates />} />
+          <Route path={RouteConstants.CLUSTERFINDER}
+                 element={<ClusterFinder />} />
+          <Route path={RouteConstants.WORDANALYSER}
+                 element={<WordAnalyserParent />} />
+          <Route path="minitorn-pikkus"
+                 element={<MinitornPikkus />} />
+          <Route path="masinoppe-ennustus"
+                 element={<MasinoppeEnnustus />} />
+        </Route>
+        <Route path={RouteConstants.LINKS}
+               element={<Links />} />
+        <Route path={RouteConstants.LOGIN}
+               element={<Login />} />
+        <Route element={<RequireAuth role={UserRoles.ADMIN} />}>
+          <Route path={RouteConstants.ADMIN}
+                 element={<Admin />} />
+        </Route>
+        <Route path="*"
+               element={render404()} />
+      </Routes>
+    </Container>
+  );
 }
 
 export const RouteConstants = {
@@ -153,5 +150,3 @@ export const HashFragmentRouteConstants = {
   PUBLICATIONS_CONFERENCES_AND_WORKSHOPS: 'conferences-and-workshops',
   PUBLICATIONS_GRADUATION_PAPERS: 'graduation-papers'
 };
-
-export default withTranslation()(AppRoutes);
