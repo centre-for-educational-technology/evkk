@@ -148,7 +148,6 @@ export const TabStyle = {
   '& button:active': { backgroundColor: '#9C27B0' },
   '& button': {
     backgroundColor: 'rgba(255, 208, 253, 1)',
-    lineHeight: '60px',
     display: 'inline-block',
     color: 'black',
     fontWeight: 'bold',
