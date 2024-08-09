@@ -137,7 +137,7 @@ export const useDownloadQueryResults = () => {
 
   useEffect(() => {
     if (response) FileSaver.saveAs(response, `${fileName}.${fileExtension}`);
-  }, [response]);
+  }, [response, fileName, fileExtension]);
 
   return { downloadQueryResults };
 };
