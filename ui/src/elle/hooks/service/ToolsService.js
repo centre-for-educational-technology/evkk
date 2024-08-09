@@ -26,3 +26,16 @@ export const useGetCollocatesResult = () => {
 
   return { getCollocatesResult };
 };
+
+export const useGetWordContextResult = () => {
+  const { fetchData } = useFetch();
+
+  const getWordContextResult = useCallback((body) => {
+    return fetchData('/api/tools/wordcontext', {
+      method: 'POST',
+      body
+    });
+  }, [fetchData]);
+
+  return { getWordContextResult };
+};
