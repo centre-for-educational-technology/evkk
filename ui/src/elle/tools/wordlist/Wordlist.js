@@ -50,7 +50,7 @@ export default function Wordlist() {
   const [showTable, setShowTable] = useState(false);
   const accessors = ['word', 'frequencyCount', 'frequencyPercentage'];
   const data = useMemo(() => response, [response]);
-  const { getWordlistResult } = useGetWordlistResult(setResponse, setShowTable, setTypeValueToDisplay, typeValue);
+  const { getWordlistResult } = useGetWordlistResult();
   const sortByColAccessor = 'frequencyCount';
 
   useEffect(() => {
@@ -158,7 +158,12 @@ export default function Wordlist() {
     setTypeError(!typeValue);
     if (typeValue) {
       setShowTable(false);
-      getWordlistResult(generateRequestData());
+      getWordlistResult(generateRequestData())
+        .then(response => {
+          setResponse(response.resultList);
+          setShowTable(true);
+          setTypeValueToDisplay(typeValue);
+        });
     }
   };
 
