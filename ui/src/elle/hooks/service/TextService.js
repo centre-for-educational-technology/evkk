@@ -76,28 +76,15 @@ export const useAddText = () => {
   return { addText };
 };
 
-export const useGetQueryResults = (setNoResultsError, setResults, setIsQueryAnswerPage) => {
-  const { fetchData, response } = useFetch();
+export const useGetQueryResults = () => {
+  const { fetchData } = useFetch();
 
   const getQueryResults = useCallback((body) => {
-    fetchData('/api/texts/detailneparing', {
+    return fetchData('/api/texts/detailneparing', {
       method: 'POST',
       body
     });
   }, [fetchData]);
-
-  useEffect(() => {
-    if (response) {
-      if (response.length > 0) {
-        setNoResultsError(false);
-        setResults(response);
-        setIsQueryAnswerPage(true);
-      } else {
-        setNoResultsError(true);
-        setResults([]);
-      }
-    }
-  }, [response, setIsQueryAnswerPage, setNoResultsError, setResults]);
 
   return { getQueryResults };
 };
@@ -106,7 +93,6 @@ export const useDownloadQueryResults = () => {
   const { fetchData } = useFetch();
 
   const downloadQueryResults = useCallback((form, fileType, fileList) => {
-
     return fetchData('/api/texts/tekstidfailina', {
       method: 'POST',
       body: JSON.stringify({

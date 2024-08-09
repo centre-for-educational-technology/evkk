@@ -86,7 +86,7 @@ export default function Query(props) {
   const [inputQueryOpen, setInputQueryOpen] = useState('query-own-texts-modal-closed');
   const [isQueryAnswerPage, setIsQueryAnswerPage] = useState(false);
   const [previousSelectedIds, setPreviousSelectedIds] = useState({});
-  const { getQueryResults } = useGetQueryResults(setNoResultsError, setResults, setIsQueryAnswerPage);
+  const { getQueryResults } = useGetQueryResults();
   const [singlePropertyData, setSinglePropertyData] = useState({
     language: 'eesti',
     level: '',
@@ -203,7 +203,17 @@ export default function Query(props) {
         params.sentences = simplifyDropdowns(sentences);
       }
 
-      getQueryResults(JSON.stringify(params));
+      getQueryResults(JSON.stringify(params))
+        .then(response => {
+          if (response.length > 0) {
+            setNoResultsError(false);
+            setResults(response);
+            setIsQueryAnswerPage(true);
+          } else {
+            setNoResultsError(true);
+            setResults([]);
+          }
+        });
     }
   };
 
