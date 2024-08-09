@@ -5,7 +5,7 @@ import { useCallback } from 'react';
 import { successEmitter } from '../../../App';
 import { SuccessSnackbarEventType } from '../../components/snackbar/SuccessSnackbar';
 
-export const useGetSelectedTexts = (setStoreData) => {
+export const useGetSelectedTexts = setStoreData => {
   const { fetchData } = useFetch();
 
   const getSelectedTexts = useCallback(() => {
@@ -35,7 +35,7 @@ export const useGetSelectedTexts = (setStoreData) => {
 export const useGetTextFromFile = () => {
   const { fetchData } = useFetch();
 
-  const getTextFromFile = useCallback((body) => {
+  const getTextFromFile = useCallback(body => {
     return fetchData('/api/textfromfile', {
       method: 'POST',
       body
@@ -69,7 +69,7 @@ export const useAddText = () => {
 export const useGetQueryResults = () => {
   const { fetchData } = useFetch();
 
-  const getQueryResults = useCallback((body) => {
+  const getQueryResults = useCallback(body => {
     return fetchData('/api/texts/detailneparing', {
       method: 'POST',
       body
@@ -101,7 +101,7 @@ export const useDownloadQueryResults = () => {
 export const useGetTextAndMetadata = () => {
   const { fetchData } = useFetch();
 
-  const getTextAndMetadata = useCallback((textId) => {
+  const getTextAndMetadata = useCallback(textId => {
     return fetchData('/api/texts/kysitekstjametainfo?id=' + textId);
   }, [fetchData]);
 
