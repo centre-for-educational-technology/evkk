@@ -23,46 +23,15 @@ export const useGetWordlistResult = (setResponse, setShowTable, setTypeValueToDi
   return { getWordlistResult };
 };
 
-export const useGetCollocatesResult = (
-  setLastKeyword,
-  setLemmatizedKeywordResult,
-  setResponse,
-  setShowTable,
-  setParamsExpanded,
-  setShowNoResultsError,
-  setInitialKeywordResult,
-  keyword
-) => {
-  const { fetchData, response } = useFetch();
+export const useGetCollocatesResult = () => {
+  const { fetchData } = useFetch();
 
   const getCollocatesResult = useCallback((body) => {
-    fetchData('/api/tools/collocates', {
+    return fetchData('/api/tools/collocates', {
       method: 'POST',
       body
     });
   }, [fetchData]);
-
-  useEffect(() => {
-    if (response) {
-      setLastKeyword(keyword);
-      setLemmatizedKeywordResult(null);
-      setResponse(response.collocateList);
-      if (response.collocateList.length === 0) {
-        setShowTable(false);
-        setParamsExpanded(true);
-        setShowNoResultsError(true);
-      } else {
-        setShowTable(true);
-        setParamsExpanded(false);
-        setShowNoResultsError(false);
-        if (response.lemmatizedKeyword) {
-          setLemmatizedKeywordResult(response.lemmatizedKeyword);
-          setInitialKeywordResult(response.initialKeyword);
-        }
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [response, setLastKeyword, setLemmatizedKeywordResult, setResponse, setShowTable, setParamsExpanded, setShowNoResultsError, setInitialKeywordResult]);
 
   return { getCollocatesResult };
 };

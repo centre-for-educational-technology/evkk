@@ -72,6 +72,8 @@ export const useFetch = () => {
       ? res
       : await parseByType(res, finalOptions.parseType);
     setResponse(result);
+
+    return result;
   }, [accessToken]);
 
   return { fetchData, response };

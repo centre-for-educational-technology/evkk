@@ -55,7 +55,7 @@ export default function Collocates() {
   const [response, setResponse] = useState([]);
   const data = useMemo(() => response, [response]);
   const [showNoResultsError, setShowNoResultsError] = useState(false);
-  const { getCollocatesResult } = useGetCollocatesResult(setLastKeyword, setLemmatizedKeywordResult, setResponse, setShowTable, setParamsExpanded, setShowNoResultsError, setInitialKeywordResult, keyword);
+  const { getCollocatesResult } = useGetCollocatesResult();
   const sortByColAccessor = 'score';
 
   useEffect(() => {
@@ -186,7 +186,25 @@ export default function Collocates() {
     setTypeError(!typeValue);
     if (typeValue) {
       setShowTable(false);
-      getCollocatesResult(generateRequestData());
+      getCollocatesResult(generateRequestData())
+        .then(response => {
+          setLastKeyword(keyword);
+          setLemmatizedKeywordResult(null);
+          setResponse(response.collocateList);
+          if (response.collocateList.length === 0) {
+            setShowTable(false);
+            setParamsExpanded(true);
+            setShowNoResultsError(true);
+          } else {
+            setShowTable(true);
+            setParamsExpanded(false);
+            setShowNoResultsError(false);
+            if (response.lemmatizedKeyword) {
+              setLemmatizedKeywordResult(response.lemmatizedKeyword);
+              setInitialKeywordResult(response.initialKeyword);
+            }
+          }
+        });
     }
   };
 
