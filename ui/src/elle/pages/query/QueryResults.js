@@ -27,10 +27,10 @@ import TablePagination from '../../components/table/TablePagination';
 import QueryDownloadButton from './QueryDownloadButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { changeCorpusTexts, queryStore } from '../../store/QueryStore';
-import { loadFetch } from '../../hooks/service/util/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import ModalBase from '../../components/modal/ModalBase';
 import { DefaultButtonStyle } from '../../const/StyleConstants';
+import { useGetTextAndMetadata } from '../../hooks/service/TextService';
 
 export default function QueryResults(props) {
   const { t } = useTranslation();
@@ -43,6 +43,17 @@ export default function QueryResults(props) {
   const [update, forceUpdate] = useReducer(x => x + 1, 0);
   const data = useMemo(() => response, [response]);
   let paragraphCount = 0;
+
+  const setIndividualMetadata = (keyName, valueName) => {
+    setMetadata(prevData => {
+      return {
+        ...prevData,
+        [keyName]: valueName
+      };
+    });
+  };
+
+  const { getTextAndMetadata } = useGetTextAndMetadata(setText, setIndividualMetadata);
 
   const [metadata, setMetadata] = useState({
     title: '',
@@ -137,31 +148,9 @@ export default function QueryResults(props) {
   };
 
   function previewText(id) {
-    loadFetch('/api/texts/kysitekstjametainfo?id=' + id, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then(res => {
-        setText(res.text);
-        res.properties.forEach(param => {
-          setIndividualMetadata(param.propertyName, param.propertyValue);
-        });
-      });
-
+    getTextAndMetadata(id);
     setModalOpen(true);
   }
-
-  const setIndividualMetadata = (keyName, valueName) => {
-    setMetadata(prevData => {
-      return {
-        ...prevData,
-        [keyName]: valueName
-      };
-    });
-  };
 
   useEffect(() => {
     setIsLoadingSelectAllTexts(false);

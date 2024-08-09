@@ -131,3 +131,22 @@ export const useDownloadQueryResults = () => {
 
   return { downloadQueryResults };
 };
+
+export const useGetTextAndMetadata = (setText, setIndividualMetadata) => {
+  const { fetchData, response } = useFetch();
+
+  const getTextAndMetadata = useCallback((textId) => {
+    fetchData('/api/texts/kysitekstjametainfo?id=' + textId);
+  }, [fetchData]);
+
+  useEffect(() => {
+    if (response) {
+      setText(response.text);
+      response.properties.forEach(param => {
+        setIndividualMetadata(param.propertyName, param.propertyValue);
+      });
+    }
+  }, [response, setText, setIndividualMetadata]);
+
+  return { getTextAndMetadata };
+};
