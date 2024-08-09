@@ -16,10 +16,12 @@ export default function TextUpload({ sendTextFromFile, outerClassName = '' }) {
   const fileNameElement = createRef();
   const text1Element = createRef();
   const { t } = useTranslation();
-  const { getTextFromFile } = useGetTextFromFile(sendTextFromFile);
+  const { getTextFromFile } = useGetTextFromFile();
 
   function fileUpload() {
-    getTextFromFile(new FormData(formDataElement.current));
+    getTextFromFile(new FormData(formDataElement.current))
+      .then(response => sendTextFromFile(response))
+      .catch(() => sendTextFromFile(''));
     setUploadButtonDisabled(true);
     fileNameElement.current.textContent = '';
     setModalOpen(false);

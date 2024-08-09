@@ -59,9 +59,7 @@ export default function QueryDownloadButton({ selected }) {
         : 'zip';
 
     downloadQueryResults(downloadForm, downloadFileType, selected)
-      .then(response => {
-        FileSaver.saveAs(response, `${fileName}.${fileExtension}`);
-      });
+      .then(response => FileSaver.saveAs(response, `${fileName}.${fileExtension}`));
   };
 
   return (

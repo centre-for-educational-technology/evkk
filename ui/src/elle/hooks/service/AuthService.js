@@ -37,9 +37,7 @@ export const useRenew = () => {
       method: 'POST'
     }, {
       disableResponseParsing: true
-    }).then(() => {
-      setContext(true);
-    });
+    }).then(() => setContext(true));
   }, [fetchData, setContext]);
 
   return { renew };

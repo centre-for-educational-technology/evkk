@@ -36,24 +36,18 @@ export const useGetSelectedTexts = (setStoreData) => {
   return { getSelectedTexts };
 };
 
-export const useGetTextFromFile = (sendTextFromFile) => {
-  const { fetchData, response } = useFetch();
+export const useGetTextFromFile = () => {
+  const { fetchData } = useFetch();
 
   const getTextFromFile = useCallback((body) => {
-    fetchData('/api/textfromfile', {
+    return fetchData('/api/textfromfile', {
       method: 'POST',
       body
     }, {
       parseType: FetchParseType.TEXT,
       disableContentTypeJson: true
-    }).catch(() => {
-      sendTextFromFile('');
     });
-  }, [fetchData, sendTextFromFile]);
-
-  useEffect(() => {
-    if (response) sendTextFromFile(response);
-  }, [response, sendTextFromFile]);
+  }, [fetchData]);
 
   return { getTextFromFile };
 };
