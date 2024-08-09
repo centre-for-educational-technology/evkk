@@ -52,3 +52,16 @@ export const useGetWordAnalyserResult = () => {
 
   return { getWordAnalyserResult };
 };
+
+export const useGetCorrectionResult = () => {
+  const { fetchData } = useFetch();
+
+  const getCorrectionResult = useCallback(body => {
+    return fetchData('/api/texts/korrektuur', {
+      method: 'POST',
+      body
+    });
+  }, [fetchData]);
+
+  return { getCorrectionResult };
+};

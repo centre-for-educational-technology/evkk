@@ -8,10 +8,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import WordClick from './WordClick';
 import TextUpload from '../../components/TextUpload';
-import { loadFetch } from '../../hooks/service/util/LoadFetch';
 import { EVKK_GITHUB_DEMOS_PATH } from '../../const/PathConstants';
 import NewTabHyperlink from '../../components/NewTabHyperlink';
 import { CorrectorCustomSlider } from '../../const/StyleConstants';
+import { useGetCorrectionResult } from '../../hooks/service/ToolsService';
 
 const Correction = () => {
   const [history, setHistory] = useState(['']);
@@ -29,6 +29,7 @@ const Correction = () => {
   const [queryFinished, setQueryFinished] = useState(false);
   const [complexityAnswer, setComplexityAnswer] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const [diversityAnswer, setDiversityAnswer] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  const { getCorrectionResult } = useGetCorrectionResult();
 
   const sliderElement = (name, startValue, endValue, currentValue, step) => {
     if (currentValue > endValue) {
@@ -170,22 +171,14 @@ const Correction = () => {
   };
 
   const getCorrections = () => {
-    loadFetch('/api/texts/korrektuur', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        tekst: content
+    getCorrectionResult(JSON.stringify({ tekst: content }))
+      .then(response => {
+        const sm = response[1].split(' ');
+        const vm = response[0].split(' ');
+        setContentWords(sm);
+        setResponseWords(vm);
+        fillData(sm, vm);
       })
-    }).then(v => v.json()).then(t => {
-      const sm = t[1].split(' ');
-      const vm = t[0].split(' ');
-      setContentWords(sm);
-      setResponseWords(vm);
-      fillData(sm, vm);
-    });
   };
 
   const fillData = (content, answer) => {
