@@ -28,11 +28,11 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import WordlistMenu from '../wordlist/components/WordlistMenu';
 import GenericTable from '../../components/GenericTable';
 import { changeCollocatesResult, toolAnalysisStore } from '../../store/ToolAnalysisStore';
-import { loadFetch } from '../../hooks/service/util/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import TableHeaderButtons from '../../components/table/TableHeaderButtons';
 import GraphView from '../wordcontext/components/GraphView';
 import { AccordionStyle, DefaultButtonStyle } from '../../const/StyleConstants';
+import { useGetCollocatesResult } from '../../hooks/service/ToolsService';
 
 export default function Collocates() {
 
@@ -55,6 +55,7 @@ export default function Collocates() {
   const [response, setResponse] = useState([]);
   const data = useMemo(() => response, [response]);
   const [showNoResultsError, setShowNoResultsError] = useState(false);
+  const { getCollocatesResult } = useGetCollocatesResult(setLastKeyword, setLemmatizedKeywordResult, setResponse, setShowTable, setParamsExpanded, setShowNoResultsError, setInitialKeywordResult, keyword);
   const sortByColAccessor = 'score';
 
   useEffect(() => {
@@ -185,32 +186,7 @@ export default function Collocates() {
     setTypeError(!typeValue);
     if (typeValue) {
       setShowTable(false);
-      loadFetch('/api/tools/collocates', {
-        method: 'POST',
-        body: generateRequestData(),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(res => res.json())
-        .then(result => {
-          setLastKeyword(keyword);
-          setLemmatizedKeywordResult(null);
-          setResponse(result.collocateList);
-          if (result.collocateList.length === 0) {
-            setShowTable(false);
-            setParamsExpanded(true);
-            setShowNoResultsError(true);
-          } else {
-            setShowTable(true);
-            setParamsExpanded(false);
-            setShowNoResultsError(false);
-            if (result.lemmatizedKeyword) {
-              setLemmatizedKeywordResult(result.lemmatizedKeyword);
-              setInitialKeywordResult(result.initialKeyword);
-            }
-          }
-        });
+      getCollocatesResult(generateRequestData());
     }
   };
 

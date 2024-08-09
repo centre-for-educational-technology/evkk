@@ -25,13 +25,13 @@ import WordlistMenu from './components/WordlistMenu';
 import { TableType } from '../../components/table/TableDownloadButton';
 import GenericTable from '../../components/GenericTable';
 import { changeWordlistResult, toolAnalysisStore } from '../../store/ToolAnalysisStore';
-import { loadFetch } from '../../hooks/service/util/LoadFetch';
 import { useTranslation } from 'react-i18next';
 import { sortTableCol } from '../../util/TableUtils';
 import NewTabHyperlink from '../../components/NewTabHyperlink';
 import WordcloudView from './components/WordcloudView';
 import TableHeaderButtons from '../../components/table/TableHeaderButtons';
 import { AccordionStyle, DefaultButtonStyle } from '../../const/StyleConstants';
+import { useGetWordlistResult } from '../../hooks/service/ToolsService';
 
 export default function Wordlist() {
 
@@ -50,6 +50,7 @@ export default function Wordlist() {
   const [showTable, setShowTable] = useState(false);
   const accessors = ['word', 'frequencyCount', 'frequencyPercentage'];
   const data = useMemo(() => response, [response]);
+  const { getWordlistResult } = useGetWordlistResult(setResponse, setShowTable, setTypeValueToDisplay, typeValue);
   const sortByColAccessor = 'frequencyCount';
 
   useEffect(() => {
@@ -157,19 +158,7 @@ export default function Wordlist() {
     setTypeError(!typeValue);
     if (typeValue) {
       setShowTable(false);
-      loadFetch('/api/tools/wordlist', {
-        method: 'POST',
-        body: generateRequestData(),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(res => res.json())
-        .then(result => {
-          setResponse(result.resultList);
-          setShowTable(true);
-          setTypeValueToDisplay(typeValue);
-        });
+      getWordlistResult(generateRequestData());
     }
   };
 
