@@ -1,12 +1,12 @@
 import { queryStore } from '../../store/QueryStore';
 import { sanitizeTexts } from '../../util/TextUtils';
 import { FetchParseType, useFetch } from '../useFetch';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { successEmitter } from '../../../App';
 import { SuccessSnackbarEventType } from '../../components/snackbar/SuccessSnackbar';
 
 export const useGetSelectedTexts = (setStoreData) => {
-  const { fetchData, response } = useFetch();
+  const { fetchData } = useFetch();
 
   const getSelectedTexts = useCallback(() => {
     const queryStoreState = queryStore.getState();
@@ -16,22 +16,18 @@ export const useGetSelectedTexts = (setStoreData) => {
         body: JSON.stringify({ ids: queryStoreState.corpusTextIds })
       }, {
         parseType: FetchParseType.TEXT
+      }).then(response => {
+        const queryStoreState = queryStore.getState();
+        let result = response;
+        if (queryStoreState.ownTexts) {
+          result = result.concat(' ', queryStoreState.ownTexts);
+        }
+        setStoreData(sanitizeTexts(result));
       });
     } else if (queryStoreState.ownTexts) {
       setStoreData(queryStoreState.ownTexts);
     }
   }, [fetchData, setStoreData]);
-
-  useEffect(() => {
-    if (response) {
-      const queryStoreState = queryStore.getState();
-      let result = response;
-      if (queryStoreState.ownTexts) {
-        result = result.concat(' ', queryStoreState.ownTexts);
-      }
-      setStoreData(sanitizeTexts(result));
-    }
-  }, [response, setStoreData]);
 
   return { getSelectedTexts };
 };
