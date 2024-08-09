@@ -14,10 +14,7 @@ export const useGetSelectedTexts = (setStoreData) => {
     if (queryStoreState.corpusTextIds) {
       fetchData('/api/texts/kysitekstid', {
         method: 'POST',
-        body: JSON.stringify({ ids: queryStoreState.corpusTextIds }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        body: JSON.stringify({ ids: queryStoreState.corpusTextIds })
       }, {
         parseType: FetchParseType.TEXT
       });
@@ -48,7 +45,8 @@ export const useGetTextFromFile = (sendTextFromFile) => {
       method: 'POST',
       body
     }, {
-      parseType: FetchParseType.TEXT
+      parseType: FetchParseType.TEXT,
+      disableContentTypeJson: true
     }).catch(() => {
       sendTextFromFile('');
     });
@@ -67,10 +65,7 @@ export const useAddText = () => {
   const addText = useCallback((body, onComplete) => {
     fetchData('/api/texts/lisatekst', {
       method: 'POST',
-      body,
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      body
     }, {
       parseType: FetchParseType.TEXT
     }).then(() => {
@@ -88,10 +83,7 @@ export const useGetQueryResults = (setNoResultsError, setResults, setIsQueryAnsw
   const getQueryResults = useCallback((body) => {
     fetchData('/api/texts/detailneparing', {
       method: 'POST',
-      body,
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      body
     });
   }, [fetchData]);
 
@@ -126,10 +118,7 @@ export const useDownloadQueryResults = () => {
         form,
         fileType,
         fileList: Array.from(fileList)
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      })
     }, {
       parseType: FetchParseType.BLOB
     });
@@ -137,7 +126,8 @@ export const useDownloadQueryResults = () => {
 
   useEffect(() => {
     if (response) FileSaver.saveAs(response, `${fileName}.${fileExtension}`);
-  }, [response, fileName, fileExtension]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [response]);
 
   return { downloadQueryResults };
 };

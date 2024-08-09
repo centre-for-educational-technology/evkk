@@ -15,10 +15,7 @@ export const useLogout = () => {
   const logout = useCallback((forced = false) => {
     fetchData(`${AUTH_PATH}/logout`, {
       method: 'DELETE',
-      body: JSON.stringify({ token: accessToken }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      body: JSON.stringify({ token: accessToken })
     }, {
       disableResponseParsing: true
     }).then(() => {

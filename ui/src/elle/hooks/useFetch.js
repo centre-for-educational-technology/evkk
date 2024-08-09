@@ -30,12 +30,20 @@ export const useFetch = () => {
     const defaultOptions = {
       disableErrorHandling: false,
       disableResponseParsing: false,
+      disableContentTypeJson: false,
       parseType: FetchParseType.JSON,
       ignoreNotFoundError: false
     };
     const finalOptions = { ...defaultOptions, ...options };
 
     loadingEmitter.emit(LoadingSpinnerEventType.LOADER_START);
+
+    if (!finalOptions.disableContentTypeJson) {
+      params.headers = {
+        ...params.headers,
+        'Content-Type': 'application/json'
+      };
+    }
 
     if (hasNonExpiredToken(accessToken)) {
       params.headers = {
