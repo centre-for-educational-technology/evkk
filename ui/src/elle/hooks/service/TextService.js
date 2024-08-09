@@ -1,10 +1,9 @@
 import { queryStore } from '../../store/QueryStore';
 import { sanitizeTexts } from '../../util/TextUtils';
 import { FetchParseType, useFetch } from '../useFetch';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { successEmitter } from '../../../App';
 import { SuccessSnackbarEventType } from '../../components/snackbar/SuccessSnackbar';
-import FileSaver from 'file-saver';
 
 export const useGetSelectedTexts = (setStoreData) => {
   const { fetchData, response } = useFetch();
@@ -104,15 +103,11 @@ export const useGetQueryResults = (setNoResultsError, setResults, setIsQueryAnsw
 };
 
 export const useDownloadQueryResults = () => {
-  const { fetchData, response } = useFetch();
-  const [fileName, setFileName] = useState(null);
-  const [fileExtension, setFileExtension] = useState(null);
+  const { fetchData } = useFetch();
 
-  const downloadQueryResults = useCallback((form, fileType, fileList, fileName, fileExtension) => {
-    setFileName(fileName);
-    setFileExtension(fileExtension);
+  const downloadQueryResults = useCallback((form, fileType, fileList) => {
 
-    fetchData('/api/texts/tekstidfailina', {
+    return fetchData('/api/texts/tekstidfailina', {
       method: 'POST',
       body: JSON.stringify({
         form,
@@ -123,11 +118,6 @@ export const useDownloadQueryResults = () => {
       parseType: FetchParseType.BLOB
     });
   }, [fetchData]);
-
-  useEffect(() => {
-    if (response) FileSaver.saveAs(response, `${fileName}.${fileExtension}`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [response]);
 
   return { downloadQueryResults };
 };

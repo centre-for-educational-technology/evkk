@@ -21,6 +21,7 @@ import NewTabHyperlink from '../../components/NewTabHyperlink';
 import { Languages } from '../../translations/i18n';
 import { DefaultButtonStyle } from '../../const/StyleConstants';
 import { useDownloadQueryResults } from '../../hooks/service/TextService';
+import FileSaver from 'file-saver';
 
 export default function QueryDownloadButton({ selected }) {
   const [downloadForm, setDownloadForm] = useState(FileDownloadForm.BASIC_TEXT);
@@ -57,7 +58,10 @@ export default function QueryDownloadButton({ selected }) {
           : 'txt'
         : 'zip';
 
-    downloadQueryResults(downloadForm, downloadFileType, selected, fileName, fileExtension);
+    downloadQueryResults(downloadForm, downloadFileType, selected)
+      .then(response => {
+        FileSaver.saveAs(response, `${fileName}.${fileExtension}`);
+      });
   };
 
   return (
