@@ -42,18 +42,8 @@ export default function QueryResults(props) {
   const checkboxStatuses = useRef(new Set());
   const [update, forceUpdate] = useReducer(x => x + 1, 0);
   const data = useMemo(() => response, [response]);
+  const { getTextAndMetadata } = useGetTextAndMetadata();
   let paragraphCount = 0;
-
-  const setIndividualMetadata = (keyName, valueName) => {
-    setMetadata(prevData => {
-      return {
-        ...prevData,
-        [keyName]: valueName
-      };
-    });
-  };
-
-  const { getTextAndMetadata } = useGetTextAndMetadata(setText, setIndividualMetadata);
 
   const [metadata, setMetadata] = useState({
     title: '',
@@ -148,9 +138,24 @@ export default function QueryResults(props) {
   };
 
   function previewText(id) {
-    getTextAndMetadata(id);
+    getTextAndMetadata(id)
+      .then(response => {
+        setText(response.text);
+        response.properties.forEach(param => {
+          setIndividualMetadata(param.propertyName, param.propertyValue);
+        });
+      });
     setModalOpen(true);
   }
+
+  const setIndividualMetadata = (keyName, valueName) => {
+    setMetadata(prevData => {
+      return {
+        ...prevData,
+        [keyName]: valueName
+      };
+    });
+  };
 
   useEffect(() => {
     setIsLoadingSelectAllTexts(false);
