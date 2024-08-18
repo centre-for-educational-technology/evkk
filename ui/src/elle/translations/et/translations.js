@@ -132,6 +132,7 @@ export const TRANSLATIONS_ET = {
   footer_references_elle_license: 'ELLE litsents',
   footer_references_evkk: 'Eesti vahekeele korpus (EVKK)',
   footer_references_evkk_license: 'EVKK litsents',
+  footer_tools: 'Tööriistad',
   forward: 'JÄRGMINE',
   gram_anal_filename: 'gram_analyys',
   hero_main_text_highlighted: 'Eesti keele õppe ja analüüsi keskkond',

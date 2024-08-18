@@ -132,6 +132,7 @@ export const TRANSLATIONS_EN = {
   footer_references_elle_license: 'ELLE license',
   footer_references_evkk: 'Estonian Interlanguage Corpus (EIC)',
   footer_references_evkk_license: 'EIC license',
+  footer_tools: 'Tools',
   forward: 'NEXT',
   gram_anal_filename: 'gram_analysis',
   hero_main_text_highlighted: 'Estonian language learning and analysis environment',

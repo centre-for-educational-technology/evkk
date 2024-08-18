@@ -8,41 +8,42 @@ import { DefaultButtonStyle } from '../../const/StyleConstants';
 
 export default function HeroElement() {
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const ToolsLink = styled(HashLink)({
     fontWeight: 600,
     fontSize: 16,
-    color: "white",
-    textDecoration: "none",
-    fontFamily: ["'Exo 2'", 'sans-serif',].join(','),
+    color: 'white',
+    textDecoration: 'none',
+    fontFamily: ['\'Exo 2\'', 'sans-serif'].join(','),
     '&:hover': {
-      color: "white",
-      textDecoration: "none",
+      color: 'white',
+      textDecoration: 'none'
     },
     '&.active': {
-      color: "white",
-      textDecoration: "none",
-    },
+      color: 'white',
+      textDecoration: 'none'
+    }
   });
 
   return (
     <Box className="hero-container">
       <Box className="d-flex align-items-center justify-content-center"
-           width={"40%"}>
+           width={'40%'}>
         <Box className="hero-text-container">
-          <p className="hero-text"><span
-            className="elle-dark-text">
-            {t('hero_main_text_highlighted')}
-          </span>
+          <p className="hero-text">
+            <span className="elle-dark-text">
+              {t('hero_main_text_highlighted')}
+            </span>
             {t('hero_main_text_not_highlighted')}
           </p>
           <Button
-            className="button-design" sx={DefaultButtonStyle}
-            size={"large"}
-            variant={"contained"}
+            className="button-design"
+            sx={DefaultButtonStyle}
+            size="large"
+            variant="contained"
           >
             <ToolsLink
-              key={"1"}
+              key={'1'}
               smooth
               to="#scroll-anchor"
             >
