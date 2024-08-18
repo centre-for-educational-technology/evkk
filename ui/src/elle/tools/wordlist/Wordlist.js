@@ -75,27 +75,21 @@ export default function Wordlist() {
   }, [navigate]);
 
   useEffect(() => {
-    toolAnalysisStore.dispatch({
-      type: changeWordlistResult,
-      value: {
-        parameters: {
-          typeValue: typeValue,
-          stopwordsChecked: stopwordsChecked,
-          customStopwords: customStopwords,
-          capitalizationChecked: capitalizationChecked,
-          minimumFrequency: minimumFrequency
-        },
-        analysis: response
-      }
-    });
+    toolAnalysisStore.dispatch(changeWordlistResult({
+      parameters: {
+        typeValue: typeValue,
+        stopwordsChecked: stopwordsChecked,
+        customStopwords: customStopwords,
+        capitalizationChecked: capitalizationChecked,
+        minimumFrequency: minimumFrequency
+      },
+      analysis: response
+    }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response]);
 
   queryStore.subscribe(() => {
-    toolAnalysisStore.dispatch({
-      type: changeWordlistResult,
-      value: null
-    });
+    toolAnalysisStore.dispatch(changeWordlistResult(null));
     setResponse([]);
     setParamsExpanded(true);
     setShowTable(false);

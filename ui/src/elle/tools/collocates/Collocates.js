@@ -86,27 +86,21 @@ export default function Collocates() {
   }, [navigate]);
 
   useEffect(() => {
-    toolAnalysisStore.dispatch({
-      type: changeCollocatesResult,
-      value: {
-        parameters: {
-          typeValue: typeValue,
-          keyword: keyword,
-          searchCount: searchCount,
-          formula: formula,
-          capitalizationChecked: capitalizationChecked
-        },
-        analysis: response
-      }
-    });
+    toolAnalysisStore.dispatch(changeCollocatesResult({
+      parameters: {
+        typeValue: typeValue,
+        keyword: keyword,
+        searchCount: searchCount,
+        formula: formula,
+        capitalizationChecked: capitalizationChecked
+      },
+      analysis: response
+    }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response]);
 
   queryStore.subscribe(() => {
-    toolAnalysisStore.dispatch({
-      type: changeCollocatesResult,
-      value: null
-    });
+    toolAnalysisStore.dispatch(changeCollocatesResult(null));
     setResponse([]);
     setParamsExpanded(true);
     setShowTable(false);

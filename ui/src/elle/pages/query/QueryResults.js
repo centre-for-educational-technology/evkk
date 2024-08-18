@@ -180,12 +180,7 @@ export default function QueryResults(props) {
     return allTextIds.every(v => Array.from(checkboxStatuses.current).includes(v));
   }
 
-  const saveTexts = () => {
-    queryStore.dispatch({
-      type: changeCorpusTexts,
-      value: Array.from(checkboxStatuses.current).join(',')
-    });
-  };
+  const saveTexts = () => queryStore.dispatch(changeCorpusTexts(Array.from(checkboxStatuses.current).join(',')));
 
   const getParagraphKey = (item) => {
     if (item) {

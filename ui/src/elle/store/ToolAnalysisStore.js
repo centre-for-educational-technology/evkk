@@ -11,18 +11,22 @@ const toolAnalysisSlice = createSlice({
   initialState,
   reducers: {
     changeWordlistResult: (state, action) => {
-      state.wordlist = action.value;
+      state.wordlist = action.payload;
     },
     changeWordContextResult: (state, action) => {
-      state.wordContext = action.value;
+      state.wordContext = action.payload;
     },
     changeCollocatesResult: (state, action) => {
-      state.collocates = action.value;
+      state.collocates = action.payload;
     }
   }
 });
 
-export const { changeWordlistResult, changeWordContextResult, changeCollocatesResult } = toolAnalysisSlice.actions;
+export const {
+  changeWordlistResult,
+  changeWordContextResult,
+  changeCollocatesResult
+} = toolAnalysisSlice.actions;
 
 export const toolAnalysisStore = configureStore({
   reducer: toolAnalysisSlice.reducer

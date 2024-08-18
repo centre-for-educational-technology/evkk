@@ -83,27 +83,21 @@ export default function WordContext() {
   }, [navigate]);
 
   useEffect(() => {
-    toolAnalysisStore.dispatch({
-      type: changeWordContextResult,
-      value: {
-        parameters: {
-          typeValue: typeValue,
-          keyword: keyword,
-          displayCount: displayCount,
-          displayType: displayType,
-          capitalizationChecked: capitalizationChecked
-        },
-        analysis: response
-      }
-    });
+    toolAnalysisStore.dispatch(changeWordContextResult({
+      parameters: {
+        typeValue: typeValue,
+        keyword: keyword,
+        displayCount: displayCount,
+        displayType: displayType,
+        capitalizationChecked: capitalizationChecked
+      },
+      analysis: response
+    }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response]);
 
   queryStore.subscribe(() => {
-    toolAnalysisStore.dispatch({
-      type: changeWordContextResult,
-      value: null
-    });
+    toolAnalysisStore.dispatch(changeWordContextResult(null));
     setResponse([]);
     setParamsExpanded(true);
     setShowTable(false);
