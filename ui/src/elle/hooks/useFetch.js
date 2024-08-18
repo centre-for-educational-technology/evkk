@@ -4,6 +4,10 @@ import { ErrorSnackbarEventType } from '../components/snackbar/ErrorSnackbar';
 import { useCallback, useContext, useState } from 'react';
 import RootContext from '../context/RootContext';
 
+const ErrorCode400 = {
+  'UnsupportedMimeType': ErrorSnackbarEventType.UNSUPPORTED_MIMETYPE
+};
+
 const hasNonExpiredToken = (token) => {
   if (!token) return false;
   return Date.now() < JSON.parse(atob(token.split('.')[1])).exp * 1000;
@@ -62,6 +66,8 @@ export const useFetch = () => {
         errorEmitter.emit(ErrorSnackbarEventType.FORBIDDEN);
       } else if (res.status === 429) {
         errorEmitter.emit(ErrorSnackbarEventType.TOO_MANY_REQUESTS);
+      } else if (res.status === 400) {
+        res.json().then(body => errorEmitter.emit(ErrorCode400[body[0].code]));
       } else if (!(finalOptions.ignoreNotFoundError && res.status === 404)) {
         errorEmitter.emit(ErrorSnackbarEventType.GENERIC_ERROR);
       }

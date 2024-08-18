@@ -54,5 +54,6 @@ export const ErrorSnackbarEventType = {
   ID_CODE_MISSING: 'error_id_code_missing',
   LOGIN_FAILED: 'error_login_failed',
   TOO_MANY_REQUESTS: 'error_too_many_requests',
-  UNAUTHORIZED: 'error_unauthorized'
+  UNAUTHORIZED: 'error_unauthorized',
+  UNSUPPORTED_MIMETYPE: 'error_unsupported_mimetype'
 };
