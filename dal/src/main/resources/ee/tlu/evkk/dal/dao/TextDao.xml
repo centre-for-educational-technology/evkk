@@ -49,6 +49,7 @@
           'wordCount', tpr.result->>'wordCount',
           'sentenceCount', tpr.result->>'sentenceCount'
           ) || jsonb_object_agg(tp.property_name, tp.property_value)
+          || jsonb_object_agg('textid', tp.text_id)
         ) AS result
     FROM
       core.text_processor_result tpr
