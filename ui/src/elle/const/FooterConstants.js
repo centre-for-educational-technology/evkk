@@ -36,24 +36,18 @@ export const toolsValues = [
   },
   {
     title: 'common_wordlist',
-    target: RouteConstants.WORDLIST,
-    prefix: RouteConstants.TOOLS,
-    connector: '/',
-    state: { scrollToTop: true }
+    target: RouteConstants.TOOLS,
+    state: { scrollToTop: true, target: RouteConstants.WORDLIST }
   },
   {
     title: 'common_word_in_context',
-    target: RouteConstants.WORDCONTEXT,
-    prefix: RouteConstants.TOOLS,
-    connector: '/',
-    state: { scrollToTop: true }
+    target: RouteConstants.TOOLS,
+    state: { scrollToTop: true, target: RouteConstants.WORDCONTEXT }
   },
   {
     title: 'common_neighbouring_words',
-    target: RouteConstants.COLLOCATES,
-    prefix: RouteConstants.TOOLS,
-    connector: '/',
-    state: { scrollToTop: true }
+    target: RouteConstants.TOOLS,
+    state: { scrollToTop: true, target: RouteConstants.COLLOCATES }
   },
   {
     title: 'common_word_analyser',

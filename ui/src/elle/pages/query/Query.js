@@ -131,6 +131,7 @@ export default function Query(props) {
 
   useEffect(() => {
     refreshChips();
+    setTextInputValue(queryStore.getState().ownTexts);
   }, []);
 
   useEffect(() => {

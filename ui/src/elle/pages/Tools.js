@@ -66,6 +66,7 @@ export default function Tools() {
     setTabPage(current.pathname);
     if (current.pathname === `/${RouteConstants.TOOLS}`) navigate(RouteConstants.WORDLIST, { replace: true });
     if (current.state && current.state.scrollToTop) window.scrollTo(0, 0);
+    if (current.state && current.state.target) navigate(current.state.target);
   }, [current.pathname, current.state, navigate]);
 
   useEffect(() => {
