@@ -37,12 +37,12 @@ export default function SingleError(
       return;
     }
 
-
     if ((type === 'missingPunctuation' || type === 'extraPunctuation') && document.querySelector(`#punctuation_${error.index}`)) {
       document.querySelector(`#punctuation_${error.index}`).classList.toggle(`${type}hovering`);
     } else if (document.querySelector(`#errorno_${error.index}`)) {
       document.querySelector(`#errorno_${error.index}`).classList.toggle(`${type}hovering`);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isHovering]);
 
   return (

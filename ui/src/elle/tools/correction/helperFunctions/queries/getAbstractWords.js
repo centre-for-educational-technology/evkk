@@ -12,7 +12,20 @@ export const getAbstractWords = (inputText, setAbstractAnswer) => {
       language: 'estonian',
       text: inputText === '' ? inputText : inputText.replaceAll(replaceCombined, '').replaceAll('  ', ' ')
     })
-  }).then(v => v.json()).then(t => {
-    setAbstractAnswer(t);
-  });
+  })
+    .then(response => {
+      if (!response.ok) {
+        // Handle HTTP errors
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      setAbstractAnswer(data);
+    })
+    .catch(error => {
+      console.error('Error fetching abstract words:', error);
+      setAbstractAnswer(null); // or handle the error appropriately in your UI
+    });
 };
+

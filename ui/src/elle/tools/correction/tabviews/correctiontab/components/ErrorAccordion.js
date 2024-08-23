@@ -6,7 +6,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Box } from '@mui/material';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import SingleError from './SingleError';
-import { errorTypes } from '../constants/constants';
+import { useCorrectionConstants } from '../constants/constants';
 
 export default function ErrorAccordion(
   {
@@ -21,6 +21,7 @@ export default function ErrorAccordion(
     spellerAnswer,
     grammarAnswer
   }) {
+  const {errorTypes} = useCorrectionConstants();
   return (
     <>
       {/*
@@ -42,9 +43,9 @@ export default function ErrorAccordion(
           </AccordionSummary>
           <AccordionDetails>
             <div>
-              {errorProperties[1].map((error, index) => (
+              {errorProperties[1].reverse().map((error, index) => (
                 <SingleError
-                  key={error.span.value + model}
+                  key={error.span.value + model + index}
                   error={error}
                   resolveError={resolveError}
                   errorList={errorList}

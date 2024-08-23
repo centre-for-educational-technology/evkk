@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Box, Tooltip } from '@mui/material';
+import { Alert, Box } from '@mui/material';
 import './styles/correctionTab.css';
-import { ToggleButton, ToggleButtonGroup } from '@mui/lab';
 import ErrorAccordion from './components/ErrorAccordion';
-import { handleModelChange } from '../../helperFunctions/helperFunctions';
 import CorrectionInput from '../../components/CorrectionInput';
 import { resolveError } from './helperFunctions/correctorErrorResolveFunctions';
 import CorrectionInfoIcon from '../../components/CorrectionInfoIcon';
+import { useTranslation } from 'react-i18next';
+import CorrectionToggleButtonGroup from '../../components/CorrectionToggleButtonGroup';
+import { useCorrectionConstants } from './constants/constants';
 
 export default function CorrectionTab(
   {
+    requestingText,
+    setRequestingText,
+    textBoxRef,
+    newRef,
+    setNewRef,
     setInputText,
     inputText,
     errorList,
@@ -23,9 +29,11 @@ export default function CorrectionTab(
     setCorrectionModel,
     setAbstractWords
   }) {
+  const {t} = useTranslation();
   const [responseText, setResponseText] = useState();
   const [totalErrors, setTotalErrors] = useState(null);
-  const link = <a href="https://arxiv.org/pdf/2402.11671">https://arxiv.org/pdf/2402.11671</a>;
+  const link = <a href="https://arxiv.org/pdf/2402.11671">{t('common_here')}</a>;
+  const {toggleButtons} = useCorrectionConstants();
 
   useEffect(() => {
     if (!errorList) return;
@@ -36,32 +44,29 @@ export default function CorrectionTab(
   return (
     <div className="corrector-border-box">
       <Box className="d-flex justify-content-between">
-        <Box className="d-flex">
-          <ToggleButtonGroup
-            color="primary"
-            value={correctionModel}
-            sx={{height: '1rem', marginBottom: '1rem'}}
-            exclusive
-            onChange={(e) => handleModelChange(setCorrectionModel, e)}
-            aria-label="Platform"
-          >
-            <Tooltip placement="top" title="Paranda sõnade õigekirja.">
-              <ToggleButton value="spellchecker">Õigekiri</ToggleButton>
-            </Tooltip>
-            <Tooltip placement="top" title="Paranda lausete grammatikat ja sõnastust.">
-              <ToggleButton value="grammarchecker">Grammatika</ToggleButton>
-            </Tooltip>
-          </ToggleButtonGroup>
-        </Box>
+        <CorrectionToggleButtonGroup
+          toggleButtons={toggleButtons}
+          correctionModel={correctionModel}
+          setCorrectionModel={setCorrectionModel}
+          textBoxRef={textBoxRef}
+          inputText={inputText}
+          setInputText={setInputText}
+          setRequestingText={setRequestingText}
+          setGrammarAnswer={setGrammarAnswer}
+          setSpellerAnswer={setSpellerAnswer}
+          setComplexityAnswer={setComplexityAnswer}
+          setAbstractWords={setAbstractWords}
+        />
         <CorrectionInfoIcon
-          inputText={<div>Teksti parandamiseks saab kasutada kahte korrektorit, mis on loodud Tartu ülikooli ja Tallinna
-            ülikooli koostöös. Statistiline õigekirjakontrollija otsib kirjavigu, arvestades sõnade lähikontekstiga.
-            Masintõlkel põhinev grammatikakontrollija suudab leida lausevigu, näiteks eksimusi kirjavahemärkide
-            kasutuses ja sõnajärjes. Vahel soovitab see ümbersõnastusi ka siis, kui tegemist pole veaga. Osa vigu jääb
-            ka tuvastamata. Loe lähemalt siit [{link}].</div>}/>
+          inputText={<div>{t('corrector_proofreading_infobox')} {link}.</div>}/>
       </Box>
       <div className="d-flex gap-2">
         <CorrectionInput
+          requestingText={requestingText}
+          setRequestingText={setRequestingText}
+          textBoxRef={textBoxRef}
+          newRef={newRef}
+          setNewRef={setNewRef}
           inputText={inputText}
           setInputText={setInputText}
           model={correctionModel}
@@ -79,7 +84,7 @@ export default function CorrectionTab(
         <div className="w-50 corrector-right">
           {errorList ?
             <>
-              <Box className="h4">Parandusi kokku: {totalErrors}</Box>
+              <Box className="h4">{t('corrector_errors_in_total')}: {totalErrors}</Box>
               <ErrorAccordion
                 resolveError={resolveError}
                 setErrorList={setErrorList}
@@ -95,8 +100,7 @@ export default function CorrectionTab(
             </>
             :
             <Box className="corrector-right-inner">
-              <Alert severity="info">Leia tekstist võimalikke vigu ning paranda õigekirja, lauseehitust ja sõnastust.
-                Lisaks näed, mis liiki eksimusi kui palju leidub.</Alert>
+              <Alert severity="info">{t('corrector_proofreading_gray_box')}</Alert>
             </Box>
           }
         </div>

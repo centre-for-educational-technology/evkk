@@ -9,9 +9,8 @@ export const resolvePunctuationMarks = (wrongPunctuation, extraPunctuation, miss
     };
   }
   if (missingPunctuation) {
-    punctuationMarks = {start: correction.span.end, end: correction.span.end + 1, markedString: ' '};
+    punctuationMarks = {start: correction.span.end, end: correction.span.end + 1, markedString: '&nbsp;'};
   }
-
   let strArray = innerText.split('');
   strArray.splice(punctuationMarks.start, punctuationMarks.end - punctuationMarks.start, `<span id="punctuation_${index}" data-color="punctuation" class="text-span">${punctuationMarks.markedString}</span>`);
   return strArray.join('');

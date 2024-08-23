@@ -51,5 +51,6 @@ export default function usePopUpHover(className, inputText, errorList, setPopper
       });
       mouseExitListener.removeEventListener('mouseenter', handleMouseLeave);
     };
-  }, [inputText]); // Re-run the effect when dependencies change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputText, errorList]); // Re-run the effect when dependencies change
 };

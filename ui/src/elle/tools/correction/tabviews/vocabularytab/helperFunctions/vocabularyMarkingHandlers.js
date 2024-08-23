@@ -3,26 +3,6 @@ import { checkForFullWord, replaceCombined } from '../../../../../const/Constant
 
 const positionalWords = ['Pärisnimi', 'Põhiarvsõna', 'Järgarvsõna'];
 
-const findDuplicates = (arr) => {
-  const countMap = arr.reduce((acc, val) => {
-    acc[val] = (acc[val] || 0) + 1;
-    return acc;
-  }, {});
-
-  return Object.keys(countMap).filter(key => countMap[key] > 1);
-};
-
-const extractHslValue = (text, word) => {
-  const regex = new RegExp(`<span[^>]*style="[^"]*hsl\\((\\d+)\\s+66%\\s+76%\\)"[^>]*>${word}</span>`, 'i');
-  const match = text.match(regex);
-
-  if (match && match[1]) {
-    return match[1];
-  } else {
-    return null;
-  }
-};
-
 export const handleUncommonWords = (text, abstractAnswer, complexityAnswer) => {
   let tempText = text.replaceAll(replaceCombined, '');
 
@@ -62,29 +42,37 @@ export const handleSameWordRepetition = (sentence, text, usedIndexes, complexity
   let tempSentence = sentence;
   const sentenceWords = complexityAnswer.sonad.slice(usedIndexes.start, usedIndexes.end);
   const sentenceLemmas = complexityAnswer.lemmad.slice(usedIndexes.start, usedIndexes.end);
+  const duplicateIndexes = new Set();
+  const lemmaMap = new Map();
 
-  const duplicateIndexes = {};
   sentenceLemmas.forEach((lemma, index) => {
-    if (sentenceLemmas.indexOf(lemma) !== index) {
-      if (!(lemma in duplicateIndexes)) {
-        duplicateIndexes[lemma] = {words: [sentenceWords[index]]};
+    if (complexityAnswer.sonaliigid[index] !== 'PRON') {
+      if (!lemmaMap.has(lemma)) {
+        lemmaMap.set(lemma, []);
       }
-      duplicateIndexes[lemma].words.push(sentenceWords[index]);
+      lemmaMap.get(lemma).push(index);
     }
   });
 
-  Object.keys(duplicateIndexes).forEach((key) => {
-    const randomHue = Math.floor(Math.random() * 360);
-    if (key === 'ja' || key === 'mina' || key === 'olema' || key === 'ei' || key === 'et') {
-      const duplicates = findDuplicates(duplicateIndexes[key].words);
-      let regex1 = new RegExp('\\b' + duplicates[0] + '\\b', 'g');
-      const sentence1Word = `<span class="word-repetition-color" style="background: hsl(${randomHue} 66% 76%)">${duplicates[0]}</span>`;
-      tempSentence = tempSentence.replace(regex1, sentence1Word);
-    } else {
-      let regex1 = new RegExp('\\b' + duplicateIndexes[key].words[0] + '\\b', 'g');
-      const sentence1Word = `<span class="word-repetition-color" style="background: hsl(${randomHue} 66% 76%)">${duplicateIndexes[key].words[0]}</span>`;
-      tempSentence = tempSentence.replace(regex1, sentence1Word);
+  lemmaMap.forEach((indices, lemma) => {
+    if (indices.length > 1) {
+      indices.forEach((index) => {
+        const word = sentenceWords[index];
+        if (['ja', 'mina', 'olema', 'ei', 'et'].includes(lemma)) {
+          if (sentenceWords[indices[0]] === word) {
+            duplicateIndexes.add(word);
+          }
+        } else {
+          duplicateIndexes.add(word);
+        }
+      });
     }
+  });
+
+  duplicateIndexes.forEach((wordValue) => {
+    let regex1 = new RegExp(`(<span[^>]*>\\s*)?\\b${wordValue}\\b(\\s*</span>)?`, 'g');
+    const sentence1Word = `<span class="same-sentence-color" >${wordValue}</span>`;
+    tempSentence = tempSentence.replace(regex1, sentence1Word);
   });
 
   tempText = tempText.replace(sentence, tempSentence);
@@ -93,28 +81,76 @@ export const handleSameWordRepetition = (sentence, text, usedIndexes, complexity
 
 export const handleWordRepetition = (sentence1, sentences2, usedIndexes, text, complexityAnswer) => {
   let tempText = text;
-  const sentence1Words = complexityAnswer.sonad.slice(usedIndexes.start, usedIndexes.end);
-  const sentence1Lemmas = complexityAnswer.lemmad.slice(usedIndexes.start, usedIndexes.end);
-  const sentence2Words = complexityAnswer.sonad.slice(usedIndexes.end, usedIndexes.end + sentences2.split(' ').length);
-  const sentence2Lemmas = complexityAnswer.lemmad.slice(usedIndexes.end, usedIndexes.end + sentences2.split(' ').length);
+  const sliceEnd1 = usedIndexes.end;
+  const sliceEnd2 = usedIndexes.end + sentences2.split(' ').length;
+  const sentence1Words = complexityAnswer.sonad.slice(usedIndexes.start, sliceEnd1);
+  const sentence1Lemmas = complexityAnswer.lemmad.slice(usedIndexes.start, sliceEnd1);
+  const sentence2Words = complexityAnswer.sonad.slice(sliceEnd1, sliceEnd2);
+  const sentence2Lemmas = complexityAnswer.lemmad.slice(sliceEnd1, sliceEnd2);
+  const sentence1Map = new Map();
 
   sentence1Lemmas.forEach((lemma, index) => {
-    sentence2Lemmas.forEach((lemma2, index2) => {
-      if (lemma === lemma2 && lemma !== 'ja' && lemma !== 'mina' && lemma !== 'olema' && lemma !== 'ei' && lemma !== 'et') {
-        let randomHue = Math.floor(Math.random() * 360);
-        let regex1 = new RegExp('\\b' + sentence1Words[index] + '\\b', 'g');
-        const regexCheck = new RegExp(sentence1Words[index] + '\\s*</span>');
-        if (regexCheck.test(tempText)) {
-          randomHue = extractHslValue(tempText, sentence1Words[index]);
-        } else {
-          const sentence1Word = `<span class="word-repetition-color" style="background: hsl(${randomHue} 66% 76%)">${sentence1Words[index]}</span>`;
-          tempText = tempText.replace(regex1, sentence1Word);
-        }
-        let regex2 = new RegExp('\\b' + sentence2Words[index2] + '\\b', 'g');
-        const sentence2Word = `<span class="word-repetition-color" style="background: hsl(${randomHue} 66% 76%)">${sentence2Words[index2]}</span>`;
-        tempText = tempText.replace(regex2, sentence2Word);
+    if (lemma !== 'ja' && lemma !== 'mina' && lemma !== 'olema' && lemma !== 'ei' && lemma !== 'et' && complexityAnswer.sonaliigid[index] !== 'PRON') {
+      sentence1Map.set(lemma, {word: sentence1Words[index], index});
+    }
+  });
+
+  sentence2Lemmas.forEach((lemma, index2) => {
+    if (sentence1Map.has(lemma)) {
+      const sentence1Word = sentence1Map.get(lemma);
+      const sentence2Word = sentence2Words[index2];
+
+      if (!sentence1Word.word.toLowerCase().localeCompare(sentence2Word.toLowerCase())) {
+        const sentence1Regex = new RegExp(`(<span[^>]*>)?\\b${sentence1Word.word}\\b(</span>)?`, 'gi');
+        const sentence2Regex = new RegExp(`(<span[^>]*>)?\\b${sentence2Word}\\b(</span>)?`, 'gi');
+
+        tempText = tempText.replace(sentence1Regex, (match, openSpan = '', closeSpan = '') => {
+          if (/same-sentence-color/.test(match)) {
+            return `<span class="both-sentence-color">${sentence1Word.word}</span>`;
+          } else if (/both-sentence-color/.test(match)) {
+            return `<span class="both-sentence-color">${sentence1Word.word}</span>`;
+          } else {
+            return `<span class="next-sentence-color">${sentence1Word.word}</span>`;
+          }
+        });
+
+        tempText = tempText.replace(sentence2Regex, (match, openSpan = '', closeSpan = '') => {
+          if (/same-sentence-color/.test(match)) {
+            return `<span class="both-sentence-color">${sentence2Word}</span>`;
+          } else if (/both-sentence-color/.test(match)) {
+            return `<span class="both-sentence-color">${sentence2Word}</span>`;
+          } else {
+            return `<span class="next-sentence-color">${sentence2Word}</span>`;
+          }
+        });
       }
-    });
+    }
   });
   return tempText;
+};
+
+export const markText = (complexityAnswer, inputText, model, abstractWords, setNewRef, setRenderTrigger) => {
+  if (!complexityAnswer) return;
+  let text = inputText.replaceAll(replaceCombined, '').replaceAll('  ', ' ');
+  const sentences = text.split(/(?<=[.!?])\s+/);
+  let currentWordIndex = 0;
+  sentences.forEach((sentence, index) => {
+    if (model === 'wordrepetition') {
+      const usedIndexes = {start: currentWordIndex, end: currentWordIndex + sentence.split(' ').length};
+      const tempSentence = text.split(/(?<=[.!?])\s+/)[index];
+      text = handleSameWordRepetition(tempSentence, text, usedIndexes, complexityAnswer);
+      if (index < sentences.length - 1) {
+        currentWordIndex = usedIndexes.end;
+        text = handleWordRepetition(tempSentence, sentences[index + 1], usedIndexes, text, complexityAnswer);
+      }
+    } else if (model === 'uncommonwords' && complexityAnswer) {
+      text = handleUncommonWords(text, abstractWords, complexityAnswer);
+    } else if (model === 'abstractwords' && abstractWords) {
+      text = handleAbstractWords(text, abstractWords, complexityAnswer);
+    } else if (model === 'contentwords') {
+      text = handleContentWords(text, complexityAnswer);
+    }
+  });
+  setNewRef(text);
+  setRenderTrigger(renderTrigger => !renderTrigger);
 };

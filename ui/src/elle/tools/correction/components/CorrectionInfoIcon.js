@@ -33,7 +33,7 @@ export default function CorrectionInfoIcon({inputText}) {
           horizontal: 'center'
         }}
       >
-        <div style={{maxWidth: '500px', padding: '1rem'}}>{inputText}</div>
+        <div style={{maxWidth: '600px', padding: '1rem'}}>{inputText}</div>
       </Popover>
     </div>
   );

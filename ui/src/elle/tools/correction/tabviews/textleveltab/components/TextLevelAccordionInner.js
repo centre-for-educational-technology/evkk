@@ -1,25 +1,24 @@
 import React from 'react';
 import { levelAccordionValueCheck } from '../helperfunctions/helperFunctions';
-import { textLevelColors } from '../constants/constants';
+import { useAccordionDetails } from '../constants/constants';
 
 export default function TextLevelAccordionInner({arrayValues, complexityAnswer}) {
+  const {textLevelColors} = useAccordionDetails();
   const setComplexityAnswerIndex = (index, value) => {
     return complexityAnswer[arrayValues[index]][value];
   };
 
   return (
     <div>
-      {arrayValues.map((value, index) => {
-        if (levelAccordionValueCheck(index, complexityAnswer, arrayValues)) {
-          return (
-            <div
-              key={`textLevelKeys${setComplexityAnswerIndex(index, 1)}`}
-            >
-              {setComplexityAnswerIndex(index, 1)} - {(setComplexityAnswerIndex(index, 0) * 100).toFixed(0)}%
-            </div>
-          );
-        }
-      })}
+      {arrayValues.map((value, index) => (
+        levelAccordionValueCheck(index, complexityAnswer, arrayValues) && (
+          <div
+            key={`textLevelKeys${setComplexityAnswerIndex(index, 1)}`}
+          >
+            {setComplexityAnswerIndex(index, 1)} - {(setComplexityAnswerIndex(index, 0) * 100).toFixed(0)}%
+          </div>
+        )
+      ))}
       <div className="d-flex mt-3 rounded overflow-hidden">
         {arrayValues.map((value, index) => {
           return (<div

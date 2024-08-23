@@ -35,10 +35,10 @@ export const calculateContentWord = (abstractAnswer) => {
   return contentWordCount;
 };
 
-export const calculateAbstractWords = (abstractAnswer) => {
+export const calculateAbstractWords = (abstractAnswer, complexityAnswer) => {
   let abstractCount = 0;
-  abstractAnswer.wordAnalysis.forEach((word) => {
-    if (word.abstractness === 3 && word.pos !== 'Pärisnimi') {
+  abstractAnswer.wordAnalysis.forEach((word, index) => {
+    if (word.abstractness === 3 && word.pos !== 'Pärisnimi' && complexityAnswer.sonaliigid[index] === 'NOUN') {
       abstractCount++;
     }
   });

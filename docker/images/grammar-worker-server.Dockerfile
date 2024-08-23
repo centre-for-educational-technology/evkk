@@ -27,7 +27,7 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 RUN pip install -r /app/requirements.txt && \
-    python -c "import nltk; nltk.download('punkt')"
+    python -c "import nltk; nltk.download('punkt_tab')"
 
 RUN pip install -U Flask
 

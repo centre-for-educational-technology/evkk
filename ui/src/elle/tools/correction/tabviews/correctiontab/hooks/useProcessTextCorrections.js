@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect } from 'react';
 import {
   resolveErrorMarks,
   resolvePunctuationMarks,
@@ -7,12 +7,11 @@ import {
 import { checkAllErrors } from '../helperFunctions/textErrorTypeFunctions';
 import { replaceCombined } from '../../../../../const/Constants';
 
-const replaceSpans = /<\/?span[^>]*>/g;
-
 const useProcessTextCorrections = (responseText, textBoxRef, textBoxValueRef, setErrorList, setInputText, spellerAnswer, grammarAnswer) => {
-  useMemo(() => {
+  useEffect(() => {
     // Avoid resetting input text on tab change
     if (!responseText) return;
+    if (!textBoxRef) return;
 
     const corrections = {
       spellingError: [],
@@ -25,7 +24,8 @@ const useProcessTextCorrections = (responseText, textBoxRef, textBoxValueRef, se
       extraPunctuation: [],
       missingPunctuation: []
     };
-    let innerText = textBoxRef.current.innerHTML.replace(replaceCombined, '');
+
+    let innerText = textBoxRef.replace(replaceCombined, '');
     let mainIndex = 0;
     responseText.corrections.forEach((correction, index) => {
       const errorWord = correction.span.value;
@@ -100,9 +100,9 @@ const useProcessTextCorrections = (responseText, textBoxRef, textBoxValueRef, se
     });
 
     setErrorList(corrections);
-    textBoxValueRef.current = innerText;
-    setInputText(innerText);
-  }, [responseText]);
+    textBoxValueRef(innerText);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [responseText, spellerAnswer, grammarAnswer, textBoxRef]);
 };
 
 export default useProcessTextCorrections;

@@ -18,7 +18,6 @@ export const handleNounMarking = (text, complexityAnswer) => {
       tempText = tempText.replace(checkForFullWord(noun), newWord);
     }
   });
-
   return tempText;
 };
 
@@ -30,11 +29,29 @@ export const handleLongWordMarking = (text, complexityAnswer) => {
       tempText = tempText.replace(checkForFullWord(word), newWord);
     }
   });
-
   return tempText;
 };
 
 export const handleLongSentenceMarking = (text, sentence) => {
   const newSentence = `<span id="text-span" class="long-sentence-color" >${sentence}</span>`;
   return text.replaceAll(sentence, newSentence);
+};
+
+export const markText = (inputText, model, complexityAnswer, setNewRef, setRenderTrigger) => {
+  let text = inputText.replaceAll(replaceCombined, '').replaceAll('  ', ' ');
+  const sentences = text.split(/(?<=[.!?])\s+/);
+  sentences.forEach((sentence) => {
+    const words = sentence.split(' ');
+    if (words.length > 15 && model === 'longsentence') {
+      text = handleLongSentenceMarking(text, sentence);
+    }
+    if (model === 'longword') {
+      text = handleLongWordMarking(text, complexityAnswer);
+    }
+    if (model === 'nouns') {
+      text = handleNounMarking(text, complexityAnswer);
+    }
+  });
+  setNewRef(text);
+  setRenderTrigger(renderTrigger => !renderTrigger);
 };

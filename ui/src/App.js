@@ -18,6 +18,7 @@ import ServerOfflinePage from './elle/components/ServerOfflinePage';
 import SuccessSnackbar from './elle/components/SuccessSnackbar';
 import FooterElement from './elle/components/FooterElement';
 import DonateText from './elle/components/DonateText';
+import { MathJaxContext } from 'better-react-mathjax';
 
 export const errorEmitter = new EventEmitter();
 export const loadingEmitter = new EventEmitter();
@@ -113,11 +114,13 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <ThemeProvider theme={theme}>
-          <Provider store={store}>
-            <ConnectedAppWithStatus/>
-          </Provider>
-        </ThemeProvider>
+        <MathJaxContext>
+          <ThemeProvider theme={theme}>
+            <Provider store={store}>
+              <ConnectedAppWithStatus/>
+            </Provider>
+          </ThemeProvider>
+        </MathJaxContext>
       </Router>
     );
   }
