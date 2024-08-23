@@ -10,11 +10,18 @@ export const breadcrumbNameMap = {
   '/about/grants': 'common_grants',
   '/about/publications': 'common_publications',
   '/adding': 'common_publish_your_text',
+  '/login': 'common_login_for_admins',
   '/tools/clusterfinder': 'common_clusters',
   '/tools/wordanalyser': 'common_word_analyser',
   '/tools/wordlist': 'common_wordlist',
   '/tools/wordcontext': 'common_word_in_context',
-  '/tools/collocates': 'common_neighbouring_words'
+  '/tools/collocates': 'common_neighbouring_words',
+  '/admin': 'common_admin_panel'
+};
+
+export const UserRoles = {
+  USER: 'USER',
+  ADMIN: 'ADMIN'
 };
 
 export const addedYearOptions = [

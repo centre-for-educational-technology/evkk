@@ -11,6 +11,10 @@
     display: none;
   }
 
+  .nav-logout.desktop {
+    display: none !important;
+  }
+
   .elle-nav-logo {
     height: 30px !important;
   }
@@ -46,6 +50,22 @@
   }
 }
 
+@media (max-width: 1063px) {
+  .nav-logout.desktop {
+    .logout-text {
+      display: none;
+    }
+  }
+
+  .nav-menu-item {
+    margin-left: 0 !important;
+  }
+
+  .nav-icons-container {
+    width: 5% !important;
+  }
+}
+
 .language-menu-desktop {
   align-items: center;
   justify-content: end;
@@ -71,12 +91,14 @@
 }
 
 .nav-menu-link-container {
+  padding-left: 5%;
   width: 85%;
   justify-content: center;
+  align-items: center;
 }
 
 .nav-icons-container {
-  width: 5%;
+  width: 17.5%;
   display: flex;
   justify-content: flex-end;
 }
@@ -87,7 +109,6 @@
   align-items: center;
   width: 100%;
 }
-
 
 .burger-menu-icon {
   color: black;
@@ -114,7 +135,7 @@
 
 .not-sticking {
   background: linear-gradient(315deg, rgba(204, 168, 253, 1) 0%, rgba(204, 168, 253, 1) 9%, rgba(255, 208, 253, 1) 9%, rgba(255, 208, 253, 1) 22%, rgba(255, 255, 255, 1) 22%, rgba(255, 255, 255, 1) 100%);
-  box-shadow: 0px 0px 5px 0px rgba(156, 39, 176, 0.5) !important;
+  box-shadow: 0 0 5px 0 rgba(156, 39, 176, 0.5) !important;
 }
 
 .nav-menu-item {
@@ -124,6 +145,7 @@
   padding: 0 10px;
   height: 100%;
   line-height: 100%;
+  text-align: center;
 }
 
 .nav-menu-item::after {
@@ -148,3 +170,25 @@
   font-size: 45px !important;
 }
 
+.nav-logout {
+  font-weight: 600;
+  color: #1B1B1B;
+  font-family: "Exo 2", sans-serif;
+  padding-right: 1.5rem;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    color: #9C27B0;
+    cursor: pointer;
+  }
+
+  &:active {
+    color: #9C27B0;
+    cursor: pointer;
+  }
+
+  .logout-text {
+    padding-left: 0.5rem;
+  }
+}

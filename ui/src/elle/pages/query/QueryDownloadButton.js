@@ -16,19 +16,20 @@ import { useTranslation } from 'react-i18next';
 import '../styles/QueryDownloadButton.css';
 import { useState } from 'react';
 import i18n from 'i18next';
-import FileSaver from 'file-saver';
-import { loadFetch } from '../../service/LoadFetch';
 import { CC_BY_4_0_LICENSE_PATH } from '../../const/PathConstants';
 import NewTabHyperlink from '../../components/NewTabHyperlink';
 import { Languages } from '../../translations/i18n';
 import { DefaultButtonStyle } from '../../const/StyleConstants';
+import { useDownloadQueryResults } from '../../hooks/service/TextService';
+import FileSaver from 'file-saver';
 
-export default function QueryDownloadButton({selected}) {
+export default function QueryDownloadButton({ selected }) {
   const [downloadForm, setDownloadForm] = useState(FileDownloadForm.BASIC_TEXT);
   const [downloadFileType, setDownloadFileType] = useState(FileDownloadType.SINGLE_FILE);
   const [anchorEl, setAnchorEl] = useState(null);
   const optionsDialogOpen = Boolean(anchorEl);
-  const {t} = useTranslation();
+  const { downloadQueryResults } = useDownloadQueryResults();
+  const { t } = useTranslation();
 
   const handleOptionsDialogOpenButtonClick = (event) => {
     setDownloadForm(FileDownloadForm.BASIC_TEXT);
@@ -57,19 +58,8 @@ export default function QueryDownloadButton({selected}) {
           : 'txt'
         : 'zip';
 
-    loadFetch(`/api/texts/tekstidfailina`, {
-      method: 'POST',
-      body: JSON.stringify({
-        form: downloadForm,
-        fileType: downloadFileType,
-        fileList: Array.from(selected)
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => res.blob())
-      .then(blob => FileSaver.saveAs(blob, `${fileName}.${fileExtension}`));
+    downloadQueryResults(downloadForm, downloadFileType, selected)
+      .then(response => FileSaver.saveAs(response, `${fileName}.${fileExtension}`));
   };
 
   return (

@@ -5,7 +5,7 @@ import dti_et from '../resources/images/footer/dti_et.svg';
 import dti_en from '../resources/images/footer/dti_en.svg';
 import { useTranslation } from 'react-i18next';
 import { FooterLink } from '../const/StyleConstants';
-import { aboutValues, linksValues, referencesValues, textsAndToolsValues } from '../const/FooterConstants';
+import { aboutValues, linksValues, referencesValues, toolsValues } from '../const/FooterConstants';
 import i18n from 'i18next';
 import { Languages } from '../translations/i18n';
 
@@ -24,6 +24,7 @@ export default function FooterElement() {
         target={link.newTab ? '_blank' : ''}
         key={link.target}
         to={(link.prefix ?? '') + (link.connector ?? '') + link.target}
+        state={link.state}
       >
         {t(link.title)}
       </FooterLink>
@@ -44,8 +45,8 @@ export default function FooterElement() {
             {renderBlock(referencesValues)}
           </Box>
           <Box className="footer-middle-box">
-            <p className="font-weight-bold">{t('common_tools')}</p>
-            {renderBlock(textsAndToolsValues)}
+            <p className="font-weight-bold">{t('footer_tools')}</p>
+            {renderBlock(toolsValues)}
           </Box>
           <Box className="footer-middle-box">
             <p className="font-weight-bold">{t('common_links')}</p>

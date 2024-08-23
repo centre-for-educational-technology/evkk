@@ -28,36 +28,44 @@ export const referencesValues = [
   }
 ];
 
-export const textsAndToolsValues = [
+export const toolsValues = [
+  {
+    title: 'common_query',
+    target: RouteConstants.TOOLS,
+    state: { pageNo: 'queryOpen', scrollToTop: true }
+  },
   {
     title: 'common_wordlist',
-    target: RouteConstants.WORDLIST,
-    prefix: RouteConstants.TOOLS,
-    connector: '/'
+    target: RouteConstants.TOOLS,
+    state: { scrollToTop: true, target: RouteConstants.WORDLIST }
   },
   {
     title: 'common_word_in_context',
-    target: RouteConstants.WORDCONTEXT,
-    prefix: RouteConstants.TOOLS,
-    connector: '/'
+    target: RouteConstants.TOOLS,
+    state: { scrollToTop: true, target: RouteConstants.WORDCONTEXT }
   },
   {
     title: 'common_neighbouring_words',
-    target: RouteConstants.COLLOCATES,
-    prefix: RouteConstants.TOOLS,
-    connector: '/'
+    target: RouteConstants.TOOLS,
+    state: { scrollToTop: true, target: RouteConstants.COLLOCATES }
   },
   {
     title: 'common_word_analyser',
     target: RouteConstants.WORDANALYSER,
     prefix: RouteConstants.TOOLS,
-    connector: '/'
+    connector: '/',
+    state: { scrollToTop: true }
   },
   {
     title: 'common_clusters',
     target: RouteConstants.CLUSTERFINDER,
     prefix: RouteConstants.TOOLS,
-    connector: '/'
+    connector: '/',
+    state: { scrollToTop: true }
+  },
+  {
+    title: 'common_corrector',
+    target: RouteConstants.CORRECTOR
   }
 ];
 

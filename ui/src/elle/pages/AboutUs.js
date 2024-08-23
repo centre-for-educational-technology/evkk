@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, styled, Typography } from '@mui/material';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import { TreeItem, TreeView } from '@mui/lab';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -9,6 +9,7 @@ import { HashFragmentRouteConstants, RouteConstants } from '../../AppRoutes';
 
 function AboutUs() {
   const { t } = useTranslation();
+  const location = useLocation();
 
   const classes = {
     focused: {
@@ -38,10 +39,9 @@ function AboutUs() {
     }
   });
 
-  const handleParentLabelClick = (e) => {
-    window.scrollTo(0, 0);
-    e.stopPropagation();
-  };
+  useEffect(() => {
+    if (!location.hash) window.scrollTo(0, 0);
+  }, [location]);
 
   return (
     <Box sx={{
@@ -91,14 +91,12 @@ function AboutUs() {
                     <MenuLink
                       to={RouteConstants.US}
                       key={'1'}
-                      onClick={() => window.scrollTo(0, 0)}
                     >
                       {t('common_us')}
                     </MenuLink>
                   </Typography>
                 }
               >
-
               </TreeItem>
               <TreeItem
                 nodeId={'2'}
@@ -110,14 +108,12 @@ function AboutUs() {
                     <MenuLink
                       to={RouteConstants.PEOPLE}
                       key={'2'}
-                      onClick={() => window.scrollTo(0, 0)}
                     >
                       {t('common_people')}
                     </MenuLink>
                   </Typography>
                 }
               >
-
               </TreeItem>
               <TreeItem
                 nodeId={'3'}
@@ -129,14 +125,12 @@ function AboutUs() {
                     <MenuLink
                       to={RouteConstants.GRANTS}
                       key={'3'}
-                      onClick={() => window.scrollTo(0, 0)}
                     >
                       {t('common_grants')}
                     </MenuLink>
                   </Typography>
                 }
               >
-
               </TreeItem>
               <TreeItem
                 nodeId={'4'}
@@ -162,7 +156,7 @@ function AboutUs() {
                     <MenuLink
                       to={RouteConstants.PUBLICATIONS}
                       key={'4'}
-                      onClick={handleParentLabelClick}
+                      onClick={e => e.stopPropagation()}
                     >
                       {t('common_publications')}
                     </MenuLink>
@@ -184,7 +178,6 @@ function AboutUs() {
                     </Typography>
                   }
                 >
-
                 </TreeItem>
                 <TreeItem
                   nodeId={'6'}
@@ -201,7 +194,6 @@ function AboutUs() {
                     </Typography>
                   }
                 >
-
                 </TreeItem>
                 <TreeItem
                   nodeId={'7'}
@@ -218,13 +210,11 @@ function AboutUs() {
                     </Typography>
                   }
                 >
-
                 </TreeItem>
               </TreeItem>
             </TreeView>
           </Box>
         </Box>
-
         <Box sx={{
           width: '75%',
           height: 'auto',
@@ -239,6 +229,5 @@ function AboutUs() {
     </Box>
   );
 }
-
 
 export default AboutUs;

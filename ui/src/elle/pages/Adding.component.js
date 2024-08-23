@@ -14,7 +14,6 @@ import {
 } from '@mui/material';
 import TextUpload from '../components/TextUpload';
 import './styles/Adding.css';
-import { loadFetch } from '../service/LoadFetch';
 import { withTranslation } from 'react-i18next';
 import {
   countryOptionsForAddingText,
@@ -31,9 +30,9 @@ import {
   textPublishUsedMaterialsOptions,
   usedMaterialsSaveOptions
 } from '../const/Constants';
-import { successEmitter } from '../../App';
-import ModalBase from '../components/ModalBase';
+import ModalBase from '../components/modal/ModalBase';
 import { DefaultButtonStyle, ElleOuterDivStyle } from '../const/StyleConstants';
+import AddTextFetch from '../hooks/service/util/AddTextFetch';
 
 class Adding extends Component {
 
@@ -68,7 +67,8 @@ class Adding extends Component {
       elukohariikMuu: '',
       nousOlek: false,
       ennistusNupp: false,
-      modalOpen: false
+      modalOpen: false,
+      isSubmitting: false
     };
     this.startingstate = { ...this.state };
     this.previous = { ...this.state };
@@ -93,16 +93,9 @@ class Adding extends Component {
   handleSubmit(event) {
     event.preventDefault();
     this.previous = { ...this.state };
-    const request_test = {
-      method: 'POST',
-      body: JSON.stringify(this.state),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
+    this.setState(({ request: this.state }));
     this.setState(this.startingstate);
-    this.setState({ ennistusnupp: true });
-    loadFetch('/api/texts/lisatekst', request_test).then(() => successEmitter.emit('generic-success'));
+    this.setState({ ennistusnupp: true, isSubmitting: true });
   }
 
   taastaVormiSisu() {
@@ -614,6 +607,12 @@ class Adding extends Component {
             <br /><br />
             {t('publish_your_text_terms_of_service_2')}
           </ModalBase>
+          {this.state.isSubmitting && (
+            <AddTextFetch
+              request={JSON.stringify(this.state.request)}
+              onComplete={() => this.setState({ isSubmitting: false })}
+            />
+          )}
         </div>
       </Box>
     );

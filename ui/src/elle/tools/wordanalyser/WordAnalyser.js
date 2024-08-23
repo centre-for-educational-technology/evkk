@@ -18,10 +18,10 @@ import {
 } from './Contexts';
 import CloseIcon from '@mui/icons-material/Close';
 import { queryStore } from '../../store/QueryStore';
-import { getSelectedTexts } from '../../service/TextService';
+import { useGetSelectedTexts } from '../../hooks/service/TextService';
 import { WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO } from '../../const/Constants';
 import { useTranslation } from 'react-i18next';
-import { loadFetch } from '../../service/LoadFetch';
+import { useGetWordAnalyserResult } from '../../hooks/service/ToolsService';
 
 function WordAnalyser() {
   const [analysedInput, setAnalysedInput] = useContext(AnalyseContext);
@@ -44,32 +44,27 @@ function WordAnalyser() {
   const [storeData, setStoreData] = useState();
   const inputRef = useRef();
   const { t } = useTranslation();
+  const { getSelectedTexts } = useGetSelectedTexts(setStoreData);
+  const { getWordAnalyserResult } = useGetWordAnalyserResult();
 
   useEffect(() => {
-    getSelectedTexts(setStoreData);
-  }, []);
+    getSelectedTexts();
+  }, [getSelectedTexts]);
 
   useEffect(() => {
     setInputText(storeData);
   }, [storeData]);
 
   queryStore.subscribe(() => {
-    getSelectedTexts(setStoreData);
+    getSelectedTexts();
   });
 
   const getResponse = (input) => {
     setIsFinishedLoading(false);
-    loadFetch('/api/texts/sonad-lemmad-silbid-sonaliigid-vormimargendid', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ tekst: input, language: i18n.language })
-    })
-      .then(data => data.json())
-      .then(data => {
+    getWordAnalyserResult(JSON.stringify({ tekst: input, language: i18n.language }))
+      .then(response => {
         setIsFinishedLoading(true);
-        analyseInput(input, data);
+        analyseInput(input, response);
       });
   };
 
