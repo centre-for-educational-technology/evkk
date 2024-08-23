@@ -3,6 +3,7 @@ import { IconButton, Menu, MenuItem } from '@mui/material';
 import { MoreHoriz } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { RouteConstants } from '../../../../AppRoutes';
 
 export default function WordlistMenu({word, type, keepCapitalization, showCollocatesButton}) {
 
@@ -21,12 +22,12 @@ export default function WordlistMenu({word, type, keepCapitalization, showColloc
 
   const handleWordContext = () => {
     handleClose();
-    navigate(`../wordcontext?word=${word}&type=${type}&keepCapitalization=${keepCapitalization}`);
+    navigate(`../${RouteConstants.WORDCONTEXT}?word=${word}&type=${type}&keepCapitalization=${keepCapitalization}`);
   };
 
   const handleCollocates = () => {
     handleClose();
-    navigate(`../collocates?word=${word}&type=${type}&keepCapitalization=${keepCapitalization}`);
+    navigate(`../${RouteConstants.COLLOCATES}?word=${word}&type=${type}&keepCapitalization=${keepCapitalization}`);
   };
 
   const handleWordMeaning = () => {

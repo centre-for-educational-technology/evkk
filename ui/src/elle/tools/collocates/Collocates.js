@@ -1,6 +1,5 @@
 import './Collocates.css';
 import React, { useEffect, useMemo, useState } from 'react';
-import { AccordionStyle, DefaultButtonStyle } from '../../const/Constants';
 import Accordion from '@mui/material/Accordion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
@@ -28,11 +27,12 @@ import { queryStore } from '../../store/QueryStore';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import WordlistMenu from '../wordlist/components/WordlistMenu';
 import GenericTable from '../../components/GenericTable';
-import { toolAnalysisStore, ToolAnalysisStoreActionType } from '../../store/ToolAnalysisStore';
-import { loadFetch } from '../../service/LoadFetch';
+import { changeCollocatesResult, toolAnalysisStore } from '../../store/ToolAnalysisStore';
 import { useTranslation } from 'react-i18next';
 import TableHeaderButtons from '../../components/table/TableHeaderButtons';
 import GraphView from '../wordcontext/components/GraphView';
+import { AccordionStyle, DefaultButtonStyle } from '../../const/StyleConstants';
+import { useGetCollocatesResult } from '../../hooks/service/ToolsService';
 
 export default function Collocates() {
 
@@ -55,6 +55,7 @@ export default function Collocates() {
   const [response, setResponse] = useState([]);
   const data = useMemo(() => response, [response]);
   const [showNoResultsError, setShowNoResultsError] = useState(false);
+  const { getCollocatesResult } = useGetCollocatesResult();
   const sortByColAccessor = 'score';
 
   useEffect(() => {
@@ -85,27 +86,21 @@ export default function Collocates() {
   }, [navigate]);
 
   useEffect(() => {
-    toolAnalysisStore.dispatch({
-      type: ToolAnalysisStoreActionType.CHANGE_COLLOCATES_RESULT,
-      value: {
-        parameters: {
-          typeValue: typeValue,
-          keyword: keyword,
-          searchCount: searchCount,
-          formula: formula,
-          capitalizationChecked: capitalizationChecked
-        },
-        analysis: response
-      }
-    });
+    toolAnalysisStore.dispatch(changeCollocatesResult({
+      parameters: {
+        typeValue: typeValue,
+        keyword: keyword,
+        searchCount: searchCount,
+        formula: formula,
+        capitalizationChecked: capitalizationChecked
+      },
+      analysis: response
+    }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response]);
 
   queryStore.subscribe(() => {
-    toolAnalysisStore.dispatch({
-      type: ToolAnalysisStoreActionType.CHANGE_COLLOCATES_RESULT,
-      value: null
-    });
+    toolAnalysisStore.dispatch(changeCollocatesResult(null));
     setResponse([]);
     setParamsExpanded(true);
     setShowTable(false);
@@ -185,19 +180,12 @@ export default function Collocates() {
     setTypeError(!typeValue);
     if (typeValue) {
       setShowTable(false);
-      loadFetch('/api/tools/collocates', {
-        method: 'POST',
-        body: generateRequestData(),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(res => res.json())
-        .then(result => {
+      getCollocatesResult(generateRequestData())
+        .then(response => {
           setLastKeyword(keyword);
           setLemmatizedKeywordResult(null);
-          setResponse(result.collocateList);
-          if (result.collocateList.length === 0) {
+          setResponse(response.collocateList);
+          if (response.collocateList.length === 0) {
             setShowTable(false);
             setParamsExpanded(true);
             setShowNoResultsError(true);
@@ -205,9 +193,9 @@ export default function Collocates() {
             setShowTable(true);
             setParamsExpanded(false);
             setShowNoResultsError(false);
-            if (result.lemmatizedKeyword) {
-              setLemmatizedKeywordResult(result.lemmatizedKeyword);
-              setInitialKeywordResult(result.initialKeyword);
+            if (response.lemmatizedKeyword) {
+              setLemmatizedKeywordResult(response.lemmatizedKeyword);
+              setInitialKeywordResult(response.initialKeyword);
             }
           }
         });

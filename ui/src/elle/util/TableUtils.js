@@ -1,8 +1,9 @@
 export const sortTableDataByCol = (data, sortByColAccessor) => {
-  return data.sort(function (a, b) {
+  const dataCopy = [...data];
+  return dataCopy.sort(function (a, b) {
     const propA = a[sortByColAccessor];
     const propB = b[sortByColAccessor];
-    if (propA === propB) return data.indexOf(b) - data.indexOf(a);
+    if (propA === propB) return dataCopy.indexOf(b) - dataCopy.indexOf(a);
     return propB - propA;
   });
 }

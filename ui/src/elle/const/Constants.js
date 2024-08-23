@@ -1,15 +1,3 @@
-import { makeStyles } from '@mui/styles';
-import { styled } from '@mui/material';
-import { HashLink } from 'react-router-hash-link';
-
-export const ELLE_PATH = 'https://elle.tlu.ee/';
-export const EVKK_VERS1_PATH = 'https://evkk.tlu.ee/vers1/';
-export const EVKK_GITHUB_PATH = 'https://github.com/centre-for-educational-technology/evkk';
-export const EVKK_GITHUB_DEMOS_PATH = 'https://github.com/centre-for-educational-technology/evkk/wiki/Demos';
-export const CC_BY_4_0_LICENSE_PATH = 'https://creativecommons.org/licenses/by/4.0/';
-export const MIT_LICENSE_PATH = 'https://opensource.org/license/mit/';
-export const STOPWORDS_DATADOI_PATH = 'https://datadoi.ee/handle/33/78';
-
 export const WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO = 1000;
 
 export const replaceSpans = /<\/?span[^>]*>/g;
@@ -273,20 +261,29 @@ export const ElleDefaultChip = {
   '& .MuiChip-deleteIcon:hover': {
     color: '#EB0014'
   }
+  
+export const breadcrumbNameMap = {
+  '/corrector': 'common_corrector',
+  '/tools': 'common_tools',
+  '/links': 'common_links',
+  '/about': 'common_about',
+  '/about/us': 'common_us',
+  '/about/people': 'common_people',
+  '/about/grants': 'common_grants',
+  '/about/publications': 'common_publications',
+  '/adding': 'common_publish_your_text',
+  '/login': 'common_login_for_admins',
+  '/tools/clusterfinder': 'common_clusters',
+  '/tools/wordanalyser': 'common_word_analyser',
+  '/tools/wordlist': 'common_wordlist',
+  '/tools/wordcontext': 'common_word_in_context',
+  '/tools/collocates': 'common_neighbouring_words',
+  '/admin': 'common_admin_panel'
 };
 
-export const modalStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: '60vw',
-  bgcolor: '#FCFCFC',
-  boxShadow: 24,
-  borderRadius: '12px',
-  p: 4,
-  maxHeight: '80vh',
-  overflow: 'auto'
+export const UserRoles = {
+  USER: 'USER',
+  ADMIN: 'ADMIN'
 };
 
 export const addedYearOptions = [
@@ -697,21 +694,4 @@ export const countryOptionsForAddingText = {
   'Saksamaa': 'query_common_country_de',
   'Inglismaa': 'query_common_country_en',
   'Ungari': 'query_common_country_hu'
-};
-
-export const breadcrumbNameMap = {
-  '/corrector': 'common_corrector',
-  '/tools': 'common_tools',
-  '/links': 'common_links',
-  '/about': 'common_about',
-  '/about/us': 'common_us',
-  '/about/people': 'common_people',
-  '/about/grants': 'common_grants',
-  '/about/publications': 'common_publications',
-  '/adding': 'common_publish_your_text',
-  '/tools/clusterfinder': 'common_clusters',
-  '/tools/wordanalyser': 'common_word_analyser',
-  '/tools/wordlist': 'common_wordlist',
-  '/tools/wordcontext': 'common_word_in_context',
-  '/tools/collocates': 'common_neighbouring_words'
 };

@@ -3,6 +3,7 @@ package ee.tlu.evkk.core.integration;
 import ee.tlu.evkk.core.service.dto.StanzaResponseDto;
 import ee.tlu.evkk.core.service.dto.TextWithComplexity;
 import ee.tlu.evkk.dal.dto.WordAndPosInfoDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +20,12 @@ import static org.springframework.http.HttpMethod.POST;
  * @author Mikk Tarvas
  * Date: 30.09.2021
  */
+@RequiredArgsConstructor
 public class StanzaServerClient extends AbstractRestOperationsClient {
 
   private static final String MAP_PARAMETER = "tekst";
 
   private final RestOperations rest;
-
-  public StanzaServerClient(RestOperations restOperations) {
-    this.rest = restOperations;
-  }
 
   public StanzaResponseDto getSonadLemmadSilbidSonaliigidVormimargendid(String tekst) {
     Map<String, String> map = of(MAP_PARAMETER, tekst);

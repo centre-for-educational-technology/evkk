@@ -1,6 +1,6 @@
 import Logo from '../resources/images/header/elle_logo.png';
 import { AppBar, Box, Drawer, IconButton, Link, List, ListItem, Menu, MenuItem, styled, Toolbar } from '@mui/material';
-import { Close, Language, Menu as MenuIcon } from '@mui/icons-material';
+import { Close, Language, Logout, Menu as MenuIcon } from '@mui/icons-material';
 import { NavLink } from 'react-router-dom';
 import '@fontsource/exo-2/600.css';
 import React, { useEffect, useState } from 'react';
@@ -8,17 +8,21 @@ import './styles/Navbar.css';
 import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { Languages } from '../translations/i18n';
+import Can from './security/Can';
+import { UserRoles } from '../const/Constants';
+import { useLogout } from '../hooks/service/AuthService';
+import { RouteConstants } from '../../AppRoutes';
 
 const pages = [
-  {id: 1, title: 'common_corrector', target: '/corrector'},
-  {id: 2, title: 'common_tools', target: '/tools'},
-  {id: 3, title: 'common_links', target: '/links'},
-  {id: 4, title: 'common_about', target: '/about'}
+  { id: 1, title: 'common_corrector', target: RouteConstants.CORRECTOR },
+  { id: 2, title: 'common_tools', target: RouteConstants.TOOLS },
+  { id: 3, title: 'common_links', target: RouteConstants.LINKS },
+  { id: 4, title: 'common_about', target: RouteConstants.ABOUT },
+  { id: 5, title: 'common_admin_panel', target: '/admin', role: UserRoles.ADMIN }
 ];
 
 const MenuLink = styled(Link)({
   fontWeight: 600,
-  fontSize: 16,
   color: '#1B1B1B',
   textDecoration: 'none',
   fontFamily: ['Exo 2', 'sans-serif'].join(','),
@@ -34,7 +38,6 @@ const MenuLink = styled(Link)({
 
 const BurgerLink = styled(Link)({
   fontWeight: 400,
-  fontSize: 16,
   color: '#1B1B1B',
   textDecoration: 'none',
   fontFamily: ['Exo 2', 'sans-serif'].join(','),
@@ -49,26 +52,34 @@ const BurgerLink = styled(Link)({
 });
 
 export default function Navbar() {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [navColor, setNavColor] = useState('sticking');
+  const [langAnchorEl, setLangAnchorEl] = useState(false);
+  const langOpen = Boolean(langAnchorEl);
+  const { logout } = useLogout();
 
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
-  const [langAnchorEl, setLangAnchorEl] = useState(false);
-  const langOpen = Boolean(langAnchorEl);
   const handleLangClick = (event) => {
     setLangAnchorEl(event.currentTarget);
   };
+
   const handleLangClose = () => {
     setLangAnchorEl(false);
   };
+
   const handleLangSelect = (lang) => {
     i18n.changeLanguage(lang).then(r => r);
     localStorage.setItem('language', lang);
     setLangAnchorEl(false);
+  };
+
+  const handleLogout = () => {
+    setOpen(false);
+    logout();
   };
 
   const languageMenu = () => {
@@ -84,18 +95,34 @@ export default function Navbar() {
             <img
               src={require('../resources/images/flags/est.png').default}
               className="lang-icon"
-              alt="EST"
-            />EST
+              alt="Eesti"
+            />Eesti
           </MenuItem>
           <MenuItem onClick={() => handleLangSelect(Languages.ENGLISH)}>
             <img
               src={require('../resources/images/flags/eng.png').default}
               className="lang-icon"
-              alt="ENG"
-            />ENG
+              alt="English"
+            />English
           </MenuItem>
         </Menu>
       </div>
+    );
+  };
+
+  const logoutItem = (isDesktop) => {
+    return (
+      <Can requireAuth={true}>
+        <div
+          className={`nav-logout ${isDesktop ? 'desktop' : ''}`}
+          onClick={handleLogout}
+        >
+          <Logout />
+          <span className="logout-text">
+            {t('navbar_logout')}
+          </span>
+        </div>
+      </Can>
     );
   };
 
@@ -109,7 +136,7 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll, {passive: true});
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -135,19 +162,23 @@ export default function Navbar() {
           <div className="nav-menu-link-container">
             {pages.map((page) => {
               return (
-                <span style={{height: '100%'}} key={page.id}>
-                  <Box className="nav-menu-item my-0 mx-4">
-                    <MenuLink
-                      to={page.target}
-                      component={NavLink}
-                    >
-                      {t(page.title)}
-                    </MenuLink>
-                  </Box>
-                </span>);
+                <Can role={page.role} key={page.id}>
+                  <span style={{ height: '100%' }}>
+                    <Box className="nav-menu-item my-0 mx-4">
+                      <MenuLink
+                        to={page.target}
+                        component={NavLink}
+                      >
+                        {t(page.title)}
+                      </MenuLink>
+                    </Box>
+                  </span>
+                </Can>
+              );
             })}
           </div>
           <div className="nav-icons-container">
+            {logoutItem(true)}
             <Box className="language-menu-desktop">
               {languageMenu()}
             </Box>
@@ -165,7 +196,7 @@ export default function Navbar() {
         anchor="left"
         onClose={toggleDrawer}
         PaperProps={{
-          sx: {width: '100%'}
+          sx: { width: '100%' }
         }}
       >
         <div className="nav-drawer-container">
@@ -183,20 +214,23 @@ export default function Navbar() {
             <List>
               {pages.map((page) => {
                 return (
-                  <ListItem sx={{pl: 0}} key={page.id}>
-                    <BurgerLink
-                      to={page.target}
-                      component={NavLink}
-                      onClick={toggleDrawer}
-                    >
-                      {t(page.title)}
-                    </BurgerLink>
-                  </ListItem>
+                  <Can role={page.role} key={page.id}>
+                    <ListItem sx={{ pl: 0 }}>
+                      <BurgerLink
+                        to={page.target}
+                        component={NavLink}
+                        onClick={toggleDrawer}
+                      >
+                        {t(page.title)}
+                      </BurgerLink>
+                    </ListItem>
+                  </Can>
                 );
               })}
             </List>
           </div>
           <div className="d-flex justify-content-end align-items-center nav-50px-height">
+            {logoutItem(false)}
             {languageMenu()}
             <IconButton onClick={() => toggleDrawer()}>
               <Close className="nav-close-icon" />

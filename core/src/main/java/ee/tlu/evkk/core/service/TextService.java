@@ -14,16 +14,11 @@ import ee.tlu.evkk.core.service.dto.TextWithProperties;
 import ee.tlu.evkk.core.service.maps.WordFeatTranslationMappings;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.CorpusDownloadResponseEntity;
-import ee.tlu.evkk.dal.dto.Pageable;
-import ee.tlu.evkk.dal.dto.Text;
-import ee.tlu.evkk.dal.dto.TextProperty;
 import ee.tlu.evkk.dal.dto.TextQueryDisjunctionParamHelper;
 import ee.tlu.evkk.dal.dto.TextQueryMultiParamHelper;
 import ee.tlu.evkk.dal.dto.TextQueryRangeParamBaseHelper;
 import ee.tlu.evkk.dal.dto.TextQueryRangeParamHelper;
 import ee.tlu.evkk.dal.dto.TextQuerySingleParamHelper;
-import ee.tlu.evkk.dal.repository.TextPropertyRepository;
-import ee.tlu.evkk.dal.repository.TextRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,9 +27,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -42,7 +34,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -74,8 +65,6 @@ import static org.apache.logging.log4j.util.Strings.isNotBlank;
 @AllArgsConstructor
 public class TextService {
 
-  private final TextRepository textRepository;
-  private final TextPropertyRepository textPropertyRepository;
   private final TextDao textDao;
   private final StanzaServerClient stanzaServerClient;
 
@@ -102,14 +91,6 @@ public class TextService {
   private static String imperativeMood;
 
   private static final Pattern fileNameCharacterWhitelist = compile("[\\p{L}0-9& ._()!-]");
-
-  public List<TextWithProperties> search(Pageable pageable, String[] korpus, String tekstityyp, String tekstikeel, String keeletase, Boolean abivahendid, Integer aasta, String sugu) {
-    Map<String, Collection<String>> filters = buildFilters(korpus, tekstityyp, tekstikeel, keeletase, abivahendid, aasta, sugu);
-    List<Text> texts = textRepository.search(filters, pageable);
-    Set<UUID> textIds = texts.stream().map(Text::getId).collect(Collectors.toUnmodifiableSet());
-    Map<UUID, List<TextProperty>> textPropertiesByTextId = textPropertyRepository.findByTextIds(textIds).stream().collect(Collectors.groupingBy(TextProperty::getTextId));
-    return texts.stream().map(text -> toTextWithProperties(text, textPropertiesByTextId)).collect(Collectors.toUnmodifiableList());
-  }
 
   public String detailneparing(CorpusRequestDto corpusRequestDto) {
     List<TextQuerySingleParamHelper> singleParamHelpers = new ArrayList<>();
@@ -560,30 +541,9 @@ public class TextService {
         .replace("\\t", "    ");
   }
 
-  private Map<String, Collection<String>> buildFilters(String[] korpus, String tekstityyp, String tekstikeel, String keeletase, Boolean abivahendid, Integer aasta, String sugu) {
-    Map<String, Collection<String>> result = new HashMap<>();
-    if (korpus != null && korpus.length > 0) result.put("korpus", Set.of(korpus));
-    if (hasText(tekstityyp)) result.put("tekstityyp", Set.of(tekstityyp));
-    if (hasText(tekstikeel)) result.put("tekstikeel", Set.of(tekstikeel));
-    if (hasText(keeletase)) result.put("keeletase", Set.of(keeletase));
-    if (abivahendid != null) result.put("abivahendid", Set.of(booleanToJahEi(abivahendid)));
-    if (aasta != null) result.put("aasta", Set.of(aasta.toString()));
-    if (hasText(sugu)) result.put("sugu", Set.of(sugu));
-    return Collections.unmodifiableMap(result);
-  }
-
-  private static boolean hasText(String input) {
-    return input != null && !input.isBlank();
-  }
-
   private static String booleanToJahEi(Boolean bool) {
     if (bool == null) return null;
     return bool ? "jah" : "ei";
-  }
-
-  private TextWithProperties toTextWithProperties(Text text, Map<UUID, List<TextProperty>> textPropertiesByTextId) {
-    List<TextProperty> properties = textPropertiesByTextId.getOrDefault(text.getId(), Collections.emptyList());
-    return new TextWithProperties(text, properties);
   }
 
   private void lisaTekstiOmadus(UUID kood, String tunnus, String omadus) {

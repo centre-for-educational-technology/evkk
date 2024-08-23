@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 import { Button, Grid, Input, Slider, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { DefaultButtonStyle, DefaultInputStyle, DefaultSliderStyle } from '../../../const/Constants';
+import { DefaultButtonStyle, DefaultInputStyle, DefaultSliderStyle } from '../../../const/StyleConstants';
 import { Timeline } from '@mui/icons-material';
-import ModalBase from '../../../components/ModalBase';
+import ModalBase from '../../../components/modal/ModalBase';
 import '../styles/GraphView.css';
 import ImageDownloadButton, { ImageDownloadSourceType } from '../../../components/ImageDownloadButton';
 
@@ -33,8 +33,9 @@ export default function GraphView({ data, keyword }) {
       svg.selectAll('*').remove();
 
       // Slice the data based on the slider's value
-      data.sort((a, b) => b.score - a.score);
-      const slicedData = data.slice(0, sliderValue);
+      const dataCopy = JSON.parse(JSON.stringify(data));
+      dataCopy.sort((a, b) => b.score - a.score);
+      const slicedData = dataCopy.slice(0, sliderValue);
 
       // Normalize scores to the range [0, 1]
       const maxScore = d3.max(slicedData, d => d.score);

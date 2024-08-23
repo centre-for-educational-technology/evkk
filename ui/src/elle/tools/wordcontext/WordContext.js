@@ -1,7 +1,6 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import React, { useEffect, useMemo, useState } from 'react';
 import { queryStore } from '../../store/QueryStore';
-import { AccordionStyle, DefaultButtonStyle } from '../../const/Constants';
 import Accordion from '@mui/material/Accordion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -27,15 +26,16 @@ import './styles/WordContext.css';
 import { TableType } from '../../components/table/TableDownloadButton';
 import { QuestionMark } from '@mui/icons-material';
 import GenericTable from '../../components/GenericTable';
-import { toolAnalysisStore, ToolAnalysisStoreActionType } from '../../store/ToolAnalysisStore';
-import { loadFetch } from '../../service/LoadFetch';
+import { changeWordContextResult, toolAnalysisStore } from '../../store/ToolAnalysisStore';
 import { useTranslation } from 'react-i18next';
 import { sortColByLastWord, sortTableCol } from '../../util/TableUtils';
 import TableHeaderButtons from '../../components/table/TableHeaderButtons';
+import { AccordionStyle, DefaultButtonStyle } from '../../const/StyleConstants';
+import { useGetWordContextResult } from '../../hooks/service/ToolsService';
 
 export default function WordContext() {
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [urlParams] = useSearchParams();
   const [paramsExpanded, setParamsExpanded] = useState(true);
@@ -52,6 +52,7 @@ export default function WordContext() {
   const [initialKeywordResult, setInitialKeywordResult] = useState(null);
   const tableToDownload = [t('concordances_preceding_context'), t('concordances_search_word'), t('concordances_following_context')];
   const accessors = ['contextBefore', 'keyword', 'contextAfter'];
+  const { getWordContextResult } = useGetWordContextResult();
   const data = useMemo(() => response, [response]);
 
   useEffect(() => {
@@ -82,27 +83,21 @@ export default function WordContext() {
   }, [navigate]);
 
   useEffect(() => {
-    toolAnalysisStore.dispatch({
-      type: ToolAnalysisStoreActionType.CHANGE_WORD_CONTEXT_RESULT,
-      value: {
-        parameters: {
-          typeValue: typeValue,
-          keyword: keyword,
-          displayCount: displayCount,
-          displayType: displayType,
-          capitalizationChecked: capitalizationChecked
-        },
-        analysis: response
-      }
-    });
+    toolAnalysisStore.dispatch(changeWordContextResult({
+      parameters: {
+        typeValue: typeValue,
+        keyword: keyword,
+        displayCount: displayCount,
+        displayType: displayType,
+        capitalizationChecked: capitalizationChecked
+      },
+      analysis: response
+    }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response]);
 
   queryStore.subscribe(() => {
-    toolAnalysisStore.dispatch({
-      type: ToolAnalysisStoreActionType.CHANGE_WORD_CONTEXT_RESULT,
-      value: null
-    });
+    toolAnalysisStore.dispatch(changeWordContextResult(null));
     setResponse([]);
     setParamsExpanded(true);
     setShowTable(false);
@@ -176,18 +171,11 @@ export default function WordContext() {
     setTypeError(!typeValue);
     if (typeValue) {
       setShowTable(false);
-      loadFetch('/api/tools/wordcontext', {
-        method: 'POST',
-        body: generateRequestData(),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(res => res.json())
-        .then(result => {
+      getWordContextResult(generateRequestData())
+        .then(response => {
           setLemmatizedKeywordResult(null);
-          setResponse(result.contextList);
-          if (result.contextList.length === 0) {
+          setResponse(response.contextList);
+          if (response.contextList.length === 0) {
             setShowTable(false);
             setParamsExpanded(true);
             setShowNoResultsError(true);
@@ -195,12 +183,13 @@ export default function WordContext() {
             setShowTable(true);
             setParamsExpanded(false);
             setShowNoResultsError(false);
-            if (result.lemmatizedKeyword) {
-              setLemmatizedKeywordResult(result.lemmatizedKeyword);
-              setInitialKeywordResult(result.initialKeyword);
+            if (response.lemmatizedKeyword) {
+              setLemmatizedKeywordResult(response.lemmatizedKeyword);
+              setInitialKeywordResult(response.initialKeyword);
             }
           }
-        }).then(() => navigate('', {replace: true}));
+        })
+        .then(() => navigate('', { replace: true }));
     }
   };
 
@@ -239,7 +228,7 @@ export default function WordContext() {
           <form onSubmit={handleSubmit}>
             <div className="tool-accordion">
               <div>
-                <FormControl sx={{m: 3}}
+                <FormControl sx={{ m: 3 }}
                              error={typeError}
                              variant="standard">
                   <FormLabel id="type-radios">{t('common_search')}</FormLabel>
@@ -258,7 +247,7 @@ export default function WordContext() {
                   </RadioGroup>
                   {typeError && <FormHelperText>{t('error_mandatory_field')}</FormHelperText>}
                   <Button sx={DefaultButtonStyle}
-                          style={{marginTop: '10vh !important'}}
+                          style={{ marginTop: '10vh !important' }}
                           className="wordcontext-analyse-button"
                           type="submit"
                           variant="contained">
@@ -267,7 +256,7 @@ export default function WordContext() {
                 </FormControl>
               </div>
               <div>
-                <FormControl sx={{m: 3}}
+                <FormControl sx={{ m: 3 }}
                              variant="standard">
                   <FormLabel id="keyword">{t('common_enter_search_word')}</FormLabel>
                   <TextField variant="outlined"
@@ -275,18 +264,18 @@ export default function WordContext() {
                              required
                              value={keyword}
                              onChange={(e) => setKeyword(e.target.value)}
-                             style={{width: '250px'}} />
+                             style={{ width: '250px' }} />
                 </FormControl>
                 <br />
-                <FormControl sx={{m: 3}}
-                             style={{marginTop: '-1vh'}}
+                <FormControl sx={{ m: 3 }}
+                             style={{ marginTop: '-1vh' }}
                              variant="standard">
                   <FormLabel id="display">{t('common_view')}</FormLabel>
                   <Grid container>
                     <Grid item>
                       <TextField variant="outlined"
                                  type="number"
-                                 inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: '1', max: '15'}}
+                                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: '1', max: '15' }}
                                  size="small"
                                  required
                                  value={displayCount}
@@ -296,7 +285,7 @@ export default function WordContext() {
                     <Grid item>
                       <FormControl size="small">
                         <Select
-                          sx={{width: '95px'}}
+                          sx={{ width: '95px' }}
                           name="displayType"
                           value={displayType}
                           onChange={(e) => setDisplayType(e.target.value)}
@@ -316,7 +305,7 @@ export default function WordContext() {
                 </FormControl>
               </div>
               <div>
-                <FormControl sx={{m: 6}}
+                <FormControl sx={{ m: 6 }}
                              variant="standard">
                   <FormControlLabel control={
                     <Checkbox
