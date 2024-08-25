@@ -32,6 +32,9 @@ services:
     entrypoint: [ "/bin/bash", "-c", "java -jar app/api.jar" ]
     secrets:
       - EVKK_API_DATASOURCE_PASSWORD
+      - HARID_CLIENT_ID
+      - HARID_CLIENT_SECRET
+      - JWT_TOKEN_SECRET
     depends_on:
       - postgres
       - redis

@@ -3,9 +3,9 @@ import './styles/ServerOfflinePage.css';
 import { useTranslation } from 'react-i18next';
 import Navbar from './Navbar';
 import FooterElement from './FooterElement';
-import { DefaultButtonStyle } from '../const/Constants';
+import { DefaultButtonStyle } from '../const/StyleConstants';
 
-export default function ServerOfflinePage() {
+export default function ServerOfflinePage({ retry }) {
 
   const {t} = useTranslation();
 
@@ -19,7 +19,7 @@ export default function ServerOfflinePage() {
           </Alert>
           <Button variant="contained"
                   sx={DefaultButtonStyle}
-                  onClick={() => window.location.reload()}>
+                  onClick={retry}>
             {t('try_again')}
           </Button>
         </span>

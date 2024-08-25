@@ -27,19 +27,21 @@ public class TextUtils {
 
   public static List<String> sanitizeLemmaStrings(List<String> lemmas) {
     return lemmas.stream()
-      .map(lemma -> lemma
-        .replace("'", "")
-        .replace("*", "")
-        .replace("_", "")
-        .replace("=", ""))
+      .map(lemma ->
+        lemma == null ? "–" : lemma
+          .replace("'", "")
+          .replace("*", "")
+          .replace("_", "")
+          .replace("=", ""))
       .collect(toList());
   }
 
   public static List<String> sanitizeWordStrings(List<String> words) {
     return words.stream()
-      .map(word -> word
-        .replace("'", "")
-        .replace("*", ""))
+      .map(word ->
+        word == null ? "–" : word
+          .replace("'", "")
+          .replace("*", ""))
       .collect(toList());
   }
 }

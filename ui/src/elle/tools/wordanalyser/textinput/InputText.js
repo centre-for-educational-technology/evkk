@@ -37,34 +37,26 @@ export const InputText = ({ onMarkWords, onWordSelect, onWordInfo }) => {
 
   const handleIsMarked = (ids, i, analysedWords, markedIds, idNumber) => {
     if (ids[i] === markedIds[idNumber]) {
-      return (
-        <span id={ids[i]}
-              className="word blue"
-              key={ids[i]}
-              onClick={(e) => {
-                handleWord(e.target.id);
-              }}>{analysedWords[i]}</span>
-      );
+      return renderWord(ids, i, 'word blue', analysedWords, handleWord);
     } else {
-      return (
-        <span id={ids[i]}
-              className="word marked"
-              key={ids[i]}
-              onClick={(e) => {
-                handleWord(e.target.id);
-              }}>{analysedWords[i]}</span>
-      );
+      return renderWord(ids, i, 'word marked', analysedWords, handleWord);
     }
   };
 
   const handleIsNotMarked = (ids, i, analysedWords) => {
-    return (
-      <span id={ids[i]}
-            className="word"
-            key={ids[i]}
-            onClick={(e) => handleWord(e.target.id)}>{analysedWords[i]}</span>
-    );
+    return renderWord(ids, i, 'word', analysedWords, handleWord);
   };
+
+  const renderWord = (ids, i, className, analysedWords, onClickHandler) => (
+    <span
+      id={ids[i]}
+      className={className}
+      key={ids[i]}
+      onClick={(e) => onClickHandler(e.target.id)}
+    >
+      {analysedWords[i]}
+    </span>
+  );
 
   const updatedText = useMemo(() => {
     let analysedWords = analyse.wordsOrig;

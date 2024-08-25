@@ -1,9 +1,9 @@
-import { DefaultButtonStyle, DefaultCircularProgressStyle } from '../../../const/Constants';
+import { DefaultButtonStyle, DefaultCircularProgressStyle } from '../../../const/StyleConstants';
 import BrushIcon from '@mui/icons-material/Brush';
 import { Button, CircularProgress, Tooltip } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import ModalBase from '../../../components/ModalBase';
+import ModalBase from '../../../components/modal/ModalBase';
 import '../styles/WordcloudView.css';
 import WordCloud from 'wordcloud';
 import ImageDownloadButton, { ImageDownloadSourceType } from '../../../components/ImageDownloadButton';

@@ -66,6 +66,7 @@
 
 .wordInfo {
   line-height: 1em;
+  max-width: 80%;
 }
 
 .textTooLongInfobox {

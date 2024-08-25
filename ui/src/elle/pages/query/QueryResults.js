@@ -16,7 +16,6 @@ import {
   ageOptions,
   corpuses,
   countryOptionsForQueryResults,
-  DefaultButtonStyle,
   educationOptions,
   genderOptions,
   languageOptionsForNativeLangs,
@@ -27,10 +26,11 @@ import {
 import TablePagination from '../../components/table/TablePagination';
 import QueryDownloadButton from './QueryDownloadButton';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { queryStore, QueryStoreActionType } from '../../store/QueryStore';
-import { loadFetch } from '../../service/LoadFetch';
+import { changeCorpusTexts, queryStore } from '../../store/QueryStore';
 import { useTranslation } from 'react-i18next';
-import ModalBase from '../../components/ModalBase';
+import ModalBase from '../../components/modal/ModalBase';
+import { DefaultButtonStyle } from '../../const/StyleConstants';
+import { useGetTextAndMetadata } from '../../hooks/service/TextService';
 
 export default function QueryResults(props) {
   const { t } = useTranslation();
@@ -42,6 +42,7 @@ export default function QueryResults(props) {
   const checkboxStatuses = useRef(new Set());
   const [update, forceUpdate] = useReducer(x => x + 1, 0);
   const data = useMemo(() => response, [response]);
+  const { getTextAndMetadata } = useGetTextAndMetadata();
   let paragraphCount = 0;
 
   const [metadata, setMetadata] = useState({
@@ -137,20 +138,13 @@ export default function QueryResults(props) {
   };
 
   function previewText(id) {
-    loadFetch('/api/texts/kysitekstjametainfo?id=' + id, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then(res => {
-        setText(res.text);
-        res.properties.forEach(param => {
+    getTextAndMetadata(id)
+      .then(response => {
+        setText(response.text);
+        response.properties.forEach(param => {
           setIndividualMetadata(param.propertyName, param.propertyValue);
         });
       });
-
     setModalOpen(true);
   }
 
@@ -186,12 +180,7 @@ export default function QueryResults(props) {
     return allTextIds.every(v => Array.from(checkboxStatuses.current).includes(v));
   }
 
-  const saveTexts = () => {
-    queryStore.dispatch({
-      type: QueryStoreActionType.CHANGE_CORPUS_TEXTS,
-      value: Array.from(checkboxStatuses.current).join(',')
-    });
-  };
+  const saveTexts = () => queryStore.dispatch(changeCorpusTexts(Array.from(checkboxStatuses.current).join(',')));
 
   const getParagraphKey = (item) => {
     if (item) {

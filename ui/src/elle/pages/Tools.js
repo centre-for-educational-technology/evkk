@@ -11,14 +11,15 @@ import WordContext from '../resources/images/tools/sona_kontekstis.png';
 import NeighbourWord from '../resources/images/tools/naabersonad.png';
 import WordPattern from '../resources/images/tools/mustrileidja.png';
 import WordAnalyser from '../resources/images/tools/sonaanalyys.png';
-import { TabStyle } from '../const/Constants';
+import { TabStyle } from '../const/StyleConstants';
+import { RouteConstants, RouteFullPathConstants } from '../../AppRoutes';
 
 const ToolIconCard = (props) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Box
       className="tool-card-container"
-      sx={{boxShadow: 3}}>
+      sx={{ boxShadow: 3 }}>
       <Box className="tool-card-icon">
         <img className="tool-icon-img" src={props.image} loading="lazy" alt="Tool logo" />
       </Box>
@@ -30,22 +31,23 @@ const ToolIconCard = (props) => {
 };
 
 const TabOutlet = (props) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <TabPanel value={props.value}>
       <Box className={props.hideBackground ? 'tools-tab-overlay' : ''}>
         {props.textsSelected
-          ?
-          <div className="tool-wrapper">
-            <Outlet />
-          </div>
-          :
-          <Box>
-            <ToolIconCard image={props.image} text={props.text} />
-            <Alert severity="warning">
-              {t('tools_warning_text')}
-            </Alert>
-          </Box>}
+          ? (
+            <div className="tool-wrapper">
+              <Outlet />
+            </div>
+          ) : (
+            <Box>
+              <ToolIconCard image={props.image} text={props.text} />
+              <Alert severity="warning">
+                {t('tools_warning_text')}
+              </Alert>
+            </Box>
+          )}
       </Box>
     </TabPanel>
   );
@@ -54,7 +56,7 @@ const TabOutlet = (props) => {
 export default function Tools() {
   const current = useLocation();
   const queryOpen = current.state && current.state.pageNo === 'queryOpen' ? current.state.pageNo : null;
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [tabPage, setTabPage] = useState(current.pathname);
   const [textsSelected, setTextsSelected] = useState(false);
@@ -62,10 +64,10 @@ export default function Tools() {
 
   useEffect(() => {
     setTabPage(current.pathname);
-    if (current.pathname === '/tools') {
-      navigate('wordlist', {replace: true});
-    }
-  }, [current.pathname, navigate]);
+    if (current.pathname === `/${RouteConstants.TOOLS}`) navigate(RouteConstants.WORDLIST, { replace: true });
+    if (current.state && current.state.scrollToTop) window.scrollTo(0, 0);
+    if (current.state && current.state.target) navigate(current.state.target);
+  }, [current.pathname, current.state, navigate]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -94,33 +96,33 @@ export default function Tools() {
             <Box boxShadow={3} borderRadius={'25px'}>
               <TabList
                 onChange={handleChange}
-                TabIndicatorProps={{sx: {display: 'none'}}}
+                TabIndicatorProps={{ sx: { display: 'none' } }}
                 sx={TabStyle}
               >
                 <Tab
                   label={t('common_wordlist')}
-                  onClick={() => navigate('/tools/wordlist')}
-                  value="/tools/wordlist"
+                  onClick={() => navigate(RouteFullPathConstants.WORDLIST)}
+                  value={RouteFullPathConstants.WORDLIST}
                 />
                 <Tab
                   label={t('common_word_in_context')}
-                  onClick={() => navigate('/tools/wordcontext')}
-                  value="/tools/wordcontext"
+                  onClick={() => navigate(RouteFullPathConstants.WORDCONTEXT)}
+                  value={RouteFullPathConstants.WORDCONTEXT}
                 />
                 <Tab
                   label={t('common_neighbouring_words')}
-                  onClick={() => navigate('/tools/collocates')}
-                  value="/tools/collocates"
+                  onClick={() => navigate(RouteFullPathConstants.COLLOCATES)}
+                  value={RouteFullPathConstants.COLLOCATES}
                 />
                 <Tab
                   label={t('common_word_analyser')}
-                  onClick={() => navigate('/tools/wordanalyser')}
-                  value="/tools/wordanalyser"
+                  onClick={() => navigate(RouteFullPathConstants.WORDANALYSER)}
+                  value={RouteFullPathConstants.WORDANALYSER}
                 />
                 <Tab
                   label={t('common_clusters')}
-                  onClick={() => navigate('/tools/clusterfinder')}
-                  value="/tools/clusterfinder"
+                  onClick={() => navigate(RouteFullPathConstants.CLUSTERFINDER)}
+                  value={RouteFullPathConstants.CLUSTERFINDER}
                 />
               </TabList>
             </Box>
@@ -128,35 +130,35 @@ export default function Tools() {
               textsSelected={textsSelected}
               image={WordlistImg}
               text={'tools_accordion_wordlist_explainer'}
-              value="/tools/wordlist"
+              value={RouteFullPathConstants.WORDLIST}
               hideBackground={hideBackground}
             />
             <TabOutlet
               textsSelected={textsSelected}
               image={WordContext}
               text={'tools_accordion_word_in_context_explainer'}
-              value="/tools/wordcontext"
+              value={RouteFullPathConstants.WORDCONTEXT}
               hideBackground={hideBackground}
             />
             <TabOutlet
               textsSelected={textsSelected}
               image={NeighbourWord}
               text={'tools_accordion_neighbouring_words_explainer'}
-              value="/tools/collocates"
+              value={RouteFullPathConstants.COLLOCATES}
               hideBackground={hideBackground}
             />
             <TabOutlet
               textsSelected={textsSelected}
               image={WordAnalyser}
               text={'tools_accordion_word_analysis_explainer'}
-              value="/tools/wordanalyser"
+              value={RouteFullPathConstants.WORDANALYSER}
               hideBackground={hideBackground}
             />
             <TabOutlet
               textsSelected={textsSelected}
               image={WordPattern}
               text={'tools_accordion_clusters_explainer'}
-              value="/tools/clusterfinder"
+              value={RouteFullPathConstants.CLUSTERFINDER}
               hideBackground={hideBackground}
             />
           </TabContext>

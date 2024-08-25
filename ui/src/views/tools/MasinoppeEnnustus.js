@@ -1,8 +1,7 @@
-import React, {Component} from 'react';
-import {postMasinoppeEnnustus} from './../../Api';
+import React, { Component } from 'react';
+import { postMasinoppeEnnustus } from '../../Api';
 
 class MasinoppeEnnustus extends Component {
-
 
   constructor(props) {
     super(props);
@@ -18,16 +17,16 @@ class MasinoppeEnnustus extends Component {
     event.preventDefault();
     const response = await postMasinoppeEnnustus(this.state.form.text);
     const json = await response.json();
-    this.setState({result: (json.result || '').split('\n').filter(line => line !== "")});
+    this.setState({ result: (json.result || '').split('\n').filter(line => line !== '') });
   };
 
   handleInputChange = (event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    const {form = {}} = this.state;
+    const { form = {} } = this.state;
     form[name] = value;
-    this.setState({form});
+    this.setState({ form });
   };
 
   render() {
@@ -39,12 +38,12 @@ class MasinoppeEnnustus extends Component {
               <div className="form-group">
                 <textarea name={'text'} onChange={this.handleInputChange} value={this.state.form.text}
                           rows={10} className="form-control" id="textInput" aria-describedby="textHelp"
-                          placeholder="Sisestage tekst siia"/>
+                          placeholder="Sisestage tekst siia" />
                 <small id="textHelp" className="form-text text-muted">Tekst mida soovite analüüsida</small>
               </div>
               {this.state.result !== null && (
                 <div className="form-group">
-                  Päringu vastus: <br/>
+                  Päringu vastus: <br />
                   <ul>
                     {this.state.result.map((line, i) => <li key={i}>{line}</li>)}
                   </ul>
@@ -57,9 +56,8 @@ class MasinoppeEnnustus extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
-
 }
 
 export default MasinoppeEnnustus;

@@ -1,26 +1,27 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { selectIntegrationPath } from '../../rootSelectors';
-import { useSelector } from 'react-redux';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Box } from '@mui/material';
 import { queryStore } from '../store/QueryStore';
-import { getSelectedTexts } from '../service/TextService';
+import { useGetSelectedTexts } from '../hooks/service/TextService';
+import RootContext from '../context/RootContext';
 
-const IntegrationFrame = ({integrationName}) => {
-  const path = useSelector(state => selectIntegrationPath(integrationName)(state), []);
+const IntegrationFrame = ({ integrationName }) => {
+  const { integrationPaths } = useContext(RootContext);
+  const path = integrationPaths[integrationName];
   const [height, setHeight] = useState('');
   const iframeRef = useRef();
   const [storeData, setStoreData] = useState('');
+  const { getSelectedTexts } = useGetSelectedTexts(setStoreData);
 
   useEffect(() => {
     iframeRef.current.contentWindow.postMessage(storeData, path);
   }, [storeData, height, path]);
 
   useEffect(() => {
-    getSelectedTexts(setStoreData);
-  }, []);
+    getSelectedTexts();
+  }, [getSelectedTexts]);
 
   queryStore.subscribe(() => {
-    getSelectedTexts(setStoreData);
+    getSelectedTexts();
   });
 
   window.addEventListener('message', function (event) {
@@ -31,7 +32,7 @@ const IntegrationFrame = ({integrationName}) => {
 
   return (
     <Box className="embed-responsive embed-responsive-21by9 overflow-hidden" height={height}>
-      <iframe ref={iframeRef} src={path} title={integrationName}/>
+      <iframe ref={iframeRef} src={path} title={integrationName} />
     </Box>
   );
 };

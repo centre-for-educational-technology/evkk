@@ -4,9 +4,9 @@ import { Button, Tooltip } from '@mui/material';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { useTranslation } from 'react-i18next';
 import '../translations/i18n';
-import { loadFetch } from '../service/LoadFetch';
-import { DefaultButtonStyle } from '../const/Constants';
-import ModalBase from './ModalBase';
+import { DefaultButtonStyle } from '../const/StyleConstants';
+import ModalBase from './modal/ModalBase';
+import { useGetTextFromFile } from '../hooks/service/TextService';
 
 export default function TextUpload({ sendTextFromFile, outerClassName = '' }) {
 
@@ -16,23 +16,12 @@ export default function TextUpload({ sendTextFromFile, outerClassName = '' }) {
   const fileNameElement = createRef();
   const text1Element = createRef();
   const { t } = useTranslation();
+  const { getTextFromFile } = useGetTextFromFile();
 
   function fileUpload() {
-    let formData = new FormData(formDataElement.current);
-    const requestBody = {
-      method: 'POST',
-      body: formData
-    };
-
-    loadFetch('/api/textfromfile', requestBody)
-      .then(res => res.text())
-      .then(response => {
-        sendTextFromFile(response);
-      })
-      .catch(() => {
-        sendTextFromFile('');
-      });
-
+    getTextFromFile(new FormData(formDataElement.current))
+      .then(response => sendTextFromFile(response))
+      .catch(() => sendTextFromFile(''));
     setUploadButtonDisabled(true);
     fileNameElement.current.textContent = '';
     setModalOpen(false);
@@ -40,18 +29,17 @@ export default function TextUpload({ sendTextFromFile, outerClassName = '' }) {
 
   function fileChange() {
     fileNameElement.current.textContent = '';
-    let br = document.createElement('br');
-    let b = document.createElement('b');
-    let div = document.createElement('div');
-    let fileNameDataContent = document.createTextNode(t('textupload_secondary_modal_chosen_files'));
+    const br = document.createElement('br');
+    const b = document.createElement('b');
+    const div = document.createElement('div');
+    const fileNameDataContent = document.createTextNode(t('textupload_secondary_modal_chosen_files'));
     b.appendChild(fileNameDataContent);
     div.appendChild(b);
     div.appendChild(br);
 
-    let fileLength = text1Element.current.files.length;
-    for (let i = 0; i < fileLength; i++) {
-      let brElement = document.createElement('br');
-      let tempName = document.createTextNode(text1Element.current.files[i].name);
+    for (let i = 0; i < text1Element.current.files.length; i++) {
+      const brElement = document.createElement('br');
+      const tempName = document.createTextNode(text1Element.current.files[i].name);
       div.appendChild(tempName);
       div.appendChild(brElement);
     }

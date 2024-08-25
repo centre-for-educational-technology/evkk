@@ -1,32 +1,31 @@
-import React, { Component } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Navbar from './elle/components/Navbar';
 import { Provider } from 'react-redux';
-import { applyMiddleware, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { compose, connectedComponent } from './util/redux-utils';
-import rootReducer from './rootReducer';
-import { getStatusIfNeeded } from './rootActions';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { selectStatus, selectStatusLoaded } from './rootSelectors';
+import { BrowserRouter as Router, useNavigate, useSearchParams } from 'react-router-dom';
 import { createTheme } from '@mui/material/styles';
 import AppRoutes from './AppRoutes';
 import { ThemeProvider } from '@mui/material';
 import { EventEmitter } from 'events';
-import ErrorSnackbar from './elle/components/ErrorSnackbar';
+import ErrorSnackbar, { ErrorSnackbarEventType } from './elle/components/snackbar/ErrorSnackbar';
 import LoadingSpinner from './elle/components/LoadingSpinner';
 import ServerOfflinePage from './elle/components/ServerOfflinePage';
-import SuccessSnackbar from './elle/components/SuccessSnackbar';
+import SuccessSnackbar from './elle/components/snackbar/SuccessSnackbar';
 import FooterElement from './elle/components/FooterElement';
 import DonateText from './elle/components/DonateText';
+import RootContext, { RootProvider } from './elle/context/RootContext';
+import withGlobalLoading from './elle/hoc/withGlobalLoading';
+import SessionExpirationModal from './elle/components/modal/SessionExpirationModal';
+import { configureStore } from '@reduxjs/toolkit';
 
 export const errorEmitter = new EventEmitter();
 export const loadingEmitter = new EventEmitter();
 export const successEmitter = new EventEmitter();
 
-const store = createStore(
-  rootReducer,
-  compose(applyMiddleware(thunkMiddleware))
-);
+const store = configureStore({
+  reducer: (state = {}, _) => state,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunkMiddleware)
+});
 
 const theme = createTheme({
   palette: {
@@ -75,53 +74,61 @@ const theme = createTheme({
   }
 });
 
-class AppWithStatus extends Component {
+function AppWithStatus() {
+  const navigate = useNavigate();
+  const [urlParams] = useSearchParams();
+  const [isOffline, setIsOffline] = useState(false);
+  const { setContext, status } = useContext(RootContext);
 
-  componentDidMount() {
-    this.props.getStatusIfNeeded();
+  useEffect(() => {
+    setIsOffline(!status);
+  }, [status]);
+
+  useEffect(() => {
+    if (urlParams.get('loginFailed')) {
+      errorEmitter.emit(ErrorSnackbarEventType.LOGIN_FAILED);
+      navigate('', { replace: true });
+    }
+
+    if (urlParams.get('idCodeMissing')) {
+      errorEmitter.emit(ErrorSnackbarEventType.ID_CODE_MISSING);
+      navigate('', { replace: true });
+    }
+  }, [urlParams, navigate]);
+
+  if (isOffline) {
+    return <ServerOfflinePage retry={setContext} />;
   }
 
-  render() {
-    if (this.props.status instanceof Response) return <ServerOfflinePage/>;
-    return (
-      <div className="min-vh-100 d-flex flex-column justify-content-between">
-        <div>
-          <ErrorSnackbar/>
-          <SuccessSnackbar/>
-          <LoadingSpinner/>
-          <Navbar/>
-          <DonateText/>
-          <AppRoutes/>
-        </div>
-        <FooterElement/>
+  return (
+    <div className="min-vh-100 d-flex flex-column justify-content-between">
+      <div>
+        <ErrorSnackbar />
+        <SuccessSnackbar />
+        <LoadingSpinner />
+        <SessionExpirationModal />
+        <Navbar />
+        <DonateText />
+        <AppRoutes />
       </div>
-    );
-  }
+      <FooterElement />
+    </div>
+  );
 }
 
-const mapStateToProps = state => ({
-  statusLoaded: selectStatusLoaded()(state),
-  status: selectStatus()(state)
-});
+const AppWithStatusAndLoading = withGlobalLoading(AppWithStatus);
 
-const mapDispatchToProps = {getStatusIfNeeded};
+export default function App() {
 
-const ConnectedAppWithStatus = connectedComponent(AppWithStatus, mapStateToProps, mapDispatchToProps);
-
-class App extends Component {
-
-  render() {
-    return (
-      <Router>
-        <ThemeProvider theme={theme}>
-          <Provider store={store}>
-            <ConnectedAppWithStatus/>
-          </Provider>
-        </ThemeProvider>
-      </Router>
-    );
-  }
-
+  return (
+    <Router>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <RootProvider>
+            <AppWithStatusAndLoading />
+          </RootProvider>
+        </Provider>
+      </ThemeProvider>
+    </Router>
+  );
 }
-
-export default App;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { MasinoppeEnnustus, MinitornPikkus } from './views/tools';
 import Correction from './elle/tools/correction/Correction';
@@ -17,80 +17,136 @@ import Adding from './elle/pages/Adding.component';
 import Wordlist from './elle/tools/wordlist/Wordlist';
 import WordContext from './elle/tools/wordcontext/WordContext';
 import Collocates from './elle/tools/collocates/Collocates';
-import { withTranslation } from 'react-i18next';
 import Tools from './elle/pages/Tools';
+import Login from './elle/pages/Login';
+import Admin from './elle/pages/Admin';
+import RequireAuth from './elle/components/security/RequireAuth';
+import { UserRoles } from './elle/const/Constants';
+import { useTranslation } from 'react-i18next';
 
-class AppRoutes extends Component {
+export default function AppRoutes() {
+  const { t } = useTranslation();
 
-  render404 = () => {
-    const { t } = this.props;
+  const render404 = () => (
+    <div className={'text-center pb-4'}>
+      <p className={'lead'}>{t('error_404_page_not_found')}</p>
+    </div>
+  );
 
-    return (
-      <div className={'text-center pb-4'}>
-        <p className={'lead'}>{t('error_404_page_not_found')}</p>
-      </div>
-    );
-  };
-
-  render() {
-    return (
-      <Container sx={{
+  return (
+    <Container
+      disableGutters
+      maxWidth={false}
+      sx={{
         width: '80vw',
         marginTop: '20px'
       }}
-                 disableGutters
-                 maxWidth={false}>
-        <BreadcrumbLinks />
-        <Routes>
-          <Route exact
-                 path="/"
-                 element={<Home />} />
-          <Route path="/about"
-                 element={<AboutUs />}>
-            <Route index
-                   element={<Navigate to="us"
-                                      replace />} />
-            <Route path="us"
-                   element={<AboutUsText />} />
-            <Route path="people"
-                   element={<FilledContacts />} />
-            <Route path="grants"
-                   element={<Grants />} />
-            <Route path="publications"
-                   element={<Publications />} />
-          </Route>
-          <Route path="/adding"
-                 element={<Adding />} />
-          <Route path="/corrector"
-                 element={<Correction />} />
-          <Route path="/tools"
-                 element={<Tools />}>
-            <Route index
-                   element={<Navigate to="wordlist"
-                                      replace />} />
-            <Route path="wordlist"
-                   element={<Wordlist />} />
-            <Route path="wordcontext"
-                   element={<WordContext />} />
-            <Route path="collocates"
-                   element={<Collocates />} />
-            <Route path="clusterfinder"
-                   element={<ClusterFinder />} />
-            <Route path="wordanalyser"
-                   element={<WordAnalyserParent />} />
-            <Route path="minitorn-pikkus"
-                   element={<MinitornPikkus />} />
-            <Route path="masinoppe-ennustus"
-                   element={<MasinoppeEnnustus />} />
-          </Route>
-          <Route path="/links"
-                 element={<Links />} />
-          <Route path="*"
-                 element={this.render404()} />
-        </Routes>
-      </Container>
-    );
-  }
+    >
+      <BreadcrumbLinks />
+      <Routes>
+        <Route exact
+               path="/"
+               element={<Home />} />
+        <Route path={RouteConstants.ABOUT}
+               element={<AboutUs />}>
+          <Route index
+                 element={<Navigate to={RouteConstants.US}
+                                    replace />} />
+          <Route path={RouteConstants.US}
+                 element={<AboutUsText />} />
+          <Route path={RouteConstants.PEOPLE}
+                 element={<FilledContacts />} />
+          <Route path={RouteConstants.GRANTS}
+                 element={<Grants />} />
+          <Route path={RouteConstants.PUBLICATIONS}
+                 element={<Publications />} />
+        </Route>
+        <Route path={RouteConstants.ADDING}
+               element={<Adding />} />
+        <Route path={RouteConstants.CORRECTOR}
+               element={<Correction />} />
+        <Route path={RouteConstants.TOOLS}
+               element={<Tools />}>
+          <Route index
+                 element={<Navigate to={RouteConstants.WORDLIST}
+                                    replace />} />
+          <Route path={RouteConstants.WORDLIST}
+                 element={<Wordlist />} />
+          <Route path={RouteConstants.WORDCONTEXT}
+                 element={<WordContext />} />
+          <Route path={RouteConstants.COLLOCATES}
+                 element={<Collocates />} />
+          <Route path={RouteConstants.CLUSTERFINDER}
+                 element={<ClusterFinder />} />
+          <Route path={RouteConstants.WORDANALYSER}
+                 element={<WordAnalyserParent />} />
+          <Route path="minitorn-pikkus"
+                 element={<MinitornPikkus />} />
+          <Route path="masinoppe-ennustus"
+                 element={<MasinoppeEnnustus />} />
+        </Route>
+        <Route path={RouteConstants.LINKS}
+               element={<Links />} />
+        <Route path={RouteConstants.LOGIN}
+               element={<Login />} />
+        <Route element={<RequireAuth role={UserRoles.ADMIN} />}>
+          <Route path={RouteConstants.ADMIN}
+                 element={<Admin />} />
+        </Route>
+        <Route path="*"
+               element={render404()} />
+      </Routes>
+    </Container>
+  );
 }
 
-export default withTranslation()(AppRoutes);
+export const RouteConstants = {
+  ABOUT: 'about',
+  ADDING: 'adding',
+  ADMIN: 'admin',
+  CLUSTERFINDER: 'clusterfinder',
+  COLLOCATES: 'collocates',
+  CORRECTOR: 'corrector',
+  GRANTS: 'grants',
+  LINKS: 'links',
+  LOGIN: 'login',
+  PEOPLE: 'people',
+  PUBLICATIONS: 'publications',
+  TOOLS: 'tools',
+  US: 'us',
+  WORDANALYSER: 'wordanalyser',
+  WORDCONTEXT: 'wordcontext',
+  WORDLIST: 'wordlist'
+};
+
+export const RouteFullPathConstants = {
+  WORDANALYSER: `/${RouteConstants.TOOLS}/${RouteConstants.WORDANALYSER}`,
+  COLLOCATES: `/${RouteConstants.TOOLS}/${RouteConstants.COLLOCATES}`,
+  WORDCONTEXT: `/${RouteConstants.TOOLS}/${RouteConstants.WORDCONTEXT}`,
+  WORDLIST: `/${RouteConstants.TOOLS}/${RouteConstants.WORDLIST}`,
+  CLUSTERFINDER: `/${RouteConstants.TOOLS}/${RouteConstants.CLUSTERFINDER}`
+};
+
+export const HashFragmentRouteConstants = {
+  LINKS_FOR_TEACHERS: 'for-teachers',
+  LINKS_AUDIOVISUAL_MEDIA: 'audiovisual-media',
+  LINKS_RADIO_AUDIO_PODCASTS: 'radio-audio-podcasts',
+  LINKS_SERIES_FILMS_VIDEOS: 'series-films-videos',
+  LINKS_ESTONIAN_TEXTS: 'estonian-texts',
+  LINKS_LITERATURE: 'literature',
+  LINKS_MEDIA_TEXTS: 'media-texts',
+  LINKS_ACADEMIC_TEXTS: 'academic-texts',
+  LINKS_ESTONIAN_LANGUAGE_CORPORA: 'estonian-language-corpora',
+  LINKS_LEARNING_ENVIRONMENTS_AND_COURSES: 'learning-environments-and-courses',
+  LINKS_LANGUAGE_LEARNING_ENVIRONMENTS: 'language-learning-environments',
+  LINKS_LANGUAGE_COURSES: 'language-courses',
+  LINKS_LEARNING_RESOURCES: 'learning-resources',
+  LINKS_LANGUAGE_LEARNING_GAMES: 'language-learning-games',
+  LINKS_LANGUAGE_LEARNING_MATERIALS_AND_EXERCISES: 'language-learning-materials-and-exercises',
+  LINKS_DICTIONARIES: 'dictionaries',
+  LINKS_TRANSLATION_TOOLS: 'translation-tools',
+  LINKS_INTRODUCTION: 'introduction',
+  PUBLICATIONS_ARTICLES: 'articles',
+  PUBLICATIONS_CONFERENCES_AND_WORKSHOPS: 'conferences-and-workshops',
+  PUBLICATIONS_GRADUATION_PAPERS: 'graduation-papers'
+};
