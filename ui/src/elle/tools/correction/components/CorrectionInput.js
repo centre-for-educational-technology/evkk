@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-import { ContentEditableDiv } from '../../../const/Constants';
+import { ContentEditableDiv } from '../../../const/StyleConstants';
 import ErrorSpanPopper from '../tabviews/correctiontab/components/ErrorSpanPopper';
 import usePopUpHover from '../tabviews/correctiontab/hooks/usePopUpHover';
 import useProcessTextCorrections from '../tabviews/correctiontab/hooks/useProcessTextCorrections';

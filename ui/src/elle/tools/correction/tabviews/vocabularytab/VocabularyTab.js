@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, Box, Divider } from '@mui/material';
-import { ContentEditableDiv, CorrectorAccordionStyle } from '../../../../const/Constants';
+import { ContentEditableDiv, CorrectorAccordionStyle } from '../../../../const/StyleConstants';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';

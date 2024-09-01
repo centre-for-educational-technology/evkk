@@ -1,4 +1,4 @@
-import { replaceCombined } from '../../../const/Constants';
+import { replaceCombined, replaceSpaces, replaceSpaceTags } from '../../../const/Constants';
 
 export const handleModelChange = (setModel, event) => {
   setModel(event.target.value);
@@ -74,4 +74,25 @@ export const handlePaste = (event, newRef, setnewRef, setInputText) => {
       setInputText(newValue);
     }
   }
+};
+
+export const processGrammarResponseIndexes = (grammarResponse, grammarSetter) => {
+  grammarResponse.corrections.reverse();
+  grammarResponse.corrections.forEach((error, index) => {
+    error.errorId = index;
+  });
+  grammarSetter(grammarResponse);
+};
+
+export const processFetchText = (textBoxRef) => {
+  if (!textBoxRef) {
+    return '';
+  }
+  const textBoxValue = textBoxRef.current.innerText.replace(replaceCombined, '').replaceAll('  ', ' ');
+  const boxNoSpaceTags = textBoxValue.replace(replaceSpaceTags, ' ');
+  return boxNoSpaceTags.replace(replaceSpaces, ' ');
+};
+
+export const processCorrectorText = (fetchInputText) => {
+  return Array.isArray(fetchInputText) ? fetchInputText[0] : fetchInputText.trim().replaceAll(replaceCombined, '').replace(/\s+/g, ' ');
 };

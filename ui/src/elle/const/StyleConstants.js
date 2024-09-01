@@ -97,7 +97,7 @@ export const CorrectorCustomSlider = {
     backgroundColor: '#9C27B0',
     transformOrigin: 'bottom',
     transform: 'rotate(-45deg)',
-    '&:before': { display: 'none' },
+    '&:before': {display: 'none'},
     '&.MuiSlider-valueLabelOpen': {
       transform: 'translate(40%, -90%) rotate(-45deg)'
     },
@@ -144,8 +144,8 @@ export const FooterLink = styled(HashLink)({
 });
 
 export const TabStyle = {
-  '& button:hover': { backgroundColor: 'rgba(204, 168, 253, 1)', transition: '0.5s' },
-  '& button:active': { backgroundColor: '#9C27B0' },
+  '& button:hover': {backgroundColor: 'rgba(204, 168, 253, 1)', transition: '0.5s'},
+  '& button:active': {backgroundColor: '#9C27B0'},
   '& button': {
     backgroundColor: 'rgba(255, 208, 253, 1)',
     display: 'inline-block',
@@ -234,3 +234,41 @@ export const modalStyle = {
   maxHeight: '80vh',
   overflow: 'auto'
 };
+
+export const ContentEditableDiv = {
+  overflowY: 'auto',
+  border: 'gray 1px solid',
+  borderRadius: '5px',
+  height: '20vw',
+  minHeight: '200px',
+  padding: '1rem',
+  '&[contenteditable="true"]:focus': {
+    outline: 'gray 1px solid'
+  }
+
+};
+
+export const CorrectorErrorCircle = (color) => {
+  return {
+    backgroundColor: color,
+    borderRadius: '25%',
+    width: '1em',
+    height: '1em',
+    lineHeight: '100%',
+    marginY: 'auto',
+    marginRight: '1em'
+  };
+};
+
+export const CorrectorAccordionStyle = {
+  borderRadius: '10px',
+  boxShadow: 'none',
+  '&:before': {
+    display: 'none'
+  },
+  '&.Mui-expanded': {
+    margin: 0
+  }
+};
+
+

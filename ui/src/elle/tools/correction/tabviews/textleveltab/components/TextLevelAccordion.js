@@ -1,6 +1,6 @@
 import React from 'react';
 import Accordion from '@mui/material/Accordion';
-import { CorrectorAccordionStyle } from '../../../../../const/Constants';
+import { CorrectorAccordionStyle } from '../../../../../const/StyleConstants';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionDetails from '@mui/material/AccordionDetails';

@@ -1,6 +1,6 @@
 import React from 'react';
 import Accordion from '@mui/material/Accordion';
-import { CorrectorAccordionStyle, CorrectorErrorCircle } from '../../../../../const/Constants';
+import { CorrectorAccordionStyle, CorrectorErrorCircle } from '../../../../../const/StyleConstants';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Box } from '@mui/material';

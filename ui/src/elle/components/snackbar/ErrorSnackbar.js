@@ -8,7 +8,7 @@ export default function ErrorSnackbar() {
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('error_generic_server_error');
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const handleEvent = typeValue => {
     setSnackbarOpen(true);
@@ -37,7 +37,7 @@ export default function ErrorSnackbar() {
   return (
     <Snackbar open={snackbarOpen}
               autoHideDuration={10000}
-              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+              anchorOrigin={{vertical: 'top', horizontal: 'right'}}
               onClose={handleSnackbarClose}>
       <Alert onClose={handleSnackbarClose}
              className="error-alert"

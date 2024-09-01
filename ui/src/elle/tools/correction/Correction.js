@@ -2,13 +2,24 @@ import React, { useRef, useState } from 'react';
 import './correction.css';
 import { Box, Tab } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { ElleOuterDivStyle, replaceCombined } from '../../const/Constants';
+import { ElleOuterDivStyle } from '../../const/StyleConstants';
 import CorrectionTab from './tabviews/correctiontab/CorrectionTab';
 import ComplexityTab from './tabviews/complexitytab/ComplexityTab';
 import VocabularyTab from './tabviews/vocabularytab/VocabularyTab';
 import TextLevelTab from './tabviews/textleveltab/TextLevelTab';
-import { runFetches } from './helperFunctions/queries/runFetches';
 import { useTranslation } from 'react-i18next';
+import {
+  useGetAbstractResult,
+  useGetCorrectorResult,
+  useGetGrammarResults,
+  useGetSpellerResults
+} from '../../hooks/service/ToolsService';
+import {
+  processCorrectorText,
+  processFetchText,
+  processGrammarResponseIndexes
+} from './helperFunctions/helperFunctions';
+import { replaceCombined } from '../../const/Constants';
 
 export default function Correction() {
   const {t} = useTranslation();
@@ -23,13 +34,30 @@ export default function Correction() {
   const [newRef, setNewRef] = useState(inputText);
   const [requestingText, setRequestingText] = useState(false);
   const textBoxRef = useRef(inputText);
+  const {getGrammarResults} = useGetGrammarResults();
+  const {getSpellerResults} = useGetSpellerResults();
+  const {getCorrectorResult} = useGetCorrectorResult();
+  const {getAbstractResult} = useGetAbstractResult();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
     if (textBoxRef.current.innerText.replaceAll('\u00A0', ' ') !== inputText.replaceAll(replaceCombined, '').replaceAll('\n', ' ').replaceAll('\u00A0', ' ')) {
       setRequestingText(true);
       setInputText(textBoxRef.current.innerText);
-      runFetches(textBoxRef, setGrammarAnswer, setSpellerAnswer, setInputText, setComplexityAnswer, setAbstractWords, setRequestingText);
+      const fetchInputText = processFetchText(textBoxRef);
+      setInputText(fetchInputText);
+      getCorrectorResult(JSON.stringify({tekst: processCorrectorText(fetchInputText)})).then(setComplexityAnswer);
+      getGrammarResults({
+        language: 'et',
+        text: fetchInputText
+      }).then(v => processGrammarResponseIndexes(v, setGrammarAnswer));
+      getSpellerResults({text: fetchInputText}).then(v => processGrammarResponseIndexes(v, setSpellerAnswer));
+      getAbstractResult(JSON.stringify({
+        identifier: '',
+        language: 'estonian',
+        text: fetchInputText
+      })).then(setAbstractWords);
+      setRequestingText(false);
     }
   };
 

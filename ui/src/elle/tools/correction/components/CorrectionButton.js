@@ -1,8 +1,18 @@
 import React from 'react';
 import { Button } from '@mui/material';
-import { DefaultButtonStyle } from '../../../const/Constants';
-import { runFetches } from '../helperFunctions/queries/runFetches';
+import { DefaultButtonStyle } from '../../../const/StyleConstants';
 import { useTranslation } from 'react-i18next';
+import {
+  processCorrectorText,
+  processFetchText,
+  processGrammarResponseIndexes
+} from '../helperFunctions/helperFunctions';
+import {
+  useGetAbstractResult,
+  useGetCorrectorResult,
+  useGetGrammarResults,
+  useGetSpellerResults
+} from '../../../hooks/service/ToolsService';
 
 export default function CorrectionButton(
   {
@@ -15,13 +25,34 @@ export default function CorrectionButton(
     setRequestingText
   }) {
   const {t} = useTranslation();
+  const {getGrammarResults} = useGetGrammarResults();
+  const {getSpellerResults} = useGetSpellerResults();
+  const {getCorrectorResult} = useGetCorrectorResult();
+  const {getAbstractResult} = useGetAbstractResult();
+
+  const handleClick = () => {
+    const fetchInputText = processFetchText(textBoxRef);
+    setInputText(fetchInputText);
+    getCorrectorResult(JSON.stringify({tekst: processCorrectorText(fetchInputText)})).then(r => setComplexityAnswer(r));
+    getGrammarResults(JSON.stringify({
+      language: 'et',
+      text: fetchInputText
+    })).then(v => processGrammarResponseIndexes(v, setGrammarAnswer));
+    getSpellerResults(JSON.stringify({tekst: fetchInputText})).then(v => processGrammarResponseIndexes(v, setSpellerAnswer));
+    getAbstractResult(JSON.stringify({
+      identifier: '',
+      language: 'estonian',
+      text: fetchInputText
+    })).then(r => setAbstractWords(r));
+    setRequestingText(false);
+  };
   return (
     <div>
       <Button
         sx={DefaultButtonStyle}
         style={{borderRadius: '5px', marginTop: '1rem'}}
         variant="contained"
-        onClick={() => runFetches(textBoxRef, setGrammarAnswer, setSpellerAnswer, setInputText, setComplexityAnswer, setAbstractWords, setRequestingText)}
+        onClick={() => handleClick()}
       >
         {t('common_analyze')}
       </Button>

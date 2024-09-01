@@ -40,8 +40,6 @@ export const TRANSLATIONS_ET = {
   common_error: 'Toiming ebaõnnestus! Palun proovi hiljem uuesti.',
   common_dictionaries: 'Sõnastikud',
   common_donate_text: 'Loovuta oma tekst',
-  common_download: 'Laadi alla',
-  common_enter_search_word: 'Sisesta otsisõna',
   common_estonian_language_corpora: 'Eesti keele korpused',
   common_estonian_texts: 'Eestikeelsed tekstid',
   common_excel_sheet_name: 'Tabel',
