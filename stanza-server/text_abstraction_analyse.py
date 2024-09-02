@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
-import estnltk
 import math
-import nltk
 import random
+
+import estnltk
+import nltk
+
+# The following code is sourced from the repository below:
+# https://gitlab.com/martensiiber/speed-reading-backend
+# Original author: Marten Siiber
 
 nltk.download('punkt_tab')
 
@@ -71,6 +76,8 @@ eng_pos_tags_dict = {
     'Z': 'Punctuation'
 }
 
+UnknownLanguageError = 'Unknown language: '
+
 
 class Utils:
 
@@ -98,25 +105,14 @@ class Utils:
                     self.abst_dict_est[lemma] = abstraction_rating
                     self.own_abst_dict_est[lemma] = abstraction_rating
                 else:
-                    raise ValueError('Unknown language: ' + language)
+                    raise ValueError(UnknownLanguageError + language)
 
     def analyze(self, input_text, language='estonian'):
         input_text = input_text.replace("’", "'")
         if language == 'estonian' or language == None:
             return self.analyze_estonian_text(input_text)
         else:
-            raise ValueError('Unknown language: ' + language)
-
-    def analyze_word(self, input_word, pos_tag, language='estonian'):
-        input_word = input_word.replace("’", "'")
-        if language == 'estonian':
-            return self.analyze_estonian_word(input_word, pos_tag)
-        else:
-            raise ValueError('Unknown language: ' + language)
-
-    def analyze_estonian_word(self, input_word, pos_tag):
-        word_analysis = {}
-        return word_analysis
+            raise ValueError(UnknownLanguageError + language)
 
     def analyze_estonian_text(self, input_text):
         result = {}
@@ -198,8 +194,6 @@ class Utils:
                 word_type_counts[word_type] = word_type_counts[word_type] + 1
             else:
                 word_type_counts[word_type] = 1
-        # print(word_type_counts)
-        # print(word_lengths)
 
         sentence_lengths = {}
         for sentence in sentences:
@@ -270,7 +264,6 @@ class Utils:
     def generate_blank_exercises(self, input_text):
         blank_exercises = []
         text = estnltk.Text(input_text)
-        # morph_analysis = list(text.get.word_texts.postags.postag_descriptions.as_zip)
         all_sentences = text.sentence_texts
 
         # Filter out sentences with length less than 5 words or no nouns
@@ -320,7 +313,7 @@ class Utils:
             self.abst_dict_est[lemma] = abstraction
             self.own_abst_dict_est[lemma] = abstraction
         else:
-            raise ValueError('Unknown language: ' + language)
+            raise ValueError(UnknownLanguageError + language)
 
     def get_levenshtein_distance(self, first_string, second_string):
         if len(first_string) < len(second_string):
@@ -340,9 +333,6 @@ class Utils:
             previous_row = current_row
         return previous_row[-1]
 
-    def is_synonym(self, first_word, second_word, language):
-        return False
-
 
 def get_freq_dict(language):
     freq_dict = {}
@@ -356,7 +346,7 @@ def get_freq_dict(language):
                 count = int(split[0])
                 freq_dict[word] = count
     else:
-        raise ValueError('Unknown language: ' + language)
+        raise ValueError(UnknownLanguageError + language)
     return freq_dict
 
 
@@ -372,7 +362,7 @@ def get_lemma_freq_dict(language):
                 count = int(split[0])
                 lemma_freq_dict[lemma] = count
     else:
-        raise ValueError('Unknown language: ' + language)
+        raise ValueError(UnknownLanguageError + language)
     return lemma_freq_dict
 
 
@@ -426,6 +416,6 @@ def get_base_abst_dict(language):
                 concreteness = split[2]
                 abst_dict[word] = concreteness
     else:
-        raise ValueError('Unknown language: ' + language)
+        raise ValueError(UnknownLanguageError + language)
 
     return abst_dict

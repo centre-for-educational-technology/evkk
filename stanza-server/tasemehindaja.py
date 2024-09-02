@@ -1,8 +1,9 @@
 import math
-import numpy as np
-import pandas as pd
 import re
 from io import StringIO
+
+import numpy as np
+import pandas as pd
 
 from nlp import nlp_tpl
 from text_abstraction_analyse import Utils
@@ -61,7 +62,6 @@ def lexical_density(data, textLength):
 
 def rare_counter(data, freqBoundary, textLength):
     "Funktsioon arvutab tekstis sõnade osakaalu, mille lemma sagedus on etteantud piirist väiksem."
-    "Sisendiks on URL-i https://kiirlugemine.keeleressursid.ee/api/analyze POST-päringu tulemused."
     rareCount = 0
     for word in data["wordAnalysis"]:
         lemma = word["lemmas"][0]
@@ -240,8 +240,8 @@ def arvuta(inputText):
     if abCount > 0:
         nounAbstractness = abSum / abCount
 
-    frequencyData = utils.analyze(' '.join(text["Lemma"].tolist()),
-                                  "estonian")  # sõnasageduste arvutamisel võetakse arvesse kõik sõnaliigid
+    # sõnasageduste arvutamisel võetakse arvesse kõik sõnaliigid
+    frequencyData = utils.analyze(' '.join(text["Lemma"].tolist()), "estonian")
     # sõnade osakaal, mille algvorm ei kuulu eesti keele 5000 sagedama lemma hulka
     rarerThan5000MostFreq = rare_counter(frequencyData, 220, words)
     # sõnade osakaal, mille algvorm ei kuulu eesti keele 2000 sagedama lemma hulka
