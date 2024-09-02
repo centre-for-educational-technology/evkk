@@ -1,11 +1,8 @@
 export const WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO = 1000;
 
-export const replaceSpans = /<\/?span[^>]*>/g;
-export const replaceBreaks = /<br>/g;
 export const replaceCombined = /<\/?span[^>]*>|<\/?div[^>]*>/g;
 export const replaceSpaceTags = /&nbsp; ?/g;
 export const replaceSpaces = /\s\s+/g;
-export const checkForFullWord = (word) => {return new RegExp(`(?<=\\s)${word}(?=[\\s!?,.])`);};
 
 export const breadcrumbNameMap = {
   '/corrector': 'common_corrector',

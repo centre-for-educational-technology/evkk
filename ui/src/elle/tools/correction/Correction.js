@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
-import './correction.css';
+import './Correction.css';
 import { Box, Tab } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { ElleOuterDivStyle } from '../../const/StyleConstants';
-import CorrectionTab from './tabviews/correctiontab/CorrectionTab';
-import ComplexityTab from './tabviews/complexitytab/ComplexityTab';
-import VocabularyTab from './tabviews/vocabularytab/VocabularyTab';
-import TextLevelTab from './tabviews/textleveltab/TextLevelTab';
+import CorrectionTab from './tabviews/correction/CorrectionTab';
+import ComplexityTab from './tabviews/complexity/ComplexityTab';
+import VocabularyTab from './tabviews/vocabulary/VocabularyTab';
+import TextLevelTab from './tabviews/textlevel/TextLevelTab';
 import { useTranslation } from 'react-i18next';
 import {
   useGetAbstractResult,
@@ -14,16 +14,12 @@ import {
   useGetGrammarResults,
   useGetSpellerResults
 } from '../../hooks/service/ToolsService';
-import {
-  processCorrectorText,
-  processFetchText,
-  processGrammarResponseIndexes
-} from './helperFunctions/helperFunctions';
+import { processCorrectorText, processFetchText, processGrammarResponseIndexes } from './util/Utils';
 import { replaceCombined } from '../../const/Constants';
 
 export default function Correction() {
-  const {t} = useTranslation();
-  const [value, setValue] = React.useState('1');
+  const { t } = useTranslation();
+  const [value, setValue] = useState('1');
   const [inputText, setInputText] = useState('');
   const [errorList, setErrorList] = useState(null);
   const [complexityAnswer, setComplexityAnswer] = useState();
@@ -34,10 +30,10 @@ export default function Correction() {
   const [newRef, setNewRef] = useState(inputText);
   const [requestingText, setRequestingText] = useState(false);
   const textBoxRef = useRef(inputText);
-  const {getGrammarResults} = useGetGrammarResults();
-  const {getSpellerResults} = useGetSpellerResults();
-  const {getCorrectorResult} = useGetCorrectorResult();
-  const {getAbstractResult} = useGetAbstractResult();
+  const { getGrammarResults } = useGetGrammarResults();
+  const { getSpellerResults } = useGetSpellerResults();
+  const { getCorrectorResult } = useGetCorrectorResult();
+  const { getAbstractResult } = useGetAbstractResult();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -46,12 +42,12 @@ export default function Correction() {
       setInputText(textBoxRef.current.innerText);
       const fetchInputText = processFetchText(textBoxRef);
       setInputText(fetchInputText);
-      getCorrectorResult(JSON.stringify({tekst: processCorrectorText(fetchInputText)})).then(setComplexityAnswer);
+      getCorrectorResult(JSON.stringify({ tekst: processCorrectorText(fetchInputText) })).then(setComplexityAnswer);
       getGrammarResults({
         language: 'et',
         text: fetchInputText
       }).then(v => processGrammarResponseIndexes(v, setGrammarAnswer));
-      getSpellerResults({text: fetchInputText}).then(v => processGrammarResponseIndexes(v, setSpellerAnswer));
+      getSpellerResults({ text: fetchInputText }).then(v => processGrammarResponseIndexes(v, setSpellerAnswer));
       getAbstractResult(JSON.stringify({
         identifier: '',
         language: 'estonian',
@@ -65,14 +61,14 @@ export default function Correction() {
     <Box sx={ElleOuterDivStyle} className="correction-container-outer">
       <div className="mouseaway-listener"></div>
       <div className="correction-container">
-        <Box sx={{width: '100%'}}>
+        <Box sx={{ width: '100%' }}>
           <TabContext value={value}>
             <Box>
               <TabList centered onChange={handleChange}>
-                <Tab label={t('corrector_proofreading')} value="1"/>
-                <Tab label={t('corrector_proficiency_level')} value="2"/>
-                <Tab label={t('corrector_complexity')} value="3"/>
-                <Tab label={t('corrector_vocabulary')} value="4"/>
+                <Tab label={t('corrector_proofreading')} value="1" />
+                <Tab label={t('corrector_proficiency_level')} value="2" />
+                <Tab label={t('corrector_complexity')} value="3" />
+                <Tab label={t('corrector_vocabulary')} value="4" />
               </TabList>
             </Box>
             <TabPanel value="1">

@@ -2,7 +2,7 @@ import { useFetch } from '../useFetch';
 import { useCallback } from 'react';
 
 export const useGetWordlistResult = () => {
-  const {fetchData} = useFetch();
+  const { fetchData } = useFetch();
 
   const getWordlistResult = useCallback(body => {
     return fetchData('/api/tools/wordlist', {
@@ -11,11 +11,11 @@ export const useGetWordlistResult = () => {
     });
   }, [fetchData]);
 
-  return {getWordlistResult};
+  return { getWordlistResult };
 };
 
 export const useGetCollocatesResult = () => {
-  const {fetchData} = useFetch();
+  const { fetchData } = useFetch();
 
   const getCollocatesResult = useCallback(body => {
     return fetchData('/api/tools/collocates', {
@@ -24,11 +24,11 @@ export const useGetCollocatesResult = () => {
     });
   }, [fetchData]);
 
-  return {getCollocatesResult};
+  return { getCollocatesResult };
 };
 
 export const useGetWordContextResult = () => {
-  const {fetchData} = useFetch();
+  const { fetchData } = useFetch();
 
   const getWordContextResult = useCallback(body => {
     return fetchData('/api/tools/wordcontext', {
@@ -37,11 +37,11 @@ export const useGetWordContextResult = () => {
     });
   }, [fetchData]);
 
-  return {getWordContextResult};
+  return { getWordContextResult };
 };
 
 export const useGetWordAnalyserResult = () => {
-  const {fetchData} = useFetch();
+  const { fetchData } = useFetch();
 
   const getWordAnalyserResult = useCallback(body => {
     return fetchData('/api/texts/sonad-lemmad-silbid-sonaliigid-vormimargendid', {
@@ -50,11 +50,11 @@ export const useGetWordAnalyserResult = () => {
     });
   }, [fetchData]);
 
-  return {getWordAnalyserResult};
+  return { getWordAnalyserResult };
 };
 
 export const useGetCorrectorResult = () => {
-  const {fetchData} = useFetch();
+  const { fetchData } = useFetch();
 
   const getCorrectorResult = useCallback(body => {
     return fetchData('/api/texts/keerukus-sonaliigid-mitmekesisus', {
@@ -63,11 +63,11 @@ export const useGetCorrectorResult = () => {
     });
   }, [fetchData]);
 
-  return {getCorrectorResult};
+  return { getCorrectorResult };
 };
 
 export const useGetGrammarResults = () => {
-  const {fetchData} = useFetch();
+  const { fetchData } = useFetch();
 
   const getGrammarResults = useCallback(body => {
     return fetchData('https://api.tartunlp.ai/grammar', {
@@ -76,11 +76,11 @@ export const useGetGrammarResults = () => {
     });
   }, [fetchData]);
 
-  return {getGrammarResults};
+  return { getGrammarResults };
 };
 
 export const useGetSpellerResults = () => {
-  const {fetchData} = useFetch();
+  const { fetchData } = useFetch();
 
   const getSpellerResults = useCallback(body => {
     return fetchData('/api/texts/spellchecker', {
@@ -89,32 +89,18 @@ export const useGetSpellerResults = () => {
     });
   }, [fetchData]);
 
-  return {getSpellerResults};
+  return { getSpellerResults };
 };
 
 export const useGetAbstractResult = () => {
-  const {fetchData} = useFetch();
+  const { fetchData } = useFetch();
 
   const getAbstractResult = useCallback(body => {
-    console.log(body);
     return fetchData('https://kiirlugemine.keeleressursid.ee/api/analyze', {
       method: 'POST',
       body
     });
   }, [fetchData]);
 
-  return {getAbstractResult};
-};
-
-export const useGetCorrectionResult = () => {
-  const {fetchData} = useFetch();
-
-  const getCorrectionResult = useCallback(body => {
-    return fetchData('/api/texts/korrektuur', {
-      method: 'POST',
-      body
-    });
-  }, [fetchData]);
-
-  return {getCorrectionResult};
+  return { getAbstractResult };
 };

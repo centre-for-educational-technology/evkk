@@ -122,7 +122,7 @@ const AppWithStatusAndLoading = withGlobalLoading(AppWithStatus);
 export default function App() {
   return (
     <Router>
-      <MathJaxContext>
+      <MathJaxContext version={2}>
         <ThemeProvider theme={theme}>
           <Provider store={store}>
             <RootProvider>

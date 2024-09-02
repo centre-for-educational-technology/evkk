@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { ContentEditableDiv } from '../../../const/StyleConstants';
-import ErrorSpanPopper from '../tabviews/correctiontab/components/ErrorSpanPopper';
-import usePopUpHover from '../tabviews/correctiontab/hooks/usePopUpHover';
-import useProcessTextCorrections from '../tabviews/correctiontab/hooks/useProcessTextCorrections';
-import { handleCopy, handleInput, handlePaste } from '../helperFunctions/helperFunctions';
-import { resolveError } from '../tabviews/correctiontab/helperFunctions/correctorErrorResolveFunctions';
+import ErrorSpanPopper from '../tabviews/correction/components/ErrorSpanPopper';
+import usePopUpHover from '../tabviews/correction/hooks/usePopUpHover';
+import useProcessTextCorrections from '../tabviews/correction/hooks/useProcessTextCorrections';
+import { handleCopy, handleInput, handlePaste } from '../util/Utils';
+import { resolveError } from '../util/CorrectorErrorResolveFunctions';
 import CorrectionButton from './CorrectionButton';
 import { useTranslation } from 'react-i18next';
 
@@ -30,7 +30,7 @@ export default function CorrectionInput(
     setGrammarAnswer,
     setAbstractWords
   }) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [popperAnchor, setPopperAnchor] = useState(null);
   const [popperValue, setPopperValue] = useState(null);
 
@@ -48,7 +48,7 @@ export default function CorrectionInput(
       <Box
         id={'error-text-box'}
         ref={textBoxRef}
-        dangerouslySetInnerHTML={{__html: requestingText ? t('common_analyzing_text') : newRef}}
+        dangerouslySetInnerHTML={{ __html: requestingText ? t('common_analyzing_text') : newRef }}
         spellCheck={false}
         suppressContentEditableWarning={true}
         sx={ContentEditableDiv}

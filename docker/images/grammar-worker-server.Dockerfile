@@ -13,8 +13,6 @@ RUN apt-get update -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-
-
 # Set the LANG environment variable to a valid locale
 RUN apt-get update -y && \
     apt-get -y install locales && \
@@ -34,13 +32,15 @@ RUN pip install -U Flask
 # Install Git LFS
 RUN apt-get update && \
     apt-get install -y git-lfs && \
+    apt-get clean && \
     git lfs install
 
 # Clone Spell models
 RUN git clone https://huggingface.co/Jaagup/etnc19_reference_corpus_6000000_web_2019_600000 /app/models/Jaagup/etnc19_reference_corpus_6000000_web_2019_600000
 
-    #git clone https://huggingface.co/Jaagup/etnc19_reference_corpus_model_6000000_lines /app/models/Jaagup/etnc19_reference_corpus_model_6000000_lines && \
-    #git clone https://huggingface.co/Jaagup/etnc19_web_2019 /app/models/Jaagup/etnc19_web_2019 && \
+# TODO ELLE-310 use this when request to Tartu's API fails
+# git clone https://huggingface.co/Jaagup/etnc19_reference_corpus_model_6000000_lines /app/models/Jaagup/etnc19_reference_corpus_model_6000000_lines && \
+# git clone https://huggingface.co/Jaagup/etnc19_web_2019 /app/models/Jaagup/etnc19_web_2019
 
 # Expose the necessary port (if needed)
 EXPOSE 5400

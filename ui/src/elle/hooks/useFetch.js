@@ -27,7 +27,7 @@ const parseByType = async (res, type) => {
 };
 
 export const useFetch = () => {
-  const {accessToken} = useContext(RootContext) || {};
+  const { accessToken } = useContext(RootContext) || {};
   const [response, setResponse] = useState(null);
 
   const fetchData = useCallback(async (url, params = {}, options = {}) => {
@@ -38,7 +38,7 @@ export const useFetch = () => {
       parseType: FetchParseType.JSON,
       ignoreNotFoundError: false
     };
-    const finalOptions = {...defaultOptions, ...options};
+    const finalOptions = { ...defaultOptions, ...options };
 
     loadingEmitter.emit(LoadingSpinnerEventType.LOADER_START);
 
@@ -56,13 +56,7 @@ export const useFetch = () => {
       };
     }
 
-    let res;
-    try {
-      res = await fetch(url, params);
-    } catch {
-      res = {ok: false, status: 500};
-      console.log('Error fetching data');
-    }
+    const res = await fetch(url, params);
 
     loadingEmitter.emit(LoadingSpinnerEventType.LOADER_END);
 
@@ -77,9 +71,6 @@ export const useFetch = () => {
         res.json().then(body => errorEmitter.emit(ErrorCode400[body[0].code]));
       } else if (!(finalOptions.ignoreNotFoundError && res.status === 404)) {
         errorEmitter.emit(ErrorSnackbarEventType.GENERIC_ERROR);
-      } else if (res.status === 500) {
-        console.log('TEREE');
-        errorEmitter.emit(ErrorSnackbarEventType.GENERIC_ERROR);
       }
       return Promise.reject();
     }
@@ -92,7 +83,7 @@ export const useFetch = () => {
     return result;
   }, [accessToken]);
 
-  return {fetchData, response};
+  return { fetchData, response };
 };
 
 export const FetchParseType = {

@@ -3,7 +3,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import { IconButton } from '@mui/material';
 import Popover from '@mui/material/Popover';
 
-export default function CorrectionInfoIcon({inputText}) {
+export default function CorrectionInfoIcon({ inputText }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -18,7 +18,7 @@ export default function CorrectionInfoIcon({inputText}) {
   return (
     <div>
       <IconButton aria-label="info" color="red" onClick={openPopover}>
-        <InfoIcon className="elle-dark-text"/>
+        <InfoIcon className="elle-dark-text" />
       </IconButton>
       <Popover
         open={open}
@@ -33,7 +33,7 @@ export default function CorrectionInfoIcon({inputText}) {
           horizontal: 'center'
         }}
       >
-        <div style={{maxWidth: '600px', padding: '1rem'}}>{inputText}</div>
+        <div style={{ maxWidth: '600px', padding: '1rem' }}>{inputText}</div>
       </Popover>
     </div>
   );
