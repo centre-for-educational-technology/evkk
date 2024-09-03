@@ -50,7 +50,7 @@ export default function CorrectionButton(
         variant="contained"
         onClick={() => handleClick()}
       >
-        {t('common_analyze')}
+        {t('analyse_button')}
       </Button>
     </div>
   );

@@ -80,8 +80,9 @@ export default function VocabularyTab(
             <ul>
               <li>
                 <b>{t('corrector_vocabulary_infobox_root_type_token_bold')}</b> {t('corrector_vocabulary_infobox_root_type_token_value')}
-                <MathJax
-                  style={{padding: '0.5rem'}}>{`\\(\\frac{\\text{${t('common_different_word_count')}}}{\\sqrt{\\text{${t('common_word_count')}}}}\\)`}</MathJax>
+                <MathJax style={{ padding: '0.5rem' }}>
+                  {`\\(\\frac{\\text{${t('common_different_word_count')}}}{\\sqrt{\\text{${t('common_word_count')}}}}\\)`}
+                </MathJax>
               </li>
               <li>
                 <b>{t('corrector_vocabulary_infobox_mtld_bold')}</b> {t('corrector_vocabulary_infobox_mtld_value')}
