@@ -50,6 +50,7 @@ export const TRANSLATIONS_EN = {
   common_header_percentage: 'Percentage',
   common_hello: 'Hello',
   common_here: 'here',
+  common_indexes: 'Indexes',
   common_introduction: 'Introduction',
   common_learning_environments_and_courses: 'Learning environments and courses',
   common_learning_resources: 'Learning resources',
