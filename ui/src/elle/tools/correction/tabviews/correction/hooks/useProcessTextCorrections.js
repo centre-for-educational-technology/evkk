@@ -6,6 +6,17 @@ import {
 } from '../../../util/TextErrorMarkingFunctions';
 import { checkAllErrors } from '../../../util/TextErrorTypeFunctions';
 import { replaceCombined } from '../../../../../const/Constants';
+import {
+  EXTRA_PUNCTUATION,
+  EXTRA_WORD_ERROR,
+  MISSING_PUNCTUATION,
+  MISSING_WORD_ERROR,
+  MULTIPLE_ERRORS,
+  SPELLING_ERROR,
+  WORD_COUNT_ERROR,
+  WORD_ORDER_ERROR,
+  WRONG_PUNCTUATION
+} from '../../../const/Constants';
 
 const useProcessTextCorrections = (responseText, textBoxRef, textBoxValueRef, setErrorList, setInputText, spellerAnswer, grammarAnswer) => {
   useEffect(() => {
@@ -44,12 +55,12 @@ const useProcessTextCorrections = (responseText, textBoxRef, textBoxValueRef, se
       } = errorTypes;
 
       if (wrongPunctuation || extraPunctuation || missingPunctuation) {
-        const correctionCopy = {...correction};
+        const correctionCopy = { ...correction };
         innerText = resolvePunctuationMarks(wrongPunctuation, extraPunctuation, missingPunctuation, correctionCopy, errorWord, innerText, mainIndex);
         correctionCopy.errorId = `punctuation_${mainIndex}`;
         correctionCopy.index = mainIndex;
         const punctuationErrors = [wrongPunctuation, extraPunctuation, missingPunctuation];
-        const punctuationString = ['wrongPunctuation', 'extraPunctuation', 'missingPunctuation'];
+        const punctuationString = [WRONG_PUNCTUATION, EXTRA_PUNCTUATION, MISSING_PUNCTUATION];
         punctuationErrors.forEach((errorType, index) => {
           if (errorType) {
             corrections[punctuationString[index]].push(correctionCopy);
@@ -72,23 +83,23 @@ const useProcessTextCorrections = (responseText, textBoxRef, textBoxValueRef, se
               wrongPunctuationCopy = false;
               extraPunctuationCopy = false;
             }
-            const correctionCopy = {...correction};
-            correctionCopy.span = {start: endVal - word.length, end: endVal, value: newSpan[errorIndex]};
-            correctionCopy.replacements = [{value: replaceWords[errorIndex]}];
+            const correctionCopy = { ...correction };
+            correctionCopy.span = { start: endVal - word.length, end: endVal, value: newSpan[errorIndex] };
+            correctionCopy.replacements = [{ value: replaceWords[errorIndex] }];
             innerText = resolveErrorMarks(correctionCopy, innerText, word, mainIndex, wrongPunctuationCopy, extraPunctuationCopy, errorColor);
             correctionCopy.errorId = `errorno_${mainIndex}`;
             correctionCopy.index = mainIndex;
             endVal = correctionCopy.span.end - word.length - 1;
-            corrections['spellingError'].push(correctionCopy);
+            corrections[SPELLING_ERROR].push(correctionCopy);
             mainIndex++;
           });
         } else {
-          const correctionCopy = {...correction};
+          const correctionCopy = { ...correction };
           innerText = resolveErrorMarks(correctionCopy, innerText, errorWord, mainIndex, wrongPunctuation, extraPunctuation, errorColor);
           correctionCopy.errorId = `errorno_${mainIndex}`;
           correctionCopy.index = mainIndex;
           const spellingErrors = [spellingError, wordOrderError, missingWordError, extraWordError, wordCountError, multipleErrors];
-          const spellingString = ['spellingError', 'wordOrderError', 'missingWordError', 'extraWordError', 'wordCountError', 'multipleErrors'];
+          const spellingString = [SPELLING_ERROR, WORD_ORDER_ERROR, MISSING_WORD_ERROR, EXTRA_WORD_ERROR, WORD_COUNT_ERROR, MULTIPLE_ERRORS];
           spellingErrors.forEach((errorType, index) => {
             if (errorType) {
               corrections[spellingString[index]].push(correctionCopy);

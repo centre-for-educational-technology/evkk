@@ -5,6 +5,7 @@ import {
   COMPLEXITY_MARKING_MINIMUM_WORDS_IN_LONG_SENTENCE,
   LONG_SENTENCE,
   LONG_WORD,
+  NOUN,
   NOUNS
 } from '../const/Constants';
 
@@ -31,7 +32,7 @@ const handleNounMarking = (text, complexityAnswer) => {
   let tempText = text.replaceAll(replaceCombined, '');
 
   complexityAnswer.sonaliigid.forEach((word, index) => {
-    if (word === 'NOUN') {
+    if (word === NOUN) {
       const noun = complexityAnswer.sonad[index];
       const newWord = `<span id="text-span" class="noun-color">${noun}</span>`;
       tempText = tempText.replace(checkForFullWord(noun), newWord);

@@ -21,4 +21,12 @@ def spell_checker():
     return Response(json_str, mimetype='application/json')
 
 
+def speller_run(text):
+    text_request = Request(text=text, language='et')
+    corrected_text = speller.process_request(text_request)
+    json_str = json.dumps(asdict(corrected_text))
+
+    return Response(json_str, mimetype='application/json')
+
+
 app.run(host="0.0.0.0", threaded=True, port=5400)

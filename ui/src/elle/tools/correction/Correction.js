@@ -16,6 +16,7 @@ import {
 } from '../../hooks/service/ToolsService';
 import { processCorrectorText, processFetchText, processGrammarResponseIndexes } from './util/Utils';
 import { replaceCombined } from '../../const/Constants';
+import { SPELLCHECKER } from './const/Constants';
 
 export default function Correction() {
   const { t } = useTranslation();
@@ -26,7 +27,7 @@ export default function Correction() {
   const [grammarAnswer, setGrammarAnswer] = useState();
   const [spellerAnswer, setSpellerAnswer] = useState();
   const [abstractWords, setAbstractWords] = useState();
-  const [correctionModel, setCorrectionModel] = useState('spellchecker');
+  const [correctionModel, setCorrectionModel] = useState(SPELLCHECKER);
   const [newRef, setNewRef] = useState(inputText);
   const [requestingText, setRequestingText] = useState(false);
   const textBoxRef = useRef(inputText);
@@ -65,10 +66,10 @@ export default function Correction() {
           <TabContext value={value}>
             <Box>
               <TabList centered onChange={handleChange}>
-                <Tab label={t('corrector_proofreading')} value="1" />
-                <Tab label={t('corrector_proficiency_level')} value="2" />
-                <Tab label={t('corrector_complexity')} value="3" />
-                <Tab label={t('corrector_vocabulary')} value="4" />
+                <Tab label={t('corrector_proofreading')} value="1"/>
+                <Tab label={t('corrector_proficiency_level')} value="2"/>
+                <Tab label={t('corrector_complexity')} value="3"/>
+                <Tab label={t('corrector_vocabulary')} value="4"/>
               </TabList>
             </Box>
             <TabPanel value="1">

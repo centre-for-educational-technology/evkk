@@ -1,4 +1,17 @@
 import { useEffect } from 'react';
+import {
+  ERROR_NO,
+  EXTRA_PUNCTUATION,
+  EXTRA_WORD_ERROR,
+  MISSING_PUNCTUATION,
+  MISSING_WORD_ERROR,
+  MULTIPLE_ERRORS,
+  PUNCTUATION,
+  SPELLING_ERROR,
+  WORD_COUNT_ERROR,
+  WORD_ORDER_ERROR,
+  WRONG_PUNCTUATION
+} from '../../../const/Constants';
 
 /* A custom hook that adds mouseenter and mouseleave event listeners to elements with the given class name. */
 export default function usePopUpHover(className, inputText, errorList, setPopperAnchor, setPopperValue) {
@@ -9,11 +22,11 @@ export default function usePopUpHover(className, inputText, errorList, setPopper
       let hoveredError = {};
       for (const key of Object.keys(errorList)) {
         errorList[key].forEach((error) => {
-          if (key === 'extraPunctuation' || key === 'missingPunctuation' || key === 'wrongPunctuation') {
-            if (error.errorId.includes('errorno')) error.errorId = error.errorId.replace('errorno', 'punctuation');
+          if (key === EXTRA_PUNCTUATION || key === MISSING_PUNCTUATION || key === WRONG_PUNCTUATION) {
+            if (error.errorId.includes(ERROR_NO)) error.errorId = error.errorId.replace(ERROR_NO, PUNCTUATION);
           }
-          if (key === 'spellingError' || key === 'wordOrderError' || key === 'missingWordError' || key === 'extraWordError' || key === 'wordCountError' || key === 'multipleErrors') {
-            if (error.errorId.includes('punctuation')) error.errorId = error.errorId.replace('punctuation', 'errorno');
+          if (key === SPELLING_ERROR || key === WORD_ORDER_ERROR || key === MISSING_WORD_ERROR || key === EXTRA_WORD_ERROR || key === WORD_COUNT_ERROR || key === MULTIPLE_ERRORS) {
+            if (error.errorId.includes(PUNCTUATION)) error.errorId = error.errorId.replace(PUNCTUATION, ERROR_NO);
           }
 
           if (error.errorId === event.target.id) {

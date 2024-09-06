@@ -15,17 +15,5 @@ export const useCorrectionConstants = () => {
     extraWordError: { color: 'hsl(255, 37%, 73%)', label: t('corrector_grammar_errors_unnecessary_word') }
   };
 
-  const toggleButtons = [
-    {
-      title: t('corrector_spelling_errors_tooltip'),
-      value: 'spellchecker',
-      text: t('corrector_proficiency_level_spelling')
-    },
-    {
-      title: t('corrector_grammar_errors_tooltip'),
-      value: 'grammarchecker',
-      text: t('corrector_proficiency_level_grammar')
-    }];
-
-  return { errorTypes, toggleButtons };
+  return { errorTypes };
 };

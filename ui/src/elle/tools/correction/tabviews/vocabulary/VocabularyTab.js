@@ -20,10 +20,17 @@ import CorrectionButton from '../../components/CorrectionButton';
 import CorrectionInfoIcon from '../../components/CorrectionInfoIcon';
 import { MathJax } from 'better-react-mathjax';
 import { useTranslation } from 'react-i18next';
-import { useVocabularyConstants } from './constants/constants';
 import CorrectionToggleButtonGroup from '../../components/CorrectionToggleButtonGroup';
-import { VOCABULARY_TOOL_LINK } from '../../const/PathConstants';
+import {
+  VOCABULARY_DATA_LINK,
+  VOCABULARY_LEXICAL_DENSITY_LINK,
+  VOCABULARY_RANGE_LINK,
+  VOCABULARY_REFERENCE_LINK_ONE,
+  VOCABULARY_REFERENCE_LINK_TWO,
+  VOCABULARY_TOOL_LINK
+} from '../../const/PathConstants';
 import { VocabularyToggleButtons } from '../../const/ToggleButtonConstants';
+import { WORD_REPETITION } from '../../const/Constants';
 
 export default function VocabularyTab(
   {
@@ -40,16 +47,9 @@ export default function VocabularyTab(
     setGrammarAnswer,
     setRequestingText
   }) {
-  const {t} = useTranslation();
-  const [model, setModel] = useState('wordrepetition');
+  const { t } = useTranslation();
+  const [model, setModel] = useState(WORD_REPETITION);
   const [, setRenderTrigger] = useState(false);
-  const {
-    vocabularyRangeLink,
-    dataLink,
-    lexicalDensityLink,
-    referenceLinkOne,
-    referenceLinkTwo
-  } = useVocabularyConstants();
 
   useEffect(() => {
     if (!inputText) return;
@@ -91,21 +91,27 @@ export default function VocabularyTab(
                 <b>{t('corrector_vocabulary_infobox_hdd_bold')}</b> {t('corrector_vocabulary_infobox_hdd_value')}
               </li>
               <li>
-                <b>{t('corrector_vocabulary_infobox_vocabulary_range_bold')}</b> {t('corrector_vocabulary_infobox_vocabulary_range_value')}{vocabularyRangeLink}).
+                <b>{t('corrector_vocabulary_infobox_vocabulary_range_bold')}</b> {t('corrector_vocabulary_infobox_vocabulary_range_value')}
+                {<a href={VOCABULARY_RANGE_LINK}> {t('common_here')}</a>}).
               </li>
               <li>
                 <b>{t('corrector_vocabulary_infobox_noun_abstractness_bold')}</b>&nbsp;
                 {t('corrector_vocabulary_infobox_noun_abstractness_value')}&nbsp;
-                {<a href={VOCABULARY_TOOL_LINK}> {t('common_tool')}</a>}&nbsp;
+                {<a href={VOCABULARY_TOOL_LINK}> {t('common_tool')}</a>}
                 {t('corrector_vocabulary_infobox_noun_abstractness_value_second')}&nbsp;
-                {dataLink}&nbsp;
+                {<a href={VOCABULARY_DATA_LINK}> {t('correction_vocabulary_data')}</a>}&nbsp;
                 {t('corrector_vocabulary_infobox_noun_abstractness_value_end')}
               </li>
               <li>
-                <b>{t('corrector_vocabulary_infobox_lexical_density_bold')}</b> {t('corrector_vocabulary_infobox_lexical_density_value')}{lexicalDensityLink}
+                <b>{t('corrector_vocabulary_infobox_lexical_density_bold')}</b> {t('corrector_vocabulary_infobox_lexical_density_value')}
+                {<a
+                  href={VOCABULARY_LEXICAL_DENSITY_LINK}> {t('corrector_vocabulary_infobox_lexical_density_link')}</a>}
               </li>
             </ul>
-            {t('corrector_vocabulary_infobox_reference_links')}{referenceLinkOne} {t('common_and')}{referenceLinkTwo}.
+            {t('corrector_vocabulary_infobox_reference_links')}
+            {<a href={VOCABULARY_REFERENCE_LINK_ONE}> {t('common_here')}</a>}&nbsp;
+            {t('common_and')}
+            {<a href={VOCABULARY_REFERENCE_LINK_TWO}> {t('common_here')}</a>}.
             <br></br><br></br>
             {t('corrector_vocabulary_infobox_outro')}
           </div>}/>
@@ -115,7 +121,7 @@ export default function VocabularyTab(
           <Box
             id={'error-text-box'}
             ref={textBoxRef}
-            dangerouslySetInnerHTML={{__html: newRef}}
+            dangerouslySetInnerHTML={{ __html: newRef }}
             spellCheck={false}
             suppressContentEditableWarning={true}
             sx={ContentEditableDiv}
@@ -138,7 +144,7 @@ export default function VocabularyTab(
         <div className="w-50 corrector-right">
           {complexityAnswer ?
             <div>
-              <Accordion square={true} style={{marginBottom: '0.5em'}} sx={CorrectorAccordionStyle} defaultExpanded>
+              <Accordion square={true} style={{ marginBottom: '0.5em' }} sx={CorrectorAccordionStyle} defaultExpanded>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon/>}
                   aria-controls="panel1-content"
@@ -147,7 +153,7 @@ export default function VocabularyTab(
                   {t('common_statistics')}
                 </AccordionSummary>
                 <AccordionDetails>
-                  <div sx={{width: '100%'}}>
+                  <div sx={{ width: '100%' }}>
                     <div className="tab-table">
                       <div>{t('corrector_vocabulary_statistics_the_words_considered')}</div>
                       <div>{calculateTotalWords(abstractWords)}</div>
@@ -187,8 +193,8 @@ export default function VocabularyTab(
                     startValue={0}
                     endValue={15}
                     value={complexityAnswer.mitmekesisus[1]}
-                    startText={'Korduvam sõnavara'}
-                    endText={'Mitmekesisem sõnavara'}
+                    startText={t('corrector_vocabulary_repetitive_vocabulary')}
+                    endText={t('corrector_vocabulary_diverse_vocabulary')}
                   />
                   <Divider/>
                   {complexityAnswer.mitmekesisus[4] > -1 &&

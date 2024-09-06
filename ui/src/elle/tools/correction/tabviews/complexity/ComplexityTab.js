@@ -15,8 +15,9 @@ import CorrectionInfoIcon from '../../components/CorrectionInfoIcon';
 import { MathJax } from 'better-react-mathjax';
 import { useTranslation } from 'react-i18next';
 import CorrectionToggleButtonGroup from '../../components/CorrectionToggleButtonGroup';
-import { useComplexityConstants } from './constants/constants';
 import { LONG_SENTENCE } from '../../const/Constants';
+import { ComplexityToggleButtons } from '../../const/ToggleButtonConstants';
+import { COMPLEXITY_LIX_LINK, COMPLEXITY_LONG_WORD_LINK, COMPLEXITY_SMOG_LINK } from '../../const/PathConstants';
 
 export default function ComplexityTab(
   {
@@ -36,7 +37,6 @@ export default function ComplexityTab(
   const [model, setModel] = useState(LONG_SENTENCE);
   const [nounCount, setNounCount] = useState(0);
   const [, setRenderTrigger] = useState(false);
-  const { toggleButtons, lixLink, smogLink, longWordLink } = useComplexityConstants();
 
   useEffect(() => {
     if (!complexityAnswer) return;
@@ -55,7 +55,7 @@ export default function ComplexityTab(
     <div className="corrector-border-box">
       <Box className="d-flex justify-content-between">
         <CorrectionToggleButtonGroup
-          toggleButtons={toggleButtons}
+          toggleButtons={ComplexityToggleButtons}
           correctionModel={model}
           setCorrectionModel={setModel}
           textBoxRef={textBoxRef}
@@ -100,10 +100,15 @@ export default function ComplexityTab(
                 <b>{t('corrector_complexity_infobox_noun_to_verb_bold')}</b> {t('corrector_complexity_infobox_noun_to_verb_value')}
               </li>
             </ul>
-            {t('corrector_complexity_infobox_lix_outro')} {lixLink}, {t('corrector_complexity_infobox_smog_outro')} {smogLink}. {t('corrector_complexity_infobox_smog_outro_extra')}
+            {t('corrector_complexity_infobox_lix_outro')}
+            <a href={COMPLEXITY_LIX_LINK}> {t('common_here')}</a>,&nbsp;
+            {t('corrector_complexity_infobox_smog_outro')}
+            <a href={COMPLEXITY_SMOG_LINK}> {t('common_here')}</a>.&nbsp;
+            {t('corrector_complexity_infobox_smog_outro_extra')}
             <br></br><br></br>
-            {t('corrector_complexity_infobox_word_length_outro')} {longWordLink}).
-          </div>} />
+            {t('corrector_complexity_infobox_word_length_outro')}
+            <a href={COMPLEXITY_LONG_WORD_LINK}> {t('common_here')}</a>).
+          </div>}/>
       </Box>
       <div className="d-flex gap-2">
         <div className="w-50 d-flex flex-column">
@@ -137,7 +142,7 @@ export default function ComplexityTab(
                 className="complexity-tab-header">{t('corrector_complexity_level')} {complexityAnswer.keerukus[11]}</div>
               <Accordion square={true} style={{ marginBottom: '0.5em' }} sx={CorrectorAccordionStyle} defaultExpanded>
                 <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
+                  expandIcon={<ExpandMoreIcon/>}
                   aria-controls="panel1-content"
                   id="panel1-header"
                 >
@@ -174,7 +179,7 @@ export default function ComplexityTab(
               </Accordion>
               <Accordion square={true} sx={CorrectorAccordionStyle}>
                 <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
+                  expandIcon={<ExpandMoreIcon/>}
                   aria-controls="panel1-content"
                   id="panel1-header"
                 >
@@ -189,7 +194,7 @@ export default function ComplexityTab(
                     startText={t('corrector_index_score_easy')}
                     endText={t('corrector_index_score_difficult')}
                   />
-                  <Divider />
+                  <Divider/>
                   <CorrectionScale
                     title={t('corrector_flesch_kincaid_grade_level')}
                     startValue={0}
@@ -198,7 +203,7 @@ export default function ComplexityTab(
                     startText={t('corrector_index_score_easy')}
                     endText={t('corrector_index_score_difficult')}
                   />
-                  <Divider />
+                  <Divider/>
                   <CorrectionScale
                     title={t('corrector_lix_index')}
                     startValue={20}
@@ -207,7 +212,7 @@ export default function ComplexityTab(
                     startText={t('corrector_index_score_easy')}
                     endText={t('corrector_index_score_difficult')}
                   />
-                  <Divider />
+                  <Divider/>
                   <CorrectionScale
                     title={t('corrector_noun_to_verb_ratio')}
                     startValue={0}

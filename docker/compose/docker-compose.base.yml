@@ -74,8 +74,8 @@ services:
           memory: 15G
 
   grammar-worker-server:
-    image: grammar-worker-server
-    container_name: grammar-worker-server
+    image: evkk-grammar-worker-server
+    container_name: evkk-grammar-worker-server
     restart: always
     deploy:
       resources:

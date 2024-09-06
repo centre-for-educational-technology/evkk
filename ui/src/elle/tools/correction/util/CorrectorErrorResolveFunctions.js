@@ -1,9 +1,17 @@
+import {
+  EXTRA_PUNCTUATION,
+  GRAMMARCHECKER,
+  MISSING_PUNCTUATION,
+  SPELLCHECKER,
+  WRONG_PUNCTUATION
+} from '../const/Constants';
+
 export const resolvePunctuation = (type, error) => {
-  if (type === 'extraPunctuation') {
-    return {acceptText: '', declineText: error.span.value[error.span.value.length - 1]};
-  } else if (type === 'missingPunctuation') {
-    return {acceptText: error.replacements[0].value[error.replacements[0].value.length - 1], declineText: ''};
-  } else if (type === 'wrongPunctuation') {
+  if (type === EXTRA_PUNCTUATION) {
+    return { acceptText: '', declineText: error.span.value[error.span.value.length - 1] };
+  } else if (type === MISSING_PUNCTUATION) {
+    return { acceptText: error.replacements[0].value[error.replacements[0].value.length - 1], declineText: '' };
+  } else if (type === WRONG_PUNCTUATION) {
     return {
       acceptText: error.replacements[0].value[error.replacements[0].value.length - 1],
       declineText: error.span.value[error.span.value.length - 1]
@@ -32,7 +40,7 @@ export const resolveError = (index, errorType, newInnerText, type, setErrorList,
     }
   });
   grammarAnswer.corrections = array.reverse();
-  if (model === 'spellerchecker') {
+  if (model === SPELLCHECKER) {
     spellerAnswer.corrections.forEach((error) => {
       if (error.errorId < index) {
         error.span.start = error.span.start + difference;
@@ -41,7 +49,7 @@ export const resolveError = (index, errorType, newInnerText, type, setErrorList,
     });
     spellerAnswer.corrections = spellerAnswer.corrections.filter((error) => error.errorId !== index);
   }
-  if (model === 'grammarchecker') {
+  if (model === GRAMMARCHECKER) {
     grammarAnswer.corrections.forEach((error, _) => {
       if (error.errorId < index) {
         error.span.start = error.span.start + difference;
@@ -63,5 +71,5 @@ export const resolveError = (index, errorType, newInnerText, type, setErrorList,
 
   const errors = errorList[type];
   const newList = errors.filter((error) => error.index !== index);
-  setErrorList({...errorList, [type]: newList});
+  setErrorList({ ...errorList, [type]: newList });
 };

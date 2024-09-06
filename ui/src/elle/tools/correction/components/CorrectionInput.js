@@ -8,6 +8,7 @@ import { handleCopy, handleInput, handlePaste } from '../util/Utils';
 import { resolveError } from '../util/CorrectorErrorResolveFunctions';
 import CorrectionButton from './CorrectionButton';
 import { useTranslation } from 'react-i18next';
+import { GRAMMARCHECKER, SPELLCHECKER } from '../const/Constants';
 
 export default function CorrectionInput(
   {
@@ -35,8 +36,8 @@ export default function CorrectionInput(
   const [popperValue, setPopperValue] = useState(null);
 
   useEffect(() => {
-    if (model === 'spellchecker') setResponseText(spellerAnswer);
-    if (model === 'grammarchecker') setResponseText(grammarAnswer);
+    if (model === SPELLCHECKER) setResponseText(spellerAnswer);
+    if (model === GRAMMARCHECKER) setResponseText(grammarAnswer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [model, inputText, spellerAnswer, grammarAnswer]);
 

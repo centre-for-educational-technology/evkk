@@ -1,6 +1,7 @@
 import { commonLemmas, stopWords } from '../tabviews/vocabulary/constants/constants';
+import { MAIN_NUMERAL, NAME, NOUN, ORDINAL_NUMERAL } from '../const/Constants';
 
-const positionalWords = ['Pärisnimi', 'Põhiarvsõna', 'Järgarvsõna'];
+const positionalWords = [NAME, MAIN_NUMERAL, ORDINAL_NUMERAL];
 
 export const calculateAbstractnessAverage = (abstractAnswer) => {
   let abstractCount = 0;
@@ -38,7 +39,7 @@ export const calculateContentWord = (abstractAnswer) => {
 export const calculateAbstractWords = (abstractAnswer, complexityAnswer) => {
   let abstractCount = 0;
   abstractAnswer.wordAnalysis.forEach((word, index) => {
-    if (word.abstractness === 3 && word.pos !== 'Pärisnimi' && complexityAnswer.sonaliigid[index] === 'NOUN') {
+    if (word.abstractness === 3 && word.pos !== NAME && complexityAnswer.sonaliigid[index] === NOUN) {
       abstractCount++;
     }
   });

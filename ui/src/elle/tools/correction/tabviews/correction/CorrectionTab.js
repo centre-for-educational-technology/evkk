@@ -7,7 +7,8 @@ import { resolveError } from '../../util/CorrectorErrorResolveFunctions';
 import CorrectionInfoIcon from '../../components/CorrectionInfoIcon';
 import { useTranslation } from 'react-i18next';
 import CorrectionToggleButtonGroup from '../../components/CorrectionToggleButtonGroup';
-import { useCorrectionConstants } from './constants/constants';
+import { CorrectionAndTextLevelToggleButtons } from '../../const/ToggleButtonConstants';
+import { CORRECTION_TAB_LINK } from '../../const/PathConstants';
 
 export default function CorrectionTab(
   {
@@ -29,11 +30,9 @@ export default function CorrectionTab(
     setCorrectionModel,
     setAbstractWords
   }) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [responseText, setResponseText] = useState();
   const [totalErrors, setTotalErrors] = useState(null);
-  const link = <a href="https://arxiv.org/pdf/2402.11671">{t('common_here')}</a>;
-  const {toggleButtons} = useCorrectionConstants();
 
   useEffect(() => {
     if (!errorList) return;
@@ -45,7 +44,7 @@ export default function CorrectionTab(
     <div className="corrector-border-box">
       <Box className="d-flex justify-content-between">
         <CorrectionToggleButtonGroup
-          toggleButtons={toggleButtons}
+          toggleButtons={CorrectionAndTextLevelToggleButtons}
           correctionModel={correctionModel}
           setCorrectionModel={setCorrectionModel}
           textBoxRef={textBoxRef}
@@ -58,7 +57,8 @@ export default function CorrectionTab(
           setAbstractWords={setAbstractWords}
         />
         <CorrectionInfoIcon
-          inputText={<div>{t('corrector_proofreading_infobox')} {link}.</div>}/>
+          inputText={<div>{t('corrector_proofreading_infobox')} <a href={CORRECTION_TAB_LINK}>{t('common_here')}</a>.
+          </div>}/>
       </Box>
       <div className="d-flex gap-2">
         <CorrectionInput

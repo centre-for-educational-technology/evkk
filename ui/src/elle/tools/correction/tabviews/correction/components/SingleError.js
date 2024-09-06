@@ -3,6 +3,13 @@ import { IconButton } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { resolvePunctuation } from '../../../util/CorrectorErrorResolveFunctions';
+import {
+  ERROR_NO,
+  EXTRA_PUNCTUATION,
+  MISSING_PUNCTUATION,
+  PUNCTUATION,
+  WRONG_PUNCTUATION
+} from '../../../const/Constants';
 
 export default function SingleError(
   {
@@ -21,11 +28,11 @@ export default function SingleError(
   }) {
   const [isHovering, setIsHovering] = useState(false);
   const isFirstRender = useRef(true);
-  const errorValue = type === 'extraPunctuation' || type === 'missingPunctuation' ? 'punctuation' : 'errorno';
+  const errorValue = type === EXTRA_PUNCTUATION || type === MISSING_PUNCTUATION ? PUNCTUATION : ERROR_NO;
   let acceptText = error.replacements[0].value;
   let declineText = error.span.value;
 
-  if (type === 'extraPunctuation' || type === 'missingPunctuation' || type === 'wrongPunctuation') {
+  if (type === EXTRA_PUNCTUATION || type === MISSING_PUNCTUATION || type === WRONG_PUNCTUATION) {
     const resolvedPunctuation = resolvePunctuation(type, error);
     acceptText = resolvedPunctuation.acceptText;
     declineText = resolvedPunctuation.declineText;
@@ -37,7 +44,7 @@ export default function SingleError(
       return;
     }
 
-    if ((type === 'missingPunctuation' || type === 'extraPunctuation') && document.querySelector(`#punctuation_${error.index}`)) {
+    if ((type === MISSING_PUNCTUATION || type === EXTRA_PUNCTUATION) && document.querySelector(`#punctuation_${error.index}`)) {
       document.querySelector(`#punctuation_${error.index}`).classList.toggle(`${type}hovering`);
     } else if (document.querySelector(`#errorno_${error.index}`)) {
       document.querySelector(`#errorno_${error.index}`).classList.toggle(`${type}hovering`);

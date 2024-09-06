@@ -1,8 +1,20 @@
 import { commonLemmas, stopWords } from '../tabviews/vocabulary/constants/constants';
 import { replaceCombined } from '../../../const/Constants';
 import { checkForFullWord } from '../../../util/TextUtils';
+import {
+  ABSTRACT_WORDS,
+  CONTENT_WORDS,
+  EXCLUSION_WORDS,
+  MAIN_NUMERAL,
+  NAME,
+  NOUN,
+  ORDINAL_NUMERAL,
+  PRON,
+  UNCOMMON_WORDS,
+  WORD_REPETITION
+} from '../const/Constants';
 
-const positionalWords = ['Pärisnimi', 'Põhiarvsõna', 'Järgarvsõna'];
+const positionalWords = [NAME, MAIN_NUMERAL, ORDINAL_NUMERAL];
 
 export const handleUncommonWords = (text, abstractAnswer, complexityAnswer) => {
   let tempText = text.replaceAll(replaceCombined, '');
@@ -19,7 +31,7 @@ export const handleUncommonWords = (text, abstractAnswer, complexityAnswer) => {
 export const handleAbstractWords = (text, abstractAnswer, complexityAnswer) => {
   let tempText = text.replaceAll(replaceCombined, '');
   abstractAnswer.wordAnalysis.forEach((word, index) => {
-    if (word.abstractness === 3 && word.pos !== 'Pärisnimi' && complexityAnswer.sonaliigid[index] === 'NOUN') {
+    if (word.abstractness === 3 && word.pos !== NAME && complexityAnswer.sonaliigid[index] === NOUN) {
       const newWord = `<span class="abstract-word-color">${word.word}</span>`;
       tempText = tempText.replace(checkForFullWord(word.word), newWord);
     }
@@ -47,7 +59,7 @@ export const handleSameWordRepetition = (sentence, text, usedIndexes, complexity
   const lemmaMap = new Map();
 
   sentenceLemmas.forEach((lemma, index) => {
-    if (complexityAnswer.sonaliigid[index] !== 'PRON') {
+    if (complexityAnswer.sonaliigid[index] !== PRON) {
       if (!lemmaMap.has(lemma)) {
         lemmaMap.set(lemma, []);
       }
@@ -59,7 +71,7 @@ export const handleSameWordRepetition = (sentence, text, usedIndexes, complexity
     if (indices.length > 1) {
       indices.forEach((index) => {
         const word = sentenceWords[index];
-        if (['ja', 'mina', 'olema', 'ei', 'et'].includes(lemma)) {
+        if (EXCLUSION_WORDS.includes(lemma)) {
           if (sentenceWords[indices[0]] === word) {
             duplicateIndexes.add(word);
           }
@@ -91,8 +103,8 @@ export const handleWordRepetition = (sentence1, sentences2, usedIndexes, text, c
   const sentence1Map = new Map();
 
   sentence1Lemmas.forEach((lemma, index) => {
-    if (lemma !== 'ja' && lemma !== 'mina' && lemma !== 'olema' && lemma !== 'ei' && lemma !== 'et' && complexityAnswer.sonaliigid[index] !== 'PRON') {
-      sentence1Map.set(lemma, {word: sentence1Words[index], index});
+    if (!EXCLUSION_WORDS.includes(lemma) && complexityAnswer.sonaliigid[index] !== PRON) {
+      sentence1Map.set(lemma, { word: sentence1Words[index], index });
     }
   });
 
@@ -136,19 +148,19 @@ export const markText = (complexityAnswer, inputText, model, abstractWords, setN
   const sentences = text.split(/(?<=[.!?])\s+/);
   let currentWordIndex = 0;
   sentences.forEach((sentence, index) => {
-    if (model === 'wordrepetition') {
-      const usedIndexes = {start: currentWordIndex, end: currentWordIndex + sentence.split(' ').length};
+    if (model === WORD_REPETITION) {
+      const usedIndexes = { start: currentWordIndex, end: currentWordIndex + sentence.split(' ').length };
       const tempSentence = text.split(/(?<=[.!?])\s+/)[index];
       text = handleSameWordRepetition(tempSentence, text, usedIndexes, complexityAnswer);
       if (index < sentences.length - 1) {
         currentWordIndex = usedIndexes.end;
         text = handleWordRepetition(tempSentence, sentences[index + 1], usedIndexes, text, complexityAnswer);
       }
-    } else if (model === 'uncommonwords' && complexityAnswer) {
+    } else if (model === UNCOMMON_WORDS && complexityAnswer) {
       text = handleUncommonWords(text, abstractWords, complexityAnswer);
-    } else if (model === 'abstractwords' && abstractWords) {
+    } else if (model === ABSTRACT_WORDS && abstractWords) {
       text = handleAbstractWords(text, abstractWords, complexityAnswer);
-    } else if (model === 'contentwords') {
+    } else if (model === CONTENT_WORDS) {
       text = handleContentWords(text, complexityAnswer);
     }
   });

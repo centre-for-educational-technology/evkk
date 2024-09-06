@@ -9,7 +9,7 @@ import TextLevelAccordionInner from './components/TextLevelAccordionInner';
 import CorrectionInfoIcon from '../../components/CorrectionInfoIcon';
 import CorrectionToggleButtonGroup from '../../components/CorrectionToggleButtonGroup';
 import { useTranslation } from 'react-i18next';
-import { useCorrectionConstants } from '../correction/constants/constants';
+import { CorrectionAndTextLevelToggleButtons } from '../../const/ToggleButtonConstants';
 
 export default function TextLevelTab(
   {
@@ -32,10 +32,9 @@ export default function TextLevelTab(
     setSpellerAnswer,
     setGrammarAnswer
   }) {
-  const {t} = useTranslation();
-  const {accordionDetails, textLevels, textLevelColors} = useAccordionDetails();
+  const { t } = useTranslation();
+  const { accordionDetails, textLevels, textLevelColors } = useAccordionDetails();
   const [responseText, setResponseText] = useState();
-  const {toggleButtons} = useCorrectionConstants();
 
   return (
     <div className="corrector-border-box">
@@ -51,7 +50,7 @@ export default function TextLevelTab(
           setSpellerAnswer={setSpellerAnswer}
           setComplexityAnswer={setComplexityAnswer}
           setAbstractWords={setAbstractWords}
-          toggleButtons={toggleButtons}
+          toggleButtons={CorrectionAndTextLevelToggleButtons}
         />
         <CorrectionInfoIcon
           inputText={
@@ -101,11 +100,11 @@ export default function TextLevelTab(
         <div className="w-50 corrector-right">
           {complexityAnswer && complexityAnswer?.keeletase.length !== 0 &&
             <div className="d-flex justify-content-between">
-              <div style={{fontSize: '1.5rem'}}>{t('corrector_proficiency_level_color_codes')}:</div>
+              <div style={{ fontSize: '1.5rem' }}>{t('corrector_proficiency_level_color_codes')}:</div>
               {textLevelColors.map((color, index) => {
                 return (
                   <div className="d-flex align-items-center" key={textLevels[index]}>
-                    <div className="text-level-tab-color-circle" style={{backgroundColor: color}}></div>
+                    <div className="text-level-tab-color-circle" style={{ backgroundColor: color }}></div>
                     -
                     {textLevels[index]}
                   </div>
