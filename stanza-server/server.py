@@ -3,13 +3,18 @@ import math
 import os
 import re
 import subprocess
-
 from flask import Flask
 from flask import Response
 from flask import request
 
+from linguistic_analysis import predict_level
 from nlp import nlp_t, nlp_tp, nlp_tpl, nlp_all, nlp_ru_tp, nlp_ru_all
 from tasemehindaja import arvuta
+from text_abstraction_analyse import Utils
+from train import train
+
+model, scaler = train()
+utils = Utils()
 
 if os.path.isfile("/app/word_mapping.csv"):
     asendused = [rida.strip().split(",") for rida in open("/app/word_mapping.csv").readlines()]
@@ -69,12 +74,18 @@ def sonad_lemmad_silbid_sonaliigid_vormimargendid():
             silbid.insert(silpide_arv - index, "–")
             silpide_arv += 1
 
+    abstract_answer = utils.analyze(' '.join(lemmad), "estonian")
+
+    serializable_word_analysis = make_serializable(abstract_answer["wordAnalysis"])
+
     return Response(json.dumps({
         "sonad": sonad,
         "lemmad": lemmad,
         "silbid": silbid,
         "sonaliigid": sonaliigid,
-        "vormimargendid": vormimargendid
+        "vormimargendid": vormimargendid,
+        "keeletase": predict_level(model, scaler, tekst),
+        "abstraktsus": serializable_word_analysis
     }), mimetype=mimetype)
 
 
@@ -336,6 +347,17 @@ def hinda_keerukust(tekst):
 
 def puhasta_sonad(words):
     return [word.replace("'", "").replace("*", "").replace("\n", "") for word in words]
+
+
+def make_serializable(data):
+    if isinstance(data, dict):
+        return {key: make_serializable(value) for key, value in data.items()}
+    elif isinstance(data, list):
+        return [make_serializable(item) for item in data]
+    elif hasattr(data, '__dict__'):
+        return make_serializable(data.__dict__)
+    else:
+        return data
 
 
 def sona_on_eestikeelne(sona):
