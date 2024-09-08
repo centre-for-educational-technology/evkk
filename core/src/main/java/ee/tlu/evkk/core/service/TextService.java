@@ -188,7 +188,9 @@ public class TextService {
       stanzaResponse.getSilbid(),
       null,
       translateWordType(stanzaResponse.getSonaliigid(), request.getLanguage()),
-      translateFeats(stanzaResponse.getVormimargendid(), request.getLanguage())
+      translateFeats(stanzaResponse.getVormimargendid(), request.getLanguage()),
+      stanzaResponse.getKeeletase(),
+      stanzaResponse.getAbstraktsus()
     );
   }
 
