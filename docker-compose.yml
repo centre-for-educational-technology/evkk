@@ -29,6 +29,8 @@ services:
     container_name: evkk-stanza-server
     profiles: [ "all", "stanza" ]
     restart: always
+    networks:
+      - evkk_network
     build:
       context: .
       dockerfile: docker/images/evkk-stanza-server.Dockerfile
@@ -56,11 +58,17 @@ services:
       - "5200:5200"
 
   grammar-worker-server:
-    container_name: evkk-grammar-worker-server
+    container_name: grammar-worker-server
     profiles: [ "all", "grammar_worker" ]
     restart: always
+    networks:
+      - evkk_network
     build:
       context: .
-      dockerfile: docker/images/evkk-grammar-worker-server.Dockerfile
+      dockerfile: docker/images/grammar-worker-server.Dockerfile
     ports:
       - "5400:5400"
+
+networks:
+  evkk_network:
+    driver: bridge

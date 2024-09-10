@@ -10,7 +10,7 @@ export const resolvePunctuation = (type, error) => {
   if (type === EXTRA_PUNCTUATION) {
     return { acceptText: '', declineText: error.span.value[error.span.value.length - 1] };
   } else if (type === MISSING_PUNCTUATION) {
-    return { acceptText: error.replacements[0].value[error.replacements[0].value.length - 1], declineText: '' };
+    return { acceptText: error.replacements[0].value[error.replacements[0].value.length - 1] + ' ', declineText: ' ' };
   } else if (type === WRONG_PUNCTUATION) {
     return {
       acceptText: error.replacements[0].value[error.replacements[0].value.length - 1],

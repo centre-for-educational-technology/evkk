@@ -19,7 +19,7 @@ const positionalWords = [NAME, MAIN_NUMERAL, ORDINAL_NUMERAL];
 export const handleUncommonWords = (text, abstractAnswer, complexityAnswer) => {
   let tempText = text.replaceAll(replaceCombined, '');
 
-  abstractAnswer.wordAnalysis.forEach((lemma, index) => {
+  abstractAnswer.forEach((lemma, index) => {
     if (!positionalWords.includes(lemma.pos) && !commonLemmas.includes(lemma.lemmas[0].lemma) && lemma.posTag !== 'G') {
       const newWord = `<span class="uncommon-word-color">${complexityAnswer.sonad[index]}</span>`;
       tempText = tempText.replace(checkForFullWord(complexityAnswer.sonad[index]), newWord);
@@ -30,7 +30,7 @@ export const handleUncommonWords = (text, abstractAnswer, complexityAnswer) => {
 
 export const handleAbstractWords = (text, abstractAnswer, complexityAnswer) => {
   let tempText = text.replaceAll(replaceCombined, '');
-  abstractAnswer.wordAnalysis.forEach((word, index) => {
+  abstractAnswer.forEach((word, index) => {
     if (word.abstractness === 3 && word.pos !== NAME && complexityAnswer.sonaliigid[index] === NOUN) {
       const newWord = `<span class="abstract-word-color">${word.word}</span>`;
       tempText = tempText.replace(checkForFullWord(word.word), newWord);

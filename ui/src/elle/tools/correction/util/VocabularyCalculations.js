@@ -6,7 +6,7 @@ const positionalWords = [NAME, MAIN_NUMERAL, ORDINAL_NUMERAL];
 export const calculateAbstractnessAverage = (abstractAnswer) => {
   let abstractCount = 0;
   let abstractnessSum = 0;
-  abstractAnswer.wordAnalysis.forEach((word) => {
+  abstractAnswer.forEach((word) => {
     if (word.abstractness !== null && word.pos === 'Nimisõna') {
       abstractCount++;
       abstractnessSum += word.abstractness;
@@ -18,7 +18,7 @@ export const calculateAbstractnessAverage = (abstractAnswer) => {
 export const calculateUncommonWords = (abstractAnswer) => {
   let unCommonCount = 0;
 
-  abstractAnswer.wordAnalysis.forEach((lemma, _) => {
+  abstractAnswer.forEach((lemma, _) => {
     if (!positionalWords.includes(lemma.pos) && !commonLemmas.includes(lemma.lemmas[0].lemma) && lemma.posTag !== 'G') {
       unCommonCount++;
     }
@@ -28,7 +28,7 @@ export const calculateUncommonWords = (abstractAnswer) => {
 
 export const calculateContentWord = (abstractAnswer) => {
   let contentWordCount = 0;
-  abstractAnswer.wordAnalysis.forEach((lemma, _) => {
+  abstractAnswer.forEach((lemma, _) => {
     if (!positionalWords.includes(lemma.pos) && !stopWords.includes(lemma.lemmas[0].lemma) && lemma.posTag !== 'G') {
       contentWordCount++;
     }
@@ -38,7 +38,7 @@ export const calculateContentWord = (abstractAnswer) => {
 
 export const calculateAbstractWords = (abstractAnswer, complexityAnswer) => {
   let abstractCount = 0;
-  abstractAnswer.wordAnalysis.forEach((word, index) => {
+  abstractAnswer.forEach((word, index) => {
     if (word.abstractness === 3 && word.pos !== NAME && complexityAnswer.sonaliigid[index] === NOUN) {
       abstractCount++;
     }
@@ -48,7 +48,7 @@ export const calculateAbstractWords = (abstractAnswer, complexityAnswer) => {
 
 export const calculateTotalWords = (abstractAnswer) => {
   let totalWordCount = 0;
-  abstractAnswer.wordAnalysis.forEach((lemma, _) => {
+  abstractAnswer.forEach((lemma, _) => {
     if (!positionalWords.includes(lemma.pos) && lemma.posTag !== 'G') {
       totalWordCount++;
     }

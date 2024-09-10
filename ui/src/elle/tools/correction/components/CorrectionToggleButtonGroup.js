@@ -3,12 +3,7 @@ import { ToggleButton, ToggleButtonGroup } from '@mui/lab';
 import { replaceCombined } from '../../../const/Constants';
 import { processCorrectorText, processFetchText, processGrammarResponseIndexes } from '../util/Utils';
 import { Box, Tooltip } from '@mui/material';
-import {
-  useGetAbstractResult,
-  useGetCorrectorResult,
-  useGetGrammarResults,
-  useGetSpellerResults
-} from '../../../hooks/service/ToolsService';
+import { useGetCorrectorResult } from '../../../hooks/service/ToolsService';
 import { useTranslation } from 'react-i18next';
 
 export default function CorrectionToggleButtonGroup(
@@ -26,10 +21,7 @@ export default function CorrectionToggleButtonGroup(
     setAbstractWords
   }) {
 
-  const { getGrammarResults } = useGetGrammarResults();
-  const { getSpellerResults } = useGetSpellerResults();
   const { getCorrectorResult } = useGetCorrectorResult();
-  const { getAbstractResult } = useGetAbstractResult();
   const { t } = useTranslation();
 
   return (
@@ -45,18 +37,14 @@ export default function CorrectionToggleButtonGroup(
             setInputText(textBoxRef.current.innerText);
             const fetchInputText = processFetchText(textBoxRef);
             setInputText(fetchInputText);
-            getCorrectorResult(JSON.stringify({ tekst: processCorrectorText(fetchInputText) })).then(setComplexityAnswer);
-            getGrammarResults({
-              language: 'et',
-              text: fetchInputText
-            }).then(v => processGrammarResponseIndexes(v, setGrammarAnswer));
-            getSpellerResults({ text: fetchInputText }).then(v => processGrammarResponseIndexes(v, setSpellerAnswer));
-            getAbstractResult(JSON.stringify({
-              identifier: '',
-              language: 'estonian',
-              text: fetchInputText
-            })).then(setAbstractWords);
-            setRequestingText(false);
+            getCorrectorResult(JSON.stringify({ tekst: processCorrectorText(fetchInputText) }))
+              .then(answer => {
+                setComplexityAnswer(answer);
+                processGrammarResponseIndexes(answer.grammatika, setGrammarAnswer);
+                processGrammarResponseIndexes(answer.speller, setSpellerAnswer);
+                setAbstractWords(answer.abstraktsus);
+                setRequestingText(false);
+              });
           }
           setCorrectionModel(e.target.value);
         }}

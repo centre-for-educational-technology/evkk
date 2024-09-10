@@ -66,41 +66,4 @@ export const useGetCorrectorResult = () => {
   return { getCorrectorResult };
 };
 
-export const useGetGrammarResults = () => {
-  const { fetchData } = useFetch();
 
-  const getGrammarResults = useCallback(body => {
-    return fetchData('https://api.tartunlp.ai/grammar', {
-      method: 'POST',
-      body
-    });
-  }, [fetchData]);
-
-  return { getGrammarResults };
-};
-
-export const useGetSpellerResults = () => {
-  const { fetchData } = useFetch();
-
-  const getSpellerResults = useCallback(body => {
-    return fetchData('/api/texts/spellchecker', {
-      method: 'POST',
-      body
-    });
-  }, [fetchData]);
-
-  return { getSpellerResults };
-};
-
-export const useGetAbstractResult = () => {
-  const { fetchData } = useFetch();
-
-  const getAbstractResult = useCallback(body => {
-    return fetchData('https://kiirlugemine.keeleressursid.ee/api/analyze', {
-      method: 'POST',
-      body
-    });
-  }, [fetchData]);
-
-  return { getAbstractResult };
-};

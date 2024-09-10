@@ -19,4 +19,8 @@ public class TextWithComplexity {
   private List<String> lemmad;
   private List<String> mitmekesisus;
   private List<List<String>> keeletase;
+  private Object uuskeeletase;
+  private Object abstraktsus;
+  private Object grammatika;
+  private Object speller;
 }

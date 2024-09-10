@@ -7,6 +7,8 @@ from flask import Flask
 from flask import Response
 from flask import request
 
+from grammar_fetches import fetch_grammar
+from grammar_fetches import fetch_speller
 from linguistic_analysis import predict_level
 from nlp import nlp_t, nlp_tp, nlp_tpl, nlp_all, nlp_ru_tp, nlp_ru_all
 from tasemehindaja import arvuta
@@ -53,13 +55,21 @@ def keerukus_sonaliigid_mitmekesisus():
                 sonaliigid.append(word.pos)
                 lemmad.append(word.lemma)
 
+    abstract_answer = utils.analyze(' '.join(lemmad), "estonian")
+
+    serializable_word_analysis = make_serializable(abstract_answer["wordAnalysis"])
+
     return Response(json.dumps({
         "sonad": sonad,
         "sonaliigid": sonaliigid,
         "keerukus": hinda_keerukust(tekst),
         "mitmekesisus": hinda_mitmekesisust(tekst),
         "lemmad": lemmad,
-        "keeletase": arvuta(tekst)
+        "keeletase": arvuta(tekst),
+        "uuskeeletase": predict_level(model, scaler, tekst),
+        "abstraktsus": serializable_word_analysis,
+        "grammatika": fetch_grammar(tekst),
+        "speller": fetch_speller(tekst)
     }), mimetype=mimetype)
 
 
@@ -100,18 +110,12 @@ def sonad_lemmad_silbid_sonaliigid_vormimargendid():
             silbid.insert(silpide_arv - index, "–")
             silpide_arv += 1
 
-    abstract_answer = utils.analyze(' '.join(lemmad), "estonian")
-
-    serializable_word_analysis = make_serializable(abstract_answer["wordAnalysis"])
-
     return Response(json.dumps({
         "sonad": sonad,
         "lemmad": lemmad,
         "silbid": silbid,
         "sonaliigid": sonaliigid,
         "vormimargendid": vormimargendid,
-        "keeletase": predict_level(model, scaler, tekst),
-        "abstraktsus": serializable_word_analysis
     }), mimetype=mimetype)
 
 
