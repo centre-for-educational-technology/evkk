@@ -13,12 +13,14 @@ export default function CorrectionButton(
     setGrammarAnswer,
     setSpellerAnswer,
     setAbstractWords,
-    setRequestingText
+    setRequestingText,
+    newRef
   }) {
   const { t } = useTranslation();
   const { getCorrectorResult } = useGetCorrectorResult();
 
   const handleClick = () => {
+    setRequestingText(newRef);
     const fetchInputText = processFetchText(textBoxRef);
     setInputText(fetchInputText);
     getCorrectorResult(JSON.stringify({ tekst: processCorrectorText(fetchInputText) }))
@@ -28,7 +30,7 @@ export default function CorrectionButton(
         processGrammarResponseIndexes(answer.speller, setSpellerAnswer);
         setAbstractWords(answer.abstraktsus);
       });
-    setRequestingText(false);
+    setRequestingText(null);
   };
   return (
     <div>

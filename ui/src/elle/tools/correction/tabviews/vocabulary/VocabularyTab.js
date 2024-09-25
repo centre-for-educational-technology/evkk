@@ -34,6 +34,7 @@ import { WORD_REPETITION } from '../../const/Constants';
 
 export default function VocabularyTab(
   {
+    requestingText,
     textBoxRef,
     newRef,
     setNewRef,
@@ -61,6 +62,7 @@ export default function VocabularyTab(
     <div className="corrector-border-box">
       <Box className="d-flex justify-content-between">
         <CorrectionToggleButtonGroup
+          newRef={newRef}
           toggleButtons={VocabularyToggleButtons}
           correctionModel={model}
           setCorrectionModel={setModel}
@@ -121,7 +123,7 @@ export default function VocabularyTab(
           <Box
             id={'error-text-box'}
             ref={textBoxRef}
-            dangerouslySetInnerHTML={{ __html: newRef }}
+            dangerouslySetInnerHTML={{ __html: requestingText || newRef }}
             spellCheck={false}
             suppressContentEditableWarning={true}
             sx={ContentEditableDiv}
@@ -164,11 +166,11 @@ export default function VocabularyTab(
                     </div>
                     <div className="tab-table">
                       <div>{t('corrector_vocabulary_statistics_low_frequency_words')}</div>
-                      <div>{calculateUncommonWords(abstractWords)}</div>
+                      <div>{calculateUncommonWords(abstractWords, complexityAnswer)}</div>
                     </div>
                     <div className="tab-table">
                       <div>{t('corrector_vocabulary_statistics_content_words')}</div>
-                      <div>{calculateContentWord(abstractWords)}</div>
+                      <div>{calculateContentWord(abstractWords, complexityAnswer)}</div>
                     </div>
                     {abstractWords &&
                       <div className="tab-table">
@@ -239,7 +241,7 @@ export default function VocabularyTab(
                     title={t('corrector_vocabulary_range')}
                     startValue={0}
                     endValue={10}
-                    value={calculateUncommonWords(abstractWords) * 100 / complexityAnswer.mitmekesisus[10]}
+                    value={calculateUncommonWords(abstractWords, complexityAnswer) * 100 / complexityAnswer.mitmekesisus[10]}
                     startText={t('corrector_vocabulary_repetitive_vocabulary')}
                     endText={t('corrector_vocabulary_diverse_vocabulary')}
                     percentage={true}
@@ -249,7 +251,7 @@ export default function VocabularyTab(
                     title={t('corrector_vocabulary_lexical_density')}
                     startValue={30}
                     endValue={70}
-                    value={calculateContentWord(abstractWords) * 100 / complexityAnswer.mitmekesisus[10]}
+                    value={calculateContentWord(abstractWords, complexityAnswer) * 100 / complexityAnswer.mitmekesisus[10]}
                     startText={t('corrector_vocabulary_less_content_words')}
                     endText={t('corrector_vocabulary_more_content_words')}
                     percentage={true}

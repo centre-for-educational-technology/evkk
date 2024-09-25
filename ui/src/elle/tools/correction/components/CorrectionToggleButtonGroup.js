@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function CorrectionToggleButtonGroup(
   {
+    newRef,
     toggleButtons,
     correctionModel,
     textBoxRef,
@@ -33,7 +34,7 @@ export default function CorrectionToggleButtonGroup(
         exclusive
         onChange={(e) => {
           if (textBoxRef.current.innerText.replaceAll('\u00A0', ' ') !== inputText.replaceAll(replaceCombined, '').replaceAll('\n', ' ').replaceAll('\u00A0', ' ')) {
-            setRequestingText(true);
+            setRequestingText(newRef);
             setInputText(textBoxRef.current.innerText);
             const fetchInputText = processFetchText(textBoxRef);
             setInputText(fetchInputText);
@@ -43,7 +44,7 @@ export default function CorrectionToggleButtonGroup(
                 processGrammarResponseIndexes(answer.grammatika, setGrammarAnswer);
                 processGrammarResponseIndexes(answer.speller, setSpellerAnswer);
                 setAbstractWords(answer.abstraktsus);
-                setRequestingText(false);
+                setRequestingText(null);
               });
           }
           setCorrectionModel(e.target.value);

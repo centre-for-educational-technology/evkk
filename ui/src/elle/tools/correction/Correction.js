@@ -21,17 +21,17 @@ export default function Correction() {
   const [complexityAnswer, setComplexityAnswer] = useState();
   const [grammarAnswer, setGrammarAnswer] = useState();
   const [spellerAnswer, setSpellerAnswer] = useState();
-  const [abstractWords, setAbstractWords] = useState();
+  const [abstractWords, setAbstractWords] = useState([]);
   const [correctionModel, setCorrectionModel] = useState(SPELLCHECKER);
   const [newRef, setNewRef] = useState(inputText);
-  const [requestingText, setRequestingText] = useState(false);
+  const [requestingText, setRequestingText] = useState(null);
   const textBoxRef = useRef(inputText);
   const { getCorrectorResult } = useGetCorrectorResult();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
     if (textBoxRef.current.innerText.replaceAll('\u00A0', ' ') !== inputText.replaceAll(replaceCombined, '').replaceAll('\n', ' ').replaceAll('\u00A0', ' ')) {
-      setRequestingText(true);
+      setRequestingText(newRef);
       setInputText(textBoxRef.current.innerText);
       const fetchInputText = processFetchText(textBoxRef);
       setInputText(fetchInputText);
@@ -42,7 +42,7 @@ export default function Correction() {
           processGrammarResponseIndexes(answer.speller, setSpellerAnswer);
           setAbstractWords(answer.abstraktsus);
         });
-      setRequestingText(false);
+      setRequestingText(null);
     }
   };
 
@@ -103,6 +103,7 @@ export default function Correction() {
               /></TabPanel>
             <TabPanel value="3">
               <ComplexityTab
+                requestingText={requestingText}
                 textBoxRef={textBoxRef}
                 newRef={newRef}
                 setNewRef={setNewRef}
@@ -117,6 +118,7 @@ export default function Correction() {
               /></TabPanel>
             <TabPanel value="4">
               <VocabularyTab
+                requestingText={requestingText}
                 textBoxRef={textBoxRef}
                 newRef={newRef}
                 setNewRef={setNewRef}

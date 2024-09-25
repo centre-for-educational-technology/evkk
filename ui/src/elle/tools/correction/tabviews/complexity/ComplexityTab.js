@@ -21,6 +21,7 @@ import { COMPLEXITY_LIX_LINK, COMPLEXITY_LONG_WORD_LINK, COMPLEXITY_SMOG_LINK } 
 
 export default function ComplexityTab(
   {
+    requestingText,
     textBoxRef,
     newRef,
     setNewRef,
@@ -51,10 +52,22 @@ export default function ComplexityTab(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [model, inputText]);
 
+  const generateComplexityAnswer = (answer) => {
+    const answersArray = answer.split('/');
+    const newArray = [];
+    answersArray.forEach((element) => {
+      newArray.push(t(element));
+    });
+
+
+    return newArray.map((complexityWord, index) => index === newArray.length - 1 ? complexityWord : `${complexityWord} / `);
+  };
+
   return (
     <div className="corrector-border-box">
       <Box className="d-flex justify-content-between">
         <CorrectionToggleButtonGroup
+          newRef={newRef}
           toggleButtons={ComplexityToggleButtons}
           correctionModel={model}
           setCorrectionModel={setModel}
@@ -115,7 +128,7 @@ export default function ComplexityTab(
           <Box
             id={'error-text-box'}
             ref={textBoxRef}
-            dangerouslySetInnerHTML={{ __html: newRef }}
+            dangerouslySetInnerHTML={{ __html: requestingText || newRef }}
             spellCheck={false}
             suppressContentEditableWarning={true}
             sx={ContentEditableDiv}
@@ -138,8 +151,8 @@ export default function ComplexityTab(
         <div className="w-50 corrector-right">
           {complexityAnswer ?
             <div>
-              <div
-                className="complexity-tab-header">{t('corrector_complexity_level')} {complexityAnswer.keerukus[11]}</div>
+              <div className="complexity-tab-header">
+                {t('corrector_complexity_level')} {generateComplexityAnswer(complexityAnswer.keerukus[11])}</div>
               <Accordion square={true} style={{ marginBottom: '0.5em' }} sx={CorrectorAccordionStyle} defaultExpanded>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon/>}

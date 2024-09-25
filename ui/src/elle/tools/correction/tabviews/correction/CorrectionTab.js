@@ -44,6 +44,7 @@ export default function CorrectionTab(
     <div className="corrector-border-box">
       <Box className="d-flex justify-content-between">
         <CorrectionToggleButtonGroup
+          newRef={newRef}
           toggleButtons={CorrectionAndTextLevelToggleButtons}
           correctionModel={correctionModel}
           setCorrectionModel={setCorrectionModel}

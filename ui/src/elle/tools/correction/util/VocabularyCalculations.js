@@ -15,21 +15,21 @@ export const calculateAbstractnessAverage = (abstractAnswer) => {
   return (abstractnessSum / abstractCount).toFixed(2);
 };
 
-export const calculateUncommonWords = (abstractAnswer) => {
+export const calculateUncommonWords = (abstractAnswer, complexityAnswer) => {
   let unCommonCount = 0;
 
-  abstractAnswer.forEach((lemma, _) => {
-    if (!positionalWords.includes(lemma.pos) && !commonLemmas.includes(lemma.lemmas[0].lemma) && lemma.posTag !== 'G') {
+  abstractAnswer.forEach((lemma, index) => {
+    if (!positionalWords.includes(lemma.pos) && !commonLemmas.includes(complexityAnswer.lemmad[index]) && lemma.posTag !== 'G') {
       unCommonCount++;
     }
   });
   return unCommonCount;
 };
 
-export const calculateContentWord = (abstractAnswer) => {
+export const calculateContentWord = (abstractAnswer, complexityAnswer) => {
   let contentWordCount = 0;
-  abstractAnswer.forEach((lemma, _) => {
-    if (!positionalWords.includes(lemma.pos) && !stopWords.includes(lemma.lemmas[0].lemma) && lemma.posTag !== 'G') {
+  abstractAnswer.forEach((lemma, index) => {
+    if (!positionalWords.includes(lemma.pos) && !stopWords.includes(complexityAnswer.lemmad[index]) && lemma.posTag !== 'G') {
       contentWordCount++;
     }
   });

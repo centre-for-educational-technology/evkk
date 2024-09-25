@@ -30,7 +30,8 @@ app = Flask(__name__)
 piirid = {"lix": [25, 35, 45, 55],
           "smog": [5, 10, 15, 20],
           "fk": [5, 10, 20, 25]}
-vasted = ["väga kerge", "kerge", "keskmine", "raske", "väga raske"]
+vasted = ["complexity_level_very_simple", "complexity_level_simple", "complexity_level_average",
+          "complexity_level_complex", "complexity_level_very_complex"]
 
 sona_upos_piirang = ["PUNCT", "SYM"]
 sona_upos_piirang_mitmekesisus = ["PUNCT", "SYM", "NUM", "PROPN"]

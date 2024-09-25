@@ -7,7 +7,6 @@ import useProcessTextCorrections from '../tabviews/correction/hooks/useProcessTe
 import { handleCopy, handleInput, handlePaste } from '../util/Utils';
 import { resolveError } from '../util/CorrectorErrorResolveFunctions';
 import CorrectionButton from './CorrectionButton';
-import { useTranslation } from 'react-i18next';
 import { GRAMMARCHECKER, SPELLCHECKER } from '../const/Constants';
 
 export default function CorrectionInput(
@@ -31,7 +30,6 @@ export default function CorrectionInput(
     setGrammarAnswer,
     setAbstractWords
   }) {
-  const { t } = useTranslation();
   const [popperAnchor, setPopperAnchor] = useState(null);
   const [popperValue, setPopperValue] = useState(null);
 
@@ -49,7 +47,7 @@ export default function CorrectionInput(
       <Box
         id={'error-text-box'}
         ref={textBoxRef}
-        dangerouslySetInnerHTML={{ __html: requestingText ? t('common_analyzing_text') : newRef }}
+        dangerouslySetInnerHTML={{ __html: requestingText || newRef }}
         spellCheck={false}
         suppressContentEditableWarning={true}
         sx={ContentEditableDiv}
@@ -74,6 +72,8 @@ export default function CorrectionInput(
         model={model}
       />
       <CorrectionButton
+        replacementText={newRef}
+        setNewRef={setNewRef}
         textBoxRef={textBoxRef}
         setInputText={setInputText}
         setComplexityAnswer={setComplexityAnswer}

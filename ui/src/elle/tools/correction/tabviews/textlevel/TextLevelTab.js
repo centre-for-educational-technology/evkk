@@ -40,6 +40,7 @@ export default function TextLevelTab(
     <div className="corrector-border-box">
       <Box className="d-flex justify-content-between">
         <CorrectionToggleButtonGroup
+          newRef={newRef}
           correctionModel={correctionModel}
           setCorrectionModel={setCorrectionModel}
           textBoxRef={textBoxRef}

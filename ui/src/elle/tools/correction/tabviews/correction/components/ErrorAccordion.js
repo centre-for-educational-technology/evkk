@@ -21,11 +21,14 @@ export default function ErrorAccordion(
     spellerAnswer,
     grammarAnswer
   }) {
-  const {errorTypes} = useCorrectionConstants();
+  const { errorTypes } = useCorrectionConstants();
   return (
     <>
       {Object.entries(errorList).map((errorProperties) => {
         if (errorProperties[1].length === 0) return null;
+        if (errorProperties[1].length > 1 && errorProperties[1][0].span.start > errorProperties[1][errorProperties[1].length - 1].span.start) {
+          errorProperties[1].reverse();
+        }
         return (<Accordion key={errorProperties[0]} square={true} sx={CorrectorAccordionStyle}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon/>}
@@ -39,7 +42,7 @@ export default function ErrorAccordion(
           </AccordionSummary>
           <AccordionDetails>
             <div>
-              {errorProperties[1].reverse().map((error, index) => (
+              {errorProperties[1].map((error, index) => (
                 <SingleError
                   key={error.span.value + model + index}
                   error={error}
