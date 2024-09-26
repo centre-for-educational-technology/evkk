@@ -162,7 +162,7 @@ export default function VocabularyTab(
                       <div>{calculateTotalWords(abstractWords)}</div>
                     </div>
                     <div className="tab-table">
-                      <div>{t('corrector_vocabulary_statistics_lemmas')}</div>
+                      <div>{t('corrector_vocabulary_statistics_different_words')}</div>
                       <div>{complexityAnswer.mitmekesisus[11]}</div>
                     </div>
                     <div className="tab-table">
