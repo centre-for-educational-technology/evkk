@@ -73,7 +73,7 @@ const useProcessTextCorrections = (responseText, textBoxRef, textBoxValueRef, se
         const errorColor = returnMarkingColor(spellingError, wordOrderError, missingWordError, extraWordError, wordCountError, multipleErrors);
         if (spellingError && errorWord.split(' ').length !== 1) {
           const errorWords = errorWord.split(' ').reverse();
-          let newSpan = correction.span.value.split(' ').reverse();
+          const newSpan = correction.span.value.split(' ').reverse();
           const replaceWords = correction.replacements[0].value.split(' ').reverse();
           let endVal = correction.span.end;
           let wrongPunctuationCopy = wrongPunctuation;

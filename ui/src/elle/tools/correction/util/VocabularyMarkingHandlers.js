@@ -20,7 +20,6 @@ const mapWords = (sentenceLemmas, checkLemmas, complexityAnswer) => {
   const sentenceMap = new Map();
   const duplicateIndexes = [];
   sentenceLemmas.forEach((lemma, index) => {
-    console.log(lemma, !EXCLUSION_WORDS.includes(lemma), complexityAnswer[index]);
     if (!EXCLUSION_WORDS.includes(lemma) && complexityAnswer[index] !== PRON) {
       if (!sentenceMap.has(lemma)) {
         sentenceMap.set(lemma, []);
@@ -31,9 +30,7 @@ const mapWords = (sentenceLemmas, checkLemmas, complexityAnswer) => {
 
   sentenceMap.forEach((indices, lemma) => {
     if (checkLemmas.includes(lemma)) {
-      indices.forEach((index) => {
-        duplicateIndexes.push(index);
-      });
+      duplicateIndexes.push(...indices);
     }
   });
 
@@ -42,12 +39,10 @@ const mapWords = (sentenceLemmas, checkLemmas, complexityAnswer) => {
 
 const markRepetition = (duplicateIndexes, sentenceWords, inputText) => {
   let outputText = inputText;
-  duplicateIndexes.forEach((wordValue) => {
+  duplicateIndexes.forEach(wordValue => {
     const sentence1Regex = new RegExp(`(<span[^>]*>)?\\b${sentenceWords[wordValue]}\\b(</span>)?`, 'gi');
     outputText = inputText.replace(sentence1Regex, match => {
-      if (/same-sentence-color/.test(match)) {
-        return `<span class="both-sentence-color">${sentenceWords[wordValue]}</span>`;
-      } else if (/both-sentence-color/.test(match)) {
+      if (/same-sentence-color/.test(match) || /both-sentence-color/.test(match)) {
         return `<span class="both-sentence-color">${sentenceWords[wordValue]}</span>`;
       } else {
         return `<span class="next-sentence-color">${sentenceWords[wordValue]}</span>`;
@@ -75,7 +70,6 @@ export const handleAbstractWords = (text, abstractAnswer, complexityAnswer) => {
     if (word.abstractness === 3 && word.pos !== NAME && complexityAnswer.sonaliigid[index] === NOUN) {
       const newWord = `<span class="abstract-word-color">${complexityAnswer.sonad[index]}</span>`;
       tempText = tempText.replace(checkForFullWord(complexityAnswer.sonad[index]), newWord);
-      console.log(tempText);
     }
   });
   return tempText;
@@ -83,7 +77,6 @@ export const handleAbstractWords = (text, abstractAnswer, complexityAnswer) => {
 
 export const handleContentWords = (text, abstractAnswer, complexityAnswer) => {
   let tempText = text.replaceAll(replaceCombined, '');
-  console.log();
   abstractAnswer.forEach((lemma, index) => {
     if (!positionalWords.includes(lemma.pos) && !stopWords.includes(complexityAnswer.lemmad[index]) && lemma.posTag !== 'G') {
       const newWord = `<span class="content-word-color">${complexityAnswer.sonad[index]}</span>`;
@@ -122,16 +115,14 @@ export const handleSameWordRepetition = (sentence, text, usedIndexes, complexity
 
   lemmaMap.forEach((indices, lemma) => {
     if (indices.length > 1) {
-      indices.forEach((index) => {
-        duplicateIndexes.push(index);
-      });
+      duplicateIndexes.push(indices);
     }
   });
 
-  duplicateIndexes.forEach((wordValue) => {
-    let regex1 = new RegExp(`(<span[^>]*>\\s*)?\\b${sentenceWords[wordValue]}\\b(\\s*</span>)?`, 'g');
+  duplicateIndexes.forEach(wordValue => {
+    let regexMatchFullWord = new RegExp(`(<span[^>]*>\\s*)?\\b${sentenceWords[wordValue]}\\b(\\s*</span>)?`, 'g');
     const sentence1Word = `<span class="same-sentence-color" >${sentenceWords[wordValue]}</span>`;
-    tempSentence = tempSentence.replace(regex1, sentence1Word);
+    tempSentence = tempSentence.replace(regexMatchFullWord, sentence1Word);
   });
 
   tempText = tempText.replace(sentence, tempSentence);

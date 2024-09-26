@@ -3,10 +3,8 @@ from pprint import pprint
 
 
 def run_multiple_correction_model(source_text):
-    from gec_worker import GEC, read_gec_config
-    from gec_worker import Speller, read_speller_config
+    from gec_worker import GEC, Speller, MultiCorrector, read_gec_config, read_speller_config
     from gec_worker.dataclasses import Request
-    from gec_worker import MultiCorrector
 
     # Load grammatical error correction model, use models/GEC-noisy-nmt-ut.yaml to use the other model
     gec_config = read_gec_config('models/GEC-nelb-1.3b.yaml')

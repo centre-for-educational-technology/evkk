@@ -1,9 +1,8 @@
 import React from 'react';
-import { useAccordionDetails } from '../constants/constants';
 import { levelAccordionValueCheck } from '../../../util/Utils';
+import { textLevelColors } from '../../../const/TabValuesConstant';
 
-export default function TextLevelAccordionInner({arrayValues, complexityAnswer}) {
-  const {textLevelColors} = useAccordionDetails();
+export default function TextLevelAccordionInner({ arrayValues, complexityAnswer }) {
   const setComplexityAnswerIndex = (index, value) => {
     return complexityAnswer[arrayValues[index]][value];
   };

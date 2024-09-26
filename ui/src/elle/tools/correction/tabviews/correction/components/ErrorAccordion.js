@@ -6,7 +6,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Box } from '@mui/material';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import SingleError from './SingleError';
-import { useCorrectionConstants } from '../constants/constants';
+import { errorTypes } from '../../../const/TabValuesConstant';
+import { useTranslation } from 'react-i18next';
 
 export default function ErrorAccordion(
   {
@@ -21,12 +22,17 @@ export default function ErrorAccordion(
     spellerAnswer,
     grammarAnswer
   }) {
-  const { errorTypes } = useCorrectionConstants();
+  const { t } = useTranslation();
+
+  const checkIfErrorListNotSortedAscending = (errorProperties) => (
+    errorProperties[1][0].span.start > errorProperties[1][errorProperties[1].length - 1].span.start
+  );
+
   return (
     <>
       {Object.entries(errorList).map((errorProperties) => {
         if (errorProperties[1].length === 0) return null;
-        if (errorProperties[1].length > 1 && errorProperties[1][0].span.start > errorProperties[1][errorProperties[1].length - 1].span.start) {
+        if (errorProperties[1].length > 1 && checkIfErrorListNotSortedAscending(errorProperties)) {
           errorProperties[1].reverse();
         }
         return (<Accordion key={errorProperties[0]} square={true} sx={CorrectorAccordionStyle}>
@@ -38,7 +44,7 @@ export default function ErrorAccordion(
             <Box component="span"
                  sx={CorrectorErrorCircle(errorTypes[errorProperties[0]].color)}>
             </Box>
-            {errorTypes[errorProperties[0]].label} ({errorProperties[1].length})
+            {t(errorTypes[errorProperties[0]].label)} ({errorProperties[1].length})
           </AccordionSummary>
           <AccordionDetails>
             <div>

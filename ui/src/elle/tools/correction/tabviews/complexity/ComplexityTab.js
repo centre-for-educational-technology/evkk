@@ -53,14 +53,12 @@ export default function ComplexityTab(
   }, [model, inputText]);
 
   const generateComplexityAnswer = (answer) => {
-    const answersArray = answer.split('/');
-    const newArray = [];
-    answersArray.forEach((element) => {
-      newArray.push(t(element));
-    });
-
-
-    return newArray.map((complexityWord, index) => index === newArray.length - 1 ? complexityWord : `${complexityWord} / `);
+    return answer
+      .split('/')
+      .map(t)
+      .map((complexityWord, index, array) =>
+        index === array.length - 1 ? complexityWord : `${complexityWord} / `
+      );
   };
 
   return (

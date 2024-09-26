@@ -36,7 +36,7 @@ export const VocabularyToggleButtons = [
 export const ComplexityToggleButtons = [{
   title: 'corrector_long_phrases_tooltip',
   value: LONG_SENTENCE,
-  text: 'corrector_complexity_long_phrases'
+  text: 'corrector_complexity_long_sentences'
 },
   {
     title: 'corrector_long_words_tooltip',

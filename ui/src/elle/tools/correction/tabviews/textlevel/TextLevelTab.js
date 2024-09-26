@@ -4,12 +4,12 @@ import '../../styles/CorrectionTab.css';
 import CorrectionInput from '../../components/CorrectionInput';
 import '../../styles/TextLevelTab.css';
 import TextLevelAccordion from './components/TextLevelAccordion';
-import { useAccordionDetails } from './constants/constants';
 import TextLevelAccordionInner from './components/TextLevelAccordionInner';
 import CorrectionInfoIcon from '../../components/CorrectionInfoIcon';
 import CorrectionToggleButtonGroup from '../../components/CorrectionToggleButtonGroup';
 import { useTranslation } from 'react-i18next';
 import { CorrectionAndTextLevelToggleButtons } from '../../const/ToggleButtonConstants';
+import { accordionDetails, textLevelColors, textLevels } from '../../const/TabValuesConstant';
 
 export default function TextLevelTab(
   {
@@ -33,7 +33,6 @@ export default function TextLevelTab(
     setGrammarAnswer
   }) {
   const { t } = useTranslation();
-  const { accordionDetails, textLevels, textLevelColors } = useAccordionDetails();
   const [responseText, setResponseText] = useState();
 
   return (
@@ -104,10 +103,10 @@ export default function TextLevelTab(
               <div style={{ fontSize: '1.5rem' }}>{t('corrector_proficiency_level_color_codes')}:</div>
               {textLevelColors.map((color, index) => {
                 return (
-                  <div className="d-flex align-items-center" key={textLevels[index]}>
+                  <div className="d-flex align-items-center" key={t(textLevels[index])}>
                     <div className="text-level-tab-color-circle" style={{ backgroundColor: color }}></div>
                     -
-                    {textLevels[index]}
+                    {t(textLevels[index])}
                   </div>
                 );
               })}
@@ -134,7 +133,7 @@ export default function TextLevelTab(
           {complexityAnswer && complexityAnswer?.keeletase.length !== 0 &&
             <>
               <div className="level-accordion-overall-value-container">
-                <div className="level-accordion-overall-value-label">{accordionDetails[0].label}</div>
+                <div className="level-accordion-overall-value-label">{t(accordionDetails[0].label)}</div>
                 <TextLevelAccordionInner
                   complexityAnswer={complexityAnswer.keeletase}
                   arrayValues={accordionDetails[0].arrayValues}

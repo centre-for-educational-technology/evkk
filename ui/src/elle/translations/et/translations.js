@@ -141,7 +141,7 @@ export const TRANSLATIONS_ET = {
   corrector_complexity_infobox_smog_value: 'arvestab paljusilbiliste ehk vähemalt 3-silbiliste sõnade suhtelise sagedusega 30 lause kohta:',
   corrector_complexity_infobox_word_length_outro: 'Selleks, et aidata teksti toimetada ja lihtsustada, on tekstikastis esile toodud pikad sõnad ja laused ning nimisõnad. Jaan Miku eeskujul loetakse pikaks lauseid, mis koosnevad rohkem kui 17 sõnast. Selliseid lauseid ei jõua lugeja tõenäoliselt tervikuna lühiajalisse mällu talletada (loe lähemalt',
   corrector_complexity_level: 'Keerukustase:',
-  corrector_complexity_long_phrases: 'Pikad laused',
+  corrector_complexity_long_sentences: 'Pikad laused',
   corrector_complexity_long_words: 'Pikad sõnad',
   corrector_complexity_nouns: 'Nimisõnad',
   corrector_complexity_statistics_long_words: 'Pikki sõnu',

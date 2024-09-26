@@ -141,7 +141,7 @@ export const TRANSLATIONS_EN = {
   corrector_complexity_infobox_smog_value: 'considers the frequency of polysyllabic words, which refers to words with at least 3 syllables per 30 sentences:',
   corrector_complexity_infobox_word_length_outro: 'To make editing and simplifying the text easier, the text box highlights long words, phrases, and nouns. Based on Jaan Mikk\'s example, sentences that go beyond 17 words are considered long. The reader\'s short-term memory is unlikely to store such sentences in their entirety (read more',
   corrector_complexity_level: 'Complexity level:',
-  corrector_complexity_long_phrases: 'Long sentences',
+  corrector_complexity_long_sentences: 'Long sentences',
   corrector_complexity_long_words: 'Long words',
   corrector_complexity_nouns: 'Nouns',
   corrector_complexity_statistics_long_words: 'Long words',
