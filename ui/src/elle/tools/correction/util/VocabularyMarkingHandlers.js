@@ -44,9 +44,8 @@ const markRepetition = (duplicateIndexes, sentenceWords, inputText) => {
     outputText = inputText.replace(sentence1Regex, match => {
       if (/same-sentence-color/.test(match) || /both-sentence-color/.test(match)) {
         return `<span class="both-sentence-color">${sentenceWords[wordValue]}</span>`;
-      } else {
-        return `<span class="next-sentence-color">${sentenceWords[wordValue]}</span>`;
       }
+      return `<span class="next-sentence-color">${sentenceWords[wordValue]}</span>`;
     });
   });
   return outputText;
@@ -115,7 +114,7 @@ export const handleSameWordRepetition = (sentence, text, usedIndexes, complexity
 
   lemmaMap.forEach((indices, lemma) => {
     if (indices.length > 1) {
-      duplicateIndexes.push(indices);
+      duplicateIndexes.push(...indices);
     }
   });
 

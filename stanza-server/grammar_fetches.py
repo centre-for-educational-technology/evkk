@@ -23,8 +23,6 @@ def fetch_speller(text):
 		http://grammar-worker-server:5400/spellchecker""" % text
     response = os.popen(request).read()
     if response:
-        print(response)
         return json.loads(response)
     else:
-        print('None')
         return 'None'
