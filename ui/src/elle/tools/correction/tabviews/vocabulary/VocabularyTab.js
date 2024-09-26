@@ -141,6 +141,7 @@ export default function VocabularyTab(
             setSpellerAnswer={setSpellerAnswer}
             setAbstractWords={setAbstractWords}
             setRequestingText={setRequestingText}
+            newRef={newRef}
           />
         </div>
         <div className="w-50 corrector-right">

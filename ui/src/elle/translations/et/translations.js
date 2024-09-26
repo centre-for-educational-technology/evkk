@@ -241,7 +241,7 @@ export const TRANSLATIONS_ET = {
   corrector_vocabulary_repetitive_vocabulary: 'Korduvam sõnavara',
   corrector_vocabulary_statistics_abstract_nouns: 'Abstraktseid nimisõnu',
   corrector_vocabulary_statistics_content_words: 'Sisusõnu',
-  corrector_vocabulary_statistics_lemmas: 'Lemmasid e erinevaid sõnu',
+  corrector_vocabulary_statistics_different_words: 'Erinevaid sõnu',
   corrector_vocabulary_statistics_low_frequency_words: 'Harvaesinevaid sõnu',
   corrector_vocabulary_statistics_the_words_considered: 'Arvestatud sõnu',
   corrector_vocabulary_word_repetitions: 'SÕNAKORDUSED',

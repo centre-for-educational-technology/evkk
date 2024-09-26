@@ -241,7 +241,7 @@ export const TRANSLATIONS_EN = {
   corrector_vocabulary_repetitive_vocabulary: 'Repetitive vocabulary',
   corrector_vocabulary_statistics_abstract_nouns: 'Abstract nouns',
   corrector_vocabulary_statistics_content_words: 'Content words',
-  corrector_vocabulary_statistics_lemmas: 'Lemmas or different words',
+  corrector_vocabulary_statistics_different_words: 'Different words',
   corrector_vocabulary_statistics_low_frequency_words: 'Low frequency words',
   corrector_vocabulary_statistics_the_words_considered: 'The words considered',
   corrector_vocabulary_word_repetitions: 'WORD REPETITIONS',

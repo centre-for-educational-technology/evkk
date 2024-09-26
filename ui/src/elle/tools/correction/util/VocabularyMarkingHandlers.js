@@ -77,7 +77,7 @@ export const handleAbstractWords = (text, abstractAnswer, complexityAnswer) => {
 export const handleContentWords = (text, abstractAnswer, complexityAnswer) => {
   let tempText = text.replaceAll(replaceCombined, '');
   abstractAnswer.forEach((lemma, index) => {
-    if (!positionalWords.includes(lemma.pos) && !stopWords.includes(complexityAnswer.lemmad[index]) && lemma.posTag !== 'G') {
+    if (!positionalWords.includes(lemma.pos) && !stopWords.includes(complexityAnswer.lemmad[index].replace('_', '')) && lemma.posTag !== 'G') {
       const newWord = `<span class="content-word-color">${complexityAnswer.sonad[index]}</span>`;
       tempText = tempText.replace(checkForFullWord(complexityAnswer.sonad[index]), newWord);
     }
