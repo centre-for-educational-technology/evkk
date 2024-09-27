@@ -143,7 +143,7 @@ export default function TextLevelTab(
                 {accordionDetails.map((detail, index) => (
                   index !== 0 && (
                     <TextLevelAccordion
-                      key={t(detail.label)}
+                      key={detail.label}
                       label={t(detail.label)}
                       arrayValues={detail.arrayValues}
                       complexityAnswer={complexityAnswer.keeletase}
