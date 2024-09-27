@@ -53,15 +53,17 @@ export const useGetWordAnalyserResult = () => {
   return { getWordAnalyserResult };
 };
 
-export const useGetCorrectionResult = () => {
+export const useGetCorrectorResult = () => {
   const { fetchData } = useFetch();
 
-  const getCorrectionResult = useCallback(body => {
-    return fetchData('/api/texts/korrektuur', {
+  const getCorrectorResult = useCallback(body => {
+    return fetchData('/api/texts/keerukus-sonaliigid-mitmekesisus', {
       method: 'POST',
       body
     });
   }, [fetchData]);
 
-  return { getCorrectionResult };
+  return { getCorrectorResult };
 };
+
+

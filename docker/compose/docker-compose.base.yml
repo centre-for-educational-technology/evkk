@@ -73,6 +73,15 @@ services:
         limits:
           memory: 15G
 
+  grammar-worker-server:
+    image: grammar-worker-server
+    container_name: grammar-worker-server
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 25G
+
   klasterdaja:
     image: evkk-klasterdaja
     container_name: evkk-klasterdaja

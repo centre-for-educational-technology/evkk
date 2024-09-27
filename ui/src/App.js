@@ -13,6 +13,7 @@ import ServerOfflinePage from './elle/components/ServerOfflinePage';
 import SuccessSnackbar from './elle/components/snackbar/SuccessSnackbar';
 import FooterElement from './elle/components/FooterElement';
 import DonateText from './elle/components/DonateText';
+import { MathJaxContext } from 'better-react-mathjax';
 import RootContext, { RootProvider } from './elle/context/RootContext';
 import withGlobalLoading from './elle/hoc/withGlobalLoading';
 import SessionExpirationModal from './elle/components/modal/SessionExpirationModal';
@@ -119,16 +120,17 @@ function AppWithStatus() {
 const AppWithStatusAndLoading = withGlobalLoading(AppWithStatus);
 
 export default function App() {
-
   return (
     <Router>
-      <ThemeProvider theme={theme}>
-        <Provider store={store}>
-          <RootProvider>
-            <AppWithStatusAndLoading />
-          </RootProvider>
-        </Provider>
-      </ThemeProvider>
+      <MathJaxContext version={2}>
+        <ThemeProvider theme={theme}>
+          <Provider store={store}>
+            <RootProvider>
+              <AppWithStatusAndLoading />
+            </RootProvider>
+          </Provider>
+        </ThemeProvider>
+      </MathJaxContext>
     </Router>
   );
 }

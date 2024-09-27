@@ -57,6 +57,7 @@ export const useFetch = () => {
     }
 
     const res = await fetch(url, params);
+
     loadingEmitter.emit(LoadingSpinnerEventType.LOADER_END);
 
     if (!finalOptions.disableErrorHandling && !res.ok) {

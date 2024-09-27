@@ -9,6 +9,7 @@ import ee.evkk.dto.enums.Language;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.service.dto.StanzaResponseDto;
 import ee.tlu.evkk.core.service.dto.TextResponseDto;
+import ee.tlu.evkk.core.service.dto.TextWithComplexity;
 import ee.tlu.evkk.core.service.maps.WordFeatTranslationMappings;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.CorpusDownloadResponseEntity;
@@ -189,6 +190,10 @@ public class TextService {
       translateWordType(stanzaResponse.getSonaliigid(), request.getLanguage()),
       translateFeats(stanzaResponse.getVormimargendid(), request.getLanguage())
     );
+  }
+
+  public TextWithComplexity keerukusSonaliigidMitmekesisus(CommonTextRequestDto request) {
+    return stanzaServerClient.getKeerukusSonaliigidMitmekesisus(request.getTekst());
   }
 
   public byte[] tekstidfailina(CorpusDownloadDto corpusDownloadDto) throws IOException {

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { MasinoppeEnnustus, MinitornPikkus } from './views/tools';
-import Correction from './elle/tools/correction/Correction';
 import { Container } from '@mui/material';
 import Home from './elle/pages/Home';
 import Links from './elle/pages/Links';
@@ -18,6 +17,7 @@ import Wordlist from './elle/tools/wordlist/Wordlist';
 import WordContext from './elle/tools/wordcontext/WordContext';
 import Collocates from './elle/tools/collocates/Collocates';
 import Tools from './elle/pages/Tools';
+import Correction from './elle/tools/correction/Correction';
 import Login from './elle/pages/Login';
 import Admin from './elle/pages/Admin';
 import RequireAuth from './elle/components/security/RequireAuth';

@@ -3,13 +3,20 @@ import math
 import os
 import re
 import subprocess
-
 from flask import Flask
 from flask import Response
 from flask import request
 
+from grammar_fetches import fetch_grammar
+from grammar_fetches import fetch_speller
+from linguistic_analysis import predict_level
 from nlp import nlp_t, nlp_tp, nlp_tpl, nlp_all, nlp_ru_tp, nlp_ru_all
 from tasemehindaja import arvuta
+from text_abstraction_analyse import Utils
+from train import train
+
+model, scaler = train()
+utils = Utils()
 
 if os.path.isfile("/app/word_mapping.csv"):
     asendused = [rida.strip().split(",") for rida in open("/app/word_mapping.csv").readlines()]
@@ -23,13 +30,48 @@ app = Flask(__name__)
 piirid = {"lix": [25, 35, 45, 55],
           "smog": [5, 10, 15, 20],
           "fk": [5, 10, 20, 25]}
-vasted = ["väga kerge", "kerge", "keskmine", "raske", "väga raske"]
+vasted = ["complexity_level_very_simple", "complexity_level_simple", "complexity_level_average",
+          "complexity_level_complex", "complexity_level_very_complex"]
 
 sona_upos_piirang = ["PUNCT", "SYM"]
 sona_upos_piirang_mitmekesisus = ["PUNCT", "SYM", "NUM", "PROPN"]
 vormimargend_upos_piirang = ["ADP", "ADV", "CCONJ", "SCONJ", "INTJ", "X"]
 
 eesti_tahestik = r'[a-zA-ZõÕäÄöÖüÜŽžŠš0-9.-]+'
+
+
+@app.route('/keerukus-sonaliigid-mitmekesisus', methods=post)
+def keerukus_sonaliigid_mitmekesisus():
+    tekst = request.json["tekst"]
+    doc = nlp_tpl(tekst)
+
+    sonad = []
+    sonaliigid = []
+    lemmad = []
+
+    for sentence in doc.sentences:
+        for word in sentence.words:
+            if word.upos not in sona_upos_piirang:
+                sonad.append(word.text)
+                sonaliigid.append(word.pos)
+                lemmad.append(word.lemma)
+
+    abstract_answer = utils.analyze(' '.join(lemmad), "estonian")
+
+    serializable_word_analysis = make_serializable(abstract_answer["wordAnalysis"])
+
+    return Response(json.dumps({
+        "sonad": sonad,
+        "sonaliigid": sonaliigid,
+        "keerukus": hinda_keerukust(tekst),
+        "mitmekesisus": hinda_mitmekesisust(tekst),
+        "lemmad": lemmad,
+        "keeletase": arvuta(tekst),
+        "uuskeeletase": predict_level(model, scaler, tekst),
+        "abstraktsus": serializable_word_analysis,
+        "grammatika": fetch_grammar(tekst),
+        "speller": fetch_speller(tekst)
+    }), mimetype=mimetype)
 
 
 @app.route('/sonad-lemmad-silbid-sonaliigid-vormimargendid', methods=post)
@@ -74,7 +116,7 @@ def sonad_lemmad_silbid_sonaliigid_vormimargendid():
         "lemmad": lemmad,
         "silbid": silbid,
         "sonaliigid": sonaliigid,
-        "vormimargendid": vormimargendid
+        "vormimargendid": vormimargendid,
     }), mimetype=mimetype)
 
 
@@ -336,6 +378,17 @@ def hinda_keerukust(tekst):
 
 def puhasta_sonad(words):
     return [word.replace("'", "").replace("*", "").replace("\n", "") for word in words]
+
+
+def make_serializable(data):
+    if isinstance(data, dict):
+        return {key: make_serializable(value) for key, value in data.items()}
+    elif isinstance(data, list):
+        return [make_serializable(item) for item in data]
+    elif hasattr(data, '__dict__'):
+        return make_serializable(data.__dict__)
+    else:
+        return data
 
 
 def sona_on_eestikeelne(sona):
