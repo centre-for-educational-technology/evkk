@@ -17,6 +17,4 @@ public class TextResponseDto {
   private List<String> laused;
   private List<String> sonaliigid;
   private List<String> vormimargendid;
-  private Object keeletase;
-  private Object abstraktsus;
 }

@@ -7,10 +7,6 @@ import org.springframework.web.client.RestOperations;
 
 import java.util.Map;
 
-/**
- * @author Mikk Tarvas
- * Date: 30.09.2021
- */
 @RequiredArgsConstructor
 public class CorrectorServerClient extends AbstractRestOperationsClient {
 
@@ -22,5 +18,4 @@ public class CorrectorServerClient extends AbstractRestOperationsClient {
     ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/korrektuur", requestEntity, String[].class));
     return forEntity.getBody();
   }
-
 }

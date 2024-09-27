@@ -1,6 +1,7 @@
 package ee.tlu.evkk.core.integration;
 
 import ee.tlu.evkk.core.service.dto.StanzaResponseDto;
+import ee.tlu.evkk.core.service.dto.TextWithComplexity;
 import ee.tlu.evkk.dal.dto.WordAndPosInfoDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
@@ -30,6 +31,13 @@ public class StanzaServerClient extends AbstractRestOperationsClient {
     Map<String, String> map = of(MAP_PARAMETER, tekst);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
     ResponseEntity<StanzaResponseDto> forEntity = retry().execute(context -> rest.postForEntity("/sonad-lemmad-silbid-sonaliigid-vormimargendid", requestEntity, StanzaResponseDto.class));
+    return forEntity.getBody();
+  }
+
+  public TextWithComplexity getKeerukusSonaliigidMitmekesisus(String tekst) {
+    Map<String, String> map = of(MAP_PARAMETER, tekst);
+    HttpEntity<?> requestEntity = new HttpEntity<>(map);
+    ResponseEntity<TextWithComplexity> forEntity = retry().execute(context -> rest.postForEntity("/keerukus-sonaliigid-mitmekesisus", requestEntity, TextWithComplexity.class));
     return forEntity.getBody();
   }
 

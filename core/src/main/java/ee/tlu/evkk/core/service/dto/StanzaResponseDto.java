@@ -15,6 +15,4 @@ public class StanzaResponseDto {
   private List<String> laused;
   private List<String> sonaliigid;
   private List<List<String>> vormimargendid;
-  private Object keeletase;
-  private Object abstraktsus;
 }

@@ -1,0 +1,21 @@
+.text-level-tab-color-circle {
+  height: 15px;
+  width: 15px;
+  border-radius: 10px;
+}
+
+.level-tab-short-text-notice {
+  font-size: 1.5rem;
+  margin: auto auto;
+}
+
+.level-accordion-overall-value-container {
+  background: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.level-accordion-overall-value-label {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
