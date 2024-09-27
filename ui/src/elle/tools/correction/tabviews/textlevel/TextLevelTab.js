@@ -144,7 +144,7 @@ export default function TextLevelTab(
                   index !== 0 && (
                     <TextLevelAccordion
                       key={detail.label}
-                      label={detail.label}
+                      label={t(detail.label)}
                       arrayValues={detail.arrayValues}
                       complexityAnswer={complexityAnswer.keeletase}
                     />
