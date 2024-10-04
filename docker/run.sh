@@ -16,6 +16,7 @@ for file in ./images/*.tar; do docker load -i ${file}; done
 echo "Loading images done"
 
 echo "Stopping services"
+docker-compose -f compose/docker-compose.postgres.yml -f compose/docker-compose.base.yml -f compose/docker-compose.yml down --remove-orphans
 docker stack rm evkk
 echo "Stopping services done"
 
