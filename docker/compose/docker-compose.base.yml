@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.9"
 
 services:
 
@@ -60,9 +60,18 @@ services:
     container_name: evkk-stanza-server
     restart: always
     deploy:
+      mode: replicated
+      replicas: 5
       resources:
         limits:
-          memory: 45G
+          cpus: 1
+          memory: 10G
+        reservations:
+          cpus: 1
+          memory: 4G
+      update_config:
+        parallelism: 1
+        order: start-first
 
   corrector-server:
     image: evkk-corrector-server
