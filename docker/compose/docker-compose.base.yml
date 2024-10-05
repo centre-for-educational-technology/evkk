@@ -66,8 +66,10 @@ services:
       resources:
         limits:
           memory: 10G
+          cpus: "1"
         reservations:
           memory: 4G
+          cpus: "1"
       update_config:
         parallelism: 1
         order: start-first
