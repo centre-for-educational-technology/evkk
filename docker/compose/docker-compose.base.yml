@@ -18,8 +18,6 @@ services:
       - "9999:9999"
     volumes:
       - $PWD/compose/Caddyfile:/etc/caddy/Caddyfile
-    networks:
-      - evkk-network
 
   ui:
     image: evkk-ui
@@ -44,10 +42,12 @@ services:
     env_file:
       - $PWD/conf/common.env
       - $PWD/conf/api.env
+    networks:
+      - evkk-network
 
   task_scheduler:
     image: evkk-backend
-    container_name: evkk-task-scheduer
+    container_name: evkk-task-scheduler
     restart: always
     entrypoint: [ "/bin/bash", "-c", "java -jar app/task-scheduler.jar" ]
     secrets:
@@ -57,8 +57,6 @@ services:
     env_file:
       - $PWD/conf/common.env
       - $PWD/conf/task-scheduler.env
-    networks:
-      - evkk-network
 
   stanza-server:
     image: evkk-stanza-server
