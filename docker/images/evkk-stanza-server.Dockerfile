@@ -8,4 +8,4 @@ RUN pip install numpy \
 && pip install --no-cache-dir scikit-learn
 
 COPY ./stanza-server/ /app/
-CMD ["taskset", "-c", "1", "python", "/app/server.py"]
+CMD ["taskset -c $((CPU_CORE)) python /app/server.py"]
