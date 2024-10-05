@@ -27,8 +27,6 @@ services:
     restart: always
     depends_on:
       - api
-    networks:
-      - evkk-network
 
   api:
     image: evkk-backend
