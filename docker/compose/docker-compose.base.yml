@@ -46,8 +46,6 @@ services:
     env_file:
       - $PWD/conf/common.env
       - $PWD/conf/api.env
-    networks:
-      - evkk-network
 
   task_scheduler:
     image: evkk-backend
