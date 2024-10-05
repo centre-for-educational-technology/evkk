@@ -59,6 +59,7 @@ services:
     image: evkk-stanza-server
     container_name: evkk-stanza-server
     restart: always
+    cpu_count: 1
     deploy:
       mode: replicated
       replicas: 5
