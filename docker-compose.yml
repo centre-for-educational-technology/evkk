@@ -1,7 +1,6 @@
 version: "3.7"
 
 services:
-
   postgres:
     image: postgres:13-alpine
     container_name: evkk-postgres
@@ -30,7 +29,7 @@ services:
     profiles: [ "all", "stanza" ]
     restart: always
     networks:
-      - evkk_network
+      - stanza-grammar-worker-bridge-network
     build:
       context: .
       dockerfile: docker/images/evkk-stanza-server.Dockerfile
@@ -62,7 +61,7 @@ services:
     profiles: [ "all", "grammar_worker" ]
     restart: always
     networks:
-      - evkk_network
+      - stanza-grammar-worker-bridge-network
     build:
       context: .
       dockerfile: docker/images/grammar-worker-server.Dockerfile
@@ -70,5 +69,5 @@ services:
       - "5400:5400"
 
 networks:
-  evkk_network:
+  stanza-grammar-worker-bridge-network:
     driver: bridge

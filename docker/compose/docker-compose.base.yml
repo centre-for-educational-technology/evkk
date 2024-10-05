@@ -1,13 +1,14 @@
 version: "3.7"
 
 services:
-
   redis:
     image: redis:6-alpine
     container_name: evkk-redis
     restart: always
     volumes:
       - /srv/evkk/data/redis:/data
+    networks:
+      - evkk-network
 
   caddy:
     image: caddy:2.4.5-alpine
@@ -17,6 +18,8 @@ services:
       - "9999:9999"
     volumes:
       - $PWD/compose/Caddyfile:/etc/caddy/Caddyfile
+    networks:
+      - evkk-network
 
   ui:
     image: evkk-ui
@@ -24,6 +27,8 @@ services:
     restart: always
     depends_on:
       - api
+    networks:
+      - evkk-network
 
   api:
     image: evkk-backend
@@ -41,6 +46,8 @@ services:
     env_file:
       - $PWD/conf/common.env
       - $PWD/conf/api.env
+    networks:
+      - evkk-network
 
   task_scheduler:
     image: evkk-backend
@@ -54,6 +61,8 @@ services:
     env_file:
       - $PWD/conf/common.env
       - $PWD/conf/task-scheduler.env
+    networks:
+      - evkk-network
 
   stanza-server:
     image: evkk-stanza-server
@@ -72,6 +81,8 @@ services:
       update_config:
         parallelism: 1
         order: start-first
+    networks:
+      - evkk-network
 
   corrector-server:
     image: evkk-corrector-server
@@ -81,6 +92,8 @@ services:
       resources:
         limits:
           memory: 15G
+    networks:
+      - evkk-network
 
   grammar-worker-server:
     image: grammar-worker-server
@@ -90,11 +103,15 @@ services:
       resources:
         limits:
           memory: 25G
+    networks:
+      - evkk-network
 
   klasterdaja:
     image: evkk-klasterdaja
     container_name: evkk-klasterdaja
     restart: always
+    networks:
+      - evkk-network
 
   clusterfinder:
     image: evkk-backend
@@ -104,3 +121,9 @@ services:
     env_file:
       - $PWD/conf/common.env
       - $PWD/conf/clusterfinder.env
+    networks:
+      - evkk-network
+
+networks:
+  evkk-network:
+    driver: overlay
