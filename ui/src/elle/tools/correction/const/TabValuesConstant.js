@@ -12,6 +12,14 @@ export const textLevels = [
   'corrector_proficiency_level_color_codes_C1'
 ];
 
+export const complexityValues = [
+  'complexity_level_very_simple',
+  'complexity_level_simple',
+  'complexity_level_average',
+  'complexity_level_complex',
+  'complexity_level_very_complex'
+];
+
 export const textLevelColors = ['hsl(0 66% 76%)', 'hsl(100 37% 75%)', 'hsl(50 37% 75%)', 'hsl(240 37% 75%)'];
 
 export const errorTypes = {
