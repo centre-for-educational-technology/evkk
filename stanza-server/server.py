@@ -448,4 +448,4 @@ def hinda_mitmekesisust(tekst):
         words_count, lemmas_count]
 
 
-app.run(host="0.0.0.0", port=5300)
+app.run(host="0.0.0.0", threaded=True, port=5300)
