@@ -20,10 +20,6 @@ import java.util.Map;
 import static ee.tlu.evkk.common.env.ServiceLocator.ServiceName.CLUSTER_FINDER;
 import static org.springframework.web.util.UriComponentsBuilder.fromUri;
 
-/**
- * @author Mikk Tarvas
- * Date: 11.02.2020
- */
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
@@ -33,12 +29,14 @@ public class RootController {
   private final ServiceLocator serviceLocator;
   private final DtoMapper dtoMapper;
 
+  private static final String ELLE_VERSION = "24.10.1";
+
   @GetMapping("/status")
   @Transactional
   public StatusResponseDto status(HttpServletRequest request) throws TokenNotFoundException {
     User user = rootService.getUser(request);
     String accessToken = rootService.getAccessToken(user);
-    return dtoMapper.toStatusResponseDto(dtoMapper.toUserDto(user), accessToken, buildIntegrationPaths());
+    return dtoMapper.toStatusResponseDto(dtoMapper.toUserDto(user), accessToken, buildIntegrationPaths(), ELLE_VERSION);
   }
 
   private Map<String, String> buildIntegrationPaths() {
@@ -51,6 +49,4 @@ public class RootController {
       result.put(entry.getKey(), entry.getValue().toUriString());
     return result;
   }
-
 }
-

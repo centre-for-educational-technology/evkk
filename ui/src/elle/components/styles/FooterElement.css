@@ -10,6 +10,7 @@
   width: 100%;
   padding-left: 6rem;
   padding-top: 2rem;
+  padding-bottom: 1rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -59,10 +60,11 @@
   padding-right: 4rem;
 }
 
-.footer-date-stamp {
+.footer-version {
   font-family: "Exo 2", sans-serif;
   font-weight: 600;
   color: #0009;
+  text-decoration: underline;
   margin-bottom: 1rem;
 }
 
