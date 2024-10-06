@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Box } from '@mui/material';
 import './styles/FooterElement.css';
 import dti_et from '../resources/images/footer/dti_et.svg';
@@ -8,10 +8,13 @@ import { FooterLink } from '../const/StyleConstants';
 import { aboutValues, linksValues, referencesValues, toolsValues } from '../const/FooterConstants';
 import i18n from 'i18next';
 import { Languages } from '../translations/i18n';
+import RootContext from '../context/RootContext';
+import NewTabHyperlink from './NewTabHyperlink';
+import { EVKK_GITHUB_RELEASE_BASE_PATH } from '../const/PathConstants';
 
 export default function FooterElement() {
-  const year = new Date().getFullYear();
   const { t } = useTranslation();
+  const { version } = useContext(RootContext);
   const [dtiLogo, setDtiLogo] = useState(i18n.language === Languages.ESTONIAN ? dti_et : dti_en);
 
   i18n.on('languageChanged', () => {
@@ -37,7 +40,11 @@ export default function FooterElement() {
         <Box className="footer-logo-box">
           <img className="dti-logo" src={dtiLogo} alt="DTI logo" />
           <p><b>{t('footer_contact')}:</b> elle@tlu.ee</p>
-          <div className="footer-date-stamp">ELLE, {year}</div>
+          <NewTabHyperlink
+            className="footer-version"
+            path={`${EVKK_GITHUB_RELEASE_BASE_PATH}v${version}`}
+            content={`ELLE v${version}`}
+          />
         </Box>
         <Box className="footer-inner-right">
           <Box className="footer-middle-box">
