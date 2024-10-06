@@ -29,9 +29,9 @@ export default function Correction() {
   const { getCorrectorResult } = useGetCorrectorResult();
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
     if (textBoxRef.current.innerText.replaceAll('\u00A0', ' ') !== inputText.replaceAll(replaceCombined, '').replaceAll('\n', ' ').replaceAll('\u00A0', ' ')) {
-      setRequestingText(newRef);
+      setRequestingText(textBoxRef.current.innerHTML);
+      setValue(newValue);
       setInputText(textBoxRef.current.innerText);
       const fetchInputText = processFetchText(textBoxRef);
       setInputText(fetchInputText);
@@ -41,8 +41,9 @@ export default function Correction() {
           processGrammarResponseIndexes(answer.grammatika, setGrammarAnswer);
           processGrammarResponseIndexes(answer.speller, setSpellerAnswer);
           setAbstractWords(answer.abstraktsus);
-        });
-      setRequestingText(null);
+        }).then(() => setRequestingText(null));
+    } else {
+      setValue(newValue);
     }
   };
 

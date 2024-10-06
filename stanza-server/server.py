@@ -27,7 +27,7 @@ mimetype = "application/json"
 post = ['POST']
 app = Flask(__name__)
 
-piirid = {"lix": [25, 35, 45, 55],
+piirid = {"lix": [25, 35, 45, 60],
           "smog": [5, 10, 15, 20],
           "fk": [5, 10, 20, 25]}
 vasted = ["complexity_level_very_simple", "complexity_level_simple", "complexity_level_average",
