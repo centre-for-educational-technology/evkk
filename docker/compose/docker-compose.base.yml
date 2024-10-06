@@ -65,7 +65,7 @@ services:
       replicas: 5
       resources:
         limits:
-          memory: 10G
+          memory: 8G
         reservations:
           memory: 4G
       update_config:
