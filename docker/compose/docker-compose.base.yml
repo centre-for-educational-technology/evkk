@@ -59,7 +59,7 @@ services:
     container_name: evkk-stanza-server
     restart: always
     environment:
-      - CPU_CORE=${TASK_SLOT}
+      - CPU_CORE={{.Task.Slot}}
     deploy:
       mode: replicated
       replicas: 5
