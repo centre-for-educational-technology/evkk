@@ -56,7 +56,7 @@ export default function ComplexityTab(
   const generateComplexityAnswer = (answer) => {
     return answer
       .split('/')
-      .sort((a, b) => {return complexityValues.indexOf(a) - complexityValues.indexOf(b);})
+      .sort((a, b) => complexityValues.indexOf(a) - complexityValues.indexOf(b))
       .map(t)
       .map((complexityWord, index, array) =>
         index === array.length - 1 ? complexityWord : `${complexityWord} / `
