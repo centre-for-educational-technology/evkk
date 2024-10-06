@@ -8,4 +8,5 @@ RUN pip install numpy \
 && pip install --no-cache-dir scikit-learn
 
 COPY ./stanza-server/ /app/
-CMD taskset -c $((CPU_CORE+1)) python /app/server.py
+CMD echo $((CPU_CORE))
+ENTRYPOINT taskset -c $((CPU_CORE+1)) python /app/server.py
