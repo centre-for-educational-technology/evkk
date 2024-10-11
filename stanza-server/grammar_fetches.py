@@ -7,7 +7,7 @@ def fetch_grammar(text):
 	curl --header 'Content-Type: application/json' \
 		--request POST \
 		--data '{"language": "et", "text": "%s"}' \
-		https://api.tartunlp.ai/grammar""" % text
+		https://api.tartunlp.ai/grammar""" % json.dumps(text)
     response = os.popen(request).read()
     if response:
         return json.loads(response)
@@ -20,7 +20,7 @@ def fetch_speller(text):
 	curl --header 'Content-Type: application/json' \
 		--request POST \
 		--data '{"tekst": "%s"}' \
-		http://grammar-worker-server:5400/spellchecker""" % text
+		http://grammar-worker-server:5400/spellchecker""" % json.dumps(text)
     response = os.popen(request).read()
     if response:
         return json.loads(response)
