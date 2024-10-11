@@ -9,7 +9,7 @@ services:
       - /srv/evkk/data/redis:/data
 
   caddy:
-    image: caddy:2.4.5-alpine
+    image: caddy:2.8.4-alpine
     container_name: evkk-caddy
     restart: always
     ports:
