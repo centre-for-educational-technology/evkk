@@ -12,6 +12,15 @@
   redir /clusterfinder /clusterfinder/
   reverse_proxy /clusterfinder/* clusterfinder:9092
 
+  timeouts {
+  	read_body 1800s
+  	read_header 1800s
+  	write 1800s
+  	idle 1800s
+  }
+
+  keepalive_interval 1800s
+
   encode zstd gzip
 
   handle_errors {
