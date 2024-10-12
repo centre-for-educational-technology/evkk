@@ -94,3 +94,24 @@ export const processCorrectorText = (fetchInputText) => {
 export const levelAccordionValueCheck = (value, complexityAnswer, arrayValues) => {
   return complexityAnswer[arrayValues[value]][0] < 1.01 && complexityAnswer[arrayValues[value]][0] > 0.009;
 };
+
+export const queryCaller = (textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, newValue, setValue, mainButton) => {
+  if (textBoxRef.current.innerText.replaceAll('\u00A0', ' ') !== inputText.replaceAll(replaceCombined, '').replaceAll('\n', ' ').replaceAll('\u00A0', ' ') || mainButton) {
+    setRequestingText(textBoxRef.current.innerHTML);
+    if (setValue !== null && newValue !== null) {
+      setValue(newValue);
+    }
+    setInputText(textBoxRef.current.innerText);
+    const fetchInputText = processFetchText(textBoxRef);
+    setInputText(fetchInputText);
+    getCorrectorResult(JSON.stringify({ tekst: processCorrectorText(fetchInputText) }))
+      .then(answer => {
+        setComplexityAnswer(answer);
+        processGrammarResponseIndexes(answer.grammatika, setGrammarAnswer);
+        processGrammarResponseIndexes(answer.speller, setSpellerAnswer);
+        setAbstractWords(answer.abstraktsus);
+      }).then(() => setRequestingText(null));
+  } else if (setValue !== null && newValue !== null) {
+    setValue(newValue);
+  }
+};

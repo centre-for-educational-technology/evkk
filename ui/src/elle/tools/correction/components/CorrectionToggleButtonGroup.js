@@ -1,7 +1,6 @@
 import React from 'react';
 import { ToggleButton, ToggleButtonGroup } from '@mui/lab';
-import { replaceCombined } from '../../../const/Constants';
-import { processCorrectorText, processFetchText, processGrammarResponseIndexes } from '../util/Utils';
+import { queryCaller } from '../util/Utils';
 import { Box, Tooltip } from '@mui/material';
 import { useGetCorrectorResult } from '../../../hooks/service/ToolsService';
 import { useTranslation } from 'react-i18next';
@@ -33,20 +32,7 @@ export default function CorrectionToggleButtonGroup(
         sx={{ height: '1rem', marginBottom: '1rem' }}
         exclusive
         onChange={(e) => {
-          if (textBoxRef.current.innerText.replaceAll('\u00A0', ' ') !== inputText.replaceAll(replaceCombined, '').replaceAll('\n', ' ').replaceAll('\u00A0', ' ')) {
-            setRequestingText(newRef);
-            setInputText(textBoxRef.current.innerText);
-            const fetchInputText = processFetchText(textBoxRef);
-            setInputText(fetchInputText);
-            getCorrectorResult(JSON.stringify({ tekst: processCorrectorText(fetchInputText) }))
-              .then(answer => {
-                setComplexityAnswer(answer);
-                processGrammarResponseIndexes(answer.grammatika, setGrammarAnswer);
-                processGrammarResponseIndexes(answer.speller, setSpellerAnswer);
-                setAbstractWords(answer.abstraktsus);
-                setRequestingText(null);
-              });
-          }
+          queryCaller(textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, null, null, false);
           setCorrectionModel(e.target.value);
         }}
         aria-label="Platform"
