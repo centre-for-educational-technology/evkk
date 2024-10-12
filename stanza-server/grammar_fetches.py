@@ -2,11 +2,12 @@ import json
 import os
 
 
+# Alternative grammar checker model api: https://api.tartunlp.ai/grammar
 def fetch_grammar(text):
     request = """
 	curl --header 'Content-Type: application/json' \
 		--request POST \
-		--data '{"language": "et", "text": "%s"}' \
+		--data '{"tekst": "%s"}' \
 		http://grammar-worker-server:5400/grammarchecker""" % text
     response = os.popen(request).read()
     if response:
@@ -14,8 +15,6 @@ def fetch_grammar(text):
     else:
         return 'None'
 
-
-# Alternative grammar checker model api: https://api.tartunlp.ai/grammar
 
 def fetch_speller(text):
     request = """

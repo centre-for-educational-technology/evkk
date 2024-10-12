@@ -14,32 +14,27 @@ speller = Speller(speller_config)
 grammar_config = read_gec_config('models/GEC-synthetic-pretrain-ut-ft.yaml')
 grammar = GEC(grammar_config)
 
+methods = ['POST']
+language = 'et'
+json_request_text = 'tekst'
 
-@app.route('/spellchecker', methods=['POST'])
+
+@app.route('/spellchecker', methods=methods)
 def spell_checker():
-    source_text = request.json["tekst"]
-    text_request = Request(text=source_text, language='et')
+    text_request = Request(text=request.json[json_request_text], language=language)
     corrected_text = speller.process_request(text_request)
-    json_str = json.dumps(asdict(corrected_text))
-
-    return Response(json_str, mimetype='application/json')
+    parse_and_return(corrected_text)
 
 
-@app.route('/grammarchecker', methods=['POST'])
+@app.route('/grammarchecker', methods=methods)
 def grammar_checker():
-    source_text = request.json["text"]
-    text_request = Request(text=source_text, language='et')
+    text_request = Request(text=request.json[json_request_text], language=language)
     corrected_text = grammar.process_request(text_request)
+    parse_and_return(corrected_text)
+
+
+def parse_and_return(corrected_text):
     json_str = json.dumps(asdict(corrected_text))
-
-    return Response(json_str, mimetype='application/json')
-
-
-def speller_run(text):
-    text_request = Request(text=text, language='et')
-    corrected_text = speller.process_request(text_request)
-    json_str = json.dumps(asdict(corrected_text))
-
     return Response(json_str, mimetype='application/json')
 
 
