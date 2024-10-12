@@ -134,6 +134,7 @@ export default function VocabularyTab(
           >
           </Box>
           <CorrectionButton
+            inputText={inputText}
             textBoxRef={textBoxRef}
             setInputText={setInputText}
             setComplexityAnswer={setComplexityAnswer}

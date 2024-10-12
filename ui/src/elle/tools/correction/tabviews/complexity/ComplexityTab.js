@@ -139,6 +139,7 @@ export default function ComplexityTab(
           >
           </Box>
           <CorrectionButton
+            inputText={inputText}
             textBoxRef={textBoxRef}
             setInputText={setInputText}
             setComplexityAnswer={setComplexityAnswer}
