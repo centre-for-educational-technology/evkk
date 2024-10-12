@@ -1,13 +1,12 @@
 import requests
 
 headers = {'Content-Type': 'application/json'}
+data_text = 'tekst'
 
+# Alternative grammar checker model api: https://api.tartunlp.ai/grammar
 def fetch_grammar(text):
-    url = 'https://api.tartunlp.ai/grammar'
-    data = {
-        "language": "et",
-        "text": text
-    }
+    url = 'http://grammar-worker-server:5400/grammarchecker'
+    data = {data_text: text}
 
     response = requests.post(url, headers=headers, json=data)
 
@@ -19,9 +18,7 @@ def fetch_grammar(text):
 
 def fetch_speller(text):
     url = 'http://grammar-worker-server:5400/spellchecker'
-    data = {
-        "tekst": text
-    }
+    data = {data_text: text}
 
     response = requests.post(url, headers=headers, json=data)
 
