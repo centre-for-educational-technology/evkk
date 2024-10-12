@@ -4,9 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 
 import java.net.URI;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import static java.util.Collections.unmodifiableMap;
 
 /**
  * @author Mikk Tarvas
@@ -24,7 +25,7 @@ public class ServiceLocator {
       URI serviceUri = URI.create(entry.getValue());
       serviceUris.put(serviceName, serviceUri);
     }
-    return new ServiceLocator(Collections.unmodifiableMap(serviceUris));
+    return new ServiceLocator(unmodifiableMap(serviceUris));
   }
 
   @NonNull
