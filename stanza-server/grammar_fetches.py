@@ -1,29 +1,28 @@
-import json
-import os
+import requests
 
+headers = {'Content-Type': 'application/json'}
+data_text = 'tekst'
 
 # Alternative grammar checker model api: https://api.tartunlp.ai/grammar
 def fetch_grammar(text):
-    request = """
-	curl --header 'Content-Type: application/json' \
-		--request POST \
-		--data '{"tekst": "%s"}' \
-		http://grammar-worker-server:5400/grammarchecker""" % text
-    response = os.popen(request).read()
-    if response:
-        return json.loads(response)
+    url = 'http://grammar-worker-server:5400/grammarchecker'
+    data = {data_text: text}
+
+    response = requests.post(url, headers=headers, json=data)
+
+    if response.status_code == 200:
+        return response.json()
     else:
-        return 'None'
+        return response.text
 
 
 def fetch_speller(text):
-    request = """
-	curl --header 'Content-Type: application/json' \
-		--request POST \
-		--data '{"tekst": "%s"}' \
-		http://grammar-worker-server:5400/spellchecker""" % text
-    response = os.popen(request).read()
-    if response:
-        return json.loads(response)
+    url = 'http://grammar-worker-server:5400/spellchecker'
+    data = {data_text: text}
+
+    response = requests.post(url, headers=headers, json=data)
+
+    if response.status_code == 200:
+        return response.json()
     else:
-        return 'None'
+        return response.text
