@@ -23,14 +23,14 @@ json_request_text = 'tekst'
 def spell_checker():
     text_request = Request(text=request.json[json_request_text], language=language)
     corrected_text = speller.process_request(text_request)
-    parse_and_return(corrected_text)
+    return parse_and_return(corrected_text)
 
 
 @app.route('/grammarchecker', methods=methods)
 def grammar_checker():
     text_request = Request(text=request.json[json_request_text], language=language)
     corrected_text = grammar.process_request(text_request)
-    parse_and_return(corrected_text)
+    return parse_and_return(corrected_text)
 
 
 def parse_and_return(corrected_text):
