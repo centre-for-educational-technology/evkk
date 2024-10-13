@@ -8,7 +8,6 @@ import ee.evkk.dto.CorpusTextContentsDto;
 import ee.tlu.evkk.api.annotation.RateLimit;
 import ee.tlu.evkk.api.annotation.RecordResponseTime;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
-import ee.tlu.evkk.core.integration.GrammarWorkerServerClient;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.service.TextService;
 import ee.tlu.evkk.core.service.dto.TextResponseDto;
@@ -40,7 +39,6 @@ public class TextController {
   private final TextDao textDao;
   private final StanzaServerClient stanzaServerClient;
   private final CorrectorServerClient correctorServerClient;
-  private final GrammarWorkerServerClient grammarWorkerServerClient;
   private final TextService textService;
 
   @PostMapping("/kysitekstid")
@@ -111,12 +109,6 @@ public class TextController {
     String[] vastus = correctorServerClient.getKorrektuur(request.getTekst());
     List<String> body = asList(vastus);
     return ok(body);
-  }
-
-  @PostMapping("/spellchecker")
-  public ResponseEntity<String> spellchecker(@RequestBody CommonTextRequestDto request) {
-    String vastus = grammarWorkerServerClient.getSpeller(request.getTekst());
-    return ok(vastus);
   }
 
   @PostMapping("/keeletase")

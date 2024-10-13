@@ -26,12 +26,12 @@ export default function FilledContacts() {
                    etisUrl={'https://www.etis.ee/CV/Kaisa_Norak/est/'}
                    icon={WORKER_IMAGES.kaisa}/>
       <ContactCard name={'BSc Harli Kodasma'}
-                   role={'keeletehnoloog-analüütik, magistrant'}
+                   role={'keeletehnoloog-analüütik-tarkvaraarendaja, magistrant'}
                    email={'harli.kodasma@tlu.ee'}
                    etisUrl={'https://www.etis.ee/CV/Harli_Kodasma/est/'}
                    icon={WORKER_IMAGES.harli}/>
-      <ContactCard name={'Taavi Kamarik'}
-                   role={'keeletehnoloog-analüütik, bakalaureuseõppe üliõpilane'}
+      <ContactCard name={'BSc Taavi Kamarik'}
+                   role={'keeletehnoloog-analüütik-tarkvaraarendaja, magistrant'}
                    email={'taavik@tlu.ee'}
                    etisUrl={'https://www.etis.ee/CV/Taavi_Kamarik/est/'}
                    icon={WORKER_IMAGES.taavi}/>
