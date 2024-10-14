@@ -72,6 +72,7 @@ export default function CorrectionInput(
         model={model}
       />
       <CorrectionButton
+        model={model}
         inputText={inputText}
         replacementText={newRef}
         setNewRef={setNewRef}

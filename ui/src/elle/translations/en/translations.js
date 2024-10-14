@@ -150,6 +150,7 @@ export const TRANSLATIONS_EN = {
   corrector_complexity_statistics_polysyllabic_words: 'Polysyllabic words',
   corrector_complexity_statistics_syllables: 'Syllables',
   corrector_complexity_statistics_words: 'Words',
+  corrector_download_docx: 'Download the results as DOCX',
   corrector_errors_in_total: 'Corrections in total',
   corrector_flesch_kincaid_grade_level: 'Flesch-Kincaid grade level',
   corrector_grammar_errors_compounding: 'Compounding',

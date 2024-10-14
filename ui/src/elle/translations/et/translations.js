@@ -150,6 +150,7 @@ export const TRANSLATIONS_ET = {
   corrector_complexity_statistics_polysyllabic_words: 'Paljusilbilisi sõnu',
   corrector_complexity_statistics_syllables: 'Silpe',
   corrector_complexity_statistics_words: 'Sõnu',
+  corrector_download_docx: 'Lae tulemused alla DOCX formaadis',
   corrector_errors_in_total: 'Parandusi kokku',
   corrector_flesch_kincaid_grade_level: 'Flesch-Kincaidi indeks',
   corrector_grammar_errors_compounding: 'Kokku-lahkukirjutus',

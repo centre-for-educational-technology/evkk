@@ -1,4 +1,6 @@
 import { replaceCombined, replaceSpaces, replaceSpaceTags } from '../../../const/Constants';
+import { ShadingType, TextRun } from 'docx';
+import { correctorDocxColors } from '../../../const/StyleConstants';
 
 export const handleInput = (e, h, setNewRef, setInputText) => {
   setNewRef(h);
@@ -114,4 +116,53 @@ export const queryCaller = (textBoxRef, inputText, setRequestingText, setGrammar
   } else if (setValue !== null && newValue !== null) {
     setValue(newValue);
   }
+};
+
+export const parseHtmlForDocx = (htmlString) => {
+  // Create a temporary div element to parse the HTML string
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = htmlString;
+
+  // Array to store the result
+  const result = [];
+
+  // Function to process nodes recursively
+  function processNode(node) {
+    // Handle text nodes
+    if (node.nodeType === Node.TEXT_NODE) {
+      // Add text nodes as { text: [val], color: null } (ignore empty nodes)
+      result.push(new TextRun({ text: node.textContent, size: 20 }));
+    }
+
+    // Handle element nodes, specifically <span>
+    else if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'SPAN') {
+      // Check for class name and handle accordingly
+      let colorClass;
+      if (node.className === 'text-span') {
+        // If the class is "text-span", use data-color attribute
+        colorClass = node.getAttribute('data-color') || null;
+      } else {
+        // For other spans, use class name as color
+        colorClass = node.className || null;
+      }
+
+      result.push(
+        new TextRun({
+          text: node.textContent,
+          size: 20,
+          shading: {
+            type: ShadingType.SOLID,
+            color: correctorDocxColors[colorClass],
+            fill: 'FF0000'
+          }
+        }));
+    }
+  }
+
+  // Iterate over the child nodes of the temporary div
+  tempDiv.childNodes.forEach(node => {
+    processNode(node);
+  });
+
+  return result;
 };

@@ -33,3 +33,15 @@ export const errorTypes = {
   missingWordError: { color: 'hsl(255, 37%, 73%)', label: 'corrector_grammar_errors_missing_word' },
   extraWordError: { color: 'hsl(255, 37%, 73%)', label: 'corrector_grammar_errors_unnecessary_word' }
 };
+
+export const correctorDocxType = {
+  'longsentence': 'corrector_complexity_long_sentences',
+  'longword': 'corrector_complexity_long_words',
+  'nouns': 'corrector_complexity_nouns',
+  'wordrepetition': 'corrector_vocabulary_word_repetitions',
+  'uncommonwords': 'corrector_vocabulary_low_frequency_words',
+  'abstractwords': 'corrector_vocabulary_abstract_words',
+  'contentwords': 'corrector_vocabulary_content_words',
+  'spellchecker': 'corrector_proficiency_level_spelling',
+  'grammarchecker': 'corrector_proficiency_level_grammar'
+};
