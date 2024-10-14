@@ -54,7 +54,7 @@ def keerukus_sonaliigid_mitmekesisus():
             if word.upos not in sona_upos_piirang:
                 sonad.append(word.text)
                 sonaliigid.append(word.pos)
-                lemmad.append(word.lemma)
+                lemmad.append(sanitize_lemma(word.lemma))
 
     abstract_answer = utils.analyze(' '.join(lemmad), "estonian")
 
@@ -393,6 +393,10 @@ def make_serializable(data):
 
 def sona_on_eestikeelne(sona):
     return bool(re.fullmatch(eesti_tahestik, sona))
+
+
+def sanitize_lemma(lemma):
+    return lemma.replace("=", "")
 
 
 def hinda_mitmekesisust(tekst):

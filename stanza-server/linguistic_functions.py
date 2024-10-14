@@ -67,11 +67,6 @@ def lexical_density(data):
     text_lemmas = data['Lemma'].tolist()
     # Stoppsõnade loend lemmatiseeritud tekstile
     # (Uiboaed 2018, https://datadoi.ee/handle/33/78)
-    # with open('estonian-stopwords-lemmas.txt', 'r+') as f:
-    # wordList = f.read()
-    # f.seek(0, 0)
-    # heading = 'Stoplemma'
-    # f.write(heading + '\n' + wordList)
     stop_lemmas = pd.read_csv('estonian-stopwords-lemmas.txt')
     stop_lemmas = set(stop_lemmas['Stoplemma'].tolist())
     function_words = 0
