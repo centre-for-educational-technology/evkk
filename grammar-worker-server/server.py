@@ -16,7 +16,7 @@ grammar = GEC(grammar_config)
 
 methods = ['POST']
 language = 'et'
-json_request_text = 'tekst'
+json_request_text = 'text'
 
 
 @app.route('/spellchecker', methods=methods)
