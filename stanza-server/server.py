@@ -3,6 +3,7 @@ import math
 import os
 import re
 import subprocess
+
 from flask import Flask
 from flask import Response
 from flask import request
@@ -59,6 +60,12 @@ def keerukus_sonaliigid_mitmekesisus():
     abstract_answer = utils.analyze(' '.join(lemmad), "estonian")
 
     serializable_word_analysis = make_serializable(abstract_answer["wordAnalysis"])
+
+    if len(lemmad) != len(serializable_word_analysis):
+        for i in range(len(lemmad)):
+            if serializable_word_analysis[i]["word"] != lemmad[i] and "=" in lemmad[i]:
+                serializable_word_analysis[i]["word"] = lemmad[i]
+                serializable_word_analysis.pop(i + 1)
 
     return Response(json.dumps({
         "sonad": sonad,
