@@ -11,7 +11,7 @@ app = Flask(__name__)
 speller_config = read_speller_config("models/spell_etnc19_reference_corpus_6000000_web_2019_600000.yaml")
 speller = Speller(speller_config)
 
-grammar_config = read_gec_config('models/GEC-synthetic-pretrain-ut-ft.yaml')
+grammar_config = read_gec_config('models/GEC-nelb-1.3b.yaml')
 grammar = GEC(grammar_config)
 
 methods = ['POST']
