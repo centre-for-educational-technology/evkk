@@ -55,17 +55,11 @@ def keerukus_sonaliigid_mitmekesisus():
             if word.upos not in sona_upos_piirang:
                 sonad.append(word.text)
                 sonaliigid.append(word.pos)
-                lemmad.append(word.lemma)
+                lemmad.append(word.lemma.replace("=", ""))
 
     abstract_answer = utils.analyze(' '.join(lemmad), "estonian")
 
     serializable_word_analysis = make_serializable(abstract_answer["wordAnalysis"])
-
-    if len(lemmad) != len(serializable_word_analysis):
-        for i in range(len(lemmad)):
-            if serializable_word_analysis[i]["word"] != lemmad[i] and "=" in lemmad[i]:
-                serializable_word_analysis[i]["word"] = lemmad[i]
-                serializable_word_analysis.pop(i + 1)
 
     return Response(json.dumps({
         "sonad": sonad,
