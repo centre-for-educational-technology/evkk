@@ -32,7 +32,7 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        sh 'cd /opt/evkk && ./run.sh'
+        sh 'docker system prune --force --volumes && cd /opt/evkk && ./run.sh'
       }
     }
 
