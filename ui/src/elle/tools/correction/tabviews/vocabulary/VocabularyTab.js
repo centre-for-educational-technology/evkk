@@ -134,6 +134,7 @@ export default function VocabularyTab(
           >
           </Box>
           <CorrectionButton
+            model={model}
             inputText={inputText}
             textBoxRef={textBoxRef}
             setInputText={setInputText}
