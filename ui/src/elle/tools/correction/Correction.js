@@ -9,8 +9,7 @@ import VocabularyTab from './tabviews/vocabulary/VocabularyTab';
 import TextLevelTab from './tabviews/textlevel/TextLevelTab';
 import { useTranslation } from 'react-i18next';
 import { useGetCorrectorResult } from '../../hooks/service/ToolsService';
-import { processCorrectorText, processFetchText, processGrammarResponseIndexes } from './util/Utils';
-import { replaceCombined } from '../../const/Constants';
+import { queryCaller } from './util/Utils';
 import { SPELLCHECKER } from './const/Constants';
 
 export default function Correction() {
@@ -29,21 +28,7 @@ export default function Correction() {
   const { getCorrectorResult } = useGetCorrectorResult();
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
-    if (textBoxRef.current.innerText.replaceAll('\u00A0', ' ') !== inputText.replaceAll(replaceCombined, '').replaceAll('\n', ' ').replaceAll('\u00A0', ' ')) {
-      setRequestingText(newRef);
-      setInputText(textBoxRef.current.innerText);
-      const fetchInputText = processFetchText(textBoxRef);
-      setInputText(fetchInputText);
-      getCorrectorResult(JSON.stringify({ tekst: processCorrectorText(fetchInputText) }))
-        .then(answer => {
-          setComplexityAnswer(answer);
-          processGrammarResponseIndexes(answer.grammatika, setGrammarAnswer);
-          processGrammarResponseIndexes(answer.speller, setSpellerAnswer);
-          setAbstractWords(answer.abstraktsus);
-        });
-      setRequestingText(null);
-    }
+    queryCaller(textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, newValue, setValue, false);
   };
 
   return (

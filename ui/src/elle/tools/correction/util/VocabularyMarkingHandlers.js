@@ -2,6 +2,7 @@ import { commonLemmas, stopWords } from '../tabviews/vocabulary/constants/consta
 import { replaceCombined } from '../../../const/Constants';
 import { checkForFullWord } from '../../../util/TextUtils';
 import {
+  ABBREVIATION,
   ABSTRACT_WORDS,
   CONTENT_WORDS,
   EXCLUSION_WORDS,
@@ -10,11 +11,12 @@ import {
   NOUN,
   ORDINAL_NUMERAL,
   PRON,
+  PROPN,
   UNCOMMON_WORDS,
   WORD_REPETITION
 } from '../const/Constants';
 
-const positionalWords = [NAME, MAIN_NUMERAL, ORDINAL_NUMERAL];
+const positionalWords = [NAME, MAIN_NUMERAL, ORDINAL_NUMERAL, ABBREVIATION];
 
 const mapWords = (sentenceLemmas, checkLemmas, complexityAnswer) => {
   const sentenceMap = new Map();
@@ -55,7 +57,7 @@ export const handleUncommonWords = (text, abstractAnswer, complexityAnswer) => {
   let tempText = text.replaceAll(replaceCombined, '');
 
   abstractAnswer.forEach((lemma, index) => {
-    if (!positionalWords.includes(lemma.pos) && !commonLemmas.includes(complexityAnswer.lemmad[index]) && lemma.posTag !== 'G') {
+    if (!positionalWords.includes(lemma.pos) && complexityAnswer.sonaliigid[index] !== PROPN && !commonLemmas.includes(complexityAnswer.lemmad[index]) && lemma.posTag !== 'G') {
       const newWord = `<span class="uncommon-word-color">${complexityAnswer.sonad[index]}</span>`;
       tempText = tempText.replace(checkForFullWord(complexityAnswer.sonad[index]), newWord);
     }

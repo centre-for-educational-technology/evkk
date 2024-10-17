@@ -3,7 +3,6 @@ package ee.tlu.evkk.core;
 import ee.tlu.evkk.common.env.ServiceLocator;
 import ee.tlu.evkk.common.env.ServiceLocatorFactoryBean;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
-import ee.tlu.evkk.core.integration.GrammarWorkerServerClient;
 import ee.tlu.evkk.core.integration.KlasterdajaServerClient;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.dal.DalConfiguration;
@@ -17,7 +16,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.client.RestTemplate;
 
 import static ee.tlu.evkk.common.env.ServiceLocator.ServiceName.CORRECTOR_SERVER;
-import static ee.tlu.evkk.common.env.ServiceLocator.ServiceName.GRAMMAR_WORKER_SERVER;
 import static ee.tlu.evkk.common.env.ServiceLocator.ServiceName.KLASTERDAJA;
 import static ee.tlu.evkk.common.env.ServiceLocator.ServiceName.STANZA_SERVER;
 
@@ -53,12 +51,6 @@ public class CoreConfiguration {
   public CorrectorServerClient correctorServerClient(ServiceLocator serviceLocator, RestTemplateBuilder restTemplateBuilder) {
     RestTemplate rest = restTemplateBuilder.rootUri(serviceLocator.locate(CORRECTOR_SERVER).toString()).build();
     return new CorrectorServerClient(rest);
-  }
-
-  @Bean
-  public GrammarWorkerServerClient grammarWorkerServerClient(ServiceLocator serviceLocator, RestTemplateBuilder restTemplateBuilder) {
-    RestTemplate rest = restTemplateBuilder.rootUri(serviceLocator.locate(GRAMMAR_WORKER_SERVER).toString()).build();
-    return new GrammarWorkerServerClient(rest);
   }
 
 }

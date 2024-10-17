@@ -2,11 +2,12 @@ import React from 'react';
 import { Button } from '@mui/material';
 import { DefaultButtonStyle } from '../../../const/StyleConstants';
 import { useTranslation } from 'react-i18next';
-import { processCorrectorText, processFetchText, processGrammarResponseIndexes } from '../util/Utils';
+import { queryCaller } from '../util/Utils';
 import { useGetCorrectorResult } from '../../../hooks/service/ToolsService';
 
 export default function CorrectionButton(
   {
+    inputText,
     textBoxRef,
     setInputText,
     setComplexityAnswer,
@@ -20,17 +21,7 @@ export default function CorrectionButton(
   const { getCorrectorResult } = useGetCorrectorResult();
 
   const handleClick = () => {
-    setRequestingText(newRef);
-    const fetchInputText = processFetchText(textBoxRef);
-    setInputText(fetchInputText);
-    getCorrectorResult(JSON.stringify({ tekst: processCorrectorText(fetchInputText) }))
-      .then(answer => {
-        setComplexityAnswer(answer);
-        processGrammarResponseIndexes(answer.grammatika, setGrammarAnswer);
-        processGrammarResponseIndexes(answer.speller, setSpellerAnswer);
-        setAbstractWords(answer.abstraktsus);
-      });
-    setRequestingText(null);
+    queryCaller(textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, null, null, true);
   };
   return (
     <div>

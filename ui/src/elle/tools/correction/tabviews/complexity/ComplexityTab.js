@@ -18,6 +18,7 @@ import CorrectionToggleButtonGroup from '../../components/CorrectionToggleButton
 import { LONG_SENTENCE } from '../../const/Constants';
 import { ComplexityToggleButtons } from '../../const/ToggleButtonConstants';
 import { COMPLEXITY_LIX_LINK, COMPLEXITY_LONG_WORD_LINK, COMPLEXITY_SMOG_LINK } from '../../const/PathConstants';
+import { complexityValues } from '../../const/TabValuesConstant';
 
 export default function ComplexityTab(
   {
@@ -55,6 +56,7 @@ export default function ComplexityTab(
   const generateComplexityAnswer = (answer) => {
     return answer
       .split('/')
+      .sort((a, b) => complexityValues.indexOf(a) - complexityValues.indexOf(b))
       .map(t)
       .map((complexityWord, index, array) =>
         index === array.length - 1 ? complexityWord : `${complexityWord} / `
@@ -137,6 +139,7 @@ export default function ComplexityTab(
           >
           </Box>
           <CorrectionButton
+            inputText={inputText}
             textBoxRef={textBoxRef}
             setInputText={setInputText}
             setComplexityAnswer={setComplexityAnswer}
@@ -218,7 +221,7 @@ export default function ComplexityTab(
                   <CorrectionScale
                     title={t('corrector_lix_index')}
                     startValue={20}
-                    endValue={80}
+                    endValue={70}
                     value={complexityAnswer.keerukus[7]}
                     startText={t('corrector_index_score_easy')}
                     endText={t('corrector_index_score_difficult')}

@@ -1,7 +1,6 @@
 version: "3.7"
 
 services:
-
   redis:
     image: redis:6-alpine
     container_name: evkk-redis
@@ -10,7 +9,7 @@ services:
       - /srv/evkk/data/redis:/data
 
   caddy:
-    image: caddy:2.4.5-alpine
+    image: caddy:2.8.4-alpine
     container_name: evkk-caddy
     restart: always
     ports:
@@ -44,7 +43,7 @@ services:
 
   task_scheduler:
     image: evkk-backend
-    container_name: evkk-task-scheduer
+    container_name: evkk-task-scheduler
     restart: always
     entrypoint: [ "/bin/bash", "-c", "java -jar app/task-scheduler.jar" ]
     secrets:
@@ -59,10 +58,19 @@ services:
     image: evkk-stanza-server
     container_name: evkk-stanza-server
     restart: always
+    environment:
+      - CPU_CORE={{.Task.Slot}}
     deploy:
+      mode: replicated
+      replicas: 5
       resources:
         limits:
-          memory: 45G
+          memory: 8G
+        reservations:
+          memory: 4G
+      update_config:
+        parallelism: 1
+        order: start-first
 
   corrector-server:
     image: evkk-corrector-server
@@ -74,8 +82,8 @@ services:
           memory: 15G
 
   grammar-worker-server:
-    image: grammar-worker-server
-    container_name: grammar-worker-server
+    image: evkk-grammar-worker-server
+    container_name: evkk-grammar-worker-server
     restart: always
     deploy:
       resources:

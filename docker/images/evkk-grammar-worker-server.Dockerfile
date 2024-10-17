@@ -37,8 +37,9 @@ RUN apt-get update && \
 
 # Clone Spell models
 RUN git clone https://huggingface.co/Jaagup/etnc19_reference_corpus_6000000_web_2019_600000 /app/models/Jaagup/etnc19_reference_corpus_6000000_web_2019_600000
+RUN git clone https://huggingface.co/tartuNLP/en-et-de-cs-nelb /app/models/tartuNLP/en-et-de-cs-nelb
 
-# TODO ELLE-310 use this when request to Tartu's API fails
+# Alternative models
 # git clone https://huggingface.co/Jaagup/etnc19_reference_corpus_model_6000000_lines /app/models/Jaagup/etnc19_reference_corpus_model_6000000_lines && \
 # git clone https://huggingface.co/Jaagup/etnc19_web_2019 /app/models/Jaagup/etnc19_web_2019
 
