@@ -265,7 +265,16 @@ export const textLanguageOptions = {
   'vene': 'query_common_language_ru'
 };
 
-export const domainOptions = {
+export const domainDisplayOptions = {
+  // currently no texts present in the database
+  // 'biojakeskkonnateadused': 'common_text_data_field_of_research_biosciences_and_environment',
+  'yhiskondjakultuur': 'common_text_data_field_of_research_culture_and_society',
+  // currently no texts present in the database
+  // 'terviseuuringud': 'common_text_data_field_of_research_health',
+  'loodustehnika': 'common_text_data_field_of_research_natural_sciences_and_engineering'
+};
+
+export const domainSaveOptions = {
   'biojakeskkonnateadused': 'common_text_data_field_of_research_biosciences_and_environment',
   'yhiskondjakultuur': 'common_text_data_field_of_research_culture_and_society',
   'terviseuuringud': 'common_text_data_field_of_research_health',

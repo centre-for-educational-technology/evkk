@@ -21,7 +21,7 @@ import {
   charactersOptions,
   countryOptionsForQuery,
   degreeOptions,
-  domainOptions,
+  domainDisplayOptions,
   educationOptions,
   genderOptions,
   languageOptionsForNativeLangs,
@@ -651,9 +651,9 @@ export default function Query(props) {
                           label={t('common_text_data_field_of_research')}
                           onClick={(e) => alterSinglePropertyData(e, 'domain')}
                         >
-                          {Object.keys(domainOptions).map((domain) => (
+                          {Object.keys(domainDisplayOptions).map((domain) => (
                             <MenuItem key={domain}
-                                      value={domain}>{t(domainOptions[domain])}</MenuItem>
+                                      value={domain}>{t(domainDisplayOptions[domain])}</MenuItem>
                           ))}
                         </Select>
                       </FormControl>

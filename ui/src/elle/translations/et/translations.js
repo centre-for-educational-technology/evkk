@@ -499,7 +499,7 @@ export const TRANSLATIONS_ET = {
   query_text_data_type_L2_examination: 'K2 eksamitöö',
   query_text_data_type_L2_exercise: 'K2 harjutus',
   query_text_data_type_L2_exercise_ad: 'Reklaam',
-  query_text_data_type_L2_exercise_ad_full: 'K2 harjutus: Reklaam',
+  query_text_data_type_L2_exercise_ad_full: 'K2 harjutus: reklaam',
   query_text_data_type_L2_exercise_announcement: 'Kuulutus',
   query_text_data_type_L2_exercise_announcement_full: 'K2 harjutus: kuulutus',
   query_text_data_type_L2_exercise_answering_questions: 'Vastused küsimustele',
