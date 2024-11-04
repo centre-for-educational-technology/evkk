@@ -24,9 +24,6 @@ export const NOUN = 'NOUN';
 export const PRON = 'PRON';
 export const PROPN = 'PROPN';
 export const VERB = 'VERB';
-export const NAME = 'Pärisnimi';
-export const MAIN_NUMERAL = 'Põhiarvsõna';
-export const ORDINAL_NUMERAL = 'Järgarvsõna';
-export const ABBREVIATION = 'Lühend';
+export const NUM = 'NUM';
 export const EXCLUSION_WORDS = ['ja', 'mina', 'olema', 'ei', 'et'];
 

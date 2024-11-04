@@ -23,12 +23,6 @@
   background: hsl(44.71 100% 80%);
 }
 
-.both-sentence-color {
-  padding: 0.1em;
-  border-radius: 2px 2px 1px 1px;
-  background: hsl(0 66% 76%);
-}
-
 .uncommon-word-color {
   background-color: hsl(100 66% 76%);
   padding: 0.1em;

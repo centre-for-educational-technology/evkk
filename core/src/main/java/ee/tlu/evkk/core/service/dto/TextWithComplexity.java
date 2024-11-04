@@ -23,4 +23,6 @@ public class TextWithComplexity {
   private Object abstraktsus;
   private Object grammatika;
   private Object speller;
+  private Object laused;
+  private List<Object> sonaasukoht;
 }
