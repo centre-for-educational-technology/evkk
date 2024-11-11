@@ -12,14 +12,13 @@ import java.util.stream.Collectors;
 import static ee.tlu.evkk.clusterfinder.constants.FilteringConstants.CLAUSE_TYPE_SEPARATOR;
 
 @Component
-public class ClusterExplanationHelper
-{
+public class ClusterExplanationHelper {
+
   private final String PUNCTUATION_MARKUP_KEY = "Z";
 
-  private final Map< String, String > clusterTextsMap;
+  private final Map<String, String> clusterTextsMap;
 
-  public ClusterExplanationHelper(Map< String, String> clusterTextsMap)
-  {
+  public ClusterExplanationHelper(Map<String, String> clusterTextsMap) {
     this.clusterTextsMap = clusterTextsMap;
   }
 
@@ -32,58 +31,43 @@ public class ClusterExplanationHelper
    * @param includePunctuation
    * @return A list of explanations that correspond to the given list of markups.
    */
-  public List< String > getExplanation(List<String> markups, boolean isSyntactic, boolean isMorfological, boolean includePunctuation)
-  {
+  public List<String> getExplanation(List<String> markups, boolean isSyntactic, boolean isMorfological, boolean includePunctuation) {
     boolean isMorfoSyntactic = isMorfological && isSyntactic;
 
-    if (isMorfoSyntactic)
-    {
+    if (isMorfoSyntactic) {
       return getMorfoSyntacticExplanation(markups);
-    }
-    else if (isSyntactic)
-    {
+    } else if (isSyntactic) {
       return getSyntacticExplanation(markups);
-    }
-    else if (isMorfological && includePunctuation)
-    {
+    } else if (isMorfological && includePunctuation) {
       return getMorfologicalExplanation(markups);
-    }
-    else
-    {
+    } else {
       return getConcreteExplanation(markups);
     }
   }
 
   /**
    * Retrieves a list of syntactic explanations for the given list of markups.
-   *
+   * <p>
    * If multiple syntactic markups are present then all of the syntactic markups are parsed separately
    * and the output of the explanation is formatted as follows:
-   *
+   * <p>
    * {syntactic_part_1}/{syntactic_part_2}
-   *
+   * <p>
    * Some examples of different outputs:
-   *
-   * @SUBJ => alus
-   * @SUBJ @OBJ => alus/sihitis
-   * @SUBJ @OBJ @PRD => alus/sihitis/öeldistäide
-   *
    *
    * @param markups
    * @return A list of syntactic markup explanations.
+   * @SUBJ => alus
+   * @SUBJ @OBJ => alus/sihitis
+   * @SUBJ @OBJ @PRD => alus/sihitis/öeldistäide
    */
-  private List< String > getSyntacticExplanation(List<String> markups)
-  {
-    List< String > markupExplanations = new ArrayList<>();
+  private List<String> getSyntacticExplanation(List<String> markups) {
+    List<String> markupExplanations = new ArrayList<>();
 
-    for (String markup: markups)
-    {
-      if (hasMultipleSyntacticMarkups(markup))
-      {
+    for (String markup : markups) {
+      if (hasMultipleSyntacticMarkups(markup)) {
         markupExplanations.add(joinMarkups(markup.split(" "), "/", false));
-      }
-      else
-      {
+      } else {
         markupExplanations.add(clusterTextsMap.get(markup));
       }
     }
@@ -94,16 +78,16 @@ public class ClusterExplanationHelper
   /**
    * Retrieves a list of morfosyntactic explanations for the given list of markups. Explanations
    * are formatted as follows:
-   *
+   * <p>
    * {morfological_part} // {syntactic_part}
-   *
+   * <p>
    * If multiple syntactic markups are present then all of the syntactic markups are parsed separately
    * and the output of the explanation is formatted as follows:
-   *
+   * <p>
    * {morfological_part} // {syntactic_part_1}/{syntactic_part_2}
-   *
+   * <p>
    * Some examples of different outputs:
-   *
+   * <p>
    * V aux inf // @SUBJ => abitegusõna, da-tegevusnimi // alus
    * V aux inf // @SUBJ @OBJ => abitegusõna, da-tegevusnimi // alus/sihitis
    * V aux inf // @SUBJ @OBJ @PRD => abitegusõna, da-tegevusnimi // alus/sihitis/öeldistäide
@@ -111,19 +95,16 @@ public class ClusterExplanationHelper
    * @param markups
    * @return A list of syntactic markup explanations.
    */
-  private List<String> getMorfoSyntacticExplanation(List<String> markups)
-  {
-    List< String > markupExplanations = new ArrayList<>();
+  private List<String> getMorfoSyntacticExplanation(List<String> markups) {
+    List<String> markupExplanations = new ArrayList<>();
 
-    for (String markup: markups)
-    {
+    for (String markup : markups) {
       String[] splitMarkup = markup.split(CLAUSE_TYPE_SEPARATOR);
-      if (splitMarkup.length > 1 && hasMultipleSyntacticMarkups(splitMarkup[1]))
-      {
+      if (splitMarkup.length > 1 && hasMultipleSyntacticMarkups(splitMarkup[1])) {
         markupExplanations.add(joinMarkups(splitMarkup, "//", true));
-      }
-      else
-      {
+      } else if (splitMarkup.length == 1) {
+        markupExplanations.add(clusterTextsMap.get(markup.replace("//", "").trim()));
+      } else {
         markupExplanations.add(clusterTextsMap.get(markup));
       }
     }
@@ -133,24 +114,19 @@ public class ClusterExplanationHelper
 
   /**
    * Retrieves a list of morfological explanations for the given list of markups.
-   *
+   * <p>
    * NOTE! This method is used currently as a workaround for punctuation issues.
    *
    * @param markups
    * @return A list of morfological markup explanations.
    */
-  private List<String> getMorfologicalExplanation(List<String> markups)
-  {
-    List< String > markupExplanations = new ArrayList<>();
+  private List<String> getMorfologicalExplanation(List<String> markups) {
+    List<String> markupExplanations = new ArrayList<>();
 
-    for (String markup: markups)
-    {
-      if (StringUtils.isBlank(markup))
-      {
+    for (String markup : markups) {
+      if (StringUtils.isBlank(markup)) {
         markupExplanations.add(clusterTextsMap.get(PUNCTUATION_MARKUP_KEY));
-      }
-      else
-      {
+      } else {
         markupExplanations.add(clusterTextsMap.get(markup));
       }
     }
@@ -158,32 +134,28 @@ public class ClusterExplanationHelper
     return markupExplanations;
   }
 
-  private String joinMarkups(String[] splitMarkup, String separator, boolean morfoSyntactic)
-  {
-    if (morfoSyntactic)
-    {
+  private String joinMarkups(String[] splitMarkup, String separator, boolean morfoSyntactic) {
+    if (morfoSyntactic) {
       String morfologicalPart = clusterTextsMap.get(splitMarkup[0].trim());
       String syntacticalPart = Arrays.stream(splitMarkup[1].trim().split(" "))
-              .map(clusterTextsMap::get)
-              .collect(Collectors.joining("/"));
+        .map(clusterTextsMap::get)
+        .collect(Collectors.joining("/"));
 
       return morfologicalPart + StringUtils.SPACE + separator + StringUtils.SPACE + syntacticalPart;
     }
 
     return Arrays.stream(splitMarkup)
-            .map(clusterTextsMap::get)
-            .collect(Collectors.joining(separator));
+      .map(clusterTextsMap::get)
+      .collect(Collectors.joining(separator));
   }
 
-  private boolean hasMultipleSyntacticMarkups(String markup)
-  {
+  private boolean hasMultipleSyntacticMarkups(String markup) {
     return markup.trim().split(" ").length > 1;
   }
 
-  private List<String> getConcreteExplanation(List<String> markups)
-  {
+  private List<String> getConcreteExplanation(List<String> markups) {
     return markups.stream()
-              .map(clusterTextsMap::get)
-              .collect(Collectors.toList());
+      .map(clusterTextsMap::get)
+      .collect(Collectors.toList());
   }
 }
