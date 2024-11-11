@@ -15,6 +15,7 @@ from nlp import nlp_t, nlp_tp, nlp_tpl, nlp_all, nlp_ru_tp, nlp_ru_all
 from tasemehindaja import arvuta
 from text_abstraction_analyse import Utils
 from train import train
+from vocabulary_marking_handlers import check_both_sentence_repetition
 
 model, scaler = train()
 utils = Utils()
@@ -85,7 +86,7 @@ def keerukus_sonaliigid_mitmekesisus():
         "grammatika": fetch_grammar(tekst),
         "speller": fetch_speller(tekst),
         "laused": laused,
-        "sonaasukoht": word_start_and_end
+        "sonavara": check_both_sentence_repetition(laused, word_start_and_end)
     }), mimetype=mimetype)
 
 
