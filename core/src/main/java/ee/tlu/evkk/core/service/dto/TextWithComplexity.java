@@ -25,4 +25,5 @@ public class TextWithComplexity {
   private Object speller;
   private Object laused;
   private List<Object> sonavara;
+  private Object korrektori_loendid;
 }

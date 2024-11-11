@@ -8,6 +8,7 @@ from flask import Flask
 from flask import Response
 from flask import request
 
+from corrector_counters import calculate_uncommon_words
 from grammar_fetches import fetch_grammar
 from grammar_fetches import fetch_speller
 from linguistic_analysis import predict_level
@@ -86,7 +87,8 @@ def keerukus_sonaliigid_mitmekesisus():
         "grammatika": fetch_grammar(tekst),
         "speller": fetch_speller(tekst),
         "laused": laused,
-        "sonavara": check_both_sentence_repetition(laused, word_start_and_end)
+        "sonavara": check_both_sentence_repetition(laused, word_start_and_end),
+        "korrektori_loendid": {"harvaesinevad": calculate_uncommon_words(lemmad, sonaliigid)}
     }), mimetype=mimetype)
 
 

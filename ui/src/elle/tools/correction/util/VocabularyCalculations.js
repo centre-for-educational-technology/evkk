@@ -1,4 +1,4 @@
-import { commonLemmas, stopWords } from '../tabviews/vocabulary/constants/constants';
+import { stopWords } from '../tabviews/vocabulary/constants/constants';
 import { NOUN, NUM, PROPN } from '../const/Constants';
 
 export const calculateAbstractnessAverage = (abstractAnswer) => {
@@ -11,17 +11,6 @@ export const calculateAbstractnessAverage = (abstractAnswer) => {
     }
   });
   return (abstractnessSum / abstractCount).toFixed(2);
-};
-
-export const calculateUncommonWords = (complexityAnswer) => {
-  let unCommonCount = 0;
-
-  complexityAnswer.lemmad.forEach((lemma, index) => {
-    if (complexityAnswer.sonaliigid !== NUM && !commonLemmas.includes(lemma)) {
-      unCommonCount++;
-    }
-  });
-  return unCommonCount;
 };
 
 export const calculateContentWord = (complexityAnswer) => {
