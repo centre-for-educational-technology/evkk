@@ -302,7 +302,9 @@ def margenda_stanza(tekst, comments=True, filename="document", language='et'):
     for sent in doc.sentences:
         index = index + 1
         sentence = ' '.join([word.text for word in sent.words])
-        sentence = re.sub(r'\s([.,?!:;])', r'\1', sentence)
+        sentence = re.sub(r'\s([.,?!:;)])', r'\1', sentence)
+        sentence = re.sub(r'([(])\s', r'\1', sentence)
+        sentence = detokenize_quotemarks(sentence)
         if comments:
             v.append('# sent_id = ' + filename + '_' + str(index) + '\n')
             v.append('# text = ' + str(sentence) + '\n')
@@ -450,6 +452,26 @@ def hinda_mitmekesisust(tekst):
                                                                                                    UBER, MTLD, HDD,
                                                                                                    MSTTR) + [
         words_count, lemmas_count]
+
+
+def detokenize_quotemarks(sentence):
+    chars = []
+    closing_mark = False
+    no_space_after = False
+    for char in sentence:
+        if char == '"':
+            if not closing_mark:
+                no_space_after = True
+                closing_mark = True
+            else:
+                if len(chars) > 0 and chars[-1] == ' ':
+                    chars.pop()
+                closing_mark = False
+        if not (no_space_after and char == ' '):
+            chars.append(char)
+        if char != '"':
+            no_space_after = False
+    return ''.join(chars)
 
 
 app.run(host="0.0.0.0", threaded=True, port=5300)
