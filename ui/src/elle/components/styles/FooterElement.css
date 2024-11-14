@@ -68,6 +68,10 @@
   margin-bottom: 1rem;
 }
 
+.footer-version.no-link {
+  text-decoration: none;
+}
+
 @media (max-width: 1024px) {
   .footer-inner {
     padding-left: 2rem;

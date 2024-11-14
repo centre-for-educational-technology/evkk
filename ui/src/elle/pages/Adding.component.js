@@ -18,7 +18,7 @@ import { withTranslation } from 'react-i18next';
 import {
   countryOptionsForAddingText,
   degreeOptions,
-  domainOptions,
+  domainSaveOptions,
   educationOptions,
   genderOptions,
   studyLevelOptions,
@@ -247,9 +247,9 @@ class Adding extends Component {
                               required
                               onChange={this.handleChange}
                             >
-                              {Object.keys(domainOptions).map((domain) => (
+                              {Object.keys(domainSaveOptions).map((domain) => (
                                 <MenuItem key={domain}
-                                          value={domain}>{t(domainOptions[domain])}</MenuItem>
+                                          value={domain}>{t(domainSaveOptions[domain])}</MenuItem>
                               ))}
                             </Select>
                           </FormControl>

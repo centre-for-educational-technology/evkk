@@ -40,11 +40,16 @@ export default function FooterElement() {
         <Box className="footer-logo-box">
           <img className="dti-logo" src={dtiLogo} alt="DTI logo" />
           <p><b>{t('footer_contact')}:</b> elle@tlu.ee</p>
-          <NewTabHyperlink
-            className="footer-version"
-            path={`${EVKK_GITHUB_RELEASE_BASE_PATH}v${version}`}
-            content={`ELLE v${version}`}
-          />
+          {version ?
+            <NewTabHyperlink
+              className="footer-version"
+              path={`${EVKK_GITHUB_RELEASE_BASE_PATH}v${version}`}
+              content={`ELLE v${version}`}
+            /> :
+            <span className="footer-version no-link">
+              ELLE, {new Date().getFullYear()}
+            </span>
+          }
         </Box>
         <Box className="footer-inner-right">
           <Box className="footer-middle-box">

@@ -169,7 +169,8 @@ export const textTypesOptions = {
   },
   'cYDRkpymb': {
     'k1eesti_arvamuslugu': 'query_text_data_type_L1_opinion_piece',
-    'k1eesti_eksamitoo': 'query_text_data_type_L1_examination',
+    // currently no texts present in the database
+    // 'k1eesti_eksamitoo': 'query_text_data_type_L1_examination',
     'k1eesti_harjutus': 'query_text_data_type_L1_exercise'
   },
   'cgSRJPKTr': {
@@ -191,13 +192,15 @@ export const textTypesOptions = {
       'ak_eriala_ulevaade': 'query_text_data_type_academic_studies_overview'
     },
     'query_text_data_type_academic_research': {
-      'ak_uurimus_artikkel': 'query_text_data_type_academic_research_research_article',
+      // currently no texts present in the database
+      // 'ak_uurimus_artikkel': 'query_text_data_type_academic_research_research_article',
       'ak_uurimus_ettekanne': 'query_text_data_type_academic_research_presentation',
       'ak_uurimus_kokkuvote': 'query_text_data_type_academic_research_summary',
       'ak_uurimus_batoo': 'query_text_data_type_academic_research_bachelors_thesis',
       'ak_uurimus_diplomitoo': 'query_text_data_type_academic_research_thesis',
       'ak_uurimus_matoo': 'query_text_data_type_academic_research_masters_thesis',
-      'ak_uurimus_phdtoo': 'query_text_data_type_academic_research_doctoral_thesis'
+      // currently no texts present in the database
+      // 'ak_uurimus_phdtoo': 'query_text_data_type_academic_research_doctoral_thesis'
     }
   }
 };
@@ -262,7 +265,16 @@ export const textLanguageOptions = {
   'vene': 'query_common_language_ru'
 };
 
-export const domainOptions = {
+export const domainDisplayOptions = {
+  // currently no texts present in the database
+  // 'biojakeskkonnateadused': 'common_text_data_field_of_research_biosciences_and_environment',
+  'yhiskondjakultuur': 'common_text_data_field_of_research_culture_and_society',
+  // currently no texts present in the database
+  // 'terviseuuringud': 'common_text_data_field_of_research_health',
+  'loodustehnika': 'common_text_data_field_of_research_natural_sciences_and_engineering'
+};
+
+export const domainSaveOptions = {
   'biojakeskkonnateadused': 'common_text_data_field_of_research_biosciences_and_environment',
   'yhiskondjakultuur': 'common_text_data_field_of_research_culture_and_society',
   'terviseuuringud': 'common_text_data_field_of_research_health',
@@ -351,6 +363,8 @@ export const textPublishUsedMaterialsOptions = {
 
 export const nationalityOptions = {
   'Eesti': 'query_common_nationality_et',
+  'Afganistan': 'query_common_nationality_af',
+  'Aserbaidžaan': 'query_common_nationality_az',
   'Ameerika Ühendriigid': 'query_common_nationality_us',
   'Brasiilia': 'query_common_nationality_br',
   'Bulgaaria': 'query_common_nationality_bg',
@@ -361,10 +375,14 @@ export const nationalityOptions = {
   'Holland': 'query_common_nationality_nl',
   'Iirimaa': 'query_common_nationality_ie',
   'India': 'query_common_nationality_in',
+  'Itaalia': 'query_common_nationality_it',
+  'Kanada': 'query_common_nationality_ca',
+  'Kasashstan': 'query_common_nationality_kz',
   'Kreeka': 'query_common_nationality_gr',
   'Leedu': 'query_common_nationality_lt',
   'Läti': 'query_common_nationality_lv',
   'Makedoonia': 'query_common_nationality_mk',
+  'Moldova': 'query_common_nationality_md',
   'Määramata': 'query_common_nationality_unassigned',
   'Poola': 'query_common_nationality_pl',
   'Prantsusmaa': 'query_common_nationality_fr',
@@ -372,8 +390,10 @@ export const nationalityOptions = {
   'Saksamaa': 'query_common_nationality_de',
   'Soome': 'query_common_nationality_fi',
   'Suurbritannia': 'query_common_nationality_gb',
+  'Süüria': 'query_common_nationality_sy',
   'Türgi': 'query_common_nationality_tr',
   'Ukraina': 'query_common_nationality_ua',
+  'Ungari': 'query_common_nationality_hu',
   'Valgevene': 'query_common_nationality_by',
   'Venemaa': 'query_common_nationality_ru',
   'Venezuela': 'query_common_nationality_ve'
