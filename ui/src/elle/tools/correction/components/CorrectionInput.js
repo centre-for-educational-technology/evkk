@@ -28,7 +28,9 @@ export default function CorrectionInput(
     grammarAnswer,
     setSpellerAnswer,
     setGrammarAnswer,
-    setAbstractWords
+    setAbstractWords,
+    tab,
+    complexityAnswer
   }) {
   const [popperAnchor, setPopperAnchor] = useState(null);
   const [popperValue, setPopperValue] = useState(null);
@@ -83,6 +85,9 @@ export default function CorrectionInput(
         setSpellerAnswer={setSpellerAnswer}
         setAbstractWords={setAbstractWords}
         setRequestingText={setRequestingText}
+        errorList={errorList}
+        tab={tab}
+        textLevel={complexityAnswer}
       />
     </div>
   );

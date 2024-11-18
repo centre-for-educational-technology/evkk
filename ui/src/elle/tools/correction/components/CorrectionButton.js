@@ -17,7 +17,10 @@ export default function CorrectionButton(
     setSpellerAnswer,
     setAbstractWords,
     setRequestingText,
-    newRef
+    newRef,
+    errorList = null,
+    tab = null,
+    textLevel = null
   }) {
   const { t } = useTranslation();
   const { getCorrectorResult } = useGetCorrectorResult();
@@ -35,7 +38,8 @@ export default function CorrectionButton(
       >
         {t('analyse_button')}
       </Button>
-      <DownloadButton innerHtml={textBoxRef} modelValue={model}/>
+      <DownloadButton innerHtml={textBoxRef} modelValue={model} newRef={newRef} errorList={errorList} tab={tab}
+                      textLevel={textLevel}/>
     </div>
   );
 };

@@ -28,7 +28,8 @@ export default function CorrectionTab(
     setComplexityAnswer,
     correctionModel,
     setCorrectionModel,
-    setAbstractWords
+    setAbstractWords,
+    complexityAnswer
   }) {
   const { t } = useTranslation();
   const [responseText, setResponseText] = useState();
@@ -81,6 +82,8 @@ export default function CorrectionTab(
           setGrammarAnswer={setGrammarAnswer}
           setSpellerAnswer={setSpellerAnswer}
           setAbstractWords={setAbstractWords}
+          tab={'correction'}
+          complexityAnswer={complexityAnswer}
         />
         <div className="w-50 corrector-right">
           {errorList ?

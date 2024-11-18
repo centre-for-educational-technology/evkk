@@ -96,6 +96,8 @@ export default function TextLevelTab(
           setAbstractWords={setAbstractWords}
           setGrammarAnswer={setGrammarAnswer}
           setSpellerAnswer={setSpellerAnswer}
+          tab={'textlevel'}
+          complexityAnswer={complexityAnswer}
         />
         <div className="w-50 corrector-right">
           {complexityAnswer && complexityAnswer?.keeletase.length !== 0 &&
