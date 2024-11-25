@@ -22,6 +22,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toUnmodifiableMap;
 import static java.util.stream.StreamSupport.stream;
 
@@ -81,11 +83,17 @@ public class TextProcessorService {
   private Context buildProcessorContext(UUID textId) {
     MultiValueMap<String, String> textProperties = textPropertyService.getTextProperties(textId);
     Context context = Context.newInstance();
-    if (textProperties.containsKey("failinimi"))
-      context = context.withOriginalFileName(textProperties.getFirst("failinimi"));
-    if (textProperties.containsKey("tekstikeel"))
+    if (textProperties.containsKey("tekstikeel")) {
       context = context.withLanguageCode(textProperties.getFirst("tekstikeel"));
-    context = context.withTextIdAndFallbackFileName(textId, textId + ".txt");
+    }
+    if (textProperties.containsKey("title")) {
+      context = context.withTextIdAndFileName(
+        textId,
+        format("%s (%s).txt", requireNonNull(textProperties.getFirst("title")).trim(), textId)
+      );
+    } else {
+      context = context.withTextIdAndFileName(textId, textId + ".txt");
+    }
     return context;
   }
 
