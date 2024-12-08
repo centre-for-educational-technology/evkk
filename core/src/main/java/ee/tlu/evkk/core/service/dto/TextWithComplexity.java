@@ -27,7 +27,6 @@ public class TextWithComplexity {
   private Object speller;
   private List<String> laused;
   private List<Object> sonavara;
-
   private Object korrektoriLoendid;
 
   @JsonGetter("korrektoriLoendid")
