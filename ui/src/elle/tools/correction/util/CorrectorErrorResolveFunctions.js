@@ -3,6 +3,7 @@ import {
   GRAMMARCHECKER,
   MISSING_PUNCTUATION,
   SPELLCHECKER,
+  TEXTSPAN,
   WRONG_PUNCTUATION
 } from '../const/Constants';
 
@@ -21,7 +22,7 @@ export const resolvePunctuation = (type, error) => {
 
 export const resolveError = (index, errorType, newInnerText, type, setErrorList, errorList, inputText, setInputText, setSpellerAnswer, setGrammarAnswer, grammarAnswer, spellerAnswer, model) => {
   const resolvableElement = document.querySelector(`#${errorType}_${index}`);
-  resolvableElement.classList.remove('text-span');
+  resolvableElement.classList.remove(TEXTSPAN);
   const difference = newInnerText.length - resolvableElement.innerText.length;
   resolvableElement.innerText = newInnerText;
 

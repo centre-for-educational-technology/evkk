@@ -2,6 +2,7 @@ import { replaceCombined, replaceSpaces, replaceSpaceTags } from '../../../const
 import { Bookmark, InternalHyperlink, Paragraph, ShadingType, SymbolRun, TextRun, UnderlineType } from 'docx';
 import { correctorDocxColors } from '../../../const/StyleConstants';
 import { accordionDetails, errorTypes } from '../const/TabValuesConstant';
+import { CORRECTION, GRAMMAR, TEXTSPAN } from '../const/Constants';
 
 export const handleInput = (e, h, setNewRef, setInputText) => {
   setNewRef(h);
@@ -124,35 +125,22 @@ export const queryCaller = (textBoxRef, inputText, setRequestingText, setGrammar
 };
 
 export const parseHtmlForDocx = (htmlString, type) => {
-  // Create a temporary div element to parse the HTML string
   const tempDiv = document.createElement('div');
+  const result = [];
   tempDiv.innerHTML = htmlString;
 
-  // Array to store the result
-  const result = [];
-
-  // Function to process nodes recursively
   function processNode(node) {
-    // Handle text nodes
     if (node.nodeType === Node.TEXT_NODE) {
-      // Add text nodes as { text: [val], color: null } (ignore empty nodes)
       result.push(new TextRun({ text: node.textContent, size: 20 }));
-    }
-
-    // Handle element nodes, specifically <span>
-    else if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'SPAN') {
-      // Check for class name and handle accordingly
+    } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'SPAN') {
       let colorClass;
-      if (node.className === 'text-span') {
-        // If the class is "text-span", use data-color attribute
+      if (node.className === TEXTSPAN) {
         colorClass = node.getAttribute('data-color') || null;
       } else {
-        // For other spans, use class name as color
         colorClass = node.className || null;
       }
 
-
-      if (type === 'grammar') {
+      if (type === GRAMMAR) {
         result.push(
           new Bookmark({
             id: node.id,
@@ -184,7 +172,6 @@ export const parseHtmlForDocx = (htmlString, type) => {
     }
   }
 
-  // Iterate over the child nodes of the temporary div
   tempDiv.childNodes.forEach(node => {
     processNode(node);
   });
@@ -192,7 +179,7 @@ export const parseHtmlForDocx = (htmlString, type) => {
   return result;
 };
 
-export const processGrammarAnswer = (returnArray, errorList, grammarLabel) => {
+const processGrammarAnswer = (returnArray, errorList, grammarLabel) => {
   Object.entries(errorList).forEach((error, index) => {
     if (error[1].length !== 0) {
       returnArray.push(
@@ -252,7 +239,7 @@ export const processGrammarAnswer = (returnArray, errorList, grammarLabel) => {
   });
 };
 
-export const processTextLevelAnswer = (returnArray, textLevel, labels) => {
+const processTextLevelAnswer = (returnArray, textLevel, labels) => {
   const getLevelPercentage = (levelArray) => {
     const returnArray = [];
     levelArray.forEach((value, index) => {
@@ -295,13 +282,15 @@ export const processTextLevelAnswer = (returnArray, textLevel, labels) => {
 
 export const processErrorListForDocx = (tab, textLevel, errorList, innerHtml, labels, grammarLabel) => {
   const returnArray = [];
-  tab === 'correction' && textLevel.keeletase ? processGrammarAnswer(returnArray, errorList, grammarLabel) : processTextLevelAnswer(returnArray, textLevel, labels);
+  tab === CORRECTION && textLevel.keeletase
+    ? processGrammarAnswer(returnArray, errorList, grammarLabel)
+    : processTextLevelAnswer(returnArray, textLevel, labels);
   returnArray.push(new Paragraph({ spacing: { after: 120 } }));
   returnArray.push(
     new Paragraph({
       spacing: { line: 300 },
       alignment: 'both',
-      children: parseHtmlForDocx(innerHtml.current.innerHTML, 'grammar')
+      children: parseHtmlForDocx(innerHtml.current.innerHTML, GRAMMAR)
     })
   );
   return returnArray;

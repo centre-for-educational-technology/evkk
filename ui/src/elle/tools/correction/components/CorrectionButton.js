@@ -4,7 +4,7 @@ import { DefaultButtonStyle } from '../../../const/StyleConstants';
 import { useTranslation } from 'react-i18next';
 import { queryCaller } from '../util/Utils';
 import { useGetCorrectorResult } from '../../../hooks/service/ToolsService';
-import DownloadButton from './DownloadButton';
+import CorrectionDocxDownloadButton from './CorrectionDocxDownloadButton';
 
 export default function CorrectionButton(
   {
@@ -38,8 +38,14 @@ export default function CorrectionButton(
       >
         {t('analyse_button')}
       </Button>
-      <DownloadButton innerHtml={textBoxRef} modelValue={model} newRef={newRef} errorList={errorList} tab={tab}
-                      textLevel={textLevel}/>
+      <CorrectionDocxDownloadButton
+        innerHtml={textBoxRef}
+        modelValue={model}
+        newRef={newRef}
+        errorList={errorList}
+        tab={tab}
+        textLevel={textLevel}
+      />
     </div>
   );
 };

@@ -7,7 +7,7 @@ import useProcessTextCorrections from '../tabviews/correction/hooks/useProcessTe
 import { handleCopy, handleInput, handlePaste } from '../util/Utils';
 import { resolveError } from '../util/CorrectorErrorResolveFunctions';
 import CorrectionButton from './CorrectionButton';
-import { GRAMMARCHECKER, SPELLCHECKER } from '../const/Constants';
+import { GRAMMARCHECKER, SPELLCHECKER, TEXTSPAN } from '../const/Constants';
 
 export default function CorrectionInput(
   {
@@ -42,7 +42,7 @@ export default function CorrectionInput(
   }, [model, inputText, spellerAnswer, grammarAnswer]);
 
   useProcessTextCorrections(responseText, inputText, setNewRef, setErrorList, setInputText, spellerAnswer, grammarAnswer);
-  usePopUpHover('text-span', newRef, errorList, setPopperAnchor, setPopperValue);
+  usePopUpHover(TEXTSPAN, newRef, errorList, setPopperAnchor, setPopperValue);
 
   return (
     <div className="w-50 d-flex flex-column">

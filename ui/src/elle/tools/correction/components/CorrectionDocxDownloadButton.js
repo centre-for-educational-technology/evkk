@@ -7,9 +7,10 @@ import { saveAs } from 'file-saver';
 import { parseHtmlForDocx, processErrorListForDocx } from '../util/Utils';
 import { accordionDetails, correctorDocxType, errorTypes } from '../const/TabValuesConstant';
 import { useTranslation } from 'react-i18next';
+import { GRAMMARCHECKER, SPELLCHECKER } from '../const/Constants';
 
 
-const DownloadButton = ({ innerHtml, modelValue, errorList, tab, textLevel }) => {
+const CorrectionDocxDownloadButton = ({ innerHtml, modelValue, errorList, tab, textLevel }) => {
   const { t } = useTranslation();
   const labels = accordionDetails.map((detail) => t(detail.label));
   const [grammarLabel, setGrammarLabel] = React.useState(null);
@@ -25,7 +26,6 @@ const DownloadButton = ({ innerHtml, modelValue, errorList, tab, textLevel }) =>
         {
           properties: {},
           children: [
-
             new Paragraph({
               spacing: { line: 300 },
               alignment: 'both',
@@ -54,7 +54,7 @@ const DownloadButton = ({ innerHtml, modelValue, errorList, tab, textLevel }) =>
   };
 
   const runDownloader = () => {
-    if (modelValue === 'grammarchecker' || modelValue === 'spellchecker') {
+    if (modelValue === GRAMMARCHECKER || modelValue === SPELLCHECKER) {
       downloadCorrectorGrammarDocx();
     } else {
       downloadCorrectorDocx();
@@ -62,25 +62,23 @@ const DownloadButton = ({ innerHtml, modelValue, errorList, tab, textLevel }) =>
   };
 
   return (
-    <>
-      <Tooltip
-        title={t('corrector_download_docx')}
-        placement="top"
-      >
-        <span>
-          <Button
-            sx={DefaultButtonStyle}
-            style={{ borderRadius: '5px', marginTop: '1rem' }}
-            variant="contained"
-            disabled={!grammarLabel && (modelValue === 'grammarchecker' || modelValue === 'spellchecker')}
-            onClick={runDownloader}
-          >
-            <DownloadIcon sx={{ height: '30px' }}/>
-          </Button>
-        </span>
-      </Tooltip>
-    </>
+    <Tooltip
+      title={t('corrector_download_docx_hover')}
+      placement="top"
+    >
+      <span>
+        <Button
+          sx={DefaultButtonStyle}
+          style={{ borderRadius: '5px', marginTop: '1rem' }}
+          variant="contained"
+          disabled={!grammarLabel && (modelValue === GRAMMARCHECKER || modelValue === SPELLCHECKER)}
+          onClick={runDownloader}
+        >
+          <DownloadIcon sx={{ height: '30px' }}/>
+        </Button>
+      </span>
+    </Tooltip>
   );
 };
 
-export default DownloadButton;
+export default CorrectionDocxDownloadButton;
