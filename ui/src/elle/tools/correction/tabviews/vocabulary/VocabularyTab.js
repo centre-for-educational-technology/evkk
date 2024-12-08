@@ -167,7 +167,7 @@ export default function VocabularyTab(
                     </div>
                     <div className="tab-table">
                       <div>{t('corrector_vocabulary_statistics_low_frequency_words')}</div>
-                      <div>{complexityAnswer.korrektori_loendid.harvaesinevad}</div>
+                      <div>{complexityAnswer.korrektoriLoendid.harvaesinevad}</div>
                     </div>
                     <div className="tab-table">
                       <div>{t('corrector_vocabulary_statistics_content_words')}</div>
@@ -242,7 +242,7 @@ export default function VocabularyTab(
                     title={t('corrector_vocabulary_range')}
                     startValue={0}
                     endValue={10}
-                    value={complexityAnswer.korrektori_loendid.harvaesinevad * 100 / complexityAnswer.mitmekesisus[10]}
+                    value={complexityAnswer.korrektoriLoendid.harvaesinevad * 100 / complexityAnswer.mitmekesisus[10]}
                     startText={t('corrector_vocabulary_repetitive_vocabulary')}
                     endText={t('corrector_vocabulary_diverse_vocabulary')}
                     percentage={true}
