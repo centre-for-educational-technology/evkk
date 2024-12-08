@@ -271,4 +271,22 @@ export const CorrectorAccordionStyle = {
   }
 };
 
+export const correctorDocxColors = {
+  'red': 'ea9999',
+  'punctuation': 'b6d7a8',
+  'yellow': 'ffe599',
+  'blue': 'c9daf8',
+  'orange': 'f6b26a',
+  'violet': 'ada1d4',
+  'long-sentence-color': 'ea9999',
+  'long-word-color': 'b6d7a8',
+  'noun-color': 'c9daf8',
+  'same-sentence-color': 'f6b26a',
+  'next-sentence-color': 'ffe599',
+  'both-sentence-color': 'ea9999',
+  'uncommon-word-color': 'b6d7a8',
+  'abstract-word-color': 'c9daf8',
+  'content-word-color': 'ada1d4'
+};
+
 

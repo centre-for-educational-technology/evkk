@@ -10,6 +10,7 @@ import CorrectionToggleButtonGroup from '../../components/CorrectionToggleButton
 import { useTranslation } from 'react-i18next';
 import { CorrectionAndTextLevelToggleButtons } from '../../const/ToggleButtonConstants';
 import { accordionDetails, textLevelColors, textLevels } from '../../const/TabValuesConstant';
+import { TEXTLEVEL } from '../../const/Constants';
 
 export default function TextLevelTab(
   {
@@ -96,6 +97,8 @@ export default function TextLevelTab(
           setAbstractWords={setAbstractWords}
           setGrammarAnswer={setGrammarAnswer}
           setSpellerAnswer={setSpellerAnswer}
+          tab={TEXTLEVEL}
+          complexityAnswer={complexityAnswer}
         />
         <div className="w-50 corrector-right">
           {complexityAnswer && complexityAnswer?.keeletase.length !== 0 &&

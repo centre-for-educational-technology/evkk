@@ -23,13 +23,25 @@ export const complexityValues = [
 export const textLevelColors = ['hsl(0 66% 76%)', 'hsl(100 37% 75%)', 'hsl(50 37% 75%)', 'hsl(240 37% 75%)'];
 
 export const errorTypes = {
-  spellingError: { color: 'hsl(0 66% 76%)', label: 'corrector_grammar_errors_word_replacement' },
-  extraPunctuation: { color: 'hsl(102.13 37% 75%)', label: 'corrector_grammar_errors_unnecessary_punctuation' },
-  missingPunctuation: { color: 'hsl(102.13 37% 75%)', label: 'corrector_grammar_errors_missing_punctuation' },
-  wrongPunctuation: { color: 'hsl(102.13 37% 75%)', label: 'corrector_grammar_errors_punctuation_replacement' },
-  wordCountError: { color: 'hsl(44.71 100% 80%)', label: 'corrector_grammar_errors_compounding' },
-  wordOrderError: { color: 'hsl(217.5 78% 90%)', label: 'corrector_grammar_errors_word_order' },
-  multipleErrors: { color: 'hsl(31, 89%, 69%)', label: 'corrector_grammar_errors_other_correction' },
-  missingWordError: { color: 'hsl(255, 37%, 73%)', label: 'corrector_grammar_errors_missing_word' },
-  extraWordError: { color: 'hsl(255, 37%, 73%)', label: 'corrector_grammar_errors_unnecessary_word' }
+  spellingError: { color: '#ea9999', label: 'corrector_grammar_errors_word_replacement' },
+  extraPunctuation: { color: '#b6d7a8', label: 'corrector_grammar_errors_unnecessary_punctuation' },
+  missingPunctuation: { color: '#b6d7a8', label: 'corrector_grammar_errors_missing_punctuation' },
+  wrongPunctuation: { color: '#b6d7a8', label: 'corrector_grammar_errors_punctuation_replacement' },
+  wordCountError: { color: '#ffe599', label: 'corrector_grammar_errors_compounding' },
+  wordOrderError: { color: '#c9daf8', label: 'corrector_grammar_errors_word_order' },
+  multipleErrors: { color: '#f6b26a', label: 'corrector_grammar_errors_other_correction' },
+  missingWordError: { color: '#ada1d4', label: 'corrector_grammar_errors_missing_word' },
+  extraWordError: { color: '#ada1d4', label: 'corrector_grammar_errors_unnecessary_word' }
+};
+
+export const correctorDocxType = {
+  'longsentence': 'corrector_complexity_long_sentences',
+  'longword': 'corrector_complexity_long_words',
+  'nouns': 'corrector_complexity_nouns',
+  'wordrepetition': 'corrector_vocabulary_word_repetitions',
+  'uncommonwords': 'corrector_vocabulary_low_frequency_words',
+  'abstractwords': 'corrector_vocabulary_abstract_words',
+  'contentwords': 'corrector_vocabulary_content_words',
+  'spellchecker': 'corrector_proficiency_level_spelling',
+  'grammarchecker': 'corrector_proficiency_level_grammar'
 };

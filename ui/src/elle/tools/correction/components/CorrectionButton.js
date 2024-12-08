@@ -4,9 +4,11 @@ import { DefaultButtonStyle } from '../../../const/StyleConstants';
 import { useTranslation } from 'react-i18next';
 import { queryCaller } from '../util/Utils';
 import { useGetCorrectorResult } from '../../../hooks/service/ToolsService';
+import CorrectionDocxDownloadButton from './CorrectionDocxDownloadButton';
 
 export default function CorrectionButton(
   {
+    model,
     inputText,
     textBoxRef,
     setInputText,
@@ -15,7 +17,10 @@ export default function CorrectionButton(
     setSpellerAnswer,
     setAbstractWords,
     setRequestingText,
-    newRef
+    newRef,
+    errorList = null,
+    tab = null,
+    textLevel = null
   }) {
   const { t } = useTranslation();
   const { getCorrectorResult } = useGetCorrectorResult();
@@ -24,7 +29,7 @@ export default function CorrectionButton(
     queryCaller(textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, null, null, true);
   };
   return (
-    <div>
+    <div className="d-flex justify-content-between">
       <Button
         sx={DefaultButtonStyle}
         style={{ borderRadius: '5px', marginTop: '1rem' }}
@@ -33,6 +38,14 @@ export default function CorrectionButton(
       >
         {t('analyse_button')}
       </Button>
+      <CorrectionDocxDownloadButton
+        innerHtml={textBoxRef}
+        modelValue={model}
+        newRef={newRef}
+        errorList={errorList}
+        tab={tab}
+        textLevel={textLevel}
+      />
     </div>
   );
 };

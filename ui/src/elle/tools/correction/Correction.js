@@ -64,6 +64,7 @@ export default function Correction() {
                 correctionModel={correctionModel}
                 setCorrectionModel={setCorrectionModel}
                 setAbstractWords={setAbstractWords}
+                complexityAnswer={complexityAnswer}
               /></TabPanel>
             <TabPanel value="2">
               <TextLevelTab
