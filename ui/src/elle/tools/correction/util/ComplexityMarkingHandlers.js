@@ -6,7 +6,8 @@ import {
   LONG_SENTENCE,
   LONG_WORD,
   NOUN,
-  NOUNS
+  NOUNS,
+  PROPN
 } from '../const/Constants';
 
 export const markText = (inputText, model, complexityAnswer, setNewRef, setRenderTrigger) => {
@@ -32,7 +33,7 @@ const handleNounMarking = (text, complexityAnswer) => {
   let tempText = text.replaceAll(replaceCombined, '');
 
   complexityAnswer.sonaliigid.forEach((word, index) => {
-    if (word === NOUN) {
+    if (word === NOUN || word === PROPN) {
       const noun = complexityAnswer.sonad[index];
       const newWord = `<span id="text-span" class="noun-color">${noun}</span>`;
       tempText = tempText.replace(checkForFullWord(noun), newWord);

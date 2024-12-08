@@ -10,8 +10,7 @@ import {
   calculateAbstractnessAverage,
   calculateAbstractWords,
   calculateContentWord,
-  calculateTotalWords,
-  calculateUncommonWords
+  calculateTotalWords
 } from '../../util/VocabularyCalculations';
 import CorrectionScale from '../../components/CorrectionScale';
 import { handleCopy, handleInput, handlePaste } from '../../util/Utils';
@@ -161,7 +160,7 @@ export default function VocabularyTab(
                   <div sx={{ width: '100%' }}>
                     <div className="tab-table">
                       <div>{t('corrector_vocabulary_statistics_the_words_considered')}</div>
-                      <div>{calculateTotalWords(abstractWords)}</div>
+                      <div>{calculateTotalWords(complexityAnswer)}</div>
                     </div>
                     <div className="tab-table">
                       <div>{t('corrector_vocabulary_statistics_different_words')}</div>
@@ -169,11 +168,11 @@ export default function VocabularyTab(
                     </div>
                     <div className="tab-table">
                       <div>{t('corrector_vocabulary_statistics_low_frequency_words')}</div>
-                      <div>{calculateUncommonWords(abstractWords, complexityAnswer)}</div>
+                      <div>{complexityAnswer.korrektoriLoendid.harvaesinevad}</div>
                     </div>
                     <div className="tab-table">
                       <div>{t('corrector_vocabulary_statistics_content_words')}</div>
-                      <div>{calculateContentWord(abstractWords, complexityAnswer)}</div>
+                      <div>{calculateContentWord(complexityAnswer)}</div>
                     </div>
                     {abstractWords &&
                       <div className="tab-table">
@@ -244,7 +243,7 @@ export default function VocabularyTab(
                     title={t('corrector_vocabulary_range')}
                     startValue={0}
                     endValue={10}
-                    value={calculateUncommonWords(abstractWords, complexityAnswer) * 100 / complexityAnswer.mitmekesisus[10]}
+                    value={complexityAnswer.korrektoriLoendid.harvaesinevad * 100 / complexityAnswer.mitmekesisus[10]}
                     startText={t('corrector_vocabulary_repetitive_vocabulary')}
                     endText={t('corrector_vocabulary_diverse_vocabulary')}
                     percentage={true}
@@ -254,7 +253,7 @@ export default function VocabularyTab(
                     title={t('corrector_vocabulary_lexical_density')}
                     startValue={30}
                     endValue={70}
-                    value={calculateContentWord(abstractWords, complexityAnswer) * 100 / complexityAnswer.mitmekesisus[10]}
+                    value={calculateContentWord(complexityAnswer) * 100 / complexityAnswer.mitmekesisus[10]}
                     startText={t('corrector_vocabulary_less_content_words')}
                     endText={t('corrector_vocabulary_more_content_words')}
                     percentage={true}

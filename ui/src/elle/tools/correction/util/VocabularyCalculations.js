@@ -1,7 +1,5 @@
-import { commonLemmas, stopWords } from '../tabviews/vocabulary/constants/constants';
-import { MAIN_NUMERAL, NAME, NOUN, ORDINAL_NUMERAL } from '../const/Constants';
-
-const positionalWords = [NAME, MAIN_NUMERAL, ORDINAL_NUMERAL];
+import { stopWords } from '../tabviews/vocabulary/constants/constants';
+import { NOUN, NUM, PROPN } from '../const/Constants';
 
 export const calculateAbstractnessAverage = (abstractAnswer) => {
   let abstractCount = 0;
@@ -15,21 +13,10 @@ export const calculateAbstractnessAverage = (abstractAnswer) => {
   return (abstractnessSum / abstractCount).toFixed(2);
 };
 
-export const calculateUncommonWords = (abstractAnswer, complexityAnswer) => {
-  let unCommonCount = 0;
-
-  abstractAnswer.forEach((lemma, index) => {
-    if (!positionalWords.includes(lemma.pos) && !commonLemmas.includes(complexityAnswer.lemmad[index]) && lemma.posTag !== 'G') {
-      unCommonCount++;
-    }
-  });
-  return unCommonCount;
-};
-
-export const calculateContentWord = (abstractAnswer, complexityAnswer) => {
+export const calculateContentWord = (complexityAnswer) => {
   let contentWordCount = 0;
-  abstractAnswer.forEach((lemma, index) => {
-    if (!positionalWords.includes(lemma.pos) && !stopWords.includes(complexityAnswer.lemmad[index]) && lemma.posTag !== 'G') {
+  complexityAnswer.lemmad.forEach((lemma, index) => {
+    if (complexityAnswer.sonaliigid[index] !== NUM && !stopWords.includes(lemma)) {
       contentWordCount++;
     }
   });
@@ -39,17 +26,17 @@ export const calculateContentWord = (abstractAnswer, complexityAnswer) => {
 export const calculateAbstractWords = (abstractAnswer, complexityAnswer) => {
   let abstractCount = 0;
   abstractAnswer.forEach((word, index) => {
-    if (word.abstractness === 3 && word.pos !== NAME && complexityAnswer.sonaliigid[index] === NOUN) {
+    if (word.abstractness === 3 && complexityAnswer.sonaliigid[index] !== PROPN && complexityAnswer.sonaliigid[index] === NOUN) {
       abstractCount++;
     }
   });
   return abstractCount;
 };
 
-export const calculateTotalWords = (abstractAnswer) => {
+export const calculateTotalWords = (complexityAnswer) => {
   let totalWordCount = 0;
-  abstractAnswer.forEach((lemma, _) => {
-    if (!positionalWords.includes(lemma.pos) && lemma.posTag !== 'G') {
+  complexityAnswer.sonaliigid.forEach(liik => {
+    if (liik !== NUM) {
       totalWordCount++;
     }
   });
