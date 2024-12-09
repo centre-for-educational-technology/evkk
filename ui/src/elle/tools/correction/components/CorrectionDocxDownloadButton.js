@@ -9,7 +9,6 @@ import { accordionDetails, correctorDocxType, errorTypes } from '../const/TabVal
 import { useTranslation } from 'react-i18next';
 import { GRAMMARCHECKER, SPELLCHECKER } from '../const/Constants';
 
-
 const CorrectionDocxDownloadButton = ({ innerHtml, modelValue, errorList, tab, textLevel }) => {
   const { t } = useTranslation();
   const labels = accordionDetails.map((detail) => t(detail.label));
@@ -18,7 +17,7 @@ const CorrectionDocxDownloadButton = ({ innerHtml, modelValue, errorList, tab, t
   useEffect(() => {
     if (!errorList) return;
     setGrammarLabel(Object.entries(errorList).map((error) => t(errorTypes[error[0]].label)));
-  }, [errorList]);
+  }, [errorList, t]);
 
   const downloadCorrectorDocx = () => {
     const doc = new Document({
@@ -74,7 +73,7 @@ const CorrectionDocxDownloadButton = ({ innerHtml, modelValue, errorList, tab, t
           disabled={!grammarLabel && (modelValue === GRAMMARCHECKER || modelValue === SPELLCHECKER)}
           onClick={runDownloader}
         >
-          <DownloadIcon sx={{ height: '30px' }}/>
+          <DownloadIcon sx={{ height: '30px' }} />
         </Button>
       </span>
     </Tooltip>
