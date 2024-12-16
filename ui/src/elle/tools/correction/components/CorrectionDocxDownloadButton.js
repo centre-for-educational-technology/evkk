@@ -18,6 +18,7 @@ const CorrectionDocxDownloadButton = ({ innerHtml, modelValue, errorList, tab, t
   useEffect(() => {
     if (!errorList) return;
     setGrammarLabel(Object.entries(errorList).map((error) => t(errorTypes[error[0]].label)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorList]);
 
   const downloadCorrectorDocx = () => {
@@ -49,7 +50,7 @@ const CorrectionDocxDownloadButton = ({ innerHtml, modelValue, errorList, tab, t
     });
 
     Packer.toBlob(doc).then((blob) => {
-      saveAs(blob, `${t(correctorDocxType[modelValue])}.docx`);
+      saveAs(blob, `${tab && t(tab) + ' '}${t(correctorDocxType[modelValue])}.docx`);
     });
   };
 
