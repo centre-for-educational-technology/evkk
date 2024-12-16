@@ -206,17 +206,19 @@ public class TextService {
     }
 
     if (ZIP.equals(corpusDownloadDto.getFileType())) {
-      File tempFile = createTempFile("corpusDownloadTempZip", null, null);
+      File tempFile = createTempFile("corpusDownloadTempZip_", randomUUID().toString(), null);
       String fileExtension = ANNOTATE_TEI.equals(corpusDownloadDto.getForm()) ? "xml" : "txt";
 
       try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(tempFile))) {
         for (int i = 0; i < contentsAndTitles.size(); i++) {
           String contents = replaceNewLinesAndTabs(corpusDownloadDto.getForm(), contentsAndTitles.get(i).getContents());
-          ZipEntry zipEntry = new ZipEntry(format(
-            "%s (%s).%s",
-            getSanitizedFileName(contentsAndTitles.get(i).getTitle()),
-            corpusDownloadDto.getFileList().get(i),
-            fileExtension)
+
+          String title = getSanitizedFileName(contentsAndTitles.get(i).getTitle());
+          UUID uuid = corpusDownloadDto.getFileList().get(i);
+          ZipEntry zipEntry = new ZipEntry(
+            isNotBlank(title)
+              ? format("%s (%s).%s", title.trim(), uuid, fileExtension)
+              : format("%s.%s", uuid, fileExtension)
           );
           zipOutputStream.putNextEntry(zipEntry);
 

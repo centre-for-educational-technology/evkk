@@ -3,10 +3,12 @@ import math
 import os
 import re
 import subprocess
+
 from flask import Flask
 from flask import Response
 from flask import request
 
+from corrector_counters import calculate_uncommon_words
 from grammar_fetches import fetch_grammar
 from grammar_fetches import fetch_speller
 from linguistic_analysis import predict_level
@@ -14,6 +16,7 @@ from nlp import nlp_t, nlp_tp, nlp_tpl, nlp_all, nlp_ru_tp, nlp_ru_all
 from tasemehindaja import arvuta
 from text_abstraction_analyse import Utils
 from train import train
+from vocabulary_marking_handlers import check_both_sentence_repetition
 
 model, scaler = train()
 utils = Utils()
@@ -48,13 +51,25 @@ def keerukus_sonaliigid_mitmekesisus():
     sonad = []
     sonaliigid = []
     lemmad = []
+    laused = []
+    word_start_and_end = []
 
     for sentence in doc.sentences:
+        laused.append(sentence.text)
+        sentence_array = []
         for word in sentence.words:
             if word.upos not in sona_upos_piirang:
+                sentence_array.append(
+                    {"start": word.start_char,
+                     "end": word.end_char,
+                     "text": word.text,
+                     "lemma": word.lemma,
+                     "upos": word.upos}
+                )
                 sonad.append(word.text)
                 sonaliigid.append(word.pos)
-                lemmad.append(word.lemma)
+                lemmad.append(sanitize_lemma(word.lemma))
+        word_start_and_end.append(sentence_array)
 
     abstract_answer = utils.analyze(' '.join(lemmad), "estonian")
 
@@ -70,7 +85,10 @@ def keerukus_sonaliigid_mitmekesisus():
         "uuskeeletase": predict_level(model, scaler, tekst),
         "abstraktsus": serializable_word_analysis,
         "grammatika": fetch_grammar(tekst),
-        "speller": fetch_speller(tekst)
+        "speller": fetch_speller(tekst),
+        "laused": laused,
+        "sonavara": check_both_sentence_repetition(laused, word_start_and_end),
+        "korrektori_loendid": {"harvaesinevad": calculate_uncommon_words(lemmad, sonaliigid)}
     }), mimetype=mimetype)
 
 
@@ -302,7 +320,9 @@ def margenda_stanza(tekst, comments=True, filename="document", language='et'):
     for sent in doc.sentences:
         index = index + 1
         sentence = ' '.join([word.text for word in sent.words])
-        sentence = re.sub(r'\s([.,?!:;])', r'\1', sentence)
+        sentence = re.sub(r'\s([.,?!:;)])', r'\1', sentence)
+        sentence = re.sub(r'([(])\s', r'\1', sentence)
+        sentence = detokenize_quotemarks(sentence)
         if comments:
             v.append('# sent_id = ' + filename + '_' + str(index) + '\n')
             v.append('# text = ' + str(sentence) + '\n')
@@ -395,6 +415,10 @@ def sona_on_eestikeelne(sona):
     return bool(re.fullmatch(eesti_tahestik, sona))
 
 
+def sanitize_lemma(lemma):
+    return lemma.replace("=", "")
+
+
 def hinda_mitmekesisust(tekst):
     import valemid_mitmekesisus
     doc = nlp_tpl(tekst)
@@ -446,6 +470,26 @@ def hinda_mitmekesisust(tekst):
                                                                                                    UBER, MTLD, HDD,
                                                                                                    MSTTR) + [
         words_count, lemmas_count]
+
+
+def detokenize_quotemarks(sentence):
+    chars = []
+    closing_mark = False
+    no_space_after = False
+    for char in sentence:
+        if char == '"':
+            if not closing_mark:
+                no_space_after = True
+                closing_mark = True
+            else:
+                if len(chars) > 0 and chars[-1] == ' ':
+                    chars.pop()
+                closing_mark = False
+        if not (no_space_after and char == ' '):
+            chars.append(char)
+        if char != '"':
+            no_space_after = False
+    return ''.join(chars)
 
 
 app.run(host="0.0.0.0", threaded=True, port=5300)

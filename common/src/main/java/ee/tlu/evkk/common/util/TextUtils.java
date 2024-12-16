@@ -1,15 +1,16 @@
 package ee.tlu.evkk.common.util;
 
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
+import static lombok.AccessLevel.PRIVATE;
 
 @Component
+@NoArgsConstructor(access = PRIVATE)
 public class TextUtils {
-
-  private TextUtils() {}
 
   public static String sanitizeText(String text) {
     return text

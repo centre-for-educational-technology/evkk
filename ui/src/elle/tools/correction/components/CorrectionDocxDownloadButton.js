@@ -9,7 +9,6 @@ import { accordionDetails, correctorDocxType, errorTypes } from '../const/TabVal
 import { useTranslation } from 'react-i18next';
 import { GRAMMARCHECKER, SPELLCHECKER } from '../const/Constants';
 
-
 const CorrectionDocxDownloadButton = ({ innerHtml, modelValue, errorList, tab, textLevel }) => {
   const { t } = useTranslation();
   const labels = accordionDetails.map((detail) => t(detail.label));
