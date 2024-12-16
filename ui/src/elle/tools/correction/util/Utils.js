@@ -255,22 +255,22 @@ const processTextLevelAnswer = (returnArray, textLevel, labels) => {
       alignment: 'left',
       children: [
         new TextRun({
-          text: `${labels[0]} : ${textLevel.uuskeeletase.level}`,
+          text: `${labels[0]}: ${textLevel.uuskeeletase.level}`,
           bold: true,
           break: 1
         }),
         new TextRun({
-          text: `${labels[1]} : ${getLevelPercentage(accordionDetails[1].arrayValues)}`,
+          text: `${labels[1]}: ${getLevelPercentage(accordionDetails[1].arrayValues)}`,
           bold: true,
           break: 1
         }),
         new TextRun({
-          text: `${labels[2]} : ${getLevelPercentage(accordionDetails[2].arrayValues)}`,
+          text: `${labels[2]}: ${getLevelPercentage(accordionDetails[2].arrayValues)}`,
           bold: true,
           break: 1
         }),
         new TextRun({
-          text: `${labels[3]} : ${getLevelPercentage(accordionDetails[3].arrayValues)}`,
+          text: `${labels[3]}: ${getLevelPercentage(accordionDetails[3].arrayValues)}`,
           bold: true,
           break: 1
         })

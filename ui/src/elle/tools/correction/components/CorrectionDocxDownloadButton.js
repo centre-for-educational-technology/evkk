@@ -17,7 +17,8 @@ const CorrectionDocxDownloadButton = ({ innerHtml, modelValue, errorList, tab, t
   useEffect(() => {
     if (!errorList) return;
     setGrammarLabel(Object.entries(errorList).map((error) => t(errorTypes[error[0]].label)));
-  }, [errorList, t]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [errorList]);
 
   const downloadCorrectorDocx = () => {
     const doc = new Document({
@@ -48,7 +49,7 @@ const CorrectionDocxDownloadButton = ({ innerHtml, modelValue, errorList, tab, t
     });
 
     Packer.toBlob(doc).then((blob) => {
-      saveAs(blob, `${t(correctorDocxType[modelValue])}.docx`);
+      saveAs(blob, `${tab && t(tab) + ' '}${t(correctorDocxType[modelValue])}.docx`);
     });
   };
 
@@ -73,7 +74,7 @@ const CorrectionDocxDownloadButton = ({ innerHtml, modelValue, errorList, tab, t
           disabled={!grammarLabel && (modelValue === GRAMMARCHECKER || modelValue === SPELLCHECKER)}
           onClick={runDownloader}
         >
-          <DownloadIcon sx={{ height: '30px' }} />
+          <DownloadIcon sx={{ height: '30px' }}/>
         </Button>
       </span>
     </Tooltip>

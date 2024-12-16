@@ -26,8 +26,8 @@ export const PROPN = 'PROPN';
 export const VERB = 'VERB';
 export const NUM = 'NUM';
 export const EXCLUSION_WORDS = ['ja', 'mina', 'olema', 'ei', 'et'];
-export const CORRECTION = 'correction';
-export const TEXTLEVEL = 'textlevel';
+export const CORRECTION = 'corrector_proofreading';
+export const TEXTLEVEL = 'corrector_proficiency_level';
 export const TEXTSPAN = 'text-span';
 export const GRAMMAR = 'grammar';
 
