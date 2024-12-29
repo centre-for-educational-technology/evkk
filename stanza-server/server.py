@@ -3,7 +3,6 @@ import math
 import os
 import re
 import subprocess
-
 from flask import Flask
 from flask import Response
 from flask import request
@@ -30,9 +29,9 @@ mimetype = "application/json"
 post = ['POST']
 app = Flask(__name__)
 
-piirid = {"lix": [25, 35, 45, 60],
-          "smog": [5, 10, 15, 20],
-          "fk": [5, 10, 20, 25]}
+piirid = {"lix": [25.0, 35.0, 45.0, 60.0],
+          "smog": [9.5, 12.0, 15.0, 17.5],
+          "fk": [9.5, 12.5, 16.0, 21.0]}
 vasted = ["complexity_level_very_simple", "complexity_level_simple", "complexity_level_average",
           "complexity_level_complex", "complexity_level_very_complex"]
 

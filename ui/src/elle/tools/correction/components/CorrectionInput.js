@@ -3,11 +3,18 @@ import { Box } from '@mui/material';
 import { ContentEditableDiv } from '../../../const/StyleConstants';
 import ErrorSpanPopper from '../tabviews/correction/components/ErrorSpanPopper';
 import usePopUpHover from '../tabviews/correction/hooks/usePopUpHover';
-import useProcessTextCorrections from '../tabviews/correction/hooks/useProcessTextCorrections';
-import { handleCopy, handleInput, handlePaste } from '../util/Utils';
+import {
+  getSpanIds,
+  handleCopy,
+  handlePaste,
+  processTextCorrections,
+  restoreCaretPosition,
+  saveCaretPosition
+} from '../util/Utils';
 import { resolveError } from '../util/CorrectorErrorResolveFunctions';
 import CorrectionButton from './CorrectionButton';
 import { GRAMMARCHECKER, SPELLCHECKER, TEXTSPAN } from '../const/Constants';
+import { removeEmptySpans } from '../../../util/TextUtils';
 
 export default function CorrectionInput(
   {
@@ -34,6 +41,7 @@ export default function CorrectionInput(
   }) {
   const [popperAnchor, setPopperAnchor] = useState(null);
   const [popperValue, setPopperValue] = useState(null);
+  const [children, setChildren] = useState(-1);
 
   useEffect(() => {
     if (model === SPELLCHECKER) setResponseText(spellerAnswer);
@@ -41,8 +49,48 @@ export default function CorrectionInput(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [model, inputText, spellerAnswer, grammarAnswer]);
 
-  useProcessTextCorrections(responseText, inputText, setNewRef, setErrorList, setInputText, spellerAnswer, grammarAnswer);
+  useEffect(() => {
+    processTextCorrections(responseText, inputText, setNewRef, setErrorList);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [responseText, spellerAnswer, grammarAnswer, textBoxRef]);
   usePopUpHover(TEXTSPAN, newRef, errorList, setPopperAnchor, setPopperValue);
+
+  const handleCorrectionPaste = (e) => {
+    handlePaste(e, textBoxRef.current.innerHTML, setNewRef, setInputText);
+    processTextCorrections(responseText, inputText, setNewRef, setErrorList, true);
+  };
+
+  useEffect(() => {
+    setNewRef(newRef.replace(removeEmptySpans, ''));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [textBoxRef.current.innerHTML]);
+
+  useEffect(() => {
+    if (!errorList) return;
+    setChildren(Object.values(errorList).reduce((sum, currentArray) => sum + currentArray.length, 0));
+  }, [errorList]);
+
+  const handleContentChange = (e) => {
+    const position = saveCaretPosition(textBoxRef.current);
+
+    if (children > e.target.children.length) {
+      const cleanedSpan = e.target.innerHTML.replace(removeEmptySpans, '');
+      setNewRef(cleanedSpan);
+      const spanIds = getSpanIds(cleanedSpan);
+      setErrorList(Object.entries(errorList).reduce((acc, [key, array]) => {
+        acc[key] = array.filter(error => spanIds.includes(error.errorId));
+        return acc;
+      }, {}));
+
+      setChildren(e.target.children.length);
+    } else {
+      setChildren(e.target.children.length);
+    }
+
+    setTimeout(() => {
+      restoreCaretPosition(textBoxRef.current, position);
+    }, 0);
+  };
 
   return (
     <div className="w-50 d-flex flex-column">
@@ -55,8 +103,8 @@ export default function CorrectionInput(
         sx={ContentEditableDiv}
         contentEditable={true}
         onCopy={(e) => handleCopy(e)}
-        onPaste={(e) => handlePaste(e, textBoxRef.current.innerHTML, setNewRef, setInputText)}
-        onChange={(e) => handleInput(e.target.innerText, e.target.innerHTML, setNewRef, setInputText)}
+        onPaste={(e) => handleCorrectionPaste(e)}
+        onInput={handleContentChange}
       >
       </Box>
       <ErrorSpanPopper
