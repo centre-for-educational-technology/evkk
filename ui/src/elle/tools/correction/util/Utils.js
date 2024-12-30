@@ -2,20 +2,7 @@ import { replaceCombined, replaceSpaces, replaceSpaceTags } from '../../../const
 import { Bookmark, InternalHyperlink, Paragraph, ShadingType, SymbolRun, TextRun, UnderlineType } from 'docx';
 import { correctorDocxColors } from '../../../const/StyleConstants';
 import { accordionDetails, errorTypes } from '../const/TabValuesConstant';
-import {
-  CORRECTION,
-  EXTRA_PUNCTUATION,
-  EXTRA_WORD_ERROR,
-  GRAMMAR,
-  MISSING_PUNCTUATION,
-  MISSING_WORD_ERROR,
-  MULTIPLE_ERRORS,
-  SPELLING_ERROR,
-  TEXTSPAN,
-  WORD_COUNT_ERROR,
-  WORD_ORDER_ERROR,
-  WRONG_PUNCTUATION
-} from '../const/Constants';
+import { CORRECTION, GRAMMAR, TEXTSPAN } from '../const/Constants';
 import { checkAllErrors } from './TextErrorTypeFunctions';
 import { resolveErrorMarks, resolvePunctuationMarks, returnMarkingColor } from './TextErrorMarkingFunctions';
 
@@ -292,10 +279,115 @@ export const processErrorListForDocx = (tab, textLevel, errorList, innerHtml, la
   return returnArray;
 };
 
+const processPunctuationError = (correction, errorWord, innerText, mainIndex) => {
+  const correctionCopy = { ...correction };
+  const {
+    wrongPunctuation,
+    extraPunctuation,
+    missingPunctuation
+  } = checkAllErrors(errorWord, correction.replacements[0].value);
+
+  innerText = resolvePunctuationMarks(
+    wrongPunctuation,
+    extraPunctuation,
+    missingPunctuation,
+    correctionCopy,
+    errorWord,
+    innerText,
+    mainIndex
+  );
+
+  correctionCopy.errorId = `punctuation_${mainIndex}`;
+  correctionCopy.index = mainIndex;
+
+  return {
+    innerText,
+    correctionCopy,
+    errorTypes: { wrongPunctuation, extraPunctuation, missingPunctuation }
+  };
+};
+
+const processMultiWordSpellingError = (correction, errorWord, innerText, mainIndex, errorColor) => {
+  const corrections = [];
+  const errorWords = errorWord.split(' ').reverse();
+  const newSpan = correction.span.value.split(' ').reverse();
+  const replaceWords = correction.replacements[0].value.split(' ').reverse();
+  let endVal = correction.span.end;
+
+  errorWords.forEach((word, errorIndex) => {
+    const correctionCopy = { ...correction };
+    correctionCopy.span = {
+      start: endVal - word.length,
+      end: endVal,
+      value: newSpan[errorIndex]
+    };
+    correctionCopy.replacements = [{ value: replaceWords[errorIndex] }];
+
+    innerText = resolveErrorMarks(
+      correctionCopy,
+      innerText,
+      word,
+      mainIndex + errorIndex,
+      errorIndex === 0 ? correction.wrongPunctuation : false,
+      errorIndex === 0 ? correction.extraPunctuation : false,
+      errorColor
+    );
+
+    correctionCopy.errorId = `errorno_${mainIndex + errorIndex}`;
+    correctionCopy.index = mainIndex + errorIndex;
+    endVal = correctionCopy.span.end - word.length - 1;
+
+    corrections.push(correctionCopy);
+  });
+
+  return { innerText, corrections, newIndex: mainIndex + errorWords.length };
+};
+
+const processSingleWordError = (correction, errorWord, innerText, mainIndex, errorColor) => {
+  const correctionCopy = { ...correction };
+  const errorTypes = checkAllErrors(errorWord, correction.replacements[0].value);
+
+  innerText = resolveErrorMarks(
+    correctionCopy,
+    innerText,
+    errorWord,
+    mainIndex,
+    errorTypes.wrongPunctuation,
+    errorTypes.extraPunctuation,
+    errorColor
+  );
+
+  correctionCopy.errorId = `errorno_${mainIndex}`;
+  correctionCopy.index = mainIndex;
+
+  return { innerText, correctionCopy, errorTypes };
+};
+
+const processPunctuationTypes = (punctuationResult, corrections) => {
+  if (punctuationResult.errorTypes.wrongPunctuation) corrections.wrongPunctuation.push(punctuationResult.correctionCopy);
+  if (punctuationResult.errorTypes.extraPunctuation) corrections.extraPunctuation.push(punctuationResult.correctionCopy);
+  if (punctuationResult.errorTypes.missingPunctuation) corrections.missingPunctuation.push(punctuationResult.correctionCopy);
+};
+
+const checkForPunctuationErrorType = (errorTypes) => {
+  return errorTypes.wrongPunctuation || errorTypes.extraPunctuation || errorTypes.missingPunctuation;
+};
+
+const checkForOtherErrorType = (errorTypes) => {
+  return errorTypes.spellingError || errorTypes.wordOrderError || errorTypes.missingWordError || errorTypes.extraWordError || errorTypes.wordCountError || errorTypes.multipleErrors;
+};
+
+const processSingleWordCorrections = (singleWordResult, corrections) => {
+  Object.entries(singleWordResult.errorTypes).forEach(([errorType, hasError]) => {
+    if (hasError) {
+      corrections[errorType].push(singleWordResult.correctionCopy);
+    }
+  });
+};
+
 export const processTextCorrections = (responseText, textBoxRef, textBoxValueRef, setErrorList, pasteReset = null) => {
   // Avoid resetting input text on tab change
-  if (!responseText) return;
-  if (!textBoxRef) return;
+  if (!responseText || !textBoxRef) return;
   if (pasteReset) return setErrorList(null);
 
   const corrections = {
@@ -312,73 +404,31 @@ export const processTextCorrections = (responseText, textBoxRef, textBoxValueRef
 
   let innerText = textBoxRef.replace(replaceCombined, '');
   let mainIndex = 0;
-  responseText.corrections.forEach((correction, _) => {
+
+  responseText.corrections.forEach(correction => {
     const errorWord = correction.span.value;
     const correctedWord = correction.replacements[0].value;
     const errorTypes = checkAllErrors(errorWord, correctedWord);
-    const {
-      spellingError,
-      wordOrderError,
-      missingWordError,
-      extraWordError,
-      wordCountError,
-      multipleErrors,
-      wrongPunctuation,
-      extraPunctuation,
-      missingPunctuation
-    } = errorTypes;
 
-    if (wrongPunctuation || extraPunctuation || missingPunctuation) {
-      const correctionCopy = { ...correction };
-      innerText = resolvePunctuationMarks(wrongPunctuation, extraPunctuation, missingPunctuation, correctionCopy, errorWord, innerText, mainIndex);
-      correctionCopy.errorId = `punctuation_${mainIndex}`;
-      correctionCopy.index = mainIndex;
-      const punctuationErrors = [wrongPunctuation, extraPunctuation, missingPunctuation];
-      const punctuationString = [WRONG_PUNCTUATION, EXTRA_PUNCTUATION, MISSING_PUNCTUATION];
-      punctuationErrors.forEach((errorType, index) => {
-        if (errorType) {
-          corrections[punctuationString[index]].push(correctionCopy);
-        }
-      });
+    if (checkForPunctuationErrorType(errorTypes)) {
+      const punctuationResult = processPunctuationError(correction, errorWord, innerText, mainIndex);
+      innerText = punctuationResult.innerText;
+      processPunctuationTypes(punctuationResult, corrections);
+
       mainIndex++;
     }
 
-    if (spellingError || wordOrderError || missingWordError || extraWordError || wordCountError || multipleErrors) {
-      const errorColor = returnMarkingColor(spellingError, wordOrderError, missingWordError, extraWordError, wordCountError, multipleErrors);
-      if (spellingError && errorWord.split(' ').length !== 1) {
-        const errorWords = errorWord.split(' ').reverse();
-        const newSpan = correction.span.value.split(' ').reverse();
-        const replaceWords = correction.replacements[0].value.split(' ').reverse();
-        let endVal = correction.span.end;
-        let wrongPunctuationCopy = wrongPunctuation;
-        let extraPunctuationCopy = extraPunctuation;
-        errorWords.forEach((word, errorIndex) => {
-          if (errorIndex > 0) {
-            wrongPunctuationCopy = false;
-            extraPunctuationCopy = false;
-          }
-          const correctionCopy = { ...correction };
-          correctionCopy.span = { start: endVal - word.length, end: endVal, value: newSpan[errorIndex] };
-          correctionCopy.replacements = [{ value: replaceWords[errorIndex] }];
-          innerText = resolveErrorMarks(correctionCopy, innerText, word, mainIndex, wrongPunctuationCopy, extraPunctuationCopy, errorColor);
-          correctionCopy.errorId = `errorno_${mainIndex}`;
-          correctionCopy.index = mainIndex;
-          endVal = correctionCopy.span.end - word.length - 1;
-          corrections[SPELLING_ERROR].push(correctionCopy);
-          mainIndex++;
-        });
+    if (checkForOtherErrorType(errorTypes)) {
+      const errorColor = returnMarkingColor(errorTypes);
+      if (errorTypes.spellingError && errorWord.split(' ').length !== 1) {
+        const multiWordResult = processMultiWordSpellingError(correction, errorWord, innerText, mainIndex, errorColor);
+        innerText = multiWordResult.innerText;
+        corrections.spellingError.push(...multiWordResult.corrections);
+        mainIndex = multiWordResult.newIndex;
       } else {
-        const correctionCopy = { ...correction };
-        innerText = resolveErrorMarks(correctionCopy, innerText, errorWord, mainIndex, wrongPunctuation, extraPunctuation, errorColor);
-        correctionCopy.errorId = `errorno_${mainIndex}`;
-        correctionCopy.index = mainIndex;
-        const spellingErrors = [spellingError, wordOrderError, missingWordError, extraWordError, wordCountError, multipleErrors];
-        const spellingString = [SPELLING_ERROR, WORD_ORDER_ERROR, MISSING_WORD_ERROR, EXTRA_WORD_ERROR, WORD_COUNT_ERROR, MULTIPLE_ERRORS];
-        spellingErrors.forEach((errorType, index) => {
-          if (errorType) {
-            corrections[spellingString[index]].push(correctionCopy);
-          }
-        });
+        const singleWordResult = processSingleWordError(correction, errorWord, innerText, mainIndex, errorColor);
+        innerText = singleWordResult.innerText;
+        processSingleWordCorrections(singleWordResult, corrections);
         mainIndex++;
       }
     }
@@ -388,34 +438,26 @@ export const processTextCorrections = (responseText, textBoxRef, textBoxValueRef
   textBoxValueRef(innerText);
 };
 
-export const setCaretPosition = (element, position) => {
-  if (!element) return;
-
-  const range = document.createRange();
-  const selection = window.getSelection();
-
-  if (position === 0) {
-    let firstNode = element;
-    while (firstNode.firstChild && firstNode.firstChild.nodeType === Node.ELEMENT_NODE) {
-      firstNode = firstNode.firstChild;
-    }
-
-    range.setStart(firstNode.firstChild || firstNode, 0);
-    range.collapse(true);
-    selection.removeAllRanges();
-    selection.addRange(range);
-    element.focus();
-    return;
+const setCaretAtStart = (element, range, selection) => {
+  let firstNode = element;
+  while (firstNode.firstChild && firstNode.firstChild.nodeType === Node.ELEMENT_NODE) {
+    firstNode = firstNode.firstChild;
   }
 
+  range.setStart(firstNode.firstChild || firstNode, 0);
+  range.collapse(true);
+  selection.removeAllRanges();
+  selection.addRange(range);
+  element.focus();
+};
+
+const findCaretPosition = (node, position) => {
   let currentPos = 0;
   let targetNode = null;
   let targetOffset = 0;
 
-  const traverseNodes = (node) => {
-    if (currentPos >= position) {
-      return true;
-    }
+  const traverseNodesForSetCaretPosition = (node) => {
+    if (currentPos >= position) return true;
 
     if (node.nodeType === Node.TEXT_NODE) {
       const length = node.textContent.length;
@@ -425,27 +467,26 @@ export const setCaretPosition = (element, position) => {
         return true;
       }
       currentPos += length;
-    } else {
-      if (!node.childNodes.length && node.nodeType === Node.ELEMENT_NODE) {
-        if (currentPos === position) {
-          targetNode = node;
-          targetOffset = 0;
-          return true;
-        }
-        currentPos += 1;
+    } else if (node.nodeType === Node.ELEMENT_NODE && !node.childNodes.length) {
+      if (currentPos === position) {
+        targetNode = node;
+        targetOffset = 0;
+        return true;
       }
+      currentPos += 1;
+    }
 
-      for (const child of node.childNodes) {
-        if (traverseNodes(child)) {
-          return true;
-        }
-      }
+    for (const child of node.childNodes) {
+      if (traverseNodesForSetCaretPosition(child)) return true;
     }
     return false;
   };
 
-  traverseNodes(element);
+  traverseNodesForSetCaretPosition(node);
+  return { targetNode, targetOffset };
+};
 
+const setCaretAtPosition = (element, range, selection, targetNode, targetOffset) => {
   if (targetNode) {
     try {
       range.setStart(targetNode, targetOffset);
@@ -455,8 +496,44 @@ export const setCaretPosition = (element, position) => {
       element.focus();
     } catch (e) {
       console.error('Error setting caret position:', e);
-      setCaretPosition(element, 0);
+      setCaretAtStart(element, range, selection);
     }
+  }
+};
+
+export const setCaretPosition = (element, position) => {
+  if (!element) return;
+
+  const range = document.createRange();
+  const selection = window.getSelection();
+
+  if (position === 0) {
+    setCaretAtStart(element, range, selection);
+  } else {
+    const { targetNode, targetOffset } = findCaretPosition(element, position);
+    setCaretAtPosition(element, range, selection, targetNode, targetOffset);
+  }
+};
+
+const processTextNodesForSetCaretPosition = (node, range, state) => {
+  if (node === range.startContainer) {
+    state.currentPos += range.startOffset;
+    state.found = true;
+  }
+};
+
+const processChildNodesForSetCaretPosition = (node, range, state, traverseNodesForGetCaretPosition) => {
+  if (!node.childNodes.length && node.nodeType === Node.ELEMENT_NODE) {
+    state.currentPos += 1;
+    if (node === range.startContainer && range.startOffset === 0) {
+      state.found = true;
+      return;
+    }
+  }
+
+  for (const child of node.childNodes) {
+    traverseNodesForGetCaretPosition(child);
+    if (state.found) break;
   }
 };
 
@@ -474,46 +551,33 @@ export const getCaretPosition = (element) => {
     return 0;
   }
 
-  let currentPos = 0;
-  let found = false;
+  const state = { currentPos: 0, found: false };
 
-  const traverseNodes = (node) => {
-    if (found) return;
+  const traverseNodesForGetCaretPosition = (node) => {
+    if (state.found) return;
 
     if (node.nodeType === Node.TEXT_NODE) {
       if (node === range.startContainer) {
-        currentPos += range.startOffset;
-        found = true;
+        processTextNodesForSetCaretPosition(node, range, state);
         return;
       }
-      currentPos += node.textContent.length;
+      state.currentPos += node.textContent.length;
     } else {
-      if (!node.childNodes.length && node.nodeType === Node.ELEMENT_NODE) {
-        currentPos += 1;
-        if (node === range.startContainer && range.startOffset === 0) {
-          found = true;
-          return;
-        }
-      }
-
-      for (const child of node.childNodes) {
-        traverseNodes(child);
-        if (found) break;
-      }
+      processChildNodesForSetCaretPosition(node, range, state, traverseNodesForGetCaretPosition);
     }
   };
 
-  traverseNodes(element);
-  return currentPos;
+  traverseNodesForGetCaretPosition(element);
+  return state.currentPos;
 };
 
 export const validatePosition = (element, position) => {
   if (!element) return 0;
-  const totalLength = getTotalLength(element);
+  const totalLength = getTotalLengthOfNodeTexts(element);
   return Math.max(0, Math.min(position, totalLength));
 };
 
-const getTotalLength = (element) => {
+const getTotalLengthOfNodeTexts = (element) => {
   let length = 0;
   const traverse = (node) => {
     if (node.nodeType === Node.TEXT_NODE) {

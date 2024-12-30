@@ -81,11 +81,9 @@ export default function CorrectionInput(
         acc[key] = array.filter(error => spanIds.includes(error.errorId));
         return acc;
       }, {}));
-
-      setChildren(e.target.children.length);
-    } else {
-      setChildren(e.target.children.length);
     }
+    setChildren(e.target.children.length);
+
 
     setTimeout(() => {
       restoreCaretPosition(textBoxRef.current, position);

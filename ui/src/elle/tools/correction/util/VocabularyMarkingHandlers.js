@@ -1,6 +1,6 @@
 import { commonLemmas, stopWords } from '../tabviews/vocabulary/constants/constants';
 import { replaceCombined } from '../../../const/Constants';
-import { checkForFullWord } from '../../../util/TextUtils';
+import { checkIfWordExistsInText } from '../../../util/TextUtils';
 import { ABSTRACT_WORDS, CONTENT_WORDS, NOUN, NUM, PROPN, UNCOMMON_WORDS, WORD_REPETITION } from '../const/Constants';
 
 export const handleUncommonWords = (text, complexityAnswer) => {
@@ -9,7 +9,7 @@ export const handleUncommonWords = (text, complexityAnswer) => {
   complexityAnswer.sonaliigid.forEach((liik, index) => {
     if (liik !== NUM && liik !== PROPN && !commonLemmas.includes(complexityAnswer.lemmad[index])) {
       const newWord = `<span class="uncommon-word-color">${complexityAnswer.sonad[index]}</span>`;
-      tempText = tempText.replace(checkForFullWord(complexityAnswer.sonad[index]), newWord);
+      tempText = tempText.replace(checkIfWordExistsInText(complexityAnswer.sonad[index]), newWord);
     }
   });
   return tempText;
@@ -20,7 +20,7 @@ export const handleAbstractWords = (text, abstractAnswer, complexityAnswer) => {
   abstractAnswer.forEach((word, index) => {
     if (word.abstractness === 3 && complexityAnswer.sonaliigid[index] !== PROPN && complexityAnswer.sonaliigid[index] === NOUN) {
       const newWord = `<span class="abstract-word-color">${complexityAnswer.sonad[index]}</span>`;
-      tempText = tempText.replace(checkForFullWord(complexityAnswer.sonad[index]), newWord);
+      tempText = tempText.replace(checkIfWordExistsInText(complexityAnswer.sonad[index]), newWord);
     }
   });
   return tempText;
@@ -31,7 +31,7 @@ export const handleContentWords = (text, complexityAnswer) => {
   complexityAnswer.sonaliigid.forEach((liik, index) => {
     if (liik !== NUM && !stopWords.includes(complexityAnswer.lemmad[index].replace('_', ''))) {
       const newWord = `<span class="content-word-color">${complexityAnswer.sonad[index]}</span>`;
-      tempText = tempText.replace(checkForFullWord(complexityAnswer.sonad[index]), newWord);
+      tempText = tempText.replace(checkIfWordExistsInText(complexityAnswer.sonad[index]), newWord);
     }
   });
   return tempText;
