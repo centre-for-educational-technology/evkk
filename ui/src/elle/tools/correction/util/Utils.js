@@ -59,25 +59,6 @@ export const handlePaste = (event, newRef, setNewRef, setInputText) => {
   }
 };
 
-export const processGrammarResponseIndexes = (grammarResponse, grammarSetter) => {
-  grammarResponse.corrections.reverse();
-  grammarResponse.corrections.forEach((error, index) => {
-    error.errorId = index;
-  });
-  grammarSetter(grammarResponse);
-};
-
-export const processFetchText = (textBoxRef) => {
-  if (!textBoxRef) return '';
-  const textBoxValue = textBoxRef.current.innerText.replace(replaceCombined, '').replaceAll('  ', ' ');
-  const boxNoSpaceTags = textBoxValue.replace(replaceSpaceTags, ' ');
-  return boxNoSpaceTags.replace(replaceSpaces, ' ');
-};
-
-export const processCorrectorText = (fetchInputText) => {
-  return Array.isArray(fetchInputText) ? fetchInputText[0] : fetchInputText.trim().replaceAll(replaceCombined, '').replace(/\s+/g, ' ');
-};
-
 export const levelAccordionValueCheck = (value, complexityAnswer, arrayValues) => {
   return complexityAnswer[arrayValues[value]][0] < 1.01 && complexityAnswer[arrayValues[value]][0] > 0.009;
 };
@@ -160,6 +141,111 @@ export const parseHtmlForDocx = (htmlString, type) => {
   });
 
   return result;
+};
+
+export const processErrorListForDocx = (tab, textLevel, errorList, innerHtml, labels, grammarLabel) => {
+  const returnArray = [];
+  tab === CORRECTION && textLevel.keeletase
+    ? processGrammarAnswer(returnArray, errorList, grammarLabel)
+    : processTextLevelAnswer(returnArray, textLevel, labels);
+  returnArray.push(new Paragraph({ spacing: { after: 120 } }));
+  returnArray.push(
+    new Paragraph({
+      spacing: { line: 300 },
+      alignment: 'both',
+      children: parseHtmlForDocx(innerHtml.current.innerHTML, GRAMMAR)
+    })
+  );
+  return returnArray;
+};
+
+export const processTextCorrections = (responseText, textBoxRef, textBoxValueRef, setErrorList, pasteReset = null) => {
+  // Avoid resetting input text on tab change
+  if (!responseText || !textBoxRef) return;
+  if (pasteReset) return setErrorList(null);
+
+  const corrections = {
+    spellingError: [],
+    wordOrderError: [],
+    missingWordError: [],
+    extraWordError: [],
+    wordCountError: [],
+    multipleErrors: [],
+    wrongPunctuation: [],
+    extraPunctuation: [],
+    missingPunctuation: []
+  };
+
+  let innerText = textBoxRef.replace(replaceCombined, '');
+  let mainIndex = 0;
+
+  responseText.corrections.forEach(correction => {
+    const errorWord = correction.span.value;
+    const correctedWord = correction.replacements[0].value;
+    const errorTypes = checkAllErrors(errorWord, correctedWord);
+
+    if (checkForPunctuationErrorType(errorTypes)) {
+      const punctuationResult = processPunctuationError(correction, errorWord, innerText, mainIndex);
+      innerText = punctuationResult.innerText;
+      processPunctuationTypes(punctuationResult, corrections);
+
+      mainIndex++;
+    }
+
+    if (checkForOtherErrorType(errorTypes)) {
+      const errorColor = returnMarkingColor(errorTypes);
+      if (errorTypes.spellingError && errorWord.split(' ').length !== 1) {
+        const multiWordResult = processMultiWordSpellingError(correction, errorWord, innerText, mainIndex, errorColor);
+        innerText = multiWordResult.innerText;
+        corrections.spellingError.push(...multiWordResult.corrections);
+        mainIndex = multiWordResult.newIndex;
+      } else {
+        const singleWordResult = processSingleWordError(correction, errorWord, innerText, mainIndex, errorColor);
+        innerText = singleWordResult.innerText;
+        processSingleWordCorrections(singleWordResult, corrections);
+        mainIndex++;
+      }
+    }
+  });
+
+  setErrorList(corrections);
+  textBoxValueRef(innerText);
+};
+
+export const saveCaretPosition = (element) => {
+  const position = getCaretPosition(element);
+  return validatePosition(element, position);
+};
+
+export const restoreCaretPosition = (element, savedPosition) => {
+  const validPosition = validatePosition(element, savedPosition);
+  setCaretPosition(element, validPosition);
+};
+
+export const getSpanIds = (htmlString) => {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlString, 'text/html');
+  const spans = doc.querySelectorAll('span[id]');
+  return Array.from(spans).map(span => span.id);
+};
+
+const processGrammarResponseIndexes = (grammarResponse, grammarSetter) => {
+  grammarResponse.corrections.reverse();
+  grammarResponse.corrections.forEach((error, index) => {
+    error.errorId = index;
+  });
+  grammarSetter(grammarResponse);
+};
+
+const processFetchText = (textBoxRef) => {
+  if (!textBoxRef) return '';
+  const textBoxValue = textBoxRef.current.innerText.replace(replaceCombined, '').replaceAll('  ', ' ');
+  const boxNoSpaceTags = textBoxValue.replace(replaceSpaceTags, ' ');
+  return boxNoSpaceTags.replace(replaceSpaces, ' ');
+};
+
+const processCorrectorText = (fetchInputText) => {
+  return Array.isArray(fetchInputText) ? fetchInputText[0] : fetchInputText.trim().replaceAll(replaceCombined, '').replace(/\s+/g, ' ');
 };
 
 const processGrammarAnswer = (returnArray, errorList, grammarLabel) => {
@@ -258,22 +344,6 @@ const processTextLevelAnswer = (returnArray, textLevel, labels) => {
           break: 1
         })
       ]
-    })
-  );
-  return returnArray;
-};
-
-export const processErrorListForDocx = (tab, textLevel, errorList, innerHtml, labels, grammarLabel) => {
-  const returnArray = [];
-  tab === CORRECTION && textLevel.keeletase
-    ? processGrammarAnswer(returnArray, errorList, grammarLabel)
-    : processTextLevelAnswer(returnArray, textLevel, labels);
-  returnArray.push(new Paragraph({ spacing: { after: 120 } }));
-  returnArray.push(
-    new Paragraph({
-      spacing: { line: 300 },
-      alignment: 'both',
-      children: parseHtmlForDocx(innerHtml.current.innerHTML, GRAMMAR)
     })
   );
   return returnArray;
@@ -385,59 +455,6 @@ const processSingleWordCorrections = (singleWordResult, corrections) => {
   });
 };
 
-export const processTextCorrections = (responseText, textBoxRef, textBoxValueRef, setErrorList, pasteReset = null) => {
-  // Avoid resetting input text on tab change
-  if (!responseText || !textBoxRef) return;
-  if (pasteReset) return setErrorList(null);
-
-  const corrections = {
-    spellingError: [],
-    wordOrderError: [],
-    missingWordError: [],
-    extraWordError: [],
-    wordCountError: [],
-    multipleErrors: [],
-    wrongPunctuation: [],
-    extraPunctuation: [],
-    missingPunctuation: []
-  };
-
-  let innerText = textBoxRef.replace(replaceCombined, '');
-  let mainIndex = 0;
-
-  responseText.corrections.forEach(correction => {
-    const errorWord = correction.span.value;
-    const correctedWord = correction.replacements[0].value;
-    const errorTypes = checkAllErrors(errorWord, correctedWord);
-
-    if (checkForPunctuationErrorType(errorTypes)) {
-      const punctuationResult = processPunctuationError(correction, errorWord, innerText, mainIndex);
-      innerText = punctuationResult.innerText;
-      processPunctuationTypes(punctuationResult, corrections);
-
-      mainIndex++;
-    }
-
-    if (checkForOtherErrorType(errorTypes)) {
-      const errorColor = returnMarkingColor(errorTypes);
-      if (errorTypes.spellingError && errorWord.split(' ').length !== 1) {
-        const multiWordResult = processMultiWordSpellingError(correction, errorWord, innerText, mainIndex, errorColor);
-        innerText = multiWordResult.innerText;
-        corrections.spellingError.push(...multiWordResult.corrections);
-        mainIndex = multiWordResult.newIndex;
-      } else {
-        const singleWordResult = processSingleWordError(correction, errorWord, innerText, mainIndex, errorColor);
-        innerText = singleWordResult.innerText;
-        processSingleWordCorrections(singleWordResult, corrections);
-        mainIndex++;
-      }
-    }
-  });
-
-  setErrorList(corrections);
-  textBoxValueRef(innerText);
-};
-
 const setCaretAtStart = (element, range, selection) => {
   let firstNode = element;
   while (firstNode.firstChild && firstNode.firstChild.nodeType === Node.ELEMENT_NODE) {
@@ -501,7 +518,7 @@ const setCaretAtPosition = (element, range, selection, targetNode, targetOffset)
   }
 };
 
-export const setCaretPosition = (element, position) => {
+const setCaretPosition = (element, position) => {
   if (!element) return;
 
   const range = document.createRange();
@@ -537,7 +554,7 @@ const processChildNodesForSetCaretPosition = (node, range, state, traverseNodesF
   }
 };
 
-export const getCaretPosition = (element) => {
+const getCaretPosition = (element) => {
   if (!element) return 0;
 
   const selection = window.getSelection();
@@ -571,7 +588,7 @@ export const getCaretPosition = (element) => {
   return state.currentPos;
 };
 
-export const validatePosition = (element, position) => {
+const validatePosition = (element, position) => {
   if (!element) return 0;
   const totalLength = getTotalLengthOfNodeTexts(element);
   return Math.max(0, Math.min(position, totalLength));
@@ -593,21 +610,4 @@ const getTotalLengthOfNodeTexts = (element) => {
   };
   traverse(element);
   return length;
-};
-
-export const saveCaretPosition = (element) => {
-  const position = getCaretPosition(element);
-  return validatePosition(element, position);
-};
-
-export const restoreCaretPosition = (element, savedPosition) => {
-  const validPosition = validatePosition(element, savedPosition);
-  setCaretPosition(element, validPosition);
-};
-
-export const getSpanIds = (htmlString) => {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(htmlString, 'text/html');
-  const spans = doc.querySelectorAll('span[id]');
-  return Array.from(spans).map(span => span.id);
 };
