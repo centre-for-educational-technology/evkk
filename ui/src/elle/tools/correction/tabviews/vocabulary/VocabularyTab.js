@@ -13,7 +13,7 @@ import {
   calculateTotalWords
 } from '../../util/VocabularyCalculations';
 import CorrectionScale from '../../components/CorrectionScale';
-import { handleCopy, handleInput, handlePaste } from '../../util/Utils';
+import { handleCopy, handlePaste } from '../../util/Utils';
 import { markText } from '../../util/VocabularyMarkingHandlers';
 import CorrectionButton from '../../components/CorrectionButton';
 import CorrectionInfoIcon from '../../components/CorrectionInfoIcon';
@@ -129,7 +129,6 @@ export default function VocabularyTab(
             contentEditable={true}
             onCopy={(e) => handleCopy(e)}
             onPaste={(e) => handlePaste(e, textBoxRef.current.innerHTML, setNewRef, setInputText)}
-            onChange={(e) => handleInput(e.target.innerText, e.target.innerHTML, setNewRef, setInputText)}
           >
           </Box>
           <CorrectionButton

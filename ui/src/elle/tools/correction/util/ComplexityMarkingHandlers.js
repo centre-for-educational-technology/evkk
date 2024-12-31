@@ -1,5 +1,5 @@
 import { replaceCombined } from '../../../const/Constants';
-import { checkForFullWord } from '../../../util/TextUtils';
+import { checkIfWordExistsInText } from '../../../util/TextUtils';
 import {
   COMPLEXITY_MARKING_LONG_WORD_LIMIT,
   COMPLEXITY_MARKING_MINIMUM_WORDS_IN_LONG_SENTENCE,
@@ -36,7 +36,7 @@ const handleNounMarking = (text, complexityAnswer) => {
     if (word === NOUN || word === PROPN) {
       const noun = complexityAnswer.sonad[index];
       const newWord = `<span id="text-span" class="noun-color">${noun}</span>`;
-      tempText = tempText.replace(checkForFullWord(noun), newWord);
+      tempText = tempText.replace(checkIfWordExistsInText(noun), newWord);
     }
   });
   return tempText;
@@ -48,7 +48,7 @@ const handleLongWordMarking = (text, complexityAnswer) => {
   complexityAnswer.sonad.forEach(word => {
     if (word.length > COMPLEXITY_MARKING_LONG_WORD_LIMIT) {
       const newWord = `<span id="text-span" class="long-word-color">${word}</span>`;
-      tempText = tempText.replace(checkForFullWord(word), newWord);
+      tempText = tempText.replace(checkIfWordExistsInText(word), newWord);
     }
   });
   return tempText;
