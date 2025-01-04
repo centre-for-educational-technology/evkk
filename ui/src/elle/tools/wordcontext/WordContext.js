@@ -196,12 +196,8 @@ export default function WordContext() {
   const generateRequestData = () => {
     const storeState = queryStore.getState();
     return JSON.stringify({
-      corpusTextIds: storeState.corpusTextIds
-        ? storeState.corpusTextIds
-        : null,
-      ownTexts: storeState.ownTexts
-        ? storeState.ownTexts
-        : null,
+      corpusTextIds: storeState.corpusTextIds || null,
+      ownTexts: storeState.ownTexts || null,
       type: typeValue,
       keyword: keyword,
       displayCount: displayCount,

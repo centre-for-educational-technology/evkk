@@ -15,15 +15,19 @@ public class TextUtils {
   public static String sanitizeText(String text) {
     return text
       .replace("\\n", " ")
-      .replace("\\t", " ");
+      .replace("\\n\\n", " ")
+      .replace("\\t", " ")
+      .replace("&quot;", "\"");
   }
 
   public static String sanitizeTextDeep(String text) {
     return text
       .replace("\\n", " ")
+      .replace("\\n\\n", " ")
       .replace("\\t", " ")
       .replace("'", "")
-      .replace("*", "");
+      .replace("*", "")
+      .replace("&quot;", "\"");
   }
 
   public static List<String> sanitizeLemmaStrings(List<String> lemmas) {

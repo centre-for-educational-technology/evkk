@@ -169,12 +169,8 @@ export default function Wordlist() {
   const generateRequestData = () => {
     const storeState = queryStore.getState();
     return JSON.stringify({
-      corpusTextIds: storeState.corpusTextIds
-        ? storeState.corpusTextIds
-        : null,
-      ownTexts: storeState.ownTexts
-        ? storeState.ownTexts
-        : null,
+      corpusTextIds: storeState.corpusTextIds || null,
+      ownTexts: storeState.ownTexts || null,
       type: typeValue,
       excludeStopwords: stopwordsChecked,
       customStopwords: customStopwords === ''

@@ -5,12 +5,8 @@ import ee.evkk.dto.CommonTextRequestDto;
 import ee.evkk.dto.CorpusDownloadDto;
 import ee.evkk.dto.CorpusRequestDto;
 import ee.evkk.dto.enums.CorpusDownloadForm;
-import ee.evkk.dto.enums.Language;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
-import ee.tlu.evkk.core.service.dto.StanzaResponseDto;
-import ee.tlu.evkk.core.service.dto.TextResponseDto;
 import ee.tlu.evkk.core.service.dto.TextWithComplexity;
-import ee.tlu.evkk.core.service.maps.WordFeatTranslationMappings;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.CorpusDownloadResponseEntity;
 import ee.tlu.evkk.dal.dto.TextQueryDisjunctionParamHelper;
@@ -27,8 +23,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -39,20 +33,14 @@ import java.util.zip.ZipOutputStream;
 import static ee.evkk.dto.enums.CorpusDownloadFileType.ZIP;
 import static ee.evkk.dto.enums.CorpusDownloadForm.ANNOTATE_TEI;
 import static ee.evkk.dto.enums.CorpusDownloadForm.BASIC_TEXT;
-import static ee.evkk.dto.enums.Language.EN;
-import static ee.evkk.dto.enums.Language.ET;
-import static ee.tlu.evkk.common.util.TextUtils.sanitizeLemmaStrings;
-import static ee.tlu.evkk.common.util.TextUtils.sanitizeWordStrings;
 import static java.io.File.createTempFile;
 import static java.lang.Boolean.TRUE;
 import static java.lang.String.format;
 import static java.lang.System.lineSeparator;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Arrays.asList;
 import static java.util.Objects.nonNull;
 import static java.util.UUID.randomUUID;
 import static java.util.regex.Pattern.compile;
-import static java.util.stream.Collectors.toList;
 import static org.apache.logging.log4j.util.Strings.isBlank;
 import static org.apache.logging.log4j.util.Strings.isNotBlank;
 
@@ -66,28 +54,6 @@ public class TextService {
 
   private final TextDao textDao;
   private final StanzaServerClient stanzaServerClient;
-
-  private static final Set<String> firstType = WordFeatTranslationMappings.getFirstType();
-  private static final Set<String> secondType = WordFeatTranslationMappings.getSecondType();
-  private static Map<String, String> numberTranslations;
-  private static Map<String, String> caseTranslations;
-  private static Map<String, String> degreeTranslations;
-  private static Map<String, String> moodTranslations;
-  private static Map<String, String> personTranslations;
-  private static Map<String, String> verbFormTranslations;
-  private static StringBuilder tensePrefixPresent;
-  private static StringBuilder tensePrefixPast;
-  private static String tensePostfixNud;
-  private static String tensePostfixTud;
-  private static String negPolarity;
-  private static String negation;
-  private static String impersonal;
-  private static String present;
-  private static String simplePast;
-  private static String past;
-  private static String inflectedFormNudParticiple;
-  private static String inflectedFormTudParticiple;
-  private static String imperativeMood;
 
   private static final Pattern fileNameCharacterWhitelist = compile("[\\p{L}0-9& ._()!-]");
 
@@ -178,18 +144,6 @@ public class TextService {
 
     String daoResponse = textDao.detailedTextQueryByParameters(multiParamHelpers, singleParamHelpers, rangeParamBaseHelpers, studyLevelAndDegreeHelper, otherLangHelper, usedMultiMaterialsHelper);
     return isNotBlank(daoResponse) ? daoResponse : new ArrayList<>().toString();
-  }
-
-  public TextResponseDto sonadLemmadSilbidSonaliigidVormimargendid(CommonTextRequestDto request) {
-    StanzaResponseDto stanzaResponse = stanzaServerClient.getSonadLemmadSilbidSonaliigidVormimargendid(request.getTekst());
-    return new TextResponseDto(
-      sanitizeWordStrings(stanzaResponse.getSonad()),
-      sanitizeLemmaStrings(stanzaResponse.getLemmad()),
-      stanzaResponse.getSilbid(),
-      null,
-      translateWordType(stanzaResponse.getSonaliigid(), request.getLanguage()),
-      translateFeats(stanzaResponse.getVormimargendid(), request.getLanguage())
-    );
   }
 
   public TextWithComplexity keerukusSonaliigidMitmekesisus(CommonTextRequestDto request) {
@@ -295,221 +249,6 @@ public class TextService {
     return kood.toString();
   }
 
-  public List<String> translateFeats(List<List<String>> tekst, Language language) {
-    getLanguageMappings(language);
-    List<String> result = new ArrayList<>();
-
-    for (List<String> wordData : tekst) {
-      // muutumatud sõnad (Abbr=Yes ehk lühendid; NumForm=Digit ehk arvud jne)
-      String pos = wordData.get(0);
-      String feats = wordData.get(1);
-      if (feats == null || feats.equals("–") || feats.equals("Abbr=Yes") || feats.contains("NumForm=Digit")) {
-        result.add("–");
-      }
-
-      // käändsõnad
-      else if (firstType.contains(pos)) {
-        String[] featsSplit = feats.split("\\|");
-        String numberLabel = "";
-        String caseLabel = "";
-        String degreeLabel = "";
-        StringBuilder tenseLabel = new StringBuilder();
-
-        for (String feat : featsSplit) {
-          if (feat.contains("Number")) {
-            numberLabel = numberTranslations.get(feat.split("=")[1]);
-          }
-          if (feat.contains("Case")) {
-            caseLabel = caseTranslations.get(feat.split("=")[1]);
-          }
-          if (feat.contains("Degree")) {
-            degreeLabel = degreeTranslations.get(feat.split("=")[1]);
-          }
-          if (feat.contains("Tense")) {
-            if (feat.split("=")[1].equals("Pres")) {
-              tenseLabel = tensePrefixPresent;
-            } else {
-              tenseLabel = tensePrefixPast;
-            }
-          }
-          if (feat.contains("Voice") && tenseLabel.toString().contentEquals(tensePrefixPast)) {
-            if (feat.split("=")[1].equals("Act")) {
-              tenseLabel.append(tensePostfixNud);
-            } else {
-              tenseLabel.append(tensePostfixTud);
-              if (EN.equals(language)) {
-                tenseLabel.insert(0, "im");
-              }
-            }
-          }
-        }
-
-        StringBuilder subResult = new StringBuilder();
-        if (!numberLabel.isEmpty()) {
-          subResult.append(numberLabel).append(" ");
-        }
-        if (!caseLabel.isEmpty()) {
-          subResult.append(caseLabel);
-        }
-        if (!degreeLabel.isEmpty()) {
-          if (!subResult.toString().isEmpty()) {
-            subResult.append(", ");
-          }
-          subResult.append(degreeLabel);
-        }
-        if (tenseLabel.length() > 0) {
-          if (!subResult.toString().isEmpty()) {
-            subResult.append(", ");
-          }
-          subResult.append(tenseLabel);
-        }
-        result.add(subResult.toString());
-      }
-
-      // tegusõnad
-      else if (secondType.contains(pos)) {
-        List<String> featsSplit = asList(feats.split("\\|"));
-        String moodLabel = "";
-        String tenseLabel = "";
-        String numberLabel = "";
-        String personVoiceLabel = "";
-        String negativityLabel = "";
-        String verbFormLabel = "";
-
-        // Polarity=Neg only
-        if (feats.equals("Polarity=Neg")) {
-          result.add(negPolarity);
-        }
-
-        // pöördelised vormid
-        else if (feats.contains("VerbForm=Fin")) {
-          for (String feat : featsSplit) {
-            if (feat.contains("Mood")) {
-              moodLabel = moodTranslations.get(feat.split("=")[1]);
-            }
-            if (feat.contains("Number")) {
-              numberLabel = numberTranslations.get(feat.split("=")[1]);
-            }
-            if (feat.contains("Voice") && feat.split("=")[1].equals("Pass")) {
-              personVoiceLabel = impersonal;
-            }
-            if ((feat.contains("Polarity") || feat.contains("Connegative"))
-              && (feat.split("=")[1].equals("Neg") || feat.split("=")[1].equals("Yes"))) {
-              negativityLabel = negation;
-            }
-          }
-          for (String feat : featsSplit) {
-            if (feat.contains("Tense")) {
-              if (feat.split("=")[1].equals("Pres")) {
-                tenseLabel = present;
-              } else {
-                if (EN.equals(language)) {
-                  tenseLabel = past;
-                } else {
-                  if (moodLabel.equals("kindla kõneviisi")) {
-                    tenseLabel = simplePast;
-                  } else if (moodLabel.equals("tingiva kõneviisi") || moodLabel.equals("kaudse kõneviisi")) {
-                    tenseLabel = past;
-                  }
-                }
-              }
-            }
-            if (feat.contains("Person") && !Objects.equals(personVoiceLabel, impersonal)) {
-              personVoiceLabel = personTranslations.get(feat.split("=")[1]);
-            }
-          }
-
-          StringBuilder subResult = new StringBuilder(moodLabel);
-          if (!Objects.equals(moodLabel, imperativeMood)) {
-            subResult.append(" ").append(tenseLabel);
-          }
-          if (!negativityLabel.equals(negation) && !Objects.equals(personVoiceLabel, impersonal) && !numberLabel.isEmpty()) {
-            if (!tenseLabel.isEmpty()) {
-              subResult.append(",");
-            }
-            subResult.append(" ").append(numberLabel);
-          }
-          if (!negativityLabel.equals(negation) && !personVoiceLabel.isEmpty()) {
-            if (numberLabel.isEmpty()) {
-              subResult.append(",");
-            }
-            subResult.append(" ").append(personVoiceLabel);
-          }
-          if (!negativityLabel.isEmpty()) {
-            if (personVoiceLabel.isEmpty() && numberLabel.isEmpty()) {
-              subResult.append(",");
-            }
-            subResult.append(" ").append(negativityLabel);
-          }
-          result.add(subResult.toString());
-        }
-
-        // käändelised vormid (inflected form)
-        else {
-          if (featsSplit.contains("VerbForm=Part") && featsSplit.contains("Tense=Past")) {
-            if (featsSplit.contains("Voice=Act")) {
-              verbFormLabel = inflectedFormNudParticiple;
-            } else if (featsSplit.contains("Voice=Pass")) {
-              verbFormLabel = inflectedFormTudParticiple;
-            }
-          } else {
-            for (String feat : featsSplit) {
-              if (feat.split("=")[0].equals("VerbForm")) {
-                verbFormLabel = verbFormTranslations.get(feat.split("=")[1]);
-              }
-            }
-          }
-          result.add(verbFormLabel);
-        }
-      }
-    }
-
-    return result;
-  }
-
-  private static void getLanguageMappings(Language language) {
-    if (ET.equals(language)) {
-      numberTranslations = WordFeatTranslationMappings.getNumberEt();
-      caseTranslations = WordFeatTranslationMappings.getCaseEt();
-      degreeTranslations = WordFeatTranslationMappings.getDegreeEt();
-      moodTranslations = WordFeatTranslationMappings.getMoodEt();
-      personTranslations = WordFeatTranslationMappings.getPersonEt();
-      verbFormTranslations = WordFeatTranslationMappings.getVerbEt();
-      tensePrefixPresent = new StringBuilder("oleviku kesksõna");
-      tensePrefixPast = new StringBuilder("mineviku kesksõna");
-      tensePostfixNud = " nud-vorm";
-      tensePostfixTud = " tud-vorm";
-      negPolarity = "eitussõna";
-      negation = "eitus";
-      impersonal = "umbisikuline tegumood";
-      present = "olevik";
-      simplePast = "lihtminevik";
-      past = "minevik";
-      inflectedFormNudParticiple = "mineviku kesksõna nud-vorm";
-      inflectedFormTudParticiple = "mineviku kesksõna tud-vorm";
-      imperativeMood = "käskiv kõneviis,";
-    } else {
-      numberTranslations = WordFeatTranslationMappings.getNumberEn();
-      caseTranslations = WordFeatTranslationMappings.getCaseEn();
-      degreeTranslations = WordFeatTranslationMappings.getDegreeEn();
-      moodTranslations = WordFeatTranslationMappings.getMoodEn();
-      personTranslations = WordFeatTranslationMappings.getPersonEn();
-      verbFormTranslations = WordFeatTranslationMappings.getVerbFormEn();
-      tensePrefixPresent = new StringBuilder("present participle");
-      tensePrefixPast = new StringBuilder("personal past participle");
-      tensePostfixNud = " (-nud)";
-      tensePostfixTud = " (-tud)";
-      negPolarity = "negative particle";
-      negation = "negation";
-      impersonal = "impersonal";
-      present = "present";
-      past = "past";
-      inflectedFormNudParticiple = "personal past participle (-nud)";
-      inflectedFormTudParticiple = "impersonal past participle (-tud)";
-      imperativeMood = "imperative,";
-    }
-  }
-
   private TextQueryRangeParamBaseHelper createRangeBaseHelper(String table, String parameter, List<List<Integer>> values) {
     List<TextQueryRangeParamHelper> rangeHelpers = new ArrayList<>();
     for (List<Integer> value : values) {
@@ -551,18 +290,6 @@ public class TextService {
     if (isNotBlank(omadus)) {
       textDao.insertAddingProperty(kood, tunnus, omadus);
     }
-  }
-
-  public List<String> translateWordType(List<String> tekst, Language language) {
-    Map<String, String> wordTypes;
-    if (ET.equals(language)) {
-      wordTypes = WordFeatTranslationMappings.getWordTypesEt();
-    } else {
-      wordTypes = WordFeatTranslationMappings.getWordTypesEn();
-    }
-    return tekst.stream()
-      .map(wordTypes::get)
-      .collect(toList());
   }
 
 }
