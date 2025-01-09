@@ -243,8 +243,8 @@ export default function VocabularyTab(
                     startValue={0}
                     endValue={10}
                     value={complexityAnswer.korrektoriLoendid.harvaesinevad * 100 / complexityAnswer.mitmekesisus[10]}
-                    startText={t('corrector_vocabulary_repetitive_vocabulary')}
-                    endText={t('corrector_vocabulary_diverse_vocabulary')}
+                    startText={t('corrector_vocabulary_more_frequent_vocabulary')}
+                    endText={t('corrector_vocabulary_less_frequent_vocabulary')}
                     percentage={true}
                   />
                   <Divider/>
