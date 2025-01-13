@@ -104,7 +104,7 @@ export const parseHtmlForDocx = (htmlString, type) => {
         colorClass = node.className || null;
       }
 
-      if (type === GRAMMAR) {
+      if (type === GRAMMAR && Object.keys(correctorDocxColors).includes(colorClass)) {
         result.push(
           new Bookmark({
             id: node.id,
