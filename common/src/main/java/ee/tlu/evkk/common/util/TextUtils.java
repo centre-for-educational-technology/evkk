@@ -17,14 +17,6 @@ public class TextUtils {
       .replace("\\n", " ")
       .replace("\\n\\n", " ")
       .replace("\\t", " ")
-      .replace("&quot;", "\"");
-  }
-
-  public static String sanitizeTextDeep(String text) {
-    return text
-      .replace("\\n", " ")
-      .replace("\\n\\n", " ")
-      .replace("\\t", " ")
       .replace("'", "")
       .replace("*", "")
       .replace("&quot;", "\"");

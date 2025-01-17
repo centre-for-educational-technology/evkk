@@ -42,6 +42,20 @@ vormimargend_upos_piirang = ["ADP", "ADV", "CCONJ", "SCONJ", "INTJ", "X"]
 eesti_tahestik = r'[a-zA-ZõÕäÄöÖüÜŽžŠš0-9.-]+'
 
 
+@app.route('/full-text-analysis', methods=post)
+def full_text_analysis():
+    tekst = request.json["tekst"]
+    result = process_full_text_analysis(tekst, collect_positional_info=True)
+    return Response(json.dumps(result), mimetype=mimetype)
+
+
+@app.route('/sonad-lemmad-silbid-sonaliigid-vormimargendid', methods=post)
+def sonad_lemmad_silbid_sonaliigid_vormimargendid():
+    tekst = request.json["tekst"]
+    result = process_full_text_analysis(tekst, collect_positional_info=False)
+    return Response(json.dumps(result), mimetype=mimetype)
+
+
 @app.route('/keerukus-sonaliigid-mitmekesisus', methods=post)
 def keerukus_sonaliigid_mitmekesisus():
     tekst = request.json["tekst"]
@@ -88,52 +102,6 @@ def keerukus_sonaliigid_mitmekesisus():
         "laused": laused,
         "sonavara": check_both_sentence_repetition(laused, word_start_and_end),
         "korrektori_loendid": {"harvaesinevad": calculate_uncommon_words(lemmad, sonaliigid)}
-    }), mimetype=mimetype)
-
-
-@app.route('/sonad-lemmad-silbid-sonaliigid-vormimargendid', methods=post)
-def sonad_lemmad_silbid_sonaliigid_vormimargendid():
-    tekst = request.json["tekst"]
-    doc = nlp_tpl(tekst)
-
-    sonad = []
-    eestikeelsed_sonad = []
-    lemmad = []
-    sonaliigid = []
-    vormimargendid = []
-
-    for sentence in doc.sentences:
-        for word in sentence.words:
-            if word.upos not in sona_upos_piirang:
-                sonad.append(word.text)
-                if sona_on_eestikeelne(word.text):
-                    eestikeelsed_sonad.append(word.text)
-                    lemmad.append(word.lemma)
-                    sonaliigid.append(word.pos)
-                    if word.upos not in vormimargend_upos_piirang:
-                        vormimargendid.append([word.pos, word.feats])
-                    else:
-                        vormimargendid.append([word.pos, "–"])
-                else:
-                    eestikeelsed_sonad.append("–")
-                    lemmad.append("–")
-                    sonaliigid.append("–")
-                    vormimargendid.append(["–", "–"])
-
-    silbid = silbita_sisemine(" ".join(puhasta_sonad(eestikeelsed_sonad)))
-    silpide_arv = len(silbid)
-
-    for index, sona in enumerate(reversed(eestikeelsed_sonad)):
-        if sona == "–":
-            silbid.insert(silpide_arv - index, "–")
-            silpide_arv += 1
-
-    return Response(json.dumps({
-        "sonad": sonad,
-        "lemmad": lemmad,
-        "silbid": silbid,
-        "sonaliigid": sonaliigid,
-        "vormimargendid": vormimargendid,
     }), mimetype=mimetype)
 
 
@@ -186,7 +154,7 @@ def lemmadjaposinfo():
     for sentence in doc.sentences:
         for word in sentence.words:
             if word.upos not in sona_upos_piirang and word.lemma is not None:
-                result.append({"word": word.lemma, "startChar": word.start_char, "endChar": word.end_char})
+                result.append({"word": word.lemma, "start_char": word.start_char, "end_char": word.end_char})
     return Response(json.dumps(result), mimetype=mimetype)
 
 
@@ -207,7 +175,7 @@ def sonadlausetenajaposinfo():
         sentence_result = []
         for word in sentence.words:
             if word.upos not in sona_upos_piirang:
-                sentence_result.append({"word": word.text, "startChar": word.start_char, "endChar": word.end_char})
+                sentence_result.append({"word": word.text, "start_char": word.start_char, "end_char": word.end_char})
         result.append(sentence_result)
     return Response(json.dumps(result), mimetype=mimetype)
 
@@ -220,7 +188,7 @@ def lemmadlausetenajaposinfo():
         sentence_result = []
         for word in sentence.words:
             if word.upos not in sona_upos_piirang and word.lemma is not None:
-                sentence_result.append({"word": word.lemma, "startChar": word.start_char, "endChar": word.end_char})
+                sentence_result.append({"word": word.lemma, "start_char": word.start_char, "end_char": word.end_char})
         result.append(sentence_result)
     return Response(json.dumps(result), mimetype=mimetype)
 
@@ -243,7 +211,7 @@ def sonadjaposinfo():
     for sentence in doc.sentences:
         for word in sentence.words:
             if word.upos not in sona_upos_piirang:
-                result.append({"word": word.text, "startChar": word.start_char, "endChar": word.end_char})
+                result.append({"word": word.text, "start_char": word.start_char, "end_char": word.end_char})
     return Response(json.dumps(result), mimetype=mimetype)
 
 
@@ -280,7 +248,7 @@ def tahedsonadlaused():
     if keel == "ru":
         nlp = nlp_ru_tp
     doc = nlp(tekst)
-    v = [len(tekst), len([sona for lause in doc.sentences for sona in lause.words if sona.xpos != "Z"]),
+    v = [len([sona for lause in doc.sentences for sona in lause.words if sona.xpos != "Z"]),
          len(doc.sentences)]
     return Response(json.dumps(v), mimetype=mimetype)
 
@@ -295,6 +263,82 @@ def keerukus():
 def mitmekesisus():
     tekst = request.json["tekst"]
     return Response(json.dumps(hinda_mitmekesisust(tekst)), mimetype=mimetype)
+
+
+def process_full_text_analysis(tekst, collect_positional_info=False):
+    doc = nlp_tpl(tekst)
+
+    sonad = []
+    eestikeelsed_sonad = []
+    lemmad = []
+    sonaliigid = []
+    vormimargendid = []
+    sonad_lausetena_ja_pos_info = [] if collect_positional_info else None
+    lemmad_lausetena_ja_pos_info = [] if collect_positional_info else None
+    sonad_ja_pos_info = [] if collect_positional_info else None
+    lemmad_ja_pos_info = [] if collect_positional_info else None
+
+    for sentence in doc.sentences:
+        sonad_lausetena = [] if collect_positional_info else None
+        lemmad_lausetena = [] if collect_positional_info else None
+
+        for word in sentence.words:
+            if word.upos not in sona_upos_piirang:
+                sonad.append(word.text)
+
+                if collect_positional_info:
+                    sonad_lausetena.append(
+                        {"word": word.text, "start_char": word.start_char, "end_char": word.end_char})
+                    lemmad_lausetena.append(
+                        {"word": word.lemma, "start_char": word.start_char, "end_char": word.end_char})
+                    sonad_ja_pos_info.append(
+                        {"word": word.text, "start_char": word.start_char, "end_char": word.end_char})
+                    lemmad_ja_pos_info.append(
+                        {"word": word.lemma, "start_char": word.start_char, "end_char": word.end_char})
+
+                if sona_on_eestikeelne(word.text):
+                    eestikeelsed_sonad.append(word.text)
+                    lemmad.append(word.lemma)
+                    sonaliigid.append(word.pos)
+                    if word.upos not in vormimargend_upos_piirang:
+                        vormimargendid.append([word.pos, word.feats])
+                    else:
+                        vormimargendid.append([word.pos, "–"])
+                else:
+                    eestikeelsed_sonad.append("–")
+                    lemmad.append("–")
+                    sonaliigid.append("–")
+                    vormimargendid.append(["–", "–"])
+
+        if collect_positional_info:
+            sonad_lausetena_ja_pos_info.append(sonad_lausetena)
+            lemmad_lausetena_ja_pos_info.append(lemmad_lausetena)
+
+    silbid = silbita_sisemine(" ".join(puhasta_sonad(eestikeelsed_sonad)))
+    silpide_arv = len(silbid)
+
+    for index, sona in enumerate(reversed(eestikeelsed_sonad)):
+        if sona == "–":
+            silbid.insert(silpide_arv - index, "–")
+            silpide_arv += 1
+
+    result = {
+        "sonad": sonad,
+        "lemmad": lemmad,
+        "silbid": silbid,
+        "sonaliigid": sonaliigid,
+        "vormimargendid": vormimargendid,
+    }
+
+    if collect_positional_info:
+        result.update({
+            "sonad_lausetena_ja_pos_info": sonad_lausetena_ja_pos_info,
+            "lemmad_lausetena_ja_pos_info": lemmad_lausetena_ja_pos_info,
+            "sonad_ja_pos_info": sonad_ja_pos_info,
+            "lemmad_ja_pos_info": lemmad_ja_pos_info,
+        })
+
+    return result
 
 
 def silbita_sisemine(tekst):

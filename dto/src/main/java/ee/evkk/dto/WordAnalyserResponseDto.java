@@ -14,7 +14,6 @@ public class WordAnalyserResponseDto {
   private List<String> sonad;
   private List<String> lemmad;
   private List<String> silbid;
-  private List<String> laused;
   private List<String> sonaliigid;
   private List<String> vormimargendid;
   private String tekst;

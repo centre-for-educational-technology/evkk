@@ -29,7 +29,8 @@ public interface TextProcessor {
     ANNOTATE_ESTNLTK,
     ANNOTATE_STANZA_CONLLU,
     ANNOTATE_TEI,
-    CHARS_WORDS_SENTENCES
+    CHARS_WORDS_SENTENCES,
+    STANZA_ANALYSIS
   }
 
   class Context {

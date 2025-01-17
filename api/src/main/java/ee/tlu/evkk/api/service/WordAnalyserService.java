@@ -3,10 +3,9 @@ package ee.tlu.evkk.api.service;
 import ee.evkk.dto.WordAnalyserRequestDto;
 import ee.evkk.dto.WordAnalyserResponseDto;
 import ee.evkk.dto.enums.Language;
-import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.service.TextService;
-import ee.tlu.evkk.core.service.dto.StanzaResponseDto;
 import ee.tlu.evkk.core.service.maps.WordFeatTranslationMappings;
+import ee.tlu.evkk.dal.dto.StanzaResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +27,8 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class WordAnalyserService {
 
+  private final StanzaAnalysisService stanzaAnalysisService;
   private final TextService textService;
-  private final StanzaServerClient stanzaServerClient;
 
   private static final Set<String> firstType = WordFeatTranslationMappings.getFirstType();
   private static final Set<String> secondType = WordFeatTranslationMappings.getSecondType();
@@ -55,12 +54,11 @@ public class WordAnalyserService {
 
   public WordAnalyserResponseDto getWordAnalyserResponse(WordAnalyserRequestDto dto) {
     String sanitizedTextContent = sanitizeText(textService.combineCorpusTextIdsAndOwnText(dto.getCorpusTextIds(), dto.getOwnTexts()));
-    StanzaResponseDto stanzaResponse = stanzaServerClient.getSonadLemmadSilbidSonaliigidVormimargendid(sanitizedTextContent);
+    StanzaResponseDto stanzaResponse = stanzaAnalysisService.getWordAnalyserResponse(dto);
     return new WordAnalyserResponseDto(
       sanitizeWordStrings(stanzaResponse.getSonad()),
       sanitizeLemmaStrings(stanzaResponse.getLemmad()),
       stanzaResponse.getSilbid(),
-      null,
       translateWordType(stanzaResponse.getSonaliigid(), dto.getLanguage()),
       translateFeats(stanzaResponse.getVormimargendid(), dto.getLanguage()),
       sanitizedTextContent
