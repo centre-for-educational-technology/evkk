@@ -1,8 +1,8 @@
 import { replaceCombined, replaceSpaces, replaceSpaceTags } from '../../../const/Constants';
-import { Bookmark, InternalHyperlink, Paragraph, ShadingType, SymbolRun, TextRun, UnderlineType } from 'docx';
+import { InternalHyperlink, Paragraph, ShadingType, SymbolRun, TextRun, UnderlineType } from 'docx';
 import { correctorDocxColors } from '../../../const/StyleConstants';
 import { accordionDetails, errorTypes } from '../const/TabValuesConstant';
-import { CORRECTION, GRAMMAR, TEXTSPAN } from '../const/Constants';
+import { CORRECTION, TEXTSPAN } from '../const/Constants';
 import { checkAllErrors } from './TextErrorTypeFunctions';
 import { resolveErrorMarks, resolvePunctuationMarks, returnMarkingColor } from './TextErrorMarkingFunctions';
 
@@ -88,7 +88,7 @@ export const queryCaller = (textBoxRef, inputText, setRequestingText, setGrammar
   }
 };
 
-export const parseHtmlForDocx = (htmlString, type) => {
+export const parseHtmlForDocx = (htmlString) => {
   const tempDiv = document.createElement('div');
   const result = [];
   tempDiv.innerHTML = htmlString;
@@ -104,23 +104,7 @@ export const parseHtmlForDocx = (htmlString, type) => {
         colorClass = node.className || null;
       }
 
-      if (type === GRAMMAR && Object.keys(correctorDocxColors).includes(colorClass)) {
-        result.push(
-          new Bookmark({
-            id: node.id,
-            children: [
-              new TextRun({
-                text: node.textContent,
-                size: 20,
-                shading: {
-                  type: ShadingType.SOLID,
-                  color: correctorDocxColors[colorClass],
-                  fill: 'FF0000'
-                }
-              })]
-          })
-        );
-      } else {
+      if (Object.keys(correctorDocxColors).includes(colorClass)) {
         result.push(
           new TextRun({
             text: node.textContent,
@@ -130,6 +114,13 @@ export const parseHtmlForDocx = (htmlString, type) => {
               color: correctorDocxColors[colorClass],
               fill: 'FF0000'
             }
+          })
+        );
+      } else {
+        result.push(
+          new TextRun({
+            text: node.textContent,
+            size: 20
           }));
       }
 
@@ -153,7 +144,7 @@ export const processErrorListForDocx = (tab, textLevel, errorList, innerHtml, la
     new Paragraph({
       spacing: { line: 300 },
       alignment: 'both',
-      children: parseHtmlForDocx(innerHtml.current.innerHTML, GRAMMAR)
+      children: parseHtmlForDocx(innerHtml.current.innerHTML)
     })
   );
   return returnArray;
