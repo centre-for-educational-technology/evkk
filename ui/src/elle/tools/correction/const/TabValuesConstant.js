@@ -13,11 +13,11 @@ export const textLevels = [
 ];
 
 export const complexityValues = [
-  'complexity_level_very_simple',
-  'complexity_level_simple',
+  'complexity_level_very_easy',
+  'complexity_level_easy',
   'complexity_level_average',
-  'complexity_level_complex',
-  'complexity_level_very_complex'
+  'complexity_level_difficult',
+  'complexity_level_very_difficult'
 ];
 
 export const textLevelColors = ['hsl(0 66% 76%)', 'hsl(100 37% 75%)', 'hsl(50 37% 75%)', 'hsl(240 37% 75%)'];
