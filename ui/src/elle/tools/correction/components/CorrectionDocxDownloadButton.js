@@ -29,7 +29,7 @@ const CorrectionDocxDownloadButton = ({ innerHtml, modelValue, errorList, tab, t
             new Paragraph({
               spacing: { line: 300 },
               alignment: 'both',
-              children: parseHtmlForDocx(innerHtml.current.innerHTML, 'normal')
+              children: parseHtmlForDocx(innerHtml.current.innerHTML)
             })
           ]
         }
