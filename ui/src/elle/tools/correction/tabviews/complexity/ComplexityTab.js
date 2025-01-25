@@ -7,7 +7,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Accordion from '@mui/material/Accordion';
 import '../../styles/ComplexityTab.css';
 import { calculateNounCount, verbAndNounRelation } from '../../util/ComplexityCalculations';
-import { handleCopy, handleInput, handlePaste } from '../../util/Utils';
+import { handleCopy, handlePaste } from '../../util/Utils';
 import { markText } from '../../util/ComplexityMarkingHandlers';
 import CorrectionScale from '../../components/CorrectionScale';
 import CorrectionButton from '../../components/CorrectionButton';
@@ -135,10 +135,10 @@ export default function ComplexityTab(
             contentEditable={true}
             onCopy={(e) => handleCopy(e)}
             onPaste={(e) => handlePaste(e, textBoxRef.current.innerHTML, setNewRef, setInputText)}
-            onChange={(e) => handleInput(e.target.innerText, e.target.innerHTML, setNewRef, setInputText)}
           >
           </Box>
           <CorrectionButton
+            model={model}
             inputText={inputText}
             textBoxRef={textBoxRef}
             setInputText={setInputText}
@@ -203,7 +203,7 @@ export default function ComplexityTab(
                   <CorrectionScale
                     title={t('corrector_smog_index')}
                     startValue={0}
-                    endValue={25}
+                    endValue={20}
                     value={complexityAnswer.keerukus[5]}
                     startText={t('corrector_index_score_easy')}
                     endText={t('corrector_index_score_difficult')}

@@ -1,12 +1,13 @@
 import { replaceCombined } from '../../../const/Constants';
-import { checkForFullWord } from '../../../util/TextUtils';
+import { checkIfWordExistsInText } from '../../../util/TextUtils';
 import {
   COMPLEXITY_MARKING_LONG_WORD_LIMIT,
   COMPLEXITY_MARKING_MINIMUM_WORDS_IN_LONG_SENTENCE,
   LONG_SENTENCE,
   LONG_WORD,
   NOUN,
-  NOUNS
+  NOUNS,
+  PROPN
 } from '../const/Constants';
 
 export const markText = (inputText, model, complexityAnswer, setNewRef, setRenderTrigger) => {
@@ -32,10 +33,10 @@ const handleNounMarking = (text, complexityAnswer) => {
   let tempText = text.replaceAll(replaceCombined, '');
 
   complexityAnswer.sonaliigid.forEach((word, index) => {
-    if (word === NOUN) {
+    if (word === NOUN || word === PROPN) {
       const noun = complexityAnswer.sonad[index];
       const newWord = `<span id="text-span" class="noun-color">${noun}</span>`;
-      tempText = tempText.replace(checkForFullWord(noun), newWord);
+      tempText = tempText.replace(checkIfWordExistsInText(noun), newWord);
     }
   });
   return tempText;
@@ -47,7 +48,7 @@ const handleLongWordMarking = (text, complexityAnswer) => {
   complexityAnswer.sonad.forEach(word => {
     if (word.length > COMPLEXITY_MARKING_LONG_WORD_LIMIT) {
       const newWord = `<span id="text-span" class="long-word-color">${word}</span>`;
-      tempText = tempText.replace(checkForFullWord(word), newWord);
+      tempText = tempText.replace(checkIfWordExistsInText(word), newWord);
     }
   });
   return tempText;

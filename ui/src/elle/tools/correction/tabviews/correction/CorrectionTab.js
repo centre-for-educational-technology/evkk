@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import CorrectionToggleButtonGroup from '../../components/CorrectionToggleButtonGroup';
 import { CorrectionAndTextLevelToggleButtons } from '../../const/ToggleButtonConstants';
 import { CORRECTION_TAB_LINK } from '../../const/PathConstants';
+import { CORRECTION } from '../../const/Constants';
 
 export default function CorrectionTab(
   {
@@ -28,7 +29,8 @@ export default function CorrectionTab(
     setComplexityAnswer,
     correctionModel,
     setCorrectionModel,
-    setAbstractWords
+    setAbstractWords,
+    complexityAnswer
   }) {
   const { t } = useTranslation();
   const [responseText, setResponseText] = useState();
@@ -81,6 +83,8 @@ export default function CorrectionTab(
           setGrammarAnswer={setGrammarAnswer}
           setSpellerAnswer={setSpellerAnswer}
           setAbstractWords={setAbstractWords}
+          tab={CORRECTION}
+          complexityAnswer={complexityAnswer}
         />
         <div className="w-50 corrector-right">
           {errorList ?
