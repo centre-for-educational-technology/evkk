@@ -43,7 +43,7 @@ public class TextController {
 
   @PostMapping("/kysitekstid")
   public String kysiTekstid(@RequestBody CorpusTextContentsDto dto) {
-    return textDao.findTextsByIds(dto.getIds());
+    return textService.getPartitionedTextResourceByIds(dto.getIds(), textDao::findTextsByIds);
   }
 
   @GetMapping("/kysitekstjametainfo")

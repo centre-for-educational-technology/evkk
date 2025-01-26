@@ -30,8 +30,6 @@ dependencies {
   implementation 'org.apache.tika:tika-core:2.5.0'
   implementation 'org.apache.tika:tika-parser-miscoffice-module:2.5.0'
 
-  implementation 'com.google.guava:guava:32.0.0-android'
-
   implementation 'org.apache.pdfbox:pdfbox:2.0.24'
 
   implementation 'org.apache.poi:poi-scratchpad:5.2.2'

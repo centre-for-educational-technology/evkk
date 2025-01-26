@@ -22,7 +22,6 @@ import static ee.tlu.evkk.api.util.WordContextUtils.removeCapitalizationInList;
 import static ee.tlu.evkk.api.util.WordContextUtils.sanitizeLemmaList;
 import static ee.tlu.evkk.api.util.WordContextUtils.sanitizeLemmas;
 import static ee.tlu.evkk.common.util.TextUtils.sanitizeLemmaStrings;
-import static ee.tlu.evkk.common.util.TextUtils.sanitizeText;
 import static java.util.Arrays.asList;
 
 @Service
@@ -34,7 +33,7 @@ public class WordContextService {
   private final TextService textService;
 
   public WordContextResponseDto getWordContextResponse(WordContextRequestDto dto) {
-    String sanitizedTextContent = sanitizeText(textService.combineCorpusTextIdsAndOwnText(dto.getCorpusTextIds(), dto.getOwnTexts()));
+    String sanitizedTextContent = textService.combineCorpusTextIdsAndOwnText(dto.getCorpusTextIds(), dto.getOwnTexts());
     if (SENTENCE.equals(dto.getDisplayType())) {
       List<List<WordAndPosInfoDto>> sentencelist = WORDS.equals(dto.getType())
         ? removeCapitalizationInList(stanzaAnalysisService.getSonadLausetenaJaPosInfo(dto), dto.isKeepCapitalization())

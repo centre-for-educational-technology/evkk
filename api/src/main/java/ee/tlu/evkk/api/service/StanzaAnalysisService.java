@@ -8,6 +8,8 @@ import ee.evkk.dto.WordContextRequestDto;
 import ee.evkk.dto.WordlistRequestDto;
 import ee.tlu.evkk.api.exception.StanzaAnalysisSerializationException;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
+import ee.tlu.evkk.core.service.TextService;
+import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dao.TextProcessorResultDao;
 import ee.tlu.evkk.dal.dto.StanzaResponseDto;
 import ee.tlu.evkk.dal.dto.WordAndPosInfoDto;
@@ -17,7 +19,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -28,9 +29,12 @@ import static com.google.common.collect.Lists.partition;
 import static ee.tlu.evkk.api.util.StringUtils.isNullOrBlank;
 import static ee.tlu.evkk.api.util.WordContextUtils.sentenceArrayToList;
 import static ee.tlu.evkk.common.util.TextUtils.sanitizeText;
+import static ee.tlu.evkk.common.util.TextUtils.sanitizeTextDeep;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 import static java.util.stream.Stream.concat;
 import static java.util.stream.Stream.empty;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
@@ -39,13 +43,13 @@ import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 @RequiredArgsConstructor
 public class StanzaAnalysisService {
 
+  private final TextService textService;
   private final TextProcessorResultDao textProcessorResultDao;
+  private final TextDao textDao;
   private final StanzaServerClient stanzaServerClient;
 
   private static final ObjectMapper objectMapper = new ObjectMapper();
-  // todo what if analysis is not found
   // todo startChar and endChar of own texts is still not working
-  // todo StanzaResponseDto.getCharCount() is possibly bugged and causes errors with some texts
 
   public List<String> getSonad(WordlistRequestDto dto) {
     return combineStringResponses(
@@ -97,7 +101,7 @@ public class StanzaAnalysisService {
 
   public StanzaResponseDto getWordAnalyserResponse(WordAnalyserRequestDto dto) {
     List<StanzaResponseDto> corpusTextResponses = isNotEmpty(dto.getCorpusTextIds())
-      ? getCorpusTextResponses(dto.getCorpusTextIds())
+      ? getCorpusTextResponses(dto.getCorpusTextIds(), false)
       : new ArrayList<>();
 
     StanzaResponseDto ownTextResponse = isNullOrBlank(dto.getOwnTexts())
@@ -120,7 +124,7 @@ public class StanzaAnalysisService {
     List<String> combined = new ArrayList<>();
 
     if (isNotEmpty(corpusTextIds)) {
-      List<StanzaResponseDto> corpusTextResponses = getCorpusTextResponses(corpusTextIds);
+      List<StanzaResponseDto> corpusTextResponses = getCorpusTextResponses(corpusTextIds, false);
       combined.addAll(corpusTextResponses.stream()
         .map(responseMapper)
         .flatMap(List::stream)
@@ -138,7 +142,7 @@ public class StanzaAnalysisService {
     AtomicInteger increaseCounter = new AtomicInteger();
 
     if (isNotEmpty(corpusTextIds)) {
-      List<StanzaResponseDto> corpusTextResponses = getCorpusTextResponses(corpusTextIds);
+      List<StanzaResponseDto> corpusTextResponses = getCorpusTextResponses(corpusTextIds, true);
 
       combined.addAll(corpusTextResponses.stream()
         .map(response -> {
@@ -164,7 +168,7 @@ public class StanzaAnalysisService {
     AtomicInteger increaseCounter = new AtomicInteger();
 
     if (isNotEmpty(corpusTextIds)) {
-      List<StanzaResponseDto> corpusTextResponses = getCorpusTextResponses(corpusTextIds);
+      List<StanzaResponseDto> corpusTextResponses = getCorpusTextResponses(corpusTextIds, true);
 
       combined.addAll(corpusTextResponses.stream()
         .map(response -> {
@@ -186,43 +190,70 @@ public class StanzaAnalysisService {
     return combined;
   }
 
-  private List<String> sanitizeAndFetchStringList(WordlistRequestDto dto, Function<String, String[]> clientListFunction) {
+  private List<StanzaResponseDto> getCorpusTextResponses(Set<UUID> corpusTextIds, boolean shouldGenerateCharCount) {
+    List<UUID> sortedCorpusTextIds = corpusTextIds.stream().sorted(comparing(UUID::toString)).collect(toList());
+    List<List<UUID>> batches = partition(new ArrayList<>(sortedCorpusTextIds), 1000);
+    List<StanzaResponseDto> results = new ArrayList<>();
+    Set<UUID> missingUUIDs = new HashSet<>();
+
+    for (List<UUID> batch : batches) {
+      String json = textProcessorResultDao.findStanzaFullTextAnalysisByTextIds(new HashSet<>(batch));
+      try {
+        List<StanzaResponseDto> responseList = objectMapper.readValue(json, new TypeReference<>() {});
+        missingUUIDs.addAll(findMissingUUIDs(responseList, batch));
+        results.addAll(responseList);
+      } catch (JsonProcessingException e) {
+        throw new StanzaAnalysisSerializationException(e);
+      }
+    }
+
+    if (isNotEmpty(missingUUIDs)) {
+      results.add(generateResultsForMissingUUIDs(missingUUIDs, shouldGenerateCharCount));
+    }
+    return results;
+  }
+
+  private StanzaResponseDto generateResultsForMissingUUIDs(Set<UUID> missingUUIDs, boolean shouldGenerateCharCount) {
+    String missingTexts = textService.getPartitionedTextResourceByIds(missingUUIDs, textDao::findTextsByIds);
+    StanzaResponseDto stanzaResponse = stanzaServerClient.getFullTextAnalysis(missingTexts);
+    if (shouldGenerateCharCount) {
+      stanzaResponse.setCharCount(sanitizeText(missingTexts).length());
+    }
+    return stanzaResponse;
+  }
+
+  private static List<String> sanitizeAndFetchStringList(WordlistRequestDto dto, Function<String, String[]> clientListFunction) {
+    return isNullOrBlank(dto.getOwnTexts())
+      ? emptyList()
+      : asList(clientListFunction.apply(sanitizeTextDeep(dto.getOwnTexts())));
+  }
+
+  private static List<WordAndPosInfoDto> sanitizeAndFetchWordAndPosInfoList(WordContextRequestDto dto, Function<String, WordAndPosInfoDto[]> clientListFunction) {
     return isNullOrBlank(dto.getOwnTexts())
       ? emptyList()
       : asList(clientListFunction.apply(sanitizeText(dto.getOwnTexts())));
   }
 
-  private List<WordAndPosInfoDto> sanitizeAndFetchWordAndPosInfoList(WordContextRequestDto dto, Function<String, WordAndPosInfoDto[]> clientListFunction) {
-    return isNullOrBlank(dto.getOwnTexts())
-      ? emptyList()
-      : asList(clientListFunction.apply(sanitizeText(dto.getOwnTexts())));
-  }
-
-  private List<List<WordAndPosInfoDto>> sanitizeAndFetchNested(WordContextRequestDto dto, Function<String, WordAndPosInfoDto[][]> clientListFunction) {
+  private static List<List<WordAndPosInfoDto>> sanitizeAndFetchNested(WordContextRequestDto dto, Function<String, WordAndPosInfoDto[][]> clientListFunction) {
     return isNullOrBlank(dto.getOwnTexts())
       ? emptyList()
       : sentenceArrayToList(clientListFunction.apply(sanitizeText(dto.getOwnTexts())));
   }
 
-  private List<StanzaResponseDto> getCorpusTextResponses(Set<UUID> corpusTextIds) {
-    List<List<UUID>> batches = partition(new ArrayList<>(corpusTextIds), 1000);
-    List<StanzaResponseDto> results = new ArrayList<>();
-    for (List<UUID> batch : batches) {
-      String json = textProcessorResultDao.findStanzaFullTextAnalysisByTextIds(new HashSet<>(batch));
-      try {
-        results.addAll(objectMapper.readValue(json, new TypeReference<List<StanzaResponseDto>>() {}));
-      } catch (JsonProcessingException e) {
-        throw new StanzaAnalysisSerializationException(e);
-      }
-    }
-    return results;
+  private static List<UUID> findMissingUUIDs(List<StanzaResponseDto> responseList, List<UUID> uuidBatch) {
+    Set<UUID> stanzaResponseUUIDs = responseList.stream()
+      .map(StanzaResponseDto::getTextId)
+      .collect(toSet());
+
+    return uuidBatch.stream()
+      .filter(uuid -> !stanzaResponseUUIDs.contains(uuid))
+      .collect(toList());
   }
 
   private static <T> List<T> combineFields(List<StanzaResponseDto> corpusTextResponses, Function<StanzaResponseDto, List<T>> fieldExtractor, List<T> ownTextField) {
     return concat(
       corpusTextResponses.stream()
         .map(fieldExtractor)
-        .filter(Objects::nonNull)
         .flatMap(List::stream),
       (ownTextField != null ? ownTextField.stream() : empty())
     ).collect(toList());

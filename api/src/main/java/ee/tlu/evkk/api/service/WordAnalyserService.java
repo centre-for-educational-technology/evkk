@@ -18,7 +18,6 @@ import java.util.Set;
 import static ee.evkk.dto.enums.Language.EN;
 import static ee.evkk.dto.enums.Language.ET;
 import static ee.tlu.evkk.common.util.TextUtils.sanitizeLemmaStrings;
-import static ee.tlu.evkk.common.util.TextUtils.sanitizeText;
 import static ee.tlu.evkk.common.util.TextUtils.sanitizeWordStrings;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
@@ -53,7 +52,7 @@ public class WordAnalyserService {
   private static String imperativeMood;
 
   public WordAnalyserResponseDto getWordAnalyserResponse(WordAnalyserRequestDto dto) {
-    String sanitizedTextContent = sanitizeText(textService.combineCorpusTextIdsAndOwnText(dto.getCorpusTextIds(), dto.getOwnTexts()));
+    String sanitizedTextContent = textService.combineCorpusTextIdsAndOwnText(dto.getCorpusTextIds(), dto.getOwnTexts());
     StanzaResponseDto stanzaResponse = stanzaAnalysisService.getWordAnalyserResponse(dto);
     return new WordAnalyserResponseDto(
       sanitizeWordStrings(stanzaResponse.getSonad()),

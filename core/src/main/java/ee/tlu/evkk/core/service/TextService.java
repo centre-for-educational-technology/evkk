@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
@@ -33,6 +34,8 @@ import java.util.zip.ZipOutputStream;
 import static ee.evkk.dto.enums.CorpusDownloadFileType.ZIP;
 import static ee.evkk.dto.enums.CorpusDownloadForm.ANNOTATE_TEI;
 import static ee.evkk.dto.enums.CorpusDownloadForm.BASIC_TEXT;
+import static ee.tlu.evkk.common.util.TextUtils.getSortedPartitionedUUIDs;
+import static ee.tlu.evkk.common.util.TextUtils.sanitizeText;
 import static java.io.File.createTempFile;
 import static java.lang.Boolean.TRUE;
 import static java.lang.String.format;
@@ -56,6 +59,16 @@ public class TextService {
   private final StanzaServerClient stanzaServerClient;
 
   private static final Pattern fileNameCharacterWhitelist = compile("[\\p{L}0-9& ._()!-]");
+
+  public String getPartitionedTextResourceByIds(Set<UUID> ids, Function<List<UUID>, String> resourceFunction) {
+    List<List<UUID>> batches = getSortedPartitionedUUIDs(ids);
+
+    StringBuilder result = new StringBuilder();
+    for (List<UUID> batch : batches) {
+      result.append(resourceFunction.apply(batch)).append(" ");
+    }
+    return result.toString().trim();
+  }
 
   public String detailneparing(CorpusRequestDto corpusRequestDto) {
     List<TextQuerySingleParamHelper> singleParamHelpers = new ArrayList<>();
@@ -201,13 +214,17 @@ public class TextService {
   public String combineCorpusTextIdsAndOwnText(Set<UUID> corpusTextIds, String ownTexts) {
     StringBuilder result = new StringBuilder();
     if (nonNull(corpusTextIds) && !corpusTextIds.isEmpty()) {
-      result.append(textDao.findTextsByIds(corpusTextIds));
+      result.append(getPartitionedTextResourceByIds(corpusTextIds, textDao::findAnalysedTextsByIds));
+
+      String unanalysedTexts = getPartitionedTextResourceByIds(corpusTextIds, textDao::findUnanalysedTextsByIds);
+      if (isNotBlank(unanalysedTexts)) {
+        result.append(" ").append(unanalysedTexts);
+      }
     }
-    result.append(" ");
     if (isNotBlank(ownTexts)) {
-      result.append(ownTexts);
+      result.append(" ").append(ownTexts);
     }
-    return result.toString();
+    return sanitizeText(result.toString().trim());
   }
 
   public String lisatekst(AddingRequestDto andmed) {

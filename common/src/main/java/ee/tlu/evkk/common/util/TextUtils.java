@@ -3,8 +3,13 @@ package ee.tlu.evkk.common.util;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
+import static com.google.common.collect.Lists.partition;
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 import static lombok.AccessLevel.PRIVATE;
 
@@ -12,7 +17,19 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 public class TextUtils {
 
+  public static List<List<UUID>> getSortedPartitionedUUIDs(Set<UUID> ids) {
+    List<UUID> sortedCorpusTextIds = ids.stream().sorted(comparing(UUID::toString)).collect(toList());
+    return partition(new ArrayList<>(sortedCorpusTextIds), 1000);
+  }
+
   public static String sanitizeText(String text) {
+    return text
+      .replace("\\n", " ")
+      .replace("\\n\\n", " ")
+      .replace("\\t", " ");
+  }
+
+  public static String sanitizeTextDeep(String text) {
     return text
       .replace("\\n", " ")
       .replace("\\n\\n", " ")

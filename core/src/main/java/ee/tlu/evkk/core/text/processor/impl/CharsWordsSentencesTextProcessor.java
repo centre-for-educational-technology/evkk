@@ -8,7 +8,6 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
-import static ee.tlu.evkk.common.util.TextUtils.sanitizeText;
 import static ee.tlu.evkk.core.text.processor.TextProcessor.Type.CHARS_WORDS_SENTENCES;
 import static java.lang.Integer.parseInt;
 
@@ -36,7 +35,7 @@ public class CharsWordsSentencesTextProcessor extends AbstractTextProcessor {
     String languageIsoCode = languageCodeToIso(languageCode);
     String[] triple = stanzaServerClient.getTahedSonadLaused(input, languageIsoCode);
     Map<String, Integer> answer = new HashMap<>();
-    answer.put("charCount", sanitizeText(input).length());
+    answer.put("charCount", input.length());
     answer.put("wordCount", parseInt(triple[0]));
     answer.put("sentenceCount", parseInt(triple[1]));
     return answer;

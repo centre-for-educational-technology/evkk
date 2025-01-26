@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -35,4 +36,7 @@ public class StanzaResponseDto implements Serializable {
 
   @JsonProperty("char_count")
   private int charCount;
+
+  @JsonProperty("text_id")
+  private UUID textId;
 }
