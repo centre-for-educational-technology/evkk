@@ -49,7 +49,7 @@ public class StanzaAnalysisService {
   private final StanzaServerClient stanzaServerClient;
 
   private static final ObjectMapper objectMapper = new ObjectMapper();
-  // todo startChar and endChar of own texts is still not working
+  // todo text processor is bugged
 
   public List<String> getSonad(WordlistRequestDto dto) {
     return combineStringResponses(
@@ -157,7 +157,9 @@ public class StanzaAnalysisService {
       );
     }
 
-    combined.addAll(ownTextSupplier.get());
+    List<WordAndPosInfoDto> ownTextResponses = ownTextSupplier.get();
+    ownTextResponses.forEach(element -> element.increaseChars(increaseCounter.get()));
+    combined.addAll(ownTextResponses);
 
     return combined;
   }
@@ -185,7 +187,9 @@ public class StanzaAnalysisService {
       );
     }
 
-    combined.addAll(ownTextSupplier.get());
+    List<List<WordAndPosInfoDto>> ownTextResponses = ownTextSupplier.get();
+    ownTextResponses.forEach(e1 -> e1.forEach(e2 -> e2.increaseChars(increaseCounter.get())));
+    combined.addAll(ownTextResponses);
 
     return combined;
   }

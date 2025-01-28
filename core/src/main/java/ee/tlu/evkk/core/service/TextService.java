@@ -65,7 +65,10 @@ public class TextService {
 
     StringBuilder result = new StringBuilder();
     for (List<UUID> batch : batches) {
-      result.append(resourceFunction.apply(batch)).append(" ");
+      String resource = resourceFunction.apply(batch);
+      if (isNotBlank(resource)) {
+        result.append(resourceFunction.apply(batch)).append(" ");
+      }
     }
     return result.toString().trim();
   }
