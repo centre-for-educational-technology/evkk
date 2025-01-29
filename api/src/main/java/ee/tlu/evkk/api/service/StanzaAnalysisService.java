@@ -49,7 +49,6 @@ public class StanzaAnalysisService {
   private final StanzaServerClient stanzaServerClient;
 
   private static final ObjectMapper objectMapper = new ObjectMapper();
-  // todo text processor is bugged
 
   public List<String> getSonad(WordlistRequestDto dto) {
     return combineStringResponses(
