@@ -1,27 +1,27 @@
 export const theses = [
   {
     content: 'Hindremäe, C.-E. (2024). <i>Kirjavahemärgivigade sünteesimine eesti keele grammatikakontrolliks</i> [Bakalaureusetöö, Tallinna Ülikool].',
-    href: 'https://www.etera.ee/s/cODPYkLKdo'
+    href: 'https://www.etera.ee/s/rmph2HlEUS'
   },
   {
     content: 'Kamarik, T. (2024). <i>Eestikeelse teksti automaathindaja kasutajaliidese arendus</i> [Bakalaureusetöö, Tallinna Ülikool].',
-    href: 'https://www.etera.ee/s/QQ7lykVMte'
+    href: 'https://www.etera.ee/s/lz5TSS3Sns'
   },
   {
     content: 'Kukke, R. (2024). <i>Uus silbitamise lahendus ELLE tööriistade jaoks</i> [Bakalaureusetöö, Tallinna Ülikool].',
-    href: 'https://www.etera.ee/s/LCem9wCAUw'
+    href: 'https://www.etera.ee/s/re6m1UfrsT'
   },
   {
     content: 'Käpa, K. (2024). <i>Tekstiandmete visualiseerimine ELLE keeleõppekeskkonnas</i> [Bakalaureusetöö, Tallinna Ülikool].',
-    href: 'https://www.etera.ee/s/WwHlBvAtux'
+    href: 'https://www.etera.ee/s/pIYyaaRRFk'
   },
   {
     content: 'Niineorg, R. R. (2024). <i>Keeleoskustasemete statistika ELLE keeleõppekeskkonnas</i> [Bakalaureusetöö, Tallinna Ülikool].',
-    href: 'https://www.etera.ee/s/DqVSQrqPhO'
+    href: 'https://www.etera.ee/s/TpROurQS0o'
   },
   {
     content: 'Rünk, M. (2024). <i>Veaanalüsaator – veanäidete kuvamise rakendus ELLE keeleõppekeskkonnas</i> [Bakalaureusetöö, Tallinna Ülikool].',
-    href: 'https://www.etera.ee/s/T7ALLhjp1K'
+    href: 'https://www.etera.ee/s/lqCUentQJO'
   },
   {
     content: 'Kodasma, H. (2023). <i>Sõnade sageduse, konteksti ja naabersõnade otsing ELLE keeleõppekeskkonnas</i> [Bakalaureusetöö, Tallinna Ülikool].',
@@ -104,17 +104,14 @@ export const conferences_workshops = [
     href: 'https://ehak.ee/paneelid/#h-10'
   },
   {
-    content: 'Eslon, P. (2023). Eestikeelsete akadeemiliste tekstide korpus. <i>IX mitmeteaduslik eesti teaduskeele konverents, 24. november 2023, Tallinn.</i><br/>\n' +
-      '                               <a href="https://www.youtube.com/watch?v=Y5NTJuN072E"\n' +
-      '                                 target="_blank"\n' +
-      '                                 rel="noopener noreferrer">Video</a>',
+    content: 'Eslon, P. (2023). Eestikeelsete akadeemiliste tekstide korpus. <i>IX mitmeteaduslik eesti teaduskeele konverents, 24. november 2023, Tallinn.</i>',
     href: 'https://www.youtube.com/watch?v=Y5NTJuN072E'
   },
   {
     content: 'Allkivi-Metsoja, K.; Liin, K.; Kert, K.; Maine, S. (2023). Veamärgendusega korpus grammatikakontrollija arenduseks ja testimiseks. <i>20. rakenduslingvistika konverents KEEL JA KEELEKASUTAJAD, 27.−28. aprill 2023, Tallinn.</i> Eesti Rakenduslingvistika Ühing, 11−12.<br/>\n' +
       '                               <a href="https://www.youtube.com/watch?v=0j063ihI9EE"\n' +
       '                                 target="_blank"\n' +
-      '                                 rel="noopener noreferrer">Video</a>\n' +
+      '                                 rel="noopener noreferrer">Video</a><br/>\n' +
       '                               <a href="https://www.rakenduslingvistika.ee/wp-content/uploads/2023/05/02_Allkivi-Metsoja_jt_Veamargendusega_korpus_grammatikakontrollija.pdf"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Slaidid</a>',
@@ -124,7 +121,7 @@ export const conferences_workshops = [
     content: 'Eslon, P.; Kippar, J. (2023). Keelekasutusmustrid & kontekstid. <i>20. rakenduslingvistika konverents KEEL JA KEELEKASUTAJAD, 27.−28. aprill 2023, Tallinn.</i> Eesti Rakenduslingvistika Ühing, 12−13.<br/>\n' +
       '                               <a href="https://www.youtube.com/watch?v=DbP9ivIYrVY"\n' +
       '                                 target="_blank"\n' +
-      '                                 rel="noopener noreferrer">Video</a>\n' +
+      '                                 rel="noopener noreferrer">Video</a><br/>\n' +
       '                               <a href="https://www.rakenduslingvistika.ee/wp-content/uploads/2023/05/03_Eslon_Kippar_Keelekasutusmustrid_kontekstid1.pdf"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Slaidid</a>',
@@ -134,7 +131,7 @@ export const conferences_workshops = [
     content: 'Luhtaru, A.; Fišel, M.; Liin, K.; Allkivi-Metsoja, K.; Kippar, J. (2023). Eesti keele õigekirja- ja grammatikakontroll: mudelite võrdlus ja kombineerimine. <i>20. rakenduslingvistika konverents KEEL JA KEELEKASUTAJAD, 27.−28. aprill 2023, Tallinn.</i> Eesti Rakenduslingvistika Ühing, 16−18.<br/>\n' +
       '                               <a href="https://www.youtube.com/watch?v=-cYqnaIooRQ"\n' +
       '                                 target="_blank"\n' +
-      '                                 rel="noopener noreferrer">Video</a>\n' +
+      '                                 rel="noopener noreferrer">Video</a><br/>\n' +
       '                               <a href="https://www.rakenduslingvistika.ee/wp-content/uploads/2023/05/05_Luhtaru_Allkivi-Metsoja_Eesti_keele_oigekirja-grammatikakontroll.pdf"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Slaidid</a>',
@@ -152,10 +149,7 @@ export const conferences_workshops = [
     href: 'https://dh.org.ee/events/dhe2022/abstracts/workshops-2022/kippar-kodasma-norak-allkivi-metsoja/'
   },
   {
-    content: 'Allkivi-Metsoja, K. (2022). Towards Interpretable Models for Text Classification: The case of Automated Writing Assessment. <i>2nd International Conference \'Language in the Human-Machine Era\', June 30−July 1, 2022, Jyväskylä.</i><br/>\n' +
-      '                               <a href="https://m3.jyu.fi/jyumv/ohjelmat/hum/kivi/lithme/2nd-international-conference-language-in-the-human-machine-era/thursday-b348-part-4/view"\n' +
-      '                                 target="_blank"\n' +
-      '                                 rel="noopener noreferrer">Video</a> (salasõna "LITHME-wac")',
+    content: 'Allkivi-Metsoja, K. (2022). Towards Interpretable Models for Text Classification: The case of Automated Writing Assessment. <i>2nd International Conference \'Language in the Human-Machine Era\', June 30−July 1, 2022, Jyväskylä.</i><br/><b>Video salasõna "LITHME-wac"</b>',
     href: 'https://m3.jyu.fi/jyumv/ohjelmat/hum/kivi/lithme/2nd-international-conference-language-in-the-human-machine-era/thursday-b348-part-4/view'
   },
   {
@@ -256,8 +250,7 @@ export const publications = [
 
 export const grants = [
   {
-    content: 'TF824 Automaathindamise võimalikkusest põhikooli ja gümnaasiumi lõpueksami kirjutamisülesande näitel (2024–2025, koostöös humanitaarteaduste instituudiga)
-',
+    content: 'TF824 Automaathindamise võimalikkusest põhikooli ja gümnaasiumi lõpueksami kirjutamisülesande näitel (2024–2025, koostöös humanitaarteaduste instituudiga)',
     href: 'https://www.etis.ee/Portal/Projects/Display/bbb6254b-5f9b-4978-a6fd-f5a42cfabaa5 '
   },
   {
