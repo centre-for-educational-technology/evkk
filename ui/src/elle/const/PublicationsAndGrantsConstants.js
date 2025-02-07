@@ -1,5 +1,29 @@
 export const theses = [
   {
+    content: 'Hindremäe, C.-E. (2024). <i>Kirjavahemärgivigade sünteesimine eesti keele grammatikakontrolliks</i> [Bakalaureusetöö, Tallinna Ülikool].',
+    href: 'https://www.etera.ee/s/rmph2HlEUS'
+  },
+  {
+    content: 'Kamarik, T. (2024). <i>Eestikeelse teksti automaathindaja kasutajaliidese arendus</i> [Bakalaureusetöö, Tallinna Ülikool].',
+    href: 'https://www.etera.ee/s/lz5TSS3Sns'
+  },
+  {
+    content: 'Kukke, R. (2024). <i>Uus silbitamise lahendus ELLE tööriistade jaoks</i> [Bakalaureusetöö, Tallinna Ülikool].',
+    href: 'https://www.etera.ee/s/re6m1UfrsT'
+  },
+  {
+    content: 'Käpa, K. (2024). <i>Tekstiandmete visualiseerimine ELLE keeleõppekeskkonnas</i> [Bakalaureusetöö, Tallinna Ülikool].',
+    href: 'https://www.etera.ee/s/pIYyaaRRFk'
+  },
+  {
+    content: 'Niineorg, R. R. (2024). <i>Keeleoskustasemete statistika ELLE keeleõppekeskkonnas</i> [Bakalaureusetöö, Tallinna Ülikool].',
+    href: 'https://www.etera.ee/s/TpROurQS0o'
+  },
+  {
+    content: 'Rünk, M. (2024). <i>Veaanalüsaator – veanäidete kuvamise rakendus ELLE keeleõppekeskkonnas</i> [Bakalaureusetöö, Tallinna Ülikool].',
+    href: 'https://www.etera.ee/s/lqCUentQJO'
+  },
+  {
     content: 'Kodasma, H. (2023). <i>Sõnade sageduse, konteksti ja naabersõnade otsing ELLE keeleõppekeskkonnas</i> [Bakalaureusetöö, Tallinna Ülikool].',
     href: 'https://www.etera.ee/s/eZ7hVnZNWx'
   },
@@ -55,78 +79,93 @@ export const theses = [
 
 export const conferences_workshops = [
   {
-    content: 'Allkivi-Metsoja, K.; Liin, K.; Kert, K.; Maine, S. (2023). Veamärgendusega korpus grammatikakontrollija arenduseks ja testimiseks. <i>20. rakenduslingvistika kevadkonverents KEEL JA KEELEKASUTAJAD, 27.-28. aprill 2023, Tallinn.</i> Eesti Rakenduslingvistika Ühing, 11-12.<br/>\n' +
+    content: 'Allkivi-Metsoja, K.; Kamarik, T.; Kert, K.; Maine, S. (2024). ELLE text evaluator – a corpus-based tool for learning and teaching Estonian. <i>Book of abstracts. Learner Corpus Research, September 26-28, 2024, Tartu.</i> University of Tartu, 11.<br/>\n' +
+      '                               <a href="https://drive.google.com/file/d/14bwxK5IdnsZPJMmj_NKzMJHBh5C8WTDi/view?usp=sharing"\n' +
+      '                                 target="_blank"\n' +
+      '                                 rel="noopener noreferrer">Slaidid</a>',
+    href: 'https://sisu.ut.ee/wp-content/uploads/sites/652/LCR2024_Book-of-abstracts_24.09.2024.pdf'
+  },
+  {
+    content: 'Allkivi-Metsoja, K.; Eslon, P.; Kamarik, T.; Kert, K.; Kippar, J.; Kodasma, H.; Maine, S.; Norak, K. (2024). ELLE – Estonian Language Learning and Analysis Environment. <i>The Baltic Digital Humanities Forum, April 25-26, 2024, Riga.</i>',
+    href: 'https://drive.google.com/file/d/102XcC9BwqHMo6y3i7wPik_2JNo0wxDTP/view'
+  },
+  {
+    content: 'Allkivi-Metsoja, K. (2024). Keeleoskustasemete statistiline mudeldamine: eesti keele õppijate A2–C1-taseme loovkirjutiste lingvistilised tunnused. <i>1. Eesti humanitaarteaduste aastakonverents, 10.–12. aprill 2024, Tallinn.</i> Tallinna Ülikool.<br/>\n' +
+      '                               <a href="https://drive.google.com/file/d/1RtFLWcPE2ViyKJTE4onSMKEMzFDCt87W/view?usp=sharing"\n' +
+      '                                 target="_blank"\n' +
+      '                                 rel="noopener noreferrer">Slaidid</a>',
+    href: 'https://ehak.ee/paneelid/#h-7'
+  },
+  {
+    content: 'Allkivi, K.; Kodasma, H. (2024). Korpuspõhine keeleõppekeskkond: kellele ja milleks? <i>1. Eesti humanitaarteaduste aastakonverents, 10.–12. aprill 2024, Tallinn.</i> Tallinna Ülikool.<br/>\n' +
+      '                               <a href="https://drive.google.com/file/d/1XEVKoLCOXVqZSLYZWRfIbaQTP03h3LL4/view?usp=sharing"\n' +
+      '                                 target="_blank"\n' +
+      '                                 rel="noopener noreferrer">Slaidid</a>',
+    href: 'https://ehak.ee/paneelid/#h-10'
+  },
+  {
+    content: 'Eslon, P. (2023). Eestikeelsete akadeemiliste tekstide korpus. <i>IX mitmeteaduslik eesti teaduskeele konverents, 24. november 2023, Tallinn.</i>',
+    href: 'https://www.youtube.com/watch?v=Y5NTJuN072E'
+  },
+  {
+    content: 'Allkivi-Metsoja, K.; Liin, K.; Kert, K.; Maine, S. (2023). Veamärgendusega korpus grammatikakontrollija arenduseks ja testimiseks. <i>20. rakenduslingvistika konverents KEEL JA KEELEKASUTAJAD, 27.−28. aprill 2023, Tallinn.</i> Eesti Rakenduslingvistika Ühing, 11−12.<br/>\n' +
       '                               <a href="https://www.youtube.com/watch?v=0j063ihI9EE"\n' +
       '                                 target="_blank"\n' +
-      '                                 rel="noopener noreferrer">Video</a>\n' +
+      '                                 rel="noopener noreferrer">Video</a><br/>\n' +
       '                               <a href="https://www.rakenduslingvistika.ee/wp-content/uploads/2023/05/02_Allkivi-Metsoja_jt_Veamargendusega_korpus_grammatikakontrollija.pdf"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Slaidid</a>',
     href: 'https://www.rakenduslingvistika.ee/wp-content/uploads/2023/04/ERY2023-teesid.pdf'
   },
   {
-    content: 'Eslon, P.; Kippar, J. (2023). Keelekasutusmustrid & kontekstid. <i>20. rakenduslingvistika kevadkonverents KEEL JA KEELEKASUTAJAD, 27.-28. aprill 2023, Tallinn.</i> Eesti Rakenduslingvistika Ühing, 12-13.<br/>\n' +
+    content: 'Eslon, P.; Kippar, J. (2023). Keelekasutusmustrid & kontekstid. <i>20. rakenduslingvistika konverents KEEL JA KEELEKASUTAJAD, 27.−28. aprill 2023, Tallinn.</i> Eesti Rakenduslingvistika Ühing, 12−13.<br/>\n' +
       '                               <a href="https://www.youtube.com/watch?v=DbP9ivIYrVY"\n' +
       '                                 target="_blank"\n' +
-      '                                 rel="noopener noreferrer">Video</a>\n' +
+      '                                 rel="noopener noreferrer">Video</a><br/>\n' +
       '                               <a href="https://www.rakenduslingvistika.ee/wp-content/uploads/2023/05/03_Eslon_Kippar_Keelekasutusmustrid_kontekstid1.pdf"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Slaidid</a>',
     href: 'https://www.rakenduslingvistika.ee/wp-content/uploads/2023/04/ERY2023-teesid.pdf'
   },
   {
-    content: 'Luhtaru, A.; Fišel, M.; Liin, K.; Allkivi-Metsoja, K.; Kippar, J. (2023). Eesti keele õigekirja- ja grammatikakontroll: mudelite võrdlus ja kombineerimine. <i>20. rakenduslingvistika kevadkonverents KEEL JA KEELEKASUTAJAD, 27.-28. aprill 2023, Tallinn.</i> Eesti Rakenduslingvistika Ühing, 16-18.<br/>\n' +
+    content: 'Luhtaru, A.; Fišel, M.; Liin, K.; Allkivi-Metsoja, K.; Kippar, J. (2023). Eesti keele õigekirja- ja grammatikakontroll: mudelite võrdlus ja kombineerimine. <i>20. rakenduslingvistika konverents KEEL JA KEELEKASUTAJAD, 27.−28. aprill 2023, Tallinn.</i> Eesti Rakenduslingvistika Ühing, 16−18.<br/>\n' +
       '                               <a href="https://www.youtube.com/watch?v=-cYqnaIooRQ"\n' +
       '                                 target="_blank"\n' +
-      '                                 rel="noopener noreferrer">Video</a>\n' +
+      '                                 rel="noopener noreferrer">Video</a><br/>\n' +
       '                               <a href="https://www.rakenduslingvistika.ee/wp-content/uploads/2023/05/05_Luhtaru_Allkivi-Metsoja_Eesti_keele_oigekirja-grammatikakontroll.pdf"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Slaidid</a>',
     href: 'https://www.rakenduslingvistika.ee/wp-content/uploads/2023/04/ERY2023-teesid.pdf'
   },
   {
-    content: 'Allkivi-Metsoja, K. (2022). Towards Interpretable Models for Text Classification: The case of Automated Writing Assessment. <i>2nd International Conference \'Language in the Human-Machine Era\', June 30-July 1, 2022, Jyväskylä.</i><br/>\n' +
-      '                               <a href="https://m3.jyu.fi/jyumv/ohjelmat/hum/kivi/lithme/2nd-international-conference-language-in-the-human-machine-era/thursday-b348-part-4/view"\n' +
-      '                                 target="_blank"\n' +
-      '                                 rel="noopener noreferrer">Video</a> (salasõna "LITHME-wac")',
-    href: ''
-  },
-  {
-    content: 'Allkivi-Metsoja, K.; Norak, K.; Kert, K.; Maine, S.; Eslon, P. (2022). Error Classification and Annotation of Learner Language for Developing Estonian Grammar Correction. <i>Shifts in language and culture: computational approaches to variation and change: 8th Estonian Digital Humanities Conference, October 5-7, 2022, Tallinn University.</i><br/>\n' +
-      '                               <a href="https://dh.org.ee/wp-content/uploads/sites/3/2022/10/Allkivi_Metsoja_et_al_slides_DH2022.pdf"\n' +
+    content: 'Allkivi-Metsoja, K.; Norak, K.; Kert, K.; Maine, S.; Eslon, P. (2022). Error Classification and Annotation of Learner Language for Developing Estonian Grammar Correction. <i>Shifts in language and culture: computational approaches to variation and change: 8th Estonian Digital Humanities Conference, October 5−7, 2022, Tallinn University.</i><br/>\n' +
+      '                               <a href="https://drive.google.com/file/d/1sNlcxysTRk8RzaFxm6ym82T4HcCYBaja/view?usp=sharing"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Slaidid</a>',
     href: 'https://dh.org.ee/events/dhe2022/abstracts/presentations/allkivi-metsoja-norak-kert-maine-eslon/'
   },
   {
-    content: 'Kippar, J.; Kodasma, H.; Norak, K.; Allkivi-Metsoja, K. (2022). Word Analyser: A Tool for Estonian Language Learning and Text Analysis. <i>Shifts in language and culture: computational approaches to variation and change: 8th Estonian Digital Humanities Conference, October 5-7, 2022, Tallinn University.</i>',
+    content: 'Kippar, J.; Kodasma, H.; Norak, K.; Allkivi-Metsoja, K. (2022). Word Analyser: A Tool for Estonian Language Learning and Text Analysis. <i>Shifts in language and culture: computational approaches to variation and change: 8th Estonian Digital Humanities Conference, October 5−7, 2022, Tallinn University.</i>',
     href: 'https://dh.org.ee/events/dhe2022/abstracts/workshops-2022/kippar-kodasma-norak-allkivi-metsoja/'
   },
   {
-    content: 'Mõtus, M.; Allkivi-Metsoja, K. (2022). Vigaste ja korrektsete lausete paralleelkorpuse loomine edasi-tagasi masintõlke abil. <i>19. rakenduslingvistika kevadkonverents KEELE MÕJU: ANDMETEST TÕENDATUD TEADMUSENI, 16.-17. juuni 2022, Tallinn.</i> Eesti Rakenduslingvistika Ühing, 11.<br/>\n' +
-      '                               <a href="https://www.rakenduslingvistika.ee/wp-content/uploads/2022/07/Martin-Motus_Kais-Allkivi_Metsoja_masintolke_paralleelkorpus.pdf"\n' +
-      '                                 target="_blank"\n' +
-      '                                 rel="noopener noreferrer">Slaidid</a>',
-    href: 'https://www.rakenduslingvistika.ee/wp-content/uploads/2022/06/Teesid-2022.pdf'
+    content: 'Allkivi-Metsoja, K. (2022). Towards Interpretable Models for Text Classification: The case of Automated Writing Assessment. <i>2nd International Conference \'Language in the Human-Machine Era\', June 30−July 1, 2022, Jyväskylä.</i><br/><b>Video salasõna "LITHME-wac"</b>',
+    href: 'https://m3.jyu.fi/jyumv/ohjelmat/hum/kivi/lithme/2nd-international-conference-language-in-the-human-machine-era/thursday-b348-part-4/view'
   },
   {
     content: 'Allkivi-Metsoja, K.; Norak, K. (2021). Part-of-Speech tagging and lemmatization of Estonian learner language. <i>Online workshop on Parts of Speech "Quantitative answers to qualitative questions? The challenge of ambiguity in corpus data", 18. mai 2021.</i> EKI, 3.<br/>\n' +
       '                              <a href="https://www.youtube.com/playlist?list=PLfDCKnTgUT4GJffKuCxqW8lc3lwSGxOD1"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Video</a>',
-    href: 'https://portaal.eki.ee/component/content/article/101-projektid/3506-abstracts.pdf'
+    href: 'https://eki.ee/workshop-on-parts-of-speech/'
   },
   {
-    content: 'Allkivi-Metsoja, K.; Eslon, P. (2019). Estonian interlanguage corpus and automated assessment of proficiency in learner texts. <i>The 4th international conference Thinking, doing, learning: Usage based perspectives on second language learning. University of Jyväskylä, Finland, June 17–19, 2019.</i> Abstract Book, 63.',
-    href: 'https://www.jyu.fi/en/congress/tdl2019/tdl2019_book-of-abstracts_final.pdf'
+    content: 'Allkivi-Metsoja, K.; Eslon, P. (2019). Estonian interlanguage corpus and automated assessment of proficiency in learner texts. <i>The 4th international conference Thinking, doing, learning: Usage based perspectives on second language learning. University of Jyväskylä, Finland, June 17−19, 2019.</i> Abstract Book, 63.',
+    href: 'https://www.academia.edu/108453212/The_4th_international_conference_Thinking_doing_learning_Usage_based_perspectives_on_second_language_learning'
   },
   {
-    content: 'Allkivi-Metsoja, K. (2019). Keeleoskustasemed: funktsionaalsest kirjeldusest lingvistilise mudelini. <i>18. rakenduslingvistika kevadkonverents EESTI KEELE AASTA: RAKENDUSLINGVISTIKA VAATENURK, 25.-26. aprill 2019, Tallinn.</i> Eesti Rakenduslingvistika Ühing, 7.',
+    content: 'Allkivi-Metsoja, K. (2019). Keeleoskustasemed: funktsionaalsest kirjeldusest lingvistilise mudelini. <i>18. rakenduslingvistika kevadkonverents EESTI KEELE AASTA: RAKENDUSLINGVISTIKA VAATENURK, 25.−26. aprill 2019, Tallinn.</i> Eesti Rakenduslingvistika Ühing, 7.',
     href: 'https://www.rakenduslingvistika.ee/wp-content/uploads/2019/04/Teesid-2019-6.pdf'
-  },
-  {
-    content: 'Eslon, P.; Allkivi, K.; Trainis, J. (2017). Mis saab teooriast? Mõtteid lingvistilise klasteranalüüsi näitel. Klavan, Jane; Piiroja, Piret; Veismann, Ann. (Toim.) <i>Kvantitatiivne pööre keeleteaduses – mis saab teooriast?: V konverents sarjas "Teoreetiline keeleteadus Eestis". Tartu.</i> Tartu Ülikool, 13.',
-    href: 'https://teoreetilinekeeleteadus.ut.ee/wp-content/uploads/2017/11/Eslon-jt.pdf'
   },
   {
     content: 'Allkivi, K.; Eslon, P.; Trainis, J. (2017). Kontseptuaalselt sidusa mõistevara kujunemine: klasteranalüüs. 28−29. <i>Keel kui ökosüsteem. 16. rakenduslingvistika kevadkonverents 20.-21. aprill 2017, Tallinn.</i> Eesti Rakenduslingvistika Ühing, 28−29.',
@@ -134,11 +173,19 @@ export const conferences_workshops = [
   },
   {
     content: 'Allkivi, K. (2016). Verbist paremal ja vasakul paiknev kontekst C1-tasemega eesti keele õppijate ja emakeelekõnelejate kirjutistes. <i>XII muutuva keele päev. Ettekannete teesid. Tartu.</i> Tartu Ülikool, 18−19.',
-    href: 'http://www.keel.ut.ee/sites/default/files/www_ut/mkp_2016_teesid.pdf'
+    href: 'https://kimovar.ut.ee/wp-content/uploads/2016/10/MKP_2016_teesid.pdf'
   }
 ];
 
 export const publications = [
+  {
+    content: 'Allkivi, K.; Eslon, P.; Kamarik, T.; Kert, K.; Kippar, J.; Kodasma, H.; Maine, S.; Norak, K. (2024). ELLE – Estonian Language Learning and Analysis Environment. <i>Baltic Journal of Modern Computing</i>, 12(4), 560−569. DOI: 10.22364/bjmc.2024.12.4.17.',
+    href: 'https://doi.org/10.22364/bjmc.2024.12.4.17'
+  },
+  {
+    content: 'Allkivi-Metsoja, K.; Eslon, P.; Kippar, J. (2024). Keelekasutusreeglite tuletamine ja veatuvastus määrsõna sisaldavate sõnaliigijärjendite näitel. <i>Emakeele Seltsi aastaraamat</i>, 69, 9−34. DOI: 10.3176/esa69.01.',
+    href: 'http://dx.doi.org/10.3176/esa69.01'
+  },
   {
     content: 'Allkivi-Metsoja, K.; Kippar, J. (2023). Spelling Correction for Estonian Learner Language. <i>Proceedings of the 24th Nordic Conference on Computational Linguistics.</i> ACL Anthology, 782–788.',
     href: 'https://aclanthology.org/2023.nodalida-1.79/'
@@ -202,6 +249,14 @@ export const publications = [
 ];
 
 export const grants = [
+  {
+    content: 'TF824 Automaathindamise võimalikkusest põhikooli ja gümnaasiumi lõpueksami kirjutamisülesande näitel (2024–2025, koostöös humanitaarteaduste instituudiga)',
+    href: 'https://www.etis.ee/Portal/Projects/Display/bbb6254b-5f9b-4978-a6fd-f5a42cfabaa5 '
+  },
+  {
+    content: 'TKA24162A (hange 276704) Eesti keele kui teise keele automaatkorrektor õppijale ja õpetajale (2024–2025, koostöös Tartu Ülikooliga)',
+    href: 'https://www.etis.ee/Portal/Projects/Display/65e3ff07-8ed2-468f-aa5a-11f70899b02a'
+  },
   {
     content: 'TF1023 ELLE keeleõppekeskkonna tekstianalüüsi vahendite täiustamine (2023–2024)',
     href: 'https://www.etis.ee/Portal/Projects/Display/6f1a2704-5257-4bab-84ec-9ffa396dc18c'
