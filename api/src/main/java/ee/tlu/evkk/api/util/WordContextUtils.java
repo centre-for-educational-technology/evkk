@@ -20,7 +20,7 @@ public class WordContextUtils {
       ? words
       : words.stream().map(word -> {
         word.setWord(
-          word.getWord().toLowerCase()
+          word.getWord() == null ? "-" : word.getWord().toLowerCase()
         );
         return word;
       }).collect(toList());
@@ -36,7 +36,7 @@ public class WordContextUtils {
     return lemmas.stream()
       .map(lemma -> {
         lemma.setWord(
-          lemma.getWord()
+          lemma.getWord() == null ? "–" : lemma.getWord()
             .replace("_", "")
             .replace("=", "")
         );
