@@ -160,3 +160,8 @@ UPDATE core.text_property
 SET property_value = 'B1'
 WHERE property_name = 'keeletase'
   AND text_id = 'daa14bca-d727-44f3-a0b8-c57005d12a3f';
+
+-- create unique constraint on text hash
+
+ALTER TABLE core.text
+  ADD CONSTRAINT text_hash_unique UNIQUE (hash);
