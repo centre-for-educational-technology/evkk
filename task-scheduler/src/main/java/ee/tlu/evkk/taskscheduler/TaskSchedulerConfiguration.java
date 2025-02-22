@@ -32,8 +32,8 @@ public class TaskSchedulerConfiguration {
   private final Properties properties;
   private final TextProcessingTask textProcessingTask;
 
-  private static final Long FIXED_DELAY = 30000L; // 30 seconds
-  private static final Long INITIAL_DELAY = 300000L; // 5 minutes
+  private static final long FIXED_DELAY = 30000L; // 30 seconds
+  private static final long INITIAL_DELAY = 300000L; // 5 minutes
 
   @Scheduled(fixedDelay = FIXED_DELAY, initialDelay = INITIAL_DELAY)
   public void processTexts() {
