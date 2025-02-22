@@ -1,12 +1,10 @@
 package ee.tlu.evkk.api.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ee.evkk.dto.WordAnalyserRequestDto;
 import ee.evkk.dto.WordContextRequestDto;
 import ee.evkk.dto.WordlistRequestDto;
-import ee.tlu.evkk.api.exception.StanzaAnalysisSerializationException;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.service.TextService;
 import ee.tlu.evkk.dal.dao.TextDao;
@@ -205,8 +203,8 @@ public class StanzaAnalysisService {
         List<StanzaResponseDto> responseList = objectMapper.readValue(json, new TypeReference<>() {});
         missingUUIDs.addAll(findMissingUUIDs(responseList, batch));
         results.addAll(responseList);
-      } catch (JsonProcessingException e) {
-        throw new StanzaAnalysisSerializationException(e);
+      } catch (Exception e) {
+        missingUUIDs.addAll(batch);
       }
     }
 
