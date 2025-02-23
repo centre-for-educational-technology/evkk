@@ -6,6 +6,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useTranslation } from 'react-i18next';
 import { HashFragmentRouteConstants, RouteConstants } from '../../AppRoutes';
+import './styles/AboutUs.css';
 
 function AboutUs() {
   const { t } = useTranslation();
@@ -44,34 +45,13 @@ function AboutUs() {
   }, [location]);
 
   return (
-    <Box sx={{
-      height: 'auto',
-      position: 'center',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'column',
-      paddingBottom: '100px'
-    }}>
-      <Box sx={{
-        display: 'flex',
-        backgroundColor: 'white',
-        width: '80vw',
-        height: 'auto'
-      }}>
-        <Box sx={{ position: 'sticky', height: '100%', width: '25%', marginTop: '110px', top: '50px' }}>
-          <Box sx={{
-            width: '100%',
-            height: 'auto',
-            marginLeft: '20px',
-            borderRight: 'solid',
-            borderColor: '#FFD0FD',
-            marginBottom: '100px',
-            borderWidth: 'thin'
-          }}>
+    <Box className="global-page-content-container">
+      <Box className="about-us-container-inner global-page-content-container-inner">
+        <Box className="about-us-container-menu">
+          <Box className="about-us-container-menu-inner">
             <TreeView
-              defaultCollapseIcon={<ExpandMoreIcon style={{ paddingTop: '12px', fontSize: '2rem' }} />}
-              defaultExpandIcon={<ChevronRightIcon style={{ paddingTop: '12px', fontSize: '2rem' }} />}
+              defaultCollapseIcon={<ExpandMoreIcon className="about-us-menu-tree-icon" />}
+              defaultExpandIcon={<ChevronRightIcon className="about-us-menu-tree-icon" />}
               sx={{
                 height: 280, flexGrow: 1, maxWidth: 400, overflowY: 'auto', '.MuiTreeItem-root': {
                   '	.MuiTreeItem-content:hover': classes.hover,
@@ -84,10 +64,7 @@ function AboutUs() {
               <TreeItem
                 nodeId={'1'}
                 label={
-                  <Typography
-                    fontSize={'1rem'}
-                    marginTop={'10px'}
-                  >
+                  <Typography className="about-us-menu-item">
                     <MenuLink
                       to={RouteConstants.US}
                       key={'1'}
@@ -101,10 +78,7 @@ function AboutUs() {
               <TreeItem
                 nodeId={'2'}
                 label={
-                  <Typography
-                    fontSize={'1rem'}
-                    marginTop={'10px'}
-                  >
+                  <Typography className="about-us-menu-item">
                     <MenuLink
                       to={RouteConstants.PEOPLE}
                       key={'2'}
@@ -118,10 +92,7 @@ function AboutUs() {
               <TreeItem
                 nodeId={'3'}
                 label={
-                  <Typography
-                    fontSize={'1rem'}
-                    marginTop={'10px'}
-                  >
+                  <Typography className="about-us-menu-item">
                     <MenuLink
                       to={RouteConstants.GRANTS}
                       key={'3'}
@@ -135,24 +106,7 @@ function AboutUs() {
               <TreeItem
                 nodeId={'4'}
                 label={
-                  <Typography
-                    style={{
-                      fontWeight: 600,
-                      fontSize: 16,
-                      color: '#1B1B1B',
-                      textDecoration: 'none',
-                      fontFamily: ['\'Exo 2\'', 'sans-serif'].join(','),
-                      '&:hover': {
-                        color: '#9C27B0',
-                        textDecoration: 'none'
-                      },
-                      '&.active': {
-                        color: '#9C27B0',
-                        textDecoration: 'none'
-                      }
-                    }}
-                    marginTop={'10px'}
-                  >
+                  <Typography className="about-us-menu-item">
                     <MenuLink
                       to={RouteConstants.PUBLICATIONS}
                       key={'4'}
@@ -166,10 +120,7 @@ function AboutUs() {
                 <TreeItem
                   nodeId={'5'}
                   label={
-                    <Typography
-                      fontSize={'1rem'}
-                      marginTop={'10px'}
-                    >
+                    <Typography className="about-us-menu-item">
                       <MenuLink
                         to={`${RouteConstants.PUBLICATIONS}#${HashFragmentRouteConstants.PUBLICATIONS_GRADUATION_PAPERS}`}
                       >
@@ -182,10 +133,7 @@ function AboutUs() {
                 <TreeItem
                   nodeId={'6'}
                   label={
-                    <Typography
-                      fontSize={'1rem'}
-                      marginTop={'10px'}
-                    >
+                    <Typography className="about-us-menu-item">
                       <MenuLink
                         to={`${RouteConstants.PUBLICATIONS}#${HashFragmentRouteConstants.PUBLICATIONS_CONFERENCES_AND_WORKSHOPS}`}
                       >
@@ -198,10 +146,7 @@ function AboutUs() {
                 <TreeItem
                   nodeId={'7'}
                   label={
-                    <Typography
-                      fontSize={'1rem'}
-                      marginTop={'10px'}
-                    >
+                    <Typography className="about-us-menu-item">
                       <MenuLink
                         to={`${RouteConstants.PUBLICATIONS}#${HashFragmentRouteConstants.PUBLICATIONS_ARTICLES}`}
                       >
@@ -215,14 +160,7 @@ function AboutUs() {
             </TreeView>
           </Box>
         </Box>
-        <Box sx={{
-          width: '75%',
-          height: 'auto',
-          marginTop: '70px',
-          marginLeft: '50px',
-          marginBottom: '100px',
-          overflow: 'auto'
-        }}>
+        <Box className="about-us-container-content">
           <Outlet />
         </Box>
       </Box>

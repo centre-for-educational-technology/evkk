@@ -37,10 +37,7 @@ export default function AppRoutes() {
     <Container
       disableGutters
       maxWidth={false}
-      sx={{
-        width: '80vw',
-        marginTop: '20px'
-      }}
+      className="global-page-container"
     >
       <BreadcrumbLinks />
       <Routes>

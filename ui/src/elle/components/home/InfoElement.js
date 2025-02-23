@@ -3,7 +3,6 @@ import '../styles/InfoElement.css';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import InfoElementTabCard from './InfoElementTabCard';
-import { ElleOuterDivStyle } from '../../const/StyleConstants';
 import i18n from 'i18next';
 import wordlistImgEt from '../../resources/images/home/sonaloend_et.png';
 import wordlistImgEn from '../../resources/images/home/sonaloend_en.png';
@@ -61,8 +60,7 @@ export default function InfoElement() {
 
   return (
     <Box id="elle-tools"
-         sx={ElleOuterDivStyle}
-         className="info-element-container"
+         className="info-element-container global-page-content-container"
          onMouseLeave={() => setInfoOpacity(0)}
     >
       <Box className="info-element-inner">

@@ -1,10 +1,7 @@
-.add-container {
-  padding-right: 50px;
-  padding-left: 50px;
+.adding-container-inner {
+  padding: 0 50px 0 50px !important;
   width: 100%;
   max-width: 100%;
-  background-color: white;
-  border-radius: 45px;
 }
 
 .form-control {
@@ -12,18 +9,6 @@
   margin-top: 20px !important;
   min-width: 240px;
   max-width: 270px;
-}
-
-.adding-rounded-corners {
-  border-radius: 50px;
-  margin-bottom: 100px;
-}
-
-.elle-outer-border {
-  padding: 7px;
-  background: linear-gradient(315deg, rgba(156, 39, 176, 1) 0%, rgba(156, 39, 176, 1) 33%, rgba(204, 168, 253, 1) 33%, rgba(204, 168, 253, 1) 67%, rgba(255, 208, 253, 1) 67%, rgba(255, 208, 253, 1) 100%);
-  border-radius: 50px;
-  margin-bottom: 100px;
 }
 
 .adding-title-text {

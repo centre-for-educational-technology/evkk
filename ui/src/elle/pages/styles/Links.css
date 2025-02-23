@@ -1,24 +1,13 @@
-.links-container {
-  height: auto;
-  display: flex;
-  align-items: center;
-  background: fixed linear-gradient(315deg, rgba(156, 39, 176, 1) 0%, rgba(156, 39, 176, 1) 33%, rgba(204, 168, 253, 1) 33%, rgba(204, 168, 253, 1) 67%, rgba(255, 208, 253, 1) 67%, rgba(255, 208, 253, 1) 100%);
-  justify-content: center;
-  border-radius: 50px;
-  flex-direction: column;
-  padding: 7px;
-  margin-bottom: 50px;
-}
-
 .link-anchor-gap {
   height: 70px;
 }
 
-.links-treeview-container {
+.links-container-inner {
   display: flex;
   background-color: white;
-  border-radius: 45px;
+  border-radius: 15px;
   height: auto;
+  padding: 0 !important;
 }
 
 .links-container-sticky {

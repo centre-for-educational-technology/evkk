@@ -1,12 +1,5 @@
-.correction-container-outer {
-  border-radius: 20px;
-}
-
-.correction-container {
-  background: white;
-  border-radius: 15px;
-  padding: 1.5em 3em;
-  width: 100%;
+.correction-container-inner {
+  padding: 1.5em 3em !important;
   display: flex;
   align-items: flex-start;
   justify-content: flex-end;

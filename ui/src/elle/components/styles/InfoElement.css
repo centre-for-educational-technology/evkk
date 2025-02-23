@@ -10,13 +10,12 @@
 .info-element-container {
   margin-top: 100px;
   height: 700px !important;
-  border-radius: 50px;
 }
 
 .info-element-inner {
   width: 100%;
   height: 100%;
-  border-radius: 45px;
+  border-radius: 15px;
   position: relative;
   overflow: hidden;
   display: flex;

@@ -83,7 +83,7 @@
 }
 
 .nav-logo-container {
-  width: 5%;
+  width: 10%;
 }
 
 .nav-50px-height {
@@ -91,8 +91,7 @@
 }
 
 .nav-menu-link-container {
-  padding-left: 5%;
-  width: 85%;
+  width: 80%;
   justify-content: center;
   align-items: center;
 }

@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react';
 import './Correction.css';
 import { Box, Tab } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { ElleOuterDivStyle } from '../../const/StyleConstants';
 import CorrectionTab from './tabviews/correction/CorrectionTab';
 import ComplexityTab from './tabviews/complexity/ComplexityTab';
 import VocabularyTab from './tabviews/vocabulary/VocabularyTab';
@@ -32,9 +31,9 @@ export default function Correction() {
   };
 
   return (
-    <Box sx={ElleOuterDivStyle} className="correction-container-outer">
+    <Box className="global-page-content-container">
       <div className="mouseaway-listener"></div>
-      <div className="correction-container">
+      <div className="global-page-content-container-inner correction-container-inner">
         <Box sx={{ width: '100%' }}>
           <TabContext value={value}>
             <Box>

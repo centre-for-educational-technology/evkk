@@ -1,0 +1,36 @@
+.about-us-container-inner {
+  display: flex;
+  padding: 0 !important;
+}
+
+.about-us-container-menu {
+  position: sticky;
+  height: 100%;
+  width: 25%;
+  margin-top: 110px;
+  top: 50px;
+}
+
+.about-us-container-menu-inner {
+  height: auto;
+  width: 100%;
+  margin-left: 20px;
+  margin-bottom: 100px;
+  border-right: solid thin #FFD0FD;
+}
+
+.about-us-menu-tree-icon {
+  padding-top: 12px;
+  font-size: 2rem !important;
+}
+
+.about-us-menu-item {
+  font-size: 1rem;
+  margin-top: 10px !important;
+}
+
+.about-us-container-content {
+  width: 65%;
+  margin-top: 70px;
+  margin-left: 3rem;
+}

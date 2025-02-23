@@ -68,7 +68,6 @@ a:hover {
   color: #9C27B0 !important;
 }
 
-
 .MuiMenuItem-root.Mui-selected {
   background-color: rgba(255, 208, 253, .5) !important;
 }
@@ -79,4 +78,29 @@ a:hover {
 
 .MuiAlert-standardInfo .MuiAlert-icon {
   color: #9C27B0 !important;
+}
+
+.global-page-container {
+  width: 80vw !important;
+  margin-top: 20px;
+}
+
+@media (max-width: 1023px) {
+  .global-page-container {
+    width: 100% !important;
+  }
+}
+
+.global-page-content-container {
+  background: fixed linear-gradient(315deg, rgba(156, 39, 176, 1) 0%, rgba(156, 39, 176, 1) 33%, rgba(204, 168, 253, 1) 33%, rgba(204, 168, 253, 1) 67%, rgba(255, 208, 253, 1) 67%, rgba(255, 208, 253, 1) 100%);
+  border-radius: 20px;
+  padding: 7px;
+  margin-bottom: 50px;
+
+  .global-page-content-container-inner {
+    background-color: white;
+    border-radius: 15px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
 }
