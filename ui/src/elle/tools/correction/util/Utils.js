@@ -176,9 +176,6 @@ const processCorrectorText = (fetchInputText) => {
 };
 
 const processGrammarAnswer = (returnArray, errorList, grammarLabel) => {
-  console.log(errorList);
-  console.log(grammarLabel);
-  console.log(returnArray);
   Object.entries(errorList).forEach((error, index) => {
     if (error[1].length !== 0) {
       returnArray.push(
