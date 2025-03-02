@@ -20,13 +20,17 @@ export default function CorrectionButton(
     newRef,
     errorList = null,
     tab = null,
-    textLevel = null
+    textLevel = null,
+    setGrammarErrorList,
+    setSpellerErrorList,
+    setInputType = null
   }) {
   const { t } = useTranslation();
   const { getCorrectorResult } = useGetCorrectorResult();
 
   const handleClick = () => {
-    queryCaller(textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, null, null, true);
+    if (setInputType) setInputType(null);
+    queryCaller(textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, null, null, true, setGrammarErrorList, setSpellerErrorList);
   };
   return (
     <div className="d-flex justify-content-between">

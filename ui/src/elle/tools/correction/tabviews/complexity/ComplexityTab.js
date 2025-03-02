@@ -33,7 +33,10 @@ export default function ComplexityTab(
     setSpellerAnswer,
     setGrammarAnswer,
     setAbstractWords,
-    setRequestingText
+    setRequestingText,
+    setErrorList,
+    setGrammarErrorList,
+    setSpellerErrorList
   }) {
   const { t } = useTranslation();
   const [model, setModel] = useState(LONG_SENTENCE);
@@ -79,6 +82,8 @@ export default function ComplexityTab(
           setSpellerAnswer={setSpellerAnswer}
           setComplexityAnswer={setComplexityAnswer}
           setAbstractWords={setAbstractWords}
+          setGrammarErrorList={setGrammarErrorList}
+          setSpellerErrorList={setSpellerErrorList}
         />
         <CorrectionInfoIcon inputText={
           <div>
@@ -123,8 +128,8 @@ export default function ComplexityTab(
             <a href={COMPLEXITY_LONG_WORD_LINK}> {t('common_here')}</a>).
           </div>}/>
       </Box>
-      <div className="d-flex gap-2">
-        <div className="w-50 d-flex flex-column">
+      <div className="d-flex gap-2 flex-wrap ">
+        <div className="corector-input">
           <Box
             id={'error-text-box'}
             ref={textBoxRef}
@@ -147,9 +152,12 @@ export default function ComplexityTab(
             setSpellerAnswer={setSpellerAnswer}
             setAbstractWords={setAbstractWords}
             setRequestingText={setRequestingText}
+            setErrorList={setErrorList}
+            setGrammarErrorList={setGrammarErrorList}
+            setSpellerErrorList={setSpellerErrorList}
           />
         </div>
-        <div className="w-50 corrector-right">
+        <div className="corrector-right">
           {complexityAnswer ?
             <div>
               <div className="complexity-tab-header">

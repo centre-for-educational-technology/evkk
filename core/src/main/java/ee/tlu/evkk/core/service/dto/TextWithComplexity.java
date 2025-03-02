@@ -24,7 +24,9 @@ public class TextWithComplexity {
   private Object uuskeeletase;
   private Object abstraktsus;
   private Object grammatika;
+  private Object grammatikaVead;
   private Object speller;
+  private Object spelleriVead;
   private List<String> laused;
   private List<Object> sonavara;
   private Object korrektoriLoendid;
@@ -34,8 +36,20 @@ public class TextWithComplexity {
     return korrektoriLoendid;
   }
 
+  @JsonGetter("spelleriVead")
+  public Object getSpelleriVead() {return spelleriVead;}
+
+  @JsonSetter("spelleri_vead")
+  public void setSpelleriVead(Object spelleriVead) {this.spelleriVead = spelleriVead;}
+
   @JsonSetter("korrektori_loendid")
   public void setKorrektoriLoendid(Object korrektoriLoendid) {
     this.korrektoriLoendid = korrektoriLoendid;
   }
+
+  @JsonGetter("grammatikaVead")
+  public Object getGrammatikaVead() {return grammatikaVead;}
+
+  @JsonSetter("grammatika_vead")
+  public void setGrammatikaVead(Object grammatikaVead) {this.grammatikaVead = grammatikaVead;}
 }

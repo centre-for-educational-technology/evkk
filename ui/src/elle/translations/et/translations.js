@@ -157,6 +157,7 @@ export const TRANSLATIONS_ET = {
   corrector_grammar_errors_missing_punctuation: 'Puuduv kirjavahemärk',
   corrector_grammar_errors_missing_word: 'Puuduv sõna',
   corrector_grammar_errors_other_correction: 'Muu parandus',
+  corrector_grammar_errors_punctuation_order: 'Kirjavahemärkide järjekord',
   corrector_grammar_errors_punctuation_replacement: 'Kirjavahemärgi asendus',
   corrector_grammar_errors_tooltip: 'Paranda lausete grammatikat ja sõnastust.',
   corrector_grammar_errors_unnecessary_punctuation: 'Liigne kirjavahemärk',
