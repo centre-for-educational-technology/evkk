@@ -1,24 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { ContentEditableDiv } from '../../../const/StyleConstants';
-import ErrorSpanPopper from '../tabviews/correction/components/ErrorSpanPopper';
-import usePopUpHover from '../tabviews/correction/hooks/usePopUpHover';
-import {
-  getSpanIds,
-  handleCopy,
-  handlePaste,
-  processTextCorrections,
-  restoreCaretPosition,
-  saveCaretPosition
-} from '../util/Utils';
-import { resolveError } from '../util/CorrectorErrorResolveFunctions';
 import CorrectionButton from './CorrectionButton';
-import { GRAMMARCHECKER, SPELLCHECKER, TEXTSPAN } from '../const/Constants';
+import { GRAMMARCHECKER, SPELLCHECKER } from '../const/Constants';
 import { removeEmptySpans } from '../../../util/TextUtils';
+
+import { useGlobalClickListener } from '../hooks/useGlobalClickListener';
+import { useHandleInputErrors } from '../hooks/useHandleInputErrors';
+import { handleCorrectionTextSelection, handleCorrectorKeyDown, processCorrectorKeyDown } from '../util/Utils';
 
 export default function CorrectionInput(
   {
-    requestingText,
     setRequestingText,
     textBoxRef,
     newRef,
@@ -26,99 +18,82 @@ export default function CorrectionInput(
     inputText,
     setInputText,
     model,
-    responseText,
-    setResponseText,
     errorList,
     setErrorList,
     setComplexityAnswer,
-    spellerAnswer,
-    grammarAnswer,
     setSpellerAnswer,
     setGrammarAnswer,
     setAbstractWords,
     tab,
-    complexityAnswer
+    complexityAnswer,
+    setGrammarErrorList,
+    setSpellerErrorList,
+    hoveredId,
+    setHoveredId,
+    spellerAnswer,
+    grammarAnswer
   }) {
-  const [popperAnchor, setPopperAnchor] = useState(null);
-  const [popperValue, setPopperValue] = useState(null);
-  const [children, setChildren] = useState(-1);
+  const [inputType, setInputType] = useState(null);
+  const [innerValue, setInnerValue] = useState(newRef);
+  const [selectedText, setSelectedText] = useState(null);
+  const [errorsToRemove, setErrorsToRemove] = useState(null);
 
   useEffect(() => {
-    if (model === SPELLCHECKER) setResponseText(spellerAnswer);
-    if (model === GRAMMARCHECKER) setResponseText(grammarAnswer);
+    if (model === SPELLCHECKER) setInputType(spellerAnswer);
+    if (model === GRAMMARCHECKER) setInputType(grammarAnswer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [model, inputText, spellerAnswer, grammarAnswer]);
+  }, [model, inputText, spellerAnswer, grammarAnswer, errorList]);
+
+  useGlobalClickListener(setSelectedText);
 
   useEffect(() => {
-    processTextCorrections(responseText, inputText, setNewRef, setErrorList);
+    setNewRef(textBoxRef.current.innerText);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [responseText, spellerAnswer, grammarAnswer, textBoxRef]);
-  usePopUpHover(TEXTSPAN, newRef, errorList, setPopperAnchor, setPopperValue);
+  }, [innerValue]);
 
-  const handleCorrectionPaste = (e) => {
-    handlePaste(e, textBoxRef.current.innerHTML, setNewRef, setInputText);
-    processTextCorrections(responseText, inputText, setNewRef, setErrorList, true);
-  };
+  useHandleInputErrors(inputType, hoveredId, errorsToRemove, setErrorList, setErrorsToRemove, model, setSpellerAnswer, setGrammarAnswer, setInnerValue, newRef, setHoveredId);
 
   useEffect(() => {
     setNewRef(newRef.replace(removeEmptySpans, ''));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [textBoxRef.current.innerHTML]);
 
-  useEffect(() => {
-    if (!errorList) return;
-    setChildren(Object.values(errorList).reduce((sum, currentArray) => sum + currentArray.length, 0));
-  }, [errorList]);
-
-  const handleContentChange = (e) => {
-    const position = saveCaretPosition(textBoxRef.current);
-
-    if (children > e.target.children.length) {
-      const cleanedSpan = e.target.innerHTML.replace(removeEmptySpans, '');
-      setNewRef(cleanedSpan);
-      const spanIds = getSpanIds(cleanedSpan);
-      setErrorList(Object.entries(errorList).reduce((acc, [key, array]) => {
-        acc[key] = array.filter(error => spanIds.includes(error.errorId));
-        return acc;
-      }, {}));
-    }
-    setChildren(e.target.children.length);
-
-
-    setTimeout(() => {
-      restoreCaretPosition(textBoxRef.current, position);
-    }, 0);
+  const handleKeyDown = (e) => {
+    handleCorrectorKeyDown(e, selectedText, setSelectedText, inputType, setInputType, setErrorsToRemove);
   };
 
+  const handleTextSelection = () => {
+    handleCorrectionTextSelection(setSelectedText);
+  };
+
+  const handleCut = (e) => {
+    const selection = window.getSelection().toString();
+    e.clipboardData.setData('text/plain', selection);
+    processCorrectorKeyDown(selectedText, true, true, e, '', inputType, setInputType, setErrorsToRemove, setSelectedText);
+  };
+
+  const handlePaste = (e) => {
+    const valueToPaste = e.clipboardData.getData('text/plain');
+    processCorrectorKeyDown(selectedText, false, true, e, valueToPaste, inputType, setInputType, setErrorsToRemove, setSelectedText);
+  };
+
+
   return (
-    <div className="w-50 d-flex flex-column">
+    <div className="corector-input">
       <Box
         id={'error-text-box'}
         ref={textBoxRef}
-        dangerouslySetInnerHTML={{ __html: requestingText || newRef }}
         spellCheck={false}
         suppressContentEditableWarning={true}
         sx={ContentEditableDiv}
         contentEditable={true}
-        onCopy={(e) => handleCopy(e)}
-        onPaste={(e) => handleCorrectionPaste(e)}
-        onInput={handleContentChange}
+        onKeyDown={handleKeyDown}
+        onSelect={handleTextSelection}
+        onCut={handleCut}
+        onPaste={handlePaste}
       >
+        {innerValue}
       </Box>
-      <ErrorSpanPopper
-        popperAnchor={popperAnchor}
-        popperValue={popperValue}
-        resolveError={resolveError}
-        inputText={inputText}
-        setInputText={setInputText}
-        setErrorList={setErrorList}
-        errorList={errorList}
-        setGrammarAnswer={setGrammarAnswer}
-        setSpellerAnswer={setSpellerAnswer}
-        grammarAnswer={grammarAnswer}
-        spellerAnswer={spellerAnswer}
-        model={model}
-      />
       <CorrectionButton
         model={model}
         inputText={inputText}
@@ -134,6 +109,9 @@ export default function CorrectionInput(
         errorList={errorList}
         tab={tab}
         textLevel={complexityAnswer}
+        setGrammarErrorList={setGrammarErrorList}
+        setSpellerErrorList={setSpellerErrorList}
+        setInputType={setInputType}
       />
     </div>
   );
