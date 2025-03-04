@@ -15,47 +15,65 @@
   height: 100%;
 }
 
-.text-span[data-color="red"] {
+.punctuation {
+  min-width: 0.3rem;
+  background-color: hsl(102.13 37% 75%);
+  padding: 0.1em 0.1em 0;
+  border-radius: 2px 2px 1px 1px;
+  border-bottom: double 2px hsl(102.13 37% 55%);
+}
+
+.punctuation-hover {
+  background-color: hsl(102.13 37% 55%);
+}
+
+.spelling-error {
   background-color: hsl(0 66% 76%);
   padding: 0.1em 0.1em 0;
   border-radius: 2px 2px 1px 1px;
   border-bottom: dashed 2px hsl(0 66% 60%);
+  white-space: nowrap;
 }
 
-.text-span[data-color="red"]:hover {
+.spelling-error-hover {
   background-color: hsl(0 66% 60%);
 }
 
-.text-span[data-color="yellow"] {
+.word-count-error {
   background-color: hsl(44.71 100% 80%);
   padding: 0.1em 0.1em 0;
   border-radius: 2px 2px 1px 1px;
   border-bottom: dotted 2px hsl(44.71 100% 60%);
+  white-space: nowrap;
 }
 
-.text-span[data-color="yellow"]:hover {
+.word-count-error-hover {
   background-color: hsl(44.71 100% 60%);
 }
 
-.text-span[data-color="orange"] {
+.multiple-errors {
   background-color: hsl(31, 89%, 69%);
   padding: 0.1em 0.1em 0;
   border-radius: 2px 2px 1px 1px;
   border-bottom: dotted 2px hsl(31, 89%, 49%);
+  white-space: nowrap;
 }
 
-.text-span[data-color="orange"]:hover {
+.multiple-errors-hover {
   background-color: hsl(31, 89%, 49%);
 }
 
-.text-span[data-color="violet"] {
+.missing-word-error,
+.extra-word-error {
   background-color: hsl(255, 37%, 73%);
   padding: 0.1em 0.1em 0;
   border-radius: 2px 2px 1px 1px;
   border-bottom: dotted 2px hsl(255, 37%, 63%);
+  white-space: nowrap;
 }
 
-.text-span[data-color="violet"]:hover {
+.missing-word-error-hover,
+.extra-word-error-hover {
   background-color: hsl(255, 37%, 63%);
 }
 
@@ -70,14 +88,15 @@
   background-color: hsl(0, 0%, 60%);
 }
 
-.text-span[data-color="blue"] {
+.word-order-error {
   background-color: hsl(217.5 78% 90%);
   padding: 0.1em 0.1em 0;
   border-radius: 2px 2px 1px 1px;
   border-bottom: solid 2px hsl(217.5 78% 70%);
+  white-space: nowrap;
 }
 
-.text-span[data-color="blue"]:hover {
+.word-order-error-hover {
   background-color: hsl(217.5 78% 70%);
 }
 
@@ -122,6 +141,7 @@
 
 .corrector-right {
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 0.5em;
   background-color: whitesmoke;
@@ -129,6 +149,12 @@
   border-radius: 5px;
   height: auto;
   min-height: 200px;
+  min-width: 300px;
+}
+
+.corector-input {
+  flex: 1;
+  min-width: 300px;
 }
 
 .corrector-error-word {
@@ -139,6 +165,10 @@
 
 .corrector-border-box {
   box-sizing: border-box;
+}
+
+.corrector-max-width {
+  min-width: 500px;
 }
 
 .correction-single-error {
