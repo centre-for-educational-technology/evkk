@@ -1,7 +1,6 @@
 package ee.tlu.evkk.core.service.dto;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,35 +20,21 @@ public class TextWithComplexity {
   private List<String> lemmad;
   private List<String> mitmekesisus;
   private List<List<String>> keeletase;
-  private Object uuskeeletase;
   private Object abstraktsus;
   private Object grammatika;
-  private Object grammatikaVead;
   private Object speller;
-  private Object spelleriVead;
   private List<String> laused;
   private List<Object> sonavara;
+
+  @JsonAlias("uus_keeletase")
+  private Object uusKeeletase;
+
+  @JsonAlias("grammatika_vead")
+  private Object grammatikaVead;
+
+  @JsonAlias("spelleri_vead")
+  private Object spelleriVead;
+
+  @JsonAlias("korrektori_loendid")
   private Object korrektoriLoendid;
-
-  @JsonGetter("korrektoriLoendid")
-  public Object getKorrektoriLoendid() {
-    return korrektoriLoendid;
-  }
-
-  @JsonGetter("spelleriVead")
-  public Object getSpelleriVead() {return spelleriVead;}
-
-  @JsonSetter("spelleri_vead")
-  public void setSpelleriVead(Object spelleriVead) {this.spelleriVead = spelleriVead;}
-
-  @JsonSetter("korrektori_loendid")
-  public void setKorrektoriLoendid(Object korrektoriLoendid) {
-    this.korrektoriLoendid = korrektoriLoendid;
-  }
-
-  @JsonGetter("grammatikaVead")
-  public Object getGrammatikaVead() {return grammatikaVead;}
-
-  @JsonSetter("grammatika_vead")
-  public void setGrammatikaVead(Object grammatikaVead) {this.grammatikaVead = grammatikaVead;}
 }

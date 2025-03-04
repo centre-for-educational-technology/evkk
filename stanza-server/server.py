@@ -85,7 +85,7 @@ def keerukus_sonaliigid_mitmekesisus():
         "mitmekesisus": hinda_mitmekesisust(tekst),
         "lemmad": lemmad,
         "keeletase": arvuta(tekst),
-        "uuskeeletase": predict_level(model, scaler, tekst),
+        "uus_keeletase": predict_level(model, scaler, tekst),
         "abstraktsus": serializable_word_analysis,
         "grammatika": grammar_output["corrector_results"],
         "grammatika_vead": grammar_output["error_list"],

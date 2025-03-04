@@ -1,7 +1,19 @@
 import re
 
 punctuations = ['.', ',', '!', '?', '"']
-punctuations_array = ["punctuationOrder", "extraPunctuation", "missingPunctuation", "wrongPunctuation"]
+punctuation_order = "punctuationOrder"
+extra_punctuation = "extraPunctuation"
+missing_punctuation = "missingPunctuation"
+wrong_punctuation = "wrongPunctuation"
+punctuations_array = [punctuation_order, extra_punctuation, missing_punctuation, wrong_punctuation]
+
+no_error = "noError"
+multiple_errors = "multipleErrors"
+word_count_error = "wordCountError"
+spelling_error = "spellingError"
+word_order_error = "wordOrderError"
+extra_word_error = "extraWordError"
+missing_word_error = "missingWordError"
 
 
 def remove_punctuation_from_end(text):
@@ -16,8 +28,8 @@ def check_if_one_or_two_words(error_word, corrected_word):
     corrected_trimmed_is_same_as_corrected = error_no_punct == corrected_no_punct.replace(' ', '')
     error_or_corrected_is_two_words = len(error_word.split()) > 1 or len(corrected_word.split()) > 1
 
-    return (
-        error_trimmed_is_same_as_corrected or corrected_trimmed_is_same_as_corrected) and error_or_corrected_is_two_words
+    return ((error_trimmed_is_same_as_corrected or corrected_trimmed_is_same_as_corrected)
+            and error_or_corrected_is_two_words)
 
 
 def check_if_spelling_error(error_word, corrected_word):
@@ -68,8 +80,10 @@ def check_for_punctuation_order_error(error_word, corrected_word):
     corrected_last_char = corrected_word[-1] if corrected_word else ''
     corrected_pre_last_char = corrected_word[-2] if len(corrected_word) > 1 else ''
 
-    if not (
-        error_last_char in punctuations and corrected_last_char in punctuations and error_pre_last_char in punctuations and corrected_pre_last_char in punctuations):
+    if not (error_last_char in punctuations
+            and corrected_last_char in punctuations
+            and error_pre_last_char in punctuations
+            and corrected_pre_last_char in punctuations):
         return False
 
     return error_last_char == corrected_pre_last_char and error_pre_last_char == corrected_last_char
@@ -116,50 +130,50 @@ def run_check_punctuations(error_word, corrected_word):
     punctuation_order_error = check_for_punctuation_order_error(error_word, corrected_word)
 
     if punctuation_order_error:
-        return "punctuationOrder"
+        return punctuation_order
     elif extra_punctuation_error:
-        return "extraPunctuation"
+        return extra_punctuation
     elif wrong_punctuation_error:
-        return "wrongPunctuation"
+        return wrong_punctuation
     elif missing_punctuation_error:
-        return "missingPunctuation"
+        return missing_punctuation
     else:
-        return "noError"
+        return no_error
 
 
 def run_other_error_checker(error_word, corrected_word):
-    one_or_two_words_error = check_if_one_or_two_words(error_word, corrected_word)
-    spelling_error = check_if_spelling_error(error_word, corrected_word)
-    word_order_error = check_for_word_order_error(error_word, corrected_word)
-    extra_word_error = check_for_extra_word_error(error_word, corrected_word)
-    missing_word_error = check_for_missing_word_error(error_word, corrected_word)
+    one_or_two_words_error_check = check_if_one_or_two_words(error_word, corrected_word)
+    spelling_error_check = check_if_spelling_error(error_word, corrected_word)
+    word_order_error_check = check_for_word_order_error(error_word, corrected_word)
+    extra_word_error_check = check_for_extra_word_error(error_word, corrected_word)
+    missing_word_error_check = check_for_missing_word_error(error_word, corrected_word)
 
-    if one_or_two_words_error:
-        return "wordCountError"
-    elif spelling_error:
-        return "spellingError"
-    elif word_order_error:
-        return "wordOrderError"
-    elif extra_word_error:
-        return "extraWordError"
-    elif missing_word_error:
-        return "missingWordError"
+    if one_or_two_words_error_check:
+        return word_count_error
+    elif spelling_error_check:
+        return spelling_error
+    elif word_order_error_check:
+        return word_order_error
+    elif extra_word_error_check:
+        return extra_word_error
+    elif missing_word_error_check:
+        return missing_word_error
     else:
-        return "noError"
+        return no_error
 
 
 def run_correction_checkers(error_word, corrected_word):
     punct_error = run_check_punctuations(error_word, corrected_word)
     other_error = run_other_error_checker(error_word, corrected_word)
 
-    if punct_error != "noError" and other_error != "noError":
+    if punct_error != no_error and other_error != no_error:
         return f"{other_error}+{punct_error}"
-    elif punct_error != "noError":
+    elif punct_error != no_error:
         return punct_error
-    elif other_error != "noError":
+    elif other_error != no_error:
         return other_error
     else:
-        return "multipleErrors"
+        return multiple_errors
 
 
 def generate_error_data(error_word, corrected_word, correction_type, start, end):
@@ -170,10 +184,10 @@ def generate_error_data(error_word, corrected_word, correction_type, start, end)
 def calculate_punctuation_separation(correction_type, error_word, corrected_word):
     punct_mark_length = 1
     punct_mark_extension = 0
-    if correction_type == "punctuationOrder":
+    if correction_type == punctuation_order:
         punct_mark_length = 2
 
-    if correction_type == "missingPunctuation":
+    if correction_type == missing_punctuation:
         punct_mark_extension = 1
 
     punct_separation_initial = len(error_word) - punct_mark_length
@@ -189,12 +203,12 @@ def process_punct_values(correction_type, error_word, corrected_word, punct_sepa
     initial_word_word = error_word[0:punct_separation_initial]
     corrected_word_word = corrected_word[0:punct_separation_corrected]
 
-    if correction_type == "punctuationOrder":
+    if correction_type == punctuation_order:
         corrected_word_punct = " "
         if multi_word:
             corrected_word_word = corrected_word
 
-    if correction_type == 'missingPunctuation':
+    if correction_type == missing_punctuation:
         initial_word_punct = " "
         if multi_word:
             initial_word_word = error_word
