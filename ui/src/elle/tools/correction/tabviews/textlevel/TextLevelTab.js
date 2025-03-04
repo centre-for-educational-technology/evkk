@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Alert, Box } from '@mui/material';
 import '../../styles/CorrectionTab.css';
 import CorrectionInput from '../../components/CorrectionInput';
@@ -31,10 +31,12 @@ export default function TextLevelTab(
     grammarAnswer,
     setAbstractWords,
     setSpellerAnswer,
-    setGrammarAnswer
+    setGrammarAnswer,
+    setGrammarErrorList,
+    setSpellerErrorList,
+    setHoveredId
   }) {
   const { t } = useTranslation();
-  const [responseText, setResponseText] = useState();
 
   return (
     <div className="corrector-border-box">
@@ -52,6 +54,8 @@ export default function TextLevelTab(
           setComplexityAnswer={setComplexityAnswer}
           setAbstractWords={setAbstractWords}
           toggleButtons={CorrectionAndTextLevelToggleButtons}
+          setGrammarErrorList={setGrammarErrorList}
+          setSpellerErrorList={setSpellerErrorList}
         />
         <CorrectionInfoIcon
           inputText={
@@ -77,7 +81,7 @@ export default function TextLevelTab(
             </div>}
         />
       </Box>
-      <div className="d-flex gap-2">
+      <div className="d-flex gap-2 flex-wrap">
         <CorrectionInput
           requestingText={requestingText}
           setRequestingText={setRequestingText}
@@ -87,10 +91,10 @@ export default function TextLevelTab(
           inputText={inputText}
           setInputText={setInputText}
           model={correctionModel}
-          responseText={responseText}
-          setResponseText={setResponseText}
           errorList={errorList}
           setErrorList={setErrorList}
+          setGrammarErrorList={setGrammarErrorList}
+          setSpellerErrorList={setSpellerErrorList}
           setComplexityAnswer={setComplexityAnswer}
           spellerAnswer={spellerAnswer}
           grammarAnswer={grammarAnswer}
@@ -99,8 +103,9 @@ export default function TextLevelTab(
           setSpellerAnswer={setSpellerAnswer}
           tab={TEXTLEVEL}
           complexityAnswer={complexityAnswer}
+          setHoveredId={setHoveredId}
         />
-        <div className="w-50 corrector-right">
+        <div className="corrector-right">
           {complexityAnswer && complexityAnswer?.keeletase.length !== 0 &&
             <div className="d-flex justify-content-between">
               <div style={{ fontSize: '1.5rem' }}>{t('corrector_proficiency_level_color_codes')}:</div>

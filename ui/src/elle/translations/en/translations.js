@@ -157,6 +157,7 @@ export const TRANSLATIONS_EN = {
   corrector_grammar_errors_missing_punctuation: 'Missing punctuation',
   corrector_grammar_errors_missing_word: 'Missing word',
   corrector_grammar_errors_other_correction: 'Other correction',
+  corrector_grammar_errors_punctuation_order: 'Punctuation order',
   corrector_grammar_errors_punctuation_replacement: 'Punctuation replacement',
   corrector_grammar_errors_tooltip: 'Correct the grammar and wording of sentences.',
   corrector_grammar_errors_unnecessary_punctuation: 'Unnecessary punctuation',

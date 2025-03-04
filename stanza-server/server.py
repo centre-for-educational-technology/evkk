@@ -8,6 +8,7 @@ from flask import Response
 from flask import request
 
 from corrector_counters import calculate_uncommon_words
+from corrector_functions import generate_grammar_output
 from grammar_fetches import fetch_grammar
 from grammar_fetches import fetch_speller
 from linguistic_analysis import predict_level
@@ -74,6 +75,9 @@ def keerukus_sonaliigid_mitmekesisus():
 
     serializable_word_analysis = make_serializable(abstract_answer["wordAnalysis"])
 
+    grammar_output = generate_grammar_output(tekst, fetch_grammar(tekst))
+    speller_output = generate_grammar_output(tekst, fetch_speller(tekst))
+
     return Response(json.dumps({
         "sonad": sonad,
         "sonaliigid": sonaliigid,
@@ -81,10 +85,12 @@ def keerukus_sonaliigid_mitmekesisus():
         "mitmekesisus": hinda_mitmekesisust(tekst),
         "lemmad": lemmad,
         "keeletase": arvuta(tekst),
-        "uuskeeletase": predict_level(model, scaler, tekst),
+        "uus_keeletase": predict_level(model, scaler, tekst),
         "abstraktsus": serializable_word_analysis,
-        "grammatika": fetch_grammar(tekst),
-        "speller": fetch_speller(tekst),
+        "grammatika": grammar_output["corrector_results"],
+        "grammatika_vead": grammar_output["error_list"],
+        "speller": speller_output["corrector_results"],
+        "spelleri_vead": speller_output["error_list"],
         "laused": laused,
         "sonavara": check_both_sentence_repetition(laused, word_start_and_end),
         "korrektori_loendid": {"harvaesinevad": calculate_uncommon_words(lemmad, sonaliigid)}

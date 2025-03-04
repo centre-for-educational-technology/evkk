@@ -12,29 +12,16 @@ import { useTranslation } from 'react-i18next';
 export default function ErrorAccordion(
   {
     errorList,
-    model,
-    resolveError,
     setErrorList,
-    inputText,
-    setInputText,
-    setSpellerAnswer,
-    setGrammarAnswer,
-    spellerAnswer,
-    grammarAnswer
+    setHoveredId,
+    setInputType
   }) {
   const { t } = useTranslation();
-
-  const checkIfErrorListNotSortedAscending = (errorProperties) => (
-    errorProperties[1][0].span.start > errorProperties[1][errorProperties[1].length - 1].span.start
-  );
 
   return (
     <>
       {Object.entries(errorList).map((errorProperties) => {
         if (errorProperties[1].length === 0) return null;
-        if (errorProperties[1].length > 1 && checkIfErrorListNotSortedAscending(errorProperties)) {
-          errorProperties[1].reverse();
-        }
         return (<Accordion key={errorProperties[0]} square={true} sx={CorrectorAccordionStyle}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon/>}
@@ -50,19 +37,11 @@ export default function ErrorAccordion(
             <div>
               {errorProperties[1].map((error, index) => (
                 <SingleError
-                  key={error.span.value + model + index}
+                  key={error.error_id}
                   error={error}
-                  resolveError={resolveError}
-                  errorList={errorList}
                   setErrorList={setErrorList}
-                  type={errorProperties[0]}
-                  inputText={inputText}
-                  setInputText={setInputText}
-                  setSpellerAnswer={setSpellerAnswer}
-                  setGrammarAnswer={setGrammarAnswer}
-                  spellerAnswer={spellerAnswer}
-                  grammarAnswer={grammarAnswer}
-                  model={model}
+                  setHoveredId={setHoveredId}
+                  setInputType={setInputType}
                 />
               ))}
             </div>
