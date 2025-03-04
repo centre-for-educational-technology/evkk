@@ -1,10 +1,15 @@
 import { replaceCombined, replaceSpaces, replaceSpaceTags } from '../../../const/Constants';
 import { InternalHyperlink, Paragraph, ShadingType, SymbolRun, TextRun, UnderlineType } from 'docx';
-import { correctorDocxColors } from '../../../const/StyleConstants';
+import {
+  correctionTooltipComponentsProps,
+  correctionTooltipSlotProps,
+  correctorDocxColors
+} from '../../../const/StyleConstants';
 import { accordionDetails, errorTypes } from '../const/TabValuesConstant';
-import { CORRECTION, TEXTSPAN } from '../const/Constants';
-import { checkAllErrors } from './TextErrorTypeFunctions';
-import { resolveErrorMarks, resolvePunctuationMarks, returnMarkingColor } from './TextErrorMarkingFunctions';
+import { ARROW_KEYS, CORRECTION, SPELLCHECKER, TEXTSPAN } from '../const/Constants';
+import { Paper, Tooltip } from '@mui/material';
+import SingleError from '../tabviews/correction/components/SingleError';
+import React from 'react';
 
 export const handleCopy = (event) => {
   event.preventDefault();
@@ -67,8 +72,12 @@ export const setComplexityAnswerIndex = (index, value, complexityAnswer, arrayVa
   return complexityAnswer[arrayValues[index]][value];
 };
 
-export const queryCaller = (textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, newValue, setValue, mainButton) => {
+export const queryCaller = (textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, newValue, setValue, mainButton, setGrammarErrorList, setSpellerErrorList) => {
   if (textBoxRef.current.innerText.replaceAll('\u00A0', ' ') !== inputText.replaceAll(replaceCombined, '').replaceAll('\n', ' ').replaceAll('\u00A0', ' ') || mainButton) {
+    setSpellerAnswer(null);
+    setGrammarAnswer(null);
+    setGrammarErrorList(null);
+    setSpellerErrorList(null);
     setRequestingText(textBoxRef.current.innerText);
     if (setValue !== null && newValue !== null) {
       setValue(newValue);
@@ -79,9 +88,11 @@ export const queryCaller = (textBoxRef, inputText, setRequestingText, setGrammar
     getCorrectorResult(JSON.stringify({ tekst: processCorrectorText(fetchInputText) }))
       .then(answer => {
         setComplexityAnswer(answer);
-        processGrammarResponseIndexes(answer.grammatika, setGrammarAnswer);
-        processGrammarResponseIndexes(answer.speller, setSpellerAnswer);
+        setGrammarAnswer(answer.grammatika);
+        setSpellerAnswer(answer.speller);
         setAbstractWords(answer.abstraktsus);
+        setGrammarErrorList(answer.grammatikaVead);
+        setSpellerErrorList(answer.spelleriVead);
       }).then(() => setRequestingText(null));
   } else if (setValue !== null && newValue !== null) {
     setValue(newValue);
@@ -100,6 +111,9 @@ export const parseHtmlForDocx = (htmlString) => {
       let colorClass;
       if (node.className === TEXTSPAN) {
         colorClass = node.getAttribute('data-color') || null;
+      } else if (Array.from(node.children).some(child => child.tagName.toLowerCase() === 'span')) {
+        const colorVal = errorTypes[node.className].color;
+        colorClass = Object.keys(correctorDocxColors).find(key => correctorDocxColors[key] === colorVal.slice(1)) || null;
       } else {
         colorClass = node.className || null;
       }
@@ -123,7 +137,6 @@ export const parseHtmlForDocx = (htmlString) => {
             size: 20
           }));
       }
-
     }
   }
 
@@ -148,84 +161,6 @@ export const processErrorListForDocx = (tab, textLevel, errorList, innerHtml, la
     })
   );
   return returnArray;
-};
-
-export const processTextCorrections = (responseText, textBoxRef, textBoxValueRef, setErrorList, pasteReset = null) => {
-  // Avoid resetting input text on tab change
-  if (!responseText || !textBoxRef) return;
-  if (pasteReset) return setErrorList(null);
-
-  const corrections = {
-    spellingError: [],
-    wordOrderError: [],
-    missingWordError: [],
-    extraWordError: [],
-    wordCountError: [],
-    multipleErrors: [],
-    wrongPunctuation: [],
-    extraPunctuation: [],
-    missingPunctuation: []
-  };
-
-  let innerText = textBoxRef.replace(replaceCombined, '');
-  let mainIndex = 0;
-
-  responseText.corrections.forEach(correction => {
-    const errorWord = correction.span.value;
-    const correctedWord = correction.replacements[0].value;
-    const errorTypes = checkAllErrors(errorWord, correctedWord);
-
-    if (checkForPunctuationErrorType(errorTypes)) {
-      const punctuationResult = processPunctuationError(correction, errorWord, innerText, mainIndex);
-      innerText = punctuationResult.innerText;
-      processPunctuationTypes(punctuationResult, corrections);
-
-      mainIndex++;
-    }
-
-    if (checkForOtherErrorType(errorTypes)) {
-      const errorColor = returnMarkingColor(errorTypes);
-      if (errorTypes.spellingError && errorWord.split(' ').length !== 1) {
-        const multiWordResult = processMultiWordSpellingError(correction, errorWord, innerText, mainIndex, errorColor);
-        innerText = multiWordResult.innerText;
-        corrections.spellingError.push(...multiWordResult.corrections);
-        mainIndex = multiWordResult.newIndex;
-      } else {
-        const singleWordResult = processSingleWordError(correction, errorWord, innerText, mainIndex, errorColor);
-        innerText = singleWordResult.innerText;
-        processSingleWordCorrections(singleWordResult, corrections);
-        mainIndex++;
-      }
-    }
-  });
-
-  setErrorList(corrections);
-  textBoxValueRef(innerText);
-};
-
-export const saveCaretPosition = (element) => {
-  const position = getCaretPosition(element);
-  return validatePosition(element, position);
-};
-
-export const restoreCaretPosition = (element, savedPosition) => {
-  const validPosition = validatePosition(element, savedPosition);
-  setCaretPosition(element, validPosition);
-};
-
-export const getSpanIds = (htmlString) => {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(htmlString, 'text/html');
-  const spans = doc.querySelectorAll('span[id]');
-  return Array.from(spans).map(span => span.id);
-};
-
-const processGrammarResponseIndexes = (grammarResponse, grammarSetter) => {
-  grammarResponse.corrections.reverse();
-  grammarResponse.corrections.forEach((error, index) => {
-    error.errorId = index;
-  });
-  grammarSetter(grammarResponse);
 };
 
 const processFetchText = (textBoxRef) => {
@@ -269,7 +204,7 @@ const processGrammarAnswer = (returnArray, errorList, grammarLabel) => {
               new InternalHyperlink({
                 children: [
                   new TextRun({
-                    text: `${errorObj.span.value}`,
+                    text: `${errorObj.text}`,
                     color: '#676767',
                     strike: true
                   }),
@@ -285,10 +220,10 @@ const processGrammarAnswer = (returnArray, errorList, grammarLabel) => {
                     bold: true
                   }),
                   new TextRun({
-                    text: `${errorObj.replacements[0].value}`
+                    text: `${errorObj.corrected_text}`
                   })
                 ],
-                anchor: `${errorObj.errorId}`
+                anchor: `${errorObj.error_id}`
               })
             ]
           })
@@ -315,7 +250,7 @@ const processTextLevelAnswer = (returnArray, textLevel, labels) => {
       alignment: 'left',
       children: [
         new TextRun({
-          text: `${labels[0]}: ${textLevel.uuskeeletase.level}`,
+          text: `${labels[0]}: ${textLevel.uusKeeletase.level}`,
           bold: true,
           break: 1
         }),
@@ -340,265 +275,162 @@ const processTextLevelAnswer = (returnArray, textLevel, labels) => {
   return returnArray;
 };
 
-const processPunctuationError = (correction, errorWord, innerText, mainIndex) => {
-  const correctionCopy = { ...correction };
-  const {
-    wrongPunctuation,
-    extraPunctuation,
-    missingPunctuation
-  } = checkAllErrors(errorWord, correction.replacements[0].value);
-
-  innerText = resolvePunctuationMarks(
-    wrongPunctuation,
-    extraPunctuation,
-    missingPunctuation,
-    correctionCopy,
-    errorWord,
-    innerText,
-    mainIndex
-  );
-
-  correctionCopy.errorId = `punctuation_${mainIndex}`;
-  correctionCopy.index = mainIndex;
-
-  return {
-    innerText,
-    correctionCopy,
-    errorTypes: { wrongPunctuation, extraPunctuation, missingPunctuation }
-  };
+export const iterateCorrectionArray = (input, hoveredId, setInnerValue, newRef, setHoveredId, setErrorList, model, setSpellerAnswer, setGrammarAnswer) => {
+  if (input) {
+    const innerVal = input.map(val => {
+      if (val.corrected) {
+        const classValue = errorTypes[val.correction_type].classValue;
+        const classes = hoveredId === val.error_id || hoveredId === `${val.error_id}_inner` ? `${classValue} ${classValue}-hover` : classValue;
+        return (
+          <span key={val.error_id} id={val.error_id} className={val.correction_type}>
+                <Tooltip
+                  slotProps={correctionTooltipSlotProps}
+                  componentsProps={correctionTooltipComponentsProps}
+                  key={`${val.error_id}_tooltip`}
+                  placement={'top'}
+                  title={
+                    <Paper>
+                      <SingleError
+                        error={val}
+                        setHoveredId={setHoveredId}
+                        setErrorList={setErrorList}
+                        setInputType={model === SPELLCHECKER ? setSpellerAnswer : setGrammarAnswer}
+                      />
+                    </Paper>}
+                >
+                  <span
+                    id={`${val.error_id}_inner`}
+                    className={classes}
+                    onMouseOver={() => setHoveredId(val.error_id)}
+                    onMouseLeave={() => setHoveredId(null)}
+                  >
+                    {val.text}
+                  </span>
+              </Tooltip>
+            </span>
+        );
+      } else {
+        return (
+          <span key={val.error_id} id={val.error_id} className="uncorrected">
+            {val.text}
+          </span>
+        );
+      }
+    });
+    setInnerValue(innerVal);
+  } else {
+    setInnerValue(newRef);
+  }
 };
 
-const processMultiWordSpellingError = (correction, errorWord, innerText, mainIndex, errorColor) => {
-  const corrections = [];
-  const errorWords = errorWord.split(' ').reverse();
-  const newSpan = correction.span.value.split(' ').reverse();
-  const replaceWords = correction.replacements[0].value.split(' ').reverse();
-  let endVal = correction.span.end;
+export const processCorrectorKeyDown = (selectedText, noExtraText, triggerCondition, e, extraTextValue, inputType, setInputType, setErrorsToRemove, setSelectedText) => {
+  if (triggerCondition && selectedText?.size > 1) {
+    e.preventDefault();
 
-  errorWords.forEach((word, errorIndex) => {
-    const correctionCopy = { ...correction };
-    correctionCopy.span = {
-      start: endVal - word.length,
-      end: endVal,
-      value: newSpan[errorIndex]
-    };
-    correctionCopy.replacements = [{ value: replaceWords[errorIndex] }];
+    const mapKeys = Array.from(selectedText.keys());
+    const firstKey = mapKeys[0];
+    const lastKey = mapKeys[mapKeys.length - 1];
+    const inputTypeCopy = inputType.map(obj => ({ ...obj }));
+    const extraText = noExtraText ? '' : extraTextValue;
+    const mappedInput = inputTypeCopy.map(obj => {
+      let newText = obj.text;
 
-    innerText = resolveErrorMarks(
-      correctionCopy,
-      innerText,
-      word,
-      mainIndex + errorIndex,
-      errorIndex === 0 ? correction.wrongPunctuation : false,
-      errorIndex === 0 ? correction.extraPunctuation : false,
-      errorColor
+      if (obj.error_id === firstKey || `${obj.error_id}_inner` === firstKey) {
+        newText = obj.text.replace(new RegExp(selectedText.get(firstKey) + '$'), '') + extraText;
+      }
+      if (obj.error_id === lastKey || `${obj.error_id}_inner` === lastKey) {
+        newText = obj.text.replace(new RegExp('^' + selectedText.get(lastKey)), '');
+      }
+
+      if (newText.length === 0) return null;
+
+      if (obj.error_id === firstKey || `${obj.error_id}_inner` === firstKey || obj.error_id === lastKey || `${obj.error_id}_inner` === lastKey) {
+        return {
+          corrected: false,
+          error_id: obj.error_id.includes('_unmarked') ? obj.error_id : `${obj.error_id}_unmarked`, // Generate unique ID
+          text: newText
+        };
+      }
+      return obj;
+    }).filter(obj => obj !== null);
+    const filteredInput = mappedInput.filter(obj => (obj.error_id === firstKey || obj.error_id === `${firstKey}_unmarked` || obj.error_id === `${lastKey}_unmarked`) || obj.error_id === lastKey || !mapKeys.includes(obj.error_id));
+
+    setErrorsToRemove(mapKeys);
+    setInputType(filteredInput);
+    setSelectedText(null);
+
+    setTimeout(() => {
+      const element = document.getElementById(`${firstKey}_unmarked`) || document.getElementById(firstKey);
+      if (element) {
+        const range = document.createRange();
+        const selection = window.getSelection();
+        const textNode = element.lastChild;
+
+        if (textNode && textNode.nodeType === Node.TEXT_NODE) {
+          range.setStart(textNode, textNode.length);
+        } else {
+          range.setStart(element, element.childNodes.length);
+        }
+
+        range.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
+    }, 0);
+  }
+};
+
+const isBackSpaceOrDelete = (e) => { return (e.key === 'Backspace' || e.key === 'Delete');};
+const isNotNonLetterKey = (e) => (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey);
+const isOneLetterKey = (e) => (e.key.length === 1 && e.key.match(/^[\w\s]$/));
+
+export const handleCorrectorKeyDown = (e, selectedText, setSelectedText, inputType, setInputType, setErrorsToRemove) => {
+  if (ARROW_KEYS.includes(e.key)) {
+    setSelectedText(null);
+    return;
+  }
+
+  const triggerCondition = (isBackSpaceOrDelete(e) || isOneLetterKey(e)) && isNotNonLetterKey(e);
+  processCorrectorKeyDown(selectedText, isBackSpaceOrDelete, triggerCondition, e, e.key, inputType, setInputType, setErrorsToRemove, setSelectedText);
+
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return null;
+
+  let node = selection.anchorNode;
+  if (node.nodeType === 3) {
+    node = node.parentNode;
+  }
+
+  if (isBackSpaceOrDelete(e) && inputType) {
+    if (selectedText?.size === 1) {
+      e.preventDefault();
+      const deletableId = selectedText.keys().next().value;
+      setErrorsToRemove([deletableId]);
+      setInputType((prevList) => prevList.filter((element) => `${element.error_id}_inner` !== deletableId && element.error_id !== deletableId));
+    } else if (node.innerText.length === 1 || node.innerText.length === 0) {
+      e.preventDefault();
+      setInputType((prevList) => prevList.filter((element) => `${element.error_id}_inner` !== node.id && element.error_id !== node.id));
+    }
+  }
+};
+
+export const handleCorrectionTextSelection = (setSelectedText) => {
+  const selection = window.getSelection();
+
+  if (selection && selection.rangeCount > 0) {
+    const range = selection.getRangeAt(0);
+    const selectedHtml = range.cloneContents();
+    const div = document.createElement('div');
+    div.appendChild(selectedHtml);
+    const spans = div.querySelectorAll('span');
+    const spanMap = new Map(
+      Array.from(spans).filter(span => span.id).map(span => [span.id, span.innerText])
     );
 
-    correctionCopy.errorId = `errorno_${mainIndex + errorIndex}`;
-    correctionCopy.index = mainIndex + errorIndex;
-    endVal = correctionCopy.span.end - word.length - 1;
-
-    corrections.push(correctionCopy);
-  });
-
-  return { innerText, corrections, newIndex: mainIndex + errorWords.length };
-};
-
-const processSingleWordError = (correction, errorWord, innerText, mainIndex, errorColor) => {
-  const correctionCopy = { ...correction };
-  const errorTypes = checkAllErrors(errorWord, correction.replacements[0].value);
-
-  innerText = resolveErrorMarks(
-    correctionCopy,
-    innerText,
-    errorWord,
-    mainIndex,
-    errorTypes.wrongPunctuation,
-    errorTypes.extraPunctuation,
-    errorColor
-  );
-
-  correctionCopy.errorId = `errorno_${mainIndex}`;
-  correctionCopy.index = mainIndex;
-
-  return { innerText, correctionCopy, errorTypes };
-};
-
-const processPunctuationTypes = (punctuationResult, corrections) => {
-  if (punctuationResult.errorTypes.wrongPunctuation) corrections.wrongPunctuation.push(punctuationResult.correctionCopy);
-  if (punctuationResult.errorTypes.extraPunctuation) corrections.extraPunctuation.push(punctuationResult.correctionCopy);
-  if (punctuationResult.errorTypes.missingPunctuation) corrections.missingPunctuation.push(punctuationResult.correctionCopy);
-};
-
-const checkForPunctuationErrorType = (errorTypes) => {
-  return errorTypes.wrongPunctuation || errorTypes.extraPunctuation || errorTypes.missingPunctuation;
-};
-
-const checkForOtherErrorType = (errorTypes) => {
-  return errorTypes.spellingError || errorTypes.wordOrderError || errorTypes.missingWordError || errorTypes.extraWordError || errorTypes.wordCountError || errorTypes.multipleErrors;
-};
-
-const processSingleWordCorrections = (singleWordResult, corrections) => {
-  Object.entries(singleWordResult.errorTypes).forEach(([errorType, hasError]) => {
-    if (hasError) {
-      corrections[errorType].push(singleWordResult.correctionCopy);
-    }
-  });
-};
-
-const setCaretAtStart = (element, range, selection) => {
-  let firstNode = element;
-  while (firstNode.firstChild && firstNode.firstChild.nodeType === Node.ELEMENT_NODE) {
-    firstNode = firstNode.firstChild;
-  }
-
-  range.setStart(firstNode.firstChild || firstNode, 0);
-  range.collapse(true);
-  selection.removeAllRanges();
-  selection.addRange(range);
-  element.focus();
-};
-
-const findCaretPosition = (node, position) => {
-  let currentPos = 0;
-  let targetNode = null;
-  let targetOffset = 0;
-
-  const traverseNodesForSetCaretPosition = (node) => {
-    if (currentPos >= position) return true;
-
-    if (node.nodeType === Node.TEXT_NODE) {
-      const length = node.textContent.length;
-      if (currentPos + length >= position) {
-        targetNode = node;
-        targetOffset = position - currentPos;
-        return true;
-      }
-      currentPos += length;
-    } else if (node.nodeType === Node.ELEMENT_NODE && !node.childNodes.length) {
-      if (currentPos === position) {
-        targetNode = node;
-        targetOffset = 0;
-        return true;
-      }
-      currentPos += 1;
-    }
-
-    for (const child of node.childNodes) {
-      if (traverseNodesForSetCaretPosition(child)) return true;
-    }
-    return false;
-  };
-
-  traverseNodesForSetCaretPosition(node);
-  return { targetNode, targetOffset };
-};
-
-const setCaretAtPosition = (element, range, selection, targetNode, targetOffset) => {
-  if (targetNode) {
-    try {
-      range.setStart(targetNode, targetOffset);
-      range.collapse(true);
-      selection.removeAllRanges();
-      selection.addRange(range);
-      element.focus();
-    } catch (e) {
-      console.error('Error setting caret position:', e);
-      setCaretAtStart(element, range, selection);
+    if (spans.length > 0) {
+      setSelectedText(spanMap);
+    } else if (selection.getRangeAt(0).endOffset - selection.getRangeAt(0).startOffset === selection.baseNode.parentNode.innerText.length) {
+      setSelectedText(new Map([[selection.baseNode.parentNode.id, selection.baseNode.parentNode.innerText]]));
     }
   }
-};
-
-const setCaretPosition = (element, position) => {
-  if (!element) return;
-
-  const range = document.createRange();
-  const selection = window.getSelection();
-
-  if (position === 0) {
-    setCaretAtStart(element, range, selection);
-  } else {
-    const { targetNode, targetOffset } = findCaretPosition(element, position);
-    setCaretAtPosition(element, range, selection, targetNode, targetOffset);
-  }
-};
-
-const processTextNodesForSetCaretPosition = (node, range, state) => {
-  if (node === range.startContainer) {
-    state.currentPos += range.startOffset;
-    state.found = true;
-  }
-};
-
-const processChildNodesForSetCaretPosition = (node, range, state, traverseNodesForGetCaretPosition) => {
-  if (!node.childNodes.length && node.nodeType === Node.ELEMENT_NODE) {
-    state.currentPos += 1;
-    if (node === range.startContainer && range.startOffset === 0) {
-      state.found = true;
-      return;
-    }
-  }
-
-  for (const child of node.childNodes) {
-    traverseNodesForGetCaretPosition(child);
-    if (state.found) break;
-  }
-};
-
-const getCaretPosition = (element) => {
-  if (!element) return 0;
-
-  const selection = window.getSelection();
-  if (!selection.rangeCount) return 0;
-
-  const range = selection.getRangeAt(0);
-
-  if (range.startOffset === 0 && (!range.startContainer.textContent ||
-    range.startContainer === element ||
-    range.startContainer.nodeType === Node.ELEMENT_NODE)) {
-    return 0;
-  }
-
-  const state = { currentPos: 0, found: false };
-
-  const traverseNodesForGetCaretPosition = (node) => {
-    if (state.found) return;
-
-    if (node.nodeType === Node.TEXT_NODE) {
-      if (node === range.startContainer) {
-        processTextNodesForSetCaretPosition(node, range, state);
-        return;
-      }
-      state.currentPos += node.textContent.length;
-    } else {
-      processChildNodesForSetCaretPosition(node, range, state, traverseNodesForGetCaretPosition);
-    }
-  };
-
-  traverseNodesForGetCaretPosition(element);
-  return state.currentPos;
-};
-
-const validatePosition = (element, position) => {
-  if (!element) return 0;
-  const totalLength = getTotalLengthOfNodeTexts(element);
-  return Math.max(0, Math.min(position, totalLength));
-};
-
-const getTotalLengthOfNodeTexts = (element) => {
-  let length = 0;
-  const traverse = (node) => {
-    if (node.nodeType === Node.TEXT_NODE) {
-      length += node.textContent.length;
-    } else {
-      if (!node.childNodes.length && node.nodeType === Node.ELEMENT_NODE) {
-        length += 1;
-      }
-      for (const child of node.childNodes) {
-        traverse(child);
-      }
-    }
-  };
-  traverse(element);
-  return length;
 };
