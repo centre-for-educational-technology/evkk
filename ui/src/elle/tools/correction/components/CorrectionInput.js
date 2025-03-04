@@ -38,13 +38,17 @@ export default function CorrectionInput(
   const [selectedText, setSelectedText] = useState(null);
   const [errorsToRemove, setErrorsToRemove] = useState(null);
 
+  const handleResetSelect = () => {
+    setSelectedText(null);
+  };
+
   useEffect(() => {
     if (model === SPELLCHECKER) setInputType(spellerAnswer);
     if (model === GRAMMARCHECKER) setInputType(grammarAnswer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [model, inputText, spellerAnswer, grammarAnswer, errorList]);
 
-  useGlobalClickListener(setSelectedText);
+  useGlobalClickListener(setSelectedText, handleResetSelect);
 
   useEffect(() => {
     setNewRef(textBoxRef.current.innerText);

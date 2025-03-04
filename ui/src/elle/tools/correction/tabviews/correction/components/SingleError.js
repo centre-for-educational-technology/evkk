@@ -3,7 +3,7 @@ import { IconButton } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { ACCEPTERROR, DECLINEERROR } from '../../../const/Constants';
+import { ACCEPT_ERROR, DECLINE_ERROR } from '../../../const/Constants';
 
 export default function SingleError(
   {
@@ -26,7 +26,7 @@ export default function SingleError(
         entry.error_id === error.error_id ? {
           ...entry, ...{
             corrected: false,
-            text: decision === ACCEPTERROR ? error.corrected_text : error.text
+            text: decision === ACCEPT_ERROR ? error.corrected_text : error.text
           }
         } : entry
       )
@@ -45,13 +45,13 @@ export default function SingleError(
       <IconButton
         className="corrector-error-icon-button"
         color="success"
-        onClick={() => resolveErrors(ACCEPTERROR)}
+        onClick={() => resolveErrors(ACCEPT_ERROR)}
       >
         <CheckCircleIcon fontSize={'medium'}/>
       </IconButton>
       <IconButton
         className="corrector-error-icon-button"
-        onClick={() => resolveErrors(DECLINEERROR)}
+        onClick={() => resolveErrors(DECLINE_ERROR)}
         color={'error'}
       >
         <CancelIcon fontSize={'medium'}/>

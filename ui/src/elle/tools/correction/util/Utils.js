@@ -6,7 +6,7 @@ import {
   correctorDocxColors
 } from '../../../const/StyleConstants';
 import { accordionDetails, errorTypes } from '../const/TabValuesConstant';
-import { CORRECTION, SPELLCHECKER, TEXTSPAN } from '../const/Constants';
+import { ARROW_KEYS, CORRECTION, SPELLCHECKER, TEXTSPAN } from '../const/Constants';
 import { Paper, Tooltip } from '@mui/material';
 import SingleError from '../tabviews/correction/components/SingleError';
 import React from 'react';
@@ -137,7 +137,6 @@ export const parseHtmlForDocx = (htmlString) => {
             size: 20
           }));
       }
-
     }
   }
 
@@ -299,22 +298,22 @@ export const iterateCorrectionArray = (input, hoveredId, setInnerValue, newRef, 
                       />
                     </Paper>}
                 >
-                <span
-                  id={`${val.error_id}_inner`}
-                  className={classes}
-                  onMouseOver={() => setHoveredId(val.error_id)}
-                  onMouseLeave={() => setHoveredId(null)}
-                >
-                  {val.text}
-                </span>
+                  <span
+                    id={`${val.error_id}_inner`}
+                    className={classes}
+                    onMouseOver={() => setHoveredId(val.error_id)}
+                    onMouseLeave={() => setHoveredId(null)}
+                  >
+                    {val.text}
+                  </span>
               </Tooltip>
             </span>
         );
       } else {
         return (
           <span key={val.error_id} id={val.error_id} className="uncorrected">
-              {val.text}
-            </span>
+            {val.text}
+          </span>
         );
       }
     });
@@ -325,91 +324,84 @@ export const iterateCorrectionArray = (input, hoveredId, setInnerValue, newRef, 
 };
 
 export const processCorrectorKeyDown = (selectedText, noExtraText, triggerCondition, e, extraTextValue, inputType, setInputType, setErrorsToRemove, setSelectedText) => {
-  if (selectedText?.size > 1) {
-    if (triggerCondition) {
-      e.preventDefault();
+  if (triggerCondition && selectedText?.size > 1) {
+    e.preventDefault();
 
-      const mapKeys = Array.from(selectedText.keys());
-      const firstKey = mapKeys[0];
-      const lastKey = mapKeys[mapKeys.length - 1];
+    const mapKeys = Array.from(selectedText.keys());
+    const firstKey = mapKeys[0];
+    const lastKey = mapKeys[mapKeys.length - 1];
+    const inputTypeCopy = inputType.map(obj => ({ ...obj }));
+    const extraText = noExtraText ? '' : extraTextValue;
+    const mappedInput = inputTypeCopy.map(obj => {
+      let newText = obj.text;
 
-      const inputTypeCopy = inputType.map(obj => ({ ...obj }));
-      const extraText = noExtraText ? '' : extraTextValue;
-      const mappedInput = inputTypeCopy.map(obj => {
-        let newText = obj.text;
+      if (obj.error_id === firstKey || `${obj.error_id}_inner` === firstKey) {
+        newText = obj.text.replace(new RegExp(selectedText.get(firstKey) + '$'), '') + extraText;
+      }
+      if (obj.error_id === lastKey || `${obj.error_id}_inner` === lastKey) {
+        newText = obj.text.replace(new RegExp('^' + selectedText.get(lastKey)), '');
+      }
 
+      if (newText.length === 0) return null;
 
-        if (obj.error_id === firstKey || `${obj.error_id}_inner` === firstKey) {
-          newText = obj.text.replace(new RegExp(selectedText.get(firstKey) + '$'), '') + extraText;
+      if (obj.error_id === firstKey || `${obj.error_id}_inner` === firstKey || obj.error_id === lastKey || `${obj.error_id}_inner` === lastKey) {
+        return {
+          corrected: false,
+          error_id: obj.error_id.includes('_unmarked') ? obj.error_id : `${obj.error_id}_unmarked`, // Generate unique ID
+          text: newText
+        };
+      }
+      return obj;
+    }).filter(obj => obj !== null);
+    const filteredInput = mappedInput.filter(obj => (obj.error_id === firstKey || obj.error_id === `${firstKey}_unmarked` || obj.error_id === `${lastKey}_unmarked`) || obj.error_id === lastKey || !mapKeys.includes(obj.error_id));
+
+    setErrorsToRemove(mapKeys);
+    setInputType(filteredInput);
+    setSelectedText(null);
+
+    setTimeout(() => {
+      const element = document.getElementById(`${firstKey}_unmarked`) || document.getElementById(firstKey);
+      if (element) {
+        const range = document.createRange();
+        const selection = window.getSelection();
+        const textNode = element.lastChild;
+
+        if (textNode && textNode.nodeType === Node.TEXT_NODE) {
+          range.setStart(textNode, textNode.length);
+        } else {
+          range.setStart(element, element.childNodes.length);
         }
-        if (obj.error_id === lastKey || `${obj.error_id}_inner` === lastKey) {
-          newText = obj.text.replace(new RegExp('^' + selectedText.get(lastKey)), '');
-        }
 
-        // If the new text is empty, remove the object (return null)
-        if (newText.length === 0) return null;
-
-
-        // Replace first & last objects with a new format
-        if (obj.error_id === firstKey || `${obj.error_id}_inner` === firstKey || obj.error_id === lastKey || `${obj.error_id}_inner` === lastKey) {
-          return {
-            corrected: false,
-            error_id: obj.error_id.includes('_unmarked') ? obj.error_id : `${obj.error_id}_unmarked`, // Generate unique ID
-            text: newText
-          };
-        }
-
-        return obj; // Keep other objects unchanged
-      }).filter(obj => obj !== null);
-      const filteredInput = mappedInput.filter(obj => (obj.error_id === firstKey || obj.error_id === `${firstKey}_unmarked` || obj.error_id === `${lastKey}_unmarked`) || obj.error_id === lastKey || !mapKeys.includes(obj.error_id));
-
-      setErrorsToRemove(mapKeys);
-      setInputType(filteredInput);
-      setSelectedText(null);
-
-      setTimeout(() => {
-        const element = document.getElementById(`${firstKey}_unmarked`) || document.getElementById(firstKey);
-        if (element) {
-          const range = document.createRange();
-          const selection = window.getSelection();
-          const textNode = element.lastChild; // Use lastChild to handle both text and element nodes
-
-          if (textNode && textNode.nodeType === Node.TEXT_NODE) {
-            range.setStart(textNode, textNode.length); // Move cursor to end of text
-          } else {
-            range.setStart(element, element.childNodes.length); // If no text node, move after last child
-          }
-
-          // Position cursor at the beginning of the element
-          range.collapse(true);
-
-          // Apply the new selection
-          selection.removeAllRanges();
-          selection.addRange(range);
-        }
-      }, 0);
-    }
+        range.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
+    }, 0);
   }
 };
 
+const isBackSpaceOrDelete = (e) => { return (e.key === 'Backspace' || e.key === 'Delete');};
+const isNotNonLetterKey = (e) => (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey);
+const isOneLetterKey = (e) => (e.key.length === 1 && e.key.match(/^[\w\s]$/));
+
 export const handleCorrectorKeyDown = (e, selectedText, setSelectedText, inputType, setInputType, setErrorsToRemove) => {
-  if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+  if (ARROW_KEYS.includes(e.key)) {
     setSelectedText(null);
     return;
   }
 
-  const triggerCodition = ((e.key === 'Backspace' || e.key === 'Delete') || (e.key.length === 1 && e.key.match(/^[\w\s]$/))) && !e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey;
-  processCorrectorKeyDown(selectedText, e.key === 'Backspace' || e.key === 'Delete', triggerCodition, e, e.key, inputType, setInputType, setErrorsToRemove, setSelectedText);
+  const triggerCondition = (isBackSpaceOrDelete(e) || isOneLetterKey(e)) && isNotNonLetterKey(e);
+  processCorrectorKeyDown(selectedText, isBackSpaceOrDelete, triggerCondition, e, e.key, inputType, setInputType, setErrorsToRemove, setSelectedText);
 
   const selection = window.getSelection();
   if (!selection.rangeCount) return null;
 
-  let node = selection.anchorNode; // The node where the cursor is
+  let node = selection.anchorNode;
   if (node.nodeType === 3) {
-    node = node.parentNode; // Get the parent if it's a text node
+    node = node.parentNode;
   }
 
-  if (e.key === 'Backspace' || e.key === 'Delete') {
+  if (isBackSpaceOrDelete(e) && inputType) {
     if (selectedText?.size === 1) {
       e.preventDefault();
       const deletableId = selectedText.keys().next().value;
@@ -426,10 +418,8 @@ export const handleCorrectionTextSelection = (setSelectedText) => {
   const selection = window.getSelection();
 
   if (selection && selection.rangeCount > 0) {
-
     const range = selection.getRangeAt(0);
     const selectedHtml = range.cloneContents();
-
     const div = document.createElement('div');
     div.appendChild(selectedHtml);
     const spans = div.querySelectorAll('span');
@@ -444,5 +434,3 @@ export const handleCorrectionTextSelection = (setSelectedText) => {
     }
   }
 };
-
-

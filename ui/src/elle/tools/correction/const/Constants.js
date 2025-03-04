@@ -14,10 +14,11 @@ export const PRON = 'PRON';
 export const PROPN = 'PROPN';
 export const VERB = 'VERB';
 export const NUM = 'NUM';
+export const ARROW_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
 export const EXCLUSION_WORDS = ['ja', 'mina', 'olema', 'ei', 'et'];
 export const CORRECTION = 'corrector_proofreading';
 export const TEXTLEVEL = 'corrector_proficiency_level';
 export const TEXTSPAN = 'text-span';
-export const ACCEPTERROR = 'acceptError';
-export const DECLINEERROR = 'declineError';
+export const ACCEPT_ERROR = 'acceptError';
+export const DECLINE_ERROR = 'declineError';
 
