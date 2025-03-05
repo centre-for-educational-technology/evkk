@@ -25,7 +25,7 @@
   flex-direction: column;
   gap: 5px;
   width: auto;
-  max-width: 0px;
+  max-width: 0;
   margin-left: 50px;
 }
 
@@ -213,4 +213,15 @@
 
 .query-chip-header {
   width: 260px;
+}
+
+.number-avatar {
+  background-color: #9C27B0;
+  color: white !important;
+  padding: 0 8px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
 }
