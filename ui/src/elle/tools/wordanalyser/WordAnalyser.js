@@ -21,6 +21,8 @@ import { queryStore } from '../../store/QueryStore';
 import { WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO } from '../../const/Constants';
 import { useTranslation } from 'react-i18next';
 import { useGetWordAnalyserResult } from '../../hooks/service/ToolsService';
+import { loadingEmitter } from '../../../App';
+import { LoadingSpinnerEventType } from '../../components/LoadingSpinner';
 
 function WordAnalyser() {
   const [analysedInput, setAnalysedInput] = useContext(AnalyseContext);
@@ -69,8 +71,12 @@ function WordAnalyser() {
     setIsFinishedLoading(false);
     getWordAnalyserResult(generateRequestData())
       .then(response => {
-        setIsFinishedLoading(true);
-        analyseInput(response);
+        loadingEmitter.emit(LoadingSpinnerEventType.LOADER_START_SHRINK_DISABLED);
+        setTimeout(() => { // for a visual cue when rendering takes longer
+          setIsFinishedLoading(true);
+          analyseInput(response);
+          loadingEmitter.emit(LoadingSpinnerEventType.LOADER_END);
+        }, 0);
       });
   };
 
