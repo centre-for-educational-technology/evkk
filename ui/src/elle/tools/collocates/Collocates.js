@@ -198,7 +198,8 @@ export default function Collocates() {
               setInitialKeywordResult(response.initialKeyword);
             }
           }
-        });
+        })
+        .then(() => navigate('', { replace: true }));
     }
   };
 
