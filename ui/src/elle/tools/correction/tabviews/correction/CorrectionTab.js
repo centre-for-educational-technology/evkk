@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import CorrectionToggleButtonGroup from '../../components/CorrectionToggleButtonGroup';
 import { CorrectionAndTextLevelToggleButtons } from '../../const/ToggleButtonConstants';
 import { CORRECTION_TAB_LINK } from '../../const/PathConstants';
-import { CORRECTION, SPELLCHECKER } from '../../const/Constants';
+import { CORRECTION, GRAMMARCHECKER_TEST, SPELLCHECKER } from '../../const/Constants';
 
 export default function CorrectionTab(
   {
@@ -33,7 +33,10 @@ export default function CorrectionTab(
     setGrammarErrorList,
     setSpellerErrorList,
     hoveredId,
-    setHoveredId
+    setHoveredId,
+    grammarTestAnswer,
+    setGrammarTestErrorList,
+    setGrammarTestAnswer
   }) {
   const { t } = useTranslation();
   const [totalErrors, setTotalErrors] = useState(null);
@@ -47,25 +50,36 @@ export default function CorrectionTab(
   return (
     <div className="corrector-border-box">
       <Box className="d-flex justify-content-between">
-        <CorrectionToggleButtonGroup
-          newRef={newRef}
-          toggleButtons={CorrectionAndTextLevelToggleButtons}
-          correctionModel={correctionModel}
-          setCorrectionModel={setCorrectionModel}
-          textBoxRef={textBoxRef}
-          inputText={inputText}
-          setInputText={setInputText}
-          setRequestingText={setRequestingText}
-          setGrammarAnswer={setGrammarAnswer}
-          setSpellerAnswer={setSpellerAnswer}
-          setComplexityAnswer={setComplexityAnswer}
-          setAbstractWords={setAbstractWords}
-          setGrammarErrorList={setGrammarErrorList}
-          setSpellerErrorList={setSpellerErrorList}
-        />
-        <CorrectionInfoIcon
-          inputText={<div>{t('corrector_proofreading_infobox')} <a href={CORRECTION_TAB_LINK}>{t('common_here')}</a>.
-          </div>}/>
+        {correctionModel !== GRAMMARCHECKER_TEST &&
+          <CorrectionToggleButtonGroup
+            newRef={newRef}
+            toggleButtons={CorrectionAndTextLevelToggleButtons}
+            correctionModel={correctionModel}
+            setCorrectionModel={setCorrectionModel}
+            textBoxRef={textBoxRef}
+            inputText={inputText}
+            setInputText={setInputText}
+            setRequestingText={setRequestingText}
+            setGrammarAnswer={setGrammarAnswer}
+            setSpellerAnswer={setSpellerAnswer}
+            setGrammarTestAnswer={setGrammarTestAnswer}
+            setComplexityAnswer={setComplexityAnswer}
+            setAbstractWords={setAbstractWords}
+            setGrammarErrorList={setGrammarErrorList}
+            setSpellerErrorList={setSpellerErrorList}
+            setGrammarTestErrorList={setGrammarTestErrorList}
+          />}
+        {correctionModel === GRAMMARCHECKER_TEST &&
+          <Alert severity="warning" className="mb-2">
+            <div>{t('corrector_test_version_text')}</div>
+            <div>{t('corrector_test_version_thanks')}</div>
+          </Alert>
+        }
+        <div className="d-flex align-items-center">
+          <CorrectionInfoIcon
+            inputText={<div>{t('corrector_proofreading_infobox')} <a href={CORRECTION_TAB_LINK}>{t('common_here')}</a>.
+            </div>}/>
+        </div>
       </Box>
       <div className="d-flex gap-2 flex-wrap">
         <CorrectionInput
@@ -91,6 +105,9 @@ export default function CorrectionTab(
           complexityAnswer={complexityAnswer}
           hoveredId={hoveredId}
           setHoveredId={setHoveredId}
+          setGrammarTestAnswer={setGrammarTestAnswer}
+          setGrammarTestErrorList={setGrammarTestErrorList}
+          grammarTestAnswer={grammarTestAnswer}
         />
         <div className="corrector-right">
           {errorList ?
@@ -101,7 +118,7 @@ export default function CorrectionTab(
                 errorList={errorList}
                 inputText={inputText}
                 setHoveredId={setHoveredId}
-                setInputType={correctionModel === SPELLCHECKER ? setSpellerAnswer : setGrammarAnswer}
+                setInputType={correctionModel === GRAMMARCHECKER_TEST ? setGrammarTestAnswer : correctionModel === SPELLCHECKER ? setSpellerAnswer : setGrammarAnswer}
                 correctionModel={correctionModel}
               />
             </>

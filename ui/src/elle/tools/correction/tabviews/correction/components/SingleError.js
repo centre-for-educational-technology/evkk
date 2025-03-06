@@ -1,16 +1,18 @@
 import React from 'react';
-import { IconButton } from '@mui/material';
+import { Divider, IconButton, Paper } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { ACCEPT_ERROR, DECLINE_ERROR } from '../../../const/Constants';
+import { ACCEPT_ERROR, DECLINE_ERROR, GRAMMARCHECKER_TEST } from '../../../const/Constants';
 
 export default function SingleError(
   {
     error,
     setErrorList,
     setHoveredId,
-    setInputType
+    setInputType,
+    correctionModel,
+    errorText
   }) {
 
   const resolveErrors = (decision) => {
@@ -34,28 +36,42 @@ export default function SingleError(
   };
 
   return (
-    <div
-      className="correction-single-error"
-      onMouseOver={() => setHoveredId(error.error_id)}
-      onMouseLeave={() => setHoveredId(null)}
-    >
-      <span className="corrector-error-word">{error.text}</span>
-      <KeyboardArrowRightIcon fontStyle={'small'}/>
-      <strong>{error.corrected_text}</strong>
-      <IconButton
-        className="corrector-error-icon-button"
-        color="success"
-        onClick={() => resolveErrors(ACCEPT_ERROR)}
+    <Paper style={{ padding: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+      <div
+        className="correction-single-error"
+        onMouseOver={() => setHoveredId(error.error_id)}
+        onMouseLeave={() => setHoveredId(null)}
       >
-        <CheckCircleIcon fontSize={'medium'}/>
-      </IconButton>
-      <IconButton
-        className="corrector-error-icon-button"
-        onClick={() => resolveErrors(DECLINE_ERROR)}
-        color={'error'}
-      >
-        <CancelIcon fontSize={'medium'}/>
-      </IconButton>
-    </div>
+        <span className="corrector-error-word">{error.text}</span>
+        <KeyboardArrowRightIcon fontStyle={'small'}/>
+        <strong>{error.corrected_text}</strong>
+        <IconButton
+          className="corrector-error-icon-button"
+          color="success"
+          onClick={() => resolveErrors(ACCEPT_ERROR)}
+        >
+          <CheckCircleIcon fontSize={'medium'}/>
+        </IconButton>
+        <IconButton
+          className="corrector-error-icon-button"
+          onClick={() => resolveErrors(DECLINE_ERROR)}
+          color={'error'}
+        >
+          <CancelIcon fontSize={'medium'}/>
+        </IconButton>
+      </div>
+      {errorText && <Divider/>}
+      {correctionModel === GRAMMARCHECKER_TEST && error.correction_type === 'multipleErrors' && error.correction_value &&
+        <div>
+          <div>Vealiigid: {error.correction_value}</div>
+          <Divider/>
+        </div>
+      }
+      <div>
+        {correctionModel === GRAMMARCHECKER_TEST && errorText &&
+          <div>{errorText}</div>}
+      </div>
+    </Paper>
+
   );
 };

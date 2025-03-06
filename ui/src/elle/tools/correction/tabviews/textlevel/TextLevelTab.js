@@ -10,7 +10,7 @@ import CorrectionToggleButtonGroup from '../../components/CorrectionToggleButton
 import { useTranslation } from 'react-i18next';
 import { CorrectionAndTextLevelToggleButtons } from '../../const/ToggleButtonConstants';
 import { accordionDetails, textLevelColors, textLevels } from '../../const/TabValuesConstant';
-import { TEXTLEVEL } from '../../const/Constants';
+import { GRAMMARCHECKER_TEST, TEXTLEVEL } from '../../const/Constants';
 
 export default function TextLevelTab(
   {
@@ -34,14 +34,17 @@ export default function TextLevelTab(
     setGrammarAnswer,
     setGrammarErrorList,
     setSpellerErrorList,
-    setHoveredId
+    setHoveredId,
+    setGrammarTestAnswer,
+    setGrammarTestErrorList,
+    grammarTestAnswer
   }) {
   const { t } = useTranslation();
 
   return (
     <div className="corrector-border-box">
       <Box className="d-flex justify-content-between">
-        <CorrectionToggleButtonGroup
+        {correctionModel !== GRAMMARCHECKER_TEST && <CorrectionToggleButtonGroup
           newRef={newRef}
           correctionModel={correctionModel}
           setCorrectionModel={setCorrectionModel}
@@ -56,7 +59,15 @@ export default function TextLevelTab(
           toggleButtons={CorrectionAndTextLevelToggleButtons}
           setGrammarErrorList={setGrammarErrorList}
           setSpellerErrorList={setSpellerErrorList}
-        />
+          setGrammarTestAnswer={setGrammarTestAnswer}
+          setGrammarTestErrorList={setGrammarTestErrorList}
+        />}
+        {correctionModel === GRAMMARCHECKER_TEST &&
+          <Alert severity="warning" className="mb-2">
+            <div>{t('corrector_test_version_text')}</div>
+            <div>{t('corrector_test_version_thanks')}</div>
+          </Alert>
+        }
         <CorrectionInfoIcon
           inputText={
             <div>
@@ -104,6 +115,9 @@ export default function TextLevelTab(
           tab={TEXTLEVEL}
           complexityAnswer={complexityAnswer}
           setHoveredId={setHoveredId}
+          setGrammarTestAnswer={setGrammarTestAnswer}
+          setGrammarTestErrorList={setGrammarTestErrorList}
+          grammarTestAnswer={grammarTestAnswer}
         />
         <div className="corrector-right">
           {complexityAnswer && complexityAnswer?.keeletase.length !== 0 &&

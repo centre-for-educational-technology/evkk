@@ -14,7 +14,8 @@ export default function ErrorAccordion(
     errorList,
     setErrorList,
     setHoveredId,
-    setInputType
+    setInputType,
+    correctionModel
   }) {
   const { t } = useTranslation();
 
@@ -34,7 +35,7 @@ export default function ErrorAccordion(
             {t(errorTypes[errorProperties[0]].label)} ({errorProperties[1].length})
           </AccordionSummary>
           <AccordionDetails>
-            <div>
+            <div style={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}>
               {errorProperties[1].map((error, index) => (
                 <SingleError
                   key={error.error_id}
@@ -42,6 +43,8 @@ export default function ErrorAccordion(
                   setErrorList={setErrorList}
                   setHoveredId={setHoveredId}
                   setInputType={setInputType}
+                  correctionModel={correctionModel}
+                  errorText={error.long_explanation}
                 />
               ))}
             </div>
