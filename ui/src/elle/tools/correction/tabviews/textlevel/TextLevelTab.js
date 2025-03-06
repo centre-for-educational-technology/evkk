@@ -44,7 +44,8 @@ export default function TextLevelTab(
   return (
     <div className="corrector-border-box">
       <Box className="d-flex justify-content-between">
-        {correctionModel !== GRAMMARCHECKER_TEST ? <CorrectionToggleButtonGroup
+        {correctionModel !== GRAMMARCHECKER_TEST ?
+          <CorrectionToggleButtonGroup
             newRef={newRef}
             correctionModel={correctionModel}
             setCorrectionModel={setCorrectionModel}
