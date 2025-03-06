@@ -77,8 +77,7 @@ def keerukus_sonaliigid_mitmekesisus():
 
     grammar_output = generate_grammar_output(tekst, fetch_grammar(tekst))
     speller_output = generate_grammar_output(tekst, fetch_speller(tekst))
-    fetched_data = fetch_test_grammar(tekst)
-    grammar_test_output = generate_test_grammar_output(json.dumps(fetched_data), tekst)
+    grammar_test_output = generate_test_grammar_output(tekst, fetch_test_grammar(tekst))
 
     return Response(json.dumps({
         "sonad": sonad,

@@ -279,7 +279,6 @@ const processTextLevelAnswer = (returnArray, textLevel, labels) => {
 
 export const iterateCorrectionArray = (input, hoveredId, setInnerValue, newRef, setHoveredId, setErrorList, model, setSpellerAnswer, setGrammarAnswer, setGrammarTestAnswer) => {
   if (input) {
-    console.log(input);
     const innerVal = input.map(val => {
       if (val.corrected) {
         const classValue = errorTypes[val.correction_type].classValue;

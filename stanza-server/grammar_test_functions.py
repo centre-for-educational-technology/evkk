@@ -71,7 +71,8 @@ def find_error_indexes(input, original):
                     start_pos = error_position + index_size + current_offset
                     end_pos = start_pos + len(wrong_word)
                     errors.append(
-                        (start_pos, end_pos, wrong_word, correct_word, error_type, long_explanation, short_explanation))
+                        (start_pos, end_pos, wrong_word, correct_word, error_type, long_explanation, short_explanation)
+                    )
 
                     current_offset += error_position + len(wrong_word)
                     original_working = original_working[error_position + len(wrong_word):]
@@ -136,8 +137,7 @@ def populate_error_list(data):
     return dict(grouped_corrections)
 
 
-def generate_test_grammar_output(json_data, full_text):
-    data = json.loads(json_data)
+def generate_test_grammar_output(full_text, data):
     results = []
 
     error_positions = find_error_indexes(data, full_text)

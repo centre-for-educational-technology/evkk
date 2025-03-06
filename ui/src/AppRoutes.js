@@ -42,61 +42,61 @@ export default function AppRoutes() {
         marginTop: '20px'
       }}
     >
-      <BreadcrumbLinks/>
+      <BreadcrumbLinks />
       <Routes>
         <Route exact
                path="/"
-               element={<Home/>}/>
+               element={<Home />} />
         <Route path={RouteConstants.ABOUT}
-               element={<AboutUs/>}>
+               element={<AboutUs />}>
           <Route index
                  element={<Navigate to={RouteConstants.US}
-                                    replace/>}/>
+                                    replace />} />
           <Route path={RouteConstants.US}
-                 element={<AboutUsText/>}/>
+                 element={<AboutUsText />} />
           <Route path={RouteConstants.PEOPLE}
-                 element={<FilledContacts/>}/>
+                 element={<FilledContacts />} />
           <Route path={RouteConstants.GRANTS}
-                 element={<Grants/>}/>
+                 element={<Grants />} />
           <Route path={RouteConstants.PUBLICATIONS}
-                 element={<Publications/>}/>
+                 element={<Publications />} />
         </Route>
         <Route path={RouteConstants.ADDING}
-               element={<Adding/>}/>
+               element={<Adding />} />
         <Route path={RouteConstants.CORRECTOR}
-               element={<Correction/>}/>
+               element={<Correction />} />
         <Route path={RouteConstants.CORRECTOR_TEST}
-               element={<Correction/>}/>
+               element={<Correction />} />
         <Route path={RouteConstants.TOOLS}
-               element={<Tools/>}>
+               element={<Tools />}>
           <Route index
                  element={<Navigate to={RouteConstants.WORDLIST}
-                                    replace/>}/>
+                                    replace />} />
           <Route path={RouteConstants.WORDLIST}
-                 element={<Wordlist/>}/>
+                 element={<Wordlist />} />
           <Route path={RouteConstants.WORDCONTEXT}
-                 element={<WordContext/>}/>
+                 element={<WordContext />} />
           <Route path={RouteConstants.COLLOCATES}
-                 element={<Collocates/>}/>
+                 element={<Collocates />} />
           <Route path={RouteConstants.CLUSTERFINDER}
-                 element={<ClusterFinder/>}/>
+                 element={<ClusterFinder />} />
           <Route path={RouteConstants.WORDANALYSER}
-                 element={<WordAnalyserParent/>}/>
+                 element={<WordAnalyserParent />} />
           <Route path="minitorn-pikkus"
-                 element={<MinitornPikkus/>}/>
+                 element={<MinitornPikkus />} />
           <Route path="masinoppe-ennustus"
-                 element={<MasinoppeEnnustus/>}/>
+                 element={<MasinoppeEnnustus />} />
         </Route>
         <Route path={RouteConstants.LINKS}
-               element={<Links/>}/>
+               element={<Links />} />
         <Route path={RouteConstants.LOGIN}
-               element={<Login/>}/>
-        <Route element={<RequireAuth role={UserRoles.ADMIN}/>}>
+               element={<Login />} />
+        <Route element={<RequireAuth role={UserRoles.ADMIN} />}>
           <Route path={RouteConstants.ADMIN}
-                 element={<Admin/>}/>
+                 element={<Admin />} />
         </Route>
         <Route path="*"
-               element={render404()}/>
+               element={render404()} />
       </Routes>
     </Container>
   );

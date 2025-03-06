@@ -50,7 +50,7 @@ export default function CorrectionTab(
   return (
     <div className="corrector-border-box">
       <Box className="d-flex justify-content-between">
-        {correctionModel !== GRAMMARCHECKER_TEST &&
+        {correctionModel !== GRAMMARCHECKER_TEST ?
           <CorrectionToggleButtonGroup
             newRef={newRef}
             toggleButtons={CorrectionAndTextLevelToggleButtons}
@@ -68,8 +68,8 @@ export default function CorrectionTab(
             setGrammarErrorList={setGrammarErrorList}
             setSpellerErrorList={setSpellerErrorList}
             setGrammarTestErrorList={setGrammarTestErrorList}
-          />}
-        {correctionModel === GRAMMARCHECKER_TEST &&
+          />
+          :
           <Alert severity="warning" className="mb-2">
             <div>{t('corrector_test_version_text')}</div>
             <div>{t('corrector_test_version_thanks')}</div>
@@ -78,7 +78,7 @@ export default function CorrectionTab(
         <div className="d-flex align-items-center">
           <CorrectionInfoIcon
             inputText={<div>{t('corrector_proofreading_infobox')} <a href={CORRECTION_TAB_LINK}>{t('common_here')}</a>.
-            </div>}/>
+            </div>} />
         </div>
       </Box>
       <div className="d-flex gap-2 flex-wrap">

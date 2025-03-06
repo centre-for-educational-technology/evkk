@@ -44,25 +44,25 @@ export default function TextLevelTab(
   return (
     <div className="corrector-border-box">
       <Box className="d-flex justify-content-between">
-        {correctionModel !== GRAMMARCHECKER_TEST && <CorrectionToggleButtonGroup
-          newRef={newRef}
-          correctionModel={correctionModel}
-          setCorrectionModel={setCorrectionModel}
-          textBoxRef={textBoxRef}
-          inputText={inputText}
-          setInputText={setInputText}
-          setRequestingText={setRequestingText}
-          setGrammarAnswer={setGrammarAnswer}
-          setSpellerAnswer={setSpellerAnswer}
-          setComplexityAnswer={setComplexityAnswer}
-          setAbstractWords={setAbstractWords}
-          toggleButtons={CorrectionAndTextLevelToggleButtons}
-          setGrammarErrorList={setGrammarErrorList}
-          setSpellerErrorList={setSpellerErrorList}
-          setGrammarTestAnswer={setGrammarTestAnswer}
-          setGrammarTestErrorList={setGrammarTestErrorList}
-        />}
-        {correctionModel === GRAMMARCHECKER_TEST &&
+        {correctionModel !== GRAMMARCHECKER_TEST ? <CorrectionToggleButtonGroup
+            newRef={newRef}
+            correctionModel={correctionModel}
+            setCorrectionModel={setCorrectionModel}
+            textBoxRef={textBoxRef}
+            inputText={inputText}
+            setInputText={setInputText}
+            setRequestingText={setRequestingText}
+            setGrammarAnswer={setGrammarAnswer}
+            setSpellerAnswer={setSpellerAnswer}
+            setComplexityAnswer={setComplexityAnswer}
+            setAbstractWords={setAbstractWords}
+            toggleButtons={CorrectionAndTextLevelToggleButtons}
+            setGrammarErrorList={setGrammarErrorList}
+            setSpellerErrorList={setSpellerErrorList}
+            setGrammarTestAnswer={setGrammarTestAnswer}
+            setGrammarTestErrorList={setGrammarTestErrorList}
+          />
+          :
           <Alert severity="warning" className="mb-2">
             <div>{t('corrector_test_version_text')}</div>
             <div>{t('corrector_test_version_thanks')}</div>

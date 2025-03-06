@@ -36,35 +36,35 @@ export default function SingleError(
   };
 
   return (
-    <Paper style={{ padding: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+    <Paper className="p-2 d-flex flex-column gap-1">
       <div
         className="correction-single-error"
         onMouseOver={() => setHoveredId(error.error_id)}
         onMouseLeave={() => setHoveredId(null)}
       >
         <span className="corrector-error-word">{error.text}</span>
-        <KeyboardArrowRightIcon fontStyle={'small'}/>
+        <KeyboardArrowRightIcon fontStyle={'small'} />
         <strong>{error.corrected_text}</strong>
         <IconButton
           className="corrector-error-icon-button"
           color="success"
           onClick={() => resolveErrors(ACCEPT_ERROR)}
         >
-          <CheckCircleIcon fontSize={'medium'}/>
+          <CheckCircleIcon fontSize={'medium'} />
         </IconButton>
         <IconButton
           className="corrector-error-icon-button"
           onClick={() => resolveErrors(DECLINE_ERROR)}
           color={'error'}
         >
-          <CancelIcon fontSize={'medium'}/>
+          <CancelIcon fontSize={'medium'} />
         </IconButton>
       </div>
-      {errorText && <Divider/>}
+      {errorText && <Divider />}
       {correctionModel === GRAMMARCHECKER_TEST && error.correction_type === 'multipleErrors' && error.correction_value &&
         <div>
           <div>Vealiigid: {error.correction_value}</div>
-          <Divider/>
+          <Divider />
         </div>
       }
       <div>

@@ -25,7 +25,7 @@ export default function ErrorAccordion(
         if (errorProperties[1].length === 0) return null;
         return (<Accordion key={errorProperties[0]} square={true} sx={CorrectorAccordionStyle}>
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon/>}
+            expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1-content"
             id="panel1-header"
           >
@@ -35,7 +35,7 @@ export default function ErrorAccordion(
             {t(errorTypes[errorProperties[0]].label)} ({errorProperties[1].length})
           </AccordionSummary>
           <AccordionDetails>
-            <div style={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}>
+            <div className="d-flex gap-1 flex-column">
               {errorProperties[1].map((error, index) => (
                 <SingleError
                   key={error.error_id}
