@@ -36,7 +36,9 @@ export default function ComplexityTab(
     setRequestingText,
     setErrorList,
     setGrammarErrorList,
-    setSpellerErrorList
+    setSpellerErrorList,
+    setGrammarTestAnswer,
+    setGrammarTestErrorList
   }) {
   const { t } = useTranslation();
   const [model, setModel] = useState(LONG_SENTENCE);
@@ -84,6 +86,8 @@ export default function ComplexityTab(
           setAbstractWords={setAbstractWords}
           setGrammarErrorList={setGrammarErrorList}
           setSpellerErrorList={setSpellerErrorList}
+          setGrammarTestAnswer={setGrammarTestAnswer}
+          setGrammarTestErrorList={setGrammarTestErrorList}
         />
         <CorrectionInfoIcon inputText={
           <div>
@@ -155,6 +159,8 @@ export default function ComplexityTab(
             setErrorList={setErrorList}
             setGrammarErrorList={setGrammarErrorList}
             setSpellerErrorList={setSpellerErrorList}
+            setGrammarTestAnswer={setGrammarTestAnswer}
+            setGrammarTestErrorList={setGrammarTestErrorList}
           />
         </div>
         <div className="corrector-right">

@@ -23,7 +23,17 @@ export const complexityValues = [
 export const textLevelColors = ['hsl(0 66% 76%)', 'hsl(100 37% 75%)', 'hsl(50 37% 75%)', 'hsl(240 37% 75%)'];
 
 export const errorTypes = {
+  spellingErrorTest: { color: '#ea9999', label: 'corrector_grammar_errors_spelling', classValue: 'spelling-error' },
   spellingError: { color: '#ea9999', label: 'corrector_grammar_errors_word_replacement', classValue: 'spelling-error' },
+
+  caseError: { color: '#c27ba0', label: 'corrector_grammar_errors_case', classValue: 'case-error' },
+  capitalizationError: {
+    color: '#ea9999',
+    label: 'corrector_grammar_errors_capitalization',
+    classValue: 'spelling-error'
+  },
+  verbFormError: { color: '#c27ba0', label: 'corrector_grammar_errors_verb_form', classValue: 'case-error' },
+  wordChoiceError: { color: '#76a5af', label: 'corrector_grammar_errors_word_choice', classValue: 'word-choice-error' },
   extraPunctuation: {
     color: '#b6d7a8',
     label: 'corrector_grammar_errors_unnecessary_punctuation',
@@ -39,18 +49,8 @@ export const errorTypes = {
     label: 'corrector_grammar_errors_punctuation_replacement',
     classValue: 'punctuation'
   },
-  punctuationOrder: {
-    color: '#b6d7a8',
-    label: 'corrector_grammar_errors_punctuation_order',
-    classValue: 'punctuation'
-  },
-  wordCountError: { color: '#ffe599', label: 'corrector_grammar_errors_compounding', classValue: 'word-count-error' },
   wordOrderError: { color: '#c9daf8', label: 'corrector_grammar_errors_word_order', classValue: 'word-order-error' },
-  multipleErrors: {
-    color: '#f6b26a',
-    label: 'corrector_grammar_errors_other_correction',
-    classValue: 'multiple-errors'
-  },
+  wordCountError: { color: '#ffe599', label: 'corrector_grammar_errors_compounding', classValue: 'word-count-error' },
   missingWordError: {
     color: '#ada1d4',
     label: 'corrector_grammar_errors_missing_word',
@@ -60,8 +60,19 @@ export const errorTypes = {
     color: '#ada1d4',
     label: 'corrector_grammar_errors_unnecessary_word',
     classValue: 'extra-word-error'
+  },
+  punctuationOrder: {
+    color: '#b6d7a8',
+    label: 'corrector_grammar_errors_punctuation_order',
+    classValue: 'punctuation'
+  },
+  multipleErrors: {
+    color: '#f6b26a',
+    label: 'corrector_grammar_errors_other_correction',
+    classValue: 'multiple-errors'
   }
 };
+
 
 export const correctorDocxType = {
   'longsentence': 'corrector_complexity_long_sentences',

@@ -9,8 +9,8 @@ from flask import request
 
 from corrector_counters import calculate_uncommon_words
 from corrector_functions import generate_grammar_output
-from grammar_fetches import fetch_grammar
-from grammar_fetches import fetch_speller
+from grammar_fetches import fetch_grammar, fetch_speller, fetch_test_grammar
+from grammar_test_functions import generate_test_grammar_output
 from linguistic_analysis import predict_level
 from nlp import nlp_t, nlp_tp, nlp_tpl, nlp_all, nlp_ru_tp, nlp_ru_all
 from tasemehindaja import arvuta
@@ -77,6 +77,7 @@ def keerukus_sonaliigid_mitmekesisus():
 
     grammar_output = generate_grammar_output(tekst, fetch_grammar(tekst))
     speller_output = generate_grammar_output(tekst, fetch_speller(tekst))
+    grammar_test_output = generate_test_grammar_output(tekst, fetch_test_grammar(tekst))
 
     return Response(json.dumps({
         "sonad": sonad,
@@ -91,6 +92,8 @@ def keerukus_sonaliigid_mitmekesisus():
         "grammatika_vead": grammar_output["error_list"],
         "speller": speller_output["corrector_results"],
         "spelleri_vead": speller_output["error_list"],
+        "grammatika_test": grammar_test_output["error_input"],
+        "grammatika_test_vead": grammar_test_output["error_list"],
         "laused": laused,
         "sonavara": check_both_sentence_repetition(laused, word_start_and_end),
         "korrektori_loendid": {"harvaesinevad": calculate_uncommon_words(lemmad, sonaliigid)}
