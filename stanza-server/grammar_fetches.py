@@ -6,6 +6,7 @@ data_text = 'text'
 grammar_url = 'https://api.tartunlp.ai/grammar'
 grammar_alt_url = 'http://grammar-worker-server:5400/grammarchecker'
 speller_url = 'http://grammar-worker-server:5400/spellchecker'
+test_grammar_url = "https://api.tartunlp.ai/grammar/v2"
 
 
 def fetch_grammar(text):
@@ -25,6 +26,16 @@ def fetch_grammar(text):
 def fetch_speller(text):
     data = {data_text: text}
     response = requests.post(speller_url, headers=headers, json=data)
+
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return None
+
+
+def fetch_test_grammar(text):
+    data = {data_text: text}
+    response = requests.post(test_grammar_url, headers=headers, json=data)
 
     if response.status_code == 200:
         return response.json()
