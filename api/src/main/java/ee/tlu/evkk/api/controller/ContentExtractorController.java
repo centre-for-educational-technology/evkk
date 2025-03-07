@@ -21,8 +21,8 @@ public class ContentExtractorController {
   public String textFromFile(@RequestParam("file") MultipartFile[] files) throws UnsupportedMimeTypeException, TextExtractionException {
     StringBuilder data = new StringBuilder();
     for (MultipartFile file : files) {
-      data.append(extractor.extract(file, file.getOriginalFilename()));
+      data.append(extractor.extract(file, file.getOriginalFilename())).append(" ");
     }
-    return data.toString();
+    return data.toString().trim();
   }
 }
