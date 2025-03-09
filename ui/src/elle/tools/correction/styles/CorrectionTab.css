@@ -22,7 +22,7 @@
 .punctuation {
   min-width: 0.3rem;
   background-color: hsl(102.13 37% 75%);
-  padding: 0.1em 0.1em 0;
+  padding: 0.1rem 0.2rem 0;
   border-radius: 2px 2px 1px 1px;
   border-bottom: double 2px hsl(102.13 37% 55%);
 }
@@ -70,7 +70,7 @@
 .missing-word-error,
 .extra-word-error {
   background-color: hsl(255, 37%, 73%);
-  padding: 0.1em 0.1em 0;
+  padding: 0.1em 0.2em 0;
   border-radius: 2px 2px 1px 1px;
   border-bottom: dotted 2px hsl(255, 37%, 63%);
   white-space: nowrap;

@@ -1,3 +1,4 @@
+import re
 import requests
 
 headers = {'Content-Type': 'application/json'}
@@ -33,11 +34,21 @@ def fetch_speller(text):
         return None
 
 
-def fetch_test_grammar(text):
+def fetch_test_grammar(text, attempts=3):
+    if attempts == 0:
+        return None
+
     data = {data_text: text}
     response = requests.post(test_grammar_url, headers=headers, json=data)
 
     if response.status_code == 200:
+        response_value = response.json()
+        if "corrections" in response_value and response_value["corrections"]:
+            corrected_text = response_value["corrections"][0].get("corrected", "")
+
+            if re.search(r"[а-яА-ЯёЁ]", corrected_text):
+                return fetch_test_grammar(text, attempts - 1)
+
         return response.json()
     else:
         return None

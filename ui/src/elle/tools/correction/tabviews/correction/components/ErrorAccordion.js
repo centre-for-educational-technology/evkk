@@ -44,7 +44,7 @@ export default function ErrorAccordion(
                   setHoveredId={setHoveredId}
                   setInputType={setInputType}
                   correctionModel={correctionModel}
-                  errorText={error.long_explanation}
+                  errorText={error.long_explanation ? error.long_explanation : error.short_explanation}
                 />
               ))}
             </div>

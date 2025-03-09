@@ -279,8 +279,15 @@ def generate_grammar_output(input_text, corrections):
     for index, correction in enumerate(sorted_corrections):
         start = correction['start']
         end = correction['end']
+        is_index_shifted = False
 
         if current_position < start:
+            input_unmarked_text = input_text[current_position:start]
+            string_match = re.search(r"\s([a-zA-Z])$", input_unmarked_text)
+            if string_match and string_match.group(1) == correction['initial_text'][0]:
+                is_index_shifted = True
+                start = start - 1
+
             result.append({
                 'corrected': False,
                 'text': input_text[current_position:start],
@@ -297,7 +304,10 @@ def generate_grammar_output(input_text, corrections):
 
         result.append(error_data)
 
-        current_position = end
+        if is_index_shifted:
+            current_position = end - 1
+        else:
+            current_position = end
 
         if correction['correction_type'] not in error_list:
             error_list[correction['correction_type']] = []

@@ -18,8 +18,11 @@ error_type_mapping = {
     "sõnajärg": "wordOrderError",
 }
 
+punctuations_types = ["extraPunctuation", "missingPunctuation", "wrongPunctuation", "missingWordError", ]
+sentence_ends = (".", "!", "?")
 
-def find_error_indexes(input, original):
+
+def find_error_indexes(input):
     error_array = input["corrections"]
     index_size = 0
     errors = []
@@ -30,14 +33,11 @@ def find_error_indexes(input, original):
         explanations = re.split(r"\n\n", re.sub(r"Selgitus \d+:\s*", "", error["explanations"]))
 
         if explanations[0] == "Parandused puuduvad":
-            index_size = index_size + len(original_val)
+            index_size = index_size + len(original_val) + 1
             continue
 
         correction_log = re.split(r"\n\d+\.", error["correction_log"].replace("Parandused:\n", ""))
         correction_log[0] = re.sub(r"^\d+\.\s*", "", correction_log[0])
-
-        original_working = original[index_size:]
-        corrected_working = corrected
         current_offset = 0
 
         for explanation in explanations:
@@ -62,22 +62,27 @@ def find_error_indexes(input, original):
                         error_type = line.split('Vealiik: ', 1)[1].strip() if len(
                             line.split('Vealiik: ', 1)) > 1 else ""
 
-                if wrong_word == '"' or not wrong_word:
-                    continue
-
-                error_position = find_best_match_position(original_working, corrected_working, wrong_word, correct_word)
+                error_position = find_best_match_position(original_val, corrected, wrong_word, correct_word)
 
                 if error_position is not None:
-                    start_pos = error_position + index_size + current_offset
-                    end_pos = start_pos + len(wrong_word)
+                    wrong_word_length = len(wrong_word)
+                    correct_word_length = len(correct_word)
+                    start_pos = error_position + current_offset
+                    if wrong_word == "''":
+                        wrong_word_length = 0
+                    if correct_word == "''":
+                        correct_word_length = 0
+                    end_pos = start_pos + wrong_word_length
                     errors.append(
-                        (start_pos, end_pos, wrong_word, correct_word, error_type, long_explanation, short_explanation)
+                        (start_pos + index_size, end_pos + index_size, wrong_word, correct_word, error_type,
+                         long_explanation, short_explanation)
                     )
 
-                    current_offset += error_position + len(wrong_word)
-                    original_working = original_working[error_position + len(wrong_word):]
+                    current_offset += error_position + wrong_word_length
+                    original_val = original_val[error_position + wrong_word_length:]
+                    corrected = corrected[error_position + correct_word_length:]
 
-        index_size += len(original_val)
+        index_size += len(error["original"]) + 1
 
     return errors
 
@@ -111,6 +116,10 @@ def find_best_match_position(original_text, corrected_text, wrong_word, correct_
 
         return matches_wrong[0] if matches_wrong else None
 
+    if not matches_wrong and matches_correct and wrong_word == "''":
+        matches_other = [m.start() for m in re.finditer(re.escape(correct_word), original_text)]
+        return sorted(list(set(matches_correct).symmetric_difference(set(matches_other))))[0]
+
     return None
 
 
@@ -134,38 +143,54 @@ def populate_error_list(data):
             correction_type = correction.get("correction_type", "unknown")
             grouped_corrections[correction_type].append(correction)
 
-    return dict(grouped_corrections)
+    return dict(sorted(grouped_corrections.items(), key=lambda item: len(item[1]), reverse=True))
+
+
+def check_for_empty_word(word):
+    if word == "''" or not word:
+        return ""
+    return word
 
 
 def generate_test_grammar_output(full_text, data):
     results = []
 
-    error_positions = find_error_indexes(data, full_text)
+    error_positions = find_error_indexes(data)
     error_positions.sort()
 
     last_pos = 0
     for error in error_positions:
-        start, end, wrong_word, correct_word, correction_type, long_explanation, short_explanation = error
+        start, end, wrong_word, correct_word, correction_type_key, long_explanation, short_explanation = error
+        is_error_after_punctuation = False
 
         if last_pos < start:
+            input_text = full_text[last_pos:start]
+            if input_text.endswith(sentence_ends):
+                start -= 1
+                is_error_after_punctuation = True
             results.append({
                 "error_id": f"{last_pos}_unmarked",
                 "text": full_text[last_pos:start],
                 "corrected": False
             })
 
+        correction_type = error_type_mapping.get(correction_type_key, "multipleErrors")
+
         results.append({
             "error_id": f"{start}_marked",
-            "text": wrong_word,
+            "text": check_for_empty_word(wrong_word),
             "corrected": True,
-            "corrected_text": correct_word,
-            "correction_type": error_type_mapping.get(correction_type, "multipleErrors"),
-            "correction_value": correction_type,
+            "corrected_text": check_for_empty_word(correct_word),
+            "correction_type": correction_type,
+            "correction_value": correction_type_key,
             "long_explanation": long_explanation,
             "short_explanation": short_explanation
         })
 
-        last_pos = end
+        if is_error_after_punctuation:
+            last_pos = end - 1
+        else:
+            last_pos = end
 
     if last_pos < len(full_text):
         results.append({
