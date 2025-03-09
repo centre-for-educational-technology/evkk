@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { ContentEditableDiv } from '../../../const/StyleConstants';
 import CorrectionButton from './CorrectionButton';
-import { GRAMMARCHECKER, SPELLCHECKER } from '../const/Constants';
+import { GRAMMARCHECKER, GRAMMARCHECKER_TEST, SPELLCHECKER } from '../const/Constants';
 import { removeEmptySpans } from '../../../util/TextUtils';
 
 import { useGlobalClickListener } from '../hooks/useGlobalClickListener';
@@ -31,7 +31,10 @@ export default function CorrectionInput(
     hoveredId,
     setHoveredId,
     spellerAnswer,
-    grammarAnswer
+    grammarAnswer,
+    grammarTestAnswer,
+    setGrammarTestAnswer,
+    setGrammarTestErrorList
   }) {
   const [inputType, setInputType] = useState(null);
   const [innerValue, setInnerValue] = useState(newRef);
@@ -45,8 +48,9 @@ export default function CorrectionInput(
   useEffect(() => {
     if (model === SPELLCHECKER) setInputType(spellerAnswer);
     if (model === GRAMMARCHECKER) setInputType(grammarAnswer);
+    if (model === GRAMMARCHECKER_TEST) setInputType(grammarTestAnswer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [model, inputText, spellerAnswer, grammarAnswer, errorList]);
+  }, [model, inputText, spellerAnswer, grammarAnswer, grammarTestAnswer, errorList]);
 
   useGlobalClickListener(setSelectedText, handleResetSelect);
 
@@ -55,7 +59,7 @@ export default function CorrectionInput(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [innerValue]);
 
-  useHandleInputErrors(inputType, hoveredId, errorsToRemove, setErrorList, setErrorsToRemove, model, setSpellerAnswer, setGrammarAnswer, setInnerValue, newRef, setHoveredId);
+  useHandleInputErrors(inputType, hoveredId, errorsToRemove, setErrorList, setErrorsToRemove, model, setSpellerAnswer, setGrammarAnswer, setInnerValue, newRef, setHoveredId, setGrammarTestAnswer);
 
   useEffect(() => {
     setNewRef(newRef.replace(removeEmptySpans, ''));
@@ -116,6 +120,8 @@ export default function CorrectionInput(
         setGrammarErrorList={setGrammarErrorList}
         setSpellerErrorList={setSpellerErrorList}
         setInputType={setInputType}
+        setGrammarTestAnswer={setGrammarTestAnswer}
+        setGrammarTestErrorList={setGrammarTestErrorList}
       />
     </div>
   );

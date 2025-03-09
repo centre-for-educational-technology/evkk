@@ -9,6 +9,7 @@ export const ABSTRACT_WORDS = 'abstractwords';
 export const CONTENT_WORDS = 'contentwords';
 export const SPELLCHECKER = 'spellchecker';
 export const GRAMMARCHECKER = 'grammarchecker';
+export const GRAMMARCHECKER_TEST = 'grammarcheckerTest';
 export const NOUN = 'NOUN';
 export const PROPN = 'PROPN';
 export const VERB = 'VERB';

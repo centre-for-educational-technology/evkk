@@ -62,6 +62,8 @@ export default function AppRoutes() {
                element={<Adding />} />
         <Route path={RouteConstants.CORRECTOR}
                element={<Correction />} />
+        <Route path={RouteConstants.CORRECTOR_TEST}
+               element={<Correction />} />
         <Route path={RouteConstants.TOOLS}
                element={<Tools />}>
           <Route index
@@ -104,6 +106,7 @@ export const RouteConstants = {
   CLUSTERFINDER: 'clusterfinder',
   COLLOCATES: 'collocates',
   CORRECTOR: 'corrector',
+  CORRECTOR_TEST: 'corrector-test',
   GRANTS: 'grants',
   LINKS: 'links',
   LOGIN: 'login',

@@ -37,4 +37,10 @@ public class TextWithComplexity {
 
   @JsonAlias("korrektori_loendid")
   private Object korrektoriLoendid;
+
+  @JsonAlias("grammatika_test")
+  private Object grammatikaTest;
+
+  @JsonAlias("grammatika_test_vead")
+  private Object grammatikaTestVead;
 }

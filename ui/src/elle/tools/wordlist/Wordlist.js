@@ -32,6 +32,8 @@ import WordcloudView from './components/WordcloudView';
 import TableHeaderButtons from '../../components/table/TableHeaderButtons';
 import { AccordionStyle, DefaultButtonStyle } from '../../const/StyleConstants';
 import { useGetWordlistResult } from '../../hooks/service/ToolsService';
+import { loadingEmitter } from '../../../App';
+import { LoadingSpinnerEventType } from '../../components/LoadingSpinner';
 
 export default function Wordlist() {
 
@@ -154,9 +156,13 @@ export default function Wordlist() {
       setShowTable(false);
       getWordlistResult(generateRequestData())
         .then(response => {
-          setResponse(response.resultList);
-          setShowTable(true);
-          setTypeValueToDisplay(typeValue);
+          loadingEmitter.emit(LoadingSpinnerEventType.LOADER_START_SHRINK_DISABLED);
+          setTimeout(() => { // for a visual cue when rendering takes longer
+            setResponse(response.resultList);
+            setShowTable(true);
+            setTypeValueToDisplay(typeValue);
+            loadingEmitter.emit(LoadingSpinnerEventType.LOADER_END);
+          }, 0);
         });
     }
   };
@@ -169,12 +175,8 @@ export default function Wordlist() {
   const generateRequestData = () => {
     const storeState = queryStore.getState();
     return JSON.stringify({
-      corpusTextIds: storeState.corpusTextIds
-        ? storeState.corpusTextIds
-        : null,
-      ownTexts: storeState.ownTexts
-        ? storeState.ownTexts
-        : null,
+      corpusTextIds: storeState.corpusTextIds || null,
+      ownTexts: storeState.ownTexts || null,
       type: typeValue,
       excludeStopwords: stopwordsChecked,
       customStopwords: customStopwords === ''

@@ -20,7 +20,8 @@ export const breadcrumbNameMap = {
   '/tools/wordlist': 'common_wordlist',
   '/tools/wordcontext': 'common_word_in_context',
   '/tools/collocates': 'common_neighbouring_words',
-  '/admin': 'common_admin_panel'
+  '/admin': 'common_admin_panel',
+  '/corrector-test': 'common_corrector'
 };
 
 export const UserRoles = {
@@ -198,7 +199,7 @@ export const textTypesOptions = {
       'ak_uurimus_kokkuvote': 'query_text_data_type_academic_research_summary',
       'ak_uurimus_batoo': 'query_text_data_type_academic_research_bachelors_thesis',
       'ak_uurimus_diplomitoo': 'query_text_data_type_academic_research_thesis',
-      'ak_uurimus_matoo': 'query_text_data_type_academic_research_masters_thesis',
+      'ak_uurimus_matoo': 'query_text_data_type_academic_research_masters_thesis'
       // currently no texts present in the database
       // 'ak_uurimus_phdtoo': 'query_text_data_type_academic_research_doctoral_thesis'
     }
