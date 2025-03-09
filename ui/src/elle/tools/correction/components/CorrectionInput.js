@@ -83,6 +83,10 @@ export default function CorrectionInput(
   const handlePaste = (e) => {
     const valueToPaste = e.clipboardData.getData('text/plain');
     processCorrectorKeyDown(selectedText, false, true, e, valueToPaste, inputType, setInputType, setErrorsToRemove, setSelectedText);
+    if (!inputType) {
+      e.preventDefault();
+      textBoxRef.current.innerText = valueToPaste;
+    }
   };
 
 

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { queryCaller } from '../util/Utils';
 import { useGetCorrectorResult } from '../../../hooks/service/ToolsService';
 import CorrectionDocxDownloadButton from './CorrectionDocxDownloadButton';
+import { GRAMMARCHECKER_TEST } from '../const/Constants';
 
 export default function CorrectionButton(
   {
@@ -44,14 +45,15 @@ export default function CorrectionButton(
       >
         {t('analyse_button')}
       </Button>
-      <CorrectionDocxDownloadButton
-        innerHtml={textBoxRef}
-        modelValue={model}
-        newRef={newRef}
-        errorList={errorList}
-        tab={tab}
-        textLevel={textLevel}
-      />
+      {model !== GRAMMARCHECKER_TEST &&
+        <CorrectionDocxDownloadButton
+          innerHtml={textBoxRef}
+          modelValue={model}
+          newRef={newRef}
+          errorList={errorList}
+          tab={tab}
+          textLevel={textLevel}
+        />}
     </div>
   );
 };

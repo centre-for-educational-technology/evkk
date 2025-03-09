@@ -411,7 +411,7 @@ export const handleCorrectorKeyDown = (e, selectedText, setSelectedText, inputTy
       const deletableId = selectedText.keys().next().value;
       setErrorsToRemove([deletableId]);
       setInputType((prevList) => prevList.filter((element) => `${element.error_id}_inner` !== deletableId && element.error_id !== deletableId));
-    } else if (node.innerText.length === 1 || node.innerText.length === 0) {
+    } else if ((node.innerText.length === 1 || node.innerText.length === 0) && inputType.length > 0) {
       e.preventDefault();
       setInputType((prevList) => prevList.filter((element) => `${element.error_id}_inner` !== node.id && element.error_id !== node.id));
     }
