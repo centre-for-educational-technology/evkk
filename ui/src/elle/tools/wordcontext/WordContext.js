@@ -32,6 +32,8 @@ import { sortColByLastWord, sortTableCol } from '../../util/TableUtils';
 import TableHeaderButtons from '../../components/table/TableHeaderButtons';
 import { AccordionStyle, DefaultButtonStyle } from '../../const/StyleConstants';
 import { useGetWordContextResult } from '../../hooks/service/ToolsService';
+import { loadingEmitter } from '../../../App';
+import { LoadingSpinnerEventType } from '../../components/LoadingSpinner';
 
 export default function WordContext() {
 
@@ -173,21 +175,25 @@ export default function WordContext() {
       setShowTable(false);
       getWordContextResult(generateRequestData())
         .then(response => {
-          setLemmatizedKeywordResult(null);
-          setResponse(response.contextList);
-          if (response.contextList.length === 0) {
-            setShowTable(false);
-            setParamsExpanded(true);
-            setShowNoResultsError(true);
-          } else {
-            setShowTable(true);
-            setParamsExpanded(false);
-            setShowNoResultsError(false);
-            if (response.lemmatizedKeyword) {
-              setLemmatizedKeywordResult(response.lemmatizedKeyword);
-              setInitialKeywordResult(response.initialKeyword);
+          loadingEmitter.emit(LoadingSpinnerEventType.LOADER_START_SHRINK_DISABLED);
+          setTimeout(() => { // for a visual cue when rendering takes longer
+            setLemmatizedKeywordResult(null);
+            setResponse(response.contextList);
+            if (response.contextList.length === 0) {
+              setShowTable(false);
+              setParamsExpanded(true);
+              setShowNoResultsError(true);
+            } else {
+              setShowTable(true);
+              setParamsExpanded(false);
+              setShowNoResultsError(false);
+              if (response.lemmatizedKeyword) {
+                setLemmatizedKeywordResult(response.lemmatizedKeyword);
+                setInitialKeywordResult(response.initialKeyword);
+              }
             }
-          }
+            loadingEmitter.emit(LoadingSpinnerEventType.LOADER_END);
+          }, 0);
         })
         .then(() => navigate('', { replace: true }));
     }
@@ -196,12 +202,8 @@ export default function WordContext() {
   const generateRequestData = () => {
     const storeState = queryStore.getState();
     return JSON.stringify({
-      corpusTextIds: storeState.corpusTextIds
-        ? storeState.corpusTextIds
-        : null,
-      ownTexts: storeState.ownTexts
-        ? storeState.ownTexts
-        : null,
+      corpusTextIds: storeState.corpusTextIds || null,
+      ownTexts: storeState.ownTexts || null,
       type: typeValue,
       keyword: keyword,
       displayCount: displayCount,

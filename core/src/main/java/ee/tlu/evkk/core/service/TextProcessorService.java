@@ -22,6 +22,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import static ee.tlu.evkk.common.util.TextUtils.sanitizeText;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toUnmodifiableMap;
@@ -54,9 +55,7 @@ public class TextProcessorService {
     }
 
     Json result;
-    String finalText = text.get().getContent()
-      .replace("\\n", " ")
-      .replace("\\t", " ");
+    String finalText = sanitizeText(text.get().getContent());
 
     try {
       result = jsonFactory.createFromObject(textProcessorExecutor.execute(type, buildProcessorContext(textId), finalText));
@@ -68,7 +67,7 @@ public class TextProcessorService {
   }
 
   private Json buildEmptyJson() {
-    return jsonFactory.createFromObject(Map.of("contents", ""));
+    return jsonFactory.createFromObject(Map.of("content", ""));
   }
 
   private TextProcessorResult buildTextProcessorResult(String hash, Json result, String type, Long version) {

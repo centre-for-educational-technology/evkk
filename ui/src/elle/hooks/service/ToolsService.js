@@ -44,7 +44,7 @@ export const useGetWordAnalyserResult = () => {
   const { fetchData } = useFetch();
 
   const getWordAnalyserResult = useCallback(body => {
-    return fetchData('/api/texts/sonad-lemmad-silbid-sonaliigid-vormimargendid', {
+    return fetchData('/api/tools/wordanalyser', {
       method: 'POST',
       body
     });

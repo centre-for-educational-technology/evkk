@@ -6,11 +6,10 @@ import ee.evkk.dto.CorpusDownloadDto;
 import ee.evkk.dto.CorpusRequestDto;
 import ee.evkk.dto.CorpusTextContentsDto;
 import ee.tlu.evkk.api.annotation.RateLimit;
-import ee.tlu.evkk.api.annotation.RecordResponseTime;
+import ee.tlu.evkk.api.service.WordAnalyserService;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
 import ee.tlu.evkk.core.service.TextService;
-import ee.tlu.evkk.core.service.dto.TextResponseDto;
 import ee.tlu.evkk.core.service.dto.TextWithComplexity;
 import ee.tlu.evkk.dal.dao.TextDao;
 import ee.tlu.evkk.dal.dto.TextAndMetadata;
@@ -40,22 +39,16 @@ public class TextController {
   private final StanzaServerClient stanzaServerClient;
   private final CorrectorServerClient correctorServerClient;
   private final TextService textService;
+  private final WordAnalyserService wordAnalyserService;
 
   @PostMapping("/kysitekstid")
   public String kysiTekstid(@RequestBody CorpusTextContentsDto dto) {
-    return textDao.findTextsByIds(dto.getIds());
+    return textService.getPartitionedTextResourceByIds(dto.getIds(), textDao::findTextsByIds);
   }
 
   @GetMapping("/kysitekstjametainfo")
   public TextAndMetadata kysiTekstJaMetainfo(String id) {
     return textDao.findTextAndMetadataById(fromString(id));
-  }
-
-  @RateLimit
-  @RecordResponseTime("tools.wordanalyser")
-  @PostMapping("/sonad-lemmad-silbid-sonaliigid-vormimargendid")
-  public ResponseEntity<TextResponseDto> sonadLemmadSilbidSonaliigidVormimargendid(@RequestBody CommonTextRequestDto request) {
-    return ok(textService.sonadLemmadSilbidSonaliigidVormimargendid(request));
   }
 
   @PostMapping("/keerukus-sonaliigid-mitmekesisus")
@@ -66,7 +59,7 @@ public class TextController {
   @PostMapping("/sonaliik")
   public ResponseEntity<List<String>> sonaliik(@RequestBody CommonTextRequestDto request) {
     List<String> sonaliik = stanzaServerClient.getSonaliik(request.getTekst());
-    List<String> body = textService.translateWordType(sonaliik, request.getLanguage());
+    List<String> body = wordAnalyserService.translateWordType(sonaliik, request.getLanguage());
     return ok(body);
   }
 
@@ -80,7 +73,7 @@ public class TextController {
   @PostMapping("/vormimargendid")
   public ResponseEntity<List<String>> vormimargendid(@RequestBody CommonTextRequestDto request) {
     List<List<String>> vormimargendid = stanzaServerClient.getVormimargendid(request.getTekst());
-    return ok(textService.translateFeats(vormimargendid, request.getLanguage()));
+    return ok(wordAnalyserService.translateFeats(vormimargendid, request.getLanguage()));
   }
 
   @PostMapping("/lemmad")

@@ -218,6 +218,14 @@ export const ElleDefaultChip = {
   borderColor: '#9C27B0',
   '& .MuiChip-deleteIcon:hover': {
     color: '#EB0014'
+  },
+  '& .MuiChip-avatar': {
+    width: 'auto',
+    minWidth: '24px',
+    padding: '0 8px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 };
 

@@ -18,10 +18,11 @@ import {
 } from './Contexts';
 import CloseIcon from '@mui/icons-material/Close';
 import { queryStore } from '../../store/QueryStore';
-import { useGetSelectedTexts } from '../../hooks/service/TextService';
 import { WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO } from '../../const/Constants';
 import { useTranslation } from 'react-i18next';
 import { useGetWordAnalyserResult } from '../../hooks/service/ToolsService';
+import { loadingEmitter } from '../../../App';
+import { LoadingSpinnerEventType } from '../../components/LoadingSpinner';
 
 function WordAnalyser() {
   const [analysedInput, setAnalysedInput] = useContext(AnalyseContext);
@@ -29,7 +30,6 @@ function WordAnalyser() {
   const [showResults, setShowResults] = useState(false);
   const [selectedWords, setSelectedWords] = useState(['']);
   const [wordInfo, setWordInfo] = useState('');
-  const [inputText, setInputText] = useState('');
   const [isTextTooLong, setIsTextTooLong] = useState(false);
   const [isFinishedLoading, setIsFinishedLoading] = useState(false);
   const setTableValue = useContext(TabContext)[1];
@@ -41,31 +41,52 @@ function WordAnalyser() {
   const lemma = useContext(LemmaContext);
   const [open, setOpen] = useState(false);
   const [border, setBorder] = useState(0);
-  const [storeData, setStoreData] = useState();
   const inputRef = useRef();
+  const previousStoreStateRef = useRef(queryStore.getState());
   const { t } = useTranslation();
-  const { getSelectedTexts } = useGetSelectedTexts(setStoreData);
   const { getWordAnalyserResult } = useGetWordAnalyserResult();
 
   useEffect(() => {
-    getSelectedTexts();
-  }, [getSelectedTexts]);
+    getResponse();
 
-  useEffect(() => {
-    setInputText(storeData);
-  }, [storeData]);
+    const unsubscribe = queryStore.subscribe(() => {
+      const currentStoreState = queryStore.getState();
+      const previousStoreState = previousStoreStateRef.current;
 
-  queryStore.subscribe(() => {
-    getSelectedTexts();
-  });
+      if (currentStoreState !== previousStoreState
+        && !(currentStoreState.corpusTextIds == null
+          && currentStoreState.ownTexts == null)) {
+        getResponse();
+      }
 
-  const getResponse = (input) => {
+      previousStoreStateRef.current = currentStoreState;
+    });
+
+    return () => unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const getResponse = () => {
+    resetAnalyser();
     setIsFinishedLoading(false);
-    getWordAnalyserResult(JSON.stringify({ tekst: input, language: i18n.language }))
+    getWordAnalyserResult(generateRequestData())
       .then(response => {
-        setIsFinishedLoading(true);
-        analyseInput(input, response);
+        loadingEmitter.emit(LoadingSpinnerEventType.LOADER_START_SHRINK_DISABLED);
+        setTimeout(() => { // for a visual cue when rendering takes longer
+          setIsFinishedLoading(true);
+          analyseInput(response);
+          loadingEmitter.emit(LoadingSpinnerEventType.LOADER_END);
+        }, 0);
       });
+  };
+
+  const generateRequestData = () => {
+    const storeState = queryStore.getState();
+    return JSON.stringify({
+      corpusTextIds: storeState.corpusTextIds || null,
+      ownTexts: storeState.ownTexts || null,
+      language: i18n.language
+    });
   };
 
   // create ids
@@ -84,7 +105,7 @@ function WordAnalyser() {
   };
 
   // analyse text
-  const analyseInput = (input, data) => {
+  const analyseInput = (data) => {
     const words = data.sonad;
     const lemmas = data.lemmad;
     const syllables = data.silbid;
@@ -100,7 +121,7 @@ function WordAnalyser() {
 
     const inputObj = {
       ids: createdIds,
-      text: input,
+      text: data.tekst,
       wordsOrig: words,
       words: analysedWordsLowerCase,
       lemmas: lemmas,
@@ -405,8 +426,9 @@ function WordAnalyser() {
             }
             sx={{ mb: 2 }}
           >
-            <Typography color={'#1A237E'}><strong>Vasakus kastis sõnadel klõpastes ilmub paremale info antud sõna
-              kohta</strong></Typography>
+            <Typography color={'#1A237E'}>
+              <strong>Vasakus kastis sõnadel klõpastes ilmub paremale info antud sõna kohta</strong>
+            </Typography>
           </Alert>
         </Box>
       </Fade>
@@ -429,8 +451,7 @@ function WordAnalyser() {
         <Grid item
               xs={12}
               md={6}>
-          <Input inputText={inputText}
-                 isTextTooLong={isTextTooLong}
+          <Input isTextTooLong={isTextTooLong}
                  isFinishedLoading={isFinishedLoading}
                  onSubmit={getResponse}
                  onMarkWords={selectedWords}
