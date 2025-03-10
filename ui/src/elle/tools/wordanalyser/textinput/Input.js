@@ -10,7 +10,6 @@ export const Input = ({
                         onWordSelect,
                         onWordInfo,
                         onReset,
-                        inputText,
                         isTextTooLong,
                         isFinishedLoading
                       }) => {
@@ -18,9 +17,17 @@ export const Input = ({
   const setTableValue = useContext(TabContext)[1];
 
   useEffect(() => {
-    resubmit();
+    const handleLanguageChange = () => {
+      resubmit();
+    };
+
+    i18n.on('languageChanged', handleLanguageChange);
+
+    return () => {
+      i18n.off('languageChanged', handleLanguageChange);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inputText, i18n.language]);
+  }, []);
 
   useEffect(() => {
     if (JSON.stringify(selectedWords) !== JSON.stringify(onMarkWords)) {
@@ -29,10 +36,8 @@ export const Input = ({
   }, [onMarkWords, selectedWords]);
 
   const resubmit = () => {
-    if (inputText) {
-      resetAnalyser();
-      onSubmit(inputText);
-    }
+    resetAnalyser();
+    onSubmit();
   };
 
   const resetAnalyser = () => {

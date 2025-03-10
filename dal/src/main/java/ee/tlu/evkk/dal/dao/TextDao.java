@@ -13,14 +13,17 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 @Mapper
 @Repository
 public interface TextDao {
 
-  String findTextsByIds(@Param("ids") Set<UUID> ids);
+  String findTextsByIds(@Param("ids") List<UUID> ids);
+
+  String findAnalysedTextsByIds(@Param("ids") List<UUID> ids);
+
+  String findUnanalysedTextsByIds(@Param("ids") List<UUID> ids);
 
   TextAndMetadata findTextAndMetadataById(@Param("textId") UUID textId);
 

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Alert,
-  Avatar,
   Box,
   Button,
   Checkbox,
@@ -1103,10 +1102,11 @@ export default function Query(props) {
                 <div>
                   <Chip
                     sx={ElleDefaultChip}
-                    avatar={<Avatar sx={{
-                      bgcolor: '#9C27B0',
-                      color: 'white !important'
-                    }}>{corpusTextsSelected > 1 ? corpusTextsSelected : 1}</Avatar>}
+                    avatar={
+                      <div className="number-avatar">
+                        {corpusTextsSelected > 1 ? corpusTextsSelected : 1}
+                      </div>
+                    }
                     label={corpusTextsSelected > 1 ? t('query_results_saved_for_analysis_corpus_plural', { amount: corpusTextsSelected }) : t('query_results_saved_for_analysis_corpus')}
                     className="my-1"
                     variant="outlined"

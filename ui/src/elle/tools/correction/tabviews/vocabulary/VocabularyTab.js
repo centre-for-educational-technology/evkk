@@ -45,7 +45,11 @@ export default function VocabularyTab(
     setAbstractWords,
     setSpellerAnswer,
     setGrammarAnswer,
-    setRequestingText
+    setRequestingText,
+    setGrammarErrorList,
+    setSpellerErrorList,
+    setGrammarTestAnswer,
+    setGrammarTestErrorList
   }) {
   const { t } = useTranslation();
   const [model, setModel] = useState(WORD_REPETITION);
@@ -73,6 +77,10 @@ export default function VocabularyTab(
           setSpellerAnswer={setSpellerAnswer}
           setComplexityAnswer={setComplexityAnswer}
           setAbstractWords={setAbstractWords}
+          setGrammarErrorList={setGrammarErrorList}
+          setSpellerErrorList={setSpellerErrorList}
+          setGrammarTestAnswer={setGrammarTestAnswer}
+          setGrammarTestErrorList={setGrammarTestErrorList}
         />
         <CorrectionInfoIcon
           inputText={<div>
@@ -117,8 +125,8 @@ export default function VocabularyTab(
             {t('corrector_vocabulary_infobox_outro')}
           </div>}/>
       </Box>
-      <div className="d-flex gap-2">
-        <div className="w-50 d-flex flex-column">
+      <div className="d-flex gap-2 flex-wrap">
+        <div className="corector-input">
           <Box
             id={'error-text-box'}
             ref={textBoxRef}
@@ -142,9 +150,13 @@ export default function VocabularyTab(
             setAbstractWords={setAbstractWords}
             setRequestingText={setRequestingText}
             newRef={newRef}
+            setGrammarErrorList={setGrammarErrorList}
+            setSpellerErrorList={setSpellerErrorList}
+            setGrammarTestAnswer={setGrammarTestAnswer}
+            setGrammarTestErrorList={setGrammarTestErrorList}
           />
         </div>
-        <div className="w-50 corrector-right">
+        <div className="corrector-right">
           {complexityAnswer ?
             <div>
               <Accordion square={true} style={{ marginBottom: '0.5em' }} sx={CorrectorAccordionStyle} defaultExpanded>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Alert, Box } from '@mui/material';
 import '../../styles/CorrectionTab.css';
 import CorrectionInput from '../../components/CorrectionInput';
@@ -10,7 +10,7 @@ import CorrectionToggleButtonGroup from '../../components/CorrectionToggleButton
 import { useTranslation } from 'react-i18next';
 import { CorrectionAndTextLevelToggleButtons } from '../../const/ToggleButtonConstants';
 import { accordionDetails, textLevelColors, textLevels } from '../../const/TabValuesConstant';
-import { TEXTLEVEL } from '../../const/Constants';
+import { GRAMMARCHECKER_TEST, TEXTLEVEL } from '../../const/Constants';
 
 export default function TextLevelTab(
   {
@@ -31,28 +31,44 @@ export default function TextLevelTab(
     grammarAnswer,
     setAbstractWords,
     setSpellerAnswer,
-    setGrammarAnswer
+    setGrammarAnswer,
+    setGrammarErrorList,
+    setSpellerErrorList,
+    setHoveredId,
+    setGrammarTestAnswer,
+    setGrammarTestErrorList,
+    grammarTestAnswer
   }) {
   const { t } = useTranslation();
-  const [responseText, setResponseText] = useState();
 
   return (
     <div className="corrector-border-box">
       <Box className="d-flex justify-content-between">
-        <CorrectionToggleButtonGroup
-          newRef={newRef}
-          correctionModel={correctionModel}
-          setCorrectionModel={setCorrectionModel}
-          textBoxRef={textBoxRef}
-          inputText={inputText}
-          setInputText={setInputText}
-          setRequestingText={setRequestingText}
-          setGrammarAnswer={setGrammarAnswer}
-          setSpellerAnswer={setSpellerAnswer}
-          setComplexityAnswer={setComplexityAnswer}
-          setAbstractWords={setAbstractWords}
-          toggleButtons={CorrectionAndTextLevelToggleButtons}
-        />
+        {correctionModel !== GRAMMARCHECKER_TEST ?
+          <CorrectionToggleButtonGroup
+            newRef={newRef}
+            correctionModel={correctionModel}
+            setCorrectionModel={setCorrectionModel}
+            textBoxRef={textBoxRef}
+            inputText={inputText}
+            setInputText={setInputText}
+            setRequestingText={setRequestingText}
+            setGrammarAnswer={setGrammarAnswer}
+            setSpellerAnswer={setSpellerAnswer}
+            setComplexityAnswer={setComplexityAnswer}
+            setAbstractWords={setAbstractWords}
+            toggleButtons={CorrectionAndTextLevelToggleButtons}
+            setGrammarErrorList={setGrammarErrorList}
+            setSpellerErrorList={setSpellerErrorList}
+            setGrammarTestAnswer={setGrammarTestAnswer}
+            setGrammarTestErrorList={setGrammarTestErrorList}
+          />
+          :
+          <Alert severity="warning" className="mb-2">
+            <div>{t('corrector_test_version_text')}</div>
+            <div>{t('corrector_test_version_thanks')}</div>
+          </Alert>
+        }
         <CorrectionInfoIcon
           inputText={
             <div>
@@ -77,7 +93,7 @@ export default function TextLevelTab(
             </div>}
         />
       </Box>
-      <div className="d-flex gap-2">
+      <div className="d-flex gap-2 flex-wrap">
         <CorrectionInput
           requestingText={requestingText}
           setRequestingText={setRequestingText}
@@ -87,10 +103,10 @@ export default function TextLevelTab(
           inputText={inputText}
           setInputText={setInputText}
           model={correctionModel}
-          responseText={responseText}
-          setResponseText={setResponseText}
           errorList={errorList}
           setErrorList={setErrorList}
+          setGrammarErrorList={setGrammarErrorList}
+          setSpellerErrorList={setSpellerErrorList}
           setComplexityAnswer={setComplexityAnswer}
           spellerAnswer={spellerAnswer}
           grammarAnswer={grammarAnswer}
@@ -99,8 +115,12 @@ export default function TextLevelTab(
           setSpellerAnswer={setSpellerAnswer}
           tab={TEXTLEVEL}
           complexityAnswer={complexityAnswer}
+          setHoveredId={setHoveredId}
+          setGrammarTestAnswer={setGrammarTestAnswer}
+          setGrammarTestErrorList={setGrammarTestErrorList}
+          grammarTestAnswer={grammarTestAnswer}
         />
-        <div className="w-50 corrector-right">
+        <div className="corrector-right">
           {complexityAnswer && complexityAnswer?.keeletase.length !== 0 &&
             <div className="d-flex justify-content-between">
               <div style={{ fontSize: '1.5rem' }}>{t('corrector_proficiency_level_color_codes')}:</div>

@@ -3,13 +3,12 @@ import { Alert, Box } from '@mui/material';
 import '../../styles/CorrectionTab.css';
 import ErrorAccordion from './components/ErrorAccordion';
 import CorrectionInput from '../../components/CorrectionInput';
-import { resolveError } from '../../util/CorrectorErrorResolveFunctions';
 import CorrectionInfoIcon from '../../components/CorrectionInfoIcon';
 import { useTranslation } from 'react-i18next';
 import CorrectionToggleButtonGroup from '../../components/CorrectionToggleButtonGroup';
 import { CorrectionAndTextLevelToggleButtons } from '../../const/ToggleButtonConstants';
 import { CORRECTION_TAB_LINK } from '../../const/PathConstants';
-import { CORRECTION } from '../../const/Constants';
+import { CORRECTION, GRAMMARCHECKER_TEST, SPELLCHECKER } from '../../const/Constants';
 
 export default function CorrectionTab(
   {
@@ -30,10 +29,16 @@ export default function CorrectionTab(
     correctionModel,
     setCorrectionModel,
     setAbstractWords,
-    complexityAnswer
+    complexityAnswer,
+    setGrammarErrorList,
+    setSpellerErrorList,
+    hoveredId,
+    setHoveredId,
+    grammarTestAnswer,
+    setGrammarTestErrorList,
+    setGrammarTestAnswer
   }) {
   const { t } = useTranslation();
-  const [responseText, setResponseText] = useState();
   const [totalErrors, setTotalErrors] = useState(null);
 
   useEffect(() => {
@@ -45,25 +50,41 @@ export default function CorrectionTab(
   return (
     <div className="corrector-border-box">
       <Box className="d-flex justify-content-between">
-        <CorrectionToggleButtonGroup
-          newRef={newRef}
-          toggleButtons={CorrectionAndTextLevelToggleButtons}
-          correctionModel={correctionModel}
-          setCorrectionModel={setCorrectionModel}
-          textBoxRef={textBoxRef}
-          inputText={inputText}
-          setInputText={setInputText}
-          setRequestingText={setRequestingText}
-          setGrammarAnswer={setGrammarAnswer}
-          setSpellerAnswer={setSpellerAnswer}
-          setComplexityAnswer={setComplexityAnswer}
-          setAbstractWords={setAbstractWords}
-        />
-        <CorrectionInfoIcon
-          inputText={<div>{t('corrector_proofreading_infobox')} <a href={CORRECTION_TAB_LINK}>{t('common_here')}</a>.
-          </div>}/>
+        {correctionModel !== GRAMMARCHECKER_TEST ?
+          <CorrectionToggleButtonGroup
+            newRef={newRef}
+            toggleButtons={CorrectionAndTextLevelToggleButtons}
+            correctionModel={correctionModel}
+            setCorrectionModel={setCorrectionModel}
+            textBoxRef={textBoxRef}
+            inputText={inputText}
+            setInputText={setInputText}
+            setRequestingText={setRequestingText}
+            setGrammarAnswer={setGrammarAnswer}
+            setSpellerAnswer={setSpellerAnswer}
+            setGrammarTestAnswer={setGrammarTestAnswer}
+            setComplexityAnswer={setComplexityAnswer}
+            setAbstractWords={setAbstractWords}
+            setGrammarErrorList={setGrammarErrorList}
+            setSpellerErrorList={setSpellerErrorList}
+            setGrammarTestErrorList={setGrammarTestErrorList}
+          />
+          :
+          <Alert severity="warning" className="mb-2">
+            <div>{t('corrector_test_version_text')}</div>
+            <div>{t('corrector_test_version_thanks')}</div>
+          </Alert>
+        }
+        <div className="d-flex align-items-center">
+          <CorrectionInfoIcon
+            inputText={correctionModel === GRAMMARCHECKER_TEST ?
+              <div>{t('corrector_test_version_info')}</div>
+              :
+              <div>{t('corrector_proofreading_infobox')} <a href={CORRECTION_TAB_LINK}>{t('common_here')}</a>.
+              </div>} />
+        </div>
       </Box>
-      <div className="d-flex gap-2">
+      <div className="d-flex gap-2 flex-wrap">
         <CorrectionInput
           requestingText={requestingText}
           setRequestingText={setRequestingText}
@@ -73,10 +94,10 @@ export default function CorrectionTab(
           inputText={inputText}
           setInputText={setInputText}
           model={correctionModel}
-          responseText={responseText}
-          setResponseText={setResponseText}
           errorList={errorList}
           setErrorList={setErrorList}
+          setGrammarErrorList={setGrammarErrorList}
+          setSpellerErrorList={setSpellerErrorList}
           setComplexityAnswer={setComplexityAnswer}
           grammarAnswer={grammarAnswer}
           spellerAnswer={spellerAnswer}
@@ -85,22 +106,23 @@ export default function CorrectionTab(
           setAbstractWords={setAbstractWords}
           tab={CORRECTION}
           complexityAnswer={complexityAnswer}
+          hoveredId={hoveredId}
+          setHoveredId={setHoveredId}
+          setGrammarTestAnswer={setGrammarTestAnswer}
+          setGrammarTestErrorList={setGrammarTestErrorList}
+          grammarTestAnswer={grammarTestAnswer}
         />
-        <div className="w-50 corrector-right">
+        <div className="corrector-right">
           {errorList ?
             <>
               <Box className="h4">{t('corrector_errors_in_total')}: {totalErrors}</Box>
               <ErrorAccordion
-                resolveError={resolveError}
                 setErrorList={setErrorList}
                 errorList={errorList}
-                model={correctionModel}
                 inputText={inputText}
-                setInputText={setInputText}
-                setSpellerAnswer={setSpellerAnswer}
-                setGrammarAnswer={setGrammarAnswer}
-                spellerAnswer={spellerAnswer}
-                grammarAnswer={grammarAnswer}
+                setHoveredId={setHoveredId}
+                setInputType={correctionModel === GRAMMARCHECKER_TEST ? setGrammarTestAnswer : correctionModel === SPELLCHECKER ? setSpellerAnswer : setGrammarAnswer}
+                correctionModel={correctionModel}
               />
             </>
             :
