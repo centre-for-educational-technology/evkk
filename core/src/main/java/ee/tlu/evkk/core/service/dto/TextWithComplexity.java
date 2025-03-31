@@ -43,4 +43,7 @@ public class TextWithComplexity {
 
   @JsonAlias("grammatika_test_vead")
   private Object grammatikaTestVead;
+
+  @JsonAlias("margitud_laused")
+  private Object margitudLaused;
 }

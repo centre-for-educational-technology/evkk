@@ -8,7 +8,10 @@ from flask import Response
 from flask import request
 
 from corrector_counters import calculate_uncommon_words
-from corrector_functions import generate_grammar_output
+from corrector_functions import generate_grammar_output, calculate_noun_count, verb_and_noun_relation, \
+    calculate_content_word, calculate_abstract_words, calculate_total_words, calculate_abstractness_average, \
+    handle_uncommon_words_marking, handle_content_words_marking, handle_repetition_marking, \
+    handle_abstract_words_marking, handle_noun_marking, handle_long_word_marking, handle_long_sentence_marking
 from grammar_fetches import fetch_grammar, fetch_speller, fetch_test_grammar
 from grammar_test_functions import generate_test_grammar_output
 from linguistic_analysis import predict_level
@@ -88,10 +91,19 @@ def keerukus_sonaliigid_mitmekesisus():
     abstract_answer = utils.analyze(' '.join(lemmad), "estonian")
 
     serializable_word_analysis = make_serializable(abstract_answer["wordAnalysis"])
+    vocabulary = check_both_sentence_repetition(laused, word_start_and_end)
 
     grammar_output = generate_grammar_output(tekst, fetch_grammar(tekst))
     speller_output = generate_grammar_output(tekst, fetch_speller(tekst))
     grammar_test_output = generate_test_grammar_output(tekst, fetch_test_grammar(tekst))
+
+    uncommon_marked = handle_uncommon_words_marking(tekst, sonaliigid, lemmad, sonad)
+    abstract_marked = handle_abstract_words_marking(tekst, serializable_word_analysis, sonaliigid, sonad)
+    content_marked = handle_content_words_marking(tekst, sonaliigid, lemmad, sonad)
+    repetition_marked = handle_repetition_marking(tekst, vocabulary)
+    nouns_marked = handle_noun_marking(tekst, sonaliigid, sonad)
+    long_words_marked = handle_long_word_marking(tekst, sonad)
+    long_sentences_marked = handle_long_sentence_marking(tekst, doc)
 
     return Response(json.dumps({
         "sonad": sonad,
@@ -109,8 +121,25 @@ def keerukus_sonaliigid_mitmekesisus():
         "grammatika_test": grammar_test_output["error_input"],
         "grammatika_test_vead": grammar_test_output["error_list"],
         "laused": laused,
-        "sonavara": check_both_sentence_repetition(laused, word_start_and_end),
-        "korrektori_loendid": {"harvaesinevad": calculate_uncommon_words(lemmad, sonaliigid)}
+        "sonavara": vocabulary,
+        "korrektori_loendid": {"harvaesinevad": calculate_uncommon_words(lemmad, sonaliigid),
+                               "nimisonad": calculate_noun_count(sonaliigid),
+                               "sisusonad": calculate_content_word(lemmad, sonaliigid),
+                               "nimitegusuhe": verb_and_noun_relation(sonaliigid),
+                               "abstraktsed": calculate_abstract_words(serializable_word_analysis, sonaliigid),
+                               "kokku": calculate_total_words(sonaliigid),
+                               "abskeskmine": calculate_abstractness_average(serializable_word_analysis)
+                               },
+        "margitud_laused": {
+            "uncommonwords": uncommon_marked,
+            "abstractwords": abstract_marked,
+            "contentwords": content_marked,
+            "wordrepetition": repetition_marked,
+            "nouns": nouns_marked,
+            "longword": long_words_marked,
+            "longsentence": long_sentences_marked
+        }
+
     }), mimetype=mimetype)
 
 
