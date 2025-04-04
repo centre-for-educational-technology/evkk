@@ -176,11 +176,18 @@ def generate_test_grammar_output(full_text, data):
 
         correction_type = error_type_mapping.get(correction_type_key, "multipleErrors")
 
+        wrong_word_input = check_for_empty_word(wrong_word)
+        correct_word_input = check_for_empty_word(correct_word)
+
+        if correction_type == "multipleErrors" and wrong_word_input == '"' and correct_word_input == "":
+            correction_type = "extraPunctuation"
+            correction_type_key = "liigne kirjavahemärk"
+
         results.append({
             "error_id": f"{start}_marked",
-            "text": check_for_empty_word(wrong_word),
+            "text": wrong_word_input,
             "corrected": True,
-            "corrected_text": check_for_empty_word(correct_word),
+            "corrected_text": correct_word_input,
             "correction_type": correction_type,
             "correction_value": correction_type_key,
             "long_explanation": long_explanation,

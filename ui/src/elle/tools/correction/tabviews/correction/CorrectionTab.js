@@ -77,8 +77,11 @@ export default function CorrectionTab(
         }
         <div className="d-flex align-items-center">
           <CorrectionInfoIcon
-            inputText={<div>{t('corrector_proofreading_infobox')} <a href={CORRECTION_TAB_LINK}>{t('common_here')}</a>.
-            </div>} />
+            inputText={correctionModel === GRAMMARCHECKER_TEST ?
+              <div>{t('corrector_test_version_info')}</div>
+              :
+              <div>{t('corrector_proofreading_infobox')} <a href={CORRECTION_TAB_LINK}>{t('common_here')}</a>.
+              </div>} />
         </div>
       </Box>
       <div className="d-flex gap-2 flex-wrap">
