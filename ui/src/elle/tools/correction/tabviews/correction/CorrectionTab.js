@@ -36,7 +36,9 @@ export default function CorrectionTab(
     setHoveredId,
     grammarTestAnswer,
     setGrammarTestErrorList,
-    setGrammarTestAnswer
+    setGrammarTestAnswer,
+    noQuery,
+    setNoQuery
   }) {
   const { t } = useTranslation();
   const [totalErrors, setTotalErrors] = useState(null);
@@ -68,6 +70,7 @@ export default function CorrectionTab(
             setGrammarErrorList={setGrammarErrorList}
             setSpellerErrorList={setSpellerErrorList}
             setGrammarTestErrorList={setGrammarTestErrorList}
+            noQuery={noQuery}
           />
           :
           <Alert severity="warning" className="mb-2">
@@ -111,6 +114,7 @@ export default function CorrectionTab(
           setGrammarTestAnswer={setGrammarTestAnswer}
           setGrammarTestErrorList={setGrammarTestErrorList}
           grammarTestAnswer={grammarTestAnswer}
+          setNoQuery={setNoQuery}
         />
         <div className="corrector-right">
           {errorList ?

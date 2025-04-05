@@ -22,7 +22,8 @@ export default function CorrectionToggleButtonGroup(
     setGrammarErrorList,
     setSpellerErrorList,
     setGrammarTestErrorList,
-    setGrammarTestAnswer
+    setGrammarTestAnswer,
+    noQuery
   }) {
 
   const { getCorrectorResult } = useGetCorrectorResult();
@@ -36,7 +37,10 @@ export default function CorrectionToggleButtonGroup(
         sx={{ height: '1rem', marginBottom: '1rem' }}
         exclusive
         onChange={(e) => {
-          queryCaller(textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, null, null, false, setGrammarErrorList, setSpellerErrorList, setGrammarTestAnswer, setGrammarTestErrorList);
+          if (!noQuery) {
+            queryCaller(textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, false, setGrammarErrorList, setSpellerErrorList, setGrammarTestAnswer, setGrammarTestErrorList);
+          }
+          ;
           setCorrectionModel(e.target.value);
         }}
         aria-label="Platform"

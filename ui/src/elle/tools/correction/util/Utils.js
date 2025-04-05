@@ -72,16 +72,13 @@ export const setComplexityAnswerIndex = (index, value, complexityAnswer, arrayVa
   return complexityAnswer[arrayValues[index]][value];
 };
 
-export const queryCaller = (textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, newValue, setValue, mainButton, setGrammarErrorList, setSpellerErrorList, setGrammarTestAnswer, setGrammarTestErrorList) => {
+export const queryCaller = (textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, mainButton, setGrammarErrorList, setSpellerErrorList, setGrammarTestAnswer, setGrammarTestErrorList) => {
   if (textBoxRef.current.innerText.replaceAll('\u00A0', ' ') !== inputText.replaceAll(replaceCombined, '').replaceAll('\n', ' ').replaceAll('\u00A0', ' ') || mainButton) {
     setSpellerAnswer(null);
     setGrammarAnswer(null);
     setGrammarErrorList(null);
     setSpellerErrorList(null);
     setRequestingText(textBoxRef.current.innerText);
-    if (setValue !== null && newValue !== null) {
-      setValue(newValue);
-    }
     setInputText(textBoxRef.current.innerText);
     const fetchInputText = processFetchText(textBoxRef);
     setInputText(fetchInputText);
@@ -96,8 +93,6 @@ export const queryCaller = (textBoxRef, inputText, setRequestingText, setGrammar
         setGrammarTestAnswer(answer.grammatikaTest);
         setGrammarTestErrorList(answer.grammatikaTestVead);
       }).then(() => setRequestingText(null));
-  } else if (setValue !== null && newValue !== null) {
-    setValue(newValue);
   }
 };
 
