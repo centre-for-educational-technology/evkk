@@ -42,7 +42,9 @@ export default function VocabularyTab(
     setGrammarErrorList,
     setSpellerErrorList,
     setGrammarTestAnswer,
-    setGrammarTestErrorList
+    setGrammarTestErrorList,
+    noQuery,
+    setNoQuery
   }) {
   const { t } = useTranslation();
   const [model, setModel] = useState(WORD_REPETITION);
@@ -73,6 +75,7 @@ export default function VocabularyTab(
           setSpellerErrorList={setSpellerErrorList}
           setGrammarTestAnswer={setGrammarTestAnswer}
           setGrammarTestErrorList={setGrammarTestErrorList}
+          noQuery={noQuery}
         />
         <CorrectionInfoIcon
           inputText={<div>
@@ -146,6 +149,7 @@ export default function VocabularyTab(
             setSpellerErrorList={setSpellerErrorList}
             setGrammarTestAnswer={setGrammarTestAnswer}
             setGrammarTestErrorList={setGrammarTestErrorList}
+            setNoQuery={setNoQuery}
           />
         </div>
         <div className="corrector-right">

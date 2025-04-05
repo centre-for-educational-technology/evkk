@@ -1,7 +1,7 @@
 import re
 
-from commonlemmas import common_lemmas
-from stopwords import stop_words
+from const.common_lemmas import common_lemmas
+from const.stop_words import stop_words
 
 punctuations = ['.', ',', '!', '?', '"']
 punctuation_order = "punctuationOrder"
@@ -374,9 +374,9 @@ def calculate_content_word(lemmas, word_types):
 def calculate_abstract_words(abstract_answer, word_types):
     abstract_count = 0
     for index, word in enumerate(abstract_answer):
-        if (word.get("abstractness") == 3 and
-            word_types[index] != PROPN and
-            word_types[index] == NOUN):
+        if (word.get("abstractness") == 3
+            and word_types[index] != PROPN
+            and word_types[index] == NOUN):
             abstract_count += 1
     return abstract_count
 
@@ -447,8 +447,8 @@ def handle_long_sentence_marking(text, doc):
     marked_sentences = set()
     for sentence in doc.sentences:
         sentence_text = sentence.text.strip()
-        if len(
-            sentence.words) > COMPLEXITY_MARKING_MINIMUM_WORDS_IN_LONG_SENTENCE and sentence_text not in marked_sentences:
+        if (len(sentence.words) > COMPLEXITY_MARKING_MINIMUM_WORDS_IN_LONG_SENTENCE
+            and sentence_text not in marked_sentences):
             marked_sentences.add(sentence_text)
             new_sentence = f'<span id="text-span" class="long-sentence-color">{sentence_text}</span>'
             text = text.replace(sentence_text, new_sentence)

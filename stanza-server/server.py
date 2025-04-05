@@ -122,14 +122,15 @@ def keerukus_sonaliigid_mitmekesisus():
         "grammatika_test_vead": grammar_test_output["error_list"],
         "laused": laused,
         "sonavara": vocabulary,
-        "korrektori_loendid": {"harvaesinevad": calculate_uncommon_words(lemmad, sonaliigid),
-                               "nimisonad": calculate_noun_count(sonaliigid),
-                               "sisusonad": calculate_content_word(lemmad, sonaliigid),
-                               "nimitegusuhe": verb_and_noun_relation(sonaliigid),
-                               "abstraktsed": calculate_abstract_words(serializable_word_analysis, sonaliigid),
-                               "kokku": calculate_total_words(sonaliigid),
-                               "abskeskmine": calculate_abstractness_average(serializable_word_analysis)
-                               },
+        "korrektori_loendid": {
+            "harvaesinevad": calculate_uncommon_words(lemmad, sonaliigid),
+            "nimisonad": calculate_noun_count(sonaliigid),
+            "sisusonad": calculate_content_word(lemmad, sonaliigid),
+            "nimitegusuhe": verb_and_noun_relation(sonaliigid),
+            "abstraktsed": calculate_abstract_words(serializable_word_analysis, sonaliigid),
+            "kokku": calculate_total_words(sonaliigid),
+            "abskeskmine": calculate_abstractness_average(serializable_word_analysis)
+        },
         "margitud_laused": {
             "uncommonwords": uncommon_marked,
             "abstractwords": abstract_marked,
