@@ -29,9 +29,14 @@ export default function Correction() {
   const textBoxRef = useRef(inputText);
   const { getCorrectorResult } = useGetCorrectorResult();
   const [hoveredId, setHoveredId] = useState(null);
+  const [noQuery, setNoQuery] = useState(true);
 
   const handleChange = (event, newValue) => {
-    queryCaller(textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, newValue, setValue, false, setGrammarErrorList, setSpellerErrorList, setGrammarTestAnswer, setGrammarTestErrorList);
+    setValue(newValue);
+    setNewRef(textBoxRef.current.innerText);
+    if (!noQuery) {
+      queryCaller(textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, false, setGrammarErrorList, setSpellerErrorList, setGrammarTestAnswer, setGrammarTestErrorList);
+    }
   };
 
   return (
@@ -42,10 +47,10 @@ export default function Correction() {
           <TabContext value={value}>
             <Box>
               <TabList centered onChange={handleChange}>
-                <Tab label={t('corrector_proofreading')} value="1"/>
-                <Tab label={t('corrector_proficiency_level')} value="2"/>
-                <Tab label={t('corrector_complexity')} value="3"/>
-                <Tab label={t('corrector_vocabulary')} value="4"/>
+                <Tab label={t('corrector_proofreading')} value="1" />
+                <Tab label={t('corrector_proficiency_level')} value="2" />
+                <Tab label={t('corrector_complexity')} value="3" />
+                <Tab label={t('corrector_vocabulary')} value="4" />
               </TabList>
             </Box>
             <TabPanel value="1">
@@ -75,6 +80,8 @@ export default function Correction() {
                 complexityAnswer={complexityAnswer}
                 hoveredId={hoveredId}
                 setHoveredId={setHoveredId}
+                noQuery={noQuery}
+                setNoQuery={setNoQuery}
               /></TabPanel>
             <TabPanel value="2">
               <TextLevelTab
@@ -102,6 +109,8 @@ export default function Correction() {
                 setGrammarTestAnswer={setGrammarTestAnswer}
                 setAbstractWords={setAbstractWords}
                 setHoveredId={setHoveredId}
+                noQuery={noQuery}
+                setNoQuery={setNoQuery}
               /></TabPanel>
             <TabPanel value="3">
               <ComplexityTab
@@ -122,6 +131,8 @@ export default function Correction() {
                 setGrammarErrorList={setGrammarErrorList}
                 setSpellerErrorList={setSpellerErrorList}
                 setGrammarTestErrorList={setGrammarTestErrorList}
+                noQuery={noQuery}
+                setNoQuery={setNoQuery}
               /></TabPanel>
             <TabPanel value="4">
               <VocabularyTab
@@ -143,6 +154,8 @@ export default function Correction() {
                 setGrammarErrorList={setGrammarErrorList}
                 setSpellerErrorList={setSpellerErrorList}
                 setGrammarTestErrorList={setGrammarTestErrorList}
+                noQuery={noQuery}
+                setNoQuery={setNoQuery}
               /></TabPanel>
           </TabContext>
         </Box>

@@ -6,9 +6,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Accordion from '@mui/material/Accordion';
 import '../../styles/ComplexityTab.css';
-import { calculateNounCount, verbAndNounRelation } from '../../util/ComplexityCalculations';
 import { handleCopy, handlePaste } from '../../util/Utils';
-import { markText } from '../../util/ComplexityMarkingHandlers';
 import CorrectionScale from '../../components/CorrectionScale';
 import CorrectionButton from '../../components/CorrectionButton';
 import CorrectionInfoIcon from '../../components/CorrectionInfoIcon';
@@ -38,25 +36,18 @@ export default function ComplexityTab(
     setGrammarErrorList,
     setSpellerErrorList,
     setGrammarTestAnswer,
-    setGrammarTestErrorList
+    setGrammarTestErrorList,
+    noQuery,
+    setNoQuery
   }) {
   const { t } = useTranslation();
   const [model, setModel] = useState(LONG_SENTENCE);
-  const [nounCount, setNounCount] = useState(0);
-  const [, setRenderTrigger] = useState(false);
-
-  useEffect(() => {
-    if (!complexityAnswer) return;
-    calculateNounCount(complexityAnswer, setNounCount);
-    markText(inputText, model, complexityAnswer, setNewRef, setRenderTrigger);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [complexityAnswer]);
 
   useEffect(() => {
     if (!inputText || !complexityAnswer) return;
-    markText(inputText, model, complexityAnswer, setNewRef, setRenderTrigger);
+    setNewRef(complexityAnswer.margitudLaused[model]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [model, inputText]);
+  }, [model, complexityAnswer]);
 
   const generateComplexityAnswer = (answer) => {
     return answer
@@ -88,6 +79,7 @@ export default function ComplexityTab(
           setSpellerErrorList={setSpellerErrorList}
           setGrammarTestAnswer={setGrammarTestAnswer}
           setGrammarTestErrorList={setGrammarTestErrorList}
+          noQuery={noQuery}
         />
         <CorrectionInfoIcon inputText={
           <div>
@@ -130,7 +122,7 @@ export default function ComplexityTab(
             <br></br><br></br>
             {t('corrector_complexity_infobox_word_length_outro')}
             <a href={COMPLEXITY_LONG_WORD_LINK}> {t('common_here')}</a>).
-          </div>}/>
+          </div>} />
       </Box>
       <div className="d-flex gap-2 flex-wrap ">
         <div className="corector-input">
@@ -161,6 +153,7 @@ export default function ComplexityTab(
             setSpellerErrorList={setSpellerErrorList}
             setGrammarTestAnswer={setGrammarTestAnswer}
             setGrammarTestErrorList={setGrammarTestErrorList}
+            setNoQuery={setNoQuery}
           />
         </div>
         <div className="corrector-right">
@@ -170,7 +163,7 @@ export default function ComplexityTab(
                 {t('corrector_complexity_level')} {generateComplexityAnswer(complexityAnswer.keerukus[11])}</div>
               <Accordion square={true} style={{ marginBottom: '0.5em' }} sx={CorrectorAccordionStyle} defaultExpanded>
                 <AccordionSummary
-                  expandIcon={<ExpandMoreIcon/>}
+                  expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1-content"
                   id="panel1-header"
                 >
@@ -200,14 +193,14 @@ export default function ComplexityTab(
                     </div>
                     <div className="tab-table">
                       <div>{t('corrector_complexity_statistics_nouns')}</div>
-                      <div>{nounCount}</div>
+                      <div>{complexityAnswer.korrektoriLoendid.nimisonad}</div>
                     </div>
                   </div>
                 </AccordionDetails>
               </Accordion>
               <Accordion square={true} sx={CorrectorAccordionStyle}>
                 <AccordionSummary
-                  expandIcon={<ExpandMoreIcon/>}
+                  expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1-content"
                   id="panel1-header"
                 >
@@ -222,7 +215,7 @@ export default function ComplexityTab(
                     startText={t('corrector_index_score_easy')}
                     endText={t('corrector_index_score_difficult')}
                   />
-                  <Divider/>
+                  <Divider />
                   <CorrectionScale
                     title={t('corrector_flesch_kincaid_grade_level')}
                     startValue={0}
@@ -231,7 +224,7 @@ export default function ComplexityTab(
                     startText={t('corrector_index_score_easy')}
                     endText={t('corrector_index_score_difficult')}
                   />
-                  <Divider/>
+                  <Divider />
                   <CorrectionScale
                     title={t('corrector_lix_index')}
                     startValue={20}
@@ -240,12 +233,12 @@ export default function ComplexityTab(
                     startText={t('corrector_index_score_easy')}
                     endText={t('corrector_index_score_difficult')}
                   />
-                  <Divider/>
+                  <Divider />
                   <CorrectionScale
                     title={t('corrector_noun_to_verb_ratio')}
                     startValue={0}
                     endValue={3}
-                    value={verbAndNounRelation(complexityAnswer)}
+                    value={complexityAnswer.korrektoriLoendid.nimitegusuhe}
                     startText={t('corrector_has_more_verbs')}
                     endText={t('corrector_has_more_nouns')}
                   />

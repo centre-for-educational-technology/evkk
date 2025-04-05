@@ -34,7 +34,8 @@ export default function CorrectionInput(
     grammarAnswer,
     grammarTestAnswer,
     setGrammarTestAnswer,
-    setGrammarTestErrorList
+    setGrammarTestErrorList,
+    setNoQuery
   }) {
   const [inputType, setInputType] = useState(null);
   const [innerValue, setInnerValue] = useState(newRef);
@@ -126,6 +127,7 @@ export default function CorrectionInput(
         setInputType={setInputType}
         setGrammarTestAnswer={setGrammarTestAnswer}
         setGrammarTestErrorList={setGrammarTestErrorList}
+        setNoQuery={setNoQuery}
       />
     </div>
   );
