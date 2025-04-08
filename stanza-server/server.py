@@ -63,6 +63,7 @@ def sonad_lemmad_silbid_sonaliigid_vormimargendid():
 @app.route('/keerukus-sonaliigid-mitmekesisus', methods=post)
 def keerukus_sonaliigid_mitmekesisus():
     tekst = request.json["tekst"]
+    model_type = request.json["model"]
     doc = nlp_tpl(tekst)
 
     sonad = []
@@ -70,6 +71,7 @@ def keerukus_sonaliigid_mitmekesisus():
     lemmad = []
     laused = []
     word_start_and_end = []
+    grammar_output = []
 
     for sentence in doc.sentences:
         laused.append(sentence.text)
@@ -89,13 +91,15 @@ def keerukus_sonaliigid_mitmekesisus():
         word_start_and_end.append(sentence_array)
 
     abstract_answer = utils.analyze(' '.join(lemmad), "estonian")
-
     serializable_word_analysis = make_serializable(abstract_answer["wordAnalysis"])
     vocabulary = check_both_sentence_repetition(laused, word_start_and_end)
 
-    grammar_output = generate_grammar_output(tekst, fetch_grammar(tekst))
+    if model_type == "grammarcheckerTest":
+        grammar_output = generate_test_grammar_output(tekst, fetch_test_grammar(tekst))
+    else:
+        grammar_output = generate_grammar_output(tekst, fetch_grammar(tekst))
+
     speller_output = generate_grammar_output(tekst, fetch_speller(tekst))
-    grammar_test_output = generate_test_grammar_output(tekst, fetch_test_grammar(tekst))
 
     uncommon_marked = handle_uncommon_words_marking(tekst, sonaliigid, lemmad, sonad)
     abstract_marked = handle_abstract_words_marking(tekst, serializable_word_analysis, sonaliigid, sonad)
@@ -118,8 +122,6 @@ def keerukus_sonaliigid_mitmekesisus():
         "grammatika_vead": grammar_output["error_list"],
         "speller": speller_output["corrector_results"],
         "spelleri_vead": speller_output["error_list"],
-        "grammatika_test": grammar_test_output["error_input"],
-        "grammatika_test_vead": grammar_test_output["error_list"],
         "laused": laused,
         "sonavara": vocabulary,
         "korrektori_loendid": {

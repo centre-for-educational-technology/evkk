@@ -206,4 +206,4 @@ def generate_test_grammar_output(full_text, data):
             "corrected": False
         })
 
-    return {"error_input": results, "error_list": populate_error_list(results)}
+    return {"corrector_results": results, "error_list": populate_error_list(results)}

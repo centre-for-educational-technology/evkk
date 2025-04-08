@@ -6,7 +6,7 @@ import {
   correctorDocxColors
 } from '../../../const/StyleConstants';
 import { accordionDetails, errorTypes } from '../const/TabValuesConstant';
-import { ARROW_KEYS, CORRECTION, GRAMMARCHECKER_TEST, SPELLCHECKER, TEXTSPAN } from '../const/Constants';
+import { ARROW_KEYS, CORRECTION, SPELLCHECKER, TEXTSPAN } from '../const/Constants';
 import { Paper, Tooltip } from '@mui/material';
 import SingleError from '../tabviews/correction/components/SingleError';
 import React from 'react';
@@ -72,7 +72,7 @@ export const setComplexityAnswerIndex = (index, value, complexityAnswer, arrayVa
   return complexityAnswer[arrayValues[index]][value];
 };
 
-export const queryCaller = (textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, mainButton, setGrammarErrorList, setSpellerErrorList, setGrammarTestAnswer, setGrammarTestErrorList) => {
+export const queryCaller = (textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, mainButton, setGrammarErrorList, setSpellerErrorList, model) => {
   if (textBoxRef.current.innerText.replaceAll('\u00A0', ' ') !== inputText.replaceAll(replaceCombined, '').replaceAll('\n', ' ').replaceAll('\u00A0', ' ') || mainButton) {
     setSpellerAnswer(null);
     setGrammarAnswer(null);
@@ -82,7 +82,7 @@ export const queryCaller = (textBoxRef, inputText, setRequestingText, setGrammar
     setInputText(textBoxRef.current.innerText);
     const fetchInputText = processFetchText(textBoxRef);
     setInputText(fetchInputText);
-    getCorrectorResult(JSON.stringify({ tekst: processCorrectorText(fetchInputText) }))
+    getCorrectorResult(JSON.stringify({ tekst: processCorrectorText(fetchInputText), model: model }))
       .then(answer => {
         setComplexityAnswer(answer);
         setGrammarAnswer(answer.grammatika);
@@ -90,8 +90,6 @@ export const queryCaller = (textBoxRef, inputText, setRequestingText, setGrammar
         setAbstractWords(answer.abstraktsus);
         setGrammarErrorList(answer.grammatikaVead);
         setSpellerErrorList(answer.spelleriVead);
-        setGrammarTestAnswer(answer.grammatikaTest);
-        setGrammarTestErrorList(answer.grammatikaTestVead);
       }).then(() => setRequestingText(null));
   }
 };
@@ -272,7 +270,7 @@ const processTextLevelAnswer = (returnArray, textLevel, labels) => {
   return returnArray;
 };
 
-export const iterateCorrectionArray = (input, hoveredId, setInnerValue, newRef, setHoveredId, setErrorList, model, setSpellerAnswer, setGrammarAnswer, setGrammarTestAnswer) => {
+export const iterateCorrectionArray = (input, hoveredId, setInnerValue, newRef, setHoveredId, setErrorList, model, setSpellerAnswer, setGrammarAnswer) => {
   if (input) {
     const innerVal = input.map(val => {
       if (val.corrected) {
@@ -291,7 +289,7 @@ export const iterateCorrectionArray = (input, hoveredId, setInnerValue, newRef, 
                         error={val}
                         setHoveredId={setHoveredId}
                         setErrorList={setErrorList}
-                        setInputType={model === GRAMMARCHECKER_TEST ? setGrammarTestAnswer : model === SPELLCHECKER ? setSpellerAnswer : setGrammarAnswer}
+                        setInputType={model === SPELLCHECKER ? setSpellerAnswer : setGrammarAnswer}
                         errorText={val.short_explanation}
                         correctionModel={model}
                       />
