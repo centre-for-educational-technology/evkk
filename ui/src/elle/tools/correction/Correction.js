@@ -78,6 +78,7 @@ export default function Correction() {
                 setHoveredId={setHoveredId}
                 setNoQuery={setNoQuery}
                 noQuery={noQuery}
+
               /></TabPanel>
             <TabPanel value="2">
               <TextLevelTab

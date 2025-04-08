@@ -73,6 +73,7 @@ export const setComplexityAnswerIndex = (index, value, complexityAnswer, arrayVa
 };
 
 export const queryCaller = (textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, mainButton, setGrammarErrorList, setSpellerErrorList, model) => {
+
   if (textBoxRef.current.innerText.replaceAll('\u00A0', ' ') !== inputText.replaceAll(replaceCombined, '').replaceAll('\n', ' ').replaceAll('\u00A0', ' ') || mainButton) {
     setSpellerAnswer(null);
     setGrammarAnswer(null);

@@ -93,13 +93,21 @@ def keerukus_sonaliigid_mitmekesisus():
     abstract_answer = utils.analyze(' '.join(lemmad), "estonian")
     serializable_word_analysis = make_serializable(abstract_answer["wordAnalysis"])
     vocabulary = check_both_sentence_repetition(laused, word_start_and_end)
-
+    
     if model_type == "grammarcheckerTest":
         grammar_output = generate_test_grammar_output(tekst, fetch_test_grammar(tekst))
     else:
         grammar_output = generate_grammar_output(tekst, fetch_grammar(tekst))
 
     speller_output = generate_grammar_output(tekst, fetch_speller(tekst))
+
+    uncommon_marked = handle_uncommon_words_marking(tekst, sonaliigid, lemmad, sonad)
+    abstract_marked = handle_abstract_words_marking(tekst, serializable_word_analysis, sonaliigid, sonad)
+    content_marked = handle_content_words_marking(tekst, sonaliigid, lemmad, sonad)
+    repetition_marked = handle_repetition_marking(tekst, vocabulary)
+    nouns_marked = handle_noun_marking(tekst, sonaliigid, sonad)
+    long_words_marked = handle_long_word_marking(tekst, sonad)
+    long_sentences_marked = handle_long_sentence_marking(tekst, doc)
 
     uncommon_marked = handle_uncommon_words_marking(tekst, sonaliigid, lemmad, sonad)
     abstract_marked = handle_abstract_words_marking(tekst, serializable_word_analysis, sonaliigid, sonad)
