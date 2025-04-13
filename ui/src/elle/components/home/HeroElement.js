@@ -44,7 +44,7 @@ export default function HeroElement() {
             <ToolsLink
               key={'1'}
               smooth
-              to="#scroll-anchor"
+              to="#tools"
             >
               {t('hero_tools_button')}
             </ToolsLink>

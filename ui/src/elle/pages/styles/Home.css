@@ -185,4 +185,6 @@
   animation-timing-function: ease-out;
 }
 
-
+.home-root-box {
+  margin-bottom: 100px;
+}
