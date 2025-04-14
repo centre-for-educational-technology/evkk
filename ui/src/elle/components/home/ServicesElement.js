@@ -17,7 +17,7 @@ export default function ServicesElement() {
   }
 
   return (
-    <Box className="service-container-outer">
+    <Box className="service-container-outer" id="service-container">
       <h3 className="mb-4">{t('homepage_services_title')}</h3>
       <Box className="services-container">
         {ServiceContainer(t('homepage_summary_text_1'))}
