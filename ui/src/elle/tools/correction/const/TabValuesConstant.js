@@ -1,8 +1,9 @@
 export const accordionDetails = [
-  { label: 'corrector_proficiency_level_overall_score', arrayValues: [0, 1, 2, 3] },
-  { label: 'corrector_proficiency_level_evaluation_text_complexity', arrayValues: [4, 5, 6, 7] },
-  { label: 'corrector_proficiency_level_evaluation_grammar', arrayValues: [8, 9, 10, 11] },
-  { label: 'corrector_proficiency_level_evaluation_vocabulary', arrayValues: [12, 13, 14, 15] }
+  { label: 'corrector_proficiency_level_overall_score' },
+  { label: 'corrector_proficiency_level_evaluation_text_complexity' },
+  { label: 'corrector_proficiency_level_evaluation_grammar' },
+  { label: 'corrector_proficiency_level_evaluation_correctness' },
+  { label: 'corrector_proficiency_level_evaluation_vocabulary' }
 ];
 
 export const textLevels = [
@@ -20,7 +21,7 @@ export const complexityValues = [
   'complexity_level_very_difficult'
 ];
 
-export const textLevelColors = ['hsl(0 66% 76%)', 'hsl(100 37% 75%)', 'hsl(50 37% 75%)', 'hsl(240 37% 75%)'];
+export const textLevelColors = ['#ea9999', '#b6d7a8', '#ffe599', '#ada1d4'];
 
 export const errorTypes = {
   spellingErrorTest: { color: '#ea9999', label: 'corrector_grammar_errors_spelling', classValue: 'spelling-error' },
