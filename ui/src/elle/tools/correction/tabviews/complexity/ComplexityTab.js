@@ -35,8 +35,6 @@ export default function ComplexityTab(
     setErrorList,
     setGrammarErrorList,
     setSpellerErrorList,
-    setGrammarTestAnswer,
-    setGrammarTestErrorList,
     noQuery,
     setNoQuery
   }) {
@@ -77,8 +75,6 @@ export default function ComplexityTab(
           setAbstractWords={setAbstractWords}
           setGrammarErrorList={setGrammarErrorList}
           setSpellerErrorList={setSpellerErrorList}
-          setGrammarTestAnswer={setGrammarTestAnswer}
-          setGrammarTestErrorList={setGrammarTestErrorList}
           noQuery={noQuery}
         />
         <CorrectionInfoIcon inputText={
@@ -151,8 +147,6 @@ export default function ComplexityTab(
             setErrorList={setErrorList}
             setGrammarErrorList={setGrammarErrorList}
             setSpellerErrorList={setSpellerErrorList}
-            setGrammarTestAnswer={setGrammarTestAnswer}
-            setGrammarTestErrorList={setGrammarTestErrorList}
             setNoQuery={setNoQuery}
           />
         </div>

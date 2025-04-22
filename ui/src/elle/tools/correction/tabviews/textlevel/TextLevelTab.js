@@ -34,10 +34,7 @@ export default function TextLevelTab(
     setGrammarAnswer,
     setGrammarErrorList,
     setSpellerErrorList,
-    setHoveredId,
-    setGrammarTestAnswer,
-    setGrammarTestErrorList,
-    grammarTestAnswer
+    setHoveredId
   }) {
   const { t } = useTranslation();
 
@@ -60,8 +57,6 @@ export default function TextLevelTab(
             toggleButtons={CorrectionAndTextLevelToggleButtons}
             setGrammarErrorList={setGrammarErrorList}
             setSpellerErrorList={setSpellerErrorList}
-            setGrammarTestAnswer={setGrammarTestAnswer}
-            setGrammarTestErrorList={setGrammarTestErrorList}
           />
           :
           <Alert severity="warning" className="mb-2">
@@ -116,9 +111,6 @@ export default function TextLevelTab(
           tab={TEXTLEVEL}
           complexityAnswer={complexityAnswer}
           setHoveredId={setHoveredId}
-          setGrammarTestAnswer={setGrammarTestAnswer}
-          setGrammarTestErrorList={setGrammarTestErrorList}
-          grammarTestAnswer={grammarTestAnswer}
         />
         <div className="corrector-right">
           {complexityAnswer && complexityAnswer?.keeletase.length !== 0 &&
