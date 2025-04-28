@@ -18,11 +18,9 @@ export default function Correction() {
   const [inputText, setInputText] = useState('');
   const [grammarErrorList, setGrammarErrorList] = useState(null);
   const [spellerErrorList, setSpellerErrorList] = useState(null);
-  const [grammarTestErrorList, setGrammarTestErrorList] = useState(null);
   const [complexityAnswer, setComplexityAnswer] = useState();
   const [grammarAnswer, setGrammarAnswer] = useState();
   const [spellerAnswer, setSpellerAnswer] = useState();
-  const [grammarTestAnswer, setGrammarTestAnswer] = useState();
   const [abstractWords, setAbstractWords] = useState([]);
   const [correctionModel, setCorrectionModel] = useState(window.location.pathname === '/corrector-test' ? GRAMMARCHECKER_TEST : SPELLCHECKER);
   const [newRef, setNewRef] = useState(inputText);
@@ -36,7 +34,7 @@ export default function Correction() {
     setValue(newValue);
     setNewRef(textBoxRef.current.innerText);
     if (!noQuery) {
-      queryCaller(textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, false, setGrammarErrorList, setSpellerErrorList, setGrammarTestAnswer, setGrammarTestErrorList);
+      queryCaller(textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, false, setGrammarErrorList, setSpellerErrorList, correctionModel);
     }
   };
 
@@ -63,26 +61,23 @@ export default function Correction() {
                 setNewRef={setNewRef}
                 inputText={inputText}
                 setInputText={setInputText}
-                errorList={correctionModel === GRAMMARCHECKER_TEST ? grammarTestErrorList : correctionModel === SPELLCHECKER ? spellerErrorList : grammarErrorList}
-                setErrorList={correctionModel === GRAMMARCHECKER_TEST ? setGrammarTestErrorList : correctionModel === SPELLCHECKER ? setSpellerErrorList : setGrammarErrorList}
+                errorList={correctionModel === SPELLCHECKER ? spellerErrorList : grammarErrorList}
+                setErrorList={correctionModel === SPELLCHECKER ? setSpellerErrorList : setGrammarErrorList}
                 setGrammarErrorList={setGrammarErrorList}
                 setSpellerErrorList={setSpellerErrorList}
-                setGrammarTestErrorList={setGrammarTestErrorList}
                 setComplexityAnswer={setComplexityAnswer}
                 grammarAnswer={grammarAnswer}
                 setGrammarAnswer={setGrammarAnswer}
                 spellerAnswer={spellerAnswer}
                 setSpellerAnswer={setSpellerAnswer}
-                grammarTestAnswer={grammarTestAnswer}
-                setGrammarTestAnswer={setGrammarTestAnswer}
                 correctionModel={correctionModel}
                 setCorrectionModel={setCorrectionModel}
                 setAbstractWords={setAbstractWords}
                 complexityAnswer={complexityAnswer}
                 hoveredId={hoveredId}
                 setHoveredId={setHoveredId}
-                noQuery={noQuery}
                 setNoQuery={setNoQuery}
+                noQuery={noQuery}
               /></TabPanel>
             <TabPanel value="2">
               <TextLevelTab
@@ -93,11 +88,10 @@ export default function Correction() {
                 setNewRef={setNewRef}
                 inputText={inputText}
                 setInputText={setInputText}
-                errorList={correctionModel === GRAMMARCHECKER_TEST ? grammarTestErrorList : correctionModel === SPELLCHECKER ? spellerErrorList : grammarErrorList}
-                setErrorList={correctionModel === GRAMMARCHECKER_TEST ? setGrammarTestErrorList : correctionModel === SPELLCHECKER ? setSpellerErrorList : setGrammarErrorList}
+                errorList={correctionModel === SPELLCHECKER ? spellerErrorList : grammarErrorList}
+                setErrorList={correctionModel === SPELLCHECKER ? setSpellerErrorList : setGrammarErrorList}
                 setGrammarErrorList={setGrammarErrorList}
                 setSpellerErrorList={setSpellerErrorList}
-                setGrammarTestErrorList={setGrammarTestErrorList}
                 complexityAnswer={complexityAnswer}
                 setComplexityAnswer={setComplexityAnswer}
                 correctionModel={correctionModel}
@@ -106,12 +100,10 @@ export default function Correction() {
                 setGrammarAnswer={setGrammarAnswer}
                 spellerAnswer={spellerAnswer}
                 setSpellerAnswer={setSpellerAnswer}
-                grammarTestAnswer={grammarTestAnswer}
-                setGrammarTestAnswer={setGrammarTestAnswer}
                 setAbstractWords={setAbstractWords}
                 setHoveredId={setHoveredId}
-                noQuery={noQuery}
                 setNoQuery={setNoQuery}
+                noQuery={noQuery}
               /></TabPanel>
             <TabPanel value="3">
               <ComplexityTab
@@ -126,14 +118,12 @@ export default function Correction() {
                 setAbstractWords={setAbstractWords}
                 setSpellerAnswer={setSpellerAnswer}
                 setGrammarAnswer={setGrammarAnswer}
-                setGrammarTestAnswer={setGrammarTestAnswer}
                 setRequestingText={setRequestingText}
-                setErrorList={correctionModel === GRAMMARCHECKER_TEST ? setGrammarTestErrorList : correctionModel === SPELLCHECKER ? setSpellerErrorList : setGrammarErrorList}
+                setErrorList={correctionModel === SPELLCHECKER ? setSpellerErrorList : setGrammarErrorList}
                 setGrammarErrorList={setGrammarErrorList}
                 setSpellerErrorList={setSpellerErrorList}
-                setGrammarTestErrorList={setGrammarTestErrorList}
-                noQuery={noQuery}
                 setNoQuery={setNoQuery}
+                noQuery={noQuery}
               /></TabPanel>
             <TabPanel value="4">
               <VocabularyTab
@@ -149,14 +139,12 @@ export default function Correction() {
                 setAbstractWords={setAbstractWords}
                 setSpellerAnswer={setSpellerAnswer}
                 setGrammarAnswer={setGrammarAnswer}
-                setGrammarTestAnswer={setGrammarTestAnswer}
                 setRequestingText={setRequestingText}
-                setErrorList={correctionModel === GRAMMARCHECKER_TEST ? setGrammarTestErrorList : correctionModel === SPELLCHECKER ? setSpellerErrorList : setGrammarErrorList}
+                setErrorList={correctionModel === SPELLCHECKER ? setSpellerErrorList : setGrammarErrorList}
                 setGrammarErrorList={setGrammarErrorList}
                 setSpellerErrorList={setSpellerErrorList}
-                setGrammarTestErrorList={setGrammarTestErrorList}
-                noQuery={noQuery}
                 setNoQuery={setNoQuery}
+                noQuery={noQuery}
               /></TabPanel>
           </TabContext>
         </Box>

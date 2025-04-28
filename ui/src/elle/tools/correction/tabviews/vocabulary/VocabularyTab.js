@@ -41,8 +41,6 @@ export default function VocabularyTab(
     setRequestingText,
     setGrammarErrorList,
     setSpellerErrorList,
-    setGrammarTestAnswer,
-    setGrammarTestErrorList,
     noQuery,
     setNoQuery
   }) {
@@ -73,8 +71,6 @@ export default function VocabularyTab(
           setAbstractWords={setAbstractWords}
           setGrammarErrorList={setGrammarErrorList}
           setSpellerErrorList={setSpellerErrorList}
-          setGrammarTestAnswer={setGrammarTestAnswer}
-          setGrammarTestErrorList={setGrammarTestErrorList}
           noQuery={noQuery}
         />
         <CorrectionInfoIcon
@@ -147,8 +143,6 @@ export default function VocabularyTab(
             newRef={newRef}
             setGrammarErrorList={setGrammarErrorList}
             setSpellerErrorList={setSpellerErrorList}
-            setGrammarTestAnswer={setGrammarTestAnswer}
-            setGrammarTestErrorList={setGrammarTestErrorList}
             setNoQuery={setNoQuery}
           />
         </div>
