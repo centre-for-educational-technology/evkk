@@ -110,10 +110,10 @@ def keerukus_sonaliigid_mitmekesisus():
     long_words_marked = handle_long_word_marking(tekst, sonad)
     long_sentences_marked = handle_long_sentence_marking(tekst, doc)
 
-    errors_per_sent = grammar_output["error_count"] / len(doc.sentences)
+    errors_per_sentence = grammar_output["error_count"] / len(doc.sentences)
     errors_per_word = grammar_output["error_count"] / total_words
 
-    feat_values = extract_features(errors_per_sent, errors_per_word, linguistic_data)
+    feat_values = extract_features(errors_per_sentence, errors_per_word, linguistic_data)
 
     return Response(json.dumps({
         "sonad": sonad,
@@ -121,7 +121,6 @@ def keerukus_sonaliigid_mitmekesisus():
         "keerukus": hinda_keerukust(tekst),
         "mitmekesisus": hinda_mitmekesisust(tekst),
         "lemmad": lemmad,
-        "keeletase": arvuta(tekst),
         "uus_keeletase": {
             "lexical": linguistic_analysis("lexical", feat_values),
             "grammatical": linguistic_analysis("grammatical", feat_values),

@@ -1,3 +1,5 @@
+# Original code created by Kais Allkivi
+
 import pandas as pd
 import os
 from sklearn.preprocessing import StandardScaler
@@ -16,7 +18,7 @@ def train():
                   'P_Prs', 'P_Dem', 'P_IntRel', 'V_Fin', 'V_Sing',
                   'V_Neg', 'K_Post', 'D', 'J', 'S_Prop']
     complex_feats = ['word_count', 'word_len', 'syllables']
-    error_feats = ['errors_per_word', 'errors_per_sent']
+    error_feats = ['errors_per_word', 'errors_per_sentence']
     mixed_feats = ['n_cases', 'Nom', 'Tra', 'Plur', 'S_cases', 'S_Plur',
                    'A_cases', 'P_cases', 'P_Prs', 'P_Dem', 'P_IntRel',
                    'V_Fin', 'lemma_count', 'RTTR', 'CVV', 'S_abstr',

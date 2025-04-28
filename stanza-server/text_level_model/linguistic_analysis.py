@@ -27,7 +27,7 @@ model_types = {
     'error': {
         "model": 'error_model.joblib',
         "scaler": 'error_scaler.joblib',
-        "feats": ['errors_per_word', 'errors_per_sent']},
+        "feats": ['errors_per_word', 'errors_per_sentence']},
     'mixed': {
         "model": 'mixed_model.joblib',
         "scaler": 'mixed_scaler.joblib',
@@ -64,7 +64,7 @@ def linguistic_analysis(model_type, feat_values):
     # TODO: arvutada veatunnused - paranduste arv sõnade ja lausete arvu suhtes
 
 
-def extract_features(errors_per_sent, errors_per_word, data):
+def extract_features(errors_per_sentence, errors_per_word, data):
     df = pd.DataFrame(data, columns=['Index', 'Word', 'Lemma', 'Upos', 'Xpos', 'Feats'])
 
     # Creating a dictionary to store predictive feature values
@@ -74,7 +74,7 @@ def extract_features(errors_per_sent, errors_per_word, data):
              'A_Sing', 'A_Plur', 'P_cases', 'P_Ela', 'P_Prs', 'P_Dem', 'P_IntRel', 'V_Fin',
              'V_Sing', 'V_Neg', 'D', 'J', 'S_Prop', 'K_Post']
 
-    # TODO: Loendis peaks olema ka 'errors_per_word' ja 'errors_per_sent', mida ma siin praegu ei arvuta
+    # TODO: Loendis peaks olema ka 'errors_per_word' ja 'errors_per_sentence', mida ma siin praegu ei arvuta
 
     feat_values = {}
     for feat in feats:
@@ -175,6 +175,6 @@ def extract_features(errors_per_sent, errors_per_word, data):
         feat_values[feat_name] = pos_ratio(df, feat_tag, feat_values['word_count'])
 
     feat_values['errors_per_word'] = errors_per_word
-    feat_values['errors_per_sent'] = errors_per_sent
+    feat_values['errors_per_sentence'] = errors_per_sentence
 
     return feat_values
