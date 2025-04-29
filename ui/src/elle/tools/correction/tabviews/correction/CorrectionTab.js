@@ -34,9 +34,6 @@ export default function CorrectionTab(
     setSpellerErrorList,
     hoveredId,
     setHoveredId,
-    grammarTestAnswer,
-    setGrammarTestErrorList,
-    setGrammarTestAnswer,
     noQuery,
     setNoQuery
   }) {
@@ -64,12 +61,10 @@ export default function CorrectionTab(
             setRequestingText={setRequestingText}
             setGrammarAnswer={setGrammarAnswer}
             setSpellerAnswer={setSpellerAnswer}
-            setGrammarTestAnswer={setGrammarTestAnswer}
             setComplexityAnswer={setComplexityAnswer}
             setAbstractWords={setAbstractWords}
             setGrammarErrorList={setGrammarErrorList}
             setSpellerErrorList={setSpellerErrorList}
-            setGrammarTestErrorList={setGrammarTestErrorList}
             noQuery={noQuery}
           />
           :
@@ -111,9 +106,6 @@ export default function CorrectionTab(
           complexityAnswer={complexityAnswer}
           hoveredId={hoveredId}
           setHoveredId={setHoveredId}
-          setGrammarTestAnswer={setGrammarTestAnswer}
-          setGrammarTestErrorList={setGrammarTestErrorList}
-          grammarTestAnswer={grammarTestAnswer}
           setNoQuery={setNoQuery}
         />
         <div className="corrector-right">
@@ -125,7 +117,7 @@ export default function CorrectionTab(
                 errorList={errorList}
                 inputText={inputText}
                 setHoveredId={setHoveredId}
-                setInputType={correctionModel === GRAMMARCHECKER_TEST ? setGrammarTestAnswer : correctionModel === SPELLCHECKER ? setSpellerAnswer : setGrammarAnswer}
+                setInputType={correctionModel === SPELLCHECKER ? setSpellerAnswer : setGrammarAnswer}
                 correctionModel={correctionModel}
               />
             </>
