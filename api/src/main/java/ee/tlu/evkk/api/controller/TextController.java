@@ -6,6 +6,7 @@ import ee.evkk.dto.CorpusDownloadDto;
 import ee.evkk.dto.CorpusRequestDto;
 import ee.evkk.dto.CorpusTextContentsDto;
 import ee.tlu.evkk.api.annotation.RateLimit;
+import ee.tlu.evkk.api.service.TextToSpeechService;
 import ee.tlu.evkk.api.service.WordAnalyserService;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Arrays.asList;
 import static java.util.UUID.fromString;
@@ -40,6 +42,7 @@ public class TextController {
   private final CorrectorServerClient correctorServerClient;
   private final TextService textService;
   private final WordAnalyserService wordAnalyserService;
+  private final TextToSpeechService textToSpeechService;
 
   @PostMapping("/kysitekstid")
   public String kysiTekstid(@RequestBody CorpusTextContentsDto dto) {
@@ -142,6 +145,27 @@ public class TextController {
   @PostMapping("/lisatekst")
   public String lisatekst(@Valid @RequestBody AddingRequestDto andmed) {
     return textService.lisatekst(andmed);
+  }
+
+  @PostMapping("/neorokone")
+  public ResponseEntity<String> textToSpeechRequest(@RequestBody Map<String, Object> requestMap) {
+    String text = (String) requestMap.get("tekst");
+    String speaker = (String) requestMap.get("speaker");
+    String speed = (String) requestMap.get("speed");
+
+    try {
+      double speedDouble = Double.parseDouble(speed);
+      String result = textToSpeechService.generateSpeech(text, speaker, speedDouble);
+
+      if (!result.isEmpty()) {
+        return ResponseEntity.ok(result);
+      } else {
+        return ResponseEntity.ok("string is empty.");
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      return ResponseEntity.status(500).body("Failed to generate speech.");
+    }
   }
 
 }
