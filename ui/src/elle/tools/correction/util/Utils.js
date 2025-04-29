@@ -64,14 +64,6 @@ export const handlePaste = (event, newRef, setNewRef, setInputText) => {
   }
 };
 
-export const levelAccordionValueCheck = (value, complexityAnswer, arrayValues) => {
-  return complexityAnswer[arrayValues[value]][0] < 1.01 && complexityAnswer[arrayValues[value]][0] > 0.009;
-};
-
-export const setComplexityAnswerIndex = (index, value, complexityAnswer, arrayValues) => {
-  return complexityAnswer[arrayValues[index]][value];
-};
-
 export const queryCaller = (textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, mainButton, setGrammarErrorList, setSpellerErrorList, model) => {
 
   if (textBoxRef.current.innerText.replaceAll('\u00A0', ' ') !== inputText.replaceAll(replaceCombined, '').replaceAll('\n', ' ').replaceAll('\u00A0', ' ') || mainButton) {
@@ -246,7 +238,7 @@ const processTextLevelAnswer = (returnArray, textLevel, labels) => {
       alignment: 'left',
       children: [
         new TextRun({
-          text: `${labels[0]}: ${textLevel.uusKeeletase.level}`,
+          text: `${labels[0]}: ${textLevel.keeletase.level}`,
           bold: true,
           break: 1
         }),
@@ -431,4 +423,12 @@ export const handleCorrectionTextSelection = (setSelectedText) => {
       setSelectedText(new Map([[selection.baseNode.parentNode.id, selection.baseNode.parentNode.innerText]]));
     }
   }
+};
+
+const levelAccordionValueCheck = (value, complexityAnswer, arrayValues) => {
+  return complexityAnswer[arrayValues[value]][0] < 1.01 && complexityAnswer[arrayValues[value]][0] > 0.009;
+};
+
+const setComplexityAnswerIndex = (index, value, complexityAnswer, arrayValues) => {
+  return complexityAnswer[arrayValues[index]][value];
 };

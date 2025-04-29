@@ -14,14 +14,14 @@ from corrector_functions import generate_grammar_output, calculate_noun_count, v
     handle_abstract_words_marking, handle_noun_marking, handle_long_word_marking, handle_long_sentence_marking
 from grammar_fetches import fetch_grammar, fetch_speller, fetch_test_grammar
 from grammar_test_functions import generate_test_grammar_output
-from linguistic_analysis import predict_level
 from nlp import nlp_t, nlp_tp, nlp_tpl, nlp_all, nlp_ru_tp, nlp_ru_all
 from tasemehindaja import arvuta
 from text_abstraction_analyse import Utils
-from train import train
+from text_level_model.train import train
 from vocabulary_marking_handlers import check_both_sentence_repetition
+from text_level_model.linguistic_analysis import linguistic_analysis, extract_features
 
-model, scaler = train()
+train()
 utils = Utils()
 
 if os.path.isfile("/app/word_mapping.csv"):
@@ -71,12 +71,17 @@ def keerukus_sonaliigid_mitmekesisus():
     lemmad = []
     laused = []
     word_start_and_end = []
+    linguistic_data = []
+    total_words = 0
     grammar_output = []
 
     for sentence in doc.sentences:
         laused.append(sentence.text)
         sentence_array = []
         for word in sentence.words:
+            total_words += 1
+            data_row = [word.id, word.text, word.lemma, word.upos, word.xpos, word.feats]
+            linguistic_data.append(data_row)
             if word.upos not in sona_upos_piirang:
                 sentence_array.append(
                     {"start": word.start_char,
@@ -109,14 +114,24 @@ def keerukus_sonaliigid_mitmekesisus():
     long_words_marked = handle_long_word_marking(tekst, sonad)
     long_sentences_marked = handle_long_sentence_marking(tekst, doc)
 
+    errors_per_sentence = grammar_output["error_count"] / len(doc.sentences)
+    errors_per_word = grammar_output["error_count"] / total_words
+
+    feat_values = extract_features(errors_per_sentence, errors_per_word, linguistic_data)
+
     return Response(json.dumps({
         "sonad": sonad,
         "sonaliigid": sonaliigid,
         "keerukus": hinda_keerukust(tekst),
         "mitmekesisus": hinda_mitmekesisust(tekst),
         "lemmad": lemmad,
-        "keeletase": arvuta(tekst),
-        "uus_keeletase": predict_level(model, scaler, tekst),
+        "keeletase": {
+            "lexical": linguistic_analysis("lexical", feat_values),
+            "grammatical": linguistic_analysis("grammatical", feat_values),
+            "complexity": linguistic_analysis("complexity", feat_values),
+            "error": linguistic_analysis("error", feat_values),
+            "mixed": linguistic_analysis("mixed", feat_values)
+        },
         "abstraktsus": serializable_word_analysis,
         "grammatika": grammar_output["corrector_results"],
         "grammatika_vead": grammar_output["error_list"],
