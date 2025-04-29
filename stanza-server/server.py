@@ -121,7 +121,7 @@ def keerukus_sonaliigid_mitmekesisus():
         "keerukus": hinda_keerukust(tekst),
         "mitmekesisus": hinda_mitmekesisust(tekst),
         "lemmad": lemmad,
-        "uus_keeletase": {
+        "keeletase": {
             "lexical": linguistic_analysis("lexical", feat_values),
             "grammatical": linguistic_analysis("grammatical", feat_values),
             "complexity": linguistic_analysis("complexity", feat_values),

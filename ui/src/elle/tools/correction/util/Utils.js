@@ -239,7 +239,7 @@ const processTextLevelAnswer = (returnArray, textLevel, labels) => {
       alignment: 'left',
       children: [
         new TextRun({
-          text: `${labels[0]}: ${textLevel.uusKeeletase.level}`,
+          text: `${labels[0]}: ${textLevel.keeletase.level}`,
           bold: true,
           break: 1
         }),

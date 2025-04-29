@@ -156,12 +156,12 @@ export default function TextLevelTab(
               {t('corrector_proficiency_level_short_text')}
             </Alert>
           }
-          {complexityAnswer && complexityAnswer?.uusKeeletase.length !== 0 &&
+          {complexityAnswer &&
             <>
               <div className="level-accordion-overall-value-container">
                 <div className="level-accordion-overall-value-label">{t(accordionDetails[0].label)}</div>
                 <TextLevelAccordionInner
-                  complexityAnswer={complexityAnswer.uusKeeletase.mixed}
+                  complexityAnswer={complexityAnswer.keeletase.mixed}
                   key={'mixed'}
                 />
               </div>
@@ -170,22 +170,22 @@ export default function TextLevelTab(
                 <TextLevelAccordion
                   key={'complexity'}
                   label={accordionDetails[1].label}
-                  complexityAnswer={complexityAnswer.uusKeeletase.complexity}
+                  complexityAnswer={complexityAnswer.keeletase.complexity}
                 />
                 <TextLevelAccordion
                   key={'grammar'}
                   label={accordionDetails[2].label}
-                  complexityAnswer={complexityAnswer.uusKeeletase.grammatical}
+                  complexityAnswer={complexityAnswer.keeletase.grammatical}
                 />
                 <TextLevelAccordion
                   key={'error'}
                   label={accordionDetails[3].label}
-                  complexityAnswer={complexityAnswer.uusKeeletase.error}
+                  complexityAnswer={complexityAnswer.keeletase.error}
                 />
                 <TextLevelAccordion
                   key={'lexical'}
                   label={accordionDetails[4].label}
-                  complexityAnswer={complexityAnswer.uusKeeletase.lexical}
+                  complexityAnswer={complexityAnswer.keeletase.lexical}
                 />
               </div>
             </>
