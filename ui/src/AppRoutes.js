@@ -5,6 +5,8 @@ import { Container } from '@mui/material';
 import Home from './elle/pages/Home';
 import Links from './elle/pages/Links';
 import AboutUs from './elle/pages/AboutUs';
+import Exercises from './elle/pages/Exercises'
+import StudyMaterial from './elle/pages/StudyMaterial'
 import FilledContacts from './elle/components/about/FilledContacts';
 import Grants from './elle/components/about/Grants';
 import ClusterFinder from './elle/tools/ClusterFinder';
@@ -87,6 +89,10 @@ export default function AppRoutes() {
         </Route>
         <Route path={RouteConstants.LINKS}
                element={<Links />} />
+        <Route path={RouteConstants.EXERCISES}
+               element={<Exercises />} />
+        <Route path={RouteConstants.STUDYMATERIAL}
+               element={<StudyMaterial />} />
         <Route path={RouteConstants.LOGIN}
                element={<Login />} />
         <Route element={<RequireAuth role={UserRoles.ADMIN} />}>
@@ -107,11 +113,14 @@ export const RouteConstants = {
   CLUSTERFINDER: 'clusterfinder',
   COLLOCATES: 'collocates',
   CORRECTOR: 'corrector',
+  EXERCISES: 'exercises',
   GRANTS: 'grants',
+  LIBRARY: 'library',
   LINKS: 'links',
   LOGIN: 'login',
   PEOPLE: 'people',
   PUBLICATIONS: 'publications',
+  STUDYMATERIAL: 'studymaterial',
   TOOLS: 'tools',
   US: 'us',
   WORDANALYSER: 'wordanalyser',
