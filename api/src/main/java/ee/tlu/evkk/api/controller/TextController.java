@@ -5,6 +5,7 @@ import ee.evkk.dto.CommonTextRequestDto;
 import ee.evkk.dto.CorpusDownloadDto;
 import ee.evkk.dto.CorpusRequestDto;
 import ee.evkk.dto.CorpusTextContentsDto;
+import ee.evkk.dto.TextToSpeechDto;
 import ee.tlu.evkk.api.annotation.RateLimit;
 import ee.tlu.evkk.api.service.TextToSpeechService;
 import ee.tlu.evkk.api.service.WordAnalyserService;
@@ -26,7 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import static java.util.Arrays.asList;
 import static java.util.UUID.fromString;
@@ -147,25 +147,9 @@ public class TextController {
     return textService.lisatekst(andmed);
   }
 
-  @PostMapping("/neorokone")
-  public ResponseEntity<String> textToSpeechRequest(@RequestBody Map<String, Object> requestMap) {
-    String text = (String) requestMap.get("tekst");
-    String speaker = (String) requestMap.get("speaker");
-    String speed = (String) requestMap.get("speed");
-
-    try {
-      double speedDouble = Double.parseDouble(speed);
-      String result = textToSpeechService.generateSpeech(text, speaker, speedDouble);
-
-      if (!result.isEmpty()) {
-        return ResponseEntity.ok(result);
-      } else {
-        return ResponseEntity.ok("string is empty.");
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-      return ResponseEntity.status(500).body("Failed to generate speech.");
-    }
+  @PostMapping("/neurokone")
+  public byte[] textToSpeechRequest(@Valid @RequestBody TextToSpeechDto textToSpeechDto) {
+    return textToSpeechService.generateSpeech(textToSpeechDto);
   }
 
 }
