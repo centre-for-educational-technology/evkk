@@ -12,12 +12,16 @@ export const useTextToSpeech = () => {
       speed: speed.toFixed(1)
     };
 
-    const base64String = await getTextToSpeechData(requestBody);
-    const audioElement = document.createElement('audio');
+    try {
+      const base64String = await getTextToSpeechData(requestBody);
+      const audioElement = document.createElement('audio');
 
-    audioElement.src = 'data:audio/wav;base64,' + base64String;
-    audioElement.preload = 'auto';
-    audioElement.oncanplay = () => audioElement.play();
+      audioElement.src = 'data:audio/wav;base64,' + base64String;
+      audioElement.preload = 'auto';
+      audioElement.oncanplay = () => audioElement.play();
+    } catch (error) {
+      console.error('Playback error:', error);
+    }
   };
 
   return { playTextToSpeech };
