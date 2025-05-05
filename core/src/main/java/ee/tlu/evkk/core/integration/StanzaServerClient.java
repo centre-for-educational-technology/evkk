@@ -24,6 +24,7 @@ import static org.springframework.http.HttpMethod.POST;
 public class StanzaServerClient extends AbstractRestOperationsClient {
 
   private static final String MAP_PARAMETER = "tekst";
+  private static final String MODEL_PARAMETER = "model";
 
   private final RestOperations rest;
 
@@ -34,8 +35,8 @@ public class StanzaServerClient extends AbstractRestOperationsClient {
     return forEntity.getBody();
   }
 
-  public TextWithComplexity getKeerukusSonaliigidMitmekesisus(String tekst) {
-    Map<String, String> map = of(MAP_PARAMETER, tekst);
+  public TextWithComplexity getKeerukusSonaliigidMitmekesisus(String tekst, String model) {
+    Map<String, String> map = of(MAP_PARAMETER, tekst, MODEL_PARAMETER, model);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
     ResponseEntity<TextWithComplexity> forEntity = retry().execute(context -> rest.postForEntity("/keerukus-sonaliigid-mitmekesisus", requestEntity, TextWithComplexity.class));
     return forEntity.getBody();

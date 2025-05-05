@@ -14,20 +14,23 @@ from corrector_functions import generate_grammar_output, calculate_noun_count, v
     handle_abstract_words_marking, handle_noun_marking, handle_long_word_marking, handle_long_sentence_marking
 from grammar_fetches import fetch_grammar, fetch_speller, fetch_test_grammar
 from grammar_test_functions import generate_test_grammar_output
-from linguistic_analysis import predict_level
 from nlp import nlp_t, nlp_tp, nlp_tpl, nlp_all, nlp_ru_tp, nlp_ru_all
 from tasemehindaja import arvuta
 from text_abstraction_analyse import Utils
-from train import train
+from text_level_model.train import train
 from vocabulary_marking_handlers import check_both_sentence_repetition
+from text_level_model.linguistic_analysis import linguistic_analysis, extract_features
 
-model, scaler = train()
+train()
 utils = Utils()
 
 if os.path.isfile("/app/word_mapping.csv"):
     asendused = [rida.strip().split(",") for rida in open("/app/word_mapping.csv").readlines()]
 else:
     asendused = []
+
+with open('/app/common_errors_map.json', 'r', encoding='utf-8') as f:
+    common_errors_map = json.load(f)
 
 mimetype = "application/json"
 post = ['POST']
@@ -63,6 +66,7 @@ def sonad_lemmad_silbid_sonaliigid_vormimargendid():
 @app.route('/keerukus-sonaliigid-mitmekesisus', methods=post)
 def keerukus_sonaliigid_mitmekesisus():
     tekst = request.json["tekst"]
+    model_type = request.json["model"]
     doc = nlp_tpl(tekst)
 
     sonad = []
@@ -70,11 +74,28 @@ def keerukus_sonaliigid_mitmekesisus():
     lemmad = []
     laused = []
     word_start_and_end = []
+    linguistic_data = []
+    total_words = 0
+    grammar_output = []
+    list_checked_speller_errors = []
 
     for sentence in doc.sentences:
         laused.append(sentence.text)
         sentence_array = []
         for word in sentence.words:
+            total_words += 1
+            data_row = [word.id, word.text, word.lemma, word.upos, word.xpos, word.feats]
+            linguistic_data.append(data_row)
+            corrected_word = common_errors_map.get(word.text, None)
+            if corrected_word:
+                list_checked_speller_errors.append(
+                    {
+                     "corrected_text": corrected_word,
+                     "correction_type": "spellingError",
+                     "start": word.start_char,
+                     "end": word.end_char,
+                     "initial_text": word.text}
+                )
             if word.upos not in sona_upos_piirang:
                 sentence_array.append(
                     {"start": word.start_char,
@@ -89,13 +110,15 @@ def keerukus_sonaliigid_mitmekesisus():
         word_start_and_end.append(sentence_array)
 
     abstract_answer = utils.analyze(' '.join(lemmad), "estonian")
-
     serializable_word_analysis = make_serializable(abstract_answer["wordAnalysis"])
     vocabulary = check_both_sentence_repetition(laused, word_start_and_end)
 
-    grammar_output = generate_grammar_output(tekst, fetch_grammar(tekst))
-    speller_output = generate_grammar_output(tekst, fetch_speller(tekst))
-    grammar_test_output = generate_test_grammar_output(tekst, fetch_test_grammar(tekst))
+    if model_type == "grammarcheckerTest":
+        grammar_output = generate_test_grammar_output(tekst, fetch_test_grammar(tekst))
+    else:
+        grammar_output = generate_grammar_output(tekst, fetch_grammar(tekst))
+
+    speller_output = generate_grammar_output(tekst, fetch_speller(tekst), list_checked_speller_errors)
 
     uncommon_marked = handle_uncommon_words_marking(tekst, sonaliigid, lemmad, sonad)
     abstract_marked = handle_abstract_words_marking(tekst, serializable_word_analysis, sonaliigid, sonad)
@@ -105,21 +128,29 @@ def keerukus_sonaliigid_mitmekesisus():
     long_words_marked = handle_long_word_marking(tekst, sonad)
     long_sentences_marked = handle_long_sentence_marking(tekst, doc)
 
+    errors_per_sentence = grammar_output["error_count"] / len(doc.sentences)
+    errors_per_word = grammar_output["error_count"] / total_words
+
+    feat_values = extract_features(errors_per_sentence, errors_per_word, linguistic_data)
+
     return Response(json.dumps({
         "sonad": sonad,
         "sonaliigid": sonaliigid,
         "keerukus": hinda_keerukust(tekst),
         "mitmekesisus": hinda_mitmekesisust(tekst),
         "lemmad": lemmad,
-        "keeletase": arvuta(tekst),
-        "uus_keeletase": predict_level(model, scaler, tekst),
+        "keeletase": {
+            "lexical": linguistic_analysis("lexical", feat_values),
+            "grammatical": linguistic_analysis("grammatical", feat_values),
+            "complexity": linguistic_analysis("complexity", feat_values),
+            "error": linguistic_analysis("error", feat_values),
+            "mixed": linguistic_analysis("mixed", feat_values)
+        },
         "abstraktsus": serializable_word_analysis,
         "grammatika": grammar_output["corrector_results"],
         "grammatika_vead": grammar_output["error_list"],
         "speller": speller_output["corrector_results"],
         "spelleri_vead": speller_output["error_list"],
-        "grammatika_test": grammar_test_output["error_input"],
-        "grammatika_test_vead": grammar_test_output["error_list"],
         "laused": laused,
         "sonavara": vocabulary,
         "korrektori_loendid": {

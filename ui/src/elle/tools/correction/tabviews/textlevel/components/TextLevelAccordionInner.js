@@ -1,28 +1,26 @@
 import React from 'react';
-import { levelAccordionValueCheck, setComplexityAnswerIndex } from '../../../util/Utils';
-import { textLevelColors } from '../../../const/TabValuesConstant';
+import { textLevelColors, textLevels } from '../../../const/TabValuesConstant';
+import { useTranslation } from 'react-i18next';
 
-export default function TextLevelAccordionInner({ arrayValues, complexityAnswer }) {
+export default function TextLevelAccordionInner({ complexityAnswer, key }) {
 
+  const { t } = useTranslation();
   return (
     <div>
-      {arrayValues.map((value, index) => (
-        levelAccordionValueCheck(index, complexityAnswer, arrayValues) && (
-          <div
-            key={`textLevelKeys${setComplexityAnswerIndex(index, 1, complexityAnswer, arrayValues)}`}
-          >
-            {setComplexityAnswerIndex(index, 1, complexityAnswer, arrayValues)} - {(setComplexityAnswerIndex(index, 0, complexityAnswer, arrayValues) * 100).toFixed(0)}%
+      {complexityAnswer.probabilities.map((value) => (
+          <div key={`${key}-${value.index}-percentage`}>
+            {t(textLevels[value.index])} - {value.value * 100}%
           </div>
         )
-      ))}
+      )}
       <div className="d-flex mt-3 rounded overflow-hidden">
-        {arrayValues.map((value, index) => {
+        {complexityAnswer.probabilities.map((value) => {
           return (<div
-            key={`${setComplexityAnswerIndex(index, 1, complexityAnswer, arrayValues)}`}
+            key={`${key}-${value.index}-bars`}
             style={{
-              height: '20px',
-              backgroundColor: textLevelColors[index],
-              width: levelAccordionValueCheck(index, complexityAnswer, arrayValues) ? `${setComplexityAnswerIndex(index, 0, complexityAnswer, arrayValues) * 100}%` : 0
+              height: '1rem',
+              backgroundColor: textLevelColors[value.index],
+              width: `${value.value * 100}%`
             }}>
           </div>);
         })}

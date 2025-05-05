@@ -281,13 +281,27 @@ def process_corrections(corrections):
     return processed_corrections
 
 
-def generate_grammar_output(input_text, corrections):
+def merge_corrections(processed_corrections, list_checked_spelling_errors):
+    merged_by_start_map = {}
+
+    if list_checked_spelling_errors:
+            for item in list_checked_spelling_errors:
+                merged_by_start_map[item['start']] = item
+
+    for item in processed_corrections:
+            merged_by_start_map[item['start']] = item
+
+    return sorted(merged_by_start_map.values(), key=lambda x: x['start'])
+
+
+def generate_grammar_output(input_text, corrections, list_checked_spelling_errors=None):
     processed_corrections = process_corrections(corrections['corrections'])
-    sorted_corrections = sorted(processed_corrections, key=lambda x: x['start'])
+    sorted_corrections = merge_corrections(processed_corrections, list_checked_spelling_errors)
 
     result = []
     error_list = {}
     current_position = 0
+    error_count = 0
 
     for index, correction in enumerate(sorted_corrections):
         start = correction['start']
@@ -315,6 +329,7 @@ def generate_grammar_output(input_text, corrections):
             'error_id': f"{start}_marked"
         }
 
+        error_count += 1
         result.append(error_data)
 
         if is_index_shifted:
@@ -334,7 +349,7 @@ def generate_grammar_output(input_text, corrections):
             'error_id': f"{len(sorted_corrections)}_unmarked"
         })
 
-    return {"corrector_results": result, "error_list": error_list}
+    return {"corrector_results": result, "error_list": error_list, "error_count": error_count}
 
 
 def calculate_noun_count(words_types):

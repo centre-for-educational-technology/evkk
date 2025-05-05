@@ -34,10 +34,7 @@ export default function TextLevelTab(
     setGrammarAnswer,
     setGrammarErrorList,
     setSpellerErrorList,
-    setHoveredId,
-    setGrammarTestAnswer,
-    setGrammarTestErrorList,
-    grammarTestAnswer
+    setHoveredId
   }) {
   const { t } = useTranslation();
 
@@ -60,8 +57,6 @@ export default function TextLevelTab(
             toggleButtons={CorrectionAndTextLevelToggleButtons}
             setGrammarErrorList={setGrammarErrorList}
             setSpellerErrorList={setSpellerErrorList}
-            setGrammarTestAnswer={setGrammarTestAnswer}
-            setGrammarTestErrorList={setGrammarTestErrorList}
           />
           :
           <Alert severity="warning" className="mb-2">
@@ -84,6 +79,9 @@ export default function TextLevelTab(
                 </li>
                 <li>
                   <b>{t('corrector_proficiency_level_infobox_list_bold_vocabulary')}</b> – {t('corrector_proficiency_level_infobox_list_vocabulary_value')}
+                </li>
+                <li>
+                  <b>{t('corrector_proficiency_level_infobox_list_bold_correctness')}</b> – {t('corrector_proficiency_level_infobox_list_correctness_value')}
                 </li>
                 <li>
                   <b>{t('corrector_proficiency_level_infobox_list_bold_overall_score')}</b> – {t('corrector_proficiency_level_infobox_list_overall_score_value')}
@@ -116,9 +114,6 @@ export default function TextLevelTab(
           tab={TEXTLEVEL}
           complexityAnswer={complexityAnswer}
           setHoveredId={setHoveredId}
-          setGrammarTestAnswer={setGrammarTestAnswer}
-          setGrammarTestErrorList={setGrammarTestErrorList}
-          grammarTestAnswer={grammarTestAnswer}
         />
         <div className="corrector-right">
           {complexityAnswer && complexityAnswer?.keeletase.length !== 0 &&
@@ -153,26 +148,37 @@ export default function TextLevelTab(
               {t('corrector_proficiency_level_short_text')}
             </Alert>
           }
-          {complexityAnswer && complexityAnswer?.keeletase.length !== 0 &&
+          {complexityAnswer &&
             <>
               <div className="level-accordion-overall-value-container">
                 <div className="level-accordion-overall-value-label">{t(accordionDetails[0].label)}</div>
                 <TextLevelAccordionInner
-                  complexityAnswer={complexityAnswer.keeletase}
-                  arrayValues={accordionDetails[0].arrayValues}
+                  complexityAnswer={complexityAnswer.keeletase.mixed}
+                  key={'mixed'}
                 />
               </div>
+
               <div>
-                {accordionDetails.map((detail, index) => (
-                  index !== 0 && (
-                    <TextLevelAccordion
-                      key={detail.label}
-                      label={t(detail.label)}
-                      arrayValues={detail.arrayValues}
-                      complexityAnswer={complexityAnswer.keeletase}
-                    />
-                  )
-                ))}
+                <TextLevelAccordion
+                  key={'complexity'}
+                  label={accordionDetails[1].label}
+                  complexityAnswer={complexityAnswer.keeletase.complexity}
+                />
+                <TextLevelAccordion
+                  key={'grammar'}
+                  label={accordionDetails[2].label}
+                  complexityAnswer={complexityAnswer.keeletase.grammatical}
+                />
+                <TextLevelAccordion
+                  key={'error'}
+                  label={accordionDetails[3].label}
+                  complexityAnswer={complexityAnswer.keeletase.error}
+                />
+                <TextLevelAccordion
+                  key={'lexical'}
+                  label={accordionDetails[4].label}
+                  complexityAnswer={complexityAnswer.keeletase.lexical}
+                />
               </div>
             </>
           }
