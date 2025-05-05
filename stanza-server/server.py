@@ -29,6 +29,9 @@ if os.path.isfile("/app/word_mapping.csv"):
 else:
     asendused = []
 
+with open('/app/common_errors_map.json', 'r', encoding='utf-8') as f:
+    common_errors_map = json.load(f)
+
 mimetype = "application/json"
 post = ['POST']
 app = Flask(__name__)
@@ -74,6 +77,7 @@ def keerukus_sonaliigid_mitmekesisus():
     linguistic_data = []
     total_words = 0
     grammar_output = []
+    list_checked_speller_errors = []
 
     for sentence in doc.sentences:
         laused.append(sentence.text)
@@ -82,6 +86,16 @@ def keerukus_sonaliigid_mitmekesisus():
             total_words += 1
             data_row = [word.id, word.text, word.lemma, word.upos, word.xpos, word.feats]
             linguistic_data.append(data_row)
+            corrected_word = common_errors_map.get(word.text, None)
+            if corrected_word:
+                list_checked_speller_errors.append(
+                    {
+                     "corrected_text": corrected_word,
+                     "correction_type": "spellingError",
+                     "start": word.start_char,
+                     "end": word.end_char,
+                     "initial_text": word.text}
+                )
             if word.upos not in sona_upos_piirang:
                 sentence_array.append(
                     {"start": word.start_char,
@@ -104,7 +118,7 @@ def keerukus_sonaliigid_mitmekesisus():
     else:
         grammar_output = generate_grammar_output(tekst, fetch_grammar(tekst))
 
-    speller_output = generate_grammar_output(tekst, fetch_speller(tekst))
+    speller_output = generate_grammar_output(tekst, fetch_speller(tekst), list_checked_speller_errors)
 
     uncommon_marked = handle_uncommon_words_marking(tekst, sonaliigid, lemmad, sonad)
     abstract_marked = handle_abstract_words_marking(tekst, serializable_word_analysis, sonaliigid, sonad)
