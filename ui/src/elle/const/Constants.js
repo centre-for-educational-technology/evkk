@@ -459,7 +459,7 @@ export const countryOptionsForAddingText = {
   'Ungari': 'query_common_country_hu'
 };
 
-export const languageSynthVoices = {
+export const textToSpeechVoices = {
   mari: 'Mari',
   albert: 'Albert',
   kalev: 'Kalev'

@@ -10,7 +10,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { TextSelectionContext } from './TextSelectionContext';
-import { languageSynthVoices } from '../../const/Constants';
+import { textToSpeechVoices } from '../../const/Constants';
 import { useTranslation } from 'react-i18next';
 import './TextToSpeechMenu.css';
 import { useTextToSpeech } from './hooks/useTextToSpeech';
@@ -26,7 +26,7 @@ export default function TextToSpeechMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const selectedText = useContext(TextSelectionContext);
   const [speed, setSpeed] = useState(1.0);
-  const [speaker, setSpeaker] = useState(languageSynthVoices.mari);
+  const [speaker, setSpeaker] = useState(textToSpeechVoices.mari);
   const { playTextToSpeech } = useTextToSpeech();
   const { t } = useTranslation();
 
@@ -53,7 +53,7 @@ export default function TextToSpeechMenu() {
     <div onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
       <VolumeUpIcon
         onClick={handlePlay}
-        className="language-synth-icon"
+        className="text-to-speech-icon"
       />
       <Popover
         open={open}
@@ -70,8 +70,8 @@ export default function TextToSpeechMenu() {
         onMouseLeave={handlePopoverClose}
       >
         <div style={{ width: 250 }}>
-          <Typography sx={{ p: 2 }}>{t('language_synth_speed')}</Typography>
-          <div className="language-synth-slider-container">
+          <Typography sx={{ p: 2 }}>{t('text_to_speech_speed')}</Typography>
+          <div className="text-to-speech-slider-container">
             <Slider
               sx={{
                 color: '#9C27B0'
@@ -86,7 +86,7 @@ export default function TextToSpeechMenu() {
             />
           </div>
           <FormControl sx={{ p: 3 }}>
-            <FormLabel id="toggle-buttons-group-label">{t('language_synth_voice')}</FormLabel>
+            <FormLabel id="toggle-buttons-group-label">{t('text_to_speech_voice')}</FormLabel>
             <ToggleButtonGroup
               aria-labelledby="toggle-buttons-group-label"
               value={speaker}
@@ -98,22 +98,22 @@ export default function TextToSpeechMenu() {
               }}
               exclusive>
               <ToggleButton
-                value={languageSynthVoices.mari}
-                aria-label={languageSynthVoices.mari}
+                value={textToSpeechVoices.mari}
+                aria-label={textToSpeechVoices.mari}
               >
-                {languageSynthVoices.mari}
+                {textToSpeechVoices.mari}
               </ToggleButton>
               <ToggleButton
-                value={languageSynthVoices.albert}
-                aria-label={languageSynthVoices.albert}
+                value={textToSpeechVoices.albert}
+                aria-label={textToSpeechVoices.albert}
               >
-                {languageSynthVoices.albert}
+                {textToSpeechVoices.albert}
               </ToggleButton>
               <ToggleButton
-                value={languageSynthVoices.kalev}
-                aria-label={languageSynthVoices.kalev}
+                value={textToSpeechVoices.kalev}
+                aria-label={textToSpeechVoices.kalev}
               >
-                {languageSynthVoices.kalev}
+                {textToSpeechVoices.kalev}
               </ToggleButton>
             </ToggleButtonGroup>
           </FormControl>

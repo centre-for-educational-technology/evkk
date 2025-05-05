@@ -7,7 +7,7 @@ export const TextSelectionContext = createContext();
 
 export const TextSelectionProvider = ({ children }) => {
   const { t } = useTranslation();
-  const [selectedText, setSelectedText] = useState(t('language_synth_text'));
+  const [selectedText, setSelectedText] = useState(t('text_to_speech_text'));
 
   useEffect(() => {
     const handleSelectionChange = () => {

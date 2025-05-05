@@ -12,7 +12,7 @@ import Can from './security/Can';
 import { UserRoles } from '../const/Constants';
 import { useLogout } from '../hooks/service/AuthService';
 import { RouteConstants } from '../../AppRoutes';
-import TextToSpeechMenu from '../tools/speechsynth/TextToSpeechMenu';
+import TextToSpeechMenu from '../tools/text-to-speech/TextToSpeechMenu';
 
 const pages = [
   { id: 1, title: 'common_corrector', target: RouteConstants.CORRECTOR },

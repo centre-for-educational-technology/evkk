@@ -1,14 +1,13 @@
 import { useState } from 'react';
-import { useGetLanguageSynth } from '../../../hooks/service/LanguageSynthService';
+import { useGetTextToSpeech } from '../../../hooks/service/TextToSpeechService';
 
 export const useTextToSpeech = () => {
-  const { getSynthData } = useGetLanguageSynth();
+  const { getTextToSpeechData } = useGetTextToSpeech();
   const [isPlaying, setIsPlaying] = useState(false);
 
   const playTextToSpeech = async (selectedText, currentSpeaker, speed) => {
     if (!selectedText) return;
 
-    document.body.style.cursor = 'wait';
     setIsPlaying(true);
 
     const requestBody = {
@@ -18,7 +17,7 @@ export const useTextToSpeech = () => {
     };
 
     try {
-      const base64String = await getSynthData(requestBody);
+      const base64String = await getTextToSpeechData(requestBody);
 
       const audioElement = document.createElement('audio');
       audioElement.src = 'data:audio/wav;base64,' + base64String;
@@ -28,13 +27,11 @@ export const useTextToSpeech = () => {
         audioElement
           .play()
           .finally(() => {
-            document.body.style.cursor = 'auto';
             setIsPlaying(false);
           });
       };
     } catch (error) {
       console.error('Playback error:', error);
-      document.body.style.cursor = 'auto';
       setIsPlaying(false);
     }
   };

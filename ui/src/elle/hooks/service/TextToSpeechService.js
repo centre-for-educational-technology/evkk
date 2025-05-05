@@ -1,10 +1,10 @@
 import { FetchParseType, useFetch } from '../useFetch';
 import { useCallback } from 'react';
 
-export const useGetLanguageSynth = () => {
+export const useGetTextToSpeech = () => {
   const { fetchData } = useFetch();
 
-  const getSynthData = useCallback(body => {
+  const getTextToSpeechData = useCallback(body => {
     return fetchData('/api/text-to-speech', {
       method: 'POST',
       body: JSON.stringify(body)
@@ -13,5 +13,5 @@ export const useGetLanguageSynth = () => {
     });
   }, [fetchData]);
 
-  return { getSynthData };
+  return { getTextToSpeechData };
 };
