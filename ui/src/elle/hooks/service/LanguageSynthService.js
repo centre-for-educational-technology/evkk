@@ -5,7 +5,7 @@ export const useGetLanguageSynth = () => {
   const { fetchData } = useFetch();
 
   const getSynthData = useCallback(body => {
-    return fetchData('/api/texts/neurokone', {
+    return fetchData('/api/text-to-speech', {
       method: 'POST',
       body: JSON.stringify(body)
     }, {

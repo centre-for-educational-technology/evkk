@@ -5,9 +5,7 @@ import ee.evkk.dto.CommonTextRequestDto;
 import ee.evkk.dto.CorpusDownloadDto;
 import ee.evkk.dto.CorpusRequestDto;
 import ee.evkk.dto.CorpusTextContentsDto;
-import ee.evkk.dto.TextToSpeechDto;
 import ee.tlu.evkk.api.annotation.RateLimit;
-import ee.tlu.evkk.api.service.TextToSpeechService;
 import ee.tlu.evkk.api.service.WordAnalyserService;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
@@ -42,7 +40,6 @@ public class TextController {
   private final CorrectorServerClient correctorServerClient;
   private final TextService textService;
   private final WordAnalyserService wordAnalyserService;
-  private final TextToSpeechService textToSpeechService;
 
   @PostMapping("/kysitekstid")
   public String kysiTekstid(@RequestBody CorpusTextContentsDto dto) {
@@ -146,10 +143,4 @@ public class TextController {
   public String lisatekst(@Valid @RequestBody AddingRequestDto andmed) {
     return textService.lisatekst(andmed);
   }
-
-  @PostMapping("/neurokone")
-  public byte[] textToSpeechRequest(@Valid @RequestBody TextToSpeechDto textToSpeechDto) {
-    return textToSpeechService.generateSpeech(textToSpeechDto);
-  }
-
 }

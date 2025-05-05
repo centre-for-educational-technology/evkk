@@ -12,7 +12,7 @@ export const useTextToSpeech = () => {
     setIsPlaying(true);
 
     const requestBody = {
-      tekst: selectedText,
+      text: selectedText,
       speaker: currentSpeaker,
       speed: speed.toFixed(1)
     };
