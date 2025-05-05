@@ -1,4 +1,4 @@
-//Original code by Reydan Niineorg
+// Original code by Reydan Niineorg
 
 import React, { useContext, useState } from 'react';
 import Popover from '@mui/material/Popover';
@@ -70,7 +70,9 @@ export default function TextToSpeechMenu() {
         onMouseLeave={handlePopoverClose}
       >
         <div style={{ width: 250 }}>
-          <Typography sx={{ p: 2 }}>{t('text_to_speech_speed')}</Typography>
+          <Typography sx={{ p: 2 }}>
+            {t('text_to_speech_speed')}
+          </Typography>
           <div className="text-to-speech-slider-container">
             <Slider
               sx={{
@@ -86,9 +88,10 @@ export default function TextToSpeechMenu() {
             />
           </div>
           <FormControl sx={{ p: 3 }}>
-            <FormLabel id="toggle-buttons-group-label">{t('text_to_speech_voice')}</FormLabel>
+            <FormLabel id="toggle-buttons-group-label">
+              {t('text_to_speech_voice')}
+            </FormLabel>
             <ToggleButtonGroup
-              aria-labelledby="toggle-buttons-group-label"
               value={speaker}
               onChange={(event, newSpeaker) => {
                 if (newSpeaker !== null) {
@@ -96,23 +99,15 @@ export default function TextToSpeechMenu() {
                   handlePlay(newSpeaker);
                 }
               }}
-              exclusive>
-              <ToggleButton
-                value={textToSpeechVoices.mari}
-                aria-label={textToSpeechVoices.mari}
-              >
+              exclusive
+            >
+              <ToggleButton value={textToSpeechVoices.mari}>
                 {textToSpeechVoices.mari}
               </ToggleButton>
-              <ToggleButton
-                value={textToSpeechVoices.albert}
-                aria-label={textToSpeechVoices.albert}
-              >
+              <ToggleButton value={textToSpeechVoices.albert}>
                 {textToSpeechVoices.albert}
               </ToggleButton>
-              <ToggleButton
-                value={textToSpeechVoices.kalev}
-                aria-label={textToSpeechVoices.kalev}
-              >
+              <ToggleButton value={textToSpeechVoices.kalev}>
                 {textToSpeechVoices.kalev}
               </ToggleButton>
             </ToggleButtonGroup>

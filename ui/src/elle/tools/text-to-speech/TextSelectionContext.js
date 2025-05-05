@@ -1,4 +1,4 @@
-//Original code by Reydan Niineorg
+// Original code by Reydan Niineorg
 
 import React, { createContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,8 +13,7 @@ export const TextSelectionProvider = ({ children }) => {
     const handleSelectionChange = () => {
       const selection = window.getSelection();
       if (selection.toString().length > 0) {
-        const text = selection.toString();
-        setSelectedText(text);
+        setSelectedText(selection.toString());
       }
     };
 
