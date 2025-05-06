@@ -4,12 +4,11 @@ import './styles/Home.css';
 import './styles/Library.css';
 import { withTranslation } from 'react-i18next';
 import { ElleOuterDivStyle } from '../const/StyleConstants';
-import { Link, Outlet} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import SortButton from '../components/library/SortButton'
+import { CategoryFilters, LanguageFilters } from '../components/library/SearchFilters'
 
 class Exercise extends Component {
-    /*constructor(props){
-        super(props);
-    }*/
     render(){
         return (
             <div>
@@ -25,15 +24,29 @@ class Exercise extends Component {
                                         ></TextField>
                                 <Button>Otsi</Button>
                             </div>
-                            <div>
+                        </div>
+                        <div className="library-menu">
                                 <nav>
                                     <ul>
-                                        <Link to="/exercises">Harjutused</Link>
+                                        <Link to="/library/exercises">Harjutused</Link>
                                         <br></br>
-                                        <Link to="/studymaterial">Õppematerjalid</Link>
+                                        <Link to="/library/studymaterial">Õppematerjalid</Link>
                                     </ul>
                                 </nav>
-                                <Outlet/>
+                        </div>
+                        <div className="libary-exercise-container">
+                            <div className="library-exercise-filters">
+                                <h2>Kategooriad</h2>
+                                <CategoryFilters />
+                                <br/>
+                                <h2>Keeletasemed</h2>
+                                <LanguageFilters />
+                            </div>
+                        </div>
+                        <div className="library-exercise-infoContainer">
+                            <SortButton/>
+                            <div className="library-exercise-results">
+                                <Box style={{border: '1px solid black'}}>tulemus 1</Box>
                             </div>
                         </div>
                     </Box>

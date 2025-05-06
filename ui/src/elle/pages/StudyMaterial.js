@@ -4,12 +4,9 @@ import './styles/Home.css';
 import './styles/Library.css';
 import { withTranslation } from 'react-i18next';
 import { ElleOuterDivStyle } from '../const/StyleConstants';
-import { Outlet, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class StudyMaterial extends Component {
-    /*constructor(props){
-        super(props);
-    }*/
     render(){
         return (
             <div>
@@ -29,12 +26,11 @@ class StudyMaterial extends Component {
                         <div>
                             <nav>
                                 <ul>
-                                    <Link to="/exercises">Harjutused</Link>
+                                    <Link to="/library/exercises">Harjutused</Link>
                                     <br></br>
-                                    <Link to="/studymaterial">Õppematerjalid</Link>
+                                    <Link to="/library/studymaterial">Õppematerjalid</Link>
                                 </ul>
                             </nav>
-                            <Outlet />
                         </div>
                     </Box>
                 </Box>

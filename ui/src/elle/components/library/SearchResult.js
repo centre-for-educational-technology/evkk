@@ -1,0 +1,1 @@
+//siia tuleb tulemuste komponent

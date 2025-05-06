@@ -18,7 +18,7 @@ const pages = [
   { id: 2, title: 'common_tools', target: RouteConstants.TOOLS },
   { id: 3, title: 'common_links', target: RouteConstants.LINKS },
   { id: 4, title: 'common_about', target: RouteConstants.ABOUT },
-  { id: 5, title: 'common_exercises', target: RouteConstants.EXERCISES }, //võibolla teha mingi library alamleht, mis suunab omakorda automaatselt harjutustele (elle.tlu.ee/library/exercises)
+  { id: 5, title: 'common_library', target: RouteConstants.LIBRARY },
   { id: 6, title: 'common_admin_panel', target: '/admin', role: UserRoles.ADMIN }
 ];
 

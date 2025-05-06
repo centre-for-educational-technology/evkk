@@ -20,7 +20,9 @@ export const breadcrumbNameMap = {
   '/tools/wordlist': 'common_wordlist',
   '/tools/wordcontext': 'common_word_in_context',
   '/tools/collocates': 'common_neighbouring_words',
-  '/exercises': 'common_exercises',
+  '/libary': 'common_library',
+  '/library/exercises': 'common_exercises',
+  '/library/studymaterial': 'common_studymaterial',
   '/admin': 'common_admin_panel'
 };
 
