@@ -5,6 +5,9 @@ import { Container } from '@mui/material';
 import Home from './elle/pages/Home';
 import Links from './elle/pages/Links';
 import AboutUs from './elle/pages/AboutUs';
+import Exercises from './elle/pages/Exercises'
+import StudyMaterial from './elle/pages/StudyMaterial'
+import Library from './elle/pages/Library'
 import FilledContacts from './elle/components/about/FilledContacts';
 import Grants from './elle/components/about/Grants';
 import ClusterFinder from './elle/tools/ClusterFinder';
@@ -86,8 +89,19 @@ export default function AppRoutes() {
                  element={<MasinoppeEnnustus />} />
         </Route>
         <Route path={RouteConstants.LINKS}
-               element={<Links />} />
-        <Route path={RouteConstants.LOGIN}
+               element={<Links />}>
+        </Route>
+        <Route path={RouteConstants.LIBRARY}
+               element={<Library />}>
+          <Route index
+               element={<Navigate to={RouteConstants.EXERCISES}
+                                  replace />} />
+          <Route path={RouteConstants.EXERCISES}
+               element={<Exercises />} />
+          <Route path={RouteConstants.STUDYMATERIAL}
+               element={<StudyMaterial />}/>
+        </Route>
+       <Route path={RouteConstants.LOGIN}
                element={<Login />} />
         <Route element={<RequireAuth role={UserRoles.ADMIN} />}>
           <Route path={RouteConstants.ADMIN}
@@ -107,11 +121,14 @@ export const RouteConstants = {
   CLUSTERFINDER: 'clusterfinder',
   COLLOCATES: 'collocates',
   CORRECTOR: 'corrector',
+  EXERCISES: 'exercises',
   GRANTS: 'grants',
+  LIBRARY: 'library',
   LINKS: 'links',
   LOGIN: 'login',
   PEOPLE: 'people',
   PUBLICATIONS: 'publications',
+  STUDYMATERIAL: 'studymaterial',
   TOOLS: 'tools',
   US: 'us',
   WORDANALYSER: 'wordanalyser',

@@ -56,6 +56,7 @@ export const TRANSLATIONS_EN = {
   common_learning_resources: 'Learning resources',
   common_lemma: 'Base form',
   common_lemmas: 'Base forms',
+  common_library: 'Study environment',
   common_license_cc_by_4_0: 'CC BY 4.0',
   common_links: 'Link collections',
   common_login_for_admins: 'Login for administrators',

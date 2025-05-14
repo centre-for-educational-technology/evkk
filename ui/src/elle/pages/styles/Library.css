@@ -1,0 +1,13 @@
+.library-container {
+    padding-right: 50px;
+    padding-left: 50px;
+    width: 100%;
+    max-width: 100%;
+    background-color: white;
+    border-radius: 45px;
+}
+
+.library-search-box{
+    display: flex;
+    margin-left: 25%;
+}
