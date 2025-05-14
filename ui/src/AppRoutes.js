@@ -101,7 +101,7 @@ export default function AppRoutes() {
           <Route path={RouteConstants.STUDYMATERIAL}
                element={<StudyMaterial />}/>
         </Route>
-          <Route path={RouteConstants.LOGIN}
+       <Route path={RouteConstants.LOGIN}
                element={<Login />} />
         <Route element={<RequireAuth role={UserRoles.ADMIN} />}>
           <Route path={RouteConstants.ADMIN}
