@@ -1,7 +1,7 @@
 package ee.tlu.evkk.core.integration;
 
-import ee.tlu.evkk.core.service.dto.StanzaResponseDto;
 import ee.tlu.evkk.core.service.dto.TextWithComplexity;
+import ee.tlu.evkk.dal.dto.StanzaResponseDto;
 import ee.tlu.evkk.dal.dto.WordAndPosInfoDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
@@ -24,6 +24,7 @@ import static org.springframework.http.HttpMethod.POST;
 public class StanzaServerClient extends AbstractRestOperationsClient {
 
   private static final String MAP_PARAMETER = "tekst";
+  private static final String MODEL_PARAMETER = "model";
 
   private final RestOperations rest;
 
@@ -34,8 +35,8 @@ public class StanzaServerClient extends AbstractRestOperationsClient {
     return forEntity.getBody();
   }
 
-  public TextWithComplexity getKeerukusSonaliigidMitmekesisus(String tekst) {
-    Map<String, String> map = of(MAP_PARAMETER, tekst);
+  public TextWithComplexity getKeerukusSonaliigidMitmekesisus(String tekst, String model) {
+    Map<String, String> map = of(MAP_PARAMETER, tekst, MODEL_PARAMETER, model);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
     ResponseEntity<TextWithComplexity> forEntity = retry().execute(context -> rest.postForEntity("/keerukus-sonaliigid-mitmekesisus", requestEntity, TextWithComplexity.class));
     return forEntity.getBody();
@@ -153,6 +154,13 @@ public class StanzaServerClient extends AbstractRestOperationsClient {
     Map<String, String> map = of(MAP_PARAMETER, tekst, "keel", keel);
     HttpEntity<?> requestEntity = new HttpEntity<>(map);
     ResponseEntity<String[]> forEntity = retry().execute(context -> rest.postForEntity("/tahedsonadlaused", requestEntity, String[].class));
+    return forEntity.getBody();
+  }
+
+  public StanzaResponseDto getFullTextAnalysis(String tekst) {
+    Map<String, String> map = of(MAP_PARAMETER, tekst);
+    HttpEntity<?> requestEntity = new HttpEntity<>(map);
+    ResponseEntity<StanzaResponseDto> forEntity = retry().execute(context -> rest.postForEntity("/full-text-analysis", requestEntity, StanzaResponseDto.class));
     return forEntity.getBody();
   }
 

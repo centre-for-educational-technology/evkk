@@ -1,5 +1,5 @@
 import { makeStyles } from '@mui/styles';
-import { styled } from '@mui/material';
+import { styled, tooltipClasses } from '@mui/material';
 import { HashLink } from 'react-router-hash-link';
 
 export const useStyles = makeStyles((_theme) => ({
@@ -218,6 +218,14 @@ export const ElleDefaultChip = {
   borderColor: '#9C27B0',
   '& .MuiChip-deleteIcon:hover': {
     color: '#EB0014'
+  },
+  '& .MuiChip-avatar': {
+    width: 'auto',
+    minWidth: '24px',
+    padding: '0 8px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 };
 
@@ -268,6 +276,25 @@ export const CorrectorAccordionStyle = {
   },
   '&.Mui-expanded': {
     margin: 0
+  }
+};
+
+export const correctionTooltipSlotProps = {
+  popper: {
+    sx: {
+      [`&.${tooltipClasses.popper}[data-popper-placement*="top"] .${tooltipClasses.tooltip}`]:
+        {
+          marginBottom: '0px'
+        }
+    }
+  }
+};
+
+export const correctionTooltipComponentsProps = {
+  tooltip: {
+    sx: {
+      bgcolor: 'rgba(0, 0, 0, 0)'
+    }
   }
 };
 

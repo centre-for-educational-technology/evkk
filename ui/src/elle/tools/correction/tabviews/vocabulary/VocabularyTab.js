@@ -6,15 +6,8 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import '../../styles/VocabularyTab.css';
-import {
-  calculateAbstractnessAverage,
-  calculateAbstractWords,
-  calculateContentWord,
-  calculateTotalWords
-} from '../../util/VocabularyCalculations';
 import CorrectionScale from '../../components/CorrectionScale';
 import { handleCopy, handlePaste } from '../../util/Utils';
-import { markText } from '../../util/VocabularyMarkingHandlers';
 import CorrectionButton from '../../components/CorrectionButton';
 import CorrectionInfoIcon from '../../components/CorrectionInfoIcon';
 import { MathJax } from 'better-react-mathjax';
@@ -45,15 +38,18 @@ export default function VocabularyTab(
     setAbstractWords,
     setSpellerAnswer,
     setGrammarAnswer,
-    setRequestingText
+    setRequestingText,
+    setGrammarErrorList,
+    setSpellerErrorList,
+    noQuery,
+    setNoQuery
   }) {
   const { t } = useTranslation();
   const [model, setModel] = useState(WORD_REPETITION);
-  const [, setRenderTrigger] = useState(false);
 
   useEffect(() => {
-    if (!inputText) return;
-    markText(complexityAnswer, inputText, model, abstractWords, setNewRef, setRenderTrigger);
+    if (!inputText || !complexityAnswer) return;
+    setNewRef(complexityAnswer.margitudLaused[model]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [model, complexityAnswer]);
 
@@ -73,6 +69,9 @@ export default function VocabularyTab(
           setSpellerAnswer={setSpellerAnswer}
           setComplexityAnswer={setComplexityAnswer}
           setAbstractWords={setAbstractWords}
+          setGrammarErrorList={setGrammarErrorList}
+          setSpellerErrorList={setSpellerErrorList}
+          noQuery={noQuery}
         />
         <CorrectionInfoIcon
           inputText={<div>
@@ -115,10 +114,10 @@ export default function VocabularyTab(
             {<a href={VOCABULARY_REFERENCE_LINK_TWO}> {t('common_here')}</a>}.
             <br></br><br></br>
             {t('corrector_vocabulary_infobox_outro')}
-          </div>}/>
+          </div>} />
       </Box>
-      <div className="d-flex gap-2">
-        <div className="w-50 d-flex flex-column">
+      <div className="d-flex gap-2 flex-wrap">
+        <div className="corector-input">
           <Box
             id={'error-text-box'}
             ref={textBoxRef}
@@ -142,14 +141,17 @@ export default function VocabularyTab(
             setAbstractWords={setAbstractWords}
             setRequestingText={setRequestingText}
             newRef={newRef}
+            setGrammarErrorList={setGrammarErrorList}
+            setSpellerErrorList={setSpellerErrorList}
+            setNoQuery={setNoQuery}
           />
         </div>
-        <div className="w-50 corrector-right">
+        <div className="corrector-right">
           {complexityAnswer ?
             <div>
               <Accordion square={true} style={{ marginBottom: '0.5em' }} sx={CorrectorAccordionStyle} defaultExpanded>
                 <AccordionSummary
-                  expandIcon={<ExpandMoreIcon/>}
+                  expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1-content"
                   id="panel1-header"
                 >
@@ -159,7 +161,7 @@ export default function VocabularyTab(
                   <div sx={{ width: '100%' }}>
                     <div className="tab-table">
                       <div>{t('corrector_vocabulary_statistics_the_words_considered')}</div>
-                      <div>{calculateTotalWords(complexityAnswer)}</div>
+                      <div>{complexityAnswer.korrektoriLoendid.kokku}</div>
                     </div>
                     <div className="tab-table">
                       <div>{t('corrector_vocabulary_statistics_different_words')}</div>
@@ -171,12 +173,12 @@ export default function VocabularyTab(
                     </div>
                     <div className="tab-table">
                       <div>{t('corrector_vocabulary_statistics_content_words')}</div>
-                      <div>{calculateContentWord(complexityAnswer)}</div>
+                      <div>{complexityAnswer.korrektoriLoendid.sisusonad}</div>
                     </div>
                     {abstractWords &&
                       <div className="tab-table">
                         <div>{t('corrector_vocabulary_statistics_abstract_nouns')}</div>
-                        <div>{calculateAbstractWords(abstractWords, complexityAnswer)}</div>
+                        <div>{complexityAnswer.korrektoriLoendid.sisusonad.abstraktsed}</div>
                       </div>
                     }
                   </div>
@@ -184,7 +186,7 @@ export default function VocabularyTab(
               </Accordion>
               <Accordion square={true} sx={CorrectorAccordionStyle}>
                 <AccordionSummary
-                  expandIcon={<ExpandMoreIcon/>}
+                  expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1-content"
                   id="panel1-header"
                 >
@@ -199,7 +201,7 @@ export default function VocabularyTab(
                     startText={t('corrector_vocabulary_repetitive_vocabulary')}
                     endText={t('corrector_vocabulary_diverse_vocabulary')}
                   />
-                  <Divider/>
+                  <Divider />
                   {complexityAnswer.mitmekesisus[4] > -1 &&
                     <>
                       <CorrectionScale
@@ -210,7 +212,7 @@ export default function VocabularyTab(
                         startText={t('corrector_vocabulary_repetitive_vocabulary')}
                         endText={t('corrector_vocabulary_diverse_vocabulary')}
                       />
-                      <Divider/>
+                      <Divider />
                     </>
                   }
                   {complexityAnswer.mitmekesisus[5] > 0 &&
@@ -223,7 +225,7 @@ export default function VocabularyTab(
                         startText={t('corrector_vocabulary_repetitive_vocabulary')}
                         endText={t('corrector_vocabulary_diverse_vocabulary')}
                       />
-                      <Divider/>
+                      <Divider />
                     </>}
                   {abstractWords &&
                     <>
@@ -231,11 +233,11 @@ export default function VocabularyTab(
                         title={t('corrector_vocabulary_noun_abstractness')}
                         startValue={1}
                         endValue={3}
-                        value={calculateAbstractnessAverage(abstractWords)}
+                        value={complexityAnswer.korrektoriLoendid.abskeskmine}
                         startText={t('corrector_vocabulary_more_concrete_vocabulary')}
                         endText={t('corrector_vocabulary_more_abstract_vocabulary')}
                       />
-                      <Divider/>
+                      <Divider />
                     </>
                   }
                   <CorrectionScale
@@ -247,17 +249,17 @@ export default function VocabularyTab(
                     endText={t('corrector_vocabulary_less_frequent_vocabulary')}
                     percentage={true}
                   />
-                  <Divider/>
+                  <Divider />
                   <CorrectionScale
                     title={t('corrector_vocabulary_lexical_density')}
                     startValue={30}
                     endValue={70}
-                    value={calculateContentWord(complexityAnswer) * 100 / complexityAnswer.mitmekesisus[10]}
+                    value={complexityAnswer.korrektoriLoendid.sisusonad * 100 / complexityAnswer.mitmekesisus[10]}
                     startText={t('corrector_vocabulary_less_content_words')}
                     endText={t('corrector_vocabulary_more_content_words')}
                     percentage={true}
                   />
-                  <Divider/>
+                  <Divider />
                 </AccordionDetails>
               </Accordion>
             </div>

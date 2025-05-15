@@ -33,6 +33,8 @@ import TableHeaderButtons from '../../components/table/TableHeaderButtons';
 import GraphView from '../wordcontext/components/GraphView';
 import { AccordionStyle, DefaultButtonStyle } from '../../const/StyleConstants';
 import { useGetCollocatesResult } from '../../hooks/service/ToolsService';
+import { loadingEmitter } from '../../../App';
+import { LoadingSpinnerEventType } from '../../components/LoadingSpinner';
 
 export default function Collocates() {
 
@@ -182,35 +184,36 @@ export default function Collocates() {
       setShowTable(false);
       getCollocatesResult(generateRequestData())
         .then(response => {
-          setLastKeyword(keyword);
-          setLemmatizedKeywordResult(null);
-          setResponse(response.collocateList);
-          if (response.collocateList.length === 0) {
-            setShowTable(false);
-            setParamsExpanded(true);
-            setShowNoResultsError(true);
-          } else {
-            setShowTable(true);
-            setParamsExpanded(false);
-            setShowNoResultsError(false);
-            if (response.lemmatizedKeyword) {
-              setLemmatizedKeywordResult(response.lemmatizedKeyword);
-              setInitialKeywordResult(response.initialKeyword);
+          loadingEmitter.emit(LoadingSpinnerEventType.LOADER_START_SHRINK_DISABLED);
+          setTimeout(() => { // for a visual cue when rendering takes longer
+            setLastKeyword(keyword);
+            setLemmatizedKeywordResult(null);
+            setResponse(response.collocateList);
+            if (response.collocateList.length === 0) {
+              setShowTable(false);
+              setParamsExpanded(true);
+              setShowNoResultsError(true);
+            } else {
+              setShowTable(true);
+              setParamsExpanded(false);
+              setShowNoResultsError(false);
+              if (response.lemmatizedKeyword) {
+                setLemmatizedKeywordResult(response.lemmatizedKeyword);
+                setInitialKeywordResult(response.initialKeyword);
+              }
             }
-          }
-        });
+            loadingEmitter.emit(LoadingSpinnerEventType.LOADER_END);
+          }, 0);
+        })
+        .then(() => navigate('', { replace: true }));
     }
   };
 
   const generateRequestData = () => {
     const storeState = queryStore.getState();
     return JSON.stringify({
-      corpusTextIds: storeState.corpusTextIds
-        ? storeState.corpusTextIds
-        : null,
-      ownTexts: storeState.ownTexts
-        ? storeState.ownTexts
-        : null,
+      corpusTextIds: storeState.corpusTextIds || null,
+      ownTexts: storeState.ownTexts || null,
       type: typeValue,
       keyword: keyword,
       searchCount: searchCount,

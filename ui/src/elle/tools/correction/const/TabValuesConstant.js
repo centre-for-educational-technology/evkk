@@ -1,8 +1,9 @@
 export const accordionDetails = [
-  { label: 'corrector_proficiency_level_overall_score', arrayValues: [0, 1, 2, 3] },
-  { label: 'corrector_proficiency_level_evaluation_text_complexity', arrayValues: [4, 5, 6, 7] },
-  { label: 'corrector_proficiency_level_evaluation_grammar', arrayValues: [8, 9, 10, 11] },
-  { label: 'corrector_proficiency_level_evaluation_vocabulary', arrayValues: [12, 13, 14, 15] }
+  { label: 'corrector_proficiency_level_overall_score' },
+  { label: 'corrector_proficiency_level_evaluation_text_complexity' },
+  { label: 'corrector_proficiency_level_evaluation_grammar' },
+  { label: 'corrector_proficiency_level_evaluation_correctness' },
+  { label: 'corrector_proficiency_level_evaluation_vocabulary' }
 ];
 
 export const textLevels = [
@@ -20,19 +21,59 @@ export const complexityValues = [
   'complexity_level_very_difficult'
 ];
 
-export const textLevelColors = ['hsl(0 66% 76%)', 'hsl(100 37% 75%)', 'hsl(50 37% 75%)', 'hsl(240 37% 75%)'];
+export const textLevelColors = ['#ea9999', '#b6d7a8', '#ffe599', '#ada1d4'];
 
 export const errorTypes = {
-  spellingError: { color: '#ea9999', label: 'corrector_grammar_errors_word_replacement' },
-  extraPunctuation: { color: '#b6d7a8', label: 'corrector_grammar_errors_unnecessary_punctuation' },
-  missingPunctuation: { color: '#b6d7a8', label: 'corrector_grammar_errors_missing_punctuation' },
-  wrongPunctuation: { color: '#b6d7a8', label: 'corrector_grammar_errors_punctuation_replacement' },
-  wordCountError: { color: '#ffe599', label: 'corrector_grammar_errors_compounding' },
-  wordOrderError: { color: '#c9daf8', label: 'corrector_grammar_errors_word_order' },
-  multipleErrors: { color: '#f6b26a', label: 'corrector_grammar_errors_other_correction' },
-  missingWordError: { color: '#ada1d4', label: 'corrector_grammar_errors_missing_word' },
-  extraWordError: { color: '#ada1d4', label: 'corrector_grammar_errors_unnecessary_word' }
+  spellingErrorTest: { color: '#ea9999', label: 'corrector_grammar_errors_spelling', classValue: 'spelling-error' },
+  spellingError: { color: '#ea9999', label: 'corrector_grammar_errors_word_replacement', classValue: 'spelling-error' },
+
+  caseError: { color: '#c27ba0', label: 'corrector_grammar_errors_case', classValue: 'case-error' },
+  capitalizationError: {
+    color: '#ea9999',
+    label: 'corrector_grammar_errors_capitalization',
+    classValue: 'spelling-error'
+  },
+  verbFormError: { color: '#c27ba0', label: 'corrector_grammar_errors_verb_form', classValue: 'case-error' },
+  wordChoiceError: { color: '#76a5af', label: 'corrector_grammar_errors_word_choice', classValue: 'word-choice-error' },
+  extraPunctuation: {
+    color: '#b6d7a8',
+    label: 'corrector_grammar_errors_unnecessary_punctuation',
+    classValue: 'punctuation'
+  },
+  missingPunctuation: {
+    color: '#b6d7a8',
+    label: 'corrector_grammar_errors_missing_punctuation',
+    classValue: 'punctuation'
+  },
+  wrongPunctuation: {
+    color: '#b6d7a8',
+    label: 'corrector_grammar_errors_punctuation_replacement',
+    classValue: 'punctuation'
+  },
+  wordOrderError: { color: '#c9daf8', label: 'corrector_grammar_errors_word_order', classValue: 'word-order-error' },
+  wordCountError: { color: '#ffe599', label: 'corrector_grammar_errors_compounding', classValue: 'word-count-error' },
+  missingWordError: {
+    color: '#ada1d4',
+    label: 'corrector_grammar_errors_missing_word',
+    classValue: 'missing-word-error'
+  },
+  extraWordError: {
+    color: '#ada1d4',
+    label: 'corrector_grammar_errors_unnecessary_word',
+    classValue: 'extra-word-error'
+  },
+  punctuationOrder: {
+    color: '#b6d7a8',
+    label: 'corrector_grammar_errors_punctuation_order',
+    classValue: 'punctuation'
+  },
+  multipleErrors: {
+    color: '#f6b26a',
+    label: 'corrector_grammar_errors_other_correction',
+    classValue: 'multiple-errors'
+  }
 };
+
 
 export const correctorDocxType = {
   'longsentence': 'corrector_complexity_long_sentences',

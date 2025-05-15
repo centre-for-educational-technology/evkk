@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { queryCaller } from '../util/Utils';
 import { useGetCorrectorResult } from '../../../hooks/service/ToolsService';
 import CorrectionDocxDownloadButton from './CorrectionDocxDownloadButton';
+import { GRAMMARCHECKER_TEST } from '../const/Constants';
 
 export default function CorrectionButton(
   {
@@ -20,13 +21,19 @@ export default function CorrectionButton(
     newRef,
     errorList = null,
     tab = null,
-    textLevel = null
+    textLevel = null,
+    setGrammarErrorList,
+    setSpellerErrorList,
+    setInputType = null,
+    setNoQuery
   }) {
   const { t } = useTranslation();
   const { getCorrectorResult } = useGetCorrectorResult();
 
   const handleClick = () => {
-    queryCaller(textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, null, null, true);
+    setNoQuery(false);
+    if (setInputType) setInputType(null);
+    queryCaller(textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, true, setGrammarErrorList, setSpellerErrorList, model);
   };
   return (
     <div className="d-flex justify-content-between">
@@ -38,14 +45,15 @@ export default function CorrectionButton(
       >
         {t('analyse_button')}
       </Button>
-      <CorrectionDocxDownloadButton
-        innerHtml={textBoxRef}
-        modelValue={model}
-        newRef={newRef}
-        errorList={errorList}
-        tab={tab}
-        textLevel={textLevel}
-      />
+      {model !== GRAMMARCHECKER_TEST &&
+        <CorrectionDocxDownloadButton
+          innerHtml={textBoxRef}
+          modelValue={model}
+          newRef={newRef}
+          errorList={errorList}
+          tab={tab}
+          textLevel={textLevel}
+        />}
     </div>
   );
 };

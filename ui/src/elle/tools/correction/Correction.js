@@ -10,25 +10,32 @@ import TextLevelTab from './tabviews/textlevel/TextLevelTab';
 import { useTranslation } from 'react-i18next';
 import { useGetCorrectorResult } from '../../hooks/service/ToolsService';
 import { queryCaller } from './util/Utils';
-import { SPELLCHECKER } from './const/Constants';
+import { GRAMMARCHECKER_TEST, SPELLCHECKER } from './const/Constants';
 
 export default function Correction() {
   const { t } = useTranslation();
   const [value, setValue] = useState('1');
   const [inputText, setInputText] = useState('');
-  const [errorList, setErrorList] = useState(null);
+  const [grammarErrorList, setGrammarErrorList] = useState(null);
+  const [spellerErrorList, setSpellerErrorList] = useState(null);
   const [complexityAnswer, setComplexityAnswer] = useState();
   const [grammarAnswer, setGrammarAnswer] = useState();
   const [spellerAnswer, setSpellerAnswer] = useState();
   const [abstractWords, setAbstractWords] = useState([]);
-  const [correctionModel, setCorrectionModel] = useState(SPELLCHECKER);
+  const [correctionModel, setCorrectionModel] = useState(window.location.pathname === '/corrector-test' ? GRAMMARCHECKER_TEST : SPELLCHECKER);
   const [newRef, setNewRef] = useState(inputText);
   const [requestingText, setRequestingText] = useState(null);
   const textBoxRef = useRef(inputText);
   const { getCorrectorResult } = useGetCorrectorResult();
+  const [hoveredId, setHoveredId] = useState(null);
+  const [noQuery, setNoQuery] = useState(true);
 
   const handleChange = (event, newValue) => {
-    queryCaller(textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, newValue, setValue, false);
+    setValue(newValue);
+    setNewRef(textBoxRef.current.innerText);
+    if (!noQuery) {
+      queryCaller(textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, false, setGrammarErrorList, setSpellerErrorList, correctionModel);
+    }
   };
 
   return (
@@ -39,10 +46,10 @@ export default function Correction() {
           <TabContext value={value}>
             <Box>
               <TabList centered onChange={handleChange}>
-                <Tab label={t('corrector_proofreading')} value="1"/>
-                <Tab label={t('corrector_proficiency_level')} value="2"/>
-                <Tab label={t('corrector_complexity')} value="3"/>
-                <Tab label={t('corrector_vocabulary')} value="4"/>
+                <Tab label={t('corrector_proofreading')} value="1" />
+                <Tab label={t('corrector_proficiency_level')} value="2" />
+                <Tab label={t('corrector_complexity')} value="3" />
+                <Tab label={t('corrector_vocabulary')} value="4" />
               </TabList>
             </Box>
             <TabPanel value="1">
@@ -54,8 +61,10 @@ export default function Correction() {
                 setNewRef={setNewRef}
                 inputText={inputText}
                 setInputText={setInputText}
-                errorList={errorList}
-                setErrorList={setErrorList}
+                errorList={correctionModel === SPELLCHECKER ? spellerErrorList : grammarErrorList}
+                setErrorList={correctionModel === SPELLCHECKER ? setSpellerErrorList : setGrammarErrorList}
+                setGrammarErrorList={setGrammarErrorList}
+                setSpellerErrorList={setSpellerErrorList}
                 setComplexityAnswer={setComplexityAnswer}
                 grammarAnswer={grammarAnswer}
                 setGrammarAnswer={setGrammarAnswer}
@@ -65,6 +74,10 @@ export default function Correction() {
                 setCorrectionModel={setCorrectionModel}
                 setAbstractWords={setAbstractWords}
                 complexityAnswer={complexityAnswer}
+                hoveredId={hoveredId}
+                setHoveredId={setHoveredId}
+                setNoQuery={setNoQuery}
+                noQuery={noQuery}
               /></TabPanel>
             <TabPanel value="2">
               <TextLevelTab
@@ -75,8 +88,10 @@ export default function Correction() {
                 setNewRef={setNewRef}
                 inputText={inputText}
                 setInputText={setInputText}
-                errorList={errorList}
-                setErrorList={setErrorList}
+                errorList={correctionModel === SPELLCHECKER ? spellerErrorList : grammarErrorList}
+                setErrorList={correctionModel === SPELLCHECKER ? setSpellerErrorList : setGrammarErrorList}
+                setGrammarErrorList={setGrammarErrorList}
+                setSpellerErrorList={setSpellerErrorList}
                 complexityAnswer={complexityAnswer}
                 setComplexityAnswer={setComplexityAnswer}
                 correctionModel={correctionModel}
@@ -86,6 +101,9 @@ export default function Correction() {
                 spellerAnswer={spellerAnswer}
                 setSpellerAnswer={setSpellerAnswer}
                 setAbstractWords={setAbstractWords}
+                setHoveredId={setHoveredId}
+                setNoQuery={setNoQuery}
+                noQuery={noQuery}
               /></TabPanel>
             <TabPanel value="3">
               <ComplexityTab
@@ -101,6 +119,11 @@ export default function Correction() {
                 setSpellerAnswer={setSpellerAnswer}
                 setGrammarAnswer={setGrammarAnswer}
                 setRequestingText={setRequestingText}
+                setErrorList={correctionModel === SPELLCHECKER ? setSpellerErrorList : setGrammarErrorList}
+                setGrammarErrorList={setGrammarErrorList}
+                setSpellerErrorList={setSpellerErrorList}
+                setNoQuery={setNoQuery}
+                noQuery={noQuery}
               /></TabPanel>
             <TabPanel value="4">
               <VocabularyTab
@@ -117,6 +140,11 @@ export default function Correction() {
                 setSpellerAnswer={setSpellerAnswer}
                 setGrammarAnswer={setGrammarAnswer}
                 setRequestingText={setRequestingText}
+                setErrorList={correctionModel === SPELLCHECKER ? setSpellerErrorList : setGrammarErrorList}
+                setGrammarErrorList={setGrammarErrorList}
+                setSpellerErrorList={setSpellerErrorList}
+                setNoQuery={setNoQuery}
+                noQuery={noQuery}
               /></TabPanel>
           </TabContext>
         </Box>
