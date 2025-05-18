@@ -34,7 +34,9 @@ export default function TextLevelTab(
     setGrammarAnswer,
     setGrammarErrorList,
     setSpellerErrorList,
-    setHoveredId
+    setHoveredId,
+    hoveredId,
+    setNoQuery
   }) {
   const { t } = useTranslation();
 
@@ -114,6 +116,8 @@ export default function TextLevelTab(
           tab={TEXTLEVEL}
           complexityAnswer={complexityAnswer}
           setHoveredId={setHoveredId}
+          hoveredId={hoveredId}
+          setNoQuery={setNoQuery}
         />
         <div className="corrector-right">
           {complexityAnswer && complexityAnswer?.keeletase.length !== 0 &&
