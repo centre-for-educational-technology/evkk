@@ -441,4 +441,3 @@ export const cleanEmptySpans = (container) => {
     }
   });
 };
-
