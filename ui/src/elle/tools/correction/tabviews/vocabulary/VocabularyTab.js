@@ -7,7 +7,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import '../../styles/VocabularyTab.css';
 import CorrectionScale from '../../components/CorrectionScale';
-import { handleCopy, handlePaste } from '../../util/Utils';
+import { cleanEmptySpans, handleCopy, handlePaste } from '../../util/Utils';
 import CorrectionButton from '../../components/CorrectionButton';
 import CorrectionInfoIcon from '../../components/CorrectionInfoIcon';
 import { MathJax } from 'better-react-mathjax';
@@ -128,6 +128,7 @@ export default function VocabularyTab(
             contentEditable={true}
             onCopy={(e) => handleCopy(e)}
             onPaste={(e) => handlePaste(e, textBoxRef.current.innerHTML, setNewRef, setInputText)}
+            onInput={(e) => {cleanEmptySpans(e.currentTarget);}}
           >
           </Box>
           <CorrectionButton

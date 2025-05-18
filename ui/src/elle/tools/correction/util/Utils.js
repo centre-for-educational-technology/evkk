@@ -432,3 +432,13 @@ const levelAccordionValueCheck = (value, complexityAnswer, arrayValues) => {
 const setComplexityAnswerIndex = (index, value, complexityAnswer, arrayValues) => {
   return complexityAnswer[arrayValues[index]][value];
 };
+
+export const cleanEmptySpans = (container) => {
+  container.querySelectorAll('span').forEach((span) => {
+    if (span.textContent.trim() === '') {
+      span.removeAttribute('class');
+      span.style.backgroundColor = '';
+    }
+  });
+};
+
