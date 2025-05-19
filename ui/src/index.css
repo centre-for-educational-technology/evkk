@@ -23,7 +23,7 @@ h2 {
   width: 100%;
   height: 60px;
   line-height: 60px;
-  background-color: #f6f6f6;
+  background-color: #29208c; /*valge*/
 }
 
 @media only screen and (min-width: 992px) {

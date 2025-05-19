@@ -75,6 +75,7 @@ const theme = createTheme({
   }
 });
 
+
 function AppWithStatus() {
   const navigate = useNavigate();
   const [urlParams] = useSearchParams();

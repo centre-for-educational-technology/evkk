@@ -24,6 +24,11 @@ import RequireAuth from './elle/components/security/RequireAuth';
 import { UserRoles } from './elle/const/Constants';
 import { useTranslation } from 'react-i18next';
 
+
+import TextsGiven from './elle/pages/TextsGiven'; 
+import TextsFromDatabase from './elle/pages/TextsFromDatabase';
+import OpenText from './elle/pages/OpenText';
+
 export default function AppRoutes() {
   const { t } = useTranslation();
 
@@ -60,7 +65,13 @@ export default function AppRoutes() {
                  element={<Grants />} />
           <Route path={RouteConstants.PUBLICATIONS}
                  element={<Publications />} />
+
         </Route>
+        
+        <Route path={RouteConstants.TEXTSGIVEN} element={<TextsGiven />} /> 
+        <Route path={RouteConstants.TEXTSFROMDATABASE} element={<TextsFromDatabase />} />
+        <Route path={RouteConstants.OPENTEXT} element={<OpenText />} />
+
         <Route path={RouteConstants.ADDING}
                element={<Adding />} />
         <Route path={RouteConstants.CORRECTOR}
@@ -89,6 +100,10 @@ export default function AppRoutes() {
         </Route>
         <Route path={RouteConstants.LINKS}
                element={<Links />} />
+       
+       
+     
+
         <Route path={RouteConstants.LOGIN}
                element={<Login />} />
         <Route element={<RequireAuth role={UserRoles.ADMIN} />}>
@@ -119,7 +134,10 @@ export const RouteConstants = {
   US: 'us',
   WORDANALYSER: 'wordanalyser',
   WORDCONTEXT: 'wordcontext',
-  WORDLIST: 'wordlist'
+  WORDLIST: 'wordlist',
+  TEXTSGIVEN: 'texts-given',
+  TEXTSFROMDATABASE: 'texts-from-database',
+  OPENTEXT: 'open-text'
 };
 
 export const RouteFullPathConstants = {

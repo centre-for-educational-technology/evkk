@@ -96,7 +96,7 @@ export default function Navbar() {
               src={require('../resources/images/flags/est.png').default}
               className="lang-icon"
               alt="Eesti"
-            />Eesti
+            />Eesti2
           </MenuItem>
           <MenuItem onClick={() => handleLangSelect(Languages.ENGLISH)}>
             <img
