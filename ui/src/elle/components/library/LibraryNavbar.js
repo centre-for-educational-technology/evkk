@@ -1,6 +1,4 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import ExerciseModal from './ExerciseModal'
 
 
 export default function LibraryNavbar(){
@@ -10,7 +8,6 @@ export default function LibraryNavbar(){
                 <Link to="/library/exercises">Harjutused</Link>
                 <br/>
                 <Link to="/library/studymaterial">Õppematerjalid</Link>
-                <ExerciseModal/>
             </ul>
         </nav>
     )
