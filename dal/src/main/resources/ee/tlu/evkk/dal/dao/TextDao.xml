@@ -27,7 +27,7 @@
   <select id="findUnanalysedTextsByIds" resultType="java.lang.String">
     select string_agg(t.content, ' ' order by t.id)
     from core.text t
-    join core.text_processor_result tpr on t.hash = tpr.text_hash and tpr.type = 'STANZA_ANALYSIS'
+    left join core.text_processor_result tpr on t.hash = tpr.text_hash and tpr.type = 'STANZA_ANALYSIS'
     where t.id in
     <foreach item="id" collection="ids" separator=", " open="(" close=")">
       #{id}
