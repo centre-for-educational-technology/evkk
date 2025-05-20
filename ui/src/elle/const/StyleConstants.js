@@ -280,6 +280,13 @@ export const correctionTooltipSlotProps = {
           marginBottom: '0px'
         }
     }
+  },
+  tooltip: {
+    sx: {
+      maxWidth: 1200,
+      whiteSpace: 'normal',
+      backgroundColor: 'transparent'
+    }
   }
 };
 

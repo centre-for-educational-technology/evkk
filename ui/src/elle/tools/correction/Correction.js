@@ -103,6 +103,7 @@ export default function Correction() {
                 setHoveredId={setHoveredId}
                 setNoQuery={setNoQuery}
                 noQuery={noQuery}
+                hoveredId={hoveredId}
               /></TabPanel>
             <TabPanel value="3">
               <ComplexityTab
