@@ -1,17 +1,18 @@
-import React, { Component } from 'react';
-import {Box, Button, TextField} from '@mui/material';
+import { Box } from '@mui/material';
 import './styles/Home.css';
 import './styles/Library.css';
-import { withTranslation } from 'react-i18next';
 import { ElleOuterDivStyle } from '../const/StyleConstants';
 import LibraryNavbar from '../components/library/LibraryNavbar'
 import SortButton from '../components/library/SortButton';
 import CategoryFilters from '../components/library/search/CategoryFilters';
 import LanguageFilters from '../components/library/search/LanguageFilters';
-import SearchBar from '../components/library/SearchBar'
+import SearchBar from '../components/library/SearchBar';
+import ExerciseModal from '../components/library/ExerciseModal';
+import ExerciseCard from '../components/library/ExerciseCard';
+import { useState } from 'react';
 
-class Exercise extends Component {
-    render(){
+export default function Exercise () {
+    const [isModalOpen, setIsModalOpen] = useState(false);
         return (
             <div>
                 <Box className="adding-rounded-corners" sx={ElleOuterDivStyle}>
@@ -23,6 +24,18 @@ class Exercise extends Component {
                         <div className="library-menu">
                             <LibraryNavbar/>
                         </div>
+                        <div className="library-exercise-infoContainer">
+                            <div className="library-exercise-buttons">
+                                <ExerciseModal isOpen={isModalOpen} setIsOpen={setIsModalOpen}/>
+                                <SortButton/>
+                            </div>
+                            <div className="library-exercise-results-count">
+                                <Box>Leitud: {}</Box>
+                            </div>
+                            <div className="library-exercise-results">
+                                <ExerciseCard/>
+                            </div>
+                        </div>
                         <div className="libary-exercise-container">
                             <div className="library-exercise-filters">
                                 <CategoryFilters />
@@ -30,18 +43,8 @@ class Exercise extends Component {
                                 <LanguageFilters />
                             </div>
                         </div>
-                        <div className="library-exercise-infoContainer">
-                            <SortButton/>
-                            <div className="library-exercise-results">
-                                <Box style={{border: '1px solid black'}}>Leitud: {}</Box>
-                            </div>
-                        </div>
                     </Box>
                 </Box>
             </div>
         )
-    }
 }
-
-
-export default withTranslation()(Exercise)

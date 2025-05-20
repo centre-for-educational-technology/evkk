@@ -1,0 +1,14 @@
+[
+  { "id": 1, "name": "Võõrsõnad" },
+  { "id": 2, "name": "Käänded" },
+  { "id": 3, "name": "Kokku- ja lahkukirjutamine" },
+  { "id": 4, "name": "Suur ja väike algustäht" },
+  { "id": 5, "name": "Liitlause" },
+  { "id": 6, "name": "Grammatika" },
+  { "id": 7, "name": "Tegusõnad ja ajavormid" },
+  { "id": 8, "name": "Sõnavara ja tähendus" },
+  { "id": 9, "name": "Sõnajärg lauses" },
+  { "id": 10, "name": "Täpid ja komad" },
+  { "id": 11, "name": "Sõnaliigid" },
+  { "id": 12, "name": "Kuulamine ja arusaamine" }
+]
