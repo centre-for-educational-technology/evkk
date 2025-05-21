@@ -1,9 +1,11 @@
 import { useGetTextToSpeech } from '../../../hooks/service/TextToSpeechService';
+import { useRef } from 'react';
 
 export const useTextToSpeech = () => {
   const { getTextToSpeechData } = useGetTextToSpeech();
+  const lastAudioBase64 = useRef(null);
 
-  const playTextToSpeech = async (selectedText, currentSpeaker, speed) => {
+  const playTextToSpeech = async (selectedText, currentSpeaker, speed, setTextAvailable) => {
     if (!selectedText) return;
 
     const requestBody = {
@@ -16,13 +18,25 @@ export const useTextToSpeech = () => {
       const base64String = await getTextToSpeechData(requestBody);
       const audioElement = document.createElement('audio');
 
+      lastAudioBase64.current = base64String;
+
       audioElement.src = 'data:audio/wav;base64,' + base64String;
       audioElement.preload = 'auto';
       audioElement.oncanplay = () => audioElement.play();
+      setTextAvailable(true);
     } catch (error) {
       console.error('Playback error:', error);
     }
   };
 
-  return { playTextToSpeech };
+  const downloadLastSpeech = (filename = 'speech.wav') => {
+    if (!lastAudioBase64.current) return;
+
+    const a = document.createElement('a');
+    a.href = 'data:audio/wav;base64,' + lastAudioBase64.current;
+    a.download = filename;
+    a.click();
+  };
+
+  return { playTextToSpeech, downloadLastSpeech };
 };

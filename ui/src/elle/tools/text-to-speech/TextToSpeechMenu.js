@@ -1,7 +1,6 @@
 // Original code by Reydan Niineorg
 
 import React, { useContext, useState } from 'react';
-import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
@@ -14,6 +13,10 @@ import { textToSpeechVoices } from '../../const/Constants';
 import { useTranslation } from 'react-i18next';
 import './TextToSpeechMenu.css';
 import { useTextToSpeech } from './hooks/useTextToSpeech';
+import { Button, ClickAwayListener, Paper, Popper } from '@mui/material';
+import { DefaultButtonStyle5px, DefaultSliderStyle, ToggleButtonGroupStyle } from '../../const/StyleConstants';
+import DownloadIcon from '@mui/icons-material/Download';
+import './styles/TextToSpeechMenu.css';
 
 const sliderMarks = [
   { value: 0.5, label: '0.5' },
@@ -22,12 +25,23 @@ const sliderMarks = [
   { value: 2, label: '2' }
 ];
 
+const speechPopperAnchorOrigins = {
+  vertical: 'bottom',
+  horizontal: 'center'
+};
+
+const speechPopperTransformOrigins = {
+  vertical: 'top',
+  horizontal: 'center'
+};
+
 export default function TextToSpeechMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const selectedText = useContext(TextSelectionContext);
   const [speed, setSpeed] = useState(1.0);
   const [speaker, setSpeaker] = useState(textToSpeechVoices.mari);
-  const { playTextToSpeech } = useTextToSpeech();
+  const [textAvailable, setTextAvailable] = useState(false);
+  const { playTextToSpeech, downloadLastSpeech } = useTextToSpeech();
   const { t } = useTranslation();
 
   const handlePopoverOpen = (event) => {
@@ -44,76 +58,85 @@ export default function TextToSpeechMenu() {
     playTextToSpeech(
       selectedText,
       speakerOverride || speaker,
-      speed
+      speed,
+      setTextAvailable
     );
   };
 
-
   return (
-    <div onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
-      <VolumeUpIcon
-        onClick={handlePlay}
-        className="text-to-speech-icon"
-      />
-      <Popover
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handlePopoverClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center'
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center'
-        }}
-        onMouseLeave={handlePopoverClose}
-      >
-        <div style={{ width: 250 }}>
-          <Typography sx={{ p: 2 }}>
-            {t('text_to_speech_speed')}
-          </Typography>
-          <div className="text-to-speech-slider-container">
-            <Slider
-              sx={{
-                color: '#9C27B0'
-              }}
-              valueLabelDisplay="auto"
-              value={speed}
-              onChange={(event, newValue) => setSpeed(newValue)}
-              min={0.5}
-              max={2}
-              step={0.1}
-              marks={sliderMarks}
-            />
-          </div>
-          <FormControl sx={{ p: 3 }}>
-            <FormLabel id="toggle-buttons-group-label">
-              {t('text_to_speech_voice')}
-            </FormLabel>
-            <ToggleButtonGroup
-              value={speaker}
-              onChange={(event, newSpeaker) => {
-                if (newSpeaker !== null) {
-                  setSpeaker(newSpeaker);
-                  handlePlay(newSpeaker);
-                }
-              }}
-              exclusive
-            >
-              <ToggleButton value={textToSpeechVoices.mari}>
-                {textToSpeechVoices.mari}
-              </ToggleButton>
-              <ToggleButton value={textToSpeechVoices.albert}>
-                {textToSpeechVoices.albert}
-              </ToggleButton>
-              <ToggleButton value={textToSpeechVoices.kalev}>
-                {textToSpeechVoices.kalev}
-              </ToggleButton>
-            </ToggleButtonGroup>
-          </FormControl>
-        </div>
-      </Popover>
-    </div>
+    <ClickAwayListener onClickAway={handlePopoverClose}>
+      <div onClick={handlePopoverOpen}>
+        <VolumeUpIcon
+          className="text-to-speech-icon"
+          onClick={handlePlay}
+        />
+        <Popper
+          className="speech-menu-popper-container"
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handlePopoverClose}
+          anchorOrigin={speechPopperAnchorOrigins}
+          transformOrigin={speechPopperTransformOrigins}
+        >
+          <Paper className="speech-menu-popper-paper">
+            <div>
+              <Typography>
+                {t('text_to_speech_speed')}
+              </Typography>
+              <div className="text-to-speech-slider-container">
+                <Slider
+                  sx={DefaultSliderStyle}
+                  valueLabelDisplay="auto"
+                  value={speed}
+                  onChange={(event, newValue) => setSpeed(newValue)}
+                  min={0.5}
+                  max={2}
+                  step={0.1}
+                  marks={sliderMarks}
+                />
+              </div>
+              <FormControl fullWidth>
+                <FormLabel id="toggle-buttons-group-label">
+                  {t('text_to_speech_voice')}
+                </FormLabel>
+                <ToggleButtonGroup
+                  color="primary"
+                  fullWidth
+                  value={speaker}
+                  onChange={(event, newSpeaker) => {setSpeaker(newSpeaker);}}
+                  exclusive
+                  sx={ToggleButtonGroupStyle}
+                  size="small"
+                >
+                  <ToggleButton value={textToSpeechVoices.mari}>
+                    {textToSpeechVoices.mari}
+                  </ToggleButton>
+                  <ToggleButton value={textToSpeechVoices.albert}>
+                    {textToSpeechVoices.albert}
+                  </ToggleButton>
+                  <ToggleButton value={textToSpeechVoices.kalev}>
+                    {textToSpeechVoices.kalev}
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </FormControl>
+            </div>
+            <div className="speech-menu-popper-button-container">
+              <Button
+                sx={{ ...DefaultButtonStyle5px, flex: 3 }}
+                onClick={() => handlePlay(speaker)}
+                fullWidth
+                variant="contained">{t('text_to_speech_play')}</Button>
+              <Button
+                disabled={!textAvailable}
+                sx={{ ...DefaultButtonStyle5px, flex: 1 }}
+                aria-label="download speech"
+                onClick={downloadLastSpeech}>
+                <DownloadIcon className="text-white" />
+              </Button>
+            </div>
+          </Paper>
+        </Popper>
+      </div>
+    </ClickAwayListener>
   );
 };
