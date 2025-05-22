@@ -5,6 +5,7 @@ import ee.tlu.evkk.common.env.ServiceLocatorFactoryBean;
 import ee.tlu.evkk.core.integration.CorrectorServerClient;
 import ee.tlu.evkk.core.integration.KlasterdajaServerClient;
 import ee.tlu.evkk.core.integration.StanzaServerClient;
+import ee.tlu.evkk.core.integration.TextToSpeechClient;
 import ee.tlu.evkk.dal.DalConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -53,4 +54,8 @@ public class CoreConfiguration {
     return new CorrectorServerClient(rest);
   }
 
+  @Bean
+  public TextToSpeechClient textToSpeechClient() {
+    return new TextToSpeechClient(new RestTemplate());
+  }
 }
