@@ -1,6 +1,6 @@
 // Original code by Reydan Niineorg
 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
@@ -11,9 +11,8 @@ import FormLabel from '@mui/material/FormLabel';
 import { TextSelectionContext } from './TextSelectionContext';
 import { textToSpeechVoices } from '../../const/Constants';
 import { useTranslation } from 'react-i18next';
-import './TextToSpeechMenu.css';
 import { useTextToSpeech } from './hooks/useTextToSpeech';
-import { Button, ClickAwayListener, Paper, Popper } from '@mui/material';
+import { Alert, Button, ClickAwayListener, Paper, Popper } from '@mui/material';
 import { DefaultButtonStyle5px, DefaultSliderStyle, ToggleButtonGroupStyle } from '../../const/StyleConstants';
 import DownloadIcon from '@mui/icons-material/Download';
 import './styles/TextToSpeechMenu.css';
@@ -41,8 +40,13 @@ export default function TextToSpeechMenu() {
   const [speed, setSpeed] = useState(1.0);
   const [speaker, setSpeaker] = useState(textToSpeechVoices.mari);
   const [textAvailable, setTextAvailable] = useState(false);
+  const [selectedTextChecker, setSelectedTextChecker] = useState(true);
   const { playTextToSpeech, downloadLastSpeech } = useTextToSpeech();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  useEffect(() => {
+    setSelectedTextChecker(selectedText === t('text_to_speech_text'));
+  }, [selectedText]);
 
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -50,6 +54,14 @@ export default function TextToSpeechMenu() {
 
   const handlePopoverClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleTogglePopper = (event) => {
+    if (anchorEl) {
+      handlePopoverClose();
+    } else {
+      handlePopoverOpen(event);
+    }
   };
 
   const open = Boolean(anchorEl);
@@ -65,10 +77,10 @@ export default function TextToSpeechMenu() {
 
   return (
     <ClickAwayListener onClickAway={handlePopoverClose}>
-      <div onClick={handlePopoverOpen}>
+      <div>
         <VolumeUpIcon
           className="text-to-speech-icon"
-          onClick={handlePlay}
+          onClick={handleTogglePopper}
         />
         <Popper
           className="speech-menu-popper-container"
@@ -88,7 +100,7 @@ export default function TextToSpeechMenu() {
                   sx={DefaultSliderStyle}
                   valueLabelDisplay="auto"
                   value={speed}
-                  onChange={(event, newValue) => setSpeed(newValue)}
+                  onChange={(_, newValue) => setSpeed(newValue)}
                   min={0.5}
                   max={2}
                   step={0.1}
@@ -103,7 +115,7 @@ export default function TextToSpeechMenu() {
                   color="primary"
                   fullWidth
                   value={speaker}
-                  onChange={(event, newSpeaker) => {setSpeaker(newSpeaker);}}
+                  onChange={(_, newSpeaker) => setSpeaker(newSpeaker)}
                   exclusive
                   sx={ToggleButtonGroupStyle}
                   size="small"
@@ -120,17 +132,26 @@ export default function TextToSpeechMenu() {
                 </ToggleButtonGroup>
               </FormControl>
             </div>
+            {selectedTextChecker &&
+              <Alert severity="warning">
+                {t('text_to_speech_text')}
+              </Alert>
+            }
             <div className="speech-menu-popper-button-container">
               <Button
+                disabled={selectedTextChecker}
                 sx={{ ...DefaultButtonStyle5px, flex: 3 }}
                 onClick={() => handlePlay(speaker)}
                 fullWidth
-                variant="contained">{t('text_to_speech_play')}</Button>
+                variant="contained"
+              >
+                {t('text_to_speech_play')}
+              </Button>
               <Button
                 disabled={!textAvailable}
                 sx={{ ...DefaultButtonStyle5px, flex: 1 }}
                 aria-label="download speech"
-                onClick={downloadLastSpeech}>
+                onClick={() => downloadLastSpeech(`${speaker}_${i18n.language}_${speed}`)}>
                 <DownloadIcon className="text-white" />
               </Button>
             </div>

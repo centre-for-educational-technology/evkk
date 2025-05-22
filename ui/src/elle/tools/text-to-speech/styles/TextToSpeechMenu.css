@@ -1,3 +1,13 @@
+.text-to-speech-icon {
+  margin-left: 1rem;
+  cursor: pointer;
+  color: black;
+}
+
+.text-to-speech-slider-container {
+  margin-inline: 1rem;
+}
+
 .speech-menu-popper-container {
   z-index: 10000;
   min-width: 300px;
