@@ -38,6 +38,8 @@ export default function TextToSpeechMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const selectedText = useContext(TextSelectionContext);
   const [speed, setSpeed] = useState(1.0);
+  const [latestListenedSpeaker, setLatestListenedSpeaker] = useState(null);
+  const [latestListenedSpeed, setLatestListenedSpeed] = useState(null);
   const [speaker, setSpeaker] = useState(textToSpeechVoices.mari);
   const [textAvailable, setTextAvailable] = useState(false);
   const [selectedTextChecker, setSelectedTextChecker] = useState(true);
@@ -46,7 +48,7 @@ export default function TextToSpeechMenu() {
 
   useEffect(() => {
     setSelectedTextChecker(selectedText === t('text_to_speech_text'));
-  }, [selectedText]);
+  }, [t, selectedText]);
 
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -72,7 +74,10 @@ export default function TextToSpeechMenu() {
       speakerOverride || speaker,
       speed,
       setTextAvailable
-    );
+    ).then(() => {
+      setLatestListenedSpeaker(speaker);
+      setLatestListenedSpeed(speed);
+    });
   };
 
   return (
@@ -151,7 +156,7 @@ export default function TextToSpeechMenu() {
                 disabled={!textAvailable}
                 sx={{ ...DefaultButtonStyle5px, flex: 1 }}
                 aria-label="download speech"
-                onClick={() => downloadLastSpeech(`${speaker}_${i18n.language}_${speed}`)}>
+                onClick={() => downloadLastSpeech(`${latestListenedSpeaker}_${i18n.language}_${latestListenedSpeed}.wav`)}>
                 <DownloadIcon className="text-white" />
               </Button>
             </div>
