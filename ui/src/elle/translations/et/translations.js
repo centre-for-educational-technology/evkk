@@ -671,5 +671,5 @@ export const TRANSLATIONS_ET = {
   wordlist_word_column: 'Sõnavorm',
   wordlist_wordcloud: 'Sõnapilv',
   wordlist_wordcloud_filename: 'sonapilv',
-  wordlist_wordcloud_loading: 'Laadin sõnapilve...'
+  wordlist_wordcloud_loading: 'Laadin sõnapilve...',
 };

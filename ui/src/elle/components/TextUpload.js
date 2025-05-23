@@ -45,7 +45,8 @@ export default function TextUpload({ sendTextFromFile, outerClassName = '' }) {
     }
 
     setUploadButtonDisabled(false);
-    fileNameElement.current.appendChild(div);
+    fileNameElement.current7
+    .appendChild(div);
   }
 
   return (
