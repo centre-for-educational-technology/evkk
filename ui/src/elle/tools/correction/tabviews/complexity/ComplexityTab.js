@@ -6,7 +6,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Accordion from '@mui/material/Accordion';
 import '../../styles/ComplexityTab.css';
-import { handleCopy, handlePaste } from '../../util/Utils';
+import { cleanEmptySpans, handleCopy, handlePaste } from '../../util/Utils';
 import CorrectionScale from '../../components/CorrectionScale';
 import CorrectionButton from '../../components/CorrectionButton';
 import CorrectionInfoIcon from '../../components/CorrectionInfoIcon';
@@ -132,6 +132,7 @@ export default function ComplexityTab(
             contentEditable={true}
             onCopy={(e) => handleCopy(e)}
             onPaste={(e) => handlePaste(e, textBoxRef.current.innerHTML, setNewRef, setInputText)}
+            onInput={(e) => {cleanEmptySpans(e.currentTarget);}}
           >
           </Box>
           <CorrectionButton
