@@ -25,6 +25,8 @@ import { getH5PFile, uploadH5PFile } from "./h5p/H5PProcessing";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { DefaultButtonStyleSmall, DefaultButtonStyle, DefaultSliderStyle } from '../../const/StyleConstants';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { DefaultButtonStyle, DefaultSliderStyle } from '../../const/StyleConstants';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -83,6 +85,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
               style={{fontSize: "14px", maxWidth: "12vw", justifyContent:"left",}}
               className="library-add-button"
               ><AddOutlinedIcon/>Loo Uus Harjutus</Button>
+      <Button onClick={() => setIsOpen(true)}>Loo Uus Harjutus</Button>
       <ModalBase
         isOpen={isOpen}
         setIsOpen={setIsOpen}
@@ -238,6 +241,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                               getH5PFile(e.target.value)
                               }
                             }
+                    onChange={(e) => setLink(e.target.value)}
                   />
                 </Box>
                 <Box display="flex" justifyContent="space-between" gap={2}>
@@ -259,7 +263,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                     }}
                   //disabled={!isStep1Valid}
                   >
-                    Kuva Eelvaade
+                    Kuva Eelvade
                   </Button>
                 </Box>
               </Box>
