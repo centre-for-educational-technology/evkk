@@ -215,10 +215,10 @@ public class StanzaAnalysisService {
   }
 
   private StanzaResponseDto generateResultsForMissingUUIDs(Set<UUID> missingUUIDs, boolean shouldGenerateCharCount) {
-    String missingTexts = textService.getPartitionedTextResourceByIds(missingUUIDs, textDao::findTextsByIds);
+    String missingTexts = sanitizeText(textService.getPartitionedTextResourceByIds(missingUUIDs, textDao::findTextsByIds));
     StanzaResponseDto stanzaResponse = stanzaServerClient.getFullTextAnalysis(missingTexts);
     if (shouldGenerateCharCount) {
-      stanzaResponse.setCharCount(sanitizeText(missingTexts).length());
+      stanzaResponse.setCharCount(missingTexts.length());
     }
     return stanzaResponse;
   }
