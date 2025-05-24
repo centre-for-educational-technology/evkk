@@ -17,12 +17,19 @@ export const TextSelectionProvider = ({ children }) => {
       }
     };
 
+    // Mouse events for desktop
     document.addEventListener('mouseup', handleSelectionChange);
     document.addEventListener('dblclick', handleSelectionChange);
+
+    // Touch events for mobile
+    document.addEventListener('touchend', handleSelectionChange);
+    document.addEventListener('selectionchange', handleSelectionChange);
 
     return () => {
       document.removeEventListener('mouseup', handleSelectionChange);
       document.removeEventListener('dblclick', handleSelectionChange);
+      document.removeEventListener('touchend', handleSelectionChange);
+      document.removeEventListener('selectionchange', handleSelectionChange);
     };
   }, []);
 

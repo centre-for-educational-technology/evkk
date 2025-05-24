@@ -472,11 +472,24 @@ export const aboutUsDrawerList = [
   {
     key: 'about',
     items: [
-      { text: 'common_us', icon: <Info />, navigateTo: RouteConstants.US },
-      { text: 'common_people', icon: <AccountBox />, navigateTo: RouteConstants.PEOPLE },
-      { text: 'common_grants', icon: <AccountBalance />, navigateTo: RouteConstants.GRANTS },
       {
-        text: 'common_publications', icon: <HistoryEdu />,
+        text: 'common_us',
+        icon: <Info />,
+        navigateTo: RouteConstants.US
+      },
+      {
+        text: 'common_people',
+        icon: <AccountBox />,
+        navigateTo: RouteConstants.PEOPLE
+      },
+      {
+        text: 'common_grants',
+        icon: <AccountBalance />,
+        navigateTo: RouteConstants.GRANTS
+      },
+      {
+        text: 'common_publications',
+        icon: <HistoryEdu />,
         children: [
           {
             text: 'common_graduation_papers',
