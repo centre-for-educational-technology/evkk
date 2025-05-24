@@ -3,6 +3,14 @@
   flex-direction: row;
   margin-bottom: 20px;
   border-radius: 10px;
+  align-items: center;
+  gap: 20px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 }
 
 .icon {
@@ -16,14 +24,12 @@
 .name-box {
   height: 35%;
   width: 100%;
-  padding-left: 20px;
   font-weight: bold;
   font-size: 1.5rem;
   padding-top: 6%;
 }
 
 .info-box {
-  padding-left: 20px;
   padding-top: 5%;
 }
 
@@ -31,6 +37,11 @@
   display: flex;
   align-items: center;
   padding-top: 5px;
+
+  @media (max-width: 600px) {
+    justify-content: center;
+    padding-bottom: 30px;
+  }
 }
 
 .etis-link {
@@ -40,7 +51,6 @@
 .contact-image {
   width: 200px;
   border-radius: 10px;
-  margin-right: 20px;
 }
 
 .icon-box {

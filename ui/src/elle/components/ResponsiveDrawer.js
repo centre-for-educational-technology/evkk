@@ -83,13 +83,13 @@ export default function ResponsiveDrawer({ lists }) {
   return (
     <Box className="global-page-content-container">
       <Box className="global-page-content-container-inner">
-        <Box className="response-drawer-main-box">
+        <Box className="responsive-drawer-main-box">
           <Box
             component="nav"
             sx={{
               width: { md: drawerWidth },
               flexShrink: { md: 0 },
-              marginLeft: '20px',
+              marginLeft: { xs: '0', md: '20px' },
               position: { xs: 'static', md: 'sticky' },
               top: { xs: 'auto', md: '100px' },
               alignSelf: { xs: 'auto', md: 'flex-start' },

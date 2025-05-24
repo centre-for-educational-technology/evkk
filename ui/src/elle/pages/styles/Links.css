@@ -1,5 +1,5 @@
-.link-anchor-gap {
-  height: 70px;
+[id] {
+  scroll-margin-top: 80px;
 }
 
 .links-container-inner {
