@@ -1,4 +1,4 @@
-@media (max-width: 925px) {
+@media (max-width: 1023px) {
   .navBar-icon-button {
     display: flex !important;
   }
@@ -20,7 +20,7 @@
   }
 }
 
-@media (min-width: 926px) {
+@media (min-width: 1024px) {
   .navBar-icon-button {
     display: none !important;
   }

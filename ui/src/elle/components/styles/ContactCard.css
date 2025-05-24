@@ -1,7 +1,6 @@
 .contact-box {
   display: flex;
   flex-direction: row;
-  width: 700px;
   margin-bottom: 20px;
   border-radius: 10px;
 }
@@ -12,11 +11,6 @@
   margin: auto;
   padding: 10px;
   font-size: large;
-}
-
-.text-box {
-  width: 70%;
-  height: 50%;
 }
 
 .name-box {
@@ -43,7 +37,6 @@
   color: inherit;
 }
 
-
 .contact-image {
   width: 200px;
   border-radius: 10px;
@@ -51,6 +44,5 @@
 }
 
 .icon-box {
-  width: 30%;
   height: 100%;
 }

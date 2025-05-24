@@ -1,3 +1,6 @@
+import { AccountBalance, AccountBox, Article, CoPresent, HistoryEdu, Info, School } from '@mui/icons-material';
+import { HashFragmentRouteConstants, RouteConstants } from '../../AppRoutes';
+
 export const WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO = 1000;
 
 export const replaceCombined = /<\/?span[^>]*>|<\/?div[^>]*>/g;
@@ -458,6 +461,43 @@ export const countryOptionsForAddingText = {
   'Inglismaa': 'query_common_country_en',
   'Ungari': 'query_common_country_hu'
 };
+
+export const donationSideButtonEnabledPaths = {
+  home: '/',
+  corrector: `/${RouteConstants.CORRECTOR}`,
+  correctorTest: `/${RouteConstants.CORRECTOR_TEST}`
+};
+
+export const aboutUsDrawerList = [
+  {
+    key: 'about',
+    items: [
+      { text: 'common_us', icon: <Info />, navigateTo: RouteConstants.US },
+      { text: 'common_people', icon: <AccountBox />, navigateTo: RouteConstants.PEOPLE },
+      { text: 'common_grants', icon: <AccountBalance />, navigateTo: RouteConstants.GRANTS },
+      {
+        text: 'common_publications', icon: <HistoryEdu />,
+        children: [
+          {
+            text: 'common_graduation_papers',
+            icon: <School />,
+            navigateTo: `${RouteConstants.PUBLICATIONS}#${HashFragmentRouteConstants.PUBLICATIONS_GRADUATION_PAPERS}`
+          },
+          {
+            text: 'common_conferences_and_workshops',
+            icon: <CoPresent />,
+            navigateTo: `${RouteConstants.PUBLICATIONS}#${HashFragmentRouteConstants.PUBLICATIONS_CONFERENCES_AND_WORKSHOPS}`
+          },
+          {
+            text: 'common_articles',
+            icon: <Article />,
+            navigateTo: `${RouteConstants.PUBLICATIONS}#${HashFragmentRouteConstants.PUBLICATIONS_ARTICLES}`
+          }
+        ]
+      }
+    ]
+  }
+];
 
 export const textToSpeechVoices = {
   mari: 'Mari',
