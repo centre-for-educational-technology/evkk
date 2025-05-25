@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {Button, Menu, MenuItem} from '@mui/material';
+import '../../pages/styles/Library.css';
 
 export default function SortButton() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -21,6 +22,8 @@ export default function SortButton() {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
+            variant="contained"
+            className="library-container-sortbutton"
         >
             Sorteerimine
         </Button>

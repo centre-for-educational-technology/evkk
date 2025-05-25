@@ -14,12 +14,17 @@ import {
   Typography,
   Link,
 } from '@mui/material';
+import '../../pages/styles/Library.css'
 import { useTranslation } from 'react-i18next';
 import ModalBase from '../modal/ModalBase';
 import { useState, useEffect } from 'react';
 import LanguageLevels from "./json/languageLevels.json"
 import Categories from "./json/categories.json"
 import Time from "./json/time.json"
+import { getH5PFile, uploadH5PFile } from "./h5p/H5PProcessing";
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { DefaultButtonStyleSmall, DefaultButtonStyle, DefaultSliderStyle } from '../../const/StyleConstants';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { DefaultButtonStyle, DefaultSliderStyle } from '../../const/StyleConstants';
 
@@ -71,11 +76,15 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
     }
   }, [isOpen]);
 
-
   return (
     <>
       {/* {{TODO: "teha translation ülejäänud"}}
     {{TODO: teha classnames for buttons"}} */}
+      <Button onClick={() => setIsOpen(true)}
+              sx={DefaultButtonStyleSmall}
+              style={{fontSize: "14px", maxWidth: "12vw", justifyContent:"left",}}
+              className="library-add-button"
+              ><AddOutlinedIcon/>Loo Uus Harjutus</Button>
       <Button onClick={() => setIsOpen(true)}>Loo Uus Harjutus</Button>
       <ModalBase
         isOpen={isOpen}
@@ -227,6 +236,11 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                     size="medium"
                     style={{ width: '50%' }}
                     value={link}
+                    onChange={(e) => {
+                              setLink(e.target.value)
+                              getH5PFile(e.target.value)
+                              }
+                            }
                     onChange={(e) => setLink(e.target.value)}
                   />
                 </Box>
@@ -243,14 +257,24 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                     sx={DefaultButtonStyle}
                     size="medium"
                     variant="contained"
-                    onClick={() => {
-                      alert("working")
+                    onClick={ async () => {
+                      setStep(step + 1)
+                      await uploadH5PFile();
                     }}
                   //disabled={!isStep1Valid}
                   >
                     Kuva Eelvade
                   </Button>
                 </Box>
+              </Box>
+            </Box>
+          )}
+
+          {step === 3 && (
+            <Box>
+              <Typography>Siin saad harjutust ise proovida enne avalikustamist.</Typography>
+              <Box>
+                Siia tuleb harjutuse eelvaade
               </Box>
             </Box>
           )}
