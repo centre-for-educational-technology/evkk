@@ -1,76 +1,86 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
-import './styles/Home.css';
-import { withTranslation } from 'react-i18next';
-import { ElleOuterDivStyle } from '../const/StyleConstants';
-import { Link } from 'react-router-dom';
-
-import AddStudyMaterialButton from '../components/studymaterial/AddStudyMaterialButton';
-import StudyMaterialModal from '../components/studymaterial/StudyMaterialModal';
+import StudyMaterialCard from '../components/library/studymaterial/StudyMaterialCard';
+import AddStudyMaterialButton from '../components/library/studymaterial/AddStudyMaterialButton';
+import StudyMaterialModal from '../components/library/studymaterial/StudyMaterialModal';
 import SearchBar from '../components/library/SearchBar';
 import LibraryNavbar from '../components/library/LibraryNavbar';
 import CategoryFilters from '../components/library/search/CategoryFilters';
 import LanguageFilters from '../components/library/search/LanguageFilters';
 import SortButton from '../components/library/SortButton';
+import './styles/Home.css';
+import './styles/Library.css';
+import { ElleOuterDivStyle } from '../const/StyleConstants';
 
-class StudyMaterial extends Component {
-  state = {
-    modalOpen: false
-  };
+export default function StudyMaterial() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [materials, setMaterials] = useState([]);
 
-  handleOpenModal = () => {
-    this.setState({ modalOpen: true });
-  };
+  useEffect(() => {
+    const fetchMaterials = async () => {
+      const url =
+        process.env.NODE_ENV === 'production'
+          ? '/api/study-material/all'
+          : 'http://localhost:9090/api/study-material/all';
 
-  handleCloseModal = () => {
-    this.setState({ modalOpen: false });
-  };
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        setMaterials(data);
+      } catch (err) {
+        console.error('Viga õppematerjalide laadimisel:', err);
+      }
+    };
 
-  render() {
-    return (
-      <div>
-        <Box className="adding-rounded-corners" sx={ElleOuterDivStyle}>
-          <Box className="library-container">
+    fetchMaterials();
+  }, []);
 
-            <h1 style={{ textAlign: 'center' }}>Õppematerjalid</h1>
+  return (
+    <div>
+      <StudyMaterialModal
+        isOpen={modalOpen}
+        setIsOpen={() => setModalOpen(false)}
+        onSubmitSuccess={(newMaterial) => {
+          setMaterials((prev) => [newMaterial, ...prev]);
+        }}
+      />
+      <Box className="adding-rounded-corners" sx={ElleOuterDivStyle}>
+        <Box className="library-container">
+          <h1 style={{ textAlign: 'center' }}>Õppematerjalid</h1>
 
-            <div className="library-search-container">
-              <SearchBar />
-            </div>
+          <div className="library-search-container">
+            <SearchBar />
+          </div>
+          <div className="library-menu">
+            <LibraryNavbar />
+          </div>
 
-            <div className="add-material-button">
-              <AddStudyMaterialButton onClick={this.handleOpenModal} />
-            </div>
-
-            {/* Õppematerjali popup */}
-            <StudyMaterialModal
-              isOpen={this.state.modalOpen}
-              setIsOpen={this.handleCloseModal}
-            />
-
-            <div className="library-menu">
-              <LibraryNavbar />
-            </div>
-
-            <div className="libary-exercise-container">
-              <div className="library-exercise-filters">
-                <CategoryFilters />
-                <br />
-                <LanguageFilters />
-              </div>
+          <div className="library-main-content">
+            <div className="library-exercise-filters">
+              <CategoryFilters />
+              <br />
+              <LanguageFilters />
             </div>
 
             <div className="library-exercise-infoContainer">
-              <SortButton />
+              <div className="library-exercise-buttons">
+                <AddStudyMaterialButton onClick={() => setModalOpen(true)} />
+                <SortButton />
+              </div>
+
+              <div className="library-exercise-results-count">
+                <Box>Leitud: {materials.length}</Box>
+              </div>
+
               <div className="library-exercise-results">
-                <Box style={{ border: '1px solid black' }}>Leitud: {}</Box>
+                {materials.map((material) => (
+                  <StudyMaterialCard key={material.id} material={material} />
+                ))}
               </div>
             </div>
-          </Box>
+          </div>
         </Box>
-      </div>
-    );
-  }
+      </Box>
+    </div>
+  );
 }
-
-export default withTranslation()(StudyMaterial);

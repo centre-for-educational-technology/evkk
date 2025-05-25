@@ -4,8 +4,10 @@ import ee.tlu.evkk.api.service.StudyMaterialService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -16,13 +18,27 @@ public class StudyMaterialController {
   private final StudyMaterialService studyMaterialService;
 
   @PostMapping("/upload")
-  public ResponseEntity<Map<String, Object>> uploadStudyMaterial(@RequestBody Map<String, Object> data) {
+  public ResponseEntity<Map<String, Object>> uploadStudyMaterial(
+    @RequestParam("file") MultipartFile file,
+    @RequestParam("title") String title,
+    @RequestParam("description") String description,
+    @RequestParam("category") String category,
+    @RequestParam("level") String level
+  ) {
     try {
-      Map<String, Object> saved = studyMaterialService.saveStudyMaterialToFile(data);
-      return ResponseEntity.ok(saved); // tagastame salvestatud objekti
+      Map<String, Object> saved = studyMaterialService.saveStudyMaterialToFile(
+        file, title, description, category, level
+      );
+      return ResponseEntity.ok(saved);
     } catch (IOException e) {
       e.printStackTrace();
-      return ResponseEntity.status(500).body(Map.of("error", "Õppematerjali salvestamine ebaõnnestus"));
+      return ResponseEntity.status(500).body(Map.of("error", "Salvestamine ebaõnnestus"));
     }
+  }
+
+  @GetMapping("/all")
+  public ResponseEntity<List<Map<String, Object>>> getAllStudyMaterials() throws IOException {
+    List<Map<String, Object>> materials = studyMaterialService.getAllStudyMaterials();
+    return ResponseEntity.ok(materials);
   }
 }

@@ -1,8 +1,8 @@
 [ {
-  "title" : "Näidis",
-  "description" : "Test kirjeldus",
-  "filename" : "fail.pdf",
-  "level" : "B1",
-  "category" : "Võõrsõnad",
-  "id" : 1
+  "filename" : "test.txt",
+  "level" : "C2",
+  "description" : "siin on kirjeldus",
+  "id" : 4,
+  "title" : "Võõrsõnad",
+  "category" : "Võõrsõnad"
 } ]

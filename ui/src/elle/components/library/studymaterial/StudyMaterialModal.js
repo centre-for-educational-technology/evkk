@@ -9,12 +9,12 @@ import {
   Box,
   Typography
 } from '@mui/material';
-import ModalBase from '../modal/ModalBase';
-import Categories from '../library/json/categories.json';
-import LanguageLevels from '../library/json/languageLevels.json';
+import ModalBase from '../../modal/ModalBase';
+import Categories from '../json/categories.json';
+import LanguageLevels from '../json/languageLevels.json';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 
-export default function StudyMaterialModal({ isOpen, setIsOpen }) {
+export default function StudyMaterialModal({ isOpen, setIsOpen, onSubmitSuccess }) {
   const [file, setFile] = useState(null);
   const [originalFilename, setOriginalFilename] = useState('');
   const [filename, setFilename] = useState('');
@@ -36,13 +36,28 @@ export default function StudyMaterialModal({ isOpen, setIsOpen }) {
   }, [isOpen]);
 
   const handleSubmit = async () => {
-    const payload = {
-      title,
-      description,
-      category,
-      level,
-      filename
-    };
+    if (!file) {
+      alert('Palun vali fail');
+      return;
+    }
+
+    const formData = new FormData();
+
+    const nameParts = originalFilename.split('.');
+    const extension = nameParts.pop();
+    let safeFilename = originalFilename;
+
+    if (filename) {
+      safeFilename = filename.endsWith(`.${extension}`)
+        ? filename
+        : `${filename}.${extension}`;
+    }
+
+    formData.append('file', file, safeFilename);
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('category', category);
+    formData.append('level', level);
 
     const urlBase =
       process.env.NODE_ENV === 'production'
@@ -52,24 +67,23 @@ export default function StudyMaterialModal({ isOpen, setIsOpen }) {
     try {
       const response = await fetch(urlBase, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
+        body: formData,
       });
 
       if (!response.ok) {
         throw new Error('Serveripoolne viga');
       }
 
-      // Kui kõik läks hästi, sulgeme popupi
-      setIsOpen(false);
+      const addedMaterial = await response.json();
+      if (onSubmitSuccess) onSubmitSuccess(addedMaterial);
 
+      setIsOpen(false);
     } catch (err) {
       console.error('Viga saatmisel:', err);
       alert('Midagi läks valesti');
     }
   };
+
 
   return (
     <ModalBase
