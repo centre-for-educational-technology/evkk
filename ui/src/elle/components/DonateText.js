@@ -20,7 +20,7 @@ export default function DonateText() {
     <Button
       variant="contained"
       id="donate-text-button"
-      className="donate-text-button"
+      className={`donate-text-button ${current.pathname === '/' ? 'home-page' : 'corrector'}`}
       onClick={() => {
         navigate(RouteConstants.ADDING);
       }}
