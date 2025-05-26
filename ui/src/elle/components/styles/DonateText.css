@@ -17,6 +17,12 @@
   transition: 0.5s !important;
 }
 
+.donate-text-button.home-page {
+  @media (max-width: 700px) {
+    top: 220px;
+  }
+}
+
 .donate-text-button:hover {
   right: -150px;
   transition: 0.5s !important;

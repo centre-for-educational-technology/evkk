@@ -31,6 +31,10 @@
   border-radius: 20px;
   background: rgb(204, 168, 253);
   background: linear-gradient(315deg, rgba(204, 168, 253, 1) 0%, rgba(204, 168, 253, 1) 21%, rgba(255, 208, 253, 1) 21%, rgba(255, 208, 253, 1) 44%, rgba(255, 255, 255, 1) 44%, rgba(255, 255, 255, 1) 100%);
+
+  @media (max-width: 1023px) {
+    margin-top: 50px;
+  }
 }
 
 .hero-text-container {
