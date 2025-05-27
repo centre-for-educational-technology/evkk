@@ -1,6 +1,5 @@
 package ee.tlu.evkk.api.service;
 
-import ee.tlu.evkk.api.controller.dto.AccessTokenDto;
 import ee.tlu.evkk.api.controller.dto.UserLoginDto;
 import ee.tlu.evkk.api.exception.TokenNotFoundException;
 import ee.tlu.evkk.api.service.dto.HarIdUserResponse;
@@ -42,8 +41,8 @@ public class LoginService {
     return new RedirectView(userLoginDto.getRedirectUri().toString());
   }
 
-  public void logout(AccessTokenDto accessTokenDto, HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException {
-    accessTokenService.revokeToken(accessTokenDto.getToken());
+  public void logout(HttpServletRequest request, HttpServletResponse response) throws TokenNotFoundException {
+    accessTokenService.revokeToken(SecurityContextHolder.getContext().getAuthentication().getCredentials().toString());
     refreshTokenService.revokeTokenAndRemoveCookie(request, response);
     SecurityContextHolder.getContext().setAuthentication(null);
   }
