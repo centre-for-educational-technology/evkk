@@ -25,8 +25,6 @@ import { getH5PFile, uploadH5PFile } from "./h5p/H5PProcessing";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { DefaultButtonStyleSmall, DefaultButtonStyle, DefaultSliderStyle } from '../../const/StyleConstants';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { DefaultButtonStyle, DefaultSliderStyle } from '../../const/StyleConstants';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -38,6 +36,8 @@ const MenuProps = {
     },
   },
 };
+
+let usedLinks = []
 
 
 export default function ExerciseModal({ isOpen, setIsOpen }) {
@@ -70,6 +70,10 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
     setTime(value);
   };
 
+  const saveLink = () => {
+    usedLinks.push(link)
+  }
+
   useEffect(() => {
     if (isOpen) {
       setStep(1);
@@ -85,7 +89,6 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
               style={{fontSize: "14px", maxWidth: "12vw", justifyContent:"left",}}
               className="library-add-button"
               ><AddOutlinedIcon/>Loo Uus Harjutus</Button>
-      <Button onClick={() => setIsOpen(true)}>Loo Uus Harjutus</Button>
       <ModalBase
         isOpen={isOpen}
         setIsOpen={setIsOpen}
@@ -241,7 +244,6 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                               getH5PFile(e.target.value)
                               }
                             }
-                    onChange={(e) => setLink(e.target.value)}
                   />
                 </Box>
                 <Box display="flex" justifyContent="space-between" gap={2}>
@@ -258,8 +260,14 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                     size="medium"
                     variant="contained"
                     onClick={ async () => {
-                      setStep(step + 1)
-                      await uploadH5PFile();
+                      if(!usedLinks.includes(link)){
+                        saveLink();
+                        setStep(step + 2);
+                        await uploadH5PFile();
+                      }
+                      else {
+                        setStep(step + 1)
+                      }
                     }}
                   //disabled={!isStep1Valid}
                   >
@@ -272,10 +280,43 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
 
           {step === 3 && (
             <Box>
+              <Typography>Oled juba varem kasutanud ülesannet {link} , soovid jätkata?</Typography>
+                <Button
+                  type="submit"
+                  sx={DefaultButtonStyle}
+                  size="medium"
+                  variant="contained"
+                  onClick={ async () => {
+                    setStep(step + 1)
+                    await uploadH5PFile();
+                  }
+                  }
+                  disabled={!isStep1Valid}>
+                  Jätka
+                </Button>
+                <Button
+                    className='buttonRight'
+                    sx={DefaultButtonStyle}
+                    size="medium"
+                    variant="contained"
+                    onClick={() => setStep(1)}>
+                    Tagasi</Button>
+            </Box>
+          )}
+
+          {step === 4 && (
+            <Box>
               <Typography>Siin saad harjutust ise proovida enne avalikustamist.</Typography>
               <Box>
                 Siia tuleb harjutuse eelvaade
               </Box>
+              <Button
+                    className='buttonRight'
+                    sx={DefaultButtonStyle}
+                    size="medium"
+                    variant="contained"
+                    onClick={() => setStep(step - 2)}>
+                    Tagasi</Button>
             </Box>
           )}
         </Box>
