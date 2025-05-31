@@ -22,7 +22,15 @@ def check_same_sentence_repetition(repetition_array):
     for sentence_repetitions in repetition_array:
         for lemma, word_objs in sentence_repetitions.items():
             if len(word_objs) > 1:
-                result.extend([{**word_obj, 'type': 'same-sentence-color'} for word_obj in word_objs])
+                result.extend([
+                    {**word_obj, 'type': 'same-sentence-color'}
+                    for word_obj in word_objs
+                    if lemma not in EXCLUSION_WORDS
+                    or (
+                        lemma in EXCLUSION_WORDS
+                        and sum(1 for w in word_objs if w['text'] == word_obj['text']) > 1
+                    )
+                ])
 
     result.sort(key=lambda x: x['start'], reverse=True)
     return result

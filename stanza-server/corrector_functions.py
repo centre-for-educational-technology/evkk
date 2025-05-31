@@ -22,6 +22,7 @@ NOUN = "NOUN"
 PROPN = "PROPN"
 VERB = "VERB"
 NUM = "NUM"
+N_VAL = "N"
 
 COMPLEXITY_MARKING_MINIMUM_WORDS_IN_LONG_SENTENCE = 15
 COMPLEXITY_MARKING_LONG_WORD_LIMIT = 6
@@ -381,7 +382,7 @@ def calculate_abstractness_average(abstract_answer):
 def calculate_content_word(lemmas, word_types):
     content_word_count = 0
     for lemma, pos in zip(lemmas, word_types):
-        if pos != NUM and lemma not in stop_words:
+        if pos != NUM and pos != N_VAL and pos != PROPN and lemma not in stop_words:
             content_word_count += 1
     return content_word_count
 
@@ -397,7 +398,7 @@ def calculate_abstract_words(abstract_answer, word_types):
 
 
 def calculate_total_words(word_types):
-    return sum(1 for liik in word_types if liik != NUM)
+    return sum(1 for liik in word_types if liik != NUM and liik != PROPN)
 
 
 def check_if_word_exists_in_text(word):
@@ -407,7 +408,7 @@ def check_if_word_exists_in_text(word):
 def handle_uncommon_words_marking(text, word_types, lemmas, words):
     temp_text = replace_combined.sub('', text)
     for index, liik in enumerate(word_types):
-        if liik != NUM and liik != PROPN and lemmas[index] not in common_lemmas:
+        if liik != NUM and liik != N and liik != PROPN and lemmas[index] not in common_lemmas:
             new_word = f'<span class="uncommon-word-color">{words[index]}</span>'
             temp_text = re.sub(check_if_word_exists_in_text(words[index]), new_word, temp_text)
     return temp_text
@@ -426,7 +427,7 @@ def handle_abstract_words_marking(text, abstract_answer, word_types, words):
 def handle_content_words_marking(text, word_types, lemmas, words):
     temp_text = replace_combined.sub('', text)
     for index, liik in enumerate(word_types):
-        if liik != NUM and lemmas[index].replace('_', '') not in stop_words:
+        if liik != NUM and liik != N_VAL and lemmas[index].replace('_', '') not in stop_words:
             new_word = f'<span class="content-word-color">{words[index]}</span>'
             temp_text = re.sub(check_if_word_exists_in_text(words[index]), new_word, temp_text)
     return temp_text
