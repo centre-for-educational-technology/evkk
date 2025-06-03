@@ -1,6 +1,6 @@
 //algeline allalaadimise ja ümbertöötlemise asi - Sten
 
-import { saveAs } from 'file-saver'
+import saveAs from 'file-saver'
 
 const correctUrl = 'https://sisuloome.e-koolikott.ee/node/';
 const ext = '.h5p';
@@ -13,7 +13,7 @@ export function getH5PFile(url) {
             exportUrl = "https:\/\/sisuloome.e-koolikott.ee\/sites\/default\/files\/h5p\/exports\/interactive-content-" //eslint-disable-line
             id = url.substring(38);
             exportUrl = exportUrl + id + ext;
-            //console.log(id, exportUrl);
+            console.log(id, exportUrl);
             return exportUrl;
         }
         else{
@@ -27,22 +27,30 @@ export function getH5PFile(url) {
 };
 
 
-export function uploadH5PFile(){ // no clue miks ei funka, midagi kas asynci tõttu või fetch ei lähe läbi, kuna POST ei lähe läbi
-    return async () => {
-        const h5p_fetch = await fetch(exportUrl);
+export async function uploadH5PFile(){
+        const h5p_fetch = await fetch(`http://localhost:9090/api/h5p-request/${id}`);
+        console.log(h5p_fetch);
         if(!h5p_fetch.ok) throw new Error("Viga", h5p_fetch.statusText);
 
         const h5p_fetch_buffer = await h5p_fetch.arrayBuffer();
 
-        const res =  await fetch('http://localhost:9090/api/h5p-parse', {
+        const res =  await fetch(`http://localhost:9090/api/h5p-parse/${id}`, {
             method: 'POST',
-            headers: { 'content-type': 'application/octet-stream' },
             body: h5p_fetch_buffer
         })
-        if (!res.ok) throw new Error('Backend failed');
+        if (!res.ok) throw new Error('H5P parsimine ebaõnnestus');
+        if(res.ok) {
+            console.log("Salvestamine õnnestus!")
+        }
 
-        const data = await res.json();
-        saveAs(new Blob([JSON.stringify(data, null, 2)], {type: "application/json"}), `./storage/${id}.json`);
-        console.log("Parsed:", data);
-    }
+        /*const data = await fetch('http://localhost:9090/api/h5p-upload', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: res
+        });*/
+        //console.log(data);
+        //saveAs(new Blob([JSON.stringify(data, null, 2)], {type: "application/json"}), `./storage/${id}.json`);
+        //console.log("Parsed:", data);
 }

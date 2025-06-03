@@ -6,26 +6,15 @@ import LibraryNavbar from '../components/library/LibraryNavbar'
 import SortButton from '../components/library/SortButton';
 import CategoryFilters from '../components/library/search/CategoryFilters';
 import LanguageFilters from '../components/library/search/LanguageFilters';
-// <<<<<<< dev
-// import SearchBar from '../components/library/SearchBar';
-// import ExerciseModal from '../components/library/ExerciseModal';
-// import ExerciseCard from '../components/library/ExerciseCard';
-// import { useState } from 'react';
-
-// export default function Exercise () {
-//     const [isModalOpen, setIsModalOpen] = useState(false);
-//         return (
-//             <div>
-// =======
 import SearchBar from '../components/library/SearchBar'
 import ExerciseModal from '../components/library/ExerciseModal'
+import ExerciseCard from '../components/library/ExerciseCard';
 import { useState } from 'react';
 
 export default function Exercise ()  {
     const [isModalOpen, setIsModalOpen] = useState(false);
     return (
         <div>
-            <ExerciseModal isOpen={isModalOpen} setIsOpen={setIsModalOpen}/>
                 <Box className="adding-rounded-corners" sx={ElleOuterDivStyle}>
                     <Box className="library-container">
                         <h1 style={{textAlign: 'center'}}>Harjutused</h1>
