@@ -5,15 +5,15 @@
   margin-top: 24px;
 }
 
-.library-exercise-filters {
+.library-filters {
   flex: 0 0 250px;
 }
 
-.library-exercise-infoContainer {
+.library-infoContainer {
   flex: 1;
 }
 
-.library-exercise-results-count {
+.library-results-count {
   padding: 6px 12px;
   width: fit-content;
   color: #848484;
@@ -21,25 +21,26 @@
   font-size: 12px;
 }
 
-.library-exercise-results {
+.library-results {
   display: flex;
   flex-direction: column;
-  gap: 12px; /* Spacing between cards */
+  gap: 12px;
+  /* Spacing between cards */
 }
 
 /* Card styles */
-.exercise-card {
+.content-card {
   border: 1.5px solid #b48dd3;
   border-radius: 8px;
   background: #fff;
   max-width: 100%;
   padding: 16px;
-  padding-bottom:0;
+  padding-bottom: 0;
   box-shadow: 0 2px 6px #c7b5de24;
   position: relative;
 }
 
-.exercise-type-label {
+.content-card-type-label {
   background: #fbd0ff;
   color: #9c27b0;
   border-radius: 10px;
@@ -51,38 +52,51 @@
   left: 12px;
 }
 
-.exercise-tags{
-    color:#848484;
-    font-size: 12px;
+.content-card-tags {
+  color: #848484;
+  font-size: 12px;
 }
 
-.library-exercise-buttons{
-    display:grid;
-    grid-template-columns:1fr 9vw;
+.library-buttons {
+  display: grid;
+  grid-template-columns: 1fr 9vw;
 }
 
-.library-container-sortbutton{
-    background-color: white !important;
-    color: #757575 !important;
-    border: px solid #D9D9D9 !important; 
+.library-container-sortbutton {
+  background-color: white !important;
+  color: #757575 !important;
+  border: px solid #D9D9D9 !important;
 }
 
 .library-container {
-    padding-right: 50px;
-    padding-left: 50px;
-    width: 100%;
-    max-width: 100%;
-    background-color: white;
-    border-radius: 45px;
-    height: auto !important;
+  padding-right: 50px;
+  padding-left: 50px;
+  width: 100%;
+  max-width: 100%;
+  background-color: white;
+  border-radius: 45px;
+  height: auto !important;
 }
 
-.library-search-box{
-    display: flex;
-    margin-left: 25%;
+.library-search-box {
+  display: flex;
+  margin-left: 25%;
 }
 
-.library-add-button{
+.library-add-button {
+  background-color: #9C27B0;
   color: white !important;
-
+  border-radius: 5px;
+  text-transform: none;
+  font-weight: bold;
+  font-size: 14px;
+  height: 33px;
+  width: 215px;
+  box-shadow: none;
+  padding-left: 16px;
+  padding-right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
 }

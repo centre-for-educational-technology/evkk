@@ -5,9 +5,9 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 export default function StudyMaterialCard({ material }) {
   return (
-    <div className="exercise-card">
+    <div className="content-card">
       {/* Materjali tüüp */}
-      <div className="exercise-type-label">
+      <div className="content-card-type-label">
         <MenuBookIcon fontSize="small" style={{ marginRight: 4 }} />
         ÕPPEMATERJAL
       </div>
@@ -16,7 +16,7 @@ export default function StudyMaterialCard({ material }) {
       <div style={{ marginTop: 24 }}>
         <h4>{material.title}</h4>
         <div>{material.description}</div>
-        <div className="exercise-tags">
+        <div className="content-card-tags">
           {material.category} &nbsp;&nbsp;
           {material.level} &nbsp;&nbsp;
           .{material.filename?.split('.').pop() || 'pdf'}
@@ -24,7 +24,7 @@ export default function StudyMaterialCard({ material }) {
       </div>
 
       {/* Allalaadimine */}
-      <div className="library-exercise-buttons" style={{ marginTop: 12, marginBottom: 8 }}>
+      <div className="library-buttons" style={{ marginTop: 12, marginBottom: 8 }}>
         <Link
           href={
             process.env.NODE_ENV === 'production'

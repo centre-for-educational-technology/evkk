@@ -17,9 +17,9 @@ import TextToSpeechMenu from '../tools/text-to-speech/TextToSpeechMenu';
 const pages = [
   { id: 1, title: 'common_corrector', target: RouteConstants.CORRECTOR },
   { id: 2, title: 'common_tools', target: RouteConstants.TOOLS },
+  { id: 5, title: 'common_library', target: RouteConstants.LIBRARY },
   { id: 3, title: 'common_links', target: RouteConstants.LINKS },
   { id: 4, title: 'common_about', target: RouteConstants.ABOUT },
-  { id: 5, title: 'common_library', target: RouteConstants.LIBRARY },
   { id: 6, title: 'common_admin_panel', target: '/admin', role: UserRoles.ADMIN }
 ];
 

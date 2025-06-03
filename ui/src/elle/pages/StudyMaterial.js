@@ -3,11 +3,11 @@ import { Box } from '@mui/material';
 import StudyMaterialCard from '../components/library/studymaterial/StudyMaterialCard';
 import AddStudyMaterialButton from '../components/library/studymaterial/AddStudyMaterialButton';
 import StudyMaterialModal from '../components/library/studymaterial/StudyMaterialModal';
-import SearchBar from '../components/library/SearchBar';
-import LibraryNavbar from '../components/library/LibraryNavbar';
+import SearchBar from '../components/library/search/SearchBar';
+import LibraryNavbar from '../components/library/shared/LibraryNavbar';
 import CategoryFilters from '../components/library/search/CategoryFilters';
 import LanguageFilters from '../components/library/search/LanguageFilters';
-import SortButton from '../components/library/SortButton';
+import SortButton from '../components/library/search/SortButton';
 import './styles/Home.css';
 import './styles/Library.css';
 import { ElleOuterDivStyle } from '../const/StyleConstants';
@@ -56,23 +56,23 @@ export default function StudyMaterial() {
           </div>
 
           <div className="library-main-content">
-            <div className="library-exercise-filters">
+            <div className="library-filters">
               <CategoryFilters />
               <br />
               <LanguageFilters />
             </div>
 
-            <div className="library-exercise-infoContainer">
-              <div className="library-exercise-buttons">
+            <div className="library-infoContainer">
+              <div className="library-buttons">
                 <AddStudyMaterialButton onClick={() => setModalOpen(true)} />
                 <SortButton />
               </div>
 
-              <div className="library-exercise-results-count">
+              <div className="library-results-count">
                 <Box>Leitud: {materials.length}</Box>
               </div>
 
-              <div className="library-exercise-results">
+              <div className="library-results">
                 {materials.map((material) => (
                   <StudyMaterialCard key={material.id} material={material} />
                 ))}
