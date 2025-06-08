@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ee.tlu.evkk.dal.dao.ExerciseDao">
+
+  <resultMap id="ExerciseResultMap" type="ee.tlu.evkk.dal.dto.Exercise">
+    <id property="id" column="id"/>
+    <result property="title" column="title"/>
+    <result property="description" column="description"/>
+    <result property="views" column="views"/>
+    <result property="createdAt" column="created_at"/>
+    <result property="createdByEmail" column="created_by_email"/>
+    <result property="durationId" column="duration_id"/>
+    <result property="duration" column="duration"/>
+    <result property="likes" column="likes"/>
+    <result property="filePath" column="file_path"/>
+    <result property="languageLevelId" column="language_level_id"/>
+    <result property="level" column="level"/>
+    <result property="categoryId" column="category_id"/>
+    <result property="category" column="category"/>
+  </resultMap>
+
+  <select id="findAllExercises" resultMap="ExerciseResultMap">
+    SELECT
+    e.id, e.title, e.description, e.views, e.created_at, e.created_by_email,
+    e.duration_id, d.label AS duration,
+    e.likes, e.file_path,
+    e.language_level_id,
+    l.level,
+    l.label AS levelLabel,
+    e.category_id,
+    c.name AS category
+    FROM core.exercise e
+    LEFT JOIN core.language_level l ON e.language_level_id = l.id
+    LEFT JOIN core.category c ON e.category_id = c.id
+    LEFT JOIN core.duration d ON e.duration_id = d.id
+    ORDER BY e.id
+  </select>
+
+  <insert id="insertExercise" parameterType="ee.tlu.evkk.dal.dto.Exercise" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO core.exercise (
+    title, description, views, created_at, created_by_email,
+    duration_id, likes, file_path, language_level_id, category_id
+    ) VALUES (
+    #{title}, #{description}, #{views}, #{createdAt}, #{createdByEmail},
+    #{durationId}, #{likes}, #{filePath}, #{languageLevelId}, #{categoryId}
+    )
+  </insert>
+
+</mapper>
