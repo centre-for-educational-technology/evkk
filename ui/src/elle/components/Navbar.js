@@ -1,18 +1,19 @@
 import Logo from '../resources/images/header/elle_logo.png';
 import { AppBar, Box, Drawer, IconButton, Link, List, ListItem, Menu, MenuItem, styled, Toolbar } from '@mui/material';
-import { Close, Language, Logout, Menu as MenuIcon } from '@mui/icons-material';
+import { ArrowDropDown, Close, Language, Logout, Menu as MenuIcon } from '@mui/icons-material';
 import { NavLink } from 'react-router-dom';
 import '@fontsource/exo-2/600.css';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './styles/Navbar.css';
 import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { Languages } from '../translations/i18n';
 import Can from './security/Can';
 import { UserRoles } from '../const/Constants';
-import { useLogout } from '../hooks/service/AuthService';
+import { useLogin, useLogout } from '../hooks/service/AuthService';
 import { RouteConstants } from '../../AppRoutes';
 import TextToSpeechMenu from '../tools/text-to-speech/TextToSpeechMenu';
+import RootContext from '../context/RootContext';
 
 const pages = [
   { id: 1, title: 'common_corrector', target: RouteConstants.CORRECTOR },
@@ -59,7 +60,11 @@ export default function Navbar() {
   const [navColor, setNavColor] = useState('sticking');
   const [langAnchorEl, setLangAnchorEl] = useState(false);
   const langOpen = Boolean(langAnchorEl);
-  const { logout } = useLogout();
+  const [userAnchorEl, setUserAnchorEl] = useState(false);
+  const userMenuOpen = Boolean(userAnchorEl);
+  const { user, isLoggedIn } = useContext(RootContext);
+  const { logoutTestUser } = useLogout();
+  const { loginTestUser } = useLogin();
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -79,9 +84,24 @@ export default function Navbar() {
     setLangAnchorEl(false);
   };
 
+  const handleUserMenuClick = (event) => {
+    setUserAnchorEl(event.currentTarget);
+  };
+
+  const handleUserMenuClose = () => {
+    setUserAnchorEl(false);
+  };
+
   const handleLogout = () => {
     setOpen(false);
-    logout();
+    console.log(user);
+    setUserAnchorEl(false);
+    // logout();
+    logoutTestUser();
+  };
+
+  const handleLogin = () => {
+    loginTestUser();
   };
 
   const languageMenu = () => {
@@ -112,21 +132,56 @@ export default function Navbar() {
     );
   };
 
-  const logoutItem = (isDesktop) => {
+  const loginLogoutComponent = (isDesktop) => {
+    return !isLoggedIn() ? loginButton(isDesktop) : userMenu(isDesktop);
+  };
+
+  const userMenu = (isDesktop) => {
     return (
-      <Can requireAuth={true}>
-        <div
-          className={`nav-logout ${isDesktop ? 'desktop' : ''}`}
-          onClick={handleLogout}
+      <div>
+        {userMenuButton(isDesktop)}
+        <Menu
+          anchorEl={userAnchorEl}
+          open={userMenuOpen}
+          onClose={handleUserMenuClose}
         >
-          <Logout />
-          <span className="logout-text">
-            {t('navbar_logout')}
-          </span>
-        </div>
-      </Can>
+          <MenuItem onClick={handleLogout}>
+            <Logout />
+            <span className="user-menu-text">
+              {t('navbar_logout')}
+            </span>
+          </MenuItem>
+        </Menu>
+      </div>
     );
   };
+
+  const userMenuButton = (isDesktop) => {
+    return (
+        <div
+          className={`nav-user-menu ${isDesktop ? 'desktop' : ''}`}
+          onClick={handleUserMenuClick}
+        >
+          <span className="user-menu-text">
+            {user.firstName + ' ' + user.lastName}
+            <ArrowDropDown/>
+          </span>
+        </div>
+    );
+  };
+
+  const loginButton = (isDesktop) => {
+    return (
+      <div
+        className={`nav-login ${isDesktop ? 'desktop' : ''}`}
+        onClick={handleLogin}
+      >
+        <span className="login-text">
+          {t('navbar_login')}
+        </span>
+      </div>
+    )
+  }
 
   const handleScroll = () => {
     const position = window.scrollY;
@@ -180,7 +235,7 @@ export default function Navbar() {
             })}
           </div>
           <div className="nav-icons-container">
-            {logoutItem(true)}
+            {loginLogoutComponent(true)}
             <Box className="language-menu-desktop">
               {languageMenu()}
               <TextToSpeechMenu />
@@ -233,7 +288,7 @@ export default function Navbar() {
             </List>
           </div>
           <div className="d-flex justify-content-end align-items-center nav-50px-height">
-            {logoutItem(false)}
+            {loginLogoutComponent()}
             {languageMenu()}
             <TextToSpeechMenu />
             <IconButton onClick={() => toggleDrawer()}>
