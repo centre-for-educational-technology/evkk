@@ -15,5 +15,6 @@ public interface ExerciseDao {
 
   Exercise findById(@Param("id") Long id);
 
-  void insert(@Param("exercise") Exercise exercise);
+  Exercise findByExternalId(@Param("externalId") String externalId);
+  void insertExercise(Exercise exercise);
 }

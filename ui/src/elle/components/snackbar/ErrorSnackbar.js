@@ -36,12 +36,12 @@ export default function ErrorSnackbar() {
 
   return (
     <Snackbar open={snackbarOpen}
-              autoHideDuration={10000}
-              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-              onClose={handleSnackbarClose}>
+      autoHideDuration={10000}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      onClose={handleSnackbarClose}>
       <Alert onClose={handleSnackbarClose}
-             className="error-alert"
-             severity="error">
+        className="error-alert"
+        severity="error">
         {t(errorMessage)}
       </Alert>
     </Snackbar>
@@ -55,5 +55,7 @@ export const ErrorSnackbarEventType = {
   LOGIN_FAILED: 'error_login_failed',
   TOO_MANY_REQUESTS: 'error_too_many_requests',
   UNAUTHORIZED: 'error_unauthorized',
-  UNSUPPORTED_MIMETYPE: 'error_unsupported_mimetype'
+  UNSUPPORTED_MIMETYPE: 'error_unsupported_mimetype',
+  INVALID_LINK: 'error_invalid_link',
+//  FAILED_TO_SAVE_FILE: 'error_failed_to_save_file'
 };
