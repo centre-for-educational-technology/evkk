@@ -676,4 +676,6 @@ export const TRANSLATIONS_ET = {
   wordlist_wordcloud: 'Sõnapilv',
   wordlist_wordcloud_filename: 'sonapilv',
   wordlist_wordcloud_loading: 'Laadin sõnapilve...',
+  error_invalid_link: 'Link on vigane. Palun kontrolli linki enne jätkamist.',
+//  error_failed_to_save_file: 'Faili salvestamine ebaõnnestus. Palun proovige veel kord mõne aja pärast.'
 };

@@ -30,4 +30,5 @@ public class Exercise implements Serializable {
   private String category;
   private String level;
   private String levelLabel;
+  private String externalId;
 }

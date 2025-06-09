@@ -20,6 +20,7 @@
     <result property="level" column="level"/>
     <result property="categoryId" column="category_id"/>
     <result property="category" column="category"/>
+    <result property="externalId" column="external_id"/>
   </resultMap>
 
   <select id="findAllExercises" resultMap="ExerciseResultMap">
@@ -27,25 +28,37 @@
     e.id, e.title, e.description, e.views, e.created_at, e.created_by_email,
     e.duration_id, d.label AS duration,
     e.likes, e.file_path,
-    e.language_level_id,
-    l.level,
-    l.label AS levelLabel,
-    e.category_id,
-    c.name AS category
+    e.language_level_id, l.level, l.label AS levelLabel,
+    e.category_id, c.name AS category,
+    e.external_id
     FROM core.exercise e
     LEFT JOIN core.language_level l ON e.language_level_id = l.id
     LEFT JOIN core.category c ON e.category_id = c.id
     LEFT JOIN core.duration d ON e.duration_id = d.id
-    ORDER BY e.id
+  </select>
+
+  <select id="findByExternalId" parameterType="string" resultMap="ExerciseResultMap">
+    SELECT
+    e.id, e.title, e.description, e.views, e.created_at, e.created_by_email,
+    e.duration_id, d.label AS duration,
+    e.likes, e.file_path,
+    e.language_level_id, l.level, l.label AS levelLabel,
+    e.category_id, c.name AS category,
+    e.external_id
+    FROM core.exercise e
+    LEFT JOIN core.language_level l ON e.language_level_id = l.id
+    LEFT JOIN core.category c ON e.category_id = c.id
+    LEFT JOIN core.duration d ON e.duration_id = d.id
+    WHERE e.external_id = #{externalId}
   </select>
 
   <insert id="insertExercise" parameterType="ee.tlu.evkk.dal.dto.Exercise" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO core.exercise (
     title, description, views, created_at, created_by_email,
-    duration_id, likes, file_path, language_level_id, category_id
+    duration_id, likes, file_path, language_level_id, category_id, external_id
     ) VALUES (
     #{title}, #{description}, #{views}, #{createdAt}, #{createdByEmail},
-    #{durationId}, #{likes}, #{filePath}, #{languageLevelId}, #{categoryId}
+    #{durationId}, #{likes}, #{filePath}, #{languageLevelId}, #{categoryId}, #{externalId}
     )
   </insert>
 

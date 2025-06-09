@@ -14,16 +14,14 @@ import {
   Typography,
   Link,
 } from '@mui/material';
-import '../../../pages/styles/Library.css'
+import '../../../pages/styles/Library.css';
 import { useTranslation } from 'react-i18next';
 import ModalBase from '../../modal/ModalBase';
 import { useState, useEffect } from 'react';
-//import LanguageLevels from "../json/languageLevels.json"
-//import Categories from "../json/categories.json"
-//import Duration from "../json/duration.json"
-import { getH5PFile, uploadH5PFile } from "./h5p/H5PProcessing";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { DefaultButtonStyle, DefaultSliderStyle } from '../../../const/StyleConstants';
+import { errorEmitter, successEmitter } from '../../../../App';
+import { useFetch } from '../../../hooks/useFetch';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -35,9 +33,6 @@ const MenuProps = {
     },
   },
 };
-
-let usedLinks = []
-
 
 export default function ExerciseModal({ isOpen, setIsOpen }) {
   const { t } = useTranslation();
@@ -51,8 +46,11 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
   const [durationOptions, setDurationOptions] = useState([]);
   const [step, setStep] = useState(1);
   const [link, setLink] = useState('');
-  const isStep1Valid = title && description && languageLevels.length > 0 && selectedCategoryIds.length > 0;
+  const [validationStatus, setValidationStatus] = useState(null);
+  const [externalId, setExternalId] = useState(null);
+  const { fetchData } = useFetch();
 
+  const isStep1Valid = title && description && languageLevels.length > 0 && selectedCategoryIds.length > 0;
 
   useEffect(() => {
     fetch("http://localhost:9090/api/categories")
@@ -75,27 +73,102 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
       });
   }, []);
 
+  //extractId on pandud "Exercise" - extractId. See on vaja selle jaoks, et pärast saaks seda kuvada ja kontrollida, kas selline extractedId exists or not
+  const extractId = (link) => {
+    const match = link.match(/\/node\/(\d+)/);
+    return match ? match[1] : null;
+  };
+
+  //valideeritakse kas link on õige ja kas see sobib
+  const validateLink = async () => {
+    const id = extractId(link);
+    if (!id) {
+      errorEmitter.emit('error_invalid_link');
+      return;
+    }
+
+    try {
+      const urlObj = new URL(link);
+      if (urlObj.hostname !== 'sisuloome.e-koolikott.ee') {
+        errorEmitter.emit('error_invalid_link');
+        return;
+      }
+    } catch (err) {
+      errorEmitter.emit('error_invalid_link');
+      return;
+    }
+
+    try {
+      const data = await fetchData('/api/exercises/validate-link', {
+        method: 'POST',
+        body: JSON.stringify({ link }),
+        headers: { 'Content-Type': 'application/json' }
+      }
+);
+      if (data.status === 'ok' || data.status === 'already_exists') {
+        setValidationStatus('success');
+        setExternalId(data.external_id);
+      } else {
+        setValidationStatus('error');
+        setExternalId(null);
+        alert("Link ei sobi või faili ei leitud.");
+      }
+    } catch (error) {
+      setValidationStatus('error');
+      setExternalId(null);
+      alert("Viga valideerimisel.");
+    }
+  };
+
+  //harjutuse salvestamine exercies/h5p/storage/{id}/{filename}.h5p
+  const saveExercise = async (externalId) => {
+    const category = categories.find(c => c.name === selectedCategoryIds[0]);
+    const categoryId = category?.id;
+
+    const languageLevel = languageLevels.find(l => l.level === selectedLanguageLevelsIds[0]);
+    const languageLevelId = languageLevel?.id;
+
+    const durationEntry = durationOptions.find(d => d.value === duration);
+    const durationId = durationEntry?.id;
+
+    const data = {
+      title,
+      description,
+      durationId,
+      categoryId,
+      languageLevelId,
+      createdByEmail: 'test@example.com',
+      externalId: externalId,
+      views: 0,
+      likes: 0,
+      filePath: `/uploads/exercises/${externalId}.h5p`
+    };
+
+    try {
+      await fetchData('http://localhost:9090/api/exercises', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      successEmitter.emit('success_generic');
+    } catch (err) {
+      errorEmitter.emit('error_generic_server_error');
+    }
+  };
+
   const handleChangeLevel = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setSelectedLanguageLevelsIds(typeof value === 'string' ? value.split(',') : value)
+    const { target: { value } } = event;
+    setSelectedLanguageLevelsIds(typeof value === 'string' ? value.split(',') : value);
   };
 
   const handleChangeCategory = (event) => {
-    const {
-      target: { value },
-    } = event;
+    const { target: { value } } = event;
     setSelectedCategoryIds(typeof value === 'string' ? value.split(',') : value);
   };
 
   const handleSliderChange = (_, value) => {
     setDuration(value);
   };
-
-  const saveLink = () => {
-    usedLinks.push(link)
-  }
 
   useEffect(() => {
     if (isOpen) {
@@ -105,11 +178,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
 
   return (
     <>
-      <ModalBase
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        title="Harjutuse koostamine"
-      >
+      <ModalBase isOpen={isOpen} setIsOpen={setIsOpen} title="Harjutuse koostamine">
         <Box display="flex" width="100%">
           {step === 1 && (
             <Box display="flex" flexDirection="column" width="100%">
@@ -130,8 +199,8 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                 style={{ width: '75%', marginTop: 20 }}
               />
               <Box style={{ display: "flex", flexDirection: "row", gap: "30px" }}>
-                <FormControl size="medium" className="form-control" >
-                  <InputLabel>{t('query_text_data_level')} </InputLabel>
+                <FormControl size="medium" className="form-control">
+                  <InputLabel>{t('query_text_data_level')}</InputLabel>
                   <Select
                     labelId="tag-label"
                     multiple
@@ -175,14 +244,10 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                   </Select>
                 </FormControl>
               </Box>
+
               <Box display="flex">
-                <Grid item m
-                  style={{ width: "50%" }}>
-                  <Typography
-                    variant="body2"
-                    style={{ marginTop: 40 }}>
-                    Kestvus (min)
-                  </Typography>
+                <Grid item style={{ width: "50%" }}>
+                  <Typography variant="body2" style={{ marginTop: 40 }}>Kestvus (min)</Typography>
                   <Slider
                     sx={DefaultSliderStyle}
                     value={duration}
@@ -201,11 +266,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                   sx={DefaultButtonStyle}
                   size="medium"
                   variant="contained"
-                  onClick={() => {
-                    setStep(step + 1)
-                  }
-                  }
-                  disabled={!isStep1Valid}
+                  onClick={() => setStep(step + 1)}
                 >
                   Jätka
                 </Button>
@@ -217,32 +278,20 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
             <Box display="flex" flexDirection="column" width="100%">
               <Box
                 width="65%"
-                sx={{
-                  backgroundColor: '#FFD0FD',
-                  borderRadius: 4,
-                  padding: 2,
-                  mb: 3,
-                }}
+                sx={{ backgroundColor: '#FFD0FD', borderRadius: 4, padding: 2, mb: 3 }}
               >
                 <Box display="flex" alignItems="center" gap={1} mb={1}>
                   <InfoOutlinedIcon fontSize="medium" />
-                  <Typography variant="subtitle1" fontWeight="bold">
-                    Harjutuste loomise juhend
-                  </Typography>
+                  <Typography variant="subtitle1" fontWeight="bold">Harjutuste loomise juhend</Typography>
                 </Box>
-
                 <Typography variant="body2" component="div" sx={{ pl: 3 }}>
                   <ol style={{ paddingLeft: 16, margin: 0 }}>
                     <li>
                       Ava sisuloome tööriist{' '}
-                      <Link
-                        href="https://sisuloome.e-koolikott.ee/node/add/interactive_content"
-                        target="_blank"
-                      >
+                      <Link href="https://sisuloome.e-koolikott.ee/node/add/interactive_content" target="_blank">
                         https://sisuloome.e-koolikott.ee/node/add/interactive_content
                       </Link>
                     </li>
-                    <li>Logi sisse.</li>
                     <li>Täida harjutuse sisu ja vali sobiv harjutuse tüüp.</li>
                     <li>Vajuta "Salvesta", et harjutus salvestada.</li>
                     <li>Vajuta "Kopeeri link", et saada harjutuse link.</li>
@@ -251,47 +300,52 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                 </Typography>
               </Box>
 
-              <Box display={"flex"} flexDirection={"column"} gap={"20px"}>
+              <Box display="flex" flexDirection="column" gap="20px">
                 <Typography variant="body2">Sisesta Link</Typography>
-                <Box>
-                  <TextField
-                    label="Link"
-                    size="medium"
-                    style={{ width: '50%' }}
-                    value={link}
-                    onChange={(e) => {
-                      setLink(e.target.value)
-                      //getH5PFile(e.target.value)
-                    }
-                    }
-                  />
-                </Box>
+                <TextField
+                  label="Link"
+                  size="medium"
+                  style={{ width: '50%' }}
+                  value={link}
+                  onChange={(e) => setLink(e.target.value)}
+                />
+                <Button
+                  variant="outlined"
+                  size="medium"
+                  sx={{ width: '30%' }}
+                  onClick={validateLink}
+                  disabled={link.trim() === ''}
+                >
+                  Kontrolli linki
+                </Button>
+
                 <Box display="flex" justifyContent="space-between" gap={2}>
                   <Button
                     className='buttonRight'
                     sx={DefaultButtonStyle}
                     size="medium"
                     variant="contained"
-                    onClick={() => setStep(1)}>Tagasi</Button>
+                    onClick={() => setStep(1)}
+                  >
+                    Tagasi
+                  </Button>
                   <Button
                     className='buttonSecondLeft'
                     type="submit"
                     sx={DefaultButtonStyle}
                     size="medium"
                     variant="contained"
-                    onClick={async () => {
-                      if (!usedLinks.includes(link)) {
-                        saveLink();
-                        setStep(step + 2);
-                        //await uploadH5PFile();
-                      }
-                      else {
-                        setStep(step + 1)
-                      }
-                    }}
-                  //disabled={!isStep1Valid}
+                    //disabled={link.trim() === ''}
+                   onClick={async () => {
+                     if (validationStatus === 'success' && externalId) {
+                       await saveExercise(externalId);
+                       successEmitter.emit('success_generic');
+                     } else {
+                       errorEmitter.emit('error_invalid_link');
+                     }
+                   }}
                   >
-                    Kuva Eelvade
+                    Kuva Eelvaade
                   </Button>
                 </Box>
               </Box>
@@ -300,43 +354,24 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
 
           {step === 3 && (
             <Box>
-              <Typography>Oled juba varem kasutanud ülesannet {link} , soovid jätkata?</Typography>
-              <Button
-                type="submit"
-                sx={DefaultButtonStyle}
-                size="medium"
-                variant="contained"
-                onClick={async () => {
-                  setStep(step + 1)
-                  await uploadH5PFile();
-                }
-                }
-                disabled={!isStep1Valid}>
-                Jätka
-              </Button>
-              <Button
-                className='buttonRight'
-                sx={DefaultButtonStyle}
-                size="medium"
-                variant="contained"
-                onClick={() => setStep(1)}>
-                Tagasi</Button>
-            </Box>
-          )}
-
-          {step === 4 && (
-            <Box>
               <Typography>Siin saad harjutust ise proovida enne avalikustamist.</Typography>
-              <Box>
-                Siia tuleb harjutuse eelvaade
-              </Box>
+              <Box>Siia tuleb harjutuse eelvaade</Box>
               <Button
                 className='buttonRight'
                 sx={DefaultButtonStyle}
                 size="medium"
                 variant="contained"
-                onClick={() => setStep(step - 2)}>
-                Tagasi</Button>
+                onClick={() => setStep(step - 1)}
+              >
+                Tagasi
+              </Button>
+              <iframe
+                src={`https://sisuloome.e-koolikott.ee/node/${externalId}`}
+                width="100%"
+                height="600px"
+                title="preview"
+                allowFullScreen
+              />
             </Box>
           )}
         </Box>
