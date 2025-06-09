@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
 import StudyMaterialCard from '../components/library/studymaterial/StudyMaterialCard';
+import StudyMaterialPopup from '../components/library/studymaterial/StudyMaterialPopup';
 import AddStudyMaterialButton from '../components/library/studymaterial/AddStudyMaterialButton';
 import StudyMaterialModal from '../components/library/studymaterial/StudyMaterialModal';
 import SearchBar from '../components/library/SearchBar';
@@ -15,6 +16,9 @@ import { ElleOuterDivStyle } from '../const/StyleConstants';
 export default function StudyMaterial() {
   const [modalOpen, setModalOpen] = useState(false);
   const [materials, setMaterials] = useState([]);
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [selectedMaterial, setSelectedMaterial] = useState(null);
+
 
   useEffect(() => {
     const fetchMaterials = async () => {
@@ -74,13 +78,29 @@ export default function StudyMaterial() {
 
               <div className="library-exercise-results">
                 {materials.map((material) => (
-                  <StudyMaterialCard key={material.id} material={material} />
+                  <StudyMaterialCard
+                    key={material.id}
+                    material={material}
+                    onClick={() => {
+                      setSelectedMaterial(material);
+                      setPopupOpen(true);
+                    }}
+                  />
                 ))}
               </div>
+
             </div>
           </div>
         </Box>
       </Box>
+
+      {/* Popup õppematerjali kuvamiseks */}
+      <StudyMaterialPopup
+        open={popupOpen}
+        onClose={() => setPopupOpen(false)}
+        material={selectedMaterial}
+      />
     </div>
   );
 }
+

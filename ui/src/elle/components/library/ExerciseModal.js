@@ -25,8 +25,6 @@ import { getH5PFile, uploadH5PFile } from "./h5p/H5PProcessing";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { DefaultButtonStyleSmall, DefaultButtonStyle, DefaultSliderStyle } from '../../const/StyleConstants';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { DefaultButtonStyle, DefaultSliderStyle } from '../../const/StyleConstants';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

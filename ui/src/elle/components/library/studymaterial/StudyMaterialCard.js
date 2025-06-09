@@ -1,11 +1,17 @@
 import React from 'react';
 import '../../../pages/styles/Library.css';
 import { Link } from '@mui/material';
+import { Button } from '@mui/material';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 
-export default function StudyMaterialCard({ material }) {
+export default function StudyMaterialCard({ material, onClick }) {
+
   return (
-    <div className="exercise-card">
+    <div
+      className="exercise-card"
+      onClick={onClick}
+      style={{ cursor: 'pointer' }} // ← LISATUD
+    >
       {/* Materjali tüüp */}
       <div className="exercise-type-label">
         <MenuBookIcon fontSize="small" style={{ marginRight: 4 }} />
@@ -24,7 +30,11 @@ export default function StudyMaterialCard({ material }) {
       </div>
 
       {/* Allalaadimine */}
-      <div className="library-exercise-buttons" style={{ marginTop: 12, marginBottom: 8 }}>
+      <div
+        className="library-exercise-buttons"
+        style={{ marginTop: 12, marginBottom: 8 }}
+        onClick={(e) => e.stopPropagation()} // ← LISATUD, et vältida kaardi allalaadimist klikkimisel
+      >
         <Link
           href={
             process.env.NODE_ENV === 'production'
@@ -38,7 +48,19 @@ export default function StudyMaterialCard({ material }) {
         >
           Lae alla
         </Link>
+
+        <Button
+          variant="text"
+          onClick={(e) => {
+            e.stopPropagation();
+            onClick();
+          }}
+          sx={{ textTransform: 'none', padding: 0, minWidth: 'auto' }}
+        >
+          Vaata lähemalt
+        </Button>
       </div>
     </div>
   );
 }
+

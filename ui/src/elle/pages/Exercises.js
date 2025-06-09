@@ -9,7 +9,7 @@ import LanguageFilters from '../components/library/search/LanguageFilters';
 // <<<<<<< dev
 // import SearchBar from '../components/library/SearchBar';
 // import ExerciseModal from '../components/library/ExerciseModal';
-// import ExerciseCard from '../components/library/ExerciseCard';
+import ExerciseCard from '../components/library/ExerciseCard';
 // import { useState } from 'react';
 
 // export default function Exercise () {
