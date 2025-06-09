@@ -107,7 +107,7 @@ export default function TextToSpeechMenu() {
                   value={speed}
                   onChange={(_, newValue) => setSpeed(newValue)}
                   min={0.5}
-                  max={2}
+                  max={1.5}
                   step={0.1}
                   marks={sliderMarks}
                 />

@@ -630,7 +630,7 @@ export const TRANSLATIONS_EN = {
   text_analysis: 'Text analysis',
   text_to_speech_play: 'Speak',
   text_to_speech_speed: 'Speed',
-  text_to_speech_text: 'Select text to listen to it.',
+  text_to_speech_text: 'Select any Estonian language word or text on the page to listen to it.',
   text_to_speech_voice: 'Voice',
   textupload_primary_modal_save: 'Save texts for analysis',
   textupload_primary_modal_title: 'Insert or upload your own texts',
