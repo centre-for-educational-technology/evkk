@@ -13,7 +13,7 @@ import java.nio.file.Files;
 @Service
 public class DownloadService {
 
-  private static final String UPLOAD_DIR = System.getProperty("user.dir") + "/uploads/";
+  private static final String UPLOAD_DIR = System.getProperty("user.dir") + "/uploads/files/";
 
   public File getFile(String filename) {
     File file = new File(UPLOAD_DIR + filename);
