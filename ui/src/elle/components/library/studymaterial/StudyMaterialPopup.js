@@ -1,11 +1,11 @@
 import React from 'react';
-import {Box, Button, Typography} from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import ModalBase from '../../modal/ModalBase';
-
 
 export default function StudyMaterialPopup({ open, onClose, material }) {
   if (!material) return null;
 
+  const isFile = material.type === 'fail';
   const fileUrl =
     process.env.NODE_ENV === 'production'
       ? `/api/files/${material.filename}`
@@ -28,20 +28,18 @@ export default function StudyMaterialPopup({ open, onClose, material }) {
           Keeletase: {material.level || '-'}
         </Typography>
 
-        <Button
-          variant="contained"
-          href={fileUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          download
-          sx={{ alignSelf: 'flex-start', backgroundColor: '#9C27B0', color: 'white' }}
-        >
-          Lae alla
-        </Button>
+        {isFile && material.filename && (
+          <Button
+            variant="contained"
+            href={fileUrl}
+            rel="noopener noreferrer"
+            download
+            sx={{ alignSelf: 'flex-start', backgroundColor: '#9C27B0', color: 'white' }}
+          >
+            Lae alla
+          </Button>
+        )}
       </Box>
     </ModalBase>
   );
 }
-
-
-

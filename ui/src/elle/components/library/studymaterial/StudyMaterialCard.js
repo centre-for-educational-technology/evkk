@@ -1,19 +1,20 @@
 import React from 'react';
 import '../../../pages/styles/Library.css';
-import { Link } from '@mui/material';
-import { Button } from '@mui/material';
+import { Link, Button } from '@mui/material';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 export default function StudyMaterialCard({ material, onClick }) {
+  const isFile = material.type === 'fail';
+  const extension = material.filename?.split('.').pop();
 
   return (
     <div
-      className="exercise-card"
+      className="content-card"
       onClick={onClick}
-      style={{ cursor: 'pointer' }} // ← LISATUD
+      style={{ cursor: 'pointer' }} // ← võimaldab kaardil klõpsamist
     >
       {/* Materjali tüüp */}
-      <div className="exercise-type-label">
+      <div className="content-card-type-label">
         <MenuBookIcon fontSize="small" style={{ marginRight: 4 }} />
         ÕPPEMATERJAL
       </div>
@@ -22,45 +23,52 @@ export default function StudyMaterialCard({ material, onClick }) {
       <div style={{ marginTop: 24 }}>
         <h4>{material.title}</h4>
         <div>{material.description}</div>
-        <div className="exercise-tags">
+        <div className="content-card-tags">
+          <span className="tag">{material.type}</span>
+          &nbsp;&nbsp;
           {material.category} &nbsp;&nbsp;
           {material.level} &nbsp;&nbsp;
-          .{material.filename?.split('.').pop() || 'pdf'}
+          {isFile && extension && <>.{extension} &nbsp;&nbsp;</>}
+          {isFile && material.size != null && (
+            <>({(material.size / (1024 * 1024)).toFixed(2)} MB)</>
+          )}
         </div>
       </div>
 
-      {/* Allalaadimine */}
-      <div
-        className="library-exercise-buttons"
-        style={{ marginTop: 12, marginBottom: 8 }}
-        onClick={(e) => e.stopPropagation()} // ← LISATUD, et vältida kaardi allalaadimist klikkimisel
-      >
-        <Link
-          href={
-            process.env.NODE_ENV === 'production'
-              ? `/api/files/${material.filename}`
-              : `http://localhost:9090/api/files/${material.filename}`
-          }
-          download
-          underline="hover"
-          target="_blank"
-          rel="noopener noreferrer"
+      {/* Allalaadimine ja "Vaata lähemalt" nupp */}
+      {isFile && material.filename && (
+        <div
+          className="library-buttons"
+          style={{ marginTop: 12, marginBottom: 8 }}
+          onClick={(e) => e.stopPropagation()} // ← et kaart ei aktiveeruks sellel klõpsates
         >
-          Lae alla
-        </Link>
+          <Link
+            href={
+              process.env.NODE_ENV === 'production'
+                ? `/api/files/${material.filename}`
+                : `http://localhost:9090/api/files/${material.filename}`
+            }
+            download
+            underline="hover"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ marginRight: '1rem' }}
+          >
+            Lae alla
+          </Link>
 
-        <Button
-          variant="text"
-          onClick={(e) => {
-            e.stopPropagation();
-            onClick();
-          }}
-          sx={{ textTransform: 'none', padding: 0, minWidth: 'auto' }}
-        >
-          Vaata lähemalt
-        </Button>
-      </div>
+          <Button
+            variant="text"
+            onClick={(e) => {
+              e.stopPropagation(); // et vältida kaardi klõpsu
+              onClick();           // kutsu popupi avamine välja
+            }}
+            sx={{ textTransform: 'none', padding: 0, minWidth: 'auto' }}
+          >
+            Vaata lähemalt
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
-
