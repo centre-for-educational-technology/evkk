@@ -145,11 +145,21 @@ export default function Navbar() {
           open={userMenuOpen}
           onClose={handleUserMenuClose}
         >
+          <MenuItem>
+            <span className="user-menu-text">
+              {t('navbar_user_data')}
+            </span>
+          </MenuItem>
+          <MenuItem>
+            <span className="user-menu-text">
+              {t('navbar_user_materials')}
+            </span>
+          </MenuItem>
           <MenuItem onClick={handleLogout}>
-            <Logout />
             <span className="user-menu-text">
               {t('navbar_logout')}
             </span>
+            <Logout className="nav-logout-icon"/>
           </MenuItem>
         </Menu>
       </div>

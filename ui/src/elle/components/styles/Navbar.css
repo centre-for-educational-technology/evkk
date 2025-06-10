@@ -197,6 +197,10 @@
   }
 }
 
+.nav-logout-icon {
+  margin-left: 0.5rem;
+}
+
 .nav-login {
   font-weight: 600;
   color: #FFFFFF;

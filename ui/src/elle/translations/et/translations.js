@@ -332,6 +332,8 @@ export const TRANSLATIONS_ET = {
   middle: 'keskel',
   navbar_logout: 'Logi välja',
   navbar_login: 'Logi sisse',
+  navbar_user_data: 'Minu andmed',
+  navbar_user_materials: 'Minu materjalid',
   neighbouring_words_case_sensitive_hover: 'Vaikimisi ei arvestata otsisõna suurt või väikest algustähte, nt "eesti" võimaldab leida nii "eesti" kui ka "Eesti" naabersõnad. Märgi kasti linnuke, kui soovid ainult väike- või suurtähega algavaid vasteid.',
   neighbouring_words_choose_statistic_measure: 'Vali valem',
   neighbouring_words_collocation: 'Naabersõna',

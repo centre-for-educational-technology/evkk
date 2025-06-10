@@ -14,7 +14,6 @@ export const useLogout = () => {
 
   const logoutTestUser = () => {
     clearAuthContext();
-    navigate('/');
   };
 
   const logout = useCallback((forced = false) => {
