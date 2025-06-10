@@ -41,7 +41,7 @@ export default function StudyMaterialCard({ material, onClick }) {
         style={{ marginTop: 12, marginBottom: 8 }}
         onClick={(e) => e.stopPropagation()}
       >
-        {isFile && material.filename && (
+        {/*{isFile && material.filename && (
           <Link
             href={
               process.env.NODE_ENV === 'production'
@@ -56,7 +56,7 @@ export default function StudyMaterialCard({ material, onClick }) {
           >
             Lae alla
           </Link>
-        )}
+        )}*/}
 
         <Button
           variant="text"
