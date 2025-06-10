@@ -35,13 +35,13 @@ export default function StudyMaterialCard({ material, onClick }) {
         </div>
       </div>
 
-      {/* Allalaadimine ja "Vaata lähemalt" nupp */}
-      {isFile && material.filename && (
-        <div
-          className="library-buttons"
-          style={{ marginTop: 12, marginBottom: 8 }}
-          onClick={(e) => e.stopPropagation()} // ← et kaart ei aktiveeruks sellel klõpsates
-        >
+      {/* Nupud: "Lae alla" ainult failile, "Vaata lähemalt" alati */}
+      <div
+        className="library-buttons"
+        style={{ marginTop: 12, marginBottom: 8 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {isFile && material.filename && (
           <Link
             href={
               process.env.NODE_ENV === 'production'
@@ -56,19 +56,19 @@ export default function StudyMaterialCard({ material, onClick }) {
           >
             Lae alla
           </Link>
+        )}
 
-          <Button
-            variant="text"
-            onClick={(e) => {
-              e.stopPropagation(); // et vältida kaardi klõpsu
-              onClick();           // kutsu popupi avamine välja
-            }}
-            sx={{ textTransform: 'none', padding: 0, minWidth: 'auto' }}
-          >
-            Vaata lähemalt
-          </Button>
-        </div>
-      )}
+        <Button
+          variant="text"
+          onClick={(e) => {
+            e.stopPropagation();
+            onClick();
+          }}
+          sx={{ textTransform: 'none', padding: 0, minWidth: 'auto' }}
+        >
+          Vaata lähemalt
+        </Button>
+      </div>
     </div>
   );
 }
