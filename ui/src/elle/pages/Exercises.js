@@ -13,13 +13,26 @@ import { DefaultButtonStyleSmall } from '../const/StyleConstants';
 import { useState, useEffect } from 'react';
 import ContentCard from '../components/library/shared/ContentCard';
 import Can from '../components/security/Can';
+import usePagination from '../hooks/library/usePagination';
+import Pagination from '../components/library/shared/Pagination';
 
 
 export default function Exercise() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [exercises, setExercises] = useState([]);
+    const itemsPerPage = 5;
 
-    useEffect(() => {
+    const {
+      currentPage,
+      totalPages,
+      currentItems: currentExercises,
+      goToPrev: prev,
+      goToNext: next,
+      setCurrentPage
+    } = usePagination(exercises, itemsPerPage);
+
+
+  useEffect(() => {
         fetch("http://localhost:9090/api/exercises")
             .then(res => res.json())
             .then(setExercises);
@@ -60,14 +73,20 @@ export default function Exercise() {
                             </div>
 
                             <div className="library-results">
-                                {exercises.map(item => (
-                                    <ContentCard
-                                        key={item.id}
-                                        item={item}
-                                        type="exercise"
-                                    />
+                                {currentExercises.map(item => (
+                                  <ContentCard
+                                    key={item.id}
+                                    item={item}
+                                    type="exercise"
+                                  />
                                 ))}
                             </div>
+                          <Pagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPrev={prev}
+                            onNext={next}
+                          />
                         </div>
                     </div>
                 </Box>

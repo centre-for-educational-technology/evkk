@@ -633,7 +633,7 @@ export const TRANSLATIONS_EN = {
   text_analysis: 'Text analysis',
   text_to_speech_play: 'Speak',
   text_to_speech_speed: 'Speed',
-  text_to_speech_text: 'Select text to listen to it.',
+  text_to_speech_text: 'Select any Estonian language word or text on the page to listen to it.',
   text_to_speech_voice: 'Voice',
   textupload_primary_modal_save: 'Save texts for analysis',
   textupload_primary_modal_title: 'Insert or upload your own texts',
@@ -676,5 +676,7 @@ export const TRANSLATIONS_EN = {
   wordlist_word_column: 'Word form',
   wordlist_wordcloud: 'Word cloud',
   wordlist_wordcloud_filename: 'wordcloud',
-  wordlist_wordcloud_loading: 'Loading word cloud...'
+  wordlist_wordcloud_loading: 'Loading word cloud...',
+  error_invalid_link: 'Please check the link before continuing.',
+//  error_failed_to_save_file: 'Failed to save the file. Please try again later.'
 };

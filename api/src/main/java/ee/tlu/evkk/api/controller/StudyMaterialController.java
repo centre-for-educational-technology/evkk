@@ -19,16 +19,17 @@ public class StudyMaterialController {
 
   @PostMapping("/upload")
   public ResponseEntity<Map<String, Object>> uploadStudyMaterial(
-    @RequestParam("file") MultipartFile file,
+    @RequestParam(value = "file", required = false) MultipartFile file,
     @RequestParam("title") String title,
     @RequestParam("description") String description,
     @RequestParam("category") String category,
-    @RequestParam("level") String level
+    @RequestParam("level") String level,
+    @RequestParam("type") String type,
+    @RequestParam(value = "link", required = false) String link,
+    @RequestParam(value = "text", required = false) String text
   ) {
     try {
-      Map<String, Object> saved = studyMaterialService.saveStudyMaterialToFile(
-        file, title, description, category, level
-      );
+      Map<String, Object> saved = studyMaterialService.saveStudyMaterialToFile(file, title, description, category, level, type, link, text);
       return ResponseEntity.ok(saved);
     } catch (IOException e) {
       e.printStackTrace();
