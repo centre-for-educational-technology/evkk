@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Can from '../../security/Can';
 
 
 export default function LibraryNavbar(){
@@ -7,7 +8,9 @@ export default function LibraryNavbar(){
             <ul className="library-navbar-list">
                 <Link to="/library/exercises">Harjutused</Link>
                 <br/>
-                <Link to="/library/studymaterial">Õppematerjalid</Link>
+                <Can requireAuth={true}>
+                  <Link to="/library/studymaterial">Õppematerjalid</Link>
+                </Can>
             </ul>
         </nav>
     )
