@@ -27,6 +27,15 @@ export default function StudyMaterialModal({ isOpen, setIsOpen, onSubmitSuccess 
   const [type, setType] = useState('');
   const [link, setLink] = useState('');
   const [textContent, setTextContent] = useState('');
+  const [fileError, setFileError] = useState('');
+
+  const handleCloseRequest = () => {
+    const confirmClose = window.confirm("Kas oled kindel, et soovid sulgeda? Muudatusi ei salvestata!");
+    if (confirmClose) {
+      setIsOpen(false);
+    }
+  };
+
 
   useEffect(() => {
     if (isOpen) {
@@ -77,6 +86,11 @@ export default function StudyMaterialModal({ isOpen, setIsOpen, onSubmitSuccess 
       formData.append('text', textContent);
     }
 
+    if (!title || !description || !category || !level || !type || !link) {
+      alert('Kohustuslikud väljad on täitmata!');
+      return;
+    }
+
     const url = process.env.NODE_ENV === 'production'
       ? '/api/study-material/upload'
       : 'http://localhost:9090/api/study-material/upload';
@@ -100,10 +114,10 @@ export default function StudyMaterialModal({ isOpen, setIsOpen, onSubmitSuccess 
 
 
   return (
-    <ModalBase isOpen={isOpen} setIsOpen={setIsOpen} title="Õppematerjali üleslaadimine">
-      <Box className="study-modal-form">
+    <ModalBase isOpen={isOpen} setIsOpen={handleCloseRequest} title="Õppematerjali üleslaadimine">
+    <Box className="study-modal-form">
         <FormControl fullWidth>
-          <InputLabel>Materjali tüüp</InputLabel>
+          <InputLabel>Materjali tüüp*</InputLabel>
           <Select value={type} label="Materjali tüüp" onChange={(e) => setType(e.target.value)}>
             <MenuItem value="fail">Fail</MenuItem>
             <MenuItem value="link">Link</MenuItem>
@@ -126,16 +140,30 @@ export default function StudyMaterialModal({ isOpen, setIsOpen, onSubmitSuccess 
                 hidden
                 onChange={(e) => {
                   const selected = e.target.files[0];
-                  setFile(selected);
-                  setOriginalFilename(selected?.name || '');
+                  if (selected) {
+                    const sizeMB = selected.size / (1024 * 1024);
+                    if (sizeMB > 25) {
+                      setFile(null);
+                      setOriginalFilename('');
+                      setFileError(`Fail ületab suuruse! (${sizeMB.toFixed(2)} MB)`);
+                      return;
+                    }
+                    setFile(selected);
+                    setOriginalFilename(`${selected.name} (${sizeMB.toFixed(2)} MB)`);
+                    setFileError('');
+                  }
                 }}
               />
+
             </Button>
-            <Typography className="study-modal-upload-label">
-              {originalFilename || 'Pole valitud'}
+            <Typography
+              className="study-modal-upload-label"
+              sx={{ color: fileError ? 'error.main' : 'text.primary' }}
+            >
+              {fileError || originalFilename || 'Pole valitud'}
             </Typography>
             <TextField
-              label="Salvesta nimega.."
+              label="Salvesta nimega"
               value={filename}
               onChange={(e) => setFilename(e.target.value)}
             />
@@ -144,7 +172,7 @@ export default function StudyMaterialModal({ isOpen, setIsOpen, onSubmitSuccess 
 
         {(type === 'link' || type === 'video') && (
           <TextField
-            label="Sisesta link.."
+            label="Sisesta link*"
             value={link}
             onChange={(e) => setLink(e.target.value)}
           />
@@ -174,13 +202,13 @@ export default function StudyMaterialModal({ isOpen, setIsOpen, onSubmitSuccess 
         <Typography variant="h6" fontWeight="bold">Õppematerjali andmed</Typography>
 
         <TextField
-          label="Pealkiri"
+          label="Pealkiri*"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
 
         <TextField
-          label="Kirjeldus"
+          label="Kirjeldus*"
           multiline
           rows={3}
           value={description}
@@ -193,7 +221,7 @@ export default function StudyMaterialModal({ isOpen, setIsOpen, onSubmitSuccess 
             <Select
               labelId="category-label"
               value={category}
-              label="Kategooria"
+              label="Kategooria*"
               onChange={(e) => setCategory(e.target.value)}
               MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
             >
@@ -208,7 +236,7 @@ export default function StudyMaterialModal({ isOpen, setIsOpen, onSubmitSuccess 
             <Select
               labelId="level-label"
               value={level}
-              label="Keeletase"
+              label="Keeletase*"
               onChange={(e) => setLevel(e.target.value)}
             >
               {LanguageLevels.map((l) => (
