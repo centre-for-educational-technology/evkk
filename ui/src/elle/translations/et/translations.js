@@ -632,7 +632,7 @@ export const TRANSLATIONS_ET = {
   text_analysis: 'Tekstianalüüs',
   text_to_speech_play: 'Räägi',
   text_to_speech_speed: 'Kiirus',
-  text_to_speech_text: 'Aktiveeri tekst, et seda kuulata.',
+  text_to_speech_text: 'Vali kursoriga mistahes eestikeelne sõna või tekst, et seda kuulata.',
   text_to_speech_voice: 'Hääl',
   textupload_primary_modal_save: 'Salvesta tekstid analüüsiks',
   textupload_primary_modal_title: 'Sisesta või laadi üles oma tekstid',
@@ -676,4 +676,6 @@ export const TRANSLATIONS_ET = {
   wordlist_wordcloud: 'Sõnapilv',
   wordlist_wordcloud_filename: 'sonapilv',
   wordlist_wordcloud_loading: 'Laadin sõnapilve...',
+  error_invalid_link: 'Link on vigane. Palun kontrolli linki enne jätkamist.',
+//  error_failed_to_save_file: 'Faili salvestamine ebaõnnestus. Palun proovige veel kord mõne aja pärast.'
 };

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ee.tlu.evkk.dal.dao.CategoryDao">
+
+  <select id="findAllCategories" resultType="ee.tlu.evkk.dal.dto.Category">
+    SELECT id, name FROM core.category
+  </select>
+
+  <select id="findById" parameterType="long" resultType="ee.tlu.evkk.dal.dto.Category">
+    SELECT id, name FROM core.category WHERE id = #{id}
+  </select>
+
+  <insert id="insert" parameterType="ee.tlu.evkk.dal.dto.Category">
+    INSERT INTO category (name) VALUES (#{name})
+  </insert>
+
+</mapper>
