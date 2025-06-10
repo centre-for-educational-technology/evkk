@@ -14,3 +14,5 @@ bin/
 
 stanza-server/j*.bin
 *.pyc
+node_modules/.yarn-integrity
+api/src/main/resources/data/uploadedStudyMaterials.json
