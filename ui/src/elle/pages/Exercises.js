@@ -18,25 +18,25 @@ import usePagination from '../hooks/library/usePagination';
 import Pagination from '../components/library/shared/Pagination';
 
 export default function Exercise() {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [exercises, setExercises] = useState([]);
-    const itemsPerPage = 5;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [exercises, setExercises] = useState([]);
+  const itemsPerPage = 5;
 
-    const {
-      currentPage,
-      totalPages,
-      currentItems: currentExercises,
-      goToPrev: prev,
-      goToNext: next,
-      setCurrentPage
-    } = usePagination(exercises, itemsPerPage);
+  const {
+    currentPage,
+    totalPages,
+    currentItems: currentExercises,
+    goToPrev: prev,
+    goToNext: next,
+    setCurrentPage
+  } = usePagination(exercises, itemsPerPage);
 
 
   useEffect(() => {
-        fetch("http://localhost:9090/api/exercises")
-            .then(res => res.json())
-            .then(setExercises);
-    }, []);
+    fetch("http://localhost:9090/api/exercises")
+      .then(res => res.json())
+      .then(setExercises);
+  }, []);
 
     return (
         <div>
@@ -59,40 +59,40 @@ export default function Exercise() {
                             <TypeFilters />
                         </div>
 
-                        <div className="library-infoContainer">
-                            <div className="library-buttons">
-                                <Can requireAuth={true}>
-                                  <Button onClick={() => setIsModalOpen(true)}
-                                      sx={DefaultButtonStyleSmall}
-                                      className="library-add-button"
-                                  ><EditNoteIcon />Loo Uus Harjutus</Button>
-                                </Can>
-                                <SortButton />
-                            </div>
+            <div className="library-infoContainer">
+              <div className="library-buttons">
+                <Can requireAuth={true}>
+                  <Button onClick={() => setIsModalOpen(true)}
+                          sx={DefaultButtonStyleSmall}
+                          className="library-add-button"
+                  ><EditNoteIcon />Loo Uus Harjutus</Button>
+                </Can>
+                <SortButton />
+              </div>
 
-                            <div className="library-results-count">
-                                <Box>Leitud: {exercises.length}</Box>
-                            </div>
+              <div className="library-results-count">
+                <Box>Leitud: {exercises.length}</Box>
+              </div>
 
-                            <div className="library-results">
-                                {currentExercises.map(item => (
-                                  <ContentCard
-                                    key={item.id}
-                                    item={item}
-                                    type="exercise"
-                                  />
-                                ))}
-                            </div>
-                          <Pagination
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            onPrev={prev}
-                            onNext={next}
-                          />
-                        </div>
-                    </div>
-                </Box>
-            </Box>
-        </div>
-    )
+              <div className="library-results">
+                {currentExercises.map(item => (
+                  <ContentCard
+                    key={item.id}
+                    item={item}
+                    type="exercise"
+                  />
+                ))}
+              </div>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPrev={prev}
+                onNext={next}
+              />
+            </div>
+          </div>
+        </Box>
+      </Box>
+    </div>
+  )
 };
