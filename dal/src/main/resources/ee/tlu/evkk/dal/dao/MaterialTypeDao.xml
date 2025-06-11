@@ -8,4 +8,8 @@
     <id property="id" column="id"/>
     <result property="type" column="type"/>
   </resultMap>
+
+  <select id="findAllMaterialTypes" resultMap="MaterialTypeResultMap">
+    SELECT * FROM core.material_type
+  </select>
 </mapper>

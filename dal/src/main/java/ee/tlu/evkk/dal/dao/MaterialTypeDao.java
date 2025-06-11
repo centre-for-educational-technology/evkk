@@ -1,6 +1,7 @@
 package ee.tlu.evkk.dal.dao;
 
 import ee.tlu.evkk.dal.dto.Exercise;
+import ee.tlu.evkk.dal.dto.MaterialType;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -10,5 +11,5 @@ import java.util.List;
 @Mapper
 @Repository
 public interface MaterialTypeDao {
-
+  List<MaterialType> findAllMaterialTypes();
 }
