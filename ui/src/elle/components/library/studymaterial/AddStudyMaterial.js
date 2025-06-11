@@ -16,7 +16,7 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from 'react-quill';
 
-export default function StudyMaterialModal({ isOpen, setIsOpen, onSubmitSuccess }) {
+export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess }) {
   const [file, setFile] = useState(null);
   const [originalFilename, setOriginalFilename] = useState('');
   const [filename, setFilename] = useState('');

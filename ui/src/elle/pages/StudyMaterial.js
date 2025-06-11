@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Button } from '@mui/material';
 import StudyMaterialCard from '../components/library/studymaterial/StudyMaterialCard';
 import AddStudyMaterialButton from '../components/library/studymaterial/AddStudyMaterialButton';
-import StudyMaterialModal from '../components/library/studymaterial/StudyMaterialModal';
+import AddStudyMaterial from '../components/library/studymaterial/AddStudyMaterial';
 import StudyMaterialPopup from '../components/library/studymaterial/StudyMaterialPopup';
 import SearchBar from '../components/library/search/SearchBar';
 import LibraryNavbar from '../components/library/shared/LibraryNavbar';
@@ -53,12 +53,12 @@ export default function StudyMaterial() {
 
   return (
     <div>
-      <StudyMaterialModal
+      <AddStudyMaterial
         isOpen={modalOpen}
         setIsOpen={() => setModalOpen(false)}
         onSubmitSuccess={newMaterial => {
           setMaterials(prev => [newMaterial, ...prev]);
-          setCurrentPage(1); // Hookist
+          setCurrentPage(1);
         }}
       />
       <StudyMaterialPopup
