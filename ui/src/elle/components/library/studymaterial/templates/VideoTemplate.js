@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../../styles/StudyMaterialTemplates.css';
 
 export default function VideoTemplate({ videoUrl }) {
   if (!videoUrl) return null;
