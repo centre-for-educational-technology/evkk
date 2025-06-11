@@ -59,6 +59,7 @@ public class ExerciseController {
   public ResponseEntity<?> validateH5PLink(@RequestBody Map<String, String> payload) {
     String link = payload.get("link");
 
+
     if (link == null || link.isBlank()) {
       return ResponseEntity.badRequest().body(Map.of("status", "error", "message", "ERROR_LINK_IS_MISSING"));
     }
@@ -82,7 +83,7 @@ public class ExerciseController {
 
       // Faili salvestus
       String remoteUrl = "https://sisuloome.e-koolikott.ee/sites/default/files/h5p/exports/interactive-content-" + externalId + ".h5p";
-      Path targetPath = Paths.get("/elle/evkk/api/uploads/exercises", externalId + ".h5p");
+      Path targetPath = Paths.get(System.getProperty("user.dir") + "/uploads/exercises", externalId + ".h5p");
 
       Files.createDirectories(targetPath.getParent());
       try (InputStream in = new URL(remoteUrl).openStream()) {

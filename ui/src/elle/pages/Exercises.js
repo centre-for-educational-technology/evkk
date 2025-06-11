@@ -12,6 +12,7 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import { DefaultButtonStyleSmall } from '../const/StyleConstants';
 import { useState, useEffect } from 'react';
 import ContentCard from '../components/library/shared/ContentCard';
+import Can from '../components/security/Can';
 import usePagination from '../hooks/library/usePagination';
 import Pagination from '../components/library/shared/Pagination';
 
@@ -58,10 +59,12 @@ export default function Exercise() {
 
                         <div className="library-infoContainer">
                             <div className="library-buttons">
-                                <Button onClick={() => setIsModalOpen(true)}
-                                    sx={DefaultButtonStyleSmall}
-                                    className="library-add-button"
-                                ><EditNoteIcon />Loo Uus Harjutus</Button>
+                                <Can requireAuth={true}>
+                                  <Button onClick={() => setIsModalOpen(true)}
+                                      sx={DefaultButtonStyleSmall}
+                                      className="library-add-button"
+                                  ><EditNoteIcon />Loo Uus Harjutus</Button>
+                                </Can>
                                 <SortButton />
                             </div>
 
