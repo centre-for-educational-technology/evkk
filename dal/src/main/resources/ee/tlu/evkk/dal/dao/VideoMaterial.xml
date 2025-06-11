@@ -35,12 +35,14 @@
 
   <insert id="insertVideoMaterial" parameterType="ee.tlu.evkk.dal.dto.TextMaterial" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO core.video_material (
-      text,
-      word_count,
+      video_url,
+      platform,
+      embed_code,
       material_id
     ) VALUES (
-      #{text},
-      #{wordCount},
+      #{videoUrl},
+      #{platform},
+      #{embedCode},
       #{materialId}
     )
   </insert>
