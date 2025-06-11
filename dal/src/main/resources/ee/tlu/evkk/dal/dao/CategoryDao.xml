@@ -4,12 +4,31 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="ee.tlu.evkk.dal.dao.CategoryDao">
+  <sql id="materialCategoryJoin">
+    JOIN core.material_category mc ON m.id = mc.material_id
+    JOIN core.category cat ON cat.id = mc.category_id
+  </sql>
+
+  <sql id="exerciseCategoryJoin">
+    JOIN core.exercise_category ec ON m.id = ec.exercise_id
+    JOIN core.category cat ON cat.id = ec.category_id
+  </sql>
+
+  <sql id="categoryColumns">
+    cat.id AS cat_id,
+    cat.name AS cat_name
+  </sql>
+
+  <resultMap id="CategoryResultMap" type="ee.tlu.evkk.dal.dto.Category">
+    <id property="id" column="cat_id"/>
+    <result property="name" column="cat_name"/>
+  </resultMap>
 
   <select id="findAllCategories" resultType="ee.tlu.evkk.dal.dto.Category">
     SELECT id, name FROM core.category
   </select>
 
-  <select id="findById" parameterType="long" resultType="ee.tlu.evkk.dal.dto.Category">
+  <select id="findById" parameterType="lONg" resultType="ee.tlu.evkk.dal.dto.Category">
     SELECT id, name FROM core.category WHERE id = #{id}
   </select>
 

@@ -18,8 +18,6 @@
     <result property="filePath" column="file_path"/>
     <result property="languageLevelId" column="language_level_id"/>
     <result property="level" column="level"/>
-    <result property="categoryId" column="category_id"/>
-    <result property="category" column="category"/>
     <result property="externalId" column="external_id"/>
     <result property="statusId" column="status_id"/>
     <result property="status" column="status"/>
@@ -35,7 +33,6 @@
     e.external_id, e.status_id, s.status
     FROM core.exercise e
     LEFT JOIN core.language_level l ON e.language_level_id = l.id
-    LEFT JOIN core.category c ON e.category_id = c.id
     LEFT JOIN core.duration d ON e.duration_id = d.id
     LEFT JOIN core.status s ON e.status_id = s.id
   </select>
@@ -50,7 +47,6 @@
     e.external_id, e.status_id, s.status
     FROM core.exercise e
     LEFT JOIN core.language_level l ON e.language_level_id = l.id
-    LEFT JOIN core.category c ON e.category_id = c.id
     LEFT JOIN core.duration d ON e.duration_id = d.id
     LEFT JOIN core.status s ON e.status_id = s.id
     WHERE e.external_id = #{externalId}

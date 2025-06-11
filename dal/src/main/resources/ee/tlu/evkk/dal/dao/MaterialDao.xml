@@ -4,20 +4,53 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="ee.tlu.evkk.dal.dao.MaterialDao">
+  <sql id="materialAssociations">
+    LEFT JOIN core.language_level ll ON m.language_level_id = ll.id
+    LEFT JOIN core.status st ON m.status_id = st.id
+    LEFT JOIN core.material_type mt ON m.material_type_id = mt.id
+    <include refid="ee.tlu.evkk.dal.dao.CategoryDao.materialCategoryJoin"/>
+  </sql>
+
+  <sql id="materialColumns">
+    m.id AS m_id,
+    m.title AS m_title,
+    m.created_at AS m_created_at,
+    m.description AS m_description,
+    m.downloads AS m_downloads,
+    m.likes AS m_likes,
+    m.material_type_id AS m_material_type_id,
+    m.language_level_id AS m_language_level_id
+  </sql>
+
+  <sql id="materialAssociationColumns">
+    <include refid="ee.tlu.evkk.dal.dao.MaterialDao.materialColumns"/>,
+    <include refid="ee.tlu.evkk.dal.dao.CategoryDao.categoryColumns"/>,
+    <include refid="ee.tlu.evkk.dal.dao.LanguageLevelDao.languageLevelColumns"/>,
+    <include refid="ee.tlu.evkk.dal.dao.MaterialTypeDao.materialTypeColumns"/>,
+    <include refid="ee.tlu.evkk.dal.dao.StatusDao.statusColumns"/>
+  </sql>
 
   <resultMap id="MaterialResultMap" type="ee.tlu.evkk.dal.dto.Material">
-    <id property="id" column="id"/>
-    <result property="title" column="title"/>
-    <result property="createdAt" column="created_at"/>
-    <result property="description" column="description"/>
-    <result property="downloads" column="downloads"/>
-    <result property="likes" column="likes"/>
-    <result property="materialTypeId" column="material_type_id"/>
-    <result property="languageLevelId" column="language_level_id"/>
-    <result property="categoryId" column="category_id"/>
+    <id property="id" column="m_id"/>
+    <result property="title" column="m_title"/>
+    <result property="createdAt" column="m_created_at"/>
+    <result property="description" column="m_description"/>
+    <result property="downloads" column="m_downloads"/>
+    <result property="likes" column="m_likes"/>
+    <result property="materialTypeId" column="m_material_type_id"/>
+    <result property="languageLevelId" column="m_language_level_id"/>
+    <association property="status" resultMap="ee.tlu.evkk.dal.dao.StatusDao.StatusResultMap"/>
     <association property="materialType" resultMap="ee.tlu.evkk.dal.dao.MaterialTypeDao.MaterialTypeResultMap"/>
     <association property="languageLevel" resultMap="ee.tlu.evkk.dal.dao.LanguageLevelDao.LanguageLevelResultMap"/>
+    <collection property="categories" resultMap="ee.tlu.evkk.dal.dao.CategoryDao.CategoryResultMap"/>
   </resultMap>
+
+  <insert id="insertMaterialCategories" parameterType="ee.tlu.evkk.dal.dto.Material">
+    INSERT INTO core.material_category (material_id, category_id)
+    <foreach collection="categories" item="category" separator="," open="VALUES" close="">
+      (#{id}, #{category.id})
+    </foreach>
+  </insert>
 
   <insert id="insertMaterial" parameterType="ee.tlu.evkk.dal.dto.Material" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO core.material (
@@ -27,8 +60,7 @@
       likes,
       created_at,
       material_type_id,
-      language_level_id,
-      category_id
+      language_level_id
     ) VALUES (
       #{title},
       #{description},
@@ -36,8 +68,7 @@
       #{likes},
       #{createdAt},
       #{materialTypeId},
-      #{languageLevelId},
-      #{categoryId}
+      #{languageLevelId}
     )
   </insert>
 

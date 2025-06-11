@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,6 +22,6 @@ public class Material implements Serializable {
   private MaterialType materialType;
   private Long languageLevelId;
   private LanguageLevel languageLevel;
-  private Long categoryId;
-  private Category category;
+  private List<Category> categories;
+  private Status status;
 }

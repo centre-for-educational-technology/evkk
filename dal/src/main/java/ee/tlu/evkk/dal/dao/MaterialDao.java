@@ -12,4 +12,5 @@ import java.util.List;
 @Repository
 public interface MaterialDao {
   void insertMaterial(Material material);
+  void insertMaterialCategories(Material material);
 }
