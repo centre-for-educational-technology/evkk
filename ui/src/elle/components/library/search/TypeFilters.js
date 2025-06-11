@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Accordion, AccordionSummary, AccordionDetails, Typography, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-const allLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const allTypes = ['Video', 'Link', 'Tekst', 'Fail'];
+
 
 export default function LanguageFilters({ selected = [], onChange }) {
   const [checked, setChecked] = useState(selected);
@@ -22,11 +23,11 @@ export default function LanguageFilters({ selected = [], onChange }) {
   return (
     <Accordion>
       <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: '#9C27B0' }} />}>
-        <Typography sx={{ fontWeight: 'bold', color: '#9C27B0' }}>Keeletase</Typography>
+        <Typography sx={{ fontWeight: 'bold', color: '#9C27B0' }}>Tüübid</Typography>
       </AccordionSummary>
       <AccordionDetails>
         <FormGroup>
-          {allLevels.map(label => (
+          {allTypes.map(label => (
             <FormControlLabel
               key={label}
               control={

@@ -6,6 +6,7 @@ import LibraryNavbar from '../components/library/shared/LibraryNavbar'
 import SortButton from '../components/library/search/SortButton';
 import CategoryFilters from '../components/library/search/CategoryFilters';
 import LanguageFilters from '../components/library/search/LanguageFilters';
+import TypeFilters from '../components/library/search/TypeFilters';
 import SearchBar from '../components/library/search/SearchBar'
 import ExerciseModal from '../components/library/exercises/ExerciseModal'
 import EditNoteIcon from '@mui/icons-material/EditNote';
@@ -15,7 +16,6 @@ import ContentCard from '../components/library/shared/ContentCard';
 import Can from '../components/security/Can';
 import usePagination from '../hooks/library/usePagination';
 import Pagination from '../components/library/shared/Pagination';
-
 
 export default function Exercise() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -55,6 +55,8 @@ export default function Exercise() {
                             <CategoryFilters />
                             <br />
                             <LanguageFilters />
+                            <br />
+                            <TypeFilters />
                         </div>
 
                         <div className="library-infoContainer">

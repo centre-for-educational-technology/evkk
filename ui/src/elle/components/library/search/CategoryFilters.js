@@ -1,14 +1,50 @@
-import React from 'react';
-import {FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Accordion, AccordionSummary, AccordionDetails, Typography, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-export default function CategoryFilters(){
-    return(
+const allCategories = [
+  'Võõrsõnad', 'Kääned', 'Kokku- ja lahkukirjutamine', 'Suur ja väike algustäht', 'Liitlause',
+  'Grammatika', 'Tegusõnad ja ajavormid', 'Sõnavara ja tähendus', 'Sõnajärg lauses',
+  'Täpid ja komad', 'Sõnaliigid', 'Kuulamine ja arusaamine'
+];
+
+export default function CategoryFilters({ selected = [], onChange }) {
+  const [checked, setChecked] = useState(selected);
+
+  useEffect(() => {
+    setChecked(selected);
+  }, [selected]);
+
+  const toggle = (value) => {
+    const updated = checked.includes(value)
+      ? checked.filter(v => v !== value)
+      : [...checked, value];
+    setChecked(updated);
+    onChange(updated);
+  };
+
+  return (
+    <Accordion>
+      <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: '#9C27B0' }} />}>
+        <Typography sx={{ fontWeight: 'bold', color: '#9C27B0' }}>Kategooria</Typography>
+      </AccordionSummary>
+      <AccordionDetails>
         <FormGroup>
-            <FormControlLabel control={<Checkbox />} label="Võõrsönad" />
-            <FormControlLabel control={<Checkbox />} label="Käänded" />
-            <FormControlLabel control={<Checkbox />} label="Kokku- ja lahkukirjutamine" />
-            <FormControlLabel control={<Checkbox />} label="Suur- ja väike algustäht" />
-            <FormControlLabel control={<Checkbox />} label= "Liitlause" />
+          {allCategories.map(label => (
+            <FormControlLabel
+              key={label}
+              control={
+                <Checkbox
+                  checked={checked.includes(label)}
+                  onChange={() => toggle(label)}
+                  sx={{ color: '#000', '&.Mui-checked': { color: '#9C27B0' } }}
+                />
+              }
+              label={label}
+            />
+          ))}
         </FormGroup>
-    )
+      </AccordionDetails>
+    </Accordion>
+  );
 }
