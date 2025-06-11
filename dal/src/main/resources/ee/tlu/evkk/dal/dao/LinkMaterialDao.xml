@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ee.tlu.evkk.dal.dao.LinkMaterialDao">
+
+  <resultMap id="LinkMaterialResultMap" type="ee.tlu.evkk.dal.dto.LinkMaterial">
+    <id property="id" column="id"/>
+    <result property="url" column="url"/>
+    <result property="materialId" column="material_id"/>
+    <association property="material" resultMap="ee.tlu.evkk.dal.dao.MaterialDao.MaterialResultMap"/>
+  </resultMap>
+
+  <select id="findAllLinkMaterials" resultMap="LinkMaterialResultMap">
+    SELECT * FROM core.link_material lm
+    LEFT JOIN core.material m ON lm.material_id = m.id
+    LEFT JOIN core.category c ON m.category_id = c.id
+    LEFT JOIN core.language_level ll ON m.language_level_id = ll.id
+    LEFT JOIN core.status s ON m.status_id = s.id
+    LEFT JOIN core.material_type mt ON m.material_type_id = mt.id
+  </select>
+
+  <select id="findById" parameterType="string" resultMap="LinkMaterialResultMap">
+    SELECT * FROM core.link_material lm
+    LEFT JOIN core.material m ON lm.material_id = m.id
+    LEFT JOIN core.category c ON m.category_id = c.id
+    LEFT JOIN core.language_level ll ON m.language_level_id = ll.id
+    LEFT JOIN core.status s ON m.status_id = s.id
+    LEFT JOIN core.material_type mt ON m.material_type_id = mt.id
+    WHERE lm.id = #{id}
+  </select>
+
+  <insert id="insertLinkMaterial" parameterType="ee.tlu.evkk.dal.dto.LinkMaterial" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO core.link_material (
+      url,
+      material_id
+    ) VALUES (
+      #{url},
+      #{materialId}
+    )
+  </insert>
+
+</mapper>
