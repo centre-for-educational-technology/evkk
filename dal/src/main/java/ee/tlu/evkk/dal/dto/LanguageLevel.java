@@ -16,4 +16,5 @@ import java.io.Serializable;
 public class LanguageLevel implements Serializable {
   private Long id;
   private String level;
+  private String label;
 }
