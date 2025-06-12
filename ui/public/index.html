@@ -16,12 +16,27 @@
         content="Tallinna Ülikooli eesti vahekeele korpus"/>
   <link rel="apple-touch-icon"
         href="%PUBLIC_URL%/logo192.png"/>
+  <link type="text/css" rel="stylesheet" media="all" href="/dist/styles/h5p.css" />
   <!--
     manifest.json provides metadata used when your web app is installed on a
     user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
   -->
   <link rel="manifest"
         href="%PUBLIC_URL%/manifest.json"/>
+
+  <script>
+    window.H5PIntegration = {
+      baseUrl: "http://localhost:9090", // Adjust according to your backend URL
+      contentId: "25825",               // Content ID dynamically set
+      url: "uploads/exercises/25825/content/content.json"  // Path to content.json
+    };
+
+    // Log H5PIntegration after it's defined
+    console.log(window.H5PIntegration);
+  </script>
+
+  <script type="text/javascript" src="/dist/frame.bundle.js"></script>
+
   <!--
     Notice the use of %PUBLIC_URL% in the tags above.
     It will be replaced with the URL of the `public` folder during the build.

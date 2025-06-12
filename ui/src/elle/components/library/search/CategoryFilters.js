@@ -12,7 +12,9 @@ export default function CategoryFilters({ selected = [], onChange }) {
   const [checked, setChecked] = useState(selected);
 
   useEffect(() => {
-    setChecked(selected);
+    if (JSON.stringify(selected) !== JSON.stringify(checked)) {
+      setChecked(selected);
+    }
   }, [selected]);
 
   const toggle = (value) => {
