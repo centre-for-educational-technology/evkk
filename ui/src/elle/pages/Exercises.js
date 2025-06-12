@@ -12,6 +12,7 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import { DefaultButtonStyleSmall } from '../const/StyleConstants';
 import { useState, useEffect } from 'react';
 import ContentCard from '../components/library/shared/ContentCard';
+import H5PPlayer from '../components/library/exercises/H5PPlayer.js';
 
 
 export default function Exercise() {
@@ -59,9 +60,9 @@ export default function Exercise() {
                             <div className="library-results">
                                 {exercises.map(item => (
                                     <ContentCard
-                                        key={item.id} 
-                                        item={item} 
-                                        type="exercise" 
+                                        key={item.id}
+                                        item={item}
+                                        type="exercise"
                                     />
                                 ))}
                             </div>
