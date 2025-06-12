@@ -19,11 +19,14 @@ import H5PPlayer from '../components/library/exercises/H5PPlayer.js';
 import Can from '../components/security/Can';
 import usePagination from '../hooks/library/usePagination';
 import Pagination from '../components/library/shared/Pagination';
+import { useNavigate } from 'react-router-dom';
 
 export default function Exercise() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [exercises, setExercises] = useState([]);
   const itemsPerPage = 5;
+  const navigate = useNavigate();
+
 
   const {
     currentPage,
@@ -79,11 +82,9 @@ export default function Exercise() {
 
               <div className="library-results">
                 {currentExercises.map(item => (
-                  <ContentCard
-                    key={item.id}
-                    item={item}
-                    type="exercise"
-                  />
+                  <div key={item.id} onClick={() => navigate(`/library/exercises/${item.id}`)} style={{ cursor: 'pointer' }}>
+                    <ContentCard item={item} type="exercise" />
+                  </div>
                 ))}
               </div>
               <Pagination
