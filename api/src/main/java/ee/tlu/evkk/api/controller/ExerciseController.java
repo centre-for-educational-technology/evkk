@@ -121,23 +121,18 @@ public class ExerciseController {
       String basePath = "/uploads/exercises/" + externalId + "/";
       String filepath = requestURL.substring(requestURL.indexOf(basePath) + basePath.length());
 
-      // Construct the path to the file
       Path filePath = Paths.get("uploads/exercises/" + externalId + "/" + filepath).normalize();
 
-      // Create a resource from the file path
       Resource resource = new UrlResource(filePath.toUri());
 
-      // Check if the resource exists and is readable
       if (resource.exists() || resource.isReadable()) {
         return ResponseEntity.ok()
           .header(HttpHeaders.CONTENT_DISPOSITION, "inline")
           .body(resource);
       } else {
-        // Return 404 if the file does not exist
         return ResponseEntity.notFound().build();
       }
     } catch (Exception e) {
-      // Return 500 Internal Server Error in case of an exception
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
   }
@@ -156,6 +151,7 @@ public class ExerciseController {
   @PostMapping("/validate-link")
   public ResponseEntity<?> validateH5PLink(@RequestBody Map<String, String> payload) {
     String link = payload.get("link");
+
 
     if (link == null || link.isBlank()) {
       return ResponseEntity.badRequest().body(Map.of("status", "error", "message", "ERROR_LINK_IS_MISSING"));
@@ -187,12 +183,12 @@ public class ExerciseController {
   }
 
 
-  //Таким образом, метод /upload выполняет скачивание, распаковку и сохранение файла на сервере.
   @PostMapping("/upload")
   public ResponseEntity<?> downloadAndExtractH5P(@RequestParam("externalId") String externalId) {
 
     try {
       String remoteUrl = "https://sisuloome.e-koolikott.ee/sites/default/files/h5p/exports/interactive-content-" + externalId + ".h5p";
+       Path targetPath = Paths.get(System.getProperty("user.dir") + "/uploads/exercises", externalId + ".h5p");
 
       Path baseDir = Paths.get("uploads/exercises/", externalId);
       Files.createDirectories(baseDir);
@@ -202,7 +198,6 @@ public class ExerciseController {
         Files.copy(in, h5pFilePath, StandardCopyOption.REPLACE_EXISTING);
       }
 
-      // распаковка прямо туда же
       try (ZipInputStream zipIn = new ZipInputStream(Files.newInputStream(h5pFilePath))) {
         ZipEntry entry;
         while ((entry = zipIn.getNextEntry()) != null) {
@@ -215,7 +210,6 @@ public class ExerciseController {
         }
       }
 
-      // создаём упражнение, если ещё не было
       if (!exerciseService.existsByExternalId(externalId)) {
         Exercise exercise = new Exercise();
         exercise.setExternalId(externalId);

@@ -100,3 +100,37 @@
   justify-content: center;
   gap: 7px;
 }
+
+.study-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px 0;
+}
+
+.study-modal-form .MuiFormControl-root,
+.study-modal-form .MuiTextField-root {
+  width: 100%;
+}
+
+.study-modal-upload-button {
+  background-color: #9C27B0 !important;
+  color: white !important;
+  align-self: flex-start;
+  text-transform: none;
+  font-weight: bold;
+}
+
+.study-modal-upload-label {
+  font-size: 14px;
+  color: #757575;
+  margin-top: -8px;
+}
+
+.study-modal-submit-button {
+  background-color: #9C27B0 !important;
+  color: white !important;
+  font-weight: bold;
+  text-transform: none;
+  align-self: flex-start;
+}

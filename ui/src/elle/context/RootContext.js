@@ -11,7 +11,7 @@ export const RootProvider = ({ children }) => {
   const [status, setStatus] = useState(true);
   const [integrationPaths, setIntegrationPaths] = useState();
   const [version, setVersion] = useState();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [tokenRenewed, setTokenRenewed] = useState(false);
 
   const setDataSuccess = useCallback((res) => {
@@ -31,6 +31,18 @@ export const RootProvider = ({ children }) => {
     setTokenRenewed(isTokenRenewed);
   }, [getStatus, setIsLoading, setTokenRenewed]);
 
+  const setTestUser = () => {
+    setUser(
+      {
+        userId: 1,
+        emailAddress: 'test@test.com',
+        firstName: 'test',
+        lastName: 'user',
+      }
+    );
+  };
+
+
   const setContext = (isTokenRenewed) => {
     loadData(isTokenRenewed);
   };
@@ -40,20 +52,25 @@ export const RootProvider = ({ children }) => {
     setAccessToken(null);
   };
 
-  useEffect(() => {
-    loadData();
-  }, [loadData]);
+  const isLoggedIn = () => {
+    return user ? true : false;
+  }
 
-  useEffect(() => {
-    if (tokenRenewed === true && !isLoading) {
-      successEmitter.emit(SuccessSnackbarEventType.SESSION_RENEW_SUCCESS);
-      setTokenRenewed(false);
-    }
-  }, [isLoading, tokenRenewed]);
+  // uncomment when actual login system is implemented
+  // useEffect(() => {
+  //   loadData();
+  // }, [loadData]);
+  //
+  // useEffect(() => {
+  //   if (tokenRenewed === true && !isLoading) {
+  //     successEmitter.emit(SuccessSnackbarEventType.SESSION_RENEW_SUCCESS);
+  //     setTokenRenewed(false);
+  //   }
+  // }, [isLoading, tokenRenewed]);
 
   return (
     <RootContext.Provider
-      value={{ user, accessToken, status, integrationPaths, version, isLoading, setContext, clearAuthContext }}>
+      value={{ user, accessToken, status, integrationPaths, version, isLoading, isLoggedIn, setContext, clearAuthContext, setTestUser }}>
       {children}
     </RootContext.Provider>
   );
