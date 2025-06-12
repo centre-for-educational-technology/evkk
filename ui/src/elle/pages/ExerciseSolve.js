@@ -46,20 +46,29 @@ export default function ExerciseSolve() {
         {/* Nupud */}
         <Stack direction="row" spacing={2} justifyContent="center" mt={4}>
           <Button
-            variant="outlined"
-            color="error"
+            sx={{
+              backgroundColor: '#9C27B0',
+              color: 'white',
+              fontWeight: 'bold',
+              textTransform: 'none',
+              alignSelf: 'flex-start',
+              '&:hover': {
+                backgroundColor: '#7B1FA2'
+              }
+            }}
             onClick={() => {
               const confirmed = window.confirm(
                 'Kas oled kindel, et soovid harjutuse lõpetada?'
               );
               if (confirmed) {
-                setShowModal(true); // <-- Ava modal ainult kui kinnitas
+                setShowModal(true);
               }
             }}
           >
             Lõpeta harjutus
           </Button>
         </Stack>
+
         {/* Tulemusmodal */}
         <ExerciseSolveModal
           isOpen={showModal}
