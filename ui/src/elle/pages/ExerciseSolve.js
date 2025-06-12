@@ -3,11 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography, Button, Stack } from '@mui/material';
 import {ElleOuterDivStyle} from "../const/StyleConstants";
 import { useNavigate } from 'react-router-dom';
+import ExerciseSolveModal from '../components/library/exercises/ExerciseSolveModal'
 
 export default function ExerciseSolve() {
   const {id} = useParams();
   const [exercise, setExercise] = useState(null);
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetch(`http://localhost:9090/api/exercises/${id}`)
@@ -51,15 +53,19 @@ export default function ExerciseSolve() {
                 'Kas oled kindel, et soovid harjutuse lõpetada?'
               );
               if (confirmed) {
-                // Siia saad hiljem panna näiteks navigate('/results') või muu loogika
+                setShowModal(true); // <-- Ava modal ainult kui kinnitas
               }
             }}
           >
             Lõpeta harjutus
           </Button>
         </Stack>
+        {/* Tulemusmodal */}
+        <ExerciseSolveModal
+          isOpen={showModal}
+          setIsOpen={setShowModal}
+        />
       </Box>
     </Box>
   );
-
 }
