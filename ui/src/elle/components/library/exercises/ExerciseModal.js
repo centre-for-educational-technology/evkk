@@ -178,8 +178,21 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
 
   return (
     <>
-      <ModalBase isOpen={isOpen} setIsOpen={setIsOpen} title="Harjutuse koostamine">
-        <Box display="flex" width="100%">
+      <ModalBase
+        isOpen={isOpen}
+        setIsOpen={(value) => {
+          if (!value) {
+            const confirmed = window.confirm('Kas oled kindel, et soovid katkestada? Muudatusi ei salvestata.');
+            if (confirmed) {
+              setIsOpen(false);
+            }
+          } else {
+            setIsOpen(true);
+          }
+        }}
+        title="Harjutuse koostamine"
+      >
+      <Box display="flex" width="100%">
           {step === 1 && (
             <Box display="flex" flexDirection="column" width="100%">
               <TextField
