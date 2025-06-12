@@ -4,6 +4,17 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="ee.tlu.evkk.dal.dao.DurationDao">
+  <sql id="durationColumns">
+    dr.id AS dr_id,
+    dr.value AS dr_value,
+    dr.label AS dr_label
+  </sql>
+
+  <resultMap id="DurationResultMap" type="ee.tlu.evkk.dal.dto.Duration">
+    <id property="id" column="dr_id"/>
+    <result property="value" column="dr_value"/>
+    <result property="label" column="dr_label"/>
+  </resultMap>
 
   <select id="findAllDurations" resultType="ee.tlu.evkk.dal.dto.Duration">
     SELECT id, value, label FROM core.duration ORDER BY id

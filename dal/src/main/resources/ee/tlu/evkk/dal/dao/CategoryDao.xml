@@ -5,13 +5,13 @@
 
 <mapper namespace="ee.tlu.evkk.dal.dao.CategoryDao">
   <sql id="materialCategoryJoin">
-    JOIN core.material_category mc ON m.id = mc.material_id
-    JOIN core.category cat ON cat.id = mc.category_id
+    LEFT JOIN core.material_category mc ON m.id = mc.material_id
+    LEFT JOIN core.category cat ON cat.id = mc.category_id
   </sql>
 
   <sql id="exerciseCategoryJoin">
-    JOIN core.exercise_category ec ON m.id = ec.exercise_id
-    JOIN core.category cat ON cat.id = ec.category_id
+    LEFT JOIN core.exercise_category ec ON ex.id = ec.exercise_id
+    LEFT JOIN core.category cat ON cat.id = ec.category_id
   </sql>
 
   <sql id="categoryColumns">

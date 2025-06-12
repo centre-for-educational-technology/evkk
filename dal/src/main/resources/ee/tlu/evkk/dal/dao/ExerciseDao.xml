@@ -4,61 +4,93 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="ee.tlu.evkk.dal.dao.ExerciseDao">
+  <sql id="exerciseAssociations">
+    LEFT JOIN core.duration dr ON dr.id = ex.duration_id
+    LEFT JOIN core.language_level ll ON ll.id = ex.language_level_id
+    LEFT JOIN core.status st ON st.id = ex.status_id
+    <include refid="ee.tlu.evkk.dal.dao.CategoryDao.exerciseCategoryJoin"/>
+  </sql>
+
+  <sql id="exerciseColumns">
+    ex.id AS ex_id,
+    ex.title AS ex_title,
+    ex.description AS ex_description,
+    ex.views AS ex_views,
+    ex.likes AS ex_likes,
+    ex.created_at AS ex_created_at,
+    ex.created_by_email AS ex_created_by_email,
+    ex.file_path AS ex_file_path,
+    ex.duration_id AS ex_duration_id,
+    ex.language_level_id AS ex_language_level_id,
+    ex.status_id AS ex_status_id,
+    ex.external_id AS ex_external_id
+  </sql>
+
+  <sql id="exerciseAssociationColumns">
+    <include refid="ee.tlu.evkk.dal.dao.ExerciseDao.exerciseColumns"/>,
+    <include refid="ee.tlu.evkk.dal.dao.CategoryDao.categoryColumns"/>,
+    <include refid="ee.tlu.evkk.dal.dao.LanguageLevelDao.languageLevelColumns"/>,
+    <include refid="ee.tlu.evkk.dal.dao.DurationDao.durationColumns"/>,
+    <include refid="ee.tlu.evkk.dal.dao.StatusDao.statusColumns"/>
+  </sql>
 
   <resultMap id="ExerciseResultMap" type="ee.tlu.evkk.dal.dto.Exercise">
-    <id property="id" column="id"/>
-    <result property="title" column="title"/>
-    <result property="description" column="description"/>
-    <result property="views" column="views"/>
-    <result property="createdAt" column="created_at"/>
-    <result property="createdByEmail" column="created_by_email"/>
-    <result property="durationId" column="duration_id"/>
-    <result property="duration" column="duration"/>
-    <result property="likes" column="likes"/>
-    <result property="filePath" column="file_path"/>
-    <result property="languageLevelId" column="language_level_id"/>
-    <result property="level" column="level"/>
-    <result property="externalId" column="external_id"/>
-    <result property="statusId" column="status_id"/>
-    <result property="status" column="status"/>
+    <id property="id" column="ex_id"/>
+    <result property="title" column="ex_title"/>
+    <result property="description" column="ex_description"/>
+    <result property="views" column="ex_views"/>
+    <result property="createdAt" column="ex_created_at"/>
+    <result property="createdByEmail" column="ex_created_by_email"/>
+    <result property="likes" column="ex_likes"/>
+    <result property="filePath" column="ex_file_path"/>
+    <result property="externalId" column="ex_external_id"/>
+    <result property="statusId" column="ex_status_id"/>
+    <result property="durationId" column="ex_duration_id"/>
+    <result property="languageLevelId" column="ex_language_level_id"/>
+    <association property="status" resultMap="ee.tlu.evkk.dal.dao.StatusDao.StatusResultMap"/>
+    <association property="duration" resultMap="ee.tlu.evkk.dal.dao.DurationDao.DurationResultMap"/>
+    <association property="languageLevel" resultMap="ee.tlu.evkk.dal.dao.LanguageLevelDao.LanguageLevelResultMap"/>
+    <collection property="categories" resultMap="ee.tlu.evkk.dal.dao.CategoryDao.CategoryResultMap"/>
   </resultMap>
 
   <select id="findAllExercises" resultMap="ExerciseResultMap">
     SELECT
-    e.id, e.title, e.description, e.views, e.created_at, e.created_by_email,
-    e.duration_id, d.label AS duration,
-    e.likes, e.file_path,
-    e.language_level_id, l.level, l.label AS levelLabel,
-    e.category_id, c.name AS category,
-    e.external_id, e.status_id, s.status
-    FROM core.exercise e
-    LEFT JOIN core.language_level l ON e.language_level_id = l.id
-    LEFT JOIN core.duration d ON e.duration_id = d.id
-    LEFT JOIN core.status s ON e.status_id = s.id
+    <include refid="exerciseAssociationColumns"/>
+    FROM core.exercise ex
+    <include refid="exerciseAssociations"/>
+    ORDER BY ex.id
+  </select>
+
+  <select id="findById" parameterType="long" resultMap="ExerciseResultMap">
+    SELECT
+    <include refid="exerciseAssociationColumns"/>
+    FROM core.exercise ex
+    <include refid="exerciseAssociations"/>
+    WHERE ex.id = #{id}
   </select>
 
   <select id="findByExternalId" parameterType="string" resultMap="ExerciseResultMap">
     SELECT
-    e.id, e.title, e.description, e.views, e.created_at, e.created_by_email,
-    e.duration_id, d.label AS duration,
-    e.likes, e.file_path,
-    e.language_level_id, l.level, l.label AS levelLabel,
-    e.category_id, c.name AS category,
-    e.external_id, e.status_id, s.status
-    FROM core.exercise e
-    LEFT JOIN core.language_level l ON e.language_level_id = l.id
-    LEFT JOIN core.duration d ON e.duration_id = d.id
-    LEFT JOIN core.status s ON e.status_id = s.id
-    WHERE e.external_id = #{externalId}
+    <include refid="exerciseAssociationColumns"/>
+    FROM core.exercise ex
+    <include refid="exerciseAssociations"/>
+    WHERE ex.external_id = #{externalId}
   </select>
+
+  <insert id="insertExerciseCategories" parameterType="ee.tlu.evkk.dal.dto.Exercise">
+    INSERT INTO core.exercise_category (exercise_id, category_id)
+    <foreach collection="categories" item="category" separator="," open="VALUES" close="">
+      (#{id}, #{category.id})
+    </foreach>
+  </insert>
 
   <insert id="insertExercise" parameterType="ee.tlu.evkk.dal.dto.Exercise" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO core.exercise (
     title, description, views, created_at, created_by_email,
-    duration_id, likes, file_path, language_level_id, category_id, external_id, status_id
+    duration_id, likes, file_path, language_level_id, external_id, status_id
     ) VALUES (
     #{title}, #{description}, #{views}, #{createdAt}, #{createdByEmail},
-    #{durationId}, #{likes}, #{filePath}, #{languageLevelId}, #{categoryId}, #{externalId}, 1
+    #{durationId}, #{likes}, #{filePath}, #{languageLevelId}, #{externalId}, 1
     )
   </insert>
 

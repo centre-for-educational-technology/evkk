@@ -23,14 +23,13 @@ public class Exercise implements Serializable {
   private Timestamp createdAt;
   private String createdByEmail;
   private Integer durationId;
-  private String duration;
+  private Duration duration;
   private Integer likes;
   private String filePath;
   private Integer languageLevelId;
-  private String level;
-  private String levelLabel;
+  private LanguageLevel languageLevel;
   private String externalId;
   private Integer statusId;
-  private String status;
+  private Status status;
   private List<Category> categories;
 }
