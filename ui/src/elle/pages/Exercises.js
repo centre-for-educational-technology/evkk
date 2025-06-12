@@ -13,6 +13,9 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import { DefaultButtonStyleSmall } from '../const/StyleConstants';
 import { useState, useEffect } from 'react';
 import ContentCard from '../components/library/shared/ContentCard';
+import H5PPlayer from '../components/library/exercises/H5PPlayer.js';
+
+
 import Can from '../components/security/Can';
 import usePagination from '../hooks/library/usePagination';
 import Pagination from '../components/library/shared/Pagination';
