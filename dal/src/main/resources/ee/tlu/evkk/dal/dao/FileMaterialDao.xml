@@ -5,31 +5,39 @@
 
 <mapper namespace="ee.tlu.evkk.dal.dao.FileMaterialDao">
 
+  <sql id="fileMaterialColumns">
+    mtype.id = fm_id,
+    mtype.file_path = fm_file_path,
+    mtype.file_size = fm_file_size,
+    mtype.file_format = fm_file_format,
+    mtype.material_id = fm_material_id
+  </sql>
+
   <resultMap id="FileMaterialResultMap" type="ee.tlu.evkk.dal.dto.FileMaterial">
-    <id property="id" column="id"/>
-    <result property="filePath" column="file_path"/>
-    <result property="fileSize" column="file_size"/>
-    <result property="fileFormat" column="file_size"/>
-    <result property="materialId" column="material_id"/>
+    <id property="id" column="fm_id"/>
+    <result property="filePath" column="fm_file_path"/>
+    <result property="fileSize" column="fm_file_size"/>
+    <result property="fileFormat" column="fm_file_format"/>
+    <result property="materialId" column="fm_material_id"/>
     <association property="material" resultMap="ee.tlu.evkk.dal.dao.MaterialDao.MaterialResultMap"/>
   </resultMap>
 
   <select id="findAllFileMaterials" resultMap="FileMaterialResultMap">
-    SELECT * FROM core.file_material fm
-    LEFT JOIN core.material m ON fm.material_id = m.id
-    LEFT JOIN core.category c ON m.category_id = c.id
-    LEFT JOIN core.language_level ll ON m.language_level_id = ll.id
-    LEFT JOIN core.status s ON m.status_id = s.id
-    LEFT JOIN core.material_type mt ON m.material_type_id = mt.id
+    SELECT
+    <include refid="ee.tlu.evkk.dal.dao.FileMaterialDao.fileMaterialColumns"/>,
+    <include refid="ee.tlu.evkk.dal.dao.MaterialDao.materialAssociationColumns"/>
+    FROM core.file_material mtype
+    <include refid="ee.tlu.evkk.dal.dao.MaterialTypeDao.materialJoin"/>
+    <include refid="ee.tlu.evkk.dal.dao.MaterialDao.materialAssociations"/>
   </select>
 
   <select id="findById" parameterType="string" resultMap="FileMaterialResultMap">
-    SELECT * FROM core.file_material fm
-    LEFT JOIN core.material m ON fm.material_id = m.id
-    LEFT JOIN core.category c ON m.category_id = c.id
-    LEFT JOIN core.language_level ll ON m.language_level_id = ll.id
-    LEFT JOIN core.status s ON m.status_id = s.id
-    LEFT JOIN core.material_type mt ON m.material_type_id = mt.id
+    SELECT
+    <include refid="ee.tlu.evkk.dal.dao.FileMaterialDao.fileMaterialColumns"/>,
+    <include refid="ee.tlu.evkk.dal.dao.MaterialDao.materialAssociationColumns"/>
+    FROM core.file_material mtype
+    <include refid="ee.tlu.evkk.dal.dao.MaterialTypeDao.materialJoin"/>
+    <include refid="ee.tlu.evkk.dal.dao.MaterialDao.materialAssociations"/>
     WHERE fm.id = #{id}
   </select>
 

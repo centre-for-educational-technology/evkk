@@ -42,7 +42,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
   const [categories, setCategories] = useState([]);
   const [selectedCategoryIds, setSelectedCategoryIds] = useState([]);
   const [languageLevels, setlanguageLevels] = useState([]);
-  const [selectedLanguageLevelsIds, setSelectedLanguageLevelsIds] = useState([]);
+  const [selectedLanguageLevelId, setSelectedLanguageLevelId] = useState(null);
   const [duration, setDuration] = useState(5);
   const [durationOptions, setDurationOptions] = useState([]);
   const [step, setStep] = useState(1);
@@ -123,12 +123,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
 
   //harjutuse salvestamine exercies/h5p/storage/{id}/{filename}.h5p
   const saveExercise = async (externalId) => {
-
-    const category = categories.find(c => c.name === selectedCategoryIds[0]);
-    const categoryId = category?.id;
-
-    const languageLevel = languageLevels.find(l => l.level === selectedLanguageLevelsIds[0]);
-    const languageLevelId = languageLevel?.id;
+    const categoriesMap = selectedCategoryIds.map(id => categories.find(c => c.id === id));
 
     const durationEntry = durationOptions.find(d => d.value === duration);
     const durationId = durationEntry?.id;
@@ -137,13 +132,13 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
       title,
       description,
       durationId,
-      categoryId,
-      languageLevelId,
+      languageLevelId: selectedLanguageLevelId,
       createdByEmail: 'test@example.com',
-      externalId: externalId,
+      externalId,
       views: 0,
       likes: 0,
-      filePath: `/uploads/exercises/${externalId}/content/content.json`
+      filePath: `/uploads/exercises/${externalId}.h5p`,
+      categories: categoriesMap
     };
 
     try {
@@ -170,12 +165,12 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
 
   const handleChangeLevel = (event) => {
     const { target: { value } } = event;
-    setSelectedLanguageLevelsIds(typeof value === 'string' ? value.split(',') : value);
+    setSelectedLanguageLevelId(value);
   };
 
   const handleChangeCategory = (event) => {
     const { target: { value } } = event;
-    setSelectedCategoryIds(typeof value === 'string' ? value.split(',') : value);
+    setSelectedCategoryIds(value);
   };
 
   const handleSliderChange = (_, value) => {
@@ -228,16 +223,13 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                   <InputLabel>{t('query_text_data_level')}</InputLabel>
                   <Select
                     labelId="tag-label"
-                    multiple
-                    value={selectedLanguageLevelsIds}
+                    value={selectedLanguageLevelId ?? ''}
                     onChange={handleChangeLevel}
                     input={<OutlinedInput label={t('query_text_data_level')} />}
-                    renderValue={(selected) => selected.join(', ')}
                     MenuProps={MenuProps}
                   >
                     {languageLevels.map((level) => (
-                      <MenuItem key={level.id} value={level.level}>
-                        <Checkbox checked={selectedLanguageLevelsIds.includes(level.level)} />
+                      <MenuItem key={level.id} value={level.id}>
                         <ListItemText primary={level.level} />
                       </MenuItem>
                     ))}
@@ -254,15 +246,17 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                     input={<OutlinedInput label={t('publish_your_text_text_data_academic_category')} />}
                     renderValue={(selected) =>
                       selected.map(id => {
-                        const item = categories.find(c => c.id === id);
-                        return item?.name || id;
-                      }).join(', ')
+                        const selectedCategory = categories.find(c => c.id === id);
+                        return selectedCategory?.name ?? '';
+                      })
+                      .filter(Boolean)
+                      .join(', ')
                     }
                     MenuProps={MenuProps}
                   >
                     {categories.map((category) => (
-                      <MenuItem key={category.id} value={category.name}>
-                        <Checkbox checked={selectedCategoryIds.includes(category.name)} />
+                      <MenuItem key={category.id} value={category.id}>
+                        <Checkbox checked={selectedCategoryIds.includes(category.id)} />
                         <ListItemText primary={category.name} />
                       </MenuItem>
                     ))}
