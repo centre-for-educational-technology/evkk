@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,15 +23,13 @@ public class Exercise implements Serializable {
   private Timestamp createdAt;
   private String createdByEmail;
   private Integer durationId;
-  private String duration;
+  private Duration duration;
   private Integer likes;
   private String filePath;
-  private Integer categoryId;
   private Integer languageLevelId;
-  private String category;
-  private String level;
-  private String levelLabel;
+  private LanguageLevel languageLevel;
   private String externalId;
   private Integer statusId;
-  private String status;
+  private Status status;
+  private List<Category> categories;
 }

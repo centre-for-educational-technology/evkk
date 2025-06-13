@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ee.tlu.evkk.dal.dao.ShortUrlDao">
+  <sql id="shortUrlColumns">
+    su.id AS su_id,
+    su.code AS su_code,
+    su.original_url AS su_original_url,
+    su.created_at AS su_created_at,
+    su.expires_at AS su_expires_at
+  </sql>
+
+  <resultMap id="ShortUrlResultMap" type="ee.tlu.evkk.dal.dto.ShortUrl">
+    <id property="id" column="su_id"/>
+    <result property="code" column="su_code"/>
+    <result property="originalUrl" column="su_original_url"/>
+    <result property="createdAt" column="su_created_at"/>
+    <result property="expiresAt" column="su_expires_at"/>
+  </resultMap>
+
+  <select id="findById" parameterType="long" resultMap="ShortUrlResultMap">
+    SELECT
+    <include refid="shortUrlColumns"/>
+    FROM core.short_url su
+    WHERE su.id = #{id}
+  </select>
+
+  <insert id="insertShortUrl" parameterType="ee.tlu.evkk.dal.dto.ShortUrl" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO core.short_url (
+      code, original_url, created_at, expires_at
+    ) VALUES (
+      #{code}, #{originalUrl}, #{createdAt}, #{expiresAt}
+    )
+  </insert>
+</mapper>

@@ -4,31 +4,37 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="ee.tlu.evkk.dal.dao.TextMaterialDao">
+  <sql id="textMaterialColumns">
+    mtype.id = tm_id,
+    mtype.text = tm_text,
+    mtype.word_count = tm_word_count,
+    mtype.material_id = tm_material_id
+  </sql>
 
   <resultMap id="TextMaterialResultMap" type="ee.tlu.evkk.dal.dto.FileMaterial">
-    <id property="id" column="id"/>
-    <result property="text" column="text"/>
-    <result property="wordCount" column="word_count"/>
-    <result property="materialId" column="material_id"/>
+    <id property="id" column="tm_id"/>
+    <result property="text" column="tm_text"/>
+    <result property="wordCount" column="tm_word_count"/>
+    <result property="materialId" column="tm_material_id"/>
     <association property="material" resultMap="ee.tlu.evkk.dal.dao.MaterialDao.MaterialResultMap"/>
   </resultMap>
 
   <select id="findAllTextMaterials" resultMap="FileMaterialResultMap">
-    SELECT * FROM core.text_material tm
-    LEFT JOIN core.material m ON tm.material_id = m.id
-    LEFT JOIN core.category c ON m.category_id = c.id
-    LEFT JOIN core.language_level ll ON m.language_level_id = ll.id
-    LEFT JOIN core.status s ON m.status_id = s.id
-    LEFT JOIN core.material_type mt ON m.material_type_id = mt.id
+    SELECT
+    <include refid="ee.tlu.evkk.dal.dao.TextMaterialDao.textMaterialColumns"/>,
+    <include refid="ee.tlu.evkk.dal.dao.MaterialDao.materialAssociationColumns"/>
+    FROM core.text_material mtype
+    <include refid="ee.tlu.evkk.dal.dao.MaterialTypeDao.materialJoin"/>
+    <include refid="ee.tlu.evkk.dal.dao.MaterialDao.materialAssociations"/>
   </select>
 
   <select id="findById" parameterType="string" resultMap="TextMaterialResultMap">
-    SELECT * FROM core.text_material tm
-    LEFT JOIN core.material m ON tm.material_id = m.id
-    LEFT JOIN core.category c ON m.category_id = c.id
-    LEFT JOIN core.language_level ll ON m.language_level_id = ll.id
-    LEFT JOIN core.status s ON m.status_id = s.id
-    LEFT JOIN core.material_type mt ON m.material_type_id = mt.id
+    SELECT
+    <include refid="ee.tlu.evkk.dal.dao.TextMaterialDao.textMaterialColumns"/>,
+    <include refid="ee.tlu.evkk.dal.dao.MaterialDao.materialAssociationColumns"/>
+    FROM core.text_material mtype
+    <include refid="ee.tlu.evkk.dal.dao.MaterialTypeDao.materialJoin"/>
+    <include refid="ee.tlu.evkk.dal.dao.MaterialDao.materialAssociations"/>
     WHERE tm.id = #{id}
   </select>
 

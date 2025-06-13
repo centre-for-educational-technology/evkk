@@ -17,3 +17,4 @@ stanza-server/j*.bin
 start-api.sh
 node_modules/.yarn-integrity
 api/src/main/resources/data/uploadedStudyMaterials.json
+api/uploads/
