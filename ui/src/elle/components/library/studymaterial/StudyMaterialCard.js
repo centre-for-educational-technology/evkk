@@ -4,12 +4,15 @@ import { Link, Button, Tooltip, IconButton } from '@mui/material';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import ShareLinkModal from './ShareLinkModal';
 import ShareIcon from '@mui/icons-material/Share';
+import { useTranslation } from 'react-i18next';
 
 
 export default function StudyMaterialCard({ material, onClick }) {
   const [shareOpen, setShareOpen] = React.useState(false);
   const isFile = material.type === 'fail';
   const extension = material.filename?.split('.').pop();
+
+  const { t } = useTranslation();
 
   return (
     <div
@@ -19,7 +22,7 @@ export default function StudyMaterialCard({ material, onClick }) {
     >
       <div className="content-card-type-label">
         <MenuBookIcon fontSize="small" style={{ marginRight: 4 }} />
-        ÕPPEMATERJAL
+        {t('study_material')}
       </div>
 
       <Tooltip title="Loo jagatav link">
@@ -91,7 +94,7 @@ export default function StudyMaterialCard({ material, onClick }) {
           }}
           sx={{ textTransform: 'none', padding: 0, minWidth: 'auto' }}
         >
-          Vaata lähemalt
+          {t('study_material_inspect')}
         </Button>
         <ShareLinkModal
           open={shareOpen}

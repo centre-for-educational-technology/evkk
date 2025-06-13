@@ -15,6 +15,7 @@ import LanguageLevels from '../json/languageLevels.json';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from 'react-quill';
+import { useTranslation } from 'react-i18next';
 
 export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess }) {
   const [file, setFile] = useState(null);
@@ -30,8 +31,10 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
   const [fileError, setFileError] = useState('');
   const [pureOriginalFilename, setPureOriginalFilename] = useState('');
 
+  const { t } = useTranslation();
+
   const handleCloseRequest = () => {
-    const confirmClose = window.confirm("Kas oled kindel, et soovid sulgeda? Muudatusi ei salvestata!");
+    const confirmClose = window.confirm(t('modal_close_confirmation_popup'));
     if (confirmClose) {
       setIsOpen(false);
     }
@@ -209,16 +212,16 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
           </Box>
         )}
 
-        <Typography variant="h6" fontWeight="bold">Õppematerjali andmed</Typography>
+        <Typography variant="h6" fontWeight="bold">{t('study_material_data')}</Typography>
 
         <TextField
-          label="Pealkiri*"
+          label={t('publish_your_text_title')+"*"}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
 
         <TextField
-          label="Kirjeldus*"
+          label={t('query_text_data_type_L2_exercise_description')+"*"}
           multiline
           rows={3}
           value={description}
@@ -227,7 +230,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
 
         <Box display="flex" gap={2} flexWrap="wrap">
           <FormControl sx={{ flex: 1, minWidth: '200px' }}>
-            <InputLabel id="category-label">Kategooria*</InputLabel>
+            <InputLabel id="category-label">{t('publish_your_text_text_data_academic_category')}*</InputLabel>
             <Select
               labelId="category-label"
               value={category}
@@ -242,7 +245,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
           </FormControl>
 
           <FormControl sx={{ flex: 1, minWidth: '200px' }}>
-            <InputLabel id="level-label">Keeletase*</InputLabel>
+            <InputLabel id="level-label">{t('filter_language_level_button')}*</InputLabel>
             <Select
               labelId="level-label"
               value={level}
@@ -261,7 +264,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
           className="study-modal-submit-button"
           onClick={handleSubmit}
         >
-          LAE ÜLES
+          { t('study_material_upload') }
         </Button>
       </Box>
     </ModalBase>

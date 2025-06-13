@@ -20,12 +20,14 @@ import Can from '../components/security/Can';
 import usePagination from '../hooks/library/usePagination';
 import Pagination from '../components/library/shared/Pagination';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function Exercise() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [exercises, setExercises] = useState([]);
   const itemsPerPage = 5;
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
 
   const {
@@ -49,7 +51,7 @@ export default function Exercise() {
             <ExerciseModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
             <Box className="adding-rounded-corners" sx={ElleOuterDivStyle}>
                 <Box className="library-container">
-                    <h1 style={{ textAlign: 'center' }}>Harjutused</h1>
+                    <h1 style={{ textAlign: 'center' }}>{t('exercises')}</h1>
                     <div className="library-search-container">
                         <SearchBar />
                     </div>
@@ -71,13 +73,13 @@ export default function Exercise() {
                   <Button onClick={() => setIsModalOpen(true)}
                           sx={DefaultButtonStyleSmall}
                           className="library-add-button"
-                  ><EditNoteIcon />Loo Uus Harjutus</Button>
+                  ><EditNoteIcon />{t('exercise_page_create_new_exercise')}</Button>
                 </Can>
                 <SortButton />
               </div>
 
               <div className="library-results-count">
-                <Box>Leitud: {exercises.length}</Box>
+                <Box>{t('query_found')}: {exercises.length}</Box>
               </div>
 
               <div className="library-results">

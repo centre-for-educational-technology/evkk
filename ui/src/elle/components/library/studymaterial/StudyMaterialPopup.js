@@ -14,9 +14,11 @@ import LinkTemplate from "./templates/LinkTemplate";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DownloadIcon from '@mui/icons-material/Download';
 import FileTemplate from "./templates/FileTemplate";
+import { useTranslation } from 'react-i18next';
 
 export default function StudyMaterialPopup({ open, onClose, material }) {
   const [metadataExpanded, setMetadataExpanded] = useState(true);
+  const { t } = useTranslation();
 
   if (!material) return null;
 
@@ -38,20 +40,20 @@ export default function StudyMaterialPopup({ open, onClose, material }) {
             expandIcon={<ExpandMoreIcon />}
             id="material-metadata-header"
           >
-            <Typography>Õppematerjali metainfo</Typography>
+            <Typography>{t('study_material_inspect_metadata')}</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <div className="metainfo-subtitle">Õppematerjali andmed</div>
+            <div className="metainfo-subtitle">{t('study_material_data')}</div>
 
-            <strong>Pealkiri:</strong> {material.title || '-'}<br />
+            <strong>{t('study_material_inspect_title')}:</strong> {material.title || '-'}<br />
             {material.description && (
               <>
-                <strong>Kirjeldus:</strong> {material.description}<br />
+                <strong>{t('study_material_inspect_description')}:</strong> {material.description}<br />
               </>
             )}
-            <strong>Kategooria:</strong> {material.category || '-'}<br />
-            <strong>Keeletase:</strong> {material.level || '-'}<br />
-            <strong>Õppematerjali tüüp:</strong> {material.type || '-'}<br />
+            <strong>{t('study_material_inspect_categories')}:</strong> {material.category || '-'}<br />
+            <strong>{t('study_material_inspect_language_level')}:</strong> {material.level || '-'}<br />
+            <strong>{t('study_material_inspect_type')}:</strong> {material.type || '-'}<br />
           </AccordionDetails>
         </Accordion>
 

@@ -3,10 +3,12 @@
 import React from 'react';
 import { Button, Menu, MenuItem } from '@mui/material';
 import '../../../pages/styles/Library.css';
+import { useTranslation } from 'react-i18next';
 
 export default function SortButton() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+    const { t } = useTranslation();
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -25,7 +27,7 @@ export default function SortButton() {
                 variant="contained"
                 className="library-container-sortbutton"
             >
-                Sorteerimine
+              {t('sort_button')}
             </Button>
             <Menu
                 id="sort-menu"
@@ -36,9 +38,9 @@ export default function SortButton() {
                     'aria-labelledby': 'sort-button',
                 }}
             >
-                <MenuItem onClick={handleClose}>Populaarsemad enne</MenuItem>
-                <MenuItem onClick={handleClose}>Vanemad enne</MenuItem>
-                <MenuItem onClick={handleClose}>Uuemad enne</MenuItem>
+                <MenuItem onClick={handleClose}>{t('sort_popular_first')}</MenuItem>
+                <MenuItem onClick={handleClose}>{t('sort_older_first')}</MenuItem>
+                <MenuItem onClick={handleClose}>{t('sort_newer_first')}</MenuItem>
             </Menu>
         </div>
     )
