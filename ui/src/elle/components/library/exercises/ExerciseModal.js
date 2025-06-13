@@ -22,6 +22,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { DefaultButtonStyle, DefaultSliderStyle } from '../../../const/StyleConstants';
 import { errorEmitter, successEmitter } from '../../../../App';
 import { useFetch } from '../../../hooks/useFetch';
+import H5PPlayer from './H5PPlayer.js';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -152,6 +153,16 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
     }
   };
 
+   const uploadByExternalId = async (externalId) => {
+    try {
+      await fetchData(`http://localhost:9090/api/exercises/upload?externalId=${externalId}`, {
+        method: 'POST'
+      });
+    } catch (err) {
+      errorEmitter.emit('error_generic_server_error');
+    }
+  };
+
   const handleChangeLevel = (event) => {
     const { target: { value } } = event;
     setSelectedLanguageLevelId(value);
@@ -174,8 +185,21 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
 
   return (
     <>
-      <ModalBase isOpen={isOpen} setIsOpen={setIsOpen} title="Harjutuse koostamine">
-        <Box display="flex" width="100%">
+      <ModalBase
+        isOpen={isOpen}
+        setIsOpen={(value) => {
+          if (!value) {
+            const confirmed = window.confirm('Kas oled kindel, et soovid katkestada? Muudatusi ei salvestata.');
+            if (confirmed) {
+              setIsOpen(false);
+            }
+          } else {
+            setIsOpen(true);
+          }
+        }}
+        title="Harjutuse koostamine"
+      >
+      <Box display="flex" width="100%">
           {step === 1 && (
             <Box display="flex" flexDirection="column" width="100%">
               <TextField
@@ -333,8 +357,10 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                     //disabled={link.trim() === ''}
                    onClick={async () => {
                      if (validationStatus === 'success' && externalId) {
-                       await saveExercise(externalId);
+                       await saveExercise(externalId);            // мета-данные
+                       await uploadByExternalId(externalId);      // загрузка и распаковка
                        successEmitter.emit('success_generic');
+                       setStep(3);
                      } else {
                        errorEmitter.emit('error_invalid_link');
                      }
@@ -347,10 +373,10 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
             </Box>
           )}
 
-          {step === 3 && (
+          {step === 3 && externalId && (
             <Box>
               <Typography>Siin saad harjutust ise proovida enne avalikustamist.</Typography>
-              <Box>Siia tuleb harjutuse eelvaade</Box>
+              <H5PPlayer externalId={externalId} />
               <Button
                 className='buttonRight'
                 sx={DefaultButtonStyle}
@@ -358,15 +384,9 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                 variant="contained"
                 onClick={() => setStep(step - 1)}
               >
+
                 Tagasi
               </Button>
-              <iframe
-                src={`https://sisuloome.e-koolikott.ee/node/${externalId}`}
-                width="100%"
-                height="600px"
-                title="preview"
-                allowFullScreen
-              />
             </Box>
           )}
         </Box>

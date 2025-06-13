@@ -16,7 +16,7 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from 'react-quill';
 
-export default function StudyMaterialModal({ isOpen, setIsOpen, onSubmitSuccess }) {
+export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess }) {
   const [file, setFile] = useState(null);
   const [originalFilename, setOriginalFilename] = useState('');
   const [filename, setFilename] = useState('');
@@ -28,6 +28,7 @@ export default function StudyMaterialModal({ isOpen, setIsOpen, onSubmitSuccess 
   const [link, setLink] = useState('');
   const [textContent, setTextContent] = useState('');
   const [fileError, setFileError] = useState('');
+  const [pureOriginalFilename, setPureOriginalFilename] = useState('');
 
   const handleCloseRequest = () => {
     const confirmClose = window.confirm("Kas oled kindel, et soovid sulgeda? Muudatusi ei salvestata!");
@@ -61,12 +62,12 @@ export default function StudyMaterialModal({ isOpen, setIsOpen, onSubmitSuccess 
         return;
       }
 
-      const nameParts = originalFilename.split('.');
+      const nameParts = pureOriginalFilename.split('.');
       const extension = nameParts.pop();
       let safeFilename = filename;
 
       if (!filename) {
-        safeFilename = originalFilename;
+        safeFilename = pureOriginalFilename;
       } else if (!filename.endsWith(`.${extension}`)) {
         safeFilename += `.${extension}`;
       }
@@ -86,9 +87,16 @@ export default function StudyMaterialModal({ isOpen, setIsOpen, onSubmitSuccess 
       formData.append('text', textContent);
     }
 
-    if (!title || !description || !category || !level || !type || !link) {
+    if (!title || !description || !category || !level || !type) {
       alert('Kohustuslikud väljad on täitmata!');
       return;
+    }
+
+    if (type === 'link' || type === 'video') {
+      if (!link) {
+        alert('Palun sisestage link!');
+        return;
+      }
     }
 
     const url = process.env.NODE_ENV === 'production'
@@ -149,6 +157,7 @@ export default function StudyMaterialModal({ isOpen, setIsOpen, onSubmitSuccess 
                       return;
                     }
                     setFile(selected);
+                    setPureOriginalFilename(selected.name); // ilma suuruseta
                     setOriginalFilename(`${selected.name} (${sizeMB.toFixed(2)} MB)`);
                     setFileError('');
                   }
@@ -189,9 +198,10 @@ export default function StudyMaterialModal({ isOpen, setIsOpen, onSubmitSuccess 
               modules={{
                 toolbar: [
                   [{ 'header': [1, 2, false] }],
-                  ['bold', 'italic', 'underline', 'strike'],
+                  ['font', 'bold', 'italic', 'underline', 'strike', 'align'],
                   [{ 'list': 'ordered'}, { 'list': 'bullet' }],
                   ['link'],
+                  ['image'],
                   ['clean']
                 ]
               }}
@@ -217,11 +227,11 @@ export default function StudyMaterialModal({ isOpen, setIsOpen, onSubmitSuccess 
 
         <Box display="flex" gap={2} flexWrap="wrap">
           <FormControl sx={{ flex: 1, minWidth: '200px' }}>
-            <InputLabel id="category-label">Kategooria</InputLabel>
+            <InputLabel id="category-label">Kategooria*</InputLabel>
             <Select
               labelId="category-label"
               value={category}
-              label="Kategooria*"
+              label="Kategooria"
               onChange={(e) => setCategory(e.target.value)}
               MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
             >
@@ -232,11 +242,11 @@ export default function StudyMaterialModal({ isOpen, setIsOpen, onSubmitSuccess 
           </FormControl>
 
           <FormControl sx={{ flex: 1, minWidth: '200px' }}>
-            <InputLabel id="level-label">Keeletase</InputLabel>
+            <InputLabel id="level-label">Keeletase*</InputLabel>
             <Select
               labelId="level-label"
               value={level}
-              label="Keeletase*"
+              label="Keeletase"
               onChange={(e) => setLevel(e.target.value)}
             >
               {LanguageLevels.map((l) => (

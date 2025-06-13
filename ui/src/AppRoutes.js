@@ -26,6 +26,7 @@ import Admin from './elle/pages/Admin';
 import RequireAuth from './elle/components/security/RequireAuth';
 import { UserRoles } from './elle/const/Constants';
 import { useTranslation } from 'react-i18next';
+import ExerciseSolve from './elle/pages/ExerciseSolve';
 
 export default function AppRoutes() {
   const { t } = useTranslation();
@@ -100,6 +101,8 @@ export default function AppRoutes() {
                                   replace />} />
           <Route path={RouteConstants.EXERCISES}
                element={<Exercises />} />
+          <Route path="/library/exercises/:id"
+                 element={<ExerciseSolve />} />
           <Route element={<RequireAuth/>}>
             <Route path={RouteConstants.STUDYMATERIAL}
                  element={<StudyMaterial />}
