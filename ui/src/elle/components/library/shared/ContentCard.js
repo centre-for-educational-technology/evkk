@@ -2,8 +2,10 @@ import '../../../pages/styles/Library.css';
 import { Link } from '@mui/material';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import { useTranslation } from 'react-i18next';
 
 export default function ContentCard({ item, type }) {
+    const { t } = useTranslation();
     if (!item) return null;
 
     const isMaterial = type === 'material';
@@ -25,8 +27,8 @@ export default function ContentCard({ item, type }) {
                 <div className='body2'><strong>{item.title}</strong></div>
                 <div className='body2'>{item.description}</div>
                 <div className="content-card-tags" style={{ marginTop: 10 }}>
-                   {item.category}, &nbsp;&nbsp;
-                   {item.levelLabel}, {item.level} &nbsp;&nbsp;
+                   {item.categories.map((i) => i.name).join(', ')}, &nbsp;&nbsp;
+                   {item.languageLevel.label}, {item.languageLevel.level} &nbsp;&nbsp;
                     {isMaterial && `.${item.filename?.split('.').pop() || 'pdf'}`}
                 </div>
             </div>
@@ -46,7 +48,7 @@ export default function ContentCard({ item, type }) {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            Lae alla
+                          {t('common_download')}
                         </Link>
                     </div>
                 )}
