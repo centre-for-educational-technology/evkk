@@ -1,9 +1,13 @@
 import React from 'react';
 import '../../../pages/styles/Library.css';
-import { Link, Button } from '@mui/material';
+import { Link, Button, Tooltip, IconButton } from '@mui/material';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import ShareLinkModal from './ShareLinkModal';
+import ShareIcon from '@mui/icons-material/Share';
+
 
 export default function StudyMaterialCard({ material, onClick }) {
+  const [shareOpen, setShareOpen] = React.useState(false);
   const isFile = material.type === 'fail';
   const extension = material.filename?.split('.').pop();
 
@@ -13,16 +17,37 @@ export default function StudyMaterialCard({ material, onClick }) {
       onClick={onClick}
       style={{ cursor: 'pointer' }} // ← võimaldab kaardil klõpsamist
     >
-      {/* Materjali tüüp */}
       <div className="content-card-type-label">
         <MenuBookIcon fontSize="small" style={{ marginRight: 4 }} />
         ÕPPEMATERJAL
       </div>
 
-      {/* Pealkiri ja kirjeldus */}
-      <div style={{ marginTop: 24 }}>
-        <h4>{material.title}</h4>
-        <div>{material.description}</div>
+      <Tooltip title="Loo jagatav link">
+        <IconButton
+          onClick={(e) => {
+            e.stopPropagation();
+            setShareOpen(true);
+          }}
+          sx={{
+            position: 'absolute',
+            top: 8,
+            right: 8,
+            color: '#852197',
+            backgroundColor: 'white',
+            border: '1px solid #ddd',
+            padding: '4px',
+            zIndex: 1
+          }}
+        >
+          <ShareIcon fontSize="small" />
+        </IconButton>
+      </Tooltip>
+      {/* Materjali tüüp */}
+
+      {/* Title and description */}
+      <div style={{ marginTop: 30 }}>
+        <div className='body2'><strong>{material.title}</strong></div>
+        <div className='body2'>{material.description}</div>
         <div className="content-card-tags">
           <span className="tag">{material.type}</span>
           &nbsp;&nbsp;
@@ -68,6 +93,11 @@ export default function StudyMaterialCard({ material, onClick }) {
         >
           Vaata lähemalt
         </Button>
+        <ShareLinkModal
+          open={shareOpen}
+          onClose={() => setShareOpen(false)}
+          originalUrl={`${window.location.origin}/library/studymaterial?open=${material.id}`}
+        />
       </div>
     </div>
   );

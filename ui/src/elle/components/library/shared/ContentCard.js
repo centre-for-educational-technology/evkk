@@ -25,7 +25,7 @@ export default function ContentCard({ item, type }) {
                 <div className='body2'><strong>{item.title}</strong></div>
                 <div className='body2'>{item.description}</div>
                 <div className="content-card-tags" style={{ marginTop: 10 }}>
-                    {item.category}, &nbsp;&nbsp;
+                   {item.category}, &nbsp;&nbsp;
                    {item.levelLabel}, {item.level} &nbsp;&nbsp;
                     {isMaterial && `.${item.filename?.split('.').pop() || 'pdf'}`}
                 </div>
