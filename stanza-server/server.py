@@ -89,7 +89,9 @@ def keerukus_sonaliigid_mitmekesisus():
             total_words += 1
             data_row = [word.id, word.text, word.lemma, word.upos, word.xpos, word.feats]
             linguistic_data.append(data_row)
-            corrected_word = common_errors_map.get(word.text, None)
+            corrected_word = common_errors_map.get(word.text.lower(), None)
+            if corrected_word and word.text[0].isupper():
+                corrected_word = corrected_word.capitalize()
             if corrected_word:
                 list_checked_speller_errors.append({
                      "corrected_text": corrected_word,

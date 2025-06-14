@@ -458,3 +458,9 @@ export const countryOptionsForAddingText = {
   'Inglismaa': 'query_common_country_en',
   'Ungari': 'query_common_country_hu'
 };
+
+export const textToSpeechVoices = {
+  mari: 'Mari',
+  albert: 'Albert',
+  kalev: 'Kalev'
+};

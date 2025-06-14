@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import './Correction.css';
 import { Box, Tab } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { ElleOuterDivStyle } from '../../const/StyleConstants';
+import { DefaultTabListStyle, DefaultTabStyle, ElleOuterDivStyle } from '../../const/StyleConstants';
 import CorrectionTab from './tabviews/correction/CorrectionTab';
 import ComplexityTab from './tabviews/complexity/ComplexityTab';
 import VocabularyTab from './tabviews/vocabulary/VocabularyTab';
@@ -45,11 +45,11 @@ export default function Correction() {
         <Box sx={{ width: '100%' }}>
           <TabContext value={value}>
             <Box>
-              <TabList centered onChange={handleChange}>
-                <Tab label={t('corrector_proofreading')} value="1" />
-                <Tab label={t('corrector_proficiency_level')} value="2" />
-                <Tab label={t('corrector_complexity')} value="3" />
-                <Tab label={t('corrector_vocabulary')} value="4" />
+              <TabList sx={DefaultTabListStyle} centered onChange={handleChange}>
+                <Tab sx={DefaultTabStyle} label={t('corrector_proofreading')} value="1" />
+                <Tab sx={DefaultTabStyle} label={t('corrector_proficiency_level')} value="2" />
+                <Tab sx={DefaultTabStyle} label={t('corrector_complexity')} value="3" />
+                <Tab sx={DefaultTabStyle} label={t('corrector_vocabulary')} value="4" />
               </TabList>
             </Box>
             <TabPanel value="1">
@@ -104,6 +104,7 @@ export default function Correction() {
                 setHoveredId={setHoveredId}
                 setNoQuery={setNoQuery}
                 noQuery={noQuery}
+                hoveredId={hoveredId}
               /></TabPanel>
             <TabPanel value="3">
               <ComplexityTab

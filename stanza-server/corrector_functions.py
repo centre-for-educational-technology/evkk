@@ -289,8 +289,22 @@ def merge_corrections(processed_corrections, list_checked_spelling_errors):
             for item in list_checked_spelling_errors:
                 merged_by_start_map[item['start']] = item
 
-    for item in processed_corrections:
-            merged_by_start_map[item['start']] = item
+            for item in processed_corrections:
+                initial_array = item['initial_text'].split()
+                corrections_array = item['corrected_text'].split()
+                start_value = item['start']
+                for index, word in enumerate(initial_array):
+                        merged_by_start_map[start_value] = {
+                            "corrected_text": corrections_array[index],
+                            "initial_text": word,
+                            "start": start_value,
+                            "end": start_value + len(word),
+                            "correction_type": spelling_error
+                        }
+                        start_value += len(word) + 1
+    else:
+        for item in processed_corrections:
+                merged_by_start_map[item['start']] = item
 
     return sorted(merged_by_start_map.values(), key=lambda x: x['start'])
 
