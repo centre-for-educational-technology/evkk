@@ -29,8 +29,11 @@ if os.path.isfile("/app/word_mapping.csv"):
 else:
     asendused = []
 
-with open('/app/common_errors_map.json', 'r', encoding='utf-8') as f:
-    common_errors_map = json.load(f)
+if os.path.isfile("/app/common_errors_map.json"):
+    with open('/app/common_errors_map.json', 'r', encoding='utf-8') as f:
+        common_errors_map = json.load(f)
+else:
+    common_errors_map = {}
 
 mimetype = "application/json"
 post = ['POST']
@@ -88,22 +91,19 @@ def keerukus_sonaliigid_mitmekesisus():
             linguistic_data.append(data_row)
             corrected_word = common_errors_map.get(word.text, None)
             if corrected_word:
-                list_checked_speller_errors.append(
-                    {
+                list_checked_speller_errors.append({
                      "corrected_text": corrected_word,
                      "correction_type": "spellingError",
                      "start": word.start_char,
                      "end": word.end_char,
-                     "initial_text": word.text}
-                )
+                     "initial_text": word.text})
             if word.upos not in sona_upos_piirang:
-                sentence_array.append(
-                    {"start": word.start_char,
+                sentence_array.append({
+                    "start": word.start_char,
                      "end": word.end_char,
                      "text": word.text,
                      "lemma": word.lemma,
-                     "upos": word.upos}
-                )
+                     "upos": word.upos})
                 sonad.append(word.text)
                 sonaliigid.append(word.pos)
                 lemmad.append(sanitize_lemma(word.lemma))
@@ -159,7 +159,6 @@ def keerukus_sonaliigid_mitmekesisus():
             "sisusonad": calculate_content_word(lemmad, sonaliigid),
             "nimitegusuhe": verb_and_noun_relation(sonaliigid),
             "abstraktsed": calculate_abstract_words(serializable_word_analysis, sonaliigid),
-            "kokku": calculate_total_words(sonaliigid),
             "abskeskmine": calculate_abstractness_average(serializable_word_analysis)
         },
         "margitud_laused": {

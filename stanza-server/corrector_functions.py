@@ -408,7 +408,7 @@ def check_if_word_exists_in_text(word):
 def handle_uncommon_words_marking(text, word_types, lemmas, words):
     temp_text = replace_combined.sub('', text)
     for index, liik in enumerate(word_types):
-        if liik != NUM and liik != N and liik != PROPN and lemmas[index] not in common_lemmas:
+        if liik != NUM and liik != N_VAL and liik != PROPN and lemmas[index] not in common_lemmas:
             new_word = f'<span class="uncommon-word-color">{words[index]}</span>'
             temp_text = re.sub(check_if_word_exists_in_text(words[index]), new_word, temp_text)
     return temp_text
