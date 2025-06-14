@@ -76,7 +76,7 @@ def curl_request(data):
 
     chars_to_remove = ['_', '=', '\(', ')', '"', '&']
     for char in chars_to_remove:
-        data['Lemma'] = data['Lemma'].str.replace(char, '', regex=True)
+        data.loc[:, 'Lemma'] = data['Lemma'].str.replace(char, '', regex=True)
     data['Lemma'] = data['Lemma'].str.replace("'", "")
 
     lemmas = ' '.join(data['Lemma'].tolist())
