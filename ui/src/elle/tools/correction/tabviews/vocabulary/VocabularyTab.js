@@ -163,7 +163,7 @@ export default function VocabularyTab(
                   <div sx={{ width: '100%' }}>
                     <div className="tab-table">
                       <div>{t('corrector_vocabulary_statistics_the_words_considered')}</div>
-                      <div>{complexityAnswer.korrektoriLoendid.kokku || 0}</div>
+                      <div>{complexityAnswer.keerukus[0] || 0}</div>
                     </div>
                     <div className="tab-table">
                       <div>{t('corrector_vocabulary_statistics_different_words')}</div>
@@ -180,7 +180,7 @@ export default function VocabularyTab(
                     {abstractWords &&
                       <div className="tab-table">
                         <div>{t('corrector_vocabulary_statistics_abstract_nouns')}</div>
-                        <div>{complexityAnswer.korrektoriLoendid.sisusonad.abstraktsed || 0}</div>
+                        <div>{complexityAnswer.korrektoriLoendid.abstraktsed || 0}</div>
                       </div>
                     }
                   </div>
