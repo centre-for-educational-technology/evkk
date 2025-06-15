@@ -9,7 +9,7 @@ from flask import request
 
 from corrector_counters import calculate_uncommon_words
 from corrector_functions import generate_grammar_output, calculate_noun_count, verb_and_noun_relation, \
-    calculate_content_word, calculate_abstract_words, calculate_total_words, calculate_abstractness_average, \
+    calculate_content_word, calculate_abstract_words, calculate_abstractness_average, \
     handle_uncommon_words_marking, handle_content_words_marking, handle_repetition_marking, \
     handle_abstract_words_marking, handle_noun_marking, handle_long_word_marking, handle_long_sentence_marking
 from grammar_fetches import fetch_grammar, fetch_speller, fetch_test_grammar
@@ -17,9 +17,9 @@ from grammar_test_functions import generate_test_grammar_output
 from nlp import nlp_t, nlp_tp, nlp_tpl, nlp_all, nlp_ru_tp, nlp_ru_all
 from tasemehindaja import arvuta
 from text_abstraction_analyse import Utils
+from text_level_model.linguistic_analysis import linguistic_analysis, extract_features
 from text_level_model.train import train
 from vocabulary_marking_handlers import check_both_sentence_repetition
-from text_level_model.linguistic_analysis import linguistic_analysis, extract_features
 
 train()
 utils = Utils()
@@ -94,18 +94,20 @@ def keerukus_sonaliigid_mitmekesisus():
                 corrected_word = corrected_word.capitalize()
             if corrected_word:
                 list_checked_speller_errors.append({
-                     "corrected_text": corrected_word,
-                     "correction_type": "spellingError",
-                     "start": word.start_char,
-                     "end": word.end_char,
-                     "initial_text": word.text})
+                    "corrected_text": corrected_word,
+                    "correction_type": "spellingError",
+                    "start": word.start_char,
+                    "end": word.end_char,
+                    "initial_text": word.text
+                })
             if word.upos not in sona_upos_piirang:
                 sentence_array.append({
                     "start": word.start_char,
-                     "end": word.end_char,
-                     "text": word.text,
-                     "lemma": word.lemma,
-                     "upos": word.upos})
+                    "end": word.end_char,
+                    "text": word.text,
+                    "lemma": word.lemma,
+                    "upos": word.upos
+                })
                 sonad.append(word.text)
                 sonaliigid.append(word.pos)
                 lemmad.append(sanitize_lemma(word.lemma))
