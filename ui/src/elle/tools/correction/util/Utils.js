@@ -165,7 +165,7 @@ const processCorrectorText = (fetchInputText) => {
   return Array.isArray(fetchInputText)
     ? fetchInputText[0]
     : fetchInputText.trim()
-      .replaceAll(replaceCombined, '')
+      .replace(replaceCombined, '')
       .replace(/\s+/g, ' ')
       .replace(replaceQuotes, '"');
 };
