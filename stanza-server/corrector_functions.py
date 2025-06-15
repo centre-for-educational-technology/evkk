@@ -411,10 +411,6 @@ def calculate_abstract_words(abstract_answer, word_types):
     return abstract_count
 
 
-def calculate_total_words(word_types):
-    return sum(1 for liik in word_types if liik != NUM and liik != PROPN)
-
-
 def check_if_word_exists_in_text(word):
     return re.compile(rf'\b{re.escape(word)}\b')
 
