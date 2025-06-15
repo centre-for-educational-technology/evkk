@@ -108,6 +108,7 @@ export default function VocabularyTab(
                   href={VOCABULARY_LEXICAL_DENSITY_LINK}> {t('corrector_vocabulary_infobox_lexical_density_link')}</a>}
               </li>
             </ul>
+            <b>{t('corrector_vocabulary_infobox_reference_links_bold')}</b>&nbsp;
             {t('corrector_vocabulary_infobox_reference_links')}
             {<a href={VOCABULARY_REFERENCE_LINK_ONE}> {t('common_here')}</a>}&nbsp;
             {t('common_and')}
