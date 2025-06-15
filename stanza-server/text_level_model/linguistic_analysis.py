@@ -31,7 +31,7 @@ model_types = {
     'mixed': {
         "model": 'mixed_model.joblib',
         "scaler": 'mixed_scaler.joblib',
-        "feats": ['n_cases', 'Nom', 'Tra', 'Plur', 'S_cases', 'S_Plur',
+        "feats": ['n_cases', 'Tra', 'Plur', 'S_cases', 'S_Plur',
                   'A_cases', 'P_cases', 'P_Prs', 'P_Dem', 'P_IntRel',
                   'V_Fin', 'lemma_count', 'RTTR', 'CVV', 'S_abstr',
                   'MTLD', 'word_count', 'sent_count', 'word_len',
@@ -101,7 +101,7 @@ def extract_features(errors_per_sentence, errors_per_word, data):
     feat_values['syllables'] = syllables
 
     # Calculating lexical features
-    feat_values['lemma_count'] = int(df.groupby('Lemma').Lemma.count().to_frame().count())
+    feat_values['lemma_count'] = int(df.groupby('Lemma').Lemma.count().to_frame().count().iloc[0])
     cleaned_text = df[(df.Upos != 'PROPN') & (df.Upos != 'SYM')]
     cleaned_text = cleaned_text[~cleaned_text['Feats'].str.contains('NumForm=Digit', na=False)]
     cleaned_lemmas = cleaned_text.groupby('Lemma').Lemma.count().count()
@@ -143,7 +143,7 @@ def extract_features(errors_per_sentence, errors_per_word, data):
     noun_count = pos_count(df, 'S')
     noun_feats = feats_table(df, 'S')
     feat_values['S_cases'] = count_cases(noun_feats)
-    for feat_name, feat_tag in zip(['S_Nom', 'S_Tra', 'S_Plur'], ['Case=Nom', 'Case=Nom', 'Number=Plur']):
+    for feat_name, feat_tag in zip(['S_Nom', 'S_Tra', 'S_Plur'], ['Case=Nom', 'Case=Tra', 'Number=Plur']):
         feat_values[feat_name] = feat_ratio(noun_feats, feat_tag, noun_count)
 
     # adjective features
