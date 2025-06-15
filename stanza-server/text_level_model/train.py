@@ -6,6 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression, LogisticRegressionCV
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.svm import SVC
 from joblib import dump
 
 
@@ -19,7 +20,7 @@ def train():
                   'V_Neg', 'K_Post', 'D', 'J', 'S_Prop']
     complex_feats = ['word_count', 'word_len', 'syllables']
     error_feats = ['errors_per_word', 'errors_per_sentence']
-    mixed_feats = ['n_cases', 'Nom', 'Tra', 'Plur', 'S_cases', 'S_Plur',
+    mixed_feats = ['n_cases', 'Tra', 'Plur', 'S_cases', 'S_Plur',
                    'A_cases', 'P_cases', 'P_Prs', 'P_Dem', 'P_IntRel',
                    'V_Fin', 'lemma_count', 'RTTR', 'CVV', 'S_abstr',
                    'MTLD', 'word_count', 'sent_count', 'word_len',
@@ -41,41 +42,41 @@ def train():
 
     # Training classification models
     # lexical features
-    lex_scaler = StandardScaler()
-    X_lex_scaled = lex_scaler.fit_transform(X_lex)
+    lex_scaler = StandardScaler().fit(X_lex)
+    X_lex_scaled = lex_scaler.transform(X_lex)
     lex_clf = LogisticRegressionCV(cv=5, max_iter=10000)
     lex_model = lex_clf.fit(X_lex_scaled, y)
     dump(lex_model, 'lex_model.joblib')
     dump(lex_scaler, 'lex_scaler.joblib')
 
     # grammatical features
-    gram_scaler = StandardScaler()
-    X_gram_scaled = gram_scaler.fit_transform(X_gram)
+    gram_scaler = StandardScaler().fit(X_gram)
+    X_gram_scaled = gram_scaler.transform(X_gram)
     gram_clf = LinearDiscriminantAnalysis()
     gram_model = gram_clf.fit(X_gram_scaled, y)
     dump(gram_model, 'gram_model.joblib')
     dump(gram_scaler, 'gram_scaler.joblib')
 
     # complexity features
-    complex_scaler = StandardScaler()
-    X_complex_scaled = complex_scaler.fit_transform(X_complex)
+    complex_scaler = StandardScaler().fit(X_complex)
+    X_complex_scaled = complex_scaler.transform(X_complex)
     complex_clf = LogisticRegression(max_iter=10000)
     complex_model = complex_clf.fit(X_complex_scaled, y)
     dump(complex_model, 'complex_model.joblib')
     dump(complex_scaler, 'complex_scaler.joblib')
 
     # error features
-    error_scaler = StandardScaler()
-    X_error_scaled = error_scaler.fit_transform(X_error)
+    error_scaler = StandardScaler().fit(X_error)
+    X_error_scaled = error_scaler.transform(X_error)
     error_clf = RandomForestClassifier(random_state=0)
     error_model = error_clf.fit(X_error_scaled, y)
     dump(error_model, 'error_model.joblib')
     dump(error_scaler, 'error_scaler.joblib')
 
     # mixed features for general score
-    mixed_scaler = StandardScaler()
-    X_mixed_scaled = mixed_scaler.fit_transform(X_mixed)
-    mixed_clf = LogisticRegression(max_iter=10000)
+    mixed_scaler = StandardScaler().fit(X_mixed)
+    X_mixed_scaled = mixed_scaler.transform(X_mixed)
+    mixed_clf = SVC(probability=True)
     mixed_model = mixed_clf.fit(X_mixed_scaled, y)
     dump(mixed_model, 'mixed_model.joblib')
     dump(mixed_scaler, 'mixed_scaler.joblib')
