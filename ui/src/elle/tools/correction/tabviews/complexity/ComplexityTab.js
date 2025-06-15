@@ -169,7 +169,7 @@ export default function ComplexityTab(
                   <div>
                     <div className="tab-table">
                       <div>{t('corrector_complexity_statistics_phrases')}</div>
-                      <div>{complexityAnswer.keerukus[0]}</div>
+                      <div>{complexityAnswer.keerukus[0] || 0}</div>
                     </div>
                     <div className="tab-table">
                       <div>{t('corrector_complexity_statistics_words')}</div>
@@ -177,19 +177,19 @@ export default function ComplexityTab(
                     </div>
                     <div className="tab-table">
                       <div>{t('corrector_complexity_statistics_syllables')}</div>
-                      <div>{complexityAnswer.keerukus[3]}</div>
+                      <div>{complexityAnswer.keerukus[3] || 0}</div>
                     </div>
                     <div className="tab-table">
                       <div>{t('corrector_complexity_statistics_polysyllabic_words')}</div>
-                      <div>{complexityAnswer.keerukus[2]}</div>
+                      <div>{complexityAnswer.keerukus[2] || 0}</div>
                     </div>
                     <div className="tab-table">
                       <div>{t('corrector_complexity_statistics_long_words')}</div>
-                      <div>{complexityAnswer.keerukus[4]}</div>
+                      <div>{complexityAnswer.keerukus[4] || 0}</div>
                     </div>
                     <div className="tab-table">
                       <div>{t('corrector_complexity_statistics_nouns')}</div>
-                      <div>{complexityAnswer.korrektoriLoendid.nimisonad}</div>
+                      <div>{complexityAnswer.korrektoriLoendid.nimisonad || 0}</div>
                     </div>
                   </div>
                 </AccordionDetails>

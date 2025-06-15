@@ -21,8 +21,7 @@ export const complexityValues = [
   'complexity_level_very_difficult'
 ];
 
-export const textLevelColors = ['#ea9999', '#b6d7a8', '#ffe599', '#ada1d4'];
-
+export const textLevelColors = ['#9C27B0', '#A785D8', '#CCA8FD', '#FFD0FD'];
 export const errorTypes = {
   spellingErrorTest: { color: '#ea9999', label: 'corrector_grammar_errors_spelling', classValue: 'spelling-error' },
   spellingError: { color: '#ea9999', label: 'corrector_grammar_errors_word_replacement', classValue: 'spelling-error' },
