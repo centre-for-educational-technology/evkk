@@ -1,8 +1,14 @@
 import React from 'react';
 import '../../../styles/StudyMaterialTemplates.css';
 
-export default function VideoTemplate({ videoUrl }) {
-  if (!videoUrl) return null;
+export default function VideoTemplate({ videoUrl, embedCode }) {
+  if (embedCode) {
+    return (
+      <div className="video-wrapper" dangerouslySetInnerHTML={{ __html: embedCode }} />
+    );
+  }
+
+  if (!videoUrl) return <p>Video puudub</p>;
 
   const getYouTubeEmbedUrl = (url) => {
     const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#&?]*).*/;
