@@ -44,7 +44,7 @@ public class ShortUrlService {
     mapper.writerWithDefaultPrettyPrinter().writeValue(storageFile, urls);
 
     return Map.of(
-      "shortUrl", "http://localhost:9090/r/" + code
+      "shortUrl", "http://localhost:9090/api/" + code
     );
   }
 

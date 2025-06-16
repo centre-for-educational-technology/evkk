@@ -116,17 +116,35 @@ public class ExerciseController {
     HttpServletRequest request) {
 
     try {
-      // Extract the filepath from the request URL
+      // Võtame kogu URL-rea (näiteks /uploads/exercises/1234/somefile.js)
       String requestURL = request.getRequestURI();
+
+      // Leiame tee osa pärast externalId-d (nt "somefile.js")
       String basePath = "/uploads/exercises/" + externalId + "/";
       String filepath = requestURL.substring(requestURL.indexOf(basePath) + basePath.length());
 
+      // Koostame füüsilise failitee
       Path filePath = Paths.get("uploads/exercises/" + externalId + "/" + filepath).normalize();
-
       Resource resource = new UrlResource(filePath.toUri());
 
+      // Kontrollime, kas fail eksisteerib ja on loetav
       if (resource.exists() || resource.isReadable()) {
+
+        // Proovime tuvastada MIME tüübi (sisu tüüp, nt text/html, image/jpeg, application/javascript jne)
+        String contentType = Files.probeContentType(filePath);
+
+        // Mõnel süsteemil ei tunta .js faile ära — määrame selle käsitsi
+        if (filePath.toString().endsWith(".js")) {
+          contentType = "application/javascript";
+          // Kui MIME tüüpi ei suudetud tuvastada, määrame vaikimisi
+        } else if (contentType == null) {
+          contentType = "application/octet-stream";
+        }
+
+        // Tagastame faili koos sobiva Content-Type ja Content-Disposition päisega
+        // See võimaldab brauseril näiteks .js faili skriptina kasutada
         return ResponseEntity.ok()
+          .header(HttpHeaders.CONTENT_TYPE, contentType)
           .header(HttpHeaders.CONTENT_DISPOSITION, "inline")
           .body(resource);
       } else {
