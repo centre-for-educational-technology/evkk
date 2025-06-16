@@ -3,7 +3,7 @@ import { IconButton, Tooltip } from '@mui/material';
 import ShareIcon from '@mui/icons-material/Share';
 import ShareLinkModal from './ShareLinkModal';
 
-export default function ShareButton({ originalUrl }) {
+export default function ShareButton({ originalUrl, sx = {} }) {
   const [open, setOpen] = useState(false);
 
   const handleClick = (e) => {
@@ -18,13 +18,14 @@ export default function ShareButton({ originalUrl }) {
           onClick={handleClick}
           sx={{
             position: 'absolute',
-            top: 8,
-            right: 8,
+            top: 15,
+            right: 15,
             color: '#852197',
-            backgroundColor: 'white',
-            border: '1px solid #ddd',
-            padding: '4px',
-            zIndex: 1
+            backgroundColor: 'transparent',
+            border: 'none',
+            padding: 0,
+            zIndex: 1,
+            ...sx
           }}
         >
           <ShareIcon fontSize="small" />
