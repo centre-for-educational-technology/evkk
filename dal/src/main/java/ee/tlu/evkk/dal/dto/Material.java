@@ -24,6 +24,7 @@ public class Material implements Serializable {
   private LanguageLevel languageLevel;
   private List<Category> categories;
   private Status status;
+  private List<TargetGroup> targetGroups;
 
   private String filePath;
   private String fileFormat;
