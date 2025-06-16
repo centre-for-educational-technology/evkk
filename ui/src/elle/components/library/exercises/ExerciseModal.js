@@ -14,6 +14,12 @@ import {
   Typography,
   Link,
 } from '@mui/material';
+
+import {
+  validateLink,
+  submitExercise,
+} from '../../../util/ExerciseUtils';
+
 import '../../../pages/styles/Library.css';
 import { useTranslation } from 'react-i18next';
 import ModalBase from '../../modal/ModalBase';
@@ -54,6 +60,12 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
   const isStep1Valid = title && description && languageLevels.length > 0 && selectedCategoryIds.length > 0;
 
   useEffect(() => {
+    if (isOpen) {
+      setStep(1);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
     fetch("http://localhost:9090/api/categories")
       .then(res => res.json())
       .then(json => setCategories(json));
@@ -74,95 +86,6 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
       });
   }, []);
 
-  //extractId on pandud "Exercise" - extractId. See on vaja selle jaoks, et pärast saaks seda kuvada ja kontrollida, kas selline extractedId exists or not
-  const extractId = (link) => {
-    const match = link.match(/\/node\/(\d+)/);
-    return match ? match[1] : null;
-  };
-
-  //valideeritakse kas link on õige ja kas see sobib
-  const validateLink = async () => {
-    const id = extractId(link);
-    if (!id) {
-      errorEmitter.emit('error_invalid_link');
-      return;
-    }
-
-    try {
-      const urlObj = new URL(link);
-      if (urlObj.hostname !== 'sisuloome.e-koolikott.ee') {
-        errorEmitter.emit('error_invalid_link');
-        return;
-      }
-    } catch (err) {
-      errorEmitter.emit('error_invalid_link');
-      return;
-    }
-
-    try {
-      const data = await fetchData('/api/exercises/validate-link', {
-        method: 'POST',
-        body: JSON.stringify({ link }),
-        headers: { 'Content-Type': 'application/json' }
-      }
-);
-      if (data.status === 'ok' || data.status === 'already_exists') {
-        setValidationStatus('success');
-        setExternalId(data.external_id);
-      } else {
-        setValidationStatus('error');
-        setExternalId(null);
-        alert("Link ei sobi või faili ei leitud.");
-      }
-    } catch (error) {
-      setValidationStatus('error');
-      setExternalId(null);
-      alert("Viga valideerimisel.");
-    }
-  };
-
-  //harjutuse salvestamine exercies/h5p/storage/{id}/{filename}.h5p
-  const saveExercise = async (externalId) => {
-    const categoriesMap = selectedCategoryIds.map(id => categories.find(c => c.id === id));
-
-    const durationEntry = durationOptions.find(d => d.value === duration);
-    const durationId = durationEntry?.id;
-
-    const data = {
-      title,
-      description,
-      durationId,
-      languageLevelId: selectedLanguageLevelId,
-      createdByEmail: 'test@example.com',
-      externalId,
-      views: 0,
-      likes: 0,
-      filePath: `/uploads/exercises/${externalId}.h5p`,
-      categories: categoriesMap
-    };
-
-    try {
-      await fetchData('http://localhost:9090/api/exercises', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      successEmitter.emit('success_generic');
-    } catch (err) {
-      errorEmitter.emit('error_generic_server_error');
-    }
-  };
-
-   const uploadByExternalId = async (externalId) => {
-    try {
-      await fetchData(`http://localhost:9090/api/exercises/upload?externalId=${externalId}`, {
-        method: 'POST'
-      });
-    } catch (err) {
-      errorEmitter.emit('error_generic_server_error');
-    }
-  };
-
   const handleChangeLevel = (event) => {
     const { target: { value } } = event;
     setSelectedLanguageLevelId(value);
@@ -177,11 +100,39 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
     setDuration(value);
   };
 
-  useEffect(() => {
-    if (isOpen) {
-      setStep(1);
+  const handleValidateLink = async () => {
+    const result = await validateLink(link, fetchData);
+
+    if (result.status === 'success') {
+      setValidationStatus('success');
+      setExternalId(result.externalId);
+      successEmitter.emit('success_generic');
+    } else {
+      setValidationStatus('error');
+      setExternalId(null);
+      errorEmitter.emit('error_invalid_link');
     }
-  }, [isOpen]);
+  };
+
+  const handleSubmitExercise = async () => {
+    try {
+      await submitExercise({
+        title,
+        description,
+        duration,
+        selectedLanguageLevelId,
+        selectedCategoryIds,
+        categories,
+        durationOptions,
+        externalId,
+      }, fetchData);
+      successEmitter.emit('success_generic');
+      setIsOpen(false);
+    } catch {
+      errorEmitter.emit('error_generic_server_error');
+    }
+  };
+
 
   return (
     <>
@@ -191,7 +142,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
         requireConfirmation={true}
         title={t('exercise_creation')}
       >
-      <Box display="flex" width="100%">
+        <Box display="flex" width="100%">
           {step === 1 && (
             <Box display="flex" flexDirection="column" width="100%">
               <TextField
@@ -241,8 +192,8 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                         const selectedCategory = categories.find(c => c.id === id);
                         return selectedCategory?.name ?? '';
                       })
-                      .filter(Boolean)
-                      .join(', ')
+                        .filter(Boolean)
+                        .join(', ')
                     }
                     MenuProps={MenuProps}
                   >
@@ -278,6 +229,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                   size="medium"
                   variant="contained"
                   onClick={() => setStep(step + 1)}
+                  disabled={isStep1Valid}
                 >
                   {t('exercise_modal_proceed')}
                 </Button>
@@ -324,7 +276,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                   variant="outlined"
                   size="medium"
                   sx={{ width: '30%' }}
-                  onClick={validateLink}
+                  onClick={handleValidateLink}
                   disabled={link.trim() === ''}
                 >
                   {t('exercise_creation_verify_link')}
@@ -336,7 +288,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                     sx={DefaultButtonStyle}
                     size="medium"
                     variant="contained"
-                    onClick={() => setStep(1)}
+                    onClick={() => setStep(step - 1)}
                   >
                     {t('exercise_creation_back')}
                   </Button>
@@ -346,17 +298,8 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                     sx={DefaultButtonStyle}
                     size="medium"
                     variant="contained"
-                    //disabled={link.trim() === ''}
-                   onClick={async () => {
-                     if (validationStatus === 'success' && externalId) {
-                       await saveExercise(externalId);            // мета-данные
-                       await uploadByExternalId(externalId);      // загрузка и распаковка
-                       successEmitter.emit('success_generic');
-                       setStep(3);
-                     } else {
-                       errorEmitter.emit('error_invalid_link');
-                     }
-                   }}
+                    onClick={() => setStep(3)}
+                    disabled={validationStatus !== 'success' || !externalId}
                   >
                     {t('exercise_creation_show_preview')}
                   </Button>
@@ -376,8 +319,16 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                 variant="contained"
                 onClick={() => setStep(step - 1)}
               >
-
                 Tagasi
+              </Button>
+              <Button
+                className='buttonRight'
+                sx={DefaultButtonStyle}
+                size="medium"
+                variant="contained"
+                onClick={handleSubmitExercise}
+              >
+              Avalda
               </Button>
             </Box>
           )}

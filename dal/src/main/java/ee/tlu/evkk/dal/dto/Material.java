@@ -24,4 +24,17 @@ public class Material implements Serializable {
   private LanguageLevel languageLevel;
   private List<Category> categories;
   private Status status;
+
+  private String filePath;
+  private String fileFormat;
+  private Integer fileSize;
+
+  private String link;
+
+  private String text;
+  private Integer wordCount;
+
+  private String videoUrl;
+  private String platform;
+  private String embedCode;
 }

@@ -9,6 +9,7 @@ import {
   CircularProgress,
   Box
 } from '@mui/material';
+import '../../styles/ShareLinkModal.css';
 
 export default function ShareLinkModal({ open, onClose, originalUrl }) {
   const [shortUrl, setShortUrl] = useState('');
@@ -51,29 +52,20 @@ export default function ShareLinkModal({ open, onClose, originalUrl }) {
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Jagatav link</DialogTitle>
-      <DialogContent>
+      <DialogTitle className="dialog-title">Jagatav link</DialogTitle>
+      <DialogContent className="dialog-content">
         {loading ? (
-          <Box display="flex" alignItems="center" gap={2}>
+          <Box className="dialog-loading">
             <CircularProgress size={20} />
             <Typography>Genereerin lühilinki...</Typography>
           </Box>
         ) : (
-          <Typography
-            variant="body2"
-            sx={{
-              wordBreak: 'break-all',
-              background: '#f5f5f5',
-              padding: '8px 12px',
-              borderRadius: 2,
-              marginTop: 1
-            }}
-          >
+          <Typography className="dialog-link-box">
             {shortUrl}
           </Typography>
         )}
       </DialogContent>
-      <DialogActions>
+      <DialogActions className="dialog-actions">
         <Button onClick={onClose}>Sulge</Button>
         <Button onClick={handleCopy} disabled={!shortUrl || loading}>
           {copied ? 'Kopeeritud!' : 'Kopeeri'}

@@ -3,11 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography, Button, Stack } from '@mui/material';
 import {ElleOuterDivStyle} from "../const/StyleConstants";
 import { useNavigate } from 'react-router-dom';
-import ExerciseSolveModal from '../components/library/exercises/ExerciseSolveModal'
+import ExerciseResultModal from '../components/library/exercises/ExerciseResultModal'
+import H5PPlayer from '../components/library/exercises/H5PPlayer';
 import ConfirmationModal from '../components/modal/ConfirmationModal';
 
 export default function ExerciseSolve() {
   const {id} = useParams();
+
   const [exercise, setExercise] = useState(null);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
@@ -41,6 +43,12 @@ export default function ExerciseSolve() {
             {exercise?.title || 'Harjutus'}
           </h1>
         </Box>
+
+        {exercise && (
+          <Box mt={4}>
+            <H5PPlayer externalId={exercise.externalId} />
+          </Box>
+        )}
 
         {/* Nupud */}
         <Stack direction="row" spacing={2} justifyContent="center" mt={4}>
@@ -81,7 +89,7 @@ export default function ExerciseSolve() {
         />
 
         {/* Tulemusmodal */}
-        <ExerciseSolveModal
+        <ExerciseResultModal
           isOpen={showModal}
           setIsOpen={setShowModal}
         />

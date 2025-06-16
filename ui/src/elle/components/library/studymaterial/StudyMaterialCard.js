@@ -9,10 +9,26 @@ import { useTranslation } from 'react-i18next';
 
 export default function StudyMaterialCard({ material, onClick }) {
   const [shareOpen, setShareOpen] = React.useState(false);
-  const isFile = material.type === 'fail';
-  const extension = material.filename?.split('.').pop();
+  const isFile = material.materialType?.type?.toLowerCase() === 'file';
+  const extension = material.fileFormat;
+  const size = material.fileSize;
 
   const { t } = useTranslation();
+
+  const typeTranslation = {
+    file: 'Fail',
+    link: 'Link',
+    text: 'Tekst',
+    video: 'Video'
+  };
+
+  if (!material) return null;
+
+  const type = material.materialType?.type?.toLowerCase();
+  const translatedType = typeTranslation[type] || '-';
+  console.log('Categories:', material.categories);
+
+
 
   return (
     <div
@@ -52,40 +68,22 @@ export default function StudyMaterialCard({ material, onClick }) {
         <div className='body2'><strong>{material.title}</strong></div>
         <div className='body2'>{material.description}</div>
         <div className="content-card-tags">
-          <span className="tag">{material.type}</span>
+          <span className="tag">{translatedType}, </span>
           &nbsp;&nbsp;
-          {material.category} &nbsp;&nbsp;
-          {material.level} &nbsp;&nbsp;
-          {isFile && extension && <>.{extension} &nbsp;&nbsp;</>}
-          {isFile && material.size != null && (
-            <>({(material.size / (1024 * 1024)).toFixed(2)} MB)</>
+          {material.categories?.map(c => c.name).join(', ') || '-'}, &nbsp;&nbsp;
+          {material.languageLevel?.level || '-'} &nbsp;&nbsp;
+          {isFile && extension  && <>, .{extension} &nbsp;&nbsp;</>}
+          {isFile && (
+            <>, ({((size || 0) / (1024 * 1024)).toFixed(2)} MB)</>
           )}
         </div>
       </div>
 
-      {/* Nupud: "Lae alla" ainult failile, "Vaata lähemalt" alati */}
       <div
         className="library-buttons"
         style={{ marginTop: 12, marginBottom: 8 }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/*{isFile && material.filename && (
-          <Link
-            href={
-              process.env.NODE_ENV === 'production'
-                ? `/api/files/${material.filename}`
-                : `http://localhost:9090/api/files/${material.filename}`
-            }
-            download
-            underline="hover"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ marginRight: '1rem' }}
-          >
-            Lae alla
-          </Link>
-        )}*/}
-
         <Button
           variant="text"
           onClick={(e) => {

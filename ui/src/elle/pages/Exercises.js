@@ -13,9 +13,6 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import { DefaultButtonStyleSmall } from '../const/StyleConstants';
 import { useState, useEffect } from 'react';
 import ContentCard from '../components/library/shared/ContentCard';
-import H5PPlayer from '../components/library/exercises/H5PPlayer.js';
-
-
 import Can from '../components/security/Can';
 import usePagination from '../hooks/library/usePagination';
 import Pagination from '../components/library/shared/Pagination';
@@ -43,7 +40,7 @@ export default function Exercise() {
   useEffect(() => {
     fetch("http://localhost:9090/api/exercises")
       .then(res => res.json())
-      .then(setExercises);
+      .then(json => setExercises(json));
   }, []);
 
     return (
@@ -79,7 +76,7 @@ export default function Exercise() {
               </div>
 
               <div className="library-results-count">
-                <Box>{t('query_found')}: {exercises.length}</Box>
+                <Box>{t('query_found')}: {currentExercises.length}</Box>
               </div>
 
               <div className="library-results">
