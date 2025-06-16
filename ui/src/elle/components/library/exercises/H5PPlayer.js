@@ -25,5 +25,6 @@ export default function H5PPlayer({ externalId }) {
     new H5P(container, options).catch(e => console.error('H5P error:', e));
   }, [externalId]);
 
-  return <div id="h5p-container" style={{ height: '500px' }} />;
+  return <div id="h5p-container" style={{ width: '100%' }} />;
+  //return <div id="h5p-container" style={{ height: '500px' }} />;
 }
