@@ -94,6 +94,8 @@ export const TRANSLATIONS_EN = {
   common_translation_tools: 'Translation tools',
   common_us: 'About us',
   common_view: 'View',
+  common_cancel: 'Cancel',
+  common_confirm: 'Confirm',
   common_word_analyser: 'Word Analyser',
   common_word_analysis: 'Word Analysis',
   common_word_count: 'number of words',

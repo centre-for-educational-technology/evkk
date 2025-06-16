@@ -96,6 +96,8 @@ export const TRANSLATIONS_ET = {
   common_translation_tools: 'Tõlkerakendused',
   common_us: 'Meist',
   common_view: 'Kuva',
+  common_cancel: 'Tühista',
+  common_confirm: 'Kinnita',
   common_word_analyser: 'Sõnaanalüsaator',
   common_word_analysis: 'Sõnaanalüüs',
   common_word_count: 'sõnade arv',

@@ -187,16 +187,8 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
     <>
       <ModalBase
         isOpen={isOpen}
-        setIsOpen={(value) => {
-          if (!value) {
-            const confirmed = window.confirm(t('modal_close_confirmation_popup'));
-            if (confirmed) {
-              setIsOpen(false);
-            }
-          } else {
-            setIsOpen(true);
-          }
-        }}
+        setIsOpen={setIsOpen}
+        requireConfirmation={true}
         title={t('exercise_creation')}
       >
       <Box display="flex" width="100%">
