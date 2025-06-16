@@ -11,15 +11,15 @@
     mtype.material_id = tm_material_id
   </sql>
 
-  <resultMap id="TextMaterialResultMap" type="ee.tlu.evkk.dal.dto.FileMaterial">
-    <id property="id" column="tm_id"/>
+  <resultMap id="TextMaterialResultMap" type="ee.tlu.evkk.dal.dto.TextMaterial">
+  <id property="id" column="tm_id"/>
     <result property="text" column="tm_text"/>
     <result property="wordCount" column="tm_word_count"/>
     <result property="materialId" column="tm_material_id"/>
     <association property="material" resultMap="ee.tlu.evkk.dal.dao.MaterialDao.MaterialResultMap"/>
   </resultMap>
 
-  <select id="findAllTextMaterials" resultMap="FileMaterialResultMap">
+  <select id="findAllTextMaterials" resultMap="TextMaterialResultMap">
     SELECT
     <include refid="ee.tlu.evkk.dal.dao.TextMaterialDao.textMaterialColumns"/>,
     <include refid="ee.tlu.evkk.dal.dao.MaterialDao.materialAssociationColumns"/>

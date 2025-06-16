@@ -1,6 +1,5 @@
 package ee.tlu.evkk.dal.dao;
 
-import ee.tlu.evkk.dal.dto.Exercise;
 import ee.tlu.evkk.dal.dto.Material;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -13,4 +12,6 @@ import java.util.List;
 public interface MaterialDao {
   void insertMaterial(Material material);
   void insertMaterialCategories(Material material);
+
+  List<Material> findAllMaterials();
 }
