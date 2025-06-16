@@ -22,7 +22,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
   const [filename, setFilename] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('');
+  const [categories, setCategories] = useState([]);
   const [level, setLevel] = useState('');
   const [type, setType] = useState('');
   const [link, setLink] = useState('');
@@ -37,7 +37,6 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
     }
   };
 
-
   useEffect(() => {
     if (isOpen) {
       setFile(null);
@@ -45,7 +44,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
       setFilename('');
       setTitle('');
       setDescription('');
-      setCategory('');
+      setCategories([]);
       setLevel('');
       setType('');
       setLink('');
@@ -77,7 +76,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
 
     formData.append('title', title);
     formData.append('description', description);
-    formData.append('category', category);
+    categories.forEach(c => formData.append('category', c));
     formData.append('level', level);
     formData.append('type', type);
 
@@ -87,7 +86,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
       formData.append('text', textContent);
     }
 
-    if (!title || !description || !category || !level || !type) {
+    if (!title || !description || categories.length === 0 || !level || !type) {
       alert('Kohustuslikud väljad on täitmata!');
       return;
     }
@@ -230,9 +229,9 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
             <InputLabel id="category-label">Kategooria*</InputLabel>
             <Select
               labelId="category-label"
-              value={category}
-              label="Kategooria"
-              onChange={(e) => setCategory(e.target.value)}
+              multiple
+              value={categories}
+              onChange={(e) => setCategories(e.target.value)}
               MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
             >
               {Categories.map((c) => (

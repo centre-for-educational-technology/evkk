@@ -12,6 +12,7 @@ export default function H5PPlayer({ externalId }) {
     };
 
     const container = document.getElementById('h5p-container');
+    
     const options = {
       h5pJsonPath: `http://localhost:9090/api/exercises/uploads/exercises/${externalId}`,
       contentJsonPath: `http://localhost:9090/api/exercises/uploads/exercises/${externalId}/content`,
@@ -20,7 +21,6 @@ export default function H5PPlayer({ externalId }) {
       frameCss: '/dist/styles/h5p.css',
       fullscreen: false,
     };
-
 
     new H5P(container, options).catch(e => console.error('H5P error:', e));
   }, [externalId]);
