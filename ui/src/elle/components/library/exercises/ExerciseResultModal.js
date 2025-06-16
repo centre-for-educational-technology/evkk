@@ -2,7 +2,7 @@ import React from 'react';
 import ModalBase from '../../modal/ModalBase';
 import { useNavigate } from 'react-router-dom';
 
-export default function ExerciseSolveModal({ isOpen, setIsOpen }) {
+export default function ExerciseResultModal({ isOpen, setIsOpen }) {
   const navigate = useNavigate();
 
   // Kinnitav sulgemine – X nupu või tausta kliki korral
