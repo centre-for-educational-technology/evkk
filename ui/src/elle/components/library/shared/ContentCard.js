@@ -2,6 +2,7 @@ import '../../../pages/styles/Library.css';
 import { Link } from '@mui/material';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import ShareButton from "./ShareButton";
 
 export default function ContentCard({ item, type }) {
     if (!item) return null;
@@ -19,6 +20,8 @@ export default function ContentCard({ item, type }) {
                 )}
                 {isMaterial ? 'ÕPPEMATERJAL' : 'E-HARJUTUS'}
             </div>
+
+          <ShareButton originalUrl={`${window.location.origin}/library/exercises/${item.id}`} />
 
             {/* Title and description */}
             <div style={{ marginTop: 30 }}>

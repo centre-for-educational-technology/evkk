@@ -1,9 +1,9 @@
 import React from 'react';
 import '../../../pages/styles/Library.css';
-import { Link, Button, Tooltip, IconButton } from '@mui/material';
+import { Button } from '@mui/material';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
-import ShareLinkModal from './ShareLinkModal';
-import ShareIcon from '@mui/icons-material/Share';
+import ShareButton from "../shared/ShareButton";
+
 
 
 export default function StudyMaterialCard({ material, onClick }) {
@@ -36,26 +36,8 @@ export default function StudyMaterialCard({ material, onClick }) {
         ÕPPEMATERJAL
       </div>
 
-      <Tooltip title="Loo jagatav link">
-        <IconButton
-          onClick={(e) => {
-            e.stopPropagation();
-            setShareOpen(true);
-          }}
-          sx={{
-            position: 'absolute',
-            top: 8,
-            right: 8,
-            color: '#852197',
-            backgroundColor: 'white',
-            border: '1px solid #ddd',
-            padding: '4px',
-            zIndex: 1
-          }}
-        >
-          <ShareIcon fontSize="small" />
-        </IconButton>
-      </Tooltip>
+      <ShareButton originalUrl={`${window.location.origin}/library/studymaterial?open=${material.id}`} />
+
       {/* Materjali tüüp */}
 
       {/* Title and description */}
@@ -89,11 +71,6 @@ export default function StudyMaterialCard({ material, onClick }) {
         >
           Vaata lähemalt
         </Button>
-        <ShareLinkModal
-          open={shareOpen}
-          onClose={() => setShareOpen(false)}
-          originalUrl={`${window.location.origin}/library/studymaterial?open=${material.id}`}
-        />
       </div>
     </div>
   );
