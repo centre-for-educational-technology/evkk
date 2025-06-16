@@ -229,7 +229,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                   size="medium"
                   variant="contained"
                   onClick={() => setStep(step + 1)}
-                  disabled={isStep1Valid}
+                  disabled={!isStep1Valid}
                 >
                   {t('exercise_modal_proceed')}
                 </Button>
