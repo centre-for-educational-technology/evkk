@@ -1,30 +1,30 @@
 import React from 'react';
 import ModalBase from '../../modal/ModalBase';
 import { useNavigate } from 'react-router-dom';
+import ConfirmationModal from '../../modal/ConfirmationModal';
 
 export default function ExerciseSolveModal({ isOpen, setIsOpen }) {
   const navigate = useNavigate();
 
-  // Kinnitav sulgemine – X nupu või tausta kliki korral
-  const handleSetIsOpen = (value) => {
-    if (!value) {
-      const confirmed = window.confirm('Kas oled kindel, et soovid lahkuda? \nSind suunatakse harjutuste lehele!');
-      if (confirmed) {
-        setIsOpen(false);
-        navigate('/library/exercises');
-      }
-    } else {
-      setIsOpen(true);
-    }
+  const handleConfirm = () => {
+    setIsOpen(false);
+    navigate('/library/exercises');
   };
 
   return (
-    <ModalBase
-      isOpen={isOpen}
-      setIsOpen={handleSetIsOpen}
-      title="Harjutuse tulemus"
-    >
-    </ModalBase>
+    <>
+      <ModalBase
+        isOpen={isOpen}
+        requireConfirmation={true}
+        title="Harjutuse tulemus"
+      >
+      </ModalBase>
+      <ConfirmationModal
+        message="Kas oled kindel, et soovid lahkuda? \nsind suunatakse harjutuste lehele!"
+        onConfirm={handleConfirm}
+        onClose={() => setIsOpen(false)}
+      />
+    </>
   );
 }
 

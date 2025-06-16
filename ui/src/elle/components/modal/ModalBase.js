@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import CloseIcon from '@mui/icons-material/Close';
 import '../styles/ModalBase.css';
 import { QuestionMark } from '@mui/icons-material';
+import ConfirmationModal from './ConfirmationModal';
 
 export default function ModalBase({
                                     isOpen,
@@ -31,12 +32,12 @@ export default function ModalBase({
     }
   }
 
-  const confirmClose = () => {
+  const handleConfirm = () => {
     setConfirmationOpen(false);
     setIsOpen(false);
   };
 
-  const cancelClose = () => {
+  const handleConfirmClose = () => {
     setConfirmationOpen(false);
   };
 
@@ -81,17 +82,13 @@ export default function ModalBase({
       </Modal>
 
       {/* Confirmation Modal */}
-      <Modal open={confirmationOpen} onClose={cancelClose}>
-        <Box sx={modalConfirmationStyle}>
-          <h5>{t('modal_close_confirmation_popup')}</h5>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-            <Button onClick={cancelClose}>{t('common_cancel')}</Button>
-            <Button onClick={confirmClose} color="error" variant="contained">
-              {t('common_confirm')}
-            </Button>
-          </div>
-        </Box>
-      </Modal>
+      <ConfirmationModal
+        confirmationOpen={confirmationOpen}
+        setConfirmationOpen={setConfirmationOpen}
+        onConfirm={handleConfirm}
+        onClose={handleConfirmClose}
+        message={t('modal_close_confirmation_popup')}
+      />
     </>
   );
 }

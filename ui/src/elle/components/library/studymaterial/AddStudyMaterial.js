@@ -33,14 +33,6 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
 
   const { t } = useTranslation();
 
-  const handleCloseRequest = () => {
-    const confirmClose = window.confirm(t('modal_close_confirmation_popup'));
-    if (confirmClose) {
-      setIsOpen(false);
-    }
-  };
-
-
   useEffect(() => {
     if (isOpen) {
       setFile(null);
@@ -125,7 +117,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
 
 
   return (
-    <ModalBase isOpen={isOpen} setIsOpen={handleCloseRequest} title="Õppematerjali üleslaadimine">
+    <ModalBase isOpen={isOpen} setIsOpen={setIsOpen} requireConfirmation={true} title="Õppematerjali üleslaadimine">
     <Box className="study-modal-form">
         <FormControl fullWidth>
           <InputLabel>Materjali tüüp*</InputLabel>
