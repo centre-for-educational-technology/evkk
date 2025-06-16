@@ -23,7 +23,6 @@ export default function StudyMaterialCard({ material, onClick }) {
 
   const type = material.materialType?.type?.toLowerCase();
   const translatedType = typeTranslation[type] || '-';
-  console.log('Categories:', material.categories);
 
 
   return (

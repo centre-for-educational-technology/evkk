@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
 public interface ShortUrlDao {
   void insertShortUrl(ShortUrl shortUrl);
   ShortUrl findById(@Param("id") Long id);
+  ShortUrl findByCode(@Param("code") String code);
 }

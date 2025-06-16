@@ -35,7 +35,7 @@ export default function ShareLinkModal({ open, onClose, originalUrl }) {
       })
         .then(res => res.json())
         .then(data => {
-          setShortUrl(data.shortUrl);
+          setShortUrl(Array.isArray(data) && data.length > 0 ? data[0] : 'Viga linki luues');
         })
         .catch(() => {
           setShortUrl('Viga linki luues');
