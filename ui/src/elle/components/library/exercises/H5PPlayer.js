@@ -9,19 +9,19 @@ export default function H5PPlayer({ externalId }) {
 
     const container = document.getElementById('h5p-container');
 
-    window.H5PIntegration = {
-        baseUrl: "http://localhost:9090",
-        contentId: externalId,
-        url: `uploads/exercises/${externalId}/content/content.json`,
-    };
+//    window.H5PIntegration = {
+//        baseUrl: "http://localhost:9090",
+//        contentId: externalId,
+//        url: `uploads/exercises/${externalId}/content/content.json`,
+//    };
 
     setTimeout(() => {
         new window.H5P(container, {
-//h5pJsonPath: `http://localhost:9090/api/exercises/uploads/exercises/${externalId}`,
-            h5pJsonPath: `https://h5p-standalone.44444444.xyz/h5p-folder`,
-            contentJsonPath: `http://localhost:9090/api/exercises/uploads/exercises/${externalId}/content`,
-            frameJs: '/dist/frame.bundle.js',
-            frameCss: '/dist/styles/h5p.css',
+            //h5pJsonPath: `http://localhost:9090/api/exercises/uploads/exercises/${externalId}`,
+            // contentJsonPath: `http://localhost:9090/api/exercises/uploads/exercises/${externalId}/content`,
+            contentJsonPath: `https://h5p-standalone.44444444.xyz`,
+            frameJs: '/h5p/frame.bundle.js',
+            frameCss: '/h5p/styles/h5p.css',
             fullscreen: false,
         });
     }, 1000);
