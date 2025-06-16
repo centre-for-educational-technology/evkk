@@ -44,13 +44,60 @@
   background: #fbd0ff;
   color: #9c27b0;
   border-radius: 10px;
-  padding: 3px 8px;
+  padding: 3px 10px;
   font-size: 11px;
   font-weight: bold;
   position: absolute;
   top: 12px;
   left: 12px;
+  display: flex;
+  align-items: center;
 }
+
+.material-type-badge {
+  position: absolute;
+  top: 12px;
+  left: 150px;
+  background: #fbeaff;
+  color: #9c27b0;
+  border-radius: 10px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+  height: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.view-button-container {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+{/*
+.view-button-filled {
+  background-color: #9C27B0 !important;
+  color: white !important;
+  border-radius: 4px;
+  text-transform: none !important;
+  font-weight: 500;
+  font-size: 13px;
+  height: 28px;
+  padding: 4px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+  margin-top: 16px;
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+.view-button-filled:hover {
+  background-color: #7b1fa2 !important;
+}
+ */}
 
 .content-card-tags {
   color: #848484;

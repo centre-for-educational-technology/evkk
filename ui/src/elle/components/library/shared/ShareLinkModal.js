@@ -50,10 +50,15 @@ export default function ShareLinkModal({ open, onClose, originalUrl }) {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleClose = (e) => {
+    if (e?.stopPropagation) e.stopPropagation();
+    onClose();
+  };
+
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={handleClose}>
       <DialogTitle className="dialog-title">Jagatav link</DialogTitle>
-      <DialogContent className="dialog-content">
+      <DialogContent className="dialog-content" onClick={(e) => e.stopPropagation()}>
         {loading ? (
           <Box className="dialog-loading">
             <CircularProgress size={20} />
@@ -65,8 +70,8 @@ export default function ShareLinkModal({ open, onClose, originalUrl }) {
           </Typography>
         )}
       </DialogContent>
-      <DialogActions className="dialog-actions">
-        <Button onClick={onClose}>Sulge</Button>
+      <DialogActions className="dialog-actions" onClick={(e) => e.stopPropagation()}>
+        <Button onClick={handleClose}>Sulge</Button>
         <Button onClick={handleCopy} disabled={!shortUrl || loading}>
           {copied ? 'Kopeeritud!' : 'Kopeeri'}
         </Button>
