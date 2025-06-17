@@ -13,8 +13,7 @@ import ModalBase from '../../modal/ModalBase';
 import Categories from '../json/categories.json';
 import LanguageLevels from '../json/languageLevels.json';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-import 'react-quill/dist/quill.snow.css';
-import ReactQuill from 'react-quill';
+import RichTextEditor from './TextEditor';
 
 export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess }) {
   const [file, setFile] = useState(null);
@@ -186,27 +185,12 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
           />
         )}
 
-        {type === 'tekst' && (
-          <Box>
-            <Typography variant="body2" sx={{ mb: 1 }}>Sisesta tekst:</Typography>
-            <ReactQuill
-              theme="snow"
-              value={textContent}
-              onChange={setTextContent}
-              style={{ height: '200px', marginBottom: '20px' }}
-              modules={{
-                toolbar: [
-                  [{ 'header': [1, 2, false] }],
-                  ['font', 'bold', 'italic', 'underline', 'strike', 'align'],
-                  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                  ['link'],
-                  ['image'],
-                  ['clean']
-                ]
-              }}
-            />
-          </Box>
-        )}
+          {(type === 'tekst') && (
+            <Box>
+              <Typography variant="body2" sx={{ mb: 1}}>Sisesta tekst:</Typography>
+              <RichTextEditor value={textContent} onChange={setTextContent} />
+            </Box>
+          )}
 
         <Typography variant="h6" fontWeight="bold">Õppematerjali andmed</Typography>
 
