@@ -138,17 +138,9 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
     <>
       <ModalBase
         isOpen={isOpen}
-        setIsOpen={(value) => {
-          if (!value) {
-            const confirmed = window.confirm('Kas oled kindel, et soovid katkestada? Muudatusi ei salvestata.');
-            if (confirmed) {
-              setIsOpen(false);
-            }
-          } else {
-            setIsOpen(true);
-          }
-        }}
-        title="Harjutuse koostamine"
+        setIsOpen={setIsOpen}
+        requireConfirmation={true}
+        title={t('exercise_creation')}
       >
         <Box display="flex" width="100%">
           {step === 1 && (
@@ -217,7 +209,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
 
               <Box display="flex">
                 <Grid item style={{ width: "50%" }}>
-                  <Typography variant="body2" style={{ marginTop: 40 }}>Kestvus (min)</Typography>
+                  <Typography variant="body2" style={{ marginTop: 40 }}>{t('exercise_modal_duration')} (min)</Typography>
                   <Slider
                     sx={DefaultSliderStyle}
                     value={duration}
@@ -239,7 +231,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                   onClick={() => setStep(step + 1)}
                   disabled={!isStep1Valid}
                 >
-                  Jätka
+                  {t('exercise_modal_proceed')}
                 </Button>
               </Box>
             </Box>
@@ -253,26 +245,26 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
               >
                 <Box display="flex" alignItems="center" gap={1} mb={1}>
                   <InfoOutlinedIcon fontSize="medium" />
-                  <Typography variant="subtitle1" fontWeight="bold">Harjutuste loomise juhend</Typography>
+                  <Typography variant="subtitle1" fontWeight="bold">{t('exercise_creation_guide')}</Typography>
                 </Box>
                 <Typography variant="body2" component="div" sx={{ pl: 3 }}>
                   <ol style={{ paddingLeft: 16, margin: 0 }}>
                     <li>
-                      Ava sisuloome tööriist{' '}
+                      {t('exercise_creation_guide_step_1') + ' '}
                       <Link href="https://sisuloome.e-koolikott.ee/node/add/interactive_content" target="_blank">
                         https://sisuloome.e-koolikott.ee/node/add/interactive_content
                       </Link>
                     </li>
-                    <li>Täida harjutuse sisu ja vali sobiv harjutuse tüüp.</li>
-                    <li>Vajuta "Salvesta", et harjutus salvestada.</li>
-                    <li>Vajuta "Kopeeri link", et saada harjutuse link.</li>
-                    <li>Kleebi kopeeritud link allolevasse lahtrisse.</li>
+                    <li>{t('exercise_creation_guide_step_2')}</li>
+                    <li>{t('exercise_creation_guide_step_3')}</li>
+                    <li>{t('exercise_creation_guide_step_4')}</li>
+                    <li>{t('exercise_creation_guide_step_5')}</li>
                   </ol>
                 </Typography>
               </Box>
 
               <Box display="flex" flexDirection="column" gap="20px">
-                <Typography variant="body2">Sisesta Link</Typography>
+                <Typography variant="body2">{t('exercise_creation_insert_link')}</Typography>
                 <TextField
                   label="Link"
                   size="medium"
@@ -287,7 +279,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                   onClick={handleValidateLink}
                   disabled={link.trim() === ''}
                 >
-                  Kontrolli linki
+                  {t('exercise_creation_verify_link')}
                 </Button>
 
                 <Box display="flex" justifyContent="space-between" gap={2}>
@@ -298,7 +290,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                     variant="contained"
                     onClick={() => setStep(step - 1)}
                   >
-                    Tagasi
+                    {t('exercise_creation_back')}
                   </Button>
                   <Button
                     className='buttonSecondLeft'
@@ -309,7 +301,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                     onClick={() => setStep(3)}
                     disabled={validationStatus !== 'success' || !externalId}
                   >
-                    Kuva Eelvaade
+                    {t('exercise_creation_show_preview')}
                   </Button>
                 </Box>
               </Box>

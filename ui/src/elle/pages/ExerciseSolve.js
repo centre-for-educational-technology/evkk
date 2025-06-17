@@ -5,6 +5,7 @@ import {ElleOuterDivStyle} from "../const/StyleConstants";
 import { useNavigate } from 'react-router-dom';
 import ExerciseResultModal from '../components/library/exercises/ExerciseResultModal'
 import H5PPlayer from '../components/library/exercises/H5PPlayer';
+import ConfirmationModal from '../components/modal/ConfirmationModal';
 import ShareButton from "../components/library/shared/ShareButton";
 
 
@@ -14,6 +15,7 @@ export default function ExerciseSolve() {
   const [exercise, setExercise] = useState(null);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [confirmationRequest, setConfirmationRequest] = useState(null);
 
   useEffect(() => {
     fetch(`http://localhost:9090/api/exercises/${id}`)
@@ -37,14 +39,12 @@ export default function ExerciseSolve() {
         {/* Header + Tagasi nupp */}
         <Box display="flex" alignItems="center" justifyContent="center" position="relative">
           <Button
-            onClick={() => {
-              const confirmed = window.confirm(
-                'Kas oled kindel, et soovid harjutuse lahendamise katkestada?\nTulemusi ei salvestata!'
-              );
-              if (confirmed) {
-                navigate(-1);
+              onClick={() =>
+                setConfirmationRequest({
+                  message: 'Kas oled kindel, et soovid harjutuse lahendamise katkestada?\nTulemusi ei salvestata!',
+                  onConfirm: () => navigate(-1),
+                })
               }
-            }}
             variant="text"
             size="small"
             sx={{position: 'absolute', left: 0}}
@@ -87,20 +87,32 @@ export default function ExerciseSolve() {
                 backgroundColor: '#7B1FA2'
               }
             }}
-            onClick={() => {
-              const confirmed = window.confirm(
-                'Kas oled kindel, et soovid harjutuse lõpetada?'
-              );
-              if (confirmed) {
-                setShowModal(true);
-              }
-            }}
+            onClick={() =>
+            setConfirmationRequest({
+              message: 'Kas oled kindel, et soovid harjutuse lõpetada?',
+              onConfirm: () => setShowModal(true),
+            })
+          }
           >
             Lõpeta harjutus
           </Button>
         </Stack>
 
         <ExerciseResultModal isOpen={showModal} setIsOpen={setShowModal}/>
+
+        {/* Kinnitusmodal */}
+        <ConfirmationModal
+          confirmationOpen={!!confirmationRequest}
+          setConfirmationOpen={(open) => {
+            if (!open) setConfirmationRequest(null);
+          }}
+          message={confirmationRequest?.message}
+          onConfirm={() => {
+            confirmationRequest?.onConfirm();
+            setConfirmationRequest(null);
+          }}
+          onCancel={() => setConfirmationRequest(null)}
+        />
       </Box>
     </Box>
   );

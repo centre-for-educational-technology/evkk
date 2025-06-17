@@ -313,6 +313,20 @@ export const modalStyle = {
   overflow: 'auto'
 };
 
+export const modalConfirmationStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '30vw',
+  bgcolor: '#FCFCFC',
+  boxShadow: 24,
+  borderRadius: '12px',
+  p: 4,
+  maxHeight: '80vh',
+  overflow: 'auto'
+};
+
 export const ContentEditableDiv = {
   overflowY: 'auto',
   border: 'gray 1px solid',

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Box, TextField, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { useTranslation } from 'react-i18next'
 
 export default function SearchBar({ onSearch }) {
   const [inputValue, setInputValue] = useState('');
+  const { t } = useTranslation();
 
   const handleSearch = () => {
     const trimmed = inputValue.trim();
@@ -37,7 +39,7 @@ export default function SearchBar({ onSearch }) {
     >
       <TextField
         fullWidth
-        placeholder="Otsingusõna"
+        placeholder={t('search')}
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={handleKeyPress}
@@ -70,7 +72,7 @@ export default function SearchBar({ onSearch }) {
           '&:hover': { backgroundColor: '#9025a1' },
         }}
       >
-        OTSI
+        {t('search_button')}
       </Button>
     </Box>
   );
