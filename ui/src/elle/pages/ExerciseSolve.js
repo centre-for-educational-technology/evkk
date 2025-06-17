@@ -4,9 +4,9 @@ import { Box, Typography, Button, Stack } from '@mui/material';
 import {ElleOuterDivStyle} from "../const/StyleConstants";
 import { useNavigate } from 'react-router-dom';
 import ExerciseResultModal from '../components/library/exercises/ExerciseResultModal'
-import H5PPlayer from '../components/library/exercises/H5PPlayer';
 import ConfirmationModal from '../components/modal/ConfirmationModal';
 import ShareButton from "../components/library/shared/ShareButton";
+import { H5PPlayer } from '../components/library/exercises/H5PPlayer';
 
 
 export default function ExerciseSolve() {
@@ -16,6 +16,10 @@ export default function ExerciseSolve() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [confirmationRequest, setConfirmationRequest] = useState(null);
+  const [results, setResults] = useState({
+    score: 0,
+    maxScore: 0,
+  });
 
   useEffect(() => {
     fetch(`http://localhost:9090/api/exercises/${id}`)
@@ -24,6 +28,22 @@ export default function ExerciseSolve() {
       .catch(err => console.error("Harjutuse laadimine ebaõnnestus:", err));
   }, [id]);
 
+  const handleFinishExercise = () => {
+    window.H5P.externalDispatcher.triggerXAPI("completed");
+    setShowModal(true);
+    window.H5P.externalDispatcher.on("xAPI", (event) => {
+      const instance = event?.data?.statement?.object?.definition;
+
+      const results = {
+        score: event.getScore() ?? 0,
+        maxScore: event.getMaxScore() ?? 0
+      };
+
+      setResults(results);
+
+      console.log(results);
+    });
+  };
 
   return (
     <Box className="adding-rounded-corners" sx={ElleOuterDivStyle}>
@@ -90,7 +110,9 @@ export default function ExerciseSolve() {
             onClick={() =>
             setConfirmationRequest({
               message: 'Kas oled kindel, et soovid harjutuse lõpetada?',
-              onConfirm: () => setShowModal(true),
+              onConfirm: () => {
+                handleFinishExercise();
+              }
             })
           }
           >

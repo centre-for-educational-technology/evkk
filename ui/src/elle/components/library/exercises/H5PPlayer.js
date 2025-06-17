@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { H5P } from 'h5p-standalone';
 
-export default function H5PPlayer({ externalId }) {
+export function H5PPlayer({ externalId }) {
+
   useEffect(() => {
     if (!externalId) return;
 
@@ -12,7 +13,7 @@ export default function H5PPlayer({ externalId }) {
     };
 
     const container = document.getElementById('h5p-container');
-    
+
     const options = {
       h5pJsonPath: `http://localhost:9090/api/exercises/uploads/exercises/${externalId}`,
       contentJsonPath: `http://localhost:9090/api/exercises/uploads/exercises/${externalId}/content`,
@@ -22,9 +23,25 @@ export default function H5PPlayer({ externalId }) {
       fullscreen: false,
     };
 
-    new H5P(container, options).catch(e => console.error('H5P error:', e));
+    new H5P(container, options)
+      .then((instance) => {
+        console.log(instance)
+        window.h5pPlayerInstance = instance;
+        if (window.H5P && window.H5P.externalDispatcher) {
+          window.H5P.externalDispatcher.on('xAPI', function (event) {
+            console.log('xAPI event:', event.data.statement);
+          });
+        }
+      })
+      .catch(e => console.error('H5P error:', e));
+
   }, [externalId]);
+
 
   return <div id="h5p-container" style={{ width: '100%' }} />;
   //return <div id="h5p-container" style={{ height: '500px' }} />;
-}
+};
+
+export function FinishExercise() {
+
+};

@@ -3,7 +3,7 @@ import ModalBase from '../../modal/ModalBase';
 import { useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../../modal/ConfirmationModal';
 
-export default function ExerciseResultModal({ isOpen, setIsOpen }) {
+export default function ExerciseResultModal({ isOpen, setIsOpen, results }) {
   const navigate = useNavigate();
   const [confirmationOpen, setConfirmationOpen] = useState(false);
 
