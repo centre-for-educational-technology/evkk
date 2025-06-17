@@ -3,30 +3,47 @@ export const extractId = (link) => {
   return match ? match[1] : null;
 };
 
-export const validateLink = async (link, fetchData) => {
+export const validateLink = async (link) => {
+  // quick local parse
   const externalId = extractId(link);
-  if (!externalId) return { status: 'error', externalId: null };
+  if (!externalId) {
+    return { status: 'error', externalId: null };
+  }
 
+
+  // host‐check
   try {
-    const urlObj = new URL(link);
-    if (urlObj.hostname !== 'sisuloome.e-koolikott.ee') {
+    const url = new URL(link);
+    if (url.hostname !== 'sisuloome.e-koolikott.ee') {
       return { status: 'error', externalId: null };
     }
   } catch {
     return { status: 'error', externalId: null };
   }
 
-  try {
-    const response = await fetchData('/api/exercises/validate-link', {
-      method: 'POST',
-      body: JSON.stringify({ link }),
-      headers: { 'Content-Type': 'application/json' }
-    });
 
-    return {
-      status: response.status === 'ok' || response.status === 'already_exists' ? 'success' : 'error',
-      externalId: response.external_id || null,
-    };
+  // doing a direct fetch and catch *all* errors here
+  try {
+    const res = await fetch('/api/exercises/validate-link', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ link }),
+    });
+    if (!res.ok) {
+      // HTTP 400/500 → invalid link
+      return { status: 'error', externalId: null };
+    }
+
+    const payload = await res.json();
+    switch (payload.status) {
+      case 'ok':
+        return { status: 'success', externalId: payload.external_id };
+      case 'EXERCISE_ALREADY_EXISTS':
+        return { status: 'EXERCISE_ALREADY_EXISTS', externalId: payload.external_id };
+      default:
+        return { status: 'error', externalId: null };
+    }
+
   } catch {
     return { status: 'error', externalId: null };
   }
@@ -54,7 +71,7 @@ export const saveExercise = async (params, fetchData) => {
     categories: categoriesMap,
   };
 
-  await fetchData('http://localhost:9090/api/exercises', {
+  await fetchData('/api/exercises', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
@@ -62,7 +79,7 @@ export const saveExercise = async (params, fetchData) => {
 };
 
 export const uploadByExternalId = async (externalId, fetchData) => {
-  await fetchData(`http://localhost:9090/api/exercises/upload?externalId=${externalId}`, {
+  await fetchData(`/api/exercises/upload?externalId=${externalId}`, {
     method: 'POST',
   });
 };
