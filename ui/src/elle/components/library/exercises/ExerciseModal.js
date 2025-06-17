@@ -31,7 +31,6 @@ import { DefaultButtonStyle, DefaultSliderStyle } from '../../../const/StyleCons
 import { errorEmitter, successEmitter } from '../../../../App';
 import { useFetch } from '../../../hooks/useFetch';
 import H5PPlayer from './H5PPlayer.js';
-import targetGroups from '../json/targetGroups.json'
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -59,6 +58,8 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
   const [validationStatus, setValidationStatus] = useState(null);
   const [externalId, setExternalId] = useState(null);
   const [selectedTargetGroupIds, setSelectedTargetGroupIds] = useState([]);
+  const [targetGroups, setTargetGroups] = useState([]);
+
   const { fetchData } = useFetch();
 
   const isStep1Valid = title && description && languageLevels.length > 0 && selectedCategoryIds.length > 0;
@@ -79,6 +80,12 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
     fetch("http://localhost:9090/api/language-levels")
       .then(res => res.json())
       .then(json => setlanguageLevels(json));
+  }, []);
+
+  useEffect(() => {
+    fetch("http://localhost:9090/api/target-groups")
+      .then(res => res.json())
+      .then(json => setTargetGroups(json));
   }, []);
 
   useEffect(() => {
