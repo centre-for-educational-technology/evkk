@@ -76,7 +76,7 @@ export default function Exercise() {
               </div>
 
               <div className="library-results-count">
-                <Box>{t('query_found')}: {currentExercises.length}</Box>
+                <Box>{t('query_found')}: {exercises.length}</Box>
               </div>
 
               <div className="library-results">

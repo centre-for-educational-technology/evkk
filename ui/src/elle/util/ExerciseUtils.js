@@ -24,7 +24,7 @@ export const validateLink = async (link, fetchData) => {
     });
 
     return {
-      status: response.status === 'ok' || response.status === 'already_exists' ? 'success' : 'error',
+      status: response.status,
       externalId: response.external_id || null,
     };
   } catch {
