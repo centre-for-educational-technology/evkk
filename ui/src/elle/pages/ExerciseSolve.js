@@ -5,6 +5,7 @@ import {ElleOuterDivStyle} from "../const/StyleConstants";
 import { useNavigate } from 'react-router-dom';
 import ExerciseResultModal from '../components/library/exercises/ExerciseResultModal'
 import H5PPlayer from '../components/library/exercises/H5PPlayer';
+import ShareButton from "../components/library/shared/ShareButton";
 
 
 export default function ExerciseSolve() {
@@ -50,7 +51,11 @@ export default function ExerciseSolve() {
           >
             Tagasi harjutusi valima
           </Button>
-          <h1 style={{textAlign: 'center'}}>
+          <ShareButton
+            originalUrl={`http://localhost:3000/library/exercises/${id}`}
+            sx={{ right: 10, top: 20, fontSize: '1.8rem', padding: '6px',  }}
+          />
+          <h1 style={{ textAlign: 'center' }}>
             {exercise?.title || 'Harjutus'}
           </h1>
         </Box>
