@@ -74,6 +74,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
   useEffect(() => {
     if (!isOpen) {
       resetForm();
+    }
   }, [resetForm, isOpen]);
 
   useEffect(() => {
