@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, useSearchParams  } from 'react-router-dom';
 import { Box, Button } from '@mui/material';
-import StudyMaterialCard from '../components/library/studymaterial/StudyMaterialCard';
+import ContentCard from '../components/library/shared/ContentCard';
 import AddStudyMaterialButton from '../components/library/studymaterial/AddStudyMaterialButton';
 import AddStudyMaterial from '../components/library/studymaterial/AddStudyMaterial';
 import StudyMaterialPopup from '../components/library/studymaterial/StudyMaterialPopup';
@@ -116,7 +116,7 @@ export default function StudyMaterial() {
               <div className="library-results-count"><Box>{t('query_found') + ':'} {materials.length}</Box></div>
               <div className="library-results">
                 {currentMaterials.map(m => (
-                  <StudyMaterialCard key={m.id} material={m} onClick={() => handleCardClick(m)} />
+                  <ContentCard key={m.id} item={m} type="material" onClick={() => handleCardClick(m)} />
                 ))}
               </div>
               <Pagination

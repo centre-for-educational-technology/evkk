@@ -15,6 +15,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DownloadIcon from '@mui/icons-material/Download';
 import FileTemplate from "./templates/FileTemplate";
 import { useTranslation } from 'react-i18next';
+import ShareButton from '../shared/ShareButton';
 
 export default function StudyMaterialPopup({ open, onClose, material }) {
   const [metadataExpanded, setMetadataExpanded] = useState(true);
@@ -42,6 +43,10 @@ export default function StudyMaterialPopup({ open, onClose, material }) {
   return (
     <ModalBase isOpen={open} setIsOpen={onClose} title={material.title.toUpperCase()}>
       <Box display="flex" flexDirection="column" gap={2}>
+        <ShareButton
+          originalUrl={`http://localhost:3000/library/studymaterial?open=${material.id}`}
+          sx={{ position: 'absolute', top: 22, right: 60, }}
+        />
 
         {/* METAINFOT KUVAV ACCORDION */}
         <Accordion

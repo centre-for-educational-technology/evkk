@@ -3,7 +3,7 @@ package ee.tlu.evkk.dal.dto;
 import lombok.*;
 
 import java.io.Serializable;
-import java.sql.Time;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -14,6 +14,6 @@ public class ShortUrl implements Serializable {
   private Long id;
   private String code;
   private String originalUrl;
-  private Time createdAt;
-  private Time expiresAt;
+  private Timestamp createdAt;
+  private Timestamp expiresAt;
 }
