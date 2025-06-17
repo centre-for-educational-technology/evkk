@@ -60,6 +60,7 @@ export default function ContentCard({ item, type, onClick }) {
         <div className="content-card-tags" style={{ marginTop: 10 }}>
           {type === 'exercise' && (
             <>
+              {item.targetGroups?.map(tg => tg.name).join(', ') || '-'}, &nbsp;&nbsp;
               {item.categories?.map(c => c.name).join(', ') || '-'}, &nbsp;&nbsp;
               {item.languageLevel?.level || '-'} &nbsp;&nbsp;
               {item.duration?.label && `${t("exercise_modal_duration")}: ${item.duration.label} min`}
@@ -68,6 +69,7 @@ export default function ContentCard({ item, type, onClick }) {
 
           {type === 'material' && (
             <>
+              {item.targetGroups?.map(tg => tg.name).join(', ') || '-'}, &nbsp;&nbsp;
               {item.categories?.map(c => c.name).join(', ') || '-'}, &nbsp;&nbsp;
               {item.languageLevel?.level || '-'}
               {item.materialType?.type?.toLowerCase() === 'file' && item.fileFormat && (
