@@ -22,7 +22,7 @@ export const breadcrumbNameMap = {
   '/tools/collocates': 'common_neighbouring_words',
   '/admin': 'common_admin_panel',
   '/corrector-test': 'common_corrector',
-  '/libary': 'common_library',
+  '/library': 'common_library',
   '/library/exercises': 'common_exercises',
   '/library/studymaterial': 'common_studymaterial',
 };
