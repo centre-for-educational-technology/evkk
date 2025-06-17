@@ -1,10 +1,11 @@
 import '../../../pages/styles/Library.css';
-import { Link } from '@mui/material';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import { useTranslation } from 'react-i18next';
 import ShareButton from './ShareButton';
 
 export default function ContentCard({ item, type, onClick }) {
+  const { t } = useTranslation();
   if (!item) return null;
 
   const isMaterial = type === 'material';
@@ -61,7 +62,7 @@ export default function ContentCard({ item, type, onClick }) {
             <>
               {item.categories?.map(c => c.name).join(', ') || '-'}, &nbsp;&nbsp;
               {item.languageLevel?.level || '-'} &nbsp;&nbsp;
-              {item.duration?.label && `Kestvus: ${item.duration.label} min`}
+              {item.duration?.label && `${t("exercise_modal_duration")}: ${item.duration.label} min`}
             </>
           )}
 

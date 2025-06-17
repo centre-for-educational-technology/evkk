@@ -2,9 +2,11 @@ import React from 'react';
 import { Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import Can from '../../security/Can';
+import { useTranslation } from 'react-i18next';
 
 {/* TODO: panna parast stiilid css faili */}
 const AddStudyMaterialButton = ({ onClick }) => {
+  const { t } = useTranslation();
   return (
     <Can requireAuth={true}>
       <Button
@@ -14,7 +16,6 @@ const AddStudyMaterialButton = ({ onClick }) => {
           backgroundColor: '#9C27B0',
           color: 'white',
           borderRadius: '5px',
-          textTransform: 'none',
           fontWeight: 'bold',
           fontSize: '14px',
           height: '33px',
@@ -26,8 +27,9 @@ const AddStudyMaterialButton = ({ onClick }) => {
           alignItems: 'center',
           justifyContent: 'center',
           gap: '7px',
+          textTransform: 'capitalize',
         }} >
-        LISA ÕPPEMATERJAL
+        {t('study_material_add_button')}
       </Button>
     </Can>
   );
