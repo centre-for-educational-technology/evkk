@@ -12,23 +12,8 @@ const AddStudyMaterialButton = ({ onClick }) => {
       <Button
         startIcon={<EditIcon />}
         onClick={onClick}
-        style={{
-          backgroundColor: '#9C27B0',
-          color: 'white',
-          borderRadius: '5px',
-          fontWeight: 'bold',
-          fontSize: '14px',
-          height: '33px',
-          width: '215px',
-          boxShadow: 'none',
-          paddingLeft: '16px',
-          paddingRight: '16px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '7px',
-          textTransform: 'capitalize',
-        }} >
+        className="add-study-material-button"
+      >
         {t('study_material_add_button')}
       </Button>
     </Can>

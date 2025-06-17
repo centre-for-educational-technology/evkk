@@ -26,7 +26,6 @@ export default function Exercise() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-
   const {
     currentPage,
     totalPages,
@@ -36,41 +35,47 @@ export default function Exercise() {
     setCurrentPage
   } = usePagination(exercises, itemsPerPage);
 
-
   useEffect(() => {
     fetch("http://localhost:9090/api/exercises")
       .then(res => res.json())
       .then(json => setExercises(json));
   }, []);
 
-    return (
-        <div>
-            <ExerciseModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
-            <Box className="adding-rounded-corners" sx={ElleOuterDivStyle}>
-                <Box className="library-container">
-                    <h1 style={{ textAlign: 'center' }}>{t('exercises')}</h1>
-                    <div className="library-search-container">
-                        <SearchBar />
-                    </div>
-                    <div className="library-menu">
-                        <LibraryNavbar />
-                    </div>
-                    <div className="library-main-content">
-                        <div className="library-filters">
-                            <CategoryFilters />
-                            <br />
-                            <LanguageFilters />
-                            <br />
-                            <TypeFilters />
-                        </div>
+  return (
+    <div>
+      <ExerciseModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
+      <Box className="adding-rounded-corners" sx={ElleOuterDivStyle}>
+        <Box className="library-container">
+          <h1 className="library-page-title">{t('exercises')}</h1>
+
+          <div className="library-main-content">
+            <div className="library-filters">
+              <div className="library-navbar-section">
+                <LibraryNavbar />
+              </div>
+              <div className="library-filters-section">
+                <CategoryFilters />
+                <br />
+                <LanguageFilters />
+                <br />
+                <TypeFilters />
+              </div>
+            </div>
+
 
             <div className="library-infoContainer">
+              <SearchBar />
+
               <div className="library-buttons">
                 <Can requireAuth={true}>
-                  <Button onClick={() => setIsModalOpen(true)}
-                          sx={DefaultButtonStyleSmall}
-                          className="library-add-button"
-                  ><EditNoteIcon />{t('exercise_page_create_new_exercise')}</Button>
+                  <Button
+                    onClick={() => setIsModalOpen(true)}
+                    sx={DefaultButtonStyleSmall}
+                    className="library-add-button"
+                  >
+                    <EditNoteIcon />
+                    {t('exercise_page_create_new_exercise')}
+                  </Button>
                 </Can>
                 <SortButton />
               </div>
@@ -86,16 +91,17 @@ export default function Exercise() {
                   </div>
                 ))}
               </div>
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPrev={prev}
-                onNext={next}
-              />
             </div>
           </div>
+
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPrev={prev}
+            onNext={next}
+          />
         </Box>
       </Box>
     </div>
-  )
-};
+  );
+}

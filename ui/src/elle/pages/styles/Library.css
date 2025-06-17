@@ -7,11 +7,45 @@
 
 .library-filters {
   flex: 0 0 250px;
+  display: flex;
+  margin-top: 50px;
+  flex-direction: column;
+  gap: 130px; /* Jätab ruumi navbar ja filtrite vahele */
+}
+
+.library-navbar-section {
+  margin-top: 8px;
+}
+
+.library-filters-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.library-header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  gap: 16px;
+}
+
+.library-header-actions > .library-container-sortbutton {
+  margin-left: auto;
 }
 
 .library-infoContainer {
   flex: 1;
 }
+
+.library-page-title {
+  font-weight: 600;
+  font-size: 28px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
 
 .library-results-count {
   padding: 6px 12px;
@@ -34,8 +68,7 @@
   border-radius: 8px;
   background: #fff;
   max-width: 100%;
-  padding: 16px;
-  padding-bottom: 0;
+  padding: 28px 16px 24px 16px;
   box-shadow: 0 2px 6px #c7b5de24;
   position: relative;
 }
@@ -43,12 +76,12 @@
 .content-card-type-label {
   background: #fbd0ff;
   color: #9c27b0;
+  top: 24px;
   border-radius: 10px;
   padding: 3px 10px;
   font-size: 11px;
   font-weight: bold;
   position: absolute;
-  top: 12px;
   left: 12px;
   display: flex;
   align-items: center;
@@ -56,7 +89,7 @@
 
 .material-type-badge {
   position: absolute;
-  top: 12px;
+  top: 24px;
   left: 150px;
   background: #fbeaff;
   color: #9c27b0;
@@ -125,11 +158,6 @@
   height: auto !important;
 }
 
-.library-search-box {
-  display: flex;
-  margin-left: 25%;
-}
-
 .library-add-button {
   background-color: #9C27B0;
   color: white !important;
@@ -181,3 +209,167 @@
   text-transform: none;
   align-self: flex-start;
 }
+
+.add-study-material-button {
+  background-color: #9C27B0 !important;
+  color: white !important;
+  border-radius: 5px !important;
+  font-weight: bold !important;
+  font-size: 14px !important;
+  height: 33px !important;
+  width: fit-content !important;
+  box-shadow: none !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  text-transform: none !important;
+  white-space: nowrap !important;
+}
+
+/* SearchBar.css */
+
+.searchbar-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+.searchbar-input .MuiOutlinedInput-root {
+  height: 50px;
+  border-radius: 16px;
+}
+
+.searchbar-input input {
+  font-size: 1.1rem;
+  text-align: left;
+  padding-left: 16px;
+  background-color: #fff;
+}
+
+.searchbar-input fieldset {
+  border-color: #a22bb9;
+}
+
+.searchbar-input:hover fieldset {
+  border-color: #9025a1;
+}
+
+.searchbar-input.Mui-focused fieldset {
+  border-color: #9025a1;
+}
+
+.searchbar-button {
+  background-color: #a22bb9 !important;
+  color: white !important;
+  height: 50px !important;
+  padding: 0 24px !important;
+  font-size: 0.95rem !important;
+  border-radius: 16px !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+}
+
+.searchbar-button:hover {
+  background-color: #9025a1 !important;
+}
+
+/* Pagination.js */
+.library-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding-top: 32px;
+  padding-bottom: 64px;
+  width: 100%;
+  max-width: 100%;
+  text-align: center;
+}
+
+
+.pagination-button {
+  border: 1.5px solid #9C27B0 !important;
+  color: #9C27B0 !important;
+  border-radius: 8px !important;
+  font-weight: 500;
+  font-size: 14px;
+  text-transform: none !important;
+  padding: 4px 18px;
+  min-width: 90px;
+}
+
+.pagination-button.Mui-disabled {
+  color: #bfbfbf !important;
+  border-color: #d3d3d3 !important;
+}
+
+.pagination-info {
+  color: #5f5f5f;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* LibraryNavbar.js */
+
+.library-navbar-container {
+  padding-left: 10px;
+  margin-top: 16px;
+}
+
+.library-navbar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.library-navbar-list li {
+  margin-bottom: 8px;
+}
+
+/* Lingid */
+.library-navlink {
+  text-decoration: none;
+  color: black;
+  display: inline-block;
+  position: relative;
+}
+
+/* Teksti stiil */
+.library-navtext {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.library-link {
+  text-decoration: none;
+  color: black;
+  font-weight: 600; /* medium-bold */
+  font-size: 16px;
+  position: relative;
+  padding-bottom: 6px;
+  display: inline-block;
+}
+
+.library-link.active::after {
+  content: '';
+  display: block;
+  height: 1.5px;
+  width: 100%;
+  background-color: #9C27B0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-radius: 2px;
+}
+
+
+
