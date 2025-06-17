@@ -6,7 +6,7 @@ import '../../../styles/StudyMaterialTemplates.css';
 
 export default function TextTemplate({ html }) {
   const handleCopy = () => {
-    const tempElement = document.createElement('div');
+    const tempElement = document.createElement('div')
     tempElement.innerHTML = html;
     const plainText = tempElement.innerText;
 
@@ -43,7 +43,7 @@ export default function TextTemplate({ html }) {
         </Tooltip>
       </div>
 
-      <div dangerouslySetInnerHTML={{ __html: html }} />
+      <div dangerouslySetInnerHTML={{ __html: html }}/>
     </div>
   );
 }

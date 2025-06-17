@@ -34,4 +34,11 @@
       #{code}, #{originalUrl}, #{createdAt}, #{expiresAt}
     )
   </insert>
+
+  <select id="findByCode" resultMap="ShortUrlResultMap" parameterType="string">
+    SELECT <include refid="shortUrlColumns"/>
+    FROM core.short_url su
+    WHERE su.code = #{code}
+  </select>
+
 </mapper>

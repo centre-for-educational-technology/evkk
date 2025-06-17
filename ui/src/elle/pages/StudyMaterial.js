@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, useSearchParams  } from 'react-router-dom';
 import { Box, Button } from '@mui/material';
-import StudyMaterialCard from '../components/library/studymaterial/StudyMaterialCard';
+import ContentCard from '../components/library/shared/ContentCard';
 import AddStudyMaterialButton from '../components/library/studymaterial/AddStudyMaterialButton';
 import AddStudyMaterial from '../components/library/studymaterial/AddStudyMaterial';
 import StudyMaterialPopup from '../components/library/studymaterial/StudyMaterialPopup';
@@ -16,6 +16,7 @@ import usePagination from '../hooks/library/usePagination';
 import './styles/Home.css';
 import './styles/Library.css';
 import { ElleOuterDivStyle } from '../const/StyleConstants';
+import { useTranslation } from 'react-i18next';
 
 
 export default function StudyMaterial() {
@@ -28,6 +29,8 @@ export default function StudyMaterial() {
   const materialsPerPage = 5;
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [popupOpen, setPopupOpen] = useState(false);
+
+  const { t } = useTranslation();
 
   const handleCardClick = (material) => {
     setSelectedMaterial(material);
@@ -100,7 +103,7 @@ export default function StudyMaterial() {
       />
       <Box className="adding-rounded-corners" sx={ElleOuterDivStyle}>
         <Box className="library-container">
-          <h1 style={{ textAlign: 'center' }}>Õppematerjalid</h1>
+          <h1 style={{ textAlign: 'center' }}>{t('study_materials')}</h1>
           <div className="library-search-container"><SearchBar /></div>
           <div className="library-menu"><LibraryNavbar /></div>
           <div className="library-main-content">
@@ -110,10 +113,10 @@ export default function StudyMaterial() {
                 <AddStudyMaterialButton onClick={() => setModalOpen(true)} />
                 <SortButton />
               </div>
-              <div className="library-results-count"><Box>Leitud: {materials.length}</Box></div>
+              <div className="library-results-count"><Box>{t('query_found') + ':'} {materials.length}</Box></div>
               <div className="library-results">
                 {currentMaterials.map(m => (
-                  <StudyMaterialCard key={m.id} material={m} onClick={() => handleCardClick(m)} />
+                  <ContentCard key={m.id} item={m} type="material" onClick={() => handleCardClick(m)} />
                 ))}
               </div>
               <Pagination

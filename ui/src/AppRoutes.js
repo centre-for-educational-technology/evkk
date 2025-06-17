@@ -103,11 +103,9 @@ export default function AppRoutes() {
                element={<Exercises />} />
           <Route path="/library/exercises/:id"
                  element={<ExerciseSolve />} />
-          <Route element={<RequireAuth/>}>
-            <Route path={RouteConstants.STUDYMATERIAL}
-                 element={<StudyMaterial />}
-            />
-          </Route>
+          <Route path={RouteConstants.STUDYMATERIAL}
+               element={<StudyMaterial />}
+          />
         </Route>
        <Route path={RouteConstants.LOGIN}
                element={<Login />} />
