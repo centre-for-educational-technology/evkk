@@ -24,8 +24,8 @@
   padding: 16px;
   overflow-x: auto;
   white-space: pre-wrap;
-  font-family: monospace;
-  font-size: 14px;
+  font-family: 'Mulish', 'sans-serif';
+  font-size: 16px;
   max-height: 400px;
 }
 
