@@ -184,7 +184,7 @@ public class ExerciseController {
       String[] parts = parsedUrl.getPath().split("/");
 
       if (parts.length < 3 || !parts[1].equals("node")) {
-        return ResponseEntity.badRequest().body(Map.of("status", "error", "message", "INVALID_PATH_FORMAT"));
+        return ResponseEntity.badRequest().body(Map.of("status", "error", "message", "ERROR_INVALID_PATH_FORMAT"));
       }
 
       String externalId = parts[2];
