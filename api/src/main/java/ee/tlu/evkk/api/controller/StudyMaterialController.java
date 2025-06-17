@@ -30,7 +30,7 @@ public class StudyMaterialController {
     @RequestParam("type") String type,
     @RequestParam(value = "link", required = false) String link,
     @RequestParam(value = "text", required = false) String text,
-    @RequestParam(value = "targetGroups") List<TargetGroup> targetGroups
+    @RequestParam(value = "targetGroups") List<String> targetGroups
   ) throws IOException {
     return ok(studyMaterialService.saveStudyMaterialToDatabase(
       file, title, description, categories, level, type, link, text, targetGroups

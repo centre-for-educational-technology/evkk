@@ -31,6 +31,7 @@ import { DefaultButtonStyle, DefaultSliderStyle } from '../../../const/StyleCons
 import { errorEmitter, successEmitter } from '../../../../App';
 import { useFetch } from '../../../hooks/useFetch';
 import H5PPlayer from './H5PPlayer.js';
+import targetGroups from '../json/targetGroups.json'
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -42,11 +43,6 @@ const MenuProps = {
     },
   },
 };
-
-const targetGroups = [
-  { id: 1, name: "Eesti keel emakeelena" },
-  { id: 2, name: "Eesti keel teise keelena" }
-]
 
 export default function ExerciseModal({ isOpen, setIsOpen }) {
   const { t } = useTranslation();

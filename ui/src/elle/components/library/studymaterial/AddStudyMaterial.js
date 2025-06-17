@@ -7,7 +7,10 @@ import {
   InputLabel,
   FormControl,
   Box,
-  Typography
+  Typography,
+  FormGroup,
+  FormControlLabel,
+  Checkbox
 } from '@mui/material';
 import ModalBase from '../../modal/ModalBase';
 import Categories from '../json/categories.json';
@@ -15,6 +18,7 @@ import LanguageLevels from '../json/languageLevels.json';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from 'react-quill';
+import targetGroups from '../json/targetGroups.json';
 
 export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess }) {
   const [file, setFile] = useState(null);
@@ -29,6 +33,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
   const [textContent, setTextContent] = useState('');
   const [fileError, setFileError] = useState('');
   const [pureOriginalFilename, setPureOriginalFilename] = useState('');
+  const [selectedTargetGroupIds, setSelectedTargetGroupIds] = useState([]);
 
   const handleCloseRequest = () => {
     const confirmClose = window.confirm("Kas oled kindel, et soovid sulgeda? Muudatusi ei salvestata!");
@@ -77,6 +82,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
     formData.append('title', title);
     formData.append('description', description);
     categories.forEach(c => formData.append('category', c));
+    selectedTargetGroupIds.forEach(tg => formData.append('targetGroups', tg));
     formData.append('level', level);
     formData.append('type', type);
 
@@ -119,6 +125,13 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
     }
   };
 
+  const handleTargetGroupChange = (event, targetGroupId) => {
+    setSelectedTargetGroupIds((prev) =>
+      event.target.checked
+        ? [...prev, targetGroupId]
+        : prev.filter((id) => id !== targetGroupId)
+    );
+  };
 
   return (
     <ModalBase isOpen={isOpen} setIsOpen={handleCloseRequest} title="Õppematerjali üleslaadimine">
@@ -253,6 +266,22 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
               ))}
             </Select>
           </FormControl>
+        </Box>
+        <Box display="flex">
+          {targetGroups.map((targetGroup) => (
+            <FormGroup row>
+              <FormControlLabel
+                value={targetGroup.id}
+                control={
+                  <Checkbox
+                    checked={selectedTargetGroupIds.includes(targetGroup.id)}
+                    onChange={(e) => handleTargetGroupChange(e, targetGroup.id)}
+                  />
+                }
+                label={targetGroup.name}
+              />
+            </FormGroup>
+          ))}
         </Box>
 
         <Button
