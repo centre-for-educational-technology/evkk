@@ -43,7 +43,10 @@ export const validateLink = async (link) => {
       default:
         return { status: 'error', externalId: null };
     }
-
+    return {
+      status: response.status,
+      externalId: response.external_id || null,
+    };
   } catch {
     return { status: 'error', externalId: null };
   }
