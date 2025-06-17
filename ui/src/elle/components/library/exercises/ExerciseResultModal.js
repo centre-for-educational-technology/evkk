@@ -1,30 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ModalBase from '../../modal/ModalBase';
 import { useNavigate } from 'react-router-dom';
+import ConfirmationModal from '../../modal/ConfirmationModal';
 
 export default function ExerciseResultModal({ isOpen, setIsOpen }) {
   const navigate = useNavigate();
+  const [confirmationOpen, setConfirmationOpen] = useState(false);
 
-  // Kinnitav sulgemine – X nupu või tausta kliki korral
   const handleSetIsOpen = (value) => {
     if (!value) {
-      const confirmed = window.confirm('Kas oled kindel, et soovid lahkuda? \nSind suunatakse harjutuste lehele!');
-      if (confirmed) {
-        setIsOpen(false);
-        navigate('/library/exercises');
-      }
+      setConfirmationOpen(true);
     } else {
       setIsOpen(true);
-    }
+    };
+  };
+
+  const handleConfirm = () => {
+    setIsOpen(false);
+    setConfirmationOpen(false);
+    navigate('/library/exercises');
   };
 
   return (
-    <ModalBase
-      isOpen={isOpen}
-      setIsOpen={handleSetIsOpen}
-      title="Harjutuse tulemus"
-    >
-    </ModalBase>
+    <>
+      <ModalBase
+        isOpen={isOpen}
+        setIsOpen={handleSetIsOpen}
+        title="Harjutuse tulemus"
+      >
+      </ModalBase>
+      <ConfirmationModal
+        confirmationOpen={confirmationOpen}
+        setConfirmationOpen={setConfirmationOpen}
+        message="Kas oled kindel, et soovid lahkuda? Sind suunatakse harjutuste lehele!"
+        onConfirm={handleConfirm}
+        onCancel={() => {
+          setConfirmationOpen(false);
+        }}
+      />
+    </>
   );
 }
 
