@@ -723,5 +723,5 @@ export const TRANSLATIONS_ET = {
   wordlist_wordcloud_filename: 'sonapilv',
   wordlist_wordcloud_loading: 'Laadin sõnapilve...',
   error_invalid_link: 'Link on vigane. Palun kontrolli linki enne jätkamist.',
-  error_link_already_exists: 'Selle lingiga seotud harjutus on juba salvestatud'
+  error_link_already_exists: 'See harjutus on juba süsteemi sisestatud.'
 };
