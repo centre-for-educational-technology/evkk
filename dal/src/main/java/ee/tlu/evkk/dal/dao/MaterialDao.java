@@ -14,5 +14,6 @@ public interface MaterialDao {
   void insertMaterialCategories(Material material);
   void insertMaterialTargetGroups(Material material);
 
+  Material findMaterialById(@Param("id") Long id);
   List<Material> findAllMaterials();
 }

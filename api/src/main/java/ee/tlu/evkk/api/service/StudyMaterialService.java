@@ -104,7 +104,8 @@ public class StudyMaterialService {
           .build());
         break;
     }
-    return material;
+    
+    return materialDao.findMaterialById(material.getId());
   }
 
   private int getMaterialTypeId(String type) {
