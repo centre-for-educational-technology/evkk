@@ -14,6 +14,7 @@ import Categories from '../json/categories.json';
 import LanguageLevels from '../json/languageLevels.json';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import RichTextEditor from './TextEditor';
+import { useTranslation } from 'react-i18next';
 
 
 export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess }) {
@@ -117,7 +118,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
 
   return (
     <ModalBase isOpen={isOpen} setIsOpen={setIsOpen} requireConfirmation={true} title="Õppematerjali üleslaadimine">
-    <Box className="study-modal-form">
+      <Box className="study-modal-form">
         <FormControl fullWidth>
           <InputLabel>Materjali tüüp*</InputLabel>
           <Select value={type} label="Materjali tüüp" onChange={(e) => setType(e.target.value)}>
@@ -181,23 +182,23 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
           />
         )}
 
-          {(type === 'tekst') && (
-            <Box>
-              <Typography variant="body2" sx={{ mb: 1}}>Sisesta tekst:</Typography>
-              <RichTextEditor value={textContent} onChange={setTextContent} />
-            </Box>
-          )}
+        {(type === 'tekst') && (
+          <Box>
+            <Typography variant="body2" sx={{ mb: 1 }}>Sisesta tekst:</Typography>
+            <RichTextEditor value={textContent} onChange={setTextContent} />
+          </Box>
+        )}
 
         <Typography variant="h6" fontWeight="bold">{t('study_material_data')}</Typography>
 
         <TextField
-          label={t('publish_your_text_title')+"*"}
+          label={t('publish_your_text_title') + "*"}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
 
         <TextField
-          label={t('query_text_data_type_L2_exercise_description')+"*"}
+          label={t('query_text_data_type_L2_exercise_description') + "*"}
           multiline
           rows={3}
           value={description}
@@ -240,7 +241,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
           className="study-modal-submit-button"
           onClick={handleSubmit}
         >
-          { t('study_material_upload') }
+          {t('study_material_upload')}
         </Button>
       </Box>
     </ModalBase>
