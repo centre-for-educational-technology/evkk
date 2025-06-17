@@ -37,12 +37,13 @@ public class ExerciseService {
     }
 
     exercise.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
-    exerciseDao.insertExercise(exercise);
+    insertExercise(exercise);
   }
 
   public void insertExercise(Exercise exercise) {
     exerciseDao.insertExercise(exercise);
     exerciseDao.insertExerciseCategories(exercise);
+    exerciseDao.insertExerciseTargetGroups(exercise);
   }
 
   public boolean existsByExternalId(String externalId) {

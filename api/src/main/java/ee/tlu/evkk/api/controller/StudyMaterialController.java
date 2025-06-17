@@ -2,6 +2,7 @@ package ee.tlu.evkk.api.controller;
 
 import ee.tlu.evkk.api.service.StudyMaterialService;
 import ee.tlu.evkk.dal.dto.Material;
+import ee.tlu.evkk.dal.dto.TargetGroup;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,10 +29,11 @@ public class StudyMaterialController {
     @RequestParam("level") String level,
     @RequestParam("type") String type,
     @RequestParam(value = "link", required = false) String link,
-    @RequestParam(value = "text", required = false) String text
+    @RequestParam(value = "text", required = false) String text,
+    @RequestParam(value = "targetGroups") List<TargetGroup> targetGroups
   ) throws IOException {
     return ok(studyMaterialService.saveStudyMaterialToDatabase(
-      file, title, description, categories, level, type, link, text
+      file, title, description, categories, level, type, link, text, targetGroups
     ));
   }
 

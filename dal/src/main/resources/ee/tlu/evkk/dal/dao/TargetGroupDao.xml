@@ -11,7 +11,7 @@
 
   <sql id="targetGroupColumns">
     tg.id AS tg_id,
-    tg.name AS tg_name,
+    tg.name AS tg_name
   </sql>
 
   <sql id="materialTargetGroupJoin">

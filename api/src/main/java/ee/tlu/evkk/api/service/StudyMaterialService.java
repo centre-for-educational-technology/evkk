@@ -27,7 +27,7 @@ public class StudyMaterialService {
   public Material saveStudyMaterialToDatabase(
     MultipartFile file, String title, String description,
     List<String> categories, String level, String type,
-    String link, String text
+    String link, String text, List<TargetGroup> targetGroups
   ) throws IOException {
 
     int materialTypeId = getMaterialTypeId(type);
@@ -43,6 +43,7 @@ public class StudyMaterialService {
       .materialTypeId((long) materialTypeId)
       .languageLevelId(levelId)
       .status(Status.builder().id(statusId).name("DRAFT").build())
+      .targetGroups(targetGroups)
       .build();
 
     materialDao.insertMaterial(material);
@@ -55,6 +56,9 @@ public class StudyMaterialService {
 
     material.setCategories(categoryList);
     materialDao.insertMaterialCategories(material);
+
+    // Mitme sihigrupi lisamine
+    materialDao.insertMaterialTargetGroups(material);
 
     // Alaminfo salvestamine tüübi alusel
     switch (type.toLowerCase()) {

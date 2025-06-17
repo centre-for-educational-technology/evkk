@@ -13,6 +13,8 @@ import {
   Slider,
   Typography,
   Link,
+  FormControlLabel,
+  FormGroup,
 } from '@mui/material';
 
 import {
@@ -41,6 +43,11 @@ const MenuProps = {
   },
 };
 
+const targetGroups = [
+  { id: 1, name: "Eesti keel emakeelena" },
+  { id: 2, name: "Eesti keel teise keelena" }
+]
+
 export default function ExerciseModal({ isOpen, setIsOpen }) {
   const { t } = useTranslation();
   const [title, setTitle] = useState('');
@@ -55,6 +62,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
   const [link, setLink] = useState('');
   const [validationStatus, setValidationStatus] = useState(null);
   const [externalId, setExternalId] = useState(null);
+  const [selectedTargetGroupIds, setSelectedTargetGroupIds] = useState([]);
   const { fetchData } = useFetch();
 
   const isStep1Valid = title && description && languageLevels.length > 0 && selectedCategoryIds.length > 0;
@@ -91,6 +99,14 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
     setSelectedLanguageLevelId(value);
   };
 
+  const handleTargetGroupChange = (event, targetGroupId) => {
+    setSelectedTargetGroupIds((prev) =>
+      event.target.checked
+        ? [...prev, targetGroupId]
+        : prev.filter((id) => id !== targetGroupId)
+    );
+  };
+
   const handleChangeCategory = (event) => {
     const { target: { value } } = event;
     setSelectedCategoryIds(value);
@@ -125,11 +141,13 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
         categories,
         durationOptions,
         externalId,
+        selectedTargetGroupIds
       }, fetchData);
       successEmitter.emit('success_generic');
       setIsOpen(false);
     } catch {
       errorEmitter.emit('error_generic_server_error');
+      console.log("bruh")
     }
   };
 
@@ -215,6 +233,23 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                 </FormControl>
               </Box>
 
+              <Box display="flex" style={{ marginTop: 40 }}>
+                {targetGroups.map((targetGroup) => (
+                  <FormGroup row>
+                    <FormControlLabel
+                      value={targetGroup.id}
+                      control={
+                        <Checkbox
+                          checked={selectedTargetGroupIds.includes(targetGroup.id)}
+                          onChange={(e) => handleTargetGroupChange(e, targetGroup.id)}
+                        />
+                      }
+                      label={targetGroup.name}
+                    />
+                  </FormGroup>
+                ))}
+              </Box>
+
               <Box display="flex">
                 <Grid item style={{ width: "50%" }}>
                   <Typography variant="body2" style={{ marginTop: 40 }}>Kestvus (min)</Typography>
@@ -237,7 +272,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                   size="medium"
                   variant="contained"
                   onClick={() => setStep(step + 1)}
-                  disabled={isStep1Valid}
+                  disabled={!isStep1Valid}
                 >
                   Jätka
                 </Button>

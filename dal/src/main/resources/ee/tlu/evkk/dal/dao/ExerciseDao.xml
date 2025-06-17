@@ -32,7 +32,8 @@
     <include refid="ee.tlu.evkk.dal.dao.CategoryDao.categoryColumns"/>,
     <include refid="ee.tlu.evkk.dal.dao.LanguageLevelDao.languageLevelColumns"/>,
     <include refid="ee.tlu.evkk.dal.dao.DurationDao.durationColumns"/>,
-    <include refid="ee.tlu.evkk.dal.dao.StatusDao.statusColumns"/>
+    <include refid="ee.tlu.evkk.dal.dao.StatusDao.statusColumns"/>,
+    <include refid="ee.tlu.evkk.dal.dao.TargetGroupDao.targetGroupColumns"/>
   </sql>
 
   <resultMap id="ExerciseResultMap" type="ee.tlu.evkk.dal.dto.Exercise">
