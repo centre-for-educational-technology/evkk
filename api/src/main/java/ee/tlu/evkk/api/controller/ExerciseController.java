@@ -5,25 +5,26 @@ import ee.tlu.evkk.dal.dto.Exercise;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.*;
+import java.net.HttpURLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.io.IOException;
-import java.util.Map;
-import java.util.HashMap;
 import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import java.util.List;
+import java.nio.file.StandardCopyOption;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.core.io.Resource;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import javax.servlet.http.HttpServletRequest;
+
 
 
 @RestController
@@ -43,72 +44,6 @@ public class ExerciseController {
   public Exercise getById(@PathVariable Long id) {
     return exerciseService.getExerciseById(id);
   }
-
-
-//  @GetMapping("/file/{externalId}/{filename}")
-//  public ResponseEntity<Resource> serveExerciseFile(@PathVariable String externalId, @PathVariable String filename) {
-//    try {
-//      if (!Files.exists(filePath)) {
-//        return ResponseEntity.notFound().build();
-//      }
-//      Path filePath = Paths.get("uploads/exercises/" + externalId).resolve(filename).normalize();
-//      Resource resource = new UrlResource(filePath.toUri());
-//
-//      if (resource.exists() || resource.isReadable()) {
-//        return ResponseEntity.ok()
-//          .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-//          .body(resource);
-//      } else {
-//        return ResponseEntity.notFound().build();
-//      }
-//    } catch (Exception e) {
-//      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-//    }
-//  }
-
-//  @GetMapping("/uploads/exercises/{externalId}/{filename}")
-//  public ResponseEntity<Resource> serveContentFilex(
-//    @PathVariable String externalId,
-//    @PathVariable String filename) {
-//
-//    try {
-//      Path filePath = Paths.get("uploads/exercises/" + externalId + "/h5p.json").normalize();
-//      Resource resource = new UrlResource(filePath.toUri());
-//
-//      if (resource.exists() || resource.isReadable()) {
-//        return ResponseEntity.ok()
-//          .header(HttpHeaders.CONTENT_DISPOSITION, "inline")
-//          .body(resource);
-//      } else {
-//        return ResponseEntity.notFound().build();
-//      }
-//    } catch (Exception e) {
-//      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//    }
-//  }
-//
-//
-//  @GetMapping("/uploads/exercises/{externalId}/content/{filename}")
-//  public ResponseEntity<Resource> serveContentFile(
-//    @PathVariable String externalId,
-//    @PathVariable String filename) {
-//
-//    try {
-//      Path filePath = Paths.get("uploads/exercises/" + externalId + "/content/content.json").normalize();
-//      Resource resource = new UrlResource(filePath.toUri());
-//
-//      if (resource.exists() || resource.isReadable()) {
-//        return ResponseEntity.ok()
-//          .header(HttpHeaders.CONTENT_DISPOSITION, "inline")
-//          .body(resource);
-//      } else {
-//        return ResponseEntity.notFound().build();
-//      }
-//    } catch (Exception e) {
-//      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//    }
-//  }
-
 
   @GetMapping("/uploads/exercises/{externalId}/**")
   public ResponseEntity<Resource> serveFileAlternativePath(
@@ -162,60 +97,96 @@ public class ExerciseController {
       return ResponseEntity.ok(Map.of("status", "ok"));
     } catch (RuntimeException e) {
       e.printStackTrace();
-      return ResponseEntity.status(409).body("ERROR_EXERCISE_ALREADY_EXISTS");
+      return ResponseEntity.status(409).body("EXERCISE_ALREADY_EXISTS");
     }
   }
 
   @PostMapping("/validate-link")
   public ResponseEntity<?> validateH5PLink(@RequestBody Map<String, String> payload) {
     String link = payload.get("link");
-
-
     if (link == null || link.isBlank()) {
-      return ResponseEntity.badRequest().body(Map.of("status", "error", "message", "ERROR_LINK_IS_MISSING"));
+      return ResponseEntity.badRequest()
+        .body(Map.of("status", "error", "message", "ERROR_LINK_IS_MISSING"));
     }
+
+    URL parsedUrl;
 
     try {
-      URL parsedUrl = new URL(link);
-      if (!parsedUrl.getHost().equals("sisuloome.e-koolikott.ee")) {
-        return ResponseEntity.badRequest().body(Map.of("status", "error", "message", "ERROR_ONLY_KOOLIKOTT_LINK_IS_ALLOWED"));
-      }
-
-      String[] parts = parsedUrl.getPath().split("/");
-
-      if (parts.length < 3 || !parts[1].equals("node")) {
-        return ResponseEntity.badRequest().body(Map.of("status", "error", "message", "ERROR_INVALID_PATH_FORMAT"));
-      }
-
-      String externalId = parts[2];
-
-      if (exerciseService.existsByExternalId(externalId)) {
-        return ResponseEntity.ok(Map.of("status", "EXERCISE_ALREADY_EXISTS", "external_id", externalId));
-      }
-
-      return ResponseEntity.ok(Map.of("status", "ok", "external_id", externalId));
-
-    } catch (Exception e) {
-      return ResponseEntity.badRequest().body(Map.of("status", "error", "message", e.getMessage()));
+      parsedUrl = new URL(link);
+    } catch (MalformedURLException e) {
+      return ResponseEntity.badRequest()
+        .body(Map.of("status", "error", "message", "ERROR_INVALID_URL"));
     }
+    if (!"sisuloome.e-koolikott.ee".equals(parsedUrl.getHost())) {
+      return ResponseEntity.badRequest()
+        .body(Map.of("status", "error", "message", "ERROR_ONLY_KOOLIKOTT_LINK_IS_ALLOWED"));
+    }
+
+    String[] parts = parsedUrl.getPath().split("/");
+    if (parts.length < 3 || !"node".equals(parts[1])) {
+      return ResponseEntity.badRequest()
+        .body(Map.of("status", "error", "message", "INVALID_PATH_FORMAT"));
+    }
+
+    String externalId = parts[2];
+
+    try {
+      int id = Integer.parseInt(externalId);
+      if (id <= 0) {
+        return ResponseEntity.badRequest()
+          .body(Map.of("status", "error", "message", "INVALID_NODE_ID"));
+      }
+    } catch (NumberFormatException e) {
+      return ResponseEntity.badRequest()
+        .body(Map.of("status", "error", "message", "INVALID_NODE_ID_FORMAT"));
+    }
+
+    if (exerciseService.existsByExternalId(externalId)) {
+      return ResponseEntity.ok(Map.of("status", "EXERCISE_ALREADY_EXISTS", "external_id", externalId));
+    }
+
+    String exportUrl = "https://sisuloome.e-koolikott.ee/sites/default/files/h5p/exports/interactive-content-"
+      + externalId + ".h5p";
+
+    try {
+      HttpURLConnection head = (HttpURLConnection) new URL(exportUrl).openConnection();
+      head.setRequestMethod("HEAD");
+      head.setConnectTimeout(3000);
+      head.setReadTimeout(3000);
+      if (head.getResponseCode() != HttpURLConnection.HTTP_OK) {
+        return ResponseEntity.badRequest()
+          .body(Map.of("status", "error", "message", "ERROR_INVALID_H5P_LINK"));
+      }
+    } catch (IOException e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(Map.of("status", "error", "message", "ERROR_CHECKING_H5P_LINK"));
+    }
+    try (InputStream in = new URL(exportUrl).openStream();
+         ZipInputStream zip = new ZipInputStream(in)) {
+      ZipEntry entry = zip.getNextEntry();
+      if (entry == null) {
+        return ResponseEntity.badRequest()
+          .body(Map.of("status", "error", "message", "ERROR_INVALID_H5P_LINK_EMPTY"));
+      }
+    } catch (IOException e) {
+      return ResponseEntity.badRequest()
+        .body(Map.of("status", "error", "message", "ERROR_INVALID_H5P_LINK_CORRUPT"));
+    }
+    return ResponseEntity.ok(Map.of("status", "ok", "external_id", externalId));
   }
 
 
   @PostMapping("/upload")
   public ResponseEntity<?> downloadAndExtractH5P(@RequestParam("externalId") String externalId) {
-
     try {
-      String remoteUrl = "https://sisuloome.e-koolikott.ee/sites/default/files/h5p/exports/interactive-content-" + externalId + ".h5p";
-       Path targetPath = Paths.get(System.getProperty("user.dir") + "/uploads/exercises", externalId + ".h5p");
-
+      String remoteUrl = "https://sisuloome.e-koolikott.ee/sites/default/files/h5p/exports/interactive-content-"
+        + externalId + ".h5p";
       Path baseDir = Paths.get("uploads/exercises/", externalId);
       Files.createDirectories(baseDir);
       Path h5pFilePath = baseDir.resolve(externalId + ".h5p");
-
       try (InputStream in = new URL(remoteUrl).openStream()) {
         Files.copy(in, h5pFilePath, StandardCopyOption.REPLACE_EXISTING);
       }
-
       try (ZipInputStream zipIn = new ZipInputStream(Files.newInputStream(h5pFilePath))) {
         ZipEntry entry;
         while ((entry = zipIn.getNextEntry()) != null) {
@@ -227,7 +198,6 @@ public class ExerciseController {
           zipIn.closeEntry();
         }
       }
-
       if (!exerciseService.existsByExternalId(externalId)) {
         Exercise exercise = new Exercise();
         exercise.setExternalId(externalId);
@@ -237,11 +207,10 @@ public class ExerciseController {
         exercise.setViews(0);
         exerciseService.insertExercise(exercise);
       }
-
       return ResponseEntity.ok(Map.of("status", "ok", "external_id", externalId));
-
     } catch (IOException e) {
-      return ResponseEntity.status(500).body(Map.of("status", "error", "message", "FAIL_TO_DOWNLOAD_OR_UNZIP", "details", e.getMessage()));
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(Map.of("status", "error", "message", "FAIL_TO_DOWNLOAD_OR_UNZIP", "details", e.getMessage()));
     }
   }
 }
