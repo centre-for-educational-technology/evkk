@@ -320,6 +320,7 @@ export const TRANSLATIONS_EN = {
   homepage_title: 'ELLE - Estonian Language Learning, Teaching and Research Environment',
   homepage_title_explainer: 'ELLE offers text collections and text analysis tools for learning and teaching Estonian both as a second and native language, as well as for language research. The text query enables you to find materials from the Estonian Interlanguage Corpus (EIC) that mostly includes writings by learners of Estonian as a second language, but also examples of native language use and academic texts. Additionally, the tools allow you to analyse the vocabulary and grammar of self-selected texts, check their readability score and assess their language proficiency level.',
   modal_close_confirmation_popup: "Are you sure you want to close this? The changes won't be saved",
+  common_studymaterial:  "Study materials",
   exercise_modal_duration: 'Duration',
   exercise_modal_proceed: 'Proceed',
   exercise_page_create_new_exercise: 'Create New Exercise',
@@ -338,7 +339,7 @@ export const TRANSLATIONS_EN = {
   study_materials: 'Study materials',
   study_material: 'Study material',
   study_material_data: 'Study material data',
-  study_material_add_button: 'Add study material',
+  study_material_add_button: 'ADD STUDY MATERIAL',
   study_material_inspect: 'Inspect',
   study_material_upload: 'Upload',
   study_material_inspect_metadata: 'Study material metadata',
@@ -347,7 +348,7 @@ export const TRANSLATIONS_EN = {
   study_material_inspect_categories: 'Categories',
   study_material_inspect_language_level: 'Language level',
   study_material_inspect_type: 'Studymaterial type',
-  search_button: 'Search',
+  search_button: 'SEARCH',
   search: 'Search query',
   sort_button: 'Sorting',
   sort_popular_first: 'Popular first',
@@ -662,6 +663,7 @@ export const TRANSLATIONS_EN = {
   success_logout: 'You have been logged out successfully.',
   success_logout_forced: 'Your session has expired and you have been automatically logged out.',
   success_session_renew: 'Session has been renewed successfully.',
+  success_exercise_completed: 'Exercise complete. Scroll down to view results',
   syllables_beginning: 'beginning',
   syllables_end: 'end',
   syllables_filename: 'syllables',
@@ -723,5 +725,5 @@ export const TRANSLATIONS_EN = {
   wordlist_wordcloud_filename: 'wordcloud',
   wordlist_wordcloud_loading: 'Loading word cloud...',
   error_invalid_link: 'Please check the link before continuing.',
-//  error_failed_to_save_file: 'Failed to save the file. Please try again later.'
+  error_link_already_exists: 'An exercise with this link has already been saved'
 };

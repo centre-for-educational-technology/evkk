@@ -17,6 +17,7 @@ import './styles/Home.css';
 import './styles/Library.css';
 import { ElleOuterDivStyle } from '../const/StyleConstants';
 import { useTranslation } from 'react-i18next';
+import Can from "../components/security/Can";
 
 
 export default function StudyMaterial() {
@@ -103,30 +104,48 @@ export default function StudyMaterial() {
       />
       <Box className="adding-rounded-corners" sx={ElleOuterDivStyle}>
         <Box className="library-container">
-          <h1 style={{ textAlign: 'center' }}>{t('study_materials')}</h1>
-          <div className="library-search-container"><SearchBar /></div>
-          <div className="library-menu"><LibraryNavbar /></div>
+          <h1 className="library-page-title">{t('study_materials')}</h1>
           <div className="library-main-content">
-            <div className="library-filters"><CategoryFilters /><br /><LanguageFilters /><br /><TypeFilters/></div>
+
+            <div className="library-filters">
+              <div className="library-navbar-section">
+                <LibraryNavbar />
+              </div>
+              <div className="library-filters-section">
+                <CategoryFilters />
+                <br />
+                <LanguageFilters />
+                <br />
+                <TypeFilters />
+              </div>
+            </div>
+
             <div className="library-infoContainer">
-              <div className="library-buttons">
-                <AddStudyMaterialButton onClick={() => setModalOpen(true)} />
+              <SearchBar />
+              <div className="library-header-actions">
+                <div>
+                  <Can requireAuth={true}>
+                    <AddStudyMaterialButton onClick={() => setModalOpen(true)} />
+                  </Can>
+                </div>
                 <SortButton />
               </div>
-              <div className="library-results-count"><Box>{t('query_found') + ':'} {materials.length}</Box></div>
+              <div className="library-results-count">
+                <Box>{t('query_found') + ':'} {materials.length}</Box>
+              </div>
               <div className="library-results">
                 {currentMaterials.map(m => (
                   <ContentCard key={m.id} item={m} type="material" onClick={() => handleCardClick(m)} />
                 ))}
               </div>
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPrev={prev}
-                onNext={next}
-              />
             </div>
           </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPrev={prev}
+            onNext={next}
+          />
         </Box>
       </Box>
     </div>

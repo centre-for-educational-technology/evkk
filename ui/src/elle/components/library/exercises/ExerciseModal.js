@@ -13,8 +13,6 @@ import {
   Slider,
   Typography,
   Link,
-  FormControlLabel,
-  FormGroup,
 } from '@mui/material';
 
 import {
@@ -25,12 +23,12 @@ import {
 import '../../../pages/styles/Library.css';
 import { useTranslation } from 'react-i18next';
 import ModalBase from '../../modal/ModalBase';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { DefaultButtonStyle, DefaultSliderStyle } from '../../../const/StyleConstants';
 import { errorEmitter, successEmitter } from '../../../../App';
 import { useFetch } from '../../../hooks/useFetch';
-import H5PPlayer from './H5PPlayer.js';
+import { H5PPlayer } from './H5PPlayer.js';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -65,31 +63,31 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
   const isStep1Valid = title && description && languageLevels.length > 0 && selectedCategoryIds.length > 0;
 
   useEffect(() => {
-    if (isOpen) {
-      setStep(1);
+    if (!isOpen) {
+      resetForm();
     }
-  }, [isOpen]);
+  }, [resetForm, isOpen]);
 
   useEffect(() => {
-    fetch("http://localhost:9090/api/categories")
+    fetch("/api/categories")
       .then(res => res.json())
       .then(json => setCategories(json));
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:9090/api/language-levels")
+    fetch("/api/language-levels")
       .then(res => res.json())
       .then(json => setlanguageLevels(json));
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:9090/api/target-groups")
+    fetch("/api/target-groups")
       .then(res => res.json())
       .then(json => setTargetGroups(json));
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:9090/api/durations")
+    fetch("/api/durations")
       .then(res => res.json())
       .then(json => {
         setDurationOptions(json);
@@ -120,20 +118,34 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
   };
 
   const handleValidateLink = async () => {
-    const result = await validateLink(link, fetchData);
+    try {
+      const result = await validateLink(link, fetchData);
 
-    if (result.status === 'success') {
-      setValidationStatus('success');
-      setExternalId(result.externalId);
-      successEmitter.emit('success_generic');
-    } else {
+      if (result.status === 'EXERCISE_ALREADY_EXISTS') {
+        setValidationStatus('error');
+        setExternalId(null);
+        errorEmitter.emit('error_link_already_exists');
+      } else if (result.status === 'success') {
+        setValidationStatus('success');
+        setExternalId(result.externalId);
+        successEmitter.emit('success_generic');
+      } else {
+        setValidationStatus('error');
+        setExternalId(null);
+        errorEmitter.emit('error_invalid_link');
+      }
+    } catch (e) {
       setValidationStatus('error');
       setExternalId(null);
-      errorEmitter.emit('error_invalid_link');
+      errorEmitter.emit('error_generic_server_error');
     }
-  };
+  }
 
   const handleSubmitExercise = async () => {
+  if (validationStatus !== 'success' || !externalId) {
+      errorEmitter.emit('error_generic_server_error');
+      return;
+    }
     try {
       await submitExercise({
         title,
@@ -150,7 +162,6 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
       setIsOpen(false);
     } catch {
       errorEmitter.emit('error_generic_server_error');
-      console.log("bruh")
     }
   };
 
@@ -267,7 +278,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                   size="medium"
                   variant="contained"
                   onClick={() => setStep(step + 1)}
-                  disabled={!isStep1Valid}
+                //disabled={!isStep1Valid}
                 >
                   {t('exercise_modal_proceed')}
                 </Button>
@@ -308,7 +319,10 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                   size="medium"
                   style={{ width: '50%' }}
                   value={link}
-                  onChange={(e) => setLink(e.target.value)}
+                  onChange={(e) => {
+                    setLink(e.target.value);
+                    setValidationStatus(null);
+                  }}
                 />
                 <Button
                   variant="outlined"
@@ -366,7 +380,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                 variant="contained"
                 onClick={handleSubmitExercise}
               >
-              Avalda
+                Avalda
               </Button>
             </Box>
           )}

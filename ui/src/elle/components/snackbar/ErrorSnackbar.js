@@ -57,5 +57,5 @@ export const ErrorSnackbarEventType = {
   UNAUTHORIZED: 'error_unauthorized',
   UNSUPPORTED_MIMETYPE: 'error_unsupported_mimetype',
   INVALID_LINK: 'error_invalid_link',
-//  FAILED_TO_SAVE_FILE: 'error_failed_to_save_file'
+  ALREADY_EXISTS_LINK: 'error_link_already_exists'
 };

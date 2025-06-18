@@ -45,6 +45,7 @@ export default function ContentCard({ item, type, onClick }) {
 
       {/* Jaga nupp */}
       <ShareButton
+        sx={{ top: '24px' }}
         originalUrl={
           isMaterial
             ? `${window.location.origin}/library/studymaterial?open=${item.id}`

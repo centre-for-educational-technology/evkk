@@ -338,7 +338,7 @@ export const TRANSLATIONS_ET = {
   study_materials: 'Õppematerjalid',
   study_material: 'Õppematerjal',
   study_material_data: 'Õppematerjali andmed',
-  study_material_add_button: 'Lisa õppematerjal',
+  study_material_add_button: 'LISA ÕPPEMATERJAL',
   study_material_inspect: 'Vaata lähemalt',
   study_material_upload: 'Lae üles',
   study_material_inspect_metadata: 'Õppematerjali metainfo',
@@ -347,7 +347,7 @@ export const TRANSLATIONS_ET = {
   study_material_inspect_categories: 'Kategooriad',
   study_material_inspect_language_level: 'Keeletase',
   study_material_inspect_type: 'Õppematerjali tüüp',
-  search_button: 'Otsi',
+  search_button: 'OTSI',
   search: 'Otsing',
   sort_button: 'Sorteerimine',
   sort_popular_first: 'Populaarsemad enne',
@@ -662,6 +662,7 @@ export const TRANSLATIONS_ET = {
   success_logout: 'Oled edukalt välja logitud.',
   success_logout_forced: 'Sessiooni aegumise tõttu logiti sind automaatselt välja.',
   success_session_renew: 'Sessiooni pikendamine õnnestus.',
+  success_exercise_completed: 'Harjutus lahendatud, keri alla, et näha tulemusi',
   syllables_beginning: 'algus',
   syllables_end: 'lõpp',
   syllables_filename: 'silbid',
@@ -723,5 +724,5 @@ export const TRANSLATIONS_ET = {
   wordlist_wordcloud_filename: 'sonapilv',
   wordlist_wordcloud_loading: 'Laadin sõnapilve...',
   error_invalid_link: 'Link on vigane. Palun kontrolli linki enne jätkamist.',
-//  error_failed_to_save_file: 'Faili salvestamine ebaõnnestus. Palun proovige veel kord mõne aja pärast.'
+  error_link_already_exists: 'See harjutus on juba süsteemi sisestatud.'
 };
