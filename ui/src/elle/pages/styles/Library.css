@@ -83,6 +83,7 @@
   font-size: 11px;
   font-weight: bold;
   position: absolute;
+  top: 12px;
   left: 12px;
   display: flex;
   align-items: center;
@@ -146,7 +147,7 @@
 .library-container-sortbutton {
   background-color: white !important;
   color: #757575 !important;
-  border: px solid #D9D9D9 !important;
+  border: 1px solid #D9D9D9 !important;
 }
 
 .library-container {
@@ -157,6 +158,11 @@
   background-color: white;
   border-radius: 45px;
   height: auto !important;
+}
+
+.library-search-box {
+  display: flex;
+  margin-left: 25%;
 }
 
 .library-add-button {
@@ -372,5 +378,121 @@
   border-radius: 2px;
 }
 
+
+
+
+/* SearchBar.css */
+
+.searchbar-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 16px;
+  margin-top: 48px;
+  margin-bottom: 32px;
+  padding-left: 16px;
+  padding-right: 16px;
+  width: 100%;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.searchbar-input .MuiOutlinedInput-root {
+  height: 50px;
+  border-radius: 16px;
+}
+
+.searchbar-input input {
+  font-size: 1.1rem;
+  text-align: left;
+  padding-left: 16px;
+  background-color: #fff;
+}
+
+.searchbar-input fieldset {
+  border-color: #a22bb9;
+}
+
+.searchbar-input:hover fieldset {
+  border-color: #9025a1;
+}
+
+.searchbar-input.Mui-focused fieldset {
+  border-color: #9025a1;
+}
+
+.searchbar-button {
+  background-color: #a22bb9 !important;
+  color: white !important;
+  height: 50px !important;
+  padding: 0 24px !important;
+  font-size: 0.95rem !important;
+  border-radius: 16px !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+}
+
+.searchbar-button:hover {
+  background-color: #9025a1 !important;
+}
+
+
+
+/* SearchBar.css */
+
+.searchbar-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 16px;
+  margin-top: 48px;
+  margin-bottom: 32px;
+  padding-left: 16px;
+  padding-right: 16px;
+  width: 100%;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.searchbar-input .MuiOutlinedInput-root {
+  height: 50px;
+  border-radius: 16px;
+}
+
+.searchbar-input input {
+  font-size: 1.1rem;
+  text-align: left;
+  padding-left: 16px;
+  background-color: #fff;
+}
+
+.searchbar-input fieldset {
+  border-color: #a22bb9;
+}
+
+.searchbar-input:hover fieldset {
+  border-color: #9025a1;
+}
+
+.searchbar-input.Mui-focused fieldset {
+  border-color: #9025a1;
+}
+
+.searchbar-button {
+  background-color: #a22bb9 !important;
+  color: white !important;
+  height: 50px !important;
+  padding: 0 24px !important;
+  font-size: 0.95rem !important;
+  border-radius: 16px !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+}
+
+.searchbar-button:hover {
+  background-color: #9025a1 !important;
+}
 
 
