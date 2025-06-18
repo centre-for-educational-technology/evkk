@@ -8,16 +8,16 @@ import { QuestionMark } from '@mui/icons-material';
 import ConfirmationModal from './ConfirmationModal';
 
 export default function ModalBase({
-                                    isOpen,
-                                    setIsOpen,
-                                    innerClassName,
-                                    title,
-                                    titleTooltip,
-                                    disableComfortClosing = false,
-                                    disableCloseButton = false,
-                                    requireConfirmation = false,
-                                    children
-                                  }) {
+  isOpen,
+  setIsOpen,
+  innerClassName,
+  title,
+  titleTooltip,
+  disableComfortClosing = false,
+  disableCloseButton = false,
+  requireConfirmation = false,
+  children
+}) {
 
   const { t } = useTranslation();
   const [confirmationOpen, setConfirmationOpen] = useState(false);

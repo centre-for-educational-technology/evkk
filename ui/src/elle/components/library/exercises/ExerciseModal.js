@@ -18,6 +18,8 @@ import {
 import {
   validateLink,
   submitExercise,
+  deleteByExternalId,
+  uploadByExternalId
 } from '../../../util/ExerciseUtils';
 
 import '../../../pages/styles/Library.css';
@@ -41,7 +43,7 @@ const MenuProps = {
   },
 };
 
-export default function ExerciseModal({ isOpen, setIsOpen }) {
+export default function ExerciseModal({ isOpen, setIsOpen, onSuccess }) {
   const { t } = useTranslation();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -55,6 +57,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
   const [link, setLink] = useState('');
   const [validationStatus, setValidationStatus] = useState(null);
   const [externalId, setExternalId] = useState(null);
+  const [isUploaded, setIsUploaded] = useState(false);
   const [selectedTargetGroupIds, setSelectedTargetGroupIds] = useState([]);
   const [targetGroups, setTargetGroups] = useState([]);
   const { fetchData } = useFetch();
@@ -69,6 +72,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
     setValidationStatus(null);
     setExternalId(null);
     setStep(1);
+    setIsUploaded(false);
   }, [durationOptions]);
   
   const isStep1Valid = title && description && languageLevels.length > 0 && selectedCategoryIds.length > 0  && selectedCategoryIds.length > 0;
@@ -105,6 +109,18 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
         setDuration(json[0]?.value || 5);
       });
   }, []);
+
+  useEffect(() => {
+    if (!isOpen && externalId && isUploaded) {
+      deleteByExternalId(externalId, fetchData)
+        .then(() => {
+          resetForm();
+        })
+        .catch(() => {
+          errorEmitter.emit('error_generic_server_error');
+        });
+    }
+  }, [isOpen]);
 
   const handleChangeLevel = (event) => {
     const { target: { value } } = event;
@@ -153,7 +169,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
   }
 
   const handleSubmitExercise = async () => {
-  if (validationStatus !== 'success' || !externalId) {
+    if (validationStatus !== 'success' || !externalId) {
       errorEmitter.emit('error_generic_server_error');
       return;
     }
@@ -171,9 +187,18 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
       }, fetchData);
       successEmitter.emit('success_generic');
       setIsOpen(false);
+      onSuccess?.();
     } catch {
       errorEmitter.emit('error_generic_server_error');
     }
+  };
+
+  const handleClose = async () => {
+    if (externalId && isUploaded) {
+      await deleteByExternalId(externalId, fetchData);
+    }
+    resetForm();
+    setIsOpen(false);
   };
 
 
@@ -182,6 +207,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
       <ModalBase
         isOpen={isOpen}
         setIsOpen={setIsOpen}
+        onClose={handleClose}
         requireConfirmation={true}
         title={t('exercise_creation')}
       >
@@ -361,7 +387,18 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                     sx={DefaultButtonStyle}
                     size="medium"
                     variant="contained"
-                    onClick={() => setStep(3)}
+                    onClick={async () => {
+                      if (!isUploaded) {
+                        try {
+                          await uploadByExternalId(externalId, fetchData);
+                          setIsUploaded(true);
+                        } catch {
+                          errorEmitter.emit('error_generic_server_error');
+                          return;
+                        }
+                      }
+                      setStep(3);
+                    }}
                     disabled={validationStatus !== 'success' || !externalId}
                   >
                     {t('exercise_creation_show_preview')}
