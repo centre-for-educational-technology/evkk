@@ -13,6 +13,8 @@ import {
   Slider,
   Typography,
   Link,
+  FormGroup,
+  FormControlLabel
 } from '@mui/material';
 
 import {
@@ -74,7 +76,7 @@ export default function ExerciseModal({ isOpen, setIsOpen, onSuccess }) {
     setStep(1);
     setIsUploaded(false);
   }, [durationOptions]);
-  
+
   const isStep1Valid = title && description && languageLevels.length > 0 && selectedCategoryIds.length > 0  && selectedCategoryIds.length > 0;
 
   useEffect(() => {
