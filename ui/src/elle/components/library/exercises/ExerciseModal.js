@@ -23,7 +23,7 @@ import {
 import '../../../pages/styles/Library.css';
 import { useTranslation } from 'react-i18next';
 import ModalBase from '../../modal/ModalBase';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { DefaultButtonStyle, DefaultSliderStyle } from '../../../const/StyleConstants';
 import { errorEmitter, successEmitter } from '../../../../App';
@@ -57,13 +57,25 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
   const [externalId, setExternalId] = useState(null);
   const { fetchData } = useFetch();
 
-  const isStep1Valid = title && description && languageLevels.length > 0 && selectedCategoryIds.length > 0;
+  //const isStep1Valid = title && description && languageLevels.length > 0 && selectedCategoryIds.length > 0;
+
+  const resetForm = useCallback(() => {
+    setTitle('');
+    setDescription('');
+    setSelectedCategoryIds([]);
+    setSelectedLanguageLevelId(null);
+    setDuration(durationOptions[0]?.value || 5);
+    setLink('');
+    setValidationStatus(null);
+    setExternalId(null);
+    setStep(1);
+  }, [durationOptions]);
 
   useEffect(() => {
-    if (isOpen) {
-      setStep(1);
+    if (!isOpen) {
+      resetForm();
     }
-  }, [isOpen]);
+  }, [resetForm, isOpen]);
 
   useEffect(() => {
     fetch("http://localhost:9090/api/categories")
@@ -103,14 +115,18 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
   const handleValidateLink = async () => {
     const result = await validateLink(link, fetchData);
 
-    if (result.status === 'success') {
-      setValidationStatus('success');
+    if (result.status === 'EXERCISE_ALREADY_EXISTS') {
+      setValidationStatus('error');
+      setExternalId(null);
+      errorEmitter.emit('error_link_already_exists');
+    } else if (result.status === 'ok') {
+       setValidationStatus('success');
       setExternalId(result.externalId);
       successEmitter.emit('success_generic');
     } else {
       setValidationStatus('error');
       setExternalId(null);
-      errorEmitter.emit('error_invalid_link');
+      errorEmitter.emit('error_generic_server_error');
     }
   };
 
@@ -229,7 +245,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                   size="medium"
                   variant="contained"
                   onClick={() => setStep(step + 1)}
-                  disabled={!isStep1Valid}
+                //disabled={!isStep1Valid}
                 >
                   {t('exercise_modal_proceed')}
                 </Button>
@@ -270,7 +286,10 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                   size="medium"
                   style={{ width: '50%' }}
                   value={link}
-                  onChange={(e) => setLink(e.target.value)}
+                  onChange={(e) => {
+                    setLink(e.target.value);
+                    setValidationStatus(null);
+                  }}
                 />
                 <Button
                   variant="outlined"
@@ -328,7 +347,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                 variant="contained"
                 onClick={handleSubmitExercise}
               >
-              Avalda
+                Avalda
               </Button>
             </Box>
           )}

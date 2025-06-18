@@ -722,5 +722,5 @@ export const TRANSLATIONS_EN = {
   wordlist_wordcloud_filename: 'wordcloud',
   wordlist_wordcloud_loading: 'Loading word cloud...',
   error_invalid_link: 'Please check the link before continuing.',
-//  error_failed_to_save_file: 'Failed to save the file. Please try again later.'
+  error_link_already_exists: 'An exercise with this link has already been saved'
 };

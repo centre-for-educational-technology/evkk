@@ -80,8 +80,8 @@ export default function StudyMaterialPopup({ open, onClose, material }) {
         )}
 
         {type === 'text' && material.text && (
-          <div style={{ marginTop: 12 }}>
-            <TextTemplate html={material.text} />
+          <div style={{ marginTop: 12}}>
+            <TextTemplate html={material.text}/>
           </div>
         )}
 
