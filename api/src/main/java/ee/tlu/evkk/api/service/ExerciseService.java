@@ -44,6 +44,7 @@ public class ExerciseService {
   public void insertExercise(Exercise exercise) {
     exerciseDao.insertExercise(exercise);
     exerciseDao.insertExerciseCategories(exercise);
+    exerciseDao.insertExerciseTargetGroups(exercise);
   }
 
   public boolean existsByExternalId(String externalId) {

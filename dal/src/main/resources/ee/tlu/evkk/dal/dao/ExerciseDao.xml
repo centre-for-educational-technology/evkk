@@ -9,6 +9,7 @@
     LEFT JOIN core.language_level ll ON ll.id = ex.language_level_id
     LEFT JOIN core.status st ON st.id = ex.status_id
     <include refid="ee.tlu.evkk.dal.dao.CategoryDao.exerciseCategoryJoin"/>
+    <include refid="ee.tlu.evkk.dal.dao.TargetGroupDao.exerciseTargetGroupJoin"/>
   </sql>
 
   <sql id="exerciseColumns">
@@ -31,7 +32,8 @@
     <include refid="ee.tlu.evkk.dal.dao.CategoryDao.categoryColumns"/>,
     <include refid="ee.tlu.evkk.dal.dao.LanguageLevelDao.languageLevelColumns"/>,
     <include refid="ee.tlu.evkk.dal.dao.DurationDao.durationColumns"/>,
-    <include refid="ee.tlu.evkk.dal.dao.StatusDao.statusColumns"/>
+    <include refid="ee.tlu.evkk.dal.dao.StatusDao.statusColumns"/>,
+    <include refid="ee.tlu.evkk.dal.dao.TargetGroupDao.targetGroupColumns"/>
   </sql>
 
   <resultMap id="ExerciseResultMap" type="ee.tlu.evkk.dal.dto.Exercise">
@@ -51,6 +53,7 @@
     <association property="duration" resultMap="ee.tlu.evkk.dal.dao.DurationDao.DurationResultMap"/>
     <association property="languageLevel" resultMap="ee.tlu.evkk.dal.dao.LanguageLevelDao.LanguageLevelResultMap"/>
     <collection property="categories" resultMap="ee.tlu.evkk.dal.dao.CategoryDao.CategoryResultMap"/>
+    <collection property="targetGroups" resultMap="ee.tlu.evkk.dal.dao.TargetGroupDao.TargetGroupResultMap"/>
   </resultMap>
 
   <select id="findAllExercises" resultMap="ExerciseResultMap">
@@ -81,6 +84,13 @@
     INSERT INTO core.exercise_category (exercise_id, category_id)
     <foreach collection="categories" item="category" separator="," open="VALUES" close="">
       (#{id}, #{category.id})
+    </foreach>
+  </insert>
+
+  <insert id="insertExerciseTargetGroups" parameterType="ee.tlu.evkk.dal.dto.Exercise">
+    INSERT INTO core.exercise_target_group (exercise_id, target_group_id)
+    <foreach collection="targetGroups" item="targetGroup" separator="," open="VALUES" close="">
+      (#{id}, #{targetGroup.id})
     </foreach>
   </insert>
 

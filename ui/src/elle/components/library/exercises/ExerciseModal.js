@@ -30,7 +30,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { DefaultButtonStyle, DefaultSliderStyle } from '../../../const/StyleConstants';
 import { errorEmitter, successEmitter } from '../../../../App';
 import { useFetch } from '../../../hooks/useFetch';
-import H5PPlayer from './H5PPlayer.js';
+import { H5PPlayer } from './H5PPlayer.js';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -58,9 +58,9 @@ export default function ExerciseModal({ isOpen, setIsOpen, onSuccess }) {
   const [validationStatus, setValidationStatus] = useState(null);
   const [externalId, setExternalId] = useState(null);
   const [isUploaded, setIsUploaded] = useState(false);
+  const [selectedTargetGroupIds, setSelectedTargetGroupIds] = useState([]);
+  const [targetGroups, setTargetGroups] = useState([]);
   const { fetchData } = useFetch();
-
-  //const isStep1Valid = title && description && languageLevels.length > 0 && selectedCategoryIds.length > 0;
 
   const resetForm = useCallback(() => {
     setTitle('');
@@ -74,11 +74,12 @@ export default function ExerciseModal({ isOpen, setIsOpen, onSuccess }) {
     setStep(1);
     setIsUploaded(false);
   }, [durationOptions]);
+  
+  const isStep1Valid = title && description && languageLevels.length > 0 && selectedCategoryIds.length > 0  && selectedCategoryIds.length > 0;
 
   useEffect(() => {
     if (!isOpen) {
       resetForm();
-      ;
     }
   }, [resetForm, isOpen]);
 
@@ -92,6 +93,12 @@ export default function ExerciseModal({ isOpen, setIsOpen, onSuccess }) {
     fetch("/api/language-levels")
       .then(res => res.json())
       .then(json => setlanguageLevels(json));
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/target-groups")
+      .then(res => res.json())
+      .then(json => setTargetGroups(json));
   }, []);
 
   useEffect(() => {
@@ -118,6 +125,14 @@ export default function ExerciseModal({ isOpen, setIsOpen, onSuccess }) {
   const handleChangeLevel = (event) => {
     const { target: { value } } = event;
     setSelectedLanguageLevelId(value);
+  };
+
+  const handleTargetGroupChange = (event, targetGroupId) => {
+    setSelectedTargetGroupIds((prev) =>
+      event.target.checked
+        ? [...prev, targetGroupId]
+        : prev.filter((id) => id !== targetGroupId)
+    );
   };
 
   const handleChangeCategory = (event) => {
@@ -168,6 +183,7 @@ export default function ExerciseModal({ isOpen, setIsOpen, onSuccess }) {
         categories,
         durationOptions,
         externalId,
+        selectedTargetGroupIds
       }, fetchData);
       successEmitter.emit('success_generic');
       setIsOpen(false);
@@ -258,6 +274,23 @@ export default function ExerciseModal({ isOpen, setIsOpen, onSuccess }) {
                     ))}
                   </Select>
                 </FormControl>
+              </Box>
+
+              <Box display="flex" style={{ marginTop: 40 }}>
+                {targetGroups.map((targetGroup) => (
+                  <FormGroup row>
+                    <FormControlLabel
+                      value={targetGroup.id}
+                      control={
+                        <Checkbox
+                          checked={selectedTargetGroupIds.includes(targetGroup.id)}
+                          onChange={(e) => handleTargetGroupChange(e, targetGroup.id)}
+                        />
+                      }
+                      label={targetGroup.name}
+                    />
+                  </FormGroup>
+                ))}
               </Box>
 
               <Box display="flex">

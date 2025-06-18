@@ -4,9 +4,9 @@ import { Box, Typography, Button, Stack } from '@mui/material';
 import {ElleOuterDivStyle} from "../const/StyleConstants";
 import { useNavigate } from 'react-router-dom';
 import ExerciseResultModal from '../components/library/exercises/ExerciseResultModal'
-import H5PPlayer from '../components/library/exercises/H5PPlayer';
 import ConfirmationModal from '../components/modal/ConfirmationModal';
 import ShareButton from "../components/library/shared/ShareButton";
+import { H5PPlayer } from '../components/library/exercises/H5PPlayer';
 
 
 export default function ExerciseSolve() {
@@ -16,6 +16,11 @@ export default function ExerciseSolve() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [confirmationRequest, setConfirmationRequest] = useState(null);
+  const [exerciseFinished, setExerciseFinished] = useState(false);
+  const [results, setResults] = useState({
+    score: 0,
+    maxScore: 0,
+  });
 
   useEffect(() => {
     fetch(`http://localhost:9090/api/exercises/${id}`)
@@ -24,6 +29,9 @@ export default function ExerciseSolve() {
       .catch(err => console.error("Harjutuse laadimine ebaõnnestus:", err));
   }, [id]);
 
+  const handleFinishExercise = () => {
+    setShowModal(true);
+  };
 
   return (
     <Box className="adding-rounded-corners" sx={ElleOuterDivStyle}>
@@ -71,34 +79,45 @@ export default function ExerciseSolve() {
           }}
         >
           {exercise && (
-            <H5PPlayer externalId={exercise.externalId}/>
+            <H5PPlayer
+              externalId={exercise.externalId}
+              onFinish={() => setExerciseFinished(true)}
+              setResults={(value) => setResults(value)}
+            />
           )}
         </Box>
 
         {/* Lõpeta harjutus nupp */}
-        <Stack direction="row" spacing={2} justifyContent="center" mt={2} mb={2}>
-          <Button
-            sx={{
-              backgroundColor: '#9C27B0',
-              color: 'white',
-              fontWeight: 'bold',
-              textTransform: 'none',
-              '&:hover': {
-                backgroundColor: '#7B1FA2'
-              }
-            }}
-            onClick={() =>
-            setConfirmationRequest({
-              message: 'Kas oled kindel, et soovid harjutuse lõpetada?',
-              onConfirm: () => setShowModal(true),
-            })
-          }
-          >
-            Lõpeta harjutus
-          </Button>
-        </Stack>
-
-        <ExerciseResultModal isOpen={showModal} setIsOpen={setShowModal}/>
+        {exerciseFinished && (
+          <Stack direction="row" spacing={2} justifyContent="center" mt={2} mb={2}>
+            <Button
+              sx={{
+                backgroundColor: '#9C27B0',
+                color: 'white',
+                fontWeight: 'bold',
+                textTransform: 'none',
+                '&:hover': {
+                  backgroundColor: '#7B1FA2'
+                }
+              }}
+              onClick={() =>
+              setConfirmationRequest({
+                message: 'Kas oled kindel, et soovid harjutuse lõpetada?',
+                onConfirm: () => {
+                  handleFinishExercise();
+                }
+              })
+            }
+            >
+              Kuva tulemused
+            </Button>
+          </Stack>
+        )}
+        <ExerciseResultModal
+          isOpen={showModal}
+          setIsOpen={setShowModal}
+          results={results}
+        />
 
         {/* Kinnitusmodal */}
         <ConfirmationModal

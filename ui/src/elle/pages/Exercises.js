@@ -35,7 +35,6 @@ export default function Exercise() {
     setCurrentPage
   } = usePagination(exercises, itemsPerPage);
 
-
   const refreshExercises = async () => {
     const res = await fetch("/api/exercises");
     const data = await res.json();
@@ -72,14 +71,20 @@ export default function Exercise() {
               <br />
               <TypeFilters />
             </div>
-
+                                               
             <div className="library-infoContainer">
+              <SearchBar />
+
               <div className="library-buttons">
                 <Can requireAuth={true}>
-                  <Button onClick={() => setIsModalOpen(true)}
+                  <Button
+                    onClick={() => setIsModalOpen(true)}
                     sx={DefaultButtonStyleSmall}
                     className="library-add-button"
-                  ><EditNoteIcon />{t('exercise_page_create_new_exercise')}</Button>
+                  >
+                    <EditNoteIcon />
+                    {t('exercise_page_create_new_exercise')}
+                  </Button>
                 </Can>
                 <SortButton />
               </div>
@@ -95,16 +100,17 @@ export default function Exercise() {
                   </div>
                 ))}
               </div>
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPrev={prev}
-                onNext={next}
-              />
             </div>
           </div>
+
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPrev={prev}
+            onNext={next}
+          />
         </Box>
       </Box>
     </div>
-  )
-};
+  );
+}
