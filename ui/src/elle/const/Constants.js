@@ -2,6 +2,8 @@ export const WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO = 1000;
 
 export const replaceCombined = /<\/?span[^>]*>|<\/?div[^>]*>/g;
 export const replaceSpaceTags = /&nbsp; ?/g;
+export const replaceQuotes = /&quot;/g;
+export const replaceDots = /\.{2,}/g;
 export const replaceSpaces = /\s\s+/g;
 
 export const breadcrumbNameMap = {

@@ -9,7 +9,7 @@ export default function TextLevelAccordionInner({ complexityAnswer, key }) {
     <div>
       {complexityAnswer.probabilities.map((value) => (
           <div key={`${key}-${value.index}-percentage`}>
-            {t(textLevels[value.index])} - {value.value * 100}%
+            {t(textLevels[value.index])} - {(value.value * 100).toFixed(0)}%
           </div>
         )
       )}

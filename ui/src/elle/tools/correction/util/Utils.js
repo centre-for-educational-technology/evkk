@@ -1,4 +1,4 @@
-import { replaceCombined, replaceSpaces, replaceSpaceTags } from '../../../const/Constants';
+import { replaceCombined, replaceDots, replaceQuotes, replaceSpaces, replaceSpaceTags } from '../../../const/Constants';
 import { InternalHyperlink, Paragraph, ShadingType, SymbolRun, TextRun, UnderlineType } from 'docx';
 import {
   correctionTooltipComponentsProps,
@@ -154,12 +154,20 @@ export const processErrorListForDocx = (tab, textLevel, errorList, innerHtml, la
 const processFetchText = (textBoxRef) => {
   if (!textBoxRef) return '';
   const textBoxValue = textBoxRef.current.innerText.replace(replaceCombined, '').replaceAll('  ', ' ');
-  const boxNoSpaceTags = textBoxValue.replace(replaceSpaceTags, ' ');
+  const boxNoSpaceTags = textBoxValue
+    .replace(replaceSpaceTags, ' ')
+    .replace(replaceQuotes, '"')
+    .replace(replaceDots, '.');
   return boxNoSpaceTags.replace(replaceSpaces, ' ');
 };
 
 const processCorrectorText = (fetchInputText) => {
-  return Array.isArray(fetchInputText) ? fetchInputText[0] : fetchInputText.trim().replaceAll(replaceCombined, '').replace(/\s+/g, ' ');
+  return Array.isArray(fetchInputText)
+    ? fetchInputText[0]
+    : fetchInputText.trim()
+      .replace(replaceCombined, '')
+      .replace(/\s+/g, ' ')
+      .replace(replaceQuotes, '"');
 };
 
 const processGrammarAnswer = (returnArray, errorList, grammarLabel) => {
