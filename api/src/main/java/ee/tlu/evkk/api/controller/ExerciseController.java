@@ -24,7 +24,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-
+import java.util.Comparator;
+import java.io.File;
 
 
 @RestController
@@ -93,7 +94,7 @@ public class ExerciseController {
   @PostMapping
   public ResponseEntity<?> insert(@RequestBody Exercise exercise) {
     try {
-      exerciseService.saveExerciseIfNotExists(exercise);
+      exerciseService.saveExercise(exercise);
       return ResponseEntity.ok(Map.of("status", "ok"));
     } catch (RuntimeException e) {
       e.printStackTrace();
@@ -198,19 +199,41 @@ public class ExerciseController {
           zipIn.closeEntry();
         }
       }
-      if (!exerciseService.existsByExternalId(externalId)) {
-        Exercise exercise = new Exercise();
-        exercise.setExternalId(externalId);
-        exercise.setFilePath("uploads/exercises/" + externalId + "/" + externalId + ".h5p");
-        exercise.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        exercise.setLikes(0);
-        exercise.setViews(0);
-        exerciseService.insertExercise(exercise);
-      }
       return ResponseEntity.ok(Map.of("status", "ok", "external_id", externalId));
     } catch (IOException e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body(Map.of("status", "error", "message", "FAIL_TO_DOWNLOAD_OR_UNZIP", "details", e.getMessage()));
+        .body(Map.of("status", "error", "message", "ERROR_FAILED_TO_DOWNLOAD_OR_UNZIP", "details", e.getMessage()));
+    }
+  }
+
+  @DeleteMapping("/delete")
+  public ResponseEntity<?> deleteExerciseByExternalId(@RequestBody Map<String, String> payload) {
+    String externalId = payload.get("externalId");
+
+    if (externalId == null || externalId.isBlank()) {
+      System.out.println("No externalId provided in delete request.");
+      return ResponseEntity.badRequest()
+        .body(Map.of("status", "error", "message", "MISSING_EXTERNAL_ID"));
+    }
+
+    try {
+      Path dir = Paths.get("uploads/exercises/", externalId);
+
+      System.out.println("Delete request received for: " + externalId);
+      System.out.println("Resolved directory path: " + dir);
+
+      if (Files.exists(dir)) {
+        Files.walk(dir)
+          .sorted(Comparator.reverseOrder())
+          .map(Path::toFile)
+          .forEach(File::delete);
+      }
+      System.out.println("Successfully deleted: " + dir);
+
+      return ResponseEntity.ok(Map.of("status", "deleted"));
+    } catch (IOException e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(Map.of("status", "error", "message", "ERROR_DELETE_FAILED", "details", e.getMessage()));
     }
   }
 }

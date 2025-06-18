@@ -44,8 +44,8 @@ export const validateLink = async (link) => {
         return { status: 'error', externalId: null };
     }
     return {
-      status: response.status,
-      externalId: response.external_id || null,
+      status: res.status,
+      externalId: res.external_id || null,
     };
   } catch {
     return { status: 'error', externalId: null };
@@ -91,10 +91,20 @@ export const saveExercise = async (params, fetchData) => {
 export const uploadByExternalId = async (externalId, fetchData) => {
   await fetchData(`/api/exercises/upload?externalId=${externalId}`, {
     method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
   });
 };
 
 export const submitExercise = async (params, fetchData) => {
   await saveExercise(params, fetchData);
-  await uploadByExternalId(params.externalId, fetchData);
 };
+
+export const deleteByExternalId = async (externalId, fetchData) => {
+  await fetchData(`/api/exercises/delete`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ externalId })
+  });
+}

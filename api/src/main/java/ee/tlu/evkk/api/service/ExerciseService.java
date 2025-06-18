@@ -29,14 +29,15 @@ public class ExerciseService {
     return exerciseDao.findById(id);
   }
 
-  public void saveExerciseIfNotExists(Exercise exercise) {
-    Exercise existing = exerciseDao.findByExternalId(exercise.getExternalId());
-
-    if (existing != null && existing.getId() != null) {
+  public void saveExercise(Exercise exercise) {
+    if (existsByExternalId(exercise.getExternalId())) {
       throw new RuntimeException("ERROR_EXERCISE_ALREADY_EXISTS");
     }
 
     exercise.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+    exercise.setFilePath("uploads/exercises/" + exercise.getExternalId() + "/" + exercise.getExternalId() + ".h5p");
+    exercise.setViews(0);
+    exercise.setLikes(0);
     insertExercise(exercise);
   }
 
@@ -50,50 +51,4 @@ public class ExerciseService {
     return exerciseDao.findByExternalId(externalId) != null;
   }
 
-  public void saveExerciseFile(String externalId, MultipartFile file, Exercise exercise) {
-    try {
-      if (file == null || file.isEmpty()) {
-        throw new RuntimeException("Fail puudub või on tühi");
-      }
-
-      String fileName = file.getOriginalFilename();
-      if (fileName == null || !fileName.toLowerCase().matches(".*\\.(json|h5p)$")) {
-        throw new RuntimeException("Ainult .json ja .h5p failid on lubatud");
-      }
-
-      String folderPath = "uploads/exercises/" + externalId;
-      Files.createDirectories(Paths.get(folderPath));
-
-      Path targetPath = Paths.get(folderPath, fileName);
-      file.transferTo(targetPath);
-
-      String relativePath = folderPath + "/" + fileName;
-      exercise.setFilePath(relativePath.replace("\\", "/"));
-
-      // kui .h5p, siis pakkime kohe lahti samasse kausta
-      if (fileName.toLowerCase().endsWith(".h5p")) {
-        unzipH5PFile(targetPath, Paths.get(folderPath));
-      }
-
-    } catch (IOException e) {
-      throw new RuntimeException("Faili salvestamine ebaõnnestus", e);
-    }
-  }
-
-  private void unzipH5PFile(Path sourceFile, Path targetDir) {
-    try (ZipInputStream zis = new ZipInputStream(Files.newInputStream(sourceFile))) {
-      ZipEntry entry;
-      while ((entry = zis.getNextEntry()) != null) {
-        Path newPath = targetDir.resolve(entry.getName());
-        if (entry.isDirectory()) {
-          Files.createDirectories(newPath);
-        } else {
-          Files.createDirectories(newPath.getParent());
-          Files.copy(zis, newPath, StandardCopyOption.REPLACE_EXISTING);
-        }
-      }
-    } catch (IOException e) {
-      throw new RuntimeException("H5P faili lahtipakkimine ebaõnnestus", e);
-    }
-  }
 }
