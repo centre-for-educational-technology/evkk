@@ -1,0 +1,65 @@
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 suhe */
+  height: 0;
+  overflow: hidden;
+  width: 100%;
+  margin: 0;
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.rendered-quill-wrapper {
+  position: relative;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 16px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  font-family: 'Mulish', 'sans-serif';
+  font-size: 16px;
+  max-height: 400px;
+}
+
+.copy-icon-wrapper {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 6px;
+}
+
+.copy-icon-wrapper button {
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.link-template {
+  margin-top: 12px;
+}
+
+.link-template-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.link-template-icon {
+  color: #1a0dab;
+  font-size: 20px;
+}
+
+.link-template-anchor {
+  color: #1a0dab;
+  text-decoration: underline;
+  word-break: break-all;
+}

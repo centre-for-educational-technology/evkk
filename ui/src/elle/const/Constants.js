@@ -23,7 +23,10 @@ export const breadcrumbNameMap = {
   '/tools/wordcontext': 'common_word_in_context',
   '/tools/collocates': 'common_neighbouring_words',
   '/admin': 'common_admin_panel',
-  '/corrector-test': 'common_corrector'
+  '/corrector-test': 'common_corrector',
+  '/library': 'common_library',
+  '/library/exercises': 'common_exercises',
+  '/library/studymaterial': 'common_studymaterial',
 };
 
 export const UserRoles = {

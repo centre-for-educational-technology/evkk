@@ -10,7 +10,11 @@ const AUTH_PATH = '/api/auth';
 export const useLogout = () => {
   const { fetchData } = useFetch();
   const navigate = useNavigate();
-  const { clearAuthContext, accessToken } = useContext(RootContext);
+  const { clearAuthContext, accessToken  } = useContext(RootContext);
+
+  const logoutTestUser = () => {
+    clearAuthContext();
+  };
 
   const logout = useCallback((forced = false) => {
     fetchData(`${AUTH_PATH}/logout`, {
@@ -25,8 +29,17 @@ export const useLogout = () => {
     });
   }, [accessToken, clearAuthContext, fetchData, navigate]);
 
-  return { logout };
+  return { logout, logoutTestUser };
 };
+
+export const useLogin = () => {
+  const { setTestUser } = useContext(RootContext);
+  const loginTestUser = () => {
+    setTestUser();
+  };
+
+  return { loginTestUser };
+}
 
 export const useRenew = () => {
   const { fetchData } = useFetch();

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ee.tlu.evkk.dal.dao.LanguageLevelDao">
+  <sql id="languageLevelColumns">
+    ll.id AS ll_id,
+    ll.level AS ll_level,
+    ll.label AS ll_label
+  </sql>
+  <resultMap id="LanguageLevelResultMap" type="ee.tlu.evkk.dal.dto.LanguageLevel">
+    <id property="id" column="ll_id"/>
+    <result property="level" column="ll_level"/>
+    <result property="label" column="ll_label"/>
+  </resultMap>
+
+  <select id="findAllLanguageLevels" resultType="ee.tlu.evkk.dal.dto.LanguageLevel">
+    SELECT id, level FROM core.language_level ORDER BY id
+  </select>
+
+</mapper>

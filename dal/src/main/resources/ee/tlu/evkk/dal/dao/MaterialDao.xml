@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ee.tlu.evkk.dal.dao.MaterialDao">
+  <sql id="materialAssociations">
+    LEFT JOIN core.language_level ll ON m.language_level_id = ll.id
+    LEFT JOIN core.status st ON m.status_id = st.id
+    LEFT JOIN core.material_type mt ON m.material_type_id = mt.id
+    LEFT JOIN core.file_material fm ON fm.material_id = m.id
+    LEFT JOIN core.link_material lm ON lm.material_id = m.id
+    LEFT JOIN core.text_material tm ON tm.material_id = m.id
+    LEFT JOIN core.video_material vm ON vm.material_id = m.id
+    <include refid="ee.tlu.evkk.dal.dao.CategoryDao.materialCategoryJoin"/>
+    <include refid="ee.tlu.evkk.dal.dao.TargetGroupDao.materialTargetGroupJoin"/>
+  </sql>
+
+  <sql id="materialColumns">
+    m.id AS m_id,
+    m.title AS m_title,
+    m.created_at AS m_created_at,
+    m.description AS m_description,
+    m.downloads AS m_downloads,
+    m.likes AS m_likes,
+    m.material_type_id AS m_material_type_id,
+    m.language_level_id AS m_language_level_id
+  </sql>
+
+  <sql id="materialAssociationColumns">
+    <include refid="ee.tlu.evkk.dal.dao.MaterialDao.materialColumns"/>,
+    fm.file_path AS m_file_path,
+    fm.file_format AS m_file_format,
+    fm.file_size AS m_file_size,
+    lm.url AS m_link,
+    tm.text AS m_text,
+    tm.word_count AS m_word_count,
+    vm.video_url AS m_video_url,
+    vm.platform AS m_platform,
+    vm.embed_code AS m_embed_code,
+    <include refid="ee.tlu.evkk.dal.dao.CategoryDao.categoryColumns"/>,
+    <include refid="ee.tlu.evkk.dal.dao.LanguageLevelDao.languageLevelColumns"/>,
+    <include refid="ee.tlu.evkk.dal.dao.MaterialTypeDao.materialTypeColumns"/>,
+    <include refid="ee.tlu.evkk.dal.dao.StatusDao.statusColumns"/>,
+    <include refid="ee.tlu.evkk.dal.dao.TargetGroupDao.targetGroupColumns"/>
+  </sql>
+
+  <resultMap id="MaterialResultMap" type="ee.tlu.evkk.dal.dto.Material">
+    <id property="id" column="m_id"/>
+    <result property="title" column="m_title"/>
+    <result property="createdAt" column="m_created_at"/>
+    <result property="description" column="m_description"/>
+    <result property="downloads" column="m_downloads"/>
+    <result property="likes" column="m_likes"/>
+    <result property="materialTypeId" column="m_material_type_id"/>
+    <result property="languageLevelId" column="m_language_level_id"/>
+
+    <result property="filePath" column="m_file_path"/>
+    <result property="fileFormat" column="m_file_format"/>
+    <result property="fileSize" column="m_file_size"/>
+
+    <result property="link" column="m_link"/>
+
+    <result property="text" column="m_text"/>
+    <result property="wordCount" column="m_word_count"/>
+
+    <result property="videoUrl" column="m_video_url"/>
+    <result property="platform" column="m_platform"/>
+    <result property="embedCode" column="m_embed_code"/>
+
+    <association property="status" resultMap="ee.tlu.evkk.dal.dao.StatusDao.StatusResultMap"/>
+    <association property="materialType" resultMap="ee.tlu.evkk.dal.dao.MaterialTypeDao.MaterialTypeResultMap"/>
+    <association property="languageLevel" resultMap="ee.tlu.evkk.dal.dao.LanguageLevelDao.LanguageLevelResultMap"/>
+    <collection property="categories" resultMap="ee.tlu.evkk.dal.dao.CategoryDao.CategoryResultMap"/>
+    <collection property="targetGroups" resultMap="ee.tlu.evkk.dal.dao.TargetGroupDao.TargetGroupResultMap"/>
+  </resultMap>
+
+  <insert id="insertMaterialCategories" parameterType="ee.tlu.evkk.dal.dto.Material">
+    INSERT INTO core.material_category (material_id, category_id)
+    <foreach collection="categories" item="category" separator="," open="VALUES" close="">
+      (#{id}, #{category.id})
+    </foreach>
+  </insert>
+
+  <insert id="insertMaterialTargetGroups" parameterType="ee.tlu.evkk.dal.dto.Material">
+    INSERT INTO core.material_target_group (material_id, target_group_id)
+    <foreach collection="targetGroups" item="targetGroup" separator="," open="VALUES" close="">
+      (#{id}, #{targetGroup.id})
+    </foreach>
+  </insert>
+
+  <insert id="insertMaterial" parameterType="ee.tlu.evkk.dal.dto.Material" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO core.material (
+      title,
+      description,
+      downloads,
+      likes,
+      created_at,
+      material_type_id,
+      language_level_id
+    ) VALUES (
+      #{title},
+      #{description},
+      #{downloads},
+      #{likes},
+      #{createdAt},
+      #{materialTypeId},
+      #{languageLevelId}
+    )
+  </insert>
+
+  <select id="findAllMaterials" resultMap="MaterialResultMap">
+    SELECT
+    <include refid="materialAssociationColumns"/>
+    FROM core.material m
+    <include refid="materialAssociations"/>
+    ORDER BY m.id ASC
+  </select>
+
+  <select id="findMaterialById" parameterType="long" resultMap="MaterialResultMap">
+    SELECT
+    <include refid="materialAssociationColumns"/>
+    FROM core.material m
+    <include refid="materialAssociations"/>
+    WHERE m.id = #{id}
+  </select>
+  
+</mapper>

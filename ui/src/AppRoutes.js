@@ -5,6 +5,9 @@ import { Container } from '@mui/material';
 import Home from './elle/pages/Home';
 import Links from './elle/pages/Links';
 import AboutUs from './elle/pages/AboutUs';
+import Exercises from './elle/pages/Exercises'
+import StudyMaterial from './elle/pages/StudyMaterial'
+import Library from './elle/pages/Library'
 import FilledContacts from './elle/components/about/FilledContacts';
 import Grants from './elle/components/about/Grants';
 import ClusterFinder from './elle/tools/ClusterFinder';
@@ -23,6 +26,7 @@ import Admin from './elle/pages/Admin';
 import RequireAuth from './elle/components/security/RequireAuth';
 import { UserRoles } from './elle/const/Constants';
 import { useTranslation } from 'react-i18next';
+import ExerciseSolve from './elle/pages/ExerciseSolve';
 
 export default function AppRoutes() {
   const { t } = useTranslation();
@@ -88,8 +92,24 @@ export default function AppRoutes() {
                  element={<MasinoppeEnnustus />} />
         </Route>
         <Route path={RouteConstants.LINKS}
-               element={<Links />} />
-        <Route path={RouteConstants.LOGIN}
+               element={<Links />}>
+        </Route>
+        <Route path={RouteConstants.LIBRARY}
+               element={<Library />}>
+          <Route index
+               element={<Navigate to={RouteConstants.EXERCISES}
+                                  replace />} />
+          <Route path={RouteConstants.EXERCISES}
+               element={<Exercises />} />
+          <Route path="/library/exercises/:id"
+                 element={<ExerciseSolve />} />
+          {/* <Route element={<RequireAuth/>}> */}
+            <Route path={RouteConstants.STUDYMATERIAL}
+                 element={<StudyMaterial />}
+            />
+          </Route>
+        {/* </Route> */}
+       <Route path={RouteConstants.LOGIN}
                element={<Login />} />
         <Route element={<RequireAuth role={UserRoles.ADMIN} />}>
           <Route path={RouteConstants.ADMIN}
@@ -111,10 +131,13 @@ export const RouteConstants = {
   CORRECTOR: 'corrector',
   CORRECTOR_TEST: 'corrector-test',
   GRANTS: 'grants',
+  EXERCISES: 'exercises',
+  LIBRARY: 'library',
   LINKS: 'links',
   LOGIN: 'login',
   PEOPLE: 'people',
   PUBLICATIONS: 'publications',
+  STUDYMATERIAL: 'studymaterial',
   TOOLS: 'tools',
   US: 'us',
   WORDANALYSER: 'wordanalyser',

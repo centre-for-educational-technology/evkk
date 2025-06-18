@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ee.tlu.evkk.dal.dao.MaterialTypeDao">
+  <sql id="materialJoin">
+    LEFT JOIN core.material m ON mtype.material_id = m.id
+  </sql>
+
+  <sql id="materialTypeColumns">
+    mt.id AS mt_id,
+    mt.type AS mt_type
+  </sql>
+
+  <resultMap id="MaterialTypeResultMap" type="ee.tlu.evkk.dal.dto.MaterialType">
+    <id property="id" column="mt_id"/>
+    <result property="type" column="mt_type"/>
+  </resultMap>
+
+  <select id="findAllMaterialTypes" resultMap="MaterialTypeResultMap">
+    SELECT * FROM core.material_type
+  </select>
+</mapper>
