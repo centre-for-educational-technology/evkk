@@ -57,10 +57,21 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
   const [externalId, setExternalId] = useState(null);
   const [selectedTargetGroupIds, setSelectedTargetGroupIds] = useState([]);
   const [targetGroups, setTargetGroups] = useState([]);
-
   const { fetchData } = useFetch();
 
-  const isStep1Valid = title && description && languageLevels.length > 0 && selectedCategoryIds.length > 0;
+  const resetForm = useCallback(() => {
+    setTitle('');
+    setDescription('');
+    setSelectedCategoryIds([]);
+    setSelectedLanguageLevelId(null);
+    setDuration(durationOptions[0]?.value || 5);
+    setLink('');
+    setValidationStatus(null);
+    setExternalId(null);
+    setStep(1);
+  }, [durationOptions]);
+  
+  const isStep1Valid = title && description && languageLevels.length > 0 && selectedCategoryIds.length > 0  && selectedCategoryIds.length > 0;
 
   useEffect(() => {
     if (!isOpen) {
