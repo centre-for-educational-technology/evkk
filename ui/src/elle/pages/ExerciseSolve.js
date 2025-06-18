@@ -16,6 +16,7 @@ export default function ExerciseSolve() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [confirmationRequest, setConfirmationRequest] = useState(null);
+  const [exerciseFinished, setExerciseFinished] = useState(false);
   const [results, setResults] = useState({
     score: 0,
     maxScore: 0,
@@ -29,20 +30,7 @@ export default function ExerciseSolve() {
   }, [id]);
 
   const handleFinishExercise = () => {
-    window.H5P.externalDispatcher.triggerXAPI("completed");
     setShowModal(true);
-    window.H5P.externalDispatcher.on("xAPI", (event) => {
-      const instance = event?.data?.statement?.object?.definition;
-
-      const results = {
-        score: event.getScore() ?? 0,
-        maxScore: event.getMaxScore() ?? 0
-      };
-
-      setResults(results);
-
-      console.log(results);
-    });
   };
 
   return (
@@ -91,36 +79,45 @@ export default function ExerciseSolve() {
           }}
         >
           {exercise && (
-            <H5PPlayer externalId={exercise.externalId}/>
+            <H5PPlayer
+              externalId={exercise.externalId}
+              onFinish={() => setExerciseFinished(true)}
+              setResults={(value) => setResults(value)}
+            />
           )}
         </Box>
 
         {/* Lõpeta harjutus nupp */}
-        <Stack direction="row" spacing={2} justifyContent="center" mt={2} mb={2}>
-          <Button
-            sx={{
-              backgroundColor: '#9C27B0',
-              color: 'white',
-              fontWeight: 'bold',
-              textTransform: 'none',
-              '&:hover': {
-                backgroundColor: '#7B1FA2'
-              }
-            }}
-            onClick={() =>
-            setConfirmationRequest({
-              message: 'Kas oled kindel, et soovid harjutuse lõpetada?',
-              onConfirm: () => {
-                handleFinishExercise();
-              }
-            })
-          }
-          >
-            Lõpeta harjutus
-          </Button>
-        </Stack>
-
-        <ExerciseResultModal isOpen={showModal} setIsOpen={setShowModal}/>
+        {exerciseFinished && (
+          <Stack direction="row" spacing={2} justifyContent="center" mt={2} mb={2}>
+            <Button
+              sx={{
+                backgroundColor: '#9C27B0',
+                color: 'white',
+                fontWeight: 'bold',
+                textTransform: 'none',
+                '&:hover': {
+                  backgroundColor: '#7B1FA2'
+                }
+              }}
+              onClick={() =>
+              setConfirmationRequest({
+                message: 'Kas oled kindel, et soovid harjutuse lõpetada?',
+                onConfirm: () => {
+                  handleFinishExercise();
+                }
+              })
+            }
+            >
+              Kuva tulemused
+            </Button>
+          </Stack>
+        )}
+        <ExerciseResultModal
+          isOpen={showModal}
+          setIsOpen={setShowModal}
+          results={results}
+        />
 
         {/* Kinnitusmodal */}
         <ConfirmationModal

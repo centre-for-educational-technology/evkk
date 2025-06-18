@@ -52,5 +52,6 @@ export const SuccessSnackbarEventType = {
   GENERIC_SUCCESS: 'success_generic',
   LOGOUT_SUCCESS: 'success_logout',
   LOGOUT_FORCED_SUCCESS: 'success_logout_forced',
-  SESSION_RENEW_SUCCESS: 'success_session_renew'
+  SESSION_RENEW_SUCCESS: 'success_session_renew',
+  EXERCISE_COMPLETED: 'success_exercise_completed'
 };

@@ -662,6 +662,7 @@ export const TRANSLATIONS_ET = {
   success_logout: 'Oled edukalt välja logitud.',
   success_logout_forced: 'Sessiooni aegumise tõttu logiti sind automaatselt välja.',
   success_session_renew: 'Sessiooni pikendamine õnnestus.',
+  success_exercise_completed: 'Harjutus lahendatud, keri alla, et näha tulemusi',
   syllables_beginning: 'algus',
   syllables_end: 'lõpp',
   syllables_filename: 'silbid',

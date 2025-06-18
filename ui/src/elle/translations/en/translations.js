@@ -660,6 +660,7 @@ export const TRANSLATIONS_EN = {
   success_logout: 'You have been logged out successfully.',
   success_logout_forced: 'Your session has expired and you have been automatically logged out.',
   success_session_renew: 'Session has been renewed successfully.',
+  success_exercise_completed: 'Exercise complete. Scroll down to view results',
   syllables_beginning: 'beginning',
   syllables_end: 'end',
   syllables_filename: 'syllables',

@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { H5P } from 'h5p-standalone';
+import { successEmitter } from '../../../../App';
 
-export function H5PPlayer({ externalId }) {
+export function H5PPlayer({ externalId, onFinish, setResults }) {
 
   useEffect(() => {
     if (!externalId) return;
@@ -24,12 +25,24 @@ export function H5PPlayer({ externalId }) {
     };
 
     new H5P(container, options)
-      .then((instance) => {
-        console.log(instance)
-        window.h5pPlayerInstance = instance;
+      .then(() => {
         if (window.H5P && window.H5P.externalDispatcher) {
           window.H5P.externalDispatcher.on('xAPI', function (event) {
-            console.log('xAPI event:', event.data.statement);
+            // console.log('xAPI event:', event.data.statement);
+            const isCompleted = event.getVerb() === "completed";
+            if (isCompleted) {
+              const results = {
+                score: event.getScore() ?? 0,
+                maxScore: event.getMaxScore() ?? 0,
+                duration: event.getVerifiedStatementValue(["result", "duration"]) ?? 0,
+              };
+
+              setResults(results);
+
+              successEmitter.emit("success_exercise_completed");
+
+              onFinish();
+            };
           });
         }
       })
@@ -40,8 +53,4 @@ export function H5PPlayer({ externalId }) {
 
   return <div id="h5p-container" style={{ width: '100%' }} />;
   //return <div id="h5p-container" style={{ height: '500px' }} />;
-};
-
-export function FinishExercise() {
-
 };
