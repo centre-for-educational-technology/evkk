@@ -186,8 +186,8 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
                   }
                 }}
               />
-
             </Button>
+
             <Typography
               className="study-modal-upload-label"
               sx={{ color: fileError ? 'error.main' : 'text.primary' }}

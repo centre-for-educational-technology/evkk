@@ -58,14 +58,16 @@ public class StudyMaterialController {
   public Material getStudyMaterialById(@PathVariable Long id) {
     return studyMaterialService.getMaterialById(id);
   }
+
+  // find all language levels
   @GetMapping("/language-levels")
   public List<LanguageLevel> getLanguageLevels() {
     return studyMaterialService.getAllLanguageLevels();
   }
 
+  // find all categories
   @GetMapping("/categories")
   public List<Category> getCategories() {
     return studyMaterialService.getAllCategories();
   }
-
 }
