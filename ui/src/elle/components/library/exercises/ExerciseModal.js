@@ -55,9 +55,9 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
   const [link, setLink] = useState('');
   const [validationStatus, setValidationStatus] = useState(null);
   const [externalId, setExternalId] = useState(null);
+  const [selectedTargetGroupIds, setSelectedTargetGroupIds] = useState([]);
+  const [targetGroups, setTargetGroups] = useState([]);
   const { fetchData } = useFetch();
-
-  //const isStep1Valid = title && description && languageLevels.length > 0 && selectedCategoryIds.length > 0;
 
   const resetForm = useCallback(() => {
     setTitle('');
@@ -70,6 +70,8 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
     setExternalId(null);
     setStep(1);
   }, [durationOptions]);
+  
+  const isStep1Valid = title && description && languageLevels.length > 0 && selectedCategoryIds.length > 0  && selectedCategoryIds.length > 0;
 
   useEffect(() => {
     if (!isOpen) {
@@ -90,6 +92,12 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
   }, []);
 
   useEffect(() => {
+    fetch("/api/target-groups")
+      .then(res => res.json())
+      .then(json => setTargetGroups(json));
+  }, []);
+
+  useEffect(() => {
     fetch("/api/durations")
       .then(res => res.json())
       .then(json => {
@@ -101,6 +109,14 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
   const handleChangeLevel = (event) => {
     const { target: { value } } = event;
     setSelectedLanguageLevelId(value);
+  };
+
+  const handleTargetGroupChange = (event, targetGroupId) => {
+    setSelectedTargetGroupIds((prev) =>
+      event.target.checked
+        ? [...prev, targetGroupId]
+        : prev.filter((id) => id !== targetGroupId)
+    );
   };
 
   const handleChangeCategory = (event) => {
@@ -151,6 +167,7 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
         categories,
         durationOptions,
         externalId,
+        selectedTargetGroupIds
       }, fetchData);
       successEmitter.emit('success_generic');
       setIsOpen(false);
@@ -231,6 +248,23 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
                     ))}
                   </Select>
                 </FormControl>
+              </Box>
+
+              <Box display="flex" style={{ marginTop: 40 }}>
+                {targetGroups.map((targetGroup) => (
+                  <FormGroup row>
+                    <FormControlLabel
+                      value={targetGroup.id}
+                      control={
+                        <Checkbox
+                          checked={selectedTargetGroupIds.includes(targetGroup.id)}
+                          onChange={(e) => handleTargetGroupChange(e, targetGroup.id)}
+                        />
+                      }
+                      label={targetGroup.name}
+                    />
+                  </FormGroup>
+                ))}
               </Box>
 
               <Box display="flex">
