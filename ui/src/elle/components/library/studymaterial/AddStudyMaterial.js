@@ -30,6 +30,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
   const [textContent, setTextContent] = useState('');
   const [fileError, setFileError] = useState('');
   const [pureOriginalFilename, setPureOriginalFilename] = useState('');
+  const ALLOWED_EXTENSIONS = ['pdf', 'doc', 'docx', 'odt', 'ppt', 'pptx', 'xls', 'xlsx', 'txt', 'rtf', 'png', 'jpg', 'jpeg'];
 
   const { t } = useTranslation();
 
@@ -39,6 +40,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
       setOriginalFilename('');
       setFilename('');
       setTitle('');
+      setFileError('');
       setDescription('');
       setCategories([]);
       setLevel('');
@@ -66,7 +68,6 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
       } else if (!filename.endsWith(`.${extension}`)) {
         safeFilename += `.${extension}`;
       }
-
       formData.append('file', file, safeFilename);
     }
 
@@ -104,13 +105,16 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
         body: formData
       });
 
-      if (!response.ok) throw new Error('Serveri viga');
+      if (!response.ok) {
+        const errorText = await response.text();
+        alert(`Viga: ${errorText}`);
+        return;
+      }
 
       const addedMaterial = await response.json();
       if (onSubmitSuccess) onSubmitSuccess(addedMaterial);
       setIsOpen(false);
     } catch (err) {
-      console.error('Viga saatmisel:', err);
       alert('Midagi läks valesti');
     }
   };
@@ -151,8 +155,17 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
                       setFileError(`Fail ületab suuruse! (${sizeMB.toFixed(2)} MB)`);
                       return;
                     }
+
+                    const extension = selected.name.split('.').pop().toLowerCase();
+                    if (!ALLOWED_EXTENSIONS.includes(extension)) {
+                      setFile(null);
+                      setOriginalFilename('');
+                      setFileError('Lubamatu failiformaat!');
+                      return;
+                    }
+
                     setFile(selected);
-                    setPureOriginalFilename(selected.name); // ilma suuruseta
+                    setPureOriginalFilename(selected.name);
                     setOriginalFilename(`${selected.name} (${sizeMB.toFixed(2)} MB)`);
                     setFileError('');
                   }

@@ -107,4 +107,13 @@
     ORDER BY m.id ASC
   </select>
 
+  <select id="findMaterialById" parameterType="long" resultMap="MaterialResultMap">
+    SELECT
+    <include refid="materialAssociationColumns"/>
+    FROM core.material m
+    <include refid="materialAssociations"/>
+    WHERE m.id = #{id}
+  </select>
+
+
 </mapper>

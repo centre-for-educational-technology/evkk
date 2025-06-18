@@ -34,6 +34,20 @@ public class StudyMaterialService {
     Long levelId = findOrInsertLevel(level);
     Long statusId = 1L; // DRAFT
 
+    // Faili kontroll enne salvestamist
+    String extension = null;
+    if ("fail".equalsIgnoreCase(type)) {
+      if (file == null || file.getOriginalFilename() == null || file.getSize() == 0) {
+        throw new IllegalArgumentException("Fail on tühi või puudub sisu.");
+      }
+
+      extension = getFileExtension(file.getOriginalFilename()).toLowerCase();
+
+      if (!ALLOWED_FILE_EXTENSIONS.contains(extension)) {
+        throw new IllegalArgumentException("Failivorming '" + extension + "' ei ole toetatud.");
+      }
+    }
+
     Material material = Material.builder()
       .title(title)
       .description(description)
@@ -64,11 +78,19 @@ public class StudyMaterialService {
           .materialId(material.getId())
           .filePath(filePath)
           .fileSize((int) file.getSize())
-          .fileFormat(getFileExtension(file.getOriginalFilename()))
+          .fileFormat(extension)
           .build());
         break;
 
       case "link":
+        if (link == null || link.isBlank()) {
+          throw new IllegalArgumentException("Link on kohustuslik!");
+        }
+
+        if (!link.matches("^(https?://).+")) {
+          throw new IllegalArgumentException("Palun sisestage korrektne link!");
+        }
+
         linkMaterialDao.insertLinkMaterial(LinkMaterial.builder()
           .materialId(material.getId())
           .url(link)
@@ -84,7 +106,15 @@ public class StudyMaterialService {
         break;
 
       case "video":
+        if (link == null || link.isBlank()) {
+          throw new IllegalArgumentException("Video link on kohustuslik!");
+        }
+
         String platform = detectPlatform(link);
+        if ("UNKNOWN".equals(platform)) {
+          throw new IllegalArgumentException("Sisestatud link ei ole toetatud videoplatvormilt!");
+        }
+
         String embedCode = generateEmbedCode(link, platform);
         videoMaterialDao.insertVideoMaterial(VideoMaterial.builder()
           .materialId(material.getId())
@@ -96,6 +126,17 @@ public class StudyMaterialService {
     }
     return material;
   }
+
+  private static final List<String> ALLOWED_FILE_EXTENSIONS = List.of(
+    "pdf",
+    "xls", "xlsx",
+    "odt",
+    "ppt", "pptx",
+    "txt",
+    "doc", "docx",
+    "rtf",
+    "png", "jpg", "jpeg"
+  );
 
   private int getMaterialTypeId(String type) {
     switch (type.toLowerCase()) {
@@ -195,4 +236,9 @@ public class StudyMaterialService {
   public List<Material> getAllStudyMaterials() {
     return materialDao.findAllMaterials();
   }
+
+  public Material getMaterialById(Long id) {
+    return materialDao.findMaterialById(id);
+  }
+
 }

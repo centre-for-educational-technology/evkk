@@ -81,20 +81,34 @@ export default function StudyMaterial() {
         const res = await fetch(url);
         setMaterials(await res.json());
       } catch (err) {
-        console.error('Viga õppematerjalide laadimisel:', err);
+
       }
     };
     fetchMaterials();
   }, []);
+
 
   return (
     <div>
       <AddStudyMaterial
         isOpen={modalOpen}
         setIsOpen={() => setModalOpen(false)}
-        onSubmitSuccess={newMaterial => {
-          setMaterials(prev => [newMaterial, ...prev]);
-          setCurrentPage(1);
+        onSubmitSuccess={async (newMaterial) => {
+          try {
+            const url = process.env.NODE_ENV === 'production'
+              ? `/api/study-material/${newMaterial.id}`
+              : `http://localhost:9090/api/study-material/${newMaterial.id}`;
+
+            const res = await fetch(url);
+            if (!res.ok) throw new Error('Laadimine ebaõnnestus');
+
+            const fullMaterial = await res.json();
+            setMaterials(prev => [fullMaterial, ...prev]);
+            setCurrentPage(1);
+          } catch (err) {
+            setMaterials(prev => [newMaterial, ...prev]); // fallback
+            setCurrentPage(1);
+          }
         }}
       />
       <StudyMaterialPopup
