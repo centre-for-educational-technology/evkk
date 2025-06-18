@@ -10,8 +10,6 @@ import {
   Typography
 } from '@mui/material';
 import ModalBase from '../../modal/ModalBase';
-import Categories from '../json/categories.json';
-import LanguageLevels from '../json/languageLevels.json';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import RichTextEditor from './TextEditor';
 import { useTranslation } from 'react-i18next';
@@ -21,6 +19,8 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
   const [file, setFile] = useState(null);
   const [originalFilename, setOriginalFilename] = useState('');
   const [filename, setFilename] = useState('');
+  const [fetchedCategories, setFetchedCategories] = useState([]);
+  const [fetchedLevels, setFetchedLevels] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [categories, setCategories] = useState([]);
@@ -48,6 +48,16 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
       setLink('');
       setTextContent('');
     }
+
+    fetch('http://localhost:9090/api/study-material/categories')
+      .then(res => res.json())
+      .then(data => setFetchedCategories(data))
+      .catch(err => console.error('Kategooriate laadimine ebaõnnestus', err));
+
+    fetch('http://localhost:9090/api/study-material/language-levels')
+      .then(res => res.json())
+      .then(data => setFetchedLevels(data))
+      .catch(err => console.error('Keeletasemete laadimine ebaõnnestus', err));
   }, [isOpen]);
 
   const handleSubmit = async () => {
@@ -234,7 +244,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
               onChange={(e) => setCategories(e.target.value)}
               MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
             >
-              {Categories.map((c) => (
+              {fetchedCategories.map((c) => (
                 <MenuItem key={c.id} value={c.name}>{c.name}</MenuItem>
               ))}
             </Select>
@@ -248,8 +258,10 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
               label="Keeletase"
               onChange={(e) => setLevel(e.target.value)}
             >
-              {LanguageLevels.map((l) => (
-                <MenuItem key={l.id} value={l.level}>{l.level}</MenuItem>
+              {fetchedLevels.map((l) => (
+                <MenuItem key={l.id} value={l.level}>
+                  {l.level}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>

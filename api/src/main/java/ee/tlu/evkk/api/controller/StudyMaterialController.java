@@ -1,6 +1,8 @@
 package ee.tlu.evkk.api.controller;
 
 import ee.tlu.evkk.api.service.StudyMaterialService;
+import ee.tlu.evkk.dal.dto.Category;
+import ee.tlu.evkk.dal.dto.LanguageLevel;
 import ee.tlu.evkk.dal.dto.Material;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -55,6 +57,15 @@ public class StudyMaterialController {
   @GetMapping("/{id}")
   public Material getStudyMaterialById(@PathVariable Long id) {
     return studyMaterialService.getMaterialById(id);
+  }
+  @GetMapping("/language-levels")
+  public List<LanguageLevel> getLanguageLevels() {
+    return studyMaterialService.getAllLanguageLevels();
+  }
+
+  @GetMapping("/categories")
+  public List<Category> getCategories() {
+    return studyMaterialService.getAllCategories();
   }
 
 }
