@@ -41,6 +41,8 @@ export const TRANSLATIONS_EN = {
   common_estonian_language_corpora: 'Estonian language corpora',
   common_estonian_texts: 'Estonian texts',
   common_excel_sheet_name: 'Table',
+  common_exercises: 'Exercises',
+  common_studymaterial: 'Study materials',
   common_for_teachers: 'For teachers',
   common_form: 'Form',
   common_graduation_papers: 'Graduation papers',

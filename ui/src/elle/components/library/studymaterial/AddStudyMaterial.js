@@ -7,11 +7,12 @@ import {
   InputLabel,
   FormControl,
   Box,
-  Typography
+  Typography,
+  FormGroup,
+  FormControlLabel,
+  Checkbox
 } from '@mui/material';
 import ModalBase from '../../modal/ModalBase';
-import Categories from '../json/categories.json';
-import LanguageLevels from '../json/languageLevels.json';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import RichTextEditor from './TextEditor';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +24,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
   const [filename, setFilename] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [categories, setCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [level, setLevel] = useState('');
   const [type, setType] = useState('');
   const [link, setLink] = useState('');
@@ -31,8 +32,30 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
   const [fileError, setFileError] = useState('');
   const [pureOriginalFilename, setPureOriginalFilename] = useState('');
   const ALLOWED_EXTENSIONS = ['pdf', 'doc', 'docx', 'odt', 'ppt', 'pptx', 'xls', 'xlsx', 'txt', 'rtf', 'png', 'jpg', 'jpeg'];
+  const [selectedTargetGroupIds, setSelectedTargetGroupIds] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [languageLevels, setLanguageLevels] = useState([]);
+  const [targetGroups, setTargetGroups] = useState([]);
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    const url = process.env.NODE_ENV === 'production'
+      ? '/api'
+      : 'http://localhost:9090/api';
+
+    fetch(`${url}/categories`)
+      .then(res => res.json())
+      .then(json => setCategories(json));
+
+    fetch(`${url}/language-levels`)
+      .then(res => res.json())
+      .then(json => setLanguageLevels(json));
+
+    fetch(`${url}/target-groups`)
+      .then(res => res.json())
+      .then(json => setTargetGroups(json));
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -42,7 +65,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
       setTitle('');
       setFileError('');
       setDescription('');
-      setCategories([]);
+      setSelectedCategories([]);
       setLevel('');
       setType('');
       setLink('');
@@ -73,7 +96,8 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
 
     formData.append('title', title);
     formData.append('description', description);
-    categories.forEach(c => formData.append('category', c));
+    selectedCategories.forEach(c => formData.append('category', c));
+    selectedTargetGroupIds.forEach(tg => formData.append('targetGroups', tg));
     formData.append('level', level);
     formData.append('type', type);
 
@@ -88,7 +112,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
       formData.append('text', textContent);
     }
 
-    if (!title || !description || categories.length === 0 || !level || !type) {
+    if (!title || !description || selectedCategories.length === 0 || !level || !type) {
       alert('Kohustuslikud väljad on täitmata!');
       return;
     }
@@ -124,6 +148,13 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
     }
   };
 
+  const handleTargetGroupChange = (event, targetGroupId) => {
+    setSelectedTargetGroupIds((prev) =>
+      event.target.checked
+        ? [...prev, targetGroupId]
+        : prev.filter((id) => id !== targetGroupId)
+    );
+  };
 
   return (
     <ModalBase isOpen={isOpen} setIsOpen={setIsOpen} requireConfirmation={true} title="Õppematerjali üleslaadimine">
@@ -230,11 +261,11 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
               labelId="category-label"
               label="Kategooria"
               multiple
-              value={categories}
-              onChange={(e) => setCategories(e.target.value)}
+              value={selectedCategories}
+              onChange={(e) => setSelectedCategories(e.target.value)}
               MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
             >
-              {Categories.map((c) => (
+              {categories.map((c) => (
                 <MenuItem key={c.id} value={c.name}>{c.name}</MenuItem>
               ))}
             </Select>
@@ -248,11 +279,27 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
               label="Keeletase"
               onChange={(e) => setLevel(e.target.value)}
             >
-              {LanguageLevels.map((l) => (
+              {languageLevels.map((l) => (
                 <MenuItem key={l.id} value={l.level}>{l.level}</MenuItem>
               ))}
             </Select>
           </FormControl>
+        </Box>
+        <Box display="flex">
+          {targetGroups.map((targetGroup) => (
+            <FormGroup row>
+              <FormControlLabel
+                value={targetGroup.id}
+                control={
+                  <Checkbox
+                    checked={selectedTargetGroupIds.includes(targetGroup.id)}
+                    onChange={(e) => handleTargetGroupChange(e, targetGroup.id)}
+                  />
+                }
+                label={targetGroup.name}
+              />
+            </FormGroup>
+          ))}
         </Box>
 
         <Button

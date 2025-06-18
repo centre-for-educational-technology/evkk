@@ -32,4 +32,5 @@ public class Exercise implements Serializable {
   private Integer statusId;
   private Status status;
   private List<Category> categories;
+  private List<TargetGroup> targetGroups;
 }

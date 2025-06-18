@@ -18,6 +18,7 @@ public class StudyMaterialService {
 
   private final MaterialDao materialDao;
   private final CategoryDao categoryDao;
+  private final TargetGroupDao targetGroupDao;
   private final LanguageLevelDao languageLevelDao;
   private final FileMaterialDao fileMaterialDao;
   private final LinkMaterialDao linkMaterialDao;
@@ -27,7 +28,7 @@ public class StudyMaterialService {
   public Material saveStudyMaterialToDatabase(
     MultipartFile file, String title, String description,
     List<String> categories, String level, String type,
-    String link, String text
+    String link, String text, List<String> targetGroups
   ) throws IOException {
 
     int materialTypeId = getMaterialTypeId(type);
@@ -69,6 +70,15 @@ public class StudyMaterialService {
 
     material.setCategories(categoryList);
     materialDao.insertMaterialCategories(material);
+
+    // Mitme sihigrupi lisamine
+    List<TargetGroup> targetGroupList = targetGroups.stream()
+        .map(this::findTargetGroup)
+        .map(id -> TargetGroup.builder().id(id).build())
+        .collect(Collectors.toList());
+
+    material.setTargetGroups(targetGroupList);
+    materialDao.insertMaterialTargetGroups(material);
 
     // Alaminfo salvestamine tüübi alusel
     switch (type.toLowerCase()) {
@@ -124,7 +134,8 @@ public class StudyMaterialService {
           .build());
         break;
     }
-    return material;
+
+    return materialDao.findMaterialById(material.getId());
   }
 
   private static final List<String> ALLOWED_FILE_EXTENSIONS = List.of(
@@ -217,6 +228,14 @@ public class StudyMaterialService {
       .findFirst()
       .map(Category::getId)
       .orElseThrow();
+  }
+
+  private Long findTargetGroup(String id) {
+    List<TargetGroup> all = targetGroupDao.findAllTargetGroups();
+    for (TargetGroup targetGroup : all) {
+      if (targetGroup.getId().toString().equalsIgnoreCase(id)) return targetGroup.getId();
+    }
+    return null;
   }
 
   private Long findOrInsertLevel(String level) {

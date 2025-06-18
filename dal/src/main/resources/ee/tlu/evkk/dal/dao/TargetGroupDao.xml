@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ee.tlu.evkk.dal.dao.TargetGroupDao">
+  <resultMap id="TargetGroupResultMap" type="ee.tlu.evkk.dal.dto.TargetGroup">
+    <id property="id" column="tg_id"/>
+    <result property="name" column="tg_name"/>
+  </resultMap>
+
+  <sql id="targetGroupColumns">
+    tg.id AS tg_id,
+    tg.name AS tg_name
+  </sql>
+
+  <sql id="materialTargetGroupJoin">
+    LEFT JOIN core.material_target_group mtg ON mtg.material_id = m.id
+    LEFT JOIN core.target_group tg ON mtg.target_group_id = tg.id
+  </sql>
+
+  <sql id="exerciseTargetGroupJoin">
+    LEFT JOIN core.exercise_target_group etg ON etg.exercise_id = ex.id
+    LEFT JOIN core.target_group tg ON etg.target_group_id = tg.id
+  </sql>
+
+  <select id="findAllTargetGroups" resultMap="TargetGroupResultMap">
+    SELECT
+    <include refid="ee.tlu.evkk.dal.dao.TargetGroupDao.targetGroupColumns"/>
+    FROM core.target_group tg
+    ORDER BY tg.id
+  </select>
+</mapper>
