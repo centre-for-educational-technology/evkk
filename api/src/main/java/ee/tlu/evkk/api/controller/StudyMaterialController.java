@@ -32,12 +32,12 @@ public class StudyMaterialController {
     @RequestParam("level") String level,
     @RequestParam("type") String type,
     @RequestParam(value = "link", required = false) String link,
-    @RequestParam(value = "link", required = false) String link,
-    @RequestParam(value = "text", required = false) String text
+    @RequestParam(value = "text", required = false) String text,
+    @RequestParam(value = "targetGroups") List<String> targetGroups
   ) {
     try {
       Material saved = studyMaterialService.saveStudyMaterialToDatabase(
-        file, title, description, categories, level, type, link, text
+        file, title, description, categories, level, type, link, text, targetGroups
       );
       return ResponseEntity.ok(saved);
     } catch (IllegalArgumentException e) {
