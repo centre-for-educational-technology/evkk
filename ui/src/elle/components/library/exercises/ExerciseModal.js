@@ -78,19 +78,19 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
   }, [resetForm, isOpen]);
 
   useEffect(() => {
-    fetch("http://localhost:9090/api/categories")
+    fetch("/api/categories")
       .then(res => res.json())
       .then(json => setCategories(json));
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:9090/api/language-levels")
+    fetch("/api/language-levels")
       .then(res => res.json())
       .then(json => setlanguageLevels(json));
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:9090/api/durations")
+    fetch("/api/durations")
       .then(res => res.json())
       .then(json => {
         setDurationOptions(json);
@@ -113,24 +113,34 @@ export default function ExerciseModal({ isOpen, setIsOpen }) {
   };
 
   const handleValidateLink = async () => {
-    const result = await validateLink(link, fetchData);
+    try {
+      const result = await validateLink(link, fetchData);
 
-    if (result.status === 'EXERCISE_ALREADY_EXISTS') {
-      setValidationStatus('error');
-      setExternalId(null);
-      errorEmitter.emit('error_link_already_exists');
-    } else if (result.status === 'ok') {
-       setValidationStatus('success');
-      setExternalId(result.externalId);
-      successEmitter.emit('success_generic');
-    } else {
+      if (result.status === 'EXERCISE_ALREADY_EXISTS') {
+        setValidationStatus('error');
+        setExternalId(null);
+        errorEmitter.emit('error_link_already_exists');
+      } else if (result.status === 'success') {
+        setValidationStatus('success');
+        setExternalId(result.externalId);
+        successEmitter.emit('success_generic');
+      } else {
+        setValidationStatus('error');
+        setExternalId(null);
+        errorEmitter.emit('error_invalid_link');
+      }
+    } catch (e) {
       setValidationStatus('error');
       setExternalId(null);
       errorEmitter.emit('error_generic_server_error');
     }
-  };
+  }
 
   const handleSubmitExercise = async () => {
+  if (validationStatus !== 'success' || !externalId) {
+      errorEmitter.emit('error_generic_server_error');
+      return;
+    }
     try {
       await submitExercise({
         title,
