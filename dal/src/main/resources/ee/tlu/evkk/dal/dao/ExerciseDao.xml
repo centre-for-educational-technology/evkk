@@ -58,7 +58,7 @@
     <include refid="exerciseAssociationColumns"/>
     FROM core.exercise ex
     <include refid="exerciseAssociations"/>
-    ORDER BY ex.id
+    ORDER BY ex.id DESC
   </select>
 
   <select id="findById" parameterType="long" resultMap="ExerciseResultMap">
