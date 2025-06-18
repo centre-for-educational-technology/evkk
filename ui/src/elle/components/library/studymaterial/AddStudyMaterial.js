@@ -22,9 +22,11 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
   const [file, setFile] = useState(null);
   const [originalFilename, setOriginalFilename] = useState('');
   const [filename, setFilename] = useState('');
+  const [fetchedCategories, setFetchedCategories] = useState([]);
+  const [fetchedLevels, setFetchedLevels] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [level, setLevel] = useState('');
   const [type, setType] = useState('');
   const [link, setLink] = useState('');
@@ -33,8 +35,6 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
   const [pureOriginalFilename, setPureOriginalFilename] = useState('');
   const ALLOWED_EXTENSIONS = ['pdf', 'doc', 'docx', 'odt', 'ppt', 'pptx', 'xls', 'xlsx', 'txt', 'rtf', 'png', 'jpg', 'jpeg'];
   const [selectedTargetGroupIds, setSelectedTargetGroupIds] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [languageLevels, setLanguageLevels] = useState([]);
   const [targetGroups, setTargetGroups] = useState([]);
 
   const { t } = useTranslation();
@@ -43,14 +43,6 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
     const url = process.env.NODE_ENV === 'production'
       ? '/api'
       : 'http://localhost:9090/api';
-
-    fetch(`${url}/categories`)
-      .then(res => res.json())
-      .then(json => setCategories(json));
-
-    fetch(`${url}/language-levels`)
-      .then(res => res.json())
-      .then(json => setLanguageLevels(json));
 
     fetch(`${url}/target-groups`)
       .then(res => res.json())
@@ -65,12 +57,22 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
       setTitle('');
       setFileError('');
       setDescription('');
-      setSelectedCategories([]);
+      setCategories([]);
       setLevel('');
       setType('');
       setLink('');
       setTextContent('');
     }
+
+    fetch('http://localhost:9090/api/study-material/categories')
+      .then(res => res.json())
+      .then(data => setFetchedCategories(data))
+      .catch(err => console.error('Kategooriate laadimine ebaõnnestus', err));
+
+    fetch('http://localhost:9090/api/study-material/language-levels')
+      .then(res => res.json())
+      .then(data => setFetchedLevels(data))
+      .catch(err => console.error('Keeletasemete laadimine ebaõnnestus', err));
   }, [isOpen]);
 
   const handleSubmit = async () => {
@@ -96,7 +98,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
 
     formData.append('title', title);
     formData.append('description', description);
-    selectedCategories.forEach(c => formData.append('category', c));
+    categories.forEach(c => formData.append('category', c));
     selectedTargetGroupIds.forEach(tg => formData.append('targetGroups', tg));
     formData.append('level', level);
     formData.append('type', type);
@@ -112,7 +114,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
       formData.append('text', textContent);
     }
 
-    if (!title || !description || selectedCategories.length === 0 || !level || !type) {
+    if (!title || !description || categories.length === 0 || !level || !type) {
       alert('Kohustuslikud väljad on täitmata!');
       return;
     }
@@ -207,7 +209,6 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
                   }
                 }}
               />
-
             </Button>
             <Typography
               className="study-modal-upload-label"
@@ -261,11 +262,11 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
               labelId="category-label"
               label="Kategooria"
               multiple
-              value={selectedCategories}
-              onChange={(e) => setSelectedCategories(e.target.value)}
+              value={categories}
+              onChange={(e) => setCategories(e.target.value)}
               MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
             >
-              {categories.map((c) => (
+              {fetchedCategories.map((c) => (
                 <MenuItem key={c.id} value={c.name}>{c.name}</MenuItem>
               ))}
             </Select>
@@ -279,8 +280,10 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
               label="Keeletase"
               onChange={(e) => setLevel(e.target.value)}
             >
-              {languageLevels.map((l) => (
-                <MenuItem key={l.id} value={l.level}>{l.level}</MenuItem>
+              {fetchedLevels.map((l) => (
+                <MenuItem key={l.id} value={l.level}>
+                  {l.level}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>

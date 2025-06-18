@@ -260,4 +260,13 @@ public class StudyMaterialService {
     return materialDao.findMaterialById(id);
   }
 
+  // find all language levels
+  public List<LanguageLevel> getAllLanguageLevels() {
+    return languageLevelDao.findAllLanguageLevels();
+  }
+
+  // find all categories
+  public List<Category> getAllCategories() {
+    return categoryDao.findAllCategories();
+  }
 }
