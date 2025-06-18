@@ -103,10 +103,12 @@ export default function AppRoutes() {
                element={<Exercises />} />
           <Route path="/library/exercises/:id"
                  element={<ExerciseSolve />} />
-          <Route path={RouteConstants.STUDYMATERIAL}
-               element={<StudyMaterial />}
-          />
-        </Route>
+          {/* <Route element={<RequireAuth/>}> */}
+            <Route path={RouteConstants.STUDYMATERIAL}
+                 element={<StudyMaterial />}
+            />
+          </Route>
+        {/* </Route> */}
        <Route path={RouteConstants.LOGIN}
                element={<Login />} />
         <Route element={<RequireAuth role={UserRoles.ADMIN} />}>

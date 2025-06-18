@@ -31,6 +31,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
   const [textContent, setTextContent] = useState('');
   const [fileError, setFileError] = useState('');
   const [pureOriginalFilename, setPureOriginalFilename] = useState('');
+  const ALLOWED_EXTENSIONS = ['pdf', 'doc', 'docx', 'odt', 'ppt', 'pptx', 'xls', 'xlsx', 'txt', 'rtf', 'png', 'jpg', 'jpeg'];
   const [selectedTargetGroupIds, setSelectedTargetGroupIds] = useState([]);
   const [categories, setCategories] = useState([]);
   const [languageLevels, setLanguageLevels] = useState([]);
@@ -62,6 +63,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
       setOriginalFilename('');
       setFilename('');
       setTitle('');
+      setFileError('');
       setDescription('');
       setSelectedCategories([]);
       setLevel('');
@@ -89,7 +91,6 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
       } else if (!filename.endsWith(`.${extension}`)) {
         safeFilename += `.${extension}`;
       }
-
       formData.append('file', file, safeFilename);
     }
 
@@ -103,6 +104,11 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
     if (type === 'link' || type === 'video') {
       formData.append('link', link);
     } else if (type === 'tekst') {
+      const plainText = textContent.replace(/<[^>]*>?/gm, '').trim(); // eemaldab HTML ja tühikud
+      if (!plainText) {
+        alert('Tekstisisu ei tohi olla tühi!');
+        return;
+      }
       formData.append('text', textContent);
     }
 
@@ -128,13 +134,16 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
         body: formData
       });
 
-      if (!response.ok) throw new Error('Serveri viga');
+      if (!response.ok) {
+        const errorText = await response.text();
+        alert(`Viga: ${errorText}`);
+        return;
+      }
 
       const addedMaterial = await response.json();
       if (onSubmitSuccess) onSubmitSuccess(addedMaterial);
       setIsOpen(false);
     } catch (err) {
-      console.error('Viga saatmisel:', err);
       alert('Midagi läks valesti');
     }
   };
@@ -182,8 +191,17 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
                       setFileError(`Fail ületab suuruse! (${sizeMB.toFixed(2)} MB)`);
                       return;
                     }
+
+                    const extension = selected.name.split('.').pop().toLowerCase();
+                    if (!ALLOWED_EXTENSIONS.includes(extension)) {
+                      setFile(null);
+                      setOriginalFilename('');
+                      setFileError('Lubamatu failiformaat!');
+                      return;
+                    }
+
                     setFile(selected);
-                    setPureOriginalFilename(selected.name); // ilma suuruseta
+                    setPureOriginalFilename(selected.name);
                     setOriginalFilename(`${selected.name} (${sizeMB.toFixed(2)} MB)`);
                     setFileError('');
                   }
@@ -241,6 +259,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
             <InputLabel id="category-label">{t('publish_your_text_text_data_academic_category')}*</InputLabel>
             <Select
               labelId="category-label"
+              label="Kategooria"
               multiple
               value={selectedCategories}
               onChange={(e) => setSelectedCategories(e.target.value)}
