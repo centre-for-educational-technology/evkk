@@ -4,6 +4,7 @@ import ee.tlu.evkk.api.service.StudyMaterialService;
 import ee.tlu.evkk.dal.dto.Category;
 import ee.tlu.evkk.dal.dto.LanguageLevel;
 import ee.tlu.evkk.dal.dto.Material;
+import ee.tlu.evkk.dal.dto.TargetGroup;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,7 @@ public class StudyMaterialController {
     @RequestParam("category") List<String> categories,
     @RequestParam("level") String level,
     @RequestParam("type") String type,
+    @RequestParam(value = "link", required = false) String link,
     @RequestParam(value = "link", required = false) String link,
     @RequestParam(value = "text", required = false) String text
   ) {

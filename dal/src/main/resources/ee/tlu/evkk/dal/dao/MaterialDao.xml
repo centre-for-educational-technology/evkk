@@ -13,6 +13,7 @@
     LEFT JOIN core.text_material tm ON tm.material_id = m.id
     LEFT JOIN core.video_material vm ON vm.material_id = m.id
     <include refid="ee.tlu.evkk.dal.dao.CategoryDao.materialCategoryJoin"/>
+    <include refid="ee.tlu.evkk.dal.dao.TargetGroupDao.materialTargetGroupJoin"/>
   </sql>
 
   <sql id="materialColumns">
@@ -40,7 +41,8 @@
     <include refid="ee.tlu.evkk.dal.dao.CategoryDao.categoryColumns"/>,
     <include refid="ee.tlu.evkk.dal.dao.LanguageLevelDao.languageLevelColumns"/>,
     <include refid="ee.tlu.evkk.dal.dao.MaterialTypeDao.materialTypeColumns"/>,
-    <include refid="ee.tlu.evkk.dal.dao.StatusDao.statusColumns"/>
+    <include refid="ee.tlu.evkk.dal.dao.StatusDao.statusColumns"/>,
+    <include refid="ee.tlu.evkk.dal.dao.TargetGroupDao.targetGroupColumns"/>
   </sql>
 
   <resultMap id="MaterialResultMap" type="ee.tlu.evkk.dal.dto.Material">
@@ -70,12 +72,20 @@
     <association property="materialType" resultMap="ee.tlu.evkk.dal.dao.MaterialTypeDao.MaterialTypeResultMap"/>
     <association property="languageLevel" resultMap="ee.tlu.evkk.dal.dao.LanguageLevelDao.LanguageLevelResultMap"/>
     <collection property="categories" resultMap="ee.tlu.evkk.dal.dao.CategoryDao.CategoryResultMap"/>
+    <collection property="targetGroups" resultMap="ee.tlu.evkk.dal.dao.TargetGroupDao.TargetGroupResultMap"/>
   </resultMap>
 
   <insert id="insertMaterialCategories" parameterType="ee.tlu.evkk.dal.dto.Material">
     INSERT INTO core.material_category (material_id, category_id)
     <foreach collection="categories" item="category" separator="," open="VALUES" close="">
       (#{id}, #{category.id})
+    </foreach>
+  </insert>
+
+  <insert id="insertMaterialTargetGroups" parameterType="ee.tlu.evkk.dal.dto.Material">
+    INSERT INTO core.material_target_group (material_id, target_group_id)
+    <foreach collection="targetGroups" item="targetGroup" separator="," open="VALUES" close="">
+      (#{id}, #{targetGroup.id})
     </foreach>
   </insert>
 
@@ -114,6 +124,5 @@
     <include refid="materialAssociations"/>
     WHERE m.id = #{id}
   </select>
-
-
+  
 </mapper>

@@ -55,11 +55,17 @@ export const validateLink = async (link) => {
 export const saveExercise = async (params, fetchData) => {
   const {
     externalId, title, description, selectedCategoryIds,
-    categories, durationOptions, duration, selectedLanguageLevelId
+    categories, durationOptions, duration, selectedLanguageLevelId, selectedTargetGroupIds
   } = params;
 
   const durationId = durationOptions.find((d) => d.value === duration)?.id;
   const categoriesMap = selectedCategoryIds.map(id => categories.find(c => c.id === id));
+
+  const targetGroupsMap = selectedTargetGroupIds.map(i => {
+    return {
+      id: i
+    }
+  })
 
   const data = {
     title,
@@ -72,6 +78,7 @@ export const saveExercise = async (params, fetchData) => {
     likes: 0,
     filePath: `/uploads/exercises/${externalId}.h5p`,
     categories: categoriesMap,
+    targetGroups: targetGroupsMap
   };
 
   await fetchData('/api/exercises', {

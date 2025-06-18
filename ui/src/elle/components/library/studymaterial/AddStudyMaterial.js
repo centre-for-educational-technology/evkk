@@ -7,7 +7,10 @@ import {
   InputLabel,
   FormControl,
   Box,
-  Typography
+  Typography,
+  FormGroup,
+  FormControlLabel,
+  Checkbox
 } from '@mui/material';
 import ModalBase from '../../modal/ModalBase';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
@@ -31,8 +34,20 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
   const [fileError, setFileError] = useState('');
   const [pureOriginalFilename, setPureOriginalFilename] = useState('');
   const ALLOWED_EXTENSIONS = ['pdf', 'doc', 'docx', 'odt', 'ppt', 'pptx', 'xls', 'xlsx', 'txt', 'rtf', 'png', 'jpg', 'jpeg'];
+  const [selectedTargetGroupIds, setSelectedTargetGroupIds] = useState([]);
+  const [targetGroups, setTargetGroups] = useState([]);
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    const url = process.env.NODE_ENV === 'production'
+      ? '/api'
+      : 'http://localhost:9090/api';
+
+    fetch(`${url}/target-groups`)
+      .then(res => res.json())
+      .then(json => setTargetGroups(json));
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -84,6 +99,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
     formData.append('title', title);
     formData.append('description', description);
     categories.forEach(c => formData.append('category', c));
+    selectedTargetGroupIds.forEach(tg => formData.append('targetGroups', tg));
     formData.append('level', level);
     formData.append('type', type);
 
@@ -134,6 +150,13 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
     }
   };
 
+  const handleTargetGroupChange = (event, targetGroupId) => {
+    setSelectedTargetGroupIds((prev) =>
+      event.target.checked
+        ? [...prev, targetGroupId]
+        : prev.filter((id) => id !== targetGroupId)
+    );
+  };
 
   return (
     <ModalBase isOpen={isOpen} setIsOpen={setIsOpen} requireConfirmation={true} title="Õppematerjali üleslaadimine">
@@ -187,7 +210,6 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
                 }}
               />
             </Button>
-
             <Typography
               className="study-modal-upload-label"
               sx={{ color: fileError ? 'error.main' : 'text.primary' }}
@@ -265,6 +287,22 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
               ))}
             </Select>
           </FormControl>
+        </Box>
+        <Box display="flex">
+          {targetGroups.map((targetGroup) => (
+            <FormGroup row>
+              <FormControlLabel
+                value={targetGroup.id}
+                control={
+                  <Checkbox
+                    checked={selectedTargetGroupIds.includes(targetGroup.id)}
+                    onChange={(e) => handleTargetGroupChange(e, targetGroup.id)}
+                  />
+                }
+                label={targetGroup.name}
+              />
+            </FormGroup>
+          ))}
         </Box>
 
         <Button
