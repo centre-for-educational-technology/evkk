@@ -28,7 +28,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { DefaultButtonStyle, DefaultSliderStyle } from '../../../const/StyleConstants';
 import { errorEmitter, successEmitter } from '../../../../App';
 import { useFetch } from '../../../hooks/useFetch';
-import H5PPlayer from './H5PPlayer.js';
+import { H5PPlayer } from './H5PPlayer.js';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
