@@ -1,28 +1,49 @@
 import React, { useRef, useEffect } from "react";
 
+import FormatBoldIcon from '@mui/icons-material/FormatBold';
+import FormatItalicIcon from '@mui/icons-material/FormatItalic';
+import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
+import TitleIcon from '@mui/icons-material/Title';
+import InsertLinkIcon from '@mui/icons-material/InsertLink';
+import ImageIcon from '@mui/icons-material/Image';
+import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
+import LooksOneIcon from '@mui/icons-material/LooksOne';
+import LooksTwoIcon from '@mui/icons-material/LooksTwo';
+import Looks3Icon from '@mui/icons-material/Looks3';
+
+
 const ToolbarButton = ({ command, icon, label, onClick }) => (
-    <button
-        type="button"
-        aria-label={label}
-        title={label}
-        onMouseDown={e => { e.preventDefault(); onClick(command); }}
-        style={{ margin: '0 0', color:'white', backgroundColor:'#2196F3', borderRadius:'4px', fontFamily:['Mulish', 'sans-serif']}}
-        >
-        {icon || label}
-    </button>
+  <button
+    type="button"
+    aria-label={label}
+    title={label}
+    onMouseDown={e => { e.preventDefault(); onClick(command); }}
+    style={{
+      background: 'none',
+      border: 'none',
+      padding: '6px 8px',
+      marginRight: '4px',
+      cursor: 'pointer',
+      color: '#555',
+      fontSize: '20px',
+    }}
+  >
+    {icon || label}
+  </button>
 );
 
 const TOOLBAR_ACTIONS = [
-    { command: 'formatBlock-h1', icon: <b>H1</b>, label: 'Heading 1'},
-    { command: 'formatBlock-h2', icon: <b>H2</b>, label: 'Heading 2'},
-    { command: 'formatBlock-h3', icon: <b>H3</b>, label: 'Heading 3'},
-    { command: 'bold', icon: <b>B</b>, label: 'Bold' },
-    { command: 'italic', icon: <i>I</i>, label: 'Italic' },
-    { command: 'underline', icon: <u>U</u>, label: 'Underline' },
-    { command: "link", icon: "🔗", label: "Link"},
-    { command: "image", icon: "🖼️", label: "Image" },
-    { command: "video", icon: "🎬", label: "Video" },
+  { command: 'formatBlock-h1', icon: <LooksOneIcon />, label: 'Heading 1' },
+  { command: 'formatBlock-h2', icon: <LooksTwoIcon />, label: 'Heading 2' },
+  { command: 'formatBlock-h3', icon: <Looks3Icon />, label: 'Heading 3' },
+  { command: 'bold', icon: <FormatBoldIcon />, label: 'Bold' },
+  { command: 'italic', icon: <FormatItalicIcon />, label: 'Italic' },
+  { command: 'underline', icon: <FormatUnderlinedIcon />, label: 'Underline' },
+  { command: "link", icon: <InsertLinkIcon />, label: "Link" },
+  { command: "image", icon: <ImageIcon />, label: "Image" },
+  { command: "video", icon: <OndemandVideoIcon />, label: "Video" },
 ];
+
 
 export default function RichTextEditor({ value, onChange }) {
   const editorRef = useRef(null);

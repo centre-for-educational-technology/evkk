@@ -80,6 +80,11 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
     if (type === 'link' || type === 'video') {
       formData.append('link', link);
     } else if (type === 'tekst') {
+      const plainText = textContent.replace(/<[^>]*>?/gm, '').trim(); // eemaldab HTML ja tühikud
+      if (!plainText) {
+        alert('Tekstisisu ei tohi olla tühi!');
+        return;
+      }
       formData.append('text', textContent);
     }
 
@@ -223,6 +228,7 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
             <InputLabel id="category-label">{t('publish_your_text_text_data_academic_category')}*</InputLabel>
             <Select
               labelId="category-label"
+              label="Kategooria"
               multiple
               value={categories}
               onChange={(e) => setCategories(e.target.value)}
