@@ -65,13 +65,23 @@ export default function Exercise() {
       });
   }
 
+  const refreshExercises = async () => {
+    const res = await fetch("/api/exercises");
+    const data = await res.json();
+    setExercises(data);
+  };
+  
   useEffect(() => {
     fetchData();
   }, [selectedCategories, selectedLanguages, selectedTypes]);
 
   return (
     <div>
-      <ExerciseModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
+      <ExerciseModal
+        isOpen={isModalOpen}
+        setIsOpen={setIsModalOpen}
+        onSuccess={refreshExercises}
+      />
       <Box className="adding-rounded-corners" sx={ElleOuterDivStyle}>
         <Box className="library-container">
           <h1 className="library-page-title">{t('exercises')}</h1>
@@ -86,7 +96,6 @@ export default function Exercise() {
                 <br />
                 <LanguageFilters selected={selectedLanguages} onChange={handleLanguagesChange}/>
                 <br />
-                <TypeFilters />
               </div>
             </div>
 
