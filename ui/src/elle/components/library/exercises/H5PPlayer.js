@@ -8,7 +8,7 @@ export function H5PPlayer({ externalId, setResults, setDuration }) {
     if (!externalId) return;
 
     window.H5PIntegration = {
-      baseUrl: "http://localhost:9090/api",
+      baseUrl: "/api",
       contentId: externalId,
       url: `/exercises/uploads/exercises/${externalId}/`
     };
@@ -16,9 +16,9 @@ export function H5PPlayer({ externalId, setResults, setDuration }) {
     const container = document.getElementById('h5p-container');
 
     const options = {
-      h5pJsonPath: `http://localhost:9090/api/exercises/uploads/exercises/${externalId}`,
-      contentJsonPath: `http://localhost:9090/api/exercises/uploads/exercises/${externalId}/content`,
-      urlLibraries: `http://localhost:9090/api/exercises/uploads/exercises/${externalId}`, //peab viitama kataloogile
+      h5pJsonPath: `/api/exercises/uploads/exercises/${externalId}`,
+      contentJsonPath: `/api/exercises/uploads/exercises/${externalId}/content`,
+      urlLibraries: `/api/exercises/uploads/exercises/${externalId}`, //peab viitama kataloogile
       frameJs: '/dist/frame.bundle.js',
       frameCss: '/dist/styles/h5p.css',
       fullscreen: false,
@@ -59,5 +59,4 @@ export function H5PPlayer({ externalId, setResults, setDuration }) {
 
 
   return <div id="h5p-container" style={{ width: '100%' }} />;
-  //return <div id="h5p-container" style={{ height: '500px' }} />;
 };
