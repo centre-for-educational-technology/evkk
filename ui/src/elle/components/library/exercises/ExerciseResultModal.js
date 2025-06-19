@@ -4,10 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../../modal/ConfirmationModal';
 import { Box, LinearProgress, Typography } from '@mui/material';
 
-export default function ExerciseResultModal({ isOpen, setIsOpen, results }) {
+export default function ExerciseResultModal({ isOpen, setIsOpen, results, duration }) {
   const navigate = useNavigate();
   const [confirmationOpen, setConfirmationOpen] = useState(false);
-  const percentage = (results.score / results.maxScore) * 100;
+  const totalScore = results?.reduce((sum, result) => sum + result.score, 0) || 0;
+  const totalMaxScore = results?.reduce((sum, result) => sum + result.maxScore, 0) || 0;
+  const parsedDuration = duration?.reduce((sum, iso) => sum + parseISODurationToSeconds(iso), 0) || 0;
+  const percentage = (totalScore / totalMaxScore) * 100;
 
   const handleSetIsOpen = (value) => {
     if (!value) {
@@ -33,7 +36,7 @@ export default function ExerciseResultModal({ isOpen, setIsOpen, results }) {
         <Box display="flex" justifyContent="space-between" mb={1}>
           <Typography variant="body1">Punktid:</Typography>
           <Typography variant="body1" fontWeight="bold">
-            {results.score} / {results.maxScore}
+            {totalScore} / {totalMaxScore}
           </Typography>
         </Box>
 
@@ -71,7 +74,7 @@ export default function ExerciseResultModal({ isOpen, setIsOpen, results }) {
             Kestvus:
           </Typography>
           <Typography variant="body2" fontWeight="bold">
-            {results.duration ? formatISODuration(results.duration) : '0 sec'}
+            {formatSecondsToPretty(parsedDuration)}
           </Typography>
         </Box>
       </ModalBase>
@@ -88,16 +91,21 @@ export default function ExerciseResultModal({ isOpen, setIsOpen, results }) {
   );
 }
 
-function formatISODuration(iso) {
+function parseISODurationToSeconds(iso) {
   const match = iso.match(/PT(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?/);
-  if (!match) return iso;
+  if (!match) return 0;
 
   const [, minutes, seconds] = match;
-  let result = '';
+  const mins = minutes ? parseInt(minutes, 10) : 0;
+  const secs = seconds ? parseFloat(seconds) : 0;
 
-  if (minutes) result += `${minutes} min `;
-  if (seconds) result += `${parseFloat(seconds).toFixed(2)} sec`;
+  return mins * 60 + secs;
+}
 
-  return result.trim();
-};
+function formatSecondsToPretty(seconds) {
+  const mins = Math.floor(seconds / 60);
+  const secs = (seconds % 60).toFixed(2);
 
+  if (mins > 0) return `${mins} min ${secs} sec`;
+  return `${secs} sec`;
+}

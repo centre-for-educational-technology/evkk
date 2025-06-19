@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { H5P } from 'h5p-standalone';
 import { successEmitter } from '../../../../App';
 
-export function H5PPlayer({ externalId, onFinish, setResults }) {
+export function H5PPlayer({ externalId, setResults, setDuration }) {
 
   useEffect(() => {
     if (!externalId) return;
@@ -29,19 +29,26 @@ export function H5PPlayer({ externalId, onFinish, setResults }) {
         if (window.H5P && window.H5P.externalDispatcher) {
           window.H5P.externalDispatcher.on('xAPI', function (event) {
             // console.log('xAPI event:', event.data.statement);
-            const isCompleted = event.getVerb() === "completed";
-            if (isCompleted) {
-              const results = {
+            const isAnswered = event.getVerb() === "answered";
+            if (isAnswered) {
+              const result = {
                 score: event.getScore() ?? 0,
                 maxScore: event.getMaxScore() ?? 0,
-                duration: event.getVerifiedStatementValue(["result", "duration"]) ?? 0,
               };
+              const duration = event.getVerifiedStatementValue(["result", "duration"]) ?? '';
 
-              setResults(results);
+              setResults((prevResult) => {
+                return [...prevResult, result];
+              });
 
-              successEmitter.emit("success_exercise_completed");
-
-              onFinish();
+              setDuration((prevDuration) => {
+                return [...prevDuration, duration];
+              });
+            };
+            const isCompleted = event.getVerb() === "completed";
+            if (isCompleted) {
+              const duration = event.getVerifiedStatementValue(["result", "duration"]) ?? ''
+              setDuration([duration]);
             };
           });
         }
