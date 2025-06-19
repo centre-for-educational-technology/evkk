@@ -109,6 +109,44 @@
     )
   </insert>
 
+  <select id="getFilteredStudyMaterials" resultMap="MaterialResultMap">
+    SELECT
+    <include refid="materialAssociationColumns"/>
+    FROM core.material m
+    <include refid="materialAssociations"/>
+    <where>
+      <if test="categories != null and categories.size() > 0">
+        AND m.id IN (
+        SELECT mc.material_id FROM core.material_category mc
+        JOIN core.category cat ON mc.category_id = cat.id
+        WHERE cat.name IN
+        <foreach collection="categories" item="catName" open="(" separator="," close=")">
+          #{catName}
+        </foreach>
+        )
+      </if>
+      <if test="languageLevel != null and languageLevel.size() > 0">
+        AND m.language_level_id IN (
+        SELECT ll.id FROM core.language_level ll
+        WHERE ll.level IN
+        <foreach collection="languageLevel" item="llName" open="(" separator="," close=")">
+          #{llName}
+        </foreach>
+        )
+      </if>
+      <if test="materialType != null and materialType.size() > 0">
+        AND m.material_type_id IN (
+        SELECT mt.id FROM core.material_type mt
+        WHERE mt.type IN
+        <foreach collection="materialType" item="mtName" open="(" separator="," close=")">
+          #{mtName}
+        </foreach>
+        )
+      </if>
+    </where>
+    ORDER BY m.id
+  </select>
+
   <select id="findAllMaterials" resultMap="MaterialResultMap">
     SELECT
     <include refid="materialAssociationColumns"/>
@@ -124,5 +162,5 @@
     <include refid="materialAssociations"/>
     WHERE m.id = #{id}
   </select>
-  
+
 </mapper>

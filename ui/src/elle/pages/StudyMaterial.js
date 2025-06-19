@@ -28,11 +28,24 @@ export default function StudyMaterial() {
   const [modalOpen, setModalOpen] = useState(false);
   const [materials, setMaterials] = useState([]);
   const materialsPerPage = 5;
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedLanguages, setSelectedLanguages] = useState([]);
+  const [selectedTypes, setSelectedTypes] = useState([]);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [popupOpen, setPopupOpen] = useState(false);
 
   const { t } = useTranslation();
 
+  const handleCategoriesChange = (changed) => {
+    setSelectedCategories(changed);
+  }
+  const handleLanguagesChange = (changed) => {
+    setSelectedLanguages(changed);
+  }
+  const handleTypesChange = (changed) => {
+    setSelectedTypes(changed);
+  }
+  
   const handleCardClick = (material) => {
     setSelectedMaterial(material);
     setPopupOpen(true);
@@ -52,17 +65,6 @@ export default function StudyMaterial() {
     navigate(`${location.pathname}?${newSearch.toString()}`, { replace: true });
   };
 
-  useEffect(() => {
-    if (openId && materials.length > 0) {
-      const match = materials.find(m => m.id === parseInt(openId));
-      if (match) {
-        setSelectedMaterial(match);
-        setPopupOpen(true);
-      }
-    }
-  }, [openId, materials]);
-
-
   const {
     currentPage,
     totalPages,
@@ -72,21 +74,32 @@ export default function StudyMaterial() {
     setCurrentPage
   } = usePagination(materials, materialsPerPage);
 
+ const fetchData = () => {
+    const params = new URLSearchParams();
+    if(selectedCategories.length) {
+      params.append('categories', selectedCategories.join(','));
+    }
+    if(selectedLanguages.length) {
+      params.append('languageLevel', selectedLanguages.join(','));
+    }
+    if(selectedTypes.length) {
+      params.append('materialType', selectedTypes.join(','));
+    }
+    fetch(`http://localhost:9090/api/study-material/results?${params.toString()}`)
+      .then(res => {
+        if (!res.ok) throw new Error("HTTP error " + res.status);
+        return res.json();
+      })
+      .then(json => { setMaterials(json); })
+      .catch(err => {
+        console.error(err);
+        setMaterials([]);
+    });
+  }
+
   useEffect(() => {
-    const fetchMaterials = async () => {
-      const url = process.env.NODE_ENV === 'production'
-        ? '/api/study-material/all'
-        : 'http://localhost:9090/api/study-material/all';
-      try {
-        const res = await fetch(url);
-        setMaterials(await res.json());
-      } catch (err) {
-
-      }
-    };
-    fetchMaterials();
-  }, []);
-
+    fetchData();
+  }, [selectedCategories, selectedLanguages, selectedTypes]);
 
   return (
     <div>
@@ -120,17 +133,16 @@ export default function StudyMaterial() {
         <Box className="library-container">
           <h1 className="library-page-title">{t('study_materials')}</h1>
           <div className="library-main-content">
-
             <div className="library-filters">
               <div className="library-navbar-section">
                 <LibraryNavbar />
               </div>
               <div className="library-filters-section">
-                <CategoryFilters />
+                <CategoryFilters selected={selectedCategories} onChange={handleCategoriesChange}/>
                 <br />
-                <LanguageFilters />
+                <LanguageFilters selected={selectedLanguages} onChange={handleLanguagesChange}/>
                 <br />
-                <TypeFilters />
+                <TypeFilters selected={selectedTypes} onChange={handleTypesChange}/>
               </div>
             </div>
 

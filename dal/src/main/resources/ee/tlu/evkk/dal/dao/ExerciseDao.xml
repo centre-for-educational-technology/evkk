@@ -64,6 +64,35 @@
     ORDER BY ex.id DESC
   </select>
 
+  <select id="getFilteredExercises" resultMap="ExerciseResultMap">
+    SELECT
+    <include refid="exerciseAssociationColumns"/>
+    FROM core.exercise ex
+    <include refid="exerciseAssociations"/>
+    <where>
+      <if test="categories != null and categories.size() > 0">
+        AND ex.id IN (
+        SELECT ec.exercise_id FROM core.exercise_category ec
+        JOIN core.category cat ON ec.category_id = cat.id
+        WHERE cat.name IN
+        <foreach collection="categories" item="catName" open="(" separator="," close=")">
+          #{catName}
+        </foreach>
+        )
+      </if>
+      <if test="languageLevel != null and languageLevel.size() > 0">
+        AND ex.language_level_id IN (
+        SELECT ll.id FROM core.language_level ll
+        WHERE ll.level IN
+        <foreach collection="languageLevel" item="llName" open="(" separator="," close=")">
+          #{llName}
+        </foreach>
+        )
+      </if>
+    </where>
+    ORDER BY ex.id
+  </select>
+
   <select id="findById" parameterType="long" resultMap="ExerciseResultMap">
     SELECT
     <include refid="exerciseAssociationColumns"/>

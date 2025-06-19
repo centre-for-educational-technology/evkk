@@ -22,9 +22,20 @@ import { useTranslation } from 'react-i18next';
 export default function Exercise() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [exercises, setExercises] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedLanguages, setSelectedLanguages] = useState([]);
+  const [selectedTypes, setSelectedTypes] = useState([]);
   const itemsPerPage = 5;
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const handleCategoriesChange = (selected) => {
+    setSelectedCategories(selected);
+  }
+  const handleLanguagesChange = (selected) => {
+    setSelectedLanguages(selected);
+  }
+
 
   const {
     currentPage,
@@ -35,46 +46,53 @@ export default function Exercise() {
     setCurrentPage
   } = usePagination(exercises, itemsPerPage);
 
-  const refreshExercises = async () => {
-    const res = await fetch("/api/exercises");
-    const data = await res.json();
-    setExercises(data);
-  };
+  const fetchData = () => {
+    const params = new URLSearchParams();
+    if(selectedCategories.length) {
+      params.append('categories', selectedCategories.join(','));
+    }
+    if(selectedLanguages.length) {
+      params.append('languageLevel', selectedLanguages.join(','));
+    }
+    fetch(`http://localhost:9090/api/exercises/results?${params.toString()}`)
+      .then(res => {
+        if (!res.ok) throw new Error("HTTP error " + res.status);
+        return res.json();
+      })
+      .then(json => { setExercises(json); })
+      .catch(err => {
+        console.error(err);
+        setExercises([]);
+    });
+  }
 
   useEffect(() => {
-    fetch("http://localhost:9090/api/exercises")
-      .then(res => res.json())
-      .then(json => setExercises(json));
-  }, []);
+    fetchData();
+  }, [selectedCategories, selectedLanguages, selectedTypes]);
 
   return (
     <div>
       <ExerciseModal
         isOpen={isModalOpen}
         setIsOpen={setIsModalOpen}
-        onSuccess={refreshExercises}
       />
       <Box className="adding-rounded-corners" sx={ElleOuterDivStyle}>
         <Box className="library-container">
           <h1 style={{ textAlign: 'center' }}>{t('exercises')}</h1>
-          <div className="library-search-container">
-            <SearchBar />
-          </div>
           <div className="library-menu">
             <LibraryNavbar />
           </div>
           <div className="library-main-content">
             <div className="library-filters">
-              <CategoryFilters />
+              <CategoryFilters selected={selectedCategories} onChange={handleCategoriesChange}/>
               <br />
-              <LanguageFilters />
+              <LanguageFilters selected={selectedLanguages} onChange={handleLanguagesChange}/>
               <br />
               <TypeFilters />
             </div>
                                                
             <div className="library-infoContainer">
               <SearchBar />
-
               <div className="library-buttons">
                 <Can requireAuth={true}>
                   <Button
@@ -88,11 +106,9 @@ export default function Exercise() {
                 </Can>
                 <SortButton />
               </div>
-
               <div className="library-results-count">
                 <Box>{t('query_found')}: {exercises.length}</Box>
               </div>
-
               <div className="library-results">
                 {currentExercises.map(item => (
                   <div key={item.id} onClick={() => navigate(`/library/exercises/${item.id}`)} style={{ cursor: 'pointer' }}>
@@ -102,7 +118,6 @@ export default function Exercise() {
               </div>
             </div>
           </div>
-
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}

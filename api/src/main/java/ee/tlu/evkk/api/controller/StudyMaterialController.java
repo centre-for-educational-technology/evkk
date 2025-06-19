@@ -1,6 +1,8 @@
 package ee.tlu.evkk.api.controller;
 
 import ee.tlu.evkk.api.service.StudyMaterialService;
+import ee.tlu.evkk.dal.dto.Category;
+import ee.tlu.evkk.dal.dto.LanguageLevel;
 import ee.tlu.evkk.dal.dto.Material;
 import ee.tlu.evkk.dal.dto.TargetGroup;
 import lombok.RequiredArgsConstructor;
@@ -31,11 +33,11 @@ public class StudyMaterialController {
     @RequestParam("type") String type,
     @RequestParam(value = "link", required = false) String link,
     @RequestParam(value = "text", required = false) String text,
-    @RequestParam(value = "targetGroup", required = false) List<String> targetGroup
+    @RequestParam(value = "targetGroups") List<String> targetGroups
   ) {
     try {
       Material saved = studyMaterialService.saveStudyMaterialToDatabase(
-        file, title, description, categories, level, type, link, text, targetGroup
+        file, title, description, categories, level, type, link, text, targetGroups
       );
       return ResponseEntity.ok(saved);
     } catch (IllegalArgumentException e) {
@@ -59,4 +61,15 @@ public class StudyMaterialController {
     return studyMaterialService.getMaterialById(id);
   }
 
+  // find all language levels
+  @GetMapping("/language-levels")
+  public List<LanguageLevel> getLanguageLevels() {
+    return studyMaterialService.getAllLanguageLevels();
+  }
+
+  // find all categories
+  @GetMapping("/categories")
+  public List<Category> getCategories() {
+    return studyMaterialService.getAllCategories();
+  }
 }
