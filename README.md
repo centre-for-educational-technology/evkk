@@ -6,9 +6,9 @@ ELLE - Eesti keele õppe ja analüüsikeskkond õppiajatele, õpetajatele ja tea
 [Ekraanipildid](https://github.com/diana-vladotsenko/evkk/tree/suvepraktika-screenshots/screenshots)
 
 ##  Eesmärk ja lühikirjeldus
-Eesmärk oli luua õppevara alamleht, mis võimaldaks õppematerjalide ja interaktiivsete harjutuste loomist ning jagamist.
-Harjutuste lehel saab sisselogitud kasutaja lisada harjutusi ning sisselogimata kasutajal on võimalik neid lahendada ja jagada.
-Õppematerjalide lehel saab sisselogitud kasutaja lisada uusi õppematerjale ning sisselogimata kasutajal on võimalik neid vaadata ning jagada.
+Eesmärk oli luua õppevara leht, mis võimaldaks õppematerjalide ja interaktiivsete harjutuste loomist ning jagamist.
+Harjutuste alamlehel saab sisselogitud kasutaja lisada harjutusi ning sisselogimata kasutajal on võimalik harjutusi lahendada ja jagada.
+Õppematerjalide alamlehel saab sisselogitud kasutaja lisada uusi õppematerjale ning sisselogimata kasutajal on võimalik õppematerjale vaadata ning jagada.
 
 ##  Instituut
 Projekti on loonud Tallinna Ülikooli digitehnoloogiate instituudi tarkvaraarenduse eriala esimese 
@@ -59,7 +59,7 @@ Agnessa Tund, Riina Kikkas, Sten Reins, Kerli Viitmaa, Diana Vladõtsenko, Patri
 5. Run UI module: `$ yarn --cwd=./ui install && yarn --cwd=./ui start`
 6. Run API module: `$ ./gradlew :api:bootRun` (other modules like `task-scheduler` work in similar fashion)
 7. Install H5P Standalone player: `yarn add h5p-standalone` [H5P Standalone Player](https://github.com/tunapanda/h5p-standalone)
-8. Add dist folder to ui/public [dist](https://drive.google.com/drive/folders/1zgt2HTG2nD2BE2UMSsLGqcMYJp9Tfsqa?usp=sharing)
+8. Add dist folder to ui/public folder [dist](https://drive.google.com/drive/folders/1zgt2HTG2nD2BE2UMSsLGqcMYJp9Tfsqa?usp=sharing)
 
 ### Database migrations
 Database migrations are implemented with Flyway migration tool: https://flywaydb.org/  
