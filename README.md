@@ -58,7 +58,7 @@ Agnessa Tund, Riina Kikkas, Sten Reins, Kerli Viitmaa, Diana Vladõtsenko, Patri
 4. Make sure you have enabled annotation processing for IntelliJ IDEA: `Preferences -> Build, Execution, Deployment -> Compiler -> Annotation Processors -> Enable annotation processing`
 5. Run UI module: `$ yarn --cwd=./ui install && yarn --cwd=./ui start`
 6. Run API module: `$ ./gradlew :api:bootRun` (other modules like `task-scheduler` work in similar fashion)
-7. Install H5P Standalone player: `yarn add h5p-standalone` [H5P Standalone Player](https://github.com/tunapanda/h5p-standalone)
+7. Install H5P Standalone Player: `yarn add h5p-standalone` [H5P Standalone Player](https://github.com/tunapanda/h5p-standalone)
 8. Add dist folder to ui/public folder [dist](https://drive.google.com/drive/folders/1zgt2HTG2nD2BE2UMSsLGqcMYJp9Tfsqa?usp=sharing)
 
 ### Database migrations
