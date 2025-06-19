@@ -23,13 +23,11 @@ https://www.tlu.ee/dt
 - NodeJS 16.x: https://nodejs.org
 - YARN (classic, 1.22.x): https://yarnpkg.com
 
+# Testid ja testimise tulemus
+  Testjuhud: https://docs.google.com/document/d/1ocW2yakIuQNlGqa1mBacx0_xcsAvpL4ivgoB3Lv31IU/edit?usp=sharing
+
 ## Projekti autorite nimed
-Agnessa Tund
-Riina Kikkas 
-Sten Reins
-Kerli Viitmaa
-Diana Vladõtsenko
-Patrick Lapimaa
+Agnessa Tund, Riina Kikkas, Sten Reins, Kerli Viitmaa, Diana Vladõtsenko, Patrick Lapimaa
 
 # PAIGALDUSJUHISED
 
