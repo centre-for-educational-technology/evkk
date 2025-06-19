@@ -64,12 +64,12 @@ export default function AddStudyMaterial({ isOpen, setIsOpen, onSubmitSuccess })
       setTextContent('');
     }
 
-    fetch('http://localhost:9090/api/study-material/categories')
+    fetch('/api/study-material/categories')
       .then(res => res.json())
       .then(data => setFetchedCategories(data))
       .catch(err => console.error('Kategooriate laadimine ebaõnnestus', err));
 
-    fetch('http://localhost:9090/api/study-material/language-levels')
+    fetch('/api/study-material/language-levels')
       .then(res => res.json())
       .then(data => setFetchedLevels(data))
       .catch(err => console.error('Keeletasemete laadimine ebaõnnestus', err));

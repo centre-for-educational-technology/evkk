@@ -20,7 +20,7 @@ export default function ExerciseSolve() {
   const [duration, setDuration] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:9090/api/exercises/${id}`)
+    fetch(`/api/exercises/${id}`)
       .then(res => res.json())
       .then(setExercise)
       .catch(err => console.error("Harjutuse laadimine ebaõnnestus:", err));

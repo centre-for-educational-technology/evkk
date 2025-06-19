@@ -45,7 +45,7 @@ export default function StudyMaterial() {
   const handleTypesChange = (changed) => {
     setSelectedTypes(changed);
   }
-  
+
   const handleCardClick = (material) => {
     setSelectedMaterial(material);
     setPopupOpen(true);
@@ -85,7 +85,7 @@ export default function StudyMaterial() {
     if(selectedTypes.length) {
       params.append('materialType', selectedTypes.join(','));
     }
-    fetch(`http://localhost:9090/api/study-material/results?${params.toString()}`)
+    fetch(`/api/study-material/results?${params.toString()}`)
       .then(res => {
         if (!res.ok) throw new Error("HTTP error " + res.status);
         return res.json();

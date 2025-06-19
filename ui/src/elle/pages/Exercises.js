@@ -53,7 +53,7 @@ export default function Exercise() {
     if(selectedLanguages.length) {
       params.append('languageLevel', selectedLanguages.join(','));
     }
-    fetch(`http://localhost:9090/api/exercises/results?${params.toString()}`)
+    fetch(`/api/exercises/results?${params.toString()}`)
       .then(res => {
         if (!res.ok) throw new Error("HTTP error " + res.status);
         return res.json();
@@ -70,7 +70,7 @@ export default function Exercise() {
     const data = await res.json();
     setExercises(data);
   };
-  
+
   useEffect(() => {
     fetchData();
   }, [selectedCategories, selectedLanguages, selectedTypes]);
@@ -118,7 +118,7 @@ export default function Exercise() {
               </div>
 
               <div className="library-results-count">
-                <Box>{t('query_found')}: {currentExercises.length}</Box>
+                <Box>{t('query_found')}: {exercises.length}</Box>
               </div>
 
               <div className="library-results">
