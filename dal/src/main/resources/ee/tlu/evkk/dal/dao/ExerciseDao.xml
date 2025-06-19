@@ -83,15 +83,6 @@
       <if test="languageLevel != null and languageLevel.size() > 0">
         AND ex.language_level_id IN (
         SELECT ll.id FROM core.language_level ll
-        WHERE ll.name IN
-        <foreach collection="languageLevel" item="llName" open="(" separator="," close=")">
-          #{llName}
-        </foreach>
-        )
-      </if>
-      <if test="languageLevel != null and languageLevel.size() > 0">
-        AND ex.language_level_id IN (
-        SELECT ll.id FROM core.language_level ll
         WHERE ll.level IN
         <foreach collection="languageLevel" item="llName" open="(" separator="," close=")">
           #{llName}
