@@ -19,8 +19,8 @@ export function H5PPlayer({ externalId, setResults, setDuration }) {
       h5pJsonPath: `/api/exercises/uploads/exercises/${externalId}`,
       contentJsonPath: `/api/exercises/uploads/exercises/${externalId}/content`,
       urlLibraries: `/api/exercises/uploads/exercises/${externalId}`, //peab viitama kataloogile
-      frameJs: '/dist/frame.bundle.js',
-      frameCss: '/dist/styles/h5p.css',
+      frameJs: '/dist-h5p/frame.bundle.js',
+      frameCss: '/dist-h5p/styles/h5p.css',
       fullscreen: false,
     };
 
