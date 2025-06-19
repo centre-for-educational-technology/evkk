@@ -24,8 +24,12 @@ https://www.tlu.ee/dt
 - YARN (classic, 1.22.x): https://yarnpkg.com
 
 # Testid ja testimise tulemus
-  [Testjuhud](https://docs.google.com/document/d/1ocW2yakIuQNlGqa1mBacx0_xcsAvpL4ivgoB3Lv31IU/edit?usp=sharing)
-  
+Testimise tulemus: Kõik testjuhtumid on läbitud ning kriitilised vead on parandatud
+
+  [Testjuhud](https://docs.google.com/document/d/1ocW2yakIuQNlGqa1mBacx0_xcsAvpL4ivgoB3Lv31IU/edit?usp=sharing),
+  [Testplaan](https://docs.google.com/document/d/12NAGtziqYqr8AqTLG_ZMgskoH5dAjJja8rdz-rYic9I/edit?usp=sharing)
+
+
 ## Projekti autorite nimed
 Agnessa Tund, Riina Kikkas, Sten Reins, Kerli Viitmaa, Diana Vladõtsenko, Patrick Lapimaa
 
