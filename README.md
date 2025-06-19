@@ -3,7 +3,7 @@
 ELLE - Eesti keele õppe ja analüüsikeskkond õppiajatele, õpetajatele ja teadlastele.
 
 ## Ekraanipildid loodud lahendusest
-https://github.com/diana-vladotsenko/evkk/tree/suvepraktika-screenshots/screenshots
+[Ekraanipildid](https://github.com/diana-vladotsenko/evkk/tree/suvepraktika-screenshots/screenshots)
 
 ##  Eesmärk ja lühikirjeldus
 Eesmärk oli luua õppevara alamleht, mis võimaldaks õppematerjalide ja interaktiivsete harjutuste loomist ning jagamist.
@@ -14,7 +14,7 @@ Harjutuste lehel saab sisselogitud kasutaja lisada harjutusi ning sisselogimata 
 Projekti on loonud Tallinna Ülikooli digitehnoloogiate instituudi tarkvaraarenduse eriala esimese 
 kursuse üliõpilased suvepraktika raames.
 
-https://www.tlu.ee/dt
+[Tallinna ülikooli Digitehnoloogiate instituut](https://www.tlu.ee/dt)
 
 ## Kasutatud tehnoloogiad ja nende versioonid
 - JDK 11: https://openjdk.java.net/projects/jdk/11/
