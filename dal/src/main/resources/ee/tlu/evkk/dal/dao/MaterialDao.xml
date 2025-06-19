@@ -117,7 +117,7 @@
     <where>
       <if test="categories != null and categories.size() > 0">
         AND m.id IN (
-        SELECT mc.material_id FROM core.material _category mc
+        SELECT mc.material_id FROM core.material_category mc
         JOIN core.category cat ON mc.category_id = cat.id
         WHERE cat.name IN
         <foreach collection="categories" item="catName" open="(" separator="," close=")">
