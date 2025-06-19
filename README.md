@@ -59,6 +59,7 @@ Agnessa Tund, Riina Kikkas, Sten Reins, Kerli Viitmaa, Diana Vladõtsenko, Patri
 5. Run UI module: `$ yarn --cwd=./ui install && yarn --cwd=./ui start`
 6. Run API module: `$ ./gradlew :api:bootRun` (other modules like `task-scheduler` work in similar fashion)
 7. Install H5P Standalone player: yarn add h5p-standalone (https://github.com/tunapanda/h5p-standalone)
+8. Add dist folder to ui/public [dist](https://drive.google.com/drive/folders/1zgt2HTG2nD2BE2UMSsLGqcMYJp9Tfsqa?usp=sharing)
 
 ### Database migrations
 Database migrations are implemented with Flyway migration tool: https://flywaydb.org/  
