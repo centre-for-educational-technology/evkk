@@ -73,9 +73,9 @@ public class StudyMaterialService {
 
     // Mitme sihigrupi lisamine
     List<TargetGroup> targetGroupList = targetGroups.stream()
-        .map(this::findTargetGroup)
-        .map(id -> TargetGroup.builder().id(id).build())
-        .collect(Collectors.toList());
+      .map(this::findTargetGroup)
+      .map(id -> TargetGroup.builder().id(id).build())
+      .collect(Collectors.toList());
 
     material.setTargetGroups(targetGroupList);
     materialDao.insertMaterialTargetGroups(material);

@@ -15,6 +15,11 @@ public interface ExerciseDao {
 
   Exercise findById(@Param("id") Long id);
 
+  List<Exercise> getFilteredExercises(
+    @Param("categories") List<String> categories,
+    @Param("languageLevel") List<String> languageLevel
+  );
+
   Exercise findByExternalId(@Param("externalId") String externalId);
   void insertExercise(Exercise exercise);
   void insertExerciseCategories(Exercise exercise);
