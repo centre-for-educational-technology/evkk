@@ -31,7 +31,7 @@ public class ShortUrlService {
 
     shortUrlDao.insertShortUrl(shortUrl);
 
-    return List.of("http://localhost:9090/api/" + code);
+    return List.of("/api/" + code);
   }
 
   private String generateUniqueCode() {
