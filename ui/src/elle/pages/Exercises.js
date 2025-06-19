@@ -2,7 +2,7 @@ import { Box, Button } from '@mui/material';
 import './styles/Home.css';
 import './styles/Library.css';
 import { ElleOuterDivStyle } from '../const/StyleConstants';
-import LibraryNavbar from '../components/library/shared/LibraryNavbar'
+import LibraryNavbar from '../components/library/shared/LibraryNavbar';
 import SortButton from '../components/library/search/SortButton';
 import CategoryFilters from '../components/library/search/CategoryFilters';
 import LanguageFilters from '../components/library/search/LanguageFilters';
@@ -29,14 +29,6 @@ export default function Exercise() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const handleCategoriesChange = (selected) => {
-    setSelectedCategories(selected);
-  }
-  const handleLanguagesChange = (selected) => {
-    setSelectedLanguages(selected);
-  }
-
-
   const {
     currentPage,
     totalPages,
@@ -45,6 +37,13 @@ export default function Exercise() {
     goToNext: next,
     setCurrentPage
   } = usePagination(exercises, itemsPerPage);
+
+  const handleCategoriesChange = (selected) => {
+    setSelectedCategories(selected);
+  }
+  const handleLanguagesChange = (selected) => {
+    setSelectedLanguages(selected);
+  }
 
   const fetchData = () => {
     const params = new URLSearchParams();
@@ -63,7 +62,7 @@ export default function Exercise() {
       .catch(err => {
         console.error(err);
         setExercises([]);
-    });
+      });
   }
 
   useEffect(() => {
@@ -72,43 +71,47 @@ export default function Exercise() {
 
   return (
     <div>
-      <ExerciseModal
-        isOpen={isModalOpen}
-        setIsOpen={setIsModalOpen}
-      />
+      <ExerciseModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
       <Box className="adding-rounded-corners" sx={ElleOuterDivStyle}>
         <Box className="library-container">
-          <h1 style={{ textAlign: 'center' }}>{t('exercises')}</h1>
-          <div className="library-menu">
-            <LibraryNavbar />
-          </div>
+          <h1 className="library-page-title">{t('exercises')}</h1>
+
           <div className="library-main-content">
             <div className="library-filters">
-              <CategoryFilters selected={selectedCategories} onChange={handleCategoriesChange}/>
-              <br />
-              <LanguageFilters selected={selectedLanguages} onChange={handleLanguagesChange}/>
-              <br />
-              <TypeFilters />
+              <div className="library-navbar-section">
+                <LibraryNavbar />
+              </div>
+              <div className="library-filters-section">
+                <CategoryFilters selected={selectedCategories} onChange={handleCategoriesChange}/>
+                <br />
+                <LanguageFilters selected={selectedLanguages} onChange={handleLanguagesChange}/>
+                <br />
+                <TypeFilters />
+              </div>
             </div>
-                                               
+
             <div className="library-infoContainer">
               <SearchBar />
-              <div className="library-buttons">
-                <Can requireAuth={true}>
-                  <Button
-                    onClick={() => setIsModalOpen(true)}
-                    sx={DefaultButtonStyleSmall}
-                    className="library-add-button"
-                  >
-                    <EditNoteIcon />
-                    {t('exercise_page_create_new_exercise')}
-                  </Button>
-                </Can>
+              <div className="library-header-actions">
+                <div>
+                  <Can requireAuth={true}>
+                    <Button
+                      onClick={() => setIsModalOpen(true)}
+                      sx={DefaultButtonStyleSmall}
+                      className="library-add-button"
+                    >
+                      <EditNoteIcon />
+                      {t('exercise_page_create_new_exercise')}
+                    </Button>
+                  </Can>
+                </div>
                 <SortButton />
               </div>
+
               <div className="library-results-count">
-                <Box>{t('query_found')}: {exercises.length}</Box>
+                <Box>{t('query_found')}: {currentExercises.length}</Box>
               </div>
+
               <div className="library-results">
                 {currentExercises.map(item => (
                   <div key={item.id} onClick={() => navigate(`/library/exercises/${item.id}`)} style={{ cursor: 'pointer' }}>
@@ -118,6 +121,7 @@ export default function Exercise() {
               </div>
             </div>
           </div>
+
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
