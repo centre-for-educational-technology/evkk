@@ -44,7 +44,7 @@ export default function StudyMaterialPopup({ open, onClose, material }) {
     <ModalBase isOpen={open} setIsOpen={onClose} title={material.title.toUpperCase()}>
       <Box display="flex" flexDirection="column" gap={2}>
         <ShareButton
-          originalUrl={`http://localhost:3000/library/studymaterial?open=${material.id}`}
+          originalUrl={`${window.location.origin}/library/studymaterial?open=${material.id}`}
           sx={{ position: 'absolute', top: 22, right: 60, }}
         />
 

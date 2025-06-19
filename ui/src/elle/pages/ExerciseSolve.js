@@ -57,7 +57,7 @@ export default function ExerciseSolve() {
             Tagasi harjutusi valima
           </Button>
           <ShareButton
-            originalUrl={`http://localhost:3000/library/exercises/${id}`}
+            originalUrl={`${window.location.origin}/library/exercises/${id}`}
             sx={{ right: 10, top: 20, fontSize: '1.8rem', padding: '6px',  }}
           />
           <h1 style={{ textAlign: 'center' }}>
