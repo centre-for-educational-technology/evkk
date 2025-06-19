@@ -1,6 +1,37 @@
 # ELLE / EVKK
 
-ELLE - Estonian Language Learning and Analysis Environment is a development of the user interface of the Estonian Interlanguage Corpus (Eesti vahekeele korpus - EVKK).
+ELLE - Eesti keele õppe ja analüüsikeskkond õppiajatele, õpetajatele ja teadlastele.
+
+# Ekraanipildid loodud lahendusest
+
+# Eesmärk ja lühikirjeldus
+
+Eesmärk oli luua õppevara alamleht, mis võimaldaks õppematerjalide ja interaktiivsete harjutuste loomist ning jagamist.
+Harjutuste lehel saab sisselogitud kasutaja lisada harjutusi ning sisselogimata kasutajal on võimalik neid lahendada ja jagada.
+Õppematerjalide lehel saab sisselogitud kasutaja lisada uusi õppematerjale ning sisselogimata kasutajal on võimalik neid vaadata ning jagada.
+
+# Instituut
+Projekti on loonud Tallinna Ülikooli digitehnoloogiate instituudi tarkvaraarenduse eriala esimese 
+kursuse üliõpilased suvepraktika raames.
+
+https://www.tlu.ee/dt
+
+# Kasutatud tehnoloogiad ja nende versioonid
+- JDK 11: https://openjdk.java.net/projects/jdk/11/
+- Docker Engine 24.x: https://docs.docker.com/get-docker/
+- Docker Compose 1.28+: https://docs.docker.com/compose/install/
+- NodeJS 16.x: https://nodejs.org
+- YARN (classic, 1.22.x): https://yarnpkg.com
+
+## Projekti autorite nimed
+Agnessa Tund
+Riina Kikkas 
+Sten Reins
+Kerli Viitmaa
+Diana Vladõtsenko
+Patrick Lapimaa
+
+# PAIGALDUSJUHISED
 
 ## General recommendations
 - All commands should be executed from project's root directory if not stated otherwise.
@@ -25,6 +56,7 @@ ELLE - Estonian Language Learning and Analysis Environment is a development of t
 4. Make sure you have enabled annotation processing for IntelliJ IDEA: `Preferences -> Build, Execution, Deployment -> Compiler -> Annotation Processors -> Enable annotation processing`
 5. Run UI module: `$ yarn --cwd=./ui install && yarn --cwd=./ui start`
 6. Run API module: `$ ./gradlew :api:bootRun` (other modules like `task-scheduler` work in similar fashion)
+7. Install H5P Standalone player: yarn add h5p-standalone (https://github.com/tunapanda/h5p-standalone)
 
 ### Database migrations
 Database migrations are implemented with Flyway migration tool: https://flywaydb.org/  
@@ -41,3 +73,5 @@ IntelliJ community edition download: https://www.jetbrains.com/idea/download/
 ## Corpus license
 The Estonian Interlanguage Corpus is licensed under a [Creative Commons Attribution 4.0 International (CC-BY-4.0) License](https://creativecommons.org/licenses/by/4.0/).
 Copyright 2024 Tallinn University School of Digital Technologies and the corpus contributors.
+
+

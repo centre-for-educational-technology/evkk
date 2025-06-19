@@ -2,7 +2,7 @@ import { Box, Button } from '@mui/material';
 import './styles/Home.css';
 import './styles/Library.css';
 import { ElleOuterDivStyle } from '../const/StyleConstants';
-import LibraryNavbar from '../components/library/shared/LibraryNavbar'
+import LibraryNavbar from '../components/library/shared/LibraryNavbar';
 import SortButton from '../components/library/search/SortButton';
 import CategoryFilters from '../components/library/search/CategoryFilters';
 import LanguageFilters from '../components/library/search/LanguageFilters';
@@ -22,6 +22,9 @@ import { useTranslation } from 'react-i18next';
 export default function Exercise() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [exercises, setExercises] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedLanguages, setSelectedLanguages] = useState([]);
+  const [selectedTypes, setSelectedTypes] = useState([]);
   const itemsPerPage = 5;
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -35,17 +38,42 @@ export default function Exercise() {
     setCurrentPage
   } = usePagination(exercises, itemsPerPage);
 
+  const handleCategoriesChange = (selected) => {
+    setSelectedCategories(selected);
+  }
+  const handleLanguagesChange = (selected) => {
+    setSelectedLanguages(selected);
+  }
+
+  const fetchData = () => {
+    const params = new URLSearchParams();
+    if(selectedCategories.length) {
+      params.append('categories', selectedCategories.join(','));
+    }
+    if(selectedLanguages.length) {
+      params.append('languageLevel', selectedLanguages.join(','));
+    }
+    fetch(`http://localhost:9090/api/exercises/results?${params.toString()}`)
+      .then(res => {
+        if (!res.ok) throw new Error("HTTP error " + res.status);
+        return res.json();
+      })
+      .then(json => { setExercises(json); })
+      .catch(err => {
+        console.error(err);
+        setExercises([]);
+      });
+  }
+
   const refreshExercises = async () => {
     const res = await fetch("/api/exercises");
     const data = await res.json();
     setExercises(data);
   };
-
+  
   useEffect(() => {
-    fetch("http://localhost:9090/api/exercises")
-      .then(res => res.json())
-      .then(json => setExercises(json));
-  }, []);
+    fetchData();
+  }, [selectedCategories, selectedLanguages, selectedTypes]);
 
   return (
     <div>
@@ -56,41 +84,41 @@ export default function Exercise() {
       />
       <Box className="adding-rounded-corners" sx={ElleOuterDivStyle}>
         <Box className="library-container">
-          <h1 style={{ textAlign: 'center' }}>{t('exercises')}</h1>
-          <div className="library-search-container">
-            <SearchBar />
-          </div>
-          <div className="library-menu">
-            <LibraryNavbar />
-          </div>
+          <h1 className="library-page-title">{t('exercises')}</h1>
+
           <div className="library-main-content">
             <div className="library-filters">
-              <CategoryFilters />
-              <br />
-              <LanguageFilters />
-              <br />
-              <TypeFilters />
+              <div className="library-navbar-section">
+                <LibraryNavbar />
+              </div>
+              <div className="library-filters-section">
+                <CategoryFilters selected={selectedCategories} onChange={handleCategoriesChange}/>
+                <br />
+                <LanguageFilters selected={selectedLanguages} onChange={handleLanguagesChange}/>
+                <br />
+              </div>
             </div>
-                                               
+
             <div className="library-infoContainer">
               <SearchBar />
-
-              <div className="library-buttons">
-                <Can requireAuth={true}>
-                  <Button
-                    onClick={() => setIsModalOpen(true)}
-                    sx={DefaultButtonStyleSmall}
-                    className="library-add-button"
-                  >
-                    <EditNoteIcon />
-                    {t('exercise_page_create_new_exercise')}
-                  </Button>
-                </Can>
+              <div className="library-header-actions">
+                <div>
+                  <Can requireAuth={true}>
+                    <Button
+                      onClick={() => setIsModalOpen(true)}
+                      sx={DefaultButtonStyleSmall}
+                      className="library-add-button"
+                    >
+                      <EditNoteIcon />
+                      {t('exercise_page_create_new_exercise')}
+                    </Button>
+                  </Can>
+                </div>
                 <SortButton />
               </div>
 
               <div className="library-results-count">
-                <Box>{t('query_found')}: {exercises.length}</Box>
+                <Box>{t('query_found')}: {currentExercises.length}</Box>
               </div>
 
               <div className="library-results">

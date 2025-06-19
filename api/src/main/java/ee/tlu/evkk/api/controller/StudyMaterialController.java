@@ -1,6 +1,8 @@
 package ee.tlu.evkk.api.controller;
 
 import ee.tlu.evkk.api.service.StudyMaterialService;
+import ee.tlu.evkk.dal.dto.Category;
+import ee.tlu.evkk.dal.dto.LanguageLevel;
 import ee.tlu.evkk.dal.dto.Material;
 import ee.tlu.evkk.dal.dto.TargetGroup;
 import lombok.RequiredArgsConstructor;
@@ -59,4 +61,15 @@ public class StudyMaterialController {
     return studyMaterialService.getMaterialById(id);
   }
 
+  // find all language levels
+  @GetMapping("/language-levels")
+  public List<LanguageLevel> getLanguageLevels() {
+    return studyMaterialService.getAllLanguageLevels();
+  }
+
+  // find all categories
+  @GetMapping("/categories")
+  public List<Category> getCategories() {
+    return studyMaterialService.getAllCategories();
+  }
 }

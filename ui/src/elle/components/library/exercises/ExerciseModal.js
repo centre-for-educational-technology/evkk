@@ -62,6 +62,7 @@ export default function ExerciseModal({ isOpen, setIsOpen, onSuccess }) {
   const [isUploaded, setIsUploaded] = useState(false);
   const [selectedTargetGroupIds, setSelectedTargetGroupIds] = useState([]);
   const [targetGroups, setTargetGroups] = useState([]);
+  const [wasSubmitted, setWasSubmitted] = useState(false);
   const { fetchData } = useFetch();
 
   const resetForm = useCallback(() => {
@@ -75,9 +76,11 @@ export default function ExerciseModal({ isOpen, setIsOpen, onSuccess }) {
     setExternalId(null);
     setStep(1);
     setIsUploaded(false);
+    setSelectedTargetGroupIds([]);
+    setWasSubmitted(false);
   }, [durationOptions]);
 
-  const isStep1Valid = title && description && languageLevels.length > 0 && selectedCategoryIds.length > 0  && selectedCategoryIds.length > 0;
+  const isStep1Valid = title && description && languageLevels.length > 0 && selectedCategoryIds.length > 0 && selectedTargetGroupIds.length > 0 && selectedCategoryIds.length > 0;
 
   useEffect(() => {
     if (!isOpen) {
@@ -113,7 +116,7 @@ export default function ExerciseModal({ isOpen, setIsOpen, onSuccess }) {
   }, []);
 
   useEffect(() => {
-    if (!isOpen && externalId && isUploaded) {
+    if (!isOpen && externalId && isUploaded && !wasSubmitted) {
       deleteByExternalId(externalId, fetchData)
         .then(() => {
           resetForm();
@@ -176,6 +179,8 @@ export default function ExerciseModal({ isOpen, setIsOpen, onSuccess }) {
       return;
     }
     try {
+      setWasSubmitted(true);
+
       await submitExercise({
         title,
         description,
@@ -317,7 +322,7 @@ export default function ExerciseModal({ isOpen, setIsOpen, onSuccess }) {
                   size="medium"
                   variant="contained"
                   onClick={() => setStep(step + 1)}
-                //disabled={!isStep1Valid}
+                  disabled={!isStep1Valid}
                 >
                   {t('exercise_modal_proceed')}
                 </Button>
