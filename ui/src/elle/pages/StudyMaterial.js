@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation, useSearchParams  } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { Box, Button } from '@mui/material';
 import ContentCard from '../components/library/shared/ContentCard';
 import AddStudyMaterialButton from '../components/library/studymaterial/AddStudyMaterialButton';
@@ -74,15 +74,15 @@ export default function StudyMaterial() {
     setCurrentPage
   } = usePagination(materials, materialsPerPage);
 
- const fetchData = () => {
+  const fetchData = () => {
     const params = new URLSearchParams();
-    if(selectedCategories.length) {
+    if (selectedCategories.length) {
       params.append('categories', selectedCategories.join(','));
     }
-    if(selectedLanguages.length) {
+    if (selectedLanguages.length) {
       params.append('languageLevel', selectedLanguages.join(','));
     }
-    if(selectedTypes.length) {
+    if (selectedTypes.length) {
       params.append('materialType', selectedTypes.join(','));
     }
     fetch(`/api/study-material/results?${params.toString()}`)
@@ -94,8 +94,18 @@ export default function StudyMaterial() {
       .catch(err => {
         console.error(err);
         setMaterials([]);
-    });
+      });
   }
+
+  useEffect(() => {
+    if (openId && materials.length > 0) {
+      const foundMaterial = materials.find(m => String(m.id) === openId);
+      if (foundMaterial) {
+        setSelectedMaterial(foundMaterial);
+        setPopupOpen(true);
+      }
+    }
+  }, [openId, materials]);
 
   useEffect(() => {
     fetchData();
@@ -138,11 +148,11 @@ export default function StudyMaterial() {
                 <LibraryNavbar />
               </div>
               <div className="library-filters-section">
-                <CategoryFilters selected={selectedCategories} onChange={handleCategoriesChange}/>
+                <CategoryFilters selected={selectedCategories} onChange={handleCategoriesChange} />
                 <br />
-                <LanguageFilters selected={selectedLanguages} onChange={handleLanguagesChange}/>
+                <LanguageFilters selected={selectedLanguages} onChange={handleLanguagesChange} />
                 <br />
-                <TypeFilters selected={selectedTypes} onChange={handleTypesChange}/>
+                <TypeFilters selected={selectedTypes} onChange={handleTypesChange} />
               </div>
             </div>
 
