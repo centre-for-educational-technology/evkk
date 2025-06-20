@@ -18,7 +18,7 @@ import RootContext, { RootProvider } from './elle/context/RootContext';
 import withGlobalLoading from './elle/hoc/withGlobalLoading';
 import SessionExpirationModal from './elle/components/modal/SessionExpirationModal';
 import { configureStore } from '@reduxjs/toolkit';
-import { TextSelectionProvider } from './elle/tools/text-to-speech/TextSelectionContext';
+import { TextSelectionProvider } from './elle/components/text-to-speech/TextSelectionContext';
 
 export const errorEmitter = new EventEmitter();
 export const loadingEmitter = new EventEmitter();

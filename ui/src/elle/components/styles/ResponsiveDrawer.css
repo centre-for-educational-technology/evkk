@@ -15,6 +15,22 @@
   margin-left: 330px !important;
 }
 
-.responsive-drawer-main-box {
-  display: flex;
+@media (min-width: 900px) {
+  .responsive-drawer-main-box {
+    display: flex;
+  }
+}
+
+.responsive-drawer {
+  .MuiListItemIcon-root {
+    min-width: 45px;
+  }
+
+  .MuiListItemText-root {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+  }
 }

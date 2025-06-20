@@ -1,18 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, Collapse, Divider, Drawer, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ExpandLess, ExpandMore, MenuOpen } from '@mui/icons-material';
 import './styles/ResponsiveDrawer.css';
 
-const drawerWidth = 250;
-
-export default function ResponsiveDrawer({ lists }) {
+export default function ResponsiveDrawer({ lists, children }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [childrenOpen, setChildrenOpen] = useState({});
+  const drawerWidth = 270;
+
+  useEffect(() => {
+    const currentLocation = window.location.href;
+    if (currentLocation.includes('#')) {
+      const anchorCommentId = `${currentLocation.substring(currentLocation.indexOf('#') + 1)}`;
+      const anchorComment = document.getElementById(anchorCommentId);
+      if (anchorComment) {
+        anchorComment.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [location]);
 
   const handleDrawerClose = () => {
     setMobileOpen(false);
@@ -35,11 +46,11 @@ export default function ResponsiveDrawer({ lists }) {
   };
 
   const drawer = lists.map((list, listIndex) => (
-    <div>
-      <List key={list.key}>
+    <div key={list.key}>
+      <List>
         {list.items.map(((item, itemIndex) => (
-          <div>
-            <ListItem key={item.text} disablePadding>
+          <div key={item.text}>
+            <ListItem disablePadding>
               <ListItemButton onClick={() => handleMenuItemClick(item, itemIndex)}>
                 <ListItemIcon>
                   {item.icon}
@@ -50,10 +61,18 @@ export default function ResponsiveDrawer({ lists }) {
                 )}
               </ListItemButton>
             </ListItem>
-            {item.children && (item.children.map((child => (
-              <Collapse in={childrenOpen[itemIndex]} timeout="auto" unmountOnExit>
+            {item.children?.map((child => (
+              <Collapse
+                in={childrenOpen[itemIndex]}
+                timeout="auto"
+                unmountOnExit
+                key={child.text}
+              >
                 <List component="div" disablePadding>
-                  <ListItemButton onClick={() => handleMenuItemClick(child, null)} sx={{ ml: '1em' }}>
+                  <ListItemButton
+                    onClick={() => handleMenuItemClick(child, null)}
+                    sx={{ ml: '1em' }}
+                  >
                     <ListItemIcon>
                       {child.icon}
                     </ListItemIcon>
@@ -61,7 +80,7 @@ export default function ResponsiveDrawer({ lists }) {
                   </ListItemButton>
                 </List>
               </Collapse>
-            ))))}
+            )))}
           </div>
         )))}
       </List>
@@ -98,6 +117,7 @@ export default function ResponsiveDrawer({ lists }) {
           >
             <Drawer
               variant="temporary"
+              className="responsive-drawer"
               open={mobileOpen}
               onClose={handleDrawerClose}
               sx={{
@@ -114,6 +134,7 @@ export default function ResponsiveDrawer({ lists }) {
             </Drawer>
             <Drawer
               variant="permanent"
+              className="responsive-drawer"
               sx={{
                 display: { xs: 'none', md: 'block' },
                 '& .MuiDrawer-paper': {
@@ -134,6 +155,7 @@ export default function ResponsiveDrawer({ lists }) {
           >
             {drawerToggleButton}
             <Outlet />
+            {children}
           </Box>
         </Box>
       </Box>

@@ -108,3 +108,15 @@ a:hover {
     padding-bottom: 50px;
   }
 }
+
+[id] {
+  scroll-margin-top: 80px;
+}
+
+h3, h4 {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+}
