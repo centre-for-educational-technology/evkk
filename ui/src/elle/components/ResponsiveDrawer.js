@@ -1,103 +1,191 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Box, Button, Collapse, Divider, Drawer, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ExpandLess, ExpandMore, MenuOpen } from '@mui/icons-material';
 import './styles/ResponsiveDrawer.css';
+import throttle from 'lodash/throttle';
 
 export default function ResponsiveDrawer({ lists, children }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
+
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [childrenOpen, setChildrenOpen] = useState({});
+  const [openMap, setOpenMap] = useState({});
+  const [activeSection, setActiveSection] = useState('');
+  const manualScrollRef = useRef(false);
+
+  const segments = location.pathname.split('/').filter(Boolean);
+  const baseSegment = segments[0] || '';
+  const basePath = `/${baseSegment}`;
   const drawerWidth = 270;
 
-  useEffect(() => {
-    const currentLocation = window.location.href;
-    if (currentLocation.includes('#')) {
-      const anchorCommentId = `${currentLocation.substring(currentLocation.indexOf('#') + 1)}`;
-      const anchorComment = document.getElementById(anchorCommentId);
-      if (anchorComment) {
-        anchorComment.scrollIntoView({ behavior: 'smooth' });
+  const addAnchorNameToList = (item, ids) => {
+    if (item.navigateTo?.includes('#')) {
+      const parts = item.navigateTo.split('#');
+      if (parts[1]) {
+        ids.push(parts[1]);
       }
     }
-  }, [location]);
+  };
 
-  const handleDrawerClose = () => {
+  const sectionIds = useMemo(() =>
+    lists.flatMap(list =>
+      list.items.flatMap(item => {
+        const ids = [];
+        addAnchorNameToList(item, ids);
+        item.children?.forEach(child => {
+          addAnchorNameToList(child, ids);
+        });
+        return ids;
+      })
+    ), [lists]
+  );
+
+  // swap the anchor in url when it comes into viewport
+  useEffect(() => {
+    if (!sectionIds.length) return;
+    const onScroll = throttle(() => {
+      let currentSection = '';
+      sectionIds.forEach(id => {
+        const element = document.getElementById(id);
+        if (!element) return;
+
+        const top = element.getBoundingClientRect().top;
+        // header height +1px so two anchors would not be "selected" at the same time
+        if (top <= 81) currentSection = id;
+      });
+      if (currentSection && currentSection !== window.location.hash.slice(1)) {
+        const path = location.pathname;
+        const newPath = `${path}#${currentSection}`;
+        navigate(newPath, { replace: true });
+      }
+      setActiveSection(currentSection);
+    }, 100);
+
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      onScroll.cancel();
+    };
+  }, [sectionIds, navigate, location.pathname]);
+
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.slice(1);
+      const element = document.getElementById(id);
+      if (element && manualScrollRef.current) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+      manualScrollRef.current = false; // smooth scroll on hash change only for manual clicks
+    }
+  }, [location.hash]);
+
+  // auto-open parents when a child is active
+  useEffect(() => {
+    lists.forEach((list, listIndex) => {
+      list.items.forEach((item, itemIndex) => {
+        if (isParentActive(item)) {
+          setOpenMap(map => ({ ...map, [`${listIndex}-${itemIndex}`]: true }));
+        }
+      });
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lists, location.pathname, location.hash, activeSection]);
+
+  const getNormalizedPath = (rawPath) => {
+    const path = rawPath === baseSegment ? basePath : `${basePath}/${rawPath}`;
+    return path.endsWith('/') ? path.slice(0, -1) : path;
+  };
+
+  const handleNavigate = (item) => {
+    const navigateTo = item?.navigateTo;
+    if (!navigateTo) return;
+
+    const [rawPath, rawHash = ''] = navigateTo.split('#');
+    const normalizedPath = getNormalizedPath(rawPath);
+    const fullPath = rawHash ? `${normalizedPath}#${rawHash}` : normalizedPath;
+
+    manualScrollRef.current = true; // allow smooth scroll with manual click
+    navigate(fullPath);
     setMobileOpen(false);
   };
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+  const isActive = (item) => {
+    const navigateTo = item?.navigateTo;
+    if (!navigateTo) return false;
+
+    const [rawPath, rawHash = ''] = navigateTo.split('#');
+    if (rawHash) {
+      return location.hash === `#${rawHash}` || activeSection === rawHash;
+    }
+
+    return location.pathname === getNormalizedPath(rawPath);
   };
 
-  const handleMenuItemClick = (item, itemIndex) => {
-    if (item.children) {
-      setChildrenOpen(prevState => ({
-        ...prevState,
-        [itemIndex]: !prevState?.[itemIndex]
-      }));
-    } else {
-      navigate(item.navigateTo);
-      setMobileOpen(false);
-    }
+  const isParentActive = (item) => item.children?.some(child => isActive(child));
+
+  const toggleOpen = (listIndex, itemIndex) => {
+    const key = `${listIndex}-${itemIndex}`;
+    setOpenMap(m => ({ ...m, [key]: !m[key] }));
   };
 
   const drawer = lists.map((list, listIndex) => (
     <div key={list.key}>
       <List>
-        {list.items.map(((item, itemIndex) => (
+        {list.items.map((item, itemIndex) => (
           <div key={item.text}>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => handleMenuItemClick(item, itemIndex)}>
+              <ListItemButton
+                selected={isActive(item) || isParentActive(item)}
+                onClick={() =>
+                  item.children
+                    ? toggleOpen(listIndex, itemIndex)
+                    : handleNavigate(item)
+                }
+              >
                 <ListItemIcon>
                   {item.icon}
                 </ListItemIcon>
                 <ListItemText primary={t(item.text)} />
                 {item.children && (
-                  childrenOpen[itemIndex] ? <ExpandLess /> : <ExpandMore />
+                  openMap[`${listIndex}-${itemIndex}`] ? <ExpandLess /> : <ExpandMore />
                 )}
               </ListItemButton>
             </ListItem>
-            {item.children?.map((child => (
+
+            {item.children && (
               <Collapse
-                in={childrenOpen[itemIndex]}
+                in={openMap[`${listIndex}-${itemIndex}`]}
                 timeout="auto"
                 unmountOnExit
-                key={child.text}
               >
                 <List component="div" disablePadding>
-                  <ListItemButton
-                    onClick={() => handleMenuItemClick(child, null)}
-                    sx={{ ml: '1em' }}
-                  >
-                    <ListItemIcon>
-                      {child.icon}
-                    </ListItemIcon>
-                    <ListItemText primary={t(child.text)} />
-                  </ListItemButton>
+                  {item.children.map(child => (
+                    <ListItemButton
+                      key={child.text}
+                      sx={{ paddingLeft: '2em' }}
+                      selected={isActive(child)}
+                      onClick={() => handleNavigate(child)}
+                    >
+                      <ListItemIcon>
+                        {child.icon}
+                      </ListItemIcon>
+                      <ListItemText primary={t(child.text)} />
+                    </ListItemButton>
+                  ))}
                 </List>
               </Collapse>
-            )))}
+            )}
           </div>
-        )))}
+        ))}
       </List>
       {listIndex < lists.length - 1 && <Divider />}
     </div>
   ));
-
-  const drawerToggleButton = (
-    <Button
-      variant="contained"
-      className="drawer-toggle-button"
-      onClick={handleDrawerToggle}
-      sx={{ display: { md: 'none' } }}
-    >
-      <MenuOpen className="drawer-toggle-icon" />
-    </Button>
-  );
 
   return (
     <Box className="global-page-content-container">
@@ -108,7 +196,6 @@ export default function ResponsiveDrawer({ lists, children }) {
             sx={{
               width: { md: drawerWidth },
               flexShrink: { md: 0 },
-              marginLeft: { xs: '0', md: '20px' },
               position: { xs: 'static', md: 'sticky' },
               top: { xs: 'auto', md: '100px' },
               alignSelf: { xs: 'auto', md: 'flex-start' },
@@ -119,10 +206,10 @@ export default function ResponsiveDrawer({ lists, children }) {
               variant="temporary"
               className="responsive-drawer"
               open={mobileOpen}
-              onClose={handleDrawerClose}
+              onClose={() => setMobileOpen(false)}
               sx={{
                 display: { xs: 'block', md: 'none' },
-                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, paddingLeft: '20px' }
+                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
               }}
               slotProps={{
                 root: {
@@ -132,6 +219,7 @@ export default function ResponsiveDrawer({ lists, children }) {
             >
               {drawer}
             </Drawer>
+
             <Drawer
               variant="permanent"
               className="responsive-drawer"
@@ -149,11 +237,19 @@ export default function ResponsiveDrawer({ lists, children }) {
               {drawer}
             </Drawer>
           </Box>
+
           <Box
             component="main"
             sx={{ flexGrow: 1, p: 3, width: { md: `calc(100% - ${drawerWidth}px)` } }}
           >
-            {drawerToggleButton}
+            <Button
+              variant="contained"
+              className="drawer-toggle-button"
+              onClick={() => setMobileOpen(open => !open)}
+              sx={{ display: { md: 'none' } }}
+            >
+              <MenuOpen className="drawer-toggle-icon" />
+            </Button>
             <Outlet />
             {children}
           </Box>

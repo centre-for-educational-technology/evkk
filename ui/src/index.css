@@ -110,6 +110,7 @@ a:hover {
 }
 
 [id] {
+  /* anchors need to have the same offset as the height of the header/navbar */
   scroll-margin-top: 80px;
 }
 
