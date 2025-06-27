@@ -26,7 +26,7 @@ export default function Links() {
       <br />
 
       <Box>
-        <div id={HashFragmentRouteConstants.LINKS_DICTIONARIES} className="link-anchor-gap"></div>
+        <div id={HashFragmentRouteConstants.LINKS_DICTIONARIES} />
         <Typography variant="h3">
           {t('common_dictionaries')}
         </Typography>
@@ -61,7 +61,7 @@ export default function Links() {
         tags={['tõlkesõnastik']} />
 
       <Box>
-        <div id={HashFragmentRouteConstants.LINKS_TRANSLATION_TOOLS} className="link-anchor-gap"></div>
+        <div id={HashFragmentRouteConstants.LINKS_TRANSLATION_TOOLS} />
         <Typography variant="h3">
           {t('common_translation_tools')}
         </Typography>
@@ -97,15 +97,14 @@ export default function Links() {
 
 
       <Box>
-        <div id={HashFragmentRouteConstants.LINKS_ESTONIAN_TEXTS} className="link-anchor-gap"></div>
+        <div id={HashFragmentRouteConstants.LINKS_ESTONIAN_TEXTS} />
         <Typography variant="h3">
           {t('common_estonian_texts')}
         </Typography>
       </Box>
 
       <Box>
-        <div id={HashFragmentRouteConstants.LINKS_MEDIA_TEXTS}
-             className="link-anchor-gap"></div>
+        <div id={HashFragmentRouteConstants.LINKS_MEDIA_TEXTS} />
         <Typography variant="h4">
           {t('links_media_texts')}
         </Typography>
@@ -147,8 +146,7 @@ export default function Links() {
         tags={['uudised', 'tasuline', 'taskuhääling']} />
 
       <Box>
-        <div id={HashFragmentRouteConstants.LINKS_LITERATURE}
-             className="link-anchor-gap"></div>
+        <div id={HashFragmentRouteConstants.LINKS_LITERATURE} />
         <Typography variant="h4">
           {t('links_literature')}
         </Typography>
@@ -204,8 +202,7 @@ export default function Links() {
         tags={['raamatud', 'e-raamatud', 'tasuta', 'arhiiv']} />
 
       <Box>
-        <div id={HashFragmentRouteConstants.LINKS_ACADEMIC_TEXTS}
-             className="link-anchor-gap"></div>
+        <div id={HashFragmentRouteConstants.LINKS_ACADEMIC_TEXTS} />
         <Typography variant="h4">
           {t('links_academic_texts')}
         </Typography>
@@ -233,15 +230,14 @@ export default function Links() {
         tags={['lõputööd', 'õpikud', 'raamatud', 'ajakirjad', 'tasuta', 'arhiiv']} />
 
       <Box>
-        <div id={HashFragmentRouteConstants.LINKS_AUDIOVISUAL_MEDIA} className="link-anchor-gap"></div>
+        <div id={HashFragmentRouteConstants.LINKS_AUDIOVISUAL_MEDIA} />
         <Typography variant="h3">
           {t('common_audiovisual_media')}
         </Typography>
       </Box>
 
       <Box>
-        <div id={HashFragmentRouteConstants.LINKS_SERIES_FILMS_VIDEOS}
-             className="link-anchor-gap"></div>
+        <div id={HashFragmentRouteConstants.LINKS_SERIES_FILMS_VIDEOS} />
         <Typography variant="h4">
           {t('links_series_films_videos')}
         </Typography>
@@ -297,8 +293,7 @@ export default function Links() {
         tags={['sarjad', 'saated', 'filmid', 'videolaenutus', 'tasuline', 'televisioon']} />
 
       <Box>
-        <div id={HashFragmentRouteConstants.LINKS_RADIO_AUDIO_PODCASTS}
-             className="link-anchor-gap"></div>
+        <div id={HashFragmentRouteConstants.LINKS_RADIO_AUDIO_PODCASTS} />
         <Typography variant="h4">
           {t('links_radio_audio_podcasts')}
         </Typography>
@@ -354,15 +349,14 @@ export default function Links() {
         tags={['kuuldemäng', 'järjejutt']} />
 
       <Box>
-        <div id={HashFragmentRouteConstants.LINKS_LEARNING_RESOURCES} className="link-anchor-gap"></div>
+        <div id={HashFragmentRouteConstants.LINKS_LEARNING_RESOURCES} />
         <Typography variant="h3">
           {t('common_learning_resources')}
         </Typography>
       </Box>
 
       <Box>
-        <div id={HashFragmentRouteConstants.LINKS_LANGUAGE_LEARNING_MATERIALS_AND_EXERCISES}
-             className="link-anchor-gap"></div>
+        <div id={HashFragmentRouteConstants.LINKS_LANGUAGE_LEARNING_MATERIALS_AND_EXERCISES} />
         <Typography variant="h4">
           {t('links_language_learning_materials_and_exercises')}
         </Typography>
@@ -432,8 +426,7 @@ export default function Links() {
         tags={['harjutus', 'õppematerjal', 'eksam', 'tasuta']} />
 
       <Box>
-        <div id={HashFragmentRouteConstants.LINKS_LANGUAGE_LEARNING_GAMES}
-             className="link-anchor-gap"></div>
+        <div id={HashFragmentRouteConstants.LINKS_LANGUAGE_LEARNING_GAMES} />
         <Typography variant="h4">
           {t('links_language_learning_games')}
         </Typography>
@@ -475,16 +468,14 @@ export default function Links() {
         tags={['tasuta', 'mäng', 'arvuti']} />
 
       <Box>
-        <div id={HashFragmentRouteConstants.LINKS_LEARNING_ENVIRONMENTS_AND_COURSES}
-             className="link-anchor-gap"></div>
+        <div id={HashFragmentRouteConstants.LINKS_LEARNING_ENVIRONMENTS_AND_COURSES} />
         <Typography variant="h3">
           {t('common_learning_environments_and_courses')}
         </Typography>
       </Box>
 
       <Box>
-        <div id={HashFragmentRouteConstants.LINKS_LANGUAGE_LEARNING_ENVIRONMENTS}
-             className="link-anchor-gap"></div>
+        <div id={HashFragmentRouteConstants.LINKS_LANGUAGE_LEARNING_ENVIRONMENTS} />
         <Typography variant="h4">
           {t('links_language_learning_environments')}
         </Typography>
@@ -526,8 +517,7 @@ export default function Links() {
         tags={['tasuta', 'tasuline', 'nutiseade', 'arvuti', 'keeleõppekeskkond']} />
 
       <Box>
-        <div id={HashFragmentRouteConstants.LINKS_LANGUAGE_COURSES}
-             className="link-anchor-gap"></div>
+        <div id={HashFragmentRouteConstants.LINKS_LANGUAGE_COURSES} />
         <Typography variant="h4">
           {t('links_language_courses')}
         </Typography>
@@ -569,7 +559,7 @@ export default function Links() {
         tags={['e-kursus', 'suhtlus', 'tasuline', 'tasuta', 'õppematerjal', 'harjutus']} />
 
       <Box>
-        <div id={HashFragmentRouteConstants.LINKS_FOR_TEACHERS} className="link-anchor-gap"></div>
+        <div id={HashFragmentRouteConstants.LINKS_FOR_TEACHERS} />
         <Typography variant="h3">
           {t('common_for_teachers')}
         </Typography>
@@ -604,7 +594,7 @@ export default function Links() {
         tags={['keeletasemed', 'tasemehinnang', 'eesti keel teise keelena', 'EKI']} />
 
       <Box>
-        <div id={HashFragmentRouteConstants.LINKS_ESTONIAN_LANGUAGE_CORPORA} className="link-anchor-gap"></div>
+        <div id={HashFragmentRouteConstants.LINKS_ESTONIAN_LANGUAGE_CORPORA} />
         <Typography variant="h3">
           {t('common_estonian_language_corpora')}
         </Typography>
