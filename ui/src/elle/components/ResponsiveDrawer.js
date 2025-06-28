@@ -63,7 +63,7 @@ export default function ResponsiveDrawer({ lists, children }) {
         navigate(newPath, { replace: true });
       }
       setActiveSection(currentSection);
-    }, 100);
+    }, 10);
 
     window.addEventListener('scroll', onScroll);
     onScroll();
