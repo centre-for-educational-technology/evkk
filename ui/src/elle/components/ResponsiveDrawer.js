@@ -84,18 +84,6 @@ export default function ResponsiveDrawer({ lists, children }) {
     }
   }, [location.hash]);
 
-  // auto-open parents when a child is active
-  useEffect(() => {
-    lists.forEach((list, listIndex) => {
-      list.items.forEach((item, itemIndex) => {
-        if (isParentActive(item)) {
-          setOpenMap(map => ({ ...map, [`${listIndex}-${itemIndex}`]: true }));
-        }
-      });
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lists, location.pathname, location.hash, activeSection]);
-
   const getNormalizedPath = (rawPath) => {
     const path = rawPath === baseSegment ? basePath : `${basePath}/${rawPath}`;
     return path.endsWith('/') ? path.slice(0, -1) : path;
