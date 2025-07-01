@@ -163,7 +163,7 @@ export default function VocabularyTab(
                   <div sx={{ width: '100%' }}>
                     <div className="tab-table">
                       <div>{t('corrector_vocabulary_statistics_the_words_considered')}</div>
-                      <div>{complexityAnswer.keerukus[0] || 0}</div>
+                      <div>{complexityAnswer.sonad.length}</div>
                     </div>
                     <div className="tab-table">
                       <div>{t('corrector_vocabulary_statistics_different_words')}</div>
