@@ -1,13 +1,11 @@
 // Original code by Reydan Niineorg
 
 import React, { createContext, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 export const TextSelectionContext = createContext();
 
 export const TextSelectionProvider = ({ children }) => {
-  const { t } = useTranslation();
-  const [selectedText, setSelectedText] = useState(t('text_to_speech_text'));
+  const [selectedText, setSelectedText] = useState('');
 
   useEffect(() => {
     const handleSelectionChange = () => {
