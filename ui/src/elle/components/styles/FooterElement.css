@@ -8,9 +8,7 @@
 
 .footer-inner {
   width: 100%;
-  padding-left: 6rem;
-  padding-top: 2rem;
-  padding-bottom: 1rem;
+  padding: 2rem 1rem 1rem 6rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -74,7 +72,7 @@
 
 @media (max-width: 1024px) {
   .footer-inner {
-    padding-left: 2rem;
+    padding-left: 0;
     padding-top: 1rem;
   }
 

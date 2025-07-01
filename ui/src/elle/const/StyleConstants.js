@@ -255,13 +255,6 @@ export const TabStyle = {
   }
 };
 
-export const ElleOuterDivStyle = {
-  background: 'linear-gradient(315deg, rgba(156, 39, 176, 1) 0%, rgba(156, 39, 176, 1) 33%, rgba(204, 168, 253, 1) 33%, rgba(204, 168, 253, 1) 67%, rgba(255, 208, 253, 1) 67%, rgba(255, 208, 253, 1) 100%)',
-  height: '100%',
-  width: '100%',
-  padding: '7px'
-};
-
 export const ITEM_HEIGHT = 48;
 
 export const ITEM_PADDING_TOP = 8;

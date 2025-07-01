@@ -3,15 +3,15 @@ import { Box, Button } from '@mui/material';
 import '../styles/StatisticsElement.css';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
-import { DefaultButtonStyle, ElleOuterDivStyle } from '../../const/StyleConstants';
+import { DefaultButtonStyle } from '../../const/StyleConstants';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { RouteConstants } from '../../../AppRoutes';
 
 const StatisticsIconContainer = (props) => {
   return (
-    <Box sx={ElleOuterDivStyle} className="statistics-inner-container">
-      <Box className="statistics-box-inner">
+    <Box className="statistics-inner-container global-page-content-container">
+      <Box className="statistics-box-inner text-center">
         {props.icon}
         <h1><b>{props.amount}</b></h1>
         <p>{props.text}</p>
@@ -36,13 +36,13 @@ export default function StatisticsElement() {
         amount={t('corpus_word_count')}
         icon={<LibraryBooksIcon className="statistics-icon"/>}
       />
-      <Box sx={ElleOuterDivStyle} className="statistics-inner-container">
+      <Box className="statistics-inner-container global-page-content-container">
         <Box className="statistics-box-inner">
           <p>{t('corpus_donation_text')}</p>
           <Button
             sx={DefaultButtonStyle}
             className="align-self-start"
-            variant={"contained"}
+            variant="contained"
             onClick={() => {
               navigate(RouteConstants.ADDING);
             }}

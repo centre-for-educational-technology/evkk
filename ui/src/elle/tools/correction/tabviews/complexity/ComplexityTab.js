@@ -17,6 +17,7 @@ import { LONG_SENTENCE } from '../../const/Constants';
 import { ComplexityToggleButtons } from '../../const/ToggleButtonConstants';
 import { COMPLEXITY_LIX_LINK, COMPLEXITY_LONG_WORD_LINK, COMPLEXITY_SMOG_LINK } from '../../const/PathConstants';
 import { complexityValues } from '../../const/TabValuesConstant';
+import NewTabHyperlink from '../../../../components/NewTabHyperlink';
 
 export default function ComplexityTab(
   {
@@ -110,14 +111,14 @@ export default function ComplexityTab(
                 <b>{t('corrector_complexity_infobox_noun_to_verb_bold')}</b> {t('corrector_complexity_infobox_noun_to_verb_value')}
               </li>
             </ul>
-            {t('corrector_complexity_infobox_lix_outro')}
-            <a href={COMPLEXITY_LIX_LINK}> {t('common_here')}</a>,&nbsp;
-            {t('corrector_complexity_infobox_smog_outro')}
-            <a href={COMPLEXITY_SMOG_LINK}> {t('common_here')}</a>.&nbsp;
+            {t('corrector_complexity_infobox_lix_outro')}&nbsp;
+            <NewTabHyperlink path={COMPLEXITY_LIX_LINK} content={t('common_here')} />,&nbsp;
+            {t('corrector_complexity_infobox_smog_outro')}&nbsp;
+            <NewTabHyperlink path={COMPLEXITY_SMOG_LINK} content={t('common_here')} />.&nbsp;
             {t('corrector_complexity_infobox_smog_outro_extra')}
             <br></br><br></br>
-            {t('corrector_complexity_infobox_word_length_outro')}
-            <a href={COMPLEXITY_LONG_WORD_LINK}> {t('common_here')}</a>).
+            {t('corrector_complexity_infobox_word_length_outro')}&nbsp;
+            <NewTabHyperlink path={COMPLEXITY_LONG_WORD_LINK} content={t('common_here')} />).
           </div>} />
       </Box>
       <div className="d-flex gap-2 flex-wrap ">
@@ -165,7 +166,7 @@ export default function ComplexityTab(
                   {t('common_statistics')}
                 </AccordionSummary>
                 <AccordionDetails>
-                  <div sx={{ width: '100%' }}>
+                  <div>
                     <div className="tab-table">
                       <div>{t('corrector_complexity_statistics_phrases')}</div>
                       <div>{complexityAnswer.keerukus[0] || 0}</div>

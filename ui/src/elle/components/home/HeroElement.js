@@ -27,8 +27,7 @@ export default function HeroElement() {
 
   return (
     <Box className="hero-container">
-      <Box className="d-flex align-items-center justify-content-center"
-           width={'40%'}>
+      <Box className="d-flex align-items-center justify-content-center hero-container-inner">
         <Box className="hero-text-container">
           <p className="hero-text">
             <span className="elle-dark-text">
@@ -45,7 +44,7 @@ export default function HeroElement() {
             <ToolsLink
               key={'1'}
               smooth
-              to="#scroll-anchor"
+              to="#tools"
             >
               {t('hero_tools_button')}
             </ToolsLink>

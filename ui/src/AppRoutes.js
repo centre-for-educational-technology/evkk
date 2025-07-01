@@ -4,7 +4,6 @@ import { MasinoppeEnnustus, MinitornPikkus } from './views/tools';
 import { Container } from '@mui/material';
 import Home from './elle/pages/Home';
 import Links from './elle/pages/Links';
-import AboutUs from './elle/pages/AboutUs';
 import FilledContacts from './elle/components/about/FilledContacts';
 import Grants from './elle/components/about/Grants';
 import ClusterFinder from './elle/tools/ClusterFinder';
@@ -21,8 +20,9 @@ import Correction from './elle/tools/correction/Correction';
 import Login from './elle/pages/Login';
 import Admin from './elle/pages/Admin';
 import RequireAuth from './elle/components/security/RequireAuth';
-import { UserRoles } from './elle/const/Constants';
+import { aboutUsDrawerList, UserRoles } from './elle/const/Constants';
 import { useTranslation } from 'react-i18next';
+import ResponsiveDrawer from './elle/components/ResponsiveDrawer';
 
 export default function AppRoutes() {
   const { t } = useTranslation();
@@ -37,10 +37,7 @@ export default function AppRoutes() {
     <Container
       disableGutters
       maxWidth={false}
-      sx={{
-        width: '80vw',
-        marginTop: '20px'
-      }}
+      className="global-page-container"
     >
       <BreadcrumbLinks />
       <Routes>
@@ -48,7 +45,7 @@ export default function AppRoutes() {
                path="/"
                element={<Home />} />
         <Route path={RouteConstants.ABOUT}
-               element={<AboutUs />}>
+               element={<ResponsiveDrawer lists={aboutUsDrawerList} />}>
           <Route index
                  element={<Navigate to={RouteConstants.US}
                                     replace />} />

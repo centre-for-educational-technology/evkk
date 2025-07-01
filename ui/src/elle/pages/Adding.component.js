@@ -31,7 +31,7 @@ import {
   usedMaterialsSaveOptions
 } from '../const/Constants';
 import ModalBase from '../components/modal/ModalBase';
-import { DefaultButtonStyle, ElleOuterDivStyle } from '../const/StyleConstants';
+import { DefaultButtonStyle } from '../const/StyleConstants';
 import AddTextFetch from '../hooks/service/util/AddTextFetch';
 
 class Adding extends Component {
@@ -115,8 +115,8 @@ class Adding extends Component {
   render() {
     const { t } = this.props;
     return (
-      <Box className="adding-rounded-corners" sx={ElleOuterDivStyle}>
-        <div className="add-container">
+      <Box className="global-page-content-container">
+        <div className="global-page-content-container-inner adding-container-inner">
           <div style={{ width: '100%', textAlign: 'center' }}>
             <Typography className="py-5"
                         variant="h5"><strong>{t('common_publish_your_text')}</strong></Typography>

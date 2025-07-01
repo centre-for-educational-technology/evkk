@@ -85,8 +85,8 @@ export default function Tools() {
   });
 
   return (
-    <Box className="outer-container-tools">
-      <Box className="tool-page-container-outer">
+    <Box className="global-page-content-container">
+      <Box className="global-page-content-container-inner tool-page-container-inner">
         <Box className="outer-outer">
           <Query queryOpen={queryOpen}
                  setHideBackground={setHideBackground} />
