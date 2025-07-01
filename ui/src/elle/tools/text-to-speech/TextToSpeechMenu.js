@@ -47,7 +47,7 @@ export default function TextToSpeechMenu() {
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
-    setSelectedTextChecker(selectedText === t('text_to_speech_text'));
+    setSelectedTextChecker(selectedText === '');
   }, [t, selectedText]);
 
   const handlePopoverOpen = (event) => {
