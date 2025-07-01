@@ -3,7 +3,7 @@ import '../styles/ContactCard.css';
 import { ReactComponent as EtisLogo } from '../../resources/images/misc/etis_logo.svg';
 import NewTabHyperlink from '../NewTabHyperlink';
 
-export default function ContactCard({name, role, email, etisUrl, icon}) {
+export default function ContactCard({ name, role, email, etisUrl, icon }) {
   return (
     <Box className="contact-box">
       <Box className="icon-box">
@@ -11,7 +11,7 @@ export default function ContactCard({name, role, email, etisUrl, icon}) {
              src={icon}
              alt={icon} />
       </Box>
-      <Box className="text-box">
+      <Box>
         <Box className="name-box">{name}</Box>
         <Box className="info-box">
           <div><b>Amet:</b> {role}</div>

@@ -6,7 +6,7 @@ import '../styles/SingleLinkedResourceList.css';
 export default function SingleLinkedResourceList({list}) {
 
   return (
-    <List>
+    <List className="single-linked-resource-list">
       {list.map(elem =>
         <ListItem key={elem.href}>
           <ListItemIcon>

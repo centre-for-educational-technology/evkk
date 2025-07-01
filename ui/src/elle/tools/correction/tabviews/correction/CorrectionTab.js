@@ -9,6 +9,7 @@ import CorrectionToggleButtonGroup from '../../components/CorrectionToggleButton
 import { CorrectionAndTextLevelToggleButtons } from '../../const/ToggleButtonConstants';
 import { CORRECTION_TAB_LINK } from '../../const/PathConstants';
 import { CORRECTION, GRAMMARCHECKER_TEST, SPELLCHECKER } from '../../const/Constants';
+import NewTabHyperlink from '../../../../components/NewTabHyperlink';
 
 export default function CorrectionTab(
   {
@@ -78,7 +79,8 @@ export default function CorrectionTab(
             inputText={correctionModel === GRAMMARCHECKER_TEST ?
               <div>{t('corrector_test_version_info')}</div>
               :
-              <div>{t('corrector_proofreading_infobox')} <a href={CORRECTION_TAB_LINK}>{t('common_here')}</a>.
+              <div>{t('corrector_proofreading_infobox')} <NewTabHyperlink path={CORRECTION_TAB_LINK}
+                                                                          content={t('common_here')} />.
               </div>} />
         </div>
       </Box>
