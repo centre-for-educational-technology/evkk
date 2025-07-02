@@ -378,8 +378,8 @@ export const processCorrectorKeyDown = (selectedText, noExtraText, triggerCondit
 };
 
 const isBackSpaceOrDelete = (e) => { return (e.key === 'Backspace' || e.key === 'Delete');};
-export const isNotNonLetterKey = (e) => (!e.ctrlKey && !e.metaKey && !e.altKey);
-export const isOneLetterKey = (e) => (e.key.length === 1 && e.key.match(/^[\w\s]$/));
+const isNotNonLetterKey = (e) => (!e.ctrlKey && !e.metaKey && !e.altKey);
+const isOneLetterKey = (e) => (e.key.length === 1 && e.key.match(/^[\w\s]$/));
 
 export const handleCorrectorKeyDown = (e, selectedText, setSelectedText, inputType, setInputType, setErrorsToRemove) => {
   if (ARROW_KEYS.includes(e.key)) {
