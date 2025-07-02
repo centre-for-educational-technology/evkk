@@ -323,7 +323,6 @@ export const iterateCorrectionArray = (input, hoveredId, setInnerValue, newRef, 
 
 export const processCorrectorKeyDown = (selectedText, noExtraText, triggerCondition, e, extraTextValue, inputType, setInputType, setErrorsToRemove, setSelectedText) => {
   if (triggerCondition && selectedText?.size > 1) {
-    e.preventDefault();
 
     const mapKeys = Array.from(selectedText.keys());
     const firstKey = mapKeys[0];
@@ -379,7 +378,7 @@ export const processCorrectorKeyDown = (selectedText, noExtraText, triggerCondit
 };
 
 const isBackSpaceOrDelete = (e) => { return (e.key === 'Backspace' || e.key === 'Delete');};
-const isNotNonLetterKey = (e) => (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey);
+const isNotNonLetterKey = (e) => (!e.ctrlKey && !e.metaKey && !e.altKey);
 const isOneLetterKey = (e) => (e.key.length === 1 && e.key.match(/^[\w\s]$/));
 
 export const handleCorrectorKeyDown = (e, selectedText, setSelectedText, inputType, setInputType, setErrorsToRemove) => {
