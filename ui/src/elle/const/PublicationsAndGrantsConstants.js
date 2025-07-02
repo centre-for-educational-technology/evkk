@@ -258,11 +258,11 @@ export const grants = [
     href: 'https://www.etis.ee/Portal/Projects/Display/65e3ff07-8ed2-468f-aa5a-11f70899b02a'
   },
   {
-    content: 'TF1023 ELLE keeleõppekeskkonna tekstianalüüsi vahendite täiustamine (2023–2024)',
+    content: 'TF/1023 ELLE keeleõppekeskkonna tekstianalüüsi vahendite täiustamine (2023–2024)',
     href: 'https://www.etis.ee/Portal/Projects/Display/6f1a2704-5257-4bab-84ec-9ffa396dc18c'
   },
   {
-    content: 'EKTB Eestikeelse teksti automaatkorrektuur (2021−2023, koostöös Tartu Ülikooliga)',
+    content: 'EKTB25 Eestikeelse teksti automaatkorrektuur (2021−2023, koostöös Tartu Ülikooliga)',
     href: 'https://www.etis.ee/Portal/Projects/Display/c6e04122-cbb1-484d-89c4-2971af87f5fd'
   },
   {
@@ -290,11 +290,11 @@ export const grants = [
     href: 'https://www.etis.ee/Portal/Projects/Display/4a13daab-69f2-498d-940f-c9c491189020'
   },
   {
-    content: 'EKKTT08-26 VAKO - Eesti vahekeele korpuse keeletarkvara ja keeletehnoloogilise ressursi arendamine (2006–2010)',
+    content: 'EKKTT08-26 VAKO - Eesti vahekeele korpuse keeletarkvara ja keeletehnoloogilise ressursi arendamine (2008–2010)',
     href: 'https://www.etis.ee/Portal/Projects/Display/ad3383f6-287c-44de-985f-53a07177b7c4'
   },
   {
-    content: 'EKRM05-51 Koodivahetuse, vahe- ning lastekeele korpuste töötlemine ja haldamine (2004–2008)',
+    content: 'EKRM05-51 Koodivahetuse, vahe- ning lastekeele korpuste töötlemine ja haldamine (2005–2008)',
     href: 'https://www.etis.ee/Portal/Projects/Display/8abc7581-3828-4b6d-b303-6d59e4653b47'
   },
   {
@@ -302,7 +302,7 @@ export const grants = [
     href: 'https://www.etis.ee/Portal/Projects/Display/3b98bbc6-707d-4724-9695-8f3b34fe9ae0'
   },
   {
-    content: 'SF 0132493s03 Eesti keelekeskkonna arengu analüüs, modelleerimine ja juhtimine (2003–2007)',
+    content: 'SF0132493s03 Eesti keelekeskkonna arengu analüüs, modelleerimine ja juhtimine (2003–2007)',
     href: 'https://www.etis.ee/Portal/Projects/Display/b0b019e4-0a1d-405e-a292-458ac482091b'
   }
 ];
