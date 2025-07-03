@@ -13,6 +13,7 @@ export default function SingleLinkedResourceList({list}) {
             <FiberManualRecordIcon/>
           </ListItemIcon>
           <ListItemButton href={elem.href}
+                          disabled={!elem.href}
                           target="_blank"
                           rel="noopener noreferrer">
             <ListItemText disableTypography

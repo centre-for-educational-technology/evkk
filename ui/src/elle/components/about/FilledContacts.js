@@ -35,8 +35,8 @@ export default function FilledContacts() {
                    email={'taavik@tlu.ee'}
                    etisUrl={'https://www.etis.ee/CV/Taavi_Kamarik/est/'}
                    icon={WORKER_IMAGES.taavi} />
-      <ContactCard name={'BA Karina Kert'}
-                   role={'analüütik, magistrant'}
+      <ContactCard name={'MA Karina Kert'}
+                   role={'analüütik'}
                    email={'karina.kert@tlu.ee'}
                    etisUrl={'https://www.etis.ee/CV/Karina_Kert/est/'}
                    icon={WORKER_IMAGES.karina} />
