@@ -173,11 +173,12 @@ export default function TextLevelTab(
                   label={accordionDetails[2].label}
                   complexityAnswer={complexityAnswer.keeletase.grammatical}
                 />
-                <TextLevelAccordion
+                {/*Needs to be fixed and will be reimplemented*/}
+                {/*<TextLevelAccordion
                   key={'error'}
                   label={accordionDetails[3].label}
                   complexityAnswer={complexityAnswer.keeletase.error}
-                />
+                />*/}
                 <TextLevelAccordion
                   key={'lexical'}
                   label={accordionDetails[4].label}

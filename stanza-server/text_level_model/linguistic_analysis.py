@@ -6,6 +6,9 @@ from text_level_model.linguistic_functions import pos_count, pos_ratio, pos_ttr,
     curl_request, \
     mtld_calc, syllabify
 from joblib import load
+from text_abstraction_analyse import Utils
+
+utils = Utils()
 
 model_types = {
     'lexical': {
@@ -115,13 +118,14 @@ def extract_features(errors_per_sentence, errors_per_word, data):
 
     noun_data = df[df.Xpos == 'S']
     try:
-        abstractness_data = curl_request(noun_data)
+        noun_lemmas = noun_data['Lemma'].tolist()
+        abstractness_data = utils.analyze(' '.join(noun_lemmas), "estonian")
         ab_sum = 0
         ab_count = 0
-        for word in abstractness_data['wordAnalysis']:
-            lemma = word['lemmas'][0]
-            if lemma['abstractness']:
-                ab_sum += lemma['abstractness']
+        for word in abstractness_data["wordAnalysis"]:
+            if word['abstractness']:
+                print(word['abstractness'])
+                ab_sum += word['abstractness']
                 ab_count += 1
         if ab_count > 0:
             feat_values['S_abstr'] = ab_sum / ab_count
