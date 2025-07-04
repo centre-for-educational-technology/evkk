@@ -517,6 +517,7 @@ export const aboutUsDrawerList = [
       {
         text: 'common_publications',
         icon: <HistoryEdu />,
+        navigateTo: RouteConstants.PUBLICATIONS,
         children: [
           {
             text: 'common_graduation_papers',
@@ -561,6 +562,7 @@ export const linksDrawerList = [
       {
         text: 'common_estonian_texts',
         icon: <LibraryBooks />,
+        navigateTo: `#${HashFragmentRouteConstants.LINKS_ESTONIAN_TEXTS}`,
         children: [
           {
             text: 'links_media_texts',
@@ -582,6 +584,7 @@ export const linksDrawerList = [
       {
         text: 'common_audiovisual_media',
         icon: <PermMedia />,
+        navigateTo: `#${HashFragmentRouteConstants.LINKS_AUDIOVISUAL_MEDIA}`,
         children: [
           {
             text: 'links_series_films_videos',
@@ -598,6 +601,7 @@ export const linksDrawerList = [
       {
         text: 'common_learning_resources',
         icon: <Spellcheck />,
+        navigateTo: `#${HashFragmentRouteConstants.LINKS_LEARNING_RESOURCES}`,
         children: [
           {
             text: 'links_language_learning_materials_and_exercises',
@@ -614,6 +618,7 @@ export const linksDrawerList = [
       {
         text: 'common_learning_environments_and_courses',
         icon: <Devices />,
+        navigateTo: `#${HashFragmentRouteConstants.LINKS_LEARNING_ENVIRONMENTS_AND_COURSES}`,
         children: [
           {
             text: 'links_language_learning_environments',
