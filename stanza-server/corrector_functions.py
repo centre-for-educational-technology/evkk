@@ -286,8 +286,6 @@ def merge_corrections(processed_corrections, list_checked_spelling_errors):
     merged_by_start_map = {}
 
     if list_checked_spelling_errors:
-            for item in list_checked_spelling_errors:
-                merged_by_start_map[item['start']] = item
 
             for item in processed_corrections:
                 initial_array = item['initial_text'].split()
@@ -302,6 +300,9 @@ def merge_corrections(processed_corrections, list_checked_spelling_errors):
                             "correction_type": spelling_error
                         }
                         start_value += len(word) + 1
+
+            for item in list_checked_spelling_errors:
+                            merged_by_start_map[item['start']] = item
     else:
         for item in processed_corrections:
                 merged_by_start_map[item['start']] = item
