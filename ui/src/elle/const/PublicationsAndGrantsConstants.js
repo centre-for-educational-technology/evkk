@@ -94,14 +94,14 @@ export const conferences_workshops = [
       '                               <a href="https://drive.google.com/file/d/1RtFLWcPE2ViyKJTE4onSMKEMzFDCt87W/view?usp=sharing"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Slaidid</a>',
-    href: 'https://ehak.ee/paneelid/#h-7'
+    href: 'https://ehak.ee/arhiiv/ehak2024/paneelid/#h-7'
   },
   {
     content: 'Allkivi, K.; Kodasma, H. (2024). Korpuspõhine keeleõppekeskkond: kellele ja milleks? <i>1. Eesti humanitaarteaduste aastakonverents, 10.–12. aprill 2024, Tallinn.</i> Tallinna Ülikool.<br/>\n' +
       '                               <a href="https://drive.google.com/file/d/1XEVKoLCOXVqZSLYZWRfIbaQTP03h3LL4/view?usp=sharing"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Slaidid</a>',
-    href: 'https://ehak.ee/paneelid/#h-10'
+    href: 'https://ehak.ee/arhiiv/ehak2024/paneelid/#h-10'
   },
   {
     content: 'Eslon, P. (2023). Eestikeelsete akadeemiliste tekstide korpus. <i>IX mitmeteaduslik eesti teaduskeele konverents, 24. november 2023, Tallinn.</i>',
@@ -228,7 +228,7 @@ export const publications = [
   },
   {
     content: 'Eslon, P.; Kaivapalu, A.; Õim, K.; Kitsnik, M.; Gaitšenja, O.; Allkivi-Metsoja, K. (2021). <i>Eesti keele oskuse arenemine ja arendamine. Kirjalik õppijakeel.</i> EKSA.',
-    href: ''
+    href: 'https://www.digar.ee/arhiiv/en/books/177527'
   },
   {
     content: 'Eslon, P.; Allkivi-Metsoja, K. (2018). Teksti keelekasutusmustrid ja lingvistiline klasteranalüüs. <i>Lähivõrdlusi. Lähivertailuja</i>, 28, 21−46. DOI: 10.5128/LV28.01.',

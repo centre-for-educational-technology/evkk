@@ -116,9 +116,10 @@ export default function ResponsiveDrawer({ lists, children }) {
 
   const isParentActive = (item) => item.children?.some(child => isActive(child));
 
-  const toggleOpen = (listIndex, itemIndex) => {
+  const toggleOpen = (item, listIndex, itemIndex) => {
     const key = `${listIndex}-${itemIndex}`;
     setOpenMap(m => ({ ...m, [key]: !m[key] }));
+    handleNavigate(item);
   };
 
   const drawer = lists.map((list, listIndex) => (
@@ -131,7 +132,7 @@ export default function ResponsiveDrawer({ lists, children }) {
                 selected={isActive(item) || isParentActive(item)}
                 onClick={() =>
                   item.children
-                    ? toggleOpen(listIndex, itemIndex)
+                    ? toggleOpen(item, listIndex, itemIndex)
                     : handleNavigate(item)
                 }
               >
