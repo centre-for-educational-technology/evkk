@@ -124,7 +124,6 @@ def extract_features(errors_per_sentence, errors_per_word, data):
         ab_count = 0
         for word in abstractness_data["wordAnalysis"]:
             if word['abstractness']:
-                print(word['abstractness'])
                 ab_sum += word['abstractness']
                 ab_count += 1
         if ab_count > 0:
