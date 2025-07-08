@@ -1,5 +1,17 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Box, Button, Collapse, Divider, Drawer, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import {
+  Box,
+  Button,
+  Collapse,
+  Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  useMediaQuery,
+  useTheme
+} from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +23,8 @@ export default function ResponsiveDrawer({ lists, children }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openMap, setOpenMap] = useState({});
@@ -118,8 +132,16 @@ export default function ResponsiveDrawer({ lists, children }) {
 
   const toggleOpen = (item, listIndex, itemIndex) => {
     const key = `${listIndex}-${itemIndex}`;
-    setOpenMap(m => ({ ...m, [key]: !m[key] }));
-    handleNavigate(item);
+    const isCurrentlyNotOpen = !Boolean(openMap[key]);
+
+    setOpenMap(prev => ({
+      ...prev,
+      [key]: isCurrentlyNotOpen
+    }));
+
+    if (isCurrentlyNotOpen && !isMobile) {
+      handleNavigate(item);
+    }
   };
 
   const drawer = lists.map((list, listIndex) => (
