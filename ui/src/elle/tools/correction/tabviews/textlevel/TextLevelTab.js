@@ -82,9 +82,10 @@ export default function TextLevelTab(
                 <li>
                   <b>{t('corrector_proficiency_level_infobox_list_bold_vocabulary')}</b> – {t('corrector_proficiency_level_infobox_list_vocabulary_value')}
                 </li>
-                <li>
+                {/* Will be reimplemented when correctness is fixed */}
+                {/*<li>
                   <b>{t('corrector_proficiency_level_infobox_list_bold_correctness')}</b> – {t('corrector_proficiency_level_infobox_list_correctness_value')}
-                </li>
+                </li>*/}
                 <li>
                   <b>{t('corrector_proficiency_level_infobox_list_bold_overall_score')}</b> – {t('corrector_proficiency_level_infobox_list_overall_score_value')}
                 </li>
