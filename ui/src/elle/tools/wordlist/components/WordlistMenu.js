@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { RouteConstants } from '../../../../AppRoutes';
 
-export default function WordlistMenu({word, type, keepCapitalization, showCollocatesButton}) {
+export default function WordlistMenu({ word, type, keepCapitalization, showCollocatesButton }) {
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -32,7 +32,7 @@ export default function WordlistMenu({word, type, keepCapitalization, showColloc
 
   const handleWordMeaning = () => {
     handleClose();
-    window.open(`https://sonaveeb.ee/search/unif/dlall/dsall/${word}/1`);
+    window.open(`https://sonaveeb.ee/search/unif/dlall/dsall/${word}/1/est`);
   };
 
   const handleWordTranslation = () => {
@@ -43,8 +43,9 @@ export default function WordlistMenu({word, type, keepCapitalization, showColloc
   return (
     <>
       <IconButton onClick={handleClick}>
-        <MoreHoriz/>
+        <MoreHoriz />
       </IconButton>
+
       <Menu anchorEl={anchorEl}
             open={open}
             onClose={handleClose}>
