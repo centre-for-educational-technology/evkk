@@ -1,7 +1,37 @@
+import {
+  AccountBalance,
+  AccountBox,
+  Article,
+  Book,
+  CoPresent,
+  Devices,
+  Dvr,
+  Gamepad,
+  HistoryEdu,
+  Info,
+  Keyboard,
+  LibraryBooks,
+  Lightbulb,
+  MenuBook,
+  Movie,
+  Newspaper,
+  PermDeviceInformation,
+  PermMedia,
+  Radio,
+  School,
+  Science,
+  Source,
+  Spellcheck,
+  Translate
+} from '@mui/icons-material';
+import { HashFragmentRouteConstants, RouteConstants } from '../../AppRoutes';
+
 export const WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO = 1000;
 
 export const replaceCombined = /<\/?span[^>]*>|<\/?div[^>]*>/g;
 export const replaceSpaceTags = /&nbsp; ?/g;
+export const replaceQuotes = /&quot;/g;
+export const replaceDots = /\.{2,}/g;
 export const replaceSpaces = /\s\s+/g;
 
 export const breadcrumbNameMap = {
@@ -457,4 +487,167 @@ export const countryOptionsForAddingText = {
   'Saksamaa': 'query_common_country_de',
   'Inglismaa': 'query_common_country_en',
   'Ungari': 'query_common_country_hu'
+};
+
+export const donationSideButtonEnabledPaths = {
+  home: '/',
+  corrector: `/${RouteConstants.CORRECTOR}`,
+  correctorTest: `/${RouteConstants.CORRECTOR_TEST}`
+};
+
+export const aboutUsDrawerList = [
+  {
+    key: 'about',
+    items: [
+      {
+        text: 'common_us',
+        icon: <Info />,
+        navigateTo: RouteConstants.US
+      },
+      {
+        text: 'common_people',
+        icon: <AccountBox />,
+        navigateTo: RouteConstants.PEOPLE
+      },
+      {
+        text: 'common_grants',
+        icon: <AccountBalance />,
+        navigateTo: RouteConstants.GRANTS
+      },
+      {
+        text: 'common_publications',
+        icon: <HistoryEdu />,
+        navigateTo: RouteConstants.PUBLICATIONS,
+        children: [
+          {
+            text: 'common_graduation_papers',
+            icon: <School />,
+            navigateTo: `${RouteConstants.PUBLICATIONS}#${HashFragmentRouteConstants.PUBLICATIONS_GRADUATION_PAPERS}`
+          },
+          {
+            text: 'common_conferences_and_workshops',
+            icon: <CoPresent />,
+            navigateTo: `${RouteConstants.PUBLICATIONS}#${HashFragmentRouteConstants.PUBLICATIONS_CONFERENCES_AND_WORKSHOPS}`
+          },
+          {
+            text: 'common_articles',
+            icon: <Article />,
+            navigateTo: `${RouteConstants.PUBLICATIONS}#${HashFragmentRouteConstants.PUBLICATIONS_ARTICLES}`
+          }
+        ]
+      }
+    ]
+  }
+];
+
+export const linksDrawerList = [
+  {
+    key: 'links',
+    items: [
+      {
+        text: 'common_introduction',
+        icon: <PermDeviceInformation />,
+        navigateTo: `#${HashFragmentRouteConstants.LINKS_INTRODUCTION}`
+      },
+      {
+        text: 'common_dictionaries',
+        icon: <MenuBook />,
+        navigateTo: `#${HashFragmentRouteConstants.LINKS_DICTIONARIES}`
+      },
+      {
+        text: 'common_translation_tools',
+        icon: <Translate />,
+        navigateTo: `#${HashFragmentRouteConstants.LINKS_TRANSLATION_TOOLS}`
+      },
+      {
+        text: 'common_estonian_texts',
+        icon: <LibraryBooks />,
+        navigateTo: `#${HashFragmentRouteConstants.LINKS_ESTONIAN_TEXTS}`,
+        children: [
+          {
+            text: 'links_media_texts',
+            icon: <Newspaper />,
+            navigateTo: `#${HashFragmentRouteConstants.LINKS_MEDIA_TEXTS}`
+          },
+          {
+            text: 'links_literature',
+            icon: <Book />,
+            navigateTo: `#${HashFragmentRouteConstants.LINKS_LITERATURE}`
+          },
+          {
+            text: 'links_academic_texts',
+            icon: <Science />,
+            navigateTo: `#${HashFragmentRouteConstants.LINKS_ACADEMIC_TEXTS}`
+          }
+        ]
+      },
+      {
+        text: 'common_audiovisual_media',
+        icon: <PermMedia />,
+        navigateTo: `#${HashFragmentRouteConstants.LINKS_AUDIOVISUAL_MEDIA}`,
+        children: [
+          {
+            text: 'links_series_films_videos',
+            icon: <Movie />,
+            navigateTo: `#${HashFragmentRouteConstants.LINKS_SERIES_FILMS_VIDEOS}`
+          },
+          {
+            text: 'links_radio_audio_podcasts',
+            icon: <Radio />,
+            navigateTo: `#${HashFragmentRouteConstants.LINKS_RADIO_AUDIO_PODCASTS}`
+          }
+        ]
+      },
+      {
+        text: 'common_learning_resources',
+        icon: <Spellcheck />,
+        navigateTo: `#${HashFragmentRouteConstants.LINKS_LEARNING_RESOURCES}`,
+        children: [
+          {
+            text: 'links_language_learning_materials_and_exercises',
+            icon: <Dvr />,
+            navigateTo: `#${HashFragmentRouteConstants.LINKS_LANGUAGE_LEARNING_MATERIALS_AND_EXERCISES}`
+          },
+          {
+            text: 'links_language_learning_games',
+            icon: <Gamepad />,
+            navigateTo: `#${HashFragmentRouteConstants.LINKS_LANGUAGE_LEARNING_GAMES}`
+          }
+        ]
+      },
+      {
+        text: 'common_learning_environments_and_courses',
+        icon: <Devices />,
+        navigateTo: `#${HashFragmentRouteConstants.LINKS_LEARNING_ENVIRONMENTS_AND_COURSES}`,
+        children: [
+          {
+            text: 'links_language_learning_environments',
+            icon: <Keyboard />,
+            navigateTo: `#${HashFragmentRouteConstants.LINKS_LANGUAGE_LEARNING_ENVIRONMENTS}`
+          },
+          {
+            text: 'links_language_courses',
+            icon: <School />,
+            navigateTo: `#${HashFragmentRouteConstants.LINKS_LANGUAGE_COURSES}`
+          }
+        ]
+      },
+      {
+        text: 'common_for_teachers',
+        icon: <Lightbulb />,
+        navigateTo: `#${HashFragmentRouteConstants.LINKS_FOR_TEACHERS}`
+      },
+      {
+        text: 'common_estonian_language_corpora',
+        icon: <Source />,
+        navigateTo: `#${HashFragmentRouteConstants.LINKS_ESTONIAN_LANGUAGE_CORPORA}`
+      }
+    ]
+  }
+];
+
+export const textToSpeechVoices = {
+  mari: 'Mari',
+  albert: 'Albert',
+  kalev: 'Kalev'
 };

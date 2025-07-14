@@ -4,6 +4,7 @@ import { queryCaller } from '../util/Utils';
 import { Box, Tooltip } from '@mui/material';
 import { useGetCorrectorResult } from '../../../hooks/service/ToolsService';
 import { useTranslation } from 'react-i18next';
+import { ToggleButtonGroupStyle } from '../../../const/StyleConstants';
 
 export default function CorrectionToggleButtonGroup(
   {
@@ -21,8 +22,7 @@ export default function CorrectionToggleButtonGroup(
     setAbstractWords,
     setGrammarErrorList,
     setSpellerErrorList,
-    setGrammarTestErrorList,
-    setGrammarTestAnswer
+    noQuery
   }) {
 
   const { getCorrectorResult } = useGetCorrectorResult();
@@ -33,10 +33,12 @@ export default function CorrectionToggleButtonGroup(
       <ToggleButtonGroup
         color="primary"
         value={correctionModel}
-        sx={{ height: '1rem', marginBottom: '1rem' }}
+        sx={ToggleButtonGroupStyle}
         exclusive
         onChange={(e) => {
-          queryCaller(textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, null, null, false, setGrammarErrorList, setSpellerErrorList, setGrammarTestAnswer, setGrammarTestErrorList);
+          if (!noQuery) {
+            queryCaller(textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, false, setGrammarErrorList, setSpellerErrorList, correctionModel);
+          }
           setCorrectionModel(e.target.value);
         }}
         aria-label="Platform"

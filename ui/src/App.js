@@ -18,6 +18,7 @@ import RootContext, { RootProvider } from './elle/context/RootContext';
 import withGlobalLoading from './elle/hoc/withGlobalLoading';
 import SessionExpirationModal from './elle/components/modal/SessionExpirationModal';
 import { configureStore } from '@reduxjs/toolkit';
+import { TextSelectionProvider } from './elle/components/text-to-speech/TextSelectionContext';
 
 export const errorEmitter = new EventEmitter();
 export const loadingEmitter = new EventEmitter();
@@ -32,13 +33,13 @@ const theme = createTheme({
   palette: {
     primary: {
       // light: will be calculated from palette.primary.main,
-      main: '#2196F3'
+      main: '#9C27B0'
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
     },
     secondary: {
       light: '#0066ff',
-      main: '#0044ff',
+      main: '#CC9AFC',
       // dark: will be calculated from palette.secondary.main,
       contrastText: '#ffcc00'
     },
@@ -123,13 +124,15 @@ export default function App() {
   return (
     <Router>
       <MathJaxContext version={2}>
-        <ThemeProvider theme={theme}>
-          <Provider store={store}>
-            <RootProvider>
-              <AppWithStatusAndLoading />
-            </RootProvider>
-          </Provider>
-        </ThemeProvider>
+        <TextSelectionProvider>
+          <ThemeProvider theme={theme}>
+            <Provider store={store}>
+              <RootProvider>
+                <AppWithStatusAndLoading />
+              </RootProvider>
+            </Provider>
+          </ThemeProvider>
+        </TextSelectionProvider>
       </MathJaxContext>
     </Router>
   );

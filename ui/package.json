@@ -35,7 +35,8 @@
     "redux-thunk": "^2.3.0",
     "use-react-router-breadcrumbs": "^4.0.1",
     "wordcloud": "^1.2.2",
-    "docx": "8.0.4"
+    "docx": "8.0.4",
+    "lodash": "4.17.21"
   },
   "scripts": {
     "start": "react-scripts start",

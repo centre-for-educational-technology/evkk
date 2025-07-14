@@ -1,4 +1,4 @@
-import { replaceCombined, replaceSpaces, replaceSpaceTags } from '../../../const/Constants';
+import { replaceCombined, replaceDots, replaceQuotes, replaceSpaces, replaceSpaceTags } from '../../../const/Constants';
 import { InternalHyperlink, Paragraph, ShadingType, SymbolRun, TextRun, UnderlineType } from 'docx';
 import {
   correctionTooltipComponentsProps,
@@ -6,7 +6,7 @@ import {
   correctorDocxColors
 } from '../../../const/StyleConstants';
 import { accordionDetails, errorTypes } from '../const/TabValuesConstant';
-import { ARROW_KEYS, CORRECTION, GRAMMARCHECKER_TEST, SPELLCHECKER, TEXTSPAN } from '../const/Constants';
+import { ARROW_KEYS, CORRECTION, SPELLCHECKER, TEXTSPAN } from '../const/Constants';
 import { Paper, Tooltip } from '@mui/material';
 import SingleError from '../tabviews/correction/components/SingleError';
 import React from 'react';
@@ -64,28 +64,18 @@ export const handlePaste = (event, newRef, setNewRef, setInputText) => {
   }
 };
 
-export const levelAccordionValueCheck = (value, complexityAnswer, arrayValues) => {
-  return complexityAnswer[arrayValues[value]][0] < 1.01 && complexityAnswer[arrayValues[value]][0] > 0.009;
-};
+export const queryCaller = (textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, mainButton, setGrammarErrorList, setSpellerErrorList, model) => {
 
-export const setComplexityAnswerIndex = (index, value, complexityAnswer, arrayValues) => {
-  return complexityAnswer[arrayValues[index]][value];
-};
-
-export const queryCaller = (textBoxRef, inputText, setRequestingText, setGrammarAnswer, setSpellerAnswer, setInputText, newRef, setComplexityAnswer, setAbstractWords, getCorrectorResult, newValue, setValue, mainButton, setGrammarErrorList, setSpellerErrorList, setGrammarTestAnswer, setGrammarTestErrorList) => {
   if (textBoxRef.current.innerText.replaceAll('\u00A0', ' ') !== inputText.replaceAll(replaceCombined, '').replaceAll('\n', ' ').replaceAll('\u00A0', ' ') || mainButton) {
     setSpellerAnswer(null);
     setGrammarAnswer(null);
     setGrammarErrorList(null);
     setSpellerErrorList(null);
     setRequestingText(textBoxRef.current.innerText);
-    if (setValue !== null && newValue !== null) {
-      setValue(newValue);
-    }
     setInputText(textBoxRef.current.innerText);
     const fetchInputText = processFetchText(textBoxRef);
     setInputText(fetchInputText);
-    getCorrectorResult(JSON.stringify({ tekst: processCorrectorText(fetchInputText) }))
+    getCorrectorResult(JSON.stringify({ tekst: processCorrectorText(fetchInputText), model: model }))
       .then(answer => {
         setComplexityAnswer(answer);
         setGrammarAnswer(answer.grammatika);
@@ -93,11 +83,7 @@ export const queryCaller = (textBoxRef, inputText, setRequestingText, setGrammar
         setAbstractWords(answer.abstraktsus);
         setGrammarErrorList(answer.grammatikaVead);
         setSpellerErrorList(answer.spelleriVead);
-        setGrammarTestAnswer(answer.grammatikaTest);
-        setGrammarTestErrorList(answer.grammatikaTestVead);
       }).then(() => setRequestingText(null));
-  } else if (setValue !== null && newValue !== null) {
-    setValue(newValue);
   }
 };
 
@@ -168,12 +154,20 @@ export const processErrorListForDocx = (tab, textLevel, errorList, innerHtml, la
 const processFetchText = (textBoxRef) => {
   if (!textBoxRef) return '';
   const textBoxValue = textBoxRef.current.innerText.replace(replaceCombined, '').replaceAll('  ', ' ');
-  const boxNoSpaceTags = textBoxValue.replace(replaceSpaceTags, ' ');
+  const boxNoSpaceTags = textBoxValue
+    .replace(replaceSpaceTags, ' ')
+    .replace(replaceQuotes, '"')
+    .replace(replaceDots, '.');
   return boxNoSpaceTags.replace(replaceSpaces, ' ');
 };
 
 const processCorrectorText = (fetchInputText) => {
-  return Array.isArray(fetchInputText) ? fetchInputText[0] : fetchInputText.trim().replaceAll(replaceCombined, '').replace(/\s+/g, ' ');
+  return Array.isArray(fetchInputText)
+    ? fetchInputText[0]
+    : fetchInputText.trim()
+      .replace(replaceCombined, '')
+      .replace(/\s+/g, ' ')
+      .replace(replaceQuotes, '"');
 };
 
 const processGrammarAnswer = (returnArray, errorList, grammarLabel) => {
@@ -252,7 +246,7 @@ const processTextLevelAnswer = (returnArray, textLevel, labels) => {
       alignment: 'left',
       children: [
         new TextRun({
-          text: `${labels[0]}: ${textLevel.uusKeeletase.level}`,
+          text: `${labels[0]}: ${textLevel.keeletase.level}`,
           bold: true,
           break: 1
         }),
@@ -277,7 +271,7 @@ const processTextLevelAnswer = (returnArray, textLevel, labels) => {
   return returnArray;
 };
 
-export const iterateCorrectionArray = (input, hoveredId, setInnerValue, newRef, setHoveredId, setErrorList, model, setSpellerAnswer, setGrammarAnswer, setGrammarTestAnswer) => {
+export const iterateCorrectionArray = (input, hoveredId, setInnerValue, newRef, setHoveredId, setErrorList, model, setSpellerAnswer, setGrammarAnswer) => {
   if (input) {
     const innerVal = input.map(val => {
       if (val.corrected) {
@@ -296,7 +290,7 @@ export const iterateCorrectionArray = (input, hoveredId, setInnerValue, newRef, 
                         error={val}
                         setHoveredId={setHoveredId}
                         setErrorList={setErrorList}
-                        setInputType={model === GRAMMARCHECKER_TEST ? setGrammarTestAnswer : model === SPELLCHECKER ? setSpellerAnswer : setGrammarAnswer}
+                        setInputType={model === SPELLCHECKER ? setSpellerAnswer : setGrammarAnswer}
                         errorText={val.short_explanation}
                         correctionModel={model}
                       />
@@ -329,7 +323,6 @@ export const iterateCorrectionArray = (input, hoveredId, setInnerValue, newRef, 
 
 export const processCorrectorKeyDown = (selectedText, noExtraText, triggerCondition, e, extraTextValue, inputType, setInputType, setErrorsToRemove, setSelectedText) => {
   if (triggerCondition && selectedText?.size > 1) {
-    e.preventDefault();
 
     const mapKeys = Array.from(selectedText.keys());
     const firstKey = mapKeys[0];
@@ -385,7 +378,7 @@ export const processCorrectorKeyDown = (selectedText, noExtraText, triggerCondit
 };
 
 const isBackSpaceOrDelete = (e) => { return (e.key === 'Backspace' || e.key === 'Delete');};
-const isNotNonLetterKey = (e) => (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey);
+const isNotNonLetterKey = (e) => (!e.ctrlKey && !e.metaKey && !e.altKey);
 const isOneLetterKey = (e) => (e.key.length === 1 && e.key.match(/^[\w\s]$/));
 
 export const handleCorrectorKeyDown = (e, selectedText, setSelectedText, inputType, setInputType, setErrorsToRemove) => {
@@ -437,4 +430,21 @@ export const handleCorrectionTextSelection = (setSelectedText) => {
       setSelectedText(new Map([[selection.baseNode.parentNode.id, selection.baseNode.parentNode.innerText]]));
     }
   }
+};
+
+const levelAccordionValueCheck = (value, complexityAnswer, arrayValues) => {
+  return complexityAnswer[arrayValues[value]][0] < 1.01 && complexityAnswer[arrayValues[value]][0] > 0.009;
+};
+
+const setComplexityAnswerIndex = (index, value, complexityAnswer, arrayValues) => {
+  return complexityAnswer[arrayValues[index]][value];
+};
+
+export const cleanEmptySpans = (container) => {
+  container.querySelectorAll('span').forEach((span) => {
+    if (span.textContent.trim() === '') {
+      span.removeAttribute('class');
+      span.style.backgroundColor = '';
+    }
+  });
 };

@@ -5,7 +5,8 @@ RUN pip install numpy \
 && pip install Flask \
 && pip install estnltk \
 && pip install nltk \
-&& pip install --no-cache-dir scikit-learn
+&& pip install --no-cache-dir scikit-learn \
+&& pip install joblib
 
 COPY ./stanza-server/ /app/
 ENTRYPOINT taskset -c $((CPU_CORE)) python /app/server.py

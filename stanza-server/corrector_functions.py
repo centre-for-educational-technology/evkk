@@ -1,5 +1,8 @@
 import re
 
+from const.common_lemmas import common_lemmas
+from const.stop_words import stop_words
+
 punctuations = ['.', ',', '!', '?', '"']
 punctuation_order = "punctuationOrder"
 extra_punctuation = "extraPunctuation"
@@ -14,6 +17,17 @@ spelling_error = "spellingError"
 word_order_error = "wordOrderError"
 extra_word_error = "extraWordError"
 missing_word_error = "missingWordError"
+
+NOUN = "NOUN"
+PROPN = "PROPN"
+VERB = "VERB"
+NUM = "NUM"
+N_VAL = "N"
+
+COMPLEXITY_MARKING_MINIMUM_WORDS_IN_LONG_SENTENCE = 15
+COMPLEXITY_MARKING_LONG_WORD_LIMIT = 6
+
+replace_combined = re.compile(r'</?span[^>]*>|</?div[^>]*>', re.IGNORECASE)
 
 
 def remove_punctuation_from_end(text):
@@ -268,13 +282,42 @@ def process_corrections(corrections):
     return processed_corrections
 
 
-def generate_grammar_output(input_text, corrections):
+def merge_corrections(processed_corrections, list_checked_spelling_errors):
+    merged_by_start_map = {}
+
+    if list_checked_spelling_errors:
+
+            for item in processed_corrections:
+                initial_array = item['initial_text'].split()
+                corrections_array = item['corrected_text'].split()
+                start_value = item['start']
+                for index, word in enumerate(initial_array):
+                        merged_by_start_map[start_value] = {
+                            "corrected_text": corrections_array[index],
+                            "initial_text": word,
+                            "start": start_value,
+                            "end": start_value + len(word),
+                            "correction_type": spelling_error
+                        }
+                        start_value += len(word) + 1
+
+            for item in list_checked_spelling_errors:
+                            merged_by_start_map[item['start']] = item
+    else:
+        for item in processed_corrections:
+                merged_by_start_map[item['start']] = item
+
+    return sorted(merged_by_start_map.values(), key=lambda x: x['start'])
+
+
+def generate_grammar_output(input_text, corrections, list_checked_spelling_errors=None):
     processed_corrections = process_corrections(corrections['corrections'])
-    sorted_corrections = sorted(processed_corrections, key=lambda x: x['start'])
+    sorted_corrections = merge_corrections(processed_corrections, list_checked_spelling_errors)
 
     result = []
     error_list = {}
     current_position = 0
+    error_count = 0
 
     for index, correction in enumerate(sorted_corrections):
         start = correction['start']
@@ -302,6 +345,7 @@ def generate_grammar_output(input_text, corrections):
             'error_id': f"{start}_marked"
         }
 
+        error_count += 1
         result.append(error_data)
 
         if is_index_shifted:
@@ -321,4 +365,118 @@ def generate_grammar_output(input_text, corrections):
             'error_id': f"{len(sorted_corrections)}_unmarked"
         })
 
-    return {"corrector_results": result, "error_list": error_list}
+    return {"corrector_results": result, "error_list": error_list, "error_count": error_count}
+
+
+def calculate_noun_count(words_types):
+    return sum(1 for word in words_types if word in (NOUN, PROPN))
+
+
+def verb_and_noun_relation(words_types):
+    noun_count = sum(1 for word in words_types if word in (NOUN, PROPN))
+    verb_count = sum(1 for word in words_types if word == VERB)
+
+    if verb_count == 0:
+        return "0.00"
+    return f"{noun_count / verb_count:.2f}"
+
+
+def calculate_abstractness_average(abstract_answer):
+    abstract_count = 0
+    abstractness_sum = 0
+    for word in abstract_answer:
+        if word.get("abstractness") is not None and word.get("pos") == "Nimisõna":
+            abstract_count += 1
+            abstractness_sum += word["abstractness"]
+
+    if abstract_count == 0:
+        return "0.00"
+    return f"{abstractness_sum / abstract_count:.2f}"
+
+
+def calculate_content_word(lemmas, word_types):
+    content_word_count = 0
+    for lemma, pos in zip(lemmas, word_types):
+        if pos != NUM and pos != N_VAL and pos != PROPN and lemma not in stop_words:
+            content_word_count += 1
+    return content_word_count
+
+
+def calculate_abstract_words(abstract_answer, word_types):
+    abstract_count = 0
+    for index, word in enumerate(abstract_answer):
+        if (word.get("abstractness") == 3
+            and word_types[index] != PROPN
+            and word_types[index] == NOUN):
+            abstract_count += 1
+    return abstract_count
+
+
+def check_if_word_exists_in_text(word):
+    return re.compile(rf'\b{re.escape(word)}\b')
+
+
+def handle_uncommon_words_marking(text, word_types, lemmas, words):
+    temp_text = replace_combined.sub('', text)
+    for index, liik in enumerate(word_types):
+        if liik != NUM and liik != N_VAL and liik != PROPN and lemmas[index] not in common_lemmas:
+            new_word = f'<span class="uncommon-word-color">{words[index]}</span>'
+            temp_text = re.sub(check_if_word_exists_in_text(words[index]), new_word, temp_text)
+    return temp_text
+
+
+def handle_abstract_words_marking(text, abstract_answer, word_types, words):
+    temp_text = replace_combined.sub('', text)
+    for index, word in enumerate(abstract_answer):
+        if word['abstractness'] == 3 and word_types[index] != PROPN and \
+            word_types[index] == NOUN:
+            new_word = f'<span class="abstract-word-color">{words[index]}</span>'
+            temp_text = re.sub(check_if_word_exists_in_text(words[index]), new_word, temp_text)
+    return temp_text
+
+
+def handle_content_words_marking(text, word_types, lemmas, words):
+    temp_text = replace_combined.sub('', text)
+    for index, liik in enumerate(word_types):
+        if liik != NUM and liik != N_VAL and lemmas[index].replace('_', '') not in stop_words:
+            new_word = f'<span class="content-word-color">{words[index]}</span>'
+            temp_text = re.sub(check_if_word_exists_in_text(words[index]), new_word, temp_text)
+    return temp_text
+
+
+def handle_repetition_marking(text, vocabulary):
+    for replacement in sorted(vocabulary, key=lambda x: x['start'], reverse=True):
+        span = f'<span class={replacement["type"]}>{replacement["text"]}</span>'
+        text = text[:replacement['start']] + span + text[replacement['end']:]
+    return text
+
+
+def handle_noun_marking(text, word_types, words):
+    temp_text = replace_combined.sub('', text)
+    for index, word_type in enumerate(word_types):
+        if word_type in (NOUN, PROPN):
+            noun = words[index]
+            new_word = f'<span id="text-span" class="noun-color">{noun}</span>'
+            temp_text = re.sub(check_if_word_exists_in_text(noun), new_word, temp_text)
+    return temp_text
+
+
+def handle_long_word_marking(text, words):
+    temp_text = replace_combined.sub('', text)
+    for word in words:
+        if len(word) > COMPLEXITY_MARKING_LONG_WORD_LIMIT:
+            new_word = f'<span id="text-span" class="long-word-color">{word}</span>'
+            temp_text = re.sub(check_if_word_exists_in_text(word), new_word, temp_text)
+    return temp_text
+
+
+def handle_long_sentence_marking(text, doc):
+    marked_sentences = set()
+    for sentence in doc.sentences:
+        sentence_text = sentence.text.strip()
+        if (len(sentence.words) > COMPLEXITY_MARKING_MINIMUM_WORDS_IN_LONG_SENTENCE
+            and sentence_text not in marked_sentences):
+            marked_sentences.add(sentence_text)
+            new_sentence = f'<span id="text-span" class="long-sentence-color">{sentence_text}</span>'
+            text = text.replace(sentence_text, new_sentence)
+    return text

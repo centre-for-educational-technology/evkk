@@ -9,6 +9,7 @@ import CorrectionToggleButtonGroup from '../../components/CorrectionToggleButton
 import { CorrectionAndTextLevelToggleButtons } from '../../const/ToggleButtonConstants';
 import { CORRECTION_TAB_LINK } from '../../const/PathConstants';
 import { CORRECTION, GRAMMARCHECKER_TEST, SPELLCHECKER } from '../../const/Constants';
+import NewTabHyperlink from '../../../../components/NewTabHyperlink';
 
 export default function CorrectionTab(
   {
@@ -34,9 +35,8 @@ export default function CorrectionTab(
     setSpellerErrorList,
     hoveredId,
     setHoveredId,
-    grammarTestAnswer,
-    setGrammarTestErrorList,
-    setGrammarTestAnswer
+    noQuery,
+    setNoQuery
   }) {
   const { t } = useTranslation();
   const [totalErrors, setTotalErrors] = useState(null);
@@ -62,12 +62,11 @@ export default function CorrectionTab(
             setRequestingText={setRequestingText}
             setGrammarAnswer={setGrammarAnswer}
             setSpellerAnswer={setSpellerAnswer}
-            setGrammarTestAnswer={setGrammarTestAnswer}
             setComplexityAnswer={setComplexityAnswer}
             setAbstractWords={setAbstractWords}
             setGrammarErrorList={setGrammarErrorList}
             setSpellerErrorList={setSpellerErrorList}
-            setGrammarTestErrorList={setGrammarTestErrorList}
+            noQuery={noQuery}
           />
           :
           <Alert severity="warning" className="mb-2">
@@ -80,7 +79,8 @@ export default function CorrectionTab(
             inputText={correctionModel === GRAMMARCHECKER_TEST ?
               <div>{t('corrector_test_version_info')}</div>
               :
-              <div>{t('corrector_proofreading_infobox')} <a href={CORRECTION_TAB_LINK}>{t('common_here')}</a>.
+              <div>{t('corrector_proofreading_infobox')} <NewTabHyperlink path={CORRECTION_TAB_LINK}
+                                                                          content={t('common_here')} />.
               </div>} />
         </div>
       </Box>
@@ -108,9 +108,7 @@ export default function CorrectionTab(
           complexityAnswer={complexityAnswer}
           hoveredId={hoveredId}
           setHoveredId={setHoveredId}
-          setGrammarTestAnswer={setGrammarTestAnswer}
-          setGrammarTestErrorList={setGrammarTestErrorList}
-          grammarTestAnswer={grammarTestAnswer}
+          setNoQuery={setNoQuery}
         />
         <div className="corrector-right">
           {errorList ?
@@ -121,7 +119,7 @@ export default function CorrectionTab(
                 errorList={errorList}
                 inputText={inputText}
                 setHoveredId={setHoveredId}
-                setInputType={correctionModel === GRAMMARCHECKER_TEST ? setGrammarTestAnswer : correctionModel === SPELLCHECKER ? setSpellerAnswer : setGrammarAnswer}
+                setInputType={correctionModel === SPELLCHECKER ? setSpellerAnswer : setGrammarAnswer}
                 correctionModel={correctionModel}
               />
             </>

@@ -6,13 +6,14 @@ import '../styles/SingleLinkedResourceList.css';
 export default function SingleLinkedResourceList({list}) {
 
   return (
-    <List>
+    <List className="single-linked-resource-list">
       {list.map(elem =>
         <ListItem key={elem.href}>
           <ListItemIcon>
             <FiberManualRecordIcon/>
           </ListItemIcon>
           <ListItemButton href={elem.href}
+                          disabled={!elem.href}
                           target="_blank"
                           rel="noopener noreferrer">
             <ListItemText disableTypography

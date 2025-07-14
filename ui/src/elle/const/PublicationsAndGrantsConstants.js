@@ -94,14 +94,14 @@ export const conferences_workshops = [
       '                               <a href="https://drive.google.com/file/d/1RtFLWcPE2ViyKJTE4onSMKEMzFDCt87W/view?usp=sharing"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Slaidid</a>',
-    href: 'https://ehak.ee/paneelid/#h-7'
+    href: 'https://ehak.ee/arhiiv/ehak2024/paneelid/#h-7'
   },
   {
     content: 'Allkivi, K.; Kodasma, H. (2024). Korpuspõhine keeleõppekeskkond: kellele ja milleks? <i>1. Eesti humanitaarteaduste aastakonverents, 10.–12. aprill 2024, Tallinn.</i> Tallinna Ülikool.<br/>\n' +
       '                               <a href="https://drive.google.com/file/d/1XEVKoLCOXVqZSLYZWRfIbaQTP03h3LL4/view?usp=sharing"\n' +
       '                                 target="_blank"\n' +
       '                                 rel="noopener noreferrer">Slaidid</a>',
-    href: 'https://ehak.ee/paneelid/#h-10'
+    href: 'https://ehak.ee/arhiiv/ehak2024/paneelid/#h-10'
   },
   {
     content: 'Eslon, P. (2023). Eestikeelsete akadeemiliste tekstide korpus. <i>IX mitmeteaduslik eesti teaduskeele konverents, 24. november 2023, Tallinn.</i>',
@@ -228,7 +228,7 @@ export const publications = [
   },
   {
     content: 'Eslon, P.; Kaivapalu, A.; Õim, K.; Kitsnik, M.; Gaitšenja, O.; Allkivi-Metsoja, K. (2021). <i>Eesti keele oskuse arenemine ja arendamine. Kirjalik õppijakeel.</i> EKSA.',
-    href: ''
+    href: 'https://www.digar.ee/arhiiv/en/books/177527'
   },
   {
     content: 'Eslon, P.; Allkivi-Metsoja, K. (2018). Teksti keelekasutusmustrid ja lingvistiline klasteranalüüs. <i>Lähivõrdlusi. Lähivertailuja</i>, 28, 21−46. DOI: 10.5128/LV28.01.',
@@ -258,11 +258,11 @@ export const grants = [
     href: 'https://www.etis.ee/Portal/Projects/Display/65e3ff07-8ed2-468f-aa5a-11f70899b02a'
   },
   {
-    content: 'TF1023 ELLE keeleõppekeskkonna tekstianalüüsi vahendite täiustamine (2023–2024)',
+    content: 'TF/1023 ELLE keeleõppekeskkonna tekstianalüüsi vahendite täiustamine (2023–2024)',
     href: 'https://www.etis.ee/Portal/Projects/Display/6f1a2704-5257-4bab-84ec-9ffa396dc18c'
   },
   {
-    content: 'EKTB Eestikeelse teksti automaatkorrektuur (2021−2023, koostöös Tartu Ülikooliga)',
+    content: 'EKTB25 Eestikeelse teksti automaatkorrektuur (2021−2023, koostöös Tartu Ülikooliga)',
     href: 'https://www.etis.ee/Portal/Projects/Display/c6e04122-cbb1-484d-89c4-2971af87f5fd'
   },
   {
@@ -290,11 +290,11 @@ export const grants = [
     href: 'https://www.etis.ee/Portal/Projects/Display/4a13daab-69f2-498d-940f-c9c491189020'
   },
   {
-    content: 'EKKTT08-26 VAKO - Eesti vahekeele korpuse keeletarkvara ja keeletehnoloogilise ressursi arendamine (2006–2010)',
+    content: 'EKKTT08-26 VAKO - Eesti vahekeele korpuse keeletarkvara ja keeletehnoloogilise ressursi arendamine (2008–2010)',
     href: 'https://www.etis.ee/Portal/Projects/Display/ad3383f6-287c-44de-985f-53a07177b7c4'
   },
   {
-    content: 'EKRM05-51 Koodivahetuse, vahe- ning lastekeele korpuste töötlemine ja haldamine (2004–2008)',
+    content: 'EKRM05-51 Koodivahetuse, vahe- ning lastekeele korpuste töötlemine ja haldamine (2005–2008)',
     href: 'https://www.etis.ee/Portal/Projects/Display/8abc7581-3828-4b6d-b303-6d59e4653b47'
   },
   {
@@ -302,7 +302,7 @@ export const grants = [
     href: 'https://www.etis.ee/Portal/Projects/Display/3b98bbc6-707d-4724-9695-8f3b34fe9ae0'
   },
   {
-    content: 'SF 0132493s03 Eesti keelekeskkonna arengu analüüs, modelleerimine ja juhtimine (2003–2007)',
+    content: 'SF0132493s03 Eesti keelekeskkonna arengu analüüs, modelleerimine ja juhtimine (2003–2007)',
     href: 'https://www.etis.ee/Portal/Projects/Display/b0b019e4-0a1d-405e-a292-458ac482091b'
   }
 ];

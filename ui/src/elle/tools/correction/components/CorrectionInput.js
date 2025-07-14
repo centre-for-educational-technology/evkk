@@ -32,9 +32,7 @@ export default function CorrectionInput(
     setHoveredId,
     spellerAnswer,
     grammarAnswer,
-    grammarTestAnswer,
-    setGrammarTestAnswer,
-    setGrammarTestErrorList
+    setNoQuery
   }) {
   const [inputType, setInputType] = useState(null);
   const [innerValue, setInnerValue] = useState(newRef);
@@ -47,10 +45,9 @@ export default function CorrectionInput(
 
   useEffect(() => {
     if (model === SPELLCHECKER) setInputType(spellerAnswer);
-    if (model === GRAMMARCHECKER) setInputType(grammarAnswer);
-    if (model === GRAMMARCHECKER_TEST) setInputType(grammarTestAnswer);
+    if (model === GRAMMARCHECKER || model === GRAMMARCHECKER_TEST) setInputType(grammarAnswer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [model, inputText, spellerAnswer, grammarAnswer, grammarTestAnswer, errorList]);
+  }, [model, inputText, spellerAnswer, grammarAnswer, errorList]);
 
   useGlobalClickListener(setSelectedText, handleResetSelect);
 
@@ -59,7 +56,7 @@ export default function CorrectionInput(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [innerValue]);
 
-  useHandleInputErrors(inputType, hoveredId, errorsToRemove, setErrorList, setErrorsToRemove, model, setSpellerAnswer, setGrammarAnswer, setInnerValue, newRef, setHoveredId, setGrammarTestAnswer);
+  useHandleInputErrors(inputType, hoveredId, errorsToRemove, setErrorList, setErrorsToRemove, model, setSpellerAnswer, setGrammarAnswer, setInnerValue, newRef, setHoveredId);
 
   useEffect(() => {
     setNewRef(newRef.replace(removeEmptySpans, ''));
@@ -124,8 +121,7 @@ export default function CorrectionInput(
         setGrammarErrorList={setGrammarErrorList}
         setSpellerErrorList={setSpellerErrorList}
         setInputType={setInputType}
-        setGrammarTestAnswer={setGrammarTestAnswer}
-        setGrammarTestErrorList={setGrammarTestErrorList}
+        setNoQuery={setNoQuery}
       />
     </div>
   );

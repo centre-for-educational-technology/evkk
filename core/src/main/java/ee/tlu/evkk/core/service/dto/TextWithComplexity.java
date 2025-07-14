@@ -19,15 +19,12 @@ public class TextWithComplexity {
   private List<String> keerukus;
   private List<String> lemmad;
   private List<String> mitmekesisus;
-  private List<List<String>> keeletase;
+  private Object keeletase;
   private Object abstraktsus;
   private Object grammatika;
   private Object speller;
   private List<String> laused;
   private List<Object> sonavara;
-
-  @JsonAlias("uus_keeletase")
-  private Object uusKeeletase;
 
   @JsonAlias("grammatika_vead")
   private Object grammatikaVead;
@@ -43,4 +40,7 @@ public class TextWithComplexity {
 
   @JsonAlias("grammatika_test_vead")
   private Object grammatikaTestVead;
+
+  @JsonAlias("margitud_laused")
+  private Object margitudLaused;
 }

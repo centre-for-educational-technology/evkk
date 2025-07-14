@@ -12,6 +12,7 @@ import Can from './security/Can';
 import { UserRoles } from '../const/Constants';
 import { useLogout } from '../hooks/service/AuthService';
 import { RouteConstants } from '../../AppRoutes';
+import TextToSpeechMenu from './text-to-speech/TextToSpeechMenu';
 
 const pages = [
   { id: 1, title: 'common_corrector', target: RouteConstants.CORRECTOR },
@@ -181,6 +182,7 @@ export default function Navbar() {
             {logoutItem(true)}
             <Box className="language-menu-desktop">
               {languageMenu()}
+              <TextToSpeechMenu />
             </Box>
             <IconButton
               onClick={() => toggleDrawer()}
@@ -232,6 +234,7 @@ export default function Navbar() {
           <div className="d-flex justify-content-end align-items-center nav-50px-height">
             {logoutItem(false)}
             {languageMenu()}
+            <TextToSpeechMenu />
             <IconButton onClick={() => toggleDrawer()}>
               <Close className="nav-close-icon" />
             </IconButton>

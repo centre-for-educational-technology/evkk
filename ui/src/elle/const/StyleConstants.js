@@ -40,6 +40,54 @@ export const DefaultButtonStyle = {
   }
 };
 
+export const ToggleButtonGroupStyle = {
+  borderRadius: '5px',
+  overflow: 'hidden',
+  display: 'inline-flex',
+  height: '1.5rem',
+
+  '.MuiToggleButton-root': {
+    borderRadius: 0,
+    border: '1px solid gray',
+
+    '&.Mui-selected': {
+      backgroundColor: '#E1BEE7',
+      color: '#6A1B9A',
+      '&:hover': {
+        backgroundColor: '#D1A7E0'
+      }
+    },
+
+    '&:hover': {
+      backgroundColor: 'rgba(156, 39, 176, 0.08)'
+    },
+
+    '&.Mui-disabled': {
+      color: '#aaa',
+      borderColor: '#ccc'
+    }
+  },
+
+  '.MuiToggleButtonGroup-grouped:not(:last-of-type)': {
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0
+  },
+  '.MuiToggleButtonGroup-grouped:not(:first-of-type)': {
+    borderLeft: 'none',
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0
+  },
+  '.MuiToggleButtonGroup-grouped:first-of-type': {
+    borderTopLeftRadius: '5px',
+    borderBottomLeftRadius: '5px'
+  },
+  '.MuiToggleButtonGroup-grouped:last-of-type': {
+    borderTopRightRadius: '5px',
+    borderBottomRightRadius: '5px'
+  }
+};
+
+
 export const DefaultSliderStyle = {
   color: '#9C27B0',
   '& .MuiSlider-rail': {
@@ -74,6 +122,28 @@ export const DefaultButtonStyleSmall = {
   '&:disabled': {
     backgroundColor: 'lightgray'
   }
+};
+
+export const DefaultButtonStyle5px = {
+  ...DefaultButtonStyle,
+  borderRadius: '5px'
+};
+
+export const DefaultTabListStyle = {
+  '& .MuiTabs-indicator': {
+    backgroundColor: '#8e24aa'
+  }
+};
+
+export const DefaultTabStyle = {
+  '&.Mui-selected': {
+    color: '#8e24aa'
+  },
+  '&.Mui-selected:hover': {
+    color: '#7b1fa2'
+  },
+  textTransform: 'none',
+  fontWeight: 'bold'
 };
 
 export const CorrectorCustomSlider = {
@@ -185,13 +255,6 @@ export const TabStyle = {
   }
 };
 
-export const ElleOuterDivStyle = {
-  background: 'linear-gradient(315deg, rgba(156, 39, 176, 1) 0%, rgba(156, 39, 176, 1) 33%, rgba(204, 168, 253, 1) 33%, rgba(204, 168, 253, 1) 67%, rgba(255, 208, 253, 1) 67%, rgba(255, 208, 253, 1) 100%)',
-  height: '100%',
-  width: '100%',
-  padding: '7px'
-};
-
 export const ITEM_HEIGHT = 48;
 
 export const ITEM_PADDING_TOP = 8;
@@ -286,6 +349,13 @@ export const correctionTooltipSlotProps = {
         {
           marginBottom: '0px'
         }
+    }
+  },
+  tooltip: {
+    sx: {
+      maxWidth: 1200,
+      whiteSpace: 'normal',
+      backgroundColor: 'transparent'
     }
   }
 };
