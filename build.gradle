@@ -31,6 +31,7 @@ subprojects {
 
     // mapstruct
     implementation "org.mapstruct:mapstruct:${mapStructVersion}"
+    implementation 'org.latencyutils:LatencyUtils:2.0.3'
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
 
     // lombok
