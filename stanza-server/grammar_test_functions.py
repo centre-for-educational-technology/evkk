@@ -1,10 +1,9 @@
-import json
 import re
 from collections import defaultdict
-from os.path import split
+from typing import Dict, List, Tuple, Any
 
-error_type_mapping = {
-    "õigekiri": "spellingErrorTest",
+ERROR_TYPE_MAP = {
+    "õigekiri": "spellingError",
     "käändevorm": "caseError",
     "algustäht": "capitalizationError",
     "tegusõna vorm": "verbFormError",
@@ -18,192 +17,207 @@ error_type_mapping = {
     "sõnajärg": "wordOrderError",
 }
 
-punctuations_types = ["extraPunctuation", "missingPunctuation", "wrongPunctuation", "missingWordError", ]
-sentence_ends = (".", "!", "?")
+SENTENCE_ENDS = (".", "!", "?")
 
+LOG_LINE_RE = re.compile(
+    r"^\s*(?P<etype>[^:]+):\s*#(?P<start>\d+)\s+#(?P<end>\d+)\s+(?P<wrong>.*?)\s*->\s*(?P<correct>.*)\s*$"
+)
 
-def find_error_indexes(input):
-    error_array = input["corrections"]
-    index_size = 0
-    errors = []
+# --- NEW: explanation parsing helpers ---
+EXPLAIN_BLOCK_SPLIT = re.compile(r"(?:^|\n)Selgitus\s+\d+\.\s*#\d+\s+#\d+.*?(?=\nSelgitus\s+\d+\.|\Z)", re.S)
+LINE_LONG  = re.compile(r"^Pikk:\s*(.*)$", re.M)
+LINE_SHORT = re.compile(r"^Lühike:\s*(.*)$", re.M)
+LINE_TYPE  = re.compile(r"^Vealiik:\s*(.*)$", re.M)
 
-    for error in error_array:
-        corrected = error["corrected"]
-        original_val = error["original"]
-        explanations = re.split(r"\n\n", re.sub(r"Selgitus \d+:\s*", "", error["explanations"]))
+def parse_explanations_blob(blob: str) -> List[Dict[str, str]]:
+    """
+    Returns a list of dicts (one per 'Selgitus i.') with:
+    {'long': ..., 'short': ..., 'etype_src': ...}
+    Order matches the order of items in correction_log.
+    """
+    if not blob:
+        return []
+    blocks = EXPLAIN_BLOCK_SPLIT.findall(blob.strip() + "\n")
+    out = []
+    for block in blocks:
+        long_  = (LINE_LONG.search(block).group(1).strip()
+                  if LINE_LONG.search(block) else "")
+        short_ = (LINE_SHORT.search(block).group(1).strip()
+                  if LINE_SHORT.search(block) else "")
+        etype_src = (LINE_TYPE.search(block).group(1).strip()
+                     if LINE_TYPE.search(block) else "")
+        out.append({"long": long_, "short": short_, "etype_src": etype_src})
+    return out
+# ----------------------------------------
 
-        if explanations[0] == "Parandused puuduvad":
-            index_size = index_size + len(original_val) + 1
+def tokenize_with_spans(s: str) -> List[Tuple[int, int, str, str]]:
+    spans = []
+    i = 0
+    n = len(s)
+    while i < n:
+        while i < n and s[i].isspace():
+            i += 1
+        if i >= n:
+            break
+        start = i
+        while i < n and not s[i].isspace():
+            i += 1
+        end = i
+        raw = s[start:end]
+        clean = raw.strip(",.;:!?\"“”‘’()[]{}")
+        spans.append((start, end, raw, clean))
+    return spans
+
+def parse_correction_log(correction_log: str) -> List[Dict[str, Any]]:
+    log = correction_log.strip()
+    if log.startswith("Parandused:"):
+        log = log[len("Parandused:"):].strip()
+
+    items = []
+    for line in log.splitlines():
+        line = line.strip()
+        if not line:
             continue
+        m = LOG_LINE_RE.match(line)
+        if not m:
+            line2 = re.sub(r"^\d+\.\s*", "", line)  # handle "1. ..."
+            m = LOG_LINE_RE.match(line2)
+        if not m:
+            continue
+        etype = m.group("etype").strip()
+        sidx = int(m.group("start"))
+        eidx = int(m.group("end"))
+        wrong = m.group("wrong").strip().strip('"')
+        correct = m.group("correct").strip().strip('"')
+        items.append({
+            "etype_src": etype,
+            "etype": ERROR_TYPE_MAP.get(etype, "multipleErrors"),
+            "start_idx": sidx,
+            "end_idx": eidx,
+            "wrong": wrong,
+            "correct": correct,
+        })
+    return items
 
-        correction_log = re.split(r"\n\d+\.", error["correction_log"].replace("Parandused:\n", ""))
-        correction_log[0] = re.sub(r"^\d+\.\s*", "", correction_log[0])
-        current_offset = 0
+def token_range_to_char_span(tokens: List[Tuple[int,int,str,str]],
+                             start_idx: int, end_idx: int,
+                             wrong_text: str, sentence: str) -> Tuple[int,int]:
+    if start_idx < 0 or end_idx <= start_idx or end_idx > len(tokens):
+        pos = sentence.find(wrong_text)
+        if pos >= 0:
+            return pos, pos + len(wrong_text)
+        return 0, len(sentence)
 
-        for explanation in explanations:
-            split_explanations = explanation.split('\n')
+    start_char = tokens[start_idx][0]
+    end_char = tokens[end_idx - 1][1]
 
-            if len(split_explanations) > 1 and ' -> ' in split_explanations[0]:
-                error_type = ""
-                long_explanation = ""
-                short_explanation = ""
-                split_explanation = split_explanations[0].split(' -> ')
-                wrong_word = split_explanation[0].strip()
-                correct_word = split_explanation[1].strip()
+    region = sentence[start_char:end_char]
+    inner = region.find(wrong_text)
+    if inner >= 0:
+        return start_char + inner, start_char + inner + len(wrong_text)
 
-                for line in split_explanations[1:]:
-                    if line.startswith("Pikk:"):
-                        long_explanation = line.split('Pikk: ', 1)[1].strip() if len(
-                            line.split('Pikk: ', 1)) > 1 else ""
-                    elif line.startswith("Lühike:"):
-                        short_explanation = line.split('Lühike: ', 1)[1].strip() if len(
-                            line.split('Lühike: ', 1)) > 1 else ""
-                    elif line.startswith("Vealiik:"):
-                        error_type = line.split('Vealiik: ', 1)[1].strip() if len(
-                            line.split('Vealiik: ', 1)) > 1 else ""
+    if end_idx == start_idx + 1:
+        tstart, _, raw, clean = tokens[start_idx]
+        if clean == wrong_text:
+            inner2 = raw.find(clean)
+            if inner2 >= 0:
+                return tstart + inner2, tstart + inner2 + len(clean)
 
-                error_position = find_best_match_position(original_val, corrected, wrong_word, correct_word)
+    return start_char, end_char
 
-                if error_position is not None:
-                    wrong_word_length = len(wrong_word)
-                    correct_word_length = len(correct_word)
-                    start_pos = error_position + current_offset
-                    if wrong_word == "''":
-                        wrong_word_length = 0
-                    if correct_word == "''":
-                        correct_word_length = 0
-                    end_pos = start_pos + wrong_word_length
-                    errors.append(
-                        (start_pos + index_size, end_pos + index_size, wrong_word, correct_word, error_type,
-                         long_explanation, short_explanation)
-                    )
+def generate_test_grammar_output(api_response: Dict[str, Any]) -> Dict[str, Any]:
+    corrections = api_response.get("corrections", [])
+    originals = [c["original"] for c in corrections]
+    full_text = " ".join(originals)
 
-                    current_offset += error_position + wrong_word_length
-                    original_val = original_val[error_position + wrong_word_length:]
-                    corrected = corrected[error_position + correct_word_length:]
+    sentence_offsets = []
+    offset = 0
+    for i, s in enumerate(originals):
+        sentence_offsets.append(offset)
+        offset += len(s) + (1 if i < len(originals) - 1 else 0)
 
-        index_size += len(error["original"]) + 1
+    spans = []
+    # --- collect spans, now with explanations aligned by index ---
+    for si, corr in enumerate(corrections):
+        sent = corr["original"]
+        toks = tokenize_with_spans(sent)
+        items = parse_correction_log(corr.get("correction_log", ""))
+        expls = parse_explanations_blob(corr.get("explanations", ""))
 
-    return errors
+        for idx, it in enumerate(items):
+            s_char, e_char = token_range_to_char_span(
+                toks, it["start_idx"], it["end_idx"], it["wrong"], sent
+            )
+            abs_s = sentence_offsets[si] + s_char
+            abs_e = sentence_offsets[si] + e_char
 
+            # attach explanations by order when available
+            long_expl = short_expl = ""
+            etype_src_from_expl = ""
+            if idx < len(expls):
+                long_expl = expls[idx]["long"]
+                short_expl = expls[idx]["short"]
+                etype_src_from_expl = expls[idx]["etype_src"] or it["etype_src"]
 
-def find_best_match_position(original_text, corrected_text, wrong_word, correct_word):
-    matches_wrong = [m.start() for m in re.finditer(re.escape(wrong_word), original_text)]
-    matches_correct = [m.start() for m in re.finditer(re.escape(correct_word), corrected_text)]
-
-    if not matches_wrong and not matches_correct:
-        return None
-
-    if len(matches_wrong) == 1:
-        return matches_wrong[0]
-
-    if matches_wrong:
-        context_size = 10
-        for pos in matches_wrong:
-            start_context = max(0, pos - context_size)
-            end_context = min(len(original_text), pos + len(wrong_word) + context_size)
-            context = original_text[start_context:end_context]
-
-            if correct_word in corrected_text:
-                for corr_pos in matches_correct:
-                    corr_start = max(0, corr_pos - context_size)
-                    corr_end = min(len(corrected_text), corr_pos + len(correct_word) + context_size)
-                    corr_context = corrected_text[corr_start:corr_end]
-
-                    similarity = calculate_similarity(context, corr_context)
-                    if similarity > 0.7:
-                        return pos
-
-        return matches_wrong[0] if matches_wrong else None
-
-    if not matches_wrong and matches_correct and wrong_word == "''":
-        matches_other = [m.start() for m in re.finditer(re.escape(correct_word), original_text)]
-        return sorted(list(set(matches_correct).symmetric_difference(set(matches_other))))[0]
-
-    return None
-
-
-def calculate_similarity(text1, text2):
-    set1 = set(text1)
-    set2 = set(text2)
-
-    intersection = len(set1.intersection(set2))
-    union = len(set1.union(set2))
-
-    if union == 0:
-        return 0
-    return intersection / union
-
-
-def populate_error_list(data):
-    grouped_corrections = defaultdict(list)
-
-    for correction in data:
-        if correction.get("corrected", False):
-            correction_type = correction.get("correction_type", "unknown")
-            grouped_corrections[correction_type].append(correction)
-
-    return dict(sorted(grouped_corrections.items(), key=lambda item: len(item[1]), reverse=True))
-
-
-def check_for_empty_word(word):
-    if word == "''" or not word:
-        return ""
-    return word
-
-
-def generate_test_grammar_output(full_text, data):
-    results = []
-
-    error_positions = find_error_indexes(data)
-    error_positions.sort()
-
-    last_pos = 0
-    for error in error_positions:
-        start, end, wrong_word, correct_word, correction_type_key, long_explanation, short_explanation = error
-        is_error_after_punctuation = False
-
-        if last_pos < start:
-            input_text = full_text[last_pos:start]
-            if input_text.endswith(sentence_ends):
-                start -= 1
-                is_error_after_punctuation = True
-            results.append({
-                "error_id": f"{last_pos}_unmarked",
-                "text": full_text[last_pos:start],
-                "corrected": False
+            spans.append({
+                "abs_s": abs_s,
+                "abs_e": abs_e,
+                "wrong": it["wrong"],
+                "correct": it["correct"],
+                "etype": it["etype"],
+                "etype_src": etype_src_from_expl or it["etype_src"],
+                "long_explanation": long_expl,
+                "short_explanation": short_expl,
             })
 
-        correction_type = error_type_mapping.get(correction_type_key, "multipleErrors")
+    spans.sort(key=lambda x: (x["abs_s"], x["abs_e"]))
 
-        wrong_word_input = check_for_empty_word(wrong_word)
-        correct_word_input = check_for_empty_word(correct_word)
+    grammatika = []
+    last = 0
+    unmarked_id = 0
+    for sp in spans:
+        s, e = sp["abs_s"], sp["abs_e"]
+        if last < s:
+            chunk = full_text[last:s]
+            if chunk.endswith(SENTENCE_ENDS):
+                chunk = chunk[:-1]
+                s -= 1
+            grammatika.append({
+                "corrected": False,
+                "text": chunk,
+                "error_id": f"{unmarked_id}_unmarked"
+            })
+            unmarked_id += 1
 
-        if correction_type == "multipleErrors" and wrong_word_input == '"' and correct_word_input == "":
-            correction_type = "extraPunctuation"
-            correction_type_key = "liigne kirjavahemärk"
-
-        results.append({
-            "error_id": f"{start}_marked",
-            "text": wrong_word_input,
+        grammatika.append({
             "corrected": True,
-            "corrected_text": correct_word_input,
-            "correction_type": correction_type,
-            "correction_value": correction_type_key,
-            "long_explanation": long_explanation,
-            "short_explanation": short_explanation
+            "text": full_text[s:e],
+            "corrected_text": sp["correct"],
+            "correction_type": sp["etype"],
+            "correction_value": sp["etype_src"],        # keep original label
+            "long_explanation": sp["long_explanation"],
+            "short_explanation": sp["short_explanation"],
+            "error_id": f"{s}_marked",
+        })
+        last = e
+
+    if last < len(full_text):
+        grammatika.append({
+            "corrected": False,
+            "text": full_text[last:],
+            "error_id": f"{unmarked_id}_unmarked"
         })
 
-        if is_error_after_punctuation:
-            last_pos = end - 1
-        else:
-            last_pos = end
+    grouped = defaultdict(list)
+    for g in grammatika:
+        if g.get("corrected"):
+            grouped[g["correction_type"]].append(g)
 
-    if last_pos < len(full_text):
-        results.append({
-            "error_id": f"{last_pos}_unmarked",
-            "text": full_text[last_pos:],
-            "corrected": False
-        })
+    grammatika_vead = dict(sorted(grouped.items(), key=lambda kv: len(kv[1]), reverse=True))
 
-    return {"corrector_results": results, "error_list": populate_error_list(results)}
+    return {
+        "full_text": full_text,
+        "corrector_results": grammatika,
+        "error_list": grammatika_vead,
+        "error_count": len(grammatika),
+    }
