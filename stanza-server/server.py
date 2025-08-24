@@ -118,7 +118,7 @@ def keerukus_sonaliigid_mitmekesisus():
     vocabulary = check_both_sentence_repetition(laused, word_start_and_end)
 
     if model_type == "grammarcheckerTest":
-        grammar_output = generate_test_grammar_output(fetch_test_grammar(tekst))
+        grammar_output = generate_test_grammar_output(tekst, fetch_test_grammar(tekst))
     else:
         grammar_output = generate_grammar_output(tekst, fetch_grammar(tekst))
 
