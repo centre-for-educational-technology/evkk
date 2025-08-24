@@ -24,6 +24,14 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
+# Fix jamspell missing uint32_t include before installing requirements
+RUN pip download jamspell==0.0.12 -d /tmp && \
+    tar xzf /tmp/jamspell-0.0.12.tar.gz -C /tmp && \
+    sed -i '9i#include <cstdint>' /tmp/jamspell-0.0.12/contrib/handypack/handypack.hpp && \
+    (cd /tmp/jamspell-0.0.12 && python3 setup.py bdist_wheel) && \
+    pip install /tmp/jamspell-0.0.12/dist/*.whl && \
+    rm -rf /tmp/jamspell-0.0.12 /tmp/jamspell-0.0.12.tar.gz
+
 RUN pip install -r /app/requirements.txt && \
     python -c "import nltk; nltk.download('punkt_tab')"
 
