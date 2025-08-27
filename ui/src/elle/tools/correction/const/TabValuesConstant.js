@@ -70,6 +70,106 @@ export const errorTypes = {
     color: '#f6b26a',
     label: 'corrector_grammar_errors_other_correction',
     classValue: 'multiple-errors'
+  },
+  'wordCountError+caseError': {
+    color: '#ffe599',
+    label: 'corrector_grammar_errors_compounding_case',
+    classValue: 'word-count-error'
+  },
+  'wordCountError+spellingError': {
+    color: '#ffe599',
+    label: 'corrector_grammar_errors_compounding_spelling',
+    classValue: 'word-count-error'
+  },
+  'wordCountError+capitalizationError': {
+    color: '#ffe599',
+    label: 'corrector_grammar_errors_compounding_capitalization',
+    classValue: 'word-count-error'
+  },
+  'wordCountError+caseError+spellingError': {
+    color: '#ffe599',
+    label: 'corrector_grammar_errors_compounding_case_spelling',
+    classValue: 'word-count-error'
+  },
+  'wordCountError+caseError+capitalizationError': {
+    color: '#ffe599',
+    label: 'corrector_grammar_errors_compounding_case_capitalization',
+    classValue: 'word-count-error'
+  },
+
+  'caseError+spellingError': {
+    color: '#c27ba0',
+    label: 'corrector_grammar_errors_case_spelling',
+    classValue: 'case-error'
+  },
+  'caseError+capitalizationError': {
+    color: '#c27ba0',
+    label: 'corrector_grammar_errors_case_capitalization',
+    classValue: 'case-error'
+  },
+  'caseError+spellingError+capitalizationError': {
+    color: '#c27ba0',
+    label: 'corrector_grammar_errors_case_spelling_capitalization',
+    classValue: 'case-error'
+  },
+
+  'verbFormError+spellingError': {
+    color: '#c27ba0',
+    label: 'corrector_grammar_errors_verb_form_spelling',
+    classValue: 'case-error'
+  },
+  'verbFormError+capitalizationError': {
+    color: '#c27ba0',
+    label: 'corrector_grammar_errors_verb_form_capitalization',
+    classValue: 'case-error'
+  },
+  'verbFormError+spellingError+capitalizationError': {
+    color: '#c27ba0',
+    label: 'corrector_grammar_errors_verb_form_spelling_capitalization',
+    classValue: 'case-error'
+  },
+
+  'wordChoiceError+spellingError': {
+    color: '#76a5af',
+    label: 'corrector_grammar_errors_word_choice_spelling',
+    classValue: 'word-choice-error'
+  },
+  'wordChoiceError+capitalizationError': {
+    color: '#76a5af',
+    label: 'corrector_grammar_errors_word_choice_capitalization',
+    classValue: 'word-choice-error'
+  },
+  'wordChoiceError+caseError': {
+    color: '#76a5af',
+    label: 'corrector_grammar_errors_word_choice_case',
+    classValue: 'word-choice-error'
+  },
+  'wordChoiceError+verbFormError': {
+    color: '#76a5af',
+    label: 'corrector_grammar_errors_word_choice_verb_form',
+    classValue: 'word-choice-error'
+  },
+  'wordChoiceError+wordOrderError': {
+    color: '#76a5af',
+    label: 'corrector_grammar_errors_word_choice_word_order',
+    classValue: 'word-choice-error'
+  },
+  'wordChoiceError+wordCountError': {
+    color: '#76a5af',
+    label: 'corrector_grammar_errors_word_choice_compounding',
+    classValue: 'word-choice-error'
+  },
+
+  'spellingError+capitalizationError': {
+    color: '#ea9999',
+    label: 'corrector_grammar_errors_spelling_capitalization',
+    classValue: 'spelling-error'
+  },
+
+  'extraWordError+spellingError': {
+    color: '#ada1d4',
+    label: 'corrector_grammar_errors_unnecessary_word_spelling',
+    classValue: 'extra-word-error'
   }
 };
 
