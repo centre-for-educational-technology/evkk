@@ -10,6 +10,8 @@ import { CorrectionAndTextLevelToggleButtons } from '../../const/ToggleButtonCon
 import { CORRECTION_TAB_LINK } from '../../const/PathConstants';
 import { CORRECTION, GRAMMARCHECKER_TEST, SPELLCHECKER } from '../../const/Constants';
 import NewTabHyperlink from '../../../../components/NewTabHyperlink';
+import { ELLE_PATH } from '../../../../const/PathConstants';
+import { RouteConstants } from '../../../../../AppRoutes';
 
 export default function CorrectionTab(
   {
@@ -77,7 +79,21 @@ export default function CorrectionTab(
         <div className="d-flex align-items-center">
           <CorrectionInfoIcon
             inputText={correctionModel === GRAMMARCHECKER_TEST ?
-              <div>{t('corrector_test_version_info')}</div>
+              <div style={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
+                {t('corrector_test_version_info')}
+                <img
+                  src={require('../../../../resources/images/misc/el_est_dual_logo.png').default}
+                  height="200px"
+                  width="350px"
+                  alt="EL-Eesti logod"
+                />
+                <img
+                  src={require('../../../../resources/images/misc/eki_logo.png').default}
+                  height="150px"
+                  width="300px"
+                  alt="EKI logo"
+                />
+              </div>
               :
               <div>{t('corrector_proofreading_infobox')} <NewTabHyperlink path={CORRECTION_TAB_LINK}
                                                                           content={t('common_here')} />.
@@ -125,7 +141,18 @@ export default function CorrectionTab(
             </>
             :
             <Box className="corrector-right-inner">
-              <Alert severity="info">{t('corrector_proofreading_gray_box')}</Alert>
+              <Alert severity="info">
+                {t('corrector_proofreading_gray_box')}
+                {correctionModel !== GRAMMARCHECKER_TEST && (
+                  <>
+                    <br /><br />
+                    {t('corrector_proofreading_gray_box_beta_advert_1')}&nbsp;
+                    <NewTabHyperlink path={ELLE_PATH + RouteConstants.CORRECTOR_TEST}
+                                     content={t('corrector_proofreading_gray_box_beta_advert_2')} />&nbsp;
+                    {t('corrector_proofreading_gray_box_beta_advert_3')}
+                  </>
+                )}
+              </Alert>
             </Box>
           }
         </div>
