@@ -39,10 +39,13 @@ public class AnnotateEstnltkTextProcessor extends AbstractTextProcessor {
     // This processor only supports annotating texts in estonian
     Map<String, String> answer = new HashMap<>();
     answer.put("content", isEstonianText
-      ? klasterdajaServerClient.klasterdajaParsi(input)
+      ? getResponse(input)
       : "");
     return answer;
-
   }
 
+  private String getResponse(String input) {
+    return klasterdajaServerClient.klasterdajaParsi(input)
+      .replace("<redacted> ", ""); // removing one space keeps the correct formatting
+  }
 }
