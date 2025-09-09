@@ -34,22 +34,24 @@ def t3():
             mimetype=mimetype)
 
 
-def remove_unnecessary_markup(value, remove_optional_markup):
-    value_without_unnecessary_markup = re.sub(UNNECESSARY_MARKUP_REGEXP, r'\1<redacted>', value)
+def remove_unnecessary_markup(value, remove_optional_markup, remove_redacted=False):
+    sub_replace = r'\1<redacted>' if not remove_redacted else r'\1'
+    value_without_unnecessary_markup = re.sub(UNNECESSARY_MARKUP_REGEXP, sub_replace, value)
     if not remove_optional_markup:
         return value_without_unnecessary_markup
     return re.sub(VERB_AND_ADPOSITION_MARKUP_REGEXP, '', value_without_unnecessary_markup)
 
 
-def parsi(tekst, eemalda_valikulised=False, eemalda_soltuvusindeksid=False):
+def parsi(tekst, eemalda_valikulised=False, eemalda_soltuvusindeksid_ja_redacted=False):
     input_text = Text(tekst)
     initial_output = parser.parse_text(input_text, return_type='vislcg3')
-    if eemalda_soltuvusindeksid:
-        simplified_output = [remove_unnecessary_markup(s, eemalda_valikulised)
+    if eemalda_soltuvusindeksid_ja_redacted:
+        simplified_output = [remove_unnecessary_markup(s, eemalda_valikulised, eemalda_soltuvusindeksid_ja_redacted)
                              for s in initial_output]
     else:
         simplified_output = [
-            s if s.find("#") == -1 else remove_unnecessary_markup(s[0: s.find("#")], eemalda_valikulised)
+            s if s.find("#") == -1 else remove_unnecessary_markup(s[0: s.find("#")], eemalda_valikulised,
+                                                                  eemalda_soltuvusindeksid_ja_redacted)
             for s in initial_output]
     return "\n".join(simplified_output)
 
