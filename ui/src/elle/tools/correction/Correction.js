@@ -1,8 +1,7 @@
 import React, { useRef, useState } from 'react';
 import './Correction.css';
-import { Box, Tab } from '@mui/material';
-import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { DefaultTabListStyle, DefaultTabStyle } from '../../const/StyleConstants';
+import { Box, Tab, Tabs, useMediaQuery } from '@mui/material';
+import { TabContext, TabPanel } from '@mui/lab';
 import CorrectionTab from './tabviews/correction/CorrectionTab';
 import ComplexityTab from './tabviews/complexity/ComplexityTab';
 import VocabularyTab from './tabviews/vocabulary/VocabularyTab';
@@ -30,6 +29,9 @@ export default function Correction() {
   const [hoveredId, setHoveredId] = useState(null);
   const [noQuery, setNoQuery] = useState(true);
 
+  const isMobileView = useMediaQuery('(max-width:677px)');
+  const tabsVariant = isMobileView ? 'scrollable' : '';
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
     setNewRef(textBoxRef.current.innerText);
@@ -45,12 +47,20 @@ export default function Correction() {
         <Box sx={{ width: '100%' }}>
           <TabContext value={value}>
             <Box>
-              <TabList sx={DefaultTabListStyle} centered onChange={handleChange}>
-                <Tab sx={DefaultTabStyle} label={t('corrector_proofreading')} value="1" />
-                <Tab sx={DefaultTabStyle} label={t('corrector_proficiency_level')} value="2" />
-                <Tab sx={DefaultTabStyle} label={t('corrector_complexity')} value="3" />
-                <Tab sx={DefaultTabStyle} label={t('corrector_vocabulary')} value="4" />
-              </TabList>
+              <Tabs
+                orientation="horizontal"
+                variant={tabsVariant}
+                centered={!isMobileView}
+                value={value}
+                onChange={handleChange}
+                scrollButtons
+                allowScrollButtonsMobile
+              >
+                <Tab label={t('corrector_proofreading')} value="1" />
+                <Tab label={t('corrector_proficiency_level')} value="2" />
+                <Tab label={t('corrector_complexity')} value="3" />
+                <Tab label={t('corrector_vocabulary')} value="4" />
+              </Tabs>
             </Box>
             <TabPanel value="1">
               <CorrectionTab

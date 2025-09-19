@@ -41,7 +41,6 @@ export default function CorrectionToggleButtonGroup(
           }
           setCorrectionModel(e.target.value);
         }}
-        aria-label="Platform"
       >
         {toggleButtons.map((button) => (
           <Tooltip key={button.title} placement="top" title={t(button.title)}>
