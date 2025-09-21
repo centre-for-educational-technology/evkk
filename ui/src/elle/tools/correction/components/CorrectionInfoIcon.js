@@ -17,7 +17,11 @@ export default function CorrectionInfoIcon({ inputText }) {
 
   return (
     <div>
-      <IconButton aria-label="info" color="red" onClick={openPopover}>
+      <IconButton
+        aria-label="info"
+        color="red"
+        onClick={openPopover}
+      >
         <InfoIcon className="elle-dark-text" />
       </IconButton>
       <Popover

@@ -10,9 +10,19 @@
   }
 
   .correction-toggle-button-group {
-    .MuiButtonBase-root {
-      border-radius: 10px;
-      border: 1px solid gray;
+    border-radius: 5px;
+    border: 1px solid gray;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    min-height: 26px;
+
+    .MuiTab-root {
+      min-height: 26px;
+      padding-block: 2px;
+      padding-inline: 10px;
+      line-height: 1.2;
+      min-width: 0;
+      white-space: nowrap;
     }
 
     .MuiButtonBase-root:hover {
@@ -31,12 +41,17 @@
     .MuiTabs-indicator {
       display: none;
     }
+
+    button:not(:last-child) {
+      border-right: 1px solid gray;
+    }
   }
 }
 
 .corrector-border-box-inner {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 @media (max-width: 677px) {
