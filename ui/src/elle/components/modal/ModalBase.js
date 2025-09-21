@@ -33,7 +33,7 @@ export default function ModalBase({
     >
       <Box
         sx={modalStyle}
-        className={innerClassName || ''}
+        className={`modal-base-root ${innerClassName ?? ''}`.trim()}
       >
         <div className="modal-head">
           {t(title)}

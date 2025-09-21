@@ -78,9 +78,10 @@ export default function CorrectionTab(
             <div>{t('corrector_test_version_thanks')}</div>
           </Alert>
         }
-        <div className="d-flex align-items-center">
-          <CorrectionInfoIcon
-            inputText={correctionModel === GRAMMARCHECKER_TEST ?
+        <div>
+          <CorrectionInfoIcon>
+            {correctionModel === GRAMMARCHECKER_TEST
+              ?
               <div style={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
                 {t('corrector_test_version_info')}
                 <img
@@ -97,9 +98,13 @@ export default function CorrectionTab(
                 />
               </div>
               :
-              <div>{t('corrector_proofreading_infobox')} <NewTabHyperlink path={CORRECTION_TAB_LINK}
-                                                                          content={t('common_here')} />.
-              </div>} />
+              <div>
+                {t('corrector_proofreading_infobox')}&nbsp;
+                <NewTabHyperlink path={CORRECTION_TAB_LINK}
+                                 content={t('common_here')} />.
+              </div>
+            }
+          </CorrectionInfoIcon>
         </div>
       </Box>
       <div className="d-flex gap-2 flex-wrap">

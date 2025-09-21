@@ -80,7 +80,7 @@ export default function ComplexityTab(
           noQuery={noQuery}
           tabsVariant={tabsVariant}
         />
-        <CorrectionInfoIcon inputText={
+        <CorrectionInfoIcon>
           <div>
             {t('corrector_complexity_infobox_intro')}
             <br></br><br></br>
@@ -121,7 +121,8 @@ export default function ComplexityTab(
             <br></br><br></br>
             {t('corrector_complexity_infobox_word_length_outro')}&nbsp;
             <NewTabHyperlink path={COMPLEXITY_LONG_WORD_LINK} content={t('common_here')} />).
-          </div>} />
+          </div>
+        </CorrectionInfoIcon>
       </Box>
       <div className="d-flex gap-2 flex-wrap">
         <div className="corrector-input">

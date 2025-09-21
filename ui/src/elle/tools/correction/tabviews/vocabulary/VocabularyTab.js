@@ -76,8 +76,8 @@ export default function VocabularyTab(
           noQuery={noQuery}
           tabsVariant={tabsVariant}
         />
-        <CorrectionInfoIcon
-          inputText={<div>
+        <CorrectionInfoIcon>
+          <div>
             {t('corrector_vocabulary_infobox_intro')}
             <br></br><br></br>
             <ul>
@@ -118,7 +118,8 @@ export default function VocabularyTab(
             <NewTabHyperlink path={VOCABULARY_REFERENCE_LINK_TWO} content={t('common_here')} />.
             <br></br><br></br>
             {t('corrector_vocabulary_infobox_outro')}
-          </div>} />
+          </div>
+        </CorrectionInfoIcon>
       </Box>
       <div className="d-flex gap-2 flex-wrap">
         <div className="corrector-input">
