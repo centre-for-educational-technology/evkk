@@ -48,6 +48,7 @@ export default function Correction() {
           <TabContext value={value}>
             <Box>
               <Tabs
+                className="correction-tab-group"
                 orientation="horizontal"
                 variant={tabsVariant}
                 centered={!isMobileView}
@@ -88,6 +89,7 @@ export default function Correction() {
                 setHoveredId={setHoveredId}
                 setNoQuery={setNoQuery}
                 noQuery={noQuery}
+                tabsVariant={tabsVariant}
               /></TabPanel>
             <TabPanel value="2">
               <TextLevelTab
@@ -115,6 +117,7 @@ export default function Correction() {
                 setNoQuery={setNoQuery}
                 noQuery={noQuery}
                 hoveredId={hoveredId}
+                tabsVariant={tabsVariant}
               /></TabPanel>
             <TabPanel value="3">
               <ComplexityTab
@@ -135,6 +138,7 @@ export default function Correction() {
                 setSpellerErrorList={setSpellerErrorList}
                 setNoQuery={setNoQuery}
                 noQuery={noQuery}
+                tabsVariant={tabsVariant}
               /></TabPanel>
             <TabPanel value="4">
               <VocabularyTab
@@ -156,6 +160,7 @@ export default function Correction() {
                 setSpellerErrorList={setSpellerErrorList}
                 setNoQuery={setNoQuery}
                 noQuery={noQuery}
+                tabsVariant={tabsVariant}
               /></TabPanel>
           </TabContext>
         </Box>

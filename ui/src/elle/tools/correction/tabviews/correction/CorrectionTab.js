@@ -38,7 +38,8 @@ export default function CorrectionTab(
     hoveredId,
     setHoveredId,
     noQuery,
-    setNoQuery
+    setNoQuery,
+    tabsVariant
   }) {
   const { t } = useTranslation();
   const [totalErrors, setTotalErrors] = useState(null);
@@ -51,7 +52,7 @@ export default function CorrectionTab(
 
   return (
     <div className="corrector-border-box">
-      <Box className="d-flex justify-content-between">
+      <Box className="corrector-border-box-inner">
         {correctionModel !== GRAMMARCHECKER_TEST ?
           <CorrectionToggleButtonGroup
             newRef={newRef}
@@ -69,6 +70,7 @@ export default function CorrectionTab(
             setGrammarErrorList={setGrammarErrorList}
             setSpellerErrorList={setSpellerErrorList}
             noQuery={noQuery}
+            tabsVariant={tabsVariant}
           />
           :
           <Alert severity="warning" className="mb-2">

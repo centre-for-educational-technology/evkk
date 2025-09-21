@@ -37,7 +37,8 @@ export default function ComplexityTab(
     setGrammarErrorList,
     setSpellerErrorList,
     noQuery,
-    setNoQuery
+    setNoQuery,
+    tabsVariant
   }) {
   const { t } = useTranslation();
   const [model, setModel] = useState(LONG_SENTENCE);
@@ -60,7 +61,7 @@ export default function ComplexityTab(
 
   return (
     <div className="corrector-border-box">
-      <Box className="d-flex justify-content-between">
+      <Box className="corrector-border-box-inner">
         <CorrectionToggleButtonGroup
           newRef={newRef}
           toggleButtons={ComplexityToggleButtons}
@@ -77,6 +78,7 @@ export default function ComplexityTab(
           setGrammarErrorList={setGrammarErrorList}
           setSpellerErrorList={setSpellerErrorList}
           noQuery={noQuery}
+          tabsVariant={tabsVariant}
         />
         <CorrectionInfoIcon inputText={
           <div>
@@ -121,8 +123,8 @@ export default function ComplexityTab(
             <NewTabHyperlink path={COMPLEXITY_LONG_WORD_LINK} content={t('common_here')} />).
           </div>} />
       </Box>
-      <div className="d-flex gap-2 flex-wrap ">
-        <div className="corector-input">
+      <div className="d-flex gap-2 flex-wrap">
+        <div className="corrector-input">
           <Box
             id={'error-text-box'}
             ref={textBoxRef}

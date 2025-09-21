@@ -36,13 +36,14 @@ export default function TextLevelTab(
     setSpellerErrorList,
     setHoveredId,
     hoveredId,
-    setNoQuery
+    setNoQuery,
+    tabsVariant
   }) {
   const { t } = useTranslation();
 
   return (
     <div className="corrector-border-box">
-      <Box className="d-flex justify-content-between">
+      <Box className="corrector-border-box-inner">
         {correctionModel !== GRAMMARCHECKER_TEST ?
           <CorrectionToggleButtonGroup
             newRef={newRef}
@@ -59,6 +60,7 @@ export default function TextLevelTab(
             toggleButtons={CorrectionAndTextLevelToggleButtons}
             setGrammarErrorList={setGrammarErrorList}
             setSpellerErrorList={setSpellerErrorList}
+            tabsVariant={tabsVariant}
           />
           :
           <Alert severity="warning" className="mb-2">

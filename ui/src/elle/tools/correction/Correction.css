@@ -3,4 +3,67 @@
   display: flex;
   align-items: flex-start;
   justify-content: flex-end;
+
+  .correction-tab-group button {
+    text-transform: none;
+    font-weight: bold;
+  }
+
+  .correction-toggle-button-group {
+    .MuiButtonBase-root {
+      border-radius: 10px;
+      border: 1px solid gray;
+    }
+
+    .MuiButtonBase-root:hover {
+      background-color: rgba(156, 39, 176, 0.08);
+    }
+
+    .Mui-selected {
+      background-color: #E1BEE7;
+      color: #6A1B9A;
+    }
+
+    .Mui-selected:hover {
+      background-color: #D1A7E0;
+    }
+
+    .MuiTabs-indicator {
+      display: none;
+    }
+  }
+}
+
+.corrector-border-box-inner {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 677px) {
+  .corrector-border-box-inner {
+    flex-wrap: wrap;
+
+    .MuiTabScrollButton-root {
+      --tab-btn-w: 40px;
+      width: var(--tab-btn-w);
+      overflow: hidden;
+      transition: width .35s ease, opacity .25s ease;
+    }
+
+    .MuiTabScrollButton-root.Mui-disabled {
+      width: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  .corrector-border-box-inner > div:nth-child(1) {
+    order: 2;
+    min-width: 0;
+  }
+
+  .corrector-border-box-inner > div:nth-child(2) {
+    order: 1;
+    flex-basis: 100%;
+  }
 }
