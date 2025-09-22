@@ -1,6 +1,10 @@
 .modal-base-root {
+  @media (max-width: 1023px) {
+    width: 80% !important;
+  }
+
   @media (max-width: 677px) {
-    width: 100% !important;
+    width: 90% !important;
   }
 }
 
