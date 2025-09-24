@@ -123,17 +123,19 @@ export default function TextLevelTab(
         />
         <div className="corrector-right">
           {complexityAnswer && complexityAnswer?.keeletase.length !== 0 &&
-            <div className="d-flex justify-content-between">
-              <div style={{ fontSize: '1.5rem' }}>{t('corrector_proficiency_level_color_codes')}:</div>
-              {textLevelColors.map((color, index) => {
-                return (
-                  <div className="d-flex align-items-center" key={t(textLevels[index])}>
-                    <div className="text-level-tab-color-circle" style={{ backgroundColor: color }}></div>
-                    -
-                    {t(textLevels[index])}
+            <div className="levels-row">
+              <div className="levels-title">
+                {t('corrector_proficiency_level_color_codes')}:
+              </div>
+              <div className="levels-spacer" />
+              <div className="levels">
+                {textLevelColors.map((color, index) => (
+                  <div className="level" key={t(textLevels[index])}>
+                    <div className="dot" style={{ backgroundColor: color }} />
+                    <span>{t(textLevels[index])}</span>
                   </div>
-                );
-              })}
+                ))}
+              </div>
             </div>
           }
           {!complexityAnswer &&

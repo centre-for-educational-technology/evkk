@@ -241,6 +241,7 @@ export default function ComplexityTab(
                     startText={t('corrector_has_more_verbs')}
                     endText={t('corrector_has_more_nouns')}
                   />
+                  <Divider />
                 </AccordionDetails>
               </Accordion>
             </div>
