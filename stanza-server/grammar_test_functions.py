@@ -99,7 +99,11 @@ def parse_explanations(explanations: str) -> List[Dict[str, Any]]:
     return out
 
 def starts_with_punct_regex(s: str) -> bool:
-    return bool(re.match(r'^\s*[^\w\s]', s, flags=re.UNICODE))
+    m = re.match(r'^\s*([^\w\s])', s, flags=re.UNICODE)
+    if not m:
+        return False
+    first_char = m.group(1)
+    return first_char not in {"(", "[", "{"}
 
 def _norm_corrected_text(it) -> str:
     if not it.get("corrected"):
@@ -340,21 +344,37 @@ def generate_test_grammar_output(full_text, api_response: Dict[str, Any]) -> Dic
         if e < next_right:
             tail_chunk = full_text[e:next_right]
             if tail_chunk:
-                grammatika_rev.append({
-                    "corrected": False,
-                    "text": tail_chunk.strip(),
-                    "error_id": f"{unmarked_id}_unmarked"
-                })
-                unmarked_id += 1
+                core_text = tail_chunk.strip()
+                if core_text:
+                    grammatika_rev.append({
+                        "corrected": False,
+                        "text": core_text,
+                        "error_id": f"{unmarked_id}_unmarked"
+                    })
+                    unmarked_id += 1
+
+                    if not starts_with_punct_regex(core_text):
+                        grammatika_rev.append({
+                            "corrected": False,
+                            "text": " ",
+                            "error_id": f"{unmarked_id}_space"
+                        })
+                        unmarked_id += 1
 
         is_insertion = (s == e)
         is_missing_punct = (sp.get("etype") == "missingPunctuation")
 
         if is_insertion and is_missing_punct:
+            stripped = corr_txt.strip()
+            if is_missing_punct:
+                corr_txt = stripped
+            else:
+                corr_txt = f" {stripped}"
+
             grammatika_rev.append({
                 "corrected": True,
                 "text": "",
-                "corrected_text": corr_txt.strip(),
+                "corrected_text": corr_txt,
                 "correction_type": sp["etype"],
                 "error_id": f"{s}_marked",
                 "long_explanation": sp.get("long_explanation"),
@@ -363,6 +383,7 @@ def generate_test_grammar_output(full_text, api_response: Dict[str, Any]) -> Dic
 
             prev_word = find_prev_word_ending_at(s)
             if prev_word:
+
                 pstart, pend, ptxt, _ = prev_word
                 grammatika_rev.append({
                     "corrected": False,
@@ -370,11 +391,17 @@ def generate_test_grammar_output(full_text, api_response: Dict[str, Any]) -> Dic
                     "error_id": f"{unmarked_id}_unmarked"
                 })
                 unmarked_id += 1
+
+
                 next_right = pstart
             else:
                 next_right = s
 
         else:
+            is_wrong_punct = (sp.get("etype") == "wrongPunctuation")
+            is_extra_punct = (sp.get("etype") == "extraPunctuation")
+
+
             grammatika_rev.append({
                 "corrected": True,
                 "text": full_text[s:e],
@@ -384,6 +411,14 @@ def generate_test_grammar_output(full_text, api_response: Dict[str, Any]) -> Dic
                 "long_explanation": sp.get("long_explanation"),
                 "short_explanation": sp.get("short_explanation"),
             })
+
+            if not (starts_with_punct_regex(full_text[s:e]) or is_wrong_punct or is_extra_punct):
+                grammatika_rev.append({
+                    "corrected": False,
+                    "text": " ",
+                    "error_id": f"{unmarked_id}_space"
+                })
+                unmarked_id += 1
             next_right = s
 
     if 0 < next_right:
@@ -393,7 +428,18 @@ def generate_test_grammar_output(full_text, api_response: Dict[str, Any]) -> Dic
             "error_id": f"{unmarked_id}_unmarked"
         })
 
+        if not starts_with_punct_regex(full_text[0:next_right].strip()):
+            grammatika_rev.append({
+                "corrected": False,
+                "text": " ",
+                "error_id": f"{unmarked_id}_space"
+            })
+            unmarked_id += 1
+
     grammatika = list(reversed(grammatika_rev))
+
+    if grammatika and grammatika[0].get("text") == " ":
+        grammatika = grammatika[1:]
 
     grouped = defaultdict(list)
     for g in grammatika:
@@ -405,7 +451,7 @@ def generate_test_grammar_output(full_text, api_response: Dict[str, Any]) -> Dic
 
     return {
         "full_text": full_text,
-        "corrector_results": add_spaces_around_unmarked(grammatika),
+        "corrector_results": grammatika,
         "error_list": grammatika_vead,
         "error_count": error_count,
     }
