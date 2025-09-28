@@ -40,6 +40,19 @@ export const DefaultButtonStyle = {
   }
 };
 
+export const SecondaryButtonStyle = {
+  backgroundColor: '#CDA9FD',
+  fontWeight: 'bold',
+  lineHeight: '30px',
+  borderRadius: '15px',
+  '&:hover': {
+    backgroundColor: '#B593E1'
+  },
+  '&:disabled': {
+    backgroundColor: 'lightgray'
+  }
+};
+
 export const ToggleButtonGroupStyle = {
   borderRadius: '5px',
   overflow: 'hidden',

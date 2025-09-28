@@ -23,8 +23,7 @@
 }
 
 .text-upload-modal {
-  width: 40em !important;
-  height: 28em !important;
+  max-width: 40em;
 }
 
 .wordcloud-modal {

@@ -72,6 +72,36 @@ const theme = createTheme({
           maxWidth: '400px'
         }
       }
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          whiteSpace: 'normal',
+          wordBreak: 'break-word',
+          maxWidth: 'calc(100% - 32px)',
+
+          // Default resting (not shrunk): centered
+          '&.MuiInputLabel-outlined:not(.MuiInputLabel-shrink)': {
+            lineHeight: 1.3,
+            top: '50%',
+            transform: 'translate(14px, -50%) scale(1)'
+          },
+
+          // Shrunk (floated above)
+          '&.MuiInputLabel-outlined.MuiInputLabel-shrink': {
+            lineHeight: 1.1,
+            transform: 'translate(14px, -9px) scale(0.75)',
+            transformOrigin: 'top left'
+          },
+
+          // Opt-out: if the label has .no-center-label, force back to top-left
+          '&&.no-center-label.MuiInputLabel-outlined:not(.MuiInputLabel-shrink)': {
+            top: 14,
+            transform: 'translate(14px, 0) scale(1)',
+            transformOrigin: 'top left'
+          }
+        }
+      }
     }
   }
 });

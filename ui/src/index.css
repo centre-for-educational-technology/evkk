@@ -84,6 +84,11 @@ a:hover {
   color: #9C27B0 !important;
 }
 
+.MuiFormControl-root {
+  /* todo comment-in this and remove same property from Adding.css */
+  /*contain: inline-size;*/
+}
+
 .global-page-container {
   width: 80vw !important;
   margin-top: 20px;
