@@ -154,6 +154,10 @@
   height: auto;
   min-height: 200px;
   min-width: 300px;
+
+  @media (max-width: 677px) {
+    padding: 0.45em;
+  }
 }
 
 .corrector-input {

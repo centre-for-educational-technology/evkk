@@ -205,7 +205,7 @@ export default function ComplexityTab(
                 >
                   {t('common_indexes')}
                 </AccordionSummary>
-                <AccordionDetails className="index-row pb-lg-5">
+                <AccordionDetails className="index-row">
                   <CorrectionScale
                     title={t('corrector_smog_index')}
                     startValue={0}

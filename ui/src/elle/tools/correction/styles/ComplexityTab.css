@@ -34,7 +34,14 @@
 .index-row {
   display: flex;
   flex-direction: column;
-  gap: 5rem;
+
+  > div:not(:first-child) {
+    margin-top: 2rem;
+  }
+
+  > div {
+    margin-bottom: 5rem;
+  }
 }
 
 .long-sentence-color {

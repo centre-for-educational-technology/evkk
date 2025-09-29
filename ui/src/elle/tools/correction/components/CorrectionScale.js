@@ -14,7 +14,7 @@ export default function CorrectionScale({ title, startValue, endValue, value, st
         <div>{parseFloat(value).toFixed(2)}{percentage && '%'}</div>
       </div>
       <div className="d-flex justify-content-around">
-        <div className="pr-2">{percentage ? `${startValue}%` : startValue}</div>
+        <div className="slider-tip-indicator">{percentage ? `${startValue}%` : startValue}</div>
         <div className="slider-track">
           <div className="slider-thumb"
                style={{ left: `${97 * (value - sliderPercentageCorrection()) / newEndValue}%`, top: '-20%' }}></div>
@@ -23,7 +23,7 @@ export default function CorrectionScale({ title, startValue, endValue, value, st
             <div>{endText}</div>
           </div>
         </div>
-        <div className="pl-2">{percentage ? `${newEndValue}%` : newEndValue}</div>
+        <div className="slider-tip-indicator">{percentage ? `${newEndValue}%` : newEndValue}</div>
       </div>
     </div>
   );
