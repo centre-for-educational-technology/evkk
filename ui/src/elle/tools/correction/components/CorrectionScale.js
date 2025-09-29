@@ -1,4 +1,5 @@
 import React from 'react';
+import { toDecimalScale2OrInteger } from '../util/Utils';
 
 export default function CorrectionScale({ title, startValue, endValue, value, startText, endText, percentage }) {
   const newEndValue = endValue < value ? Math.ceil(value / 5) * 5 : endValue;
@@ -19,7 +20,7 @@ export default function CorrectionScale({ title, startValue, endValue, value, st
     <div>
       <div className="d-flex justify-content-between mb-2 font-weight-bold">
         <div>{title}</div>
-        <div>{parseFloat(value).toFixed(2)}{percentage && '%'}</div>
+        <div>{toDecimalScale2OrInteger(value)}{percentage && '%'}</div>
       </div>
       <div className="d-flex justify-content-around">
         <div className="slider-tip-indicator">{percentage ? `${startValue}%` : startValue}</div>
