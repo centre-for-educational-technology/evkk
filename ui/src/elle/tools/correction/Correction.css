@@ -1,3 +1,9 @@
+/* this is necessary, otherwise the CSS minifier/optimizer will emit this specific style from prod build (although it works in dev environment) */
+.correction-container-inner .correction-toggle-button-group,
+.correction-container-inner .correction-toggle-button-group .MuiTab-root {
+  min-height: 26px;
+}
+
 .correction-container-inner {
   padding: 1.5em 0 !important;
   display: flex;
@@ -20,10 +26,8 @@
     border: 1px solid gray;
     margin-top: 1rem;
     margin-bottom: 1rem;
-    min-height: 26px;
 
     .MuiTab-root {
-      min-height: 26px;
       padding-block: 2px;
       padding-inline: 10px;
       line-height: 1.2;
