@@ -63,6 +63,20 @@
 }
 
 .complexity-tab-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
   margin-bottom: 0.5em;
   font-size: 1.5em;
+
+  span:first-child {
+    white-space: nowrap;
+  }
+
+  span:last-child {
+    white-space: nowrap;
+    flex: 0 1 max-content;
+    overflow-wrap: anywhere;
+  }
 }

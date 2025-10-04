@@ -159,7 +159,13 @@ export default function ComplexityTab(
           {complexityAnswer ?
             <div>
               <div className="complexity-tab-header">
-                {t('corrector_complexity_level')} {generateComplexityAnswer(complexityAnswer.keerukus[11])}</div>
+                <span>
+                  {t('corrector_complexity_level')}
+                </span>
+                <span>
+                  {generateComplexityAnswer(complexityAnswer.keerukus[11])}
+                </span>
+              </div>
               <Accordion square={true} style={{ marginBottom: '0.5em' }} sx={CorrectorAccordionStyle} defaultExpanded>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
