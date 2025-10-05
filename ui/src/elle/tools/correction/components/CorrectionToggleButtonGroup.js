@@ -48,7 +48,11 @@ export default function CorrectionToggleButtonGroup(
             key={button.title}
             value={button.value}
             label={
-              <Tooltip key={button.title} placement="top" title={t(button.title)}>
+              <Tooltip
+                key={button.title}
+                placement="top"
+                title={t(button.title)}
+              >
                 <span>{t(button.text)}</span>
               </Tooltip>
             }

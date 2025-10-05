@@ -283,7 +283,7 @@ export const iterateCorrectionArray = (input, hoveredId, setInnerValue, newRef, 
                   slotProps={correctionTooltipSlotProps}
                   componentsProps={correctionTooltipComponentsProps}
                   key={`${val.error_id}_tooltip`}
-                  placement={'top'}
+                  placement="top"
                   title={
                     <Paper>
                       <SingleError

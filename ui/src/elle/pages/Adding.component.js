@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Tooltip } from '@mui/material';
+import { Alert, Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import TextUpload from '../components/TextUpload';
 import './styles/Adding.css';
 import { withTranslation } from 'react-i18next';
@@ -21,6 +21,7 @@ import {
 import ModalBase from '../components/modal/ModalBase';
 import { DefaultButtonStyle, SecondaryButtonStyle } from '../const/StyleConstants';
 import AddTextFetch from '../hooks/service/util/AddTextFetch';
+import TooltipButton from '../components/tooltip/TooltipButton';
 
 class Adding extends Component {
 
@@ -183,7 +184,6 @@ class Adding extends Component {
                   <Select
                     name="liik"
                     value={this.state.liik}
-                    label={`${t('publish_your_text_text_data_main_text_type')} *`}
                     required
                     onChange={this.handleChange}
                   >
@@ -205,7 +205,6 @@ class Adding extends Component {
                       {`${t('common_text_data_field_of_research')} *`}
                     </InputLabel>
                     <Select
-                      label={`${t('common_text_data_field_of_research')} *`}
                       labelId="valdkond-select-label"
                       name="autoriValdkond"
                       value={this.state.autoriValdkond}
@@ -234,7 +233,6 @@ class Adding extends Component {
                       labelId="mitteakad-alamliik-select-label"
                       name="mitteakadAlamliik"
                       value={this.state.mitteakadAlamliik}
-                      label={t('publish_your_text_text_data_sub_text_type')}
                       onChange={this.handleChange}
                     >
                       {Object.keys(textPublishSubTextTypesOptions).map((type) => (
@@ -260,7 +258,6 @@ class Adding extends Component {
                       labelId="akad-kategooria-select-label"
                       name="akadKategooria"
                       value={this.state.akadKategooria}
-                      label={`${t('publish_your_text_text_data_academic_category')} *`}
                       required
                       onChange={this.handleChange}
                     >
@@ -286,7 +283,6 @@ class Adding extends Component {
                       labelId="akad-alamliik-select-label"
                       name="akadAlamliik"
                       value={this.state.akadAlamliik}
-                      label={t('publish_your_text_text_data_sub_text_type')}
                       onChange={this.handleChange}
                     >
                       {this.state.akadKategooria === 'ak_erialaopingud' &&
@@ -359,7 +355,6 @@ class Adding extends Component {
                     labelId="oppematerjal-label"
                     name="oppematerjal"
                     value={this.state.oppematerjal}
-                    label={t('query_text_data_used_study_or_supporting_materials')}
                     onChange={this.handleChange}
                   >
                     {Object.keys(usedMaterialsSaveOptions).map((material) => (
@@ -384,7 +379,6 @@ class Adding extends Component {
                         name="akadOppematerjal"
                         value={this.state.akadOppematerjal}
                         renderValue={this.getAkadOppematerjalRenderValue}
-                        label={t('publish_your_text_text_data_supporting_material')}
                         onChange={this.handleChange}
                       >
                         {Object.keys(textPublishUsedMaterialsOptions).map((material) => (
@@ -436,7 +430,6 @@ class Adding extends Component {
                     labelId="sugu-select-label"
                     name="autoriSugu"
                     value={this.state.autoriSugu}
-                    label={t('query_author_data_gender')}
                     onChange={this.handleChange}
                   >
                     {Object.keys(genderOptions).map((gender) => (
@@ -452,25 +445,30 @@ class Adding extends Component {
                 <TextField
                   size="small"
                   required
-                  label={t('query_author_data_native_language')}
+                  label={<>
+                    {t('query_author_data_native_language')}
+                    <TooltipButton>
+                      {t('publish_your_text_author_data_other_languages_tooltip')}
+                    </TooltipButton>
+                  </>}
                   variant="outlined"
                   name="autoriEmakeel"
                   value={this.state.autoriEmakeel}
                   onChange={this.handleChange}
                 />
-                <Tooltip
-                  title={t('publish_your_text_author_data_other_languages_tooltip')}
-                  placement="top-start"
-                >
-                  <TextField
-                    size="small"
-                    label={t('query_author_data_other_languages_plural')}
-                    variant="outlined"
-                    name="autoriMuudKeeled"
-                    value={this.state.autoriMuudKeeled}
-                    onChange={this.handleChange}
-                  />
-                </Tooltip>
+                <TextField
+                  size="small"
+                  label={<>
+                    {t('query_author_data_other_languages_plural')}
+                    <TooltipButton>
+                      {t('publish_your_text_author_data_other_languages_tooltip')}
+                    </TooltipButton>
+                  </>}
+                  variant="outlined"
+                  name="autoriMuudKeeled"
+                  value={this.state.autoriMuudKeeled}
+                  onChange={this.handleChange}
+                />
                 <FormControl size="small">
                   <InputLabel
                     id="elukohariik"
@@ -481,7 +479,6 @@ class Adding extends Component {
                     value={this.state.autoriElukohariik}
                     onChange={this.handleChange}
                     name="autoriElukohariik"
-                    label={t('query_author_data_country')}
                     labelId="elukohariik"
                   >
                     {Object.keys(countryOptionsForAddingText).map((country) => (
@@ -505,7 +502,6 @@ class Adding extends Component {
                       labelId="oppeaste-select-label"
                       name="autoriOppeaste"
                       value={this.state.autoriOppeaste}
-                      label={t('query_author_data_level_of_study')}
                       onChange={this.handleChange}
                     >
                       {Object.keys(studyLevelOptions).map((level) => (
@@ -530,7 +526,6 @@ class Adding extends Component {
                       labelId="teaduskraad-select-label"
                       name="autoriTeaduskraad"
                       value={this.state.autoriTeaduskraad}
-                      label={t('query_author_data_degree')}
                       onChange={this.handleChange}
                     >
                       {Object.keys(degreeOptions).map((degree) => (
@@ -555,7 +550,6 @@ class Adding extends Component {
                       labelId="haridus-select-label"
                       name="autoriHaridus"
                       value={this.state.autoriHaridus}
-                      label={t('query_author_data_education')}
                       onChange={this.handleChange}
                     >
                       {Object.keys(educationOptions).map((education) => (
