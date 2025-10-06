@@ -400,19 +400,25 @@ def generate_test_grammar_output(full_text, api_response: Dict[str, Any]) -> Dic
         else:
             is_wrong_punct = (sp.get("etype") == "wrongPunctuation")
             is_extra_punct = (sp.get("etype") == "extraPunctuation")
+            is_missing_word = (sp.get("etype") == "missingWordError")
+
+            if is_missing_word:
+                corr_txt = f" {corr_txt}"
+            else:
+                corr_txt = corr_txt.strip()
 
 
             grammatika_rev.append({
                 "corrected": True,
                 "text": full_text[s:e],
-                "corrected_text": corr_txt.strip(),
+                "corrected_text": corr_txt,
                 "correction_type": sp["etype"],
                 "error_id": f"{s}_marked",
                 "long_explanation": sp.get("long_explanation"),
                 "short_explanation": sp.get("short_explanation"),
             })
 
-            if not (starts_with_punct_regex(full_text[s:e]) or is_wrong_punct or is_extra_punct):
+            if not (starts_with_punct_regex(full_text[s:e]) or is_wrong_punct or is_extra_punct or is_missing_word):
                 grammatika_rev.append({
                     "corrected": False,
                     "text": " ",
