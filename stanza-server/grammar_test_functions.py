@@ -108,6 +108,7 @@ def starts_with_punct_regex(s: str) -> bool:
     first_char = m.group(1)
     return first_char not in {"(", "[", "{"}
 
+
 def _norm_corrected_text(it) -> str:
     if not it.get("corrected"):
         return ""
@@ -392,7 +393,6 @@ def generate_test_grammar_output(full_text, api_response: Dict[str, Any]) -> Dic
 
             prev_word = find_prev_word_ending_at(s)
             if prev_word:
-                pstart, pend, ptxt, _ = prev_word
                 pstart, pend, *_ = prev_word
                 grammatika_rev.append({
                     "corrected": False,
@@ -400,8 +400,6 @@ def generate_test_grammar_output(full_text, api_response: Dict[str, Any]) -> Dic
                     "error_id": f"{unmarked_id}_unmarked"
                 })
                 unmarked_id += 1
-
-
                 next_right = pstart
             else:
                 next_right = s
