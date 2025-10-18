@@ -41,16 +41,10 @@ export const DefaultButtonStyle = {
 };
 
 export const SecondaryButtonStyle = {
-  backgroundColor: '#CDA9FD',
+  color: '#9C27B0',
+  borderColor: '#9C27B0',
   fontWeight: 'bold',
-  lineHeight: '30px',
-  borderRadius: '15px',
-  '&:hover': {
-    backgroundColor: '#B593E1'
-  },
-  '&:disabled': {
-    backgroundColor: 'lightgray'
-  }
+  borderRadius: '15px'
 };
 
 export const ToggleButtonGroupStyle = {
@@ -149,70 +143,6 @@ export const FooterLink = styled(HashLink)({
     textDecoration: 'none'
   }
 });
-
-export const TabStyle = {
-  '& button:hover': { backgroundColor: 'rgba(204, 168, 253, 1)', transition: '0.5s' },
-  '& button:active': { backgroundColor: '#9C27B0' },
-  '& button': {
-    backgroundColor: 'rgba(255, 208, 253, 1)',
-    display: 'inline-block',
-    color: 'black',
-    fontWeight: 'bold',
-    height: '60px',
-    borderBottom: '4px solid #9C27B0',
-    borderTop: '4px solid #9C27B0',
-    transition: '0.5s'
-  },
-  '& button:first-of-type': {
-    borderRadius: '25px 0 0 25px',
-    paddingLeft: '25px',
-    borderLeft: '4px solid #9C27B0'
-  },
-  '& button:last-child': {
-    borderRadius: '0 25px 25px 0',
-    paddingRight: '25px',
-    borderRight: '4px solid #9C27B0'
-  },
-  '& button.Mui-selected': {
-    backgroundColor: '#9C27B0',
-    color: 'white',
-    borderColor: 'rgba(204, 168, 253, 1)',
-    transition: '0.5s'
-  },
-  '& .MuiTabs-flexContainer': {
-    border: 'none',
-    borderBottom: 'none'
-  },
-  '& .MuiTabs-root': {
-    border: 'none',
-    borderBottom: 'none'
-  },
-  '& .MuiTab-root': {
-    textTransform: 'none'
-  }
-};
-
-export const ITEM_HEIGHT = 48;
-
-export const ITEM_PADDING_TOP = 8;
-
-export const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 11.5 + ITEM_PADDING_TOP,
-      width: 425
-    }
-  },
-  anchorOrigin: {
-    vertical: 'bottom',
-    horizontal: 'center'
-  },
-  transformOrigin: {
-    vertical: 'top',
-    horizontal: 'center'
-  },
-  variant: 'menu'
-};
 
 export const ElleDefaultChip = {
   borderColor: '#9C27B0',

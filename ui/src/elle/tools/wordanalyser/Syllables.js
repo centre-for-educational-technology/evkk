@@ -6,11 +6,12 @@ import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 import { TableType } from '../../components/table/TableDownloadButton';
 import { AnalyseContextWithoutMissingData, SetSyllableContext, SetSyllableWordContext } from './Contexts';
-import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Box, FormControl, InputLabel } from '@mui/material';
 import ToggleCell from './ToggleCell';
 import TableHeaderButtons from '../../components/table/TableHeaderButtons';
 import TableAppliedFilters from '../../components/table/filter/TableAppliedFilters';
 import TableFilterButton from '../../components/table/filter/TableFilterButton';
+import SelectMultiple, { SelectMultipleType } from '../../components/SelectMultiple';
 
 export default function Syllables() {
 
@@ -53,8 +54,7 @@ export default function Syllables() {
   }
 
   function multiSelect(values, label) {
-    const handleChange = (event) => {
-      const value = event.target.value;
+    const handleChange = (value) => {
       setFilterValue(value);
       setAppliedFilters(value);
       setFilter('col2', value);
@@ -63,26 +63,20 @@ export default function Syllables() {
     return (
       <Box marginY="5px">
         <FormControl
-          className="filter-class"
           size="small"
+          className="filter-class"
         >
           <InputLabel>
             {label}
           </InputLabel>
-          <Select
-            multiple
-            value={filterValue}
-            onChange={handleChange}
-          >
-            {values.map((value) => (
-              <MenuItem
-                key={value}
-                value={value}
-              >
-                {value}
-              </MenuItem>
-            ))}
-          </Select>
+          <SelectMultiple
+            name="syllable-filter"
+            selectedValues={filterValue}
+            setSelectedValues={handleChange}
+            type={SelectMultipleType.FLAT}
+            optionList={values}
+            enableFullRenderValue
+          />
         </FormControl>
       </Box>
     );
@@ -256,7 +250,7 @@ export default function Syllables() {
       width: 200
     },
     {
-      Header: t('syllables_header_location'),
+      Header: t('syllables_header_syllable_position'),
       id: 'col2',
       accessor: el => {
         let display = '';
@@ -341,7 +335,7 @@ export default function Syllables() {
         popoverAnchorEl={syllableFilterPopoverAnchor}
         handlePopoverClose={handlePopoverClose}
       >
-        {multiSelect(col2, t('filter_by_word_form'))}
+        {multiSelect(col2, t('filter_by_syllable_position'))}
       </TableFilterButton>
     );
   };
@@ -357,12 +351,14 @@ export default function Syllables() {
         formating();
         // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [])}
-      <TableHeaderButtons leftComponent={<TableAppliedFilters appliedFilters={appliedFilters} />}
-                          rightComponent={renderFilterButton()}
-                          downloadData={infoListNew}
-                          downloadTableType={TableType.SYLLABLES}
-                          downloadHeaders={tableToDownload}
-                          downloadSortByColAccessor={'col6'} />
+      <TableHeaderButtons
+        leftComponent={<TableAppliedFilters appliedFilters={appliedFilters} />}
+        rightComponent={renderFilterButton()}
+        downloadData={infoListNew}
+        downloadTableType={TableType.SYLLABLES}
+        downloadHeaders={tableToDownload}
+        downloadSortByColAccessor={'col6'}
+      />
       <table className="analyserTable" {...getTableProps()}>
         <thead>
         {headerGroups.map((headerGroup) => (

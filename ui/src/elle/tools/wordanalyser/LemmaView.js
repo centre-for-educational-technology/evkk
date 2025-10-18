@@ -6,12 +6,13 @@ import { useTranslation } from 'react-i18next';
 import '../../translations/i18n';
 import { TableType } from '../../components/table/TableDownloadButton';
 import { AnalyseContextWithoutMissingData, SetLemmaContext, SetWordContext } from './Contexts';
-import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Box, FormControl, InputLabel } from '@mui/material';
 import ToggleCell from './ToggleCell';
 import { sortTableCol } from '../../util/TableUtils';
 import TableHeaderButtons from '../../components/table/TableHeaderButtons';
 import TableAppliedFilters from '../../components/table/filter/TableAppliedFilters';
 import TableFilterButton from '../../components/table/filter/TableFilterButton';
+import SelectMultiple, { SelectMultipleType } from '../../components/SelectMultiple';
 
 export default function LemmaView() {
 
@@ -120,8 +121,7 @@ export default function LemmaView() {
   }
 
   function multiSelect(values, label) {
-    const handleChange = (event) => {
-      const value = event.target.value;
+    const handleChange = (value) => {
       setFilterValue(value);
       setAppliedFilters(value);
       setFilter('col5', value);
@@ -130,26 +130,20 @@ export default function LemmaView() {
     return (
       <Box marginY="5px">
         <FormControl
-          className="filter-class"
           size="small"
+          className="filter-class"
         >
           <InputLabel>
             {label}
           </InputLabel>
-          <Select
-            multiple
-            value={filterValue}
-            onChange={handleChange}
-          >
-            {values.map((value) => (
-              <MenuItem
-                key={value}
-                value={value}
-              >
-                {value}
-              </MenuItem>
-            ))}
-          </Select>
+          <SelectMultiple
+            name="lemma-filter"
+            selectedValues={filterValue}
+            setSelectedValues={handleChange}
+            type={SelectMultipleType.FLAT}
+            optionList={values}
+            pluralSelectedTranslationKey="select_multiple_types"
+          />
         </FormControl>
       </Box>
     );
@@ -270,12 +264,14 @@ export default function LemmaView() {
 
   return (
     <Box>
-      <TableHeaderButtons leftComponent={<TableAppliedFilters appliedFilters={appliedFilters} />}
-                          rightComponent={renderFilterButton()}
-                          downloadData={data}
-                          downloadTableType={TableType.LEMMA_VIEW}
-                          downloadHeaders={tableToDownload}
-                          downloadSortByColAccessor={'col3'} />
+      <TableHeaderButtons
+        leftComponent={<TableAppliedFilters appliedFilters={appliedFilters} />}
+        rightComponent={renderFilterButton()}
+        downloadData={data}
+        downloadTableType={TableType.LEMMA_VIEW}
+        downloadHeaders={tableToDownload}
+        downloadSortByColAccessor={'col3'}
+      />
       <table className="analyserTable"
              {...getTableProps()}
              style={{

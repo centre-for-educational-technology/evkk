@@ -29,19 +29,24 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { changeCorpusTexts, queryStore } from '../../store/QueryStore';
 import { useTranslation } from 'react-i18next';
 import ModalBase from '../../components/modal/ModalBase';
-import { DefaultButtonStyle } from '../../const/StyleConstants';
+import { DefaultButtonStyle, SecondaryButtonStyle } from '../../const/StyleConstants';
 import { useGetTextAndMetadata } from '../../hooks/service/TextService';
 
-export default function QueryResults(props) {
+export default function QueryResults({
+                                       results,
+                                       setIsQueryAnswerPage,
+                                       setPreviousSelectedIds,
+                                       previousSelectedIds,
+                                       setIsQueryOpen
+                                     }) {
   const { t } = useTranslation();
-  const response = props.data;
   const [modalOpen, setModalOpen] = useState(false);
   const [modalAccordionExpanded, setModalAccordionExpanded] = useState(false);
   const [text, setText] = useState('');
   const [isLoadingSelectAllTexts, setIsLoadingSelectAllTexts] = useState(false);
   const checkboxStatuses = useRef(new Set());
   const [update, forceUpdate] = useReducer(x => x + 1, 0);
-  const data = useMemo(() => response, [response]);
+  const data = useMemo(() => results, [results]);
   const { getTextAndMetadata } = useGetTextAndMetadata();
   let paragraphCount = 0;
 
@@ -61,15 +66,15 @@ export default function QueryResults(props) {
   });
 
   useEffect(() => {
-    if (props.previousSelectedIds.size > 0) {
-      props.data.forEach((d) => {
-        if (props.previousSelectedIds.has(d.text_id)) {
+    if (previousSelectedIds.size > 0) {
+      results.forEach((d) => {
+        if (previousSelectedIds.has(d.text_id)) {
           checkboxStatuses.current.add(d.text_id);
         }
       });
     }
     forceUpdate();
-  }, [props.data, props.previousSelectedIds]);
+  }, [results, previousSelectedIds]);
 
   const columns = useMemo(() => [
       {
@@ -180,7 +185,10 @@ export default function QueryResults(props) {
     return allTextIds.every(v => Array.from(checkboxStatuses.current).includes(v));
   }
 
-  const saveTexts = () => queryStore.dispatch(changeCorpusTexts(Array.from(checkboxStatuses.current).join(',')));
+  const saveTexts = () => {
+    queryStore.dispatch(changeCorpusTexts(Array.from(checkboxStatuses.current).join(',')));
+    setIsQueryOpen(false);
+  };
 
   const getParagraphKey = (item) => {
     if (item) {
@@ -193,18 +201,19 @@ export default function QueryResults(props) {
 
   return (
     <>
-      {response.length > 0 ? <h4><strong>{t('query_results_found_texts')}</strong> {response.length}</h4> : <></>}
-      {response.length > 0 &&
+      {results.length > 0 ? <h4><strong>{t('query_results_found_texts')}</strong> {results.length}</h4> : <></>}
+      {results.length > 0 &&
         <>
           <div>
             <Button style={{ color: 'white' }} startIcon={<ArrowBackIcon />} sx={DefaultButtonStyle}
                     onClick={() => {
-                      props.setIsQueryAnswerPage(prevState => !prevState);
-                      props.setPreviousSelectedIds(checkboxStatuses.current);
+                      setIsQueryAnswerPage(prevState => !prevState);
+                      setPreviousSelectedIds(checkboxStatuses.current);
                     }}>{t('query_change_chosen_corpuses')}</Button>
           </div>
           <LoadingButton
             variant="outlined"
+            sx={SecondaryButtonStyle}
             loadingIndicator={<CircularProgress disableShrink color="inherit" size={16} />}
             loading={isLoadingSelectAllTexts}
             disabled={isLoadingSelectAllTexts}
@@ -217,10 +226,7 @@ export default function QueryResults(props) {
             sx={DefaultButtonStyle}
             variant="contained"
             disabled={checkboxStatuses.current.size === 0}
-            onClick={() => {
-              saveTexts();
-              props.setFilterBoxClass();
-            }}
+            onClick={saveTexts}
             className="save-texts-button"
           >
             {t('query_results_save_texts_for_analysis')}
@@ -314,7 +320,7 @@ export default function QueryResults(props) {
         {text.split(/\\n/g).map(function (item) {
           return (
             <span key={getParagraphKey(item)}>
-                    {item}
+              {item}
               <br />
             </span>
           );

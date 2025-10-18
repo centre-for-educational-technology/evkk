@@ -22,6 +22,7 @@ import ModalBase from '../components/modal/ModalBase';
 import { DefaultButtonStyle, SecondaryButtonStyle } from '../const/StyleConstants';
 import AddTextFetch from '../hooks/service/util/AddTextFetch';
 import TooltipButton from '../components/tooltip/TooltipButton';
+import SelectMultiple, { SelectMultipleType } from '../components/SelectMultiple';
 
 class Adding extends Component {
 
@@ -104,12 +105,6 @@ class Adding extends Component {
     this.setState({ modalOpen: value });
   };
 
-  getAkadOppematerjalRenderValue = (value) => {
-    return value.length > 1
-      ? this.props.t('publish_your_text_supporting_material_selected_plural', { amount: value.length })
-      : this.props.t(textPublishUsedMaterialsOptions[value[0]]);
-  };
-
   render() {
     const { t } = this.props;
     return (
@@ -137,7 +132,6 @@ class Adding extends Component {
                   multiline
                   size="small"
                   label={t('publish_your_text_title')}
-                  variant="outlined"
                   name="pealkiri"
                   value={this.state.pealkiri}
                   onChange={this.handleChange}
@@ -146,11 +140,9 @@ class Adding extends Component {
                   multiline
                   rows={2}
                   label={t('publish_your_text_exercise_description')}
-                  variant="outlined"
                   name="kirjeldus"
                   value={this.state.kirjeldus}
                   onChange={this.handleChange}
-                  InputLabelProps={{ className: 'no-center-label' }}
                 />
                 <TextField
                   required
@@ -158,16 +150,15 @@ class Adding extends Component {
                   rows={8}
                   helperText={t('publish_your_text_content_helper_text')}
                   label={t('publish_your_text_content')}
-                  variant="outlined"
                   name="sisu"
                   value={this.state.sisu}
                   onChange={this.handleChange}
                   InputProps={{
+                    notched: false,
                     endAdornment: <TextUpload
                       sendTextFromFile={this.sendTextFromFile}
                       outerClassName="adding-text-upload-component" />
                   }}
-                  InputLabelProps={{ className: 'no-center-label' }}
                 />
               </Grid>
               <Grid
@@ -199,13 +190,10 @@ class Adding extends Component {
                 </FormControl>
                 {this.state.liik === 'akadeemiline' &&
                   <FormControl size="small">
-                    <InputLabel
-                      id="valdkond-select-label"
-                    >
+                    <InputLabel>
                       {`${t('common_text_data_field_of_research')} *`}
                     </InputLabel>
                     <Select
-                      labelId="valdkond-select-label"
                       name="autoriValdkond"
                       value={this.state.autoriValdkond}
                       required
@@ -224,13 +212,10 @@ class Adding extends Component {
                 }
                 {this.state.liik === 'mitteakadeemiline' &&
                   <FormControl size="small">
-                    <InputLabel
-                      id="mitteakad-alamliik-select-label"
-                    >
+                    <InputLabel>
                       {t('publish_your_text_text_data_sub_text_type')}
                     </InputLabel>
                     <Select
-                      labelId="mitteakad-alamliik-select-label"
                       name="mitteakadAlamliik"
                       value={this.state.mitteakadAlamliik}
                       onChange={this.handleChange}
@@ -249,13 +234,10 @@ class Adding extends Component {
                 }
                 {this.state.liik === 'akadeemiline' &&
                   <FormControl size="small">
-                    <InputLabel
-                      id="akad-kategooria-select-label"
-                    >
+                    <InputLabel>
                       {`${t('publish_your_text_text_data_academic_category')} *`}
                     </InputLabel>
                     <Select
-                      labelId="akad-kategooria-select-label"
                       name="akadKategooria"
                       value={this.state.akadKategooria}
                       required
@@ -274,13 +256,10 @@ class Adding extends Component {
                 }
                 {this.state.liik === 'akadeemiline' && this.state.akadKategooria !== '' &&
                   <FormControl size="small">
-                    <InputLabel
-                      id="akad-alamliik-select-label"
-                    >
+                    <InputLabel>
                       {t('publish_your_text_text_data_sub_text_type')}
                     </InputLabel>
                     <Select
-                      labelId="akad-alamliik-select-label"
                       name="akadAlamliik"
                       value={this.state.akadAlamliik}
                       onChange={this.handleChange}
@@ -312,7 +291,6 @@ class Adding extends Component {
                       required
                       size="small"
                       label={t('publish_your_text_text_data_publication')}
-                      variant="outlined"
                       name="artikkelValjaanne"
                       value={this.state.artikkelValjaanne}
                       onChange={this.handleChange}
@@ -322,7 +300,6 @@ class Adding extends Component {
                       size="small"
                       type="number"
                       label={t('publish_your_text_text_data_year')}
-                      variant="outlined"
                       name="artikkelAasta"
                       value={this.state.artikkelAasta}
                       onChange={this.handleChange}
@@ -330,7 +307,6 @@ class Adding extends Component {
                     <TextField
                       size="small"
                       label={t('publish_your_text_text_data_number')}
-                      variant="outlined"
                       name="artikkelNumber"
                       value={this.state.artikkelNumber}
                       onChange={this.handleChange}
@@ -338,7 +314,6 @@ class Adding extends Component {
                     <TextField
                       size="small"
                       label={t('publish_your_text_text_data_pages')}
-                      variant="outlined"
                       name="artikkelLehekyljed"
                       value={this.state.artikkelLehekyljed}
                       onChange={this.handleChange}
@@ -346,13 +321,10 @@ class Adding extends Component {
                   </>
                 }
                 <FormControl size="small">
-                  <InputLabel
-                    id="oppematerjal-label"
-                  >
+                  <InputLabel>
                     {t('query_text_data_used_study_or_supporting_materials')}
                   </InputLabel>
                   <Select
-                    labelId="oppematerjal-label"
                     name="oppematerjal"
                     value={this.state.oppematerjal}
                     onChange={this.handleChange}
@@ -373,28 +345,19 @@ class Adding extends Component {
                       <InputLabel>
                         {t('publish_your_text_text_data_supporting_material')}
                       </InputLabel>
-                      <Select
-                        multiple
-                        labelId="akad-materjalid-label"
+                      <SelectMultiple
                         name="akadOppematerjal"
-                        value={this.state.akadOppematerjal}
-                        renderValue={this.getAkadOppematerjalRenderValue}
-                        onChange={this.handleChange}
-                      >
-                        {Object.keys(textPublishUsedMaterialsOptions).map((material) => (
-                          <MenuItem
-                            key={material}
-                            value={material}
-                          >
-                            {t(textPublishUsedMaterialsOptions[material])}
-                          </MenuItem>
-                        ))}
-                      </Select>
+                        selectedValues={this.state.akadOppematerjal}
+                        setSelectedValues={v => this.setState({ akadOppematerjal: v })}
+                        type={SelectMultipleType.FLAT_VALUES}
+                        optionList={textPublishUsedMaterialsOptions}
+                        valueList={textPublishUsedMaterialsOptions}
+                        pluralSelectedTranslationKey="select_multiple_materials"
+                      />
                     </FormControl>
                     {this.state.akadOppematerjal.indexOf('muu') !== -1 &&
                       <TextField
                         label={t('publish_your_text_text_data_supporting_material_other')}
-                        variant="outlined"
                         size="small"
                         name="akadOppematerjalMuu"
                         value={this.state.akadOppematerjalMuu}
@@ -415,19 +378,15 @@ class Adding extends Component {
                   size="small"
                   type="number"
                   label={t('query_author_data_age')}
-                  variant="outlined"
                   name="autoriVanus"
                   value={this.state.autoriVanus}
                   onChange={this.handleChange}
                 />
                 <FormControl size="small">
-                  <InputLabel
-                    id="sugu-select-label"
-                  >
+                  <InputLabel>
                     {t('query_author_data_gender')}
                   </InputLabel>
                   <Select
-                    labelId="sugu-select-label"
                     name="autoriSugu"
                     value={this.state.autoriSugu}
                     onChange={this.handleChange}
@@ -451,7 +410,6 @@ class Adding extends Component {
                       {t('publish_your_text_author_data_other_languages_tooltip')}
                     </TooltipButton>
                   </>}
-                  variant="outlined"
                   name="autoriEmakeel"
                   value={this.state.autoriEmakeel}
                   onChange={this.handleChange}
@@ -464,22 +422,18 @@ class Adding extends Component {
                       {t('publish_your_text_author_data_other_languages_tooltip')}
                     </TooltipButton>
                   </>}
-                  variant="outlined"
                   name="autoriMuudKeeled"
                   value={this.state.autoriMuudKeeled}
                   onChange={this.handleChange}
                 />
                 <FormControl size="small">
-                  <InputLabel
-                    id="elukohariik"
-                  >
+                  <InputLabel>
                     {t('query_author_data_country')}
                   </InputLabel>
                   <Select
                     value={this.state.autoriElukohariik}
                     onChange={this.handleChange}
                     name="autoriElukohariik"
-                    labelId="elukohariik"
                   >
                     {Object.keys(countryOptionsForAddingText).map((country) => (
                       <MenuItem
@@ -493,13 +447,10 @@ class Adding extends Component {
                 </FormControl>
                 {this.state.liik === 'akadeemiline' &&
                   <FormControl size="small">
-                    <InputLabel
-                      id="oppeaste-select-label"
-                    >
+                    <InputLabel>
                       {t('query_author_data_level_of_study')}
                     </InputLabel>
                     <Select
-                      labelId="oppeaste-select-label"
                       name="autoriOppeaste"
                       value={this.state.autoriOppeaste}
                       onChange={this.handleChange}
@@ -517,13 +468,10 @@ class Adding extends Component {
                 }
                 {this.state.liik === 'akadeemiline' &&
                   <FormControl size="small">
-                    <InputLabel
-                      id="teaduskraad-select-label"
-                    >
+                    <InputLabel>
                       {t('query_author_data_degree')}
                     </InputLabel>
                     <Select
-                      labelId="teaduskraad-select-label"
                       name="autoriTeaduskraad"
                       value={this.state.autoriTeaduskraad}
                       onChange={this.handleChange}
@@ -541,13 +489,10 @@ class Adding extends Component {
                 }
                 {this.state.liik === 'mitteakadeemiline' &&
                   <FormControl size="small">
-                    <InputLabel
-                      id="haridus-select-label"
-                    >
+                    <InputLabel>
                       {t('query_author_data_education')}
                     </InputLabel>
                     <Select
-                      labelId="haridus-select-label"
                       name="autoriHaridus"
                       value={this.state.autoriHaridus}
                       onChange={this.handleChange}
@@ -591,7 +536,7 @@ class Adding extends Component {
                 <Button
                   type="button"
                   onClick={() => this.taastaVormiSisu()}
-                  variant="contained"
+                  variant="outlined"
                   sx={SecondaryButtonStyle}
                 >
                   {t('restore_data_button')}

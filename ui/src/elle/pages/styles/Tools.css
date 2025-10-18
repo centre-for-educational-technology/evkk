@@ -3,29 +3,8 @@
   min-height: 700px;
 }
 
-.tools-tab-overlay {
-  position: relative;
-}
-
-.tools-tab-overlay::after {
-  content: "";
-  position: absolute;
-  background-color: white;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  box-shadow: 0 0 0 20px rgba(255, 255, 255, 1);
-  z-index: 2;
-}
-
 .query-form-container {
   height: auto;
-  z-index: 10;
-}
-
-.outer-outer {
-  width: auto;
   z-index: 10;
 }
 

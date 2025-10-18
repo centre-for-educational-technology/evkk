@@ -2,6 +2,7 @@ import {
   AccountBalance,
   AccountBox,
   Article,
+  Backup,
   Book,
   CoPresent,
   Devices,
@@ -12,12 +13,15 @@ import {
   Keyboard,
   LibraryBooks,
   Lightbulb,
+  ListAlt,
+  ManageSearch,
   MenuBook,
   Movie,
   Newspaper,
   PermDeviceInformation,
   PermMedia,
   Radio,
+  ReadMore,
   School,
   Science,
   Source,
@@ -25,6 +29,11 @@ import {
   Translate
 } from '@mui/icons-material';
 import { HashFragmentRouteConstants, RouteConstants } from '../../AppRoutes';
+import WordlistIcon from '../resources/images/tools/sonaloend.png';
+import WordContextIcon from '../resources/images/tools/sona_kontekstis.png';
+import CollocatesIcon from '../resources/images/tools/naabersonad.png';
+import WordAnalyserIcon from '../resources/images/tools/sonaanalyys.png';
+import ClusterfinderIcon from '../resources/images/tools/mustrileidja.png';
 
 export const WORDANALYSER_MAX_WORD_COUNT_FOR_WORDINFO = 1000;
 
@@ -494,6 +503,64 @@ export const donationSideButtonEnabledPaths = {
   corrector: `/${RouteConstants.CORRECTOR}`,
   correctorTest: `/${RouteConstants.CORRECTOR_TEST}`
 };
+
+export const toolsDrawerList = [
+  {
+    key: 'tool-management',
+    items: [
+      {
+        text: 'query_choose_texts',
+        icon: <ManageSearch />,
+        customAction: true
+      },
+      {
+        text: 'query_own_texts',
+        icon: <ReadMore />,
+        customAction: true
+      },
+      {
+        text: 'query_results_saved_for_analysis',
+        icon: <ListAlt />,
+        customAction: true
+      },
+      {
+        text: 'common_donate_text',
+        icon: <Backup />,
+        navigateTo: `../${RouteConstants.ADDING}`
+      }
+    ]
+  },
+  {
+    key: 'tools',
+    items: [
+      {
+        text: 'common_wordlist',
+        icon: <img src={WordlistIcon} height="28" width="28" alt="wordlist" />,
+        navigateTo: RouteConstants.WORDLIST
+      },
+      {
+        text: 'common_word_in_context',
+        icon: <img src={WordContextIcon} height="28" width="28" alt="wordcontext" />,
+        navigateTo: RouteConstants.WORDCONTEXT
+      },
+      {
+        text: 'common_neighbouring_words',
+        icon: <img src={CollocatesIcon} height="28" width="28" alt="collocates" />,
+        navigateTo: RouteConstants.COLLOCATES
+      },
+      {
+        text: 'common_word_analyser',
+        icon: <img src={WordAnalyserIcon} height="28" width="28" alt="wordanalyser" />,
+        navigateTo: RouteConstants.WORDANALYSER
+      },
+      {
+        text: 'common_clusters',
+        icon: <img src={ClusterfinderIcon} height="28" width="28" alt="clusterfinder" />,
+        navigateTo: RouteConstants.CLUSTERFINDER
+      }
+    ]
+  }
+];
 
 export const aboutUsDrawerList = [
   {

@@ -214,9 +214,11 @@ export default function WordContext() {
   return (
     <>
       <h2 className="tool-title">{t('common_word_in_context')}</h2>
-      <Accordion sx={AccordionStyle}
-                 expanded={paramsExpanded}
-                 onChange={() => setParamsExpanded(!paramsExpanded)}>
+      <Accordion
+        sx={AccordionStyle}
+        expanded={paramsExpanded}
+        onChange={() => setParamsExpanded(!paramsExpanded)}
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           id="wordcontext-filters-header"
@@ -229,59 +231,83 @@ export default function WordContext() {
           <form onSubmit={handleSubmit}>
             <div className="tool-accordion">
               <div>
-                <FormControl sx={{ m: 3 }}
-                             error={typeError}
-                             variant="standard">
-                  <FormLabel id="type-radios">{t('common_search')}</FormLabel>
+                <FormControl
+                  sx={{ m: 3 }}
+                  error={typeError}
+                  variant="standard"
+                >
+                  <FormLabel id="type-radios">
+                    {t('common_search')}
+                  </FormLabel>
                   <RadioGroup
                     aria-labelledby="type-radios"
                     name="type"
                     value={typeValue}
                     onChange={handleTypeChange}
                   >
-                    <FormControlLabel value={WordContextType.WORDS}
-                                      control={<Radio />}
-                                      label={t('common_by_word_form')} />
-                    <FormControlLabel value={WordContextType.LEMMAS}
-                                      control={<Radio />}
-                                      label={t('common_by_base_form')} />
+                    <FormControlLabel
+                      value={WordContextType.WORDS}
+                      control={<Radio />}
+                      label={t('common_by_word_form')}
+                    />
+                    <FormControlLabel
+                      value={WordContextType.LEMMAS}
+                      control={<Radio />}
+                      label={t('common_by_base_form')}
+                    />
                   </RadioGroup>
-                  {typeError && <FormHelperText>{t('error_mandatory_field')}</FormHelperText>}
-                  <Button sx={DefaultButtonStyle}
-                          style={{ marginTop: '10vh !important' }}
-                          className="wordcontext-analyse-button"
-                          type="submit"
-                          variant="contained">
+                  {typeError &&
+                    <FormHelperText>
+                      {t('error_mandatory_field')}
+                    </FormHelperText>
+                  }
+                  <Button
+                    sx={DefaultButtonStyle}
+                    style={{ marginTop: '10vh !important' }}
+                    className="wordcontext-analyse-button"
+                    type="submit"
+                    variant="contained"
+                  >
                     {t('analyse_button')}
                   </Button>
                 </FormControl>
               </div>
               <div>
-                <FormControl sx={{ m: 3 }}
-                             variant="standard">
-                  <FormLabel id="keyword">{t('common_enter_search_word')}</FormLabel>
-                  <TextField variant="outlined"
-                             size="small"
-                             required
-                             value={keyword}
-                             onChange={(e) => setKeyword(e.target.value)}
-                             style={{ width: '250px' }} />
+                <FormControl
+                  sx={{ m: 3 }}
+                  variant="standard"
+                >
+                  <FormLabel id="keyword">
+                    {t('common_enter_search_word')}
+                  </FormLabel>
+                  <TextField
+                    size="small"
+                    required
+                    value={keyword}
+                    onChange={(e) => setKeyword(e.target.value)}
+                    style={{ width: '250px' }}
+                  />
                 </FormControl>
                 <br />
-                <FormControl sx={{ m: 3 }}
-                             style={{ marginTop: '-1vh' }}
-                             variant="standard">
-                  <FormLabel id="display">{t('common_view')}</FormLabel>
+                <FormControl
+                  sx={{ m: 3 }}
+                  style={{ marginTop: '-1vh' }}
+                  variant="standard"
+                >
+                  <FormLabel id="display">
+                    {t('common_view')}
+                  </FormLabel>
                   <Grid container>
                     <Grid item>
-                      <TextField variant="outlined"
-                                 type="number"
-                                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: '1', max: '15' }}
-                                 size="small"
-                                 required
-                                 value={displayCount}
-                                 onChange={(e) => setDisplayCount(e.target.value)}
-                                 className="wordcontext-display-count-textfield" />
+                      <TextField
+                        type="number"
+                        inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: '1', max: '15' }}
+                        size="small"
+                        required
+                        value={displayCount}
+                        onChange={(e) => setDisplayCount(e.target.value)}
+                        className="wordcontext-display-count-textfield"
+                      />
                     </Grid>
                     <Grid item>
                       <FormControl size="small">
@@ -291,8 +317,12 @@ export default function WordContext() {
                           value={displayType}
                           onChange={(e) => setDisplayType(e.target.value)}
                         >
-                          <MenuItem value={DisplayType.WORD}>{t('concordances_words')}</MenuItem>
-                          <MenuItem value={DisplayType.SENTENCE}>{t('concordances_sentences')}</MenuItem>
+                          <MenuItem value={DisplayType.WORD}>
+                            {t('concordances_words')}
+                          </MenuItem>
+                          <MenuItem value={DisplayType.SENTENCE}>
+                            {t('concordances_sentences')}
+                          </MenuItem>
                         </Select>
                       </FormControl>
                     </Grid>
@@ -306,21 +336,26 @@ export default function WordContext() {
                 </FormControl>
               </div>
               <div>
-                <FormControl sx={{ m: 6 }}
-                             variant="standard">
-                  <FormControlLabel control={
-                    <Checkbox
-                      checked={capitalizationChecked}
-                      disabled={typeValue === WordContextType.LEMMAS}
-                      onChange={(e) => setCapitalizationChecked(e.target.checked)}
-                    ></Checkbox>
-                  }
-                                    label={<>
-                                      {t('common_case_sensitive')}
-                                      <TooltipButton>
-                                        {t('concordances_case_sensitive_hover')}
-                                      </TooltipButton>
-                                    </>}
+                <FormControl
+                  sx={{ m: 6 }}
+                  variant="standard"
+                >
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={capitalizationChecked}
+                        disabled={typeValue === WordContextType.LEMMAS}
+                        onChange={(e) => setCapitalizationChecked(e.target.checked)}
+                      ></Checkbox>
+                    }
+                    label={
+                      <>
+                        {t('common_case_sensitive')}
+                        <TooltipButton>
+                          {t('concordances_case_sensitive_hover')}
+                        </TooltipButton>
+                      </>
+                    }
                   />
                 </FormControl>
               </div>
@@ -338,16 +373,20 @@ export default function WordContext() {
         </Alert>
       </>}
       {showTable && <>
-        <TableHeaderButtons downloadData={data}
-                            downloadTableType={TableType.WORD_CONTEXT}
-                            downloadHeaders={tableToDownload}
-                            downloadAccessors={accessors} />
-        <GenericTable tableClassname={'wordcontext-table'}
-                      columns={columns}
-                      data={data}
-                      sortByColAccessor={'originalId'}
-                      sortByDesc={false}
-                      hiddenCols={'originalId'} />
+        <TableHeaderButtons
+          downloadData={data}
+          downloadTableType={TableType.WORD_CONTEXT}
+          downloadHeaders={tableToDownload}
+          downloadAccessors={accessors}
+        />
+        <GenericTable
+          tableClassname={'wordcontext-table'}
+          columns={columns}
+          data={data}
+          sortByColAccessor={'originalId'}
+          sortByDesc={false}
+          hiddenCols={'originalId'}
+        />
       </>}
       {showNoResultsError &&
         <Alert severity="error">{t('error_no_matching_keywords')}</Alert>}

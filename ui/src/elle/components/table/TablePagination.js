@@ -83,7 +83,6 @@ export default function TablePagination(props) {
         <Select
           size="small"
           value={props.pageSize}
-          variant="outlined"
           className="pagination-textarea"
           onChange={e => {
             props.setPageSize(Number(e.target.value));

@@ -271,8 +271,7 @@ export default function Collocates() {
                 <FormControl sx={{ m: 3 }}
                              variant="standard">
                   <FormLabel id="keyword">{t('common_enter_search_word')}</FormLabel>
-                  <TextField variant="outlined"
-                             size="small"
+                  <TextField size="small"
                              required
                              value={keyword}
                              onChange={(e) => setKeyword(e.target.value)}
@@ -285,8 +284,7 @@ export default function Collocates() {
                   <FormLabel id="display">{t('neighbouring_words_search_for_neighbouring_words')}</FormLabel>
                   <Grid container>
                     <Grid item>
-                      <TextField variant="outlined"
-                                 type="number"
+                      <TextField type="number"
                                  inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: '1', max: '5' }}
                                  size="small"
                                  required
@@ -358,16 +356,20 @@ export default function Collocates() {
         </Alert>
       </>}
       {showTable && <>
-        <TableHeaderButtons leftComponent={<GraphView data={data} keyword={lastKeyword} />}
-                            downloadData={data}
-                            downloadTableType={TableType.COLLOCATES}
-                            downloadHeaders={tableToDownload}
-                            downloadAccessors={accessors}
-                            downloadSortByColAccessor={sortByColAccessor} />
-        <GenericTable tableClassname={'wordlist-table'}
-                      columns={columns}
-                      data={data}
-                      sortByColAccessor={sortByColAccessor} />
+        <TableHeaderButtons
+            leftComponent={<GraphView data={data} keyword={lastKeyword} />}
+            downloadData={data}
+            downloadTableType={TableType.COLLOCATES}
+            downloadHeaders={tableToDownload}
+            downloadAccessors={accessors}
+            downloadSortByColAccessor={sortByColAccessor}
+        />
+        <GenericTable
+            tableClassname={'wordlist-table'}
+            columns={columns}
+            data={data}
+            sortByColAccessor={sortByColAccessor}
+        />
       </>}
       {showNoResultsError &&
         <Alert severity="error">{t('error_no_matching_keywords')}</Alert>}

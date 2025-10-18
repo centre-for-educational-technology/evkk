@@ -4,11 +4,3 @@
   padding: 25px;
   align-items: flex-end;
 }
-
-.breadcrumb-menu-link {
-  padding-right: 10px;
-}
-
-.breadcrumb-menu-link.regular {
-  padding-left: 10px;
-}

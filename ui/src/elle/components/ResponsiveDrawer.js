@@ -19,7 +19,7 @@ import { ExpandLess, ExpandMore, MenuOpen } from '@mui/icons-material';
 import './styles/ResponsiveDrawer.css';
 import throttle from 'lodash/throttle';
 
-export default function ResponsiveDrawer({ lists, children }) {
+export default function ResponsiveDrawer({ lists, children, onCustomActionClick }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -105,7 +105,12 @@ export default function ResponsiveDrawer({ lists, children }) {
 
   const handleNavigate = (item) => {
     const navigateTo = item?.navigateTo;
-    if (!navigateTo) return;
+    if (!navigateTo) {
+      if (item?.customAction) {
+        onCustomActionClick(item);
+      }
+      return;
+    }
 
     const [rawPath, rawHash = ''] = navigateTo.split('#');
     const normalizedPath = getNormalizedPath(rawPath);

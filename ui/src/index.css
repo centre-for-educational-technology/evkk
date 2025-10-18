@@ -77,8 +77,7 @@ a:hover {
 }
 
 .MuiFormControl-root {
-  /* todo comment-in this and remove same property from Adding.css */
-  /*contain: inline-size;*/
+  contain: inline-size;
 }
 
 .global-page-container {

@@ -76,3 +76,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.filter-class {
+  width: 330px;
+}

@@ -22,8 +22,6 @@
   .MuiFormControl-root {
     margin-bottom: 1rem;
     width: 100%;
-    /* todo remove property below and comment-in this globally in index.css */
-    contain: inline-size;
   }
 
   .MuiAlert-root {

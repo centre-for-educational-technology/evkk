@@ -195,9 +195,11 @@ export default function Wordlist() {
   return (
     <>
       <h2 className="tool-title">{t('common_wordlist')}</h2>
-      <Accordion sx={AccordionStyle}
-                 expanded={paramsExpanded}
-                 onChange={() => setParamsExpanded(!paramsExpanded)}>
+      <Accordion
+        sx={AccordionStyle}
+        expanded={paramsExpanded}
+        onChange={() => setParamsExpanded(!paramsExpanded)}
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           id="wordlist-filters-header"
@@ -210,91 +212,121 @@ export default function Wordlist() {
           <form onSubmit={handleSubmit}>
             <div className="tool-accordion">
               <div>
-                <FormControl sx={{ m: 3 }}
-                             error={typeError}
-                             variant="standard">
-                  <FormLabel id="type-radios">{t('common_search')}</FormLabel>
+                <FormControl
+                  sx={{ m: 3 }}
+                  error={typeError}
+                  variant="standard"
+                >
+                  <FormLabel id="type-radios">
+                    {t('common_search')}
+                  </FormLabel>
                   <RadioGroup
                     aria-labelledby="type-radios"
                     name="type"
                     value={typeValue}
                     onChange={handleTypeChange}
                   >
-                    <FormControlLabel value={WordlistType.WORDS}
-                                      control={<Radio />}
-                                      label={t('wordlist_search_word_forms')} />
-                    <FormControlLabel value={WordlistType.LEMMAS}
-                                      control={<Radio />}
-                                      label={t('wordlist_search_base_forms')} />
+                    <FormControlLabel
+                      value={WordlistType.WORDS}
+                      control={<Radio />}
+                      label={t('wordlist_search_word_forms')}
+                    />
+                    <FormControlLabel
+                      value={WordlistType.LEMMAS}
+                      control={<Radio />}
+                      label={t('wordlist_search_base_forms')}
+                    />
                   </RadioGroup>
-                  {typeError && <FormHelperText>{t('error_mandatory_field')}</FormHelperText>}
-                  <Button sx={DefaultButtonStyle}
-                          className="wordlist-analyse-button"
-                          type="submit"
-                          variant="contained">
+                  {typeError &&
+                    <FormHelperText>
+                      {t('error_mandatory_field')}
+                    </FormHelperText>
+                  }
+                  <Button
+                    sx={DefaultButtonStyle}
+                    className="wordlist-analyse-button"
+                    type="submit"
+                    variant="contained"
+                  >
                     {t('analyse_button')}
                   </Button>
                 </FormControl>
               </div>
               <div>
-                <FormControl sx={{ m: 3 }}
-                             variant="standard">
-                  <FormLabel id="stopwords">{t('wordlist_exclude_stopwords')}</FormLabel>
-                  <FormControlLabel control={
-                    <Checkbox
-                      checked={stopwordsChecked}
-                      onChange={(e) => setStopwordsChecked(e.target.checked)}
-                    ></Checkbox>
-                  }
-                                    label={<>
-                                      {t('wordlist_stopwords_from_the_default_list')}
-                                      <TooltipButton>
-                                        {t('wordlist_stopwords_textbox_hover_1')}
-                                        <NewTabHyperlink
-                                          path={STOPWORDS_DATADOI_PATH}
-                                          content={t('wordlist_stopwords_textbox_hover_2')}
-                                        />
-                                        {t('wordlist_stopwords_textbox_hover_3')}
-                                      </TooltipButton>
-                                    </>}
+                <FormControl
+                  sx={{ m: 3 }}
+                  variant="standard"
+                >
+                  <FormLabel id="stopwords">
+                    {t('wordlist_exclude_stopwords')}
+                  </FormLabel>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={stopwordsChecked}
+                        onChange={(e) => setStopwordsChecked(e.target.checked)}
+                      ></Checkbox>
+                    }
+                    label={
+                      <>
+                        {t('wordlist_stopwords_from_the_default_list')}
+                        <TooltipButton>
+                          {t('wordlist_stopwords_textbox_hover_1')}
+                          <NewTabHyperlink
+                            path={STOPWORDS_DATADOI_PATH}
+                            content={t('wordlist_stopwords_textbox_hover_2')}
+                          />
+                          {t('wordlist_stopwords_textbox_hover_3')}
+                        </TooltipButton>
+                      </>
+                    }
                   />
-                  <TextField label={t('wordlist_stopwords_textbox')}
-                             variant="outlined"
-                             size="small"
-                             value={customStopwords}
-                             onChange={(e) => setCustomStopwords(e.target.value)}
-                             style={{ width: '350px' }} />
+                  <TextField
+                    label={t('wordlist_stopwords_textbox')}
+                    size="small"
+                    value={customStopwords}
+                    onChange={(e) => setCustomStopwords(e.target.value)}
+                    style={{ width: '350px' }}
+                  />
                 </FormControl>
               </div>
               <div>
-                <FormControl sx={{ m: 7 }}
-                             variant="standard">
-                  <FormControlLabel control={
-                    <Checkbox
-                      checked={capitalizationChecked}
-                      onChange={(e) => setCapitalizationChecked(e.target.checked)}
-                    ></Checkbox>
-                  }
-                                    label={<>
-                                      {t('wordlist_retain_uppercase_letters')}
-                                      <TooltipButton>
-                                        {t('wordlist_retain_uppercase_letters_hover')}
-                                      </TooltipButton>
-                                    </>}
+                <FormControl
+                  sx={{ m: 7 }}
+                  variant="standard"
+                >
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={capitalizationChecked}
+                        onChange={(e) => setCapitalizationChecked(e.target.checked)}
+                      ></Checkbox>
+                    }
+                    label={
+                      <>
+                        {t('wordlist_retain_uppercase_letters')}
+                        <TooltipButton>
+                          {t('wordlist_retain_uppercase_letters_hover')}
+                        </TooltipButton>
+                      </>
+                    }
                   />
-                  <TextField label={<>
-                    {t('wordlist_set_minimum_word_frequency')}
-                    <TooltipButton>
-                      {t('wordlist_set_minimum_word_frequency_hover')}
-                    </TooltipButton>
-                  </>}
-                             type="number"
-                             inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: '1' }}
-                             variant="outlined"
-                             size="small"
-                             value={minimumFrequency}
-                             onChange={(e) => setMinimumFrequency(e.target.value)}
-                             style={{ width: '310px' }} />
+                  <TextField
+                    label={
+                      <>
+                        {t('wordlist_set_minimum_word_frequency')}
+                        <TooltipButton>
+                          {t('wordlist_set_minimum_word_frequency_hover')}
+                        </TooltipButton>
+                      </>
+                    }
+                    type="number"
+                    inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: '1' }}
+                    size="small"
+                    value={minimumFrequency}
+                    onChange={(e) => setMinimumFrequency(e.target.value)}
+                    style={{ width: '310px' }}
+                  />
                 </FormControl>
               </div>
             </div>
@@ -302,16 +334,20 @@ export default function Wordlist() {
         </AccordionDetails>
       </Accordion>
       {showTable && <>
-        <TableHeaderButtons leftComponent={<WordcloudView data={data} />}
-                            downloadData={data}
-                            downloadTableType={TableType.WORDLIST}
-                            downloadHeaders={tableToDownload}
-                            downloadAccessors={accessors}
-                            downloadSortByColAccessor={sortByColAccessor} />
-        <GenericTable tableClassname={'wordlist-table'}
-                      columns={columns}
-                      data={data}
-                      sortByColAccessor={sortByColAccessor} />
+        <TableHeaderButtons
+          leftComponent={<WordcloudView data={data} />}
+          downloadData={data}
+          downloadTableType={TableType.WORDLIST}
+          downloadHeaders={tableToDownload}
+          downloadAccessors={accessors}
+          downloadSortByColAccessor={sortByColAccessor}
+        />
+        <GenericTable
+          tableClassname={'wordlist-table'}
+          columns={columns}
+          data={data}
+          sortByColAccessor={sortByColAccessor}
+        />
       </>}
     </>
   );

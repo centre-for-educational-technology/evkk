@@ -91,7 +91,7 @@ export default function InfoElement() {
                   title="homepage_box_wordlist_title"
                   content="homepage_box_wordlist_content" />
         <TabPanel value={value} index={3} videoId={wordContextVideoId}
-                  title="homepage_box_word_context_title"
+                  title="common_word_in_context"
                   content="homepage_box_word_context_content" />
         <TabPanel value={value} index={4} videoId={neighbouringWordsVideoId}
                   title="homepage_box_neighbouring_words_title"
