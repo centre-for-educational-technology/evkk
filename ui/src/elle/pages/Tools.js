@@ -14,46 +14,56 @@ import { RouteConstants, RouteFullPathConstants } from '../../AppRoutes';
 import { toolsDrawerList } from '../const/Constants';
 import ResponsiveDrawer from '../components/ResponsiveDrawer';
 
-const ToolIconCard = (props) => {
+const ToolIconCard = ({ image, text }) => {
   const { t } = useTranslation();
   return (
     <Box
       className="tool-card-container"
-      sx={{ boxShadow: 3 }}>
+      sx={{ boxShadow: 3 }}
+    >
       <Box className="tool-card-icon">
-        <img className="tool-icon-img" src={props.image} loading="lazy" alt="Tool logo" />
+        <img
+          className="tool-icon-img"
+          src={image}
+          alt="Tool logo"
+        />
       </Box>
       <Box className="tool-card-text">
-        {t(props.text)}
+        {t(text)}
       </Box>
     </Box>
   );
 };
 
-const TabOutlet = (props) => {
+const TabOutlet = ({ textsSelected, image, text, outletPath }) => {
   const { t } = useTranslation();
+  const current = useLocation();
+
   return (
-    <>
-      {props.textsSelected
-        ? (
-          <div className="tool-wrapper">
-            <Outlet />
-          </div>
-        ) : (
-          <>
-            <ToolIconCard image={props.image} text={props.text} />
-            <Alert severity="warning">
-              {t('tools_warning_text')}
-            </Alert>
-          </>
-        )}
-    </>
+    current.pathname === outletPath
+      ? (
+        textsSelected
+          ? (
+            <div className="tool-wrapper">
+              <Outlet />
+            </div>
+          ) : (
+            <>
+              <ToolIconCard
+                image={image}
+                text={text}
+              />
+              <Alert severity="warning">
+                {t('tools_warning_text')}
+              </Alert>
+            </>
+          )
+      ) : null
   );
 };
 
 export default function Tools() {
   const current = useLocation();
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const [isQueryOpen, setIsQueryOpen] = useState(false);
   const [isOwnTextsOpen, setIsOwnTextsOpen] = useState(false);
@@ -91,6 +101,7 @@ export default function Tools() {
     <ResponsiveDrawer
       lists={toolsDrawerList}
       onCustomActionClick={handleCustomActionClick}
+      disableOutletRender
     >
       <Box className="tool-page-container-inner">
         <Query
@@ -104,31 +115,31 @@ export default function Tools() {
             textsSelected={textsSelected}
             image={WordlistIcon}
             text={'tools_accordion_wordlist_explainer'}
-            value={RouteFullPathConstants.WORDLIST}
+            outletPath={RouteFullPathConstants.WORDLIST}
           />
           <TabOutlet
             textsSelected={textsSelected}
             image={WordContextIcon}
             text={'tools_accordion_word_in_context_explainer'}
-            value={RouteFullPathConstants.WORDCONTEXT}
+            outletPath={RouteFullPathConstants.WORDCONTEXT}
           />
           <TabOutlet
             textsSelected={textsSelected}
             image={CollocatesIcon}
             text={'tools_accordion_neighbouring_words_explainer'}
-            value={RouteFullPathConstants.COLLOCATES}
+            outletPath={RouteFullPathConstants.COLLOCATES}
           />
           <TabOutlet
             textsSelected={textsSelected}
             image={WordAnalyserIcon}
             text={'tools_accordion_word_analysis_explainer'}
-            value={RouteFullPathConstants.WORDANALYSER}
+            outletPath={RouteFullPathConstants.WORDANALYSER}
           />
           <TabOutlet
             textsSelected={textsSelected}
             image={ClusterfinderIcon}
             text={'tools_accordion_clusters_explainer'}
-            value={RouteFullPathConstants.CLUSTERFINDER}
+            outletPath={RouteFullPathConstants.CLUSTERFINDER}
           />
         </Box>
       </Box>

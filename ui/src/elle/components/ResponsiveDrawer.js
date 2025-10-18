@@ -19,7 +19,12 @@ import { ExpandLess, ExpandMore, MenuOpen } from '@mui/icons-material';
 import './styles/ResponsiveDrawer.css';
 import throttle from 'lodash/throttle';
 
-export default function ResponsiveDrawer({ lists, children, onCustomActionClick }) {
+export default function ResponsiveDrawer({
+                                           lists,
+                                           children,
+                                           onCustomActionClick,
+                                           disableOutletRender
+                                         }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -266,7 +271,7 @@ export default function ResponsiveDrawer({ lists, children, onCustomActionClick 
             >
               <MenuOpen className="drawer-toggle-icon" />
             </Button>
-            <Outlet />
+            {!disableOutletRender && <Outlet />}
             {children}
           </Box>
         </Box>
