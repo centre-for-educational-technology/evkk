@@ -14,6 +14,9 @@ cleanup() {
 trap cleanup EXIT
 cleanup
 
+# Workspace is reused between builds: don't let the junit step pick up results from a previous build
+rm -rf ./*/build/test-results
+
 echo "Starting test dependencies ..."
 
 docker network create "$ID" >/dev/null
