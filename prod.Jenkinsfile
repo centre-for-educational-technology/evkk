@@ -20,7 +20,15 @@ pipeline {
 
     stage('Test') {
       steps {
-        sh './gradlew test --no-daemon'
+        // Run in JDK 11 (same as backend image): Gradle 5.6.4 can't run on the host's newer JDK
+        sh '''
+          docker run --rm \
+            -u "$(id -u):$(id -g)" \
+            -v "$PWD":"$PWD" -w "$PWD" \
+            -e GRADLE_USER_HOME="$PWD/.gradle-home" \
+            eclipse-temurin:11-jdk \
+            ./gradlew test --no-daemon
+        '''
       }
       post {
         always {
