@@ -20,15 +20,8 @@ pipeline {
 
     stage('Test') {
       steps {
-        // Run in JDK 11 (same as backend image): Gradle 5.6.4 can't run on the host's newer JDK
-        sh '''
-          docker run --rm \
-            -u "$(id -u):$(id -g)" \
-            -v "$PWD":"$PWD" -w "$PWD" \
-            -e GRADLE_USER_HOME="$PWD/.gradle-home" \
-            eclipse-temurin:11-jdk \
-            ./gradlew test --no-daemon
-        '''
+        // Runs tests in JDK 11 (Gradle 5.6.4 can't run on the host's newer JDK) with Redis, Postgres and Stanza
+        sh 'bash ./ci-test.sh'
       }
       post {
         always {
