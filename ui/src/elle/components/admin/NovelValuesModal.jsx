@@ -65,6 +65,10 @@ export default function NovelValuesModal({ isOpen, novelValues, onCancel, onConf
           {t('admin_novel_values_modal_helper')}
         </Typography>
 
+        <Typography variant="body2" sx={{ mb: 1 }}>
+          <strong>{t('admin_novel_values_confirm_message')}</strong>
+        </Typography>
+
         <Stack direction="row" spacing={2}>
           <Button
             onClick={onConfirm}
