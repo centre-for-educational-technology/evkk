@@ -454,8 +454,6 @@ export const TRANSLATIONS_EN = {
   pagination_rows: 'Rows',
   pagination_rows_per_page: 'Rows per page:',
   people_degree_in_progress: '{{degree}} candidate',
-  people_email: 'Email',
-  people_role: 'Position',
   people_role_analyst: 'Analyst',
   people_role_associate_professor_emeritus: 'Associate Professor Emeritus',
   people_role_consultant_thesis_supervisor: 'Consultant, Thesis Supervisor',

@@ -454,8 +454,6 @@ export const TRANSLATIONS_ET = {
   pagination_rows: 'Kirjed',
   pagination_rows_per_page: 'Kirjeid lehel:',
   people_degree_in_progress: '{{degree}} omandamisel',
-  people_email: 'E-post',
-  people_role: 'Amet',
   people_role_analyst: 'analüütik',
   people_role_associate_professor_emeritus: 'emeriitdotsent',
   people_role_consultant_thesis_supervisor: 'konsultant, lõputööde juhendaja',
