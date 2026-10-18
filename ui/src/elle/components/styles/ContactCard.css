@@ -56,3 +56,27 @@
 .icon-box {
   height: 100%;
 }
+
+.contacts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 40px;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.contact-image-placeholder {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(238, 174, 202, 0.2) 0%, rgba(204, 168, 253, 0.2) 100%);
+  color: rgba(156, 39, 176, 0.5);
+
+  svg {
+    width: 75%;
+    height: 75%;
+  }
+}
